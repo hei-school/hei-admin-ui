@@ -6,9 +6,15 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "jest-sonar-reporter": "^2.0.0",
+    "node-sass": "^6.0.1",
+    "prop-types": "^15.7.2",
+    "ra-data-json-server": "^3.18.0",
+    "ra-data-simple-rest": "^3.18.0",
     "react": "^17.0.2",
+    "react-admin": "^3.18.0",
     "react-dom": "^17.0.2",
     "react-scripts": "4.0.3",
+    "typeface-quicksand": "^1.1.13",
     "web-vitals": "^1.0.1"
   },
   "scripts": {

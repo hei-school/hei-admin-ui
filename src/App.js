@@ -1,20 +1,25 @@
-import logo from './logo.svg'
-import './App.css'
+import * as React from "react";
+import { Admin, Resource } from "react-admin"
+import jsonServerProvider from "ra-data-json-server"
+import { mainTheme } from './hei-theme'
+import Dashboard from './dashboard'
+import GroupList from './groups'
+import CourseList from './courses'
+import TeacherList from './teachers'
+import { StudentList, StudentShow } from './students'
+import  SupervisedUserCircleIcon from '@material-ui/icons/SupervisedUserCircle';
+import BookIcon from '@material-ui/icons/Book';
+import SchoolIcon from '@material-ui/icons/School';
+import WorkIcon from '@material-ui/icons/Work';
 
-function App() {
-  return (
-    <div className='App'>
-      <header className='App-header'>
-        <img src={logo} className='App-logo' alt='logo' />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a className='App-link' href='https://reactjs.org' target='_blank' rel='noopener noreferrer'>
-          Learn React
-        </a>
-      </header>
-    </div>
-  )
-}
+const dataProvider = jsonServerProvider("https://virtserver.swaggerhub.com/hei-admin/hei-admin_api/1.0");
+const App = () => (
+    <Admin dashboard={Dashboard} theme={mainTheme} dataProvider={dataProvider}>
+        <Resource name="teachers" icon={WorkIcon} list={TeacherList} />
+        <Resource name="groups" icon={SupervisedUserCircleIcon} list={GroupList} />
+        <Resource name="courses" icon={BookIcon} list={CourseList} />
+        <Resource name="students" icon={SchoolIcon} list={StudentList} show={StudentShow} />
+    </Admin>
+);
 
-export default App
+export default App;

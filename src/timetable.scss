@@ -1,0 +1,103 @@
+$accent-base: #8eeec0;
+$cutty-sark: #546e7a;
+$porcelain: #eceff1;
+$light-gray: #d9dcdf;
+$accents: (
+  pink: adjust-hue($accent-base, -180%),
+  orange: adjust-hue($accent-base, -120%),
+  green: adjust-hue($accent-base, -60%),
+  cyan: $accent-base,
+  blue: adjust-hue($accent-base, 60%),
+  purple: adjust-hue($accent-base, 120%)
+);
+
+@function make-gradient($color) {
+  @return linear-gradient(135deg, $color, adjust-hue($color, 40%));
+}
+
+@mixin make-tiles {
+  @each $name, $value in $accents {
+    .accent-#{$name}-gradient {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background: make-gradient($value);
+      transition: 0.2s ease box-shadow, 0.2s ease transform;
+      &:hover {
+        box-shadow: 0 20px 30px 0 transparentize($value, 0.7);
+        transform: scale(1.05);
+      }
+    }
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+.timetable {
+  @include make-tiles;
+  display: grid;
+  grid-template-areas:
+    '. week'
+    'time content';
+  grid-template-columns: 120px;
+  grid-template-rows: 60px;
+  width: 100%;
+  height: 100%;
+  .week-names {
+    grid-area: week;
+    display: grid;
+    // 7 days a week
+    grid-template-columns: repeat(5, 1fr);
+    text-transform: uppercase;
+    font-size: 12px;
+    font-weight: bold;
+    background: lighten($light-gray, 5%);
+
+    & > div {
+      display: flex;
+      align-items: center;
+      text-align: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 1px 0 0 $porcelain;
+    }
+  }
+  .time-interval {
+    grid-area: time;
+    display: grid;
+    // 6 time intervals
+    grid-template-rows: repeat(5, 1fr);
+    font-size: 14px;
+    font-weight: bold;
+    background: lighten($porcelain, 5%);
+
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      box-shadow: inset 0 1px 0 0 $porcelain;
+    }
+  }
+  .content {
+    grid-area: content;
+    display: grid;
+    grid-template-rows: repeat(5, 1fr);
+    grid-template-columns: repeat(5, 1fr);
+    & > div {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      text-align: center;
+      box-shadow: inset 1px 0 0 $porcelain, inset 0 1px 0 0 $porcelain;
+    }
+  }
+}
