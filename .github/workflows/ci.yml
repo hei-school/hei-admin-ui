@@ -3,18 +3,34 @@ on:
   push:
     branches:
       - '*'
+  workflow_dispatch:
 
 jobs:
   tests:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - name: Setup Node.js
         uses: actions/setup-node@v2
         with:
           node-version: 16.x
       - run: yarn install
       - run: CI=true yarn test
+
+      - name: Read version file
+        id: read-version
+        uses: CumulusDS/get-yaml-paths-action@v0.1.0
+        with:
+          file: version.yml
+          version: version
+      - run: yarn global add sonar-scanner
+      - name: Sonar
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: sonar-scanner -Dsonar.projectVersion=${{ steps.read-version.outputs.version }}
 
   style:
     runs-on: ubuntu-latest
