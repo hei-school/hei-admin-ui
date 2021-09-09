@@ -1,0 +1,21 @@
+name: Release
+on:
+  workflow_dispatch:
+
+jobs:
+  Release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.GH_TOKEN_FOR_CONVENTIONAL_CHANGELOG }}
+      - name: Conventional Changelog
+        uses: TriPSs/conventional-changelog-action@v3
+        with:
+          github-token: ${{ secrets.GH_TOKEN_FOR_CONVENTIONAL_CHANGELOG }}
+          release-count: '10'
+          version-file: './version.yml'
+          version-path: 'version'
+          skip-on-empty: 'true'
+          skip-version-file: 'false'
+          skip-commit: 'false'
