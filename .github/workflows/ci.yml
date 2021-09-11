@@ -17,7 +17,7 @@ jobs:
         with:
           node-version: 16.x
       - run: yarn install
-      - run: CI=true yarn test
+      - run: CI=true yarn test --coverage . --testResultsProcessor jest-sonar-reporter
 
       - name: Read version file
         id: read-version
