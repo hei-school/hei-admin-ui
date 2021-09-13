@@ -14,7 +14,7 @@ export const mainTheme = createTheme({
   typography: {
     fontFamily: ['Quicksand', 'sans-serif'].join(','),
     fontSize: 15
-  },
+  }
 })
 
 export const darkTheme = createTheme({
@@ -22,3 +22,5 @@ export const darkTheme = createTheme({
     type: 'dark'
   }
 })
+
+export default mainTheme

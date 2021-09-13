@@ -1,0 +1,20 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-heiadminui-dev-173521-authRole",
+      "UnauthRoleArn": "arn:aws:iam::088312068315:role/amplify-heiadminui-dev-173521-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::088312068315:role/amplify-heiadminui-dev-173521-authRole",
+      "Region": "eu-west-2",
+      "DeploymentBucketName": "amplify-heiadminui-dev-173521-deployment",
+      "UnauthRoleName": "amplify-heiadminui-dev-173521-unauthRole",
+      "StackName": "amplify-heiadminui-dev-173521",
+      "StackId": "arn:aws:cloudformation:eu-west-2:088312068315:stack/amplify-heiadminui-dev-173521/01f510f0-1569-11ec-927b-06cf091d9f40",
+      "AmplifyAppId": "ds7dq1ytb83eu"
+    },
+    "categories": {
+      "auth": {
+        "heiadminuiefe525ec": {}
+      }
+    }
+  }
+}
