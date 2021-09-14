@@ -6,20 +6,14 @@
       "dependsOn": [],
       "customAuth": false,
       "frontendAuthConfig": {
-        "loginMechanisms": [
-          "EMAIL"
-        ],
-        "signupAttributes": [
-          "EMAIL"
-        ],
+        "loginMechanisms": ["EMAIL"],
+        "signupAttributes": ["EMAIL"],
         "passwordProtectionSettings": {
           "passwordPolicyMinLength": 8,
           "passwordPolicyCharacters": []
         },
         "mfaConfiguration": "OFF",
-        "mfaTypes": [
-          "SMS"
-        ]
+        "mfaTypes": ["SMS"]
       }
     }
   }
