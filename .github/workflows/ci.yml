@@ -41,4 +41,4 @@ jobs:
         with:
           node-version: 16.x
       - run: yarn global add prettier
-      - run: prettier --check "src/**/*.{js,ts}" "./**/*.{json,yml,yaml}"
+      - run: prettier --check "src/**/*.{js,ts,tsx}" "./**/*.{json,yml,yaml}"
