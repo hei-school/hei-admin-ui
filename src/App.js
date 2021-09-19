@@ -1,8 +1,10 @@
 import { Route } from 'react-router-dom'
 
-import { Admin, Resource, ShowGuesser } from 'react-admin'
+import { Admin, Resource as RaResource, ShowGuesser } from 'react-admin'
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'
+
+import { Resource } from './rbac/AccessControlled'
 
 import dataProvider from './providers/dataProvider'
 
@@ -36,21 +38,22 @@ const App = () => {
       ]}
       appLayout={MyLayout}
     >
-      <Resource name='profile' />
+      <RaResource name='profile' />
 
-      <Resource name='students' {...students} />
-      <Resource name='teachers' {...teachers} />
+      <Resource role='manager' name='students' {...students} />
+      <Resource role='manager' name='teachers' {...teachers} />
 
-      <Resource name='student-timetable' {...studentTimetable} />
-      <Resource name='student-grades' {...studentGrades} />
+      <Resource role='student' name='student-timetable' {...studentTimetable} />
+      <Resource role='student' name='student-grades' {...studentGrades} />
 
-      <Resource name='teacher-timetable' {...teacherTimetable} />
-      <Resource name='teacher-grades' {...teacherGrades} />
+      <Resource role='teacher' name='teacher-timetable' {...teacherTimetable} />
+      <Resource role='teacher' name='teacher-grades' {...teacherGrades} />
 
       {
         // TODO(courses-ShowGuesser)
       }
-      <Resource name='courses' />
+      <RaResource name='courses' />
+      <RaResource name='teachers' />
     </Admin>
   )
 }

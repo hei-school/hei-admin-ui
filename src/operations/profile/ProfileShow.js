@@ -9,7 +9,7 @@ const ProfileShow = ({ ...props }) => {
     type: profileReceived,
     profile: {
       id: 'string', //TODO: connect with Authenticator (probably move dispatch to App.js)
-      role: 'STUDENT' //TODO: connect with role header
+      role: 'manager' //TODO: connect with role header
     }
   })
 
