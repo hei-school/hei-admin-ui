@@ -1,6 +1,19 @@
 import { ShowGuesser } from 'react-admin'
+import { useSelector } from 'react-redux'
+import { useDispatch } from 'react-redux'
+import { profileReceived } from '../../redux/reduxEvents'
 
-const ProfileShow = ({ staticContext, ...props }) => {
+const ProfileShow = ({ ...props }) => {
+  const dispatch = useDispatch()
+  dispatch({
+    type: profileReceived,
+    profile: {
+      id: 'string', //TODO: connect with Authenticator (probably move dispatch to App.js)
+      role: 'STUDENT' //TODO: connect with role header
+    }
+  })
+
+  const profile = useSelector(state => state.profile)
   return (
     <ShowGuesser
       /*
@@ -9,7 +22,7 @@ const ProfileShow = ({ staticContext, ...props }) => {
         As there is only one config for the current user, we decided to
         hardcode it here
         */
-      id='string' //TODO(profile-id)
+      id={profile.id}
       resource='profile'
       basePath='/profile'
       redirect={false}
