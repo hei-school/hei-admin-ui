@@ -7,7 +7,7 @@ const studentTimetable = {
   edit: EditGuesser,
   show: ShowGuesser,
   icon: Timelapse,
-  options: { label: '(S) Calendrier' }
+  options: { label: 'Calendrier' }
 }
 
 export default studentTimetable

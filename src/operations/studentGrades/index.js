@@ -6,7 +6,7 @@ const studentGrades = {
   edit: EditGuesser,
   show: ShowGuesser,
   icon: Receipt,
-  options: { label: '(S) Notes' }
+  options: { label: 'Notes' }
 }
 
 export default studentGrades
