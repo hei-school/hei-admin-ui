@@ -10,6 +10,7 @@ import dataProvider from './providers/dataProvider'
 
 import profileReducer from './redux/profileReducer'
 
+import Dashboard from './dashboard/Dashboard'
 import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
@@ -26,12 +27,18 @@ const App = () => {
   return (
     <Admin
       title='HEI Admin'
+      dashboard={Dashboard}
       dataProvider={dataProvider}
       customReducers={{ profile: profileReducer }}
       i18nProvider={i18nProvider}
       theme={mainTheme}
       customRoutes={[
         <Route key='profile' path='/profile' component={profile.show} />,
+
+        // TODO: remove when authentication is implemented
+        // so that Dashboard is rendered with the usual layout
+        // AND accessible for authenticated users only
+        <Route exact path='/' component={Dashboard} noLayout />,
 
         // TODO(courses-ShowGuesser): might be irrelevant when not using guesser anymore
         <Route key='courses' path='/courses' component={ShowGuesser} />
