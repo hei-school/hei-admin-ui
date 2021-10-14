@@ -7,8 +7,8 @@ const ProfileShow = props => {
   dispatch({
     type: profileReceived,
     profile: {
-      id: 'string', //TODO: connect with Authenticator (probably move dispatch to App.js)
-      role: 'student' //TODO: connect with role header
+      id: null, //TODO: connect with Authenticator (probably move dispatch to App.js)
+      role: null //TODO: connect with role header
     }
   })
 
