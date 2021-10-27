@@ -24,10 +24,13 @@ const authProvider = () => Promise.resolve()
 
 const App = () => {
   return (
-    <Provider 
-    store={createAdminStore({
-       authProvider, dataProvider, history 
-       })}>
+    <Provider
+      store={createAdminStore({
+        authProvider,
+        dataProvider,
+        history
+      })}
+    >
       <Admin
         title='HEI Admin'
         dashboard={Dashboard}
