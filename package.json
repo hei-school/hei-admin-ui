@@ -2,9 +2,12 @@
   "name": "hei-admin-ui",
   "private": true,
   "dependencies": {
+    "@date-io/date-fns": "1.x",
+    "@material-ui/pickers": "^3.3.10",
     "@testing-library/jest-dom": "^5.11.4",
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
+    "date-fns": "^2.25.0",
     "jest-sonar-reporter": "^2.0.0",
     "prop-types": "^15.7.2",
     "ra-data-fakerest": "^3.18.0",
@@ -17,8 +20,11 @@
     "react-scripts": "4.0.3",
     "recompose": "^0.30.0",
     "redux-form": "^8.3.7",
+    "sass": "^1.43.2",
+    "sass-loader": "^12.2.0",
     "typeface-quicksand": "^1.1.13",
-    "web-vitals": "^1.0.1"
+    "web-vitals": "^1.0.1",
+    "webpack": "^5.58.2"
   },
   "scripts": {
     "start": "react-scripts start",
