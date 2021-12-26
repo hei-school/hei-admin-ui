@@ -6,19 +6,9 @@ const connectedUserId = 'string' // TODO: connect with redux-store
 
 const dataProvider = {
   getList(resource, params) {
-    if (resource === 'student-timetable' || resource === 'student-grades') {
-      const student = this.getOne('profile', params)
-      return student.then(response => {
-        const enrolled_courses = response.data.enrolled_courses
-        response.data = enrolled_courses.map(course => {
-          return {
-            id: course.course_id, // RA needs an id but HA provide course_id instead
-            group_name: response.data.group.name,
-            ...course
-          }
-        })
-        response.total = enrolled_courses.length
-        return response
+    if (resource === 'profile') { //TODO(profile-list)
+      return this.getOne(resource, params).then(result => {
+        return { data: [result.data], total: 1 }
       })
     }
     return haDataProvider.getList(resource, params)
@@ -36,9 +26,6 @@ const dataProvider = {
     return haDataProvider.getManyReference(resource, params)
   },
   update(resource, params) {
-    if (resource === 'profile') {
-      return haDataProvider.update('students', { id: connectedUserId })
-    }
     return haDataProvider.update(resource, params)
   },
   updateMany(resource, params) {
