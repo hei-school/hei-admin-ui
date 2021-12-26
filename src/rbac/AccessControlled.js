@@ -6,7 +6,7 @@ import { Resource as RaResource } from 'react-admin'
 const AccessController = CandidateComponent =>
   class extends React.Component {
     render() {
-      if (this.props.role === this.props.profile.role) {
+      if (this.props.role ===  'student'){ //this.props.profile.role) { //TODO
         return <CandidateComponent {...this.props} />
       } else {
         return <></>
