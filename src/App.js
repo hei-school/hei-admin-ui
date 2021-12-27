@@ -1,10 +1,10 @@
-import { Admin } from 'react-admin'
+import { Admin, Resource } from 'react-admin'
+
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'
 
-import { Resource } from './rbac/AccessControlled'
-
 import dataProvider from './providers/dataProvider'
+import authProvider from './providers/authProvider.ts'
 
 import profileReducer from './redux/profileReducer'
 
@@ -21,19 +21,29 @@ const App = () => {
   return (
     <Admin
       title='HEI Admin'
+      authProvider={authProvider}
       dataProvider={dataProvider}
       customReducers={{ profile: profileReducer }}
       i18nProvider={polyglotI18nProvider(() => frenchMessages, 'fr')}
       theme={mainTheme}
       layout={MyLayout}
     >
-      <Resource role='manager' name='students' {...students} />
-      <Resource role='manager' name='teachers' {...teachers} />
+      {permissions => {
+        // https://marmelab.com/react-admin/doc/3.4/Authorization.html#restricting-access-to-resources-or-views
+        const permission = permissions[0]
+        return [
+          permission === 'MANAGER' && <Resource name='students' {...students} />,
+          permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
 
-      <Resource role='student' name='profile' {...profile} />
-      <Resource role='student' name='fees' {...fees} />
-      <Resource role='student' name='student-grades' {...studentGrades} />
+          permission === 'TEACHER' && <Resource name='students' {...students} />,
+
+          permission === 'STUDENT' && <Resource name='profile' {...profile} />,
+          permission === 'STUDENT' && <Resource name='fees' {...fees} />,
+          permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />
+        ]
+      }}
     </Admin>
   )
 }
+
 export default App
