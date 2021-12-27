@@ -1,0 +1,25 @@
+{
+  "dev": {
+    "awscloudformation": {
+      "AuthRoleName": "amplify-heiadminui-dev-141628-authRole",
+      "UnauthRoleArn": "arn:aws:iam::088312068315:role/amplify-heiadminui-dev-141628-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::088312068315:role/amplify-heiadminui-dev-141628-authRole",
+      "Region": "eu-west-3",
+      "DeploymentBucketName": "amplify-heiadminui-dev-141628-deployment",
+      "UnauthRoleName": "amplify-heiadminui-dev-141628-unauthRole",
+      "StackName": "amplify-heiadminui-dev-141628",
+      "StackId": "arn:aws:cloudformation:eu-west-3:088312068315:stack/amplify-heiadminui-dev-141628/9550f280-671f-11ec-b80e-066b50e19bd8",
+      "AmplifyAppId": "dutul9p2n3v69"
+    },
+    "categories": {
+      "auth": {
+        "heiadminui": {
+          "userPoolId": "eu-west-3_mGxK1Bi8s",
+          "userPoolName": "dev-hei-admin-emailpool",
+          "webClientId": "5s8cg50doahmu855rlc8fr6qmp",
+          "nativeClientId": "5s8cg50doahmu855rlc8fr6qmp"
+        }
+      }
+    }
+  }
+}
