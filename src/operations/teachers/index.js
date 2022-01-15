@@ -1,12 +1,14 @@
 import WorkIcon from '@material-ui/icons/Work'
-import { ListGuesser, EditGuesser, ShowGuesser } from 'react-admin'
+import TeacherEdit from './TeacherEdit'
+import TeacherShow from './TeacherShow'
+import TeacherList from './TeacherList'
 
 const teachers = {
-  list: ListGuesser,
-  edit: EditGuesser,
-  show: ShowGuesser,
+  list: TeacherList,
+  edit: TeacherEdit,
+  show: TeacherShow,
   icon: WorkIcon,
-  options: { label: '(M) Enseignants' }
+  options: { label: 'Enseignants' }
 }
 
 export default teachers

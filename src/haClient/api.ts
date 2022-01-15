@@ -1331,6 +1331,44 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         },
         /**
          * 
+         * @summary Get manager by identifier
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getManagerById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+            // verify required parameter 'id' is not null or undefined
+            assertParamExists('getManagerById', 'id', id)
+            const localVarPath = `/managers/{id}`
+                .replace(`{${"id"}}`, encodeURIComponent(String(id)));
+            // use dummy base URL string because the URL constructor only accepts absolute URLs.
+            const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+            let baseOptions;
+            if (configuration) {
+                baseOptions = configuration.baseOptions;
+            }
+
+            const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+            const localVarHeaderParameter = {} as any;
+            const localVarQueryParameter = {} as any;
+
+            // authentication BearerAuth required
+            // http bearer authentication required
+            await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+
+    
+            setSearchParams(localVarUrlObj, localVarQueryParameter);
+            let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+            localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
+
+            return {
+                url: toPathString(localVarUrlObj),
+                options: localVarRequestOptions,
+            };
+        },
+        /**
+         * 
          * @summary Get all managers
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1541,6 +1579,17 @@ export const UsersApiFp = function(configuration?: Configuration) {
         },
         /**
          * 
+         * @summary Get manager by identifier
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        async getManagerById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manager>> {
+            const localVarAxiosArgs = await localVarAxiosParamCreator.getManagerById(id, options);
+            return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+        },
+        /**
+         * 
          * @summary Get all managers
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1623,6 +1672,16 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
         },
         /**
          * 
+         * @summary Get manager by identifier
+         * @param {string} id 
+         * @param {*} [options] Override http request option.
+         * @throws {RequiredError}
+         */
+        getManagerById(id: string, options?: any): AxiosPromise<Manager> {
+            return localVarFp.getManagerById(id, options).then((request) => request(axios, basePath));
+        },
+        /**
+         * 
          * @summary Get all managers
          * @param {*} [options] Override http request option.
          * @throws {RequiredError}
@@ -1700,6 +1759,18 @@ export class UsersApi extends BaseAPI {
      */
     public createOrUpdateTeachers(teacher: Array<Teacher>, options?: AxiosRequestConfig) {
         return UsersApiFp(this.configuration).createOrUpdateTeachers(teacher, options).then((request) => request(this.axios, this.basePath));
+    }
+
+    /**
+     * 
+     * @summary Get manager by identifier
+     * @param {string} id 
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     * @memberof UsersApi
+     */
+    public getManagerById(id: string, options?: AxiosRequestConfig) {
+        return UsersApiFp(this.configuration).getManagerById(id, options).then((request) => request(this.axios, this.basePath));
     }
 
     /**

@@ -10145,12 +10145,19 @@ ra-core@^3.19.5:
     query-string "^5.1.1"
     reselect "~3.0.0"
 
-ra-data-json-server@^3.18.0:
-  version "3.19.5"
-  resolved "https://registry.yarnpkg.com/ra-data-json-server/-/ra-data-json-server-3.19.5.tgz#86b778aab57e8fcfd7a5a71573c4decb405fd0f9"
+ra-core@^3.19.6:
+  version "3.19.6"
+  resolved "https://registry.yarnpkg.com/ra-core/-/ra-core-3.19.6.tgz#5fc7b45c0c559c0842ca5f7faf97b5ad6f1e7cb0"
+  integrity sha512-rKADrJEYg8UHQxGHNOLJCZv57vjNf4LHrBPMx/K0IIrCPRd66DqVlug0IHIZGmrEh8f9FRfuXMqlFJ3u1TG4vw==
   dependencies:
+    classnames "~2.3.1"
+    date-fns "^1.29.0"
+    eventemitter3 "^3.0.0"
+    inflection "~1.13.1"
+    lodash "~4.17.5"
+    prop-types "^15.6.1"
     query-string "^5.1.1"
-    ra-core "^3.19.5"
+    reselect "~3.0.0"
 
 ra-i18n-polyglot@^3.19.5:
   version "3.19.5"
@@ -10165,11 +10172,12 @@ ra-language-english@^3.19.5:
   dependencies:
     ra-core "^3.19.5"
 
-ra-language-french@^3.18.0:
-  version "3.19.5"
-  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-3.19.5.tgz#b8a27f3278ae9c51ced72d58f5ca817eb7a07f66"
+ra-language-french@^3.19.6:
+  version "3.19.6"
+  resolved "https://registry.yarnpkg.com/ra-language-french/-/ra-language-french-3.19.6.tgz#49712c595446b3370d8bfd4f9ef3fe688b3d7e93"
+  integrity sha512-BtiybNrJPbSAMMGMHhKfWYWSbOuWYwRoVAf74I+Xm/ISTvAFFRNlAOPy4+I7FsMq/8n5q6DmaBE8I3lsvPL0Sg==
   dependencies:
-    ra-core "^3.19.5"
+    ra-core "^3.19.6"
 
 ra-ui-materialui@^3.19.5:
   version "3.19.5"
@@ -10252,6 +10260,11 @@ react-app-polyfill@^2.0.0:
     raf "^3.4.1"
     regenerator-runtime "^0.13.7"
     whatwg-fetch "^3.4.1"
+
+react-async@^10.0.1:
+  version "10.0.1"
+  resolved "https://registry.yarnpkg.com/react-async/-/react-async-10.0.1.tgz#575c083f808303d2f6ca52d11ec7554dbdbd9fcd"
+  integrity sha512-ORUz5ca0B57QgBIzEZM5SuhJ6xFjkvEEs0gylLNlWf06vuVcLZsjIw3wx58jJkZG38p+0nUAxRgFW2b7mnVZzA==
 
 react-dev-utils@^11.0.3:
   version "11.0.4"
@@ -10347,7 +10360,7 @@ react-refresh@^0.8.3:
   version "0.8.3"
   resolved "https://registry.yarnpkg.com/react-refresh/-/react-refresh-0.8.3.tgz#721d4657672d400c5e3c75d063c4a85fb2d5d68f"
 
-react-router-dom@^5.1.0:
+react-router-dom@5.3.0, react-router-dom@^5.1.0:
   version "5.3.0"
   resolved "https://registry.yarnpkg.com/react-router-dom/-/react-router-dom-5.3.0.tgz#da1bfb535a0e89a712a93b97dd76f47ad1f32363"
   dependencies:
