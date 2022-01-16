@@ -24,6 +24,7 @@ const authProvider = {
     })
   },
   logout: async (): Promise<void> => {
+    localStorage.clear()
     await Auth.signOut()
   },
 
