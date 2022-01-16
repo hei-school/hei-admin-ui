@@ -1,14 +1,9 @@
-import { Toolbar, Edit, TextInput, FormTab, TabbedForm, DateInput, BooleanInput, SaveButton } from 'react-admin'
-
-const StudentEditToolbar = props => (
-  <Toolbar {...props}>
-    <SaveButton disabled={props.pristine} />
-  </Toolbar>
-)
+import { Edit, TextInput, FormTab, TabbedForm, DateInput, BooleanInput } from 'react-admin'
+import EditToolbar from '../../utils/EditToolBar'
 
 const StudentEdit = props => (
   <Edit title='Etudiants' {...props}>
-    <TabbedForm toolbar={<StudentEditToolbar />}>
+    <TabbedForm toolbar={<EditToolbar />}>
       <FormTab label='Informations personnelles'>
         <TextInput source='first_name' label='Prénoms' />
         <TextInput source='last_name' label='Nom' />

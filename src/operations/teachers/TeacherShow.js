@@ -1,7 +1,7 @@
 import {  TextField, TabbedShowLayout, Tab, DateField, Show } from 'react-admin'
 const TeacherShow = props => {
   return (
-    <Show {...props}>
+    <Show title='Enseignants' {...props}>
       <TabbedShowLayout>
         <Tab label='Informations personnelles'>
           <TextField source='ref' />

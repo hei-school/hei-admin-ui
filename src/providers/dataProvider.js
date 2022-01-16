@@ -67,7 +67,25 @@ const dataProvider = {
     }
   },
   updateMany(resource, params) {},
-  create(resource, params) {},
+  create(resource, params) {
+    conf.accessToken = authProvider.getToken()
+    const usersApi = new UsersApi(conf)
+    const user = params.data
+
+    user.id = ''
+    user.status = 'ENABLED'
+
+    if (resource === 'students') {
+      return usersApi.createOrUpdateStudents([user]).then(result => {
+        return { data: result.data[0] }
+      })
+    }
+    if (resource === 'teachers') {
+      return usersApi.createOrUpdateTeachers([user]).then(result => {
+        return { data: result.data[0] }
+      })
+    }
+  },
   delete(resource, params) {},
   deleteMany(resource, params) {}
 }

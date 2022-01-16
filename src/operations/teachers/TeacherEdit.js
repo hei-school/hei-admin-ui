@@ -1,7 +1,9 @@
 import { SimpleForm, TextInput, DateInput, Edit } from 'react-admin'
+import EditToolbar from '../../utils/EditToolBar'
+
 const TeacherEdit = props => (
-  <Edit {...props}>
-    <SimpleForm>
+  <Edit title='Enseignants'  {...props}>
+    <SimpleForm toolbar={<EditToolbar />}>
       <TextInput source='first_name' label='Prénoms' />
       <TextInput source='last_name' label='Noms' />
       <TextInput source='sex' label='Sexe' />
