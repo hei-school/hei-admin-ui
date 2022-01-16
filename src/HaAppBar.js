@@ -1,6 +1,4 @@
-import React from 'react'
 import { AppBar } from 'react-admin'
-import HaUserMenu from './HaUserMenu'
 
-const HaAppBar = props => <AppBar {...props} userMenu={<HaUserMenu />} />
+const HaAppBar = props => <AppBar {...props} />
 export default HaAppBar
