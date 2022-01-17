@@ -1,14 +1,15 @@
 import SchoolIcon from '@material-ui/icons/School'
-import { ListGuesser, EditGuesser } from 'react-admin'
 import StudentShow from './StudentShow'
-
-// TODO: student groups are managed here
+import StudentList from './StudentList'
+import StudentEdit from './StudentEdit'
+import StudentCreate from './StudentCreate'
 const students = {
-  list: ListGuesser,
-  edit: EditGuesser,
+  list: StudentList,
+  edit: StudentEdit,
   show: StudentShow,
+  create: StudentCreate,
   icon: SchoolIcon,
-  options: { label: '(M) Etudiants' }
+  options: { label: 'Etudiants' }
 }
 
 export default students

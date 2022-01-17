@@ -1,45 +1,93 @@
-import jsonServerProvider from 'ra-data-json-server'
-
-const haDataProvider = jsonServerProvider('https://virtserver.swaggerhub.com/hei-admin/hei-admin_api/1.0')
-
-const connectedUserId = 'string' // TODO: connect with redux-store
+import { UsersApi, Configuration } from '../haClient'
+import authProvider from './authProvider'
+const conf = new Configuration()
 
 const dataProvider = {
   getList(resource, params) {
-    if (resource === 'profile') { //TODO(profile-list)
-      return this.getOne(resource, params).then(result => {
-        return { data: [result.data], total: 1 }
+    conf.accessToken = authProvider.getToken()
+    const usersApi = new UsersApi(conf)
+    if (resource === 'teachers') {
+      return usersApi.getTeachers().then(result => {
+        return { data: result.data, total: result.data.length }
       })
     }
-    return haDataProvider.getList(resource, params)
+    if (resource === 'students') {
+      return usersApi.getStudents().then(result => {
+        return { data: result.data, total: result.data.length }
+      })
+    }
   },
   getOne(resource, params) {
+    conf.accessToken = authProvider.getToken()
+    const usersApi = new UsersApi(conf)
+    const id = params.id
+    let role = localStorage.getItem('role')
     if (resource === 'profile') {
-      return haDataProvider.getOne('students', { id: connectedUserId })
+      if (role === 'STUDENT') {
+        return usersApi.getStudentById(id).then(result => {
+          return { data: result.data }
+        })
+      }
+      if (role === 'TEACHER') {
+        return usersApi.getTeacherById(id).then(result => {
+          return { data: result.data }
+        })
+      }
+      if (role === 'MANAGER') {
+        return usersApi.getManagerById(id).then(result => {
+          return { data: result.data }
+        })
+      }
     }
-    return haDataProvider.getOne(resource, params)
+    if (resource === 'students') {
+      return usersApi.getStudentById(id).then(result => {
+        return { data: result.data }
+      })
+    }
+    if (resource === 'teachers') {
+      return usersApi.getTeacherById(id).then(result => {
+        return { data: result.data }
+      })
+    }
   },
-  getMany(resource, params) {
-    return haDataProvider.getMany(resource, params)
-  },
-  getManyReference(resource, params) {
-    return haDataProvider.getManyReference(resource, params)
-  },
+  getMany(resource, params) {},
+  getManyReference(resource, params) {},
   update(resource, params) {
-    return haDataProvider.update(resource, params)
+    conf.accessToken = authProvider.getToken()
+    const usersApi = new UsersApi(conf)
+    if (resource === 'students') {
+      return usersApi.createOrUpdateStudents([params.data]).then(result => {
+        return { data: result.data[0] }
+      })
+    }
+    if (resource === 'teachers') {
+      return usersApi.createOrUpdateTeachers([params.data]).then(result => {
+        return { data: result.data[0] }
+      })
+    }
   },
-  updateMany(resource, params) {
-    return haDataProvider.updateMany(resource, params)
-  },
+  updateMany(resource, params) {},
   create(resource, params) {
-    return haDataProvider.create(resource, params)
+    conf.accessToken = authProvider.getToken()
+    const usersApi = new UsersApi(conf)
+    const user = params.data
+
+    user.id = ''
+    user.status = 'ENABLED'
+
+    if (resource === 'students') {
+      return usersApi.createOrUpdateStudents([user]).then(result => {
+        return { data: result.data[0] }
+      })
+    }
+    if (resource === 'teachers') {
+      return usersApi.createOrUpdateTeachers([user]).then(result => {
+        return { data: result.data[0] }
+      })
+    }
   },
-  delete(resource, params) {
-    return haDataProvider.delete(resource, params)
-  },
-  deleteMany(resource, params) {
-    return haDataProvider.deleteMany(resource, params)
-  }
+  delete(resource, params) {},
+  deleteMany(resource, params) {}
 }
 
 export default dataProvider
