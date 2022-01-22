@@ -18,7 +18,7 @@ const getPermission = async ({ authProvider }) => {
   return await authProvider.getUserInformations()
 }
 
-const ProfileShow = () => {
+const ProfileShow = props => {
   const [id, setId] = useState()
   const { data, isPending } = useAsync({ promiseFn: getPermission, authProvider: authProvider })
   useEffect(() => {
@@ -35,7 +35,7 @@ const ProfileShow = () => {
   const sexRenderer = user => (user.sex === 'M' ? 'Homme' : user.sex === 'F' ? 'Femme' : unexpectedValue)
   const statusRenderer = user => (user.status === 'ENABLED' ? 'Actif·ve' : user.status === 'DISABLED' ? withRedWarning('Suspendu·e') : unexpectedValue)
   return (
-    <Show id={id} aside={<ChangeRequest />} resource='profile' basePath='/profile' title='Mon profil'>
+    <Show id={id} aside={props.withChangeRequest ? <ChangeRequest /> : <></>} resource='profile' basePath='/profile' title='Mon profil'>
       <SimpleShowLayout record={{ sex: 'Homme' }}>
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom(s)' />

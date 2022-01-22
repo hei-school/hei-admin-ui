@@ -1,7 +1,7 @@
 import ProfileShow from './ProfileShow'
 
 const profile = {
-  show: ProfileShow
+  show: props => <ProfileShow withChangeRequest={true} {...props} />
 }
 
 export default profile
