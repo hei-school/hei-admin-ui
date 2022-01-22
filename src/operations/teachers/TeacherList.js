@@ -1,6 +1,8 @@
 import { List, Datagrid, TextField, ShowButton, EditButton } from 'react-admin'
+import { profileFilters } from '../profile'
+
 const TeacherList = props => (
-  <List {...props} bulkActionButtons={false}>
+  <List {...props} bulkActionButtons={false} filters={profileFilters}>
     <Datagrid rowClick='show'>
       <TextField source='ref' />
       <TextField source='first_name' label='Prénoms' />
