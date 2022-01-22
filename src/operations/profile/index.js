@@ -8,7 +8,7 @@ const profile = {
 export default profile
 
 export const profileFilters = [
-  <TextInput label='Filtre par prénom' source='first_name' alwaysOn />,
-  <TextInput label='Nom' source='last_name' />,
+  <TextInput label='Filtre par prénom·s' source='first_name' alwaysOn />,
+  <TextInput label='Nom·s' source='last_name' />,
   <TextInput label='Référence' source='ref' />
 ]

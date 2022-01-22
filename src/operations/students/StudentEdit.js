@@ -2,7 +2,7 @@ import { Edit, TextInput, FormTab, TabbedForm, DateInput, BooleanInput } from 'r
 import EditToolbar from '../../utils/EditToolBar'
 
 const StudentEdit = props => (
-  <Edit title='Etudiants' {...props}>
+  <Edit title='Étudiants' {...props}>
     <TabbedForm toolbar={<EditToolbar />}>
       <FormTab label='Informations personnelles'>
         <TextInput source='first_name' label='Prénoms' />

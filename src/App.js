@@ -38,7 +38,7 @@ const App = () => {
           permission === 'MANAGER' && <Resource name='students' {...students} />,
           permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
 
-          permission === 'TEACHER' && <Resource name='students' options={{ label: 'Etudiants' }} list={students.list} show={students.show} />,
+          permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
 
           <Resource name='profile' />,
 

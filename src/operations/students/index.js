@@ -9,7 +9,7 @@ const students = {
   show: StudentShow,
   create: StudentCreate,
   icon: SchoolIcon,
-  options: { label: 'Etudiants' }
+  options: { label: 'Étudiants' }
 }
 
 export default students
