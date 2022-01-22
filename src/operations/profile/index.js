@@ -2,7 +2,7 @@ import ProfileShow from './ProfileShow'
 import { TextInput } from 'react-admin'
 
 const profile = {
-  show: props => <ProfileShow withChangeRequest={true} {...props} />
+  show: ProfileShow
 }
 
 export default profile
