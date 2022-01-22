@@ -1,12 +1,12 @@
 import WorkIcon from '@material-ui/icons/Work'
-import TeacherEdit from './TeacherEdit'
+import ProfileEdit from '../profile/ProfileEdit'
 import TeacherShow from './TeacherShow'
 import TeacherList from './TeacherList'
 import TeacherCreate from './TeacherCreate'
 
 const teachers = {
   list: TeacherList,
-  edit: TeacherEdit,
+  edit: props => <ProfileEdit {...props} title='Enseignants' />,
   show: TeacherShow,
   create: TeacherCreate,
   icon: WorkIcon,

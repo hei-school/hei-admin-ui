@@ -1,11 +1,12 @@
 import SchoolIcon from '@material-ui/icons/School'
+import ProfileEdit from '../profile/ProfileEdit'
 import StudentShow from './StudentShow'
 import StudentList from './StudentList'
-import StudentEdit from './StudentEdit'
 import StudentCreate from './StudentCreate'
+
 const students = {
   list: StudentList,
-  edit: StudentEdit,
+  edit: props => <ProfileEdit {...props} title='Étudiants' />,
   show: StudentShow,
   create: StudentCreate,
   icon: SchoolIcon,
