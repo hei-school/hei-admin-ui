@@ -2,18 +2,24 @@ import { UsersApi, Configuration } from '../haClient'
 import authProvider from './authProvider'
 const conf = new Configuration()
 
+// react-admin needs the total count to perform pagination
+// We do not want that for the sake of performance over large resources:
+// We use a prev-next pagination, exact total count will only be known when reaching last page.
+const maxTotal = Number.MAX_VALUE
+
 const dataProvider = {
   getList(resource, params) {
     conf.accessToken = authProvider.getToken()
     const usersApi = new UsersApi(conf)
+    const pagination = params.pagination
     if (resource === 'teachers') {
-      return usersApi.getTeachers().then(result => {
-        return { data: result.data, total: result.data.length }
+      return usersApi.getTeachers(pagination.page, pagination.perPage).then(result => {
+        return { data: result.data, total: maxTotal }
       })
     }
     if (resource === 'students') {
-      return usersApi.getStudents().then(result => {
-        return { data: result.data, total: result.data.length }
+      return usersApi.getStudents(pagination.page, pagination.perPage).then(result => {
+        return { data: result.data, total: maxTotal }
       })
     }
   },
