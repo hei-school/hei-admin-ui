@@ -1,4 +1,6 @@
+import React from 'react'
 import { Create, SimpleForm, TextInput, DateTimeInput, DateInput } from 'react-admin'
+
 const StudentCreate = props => (
   <Create {...props} title='Étudiants'>
     <SimpleForm>

@@ -1,3 +1,4 @@
+import React from 'react'
 import { List, Datagrid, TextField, ShowButton, EditButton } from 'react-admin'
 import { profileFilters } from '../profile'
 import PrevNextPagination from '../utils/PrevNextPagination'

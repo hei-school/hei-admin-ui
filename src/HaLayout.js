@@ -1,3 +1,4 @@
+import React from 'react'
 import { Layout } from 'react-admin'
 import HaAppBar from './HaAppBar'
 import HaMenu from './HaMenu'

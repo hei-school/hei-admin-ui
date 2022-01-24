@@ -1,3 +1,4 @@
+import React from 'react'
 import { useState, useEffect } from 'react'
 import authProvider from './providers/authProvider'
 import HaStudentMenu from './HaStudentMenu'

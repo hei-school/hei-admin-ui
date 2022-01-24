@@ -1,5 +1,6 @@
-import { Admin, Resource } from 'react-admin'
+import React from 'react'
 import { Route } from 'react-router-dom'
+import { Admin, Resource } from 'react-admin'
 
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'
@@ -17,37 +18,35 @@ import MyLayout from './HaLayout'
 import { mainTheme } from './haTheme'
 import CompletePassword from './operations/security/CompletePassword'
 
-const App = () => {
-  return (
-    <Admin
-      title='HEI Admin'
-      authProvider={authProvider}
-      dataProvider={dataProvider}
-      i18nProvider={polyglotI18nProvider(() => frenchMessages, 'fr')}
-      theme={mainTheme}
-      layout={MyLayout}
-      customRoutes={[
-        <Route key='profile' exact path='/profile' component={profile.show} />,
-        <Route key='complete-password' exact path='/complete-password' component={CompletePassword} />
-      ]}
-    >
-      {permissions => {
-        // https://marmelab.com/react-admin/doc/3.4/Authorization.html#restricting-access-to-resources-or-views
-        const permission = permissions[0]
-        return [
-          permission === 'MANAGER' && <Resource name='students' {...students} />,
-          permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
+const App = () => (
+  <Admin
+    title='HEI Admin'
+    authProvider={authProvider}
+    dataProvider={dataProvider}
+    i18nProvider={polyglotI18nProvider(() => frenchMessages, 'fr')}
+    theme={mainTheme}
+    layout={MyLayout}
+    customRoutes={[
+      <Route key='profile' exact path='/profile' component={profile.show} />,
+      <Route key='complete-password' exact path='/complete-password' component={CompletePassword} />
+    ]}
+  >
+    {permissions => {
+      // https://marmelab.com/react-admin/doc/3.4/Authorization.html#restricting-access-to-resources-or-views
+      const permission = permissions[0]
+      return [
+        permission === 'MANAGER' && <Resource name='students' {...students} />,
+        permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
 
-          permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
+        permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
 
-          <Resource name='profile' />,
+        <Resource name='profile' />,
 
-          permission === 'STUDENT' && <Resource name='fees' {...fees} />,
-          permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />
-        ]
-      }}
-    </Admin>
-  )
-}
+        permission === 'STUDENT' && <Resource name='fees' {...fees} />,
+        permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />
+      ]
+    }}
+  </Admin>
+)
 
 export default App

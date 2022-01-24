@@ -1,3 +1,4 @@
+import React from 'react'
 import { AppBar } from 'react-admin'
 
 import { IconButton, Tooltip } from '@material-ui/core'

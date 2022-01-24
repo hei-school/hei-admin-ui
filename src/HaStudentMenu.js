@@ -1,3 +1,4 @@
+import React from 'react'
 import { connect } from 'react-redux'
 import { Menu, MenuItemLink, showNotification } from 'react-admin'
 import Receipt from '@material-ui/icons/Receipt'

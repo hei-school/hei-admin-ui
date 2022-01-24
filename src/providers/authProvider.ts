@@ -23,6 +23,7 @@ const authProvider = {
       }
     })
   },
+
   logout: async (): Promise<void> => {
     localStorage.clear()
     await Auth.signOut()
@@ -71,6 +72,7 @@ const authProvider = {
         return error //TODO
       })
   },
+
   getPermissions: async (): Promise<string[]> => {
     const session = await Auth.currentSession()
     const conf = new Configuration()
