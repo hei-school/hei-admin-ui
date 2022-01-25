@@ -33,6 +33,12 @@ describe('HaMenu', () => {
     }
   })
 
+  afterEach(() => {
+    // "Failing to call cleanup could result in a memory leak and tests which are not idempotent"
+    // https://testing-library.com/docs/react-testing-library/api/#cleanup
+    require('@testing-library/react').cleanup()
+  })
+
   it('displays correct student menu', async () => {
     const initTestedComponent = () => require('../HaMenu').default
     const useAsyncReturn = { data: { role: 'STUDENT' }, isPending: false }
@@ -50,7 +56,7 @@ describe('HaMenu', () => {
 
     renderTestedComponent(initTestedComponent, useAsyncReturn)
 
-    screen.getAllByText('Mon profil')
+    expect(screen.findByText('Mon profil')).not.toBeNull
     screen.getAllByText('Étudiants')
   })
 
