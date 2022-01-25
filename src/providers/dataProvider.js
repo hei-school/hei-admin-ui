@@ -1,4 +1,4 @@
-import { UsersApi, Configuration } from '../haClient'
+import { UsersApi, Configuration } from '../gen/haClient'
 import authProvider from './authProvider'
 const conf = new Configuration()
 

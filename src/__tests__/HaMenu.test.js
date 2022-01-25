@@ -19,7 +19,7 @@ describe('HaMenu', () => {
       jest.doMock('react-async', () => ({
         useAsync: jest.fn().mockReturnValue(useAsyncReturn)
       }))
-      // /!\ Module with mocked depedencies MUST be loaded only when mocks have been set
+      // /!\ Module with mocked dependencies MUST be loaded only when mocks have been set
       const TestedComponent = initTestedComponent()
       const { TestContext } = require('ra-test')
       const { ThemeProvider } = require('@material-ui/styles')

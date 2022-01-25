@@ -2,7 +2,7 @@ import { ClientMetaData } from '@aws-amplify/auth/lib-esm/types'
 import { Amplify } from 'aws-amplify'
 import { Auth, CognitoUser } from '@aws-amplify/auth'
 import awsExports from '../aws-exports'
-import { Configuration, SecurityApi, Whoami } from '../haClient'
+import { Configuration, SecurityApi, Whoami } from '../gen/haClient'
 import { AxiosResponse } from 'axios'
 
 Amplify.configure(awsExports)
