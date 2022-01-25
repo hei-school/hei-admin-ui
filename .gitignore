@@ -16,6 +16,7 @@ amplifyconfiguration.dart
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
+aws-exports.js
 .secret-*
 **.sample
 #amplify-do-not-edit-end
