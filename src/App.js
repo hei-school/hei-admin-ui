@@ -1,6 +1,6 @@
 import React from 'react'
 import { Route } from 'react-router-dom'
-import { Admin, Resource } from 'react-admin'
+import { Admin, Resource, Login } from 'react-admin'
 
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'
@@ -25,6 +25,7 @@ const App = () => (
     dataProvider={dataProvider}
     i18nProvider={polyglotI18nProvider(() => frenchMessages, 'fr')}
     theme={mainTheme}
+    loginPage={() => <Login backgroundImage='/login-bg.jpg' />}
     layout={MyLayout}
     customRoutes={[
       <Route key='profile' exact path='/profile' component={profile.show} />,
