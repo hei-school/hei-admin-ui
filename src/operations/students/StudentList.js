@@ -4,7 +4,7 @@ import { profileFilters } from '../profile'
 import PrevNextPagination from '../utils/PrevNextPagination'
 
 const StudentList = props => {
-  const permission = localStorage.getItem('role')
+  const permission = localStorage.getItem('ROLE')
   return (
     <List label='Étudiants' bulkActionButtons={false} {...props} filters={profileFilters} pagination={<PrevNextPagination />}>
       <Datagrid rowClick='show'>

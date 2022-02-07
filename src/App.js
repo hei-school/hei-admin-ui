@@ -17,7 +17,7 @@ import studentGrades from './operations/studentGrades'
 import MyLayout from './HaLayout'
 import HaLoginPage from './HaLoginPage'
 import { mainTheme } from './haTheme'
-import CompletePassword from './operations/security/CompletePassword'
+import security from './operations/security'
 
 const App = () => (
   <Admin
@@ -29,23 +29,28 @@ const App = () => (
     loginPage={HaLoginPage}
     layout={MyLayout}
     customRoutes={[
-      <Route key='profile' exact path='/profile' component={profile.show} />,
-      <Route key='complete-password' exact path='/complete-password' component={CompletePassword} />
+      <Route key='complete-password' exact path='/complete-password' component={security.create} noLayout/>,
+      <Route key='profile' exact path='/profile' component={profile.show} />
     ]}
   >
     {permissions => {
       // https://marmelab.com/react-admin/doc/3.4/Authorization.html#restricting-access-to-resources-or-views
       const permission = permissions[0]
       return [
+
+        permission === 'guest' && <Resource name='complete-password' />,
+
+        permission === 'MANAGER' && <Resource name='profile' />,
         permission === 'MANAGER' && <Resource name='students' {...students} />,
         permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
 
+        permission === 'TEACHER' && <Resource name='profile' />,
         permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
 
-        <Resource name='profile' />,
-
+        permission === 'STUDENT' && <Resource name='profile' />,
         permission === 'STUDENT' && <Resource name='fees' {...fees} />,
-        permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />
+        permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />,
+
       ]
     }}
   </Admin>

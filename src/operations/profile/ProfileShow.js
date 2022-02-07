@@ -1,7 +1,5 @@
-import React from 'react'
 import { DateField, EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
 import { Typography } from '@material-ui/core'
-
 import { useAsync } from 'react-async'
 import { useState, useEffect } from 'react'
 import authProvider from '../../providers/authProvider'

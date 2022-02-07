@@ -1,9 +1,8 @@
-import { Auth } from 'aws-amplify'
-import { useRedirect } from 'react-admin'
+import { Auth } from '@aws-amplify/auth'
 import { useState } from 'react'
 
 const CompletePassword = () => {
-  const redirect = useRedirect()
+  const user = JSON.parse(localStorage.getItem('CognitoUser'))
   const [password, setPassword] = useState()
 
   const handleSubmit = event => {
@@ -11,17 +10,17 @@ const CompletePassword = () => {
     Auth.completeNewPassword(user, password)
   }
 
-  const user = Auth.currentAuthenticatedUser()
-  if (user.challengeName !== 'NEW_PASSWORD_REQUIRED') {
-    redirect('/')
-  }
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Nouveau mot de passe :</label>
-      <input type='password' onChange={e => setPassword(e.target.value)} value={password} name='password' />
+    <center>
+      <div>
+        <form onSubmit={handleSubmit}>
+          <label>Nouveau mot de passe :</label>
+          <input type='password' onChange={e => setPassword(e.target.value)} value={password} name='password' />
 
-      <input type='submit' value='Valider' />
-    </form>
+          <input type='submit' value='Valider' />
+        </form>
+      </div>
+    </center>
   )
 }
 export default CompletePassword
