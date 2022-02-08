@@ -37,9 +37,9 @@ const aCard = (title, subtitle, description1, description2, course) => {
 }
 
 const HaLoginPage = () => {
-  const displayFull = useMediaQuery('(min-width:1500px)')
+  const displayFull = useMediaQuery('(min-width:1180px) and (max-width:1900px) and (min-height:700px)')
   return displayFull ? (
-    <Grid container spacing={2} style={{ paddingTop: '10%', backgroundImage: 'url(/login-bg.jpg)' }} theme={mainTheme}>
+    <Grid container spacing={2} style={{ paddingTop: '10%', backgroundImage: 'url(/login-bg.jpg)', backgroundSize: 'cover' }} theme={mainTheme}>
       <Grid item xs={4}>
         <Typography variant='h3' align='center'>
           <div style={{ color: '#ffc107' }}>HEI</div>
@@ -50,21 +50,21 @@ const HaLoginPage = () => {
         <Login backgroundImage={null} style={{ backgroundImage: 'inherit' }} />
       </Grid>
       <Grid item xs={8}>
-        <Grid container spacing={3}>
-          <Grid item xs={2} />
-          <Grid item xs={4}>
+        <Grid container spacing={1}>
+          <Grid item xs={1} />
+          <Grid item xs={5}>
             {aCard('0', "Coût à l'arrêt", 'Personne ne se connecte ?', 'Alors personne ne paie.', 'SYS-2')}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             {aCard('0', 'Vulnérabilité', 'Crashtest nous scanne,', 'mais ne trouve rien !', 'WEB-2')}
           </Grid>
-          <Grid item xs={3} />
-
           <Grid item xs={2} />
-          <Grid item xs={4}>
+
+          <Grid item xs={1} />
+          <Grid item xs={5}>
             {aCard('250,000,000', 'Utilisateurs', 'Onboarder tout Madagascar ?', 'Dix fois sans problème.', 'DONNEES-2')}
           </Grid>
-          <Grid item xs={3}>
+          <Grid item xs={4}>
             {aCard('1', 'Seconde', 'Pire réponse de notre API', 'au percentile 97.', 'PROG-2')}
           </Grid>
         </Grid>
