@@ -1,18 +1,19 @@
 import React from 'react'
 import { Create, SimpleForm, TextInput, DateTimeInput, DateInput } from 'react-admin'
+import SexRadioButton from '../utils/SexRadioButton'
 
 const TeacherCreate = props => (
   <Create {...props} title='Enseignants'>
     <SimpleForm>
-      <TextInput source='ref' label='Référence' />
-      <TextInput source='first_name' label='Prénoms' />
-      <TextInput source='last_name' label='Nom' />
-      <TextInput source='sex' label='Sexe' />
-      <TextInput source='phone' label='Téléphone' />
-      <DateInput source='birth_date' label='Date de naissance' />
-      <TextInput source='address' label='Adresse' />
-      <TextInput source='email' label='Email' />
-      <DateTimeInput source='entrance_datetime' label="Date d'entrée chez HEI" />
+      <TextInput source='ref' label='Référence' fullWidth={true} />
+      <TextInput source='first_name' label='Prénoms' fullWidth={true} />
+      <TextInput source='last_name' label='Nom' fullWidth={true} />
+      <SexRadioButton />
+      <TextInput source='phone' label='Téléphone' fullWidth={true} />
+      <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
+      <TextInput multiline source='address' label='Adresse' fullWidth={true} />
+      <TextInput source='email' label='Email' fullWidth={true} />
+      <DateTimeInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} />
     </SimpleForm>
   </Create>
 )

@@ -31,7 +31,7 @@ export const ProfileLayout = props => {
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
       <DateField source='birth_date' label='Date de naissance' />
-      <TextField source='address' label='Adresse' />
+      <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
       <DateField source='entrance_datetime' label="Date d'entrée chez HEI" />
       <FunctionField label='Statut' render={statusRenderer} />

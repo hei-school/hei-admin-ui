@@ -2,7 +2,7 @@
 /* eslint-disable */
 /**
  * HEI Admin API
- * _Programmatically connect to a computer programming [school](https://hei.school)._ After [joining us](mailto:contact@hei.school), you can get an identification token from our [dev](https://dev-hei-admin.auth.eu-west-3.amazoncognito.com/oauth2/authorize?client_id=5s8cg50doahmu855rlc8fr6qmp&response_type=token&scope=email+openid&redirect_uri=https%3A%2F%2Fapi-dev.hei.school%2Fwhoami) or [prod](TODO) authentication service. Then, start playing with our system!  The implementation of our API is [publicly disclosed](https://github.com/hei-school/hei-admin-api). You are welcome to try and compromise it. Happy hacking!
+ * _Programmatically connect to a computer programming [school](https://hei.school)._ After [joining us](mailto:contact@hei.school), you can get an identification token from our [dev](https://dev-hei-admin.auth.eu-west-3.amazoncognito.com/oauth2/authorize?client_id=5s8cg50doahmu855rlc8fr6qmp&response_type=token&scope=email+openid&redirect_uri=https%3A%2F%2Fapi-dev.hei.school%2Fwhoami) or [prod](https://prod-hei-admin.auth.eu-west-3.amazoncognito.com/oauth2/authorize?client_id=i8bg538jpfu6mqmqb61m26trd&response_type=token&scope=email+openid&redirect_uri=https%3A%2F%2Fapi-prod.hei.school%2Fwhoami) authentication service. Then, start playing with our system!  The implementation of our API is [publicly disclosed](https://github.com/hei-school/hei-admin-api). You are welcome to try and compromise it. Happy hacking!
  *
  * The version of the OpenAPI document: 1.0
  *
@@ -98,7 +98,7 @@ export interface CreateFee {
    * @type {string}
    * @memberof CreateFee
    */
-  studentId?: string
+  student_id?: string
   /**
    *
    * @type {string}
@@ -157,7 +157,7 @@ export interface CreatePayment {
    * @type {string}
    * @memberof CreatePayment
    */
-  fix_reason?: string
+  comment?: string
   /**
    *
    * @type {string}
@@ -224,7 +224,13 @@ export interface Fee {
    * @type {string}
    * @memberof Fee
    */
-  studentId?: string
+  comment?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Fee
+   */
+  student_id?: string
   /**
    *
    * @type {string}
@@ -458,7 +464,7 @@ export interface Payment {
    * @type {string}
    * @memberof Payment
    */
-  fix_reason?: string
+  comment?: string
   /**
    *
    * @type {string}
@@ -840,7 +846,7 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     createStudentFees: async (studentId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
       assertParamExists('createStudentFees', 'studentId', studentId)
-      const localVarPath = `/students/{studentId}/fees`.replace(`{${'studentId'}}`, encodeURIComponent(String(studentId)))
+      const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -878,9 +884,9 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       assertParamExists('createStudentPayments', 'studentId', studentId)
       // verify required parameter 'feeId' is not null or undefined
       assertParamExists('createStudentPayments', 'feeId', feeId)
-      const localVarPath = `/students/{studentId}/fees/{feeId}/payments`
-        .replace(`{${'studentId'}}`, encodeURIComponent(String(studentId)))
-        .replace(`{${'feeId'}}`, encodeURIComponent(String(feeId)))
+      const localVarPath = `/students/{student_id}/fees/{fee_id}/payments`
+        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -918,9 +924,9 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       assertParamExists('getStudentFeeById', 'studentId', studentId)
       // verify required parameter 'feeId' is not null or undefined
       assertParamExists('getStudentFeeById', 'feeId', feeId)
-      const localVarPath = `/students/{studentId}/fees/{feeId}`
-        .replace(`{${'studentId'}}`, encodeURIComponent(String(studentId)))
-        .replace(`{${'feeId'}}`, encodeURIComponent(String(feeId)))
+      const localVarPath = `/students/{student_id}/fees/{fee_id}`
+        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -955,7 +961,7 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     getStudentFees: async (studentId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
       assertParamExists('getStudentFees', 'studentId', studentId)
-      const localVarPath = `/students/{studentId}/fees`.replace(`{${'studentId'}}`, encodeURIComponent(String(studentId)))
+      const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -993,9 +999,9 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       assertParamExists('getStudentPayments', 'studentId', studentId)
       // verify required parameter 'feeId' is not null or undefined
       assertParamExists('getStudentPayments', 'feeId', feeId)
-      const localVarPath = `/students/{studentId}/fees/{feeId}/payments`
-        .replace(`{${'studentId'}}`, encodeURIComponent(String(studentId)))
-        .replace(`{${'feeId'}}`, encodeURIComponent(String(feeId)))
+      const localVarPath = `/students/{student_id}/fees/{fee_id}/payments`
+        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -2068,10 +2074,20 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {string} [ref]
+     * @param {string} [firstName]
+     * @param {string} [lastName]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudents: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getStudents: async (
+      page?: number,
+      pageSize?: number,
+      ref?: string,
+      firstName?: string,
+      lastName?: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/students`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -2094,6 +2110,18 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 
       if (pageSize !== undefined) {
         localVarQueryParameter['page_size'] = pageSize
+      }
+
+      if (ref !== undefined) {
+        localVarQueryParameter['ref'] = ref
+      }
+
+      if (firstName !== undefined) {
+        localVarQueryParameter['first_name'] = firstName
+      }
+
+      if (lastName !== undefined) {
+        localVarQueryParameter['last_name'] = lastName
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -2145,10 +2173,20 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {string} [ref]
+     * @param {string} [firstName]
+     * @param {string} [lastName]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getTeachers: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getTeachers: async (
+      page?: number,
+      pageSize?: number,
+      ref?: string,
+      firstName?: string,
+      lastName?: string,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/teachers`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -2171,6 +2209,18 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
 
       if (pageSize !== undefined) {
         localVarQueryParameter['page_size'] = pageSize
+      }
+
+      if (ref !== undefined) {
+        localVarQueryParameter['ref'] = ref
+      }
+
+      if (firstName !== undefined) {
+        localVarQueryParameter['first_name'] = firstName
+      }
+
+      if (lastName !== undefined) {
+        localVarQueryParameter['last_name'] = lastName
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -2263,15 +2313,21 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {string} [ref]
+     * @param {string} [firstName]
+     * @param {string} [lastName]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getStudents(
       page?: number,
       pageSize?: number,
+      ref?: string,
+      firstName?: string,
+      lastName?: string,
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudents(page, pageSize, options)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudents(page, pageSize, ref, firstName, lastName, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -2290,15 +2346,21 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {string} [ref]
+     * @param {string} [firstName]
+     * @param {string} [lastName]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getTeachers(
       page?: number,
       pageSize?: number,
+      ref?: string,
+      firstName?: string,
+      lastName?: string,
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getTeachers(page, pageSize, options)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getTeachers(page, pageSize, ref, firstName, lastName, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
@@ -2367,11 +2429,14 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {string} [ref]
+     * @param {string} [firstName]
+     * @param {string} [lastName]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudents(page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Student>> {
-      return localVarFp.getStudents(page, pageSize, options).then(request => request(axios, basePath))
+    getStudents(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: any): AxiosPromise<Array<Student>> {
+      return localVarFp.getStudents(page, pageSize, ref, firstName, lastName, options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -2388,11 +2453,14 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {string} [ref]
+     * @param {string} [firstName]
+     * @param {string} [lastName]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getTeachers(page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Teacher>> {
-      return localVarFp.getTeachers(page, pageSize, options).then(request => request(axios, basePath))
+    getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: any): AxiosPromise<Array<Teacher>> {
+      return localVarFp.getTeachers(page, pageSize, ref, firstName, lastName, options).then(request => request(axios, basePath))
     }
   }
 }
@@ -2480,13 +2548,16 @@ export class UsersApi extends BaseAPI {
    * @summary Get all students
    * @param {number} [page]
    * @param {number} [pageSize]
+   * @param {string} [ref]
+   * @param {string} [firstName]
+   * @param {string} [lastName]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UsersApi
    */
-  public getStudents(page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+  public getStudents(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: AxiosRequestConfig) {
     return UsersApiFp(this.configuration)
-      .getStudents(page, pageSize, options)
+      .getStudents(page, pageSize, ref, firstName, lastName, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -2509,13 +2580,16 @@ export class UsersApi extends BaseAPI {
    * @summary Get all teachers
    * @param {number} [page]
    * @param {number} [pageSize]
+   * @param {string} [ref]
+   * @param {string} [firstName]
+   * @param {string} [lastName]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UsersApi
    */
-  public getTeachers(page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+  public getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: AxiosRequestConfig) {
     return UsersApiFp(this.configuration)
-      .getTeachers(page, pageSize, options)
+      .getTeachers(page, pageSize, ref, firstName, lastName, options)
       .then(request => request(this.axios, this.basePath))
   }
 }
