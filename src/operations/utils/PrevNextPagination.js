@@ -17,7 +17,7 @@ const PrevNextPagination = props => {
   const { page, data, loaded, loading, setPage, setPerPage } = useListContext()
   haSetPerPage(setPerPage, setPage, page)
   const resourcesCount = Object.keys(data).length
-  if (!lastPage && loaded && !loading && resourcesCount === 0) {
+  if (!lastPage && lastPage !== 0 /* TODO(empty-pages): test! */ && loaded && !loading && resourcesCount === 0) {
     lastPage = page - 1
     setLastPage(lastPage)
     setPage(lastPage)

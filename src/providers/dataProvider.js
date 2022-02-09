@@ -12,13 +12,16 @@ const dataProvider = {
     conf.accessToken = authProvider.getToken()
     const usersApi = new UsersApi(conf)
     const pagination = params.pagination
+    const page = pagination.page === 0 ? 1 /* TODO(empty-pages) */ : pagination.page
+    const perPage = pagination.perPage
+    const filter = params.filter
     if (resource === 'teachers') {
-      return usersApi.getTeachers(pagination.page, pagination.perPage).then(result => {
+      return usersApi.getTeachers(page, perPage, filter.ref, filter.first_name, filter.last_name).then(result => {
         return { data: result.data, total: maxTotal }
       })
     }
     if (resource === 'students') {
-      return usersApi.getStudents(pagination.page, pagination.perPage).then(result => {
+      return usersApi.getStudents(page, perPage, filter.ref, filter.first_name, filter.last_name).then(result => {
         return { data: result.data, total: maxTotal }
       })
     }
