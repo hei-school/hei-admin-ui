@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route } from 'react-router-dom'
 import { Admin, Resource } from 'react-admin'
 
@@ -17,7 +16,6 @@ import studentGrades from './operations/studentGrades'
 import MyLayout from './HaLayout'
 import HaLoginPage from './HaLoginPage'
 import { mainTheme } from './haTheme'
-import CompletePassword from './operations/security/CompletePassword'
 
 const App = () => (
   <Admin
@@ -29,8 +27,7 @@ const App = () => (
     loginPage={HaLoginPage}
     layout={MyLayout}
     customRoutes={[
-      <Route key='profile' exact path='/profile' component={profile.show} />,
-      <Route key='complete-password' exact path='/complete-password' component={CompletePassword} />
+      <Route key='profile' exact path='/profile' component={profile.show} />
     ]}
   >
     {permissions => {

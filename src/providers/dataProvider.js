@@ -21,7 +21,37 @@ const dataProvider = {
     return getProvider(resource).getList(page, perPage, filter)
   },
   getOne(resource, params) {
-    return getProvider(resource).getOne(params.id)
+    conf.accessToken = authProvider.getToken()
+    const usersApi = new UsersApi(conf)
+    const id = params.id
+    let role = sessionStorage.getItem('role')
+    if (resource === 'profile') {
+      if (role === 'STUDENT') {
+        return usersApi.getStudentById(id).then(result => {
+          return { data: result.data }
+        })
+      }
+      if (role === 'TEACHER') {
+        return usersApi.getTeacherById(id).then(result => {
+          return { data: result.data }
+        })
+      }
+      if (role === 'MANAGER') {
+        return usersApi.getManagerById(id).then(result => {
+          return { data: result.data }
+        })
+      }
+    }
+    if (resource === 'students') {
+      return usersApi.getStudentById(id).then(result => {
+        return { data: result.data }
+      })
+    }
+    if (resource === 'teachers') {
+      return usersApi.getTeacherById(id).then(result => {
+        return { data: result.data }
+      })
+    }
   },
   getMany(resource, params) {},
   getManyReference(resource, params) {},
