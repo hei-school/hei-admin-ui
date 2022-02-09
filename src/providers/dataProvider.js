@@ -13,7 +13,7 @@ const dataProvider = {
     const usersApi = new UsersApi(conf)
     const pagination = params.pagination
     const page = pagination.page === 0 ? 1 /* TODO(empty-pages) */ : pagination.page
-    const perPage = pagination.perPage
+    const perPage = pagination.perPage > 500 ? 500 : pagination.perPage //TODO: may be appropriate eslswhere? if here, put at least a warning
     const filter = params.filter
     if (resource === 'teachers') {
       return usersApi.getTeachers(page, perPage, filter.ref, filter.first_name, filter.last_name).then(result => {
