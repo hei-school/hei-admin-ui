@@ -30,7 +30,7 @@ const dataProvider = {
     conf.accessToken = authProvider.getToken()
     const usersApi = new UsersApi(conf)
     const id = params.id
-    let role = localStorage.getItem('role')
+    let role = sessionStorage.getItem('role')
     if (resource === 'profile') {
       if (role === 'STUDENT') {
         return usersApi.getStudentById(id).then(result => {
