@@ -1,9 +1,8 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { DateField, EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
 import { Typography } from '@material-ui/core'
 
 import { useAsync } from 'react-async'
-import { useState, useEffect } from 'react'
 import authProvider from '../../providers/authProvider'
 
 const ChangeRequest = () => (
@@ -15,15 +14,19 @@ const ChangeRequest = () => (
   </div>
 )
 
-const getPermission = async ({ authProvider }) => {
-  return await authProvider.getUserInformations()
-}
-
-export const ProfileLayout = props => {
+export const ProfileLayout = () => {
   const withRedWarning = text => <span style={{ color: 'red', fontWeight: 'bold' }}>{text}</span>
   const unexpectedValue = withRedWarning('?')
-  const sexRenderer = user => (user.sex === 'M' ? 'Homme' : user.sex === 'F' ? 'Femme' : unexpectedValue)
-  const statusRenderer = user => (user.status === 'ENABLED' ? 'Actif·ve' : user.status === 'DISABLED' ? withRedWarning('Suspendu·e') : unexpectedValue)
+  const sexRenderer = user => {
+    if (user.sex === 'M') return 'Homme'
+    if (user.sex === 'F') return 'Femme'
+    return unexpectedValue
+  }
+  const statusRenderer = user => {
+    if (user.status === 'ENABLED') return 'Actif·ve'
+    if (user.status === 'DISABLED') return 'Suspendu·e'
+    return unexpectedValue
+  }
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -41,7 +44,7 @@ export const ProfileLayout = props => {
 
 const ProfileShow = () => {
   const [id, setId] = useState()
-  const { data, isPending } = useAsync({ promiseFn: getPermission, authProvider: authProvider })
+  const { data, isPending } = useAsync({ promiseFn: authProvider.getUserInformations })
   useEffect(() => {
     if (!isPending && data) {
       setId(data.id)

@@ -19,8 +19,6 @@ const authProvider = {
       securityApi.whoami().then(response => {
         localStorage.setItem('role', '' + response.data.role)
       })
-      if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      }
     })
   },
 
