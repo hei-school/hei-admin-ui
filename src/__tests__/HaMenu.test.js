@@ -4,7 +4,7 @@ describe('HaMenu', () => {
   let screen
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
     jest.resetModules()
 
     // Jest requires modules to be reimported between tests
@@ -56,7 +56,7 @@ describe('HaMenu', () => {
 
     renderTestedComponent(initTestedComponent, useAsyncReturn)
 
-    expect(screen.findByText('Mon profil')).not.toBeNull
+    screen.getAllByText('Mon profil')
     screen.getAllByText('Étudiants')
   })
 

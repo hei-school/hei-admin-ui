@@ -5,7 +5,7 @@ import SchoolIcon from '@material-ui/icons/School'
 
 export const HaTeacherMenu = props => (
   <Menu {...props}>
-    <MenuItemLink replace to='/profile' primaryText='Mon Profil' leftIcon={<AccountCircleIcon />} />
+    <MenuItemLink replace to='/profile' primaryText='Mon profil' leftIcon={<AccountCircleIcon />} />
     <MenuItemLink replace to='/students' primaryText='Étudiants' leftIcon={<SchoolIcon />} />
   </Menu>
 )

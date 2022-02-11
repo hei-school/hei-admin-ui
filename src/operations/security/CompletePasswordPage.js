@@ -89,9 +89,9 @@ const CompletePasswordForm = () => {
 }
 const CompletePasswordPage = () => {
   return (
-      <center style={{ paddingTop: '10%' }}>
-        <CompletePasswordForm />
-      </center>
+    <center style={{ paddingTop: '10%' }}>
+      <CompletePasswordForm />
+    </center>
   )
 }
 export default CompletePasswordPage
