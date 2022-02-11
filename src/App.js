@@ -27,9 +27,7 @@ const App = () => (
     theme={mainTheme}
     loginPage={HaLoginPage}
     layout={MyLayout}
-    customRoutes={[
-      <Route key='profile' exact path='/profile' component={profile.show} />
-    ]}
+    customRoutes={[<Route key='profile' exact path='/profile' component={profile.show} />]}
   >
     {permissions => {
       // https://marmelab.com/react-admin/doc/3.4/Authorization.html#restricting-access-to-resources-or-views

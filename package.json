@@ -29,7 +29,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "DEBUG_PRINT_LIMIT=100000 TZ=UTC jest --no-cache --runInBand",
+    "test": "DEBUG_PRINT_LIMIT=100000 TZ=UTC jest --no-cache --runInBand --verbose=true",
     "eject": "react-scripts eject"
   },
   "jest": {

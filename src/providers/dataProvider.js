@@ -1,10 +1,7 @@
-import { UsersApi, Configuration } from '../gen/haClient'
-import authProvider from './authProvider'
 import profileProvider from './profileProvider'
 import studentProvider from './studentProvider'
 import teacherProvider from './teacherProvider'
-
-const conf = new Configuration()
+import { usersApi } from './api'
 
 const getProvider = resource => {
   if (resource === 'profile') return profileProvider
@@ -21,43 +18,11 @@ const dataProvider = {
     return getProvider(resource).getList(page, perPage, filter)
   },
   getOne(resource, params) {
-    conf.accessToken = authProvider.getToken()
-    const usersApi = new UsersApi(conf)
-    const id = params.id
-    let role = sessionStorage.getItem('role')
-    if (resource === 'profile') {
-      if (role === 'STUDENT') {
-        return usersApi.getStudentById(id).then(result => {
-          return { data: result.data }
-        })
-      }
-      if (role === 'TEACHER') {
-        return usersApi.getTeacherById(id).then(result => {
-          return { data: result.data }
-        })
-      }
-      if (role === 'MANAGER') {
-        return usersApi.getManagerById(id).then(result => {
-          return { data: result.data }
-        })
-      }
-    }
-    if (resource === 'students') {
-      return usersApi.getStudentById(id).then(result => {
-        return { data: result.data }
-      })
-    }
-    if (resource === 'teachers') {
-      return usersApi.getTeacherById(id).then(result => {
-        return { data: result.data }
-      })
-    }
+    return getProvider(resource).getOne(params.id)
   },
   getMany(resource, params) {},
   getManyReference(resource, params) {},
   update(resource, params) {
-    conf.accessToken = authProvider.getToken()
-    const usersApi = new UsersApi(conf)
     if (resource === 'students') {
       return usersApi.createOrUpdateStudents([params.data]).then(result => {
         return { data: result.data[0] }
@@ -71,8 +36,6 @@ const dataProvider = {
   },
   updateMany(resource, params) {},
   create(resource, params) {
-    conf.accessToken = authProvider.getToken()
-    const usersApi = new UsersApi(conf)
     const user = params.data
 
     user.id = ''

@@ -114,7 +114,7 @@ const authProvider = {
 
   getToken: async () => {
     const session = await Auth.currentSession()
-    if(!session) {
+    if (!session) {
       return
     }
     return Promise.resolve(session.getIdToken().getJwtToken())
