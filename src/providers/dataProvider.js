@@ -1,36 +1,30 @@
 import { UsersApi, Configuration } from '../gen/haClient'
 import authProvider from './authProvider'
+import profileProvider from './profileProvider'
+import studentProvider from './studentProvider'
+import teacherProvider from './teacherProvider'
+
 const conf = new Configuration()
 
-// react-admin needs the total count to perform pagination
-// We do not want that for the sake of performance over large resources:
-// We use a prev-next pagination, exact total count will only be known when reaching last page.
-const maxTotal = Number.MAX_VALUE
+const getProvider = resource => {
+  if (resource === 'profile') return profileProvider
+  if (resource === 'students') return studentProvider
+  if (resource === 'teachers') return teacherProvider
+}
 
 const dataProvider = {
   getList(resource, params) {
-    conf.accessToken = authProvider.getToken()
-    const usersApi = new UsersApi(conf)
     const pagination = params.pagination
     const page = pagination.page === 0 ? 1 /* TODO(empty-pages) */ : pagination.page
     const perPage = pagination.perPage > 500 ? 500 : pagination.perPage //TODO: may be appropriate eslswhere? if here, put at least a warning
     const filter = params.filter
-    if (resource === 'teachers') {
-      return usersApi.getTeachers(page, perPage, filter.ref, filter.first_name, filter.last_name).then(result => {
-        return { data: result.data, total: maxTotal }
-      })
-    }
-    if (resource === 'students') {
-      return usersApi.getStudents(page, perPage, filter.ref, filter.first_name, filter.last_name).then(result => {
-        return { data: result.data, total: maxTotal }
-      })
-    }
+    return getProvider(resource).getList(page, perPage, filter)
   },
   getOne(resource, params) {
     conf.accessToken = authProvider.getToken()
     const usersApi = new UsersApi(conf)
     const id = params.id
-    let role = localStorage.getItem('role')
+    let role = sessionStorage.getItem('role')
     if (resource === 'profile') {
       if (role === 'STUDENT') {
         return usersApi.getStudentById(id).then(result => {

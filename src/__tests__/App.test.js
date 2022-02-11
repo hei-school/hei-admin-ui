@@ -19,7 +19,8 @@ describe('App', () => {
         logout: () => Promise.resolve(),
         checkAuth: () => (isAuthenticated ? Promise.resolve() : Promise.reject()),
         getIdentity: () => (isAuthenticated ? Promise.resolve('whoami.id') : Promise.reject()),
-        getPermissions: () => (isAuthenticated ? Promise.resolve(['whoami.role']) : Promise.reject())
+        getPermissions: () => (isAuthenticated ? Promise.resolve(['whoami.role']) : Promise.reject()),
+        getToken: () => Promise.resolve('dummy')
       }))
       const TestedComponent = initTestedComponent()
       RTL.render(<TestedComponent />)
