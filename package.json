@@ -40,7 +40,10 @@
     "transform": {
       "^.+\\.jsx?$": "babel-jest",
       "^.+\\.tsx?$": "ts-jest"
-    }
+    },
+    "restoreMocks": true,
+    "resetMocks": true,
+    "resetModules": false
   },
   "eslintConfig": {
     "extends": [
