@@ -3,9 +3,9 @@ import { TestContext } from 'ra-test'
 import { DataProviderContext } from 'ra-core'
 import { ThemeProvider } from '@material-ui/styles'
 
-import StudentList from '../operations/students/StudentList'
-
 jest.doMock('aws-amplify')
+const StudentList = require('../operations/students/StudentList').default
+
 jest.doMock('../providers/api', () => ({
   usersApi: {
     getStudents: () =>

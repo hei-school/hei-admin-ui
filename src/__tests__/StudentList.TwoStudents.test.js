@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import { TestContext } from 'ra-test'
 import { DataProviderContext } from 'ra-core'
 import { ThemeProvider } from '@material-ui/styles'
@@ -22,17 +22,17 @@ const dataProvider = require('../providers/dataProvider').default
 describe('StudentList', () => {
   it.skip('shows one page if two students', async () => {
     render(
-      <TestContext enableReducers>
-        <ThemeProvider theme={require('../haTheme').mainTheme}>
-          <DataProviderContext.Provider value={dataProvider}>
+      <DataProviderContext.Provider value={dataProvider}>
+        <TestContext enableReducers>
+          <ThemeProvider theme={require('../haTheme').mainTheme}>
             <StudentList resource='students' basePath='dummy' />
-          </DataProviderContext.Provider>
-        </ThemeProvider>
-      </TestContext>
+          </ThemeProvider>
+        </TestContext>
+      </DataProviderContext.Provider>
     )
 
     screen.getByText(/Page :\s+1/)
-    await waitFor(() => screen.getByText(/Taille :\s+2/))
+    screen.getByText(/Taille :\s+2/)
     expect(screen.queryByText('Précédent')).toBeNull()
   })
 })

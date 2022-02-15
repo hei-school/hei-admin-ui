@@ -24,14 +24,18 @@ const dataProvider = {
   getManyReference(resource, params) {},
   update(resource, params) {
     if (resource === 'students') {
-      return usersApi.createOrUpdateStudents([params.data]).then(result => {
-        return { data: result.data[0] }
-      })
+      return usersApi()
+        .createOrUpdateStudents([params.data])
+        .then(result => {
+          return { data: result.data[0] }
+        })
     }
     if (resource === 'teachers') {
-      return usersApi.createOrUpdateTeachers([params.data]).then(result => {
-        return { data: result.data[0] }
-      })
+      return usersApi()
+        .createOrUpdateTeachers([params.data])
+        .then(result => {
+          return { data: result.data[0] }
+        })
     }
   },
   updateMany(resource, params) {},
@@ -42,14 +46,18 @@ const dataProvider = {
     user.status = 'ENABLED'
 
     if (resource === 'students') {
-      return usersApi.createOrUpdateStudents([user]).then(result => {
-        return { data: result.data[0] }
-      })
+      return usersApi()
+        .createOrUpdateStudents([user])
+        .then(result => {
+          return { data: result.data[0] }
+        })
     }
     if (resource === 'teachers') {
-      return usersApi.createOrUpdateTeachers([user]).then(result => {
-        return { data: result.data[0] }
-      })
+      return usersApi()
+        .createOrUpdateTeachers([user])
+        .then(result => {
+          return { data: result.data[0] }
+        })
     }
   },
   delete(resource, params) {},

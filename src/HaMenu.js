@@ -7,7 +7,7 @@ import { useAsync } from 'react-async'
 
 const HaMenu = () => {
   const [role, setRole] = useState()
-  const { data, isPending } = useAsync({ promiseFn: authProvider.getUserInformations })
+  const { data, isPending } = useAsync({ promiseFn: authProvider.whoami })
   useEffect(() => {
     if (!isPending && data) {
       setRole(data.role)
