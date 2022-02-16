@@ -8,6 +8,13 @@ const teacherProvider = {
   async getOne(id) {
     const result = await usersApi().getTeacherById(id)
     return { data: result.data }
+  },
+  async saveOrUpdate(users) {
+    return usersApi()
+      .createOrUpdateTeachers(users)
+      .then(result => {
+        return { data: result.data[0] }
+      })
   }
 }
 

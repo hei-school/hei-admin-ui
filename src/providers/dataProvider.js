@@ -1,7 +1,6 @@
 import profileProvider from './profileProvider'
 import studentProvider from './studentProvider'
 import teacherProvider from './teacherProvider'
-import { usersApi } from './api'
 
 const getProvider = resource => {
   if (resource === 'profile') return profileProvider
@@ -23,20 +22,7 @@ const dataProvider = {
   getMany(resource, params) {},
   getManyReference(resource, params) {},
   update(resource, params) {
-    if (resource === 'students') {
-      return usersApi()
-        .createOrUpdateStudents([params.data])
-        .then(result => {
-          return { data: result.data[0] }
-        })
-    }
-    if (resource === 'teachers') {
-      return usersApi()
-        .createOrUpdateTeachers([params.data])
-        .then(result => {
-          return { data: result.data[0] }
-        })
-    }
+    return getProvider(resource).saveOrUpdate([params.data])
   },
   updateMany(resource, params) {},
   create(resource, params) {
@@ -45,20 +31,7 @@ const dataProvider = {
     user.id = ''
     user.status = 'ENABLED'
 
-    if (resource === 'students') {
-      return usersApi()
-        .createOrUpdateStudents([user])
-        .then(result => {
-          return { data: result.data[0] }
-        })
-    }
-    if (resource === 'teachers') {
-      return usersApi()
-        .createOrUpdateTeachers([user])
-        .then(result => {
-          return { data: result.data[0] }
-        })
-    }
+    return getProvider(resource).saveOrUpdate([user])
   },
   delete(resource, params) {},
   deleteMany(resource, params) {}
