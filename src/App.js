@@ -33,12 +33,13 @@ const App = () => (
       // https://marmelab.com/react-admin/doc/3.4/Authorization.html#restricting-access-to-resources-or-views
       const permission = permissions[0]
       return [
+        <Resource name='profile' />,
+
         permission === 'MANAGER' && <Resource name='students' {...students} />,
         permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
 
         permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
 
-        <Resource name='profile' />,
 
         permission === 'STUDENT' && <Resource name='fees' {...fees} />,
         permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />

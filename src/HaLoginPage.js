@@ -42,7 +42,7 @@ const HaLoginPage = () => {
   const displayFull = useMediaQuery('(min-width:1024px) and (min-height:768px)')
   const ResponsiveLogin = () => <Login backgroundImage={null} style={{ backgroundImage: 'inherit' }} />
   const ResponsiveCompletePassword = () => <CompletePasswordPage style={{ backgroundImage: 'inherit' }} />
-  const PasswordChangeableLogin = () => (authProvider.isNewPassword() ? <ResponsiveCompletePassword /> : <ResponsiveLogin />)
+  const PasswordChangeableLogin = () => (authProvider.isTemporaryPassword() ? <ResponsiveCompletePassword /> : <ResponsiveLogin />)
 
   return (
     <div

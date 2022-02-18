@@ -8,7 +8,6 @@ const StudentCreate = props => (
       <TextInput source='ref' label='Référence' fullWidth={true} />
       <TextInput source='first_name' label='Prénoms' fullWidth={true} />
       <TextInput source='last_name' label='Nom' fullWidth={true} />
-      <TextInput source='sex' label='Sexe' fullWidth={true} />
       <SexRadioButton />
       <TextInput source='phone' label='Téléphone' fullWidth={true} />
       <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />

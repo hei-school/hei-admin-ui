@@ -7,10 +7,6 @@ import { AxiosResponse } from 'axios'
 
 Amplify.configure(awsExports)
 
-const isNewPasswordItem = 'isNewPassword'
-const newPasswordItemIsSet = 'isNewPasswordItemSet'
-const cognitoUsernameItem = 'cognitoUsername'
-const cognitoOldPasswordItem = 'cognitoPassword'
 const roleItem = 'role'
 const bearerItem = 'bearer'
 
@@ -30,7 +26,7 @@ const whoami = async (): Promise<Whoami> => {
     })
 }
 
-const cache = (whoami: Whoami): void => {
+const cacheWhoami = (whoami: Whoami): void => {
   sessionStorage.setItem(roleItem, whoami.role as string)
   sessionStorage.setItem(bearerItem, whoami.bearer as string)
 }
@@ -50,10 +46,9 @@ const authProvider = {
   login: async ({ username, password, clientMetadata }: Record<string, unknown>): Promise<void> => {
     const user = await Auth.signIn(username as string, password as string, clientMetadata as ClientMetaData)
     if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      sessionStorage.setItem(isNewPasswordItem, newPasswordItemIsSet)
-      sessionStorage.setItem(cognitoUsernameItem, username as string)
-      sessionStorage.setItem(cognitoOldPasswordItem, password as string)
-      window.location.reload()
+      const encodedUsername = encodeURIComponent(username as string)
+      const encodedPassword = encodeURIComponent(password as string)
+      window.location.replace(`/?isTemporaryPassword=true&username=${encodedUsername}&oldPassword=${encodedPassword}`)
     }
   },
 
@@ -66,7 +61,7 @@ const authProvider = {
   checkAuth: async (): Promise<void> => {
     const whoamiData = await whoami()
     if (whoamiData.id) {
-      cache(whoamiData)
+      cacheWhoami(whoamiData)
       return
     }
     throw new Error('Unauthorized')
@@ -80,17 +75,20 @@ const authProvider = {
 
   // --------------------- non-ra functions ----------------------------------------
 
-  isNewPassword: (): boolean => {
-    return sessionStorage.getItem(isNewPasswordItem) === newPasswordItemIsSet
+  isTemporaryPassword: (): boolean => {
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    return urlParams.get('isTemporaryPassword') === 'true'
   },
 
   setNewPassword: async (newPassword: string): Promise<void> => {
-    const username = sessionStorage.getItem(cognitoUsernameItem) as string
-    const oldPassword = sessionStorage.getItem(cognitoOldPasswordItem) as string
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const username = decodeURIComponent(urlParams.get('username') as string)
+    const oldPassword = decodeURIComponent(urlParams.get('oldPassword') as string)
     const user = await Auth.signIn(username, oldPassword)
-    Auth.completeNewPassword(user, newPassword)
-    sessionStorage.clear()
-    window.location.reload()
+    await Auth.completeNewPassword(user, newPassword)
+    window.location.replace('/')
   },
 
   whoami: whoami,
