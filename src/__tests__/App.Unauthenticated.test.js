@@ -9,7 +9,7 @@ jest.doMock('../providers/authProvider', () => ({
   getIdentity: () => Promise.reject(),
   getPermissions: () => Promise.reject(),
   getCachedAuthConf: jest.fn(),
-  isNewPassword: () => false
+  isTemporaryPassword: () => false
 }))
 const App = require('../App').default
 
