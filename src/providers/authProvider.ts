@@ -9,6 +9,9 @@ Amplify.configure(awsExports)
 
 const roleItem = 'role'
 const bearerItem = 'bearer'
+const isTemporaryPassword = 't'
+const usernameUrl = 'u'
+const temporaryPassword = 'p'
 
 const whoami = async (): Promise<Whoami> => {
   const session = await Auth.currentSession()
@@ -46,9 +49,9 @@ const authProvider = {
   login: async ({ username, password, clientMetadata }: Record<string, unknown>): Promise<void> => {
     const user = await Auth.signIn(username as string, password as string, clientMetadata as ClientMetaData)
     if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      const encodedUsername = encodeURIComponent(username as string)
-      const encodedPassword = encodeURIComponent(password as string)
-      window.location.replace(`/?isTemporaryPassword=true&username=${encodedUsername}&oldPassword=${encodedPassword}`)
+      const encodedUsername = encodeURIComponent(Buffer.from(username as any).toString('base64'))
+      const encodedPassword = encodeURIComponent(Buffer.from(password as any).toString('base64'))
+      window.location.replace(`/?${isTemporaryPassword}=true&${usernameUrl}=${encodedUsername}&${temporaryPassword}=${encodedPassword}`)
     }
   },
 
@@ -78,14 +81,14 @@ const authProvider = {
   isTemporaryPassword: (): boolean => {
     const queryString = window.location.search
     const urlParams = new URLSearchParams(queryString)
-    return urlParams.get('isTemporaryPassword') === 'true'
+    return urlParams.get(isTemporaryPassword) === 'true'
   },
 
   setNewPassword: async (newPassword: string): Promise<void> => {
     const queryString = window.location.search
     const urlParams = new URLSearchParams(queryString)
-    const username = decodeURIComponent(urlParams.get('username') as string)
-    const oldPassword = decodeURIComponent(urlParams.get('oldPassword') as string)
+    const username = Buffer.from(decodeURIComponent(urlParams.get(usernameUrl) as string), 'base64').toString('ascii') as string
+    const oldPassword = Buffer.from(decodeURIComponent(urlParams.get(temporaryPassword) as string), 'base64').toString('ascii') as string
     const user = await Auth.signIn(username, oldPassword)
     await Auth.completeNewPassword(user, newPassword)
     window.location.replace('/')
