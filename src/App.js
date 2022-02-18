@@ -40,7 +40,6 @@ const App = () => (
 
         permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
 
-
         permission === 'STUDENT' && <Resource name='fees' {...fees} />,
         permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />
       ]
