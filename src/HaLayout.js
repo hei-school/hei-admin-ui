@@ -1,7 +1,6 @@
-import React from 'react'
 import { Layout } from 'react-admin'
 import HaAppBar from './HaAppBar'
-import HaMenu from './HaMenu'
+import HaMenu from './menu/HaMenu'
 import HaNotification from './HaNotification'
 
 const HaLayout = props => {

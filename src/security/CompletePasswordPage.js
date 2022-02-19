@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import authProvider from '../../providers/authProvider'
+import authProvider from '../providers/authProvider'
 import { makeStyles } from '@material-ui/core/styles'
 
 const useStyles = makeStyles({
