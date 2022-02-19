@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
-import authProvider from './providers/authProvider'
-import HaStudentMenu from './HaStudentMenu'
-import HaManagerMenu from './HaManagerMenu'
-import HaTeacherMenu from './HaTeacherMenu'
+import { useState, useEffect } from 'react'
+import authProvider from '../providers/authProvider'
+import StudentMenu from './StudentMenu'
+import ManagerMenu from './ManagerMenu'
+import TeacherMenu from './TeacherMenu'
 import { useAsync } from 'react-async'
 
 const HaMenu = () => {
@@ -15,13 +15,13 @@ const HaMenu = () => {
   }, [isPending, data])
 
   if (role === 'STUDENT') {
-    return <HaStudentMenu />
+    return <StudentMenu />
   }
   if (role === 'MANAGER') {
-    return <HaManagerMenu />
+    return <ManagerMenu />
   }
   if (role === 'TEACHER') {
-    return <HaTeacherMenu />
+    return <TeacherMenu />
   }
   return <></>
 }

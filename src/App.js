@@ -15,7 +15,7 @@ import fees from './operations/fees'
 import studentGrades from './operations/studentGrades'
 
 import MyLayout from './HaLayout'
-import HaLoginPage from './HaLoginPage'
+import HaLoginPage from './security/LoginPage'
 import { mainTheme } from './haTheme'
 
 const App = () => (

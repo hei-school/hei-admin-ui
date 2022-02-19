@@ -40,7 +40,7 @@ describe('HaMenu', () => {
   })
 
   it('displays correct student menu', async () => {
-    const initTestedComponent = () => require('../HaMenu').default
+    const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'STUDENT' }, isPending: false }
 
     renderTestedComponent(initTestedComponent, useAsyncReturn)
@@ -51,7 +51,7 @@ describe('HaMenu', () => {
   })
 
   it('displays correct teacher menu', async () => {
-    const initTestedComponent = () => require('../HaMenu').default
+    const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'TEACHER' }, isPending: false }
 
     renderTestedComponent(initTestedComponent, useAsyncReturn)
@@ -61,7 +61,7 @@ describe('HaMenu', () => {
   })
 
   it('displays correct manager menu', async () => {
-    const initTestedComponent = () => require('../HaMenu').default
+    const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'MANAGER' }, isPending: false }
 
     renderTestedComponent(initTestedComponent, useAsyncReturn)
