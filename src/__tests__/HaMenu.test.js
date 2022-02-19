@@ -1,6 +1,5 @@
 describe('HaMenu', () => {
   let renderTestedComponent
-  let userEvent
   let screen
 
   beforeEach(() => {
@@ -10,7 +9,6 @@ describe('HaMenu', () => {
     // Jest requires modules to be reimported between tests
     // so that mocks work properly https://github.com/facebook/jest/issues/3236
     const React = require('react')
-    userEvent = require('@testing-library/user-event').default
     const RTL = require('@testing-library/react')
     screen = RTL.screen
 
