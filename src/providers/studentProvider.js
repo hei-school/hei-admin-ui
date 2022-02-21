@@ -11,7 +11,7 @@ const studentProvider = {
   },
   async saveOrUpdate(users) {
     return usersApi()
-      .createOrUpdateTeachers(users)
+      .createOrUpdateStudents(users)
       .then(result => {
         return { data: result.data[0] }
       })
