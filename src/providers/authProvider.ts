@@ -1,124 +1,108 @@
 import { ClientMetaData } from '@aws-amplify/auth/lib-esm/types'
 import { Amplify } from 'aws-amplify'
-import { Auth, CognitoUser } from '@aws-amplify/auth'
+import { Auth } from '@aws-amplify/auth'
 import awsExports from '../aws-exports'
 import { Configuration, SecurityApi, Whoami } from '../gen/haClient'
 import { AxiosResponse } from 'axios'
 
 Amplify.configure(awsExports)
 
-const isNewPasswordItem = 'isNewPasswordItem'
-const newPasswordItemIsSet = 'newPasswordItemIsSet'
-const cognitoUsernameItem = 'cognitoUsernameItem'
-const cognitoOldPasswordItem = 'cognitoPasswordItem'
+const roleItem = 'role'
+const bearerItem = 'bearer'
+const paramIsTemporaryPassword = 't'
+const paramUsername = 'u'
+const paramTemporaryPassword = 'p'
+
+const whoami = async (): Promise<Whoami> => {
+  const session = await Auth.currentSession()
+  const conf = new Configuration()
+  conf.accessToken = session.getIdToken().getJwtToken()
+  const securityApi = new SecurityApi(conf)
+  return securityApi
+    .whoami()
+    .then((response: AxiosResponse<Whoami>) => {
+      return response.data
+    })
+    .catch(error => {
+      console.error(error)
+      return {}
+    })
+}
+
+const toBase64 = (param: string) => Buffer.from(param).toString('base64')
+
+const fromBase64 = (param: string) => Buffer.from(param, 'base64').toString('ascii')
+
+const cacheWhoami = (whoami: Whoami): void => {
+  sessionStorage.setItem(roleItem, whoami.role as string)
+  sessionStorage.setItem(bearerItem, whoami.bearer as string)
+}
+
+const getCachedRole = () => sessionStorage.getItem(roleItem) as string
+
+const getCachedAuthConf = (): Configuration => {
+  const conf = new Configuration()
+  conf.accessToken = sessionStorage.getItem(bearerItem) as string
+  return conf
+}
 
 const authProvider = {
+  // --------------------- ra functions -------------------------------------------
   // https://marmelab.com/react-admin/Authentication.html#anatomy-of-an-authprovider
 
-  isNewPassword: (): boolean => {
-    return sessionStorage.getItem(isNewPasswordItem) === newPasswordItemIsSet
-  },
-
-  setNewPassword: async (newPassword: string): Promise<void> => {
-    const username = sessionStorage.getItem(cognitoUsernameItem) as string
-    const oldPassword = sessionStorage.getItem(cognitoOldPasswordItem) as string
-    const user = await Auth.signIn(username, oldPassword)
-    Auth.completeNewPassword(user, newPassword)
-    sessionStorage.clear()
-    window.location.reload()
-  },
-
-  login: ({ username, password, clientMetadata }: Record<string, unknown>): Promise<CognitoUser | unknown> => {
-    return Auth.signIn(username as string, password as string, clientMetadata as ClientMetaData).then(user => {
-      if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-        sessionStorage.setItem(isNewPasswordItem, newPasswordItemIsSet)
-        sessionStorage.setItem(cognitoUsernameItem, username as string)
-        sessionStorage.setItem(cognitoOldPasswordItem, password as string)
-        window.location.reload()
-      }
-      const session = user.getSignInUserSession()
-      const conf = new Configuration()
-      conf.accessToken = session.getIdToken().getJwtToken()
-      const securityApi = new SecurityApi(conf)
-      securityApi.whoami().then(response => {
-        sessionStorage.setItem('role', '' + response.data.role)
-      })
-    })
+  login: async ({ username, password, clientMetadata }: Record<string, unknown>): Promise<void> => {
+    const user = await Auth.signIn(username as string, password as string, clientMetadata as ClientMetaData)
+    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+      const encodedUsername = encodeURIComponent(toBase64(username as string))
+      const encodedPassword = encodeURIComponent(toBase64(password as string))
+      window.location.replace(`/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`)
+    }
   },
 
   logout: async (): Promise<void> => {
+    localStorage.clear() // Amplify stores data in localStorage
     sessionStorage.clear()
-    localStorage.clear()
     await Auth.signOut()
   },
 
   checkAuth: async (): Promise<void> => {
-    const session = await Auth.currentSession()
-    if (session && session.getIdToken()) {
+    const whoamiData = await whoami()
+    if (whoamiData.id) {
+      cacheWhoami(whoamiData)
       return
     }
     throw new Error('Unauthorized')
   },
 
-  checkError: async (): Promise<void> => {
-    Promise.resolve()
+  checkError: async () => Promise.resolve(),
+
+  getIdentity: async () => (await whoami()).id,
+
+  getPermissions: async () => [(await whoami()).role],
+
+  // --------------------- non-ra functions ----------------------------------------
+
+  isTemporaryPassword: (): boolean => {
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    return urlParams.get(paramIsTemporaryPassword) === 'true'
   },
 
-  getIdentity: async (): Promise<string> => {
-    const session = await Auth.currentSession()
-    const conf = new Configuration()
-    conf.accessToken = session.getIdToken().getJwtToken()
-    const securityApi = new SecurityApi(conf)
-    return securityApi
-      .whoami()
-      .then((whoami: AxiosResponse<Whoami>) => {
-        return [whoami.data.id]
-      })
-      .catch((error: any) => {
-        console.error(error)
-        return error //TODO
-      })
+  setNewPassword: async (newPassword: string): Promise<void> => {
+    const queryString = window.location.search
+    const urlParams = new URLSearchParams(queryString)
+    const username = fromBase64(decodeURIComponent(urlParams.get(paramUsername) as string)) as string
+    const temporaryPassword = fromBase64(decodeURIComponent(urlParams.get(paramTemporaryPassword) as string)) as string
+    const user = await Auth.signIn(username, temporaryPassword)
+    await Auth.completeNewPassword(user, newPassword)
+    window.location.replace('/')
   },
 
-  getUserInformations: async () => {
-    const session = await Auth.currentSession()
-    const conf = new Configuration()
-    conf.accessToken = session.getIdToken().getJwtToken()
-    const securityApi = new SecurityApi(conf)
-    return securityApi
-      .whoami()
-      .then((whoami: AxiosResponse<Whoami>) => {
-        return { id: whoami.data.id, role: whoami.data.role }
-      })
-      .catch((error: any) => {
-        console.error(error)
-        return error //TODO
-      })
-  },
+  whoami: whoami,
 
-  getPermissions: async (): Promise<string[]> => {
-    const session = await Auth.currentSession()
-    const conf = new Configuration()
-    conf.accessToken = session.getIdToken().getJwtToken()
-    const securityApi = new SecurityApi(conf)
-    return securityApi
-      .whoami()
-      .then((whoami: AxiosResponse<Whoami>) => {
-        return [whoami.data.role]
-      })
-      .catch((error: any) => {
-        console.error(error)
-        return error //TODO
-      })
-  },
+  getCachedRole: getCachedRole,
 
-  getToken: async () => {
-    const session = await Auth.currentSession()
-    if(!session) {
-      return
-    }
-    return Promise.resolve(session.getIdToken().getJwtToken())
-  }
+  getCachedAuthConf: getCachedAuthConf
 }
 
 export default authProvider

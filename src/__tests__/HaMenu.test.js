@@ -1,16 +1,14 @@
 describe('HaMenu', () => {
   let renderTestedComponent
-  let userEvent
   let screen
 
   beforeEach(() => {
-    jest.clearAllMocks()
+    jest.resetAllMocks()
     jest.resetModules()
 
     // Jest requires modules to be reimported between tests
     // so that mocks work properly https://github.com/facebook/jest/issues/3236
     const React = require('react')
-    userEvent = require('@testing-library/user-event').default
     const RTL = require('@testing-library/react')
     screen = RTL.screen
 
@@ -40,7 +38,7 @@ describe('HaMenu', () => {
   })
 
   it('displays correct student menu', async () => {
-    const initTestedComponent = () => require('../HaMenu').default
+    const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'STUDENT' }, isPending: false }
 
     renderTestedComponent(initTestedComponent, useAsyncReturn)
@@ -51,17 +49,17 @@ describe('HaMenu', () => {
   })
 
   it('displays correct teacher menu', async () => {
-    const initTestedComponent = () => require('../HaMenu').default
+    const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'TEACHER' }, isPending: false }
 
     renderTestedComponent(initTestedComponent, useAsyncReturn)
 
-    expect(screen.findByText('Mon profil')).not.toBeNull
+    screen.getAllByText('Mon profil')
     screen.getAllByText('Étudiants')
   })
 
   it('displays correct manager menu', async () => {
-    const initTestedComponent = () => require('../HaMenu').default
+    const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'MANAGER' }, isPending: false }
 
     renderTestedComponent(initTestedComponent, useAsyncReturn)

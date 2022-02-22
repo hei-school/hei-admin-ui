@@ -1,10 +1,9 @@
-import React from 'react'
 import { Menu, MenuItemLink } from 'react-admin'
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import SchoolIcon from '@material-ui/icons/School'
 import WorkIcon from '@material-ui/icons/Work'
 
-export const HaManagerMenu = props => (
+export const ManagerMenu = props => (
   <Menu {...props}>
     <MenuItemLink replace to='/profile' primaryText='Mon profil' leftIcon={<AccountCircleIcon />} />
     <MenuItemLink replace to='/students' primaryText='Étudiants' leftIcon={<SchoolIcon />} />
@@ -12,4 +11,4 @@ export const HaManagerMenu = props => (
   </Menu>
 )
 
-export default HaManagerMenu
+export default ManagerMenu

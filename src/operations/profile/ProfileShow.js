@@ -44,7 +44,7 @@ export const ProfileLayout = () => {
 
 const ProfileShow = () => {
   const [id, setId] = useState()
-  const { data, isPending } = useAsync({ promiseFn: authProvider.getUserInformations })
+  const { data, isPending } = useAsync({ promiseFn: authProvider.whoami })
   useEffect(() => {
     if (!isPending && data) {
       setId(data.id)
