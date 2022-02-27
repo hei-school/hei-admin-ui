@@ -13,7 +13,7 @@ const ProfileEdit = props => (
       <TextInput multiline source='address' label='Adresse' fullWidth={true} />
       <SexRadioButton />
       <TextInput source='phone' label='Téléphone' fullWidth={true} />
-      <DateInput source='birth_date' label='Date de naissance' fullWidth={true}/>
+      <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
       <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} />
       <BooleanInput source='status' label='Actif·ve ?' fullWidth={true} />
     </SimpleForm>
