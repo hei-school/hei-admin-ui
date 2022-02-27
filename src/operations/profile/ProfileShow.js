@@ -33,6 +33,7 @@ export const ProfileLayout = () => {
       <TextField source='first_name' label='Prénom(s)' />
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
+      <TextField label='Téléphone' source='phone' />
       <DateField source='birth_date' label='Date de naissance' />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
