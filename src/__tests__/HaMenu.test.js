@@ -1,16 +1,9 @@
 describe('HaMenu', () => {
   let renderTestedComponent
-  let screen
 
   beforeEach(() => {
     jest.resetAllMocks()
     jest.resetModules()
-
-    // Jest requires modules to be reimported between tests
-    // so that mocks work properly https://github.com/facebook/jest/issues/3236
-    const React = require('react')
-    const RTL = require('@testing-library/react')
-    screen = RTL.screen
 
     renderTestedComponent = (initTestedComponent, useAsyncReturn) => {
       jest.doMock('aws-amplify')
@@ -19,9 +12,10 @@ describe('HaMenu', () => {
       }))
       // /!\ Module with mocked dependencies MUST be loaded only when mocks have been set
       const TestedComponent = initTestedComponent()
+      const { render } = require('@testing-library/react')
       const { TestContext } = require('ra-test')
       const { ThemeProvider } = require('@material-ui/styles')
-      RTL.render(
+      return render(
         <TestContext>
           <ThemeProvider theme={require('../haTheme').mainTheme}>
             <TestedComponent />
@@ -31,41 +25,35 @@ describe('HaMenu', () => {
     }
   })
 
-  afterEach(() => {
-    // "Failing to call cleanup could result in a memory leak and tests which are not idempotent"
-    // https://testing-library.com/docs/react-testing-library/api/#cleanup
-    require('@testing-library/react').cleanup()
-  })
-
   it('displays correct student menu', async () => {
     const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'STUDENT' }, isPending: false }
 
-    renderTestedComponent(initTestedComponent, useAsyncReturn)
+    const { getAllByText } = renderTestedComponent(initTestedComponent, useAsyncReturn)
 
-    screen.getAllByText('Mon profil')
-    screen.getAllByText('Frais')
-    screen.getAllByText('Notes')
+    getAllByText('Mon profil')
+    getAllByText('Frais')
+    getAllByText('Notes')
   })
 
   it('displays correct teacher menu', async () => {
     const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'TEACHER' }, isPending: false }
 
-    renderTestedComponent(initTestedComponent, useAsyncReturn)
+    const { getAllByText } = renderTestedComponent(initTestedComponent, useAsyncReturn)
 
-    screen.getAllByText('Mon profil')
-    screen.getAllByText('Étudiants')
+    getAllByText('Mon profil')
+    getAllByText('Étudiants')
   })
 
   it('displays correct manager menu', async () => {
     const initTestedComponent = () => require('../menu/HaMenu').default
     const useAsyncReturn = { data: { role: 'MANAGER' }, isPending: false }
 
-    renderTestedComponent(initTestedComponent, useAsyncReturn)
+    const { getAllByText } = renderTestedComponent(initTestedComponent, useAsyncReturn)
 
-    screen.getAllByText('Mon profil')
-    screen.getAllByText('Étudiants')
-    screen.getAllByText('Enseignants')
+    getAllByText('Mon profil')
+    getAllByText('Étudiants')
+    getAllByText('Enseignants')
   })
 })
