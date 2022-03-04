@@ -1,4 +1,3 @@
-import React from 'react'
 import { List, Datagrid, TextField, ShowButton, EditButton } from 'react-admin'
 import authProvider from '../../providers/authProvider'
 import { profileFilters } from '../profile'
@@ -12,8 +11,7 @@ const StudentList = props => {
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
-        <ShowButton />
-        {permission === 'MANAGER' && <EditButton />}
+        {permission === 'MANAGER' ? <EditButton /> : <ShowButton />}
       </Datagrid>
     </List>
   )
