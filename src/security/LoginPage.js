@@ -47,7 +47,7 @@ const HaLoginPage = () => {
   return (
     <div
       style={{
-        backgroundImage: 'url(/login-bg.jpg)',
+        backgroundImage: 'url(/login-bg100k.jpg)',
         backgroundSize: 'cover',
         position: 'fixed',
         padding: '0',

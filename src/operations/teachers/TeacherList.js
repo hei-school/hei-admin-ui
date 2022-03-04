@@ -1,5 +1,4 @@
-import React from 'react'
-import { List, Datagrid, TextField, ShowButton, EditButton } from 'react-admin'
+import { List, Datagrid, TextField, EditButton } from 'react-admin'
 import { profileFilters } from '../profile'
 import PrevNextPagination from '../utils/PrevNextPagination'
 
@@ -9,7 +8,6 @@ const TeacherList = props => (
       <TextField source='ref' label='Rérérence' />
       <TextField source='first_name' label='Prénom·s' />
       <TextField source='last_name' label='Nom·s' />
-      <ShowButton />
       <EditButton />
     </Datagrid>
   </List>
