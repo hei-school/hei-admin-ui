@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { DateField, EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
 import { Typography } from '@material-ui/core'
 

@@ -7,8 +7,19 @@ jest.doMock('../providers/authProvider', () => ({
   checkAuth: () => Promise.resolve(),
   getIdentity: () => Promise.resolve('whoami.id'),
   getPermissions: () => Promise.resolve(['TEACHER']),
+  whoami: () => Promise.resolve({ id: 'teacher1', role: 'TEACHER', bearer: 'bearer' }),
   getCachedAuthConf: jest.fn(),
+  getCachedRole: () => 'TEACHER',
   isTemporaryPassword: () => false
+}))
+jest.doMock('../providers/api', () => ({
+  usersApi: () => ({
+    getTeacherById: jest.fn().mockReturnValue(
+      Promise.resolve({
+        data: { id: 'teacher1', ref: 'ref1', first_name: 'first1', last_name: 'last1' }
+      })
+    )
+  })
 }))
 const App = require('../App').default
 
