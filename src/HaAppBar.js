@@ -10,7 +10,7 @@ const LogoutMenu = props => {
     window.location.reload()
   }
   return (
-    <div onClick={onClick}>
+    <div onClick={onClick} id='logout'>
       <Tooltip title='Se déconnecter'>
         <IconButton color='inherit'>
           <LockIcon />
