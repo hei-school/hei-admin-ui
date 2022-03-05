@@ -1,4 +1,3 @@
-import React from 'react'
 import { Show } from 'react-admin'
 import { ProfileLayout } from '../profile/ProfileShow'
 

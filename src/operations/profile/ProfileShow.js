@@ -30,7 +30,7 @@ export const ProfileLayout = () => {
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
-      <TextField source='first_name' label='Prénom(s)' />
+      <TextField source='first_name' id='first_name' label='Prénom(s)' />
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
       <TextField label='Téléphone' source='phone' />
