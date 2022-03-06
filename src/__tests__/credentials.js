@@ -7,3 +7,8 @@ export const teacher1 = {
   username: 'test+teacher1@hei.school',
   password: process.env.REACT_APP_TEST_TEACHER1_PASSWORD
 }
+
+export const manager1 = {
+  username: 'test+manager1@hei.school',
+  password: process.env.REACT_APP_TEST_MANAGER1_PASSWORD
+}
