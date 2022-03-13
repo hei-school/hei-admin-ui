@@ -1,10 +1,12 @@
 import Money from '@material-ui/icons/AttachMoney'
-import { ListGuesser, EditGuesser, ShowGuesser } from 'react-admin'
+import FeeList from './FeeList'
+import FeeShow from './FeeShow'
+import { EditGuesser } from 'react-admin'
 
 const fees = {
-  list: ListGuesser,
+  list: FeeList,
   edit: EditGuesser,
-  show: ShowGuesser,
+  show: FeeShow,
   icon: Money,
   options: { label: 'Frais' }
 }

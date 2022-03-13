@@ -90,6 +90,46 @@ export interface Course {
 /**
  *
  * @export
+ * @interface CreateDelayPenaltyChange
+ */
+export interface CreateDelayPenaltyChange {
+  /**
+   *
+   * @type {number}
+   * @memberof CreateDelayPenaltyChange
+   */
+  interest_percent?: number
+  /**
+   *
+   * @type {string}
+   * @memberof CreateDelayPenaltyChange
+   */
+  interest_timerate?: CreateDelayPenaltyChangeInterestTimerateEnum
+  /**
+   *
+   * @type {number}
+   * @memberof CreateDelayPenaltyChange
+   */
+  grace_delay?: number
+  /**
+   *
+   * @type {number}
+   * @memberof CreateDelayPenaltyChange
+   */
+  applicability_delay_after_grace?: number
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CreateDelayPenaltyChangeInterestTimerateEnum {
+  Daily = 'DAILY'
+}
+
+/**
+ *
+ * @export
  * @interface CreateFee
  */
 export interface CreateFee {
@@ -123,6 +163,12 @@ export interface CreateFee {
    * @memberof CreateFee
    */
   due_datetime?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateFee
+   */
+  comment?: string
 }
 
 /**
@@ -179,6 +225,69 @@ export enum CreatePaymentTypeEnum {
 /**
  *
  * @export
+ * @interface DelayPenalty
+ */
+export interface DelayPenalty {
+  /**
+   *
+   * @type {string}
+   * @memberof DelayPenalty
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof DelayPenalty
+   */
+  creation_datetime?: string
+  /**
+   *
+   * @type {number}
+   * @memberof DelayPenalty
+   */
+  interest_percent?: number
+  /**
+   *
+   * @type {string}
+   * @memberof DelayPenalty
+   */
+  interest_timerate?: DelayPenaltyInterestTimerateEnum
+  /**
+   *
+   * @type {number}
+   * @memberof DelayPenalty
+   */
+  grace_delay?: number
+  /**
+   *
+   * @type {number}
+   * @memberof DelayPenalty
+   */
+  applicability_delay_after_grace?: number
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum DelayPenaltyInterestTimerateEnum {
+  Daily = 'DAILY'
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export enum EnableStatus {
+  Enabled = 'ENABLED',
+  Disabled = 'DISABLED'
+}
+
+/**
+ *
+ * @export
  * @interface Exception
  */
 export interface Exception {
@@ -224,12 +333,6 @@ export interface Fee {
    * @type {string}
    * @memberof Fee
    */
-  comment?: string
-  /**
-   *
-   * @type {string}
-   * @memberof Fee
-   */
   student_id?: string
   /**
    *
@@ -255,6 +358,12 @@ export interface Fee {
    * @memberof Fee
    */
   due_datetime?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Fee
+   */
+  comment?: string
 }
 
 /**
@@ -393,10 +502,10 @@ export interface Manager {
   entrance_datetime?: string
   /**
    *
-   * @type {string}
+   * @type {EnableStatus}
    * @memberof Manager
    */
-  status?: ManagerStatusEnum
+  status?: EnableStatus
 }
 
 /**
@@ -406,14 +515,6 @@ export interface Manager {
 export enum ManagerSexEnum {
   M = 'M',
   F = 'F'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum ManagerStatusEnum {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
 }
 
 /**
@@ -570,10 +671,10 @@ export interface Student {
   entrance_datetime?: string
   /**
    *
-   * @type {string}
+   * @type {EnableStatus}
    * @memberof Student
    */
-  status?: StudentStatusEnum
+  status?: EnableStatus
 }
 
 /**
@@ -583,14 +684,6 @@ export interface Student {
 export enum StudentSexEnum {
   M = 'M',
   F = 'F'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum StudentStatusEnum {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
 }
 
 /**
@@ -661,10 +754,10 @@ export interface Teacher {
   entrance_datetime?: string
   /**
    *
-   * @type {string}
+   * @type {EnableStatus}
    * @memberof Teacher
    */
-  status?: TeacherStatusEnum
+  status?: EnableStatus
 }
 
 /**
@@ -674,14 +767,6 @@ export interface Teacher {
 export enum TeacherSexEnum {
   M = 'M',
   F = 'F'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum TeacherStatusEnum {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
 }
 
 /**
@@ -771,10 +856,10 @@ export interface User {
   entrance_datetime?: string
   /**
    *
-   * @type {string}
+   * @type {EnableStatus}
    * @memberof User
    */
-  status?: UserStatusEnum
+  status?: EnableStatus
 }
 
 /**
@@ -784,14 +869,6 @@ export interface User {
 export enum UserSexEnum {
   M = 'M',
   F = 'F'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum UserStatusEnum {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
 }
 
 /**
@@ -836,6 +913,44 @@ export enum WhoamiRoleEnum {
  */
 export const PayingApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
+    /**
+     *
+     * @summary Change current delay penalty configuration
+     * @param {CreateDelayPenaltyChange} createDelayPenaltyChange Delay penalties to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createDelayPenaltyChange: async (createDelayPenaltyChange: CreateDelayPenaltyChange, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'createDelayPenaltyChange' is not null or undefined
+      assertParamExists('createDelayPenaltyChange', 'createDelayPenaltyChange', createDelayPenaltyChange)
+      const localVarPath = `/delay_penalty_change`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(createDelayPenaltyChange, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
     /**
      *
      * @summary Create student fees
@@ -895,6 +1010,38 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       }
 
       const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
+     * @summary Get current delay penalty
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getDelayPenalty: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/delay_penalty`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
@@ -1038,6 +1185,20 @@ export const PayingApiFp = function (configuration?: Configuration) {
   return {
     /**
      *
+     * @summary Change current delay penalty configuration
+     * @param {CreateDelayPenaltyChange} createDelayPenaltyChange Delay penalties to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createDelayPenaltyChange(
+      createDelayPenaltyChange: CreateDelayPenaltyChange,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createDelayPenaltyChange(createDelayPenaltyChange, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
      * @summary Create student fees
      * @param {string} studentId
      * @param {*} [options] Override http request option.
@@ -1064,6 +1225,16 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CreatePayment>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentPayments(studentId, feeId, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Get current delay penalty
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getDelayPenalty(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getDelayPenalty(options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -1121,6 +1292,16 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
   return {
     /**
      *
+     * @summary Change current delay penalty configuration
+     * @param {CreateDelayPenaltyChange} createDelayPenaltyChange Delay penalties to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createDelayPenaltyChange(createDelayPenaltyChange: CreateDelayPenaltyChange, options?: any): AxiosPromise<DelayPenalty> {
+      return localVarFp.createDelayPenaltyChange(createDelayPenaltyChange, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
      * @summary Create student fees
      * @param {string} studentId
      * @param {*} [options] Override http request option.
@@ -1139,6 +1320,15 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      */
     createStudentPayments(studentId: string, feeId: string, options?: any): AxiosPromise<Array<CreatePayment>> {
       return localVarFp.createStudentPayments(studentId, feeId, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Get current delay penalty
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getDelayPenalty(options?: any): AxiosPromise<DelayPenalty> {
+      return localVarFp.getDelayPenalty(options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -1184,6 +1374,20 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
 export class PayingApi extends BaseAPI {
   /**
    *
+   * @summary Change current delay penalty configuration
+   * @param {CreateDelayPenaltyChange} createDelayPenaltyChange Delay penalties to create
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PayingApi
+   */
+  public createDelayPenaltyChange(createDelayPenaltyChange: CreateDelayPenaltyChange, options?: AxiosRequestConfig) {
+    return PayingApiFp(this.configuration)
+      .createDelayPenaltyChange(createDelayPenaltyChange, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
    * @summary Create student fees
    * @param {string} studentId
    * @param {*} [options] Override http request option.
@@ -1208,6 +1412,19 @@ export class PayingApi extends BaseAPI {
   public createStudentPayments(studentId: string, feeId: string, options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
       .createStudentPayments(studentId, feeId, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get current delay penalty
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PayingApi
+   */
+  public getDelayPenalty(options?: AxiosRequestConfig) {
+    return PayingApiFp(this.configuration)
+      .getDelayPenalty(options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -2074,9 +2291,9 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter students by ref, case is ignored
+     * @param {string} [firstName] Filter students by first name, case is ignored
+     * @param {string} [lastName] Filter students by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2173,9 +2390,9 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter teachers by ref, case is ignored
+     * @param {string} [firstName] Filter teachers by first name, case is ignored
+     * @param {string} [lastName] Filter teachers by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2313,9 +2530,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter students by ref, case is ignored
+     * @param {string} [firstName] Filter students by first name, case is ignored
+     * @param {string} [lastName] Filter students by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2346,9 +2563,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter teachers by ref, case is ignored
+     * @param {string} [firstName] Filter teachers by first name, case is ignored
+     * @param {string} [lastName] Filter teachers by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2429,9 +2646,9 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter students by ref, case is ignored
+     * @param {string} [firstName] Filter students by first name, case is ignored
+     * @param {string} [lastName] Filter students by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2453,9 +2670,9 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter teachers by ref, case is ignored
+     * @param {string} [firstName] Filter teachers by first name, case is ignored
+     * @param {string} [lastName] Filter teachers by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2548,9 +2765,9 @@ export class UsersApi extends BaseAPI {
    * @summary Get all students
    * @param {number} [page]
    * @param {number} [pageSize]
-   * @param {string} [ref]
-   * @param {string} [firstName]
-   * @param {string} [lastName]
+   * @param {string} [ref] Filter students by ref, case is ignored
+   * @param {string} [firstName] Filter students by first name, case is ignored
+   * @param {string} [lastName] Filter students by last name, case is ignored
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UsersApi
@@ -2580,9 +2797,9 @@ export class UsersApi extends BaseAPI {
    * @summary Get all teachers
    * @param {number} [page]
    * @param {number} [pageSize]
-   * @param {string} [ref]
-   * @param {string} [firstName]
-   * @param {string} [lastName]
+   * @param {string} [ref] Filter teachers by ref, case is ignored
+   * @param {string} [firstName] Filter teachers by first name, case is ignored
+   * @param {string} [lastName] Filter teachers by last name, case is ignored
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UsersApi

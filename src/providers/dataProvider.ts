@@ -2,11 +2,13 @@ import { HaDataProviderType } from './HaDataProviderType'
 import { RaDataProviderType } from './RaDataProviderType'
 import profileProvider from './profileProvider'
 import studentProvider from './studentProvider'
+import feeProvider from './feeProvider'
 import teacherProvider from './teacherProvider'
 
 const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'profile') return profileProvider
   if (resourceType === 'students') return studentProvider
+  if (resourceType === 'fees') return feeProvider
   if (resourceType === 'teachers') return teacherProvider
   throw new Error('Unexpected resourceType: ' + resourceType)
 }
