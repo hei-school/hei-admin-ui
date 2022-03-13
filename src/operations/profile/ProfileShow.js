@@ -5,6 +5,8 @@ import { Typography } from '@material-ui/core'
 import { useAsync } from 'react-async'
 import authProvider from '../../providers/authProvider'
 
+import { unexpectedValue } from '../utils/typography'
+
 const ChangeRequest = () => (
   <div style={{ width: 200, margin: '1em' }}>
     <Typography variant='h6'>Un changement ?</Typography>
@@ -15,8 +17,6 @@ const ChangeRequest = () => (
 )
 
 export const ProfileLayout = () => {
-  const withRedWarning = text => <span style={{ color: 'red', fontWeight: 'bold' }}>{text}</span>
-  const unexpectedValue = withRedWarning('?')
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
     if (user.sex === 'F') return 'Femme'
@@ -56,9 +56,7 @@ const ProfileShow = () => {
     <Show id={id} aside={<ChangeRequest />} resource='profile' basePath='/profile' title='Mon profil'>
       <ProfileLayout />
     </Show>
-  ) : (
-    <></>
-  )
+  ) : null
 }
 
 export default ProfileShow

@@ -1,4 +1,3 @@
-import React from 'react'
 import ProfileShow from './ProfileShow'
 import { TextInput } from 'react-admin'
 

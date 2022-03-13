@@ -1,4 +1,3 @@
-import React from 'react'
 import { Route } from 'react-router-dom'
 import { Admin, Resource } from 'react-admin'
 
@@ -27,7 +26,11 @@ const App = () => (
     theme={mainTheme}
     loginPage={HaLoginPage}
     layout={MyLayout}
-    customRoutes={[<Route key='profile' exact path='/profile' component={profile.show} />]}
+    customRoutes={[
+      <Route key='profile' exact path='/profile' component={profile.show} />,
+      <Route key='fees' exact path='/students/:studentId/fees' component={fees.list} />,
+      <Route key='fees' exact path='/students/:studentId/fees/:feeId/show' component={fees.show} />
+    ]}
   >
     {permissions => {
       // https://marmelab.com/react-admin/doc/3.4/Authorization.html#restricting-access-to-resources-or-views
@@ -36,11 +39,11 @@ const App = () => (
         <Resource name='profile' />,
 
         permission === 'MANAGER' && <Resource name='students' {...students} />,
+        permission === 'MANAGER' && <Resource name='fees' {...fees} />,
         permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
 
         permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
 
-        permission === 'STUDENT' && <Resource name='fees' {...fees} />,
         permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />
       ]
     }}
