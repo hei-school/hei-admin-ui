@@ -29,6 +29,7 @@ const App = () => (
     customRoutes={[
       <Route key='profile' exact path='/profile' component={profile.show} />,
       <Route key='fees' exact path='/students/:studentId/fees' component={fees.list} />,
+      <Route key='fees' exact path='/students/:studentId/fees/create' component={fees.create} />,
       <Route key='fees' exact path='/students/:studentId/fees/:feeId/show' component={fees.show} />
     ]}
   >
