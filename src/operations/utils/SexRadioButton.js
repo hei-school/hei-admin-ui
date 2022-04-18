@@ -1,7 +1,6 @@
-import React from 'react'
 import { RadioButtonGroupInput } from 'react-admin'
 
-const SexRadioButton = props => (
+const SexRadioButton = () => (
   <RadioButtonGroupInput
     source='sex'
     label='Sexe'

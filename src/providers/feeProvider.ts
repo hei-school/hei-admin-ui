@@ -9,7 +9,7 @@ const toApiIds = (raId: string) => {
 }
 
 const feeProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+  async getList(_page: number, _perPage: number, filter: any) {
     const result = await payingApi().getStudentFees(filter.studentId)
     return result.data.map(fee => ({
       ...fee,
@@ -21,7 +21,7 @@ const feeProvider: HaDataProviderType = {
     const result = await payingApi().getStudentFeeById(studentId, feeId)
     return { ...result.data, id: raId }
   },
-  async saveOrUpdate(users: Array<any>) {
+  async saveOrUpdate(_users: Array<any>) {
     throw new Error('Function not implemented.')
   }
 }

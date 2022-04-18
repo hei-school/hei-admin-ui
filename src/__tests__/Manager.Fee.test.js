@@ -12,18 +12,50 @@ describe(specTitle('Manager.Fee'), () => {
   })
 
   it('can detail late fee', () => {
-    // note(listAndFilterStudents)
+    // note(listFees)
     cy.get('button[title="Ouvrir le menu"').click()
-    cy.get('a[href="#/students"]').click() // Étudiants menu
+    cy.get('a[href="#/students"]').click()
     cy.get('button').contains('Suivant').click()
     cy.get('button[title="Ajouter un filtre"').click()
     cy.get('[data-key="last_name"]').click()
     cy.get('#last_name').type('quitzon')
-
     cy.contains('Quitzon').click()
     cy.get('[aria-label="fees"]').click()
 
     cy.contains('200,000 Ar').click()
     cy.contains('En retard')
+  })
+
+  it('cannot create fees when fields are missing', () => {
+    // note(listFees)
+    cy.get('button[title="Ouvrir le menu"').click()
+    cy.get('a[href="#/students"]').click()
+    cy.get('button').contains('Suivant').click()
+    cy.get('button[title="Ajouter un filtre"').click()
+    cy.get('[data-key="last_name"]').click()
+    cy.get('#last_name').type('quitzon')
+    cy.contains('Quitzon').click()
+    cy.get('[aria-label="fees"]').click()
+
+    cy.get('.MuiFab-root').click() // create fees
+    cy.contains('Enregistrer').click()
+
+    cy.contains("Le formulaire n'est pas valide")
+    cy.get('#monthly_amount-helper-text').contains('Ce champ est requis')
+    cy.get('#months_number-helper-text').contains('Ce champ est requis')
+    cy.get('#comment-helper-text').contains('Ce champ est requis')
+
+    // when predefined, fields are required
+    const typeHelperElt = ':nth-child(2) > .MuiFormControl-root > .MuiFormHelperText-root'
+    const creationDateHelperElt = ':nth-child(7) > .MuiFormControl-root > .MuiFormHelperText-root'
+    cy.get(typeHelperElt).contains('Ce champ est requis')
+    cy.get(creationDateHelperElt).contains('Ce champ est requis')
+
+    // when manual, fields are still required
+    cy.get('.MuiIconButton-label > #is_predefined_type').click()
+    cy.get('.MuiIconButton-label > #is_predefined_creation_date').click()
+    cy.contains('Enregistrer').click()
+    cy.get(typeHelperElt).contains('Ce champ est requis')
+    cy.get(creationDateHelperElt).contains('Ce champ est requis')
   })
 })

@@ -5,9 +5,12 @@ import { mainTheme } from '../../haTheme'
 import { prettyPrintMoney } from '../utils/money'
 
 const FeeList = props => {
-  const rowStyle = (record, index) => ({
-    backgroundColor: record.status === 'PAID' ? mainTheme.palette.grey[300] : record.status === 'LATE' ? mainTheme.palette.error.light : 'inherit'
-  })
+  const rowStyle = (record, _index) => {
+    const lateColor = record.status === 'LATE' ? mainTheme.palette.error.light : 'inherit'
+    return {
+      backgroundColor: record.status === 'PAID' ? mainTheme.palette.grey[300] : lateColor
+    }
+  }
 
   const studentId = props.match.params.studentId
   const [studentRef, setStudentRef] = useState()
