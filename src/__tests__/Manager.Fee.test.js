@@ -47,15 +47,33 @@ describe(specTitle('Manager.Fee'), () => {
 
     // when predefined, fields are required
     const typeHelperElt = ':nth-child(2) > .MuiFormControl-root > .MuiFormHelperText-root'
-    const creationDateHelperElt = ':nth-child(7) > .MuiFormControl-root > .MuiFormHelperText-root'
+    const creationDateHelperElt = ':nth-child(5) > .MuiFormControl-root > .MuiFormHelperText-root'
     cy.get(typeHelperElt).contains('Ce champ est requis')
     cy.get(creationDateHelperElt).contains('Ce champ est requis')
 
     // when manual, fields are still required
     cy.get('.MuiIconButton-label > #is_predefined_type').click()
-    cy.get('.MuiIconButton-label > #is_predefined_creation_date').click()
+    cy.get('.MuiIconButton-label > #is_predefined_first_dueDate').click()
     cy.contains('Enregistrer').click()
     cy.get(typeHelperElt).contains('Ce champ est requis')
     cy.get(creationDateHelperElt).contains('Ce champ est requis')
+  })
+
+  it('can create fees with predefined fields', () => {
+    // note(listFees)
+    cy.get('button[title="Ouvrir le menu"').click()
+    cy.get('a[href="#/students"]').click()
+    cy.get('button').contains('Suivant').click()
+    cy.get('button[title="Ajouter un filtre"').click()
+    cy.get('[data-key="last_name"]').click()
+    cy.get('#last_name').type('quitzon')
+    cy.contains('Quitzon').click()
+    cy.get('[aria-label="fees"]').click()
+
+    cy.get('.MuiFab-root').click() // create fees
+    cy.get('#predefined_type_annualTuition1x').click()
+    cy.get('#predefined_first_dueDate_oct21').click()
+    cy.contains('Enregistrer').click()
+    cy.contains('Élément créé')
   })
 })

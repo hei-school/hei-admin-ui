@@ -21,8 +21,17 @@ const feeProvider: HaDataProviderType = {
     const result = await payingApi().getStudentFeeById(studentId, feeId)
     return { ...result.data, id: raId }
   },
-  async saveOrUpdate(_users: Array<any>) {
-    throw new Error('Function not implemented.')
+  async saveOrUpdate(resources: Array<any>) {
+    const fees = resources[0]
+    const studentId = fees[0] ? fees[0].student_id : null
+    fees.forEach((fee: any) => {
+      if (fee.student_id !== studentId) {
+        throw new Error('Creation of fees for multiple students not supported')
+      }
+    })
+
+    const result = await payingApi().createStudentFees(studentId, { data: fees })
+    return { ...result.data }
   }
 }
 
