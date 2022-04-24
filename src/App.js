@@ -40,12 +40,13 @@ const App = () => (
         <Resource name='profile' />,
 
         permission === 'MANAGER' && <Resource name='students' {...students} />,
-        permission === 'MANAGER' && <Resource name='fees' {...fees} />,
         permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
 
-        permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
+        permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />,
 
-        permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />
+        (permission === 'MANAGER' || permission === 'STUDENT') && <Resource name='fees' {...fees} />,
+
+        permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />
       ]
     }}
   </Admin>
