@@ -26,12 +26,13 @@ export const predefinedFeeTypes = {
 }
 
 export const manualFeeTypes = {
-  tuition: { name: 'Écolage' },
-  hardware: { name: 'Matériel' }
+  tuition: { name: 'Écolage', type: 'TUITION' },
+  hardware: { name: 'Matériel', type: 'HARDWARE' }
 }
 
 export const predefinedFirstDueDates = {
-  oct21: { name: '15 octobre 2021', value: new Date(2021, 10, 15) },
-  jan22: { name: '15 janvier 2022', value: new Date(2022, 1, 15) },
-  apr22: { name: '15 avril 2022', value: new Date(2022, 4, 15) }
+  // /!\ note(js-months): months are zero-based in JS
+  oct21: { name: '15 octobre 2021', value: new Date(2021, 9, 15) },
+  jan22: { name: '15 janvier 2022', value: new Date(2022, 0, 15) },
+  apr22: { name: '15 avril 2022', value: new Date(2022, 3, 15) }
 }

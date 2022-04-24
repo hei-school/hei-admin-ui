@@ -2,6 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
+import { prettyPrintMoney } from '../operations/utils/money.ts'
 
 describe(specTitle('Manager.Fee'), () => {
   beforeEach(() => {
@@ -75,5 +76,36 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#predefined_first_dueDate_oct21').click()
     cy.contains('Enregistrer').click()
     cy.contains('Élément créé')
+  })
+
+  it.only('can create fees with manual fields', () => {
+    // note(listFees)
+    cy.get('button[title="Ouvrir le menu"').click()
+    cy.get('a[href="#/students"]').click()
+    cy.get('button').contains('Suivant').click()
+    cy.get('button[title="Ajouter un filtre"').click()
+    cy.get('[data-key="last_name"]').click()
+    cy.get('#last_name').type('quitzon')
+    cy.contains('Quitzon').click()
+    cy.get('[aria-label="fees"]').click()
+
+    cy.get('.MuiFab-root').click() // create fees
+    cy.get('.MuiIconButton-label > #is_predefined_type').click()
+    cy.get('#manual_type_hardware').click()
+
+    const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
+    cy.get('#monthly_amount').click().type(monthlyAmount)
+
+    const monthsNumber = 1 + Math.floor(Math.random() * 4)
+    cy.get('#months_number').click().type(monthsNumber)
+
+    cy.get('#comment').click().type('Dummy comment')
+
+    cy.get('.MuiIconButton-label > #is_predefined_first_dueDate').click()
+    cy.get('#manual_first_duedate').click().type(`2021-09-11`)
+
+    cy.contains('Enregistrer').click()
+    cy.contains('Élément créé')
+    cy.get(`.MuiTableCell-alignRight:contains(${prettyPrintMoney(monthlyAmount)})`).should('have.length', monthsNumber)
   })
 })
