@@ -66,28 +66,32 @@ const FeesCreate = props => {
   })
 
   const defaultIsPredefinedFirstDueDate = true
-  const [isPredefinedFirstDueDate, setisPredefinedFirstDueDate] = useState(defaultIsPredefinedFirstDueDate)
+  const [isPredefinedFirstDueDate, setIsPredefinedFirstDueDate] = useState(defaultIsPredefinedFirstDueDate)
+
+  const feesConfToFeesApi = _feesConf => {
+    const fees = []
+
+    const toDate = str => {
+      const parts = str.split('-')
+      return new Date(parts[0], parts[1] - 1 /* note(js-months) */, parts[2])
+    }
+    const firstDueDate = _feesConf.is_predefined_first_dueDate
+      ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value
+      : toDate(_feesConf.manual_first_duedate)
+
+    for (var i = 0; i < _feesConf.months_number; i++) {
+      fees.push({
+        total_amount: _feesConf.monthly_amount,
+        type: _feesConf.is_predefined_type ? predefinedFeeTypes[_feesConf.predefined_type].type : manualFeeTypes[_feesConf.manual_type].type,
+        student_id: studentId,
+        due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
+        comment: `${_feesConf.comment} (${currentYear})`
+      })
+    }
+    return fees
+  }
   return (
-    <Create
-      {...props}
-      title={`Frais de ${studentRef}`}
-      resource='fees'
-      basePath={`/students/${studentId}/fees`}
-      transform={_feesConf => {
-        const fees = []
-        const firstDueDate = _feesConf.predefined_first_dueDate ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value : 'TODO'
-        for (var i = 0; i < _feesConf.months_number; i++) {
-          fees.push({
-            total_amount: _feesConf.monthly_amount,
-            type: _feesConf.predefined_type ? predefinedFeeTypes[_feesConf.predefined_type].type : 'TODO',
-            student_id: studentId,
-            due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-            comment: (_feesConf.predefined_type ? predefinedFeeTypes[_feesConf.predefined_type].name : 'TODO') + ` (${currentYear})`
-          })
-        }
-        return fees
-      }}
-    >
+    <Create {...props} title={`Frais de ${studentRef}`} resource='fees' basePath={`/students/${studentId}/fees`} transform={feesConfToFeesApi}>
       <SimpleForm>
         <BooleanInput
           source='is_predefined_type'
@@ -108,12 +112,14 @@ const FeesCreate = props => {
           label='Première date limite prédéfinie ?'
           defaultValue={defaultIsPredefinedFirstDueDate}
           fullWidth={true}
-          onChange={value => setisPredefinedFirstDueDate(value)}
+          onChange={value => {
+            setIsPredefinedFirstDueDate(value)
+          }}
         />
         {isPredefinedFirstDueDate ? (
           <PredefinedFirstDueDateRadioButton validate={required()} />
         ) : (
-          <DateInput source='first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
+          <DateInput source='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
         )}
       </SimpleForm>
     </Create>
@@ -122,9 +128,11 @@ const FeesCreate = props => {
 
 const FeesConfInput = ({ isPredefinedType, feesConf }) => {
   const form = useForm()
-  form.change('monthly_amount', feesConf.monthlyAmount)
-  form.change('months_number', feesConf.monthsNumber)
-  form.change('comment', feesConf.name)
+  if (isPredefinedType) {
+    form.change('monthly_amount', feesConf.monthlyAmount)
+    form.change('months_number', feesConf.monthsNumber)
+    form.change('comment', feesConf.name)
+  }
 
   const validateMonthlyAmount = [required(), number(), minValue(1)]
   const validateMonthsNumber = [required(), number(), minValue(1), maxValue(12)]
