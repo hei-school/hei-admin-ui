@@ -7,8 +7,9 @@ import { AxiosResponse } from 'axios'
 
 Amplify.configure(awsExports)
 
-const roleItem = 'role'
-const bearerItem = 'bearer'
+const idItem = 'ha_id'
+const roleItem = 'ha_role'
+const bearerItem = 'ha_bearer'
 const paramIsTemporaryPassword = 't'
 const paramUsername = 'u'
 const paramTemporaryPassword = 'p'
@@ -34,11 +35,14 @@ const toBase64 = (param: string) => Buffer.from(param).toString('base64')
 const fromBase64 = (param: string) => Buffer.from(param, 'base64').toString('ascii')
 
 const cacheWhoami = (whoami: Whoami): void => {
+  sessionStorage.setItem(idItem, whoami.id as string)
   sessionStorage.setItem(roleItem, whoami.role as string)
   sessionStorage.setItem(bearerItem, whoami.bearer as string)
 }
 
-const getCachedRole = () => sessionStorage.getItem(roleItem) as string
+const getCachedWhoami = () => ({ id: sessionStorage.getItem(idItem), role: sessionStorage.getItem(roleItem), bearer: sessionStorage.getItem(bearerItem) })
+
+const getCachedRole = () => getCachedWhoami().role
 
 const getCachedAuthConf = (): Configuration => {
   const conf = new Configuration()
@@ -100,8 +104,8 @@ const authProvider = {
 
   whoami: whoami,
 
+  getCachedWhoami: getCachedWhoami,
   getCachedRole: getCachedRole,
-
   getCachedAuthConf: getCachedAuthConf
 }
 

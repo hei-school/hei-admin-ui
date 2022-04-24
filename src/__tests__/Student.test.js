@@ -14,4 +14,11 @@ describe(specTitle('Student'), () => {
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains('Ryan')
   })
+
+  it('can detail fee', () => {
+    cy.get('button[title="Ouvrir le menu"').click()
+    cy.get('[href="#/students/student1_id/fees"]').click()
+    cy.contains('200,000 Ar').click()
+    cy.contains('En attente')
+  })
 })
