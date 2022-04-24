@@ -78,7 +78,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.contains('Élément créé')
   })
 
-  it.only('can create fees with manual fields', () => {
+  it('can create fees with manual fields', () => {
     // note(listFees)
     cy.get('button[title="Ouvrir le menu"').click()
     cy.get('a[href="#/students"]').click()
