@@ -36,3 +36,8 @@ export const predefinedFirstDueDates = {
   jan22: { name: '15 janvier 2022', value: new Date(2022, 0, 15) },
   apr22: { name: '15 avril 2022', value: new Date(2022, 3, 15) }
 }
+
+export const paymentTypes = {
+  cash: { name: 'Cash', type: 'CASH' },
+  mobileMoney: { name: 'Mobile money', type: 'MOBILE_MONEY' }
+}

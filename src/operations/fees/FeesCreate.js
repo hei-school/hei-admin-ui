@@ -14,7 +14,7 @@ import {
   number
 } from 'react-admin'
 import { useForm } from 'react-final-form'
-import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from './conf'
+import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 
 const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
   <RadioButtonGroupInput
@@ -46,7 +46,7 @@ const PredefinedFirstDueDateRadioButton = props => (
 
 const FeesCreate = props => {
   const studentId = props.match.params.studentId
-  const [studentRef, setStudentRef] = useState()
+  const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
   useEffect(() => {
     const doEffect = async () => {
