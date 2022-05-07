@@ -11,6 +11,7 @@ import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
 import fees from './operations/fees'
+import payments from './operations/payments'
 import studentGrades from './operations/studentGrades'
 
 import MyLayout from './HaLayout'
@@ -30,7 +31,9 @@ const App = () => (
       <Route key='profile' exact path='/profile' component={profile.show} />,
       <Route key='fees' exact path='/students/:studentId/fees' component={fees.list} />,
       <Route key='fees' exact path='/students/:studentId/fees/create' component={fees.create} />,
-      <Route key='fees' exact path='/students/:studentId/fees/:feeId/show' component={fees.show} />
+      <Route key='fees' exact path='/fees/:feeId/show' component={fees.show} />,
+      <Route key='fees' exact path='/fees/:feeId/payments' component={payments.list} />,
+      <Route key='fees' exact path='/fees/:feeId/payments/create' component={payments.create} />
     ]}
   >
     {permissions => {
@@ -45,6 +48,7 @@ const App = () => (
         permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />,
 
         (permission === 'MANAGER' || permission === 'STUDENT') && <Resource name='fees' {...fees} />,
+        (permission === 'MANAGER' || permission === 'STUDENT') && <Resource name='payments' {...payments} />,
 
         permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />
       ]

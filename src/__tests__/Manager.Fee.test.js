@@ -12,7 +12,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('button').contains('Connexion').click()
   })
 
-  it('can detail late fee', () => {
+  it('can detail waiting fee', () => {
     // note(listFees)
     cy.get('button[title="Ouvrir le menu"').click()
     cy.get('a[href="#/students"]').click()
@@ -24,7 +24,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('[aria-label="fees"]').click()
 
     cy.contains('200,000 Ar').click()
-    cy.contains('En retard')
+    cy.contains('En attente')
   })
 
   it('cannot create fees when fields are missing', () => {

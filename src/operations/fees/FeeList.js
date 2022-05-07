@@ -1,21 +1,12 @@
 import { useState, useEffect } from 'react'
 
 import { List, Datagrid, TextField, DateField, FunctionField, ShowButton, useDataProvider } from 'react-admin'
-import { useListContext, usePermissions, TopToolbar, CreateButton, ExportButton } from 'react-admin'
 
 import { mainTheme } from '../../haTheme'
 import { prettyPrintMoney } from '../utils/money'
+import PermittedListActions from '../utils/PermittedListActions'
 
-const ListActions = props => {
-  const { total, isLoading } = useListContext()
-  const { permissions } = usePermissions()
-  return (
-    <TopToolbar>
-      {permissions === 'MANAGER' && <CreateButton />}
-      <ExportButton {...props} disabled={isLoading || total === 0} />
-    </TopToolbar>
-  )
-}
+import { maxPageSize } from '../../providers/dataProvider'
 
 const FeeList = ({ studentId, ...props }) => {
   const rowStyle = (record, _index) => {
@@ -26,7 +17,7 @@ const FeeList = ({ studentId, ...props }) => {
   }
 
   const definedStudentId = studentId ? studentId : props.match.params.studentId
-  const [studentRef, setStudentRef] = useState()
+  const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
   useEffect(() => {
     const doEffect = async () => {
@@ -34,7 +25,8 @@ const FeeList = ({ studentId, ...props }) => {
       setStudentRef(student.data.ref)
     }
     doEffect()
-  })
+    // eslint-disable-next-line
+  }, [definedStudentId])
 
   return (
     <List
@@ -44,11 +36,12 @@ const FeeList = ({ studentId, ...props }) => {
       basePath={`/students/${definedStudentId}/fees`}
       label='Frais'
       filterDefaultValues={{ studentId: definedStudentId }}
-      actions={<ListActions />}
+      actions={<PermittedListActions />}
       bulkActionButtons={false}
       pagination={false}
+      perPage={maxPageSize}
     >
-      <Datagrid rowClick='show' rowStyle={rowStyle}>
+      <Datagrid rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
         <DateField source='due_datetime' label='Date limite' />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />

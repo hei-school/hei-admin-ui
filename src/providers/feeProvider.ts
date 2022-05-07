@@ -3,14 +3,15 @@ import { HaDataProviderType } from './HaDataProviderType'
 
 const raSeparator = '--'
 const toRaId = (studentId: string, feeId: string): string => studentId + raSeparator + feeId
-const toApiIds = (raId: string) => {
+export const toApiIds = (raId: string) => {
   const ids = raId.split(raSeparator)
   return { studentId: ids[0], feeId: ids[1] }
 }
+export const studentIdFromRaId = (raId: string): string => toApiIds(raId).studentId
 
 const feeProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, filter: any) {
-    const result = await payingApi().getStudentFees(filter.studentId)
+  async getList(page: number, perPage: number, filter: any) {
+    const result = await payingApi().getStudentFees(filter.studentId, page, perPage)
     return result.data.map(fee => ({
       ...fee,
       id: toRaId(filter.studentId, fee.id as string)
@@ -30,7 +31,7 @@ const feeProvider: HaDataProviderType = {
       }
     })
 
-    const result = await payingApi().createStudentFees(studentId, { data: fees })
+    const result = await payingApi().createStudentFees(studentId, fees)
     return { ...result.data }
   }
 }
