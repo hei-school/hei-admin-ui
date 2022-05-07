@@ -4,8 +4,9 @@ import { DateField, FunctionField, SimpleShowLayout, Show, TextField, useDataPro
 
 import { prettyPrintMoney } from '../utils/money'
 import { withRedWarning, unexpectedValue } from '../utils/typography'
+import FeeList from './FeeList'
 
-export const FeeLayout = () => {
+export const FeeLayout = ({ studentId }) => {
   const statusRenderer = user => {
     if (user.status === 'LATE') return withRedWarning('En retard')
     if (user.status === 'PAID') return 'Payé'
@@ -19,6 +20,7 @@ export const FeeLayout = () => {
       <TextField source='comment' label='Commentaire' />
       <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
       <FunctionField label='Statut' render={statusRenderer} />
+      <FeeList studentId={studentId} />
     </SimpleShowLayout>
   )
 }
@@ -39,7 +41,7 @@ const FeeShow = props => {
 
   return (
     <Show id={feeId} resource='fees' basePath={`/students/${studentId}/fees/${feeId}/show`} title={`Frais de ${studentRef}`}>
-      <FeeLayout />
+      <FeeLayout studentId={studentId} />
     </Show>
   )
 }
