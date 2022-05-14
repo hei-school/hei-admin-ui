@@ -46,7 +46,7 @@ const FeeList = ({ studentId, ...props }) => {
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
         <DateField source='creation_datetime' label='Date de création' />
-        <ShowButton />
+        <ShowButton basePath='/fees' />
       </Datagrid>
     </List>
   )
