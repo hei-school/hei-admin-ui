@@ -28,12 +28,13 @@ const App = () => (
     loginPage={HaLoginPage}
     layout={MyLayout}
     customRoutes={[
-      <Route key='profile' exact path='/profile' component={profile.show} />,
-      <Route key='fees' exact path='/students/:studentId/fees' component={fees.list} />,
-      <Route key='fees' exact path='/students/:studentId/fees/create' component={fees.create} />,
-      <Route key='fees' exact path='/fees/:feeId/show' component={fees.show} />,
-      <Route key='fees' exact path='/fees/:feeId/payments' component={payments.list} />,
-      <Route key='fees' exact path='/fees/:feeId/payments/create' component={payments.create} />
+      <Route exact path='/profile' component={profile.show} />,
+      <Route exact path='/students/:studentId/fees' component={fees.list} />,
+      <Route exact path='/students/:studentId/fees/create' component={fees.create} />,
+      <Route exact path='/fees' component={fees.listByStatus} />,
+      <Route exact path='/fees/:feeId/show' component={fees.show} />,
+      <Route exact path='/fees/:feeId/payments' component={payments.list} />,
+      <Route exact path='/fees/:feeId/payments/create' component={payments.create} />
     ]}
   >
     {permissions => {

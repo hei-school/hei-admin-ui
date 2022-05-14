@@ -2,20 +2,13 @@ import { useState, useEffect } from 'react'
 
 import { List, Datagrid, TextField, DateField, FunctionField, ShowButton, useDataProvider } from 'react-admin'
 
-import { mainTheme } from '../../haTheme'
+import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 import PermittedListActions from '../utils/PermittedListActions'
 
 import { maxPageSize } from '../../providers/dataProvider'
 
 const FeeList = ({ studentId, ...props }) => {
-  const rowStyle = (record, _index) => {
-    const lateColor = record.status === 'LATE' ? mainTheme.palette.error.light : 'inherit'
-    return {
-      backgroundColor: record.status === 'PAID' ? mainTheme.palette.grey[300] : lateColor
-    }
-  }
-
   const definedStudentId = studentId ? studentId : props.match.params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
