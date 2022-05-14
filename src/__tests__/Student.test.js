@@ -15,10 +15,17 @@ describe(specTitle('Student'), () => {
     cy.get('#first_name').contains('Ryan')
   })
 
-  it('can detail fee', () => {
+  it('can detail fee (click on fee row)', () => {
     cy.get('button[title="Ouvrir le menu"').click()
     cy.get('[href="#/students/student1_id/fees"]').click()
     cy.contains('200,000 Ar').click()
+    cy.contains('En attente')
+  })
+
+  it('can detail fee (click on fee button)', () => {
+    cy.get('button[title="Ouvrir le menu"').click()
+    cy.get('[href="#/students/student1_id/fees"]').click()
+    cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En attente')
   })
 })
