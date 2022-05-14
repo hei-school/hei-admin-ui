@@ -11,7 +11,9 @@ export const studentIdFromRaId = (raId: string): string => toApiIds(raId).studen
 
 const feeProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    const result = await payingApi().getStudentFees(filter.studentId, page, perPage)
+    const result = filter.studentId
+      ? await payingApi().getStudentFees(filter.studentId, page, perPage)
+      : await payingApi().getFees(filter.status, page, perPage)
     return result.data.map(fee => ({
       ...fee,
       id: toRaId(filter.studentId, fee.id as string)
