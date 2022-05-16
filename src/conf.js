@@ -1,5 +1,7 @@
 export const currentYear = 2021
 
+export const contactEmail = 'contact@hei.school'
+
 export const predefinedFeeTypes = {
   annualTuition1x: { id: 'ANNUAL_TUITION_1X', type: 'TUITION', name: 'Écolage annuel 1x', monthlyAmount: 1_600_000, monthsNumber: 1 },
   annualTuition8x: { id: 'ANNUAL_TUITION_8X', type: 'TUITION', name: 'Écolage annuel 8x', monthlyAmount: 250_000, monthsNumber: 8 },
