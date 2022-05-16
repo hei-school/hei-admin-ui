@@ -1,20 +1,10 @@
 import { useState, useEffect } from 'react'
 import { DateField, EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import { Typography } from '@material-ui/core'
 
 import { useAsync } from 'react-async'
 import authProvider from '../../providers/authProvider'
 
 import { unexpectedValue } from '../utils/typography'
-
-const ChangeRequest = () => (
-  <div style={{ width: 200, margin: '1em' }}>
-    <Typography variant='h6'>Un changement ?</Typography>
-    <Typography variant='body2'>
-      Signalez-le immédiatement à <a href='mailto:contact@hei.school'>contact@hei.school</a> avec les justificatifs associés
-    </Typography>
-  </div>
-)
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {
@@ -53,7 +43,7 @@ const ProfileShow = () => {
   }, [isPending, data])
 
   return id ? (
-    <Show id={id} aside={<ChangeRequest />} resource='profile' basePath='/profile' title='Mon profil'>
+    <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
       <ProfileLayout />
     </Show>
   ) : null

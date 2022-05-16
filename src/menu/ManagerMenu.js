@@ -9,7 +9,7 @@ export const ManagerMenu = props => (
     <MenuItemLink to='/profile' primaryText='Mon profil' leftIcon={<AccountCircleIcon />} />
     <MenuItemLink to='/teachers' primaryText='Enseignants' leftIcon={<WorkIcon />} />
     <MenuItemLink to='/students' primaryText='Étudiants' leftIcon={<SchoolIcon />} />
-    <div style={{ paddingLeft: '37px' }}>
+    <div style={{ paddingLeft: '14px' }}>
       <MenuItemLink to='/fees' primaryText='Frais en retard' leftIcon={<WarningIcon />} />
     </div>
   </Menu>
