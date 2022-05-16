@@ -6,10 +6,12 @@ import WarningIcon from '@material-ui/icons/WarningOutlined'
 
 export const ManagerMenu = props => (
   <Menu {...props}>
-    <MenuItemLink replace to='/profile' primaryText='Mon profil' leftIcon={<AccountCircleIcon />} />
-    <MenuItemLink replace to='/students' primaryText='Étudiants' leftIcon={<SchoolIcon />} />
-    <MenuItemLink replace to='/teachers' primaryText='Enseignants' leftIcon={<WorkIcon />} />
-    <MenuItemLink replace to='/fees' primaryText='Frais en retard' leftIcon={<WarningIcon />} />
+    <MenuItemLink to='/profile' primaryText='Mon profil' leftIcon={<AccountCircleIcon />} />
+    <MenuItemLink to='/teachers' primaryText='Enseignants' leftIcon={<WorkIcon />} />
+    <MenuItemLink to='/students' primaryText='Étudiants' leftIcon={<SchoolIcon />} />
+    <div style={{ paddingLeft: '37px' }}>
+      <MenuItemLink to='/fees' primaryText='Frais en retard' leftIcon={<WarningIcon />} />
+    </div>
   </Menu>
 )
 
