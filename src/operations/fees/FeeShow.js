@@ -9,6 +9,7 @@ import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
+import { useParams } from 'react-router-dom'
 
 export const FeeLayout = ({ feeId }) => {
   const statusRenderer = user => {
@@ -33,7 +34,8 @@ export const FeeLayout = ({ feeId }) => {
 }
 
 const FeeShow = props => {
-  const feeId = props.match.params.feeId
+  const params = useParams()
+  const feeId = params.feeId
   const studentId = studentIdFromRaId(feeId)
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()

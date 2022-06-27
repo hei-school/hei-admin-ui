@@ -14,6 +14,6 @@ export const mainTheme = createTheme({
   typography: {
     fontFamily: ['Quicksand', 'sans-serif'].join(','),
     fontSize: 15
-  },
-  shadows: Array(25).fill('none')
+  }
+  //shadows: Array(25).fill('none')
 })

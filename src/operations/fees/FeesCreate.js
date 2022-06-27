@@ -3,17 +3,18 @@ import { useState, useEffect } from 'react'
 import {
   BooleanInput,
   Create,
-  SimpleForm,
   TextInput,
   DateInput,
   RadioButtonGroupInput,
+  SimpleForm,
   useDataProvider,
   required,
   minValue,
   maxValue,
   number
 } from 'react-admin'
-import { useForm } from 'react-final-form'
+import { useFormContext } from 'react-hook-form'
+import { useParams } from 'react-router-dom'
 import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 
 const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
@@ -22,7 +23,7 @@ const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
     source='predefined_type'
     label='Type prédéfini'
     choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id].name }))}
-    onChange={id => setFeesConf(predefinedFeeTypes[id])}
+    onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
   />
 )
 
@@ -45,7 +46,8 @@ const PredefinedFirstDueDateRadioButton = props => (
 )
 
 const FeesCreate = props => {
-  const studentId = props.match.params.studentId
+  const params = useParams()
+  const studentId = params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
   useEffect(() => {
@@ -54,7 +56,8 @@ const FeesCreate = props => {
       setStudentRef(student.data.ref)
     }
     doEffect()
-  })
+    // eslint-disable-next-line
+  }, [studentRef])
 
   const defaultIsPredefinedType = true
   const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
@@ -91,14 +94,20 @@ const FeesCreate = props => {
     return fees
   }
   return (
-    <Create {...props} title={`Frais de ${studentRef}`} resource='fees' basePath={`/students/${studentId}/fees`} transform={feesConfToFeesApi}>
+    // https://marmelab.com/blog/2022/04/12/react-admin-v4-new-form-framework.html
+    <Create
+      {...props}
+      title={`Frais de ${studentRef}`}
+      resource='fees'
+      redirect={(_basePath, _id, _data) => `students/${studentId}/fees`}
+      transform={feesConfToFeesApi}
+    >
       <SimpleForm>
         <BooleanInput
           source='is_predefined_type'
           label='Type prédéfini ?'
           defaultValue={defaultIsPredefinedType}
-          fullWidth={true}
-          onChange={value => setIsPredefinedType(value)}
+          onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
         />
         {isPredefinedType ? (
           <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} />
@@ -112,9 +121,7 @@ const FeesCreate = props => {
           label='Première date limite prédéfinie ?'
           defaultValue={defaultIsPredefinedFirstDueDate}
           fullWidth={true}
-          onChange={value => {
-            setIsPredefinedFirstDueDate(value)
-          }}
+          onChange={({ target: { checked } }) => setIsPredefinedFirstDueDate(checked)}
         />
         {isPredefinedFirstDueDate ? (
           <PredefinedFirstDueDateRadioButton validate={required()} />
@@ -127,11 +134,11 @@ const FeesCreate = props => {
 }
 
 const FeesConfInput = ({ isPredefinedType, feesConf }) => {
-  const form = useForm()
+  const { setValue } = useFormContext()
   if (isPredefinedType) {
-    form.change('monthly_amount', feesConf.monthlyAmount)
-    form.change('months_number', feesConf.monthsNumber)
-    form.change('comment', feesConf.name)
+    setValue('monthly_amount', feesConf.monthlyAmount || 0)
+    setValue('months_number', feesConf.monthsNumber || 0)
+    setValue('comment', feesConf.name || '')
   }
 
   const validateMonthlyAmount = [required(), number(), minValue(1)]

@@ -1,12 +1,14 @@
 import { useState, useEffect } from 'react'
 
 import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number } from 'react-admin'
+import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
 
 const PaymentCreate = props => {
-  const feeId = props.match.params.feeId
+  const params = useParams()
+  const feeId = params.feeId
   const studentId = studentIdFromRaId(feeId)
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
@@ -22,7 +24,13 @@ const PaymentCreate = props => {
     return [{ feeId: feeId, type: paymentTypes[type].type, amount: amount, comment: comment }]
   }
   return (
-    <Create {...props} title={`Paiement de ${studentRef}`} resource='payments' basePath={`/fees/${feeId}/show`} transform={paymentConfToPaymentApi}>
+    <Create
+      {...props}
+      title={`Paiement de ${studentRef}`}
+      resource='payments'
+      redirect={(_basePath, _id, _data) => `fees/${feeId}/show`}
+      transform={paymentConfToPaymentApi}
+    >
       <SimpleForm>
         <RadioButtonGroupInput {...props} source='type' label='Type' choices={Object.keys(paymentTypes).map(id => ({ id: id, name: paymentTypes[id].name }))} />
         <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={[required(), number(), minValue(1)]} />

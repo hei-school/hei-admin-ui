@@ -1,7 +1,5 @@
-import { useState, useEffect } from 'react'
 import { DateField, EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
 
-import { useAsync } from 'react-async'
 import authProvider from '../../providers/authProvider'
 
 import { unexpectedValue } from '../utils/typography'
@@ -34,19 +32,12 @@ export const ProfileLayout = () => {
 }
 
 const ProfileShow = () => {
-  const [id, setId] = useState()
-  const { data, isPending } = useAsync({ promiseFn: authProvider.whoami })
-  useEffect(() => {
-    if (!isPending && data) {
-      setId(data.id)
-    }
-  }, [isPending, data])
-
-  return id ? (
+  const id = authProvider.getCachedWhoami().id
+  return (
     <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
       <ProfileLayout />
     </Show>
-  ) : null
+  )
 }
 
 export default ProfileShow

@@ -1,15 +1,23 @@
 import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
-import { List, Datagrid, TextField, DateField, FunctionField, ShowButton, useDataProvider } from 'react-admin'
+import { List } from '@react-admin/ra-rbac'
+import { TextField, Datagrid, DateField, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 
 import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
-import PermittedListActions from '../utils/PermittedListActions'
 
 import { maxPageSize } from '../../providers/dataProvider'
 
-const FeeList = ({ studentId, ...props }) => {
-  const definedStudentId = studentId ? studentId : props.match.params.studentId
+const Actions = ({ basePath, resource }) => (
+  <TopToolbar disableGutters>
+    <CreateButton to={basePath + '/create'} resource={resource} />
+  </TopToolbar>
+)
+
+const FeeList = ({ studentId }) => {
+  const params = useParams()
+  const definedStudentId = studentId ? studentId : params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
   useEffect(() => {
@@ -23,14 +31,11 @@ const FeeList = ({ studentId, ...props }) => {
 
   return (
     <List
-      {...props}
       title={`Frais de ${studentRef}`}
-      resource='fees'
-      basePath={`/students/${definedStudentId}/fees`}
+      resource={'fees'}
       label='Frais'
+      actions={<Actions basePath={`/students/${definedStudentId}/fees`} />}
       filterDefaultValues={{ studentId: definedStudentId }}
-      actions={<PermittedListActions />}
-      bulkActionButtons={false}
       pagination={false}
       perPage={maxPageSize}
     >

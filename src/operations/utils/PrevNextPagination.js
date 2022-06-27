@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useListContext } from 'react-admin'
 
 import { Button, Toolbar, Typography } from '@material-ui/core'
@@ -12,12 +12,12 @@ const haSetPerPage = (setPerPage, setPage, page) => {
   setPage(page) // setPage has to be called after setPerPage, otherwise react-admin fails...
 }
 
-const PrevNextPagination = props => {
+const PrevNextPagination = () => {
   var [lastPage, setLastPage] = useState(null)
-  const { page, data, loaded, loading, setPage, setPerPage } = useListContext()
+  const { page, data, isLoading, setPage, setPerPage } = useListContext()
   haSetPerPage(setPerPage, setPage, page)
-  const resourcesCount = Object.keys(data).length
-  if (!lastPage && lastPage !== 0 /* TODO(empty-pages): test! */ && loaded && !loading && resourcesCount === 0) {
+  const resourcesCount = data ? Object.keys(data).length : 0
+  if (!lastPage && lastPage !== 0 /* TODO(empty-pages): test! */ && !isLoading && resourcesCount === 0) {
     lastPage = page - 1
     setLastPage(lastPage)
     setPage(lastPage)

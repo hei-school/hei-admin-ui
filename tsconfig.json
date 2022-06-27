@@ -1,7 +1,9 @@
 {
   "compilerOptions": {
+    "baseUrl": "./",
     "target": "es5",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": ["es5", "dom"],
+    "types": ["cypress", "node"],
     "allowJs": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
@@ -14,8 +16,7 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react-jsx",
-    "types": ["cypress"]
+    "jsx": "react-jsx"
   },
-  "include": ["src"]
+  "include": ["**/*.ts"]
 }

@@ -14,10 +14,11 @@ describe(specTitle('Manager.Payment'), () => {
 
   it('can add payment to a fee', () => {
     // note(listFees)
-    cy.get('button[title="Ouvrir le menu"').click()
+    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
     cy.get('a[href="#/students"]').click()
+    cy.get('body').click(200, 0) //note(uncover-menu)
     cy.get('button').contains('Suivant').click()
-    cy.get('button[title="Ajouter un filtre"').click()
+    cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="ref"]').click()
     cy.get('#ref').type('STD21905955')
     cy.contains('STD21905955').click()

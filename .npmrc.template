@@ -1,0 +1,2 @@
+@react-admin:registry=https://registry.marmelab.com
+//registry.marmelab.com/:_authToken=NPM_REPOSITORY_TOKEN

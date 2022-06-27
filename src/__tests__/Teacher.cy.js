@@ -17,15 +17,15 @@ describe(specTitle('Teacher'), () => {
 
   it('can list and filter students', () => {
     // note(listAndFilterStudents)
-    cy.get('button[title="Ouvrir le menu"').click()
     cy.get('a[href="#/students"]').click() // Étudiants menu
+    cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains('Taille : 10')
 
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
 
-    cy.get('button[title="Ajouter un filtre"').click()
+    cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"]').click()
     cy.get('#last_name').type('quitzon')
     cy.contains('Page : 1')
