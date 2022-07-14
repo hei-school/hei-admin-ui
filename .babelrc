@@ -1,4 +1,4 @@
 {
-  "presets": ["@babel/preset-react"],
-  "plugins": ["transform-class-properties", "istanbul"]
+  "presets": [["@babel/preset-react", { "runtime": "automatic" }]],
+  "plugins": ["babel-plugin-istanbul"]
 }
