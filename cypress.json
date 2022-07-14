@@ -6,7 +6,7 @@
     "testFiles": "**/*.cy.{js,ts,jsx,tsx}",
     "componentFolder": "src"
   },
-  "defaultCommandTimeout": 10000,
+  "defaultCommandTimeout": 30000,
   "reporter": "cypress-multi-reporters",
   "reporterOptions": {
     "reporterEnabled": "cypress-sonarqube-reporter",
