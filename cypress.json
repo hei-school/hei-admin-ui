@@ -1,0 +1,18 @@
+{
+  "video": false,
+  "viewportWidth": 500,
+  "viewportHeight": 844,
+  "component": {
+    "testFiles": "**/*.cy.{js,ts,jsx,tsx}",
+    "componentFolder": "src"
+  },
+  "defaultCommandTimeout": 10000,
+  "reporter": "cypress-multi-reporters",
+  "reporterOptions": {
+    "reporterEnabled": "cypress-sonarqube-reporter",
+    "mergeFileName": "test-reports.xml",
+    "cypressSonarqubeReporterReporterOptions": {
+      "overwrite": true
+    }
+  }
+}
