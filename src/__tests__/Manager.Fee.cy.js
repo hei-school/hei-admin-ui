@@ -89,7 +89,7 @@ describe(specTitle('Manager.Fee'), () => {
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
     cy.get('#monthly_amount').click().type(monthlyAmount)
 
-    const monthsNumber = 1 + Math.floor(Math.random() * 4)
+    const monthsNumber = 1 + Math.floor(Math.random() * 3)
     cy.get('#months_number').click().type(monthsNumber)
 
     cy.get('#comment').click().type('Dummy comment')

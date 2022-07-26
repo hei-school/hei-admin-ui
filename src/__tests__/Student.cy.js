@@ -19,13 +19,13 @@ describe(specTitle('Student'), () => {
     cy.get('[href="#/students/student1_id/fees"]').click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('200,000 Ar').click()
-    cy.contains('En attente')
+    cy.contains('En retard')
   })
 
   it('can detail fee (click on fee button)', () => {
     cy.get('[href="#/students/student1_id/fees"]').click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.get(':nth-child(7) > :nth-child(5)').click()
-    cy.contains('En attente')
+    cy.contains('En retard')
   })
 })

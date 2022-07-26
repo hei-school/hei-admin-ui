@@ -206,7 +206,8 @@ export interface CreatePayment {
  */
 export enum CreatePaymentTypeEnum {
   Cash = 'CASH',
-  Scolarship = 'SCOLARSHIP',
+  MobileMoney = 'MOBILE_MONEY',
+  Scholarship = 'SCHOLARSHIP',
   Fix = 'FIX'
 }
 
@@ -574,7 +575,8 @@ export interface Payment {
  */
 export enum PaymentTypeEnum {
   Cash = 'CASH',
-  Scolarship = 'SCOLARSHIP',
+  MobileMoney = 'MOBILE_MONEY',
+  Scholarship = 'SCHOLARSHIP',
   Fix = 'FIX'
 }
 
@@ -1072,7 +1074,7 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {string} [status] Filter fees by status. Available status are PAID, UNPAID and LATE
+     * @param {string} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
@@ -1158,28 +1160,17 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     },
     /**
      *
-     * @summary Get all student payments for one specific fee ordered by creation datetime desc
+     * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
-     * @param {string} feeId
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentFeePayments: async (
-      studentId: string,
-      feeId: string,
-      page?: number,
-      pageSize?: number,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
+    getStudentFees: async (studentId: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
-      assertParamExists('getStudentFeePayments', 'studentId', studentId)
-      // verify required parameter 'feeId' is not null or undefined
-      assertParamExists('getStudentFeePayments', 'feeId', feeId)
-      const localVarPath = `/students/{student_id}/fees/{fee_id}/payments`
-        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
-        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
+      assertParamExists('getStudentFees', 'studentId', studentId)
+      const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -1214,17 +1205,22 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     },
     /**
      *
-     * @summary Get all student fees ordered by due datetime desc
+     * @summary Get all student payments of a specific fee. Resulting list is ordered by creation datetime desc.
      * @param {string} studentId
+     * @param {string} feeId
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentFees: async (studentId: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getStudentPayments: async (studentId: string, feeId: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
-      assertParamExists('getStudentFees', 'studentId', studentId)
-      const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+      assertParamExists('getStudentPayments', 'studentId', studentId)
+      // verify required parameter 'feeId' is not null or undefined
+      assertParamExists('getStudentPayments', 'feeId', feeId)
+      const localVarPath = `/students/{student_id}/fees/{fee_id}/payments`
+        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -1328,7 +1324,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {string} [status] Filter fees by status. Available status are PAID, UNPAID and LATE
+     * @param {string} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
@@ -1361,26 +1357,6 @@ export const PayingApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @summary Get all student payments for one specific fee ordered by creation datetime desc
-     * @param {string} studentId
-     * @param {string} feeId
-     * @param {number} [page]
-     * @param {number} [pageSize]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async getStudentFeePayments(
-      studentId: string,
-      feeId: string,
-      page?: number,
-      pageSize?: number,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFeePayments(studentId, feeId, page, pageSize, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
-    },
-    /**
-     *
      * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
      * @param {number} [page]
@@ -1395,6 +1371,26 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFees(studentId, page, pageSize, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Get all student payments of a specific fee. Resulting list is ordered by creation datetime desc.
+     * @param {string} studentId
+     * @param {string} feeId
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getStudentPayments(
+      studentId: string,
+      feeId: string,
+      page?: number,
+      pageSize?: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentPayments(studentId, feeId, page, pageSize, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
@@ -1452,7 +1448,7 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {string} [status] Filter fees by status. Available status are PAID, UNPAID and LATE
+     * @param {string} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
@@ -1474,19 +1470,6 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
     },
     /**
      *
-     * @summary Get all student payments for one specific fee ordered by creation datetime desc
-     * @param {string} studentId
-     * @param {string} feeId
-     * @param {number} [page]
-     * @param {number} [pageSize]
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    getStudentFeePayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Payment>> {
-      return localVarFp.getStudentFeePayments(studentId, feeId, page, pageSize, options).then(request => request(axios, basePath))
-    },
-    /**
-     *
      * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
      * @param {number} [page]
@@ -1496,6 +1479,19 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      */
     getStudentFees(studentId: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
       return localVarFp.getStudentFees(studentId, page, pageSize, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Get all student payments of a specific fee. Resulting list is ordered by creation datetime desc.
+     * @param {string} studentId
+     * @param {string} feeId
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getStudentPayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Payment>> {
+      return localVarFp.getStudentPayments(studentId, feeId, page, pageSize, options).then(request => request(axios, basePath))
     }
   }
 }
@@ -1568,7 +1564,7 @@ export class PayingApi extends BaseAPI {
   /**
    *
    * @summary Get all student fees filtered by status
-   * @param {string} [status] Filter fees by status. Available status are PAID, UNPAID and LATE
+   * @param {string} [status] See the PaymentStatus object for its value.
    * @param {number} [page]
    * @param {number} [pageSize]
    * @param {*} [options] Override http request option.
@@ -1598,23 +1594,6 @@ export class PayingApi extends BaseAPI {
 
   /**
    *
-   * @summary Get all student payments for one specific fee ordered by creation datetime desc
-   * @param {string} studentId
-   * @param {string} feeId
-   * @param {number} [page]
-   * @param {number} [pageSize]
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof PayingApi
-   */
-  public getStudentFeePayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .getStudentFeePayments(studentId, feeId, page, pageSize, options)
-      .then(request => request(this.axios, this.basePath))
-  }
-
-  /**
-   *
    * @summary Get all student fees ordered by due datetime desc
    * @param {string} studentId
    * @param {number} [page]
@@ -1626,6 +1605,23 @@ export class PayingApi extends BaseAPI {
   public getStudentFees(studentId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
       .getStudentFees(studentId, page, pageSize, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get all student payments of a specific fee. Resulting list is ordered by creation datetime desc.
+   * @param {string} studentId
+   * @param {string} feeId
+   * @param {number} [page]
+   * @param {number} [pageSize]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PayingApi
+   */
+  public getStudentPayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+    return PayingApiFp(this.configuration)
+      .getStudentPayments(studentId, feeId, page, pageSize, options)
       .then(request => request(this.axios, this.basePath))
   }
 }
