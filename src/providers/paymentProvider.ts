@@ -9,7 +9,7 @@ const toRaId = (studentId: string, feeId: string, paymentId: string): string => 
 const paymentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     const { studentId, feeId } = toApiFeeIds(filter.feeId)
-    const result = await payingApi().getStudentFeePayments(studentId, feeId, page, perPage)
+    const result = await payingApi().getStudentPayments(studentId, feeId, page, perPage)
     return result.data.map(payment => ({
       ...payment,
       id: toRaId(filter.studentId, feeId, payment.id as string)
