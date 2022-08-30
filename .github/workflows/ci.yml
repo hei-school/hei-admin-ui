@@ -68,7 +68,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 17.x
-      - run: ./initNpmToken.sh ${{ secrets.RA_ENTREPRISE_NPM_TOKEN }}
 
       - run: yarn global add prettier
       - run: prettier --check "src/**/*.{js,ts,tsx}" "./**/*.{json,yml,yaml}"
