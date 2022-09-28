@@ -38,7 +38,7 @@ export const ProfileLayout = () => {
             </Grid>
             {role === 'STUDENT' ?
                 <Grid item xs={5} sx={{
-                padding: "5vw"
+                    padding: "5vw"
                 }}>
                     <SimpleShowLayout>
                         <img src={femme} alt="image of a student" style={{width: "25vw", height: "57vh", margin: "5vw"}}/>

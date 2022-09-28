@@ -14,7 +14,7 @@ const PaymentList = ({ feeId }) => (
   <List
     title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
     resource={'payments'}
-    actions={role === 'MANAGER' ? <Actions basePath={`/fees/${feeId}/payments`} /> : null}
+    actions={role === 'MANAGER' ? <Actions basePath={`/fees/${feeId}/payments`} /> : <></>}
     filterDefaultValues={{ feeId: feeId }}
     pagination={false}
   >

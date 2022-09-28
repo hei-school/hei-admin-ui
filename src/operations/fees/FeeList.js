@@ -36,7 +36,7 @@ const FeeList = ({ studentId }) => {
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={role === 'MANAGER' ? <Actions basePath={`/students/${definedStudentId}/fees`} /> : null}
+      actions={role === 'MANAGER' ? <Actions basePath={`/students/${definedStudentId}/fees`} /> : <></>}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}

@@ -102,7 +102,7 @@ const FeesCreate = props => {
       redirect={(_basePath, _id, _data) => `students/${studentId}/fees`}
       transform={feesConfToFeesApi}
     >
-      <SimpleForm>
+      <SimpleForm> // PUT VALIDATE HERE
         <BooleanInput
           source='is_predefined_type'
           label='Type prédéfini ?'

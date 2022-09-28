@@ -23,7 +23,6 @@ export const getPermissions = (role: string) => {
 
     STUDENT: [
       { action: 'read', resource: 'profile', record: { id: whoamiId } },
-
       { action: ['list', 'read', 'show'], resource: 'fees' },
       { action: ['list', 'read', 'show'], resource: 'payments' }
     ]
