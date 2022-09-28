@@ -8,6 +8,7 @@ import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 
 import { maxPageSize } from '../../providers/dataProvider'
+import authProvider from "../../providers/authProvider";
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -20,6 +21,7 @@ const FeeList = ({ studentId }) => {
   const definedStudentId = studentId ? studentId : params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
+  const role = authProvider.getCachedRole()
   useEffect(() => {
     const doEffect = async () => {
       const student = await dataProvider.getOne('students', { id: definedStudentId })
@@ -34,16 +36,16 @@ const FeeList = ({ studentId }) => {
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={<Actions basePath={`/students/${definedStudentId}/fees`} />}
+      actions={role === 'MANAGER' ? <Actions basePath={`/students/${definedStudentId}/fees`} /> : null}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}
     >
-      <Datagrid rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
-        <DateField source='due_datetime' label='Date limite' />
+      <Datagrid rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle} bulkActionButtons={role === 'MANAGER' ? true : false}>
+        <DateField source='due_datetime' label='Date limite' locales='fr-FR' options={{year: 'numeric', month: 'long', day: 'numeric' }}/>
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
-        <DateField source='creation_datetime' label='Date de création' />
+        <DateField source='creation_datetime' label='Date de création' locales='fr-FR' options={{year: 'numeric', month: 'long', day: 'numeric' }}/>
         <ShowButton basePath='/fees' />
       </Datagrid>
     </List>
