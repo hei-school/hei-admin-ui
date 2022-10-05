@@ -1,9 +1,11 @@
-import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 'react-admin'
+import {Button, Show, EditButton, TopToolbar, Link, useRecordContext, SimpleShowLayout} from 'react-admin'
 
 import { ProfileLayout } from '../profile/ProfileShow'
 import Money from '@material-ui/icons/AttachMoney'
 
 import authProvider from '../../providers/authProvider'
+import femme from "../../image/imageFemme.jpg";
+import Grid from "@material-ui/core/Grid";
 
 const ActionsOnShow = ({ basePath, data, resource }) => {
   const record = useRecordContext()
