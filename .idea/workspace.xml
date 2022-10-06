@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="9f8abb85-179a-4544-bb66-7b6f2a4b649b" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/src/operations/profile/ProfileShow.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/operations/profile/ProfileShow.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/operations/students/StudentShow.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/operations/students/StudentShow.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="dev" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="ProjectId" id="2FLgNshEynS9eGHNGmCJTzMXpIz" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/home/mayah/Documents/hei-admin-ui/node_modules/typescript/lib&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src/image" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="FeesCreate.js" type="NodeJSConfigurationType" temporary="true" nameIsGenerated="true" path-to-js-file="$PROJECT_DIR$/src/operations/fees/FeesCreate.js" working-dir="$PROJECT_DIR$/src/operations/fees">
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Node.js.FeesCreate.js" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="9f8abb85-179a-4544-bb66-7b6f2a4b649b" name="Changes" comment="" />
+      <created>1664276758580</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1664276758580</updated>
+      <workItem from="1664276764580" duration="5561000" />
+      <workItem from="1664352056354" duration="17500000" />
+      <workItem from="1664435521470" duration="12621000" />
+      <workItem from="1664455841359" duration="3896000" />
+      <workItem from="1664522992609" duration="10908000" />
+      <workItem from="1664538564589" duration="3695000" />
+      <workItem from="1664542961157" duration="2738000" />
+      <workItem from="1664782390788" duration="25000" />
+      <workItem from="1664867141296" duration="5158000" />
+      <workItem from="1664962427309" duration="4390000" />
+      <workItem from="1664968866744" duration="6148000" />
+      <workItem from="1664975678078" duration="3649000" />
+      <workItem from="1665036684255" duration="599000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+</project>
