@@ -76,17 +76,15 @@ const FeesCreate = props => {
     const feesConfToFeesApi = _feesConf => {
         const fees = []
         const toDate = str => {
-            const parts = str.split('-')
-            return new Date(parts[0], parts[1] - 1 /* note(js-months) */, parts[2])
+                const parts = str.split('-')
+                return new Date(parts[0], parts[1] - 1 /* note(js-months) */, parts[2])
         }
-        const firstDueDate = _feesConf.is_predefined_first_dueDate
-            ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value
-            : toDate(_feesConf.manual_first_duedate)
+        const firstDueDate = _feesConf.is_predefined_first_dueDate ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value : toDate(_feesConf.manual_first_duedate)
         if (feesConf.length <= 1) {
             for (let i = 0; i < _feesConf.months_number; i++) {
                 fees.push({
                     total_amount: _feesConf.monthly_amount,
-                    type: _feesConf.is_predefined_type ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
+                    type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type]?.type,
                     student_id: studentId,
                     due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
                     comment: `${_feesConf.comment} (${currentYear})`
@@ -97,7 +95,7 @@ const FeesCreate = props => {
                 for (let i = 0; i < feesConf[j].monthsNumber; i++) {
                     fees.push({
                         total_amount: feesConf[j].monthlyAmount,
-                        type: _feesConf.is_predefined_type ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
+                        type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
                         student_id: studentId,
                         due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
                         comment: `${_feesConf.comment} (${currentYear})`
@@ -105,6 +103,7 @@ const FeesCreate = props => {
                 }
             }
         }
+        console.log(fees)
         return fees
     }
     return (
@@ -120,7 +119,7 @@ const FeesCreate = props => {
                 <BooleanInput
                     source='is_predefined_type'
                     label='Type prédéfini ?'
-                    name = 'is_predefined_first_dueDate'
+                    name = 'is_predefined_type'
                     defaultValue={defaultIsPredefinedType}
                     onChange={({target: {checked}}) => setIsPredefinedType(checked)}
                 />
