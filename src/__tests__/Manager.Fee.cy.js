@@ -11,81 +11,51 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
     cy.get('a[href="#/profile"]').click()
-  })
-
-  it('can detail waiting fee', () => {
-    // note(listFees)
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
+    cy.get(':nth-child(3) > .MuiListItem-root').click()
     cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('button').contains('Suivant').click()
+    cy.get('body').click(200, 0)
     cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
+    cy.get('[data-key="last_name"] > :nth-child(1)').click()
+    cy.get('#last_name').click()
+    cy.get('#last_name').type('Quitzon')
     cy.contains('Quitzon').click()
-    cy.get('[aria-label="fees"]').click()
-
-    cy.contains('200,000 Ar').click()
-    cy.contains('En attente')
   })
-
+  it('can detail waiting fee', () => {
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
+    cy.contains('200,000 Ar').click()
+    cy.contains('En retard')
+  })
   it('cannot create fees when fields are missing', () => {
     unmount()
     mount(<App />)
 
-    // note(listFees)
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
-    cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('button').contains('Suivant').click()
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
-    cy.contains('Quitzon').click()
-    cy.get('[aria-label="fees"]').click()
-
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
+    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
     cy.get('#predefined_type_annualTuition1x').click()
     cy.contains('Enregistrer').click()
 
     cy.contains("Le formulaire n'est pas valide")
   })
-
   it('can create fees with predefined fields', () => {
-    // note(listFees)
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
-    cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('button').contains('Suivant').click()
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
-    cy.contains('Quitzon').click()
-    cy.get('[aria-label="fees"]').click()
+    unmount()
+    mount(<App />)
 
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
+    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
     cy.get('#predefined_type_annualTuition1x').click()
-    cy.get('#predefined_first_dueDate_oct21').click()
+    cy.get('#predefined_first_dueDate_jan22').click()
     cy.contains('Enregistrer').click()
+
     cy.contains('Élément créé')
   })
-
   it('can create fees with manual fields', () => {
-    // note(listFees)
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
-    cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('button').contains('Suivant').click()
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
-    cy.contains('Quitzon').click()
-    cy.get('[aria-label="fees"]').click()
+    unmount()
+    mount(<App />)
 
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
+    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
     cy.get('#is_predefined_type').click()
-    cy.get('#manual_type_hardware').click()
-
+    cy.get('#manual_type_tuition').click()
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
     cy.get('#monthly_amount').click().type(monthlyAmount)
 
