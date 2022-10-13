@@ -7,44 +7,37 @@ import { prettyPrintMoney } from '../operations/utils/money.ts'
 describe(specTitle('Manager.Fee'), () => {
   beforeEach(() => {
     mount(<App />)
+
     cy.get('#username').type(manager1.username)
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
     cy.get('a[href="#/profile"]').click()
   })
-
+  const task = () => {
+    cy.get(':nth-child(3) > .MuiListItem-root').click()
+    cy.contains('Liste des étudiants').then(() => {
+      cy.get('a[href="#/students"]').click()
+      cy.get('body').click(200, 0)
+      cy.get('[data-testid="FilterListIcon"]').click()
+      cy.get('[data-key="last_name"] > :nth-child(1)').click()
+      cy.get('#last_name').click()
+      cy.get('#last_name').type('Quitzon')
+      cy.contains('Quitzon').click()
+    })
+  }
   it('can detail waiting fee', () => {
-    // note(listFees)
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
-    cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('button').contains('Suivant').click()
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
-    cy.contains('Quitzon').click()
-    cy.get('[aria-label="fees"]').click()
-
+    task()
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
     cy.contains('200,000 Ar').click()
-    cy.contains('En attente')
+    cy.contains('En retard')
   })
-
   it('cannot create fees when fields are missing', () => {
     unmount()
     mount(<App />)
 
-    // note(listFees)
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
-    cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('button').contains('Suivant').click()
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
-    cy.contains('Quitzon').click()
-    cy.get('[aria-label="fees"]').click()
-
-    cy.get('.MuiFab-root').click() // create fees
+    task()
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
+    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
     cy.get('#predefined_type_annualTuition1x').click()
     cy.contains('Enregistrer').click()
 
@@ -52,40 +45,27 @@ describe(specTitle('Manager.Fee'), () => {
   })
 
   it('can create fees with predefined fields', () => {
-    // note(listFees)
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
-    cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('button').contains('Suivant').click()
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
-    cy.contains('Quitzon').click()
-    cy.get('[aria-label="fees"]').click()
+    unmount()
+    mount(<App />)
 
-    cy.get('.MuiFab-root').click() // create fees
+    task()
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
+    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
     cy.get('#predefined_type_annualTuition1x').click()
-    cy.get('#predefined_first_dueDate_oct21').click()
+    cy.get('#predefined_first_dueDate_jan22').click()
     cy.contains('Enregistrer').click()
+
     cy.contains('Élément créé')
   })
-
   it('can create fees with manual fields', () => {
-    // note(listFees)
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
-    cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('button').contains('Suivant').click()
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
-    cy.contains('Quitzon').click()
-    cy.get('[aria-label="fees"]').click()
+    unmount()
+    mount(<App />)
 
-    cy.get('.MuiFab-root').click() // create fees
+    task()
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
+    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
     cy.get('#is_predefined_type').click()
-    cy.get('#manual_type_hardware').click()
-
+    cy.get('#manual_type_tuition').click()
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
     cy.get('#monthly_amount').click().type(monthlyAmount)
 
