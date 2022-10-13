@@ -16,8 +16,7 @@ describe(specTitle('Manager.Fee.Late'), () => {
     cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
     cy.get('a[href="#/fees"]').click()
     cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('.MuiTableBody-root > :nth-child(1) ') // first row
-      .click()
+    cy.get('.MuiTableBody-root > :nth-child(1) > .column-due_datetime').click()
     cy.contains('En retard')
   })
 })
