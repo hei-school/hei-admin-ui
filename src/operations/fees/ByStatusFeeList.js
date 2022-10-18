@@ -21,10 +21,10 @@ const ByStatusFeeList = ({ status, ...props }) => {
       perPage={maxPageSize}
     >
       <Datagrid rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
-        <DateField source='due_datetime' label='Date limite' />
+        <DateField source='due_datetime' label='Date limite' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
-        <DateField source='creation_datetime' label='Date de création' />
+        <DateField source='creation_datetime' label='Date de création' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
         <ShowButton basePath='/fees' />
       </Datagrid>
     </List>
