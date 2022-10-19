@@ -105,7 +105,6 @@ const FeesCreate = props => {
         }
       }
     }
-    console.log(fees)
     return fees
   }
   return (

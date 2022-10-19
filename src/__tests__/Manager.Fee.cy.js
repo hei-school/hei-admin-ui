@@ -15,15 +15,13 @@ describe(specTitle('Manager.Fee'), () => {
   })
   const task = () => {
     cy.get(':nth-child(3) > .MuiListItem-root').click()
-    cy.contains('Liste des étudiants').then(() => {
-      cy.get('a[href="#/students"]').click()
-      cy.get('body').click(200, 0)
-      cy.get('[data-testid="FilterListIcon"]').click()
-      cy.get('[data-key="last_name"] > :nth-child(1)').click()
-      cy.get('#last_name').click()
-      cy.get('#last_name').type('Quitzon')
-      cy.contains('Quitzon').click()
-    })
+    cy.get('a[href="#/students"]').click()
+    cy.get('body').click(200, 0)
+    cy.get('[data-testid="FilterListIcon"]').click()
+    cy.get('[data-key="last_name"] > :nth-child(1)').click()
+    cy.get('#last_name').click()
+    cy.get('#last_name').type('Quitzon')
+    cy.contains('Quitzon').click()
   }
   it('can detail waiting fee', () => {
     task()
@@ -36,8 +34,8 @@ describe(specTitle('Manager.Fee'), () => {
     mount(<App />)
 
     task()
-    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
-    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
+    cy.get('.MuiTypography-root > .MuiSvgIcon-root > path').click()
+    cy.get('.MuiFab-root').click() // create fees
     cy.get('#predefined_type_annualTuition1x').click()
     cy.contains('Enregistrer').click()
 
@@ -49,8 +47,7 @@ describe(specTitle('Manager.Fee'), () => {
     mount(<App />)
 
     task()
-    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
-    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
+    cy.get('.MuiFab-root').click() // create fees
     cy.get('#predefined_type_annualTuition1x').click()
     cy.get('#predefined_first_dueDate_jan22').click()
     cy.contains('Enregistrer').click()
