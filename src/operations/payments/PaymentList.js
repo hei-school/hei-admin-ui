@@ -18,7 +18,7 @@ const PaymentList = ({ feeId }) => (
     pagination={false}
   >
     <Datagrid>
-      <DateField source='creation_datetime' label='Date de création' />
+      <DateField source='creation_datetime' label='Date de création' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
       <TextField source='comment' label='Commentaire' />
       <TextField source='type' label='Type' />
       <FunctionField label='Montant' render={record => prettyPrintMoney(record.amount)} textAlign='right' />

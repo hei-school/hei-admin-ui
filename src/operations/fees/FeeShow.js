@@ -20,8 +20,8 @@ export const FeeLayout = ({ feeId }) => {
   }
   return (
     <SimpleShowLayout>
-      <DateField source='creation_datetime' label='Date de création' />
-      <DateField source='due_datetime' label='Date limite de paiement' />
+      <DateField source='creation_datetime' label='Date de création' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
+      <DateField source='due_datetime' label='Date limite de paiement' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
       <TextField source='comment' label='Commentaire' />
       <FunctionField label='Total à payer' render={record => prettyPrintMoney(record.total_amount)} textAlign='right' />
       <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />

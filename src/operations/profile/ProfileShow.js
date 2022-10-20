@@ -22,10 +22,10 @@ export const ProfileLayout = () => {
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
       <TextField label='Téléphone' source='phone' />
-      <DateField source='birth_date' label='Date de naissance' locales='fr-FR' />
+      <DateField source='birth_date' label='Date de naissance' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <DateField source='entrance_datetime' label="Date d'entrée chez HEI" locales='fr-FR' />
+      <DateField source='entrance_datetime' label="Date d'entrée chez HEI" locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
   )
