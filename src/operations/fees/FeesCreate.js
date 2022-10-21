@@ -8,6 +8,7 @@ import {
   minValue,
   number,
   RadioButtonGroupInput,
+  SelectInput,
   required,
   SimpleForm,
   TextInput,
@@ -18,12 +19,21 @@ import { useParams } from 'react-router-dom'
 import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 
 const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
-  <RadioButtonGroupInput
+  <SelectInput
     {...props}
     source='predefined_type'
     label='Type prédéfini'
     choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id][0].name }))}
     onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
+    sx={{
+      width: {
+        xs: 75,
+        sm: 175,
+        md: 250,
+        lg: 300,
+        xl: 325
+      }
+    }}
   />
 )
 
@@ -37,11 +47,20 @@ const ManualFeeTypeRadioButton = props => (
 )
 
 const PredefinedFirstDueDateRadioButton = props => (
-  <RadioButtonGroupInput
+  <SelectInput
     {...props}
     source='predefined_first_dueDate'
     label='Première date limite prédéfinie'
     choices={Object.keys(predefinedFirstDueDates).map(id => ({ id: id, name: predefinedFirstDueDates[id].name }))}
+    sx={{
+      width: {
+        xs: 75,
+        sm: 175,
+        md: 250,
+        lg: 300,
+        xl: 325
+      }
+    }}
   />
 )
 

@@ -30,37 +30,32 @@ describe(specTitle('Manager.Fee'), () => {
     cy.contains('En retard')
   })
   it('cannot create fees when fields are missing', () => {
-    unmount()
-    mount(<App />)
-
     task()
     cy.get('.MuiTypography-root > .MuiSvgIcon-root > path').click()
     cy.get('.MuiFab-root').click() // create fees
-    cy.get('#predefined_type_annualTuition1x').click()
+    cy.get('#predefined_type').click()
+    cy.get('.MuiList-root > [tabindex="0"]').click()
     cy.contains('Enregistrer').click()
 
     cy.contains("Le formulaire n'est pas valide")
   })
 
   it('can create fees with predefined fields', () => {
-    unmount()
-    mount(<App />)
-
     task()
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
     cy.get('.MuiFab-root').click() // create fees
-    cy.get('#predefined_type_annualTuition1x').click()
-    cy.get('#predefined_first_dueDate_jan22').click()
+    cy.get('#predefined_type').click()
+    cy.get('.MuiList-root > [tabindex="0"]').click()
+    cy.get('#predefined_first_dueDate').click()
+    cy.get('[data-value="jan22"]').click()
     cy.contains('Enregistrer').click()
 
     cy.contains('Élément créé')
   })
   it('can create fees with manual fields', () => {
-    unmount()
-    mount(<App />)
-
     task()
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
-    cy.get('.css-15bmcs9-MuiToolbar-root-RaListToolbar-root > .MuiToolbar-root > .MuiButtonBase-root').click()
+    cy.get('.MuiFab-root').click() // create fees
     cy.get('#is_predefined_type').click()
     cy.get('#manual_type_tuition').click()
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
