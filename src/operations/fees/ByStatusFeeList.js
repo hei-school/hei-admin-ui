@@ -4,6 +4,9 @@ import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 
 import { maxPageSize } from '../../providers/dataProvider'
+const CustomDateField = (source, label) => {
+  return <DateField source={source} label={label} locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
+}
 
 const ByStatusFeeList = ({ status, ...props }) => {
   status = status ? status : 'LATE'
@@ -21,10 +24,10 @@ const ByStatusFeeList = ({ status, ...props }) => {
       perPage={maxPageSize}
     >
       <Datagrid rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
-        <DateField source='due_datetime' label='Date limite' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
+        <CustomDateField source='due_datetime' label='Date limite' />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
-        <DateField source='creation_datetime' label='Date de création' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
+        <CustomDateField source='creation_datetime' label='Date de création' />
         <ShowButton basePath='/fees' />
       </Datagrid>
     </List>
