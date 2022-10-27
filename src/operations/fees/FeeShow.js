@@ -10,6 +10,7 @@ import PaymentList from '../payments/PaymentList'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
 import { useParams } from 'react-router-dom'
+import { CustomDateField } from './ByStatusFeeList'
 
 export const FeeLayout = ({ feeId }) => {
   const statusRenderer = user => {
@@ -20,8 +21,8 @@ export const FeeLayout = ({ feeId }) => {
   }
   return (
     <SimpleShowLayout>
-      <DateField source='creation_datetime' label='Date de création' />
-      <DateField source='due_datetime' label='Date limite de paiement' />
+      <CustomDateField label='Date de création' source='creation_datetime' />
+      <CustomDateField label='Date limite de paiement' source='due_datetime' />
       <TextField source='comment' label='Commentaire' />
       <FunctionField label='Total à payer' render={record => prettyPrintMoney(record.total_amount)} textAlign='right' />
       <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />

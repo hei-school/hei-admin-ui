@@ -8,6 +8,8 @@ import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 
 import { maxPageSize } from '../../providers/dataProvider'
+import authProvider from '../../providers/authProvider'
+import { CustomDateField } from './ByStatusFeeList'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -20,6 +22,7 @@ const FeeList = ({ studentId }) => {
   const definedStudentId = studentId ? studentId : params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
+  const role = authProvider.getCachedRole()
   useEffect(() => {
     const doEffect = async () => {
       const student = await dataProvider.getOne('students', { id: definedStudentId })
@@ -40,10 +43,10 @@ const FeeList = ({ studentId }) => {
       perPage={maxPageSize}
     >
       <Datagrid rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
-        <DateField source='due_datetime' label='Date limite' />
+        <CustomDateField label='Date limite' source='due_datetime' />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
-        <DateField source='creation_datetime' label='Date de création' />
+        <CustomDateField label='Date de création' source='creation_datetime' />
         <ShowButton basePath='/fees' />
       </Datagrid>
     </List>
