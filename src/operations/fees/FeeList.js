@@ -8,6 +8,7 @@ import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 
 import { maxPageSize } from '../../providers/dataProvider'
+import authProvider from '../../providers/authProvider'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -20,6 +21,7 @@ const FeeList = ({ studentId }) => {
   const definedStudentId = studentId ? studentId : params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
+  const role = authProvider.getCachedRole()
   useEffect(() => {
     const doEffect = async () => {
       const student = await dataProvider.getOne('students', { id: definedStudentId })
@@ -34,9 +36,10 @@ const FeeList = ({ studentId }) => {
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={<Actions basePath={`/students/${definedStudentId}/fees`} />}
+      actions={role === 'MANAGER' ? <Actions basePath={`/students/${definedStudentId}/fees`} /> : <></>}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
+      bulkActionButtons={role === 'MANAGER' ? true : false}
       perPage={maxPageSize}
     >
       <Datagrid rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
