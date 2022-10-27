@@ -4,7 +4,7 @@ import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 
 import { maxPageSize } from '../../providers/dataProvider'
-const CustomDateField = (source, label) => {
+export const CustomDateField = (source, label) => {
   return <DateField source={source} label={label} locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
 }
 

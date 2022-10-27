@@ -1,5 +1,5 @@
 import { DateField, EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-
+import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
 
 import { unexpectedValue } from '../utils/typography'
@@ -22,10 +22,10 @@ export const ProfileLayout = () => {
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
       <TextField label='Téléphone' source='phone' />
-      <DateField source='birth_date' label='Date de naissance' locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
+      <CustomDateField label='Date de naissance' source='birth_date' />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <DateField source='entrance_datetime' label="Date d'entrée chez HEI" locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
+      <CustomDateField label="Date d'entrée chez HEI" source='entrance_datetime' />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
   )
