@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { List } from '@react-admin/ra-rbac'
-import { TextField, Datagrid, DateField, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
+import { TextField, Datagrid, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 
 import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'

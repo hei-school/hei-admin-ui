@@ -4,10 +4,9 @@ import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 
 import { maxPageSize } from '../../providers/dataProvider'
-export const CustomDateField = (source, label) => {
-  return <DateField source={source} label={label} locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
+export const CustomDateField = props => {
+  return <DateField source={props.source} label={props.label} locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
 }
-
 const ByStatusFeeList = ({ status, ...props }) => {
   status = status ? status : 'LATE'
   return (
