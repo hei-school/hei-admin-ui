@@ -1,22 +1,26 @@
-import React from 'react'
-import { Route } from 'react-router-dom'
-import { Admin, Resource } from 'react-admin'
+import { Admin } from '@react-admin/ra-enterprise'
+import { CustomRoutes } from 'react-admin'
+import { Resource } from '@react-admin/ra-rbac'
 
-import polyglotI18nProvider from 'ra-i18n-polyglot'
-import frenchMessages from 'ra-language-french'
+import { Route } from 'react-router-dom'
 
 import dataProvider from './providers/dataProvider'
 import authProvider from './providers/authProvider.ts'
 
+import polyglotI18nProvider from 'ra-i18n-polyglot'
+import frenchMessages from 'ra-language-french'
+
 import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
+
 import fees from './operations/fees'
+import payments from './operations/payments'
+
 import studentGrades from './operations/studentGrades'
 
 import MyLayout from './HaLayout'
 import HaLoginPage from './security/LoginPage'
-import { mainTheme } from './haTheme'
 
 const App = () => (
   <Admin
@@ -24,26 +28,29 @@ const App = () => (
     authProvider={authProvider}
     dataProvider={dataProvider}
     i18nProvider={polyglotI18nProvider(() => frenchMessages, 'fr')}
-    theme={mainTheme}
     loginPage={HaLoginPage}
     layout={MyLayout}
-    customRoutes={[<Route key='profile' exact path='/profile' component={profile.show} />]}
   >
-    {permissions => {
-      // https://marmelab.com/react-admin/doc/3.4/Authorization.html#restricting-access-to-resources-or-views
-      const permission = permissions[0]
-      return [
-        <Resource name='profile' />,
+    <Resource name='profile' />
+    <Resource name='students' {...students} />
+    <Resource name='teachers' {...teachers} />
 
-        permission === 'MANAGER' && <Resource name='students' {...students} />,
-        permission === 'MANAGER' && <Resource name='teachers' {...teachers} />,
+    <Resource name='fees' {...fees} />
+    <Resource name='payments' {...payments} />
 
-        permission === 'TEACHER' && <Resource name='students' options={{ label: 'Étudiants' }} list={students.list} show={students.show} />,
+    <Resource name='student-grades' {...studentGrades} />
 
-        permission === 'STUDENT' && <Resource name='fees' {...fees} />,
-        permission === 'STUDENT' && <Resource name='student-grades' {...studentGrades} />
-      ]
-    }}
+    <CustomRoutes>
+      <Route exact path='/profile' element={<profile.show />} />
+
+      <Route exact path='/students/:studentId/fees' element={<fees.list />} />
+      <Route exact path='/students/:studentId/fees/create' element={<fees.create />} />
+      <Route exact path='/fees/:feeId/show' element={<fees.show />} />
+      <Route exact path='/fees' element={<fees.listByStatus />} />
+
+      <Route exact path='/fees/:feeId/payments' element={<payments.list />} />
+      <Route exact path='/fees/:feeId/payments/create' element={<payments.create />} />
+    </CustomRoutes>
   </Admin>
 )
 

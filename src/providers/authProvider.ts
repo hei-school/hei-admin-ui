@@ -1,14 +1,19 @@
+import { getPermissions } from '../security/permissions'
+
 import { ClientMetaData } from '@aws-amplify/auth/lib-esm/types'
 import { Amplify } from 'aws-amplify'
 import { Auth } from '@aws-amplify/auth'
 import awsExports from '../aws-exports'
+
 import { Configuration, SecurityApi, Whoami } from '../gen/haClient'
+
 import { AxiosResponse } from 'axios'
 
 Amplify.configure(awsExports)
 
-const roleItem = 'role'
-const bearerItem = 'bearer'
+const idItem = 'ha_id'
+const roleItem = 'ha_role'
+const bearerItem = 'ha_bearer'
 const paramIsTemporaryPassword = 't'
 const paramUsername = 'u'
 const paramTemporaryPassword = 'p'
@@ -20,9 +25,7 @@ const whoami = async (): Promise<Whoami> => {
   const securityApi = new SecurityApi(conf)
   return securityApi
     .whoami()
-    .then((response: AxiosResponse<Whoami>) => {
-      return response.data
-    })
+    .then((response: AxiosResponse<Whoami>) => response.data)
     .catch(error => {
       console.error(error)
       return {}
@@ -34,11 +37,14 @@ const toBase64 = (param: string) => Buffer.from(param).toString('base64')
 const fromBase64 = (param: string) => Buffer.from(param, 'base64').toString('ascii')
 
 const cacheWhoami = (whoami: Whoami): void => {
+  sessionStorage.setItem(idItem, whoami.id as string)
   sessionStorage.setItem(roleItem, whoami.role as string)
   sessionStorage.setItem(bearerItem, whoami.bearer as string)
 }
 
-const getCachedRole = () => sessionStorage.getItem(roleItem) as string
+const getCachedWhoami = () => ({ id: sessionStorage.getItem(idItem), role: sessionStorage.getItem(roleItem), bearer: sessionStorage.getItem(bearerItem) })
+
+const getCachedRole = () => getCachedWhoami().role
 
 const getCachedAuthConf = (): Configuration => {
   const conf = new Configuration()
@@ -56,7 +62,9 @@ const authProvider = {
       const encodedUsername = encodeURIComponent(toBase64(username as string))
       const encodedPassword = encodeURIComponent(toBase64(password as string))
       window.location.replace(`/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`)
+      return
     }
+    await whoami().then(whoami => cacheWhoami(whoami))
   },
 
   logout: async (): Promise<void> => {
@@ -66,9 +74,7 @@ const authProvider = {
   },
 
   checkAuth: async (): Promise<void> => {
-    const whoamiData = await whoami()
-    if (whoamiData.id) {
-      cacheWhoami(whoamiData)
+    if (await whoami()) {
       return
     }
     throw new Error('Unauthorized')
@@ -78,7 +84,7 @@ const authProvider = {
 
   getIdentity: async () => (await whoami()).id,
 
-  getPermissions: async () => [(await whoami()).role],
+  getPermissions: async () => Promise.resolve(getPermissions(getCachedRole() as string)),
 
   // --------------------- non-ra functions ----------------------------------------
 
@@ -100,8 +106,8 @@ const authProvider = {
 
   whoami: whoami,
 
+  getCachedWhoami: getCachedWhoami,
   getCachedRole: getCachedRole,
-
   getCachedAuthConf: getCachedAuthConf
 }
 

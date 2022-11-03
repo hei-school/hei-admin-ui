@@ -90,6 +90,46 @@ export interface Course {
 /**
  *
  * @export
+ * @interface CreateDelayPenaltyChange
+ */
+export interface CreateDelayPenaltyChange {
+  /**
+   *
+   * @type {number}
+   * @memberof CreateDelayPenaltyChange
+   */
+  interest_percent?: number
+  /**
+   *
+   * @type {string}
+   * @memberof CreateDelayPenaltyChange
+   */
+  interest_timerate?: CreateDelayPenaltyChangeInterestTimerateEnum
+  /**
+   *
+   * @type {number}
+   * @memberof CreateDelayPenaltyChange
+   */
+  grace_delay?: number
+  /**
+   *
+   * @type {number}
+   * @memberof CreateDelayPenaltyChange
+   */
+  applicability_delay_after_grace?: number
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CreateDelayPenaltyChangeInterestTimerateEnum {
+  Daily = 'DAILY'
+}
+
+/**
+ *
+ * @export
  * @interface CreateFee
  */
 export interface CreateFee {
@@ -98,13 +138,13 @@ export interface CreateFee {
    * @type {string}
    * @memberof CreateFee
    */
-  student_id?: string
+  type?: CreateFeeTypeEnum
   /**
    *
    * @type {string}
    * @memberof CreateFee
    */
-  type?: CreateFeeTypeEnum
+  comment?: string
   /**
    *
    * @type {number}
@@ -158,12 +198,6 @@ export interface CreatePayment {
    * @memberof CreatePayment
    */
   comment?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreatePayment
-   */
-  creation_datetime?: string
 }
 
 /**
@@ -172,8 +206,72 @@ export interface CreatePayment {
  */
 export enum CreatePaymentTypeEnum {
   Cash = 'CASH',
-  Scolarship = 'SCOLARSHIP',
+  MobileMoney = 'MOBILE_MONEY',
+  Scholarship = 'SCHOLARSHIP',
   Fix = 'FIX'
+}
+
+/**
+ *
+ * @export
+ * @interface DelayPenalty
+ */
+export interface DelayPenalty {
+  /**
+   *
+   * @type {string}
+   * @memberof DelayPenalty
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof DelayPenalty
+   */
+  creation_datetime?: string
+  /**
+   *
+   * @type {number}
+   * @memberof DelayPenalty
+   */
+  interest_percent?: number
+  /**
+   *
+   * @type {string}
+   * @memberof DelayPenalty
+   */
+  interest_timerate?: DelayPenaltyInterestTimerateEnum
+  /**
+   *
+   * @type {number}
+   * @memberof DelayPenalty
+   */
+  grace_delay?: number
+  /**
+   *
+   * @type {number}
+   * @memberof DelayPenalty
+   */
+  applicability_delay_after_grace?: number
+}
+
+/**
+ * @export
+ * @enum {string}
+ */
+export enum DelayPenaltyInterestTimerateEnum {
+  Daily = 'DAILY'
+}
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export enum EnableStatus {
+  Enabled = 'ENABLED',
+  Disabled = 'DISABLED'
 }
 
 /**
@@ -209,6 +307,12 @@ export interface Fee {
   id?: string
   /**
    *
+   * @type {string}
+   * @memberof Fee
+   */
+  student_id?: string
+  /**
+   *
    * @type {number}
    * @memberof Fee
    */
@@ -224,19 +328,13 @@ export interface Fee {
    * @type {string}
    * @memberof Fee
    */
-  comment?: string
-  /**
-   *
-   * @type {string}
-   * @memberof Fee
-   */
-  student_id?: string
-  /**
-   *
-   * @type {string}
-   * @memberof Fee
-   */
   type?: FeeTypeEnum
+  /**
+   *
+   * @type {string}
+   * @memberof Fee
+   */
+  comment?: string
   /**
    *
    * @type {number}
@@ -393,10 +491,10 @@ export interface Manager {
   entrance_datetime?: string
   /**
    *
-   * @type {string}
+   * @type {EnableStatus}
    * @memberof Manager
    */
-  status?: ManagerStatusEnum
+  status?: EnableStatus
 }
 
 /**
@@ -406,14 +504,6 @@ export interface Manager {
 export enum ManagerSexEnum {
   M = 'M',
   F = 'F'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum ManagerStatusEnum {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
 }
 
 /**
@@ -452,6 +542,18 @@ export interface Payment {
    * @type {string}
    * @memberof Payment
    */
+  fee_id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Payment
+   */
+  creation_datetime?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Payment
+   */
   type?: PaymentTypeEnum
   /**
    *
@@ -465,12 +567,6 @@ export interface Payment {
    * @memberof Payment
    */
   comment?: string
-  /**
-   *
-   * @type {string}
-   * @memberof Payment
-   */
-  creation_datetime?: string
 }
 
 /**
@@ -479,7 +575,8 @@ export interface Payment {
  */
 export enum PaymentTypeEnum {
   Cash = 'CASH',
-  Scolarship = 'SCOLARSHIP',
+  MobileMoney = 'MOBILE_MONEY',
+  Scholarship = 'SCHOLARSHIP',
   Fix = 'FIX'
 }
 
@@ -570,10 +667,10 @@ export interface Student {
   entrance_datetime?: string
   /**
    *
-   * @type {string}
+   * @type {EnableStatus}
    * @memberof Student
    */
-  status?: StudentStatusEnum
+  status?: EnableStatus
 }
 
 /**
@@ -583,14 +680,6 @@ export interface Student {
 export enum StudentSexEnum {
   M = 'M',
   F = 'F'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum StudentStatusEnum {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
 }
 
 /**
@@ -661,10 +750,10 @@ export interface Teacher {
   entrance_datetime?: string
   /**
    *
-   * @type {string}
+   * @type {EnableStatus}
    * @memberof Teacher
    */
-  status?: TeacherStatusEnum
+  status?: EnableStatus
 }
 
 /**
@@ -674,14 +763,6 @@ export interface Teacher {
 export enum TeacherSexEnum {
   M = 'M',
   F = 'F'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum TeacherStatusEnum {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
 }
 
 /**
@@ -771,10 +852,10 @@ export interface User {
   entrance_datetime?: string
   /**
    *
-   * @type {string}
+   * @type {EnableStatus}
    * @memberof User
    */
-  status?: UserStatusEnum
+  status?: EnableStatus
 }
 
 /**
@@ -784,14 +865,6 @@ export interface User {
 export enum UserSexEnum {
   M = 'M',
   F = 'F'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum UserStatusEnum {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
 }
 
 /**
@@ -838,14 +911,55 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
   return {
     /**
      *
-     * @summary Create student fees
-     * @param {string} studentId
+     * @summary Change current delay penalty configuration
+     * @param {CreateDelayPenaltyChange} createDelayPenaltyChange Delay penalties to create
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createStudentFees: async (studentId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    createDelayPenaltyChange: async (createDelayPenaltyChange: CreateDelayPenaltyChange, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'createDelayPenaltyChange' is not null or undefined
+      assertParamExists('createDelayPenaltyChange', 'createDelayPenaltyChange', createDelayPenaltyChange)
+      const localVarPath = `/delay_penalty_change`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(createDelayPenaltyChange, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
+     * @summary Create student fees
+     * @param {string} studentId
+     * @param {Array<CreateFee>} createFee Student fees to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createStudentFees: async (studentId: string, createFee: Array<CreateFee>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
       assertParamExists('createStudentFees', 'studentId', studentId)
+      // verify required parameter 'createFee' is not null or undefined
+      assertParamExists('createStudentFees', 'createFee', createFee)
       const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -855,6 +969,92 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       }
 
       const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(createFee, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
+     * @summary Create student payments
+     * @param {string} studentId
+     * @param {string} feeId
+     * @param {Array<CreatePayment>} createPayment Student payments to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createStudentPayments: async (
+      studentId: string,
+      feeId: string,
+      createPayment: Array<CreatePayment>,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'studentId' is not null or undefined
+      assertParamExists('createStudentPayments', 'studentId', studentId)
+      // verify required parameter 'feeId' is not null or undefined
+      assertParamExists('createStudentPayments', 'feeId', feeId)
+      // verify required parameter 'createPayment' is not null or undefined
+      assertParamExists('createStudentPayments', 'createPayment', createPayment)
+      const localVarPath = `/students/{student_id}/fees/{fee_id}/payments`
+        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(createPayment, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
+     * @summary Get current delay penalty
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getDelayPenalty: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/delay_penalty`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
@@ -873,20 +1073,15 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     },
     /**
      *
-     * @summary Create student payments
-     * @param {string} studentId
-     * @param {string} feeId
+     * @summary Get all student fees filtered by status
+     * @param {string} [status] See the PaymentStatus object for its value.
+     * @param {number} [page]
+     * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createStudentPayments: async (studentId: string, feeId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'studentId' is not null or undefined
-      assertParamExists('createStudentPayments', 'studentId', studentId)
-      // verify required parameter 'feeId' is not null or undefined
-      assertParamExists('createStudentPayments', 'feeId', feeId)
-      const localVarPath = `/students/{student_id}/fees/{fee_id}/payments`
-        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
-        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
+    getFees: async (status?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/fees`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -894,13 +1089,25 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
         baseOptions = configuration.baseOptions
       }
 
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
       const localVarHeaderParameter = {} as any
       const localVarQueryParameter = {} as any
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      if (status !== undefined) {
+        localVarQueryParameter['status'] = status
+      }
+
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter['page_size'] = pageSize
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -953,12 +1160,14 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     },
     /**
      *
-     * @summary Get all student fees
+     * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
+     * @param {number} [page]
+     * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentFees: async (studentId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getStudentFees: async (studentId: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
       assertParamExists('getStudentFees', 'studentId', studentId)
       const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
@@ -977,6 +1186,14 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter['page_size'] = pageSize
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
@@ -988,13 +1205,15 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     },
     /**
      *
-     * @summary Get all student payments
+     * @summary Get all student payments of a specific fee. Resulting list is ordered by creation datetime desc.
      * @param {string} studentId
      * @param {string} feeId
+     * @param {number} [page]
+     * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentPayments: async (studentId: string, feeId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getStudentPayments: async (studentId: string, feeId: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
       assertParamExists('getStudentPayments', 'studentId', studentId)
       // verify required parameter 'feeId' is not null or undefined
@@ -1017,6 +1236,14 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter['page_size'] = pageSize
+      }
+
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
@@ -1038,16 +1265,32 @@ export const PayingApiFp = function (configuration?: Configuration) {
   return {
     /**
      *
+     * @summary Change current delay penalty configuration
+     * @param {CreateDelayPenaltyChange} createDelayPenaltyChange Delay penalties to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async createDelayPenaltyChange(
+      createDelayPenaltyChange: CreateDelayPenaltyChange,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createDelayPenaltyChange(createDelayPenaltyChange, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
      * @summary Create student fees
      * @param {string} studentId
+     * @param {Array<CreateFee>} createFee Student fees to create
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createStudentFees(
       studentId: string,
+      createFee: Array<CreateFee>,
       options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CreateFee>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentFees(studentId, options)
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentFees(studentId, createFee, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -1055,15 +1298,45 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @summary Create student payments
      * @param {string} studentId
      * @param {string} feeId
+     * @param {Array<CreatePayment>} createPayment Student payments to create
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createStudentPayments(
       studentId: string,
       feeId: string,
+      createPayment: Array<CreatePayment>,
       options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CreatePayment>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentPayments(studentId, feeId, options)
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentPayments(studentId, feeId, createPayment, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Get current delay penalty
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getDelayPenalty(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getDelayPenalty(options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Get all student fees filtered by status
+     * @param {string} [status] See the PaymentStatus object for its value.
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getFees(
+      status?: string,
+      page?: number,
+      pageSize?: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getFees(status, page, pageSize, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -1084,29 +1357,40 @@ export const PayingApiFp = function (configuration?: Configuration) {
     },
     /**
      *
-     * @summary Get all student fees
+     * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
+     * @param {number} [page]
+     * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getStudentFees(studentId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFees(studentId, options)
+    async getStudentFees(
+      studentId: string,
+      page?: number,
+      pageSize?: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFees(studentId, page, pageSize, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
-     * @summary Get all student payments
+     * @summary Get all student payments of a specific fee. Resulting list is ordered by creation datetime desc.
      * @param {string} studentId
      * @param {string} feeId
+     * @param {number} [page]
+     * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getStudentPayments(
       studentId: string,
       feeId: string,
+      page?: number,
+      pageSize?: number,
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentPayments(studentId, feeId, options)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentPayments(studentId, feeId, page, pageSize, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
@@ -1121,24 +1405,57 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
   return {
     /**
      *
-     * @summary Create student fees
-     * @param {string} studentId
+     * @summary Change current delay penalty configuration
+     * @param {CreateDelayPenaltyChange} createDelayPenaltyChange Delay penalties to create
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createStudentFees(studentId: string, options?: any): AxiosPromise<Array<CreateFee>> {
-      return localVarFp.createStudentFees(studentId, options).then(request => request(axios, basePath))
+    createDelayPenaltyChange(createDelayPenaltyChange: CreateDelayPenaltyChange, options?: any): AxiosPromise<DelayPenalty> {
+      return localVarFp.createDelayPenaltyChange(createDelayPenaltyChange, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Create student fees
+     * @param {string} studentId
+     * @param {Array<CreateFee>} createFee Student fees to create
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    createStudentFees(studentId: string, createFee: Array<CreateFee>, options?: any): AxiosPromise<Array<Fee>> {
+      return localVarFp.createStudentFees(studentId, createFee, options).then(request => request(axios, basePath))
     },
     /**
      *
      * @summary Create student payments
      * @param {string} studentId
      * @param {string} feeId
+     * @param {Array<CreatePayment>} createPayment Student payments to create
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createStudentPayments(studentId: string, feeId: string, options?: any): AxiosPromise<Array<CreatePayment>> {
-      return localVarFp.createStudentPayments(studentId, feeId, options).then(request => request(axios, basePath))
+    createStudentPayments(studentId: string, feeId: string, createPayment: Array<CreatePayment>, options?: any): AxiosPromise<Array<Payment>> {
+      return localVarFp.createStudentPayments(studentId, feeId, createPayment, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Get current delay penalty
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getDelayPenalty(options?: any): AxiosPromise<DelayPenalty> {
+      return localVarFp.getDelayPenalty(options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Get all student fees filtered by status
+     * @param {string} [status] See the PaymentStatus object for its value.
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getFees(status?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
+      return localVarFp.getFees(status, page, pageSize, options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -1153,24 +1470,28 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
     },
     /**
      *
-     * @summary Get all student fees
+     * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
+     * @param {number} [page]
+     * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentFees(studentId: string, options?: any): AxiosPromise<Array<Fee>> {
-      return localVarFp.getStudentFees(studentId, options).then(request => request(axios, basePath))
+    getStudentFees(studentId: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
+      return localVarFp.getStudentFees(studentId, page, pageSize, options).then(request => request(axios, basePath))
     },
     /**
      *
-     * @summary Get all student payments
+     * @summary Get all student payments of a specific fee. Resulting list is ordered by creation datetime desc.
      * @param {string} studentId
      * @param {string} feeId
+     * @param {number} [page]
+     * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentPayments(studentId: string, feeId: string, options?: any): AxiosPromise<Array<Payment>> {
-      return localVarFp.getStudentPayments(studentId, feeId, options).then(request => request(axios, basePath))
+    getStudentPayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Payment>> {
+      return localVarFp.getStudentPayments(studentId, feeId, page, pageSize, options).then(request => request(axios, basePath))
     }
   }
 }
@@ -1184,15 +1505,30 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
 export class PayingApi extends BaseAPI {
   /**
    *
-   * @summary Create student fees
-   * @param {string} studentId
+   * @summary Change current delay penalty configuration
+   * @param {CreateDelayPenaltyChange} createDelayPenaltyChange Delay penalties to create
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PayingApi
    */
-  public createStudentFees(studentId: string, options?: AxiosRequestConfig) {
+  public createDelayPenaltyChange(createDelayPenaltyChange: CreateDelayPenaltyChange, options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
-      .createStudentFees(studentId, options)
+      .createDelayPenaltyChange(createDelayPenaltyChange, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Create student fees
+   * @param {string} studentId
+   * @param {Array<CreateFee>} createFee Student fees to create
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PayingApi
+   */
+  public createStudentFees(studentId: string, createFee: Array<CreateFee>, options?: AxiosRequestConfig) {
+    return PayingApiFp(this.configuration)
+      .createStudentFees(studentId, createFee, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -1201,13 +1537,43 @@ export class PayingApi extends BaseAPI {
    * @summary Create student payments
    * @param {string} studentId
    * @param {string} feeId
+   * @param {Array<CreatePayment>} createPayment Student payments to create
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PayingApi
    */
-  public createStudentPayments(studentId: string, feeId: string, options?: AxiosRequestConfig) {
+  public createStudentPayments(studentId: string, feeId: string, createPayment: Array<CreatePayment>, options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
-      .createStudentPayments(studentId, feeId, options)
+      .createStudentPayments(studentId, feeId, createPayment, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get current delay penalty
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PayingApi
+   */
+  public getDelayPenalty(options?: AxiosRequestConfig) {
+    return PayingApiFp(this.configuration)
+      .getDelayPenalty(options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get all student fees filtered by status
+   * @param {string} [status] See the PaymentStatus object for its value.
+   * @param {number} [page]
+   * @param {number} [pageSize]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof PayingApi
+   */
+  public getFees(status?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+    return PayingApiFp(this.configuration)
+      .getFees(status, page, pageSize, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -1228,30 +1594,34 @@ export class PayingApi extends BaseAPI {
 
   /**
    *
-   * @summary Get all student fees
+   * @summary Get all student fees ordered by due datetime desc
    * @param {string} studentId
+   * @param {number} [page]
+   * @param {number} [pageSize]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PayingApi
    */
-  public getStudentFees(studentId: string, options?: AxiosRequestConfig) {
+  public getStudentFees(studentId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
-      .getStudentFees(studentId, options)
+      .getStudentFees(studentId, page, pageSize, options)
       .then(request => request(this.axios, this.basePath))
   }
 
   /**
    *
-   * @summary Get all student payments
+   * @summary Get all student payments of a specific fee. Resulting list is ordered by creation datetime desc.
    * @param {string} studentId
    * @param {string} feeId
+   * @param {number} [page]
+   * @param {number} [pageSize]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PayingApi
    */
-  public getStudentPayments(studentId: string, feeId: string, options?: AxiosRequestConfig) {
+  public getStudentPayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
-      .getStudentPayments(studentId, feeId, options)
+      .getStudentPayments(studentId, feeId, page, pageSize, options)
       .then(request => request(this.axios, this.basePath))
   }
 }
@@ -2074,9 +2444,9 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter students by ref, case is ignored
+     * @param {string} [firstName] Filter students by first name, case is ignored
+     * @param {string} [lastName] Filter students by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2173,9 +2543,9 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter teachers by ref, case is ignored
+     * @param {string} [firstName] Filter teachers by first name, case is ignored
+     * @param {string} [lastName] Filter teachers by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2313,9 +2683,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter students by ref, case is ignored
+     * @param {string} [firstName] Filter students by first name, case is ignored
+     * @param {string} [lastName] Filter students by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2346,9 +2716,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter teachers by ref, case is ignored
+     * @param {string} [firstName] Filter teachers by first name, case is ignored
+     * @param {string} [lastName] Filter teachers by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2429,9 +2799,9 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter students by ref, case is ignored
+     * @param {string} [firstName] Filter students by first name, case is ignored
+     * @param {string} [lastName] Filter students by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2453,9 +2823,9 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @summary Get all teachers
      * @param {number} [page]
      * @param {number} [pageSize]
-     * @param {string} [ref]
-     * @param {string} [firstName]
-     * @param {string} [lastName]
+     * @param {string} [ref] Filter teachers by ref, case is ignored
+     * @param {string} [firstName] Filter teachers by first name, case is ignored
+     * @param {string} [lastName] Filter teachers by last name, case is ignored
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -2548,9 +2918,9 @@ export class UsersApi extends BaseAPI {
    * @summary Get all students
    * @param {number} [page]
    * @param {number} [pageSize]
-   * @param {string} [ref]
-   * @param {string} [firstName]
-   * @param {string} [lastName]
+   * @param {string} [ref] Filter students by ref, case is ignored
+   * @param {string} [firstName] Filter students by first name, case is ignored
+   * @param {string} [lastName] Filter students by last name, case is ignored
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UsersApi
@@ -2580,9 +2950,9 @@ export class UsersApi extends BaseAPI {
    * @summary Get all teachers
    * @param {number} [page]
    * @param {number} [pageSize]
-   * @param {string} [ref]
-   * @param {string} [firstName]
-   * @param {string} [lastName]
+   * @param {string} [ref] Filter teachers by ref, case is ignored
+   * @param {string} [firstName] Filter teachers by first name, case is ignored
+   * @param {string} [lastName] Filter teachers by last name, case is ignored
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof UsersApi

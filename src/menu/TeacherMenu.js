@@ -1,12 +1,13 @@
-import { Menu, MenuItemLink } from 'react-admin'
+import { MultiLevelMenu, MenuItemCategory } from '@react-admin/ra-navigation'
+
 import AccountCircleIcon from '@material-ui/icons/AccountCircle'
 import SchoolIcon from '@material-ui/icons/School'
 
-export const TeacherMenu = props => (
-  <Menu {...props}>
-    <MenuItemLink replace to='/profile' primaryText='Mon profil' leftIcon={<AccountCircleIcon />} />
-    <MenuItemLink replace to='/students' primaryText='Étudiants' leftIcon={<SchoolIcon />} />
-  </Menu>
+export const TeacherMenu = () => (
+  <MultiLevelMenu variant='categories'>
+    <MenuItemCategory to='/profile' name='profile' label='Mon profil' icon={<AccountCircleIcon />} />
+    <MenuItemCategory to='/students' name='students' label='Étudiants' icon={<SchoolIcon />} />
+  </MultiLevelMenu>
 )
 
 export default TeacherMenu

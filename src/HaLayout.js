@@ -1,10 +1,15 @@
-import { Layout } from 'react-admin'
+import { Layout } from '@react-admin/ra-enterprise'
+import { AppLocationContext } from '@react-admin/ra-navigation'
+
 import HaAppBar from './HaAppBar'
 import HaMenu from './menu/HaMenu'
-import HaNotification from './HaNotification'
 
 const HaLayout = props => {
-  return <Layout {...props} appBar={HaAppBar} menu={HaMenu} notification={HaNotification} />
+  return (
+    <AppLocationContext>
+      <Layout {...props} appBar={HaAppBar} menu={HaMenu} />
+    </AppLocationContext>
+  )
 }
 
 export default HaLayout

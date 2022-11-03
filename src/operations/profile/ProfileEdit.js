@@ -1,7 +1,17 @@
-import React from 'react'
-import { SimpleForm, TextInput, DateInput, BooleanInput, Edit } from 'react-admin'
+import { SimpleForm, TextInput, DateInput, RadioButtonGroupInput, Edit } from 'react-admin'
 import EditToolbar from '../utils/EditToolBar'
 import SexRadioButton from '../utils/SexRadioButton'
+
+const StatusRadioButton = () => (
+  <RadioButtonGroupInput
+    source='status'
+    label='Statut'
+    choices={[
+      { id: 'ENABLED', name: 'Actif·ve' },
+      { id: 'DISABLED', name: 'Inactif·ve' }
+    ]}
+  />
+)
 
 const ProfileEdit = props => (
   <Edit {...props}>
@@ -15,7 +25,7 @@ const ProfileEdit = props => (
       <TextInput source='phone' label='Téléphone' fullWidth={true} />
       <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
       <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} />
-      <BooleanInput source='status' label='Actif·ve ?' fullWidth={true} />
+      <StatusRadioButton />
     </SimpleForm>
   </Edit>
 )

@@ -1,4 +1,3 @@
-import React from 'react'
 import { Create, SimpleForm, TextInput, DateTimeInput, DateInput } from 'react-admin'
 import SexRadioButton from '../utils/SexRadioButton'
 
