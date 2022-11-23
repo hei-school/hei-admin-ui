@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { DateField, FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
+import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
 
 import { prettyPrintMoney } from '../utils/money'
 import { withRedWarning, unexpectedValue } from '../utils/typography'
