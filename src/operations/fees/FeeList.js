@@ -8,7 +8,6 @@ import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 
 import { maxPageSize } from '../../providers/dataProvider'
-import authProvider from '../../providers/authProvider'
 import { CustomDateField } from './ByStatusFeeList'
 
 const Actions = ({ basePath, resource }) => (
@@ -22,7 +21,6 @@ const FeeList = ({ studentId }) => {
   const definedStudentId = studentId ? studentId : params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
-  const role = authProvider.getCachedRole()
   useEffect(() => {
     const doEffect = async () => {
       const student = await dataProvider.getOne('students', { id: definedStudentId })
