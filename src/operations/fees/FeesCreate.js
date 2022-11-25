@@ -28,16 +28,22 @@ const commonStyleSelect = {
   }
 }
 
-const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
-  <SelectInput
-    {...props}
-    source='predefined_type'
-    label='Type prédéfini'
-    choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id][0].name }))}
-    onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
-    sx={commonStyleSelect.width}
-  />
-)
+const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => {
+  const [render, rerender] = useState(false)
+  const renderFunction = () => rerender(!render)
+  //TODO: try to understand why does the CSS override when deployed
+  return (
+    <SelectInput
+      {...props}
+      source='predefined_type'
+      label='Type prédéfini'
+      onClick={renderFunction}
+      choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id][0].name }))}
+      onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
+      sx={commonStyleSelect.width}
+    />
+  )
+}
 
 const ManualFeeTypeRadioButton = props => (
   <RadioButtonGroupInput
