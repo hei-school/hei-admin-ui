@@ -22,8 +22,10 @@ import studentGrades from './operations/studentGrades'
 import MyLayout from './HaLayout'
 import HaLoginPage from './security/LoginPage'
 
-const App = () => (
-  <Admin
+const App = () => {
+  
+  return (
+    <Admin
     title='HEI Admin'
     authProvider={authProvider}
     dataProvider={dataProvider}
@@ -45,13 +47,13 @@ const App = () => (
 
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
       <Route exact path='/students/:studentId/fees/create' element={<fees.create />} />
-      <Route exact path='/fees/:feeId/show' element={<fees.show />} />
+      <Route exact path='/fees/:feeId/show' element={<fees.show />} /> 
       <Route exact path='/fees' element={<fees.listByStatus />} />
-
       <Route exact path='/fees/:feeId/payments' element={<payments.list />} />
+      
       <Route exact path='/fees/:feeId/payments/create' element={<payments.create />} />
     </CustomRoutes>
   </Admin>
-)
-
+  )
+}
 export default App
