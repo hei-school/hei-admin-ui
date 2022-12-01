@@ -25,6 +25,14 @@ const commonStyleSelect = {
     md: 250,
     lg: 300,
     xl: 325
+  },
+  left: '105px',
+  '& .RaSelectInput-input': {
+    display: 'flex',
+    padding: '6px 16px',
+    justifyContent: 'flex-start',
+    letterSpacing: '0.00938em',
+    verticalAlign: 'middle'
   }
 }
 
