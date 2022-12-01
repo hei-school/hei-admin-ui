@@ -22,7 +22,7 @@ import studentGrades from './operations/studentGrades'
 
 import MyLayout from './HaLayout'
 import HaLoginPage from './security/LoginPage'
-  const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
+const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
 const App = () => (
   <Admin
     title='HEI Admin'
@@ -45,18 +45,21 @@ const App = () => (
       <Route exact path='/profile' element={<profile.show />} />
 
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
-      <Route exact path='/students/:studentId/fees/create' element={
-        <React.Suspense fallback='Wait...'>
-        <FeeCreate />
-      </React.Suspense>
-      } />
+      <Route
+        exact
+        path='/students/:studentId/fees/create'
+        element={
+          <React.Suspense fallback='Wait...'>
+            <FeeCreate />
+          </React.Suspense>
+        }
+      />
       <Route exact path='/fees/:feeId/show' element={<fees.show />} />
       <Route exact path='/fees' element={<fees.listByStatus />} />
-      
+
       <Route exact path='/fees/:feeId/payments' element={<payments.list />} />
       <Route exact path='/fees/:feeId/payments/create' element={<payments.create />} />
     </CustomRoutes>
-
   </Admin>
 )
 
