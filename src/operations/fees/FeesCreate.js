@@ -25,14 +25,6 @@ const commonStyleSelect = {
     md: 250,
     lg: 300,
     xl: 325
-  },
-  left: '105px',
-  '& .RaSelectInput-input': {
-    display: 'flex',
-    padding: '6px 16px',
-    justifyContent: 'flex-start',
-    letterSpacing: '0.00938em',
-    verticalAlign: 'middle'
   }
 }
 
@@ -43,7 +35,7 @@ const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
     label='Type prédéfini'
     choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id][0].name }))}
     onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
-    sx={commonStyleSelect.width}
+    sx={commonStyleSelect}
   />
 )
 
@@ -62,7 +54,7 @@ const PredefinedFirstDueDateRadioButton = props => (
     source='predefined_first_dueDate'
     label='Première date limite prédéfinie'
     choices={Object.keys(predefinedFirstDueDates).map(id => ({ id: id, name: predefinedFirstDueDates[id].name }))}
-    sx={commonStyleSelect.width}
+    sx={commonStyleSelect}
   />
 )
 
