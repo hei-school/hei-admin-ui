@@ -2,8 +2,7 @@
   "name": "hei-admin-ui",
   "private": true,
   "dependencies": {
-    "@material-ui/core": "^4.12.4",
-    "@material-ui/icons": "^4.11.3",
+    "@mui/styles": "^5.10.16",
     "@react-admin/ra-enterprise": "^6.0.3",
     "@react-admin/ra-navigation": "^4.0.6",
     "@react-admin/ra-rbac": "^4.0.1",
