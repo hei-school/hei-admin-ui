@@ -1,7 +1,7 @@
 import { MultiLevelMenu, MenuItemCategory } from '@react-admin/ra-navigation'
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import SchoolIcon from '@material-ui/icons/School'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import SchoolIcon from '@mui/icons-material/School'
 
 export const TeacherMenu = () => (
   <MultiLevelMenu variant='categories'>

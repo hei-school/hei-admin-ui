@@ -1,4 +1,4 @@
-import WorkIcon from '@material-ui/icons/Work'
+import WorkIcon from '@mui/icons-material/Work'
 import ProfileEdit from '../profile/ProfileEdit'
 import TeacherShow from './TeacherShow'
 import TeacherList from './TeacherList'

@@ -1,9 +1,9 @@
 import { MultiLevelMenu, MenuItemCategory } from '@react-admin/ra-navigation'
 import { useNotify } from 'react-admin'
 
-import Receipt from '@material-ui/icons/Receipt'
-import AttachMoney from '@material-ui/icons/AttachMoney'
-import AccountCircle from '@material-ui/icons/AccountCircle'
+import Receipt from '@mui/icons-material/Receipt'
+import AttachMoney from '@mui/icons-material/AttachMoney'
+import AccountCircle from '@mui/icons-material/AccountCircle'
 
 import authProvider from '../providers/authProvider'
 

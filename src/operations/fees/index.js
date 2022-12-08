@@ -1,4 +1,4 @@
-import Money from '@material-ui/icons/AttachMoney'
+import Money from '@mui/icons-material/AttachMoney'
 import FeeList from './FeeList'
 import ByStatusFeeList from './ByStatusFeeList'
 import FeeShow from './FeeShow'

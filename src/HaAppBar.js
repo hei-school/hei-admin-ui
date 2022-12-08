@@ -1,7 +1,7 @@
 import { AppBar } from '@react-admin/ra-enterprise'
 
-import { IconButton, Tooltip } from '@material-ui/core'
-import LockIcon from '@material-ui/icons/Lock'
+import { IconButton, Tooltip } from '@mui/material'
+import LockIcon from '@mui/icons-material/Lock'
 import authProvider from './providers/authProvider'
 
 const UserMenu = () => {

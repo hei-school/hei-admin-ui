@@ -1,4 +1,4 @@
-import SchoolIcon from '@material-ui/icons/School'
+import SchoolIcon from '@mui/icons-material/School'
 import ProfileEdit from '../profile/ProfileEdit'
 import StudentShow from './StudentShow'
 import StudentList from './StudentList'

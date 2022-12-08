@@ -1,11 +1,11 @@
 import { MultiLevelMenu, MenuItemCategory, MenuItemList, MenuItemNode } from '@react-admin/ra-navigation'
 import { CardContent, Typography } from '@mui/material'
 
-import AccountCircleIcon from '@material-ui/icons/AccountCircle'
-import SchoolIcon from '@material-ui/icons/School'
-import PeopleIcon from '@material-ui/icons/People'
-import WorkIcon from '@material-ui/icons/Work'
-import WarningIcon from '@material-ui/icons/WarningOutlined'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import SchoolIcon from '@mui/icons-material/School'
+import PeopleIcon from '@mui/icons-material/People'
+import WorkIcon from '@mui/icons-material/Work'
+import WarningIcon from '@mui/icons-material/WarningOutlined'
 
 export const ManagerMenu = () => (
   <MultiLevelMenu variant='categories'>
