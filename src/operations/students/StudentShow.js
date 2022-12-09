@@ -1,7 +1,7 @@
 import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 'react-admin'
 
 import { ProfileLayout } from '../profile/ProfileShow'
-import Money from '@mui/icons-material/AttachMoney'
+import { Money } from '@mui/icons-material'
 
 import authProvider from '../../providers/authProvider'
 

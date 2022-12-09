@@ -1,6 +1,6 @@
 import { ListGuesser, EditGuesser, ShowGuesser } from 'react-admin'
 
-import Receipt from '@mui/icons-material/Receipt'
+import { Receipt } from '@mui/icons-material'
 
 const studentGrades = {
   list: ListGuesser,
