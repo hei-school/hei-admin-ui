@@ -1,4 +1,4 @@
-import Money from '@mui/icons-material/AttachMoney'
+import { Money } from '@mui/icons-material'
 import PaymentList from './PaymentList'
 import PaymentCreate from './PaymentCreate'
 

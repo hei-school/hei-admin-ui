@@ -1,4 +1,4 @@
-import SchoolIcon from '@mui/icons-material/School'
+import { School } from '@mui/icons-material'
 import ProfileEdit from '../profile/ProfileEdit'
 import StudentShow from './StudentShow'
 import StudentList from './StudentList'
@@ -9,7 +9,7 @@ const students = {
   edit: props => <ProfileEdit {...props} title='Étudiants' />,
   show: StudentShow,
   create: StudentCreate,
-  icon: SchoolIcon,
+  icon: School,
   options: { label: 'Étudiants' }
 }
 
