@@ -1,4 +1,4 @@
-import { AttachMoney } from '@mui/icons-material'
+import Money from '@material-ui/icons/AttachMoney'
 import FeeList from './FeeList'
 import ByStatusFeeList from './ByStatusFeeList'
 import FeeShow from './FeeShow'
@@ -9,7 +9,7 @@ const fees = {
   listByStatus: ByStatusFeeList,
   show: FeeShow,
   create: FeesCreate,
-  icon: AttachMoney,
+  icon: Money,
   options: { label: 'Frais' }
 }
 

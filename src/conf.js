@@ -8,8 +8,8 @@ export const predefinedFeeTypes = {
     { type: 'TUITION', name: 'Écolage annuel 9x', monthlyAmount: 240_000, monthsNumber: 1 },
     { type: 'TUITION', name: 'Écolage annuel 9x', monthlyAmount: 215_000, monthsNumber: 8 }
   ],
-  annualTuition3x: [{ type: 'TUITION', name: 'Écolage annuel 3x', monthlyAmount: 580_000, monthsNumber: 3 }],
   biAnnualTuition1x: [{ type: 'TUITION', name: 'Écolage semestriel 1x', monthlyAmount: 870_000, monthsNumber: 1 }],
+  biAnnualTuition4x: [{ type: 'TUITION', name: 'Écolage semestriel 4x', monthlyAmount: 217_500, monthsNumber: 4 }],
   hardwareConf1_8x: [{ type: 'HARDWARE', name: 'Matériel conf1 8x', monthlyAmount: 240_000, monthsNumber: 8 }],
   hardwareConf2_8x: [{ type: 'HARDWARE', name: 'Matériel conf2 8x', monthlyAmount: 210_000, monthsNumber: 8 }],
   entranceExam: [{ type: 'ENTRANCE_EXAM', name: 'Concours', monthlyAmount: 40_000, monthsNumber: 1 }],
@@ -17,7 +17,7 @@ export const predefinedFeeTypes = {
     {
       type: 'KNOWLEDGE_VALIDATION_EXAM',
       name: 'VAE examen',
-      monthlyAmount: 25_000,
+      monthlyAmount: 50_000,
       monthsNumber: 1
     }
   ],
@@ -25,7 +25,7 @@ export const predefinedFeeTypes = {
     {
       type: 'KNOWLEDGE_VALIDATION_APPLICATION',
       name: 'VAE application',
-      monthlyAmount: 250_000,
+      monthlyAmount: 200_000,
       monthsNumber: 1
     }
   ]
