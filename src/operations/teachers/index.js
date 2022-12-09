@@ -1,4 +1,4 @@
-import { Work } from '@mui/icons-material'
+import WorkIcon from '@material-ui/icons/Work'
 import ProfileEdit from '../profile/ProfileEdit'
 import TeacherShow from './TeacherShow'
 import TeacherList from './TeacherList'
@@ -9,7 +9,7 @@ const teachers = {
   edit: props => <ProfileEdit {...props} title='Enseignants' />,
   show: TeacherShow,
   create: TeacherCreate,
-  icon: Work,
+  icon: WorkIcon,
   options: { label: 'Enseignants' }
 }
 

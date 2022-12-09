@@ -1,7 +1,7 @@
 import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 'react-admin'
 
 import { ProfileLayout } from '../profile/ProfileShow'
-import { AttachMoney } from '@mui/icons-material'
+import Money from '@material-ui/icons/AttachMoney'
 
 import authProvider from '../../providers/authProvider'
 
@@ -12,7 +12,7 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
       <EditButton basePath={basePath} resource={resource} record={data} />
       {record && (
         <Button label='Frais' aria-label='fees' component={Link} to={`/students/${record.id}/fees`}>
-          <AttachMoney />
+          <Money />
         </Button>
       )}
     </TopToolbar>
@@ -22,7 +22,7 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
 const StudentShow = props => {
   const role = authProvider.getCachedRole()
   return (
-    <Show title='Étudiants' {...props} actions={role === 'MANAGER' && <ActionsOnShow />}>
+    <Show title='Étudiants' {...props} actions={role === 'MANAGER' ? <ActionsOnShow /> : null}>
       <ProfileLayout />
     </Show>
   )

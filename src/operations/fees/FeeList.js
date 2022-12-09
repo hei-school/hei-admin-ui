@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 
 import { List } from '@react-admin/ra-rbac'
-import { TextField, Datagrid, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
+import { TextField, Datagrid, DateField, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 
 import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
@@ -37,16 +37,16 @@ const FeeList = ({ studentId }) => {
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={role === 'MANAGER' && <Actions basePath={`/students/${definedStudentId}/fees`} />}
+      actions={<Actions basePath={`/students/${definedStudentId}/fees`} />}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}
     >
-      <Datagrid bulkActionButtons={role === 'MANAGER'} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
-        <CustomDateField source='due_datetime' label='Date limite' />
+      <Datagrid rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
+        <CustomDateField label='Date limite' source='due_datetime' />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
-        <CustomDateField source='creation_datetime' label='Date de création' />
+        <CustomDateField label='Date de création' source='creation_datetime' />
         <ShowButton basePath='/fees' />
       </Datagrid>
     </List>
