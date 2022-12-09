@@ -1,7 +1,7 @@
 import { AppBar } from '@react-admin/ra-enterprise'
 
-import { IconButton, Tooltip } from '@material-ui/core'
-import LockIcon from '@material-ui/icons/Lock'
+import { IconButton, Tooltip } from '@mui/material'
+import { Lock } from '@mui/icons-material'
 import authProvider from './providers/authProvider'
 
 const UserMenu = () => {
@@ -12,7 +12,7 @@ const UserMenu = () => {
   return (
     <Tooltip title='Se déconnecter' onClick={logout}>
       <IconButton color='inherit'>
-        <LockIcon />
+        <Lock />
       </IconButton>
     </Tooltip>
   )

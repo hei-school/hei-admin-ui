@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-
 import {
   BooleanInput,
   Create,
@@ -27,7 +26,6 @@ const commonStyleSelect = {
     xl: 325
   }
 }
-
 const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
   <SelectInput
     {...props}
