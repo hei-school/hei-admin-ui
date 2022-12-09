@@ -1,4 +1,4 @@
-import { DateField, EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
+import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
 import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
 
@@ -21,11 +21,11 @@ export const ProfileLayout = () => {
       <TextField source='first_name' id='first_name' label='Prénom(s)' />
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
-      <TextField label='Téléphone' source='phone' />
-      <CustomDateField label='Date de naissance' source='birth_date' />
+      <TextField source='phone' label='Téléphone' />
+      <CustomDateField source='birth_date' label='Date de naissance' />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <CustomDateField label="Date d'entrée chez HEI" source='entrance_datetime' />
+      <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
   )

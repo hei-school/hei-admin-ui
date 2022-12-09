@@ -1,8 +1,10 @@
 name: CI
+
 on:
   push:
     branches:
       - '*'
+
   workflow_dispatch:
 
 jobs:
@@ -17,9 +19,24 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 17.x
-      - run: ./initNpmToken.sh ${{ secrets.RA_ENTREPRISE_NPM_TOKEN }}
 
-      - run: yarn install
+      - name: Install aws cli
+        uses: unfor19/install-aws-cli-action@v1.0.3
+        with:
+          version: 2
+          verbose: false
+          arch: amd64
+          rootdir: ''
+          workdir: ''
+
+      - run: sh ./initAWS.sh ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }} ${{ secrets.AWS_REGION }}
+
+      - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
+
+      - run: npm config set always-auth true
+
+      - run: npm install --legacy-peer-deps
+
       - name: Cypress dependencies
         # From: https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements, Ubuntu section
         run: |
@@ -29,7 +46,7 @@ jobs:
           export REACT_APP_TEST_STUDENT1_PASSWORD=${{ secrets.TEST_STUDENT1_PASSWORD }}
           export REACT_APP_TEST_TEACHER1_PASSWORD=${{ secrets.TEST_TEACHER1_PASSWORD }}
           export REACT_APP_TEST_MANAGER1_PASSWORD=${{ secrets.TEST_MANAGER1_PASSWORD }}
-          yarn test
+          npm run test
 
       - name: Read version file
         id: read-version
@@ -37,7 +54,9 @@ jobs:
         with:
           file: version.yml
           version: version
-      - run: yarn global add sonar-scanner
+
+      - run: npm install --location=global sonar-scanner
+
       - name: Sonar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -56,7 +75,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 17.x
-      - run: ./initNpmToken.sh ${{ secrets.RA_ENTREPRISE_NPM_TOKEN }}
 
-      - run: yarn global add prettier
+      - run: npm install --location=global prettier
       - run: prettier --check "src/**/*.{js,ts,tsx}" "./**/*.{json,yml,yaml}"

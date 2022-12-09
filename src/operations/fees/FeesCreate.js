@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-
 import {
   BooleanInput,
   Create,
@@ -27,7 +26,6 @@ const commonStyleSelect = {
     xl: 325
   }
 }
-
 const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
   <SelectInput
     {...props}
@@ -35,7 +33,7 @@ const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
     label='Type prédéfini'
     choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id][0].name }))}
     onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
-    sx={commonStyleSelect.width}
+    sx={commonStyleSelect}
   />
 )
 
@@ -54,7 +52,7 @@ const PredefinedFirstDueDateRadioButton = props => (
     source='predefined_first_dueDate'
     label='Première date limite prédéfinie'
     choices={Object.keys(predefinedFirstDueDates).map(id => ({ id: id, name: predefinedFirstDueDates[id].name }))}
-    sx={commonStyleSelect.width}
+    sx={commonStyleSelect}
   />
 )
 
