@@ -1,6 +1,5 @@
 import { createTheme } from '@mui/material/styles'
-import amber from '@mui/material/colors/amber'
-import indigo from '@mui/material/colors/indigo'
+import { amber, indigo } from '@mui/material/colors'
 
 export const mainTheme = createTheme({
   palette: {

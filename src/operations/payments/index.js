@@ -1,11 +1,11 @@
-import Money from '@mui/icons-material/AttachMoney'
+import { AttachMoney } from '@mui/icons-material'
 import PaymentList from './PaymentList'
 import PaymentCreate from './PaymentCreate'
 
 const payments = {
   list: PaymentList,
   create: PaymentCreate,
-  icon: Money,
+  icon: AttachMoney,
   options: { label: 'Paiements' }
 }
 

@@ -1,26 +1,22 @@
 import { MultiLevelMenu, MenuItemCategory, MenuItemList, MenuItemNode } from '@react-admin/ra-navigation'
 import { CardContent, Typography } from '@mui/material'
 
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import SchoolIcon from '@mui/icons-material/School'
-import PeopleIcon from '@mui/icons-material/People'
-import WorkIcon from '@mui/icons-material/Work'
-import WarningIcon from '@mui/icons-material/WarningOutlined'
+import { AccountCircle, School, People, Work, Warning } from '@mui/icons-material'
 
 export const ManagerMenu = () => (
   <MultiLevelMenu variant='categories'>
-    <MenuItemCategory to='/profile' name='profile' label='Mon profil' icon={<AccountCircleIcon />} />
+    <MenuItemCategory to='/profile' name='profile' label='Mon profil' icon={<AccountCircle />} />
 
-    <MenuItemCategory to='/teachers' name='teachers' label='Enseignants' icon={<WorkIcon />} />
+    <MenuItemCategory to='/teachers' name='teachers' label='Enseignants' icon={<Work />} />
 
-    <MenuItemCategory name='students' label='Étudiants' icon={<SchoolIcon />}>
+    <MenuItemCategory name='students' label='Étudiants' icon={<School />}>
       <CardContent>
         <Typography variant='h6' gutterBottom>
           Opérations sur les étudiants
         </Typography>
         <MenuItemList>
-          <MenuItemNode to='/students' name='students' label='Liste des étudiants' icon={<PeopleIcon />} />
-          <MenuItemNode to='/fees' name='fees' label='Frais en retard' icon={<WarningIcon />} />
+          <MenuItemNode to='/students' name='students' label='Liste des étudiants' icon={<People />} />
+          <MenuItemNode to='/fees' name='fees' label='Frais en retard' icon={<Warning />} />
         </MenuItemList>
       </CardContent>
     </MenuItemCategory>
