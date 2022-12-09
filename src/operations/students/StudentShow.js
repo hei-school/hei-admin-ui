@@ -22,7 +22,7 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
 const StudentShow = props => {
   const role = authProvider.getCachedRole()
   return (
-    <Show title='Étudiants' {...props} actions={role === 'MANAGER' ? <ActionsOnShow /> : null}>
+    <Show title='Étudiants' {...props} actions={role === 'MANAGER' && <ActionsOnShow />}>
       <ProfileLayout />
     </Show>
   )
