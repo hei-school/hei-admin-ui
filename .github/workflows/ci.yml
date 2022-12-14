@@ -17,9 +17,15 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 17.x
-      - run: ./initNpmToken.sh ${{ secrets.RA_ENTREPRISE_NPM_TOKEN }}
+          
+      - run: sh ./initAWS.sh ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }} ${{ secrets.AWS_REGION }}
 
-      - run: yarn install
+      - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
+
+      - run: npm config set always-auth true
+
+      - run: npm install --legacy-peer-deps
+
       - name: Cypress dependencies
         # From: https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements, Ubuntu section
         run: |
@@ -56,7 +62,6 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 17.x
-      - run: ./initNpmToken.sh ${{ secrets.RA_ENTREPRISE_NPM_TOKEN }}
 
       - run: yarn global add prettier
       - run: prettier --check "src/**/*.{js,ts,tsx}" "./**/*.{json,yml,yaml}"
