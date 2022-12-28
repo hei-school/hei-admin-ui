@@ -37,18 +37,18 @@ const toBase64 = (param: string) => Buffer.from(param).toString('base64')
 const fromBase64 = (param: string) => Buffer.from(param, 'base64').toString('ascii')
 
 const cacheWhoami = (whoami: Whoami): void => {
-  sessionStorage.setItem(idItem, whoami.id as string)
-  sessionStorage.setItem(roleItem, whoami.role as string)
-  sessionStorage.setItem(bearerItem, whoami.bearer as string)
+  localStorage.setItem(idItem, whoami.id as string)
+  localStorage.setItem(roleItem, whoami.role as string)
+  localStorage.setItem(bearerItem, whoami.bearer as string)
 }
 
-const getCachedWhoami = () => ({ id: sessionStorage.getItem(idItem), role: sessionStorage.getItem(roleItem), bearer: sessionStorage.getItem(bearerItem) })
+const getCachedWhoami = () => ({ id: localStorage.getItem(idItem), role: localStorage.getItem(roleItem), bearer: localStorage.getItem(bearerItem) })
 
 const getCachedRole = () => getCachedWhoami().role
 
 const getCachedAuthConf = (): Configuration => {
   const conf = new Configuration()
-  conf.accessToken = sessionStorage.getItem(bearerItem) as string
+  conf.accessToken = localStorage.getItem(bearerItem) as string
   return conf
 }
 
@@ -69,7 +69,7 @@ const authProvider = {
 
   logout: async (): Promise<void> => {
     localStorage.clear() // Amplify stores data in localStorage
-    sessionStorage.clear()
+    localStorage.clear()
     await Auth.signOut()
   },
 
