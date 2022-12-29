@@ -75,9 +75,12 @@ const authProvider = {
 
   checkAuth: async (): Promise<void> => {
     if (await whoami()) {
-      return
+      if (!sessionStorage.getItem(bearerItem)) {
+        await whoami().then(whoami => cacheWhoami(whoami))
+      }
+    }else{
+      throw new Error('Unauthorized')
     }
-    throw new Error('Unauthorized')
   },
 
   checkError: async () => Promise.resolve(),

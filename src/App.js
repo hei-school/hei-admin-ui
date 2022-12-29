@@ -31,6 +31,7 @@ const App = () => (
     i18nProvider={polyglotI18nProvider(() => frenchMessages, 'fr')}
     loginPage={HaLoginPage}
     layout={MyLayout}
+    requireAuth
   >
     <Resource name='profile' />
     <Resource name='students' {...students} />
