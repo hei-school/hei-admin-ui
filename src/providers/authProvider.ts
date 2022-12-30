@@ -17,6 +17,7 @@ const bearerItem = 'ha_bearer'
 const paramIsTemporaryPassword = 't'
 const paramUsername = 'u'
 const paramTemporaryPassword = 'p'
+const paramLocalAmplifyBoolean = "amplify-signin-with-hostedUI"
 
 const whoami = async (): Promise<Whoami> => {
   const session = await Auth.currentSession()
@@ -75,7 +76,7 @@ const authProvider = {
 
   checkAuth: async (): Promise<void> => {
     if (await whoami()) {
-      if (!sessionStorage.getItem(bearerItem)) {
+      if (!sessionStorage.getItem(bearerItem)&&(localStorage.getItem(paramLocalAmplifyBoolean))) {
         await whoami().then(whoami => cacheWhoami(whoami))
       }
     }else{
