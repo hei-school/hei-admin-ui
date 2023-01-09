@@ -1,4 +1,4 @@
-import { AppBar } from '@react-admin/ra-enterprise'
+import { AppBar } from 'react-admin'
 
 import { IconButton, Tooltip } from '@mui/material'
 import { Lock } from '@mui/icons-material'
@@ -18,5 +18,5 @@ const UserMenu = () => {
   )
 }
 
-const HaAppBar = props => <AppBar {...props} languages={[]} color='transparent' elevation={0} userMenu={<UserMenu {...props} />} />
+const HaAppBar = props => <AppBar {...props} languages={[]} color='transparent' elevation={0} userMenu={<UserMenu {...props} />} sx={{ bgcolor: '#ffbf00' }} />
 export default HaAppBar
