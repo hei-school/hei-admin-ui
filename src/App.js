@@ -45,6 +45,10 @@ const App = () => (
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
 
+      <Route exact path='/teachers' element={<teachers.list />} />
+
+      <Route exact path='/students' element={<students.list />} />
+
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
       <Route
         exact
