@@ -1,8 +1,10 @@
 import ProfileShow from './ProfileShow'
+import ProfileEdit from './ProfileEdit'
 import { TextInput } from 'react-admin'
 
 const profile = {
-  show: ProfileShow
+  show: ProfileShow,
+  edit: props => <ProfileEdit {...props} title='Profil' />
 }
 
 export default profile

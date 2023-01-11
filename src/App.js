@@ -14,6 +14,7 @@ import frenchMessages from 'ra-language-french'
 import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
+import ProfileEdit from './operations/profile/ProfileEdit'
 
 import fees from './operations/fees'
 import payments from './operations/payments'
@@ -33,7 +34,7 @@ const App = () => (
     layout={MyLayout}
     requireAuth
   >
-    <Resource name='profile' />
+    <Resource name='profile' edit={<ProfileEdit />} />
     <Resource name='students' {...students} />
     <Resource name='teachers' {...teachers} />
 

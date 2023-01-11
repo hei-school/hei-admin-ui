@@ -1,8 +1,16 @@
-import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
+import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, EditButton, TopToolbar } from 'react-admin'
 import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
 
 import { unexpectedValue } from '../utils/typography'
+
+const ActionsOnShow = ({ basePath, data, resource }) => {
+  return (
+    <TopToolbar disableGutters>
+      <EditButton basePath={basePath} resource={resource} record={data} />
+    </TopToolbar>
+  )
+}
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {
@@ -33,8 +41,9 @@ export const ProfileLayout = () => {
 
 const ProfileShow = () => {
   const id = authProvider.getCachedWhoami().id
+  const role = authProvider.getCachedRole()
   return (
-    <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
+    <Show id={id} resource='profile' basePath='/profile' title='Mon profil' actions={role === 'MANAGER' && <ActionsOnShow />}>
       <ProfileLayout />
     </Show>
   )
