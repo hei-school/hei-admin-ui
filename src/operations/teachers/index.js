@@ -6,7 +6,7 @@ import TeacherCreate from './TeacherCreate'
 
 const teachers = {
   list: TeacherList,
-  edit: props => <ProfileEdit {...props} title='Enseignants' />,
+  edit: ProfileEdit,
   show: TeacherShow,
   create: TeacherCreate,
   icon: Work,

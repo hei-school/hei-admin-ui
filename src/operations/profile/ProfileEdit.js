@@ -13,8 +13,8 @@ const StatusRadioButton = () => (
   />
 )
 
-const ProfileEdit = props => (
-  <Edit {...props}>
+const ProfileEdit = () => (
+  <Edit>
     <SimpleForm toolbar={<EditToolbar />}>
       <TextInput source='ref' label='Référence' fullWidth={true} />
       <TextInput source='first_name' label='Prénom·s' fullWidth={true} />

@@ -1,5 +1,4 @@
-import { List } from '@react-admin/ra-rbac'
-import { Datagrid, TextField, EditButton } from 'react-admin'
+import { List, Datagrid, TextField, EditButton } from 'react-admin'
 
 import { profileFilters } from '../profile'
 import PrevNextPagination from '../utils/PrevNextPagination'
