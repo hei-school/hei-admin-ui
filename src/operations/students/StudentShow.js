@@ -1,5 +1,4 @@
 import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 'react-admin'
-import { useParams } from 'react-router-dom'
 
 import { ProfileLayout } from '../profile/ProfileShow'
 import { AttachMoney } from '@mui/icons-material'
