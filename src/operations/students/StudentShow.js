@@ -1,4 +1,5 @@
 import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 'react-admin'
+import { useParams } from 'react-router-dom'
 
 import { ProfileLayout } from '../profile/ProfileShow'
 import { AttachMoney } from '@mui/icons-material'
@@ -19,10 +20,10 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
   )
 }
 
-const StudentShow = props => {
+const StudentShow = () => {
   const role = authProvider.getCachedRole()
   return (
-    <Show title='Étudiants' {...props} actions={role === 'MANAGER' && <ActionsOnShow />}>
+    <Show title='Étudiants' actions={role === 'MANAGER' && <ActionsOnShow />}>
       <ProfileLayout />
     </Show>
   )

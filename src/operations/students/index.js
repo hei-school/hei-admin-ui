@@ -6,7 +6,7 @@ import StudentCreate from './StudentCreate'
 
 const students = {
   list: StudentList,
-  edit: props => <ProfileEdit {...props} title='Étudiants' />,
+  edit: ProfileEdit,
   show: StudentShow,
   create: StudentCreate,
   icon: School,
