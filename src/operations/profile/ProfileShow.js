@@ -16,7 +16,6 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
-
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
