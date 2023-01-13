@@ -1,9 +1,11 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, UrlField } from 'react-admin'
 import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
-
+import dataProvider from '../../providers/dataProvider'
 import { unexpectedValue } from '../utils/typography'
+import { useState, useEffect } from 'react'
 
+const id = authProvider.getCachedWhoami().id
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -15,13 +17,25 @@ export const ProfileLayout = () => {
     if (user.status === 'DISABLED') return 'Suspendu·e'
     return unexpectedValue
   }
+  const phoneRenderer = data => {
+    ;<UrlField source='phone' label='Téléphone' href={'tel:'.concat(data.phone)} />
+  }
+  const [phoneNumber, setPhoneNumber] = useState('')
+  useEffect(() => {
+    const doEffect = async () => {
+      const user = await dataProvider.getOne('profile', { id: id })
+      setPhoneNumber(user.data.phone)
+    }
+    doEffect()
+    // eslint-disable-next-line
+  }, [phoneNumber])
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
       <TextField source='first_name' id='first_name' label='Prénom(s)' />
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
-      <UrlField source='phone' label='Téléphone' />
+      <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
@@ -32,7 +46,6 @@ export const ProfileLayout = () => {
 }
 
 const ProfileShow = () => {
-  const id = authProvider.getCachedWhoami().id
   return (
     <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
       <ProfileLayout />
