@@ -1,9 +1,10 @@
-import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
+import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, UrlField } from 'react-admin'
 import { CustomDateField } from '../fees/ByStatusFeeList'
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue } from '../utils/typography'
 
+const id = authProvider.getCachedWhoami().id
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -33,7 +34,6 @@ export const ProfileLayout = () => {
 }
 
 const ProfileShow = () => {
-  const id = authProvider.getCachedWhoami().id
   return (
     <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
       <ProfileLayout />

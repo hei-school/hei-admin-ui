@@ -20,9 +20,12 @@ const PaymentCreate = props => {
     doEffect()
   })
 
+  const validateConditions = [required(), number(), minValue(1)]
+  const [paymentChoice, setPaymentChoice] = useState('cash')
   const paymentConfToPaymentApi = ({ type, amount, comment }) => {
     return [{ feeId: feeId, type: paymentTypes[type].type, amount: amount, comment: comment }]
   }
+
   return (
     <Create
       {...props}
@@ -32,9 +35,17 @@ const PaymentCreate = props => {
       transform={paymentConfToPaymentApi}
     >
       <SimpleForm>
-        <RadioButtonGroupInput {...props} source='type' label='Type' choices={Object.keys(paymentTypes).map(id => ({ id: id, name: paymentTypes[id].name }))} />
-        <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={[required(), number(), minValue(1)]} />
-        <TextInput source='comment' label='Commentaire' fullWidth={true} />
+        <RadioButtonGroupInput
+          {...props}
+          source='type'
+          label='Type'
+          choices={Object.keys(paymentTypes).map(id => ({ id: id, name: paymentTypes[id].name }))}
+          onChange={e => {
+            setPaymentChoice(e.target.value)
+          }}
+        />
+        <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
+        <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === 'mobileMoney' && validateConditions} />
       </SimpleForm>
     </Create>
   )
