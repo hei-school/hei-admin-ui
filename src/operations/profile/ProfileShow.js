@@ -1,9 +1,7 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, UrlField } from 'react-admin'
 import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
-import dataProvider from '../../providers/dataProvider'
 import { unexpectedValue } from '../utils/typography'
-import { useState, useEffect } from 'react'
 
 const id = authProvider.getCachedWhoami().id
 export const ProfileLayout = () => {
@@ -20,15 +18,6 @@ export const ProfileLayout = () => {
   const phoneRenderer = data => {
     ;<UrlField source='phone' label='Téléphone' href={'tel:'.concat(data.phone)} />
   }
-  const [phoneNumber, setPhoneNumber] = useState('')
-  useEffect(() => {
-    const doEffect = async () => {
-      const user = await dataProvider.getOne('profile', { id: id })
-      setPhoneNumber(user.data.phone)
-    }
-    doEffect()
-    // eslint-disable-next-line
-  }, [phoneNumber])
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
