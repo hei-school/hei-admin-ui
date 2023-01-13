@@ -1,5 +1,6 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, UrlField } from 'react-admin'
 import { CustomDateField } from '../fees/ByStatusFeeList'
+import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue } from '../utils/typography'
 
@@ -15,7 +16,7 @@ export const ProfileLayout = () => {
     if (user.status === 'DISABLED') return 'Suspendu·e'
     return unexpectedValue
   }
-  const phoneRenderer = data => <UrlField source='phone' label='Téléphone' href={`tel:${data.phone}`} />
+  const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
