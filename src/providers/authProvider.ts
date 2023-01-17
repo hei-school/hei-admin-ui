@@ -75,15 +75,15 @@ const authProvider = {
   },
 
   checkAuth: async (): Promise<void> => {
-    if (await whoami()) {
-      if (!sessionStorage.getItem(bearerItem) && localStorage.getItem(paramLocalAmplifyBoolean)) {
-        await whoami()
-          .then(whoami => cacheWhoami(whoami))
-          .then(e => {})
-      }
-      return
-    }
-    throw new Error('Unauthorized')
+    await whoami()
+      .then(async whoami => {
+        if (!sessionStorage.getItem(bearerItem) && localStorage.getItem(paramLocalAmplifyBoolean)) {
+          cacheWhoami(whoami)
+        }
+      })
+      .catch(() => {
+        throw new Error('Unauthorized')
+      })
   },
 
   checkError: async () => Promise.resolve(),
