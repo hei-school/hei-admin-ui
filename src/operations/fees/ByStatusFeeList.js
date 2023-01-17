@@ -4,12 +4,13 @@ import rowStyle from './byStatusRowStyle'
 import { prettyPrintMoney } from '../utils/money'
 
 import { maxPageSize } from '../../providers/dataProvider'
+import { FeeStatusEnum } from '../../gen/haClient'
 export const CustomDateField = props => {
   const { source, label } = props
   return <DateField source={source} label={label} locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
 }
 const ByStatusFeeList = ({ status, ...props }) => {
-  status = status ? status : 'LATE'
+  status = status ? status : FeeStatusEnum.Late
   return (
     <List
       {...props}

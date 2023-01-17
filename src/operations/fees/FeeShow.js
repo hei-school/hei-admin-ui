@@ -3,22 +3,16 @@ import { useState, useEffect } from 'react'
 import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
 
 import { prettyPrintMoney } from '../utils/money'
-import { withRedWarning, unexpectedValue } from '../utils/typography'
 
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
+import { statusRenderer } from './utils'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
 import { useParams } from 'react-router-dom'
 import { CustomDateField } from './ByStatusFeeList'
 
 export const FeeLayout = ({ feeId }) => {
-  const statusRenderer = user => {
-    if (user.status === 'LATE') return withRedWarning('En retard')
-    if (user.status === 'PAID') return 'Payé'
-    if (user.status === 'UNPAID') return 'En attente'
-    return unexpectedValue
-  }
   return (
     <SimpleShowLayout>
       <CustomDateField label='Date de création' source='creation_datetime' />

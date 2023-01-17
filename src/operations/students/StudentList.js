@@ -4,6 +4,7 @@ import authProvider from '../../providers/authProvider'
 
 import { profileFilters } from '../profile'
 import PrevNextPagination from '../utils/PrevNextPagination'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 
 const StudentList = () => {
   const role = authProvider.getCachedRole()
@@ -13,7 +14,7 @@ const StudentList = () => {
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
-        {role === 'MANAGER' ? <EditButton /> : <ShowButton />}
+        {role === WhoamiRoleEnum.Manager ? <EditButton /> : <ShowButton />}
       </Datagrid>
     </List>
   )

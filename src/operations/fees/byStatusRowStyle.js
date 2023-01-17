@@ -1,9 +1,10 @@
 import { mainTheme } from '../../haTheme'
+import { FeeStatusEnum } from '../../gen/haClient'
 
 const rowStyle = (record, _index) => {
-  const lateColor = record.status === 'LATE' ? mainTheme.palette.error.light : 'inherit'
+  const lateColor = record.status === FeeStatusEnum.Late ? mainTheme.palette.error.light : 'inherit'
   return {
-    backgroundColor: record.status === 'PAID' ? mainTheme.palette.grey[300] : lateColor
+    backgroundColor: record.status === FeeStatusEnum.Paid ? mainTheme.palette.grey[300] : lateColor
   }
 }
 

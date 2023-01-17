@@ -4,6 +4,7 @@ import { ProfileLayout } from '../profile/ProfileShow'
 import { AttachMoney } from '@mui/icons-material'
 
 import authProvider from '../../providers/authProvider'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 
 const ActionsOnShow = ({ basePath, data, resource }) => {
   const record = useRecordContext()
@@ -22,7 +23,7 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
 const StudentShow = () => {
   const role = authProvider.getCachedRole()
   return (
-    <Show title='Étudiants' actions={role === 'MANAGER' && <ActionsOnShow />}>
+    <Show title='Étudiants' actions={role === WhoamiRoleEnum.Manager && <ActionsOnShow />}>
       <ProfileLayout />
     </Show>
   )

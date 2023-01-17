@@ -1,14 +1,10 @@
 import { RadioButtonGroupInput } from 'react-admin'
+import { UserSexEnum } from '../../gen/haClient'
 
-const SexRadioButton = () => (
-  <RadioButtonGroupInput
-    source='sex'
-    label='Sexe'
-    choices={[
-      { id: 'M', name: 'Homme' },
-      { id: 'F', name: 'Femme' }
-    ]}
-  />
-)
+const sexChoices = [
+  { id: UserSexEnum.M, name: 'Homme' },
+  { id: UserSexEnum.F, name: 'Femme' }
+]
+const SexRadioButton = () => <RadioButtonGroupInput source='sex' label='Sexe' choices={sexChoices} />
 
 export default SexRadioButton

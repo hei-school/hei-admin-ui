@@ -1,21 +1,9 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import { Link } from '@mui/material'
 import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
-import { unexpectedValue } from '../utils/typography'
+import { sexRenderer, statusRenderer, phoneRenderer } from './utils'
 
 export const ProfileLayout = () => {
-  const sexRenderer = user => {
-    if (user.sex === 'M') return 'Homme'
-    if (user.sex === 'F') return 'Femme'
-    return unexpectedValue
-  }
-  const statusRenderer = user => {
-    if (user.status === 'ENABLED') return 'Actif·ve'
-    if (user.status === 'DISABLED') return 'Suspendu·e'
-    return unexpectedValue
-  }
-  const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />

@@ -1,14 +1,15 @@
 import { SimpleForm, TextInput, DateInput, RadioButtonGroupInput, Edit } from 'react-admin'
 import EditToolbar from '../utils/EditToolBar'
 import SexRadioButton from '../utils/SexRadioButton'
+import { EnableStatus } from '../../gen/haClient'
 
 const StatusRadioButton = () => (
   <RadioButtonGroupInput
     source='status'
     label='Statut'
     choices={[
-      { id: 'ENABLED', name: 'Actif·ve' },
-      { id: 'DISABLED', name: 'Inactif·ve' }
+      { id: EnableStatus.Enabled, name: 'Actif·ve' },
+      { id: EnableStatus.Disabled, name: 'Inactif·ve' }
     ]}
   />
 )

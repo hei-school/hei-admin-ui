@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
+import { PaymentTypeEnum } from '../../gen/haClient'
 
 const PaymentCreate = props => {
   const params = useParams()
@@ -21,7 +22,7 @@ const PaymentCreate = props => {
   })
 
   const validateConditions = [required(), number(), minValue(1)]
-  const [paymentChoice, setPaymentChoice] = useState('cash')
+  const [paymentChoice, setPaymentChoice] = useState(PaymentTypeEnum.Cash.toLowerCase())
   const paymentConfToPaymentApi = ({ type, amount, comment }) => {
     return [{ feeId: feeId, type: paymentTypes[type].type, amount: amount, comment: comment }]
   }
@@ -45,7 +46,12 @@ const PaymentCreate = props => {
           }}
         />
         <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
-        <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === 'mobileMoney' && validateConditions} />
+        <TextInput
+          source='comment'
+          label='Commentaire'
+          fullWidth={true}
+          validate={paymentChoice === PaymentTypeEnum.MobileMoney.toLowerCase() && validateConditions}
+        />
       </SimpleForm>
     </Create>
   )

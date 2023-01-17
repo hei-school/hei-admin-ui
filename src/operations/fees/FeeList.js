@@ -10,6 +10,7 @@ import { prettyPrintMoney } from '../utils/money'
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
 import { CustomDateField } from './ByStatusFeeList'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -37,12 +38,12 @@ const FeeList = ({ studentId }) => {
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={role === 'MANAGER' && <Actions basePath={`/students/${definedStudentId}/fees`} />}
+      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/students/${definedStudentId}/fees`} />}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}
     >
-      <Datagrid bulkActionButtons={role === 'MANAGER'} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
+      <Datagrid bulkActionButtons={role === WhoamiRoleEnum.Manager} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
         <CustomDateField source='due_datetime' label='Date limite' />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
