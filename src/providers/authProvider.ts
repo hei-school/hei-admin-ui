@@ -79,7 +79,6 @@ const authProvider = {
       if (!sessionStorage.getItem(bearerItem) && localStorage.getItem(paramLocalAmplifyBoolean)) {
         await whoami()
           .then(whoami => cacheWhoami(whoami))
-          .then(e => {})
       }
       return
     }
