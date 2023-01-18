@@ -1,8 +1,8 @@
 import { Create, SimpleForm, TextInput, DateTimeInput, DateInput } from 'react-admin'
 import SexRadioButton from '../utils/SexRadioButton'
 
-const StudentCreate = props => (
-  <Create {...props} title='Étudiants'>
+const StudentCreate = () => (
+  <Create title='Étudiants'>
     <SimpleForm>
       <TextInput source='ref' label='Référence' fullWidth={true} />
       <TextInput source='first_name' label='Prénoms' fullWidth={true} />

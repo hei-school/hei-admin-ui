@@ -1,7 +1,6 @@
 import React from 'react'
 import { Admin } from '@react-admin/ra-enterprise'
-import { CustomRoutes } from 'react-admin'
-import { Resource } from '@react-admin/ra-rbac'
+import { CustomRoutes, Resource } from 'react-admin'
 
 import { Route } from 'react-router-dom'
 
