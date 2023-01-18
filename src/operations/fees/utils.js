@@ -1,8 +1,14 @@
 import { FeeStatusEnum } from '../../gen/haClient'
-import { withRedWarning, unexpectedValue } from '../utils/typography'
+import { withRedWarning, unexpectedValue } from '../utils'
 export const statusRenderer = user => {
-  if (user.status === FeeStatusEnum.Late) return withRedWarning('En retard')
-  if (user.status === FeeStatusEnum.Paid) return 'Payé'
-  if (user.status === FeeStatusEnum.Unpaid) return 'En attente'
-  return unexpectedValue
+  switch (user.status) {
+    case FeeStatusEnum.Late:
+      return withRedWarning('En retard')
+    case FeeStatusEnum.Paid:
+      return 'Payé'
+    case FeeStatusEnum.Unpaid:
+      return 'En attente'
+    default:
+      return unexpectedValue
+  }
 }

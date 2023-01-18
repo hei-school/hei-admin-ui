@@ -1,6 +1,5 @@
 import { SimpleForm, TextInput, DateInput, RadioButtonGroupInput, Edit } from 'react-admin'
-import EditToolbar from '../utils/EditToolBar'
-import SexRadioButton from '../utils/SexRadioButton'
+import { SexRadioButton, EditToolBar } from '../utils'
 import { EnableStatus } from '../../gen/haClient'
 
 const StatusRadioButton = () => (
@@ -16,7 +15,7 @@ const StatusRadioButton = () => (
 
 const ProfileEdit = () => (
   <Edit>
-    <SimpleForm toolbar={<EditToolbar />}>
+    <SimpleForm toolbar={<EditToolBar />}>
       <TextInput source='ref' label='Référence' fullWidth={true} />
       <TextInput source='first_name' label='Prénom·s' fullWidth={true} />
       <TextInput source='last_name' label='Nom·s' fullWidth={true} />

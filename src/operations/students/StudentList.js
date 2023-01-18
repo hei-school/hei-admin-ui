@@ -3,7 +3,7 @@ import { TextField, Datagrid, ShowButton, EditButton, List } from 'react-admin'
 import authProvider from '../../providers/authProvider'
 
 import { profileFilters } from '../profile'
-import PrevNextPagination from '../utils/PrevNextPagination'
+import { PrevNextPagination } from '../utils'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 
 const StudentList = () => {

@@ -1,16 +1,25 @@
 import { unexpectedValue } from '../utils/typography'
-import { UserSexEnum } from '../../gen/haClient'
-import { EnableStatus } from '../../gen/haClient'
+import { UserSexEnum, EnableStatus } from '../../gen/haClient'
 import { Link } from '@mui/material'
 
 export const sexRenderer = user => {
-  if (user.sex === UserSexEnum.F) return 'Homme'
-  if (user.sex === UserSexEnum.M) return 'Femme'
-  return unexpectedValue
+  switch (user.sex) {
+    case UserSexEnum.F:
+      return 'Homme'
+    case UserSexEnum.M:
+      return 'Femme'
+    default:
+      return unexpectedValue
+  }
 }
 export const statusRenderer = user => {
-  if (user.status === EnableStatus.Enabled) return 'Actif·ve'
-  if (user.status === EnableStatus.Disabled) return 'Suspendu·e'
-  return unexpectedValue
+  switch (user.status) {
+    case EnableStatus.Enabled:
+      return 'Actif·ve'
+    case EnableStatus.Disabled:
+      return 'Suspendu·e'
+    default:
+      return unexpectedValue
+  }
 }
 export const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>

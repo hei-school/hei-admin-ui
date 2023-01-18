@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
 
-import { prettyPrintMoney } from '../utils/money'
+import { prettyPrintMoney } from '../utils'
 
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
