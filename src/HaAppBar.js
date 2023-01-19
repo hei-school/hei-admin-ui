@@ -1,4 +1,4 @@
-import { AppBar } from 'react-admin'
+import { AppBar } from '@react-admin/ra-enterprise'
 
 import { IconButton, Tooltip } from '@mui/material'
 import { Lock } from '@mui/icons-material'
