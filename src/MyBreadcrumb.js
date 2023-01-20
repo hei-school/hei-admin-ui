@@ -4,16 +4,19 @@ import dataProvider from './providers/dataProvider'
 
 export const MyBreadcrumb = () => {
   const [studentRef, setStudentRef] = useState('...')
-  const takeRefFunction = ({ record }) => record && <spam>{record.ref}</spam>
-  const takeIdFunction = ({ record }) => {
-    if (record) {
-      console.log(record)
-      const doEffect = async () => {
-        const student = await dataProvider.getOne('students', { id: record.student_id })
-        setStudentRef(student.data.ref)
+  const takeRefFunction = ({ record }) => {
+    if (record.ref != undefined) {
+      return <spam>{record.ref}</spam>
+    } else {
+      if (record) {
+        console.log(record)
+        const doEffect = async () => {
+          const student = await dataProvider.getOne('students', { id: record.student_id })
+          setStudentRef(student.data.ref)
+        }
+        doEffect()
+        return <spam>{studentRef}</spam>
       }
-      doEffect()
-      return <spam>{studentRef}</spam>
     }
   }
 
@@ -31,8 +34,8 @@ export const MyBreadcrumb = () => {
       </BreadcrumbItem>
       <BreadcrumbItem name='profile' label='Profiles' />
       <BreadcrumbItem name='fees' label='Frais'>
-        <BreadcrumbItem name='edit' label={takeIdFunction} />
-        <BreadcrumbItem name='show' label={takeIdFunction} />
+        <BreadcrumbItem name='edit' label={takeRefFunction} />
+        <BreadcrumbItem name='show' label={takeRefFunction} />
         <BreadcrumbItem name='create' label='créer' />
       </BreadcrumbItem>
       <BreadcrumbItem name='profile' label='Profiles' />
