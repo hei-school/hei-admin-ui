@@ -5,7 +5,7 @@ import dataProvider from './providers/dataProvider'
 export const MyBreadcrumb = () => {
   const [studentRef, setStudentRef] = useState('...')
   const takeRefFunction = ({ record }) => {
-    if (record.ref != undefined) {
+    if (record.ref) {
       return <spam>{record.ref}</spam>
     } else {
       if (record) {
