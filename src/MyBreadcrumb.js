@@ -9,7 +9,6 @@ export const MyBreadcrumb = () => {
       return <spam>{record.ref}</spam>
     } else {
       if (record) {
-        console.log(record)
         const doEffect = async () => {
           const student = await dataProvider.getOne('students', { id: record.student_id })
           setStudentRef(student.data.ref)
