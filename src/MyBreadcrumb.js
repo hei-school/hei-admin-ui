@@ -5,18 +5,19 @@ import dataProvider from './providers/dataProvider'
 export const MyBreadcrumb = () => {
   const [studentRef, setStudentRef] = useState('...')
   const takeRefFunction = ({ record }) => {
-    if (record.ref) {
-      return <spam>{record.ref}</spam>
-    } else {
       if (record) {
-        const doEffect = async () => {
-          const student = await dataProvider.getOne('students', { id: record.student_id })
-          setStudentRef(student.data.ref)
+        if (record.ref) {
+          return <spam>{record.ref}</spam>
+        }else {
+          const doEffect = async () => {
+            const student = await dataProvider.getOne('students', { id: record.student_id })
+            setStudentRef(student.data.ref)
+          }
+          doEffect()
+          return <spam>{studentRef}</spam>
         }
-        doEffect()
-        return <spam>{studentRef}</spam>
       }
-    }
+    return <spam>{"..."}</spam>
   }
 
   return (
