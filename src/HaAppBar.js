@@ -1,6 +1,5 @@
-import { AppBar } from 'react-admin'
-
-import { IconButton, Tooltip } from '@mui/material'
+import { AppBar as DefaultAppBar, AppBarClasses } from 'react-admin'
+import { IconButton, Tooltip, Typography } from '@mui/material'
 import { Lock } from '@mui/icons-material'
 import authProvider from './providers/authProvider'
 
@@ -18,5 +17,13 @@ const UserMenu = () => {
   )
 }
 
-const HaAppBar = props => <AppBar {...props} languages={[]} color='transparent' elevation={0} userMenu={<UserMenu {...props} />} sx={{ bgcolor: '#ffbf00' }} />
+const HaAppBar = props => {
+  return (
+    <DefaultAppBar {...props} elevation={1} sx={{ bgcolor: '#ffbf00', color: 'black' }} userMenu={<UserMenu {...props} color='transparent' />}>
+      <Typography variant='h6' color='inherit' className={AppBarClasses.title} id='react-admin-title' />
+      {props.children}
+    </DefaultAppBar>
+  )
+}
+
 export default HaAppBar
