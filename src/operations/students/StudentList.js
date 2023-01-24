@@ -8,7 +8,7 @@ import PrevNextPagination from '../utils/PrevNextPagination'
 const StudentList = () => {
   const role = authProvider.getCachedRole()
   return (
-    <List label='Étudiants' bulkActionButtons={false} hasCreate={role==='MANAGER'} filters={profileFilters} pagination={<PrevNextPagination />}>
+    <List label='Étudiants' bulkActionButtons={false} hasCreate={role === 'MANAGER'} filters={profileFilters} pagination={<PrevNextPagination />}>
       <Datagrid rowClick='show'>
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
