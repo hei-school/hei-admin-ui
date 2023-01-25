@@ -56,6 +56,46 @@ const PredefinedFirstDueDateRadioButton = props => (
   />
 )
 
+export const FeeSimpleFormContent = (props) => {
+  const { feesConf, setFeesConf, passIsPredefinedType } = props;
+  const defaultIsPredefinedType = true
+  const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType);
+  passIsPredefinedType(isPredefinedType)
+  const defaultIsPredefinedFirstDueDate = true
+  const [isPredefinedFirstDueDate, setIsPredefinedFirstDueDate] = useState(defaultIsPredefinedFirstDueDate)
+  return (
+    <>
+      <BooleanInput
+        source='is_predefined_type'
+        label='Type prédéfini ?'
+        name='is_predefined_type'
+        defaultValue={defaultIsPredefinedType}
+        onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
+      />
+      {isPredefinedType ? (
+        <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} />
+      ) : (
+        <ManualFeeTypeRadioButton validate={required()} />
+      )}
+      <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
+
+      <BooleanInput
+        source='is_predefined_first_dueDate'
+        label='Première date limite prédéfinie ?'
+        name='is_predefined_first_dueDate'
+        defaultValue={defaultIsPredefinedFirstDueDate}
+        fullWidth={true}
+        onChange={({ target: { checked } }) => setIsPredefinedFirstDueDate(checked)}
+      />
+      {
+        isPredefinedFirstDueDate ? (
+          <PredefinedFirstDueDateRadioButton validate={required()} />
+        ) : (
+          <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
+        )}
+    </>
+  );
+}
 const FeesCreate = props => {
   const params = useParams()
   const studentId = params.studentId
@@ -70,9 +110,6 @@ const FeesCreate = props => {
     // eslint-disable-next-line
   }, [studentRef])
 
-  const defaultIsPredefinedType = true
-  const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
-
   const [feesConf, setFeesConf] = useState([
     {
       monthlyAmount: null,
@@ -81,9 +118,11 @@ const FeesCreate = props => {
     }
   ])
 
-  const defaultIsPredefinedFirstDueDate = true
-  const [isPredefinedFirstDueDate, setIsPredefinedFirstDueDate] = useState(defaultIsPredefinedFirstDueDate)
-
+  const defaultIsPredefinedType = true;
+  const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
+  const useIsPredefinedType = (data) => {
+    setIsPredefinedType(data);
+  }
   const feesConfToFeesApi = _feesConf => {
     const fees = []
     const toDate = str => {
@@ -93,27 +132,21 @@ const FeesCreate = props => {
     const firstDueDate = _feesConf.is_predefined_first_dueDate
       ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value
       : toDate(_feesConf.manual_first_duedate)
-    if (feesConf.length <= 1) {
-      for (let i = 0; i < _feesConf.months_number; i++) {
+
+    for (let j = 0; j < feesConf.length; j++) {
+      let totalMonthsNumber = feesConf.reduce((acc, currentValue) => acc + currentValue.monthsNumber, 0)
+      let start = j === 0 
+        ? 0 
+        : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
+      let end = start + feesConf[j].monthsNumber - 1
+      for (let i = start; i <= end; i++) {
         fees.push({
-          total_amount: _feesConf.monthly_amount,
-          type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type]?.type,
+          total_amount: feesConf[j].monthlyAmount,
+          type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
           student_id: studentId,
           due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
           comment: `${_feesConf.comment} (${currentYear})`
         })
-      }
-    } else {
-      for (let j = 0; j < feesConf.length; j++) {
-        for (let i = 0; i < feesConf[j].monthsNumber; i++) {
-          fees.push({
-            total_amount: feesConf[j].monthlyAmount,
-            type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
-            student_id: studentId,
-            due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-            comment: `${_feesConf.comment} (${currentYear})`
-          })
-        }
       }
     }
     return fees
@@ -128,33 +161,7 @@ const FeesCreate = props => {
       transform={feesConfToFeesApi}
     >
       <SimpleForm>
-        <BooleanInput
-          source='is_predefined_type'
-          label='Type prédéfini ?'
-          name='is_predefined_type'
-          defaultValue={defaultIsPredefinedType}
-          onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
-        />
-        {isPredefinedType ? (
-          <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} />
-        ) : (
-          <ManualFeeTypeRadioButton validate={required()} />
-        )}
-        <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
-
-        <BooleanInput
-          source='is_predefined_first_dueDate'
-          label='Première date limite prédéfinie ?'
-          name='is_predefined_first_dueDate'
-          defaultValue={defaultIsPredefinedFirstDueDate}
-          fullWidth={true}
-          onChange={({ target: { checked } }) => setIsPredefinedFirstDueDate(checked)}
-        />
-        {isPredefinedFirstDueDate ? (
-          <PredefinedFirstDueDateRadioButton validate={required()} />
-        ) : (
-          <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
-        )}
+        <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />
       </SimpleForm>
     </Create>
   )
@@ -188,7 +195,7 @@ const FeesConfInput = ({ isPredefinedType, feesConf }) => {
         disabled={isPredefinedType}
         validate={validateMonthsNumber}
       />
-      <TextInput source='comment' name='comment' label='Commentaire' fullWidth={true} disabled={isPredefinedType} validate={required()} />
+      <TextInput source='comment' name='comment' label='Commentaire' fullWidth={true} disabled={isPredefinedType} />
     </div>
   )
 }
