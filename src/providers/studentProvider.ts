@@ -1,4 +1,4 @@
-import { usersApi, payingApi} from './api'
+import { usersApi, payingApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
 import { EnableStatus } from 'src/gen/haClient'
 
@@ -11,11 +11,11 @@ const studentProvider: HaDataProviderType = {
     const result = await usersApi().getStudentById(id)
     return result.data
   },
-  async saveOrUpdate(payload: any ) {
-     const [fees, student] = payload[0]
-     Object.assign(student, { status : EnableStatus.Enabled})
+  async saveOrUpdate(payload: any) {
+    const [fees, student] = payload[0]
+    Object.assign(student, { status: EnableStatus.Enabled })
     const [studentResponse] = (await usersApi().createOrUpdateStudents([student])).data
-    fees.length !== 0 && await payingApi().createStudentFees(studentResponse?.id!, fees)
+    fees.length !== 0 && (await payingApi().createStudentFees(studentResponse?.id!, fees))
     return [studentResponse]
   }
 }

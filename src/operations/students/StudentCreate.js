@@ -5,7 +5,6 @@ import SexRadioButton from '../utils/SexRadioButton'
 import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 
 const StudentCreate = props => {
-
   const [feesConf, setFeesConf] = useState([
     {
       monthlyAmount: null,
@@ -14,13 +13,13 @@ const StudentCreate = props => {
     }
   ])
 
-  const defaultIsPredefinedType = true;
+  const defaultIsPredefinedType = true
   const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
-  const useIsPredefinedType = (data) => {
-    setIsPredefinedType(data);
+  const useIsPredefinedType = data => {
+    setIsPredefinedType(data)
   }
-  const defaultCanCreateFees = false;
-  const [canCreateFees, setCanCreateFees] = useState(defaultCanCreateFees);
+  const defaultCanCreateFees = false
+  const [canCreateFees, setCanCreateFees] = useState(defaultCanCreateFees)
   const transformPayload = payload => {
     const {
       monthly_amount,
@@ -33,16 +32,14 @@ const StudentCreate = props => {
       predefined_type,
       is_predefined_type,
       ...student
-    } = payload;
+    } = payload
     const fees = []
     const toDate = str => {
       const parts = str.split('-')
       return new Date(parts[0], parts[1] - 1 /* note(js-months) */, parts[2])
     }
     if (canCreateFees) {
-      const firstDueDate = is_predefined_first_dueDate
-        ? predefinedFirstDueDates[predefined_first_dueDate].value
-        : toDate(manual_first_duedate)
+      const firstDueDate = is_predefined_first_dueDate ? predefinedFirstDueDates[predefined_first_dueDate].value : toDate(manual_first_duedate)
 
       let totalMonthsNumber = feesConf.reduce((acc, currentValue) => acc + currentValue.monthsNumber, 0)
       for (let j = 0; j < feesConf.length; j++) {
@@ -59,19 +56,11 @@ const StudentCreate = props => {
       }
     }
     student.entrance_datetime = student.entrance_datetime.concat('T21:00:00.000Z')
-    const result = [
-      fees,
-      student
-    ]
-    return result;
+    const result = [fees, student]
+    return result
   }
   return (
-    <Create
-      title='Étudiants'
-      transform={transformPayload}
-      resource='students'
-    >
-
+    <Create title='Étudiants' transform={transformPayload} resource='students'>
       <SimpleForm>
         <TextInput source='ref' label='Référence' fullWidth={true} />
         <TextInput source='first_name' label='Prénoms' fullWidth={true} />
@@ -89,11 +78,9 @@ const StudentCreate = props => {
           defaultValue={defaultCanCreateFees}
           onChange={({ target: { checked } }) => setCanCreateFees(checked)}
         />
-        {
-          canCreateFees && <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} feesConfToFeesApi={transformPayload} />
-        }
+        {canCreateFees && <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />}
       </SimpleForm>
     </Create>
-  );
+  )
 }
 export default StudentCreate

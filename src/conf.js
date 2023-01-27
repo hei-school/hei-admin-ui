@@ -38,8 +38,7 @@ export const manualFeeTypes = {
 export const predefinedFirstDueDates = {
   // /!\ note(js-months): months are zero-based in JS
   oct21: { name: '15 octobre 2022', value: new Date(2022, 9, 15) },
-  jan22: { name: '15 janvier 2023', value: new Date(2023, 0, 15) },
-  apr22: { name: '15 avril 2023', value: new Date(2023, 3, 15) }
+  jan22: { name: '15 janvier 2023', value: new Date(2023, 0, 15) }
 }
 
 export const paymentTypes = {
