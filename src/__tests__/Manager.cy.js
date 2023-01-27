@@ -56,7 +56,9 @@ describe(specTitle('Manager'), () => {
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/teachers?page=1&page_size=10`, teachersMock).as('getTeachersPage1')
     cy.intercept('GET', `/teachers?page=2&page_size=10`, teachersMock).as('getTeachersPage2')
-    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${TaecherNameToBeCheckedMock}`, [teacher1Mock]).as('getTeacherByName')
+    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
+    cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
+    cy.intercept('GET', `/teachers?page=1&page_size=10&first_name=${TaecherNameToBeCheckedMock}`, [teacher1Mock]).as('getTeacherByName')
     cy.get('[href="#/teachers"]').click() // Enseignants menu
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
