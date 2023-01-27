@@ -4,11 +4,11 @@ import { student1Mock } from './student-api'
 export const fee1Mock: Fee = {
   id: 'fee1_id',
   student_id: student1Mock.id,
-  remaining_amount: 0,
+  remaining_amount: 200000,
   status: FeeStatusEnum.Late,
   type: FeeTypeEnum.Tuition,
   comment: 'Comment',
-  total_amount: 5000,
+  total_amount: 240000,
   creation_datetime: '2021-11-08T08:25:24Z',
   due_datetime: '2021-12-08T08:25:24Z'
 }
