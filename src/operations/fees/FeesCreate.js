@@ -56,13 +56,13 @@ const PredefinedFirstDueDateRadioButton = props => (
   />
 )
 
-export const FeeSimpleFormContent = (props) => {
-  const { feesConf, setFeesConf, passIsPredefinedType } = props;
+export const FeeSimpleFormContent = props => {
+  const { feesConf, setFeesConf, passIsPredefinedType } = props
   const defaultIsPredefinedType = true
-  const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType);
-  passIsPredefinedType(isPredefinedType)
+  const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
   const defaultIsPredefinedFirstDueDate = true
   const [isPredefinedFirstDueDate, setIsPredefinedFirstDueDate] = useState(defaultIsPredefinedFirstDueDate)
+  passIsPredefinedType(isPredefinedType)
   return (
     <>
       <BooleanInput
@@ -72,11 +72,7 @@ export const FeeSimpleFormContent = (props) => {
         defaultValue={defaultIsPredefinedType}
         onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
       />
-      {isPredefinedType ? (
-        <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} />
-      ) : (
-        <ManualFeeTypeRadioButton validate={required()} />
-      )}
+      {isPredefinedType ? <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} /> : <ManualFeeTypeRadioButton validate={required()} />}
       <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
 
       <BooleanInput
@@ -87,14 +83,13 @@ export const FeeSimpleFormContent = (props) => {
         fullWidth={true}
         onChange={({ target: { checked } }) => setIsPredefinedFirstDueDate(checked)}
       />
-      {
-        isPredefinedFirstDueDate ? (
-          <PredefinedFirstDueDateRadioButton validate={required()} />
-        ) : (
-          <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
-        )}
+      {isPredefinedFirstDueDate ? (
+        <PredefinedFirstDueDateRadioButton validate={required()} />
+      ) : (
+        <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
+      )}
     </>
-  );
+  )
 }
 const FeesCreate = props => {
   const params = useParams()
@@ -118,10 +113,10 @@ const FeesCreate = props => {
     }
   ])
 
-  const defaultIsPredefinedType = true;
+  const defaultIsPredefinedType = true
   const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
-  const useIsPredefinedType = (data) => {
-    setIsPredefinedType(data);
+  const useIsPredefinedType = data => {
+    setIsPredefinedType(data)
   }
   const feesConfToFeesApi = _feesConf => {
     const fees = []
@@ -135,9 +130,7 @@ const FeesCreate = props => {
 
     for (let j = 0; j < feesConf.length; j++) {
       let totalMonthsNumber = feesConf.reduce((acc, currentValue) => acc + currentValue.monthsNumber, 0)
-      let start = j === 0 
-        ? 0 
-        : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
+      let start = j === 0 ? 0 : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
       let end = start + feesConf[j].monthsNumber - 1
       for (let i = start; i <= end; i++) {
         fees.push({
