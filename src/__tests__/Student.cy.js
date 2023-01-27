@@ -2,6 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
+import { feelsMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -12,18 +13,26 @@ describe(specTitle('Student'), () => {
   })
 
   it('lands on profile page if succeeds', () => {
-    cy.get('#first_name').contains('Ryan')
+    cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+    cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
   it('can detail fee (click on fee row)', () => {
-    cy.get('[href="#/students/student1_id/fees"]').click()
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feelsMock).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+    cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
+    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('200,000 Ar').click()
     cy.contains('En retard')
   })
 
   it('can detail fee (click on fee button)', () => {
-    cy.get('[href="#/students/student1_id/fees"]').click()
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feelsMock).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+    cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
+    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
