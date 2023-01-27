@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { feelsMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { fee1Mock, feelsMock, payment1Mock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -31,6 +31,8 @@ describe(specTitle('Student'), () => {
   it('can detail fee (click on fee button)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feelsMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feelsMock[7 - 1].id}/payments?page=1&page_size=10`, [payment1Mock]).as('getStudent')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feelsMock[7 - 1].id}`, feelsMock[7 - 1]).as('getFee')
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
