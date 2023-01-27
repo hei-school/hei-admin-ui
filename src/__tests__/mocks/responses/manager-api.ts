@@ -1,12 +1,9 @@
 import { EnableStatus, Whoami, WhoamiRoleEnum, Manager, ManagerSexEnum } from 'src/gen/haClient'
 
-const bearerItem = 'ha_bearer'
-const token = sessionStorage.getItem(bearerItem)
-
 export const manager1Mock: Manager = {
   id: 'manager1_id',
   ref: 'MGR21001',
-  first_name: 'Lova',
+  first_name: 'One',
   last_name: 'Manager',
   sex: ManagerSexEnum.M,
   birth_date: '1890-01-01',
@@ -17,4 +14,4 @@ export const manager1Mock: Manager = {
   status: EnableStatus.Enabled
 }
 
-export const whoamiManagerMock: Whoami = { id: 'manager1_id', role: WhoamiRoleEnum.Manager, bearer: token == null ? undefined : token }
+export const whoamiManagerMock: Whoami = { id: 'manager1_id', role: WhoamiRoleEnum.Manager, bearer: 'token == null ? undefined : token' }
