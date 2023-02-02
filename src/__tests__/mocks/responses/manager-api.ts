@@ -1,9 +1,11 @@
 import { EnableStatus, Whoami, WhoamiRoleEnum, Manager, ManagerSexEnum } from 'src/gen/haClient'
 
+export const managerNameToBeCheckedMock: string = 'Lou'
+
 export const manager1Mock: Manager = {
   id: 'manager1_id',
   ref: 'MGR21001',
-  first_name: 'One',
+  first_name: managerNameToBeCheckedMock,
   last_name: 'Manager',
   sex: ManagerSexEnum.M,
   birth_date: '1890-01-01',

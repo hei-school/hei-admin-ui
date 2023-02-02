@@ -20,9 +20,9 @@ describe(specTitle('Teacher'), () => {
 
   it('can list and filter students', () => {
     cy.intercept('GET', `/whoami`, whoamiTeacherMock).as('getWhoami')
-    cy.intercept('GET', `/teachers/${teacher1Mock.id}`, teacher1Mock).as('getTeacher')
-    cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
-    cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudents')
+    cy.intercept('GET', `/teachers/${teacher1Mock.id}`, teacher1Mock).as('getTeacher1')
+    cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
+    cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentByName')
     // note(listAndFilterStudents)
     cy.get('a[href="#/students"]').click() // Étudiants menu
@@ -33,7 +33,7 @@ describe(specTitle('Teacher'), () => {
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
 
-    cy.wait(['@getTeacher', '@getWhoami'])
+    cy.wait(['@getTeacher1', '@getWhoami'])
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"]').click()
     cy.get('#last_name').type(studentNameToBeCheckedMock)

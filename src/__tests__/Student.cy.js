@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { fee1Mock, feesMock, payment1Mock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { creatPaymentOfFeeFunctionMock, feesMock, payment1Mock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -12,10 +12,16 @@ describe(specTitle('Student'), () => {
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}/payments?page=1&page_size=10`, [payment1Mock]).as('getStudent')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[0].id}/payments?page=1&page_size=10`, [payment1Mock]).as('getStudent')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}`, feesMock[7 - 1]).as('getFee')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[0].id}`, feesMock[0]).as('getFee')
+    cy.intercept(
+      'GET',
+      `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}/payments?page=1&page_size=10`,
+      creatPaymentOfFeeFunctionMock(feesMock[7 - 1])
+    ).as('getPaymentsOfFee1')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[0].id}/payments?page=1&page_size=10`, creatPaymentOfFeeFunctionMock(feesMock[0])).as(
+      'getPaymentsOfFee2'
+    )
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}`, feesMock[7 - 1]).as('getFee1')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[0].id}`, feesMock[0]).as('getFee2')
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 

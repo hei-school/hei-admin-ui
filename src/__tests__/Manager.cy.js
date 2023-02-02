@@ -4,6 +4,7 @@ import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import {
   manager1Mock,
+  managerNameToBeCheckedMock,
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
@@ -22,7 +23,8 @@ describe(specTitle('Manager'), () => {
 
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
-    cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
+    cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
+    cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/teachers?page=1&page_size=10`, teachersMock).as('getTeachersPage1')
     cy.intercept('GET', `/teachers?page=2&page_size=10`, teachersMock).as('getTeachersPage2')
@@ -30,7 +32,7 @@ describe(specTitle('Manager'), () => {
   })
 
   it('lands on profile page if succeeds', () => {
-    cy.get('#first_name').contains('One')
+    cy.get('#first_name').contains(managerNameToBeCheckedMock)
     unmount()
   })
 
@@ -55,9 +57,7 @@ describe(specTitle('Manager'), () => {
 
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name')
-      .type(studentNameToBeCheckedMock)
-      .then(e => {})
+    cy.get('#last_name').type(studentNameToBeCheckedMock)
     cy.contains('Page : 1')
     cy.contains('Taille : 1')
     unmount()

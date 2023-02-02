@@ -2,8 +2,20 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { manager1Mock, student1Mock, studentNameToBeCheckedMock, studentsMock, feesMock, whoamiManagerMock } from './mocks/responses'
+import {
+  manager1Mock,
+  student1Mock,
+  studentNameToBeCheckedMock,
+  studentsMock,
+  feesMock,
+  whoamiManagerMock,
+  creatPaymentOfFeeFunctionMock,
+  addFeeFunctionMock,
+  creatFeeWithPaymentFunctionMock
+} from './mocks/responses'
 import { CreateFeeTypeEnum, FeeStatusEnum } from '../gen/haClient'
+
+const feeDateToCherch = `2022-09-11`
 
 describe(specTitle('Manager.Fee'), () => {
   beforeEach(() => {
@@ -23,7 +35,6 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get(':nth-child(1) > .MuiListItem-root').click()
     cy.wait('@getManager1').get('a[href="#/profile"]').click()
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    //cy.get(':nth-child(1) > .MuiListItem-root').click()
     cy.get(':nth-child(3) > .MuiListItem-root').click()
     cy.get('a[href="#/students"]').click()
     cy.get('body').click(200, 0)
@@ -32,7 +43,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#last_name').click()
     cy.get('#last_name').type(studentNameToBeCheckedMock)
     cy.contains('Page : 1')
-    cy.contains('Taille : 1')
+    cy.contains('Taille : 1 ')
     cy.contains(studentNameToBeCheckedMock).click()
   })
 
@@ -42,6 +53,11 @@ describe(specTitle('Manager.Fee'), () => {
       `/students/${student1Mock.id}/fees/${feesMock.find(fee => fee.remaining_amount === 200000).id}`,
       feesMock.find(fee => fee.remaining_amount === 200000)
     ).as('getFee1')
+    cy.intercept(
+      'GET',
+      `/students/${student1Mock.id}/fees/${feesMock.find(fee => fee.remaining_amount === 200000).id}/payments?page=1&page_size=10`,
+      creatPaymentOfFeeFunctionMock(feesMock.find(fee => fee.remaining_amount === 200000))
+    ).as('getPaymentsOfOneFee')
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
     cy.contains('200,000 Ar').click()
     cy.contains('En retard')
@@ -117,8 +133,13 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#comment').click().type('Dummy comment')
 
     cy.get('#is_predefined_first_dueDate').click()
-    cy.get('#manual_first_duedate').click().type(`2022-09-11`)
+    cy.get('#manual_first_duedate').click().type(feeDateToCherch)
 
+    cy.intercept(
+      'GET',
+      `/students/${student1Mock.id}/fees?page=1&page_size=500`,
+      addFeeFunctionMock(feesMock, creatFeeWithPaymentFunctionMock(feeDateToCherch))
+    ).as('getFees')
     cy.contains('Enregistrer').click()
     cy.contains('Élément créé')
   })

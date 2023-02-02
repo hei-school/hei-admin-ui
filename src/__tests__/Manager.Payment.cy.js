@@ -1,6 +1,6 @@
 import { mount } from '@cypress/react'
 import App from '../App'
-import { manager1, student1 } from './credentials'
+import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { prettyPrintMoney } from '../operations/utils/money.ts'
 import {
@@ -12,6 +12,7 @@ import {
   payment1Mock,
   student1Mock,
   studentsMock,
+  UpdateFeeWithPaymentFunctionMock,
   whoamiManagerMock
 } from './mocks/responses'
 
@@ -23,14 +24,14 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
-    cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
-    cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudents')
+    cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
+    cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
     cy.intercept('GET', `students?page=1&page_size=10&ref=${student1Mock.ref}`, [student1Mock]).as('getStudents')
-    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getStudent')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}`, feeUnpaidMock).as('getFee')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}/payments?page=1&page_size=10`, []).as('getFee')
-    cy.intercept('POST', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}/payments`, [payment1Mock]).as('getFee')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent1')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getfees')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}`, feeUnpaidMock).as('getUnpaidFee')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}/payments?page=1&page_size=10`, []).as('getPaymentOfUnpaidFee')
+    cy.intercept('POST', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}/payments`, [payment1Mock]).as('getPayments')
   })
 
   it('can add payment to a fee', () => {
@@ -55,7 +56,14 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('#type_cash').click()
 
     const amount = 1 + Math.floor(Math.random() * 100_000)
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}/payments?page=1&page_size=10`, [creatPaymentMockWithAmaunt(amount)]).as('getFee')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}/payments?page=1&page_size=10`, [creatPaymentMockWithAmaunt(amount)]).as(
+      'getPayment'
+    )
+    cy.intercept(
+      'GET',
+      `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}`,
+      UpdateFeeWithPaymentFunctionMock(feeUnpaidMock, creatPaymentMockWithAmaunt(amount))
+    ).as('getFee')
     cy.get('#amount').click().type(amount)
 
     cy.get('#comment').click().type('Dummy comment')
