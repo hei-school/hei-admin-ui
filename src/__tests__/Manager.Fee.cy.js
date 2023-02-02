@@ -2,24 +2,28 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { manager1Mock, student1Mock, studentNameToBeCheckedMock, studentsMock, feelsMock, whoamiManagerMock } from './mocks/responses'
+import { manager1Mock, student1Mock, studentNameToBeCheckedMock, studentsMock, feesMock, whoamiManagerMock } from './mocks/responses'
 import { CreateFeeTypeEnum, FeeStatusEnum } from '../gen/haClient'
 
 describe(specTitle('Manager.Fee'), () => {
   beforeEach(() => {
     mount(<App />)
-
     cy.get('#username').type(manager1.username)
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
-    cy.get('a[href="#/profile"]').click()
-  })
-  const task = () => {
-    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
+
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
-
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
+    cy.contains('Étudiants')
+    cy.contains('Enseignants')
+    cy.contains('Mon profil')
+    cy.get(':nth-child(2) > .MuiListItem-root').click()
+    cy.get(':nth-child(1) > .MuiListItem-root').click()
+    cy.wait('@getManager1').get('a[href="#/profile"]').click()
+    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
+    //cy.get(':nth-child(1) > .MuiListItem-root').click()
     cy.get(':nth-child(3) > .MuiListItem-root').click()
     cy.get('a[href="#/students"]').click()
     cy.get('body').click(200, 0)
@@ -30,22 +34,20 @@ describe(specTitle('Manager.Fee'), () => {
     cy.contains('Page : 1')
     cy.contains('Taille : 1')
     cy.contains(studentNameToBeCheckedMock).click()
-  }
+  })
+
   it('can detail waiting fee', () => {
-    task()
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feelsMock).as('getFees')
     cy.intercept(
       'GET',
-      `/students/${student1Mock.id}/fees/${feelsMock.find(fee => fee.remaining_amount === 200000).id}`,
-      feelsMock.find(fee => fee.remaining_amount === 200000)
+      `/students/${student1Mock.id}/fees/${feesMock.find(fee => fee.remaining_amount === 200000).id}`,
+      feesMock.find(fee => fee.remaining_amount === 200000)
     ).as('getFee1')
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
     cy.contains('200,000 Ar').click()
     cy.contains('En retard')
   })
+
   it('cannot create fees when fields are missing', () => {
-    task()
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feelsMock).as('getFees')
     cy.get('.MuiTypography-root > .MuiSvgIcon-root > path').click()
     cy.get('.MuiFab-root').click() // create fees
     cy.get('#predefined_type').click()
@@ -56,8 +58,7 @@ describe(specTitle('Manager.Fee'), () => {
   })
 
   it('can create fees with predefined fields', () => {
-    task()
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feelsMock).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, {
       statusCode: 200,
       body: [
@@ -86,10 +87,9 @@ describe(specTitle('Manager.Fee'), () => {
     cy.contains('Élément créé')
   })
   it('can create fees with manual fields', () => {
-    task()
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
     const monthsNumber = 1 + Math.floor(Math.random() * 3)
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feelsMock).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, {
       statusCode: 200,
       body: [

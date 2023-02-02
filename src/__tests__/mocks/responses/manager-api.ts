@@ -14,4 +14,4 @@ export const manager1Mock: Manager = {
   status: EnableStatus.Enabled
 }
 
-export const whoamiManagerMock: Whoami = { id: 'manager1_id', role: WhoamiRoleEnum.Manager, bearer: 'token == null ? undefined : token' }
+export const whoamiManagerMock: Whoami = { id: manager1Mock.id, role: WhoamiRoleEnum.Manager, bearer: 'token == null ? undefined : token' }

@@ -6,7 +6,7 @@ import { prettyPrintMoney } from '../operations/utils/money.ts'
 import {
   creatPaymentMockWithAmaunt,
   fee1Mock,
-  feelsMock,
+  feesMock,
   feeUnpaidMock,
   manager1Mock,
   payment1Mock,
@@ -21,20 +21,23 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('#username').type(manager1.username)
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
-  })
-
-  it('can add payment to a fee', () => {
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
     cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudents')
     cy.intercept('GET', `students?page=1&page_size=10&ref=${student1Mock.ref}`, [student1Mock]).as('getStudents')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feelsMock).as('getStudent')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getStudent')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}`, feeUnpaidMock).as('getFee')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}/payments?page=1&page_size=10`, []).as('getFee')
     cy.intercept('POST', `/students/${student1Mock.id}/fees/${feeUnpaidMock.id}/payments`, [payment1Mock]).as('getFee')
+  })
+
+  it('can add payment to a fee', () => {
     // note(listFees)
+    cy.wait('@getManager1')
+    cy.wait('@getWhoami')
+    cy.get(':nth-child(1) > .MuiListItem-root').click()
     cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
     cy.get('a[href="#/students"]').click()
     cy.get('body').click(200, 0) //note(uncover-menu)

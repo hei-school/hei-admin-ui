@@ -17,21 +17,9 @@ export const student1Mock: Student = {
 }
 
 export const studentsMock: Student[] = [
+  student1Mock,
   {
-    id: 'e29c3c53-50e4-4830-bc2d-0031c03f889d',
-    ref: 'SRD21054313',
-    first_name: 'Firstname',
-    last_name: 'LastName',
-    sex: StudentSexEnum.F,
-    birth_date: '2023-01-11',
-    address: 'LOT 351f24',
-    phone: '+261335268125',
-    email: 'test+student534@gmail.com',
-    entrance_datetime: '2023-01-25T21:00:00Z',
-    status: EnableStatus.Enabled
-  },
-  {
-    id: 'fd2303d5-b116-461d-83c6-f2a09baebb47',
+    id: 'student2_id',
     ref: 'STD00025',
     first_name: 'Twenty',
     last_name: 'Student',
@@ -44,7 +32,7 @@ export const studentsMock: Student[] = [
     status: EnableStatus.Enabled
   },
   {
-    id: '162da931-02be-4550-823e-226a44b7a6ce',
+    id: 'student3_id',
     ref: 'STD123365',
     first_name: 'John',
     last_name: 'Johnny',
@@ -57,7 +45,7 @@ export const studentsMock: Student[] = [
     status: EnableStatus.Enabled
   },
   {
-    id: 'fc68d13f-4a16-4f54-82bc-a92f6e52e66f',
+    id: 'student4_id',
     ref: 'STD 20002',
     first_name: 'Old',
     last_name: 'Student',
@@ -70,7 +58,7 @@ export const studentsMock: Student[] = [
     status: EnableStatus.Enabled
   },
   {
-    id: 'student1_id',
+    id: 'student5_id',
     ref: 'STD21001',
     first_name: 'Ryan',
     last_name: 'Andria',
@@ -83,7 +71,7 @@ export const studentsMock: Student[] = [
     status: EnableStatus.Enabled
   },
   {
-    id: 'student2_id',
+    id: 'student6_id',
     ref: 'STD21002',
     first_name: 'Two',
     last_name: 'Student',
@@ -96,7 +84,7 @@ export const studentsMock: Student[] = [
     status: EnableStatus.Enabled
   },
   {
-    id: 'student3_id',
+    id: 'student7_id',
     ref: 'STD21003',
     first_name: 'quitzon',
     last_name: 'Student',
@@ -109,7 +97,7 @@ export const studentsMock: Student[] = [
     status: EnableStatus.Enabled
   },
   {
-    id: '3f2d8478-77b8-4626-8e5d-e1ab9b0567e2',
+    id: 'student8_id',
     ref: 'STD21004',
     first_name: 'Test',
     last_name: 'Three',
@@ -122,7 +110,7 @@ export const studentsMock: Student[] = [
     status: EnableStatus.Enabled
   },
   {
-    id: '344d03d4-9bc1-44f1-bc45-e652f29f6323',
+    id: 'student9_id',
     ref: 'std2100552968687',
     first_name: 'Check if it really works',
     last_name: 'Student',
@@ -135,7 +123,7 @@ export const studentsMock: Student[] = [
     status: EnableStatus.Enabled
   },
   {
-    id: '9a89de8f-8a4d-4d8b-8c79-1ee046d6297c',
+    id: 'student10_id',
     ref: 'STD2103265',
     first_name: 'For Test',
     last_name: 'For Test',
@@ -149,4 +137,4 @@ export const studentsMock: Student[] = [
   }
 ]
 
-export const whoamiStudentMock: Whoami = { id: 'student1_id', role: WhoamiRoleEnum.Student, bearer: 'bearer mock' }
+export const whoamiStudentMock: Whoami = { id: student1Mock.id, role: WhoamiRoleEnum.Student, bearer: 'bearer mock' }

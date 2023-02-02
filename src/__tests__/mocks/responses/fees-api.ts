@@ -8,7 +8,7 @@ export const fee1Mock: Fee = {
   status: FeeStatusEnum.Late,
   type: FeeTypeEnum.Tuition,
   comment: 'Comment',
-  total_amount: 240000,
+  total_amount: 250000,
   creation_datetime: '2021-11-08T08:25:24Z',
   due_datetime: '2021-12-08T08:25:24Z'
 }
@@ -25,7 +25,7 @@ export const feeUnpaidMock: Fee = {
   due_datetime: '2023-12-08T08:25:24Z'
 }
 
-export const feelsMock: Fee[] = [
+export const feesMock: Fee[] = [
   fee1Mock,
   feeUnpaidMock,
   {
@@ -35,9 +35,8 @@ export const feelsMock: Fee[] = [
     status: FeeStatusEnum.Late,
     type: FeeTypeEnum.Tuition,
     comment: 'Comment',
-    total_amount: 5000,
-    creation_datetime: '2021-11-08T08:25:24Z',
-    due_datetime: '2021-12-08T08:25:24Z'
+    total_amount: 250000,
+    creation_datetime: '2021-11-08T08:25:24Z'
   },
   {
     id: 'fee4_id',
@@ -46,18 +45,18 @@ export const feelsMock: Fee[] = [
     status: FeeStatusEnum.Paid,
     type: FeeTypeEnum.Hardware,
     comment: 'Comment',
-    total_amount: 5000,
+    total_amount: 500000,
     creation_datetime: '2021-11-10T08:25:24Z',
     due_datetime: '2021-12-10T08:25:24Z'
   },
   {
     id: 'fee5_id',
     student_id: 'student1_id',
-    remaining_amount: 50000,
+    remaining_amount: 200000,
     status: FeeStatusEnum.Unpaid,
     type: FeeTypeEnum.Tuition,
     comment: 'Comment',
-    total_amount: 5000,
+    total_amount: 200000,
     creation_datetime: '2022-12-08T08:25:24Z',
     due_datetime: '2021-12-09T08:25:24Z'
   },
@@ -142,7 +141,7 @@ export const feelsMock: Fee[] = [
 
 let newLateFeesMock: Fee[] = []
 
-feelsMock.forEach(e => {
+feesMock.forEach(e => {
   let newE: Fee = {
     id: e.id,
     student_id: e.student_id,

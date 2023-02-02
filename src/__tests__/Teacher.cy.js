@@ -33,6 +33,7 @@ describe(specTitle('Teacher'), () => {
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
 
+    cy.wait(['@getTeacher', '@getWhoami'])
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"]').click()
     cy.get('#last_name').type(studentNameToBeCheckedMock)
