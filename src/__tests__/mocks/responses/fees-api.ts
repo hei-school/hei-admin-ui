@@ -13,7 +13,7 @@ export const fee1Mock: Fee = {
   due_datetime: '2021-12-08T08:25:24Z'
 }
 
-export const feeUnpaidMock: Fee = {
+export const unpaidFeeMock: Fee = {
   id: 'fee2_id',
   student_id: student1Mock.id,
   remaining_amount: 250000,
@@ -27,7 +27,7 @@ export const feeUnpaidMock: Fee = {
 
 export const feesMock: Fee[] = [
   fee1Mock,
-  feeUnpaidMock,
+  unpaidFeeMock,
   {
     id: 'fee3_id',
     student_id: student1Mock.id,
@@ -144,24 +144,44 @@ export const UpdateFeeWithPaymentFunctionMock: (fee: Fee, payment: Payment) => F
   return newFee
 }
 
-export const creatFeeWithPaymentFunctionMock: (feeDate: string) => Fee = feeDate => {
-  return {
-    id: 'new_fee_id',
-    student_id: student1Mock.id,
-    remaining_amount: fee1Mock.total_amount,
-    status: FeeStatusEnum.Unpaid,
-    type: FeeTypeEnum.Tuition,
-    comment: 'comment',
-    total_amount: fee1Mock.total_amount,
-    creation_datetime: feeDate + ':25:24Z',
-    due_datetime: feeDate
+export const creatFeeWithPredefinedDataMock: (feeDate: string) => Fee[] = feeDate => {
+  return [
+    {
+      id: 'new_fee_id',
+      student_id: student1Mock.id,
+      remaining_amount: fee1Mock.total_amount,
+      status: FeeStatusEnum.Unpaid,
+      type: FeeTypeEnum.Tuition,
+      comment: 'comment',
+      total_amount: fee1Mock.total_amount,
+      creation_datetime: feeDate + 'T12:25:24Z',
+      due_datetime: feeDate + 'T12:25:24Z'
+    }
+  ]
+}
+export const creatFeeWithManualDataMock: (date: string, amount: number, comment: string, monthsNumber: number) => Fee[] = (
+  date,
+  amount,
+  comment,
+  monthsNumber
+) => {
+  let fees: Fee[] = []
+  for (let i = 0; i < monthsNumber; i++) {
+    fees.push({
+      id: `new_fee_${i + 1}_id{}`,
+      student_id: student1Mock.id,
+      remaining_amount: amount,
+      status: FeeStatusEnum.Unpaid,
+      type: FeeTypeEnum.Tuition,
+      comment: comment,
+      total_amount: amount,
+      creation_datetime: date + 'T12:25:24Z',
+      due_datetime: date + 'T12:25:24Z'
+    })
   }
+  return fees
 }
 
-export const addFeeFunctionMock: (fees: Fee[], fee: Fee) => Fee[] = (fees, fee) => {
-  let newFees = fees
-  newFees.unshift(fee)
-  return newFees.slice(0, 10)
-}
+export const addFeeFunctionMock: (fees: Fee[], fee: Fee[]) => Fee[] = (fees, feesAaded) => [...feesAaded, ...fees].slice(0, 10)
 
 export const lateFeesMock = newLateFeesMock

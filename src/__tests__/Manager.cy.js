@@ -8,7 +8,7 @@ import {
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
-  TaecherNameToBeCheckedMock,
+  teacherNameToBeCheckedMock,
   teacher1Mock,
   teachersMock,
   whoamiManagerMock
@@ -28,7 +28,7 @@ describe(specTitle('Manager'), () => {
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/teachers?page=1&page_size=10`, teachersMock).as('getTeachersPage1')
     cy.intercept('GET', `/teachers?page=2&page_size=10`, teachersMock).as('getTeachersPage2')
-    cy.intercept('GET', `/teachers?page=1&page_size=10&first_name=${TaecherNameToBeCheckedMock}`, [teacher1Mock]).as('getTeacherByName')
+    cy.intercept('GET', `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`, [teacher1Mock]).as('getTeacherByName')
   })
 
   it('lands on profile page if succeeds', () => {
@@ -72,7 +72,7 @@ describe(specTitle('Manager'), () => {
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
 
-    cy.get('#first_name').type(TaecherNameToBeCheckedMock)
+    cy.get('#first_name').type(teacherNameToBeCheckedMock)
     cy.contains('Page : 1')
     cy.contains('Taille : 1')
     unmount()

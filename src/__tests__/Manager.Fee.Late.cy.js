@@ -1,4 +1,4 @@
-import { mount, unmount } from '@cypress/react'
+import { mount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'

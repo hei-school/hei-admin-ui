@@ -1,11 +1,11 @@
 import { EnableStatus, Whoami, WhoamiRoleEnum, Teacher, TeacherSexEnum } from 'src/gen/haClient'
 
-export const TaecherNameToBeCheckedMock: string = 'Toky'
+export const teacherNameToBeCheckedMock: string = 'Toky'
 
 export const teacher1Mock: Teacher = {
   id: 'teacher1_id',
   ref: 'TCR21001',
-  first_name: TaecherNameToBeCheckedMock,
+  first_name: teacherNameToBeCheckedMock,
   last_name: 'Teacher',
   sex: TeacherSexEnum.F,
   birth_date: '1990-01-01',

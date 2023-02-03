@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { teacher1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { teacher1Mock, whoamiTeacherMock, student1Mock, studentsMock, studentNameToBeCheckedMock, TaecherNameToBeCheckedMock } from './mocks/responses'
+import { teacher1Mock, whoamiTeacherMock, student1Mock, studentsMock, studentNameToBeCheckedMock, teacherNameToBeCheckedMock } from './mocks/responses'
 
 describe(specTitle('Teacher'), () => {
   beforeEach(() => {
@@ -15,7 +15,7 @@ describe(specTitle('Teacher'), () => {
   it('lands on profile page if succeeds', () => {
     cy.intercept('GET', `/whoami`, whoamiTeacherMock).as('getWhoami')
     cy.intercept('GET', `/teachers/${teacher1Mock.id}`, teacher1Mock).as('getTeacher')
-    cy.get('#first_name').contains(TaecherNameToBeCheckedMock)
+    cy.get('#first_name').contains(teacherNameToBeCheckedMock)
   })
 
   it('can list and filter students', () => {
