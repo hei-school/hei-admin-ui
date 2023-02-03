@@ -4,14 +4,14 @@ import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { prettyPrintMoney } from '../operations/utils/money.ts'
 import {
-  creataPaymentWithAmountMock,
+  createPaymentWithAmountMock,
   feesMock,
   unpaidFeeMock,
   manager1Mock,
   payment1Mock,
   student1Mock,
   studentsMock,
-  UpdateFeeWithPaymentFunctionMock,
+  UpdateFeeWithPaymentMock,
   whoamiManagerMock
 } from './mocks/responses'
 
@@ -55,13 +55,13 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('#type_cash').click()
 
     const amount = 1 + Math.floor(Math.random() * 100_000)
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`, [creataPaymentWithAmountMock(amount)]).as(
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`, [createPaymentWithAmountMock(amount)]).as(
       'getPayment'
     )
     cy.intercept(
       'GET',
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
-      UpdateFeeWithPaymentFunctionMock(unpaidFeeMock, creataPaymentWithAmountMock(amount))
+      UpdateFeeWithPaymentMock(unpaidFeeMock, createPaymentWithAmountMock(amount))
     ).as('getFee')
     cy.get('#amount').click().type(amount)
 

@@ -134,7 +134,7 @@ feesMock.forEach(e => {
   newLateFeesMock.push(newE)
 })
 
-export const UpdateFeeWithPaymentFunctionMock: (fee: Fee, payment: Payment) => Fee = (fee, payment) => {
+export const UpdateFeeWithPaymentMock: (fee: Fee, payment: Payment) => Fee = (fee, payment) => {
   let newFee = fee
   newFee.remaining_amount = newFee.remaining_amount
     ? payment.amount
@@ -144,7 +144,7 @@ export const UpdateFeeWithPaymentFunctionMock: (fee: Fee, payment: Payment) => F
   return newFee
 }
 
-export const creatFeeWithPredefinedDataMock: (feeDate: string) => Fee[] = feeDate => {
+export const createFeeWithPredefinedDataMock: (feeDate: string) => Fee[] = feeDate => {
   return [
     {
       id: 'new_fee_id',
@@ -159,7 +159,7 @@ export const creatFeeWithPredefinedDataMock: (feeDate: string) => Fee[] = feeDat
     }
   ]
 }
-export const creatFeeWithManualDataMock: (date: string, amount: number, comment: string, monthsNumber: number) => Fee[] = (
+export const createFeeWithManualDataMock: (date: string, amount: number, comment: string, monthsNumber: number) => Fee[] = (
   date,
   amount,
   comment,
@@ -182,6 +182,6 @@ export const creatFeeWithManualDataMock: (date: string, amount: number, comment:
   return fees
 }
 
-export const addFeeFunctionMock: (fees: Fee[], fee: Fee[]) => Fee[] = (fees, feesAaded) => [...feesAaded, ...fees].slice(0, 10)
+export const addFeeMock: (fees: Fee[], fee: Fee[]) => Fee[] = (fees, feesAaded) => [...feesAaded, ...fees].slice(0, 10)
 
 export const lateFeesMock = newLateFeesMock

@@ -10,9 +10,9 @@ import {
   feesMock,
   whoamiManagerMock,
   createPaymentMock,
-  addFeeFunctionMock,
-  creatFeeWithPredefinedDataMock,
-  creatFeeWithManualDataMock
+  addFeeMock,
+  createFeeWithPredefinedDataMock,
+  createFeeWithManualDataMock
 } from './mocks/responses'
 
 const feeDateToSearch = `2022-09-11`
@@ -75,7 +75,7 @@ describe(specTitle('Manager.Fee'), () => {
 
   it('can create fees with predefined fields', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
-    cy.intercept('POST', `/students/${student1Mock.id}/fees`, creatFeeWithPredefinedDataMock(feeDateToSearch))
+    cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch))
 
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
     cy.get('.MuiFab-root').click() // create fees
@@ -83,7 +83,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('.MuiList-root > [tabindex="0"]').click()
     cy.get('#predefined_first_dueDate').click()
     cy.get('[data-value="jan22"]').click()
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeFunctionMock(feesMock, creatFeeWithPredefinedDataMock(feeDateToSearch)))
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
     cy.contains('Enregistrer').click()
 
     cy.contains('Élément créé')
@@ -93,7 +93,7 @@ describe(specTitle('Manager.Fee'), () => {
     const monthsNumber = 1 + Math.floor(Math.random() * 3)
     const comment = 'Dummy comment'
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
-    cy.intercept('POST', `/students/${student1Mock.id}/fees`, creatFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber))
+    cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber))
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
     cy.get('.MuiFab-root').click() // create fees
     cy.get('#is_predefined_type').click()
@@ -110,7 +110,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept(
       'GET',
       `/students/${student1Mock.id}/fees?page=1&page_size=500`,
-      addFeeFunctionMock(feesMock, creatFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber))
+      addFeeMock(feesMock, createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber))
     ).as('getFees')
     cy.contains('Enregistrer').click()
     cy.contains('Élément créé')

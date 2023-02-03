@@ -10,11 +10,11 @@ export const payment1Mock: Payment = {
   comment: 'Comment'
 }
 
-export const creataPaymentWithAmountMock: (amount: number) => Payment = amount => {
+export const createPaymentWithAmountMock: (amount: number) => Payment = amount => {
   return { id: 'payment3_id', fee_id: fee1Mock.id, creation_datetime: '2022-11-11T08:25:26Z', type: PaymentTypeEnum.Cash, amount: amount, comment: 'Comment' }
 }
 
-export const addPaymentFunctionMock: (payments: Payment[], payment: Payment) => Payment[] = (payments, payment) => {
+export const addPaymentMock: (payments: Payment[], payment: Payment) => Payment[] = (payments, payment) => {
   let newPayments = payments
   newPayments.push(payment)
   return newPayments.slice(0, 10)
