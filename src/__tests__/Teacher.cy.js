@@ -2,6 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { teacher1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
+import { teacher1Mock, whoamiTeacherMock, student1Mock, studentsMock, studentNameToBeCheckedMock, teacherNameToBeCheckedMock } from './mocks/responses'
 
 describe(specTitle('Teacher'), () => {
   beforeEach(() => {
@@ -12,10 +13,17 @@ describe(specTitle('Teacher'), () => {
   })
 
   it('lands on profile page if succeeds', () => {
-    cy.get('#first_name').contains('One')
+    cy.intercept('GET', `/whoami`, whoamiTeacherMock).as('getWhoami')
+    cy.intercept('GET', `/teachers/${teacher1Mock.id}`, teacher1Mock).as('getTeacher')
+    cy.get('#first_name').contains(teacherNameToBeCheckedMock)
   })
 
   it('can list and filter students', () => {
+    cy.intercept('GET', `/whoami`, whoamiTeacherMock).as('getWhoami')
+    cy.intercept('GET', `/teachers/${teacher1Mock.id}`, teacher1Mock).as('getTeacher1')
+    cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
+    cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
+    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentByName')
     // note(listAndFilterStudents)
     cy.get('a[href="#/students"]').click() // Étudiants menu
     cy.get('body').click(200, 0) //note(uncover-menu)
@@ -25,9 +33,10 @@ describe(specTitle('Teacher'), () => {
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
 
+    cy.wait(['@getTeacher1', '@getWhoami'])
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type('quitzon')
+    cy.get('#last_name').type(studentNameToBeCheckedMock)
     cy.contains('Page : 1')
     cy.contains('Taille : 1')
   })
