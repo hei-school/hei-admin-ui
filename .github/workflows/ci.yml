@@ -46,8 +46,8 @@ jobs:
           export REACT_APP_TEST_STUDENT1_PASSWORD=${{ secrets.TEST_STUDENT1_PASSWORD }}
           export REACT_APP_TEST_TEACHER1_PASSWORD=${{ secrets.TEST_TEACHER1_PASSWORD }}
           export REACT_APP_TEST_MANAGER1_PASSWORD=${{ secrets.TEST_MANAGER1_PASSWORD }}
-          npm run test
           cat /home/runner/work/hei-admin-ui/hei-admin-ui/dist/test-reports.xml
+          npm run test
 
       - name: Read version file
         id: read-version
