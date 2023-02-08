@@ -36,8 +36,6 @@ jobs:
       - run: npm config set always-auth true
       
       - run: echo herilala---------------------------------------------------------------------------------------------------
-      
-      - run: cat /home/runner/work/hei-admin-ui/hei-admin-ui/dist/test-reports.xml
 
       - run: npm install --legacy-peer-deps
 
@@ -51,6 +49,9 @@ jobs:
           export REACT_APP_TEST_TEACHER1_PASSWORD=${{ secrets.TEST_TEACHER1_PASSWORD }}
           export REACT_APP_TEST_MANAGER1_PASSWORD=${{ secrets.TEST_MANAGER1_PASSWORD }}
           npm run test
+            
+      - run: cat /home/runner/work/hei-admin-ui/hei-admin-ui/dist/test-reports.xml
+        if: always()
 
       - name: Read version file
         id: read-version
