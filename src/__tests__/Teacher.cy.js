@@ -8,7 +8,7 @@ describe(specTitle('Teacher'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.get('#username').type(teacher1.username)
-    cy.get('#password').type(teacher1.password?teacher1.password:"teacher1.password")//teacher1.password
+    cy.get('#password').type(teacher1.password)//teacher1.password
     cy.get('button').contains('Connexion').click()
   })
 
