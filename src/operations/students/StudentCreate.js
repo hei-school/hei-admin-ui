@@ -40,7 +40,6 @@ const StudentCreate = props => {
     }
     if (canCreateFees) {
       const firstDueDate = is_predefined_first_dueDate ? predefinedFirstDueDates[predefined_first_dueDate].value : toDate(manual_first_duedate)
-      console.log(feesConf)
       let totalMonthsNumber = feesConf.reduce((acc, currentValue) => acc + currentValue.monthsNumber, 0)
       if (feesConf.length <= 1) {
         for (let i = 0; i < feesConf[0].monthsNumber; i++) {
