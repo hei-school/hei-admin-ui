@@ -73,7 +73,7 @@ export const FeeSimpleFormContent = props => {
         onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
       />
       {isPredefinedType ? <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} /> : <ManualFeeTypeRadioButton validate={required()} />}
-      <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
+      <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} setFeesConf={setFeesConf} />
 
       <BooleanInput
         source='is_predefined_first_dueDate'
@@ -127,19 +127,30 @@ const FeesCreate = props => {
     const firstDueDate = _feesConf.is_predefined_first_dueDate
       ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value
       : toDate(_feesConf.manual_first_duedate)
-
-    for (let j = 0; j < feesConf.length; j++) {
-      let totalMonthsNumber = feesConf.reduce((acc, currentValue) => acc + currentValue.monthsNumber, 0)
-      let start = j === 0 ? 0 : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
-      let end = start + feesConf[j].monthsNumber - 1
-      for (let i = start; i <= end; i++) {
+    let totalMonthsNumber = feesConf.reduce((acc, currentValue) => acc + currentValue.monthsNumber, 0)
+    if (feesConf.length <= 1) {
+      for (let i = 0; i < _feesConf.months_number; i++) {
         fees.push({
-          total_amount: feesConf[j].monthlyAmount,
-          type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
+          total_amount: _feesConf.monthly_amount,
+          type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type]?.type,
           student_id: studentId,
           due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
           comment: `${_feesConf.comment} (${currentYear})`
         })
+      }
+    } else {
+      for (let j = 0; j < feesConf.length; j++) {
+        let start = j === 0 ? 0 : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
+        let end = start + feesConf[j].monthsNumber
+        for (let i = start; i < end; i++) {
+          fees.push({
+            total_amount: feesConf[j].monthlyAmount,
+            type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
+            student_id: studentId,
+            due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
+            comment: `${_feesConf.comment} (${currentYear})`
+          })
+        }
       }
     }
     return fees
@@ -162,7 +173,6 @@ const FeesCreate = props => {
 
 const FeesConfInput = ({ isPredefinedType, feesConf }) => {
   const { setValue } = useFormContext()
-
   if (isPredefinedType) {
     setValue('monthly_amount', feesConf[0].monthlyAmount || 0)
     setValue('months_number', feesConf[0].monthsNumber || 0)
