@@ -46,7 +46,7 @@ jobs:
       - name: Test
         run: |
           export REACT_APP_TEST_STUDENT1_PASSWORD=${{ secrets.TEST_STUDENT1_PASSWORD }}
-          export REACT_APP_TEST_TEACHER1_PASSWORD=${{ secrets.TEST_COGNITO_TEACHER_PASSWORD }}
+          export REACT_APP_TEST_TEACHER1_PASSWORD=${{ secrets.TEST_TEACHER1_PASSWORD }}
           export REACT_APP_TEST_MANAGER1_PASSWORD=${{ secrets.TEST_MANAGER1_PASSWORD }}
           npm run test
             
