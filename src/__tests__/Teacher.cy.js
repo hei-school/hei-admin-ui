@@ -8,7 +8,7 @@ describe(specTitle('Teacher'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.get('#username').type(teacher1.username)
-    cy.get('#password').type(teacher1.password)
+    cy.get('#password').type(teacher1.password)//teacher1.password
     cy.get('button').contains('Connexion').click()
   })
 
@@ -36,7 +36,7 @@ describe(specTitle('Teacher'), () => {
     cy.wait(['@getTeacher1', '@getWhoami'])
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type(studentNameToBeCheckedMock)
+    cy.get('#last_name').type(studentNameToBeCheckedMock?studentNameToBeCheckedMock:"herilala")
     cy.contains('Page : 1')
     cy.contains('Taille : 1')
   })
