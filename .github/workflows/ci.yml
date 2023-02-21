@@ -34,7 +34,7 @@ jobs:
       - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
 
       - run: npm config set always-auth true
-      
+
       - run: echo herilala---------------------------------------------------------------------------------------------------
 
       - run: npm install --legacy-peer-deps
@@ -49,7 +49,7 @@ jobs:
           export REACT_APP_TEST_TEACHER1_PASSWORD=${{ secrets.MOCK_TEACHER_PASSWORD }}
           export REACT_APP_TEST_MANAGER1_PASSWORD=${{ secrets.TEST_MANAGER1_PASSWORD }}
           npm run test
-            
+
       - run: cat /home/runner/work/hei-admin-ui/hei-admin-ui/dist/test-reports.xml
         if: always()
 
