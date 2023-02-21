@@ -89,6 +89,21 @@ describe(specTitle('Manager.Fee'), () => {
 
     cy.contains('Élément créé')
   })
+  it('can create fees with predefined fields equals to 9 months', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
+    cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch))
+
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
+    cy.get('.MuiFab-root').click() // create fees
+    cy.get('#predefined_type').click()
+    cy.get('.MuiList-root > [tabindex="1"]').click()
+    cy.get('#predefined_first_dueDate').click()
+    cy.get('[data-value="jan22"]').click()
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
+    cy.contains('Enregistrer').click()
+
+    cy.contains('Élément créé')
+  })
   it('can create fees with manual fields', () => {
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
     const monthsNumber = 1 + Math.floor(Math.random() * 3)

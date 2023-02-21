@@ -142,6 +142,16 @@ describe(specTitle('Manager creates students'), () => {
     cy.contains('Enregistrer').click()
   })
 
+  it('can create student with his/her 9 months fees', () => {
+    cy.get('.MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click()
+    cy.get('#predefined_type').click()
+    cy.get('.MuiList-root > [tabindex="1"]').click()
+    cy.get('#predefined_first_dueDate').click()
+    cy.get('[data-value="jan22"]').click()
+    cy.intercept('GET', '/students?page=1&page_size=10', [...studentsMock, createdStudent]).as('getStudents')
+    cy.contains('Enregistrer').click()
+  })
+
   it('can create student with his/her fees manually', () => {
     cy.get('.MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click()
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
