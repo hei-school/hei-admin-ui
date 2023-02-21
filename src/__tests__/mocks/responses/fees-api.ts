@@ -181,7 +181,17 @@ export const createFeeWithManualDataMock: (date: string, amount: number, comment
   }
   return fees
 }
-
+export const createdFeesForNewStudent: Fee = {
+  id: 'ajbfq-fqdfjdh-2jkg3j',
+  student_id: 'STD000001',
+  remaining_amount: 1740000,
+  status: FeeStatusEnum.Unpaid,
+  type: FeeTypeEnum.Tuition,
+  comment: 'Écolage annuel 1x (2022)',
+  total_amount: 1740000,
+  creation_datetime: new Date().toISOString(),
+  due_datetime: '2023-01-14T21:00:00Z'
+}
 export const addFeeMock: (fees: Fee[], fee: Fee[]) => Fee[] = (fees, feesAaded) => [...feesAaded, ...fees].slice(0, 10)
 
 export const lateFeesMock = newLateFeesMock
