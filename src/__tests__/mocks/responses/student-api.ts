@@ -1,4 +1,4 @@
-import { Student, EnableStatus, StudentSexEnum, Whoami, WhoamiRoleEnum } from 'src/gen/haClient'
+import { Student, EnableStatus, StudentSexEnum, Whoami, WhoamiRoleEnum, User, UserSexEnum } from 'src/gen/haClient'
 
 export const studentNameToBeCheckedMock: string = 'herilala'
 
@@ -138,3 +138,30 @@ export const studentsMock: Student[] = [
 ]
 
 export const whoamiStudentMock: Whoami = { id: student1Mock.id, role: WhoamiRoleEnum.Student, bearer: 'bearer mock' }
+
+export const createStudent: User = {
+  ref: 'STD000001',
+  first_name: 'string',
+  last_name: 'string',
+  sex: UserSexEnum.F,
+  birth_date: '2023-02-17',
+  address: 'Rue Dr Raseta Andraharo ,Ambanja,Madagascar',
+  phone: '+261 234 1779',
+  email: 'test+create+student@hei.school',
+  entrance_datetime: '2023-02-17',
+  status: EnableStatus.Enabled
+}
+
+export const createdStudent: User = {
+  id: 'ajbfq-fqdfjdh-2jkg3j',
+  ref: 'STD000001',
+  first_name: 'string',
+  last_name: 'string',
+  sex: UserSexEnum.F,
+  birth_date: '2023-02-17',
+  address: 'Rue Dr Raseta Andraharo ,Ambanja,Madagascar',
+  phone: '+261 234 1779',
+  email: 'test+create+student@hei.school',
+  entrance_datetime: '2023-02-17',
+  status: EnableStatus.Enabled
+}
