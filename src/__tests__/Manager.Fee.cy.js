@@ -96,7 +96,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click()
     cy.get('.MuiFab-root').click() // create fees
     cy.get('#predefined_type').click()
-    cy.get('.MuiList-root > [tabindex="1"]').click()
+    cy.get('[data-value="annualTuition9x"]').click()
     cy.get('#predefined_first_dueDate').click()
     cy.get('[data-value="jan22"]').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
