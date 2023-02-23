@@ -1,7 +1,8 @@
 import { List, Datagrid, TextField, DateField, FunctionField, ShowButton } from 'react-admin'
-
 import rowStyle from './byStatusRowStyle'
+
 import { prettyPrintMoney } from '../utils/money'
+import { translateEnglishToFrench } from '../utils/translateEnglishToFrench'
 
 import { maxPageSize } from '../../providers/dataProvider'
 export const CustomDateField = props => {
@@ -13,7 +14,7 @@ const ByStatusFeeList = ({ status, ...props }) => {
   return (
     <List
       {...props}
-      title={`Frais de statut ${status}`}
+      title={`Frais de statut ${translateEnglishToFrench(status)}`}
       resource='fees'
       basePath={`/fees`}
       label='Frais'
