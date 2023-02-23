@@ -14,11 +14,13 @@ import {
   whoamiManagerMock,
   createFeeWithManualDataMock,
   createStudent,
-  createdStudent,
   createdFeesForNewStudent
 } from './mocks/responses'
 
 const feeDateToSearch = `2022-09-11`
+let createdStudent = createStudent
+createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
+
 describe(specTitle('Manager'), () => {
   beforeEach(() => {
     mount(<App />)
@@ -42,7 +44,6 @@ describe(specTitle('Manager'), () => {
   })
 
   it('can list and filter students', () => {
-    //cy.wait('@getManager1')
     cy.contains('Enseignants')
     cy.wait('@getWhoami')
     cy.contains('Étudiants')
@@ -69,7 +70,7 @@ describe(specTitle('Manager'), () => {
   })
 
   it('can list and filter teachers', () => {
-    cy.get('[href="#/teachers"]').click() // Enseignants menu
+    cy.get('[href="#/teachers"]').click() //Enseignants menu
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains('Taille : 10')
@@ -129,7 +130,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime)
   })
   it('can create students without fees', () => {
-    cy.intercept('GET', '/students?page=1&page_size=10', [createdStudent, ...studentsMock]).as('getStudents')
+    cy.intercept('GET', '/students?page=1&page_size=10', [createdStudent, ...studentsMock].slice(0, 10)).as('getStudents')
     cy.contains('Enregistrer').click()
   })
   it('can create student with his/her fees using predefined fees', () => {
@@ -137,8 +138,8 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('#predefined_type').click()
     cy.get('.MuiList-root > [tabindex="0"]').click()
     cy.get('#predefined_first_dueDate').click()
-    cy.get('[data-value="jan22"]').click()
-    cy.intercept('GET', '/students?page=1&page_size=10', [...studentsMock, createdStudent]).as('getStudents')
+    cy.get('[data-value="date2"]').click()
+    cy.intercept('GET', '/students?page=1&page_size=10', [...studentsMock, createdStudent].slice(0, 10)).as('getStudents')
     cy.contains('Enregistrer').click()
   })
 
@@ -147,8 +148,8 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('#predefined_type').click()
     cy.get('[data-value="annualTuition9x"]').click()
     cy.get('#predefined_first_dueDate').click()
-    cy.get('[data-value="jan22"]').click()
-    cy.intercept('GET', '/students?page=1&page_size=10', [...studentsMock, createdStudent]).as('getStudents')
+    cy.get('[data-value="date2"]').click()
+    cy.intercept('GET', '/students?page=1&page_size=10', [...studentsMock, createdStudent].slice(0, 10)).as('getStudents')
     cy.contains('Enregistrer').click()
   })
 

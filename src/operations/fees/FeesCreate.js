@@ -26,6 +26,8 @@ const commonStyleSelect = {
     xl: 325
   }
 }
+
+const defaultIsPredefinedType = true
 const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
   <SelectInput
     {...props}
@@ -58,7 +60,6 @@ const PredefinedFirstDueDateRadioButton = props => (
 
 export const FeeSimpleFormContent = props => {
   const { feesConf, setFeesConf, passIsPredefinedType } = props
-  const defaultIsPredefinedType = true
   const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
   const defaultIsPredefinedFirstDueDate = true
   const [isPredefinedFirstDueDate, setIsPredefinedFirstDueDate] = useState(defaultIsPredefinedFirstDueDate)
@@ -113,7 +114,6 @@ const FeesCreate = props => {
     }
   ])
 
-  const defaultIsPredefinedType = true
   const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
   const useIsPredefinedType = data => {
     setIsPredefinedType(data)
@@ -140,8 +140,8 @@ const FeesCreate = props => {
       }
     } else {
       for (let j = 0; j < feesConf.length; j++) {
-        let start = j === 0 ? 0 : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
-        let end = start + feesConf[j].monthsNumber
+        const start = j === 0 ? 0 : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
+        const end = start + feesConf[j].monthsNumber
         for (let i = start; i < end; i++) {
           fees.push({
             total_amount: feesConf[j].monthlyAmount,

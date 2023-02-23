@@ -151,17 +151,3 @@ export const createStudent: User = {
   entrance_datetime: '2023-02-17',
   status: EnableStatus.Enabled
 }
-
-export const createdStudent: User = {
-  id: 'ajbfq-fqdfjdh-2jkg3j',
-  ref: 'STD000001',
-  first_name: 'string',
-  last_name: 'string',
-  sex: UserSexEnum.F,
-  birth_date: '2023-02-17',
-  address: 'Rue Dr Raseta Andraharo ,Ambanja,Madagascar',
-  phone: '+261 234 1779',
-  email: 'test+create+student@hei.school',
-  entrance_datetime: '2023-02-17',
-  status: EnableStatus.Enabled
-}
