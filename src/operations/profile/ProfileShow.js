@@ -2,7 +2,7 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
-import { unexpectedValue } from '../utils/typography'
+import { unexpectedValue } from '../utils'
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {

@@ -1,7 +1,8 @@
 import { List, Datagrid, TextField, EditButton } from 'react-admin'
 
 import { profileFilters } from '../profile'
-import PrevNextPagination, { pageSize } from '../utils/PrevNextPagination'
+import PrevNextPagination from '../utils/PrevNextPagination'
+import { pageSize } from '../utils'
 
 const TeacherList = () => (
   <List bulkActionButtons={false} filters={profileFilters} pagination={<PrevNextPagination />} perPage={pageSize} resource={'teachers'}>
