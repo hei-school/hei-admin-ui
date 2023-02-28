@@ -5,7 +5,7 @@ import { List } from '@react-admin/ra-rbac'
 import { TextField, Datagrid, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 
 import rowStyle from './byStatusRowStyle'
-import { prettyPrintMoney } from '../utils/money'
+import { prettyPrintMoney } from '../utils'
 
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'

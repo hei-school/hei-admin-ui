@@ -3,7 +3,7 @@ import { TextField, Datagrid, ShowButton, EditButton, List } from 'react-admin'
 import authProvider from '../../providers/authProvider'
 
 import { profileFilters } from '../profile'
-import PrevNextPagination, { pageSize } from '../utils/PrevNextPagination'
+import { pageSize, PrevNextPagination } from '../utils'
 
 const StudentList = () => {
   const role = authProvider.getCachedRole()

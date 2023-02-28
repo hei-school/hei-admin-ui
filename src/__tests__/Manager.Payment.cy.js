@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { prettyPrintMoney } from '../operations/utils/money.ts'
+import { prettyPrintMoney } from '../operations/utils'
 import {
   createPaymentWithAmountMock,
   feesMock,

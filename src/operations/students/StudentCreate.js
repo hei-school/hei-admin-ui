@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
-import SexRadioButton from '../utils/SexRadioButton'
+import { SexRadioButton } from '../utils'
 import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 
 const StudentCreate = props => {

@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
 
-import { prettyPrintMoney } from '../utils/money'
-import { withRedWarning, unexpectedValue } from '../utils/typography'
+import { withRedWarning, unexpectedValue, prettyPrintMoney } from '../utils'
 
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'

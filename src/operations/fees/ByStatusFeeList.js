@@ -1,8 +1,7 @@
 import { List, Datagrid, TextField, DateField, FunctionField, ShowButton } from 'react-admin'
 import rowStyle from './byStatusRowStyle'
 
-import { prettyPrintMoney } from '../utils/money'
-import { translateEnglishToFrench } from '../utils/translateEnglishToFrench'
+import { translateEnglishToFrench, prettyPrintMoney } from '../utils'
 
 import { maxPageSize } from '../../providers/dataProvider'
 export const CustomDateField = props => {
