@@ -6,7 +6,7 @@ import { ChevronLeft, ChevronRight } from '@mui/icons-material'
 
 export const pageSize = 10
 
-const PrevNextPagination = () => {
+export const PrevNextPagination = () => {
   const [lastPage, setLastPage] = useState(null)
   const { page, data, isLoading, setPage } = useListContext()
   const resourcesCount = data ? Object.keys(data).length : 0
@@ -47,5 +47,3 @@ const PrevNextPagination = () => {
     </Toolbar>
   )
 }
-
-export default PrevNextPagination
