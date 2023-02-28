@@ -24,7 +24,6 @@ createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
 let updatedStudent = student1Mock
 updatedStudent.firstname = newFirstname
 
-
 describe(specTitle('Manager'), () => {
   beforeEach(() => {
     mount(<App />)
