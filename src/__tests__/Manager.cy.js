@@ -18,11 +18,11 @@ import {
 } from './mocks/responses'
 
 const feeDateToSearch = `2022-09-11`
-const newFirstname = 'Aina Herilala'
+const newLastname = 'Aina herilala'
 let createdStudent = createStudent
 createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
 let updatedStudent = student1Mock
-updatedStudent.firstname = newFirstname
+updatedStudent.firstname = newLastname
 
 describe(specTitle('Manager'), () => {
   beforeEach(() => {
@@ -111,9 +111,10 @@ describe(specTitle('Manager'), () => {
     cy.contains('Taille : 1')
     cy.contains(studentNameToBeCheckedMock).click()
     cy.get('.css-1hqp8sg-MuiButtonBase-root-MuiButton-root-RaButton-root').click() //éditer
-    cy.get('#first_name').click().clear().type(newFirstname)
+    cy.get('#first_name').click().clear().type(newLastname)
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [updatedStudent])
     cy.contains('Enregistrer').click()
+    cy.contains(newLastname)
   })
 })
 
