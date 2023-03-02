@@ -19,7 +19,9 @@ import {
 
 const feeDateToSearch = `2022-09-11`
 const newLastname = 'Aina herilala'
-let createdStudent = createStudent
+let createdStudent = {
+  ...createStudent
+}
 createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
 let updatedStudent = {
   ...student1Mock
