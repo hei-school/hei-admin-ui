@@ -7,7 +7,7 @@ import { ChevronLeft, ChevronRight } from '@mui/icons-material'
 export const pageSize = 10
 
 export const PrevNextPagination = () => {
-  const [lastPage, setLastPage] = useState(null)
+  const [lastPage, setLastPage] = useState(0)
   const { page, data, isLoading, setPage } = useListContext()
   const resourcesCount = data ? Object.keys(data).length : 0
   if (!lastPage && lastPage !== 0 /* TODO(empty-pages): test! */ && !isLoading && resourcesCount === 0) {
