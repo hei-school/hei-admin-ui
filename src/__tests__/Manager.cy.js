@@ -21,8 +21,10 @@ const feeDateToSearch = `2022-09-11`
 const newLastname = 'Aina herilala'
 let createdStudent = createStudent
 createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
-let updatedStudent = student1Mock
-updatedStudent.firstname = newLastname
+let updatedStudent = {
+  ...student1Mock
+}
+updatedStudent.first_name = newLastname
 
 describe(specTitle('Manager'), () => {
   beforeEach(() => {
@@ -112,9 +114,10 @@ describe(specTitle('Manager'), () => {
     cy.contains(studentNameToBeCheckedMock).click()
     cy.get('.css-1hqp8sg-MuiButtonBase-root-MuiButton-root-RaButton-root').click() //éditer
     cy.get('#first_name').click().clear().type(newLastname)
-    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [updatedStudent])
+    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [updatedStudent]).as('getUpdatedStudent')
     cy.contains('Enregistrer').click()
     cy.wait('@modifyStudent')
+    cy.wait('@getUpdatedStudent')
     cy.contains(newLastname)
   })
 })
