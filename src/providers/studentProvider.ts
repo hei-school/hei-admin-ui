@@ -12,9 +12,7 @@ const studentProvider: HaDataProviderType = {
     return result.data
   },
   async saveOrUpdate(payload: any) {
-    if (payload == null) {
-      throw new Error('Payload is null')
-    } else {
+    if (payload !== null) {
       if (payload[0].length > 1) {
         // when we want to create student
         const [fees, student] = payload[0]
@@ -28,6 +26,7 @@ const studentProvider: HaDataProviderType = {
         return result.data
       }
     }
+    throw new Error('Payload is null')
   }
 }
 
