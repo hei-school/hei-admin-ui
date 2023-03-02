@@ -89,7 +89,7 @@ describe(specTitle('Manager'), () => {
 
   it('can edit students', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
-    cy.intercept('PUT', `/students`, updatedStudent).as('modifyStudent')
+    cy.intercept('PUT', `/students`, updatedStudent).as('modifyStudent').as('modifyStudent')
     cy.contains('Étudiants')
     cy.wait('@getWhoami')
     cy.contains('Mon profil')
@@ -114,6 +114,7 @@ describe(specTitle('Manager'), () => {
     cy.get('#first_name').click().clear().type(newLastname)
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [updatedStudent])
     cy.contains('Enregistrer').click()
+    cy.wait('@modifyStudent')
     cy.contains(newLastname)
   })
 })
