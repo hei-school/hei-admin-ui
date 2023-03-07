@@ -1,6 +1,6 @@
 import { RadioButtonGroupInput } from 'react-admin'
 
-const SexRadioButton = () => (
+export const SexRadioButton = () => (
   <RadioButtonGroupInput
     source='sex'
     label='Sexe'
@@ -10,5 +10,3 @@ const SexRadioButton = () => (
     ]}
   />
 )
-
-export default SexRadioButton

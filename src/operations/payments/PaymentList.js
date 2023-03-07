@@ -1,7 +1,7 @@
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
 import { CustomDateField } from '../fees/ByStatusFeeList'
-import { prettyPrintMoney } from '../utils/money'
+import { prettyPrintMoney } from '../utils'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>

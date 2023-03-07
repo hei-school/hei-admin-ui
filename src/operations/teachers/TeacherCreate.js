@@ -1,5 +1,5 @@
 import { Create, SimpleForm, TextInput, DateTimeInput, DateInput } from 'react-admin'
-import SexRadioButton from '../utils/SexRadioButton'
+import { SexRadioButton } from '../utils'
 
 const TeacherCreate = () => (
   <Create title='Enseignants'>

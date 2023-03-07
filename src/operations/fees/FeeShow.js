@@ -2,8 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
 
-import { prettyPrintMoney } from '../utils/money'
-import { withRedWarning, unexpectedValue } from '../utils/typography'
+import { prettyPrintMoney, statusRenderer, withRedWarning } from '../utils'
 
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
@@ -13,12 +12,6 @@ import { useParams } from 'react-router-dom'
 import { CustomDateField } from './ByStatusFeeList'
 
 export const FeeLayout = ({ feeId }) => {
-  const statusRenderer = user => {
-    if (user.status === 'LATE') return withRedWarning('En retard')
-    if (user.status === 'PAID') return 'Payé'
-    if (user.status === 'UNPAID') return 'En attente'
-    return unexpectedValue
-  }
   return (
     <SimpleShowLayout>
       <CustomDateField label='Date de création' source='creation_datetime' />
@@ -26,7 +19,10 @@ export const FeeLayout = ({ feeId }) => {
       <TextField source='comment' label='Commentaire' />
       <FunctionField label='Total à payer' render={record => prettyPrintMoney(record.total_amount)} textAlign='right' />
       <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
-      <FunctionField label='Statut' render={statusRenderer} />
+      <FunctionField
+        label='Statut'
+        render={record => (record.status === 'LATE' ? withRedWarning(statusRenderer(record.status)) : statusRenderer(record.status))}
+      />
       <Divider sx={{ mt: 2, mb: 1 }} />
       <Typography>Paiements</Typography>
       <PaymentList feeId={feeId} />

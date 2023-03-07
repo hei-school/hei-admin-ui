@@ -3,12 +3,19 @@ import { TextField, Datagrid, ShowButton, EditButton, List } from 'react-admin'
 import authProvider from '../../providers/authProvider'
 
 import { profileFilters } from '../profile'
-import PrevNextPagination from '../utils/PrevNextPagination'
+import { pageSize, PrevNextPagination } from '../utils'
 
 const StudentList = () => {
   const role = authProvider.getCachedRole()
   return (
-    <List label='Étudiants' bulkActionButtons={false} hasCreate={role === 'MANAGER'} filters={profileFilters} pagination={<PrevNextPagination />}>
+    <List
+      label='Étudiants'
+      bulkActionButtons={false}
+      hasCreate={role === 'MANAGER'}
+      filters={profileFilters}
+      perPage={pageSize}
+      pagination={<PrevNextPagination />}
+    >
       <Datagrid rowClick='show'>
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
