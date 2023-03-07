@@ -12,21 +12,17 @@ const studentProvider: HaDataProviderType = {
     return result.data
   },
   async saveOrUpdate(payload: any) {
-    if (payload == null) {
-      throw new Error('Payload is null')
+    if (payload[0].length > 1) {
+      // when we want to create student
+      const [fees, student] = payload[0]
+      Object.assign(student, { status: EnableStatus.Enabled })
+      const [studentResponse] = (await usersApi().createOrUpdateStudents([student])).data
+      fees.length !== 0 && (await payingApi().createStudentFees(studentResponse?.id!, fees))
+      return [studentResponse]
     } else {
-      if (payload[0].length > 1) {
-        // when we want to create student
-        const [fees, student] = payload[0]
-        Object.assign(student, { status: EnableStatus.Enabled })
-        const [studentResponse] = (await usersApi().createOrUpdateStudents([student])).data
-        fees.length !== 0 && (await payingApi().createStudentFees(studentResponse?.id!, fees))
-        return [studentResponse]
-      } else {
-        // for editing
-        const result = await usersApi().createOrUpdateStudents(payload)
-        return result.data
-      }
+      // for editing
+      const result = await usersApi().createOrUpdateStudents(payload)
+      return result.data
     }
   }
 }
