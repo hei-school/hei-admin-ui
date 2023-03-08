@@ -47,6 +47,12 @@ describe(specTitle('Manager'), () => {
 
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(managerNameToBeCheckedMock)
+    cy.get('#main-content')
+    .should('contain', manager1Mock.ref)
+    .and('contain', manager1Mock.last_name)
+    .and('contain', manager1Mock.address)
+    .and('contain', manager1Mock.email)
+    .and('contain', manager1Mock.phone)
     unmount()
   })
 
@@ -63,7 +69,7 @@ describe(specTitle('Manager'), () => {
     cy.get('[href="#/students"]').click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
-    cy.contains('Taille : 10')
+    cy.contains(`Taille : ${studentsMock.length}`)
 
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
@@ -71,8 +77,9 @@ describe(specTitle('Manager'), () => {
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"]').click()
     cy.get('#last_name').type(studentNameToBeCheckedMock)
+    cy.wait('@getStudentsByName')
+    cy.get('#main-content table').contains(studentNameToBeCheckedMock)
     cy.contains('Page : 1')
-    cy.contains('Taille : 1')
     unmount()
   })
 
@@ -80,14 +87,15 @@ describe(specTitle('Manager'), () => {
     cy.get('[href="#/teachers"]').click() //Enseignants menu
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
-    cy.contains('Taille : 10')
+    cy.contains(`Taille : ${studentsMock.length}`)
 
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
 
     cy.get('#first_name').type(teacherNameToBeCheckedMock)
+    cy.wait('@getTeacherByName')
+    cy.get('#main-content table').contains(teacherNameToBeCheckedMock)
     cy.contains('Page : 1')
-    cy.contains('Taille : 1')
     unmount()
   })
 
@@ -153,7 +161,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('[href="#/students"]').click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
-    cy.contains('Taille : 10')
+    cy.contains(`Taille : ${studentsMock.length}`)
     cy.get('.MuiFab-root').click()
 
     cy.intercept('PUT', '/students', [createdStudent]).as('createStudent')
