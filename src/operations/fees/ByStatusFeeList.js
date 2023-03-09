@@ -1,13 +1,10 @@
 import { List, Datagrid, TextField, DateField, FunctionField, ShowButton } from 'react-admin'
 import rowStyle from './byStatusRowStyle'
 
-import { prettyPrintMoney, statusRenderer } from '../utils'
+import { prettyPrintMoney, statusRenderer, CustomDateField } from '../utils'
 
 import { maxPageSize } from '../../providers/dataProvider'
-export const CustomDateField = props => {
-  const { source, label } = props
-  return <DateField source={source} label={label} locales='fr-FR' options={{ year: 'numeric', month: 'long', day: 'numeric' }} />
-}
+
 const ByStatusFeeList = ({ status, ...props }) => {
   status = status ? status : 'LATE'
   return (
