@@ -23,10 +23,10 @@ export const ProfileLayout = () => {
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
       <FunctionField label='Téléphone' render={phoneRenderer} />
-      <CustomDateField source='birth_date' label='Date de naissance' showTime={false}/>
+      <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false}/>
+      <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
   )
