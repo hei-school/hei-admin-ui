@@ -5,11 +5,10 @@ import { List } from '@react-admin/ra-rbac'
 import { TextField, Datagrid, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 
 import rowStyle from './byStatusRowStyle'
-import { prettyPrintMoney } from '../utils'
+import { prettyPrintMoney, CustomDateField } from '../utils'
 
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
-import { CustomDateField } from './ByStatusFeeList'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>

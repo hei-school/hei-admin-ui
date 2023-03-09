@@ -1,8 +1,7 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
 import { Link } from '@mui/material'
-import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
-import { unexpectedValue } from '../utils'
+import { unexpectedValue, CustomDateField } from '../utils'
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {

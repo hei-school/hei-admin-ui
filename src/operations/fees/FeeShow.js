@@ -2,14 +2,13 @@ import { useState, useEffect } from 'react'
 
 import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
 
-import { prettyPrintMoney, statusRenderer, withRedWarning } from '../utils'
+import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField } from '../utils'
 
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
 import { useParams } from 'react-router-dom'
-import { CustomDateField } from './ByStatusFeeList'
 
 const dateTimeRenderer = data => {
   return data.updated_at == null ? (
