@@ -1,5 +1,5 @@
 import { List } from '@react-admin/ra-rbac'
-import { Datagrid, TextField, FunctionField, TopToolbar, CreateButtonn } from 'react-admin'
+import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
 import { prettyPrintMoney, CustomDateField } from '../utils'
 
 const Actions = ({ basePath, resource }) => (
