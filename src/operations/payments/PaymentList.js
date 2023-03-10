@@ -1,7 +1,6 @@
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
-import { CustomDateField } from '../fees/ByStatusFeeList'
-import { prettyPrintMoney } from '../utils'
+import { prettyPrintMoney, CustomDateField } from '../utils'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -18,7 +17,7 @@ const PaymentList = ({ feeId }) => (
     pagination={false}
   >
     <Datagrid>
-      <CustomDateField source='creation_datetime' label='Date de création' />
+      <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
       <TextField source='comment' label='Commentaire' />
       <TextField source='type' label='Type' />
       <FunctionField label='Montant' render={record => prettyPrintMoney(record.amount)} textAlign='right' />

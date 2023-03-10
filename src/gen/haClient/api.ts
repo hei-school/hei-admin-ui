@@ -12,8 +12,9 @@
  * Do not edit the class manually.
  */
 
-import { Configuration } from './configuration'
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
+import type { Configuration } from './configuration'
+import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
+import globalAxios from 'axios'
 // Some imports not used depending on template conditions
 // @ts-ignore
 import {
@@ -28,8 +29,9 @@ import {
   toPathString,
   createRequestFunction
 } from './common'
+import type { RequestArgs } from './base'
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base'
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base'
 
 /**
  *
@@ -119,13 +121,12 @@ export interface CreateDelayPenaltyChange {
   applicability_delay_after_grace?: number
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum CreateDelayPenaltyChangeInterestTimerateEnum {
-  Daily = 'DAILY'
-}
+export const CreateDelayPenaltyChangeInterestTimerateEnum = {
+  Daily: 'DAILY'
+} as const
+
+export type CreateDelayPenaltyChangeInterestTimerateEnum =
+  (typeof CreateDelayPenaltyChangeInterestTimerateEnum)[keyof typeof CreateDelayPenaltyChangeInterestTimerateEnum]
 
 /**
  *
@@ -165,14 +166,94 @@ export interface CreateFee {
   due_datetime?: string
 }
 
+export const CreateFeeTypeEnum = {
+  Tuition: 'TUITION',
+  Hardware: 'HARDWARE'
+} as const
+
+export type CreateFeeTypeEnum = (typeof CreateFeeTypeEnum)[keyof typeof CreateFeeTypeEnum]
+
 /**
+ *
  * @export
- * @enum {string}
+ * @interface CreateOrUpdateStudents200ResponseInner
  */
-export enum CreateFeeTypeEnum {
-  Tuition = 'TUITION',
-  Hardware = 'HARDWARE'
+export interface CreateOrUpdateStudents200ResponseInner {
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  ref?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  first_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  last_name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  sex?: CreateOrUpdateStudents200ResponseInnerSexEnum
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  birth_date?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  address?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  phone?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  email?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  entrance_datetime?: string
+  /**
+   *
+   * @type {EnableStatus}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  status?: EnableStatus
 }
+
+export const CreateOrUpdateStudents200ResponseInnerSexEnum = {
+  M: 'M',
+  F: 'F'
+} as const
+
+export type CreateOrUpdateStudents200ResponseInnerSexEnum =
+  (typeof CreateOrUpdateStudents200ResponseInnerSexEnum)[keyof typeof CreateOrUpdateStudents200ResponseInnerSexEnum]
 
 /**
  *
@@ -200,16 +281,14 @@ export interface CreatePayment {
   comment?: string
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum CreatePaymentTypeEnum {
-  Cash = 'CASH',
-  MobileMoney = 'MOBILE_MONEY',
-  Scholarship = 'SCHOLARSHIP',
-  Fix = 'FIX'
-}
+export const CreatePaymentTypeEnum = {
+  Cash: 'CASH',
+  MobileMoney: 'MOBILE_MONEY',
+  Scholarship: 'SCHOLARSHIP',
+  Fix: 'FIX'
+} as const
+
+export type CreatePaymentTypeEnum = (typeof CreatePaymentTypeEnum)[keyof typeof CreatePaymentTypeEnum]
 
 /**
  *
@@ -255,13 +334,11 @@ export interface DelayPenalty {
   applicability_delay_after_grace?: number
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum DelayPenaltyInterestTimerateEnum {
-  Daily = 'DAILY'
-}
+export const DelayPenaltyInterestTimerateEnum = {
+  Daily: 'DAILY'
+} as const
+
+export type DelayPenaltyInterestTimerateEnum = (typeof DelayPenaltyInterestTimerateEnum)[keyof typeof DelayPenaltyInterestTimerateEnum]
 
 /**
  *
@@ -269,10 +346,12 @@ export enum DelayPenaltyInterestTimerateEnum {
  * @enum {string}
  */
 
-export enum EnableStatus {
-  Enabled = 'ENABLED',
-  Disabled = 'DISABLED'
-}
+export const EnableStatus = {
+  Enabled: 'ENABLED',
+  Disabled: 'DISABLED'
+} as const
+
+export type EnableStatus = (typeof EnableStatus)[keyof typeof EnableStatus]
 
 /**
  *
@@ -328,6 +407,12 @@ export interface Fee {
    * @type {string}
    * @memberof Fee
    */
+  updated_at?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Fee
+   */
   type?: FeeTypeEnum
   /**
    *
@@ -355,23 +440,19 @@ export interface Fee {
   due_datetime?: string
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum FeeStatusEnum {
-  Unpaid = 'UNPAID',
-  Paid = 'PAID',
-  Late = 'LATE'
-}
-/**
- * @export
- * @enum {string}
- */
-export enum FeeTypeEnum {
-  Tuition = 'TUITION',
-  Hardware = 'HARDWARE'
-}
+export const FeeStatusEnum = {
+  Unpaid: 'UNPAID',
+  Paid: 'PAID',
+  Late: 'LATE'
+} as const
+
+export type FeeStatusEnum = (typeof FeeStatusEnum)[keyof typeof FeeStatusEnum]
+export const FeeTypeEnum = {
+  Tuition: 'TUITION',
+  Hardware: 'HARDWARE'
+} as const
+
+export type FeeTypeEnum = (typeof FeeTypeEnum)[keyof typeof FeeTypeEnum]
 
 /**
  *
@@ -497,14 +578,12 @@ export interface Manager {
   status?: EnableStatus
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum ManagerSexEnum {
-  M = 'M',
-  F = 'F'
-}
+export const ManagerSexEnum = {
+  M: 'M',
+  F: 'F'
+} as const
+
+export type ManagerSexEnum = (typeof ManagerSexEnum)[keyof typeof ManagerSexEnum]
 
 /**
  *
@@ -569,16 +648,14 @@ export interface Payment {
   comment?: string
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum PaymentTypeEnum {
-  Cash = 'CASH',
-  MobileMoney = 'MOBILE_MONEY',
-  Scholarship = 'SCHOLARSHIP',
-  Fix = 'FIX'
-}
+export const PaymentTypeEnum = {
+  Cash: 'CASH',
+  MobileMoney: 'MOBILE_MONEY',
+  Scholarship: 'SCHOLARSHIP',
+  Fix: 'FIX'
+} as const
+
+export type PaymentTypeEnum = (typeof PaymentTypeEnum)[keyof typeof PaymentTypeEnum]
 
 /**
  *
@@ -673,14 +750,12 @@ export interface Student {
   status?: EnableStatus
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum StudentSexEnum {
-  M = 'M',
-  F = 'F'
-}
+export const StudentSexEnum = {
+  M: 'M',
+  F: 'F'
+} as const
+
+export type StudentSexEnum = (typeof StudentSexEnum)[keyof typeof StudentSexEnum]
 
 /**
  *
@@ -756,14 +831,12 @@ export interface Teacher {
   status?: EnableStatus
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum TeacherSexEnum {
-  M = 'M',
-  F = 'F'
-}
+export const TeacherSexEnum = {
+  M: 'M',
+  F: 'F'
+} as const
+
+export type TeacherSexEnum = (typeof TeacherSexEnum)[keyof typeof TeacherSexEnum]
 
 /**
  *
@@ -858,14 +931,12 @@ export interface User {
   status?: EnableStatus
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum UserSexEnum {
-  M = 'M',
-  F = 'F'
-}
+export const UserSexEnum = {
+  M: 'M',
+  F: 'F'
+} as const
+
+export type UserSexEnum = (typeof UserSexEnum)[keyof typeof UserSexEnum]
 
 /**
  *
@@ -893,15 +964,13 @@ export interface Whoami {
   bearer?: string
 }
 
-/**
- * @export
- * @enum {string}
- */
-export enum WhoamiRoleEnum {
-  Student = 'STUDENT',
-  Teacher = 'TEACHER',
-  Manager = 'MANAGER'
-}
+export const WhoamiRoleEnum = {
+  Student: 'STUDENT',
+  Teacher: 'TEACHER',
+  Manager: 'MANAGER'
+} as const
+
+export type WhoamiRoleEnum = (typeof WhoamiRoleEnum)[keyof typeof WhoamiRoleEnum]
 
 /**
  * PayingApi - axios parameter creator
@@ -1074,13 +1143,13 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {string} [status] See the PaymentStatus object for its value.
+     * @param {'UNPAID' | 'LATE' | 'PAID'} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getFees: async (status?: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getFees: async (status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/fees`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -1159,15 +1228,22 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       }
     },
     /**
-     *
+     * Fees can be filtered with an optional payment status parameter.
      * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {'UNPAID' | 'PAID' | 'LATE'} [status]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentFees: async (studentId: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getStudentFees: async (
+      studentId: string,
+      page?: number,
+      pageSize?: number,
+      status?: 'UNPAID' | 'PAID' | 'LATE',
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
       assertParamExists('getStudentFees', 'studentId', studentId)
       const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
@@ -1192,6 +1268,10 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
 
       if (pageSize !== undefined) {
         localVarQueryParameter['page_size'] = pageSize
+      }
+
+      if (status !== undefined) {
+        localVarQueryParameter['status'] = status
       }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
@@ -1324,14 +1404,14 @@ export const PayingApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {string} [status] See the PaymentStatus object for its value.
+     * @param {'UNPAID' | 'LATE' | 'PAID'} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getFees(
-      status?: string,
+      status?: 'UNPAID' | 'LATE' | 'PAID',
       page?: number,
       pageSize?: number,
       options?: AxiosRequestConfig
@@ -1356,11 +1436,12 @@ export const PayingApiFp = function (configuration?: Configuration) {
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
-     *
+     * Fees can be filtered with an optional payment status parameter.
      * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {'UNPAID' | 'PAID' | 'LATE'} [status]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
@@ -1368,9 +1449,10 @@ export const PayingApiFp = function (configuration?: Configuration) {
       studentId: string,
       page?: number,
       pageSize?: number,
+      status?: 'UNPAID' | 'PAID' | 'LATE',
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFees(studentId, page, pageSize, options)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFees(studentId, page, pageSize, status, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -1448,13 +1530,13 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {string} [status] See the PaymentStatus object for its value.
+     * @param {'UNPAID' | 'LATE' | 'PAID'} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getFees(status?: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
+    getFees(status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
       return localVarFp.getFees(status, page, pageSize, options).then(request => request(axios, basePath))
     },
     /**
@@ -1469,16 +1551,17 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
       return localVarFp.getStudentFeeById(studentId, feeId, options).then(request => request(axios, basePath))
     },
     /**
-     *
+     * Fees can be filtered with an optional payment status parameter.
      * @summary Get all student fees ordered by due datetime desc
      * @param {string} studentId
      * @param {number} [page]
      * @param {number} [pageSize]
+     * @param {'UNPAID' | 'PAID' | 'LATE'} [status]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentFees(studentId: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
-      return localVarFp.getStudentFees(studentId, page, pageSize, options).then(request => request(axios, basePath))
+    getStudentFees(studentId: string, page?: number, pageSize?: number, status?: 'UNPAID' | 'PAID' | 'LATE', options?: any): AxiosPromise<Array<Fee>> {
+      return localVarFp.getStudentFees(studentId, page, pageSize, status, options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -1564,14 +1647,14 @@ export class PayingApi extends BaseAPI {
   /**
    *
    * @summary Get all student fees filtered by status
-   * @param {string} [status] See the PaymentStatus object for its value.
+   * @param {'UNPAID' | 'LATE' | 'PAID'} [status] See the PaymentStatus object for its value.
    * @param {number} [page]
    * @param {number} [pageSize]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PayingApi
    */
-  public getFees(status?: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+  public getFees(status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
       .getFees(status, page, pageSize, options)
       .then(request => request(this.axios, this.basePath))
@@ -1593,18 +1676,19 @@ export class PayingApi extends BaseAPI {
   }
 
   /**
-   *
+   * Fees can be filtered with an optional payment status parameter.
    * @summary Get all student fees ordered by due datetime desc
    * @param {string} studentId
    * @param {number} [page]
    * @param {number} [pageSize]
+   * @param {'UNPAID' | 'PAID' | 'LATE'} [status]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PayingApi
    */
-  public getStudentFees(studentId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+  public getStudentFees(studentId: string, page?: number, pageSize?: number, status?: 'UNPAID' | 'PAID' | 'LATE', options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
-      .getStudentFees(studentId, page, pageSize, options)
+      .getStudentFees(studentId, page, pageSize, status, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -2622,7 +2706,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
     async createOrUpdateStudents(
       student: Array<Student>,
       options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CreateOrUpdateStudents200ResponseInner>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateStudents(student, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
@@ -2750,7 +2834,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createOrUpdateStudents(student: Array<Student>, options?: any): AxiosPromise<Array<Student>> {
+    createOrUpdateStudents(student: Array<Student>, options?: any): AxiosPromise<Array<CreateOrUpdateStudents200ResponseInner>> {
       return localVarFp.createOrUpdateStudents(student, options).then(request => request(axios, basePath))
     },
     /**

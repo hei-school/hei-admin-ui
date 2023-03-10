@@ -5,11 +5,10 @@ import { List } from '@react-admin/ra-rbac'
 import { TextField, Datagrid, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 
 import rowStyle from './byStatusRowStyle'
-import { prettyPrintMoney } from '../utils'
+import { prettyPrintMoney, CustomDateField } from '../utils'
 
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
-import { CustomDateField } from './ByStatusFeeList'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -43,10 +42,10 @@ const FeeList = ({ studentId }) => {
       perPage={maxPageSize}
     >
       <Datagrid bulkActionButtons={role === 'MANAGER'} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
-        <CustomDateField source='due_datetime' label='Date limite' />
+        <CustomDateField source='due_datetime' label='Date limite' showTime={false} />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
-        <CustomDateField source='creation_datetime' label='Date de création' />
+        <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
         <ShowButton basePath='/fees' />
       </Datagrid>
     </List>
