@@ -1,6 +1,8 @@
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
 import { prettyPrintMoney, CustomDateField } from '../utils'
+import { WhoamiRoleEnum } from '../../gen/haClient'
+import authProvider from '../../providers/authProvider'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -8,11 +10,13 @@ const Actions = ({ basePath, resource }) => (
   </TopToolbar>
 )
 
-const PaymentList = ({ feeId }) => (
+const PaymentList = ({ feeId }) => {
+  const role = authProvider.getCachedRole()
+  return (
   <List
     title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
     resource={'payments'}
-    actions={<Actions basePath={`/fees/${feeId}/payments`} />}
+    actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/fees/${feeId}/payments`} />}
     filterDefaultValues={{ feeId: feeId }}
     pagination={false}
   >
@@ -23,6 +27,7 @@ const PaymentList = ({ feeId }) => (
       <FunctionField label='Montant' render={record => prettyPrintMoney(record.amount)} textAlign='right' />
     </Datagrid>
   </List>
-)
+  )
+}
 
 export default PaymentList
