@@ -13,20 +13,20 @@ const Actions = ({ basePath, resource }) => (
 const PaymentList = ({ feeId }) => {
   const role = authProvider.getCachedRole()
   return (
-  <List
-    title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
-    resource={'payments'}
-    actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/fees/${feeId}/payments`} />}
-    filterDefaultValues={{ feeId: feeId }}
-    pagination={false}
-  >
-    <Datagrid>
-      <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
-      <TextField source='comment' label='Commentaire' />
-      <TextField source='type' label='Type' />
-      <FunctionField label='Montant' render={record => prettyPrintMoney(record.amount)} textAlign='right' />
-    </Datagrid>
-  </List>
+    <List
+      title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
+      resource={'payments'}
+      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/fees/${feeId}/payments`} />}
+      filterDefaultValues={{ feeId: feeId }}
+      pagination={false}
+    >
+      <Datagrid>
+        <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
+        <TextField source='comment' label='Commentaire' />
+        <TextField source='type' label='Type' />
+        <FunctionField label='Montant' render={record => prettyPrintMoney(record.amount)} textAlign='right' />
+      </Datagrid>
+    </List>
   )
 }
 

@@ -3,7 +3,7 @@ import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 're
 import { ProfileLayout } from '../profile/ProfileShow'
 import { AttachMoney } from '@mui/icons-material'
 
-import { WhoamiRoleEnum} from '../../gen/haClient'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
 
 const ActionsOnShow = ({ basePath, data, resource }) => {
