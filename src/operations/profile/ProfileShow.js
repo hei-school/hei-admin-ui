@@ -2,6 +2,7 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
+import {GooglePlaceAutocomplete} from '@material-ui-places'
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {
@@ -15,6 +16,10 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
+  const userLocation = {
+    lattitude: user.location.lattitude,
+    longitude: user.location.longitude
+  }
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -24,11 +29,14 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
-      <EmailField source='email' label='Email' />  
-    /**
-    add geolocation coordinate
-     */
-     
+      <EmailField source='email' label='Email' />
+      <GooglePlaceAutocomplete
+        searchText={'paris'}
+        onChange={onAutoCompleteInputChangeFct}
+        onNewRequest={onClickLocationFct}
+        name={userLocation}
+      />
+
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
