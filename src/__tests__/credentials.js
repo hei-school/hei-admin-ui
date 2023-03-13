@@ -1,5 +1,5 @@
 export const student1 = {
-  username: 'test+ryan@hei.school',
+  username: process.env.REACT_APP_TEST_STUDENT1_EMAIL,
   password: process.env.REACT_APP_TEST_STUDENT1_PASSWORD
 }
 

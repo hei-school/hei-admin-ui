@@ -1,17 +1,17 @@
 import { Student, EnableStatus, StudentSexEnum, Whoami, WhoamiRoleEnum, User, UserSexEnum } from 'src/gen/haClient'
 
-export const studentNameToBeCheckedMock: string = 'herilala'
+export const studentNameToBeCheckedMock: string = 'jonatana'
 
 export const student1Mock: Student = {
   id: 'student1_id',
-  ref: 'STD21111',
+  ref: 'STD21090',
   first_name: studentNameToBeCheckedMock,
-  last_name: 'Rafanomezantsoa',
+  last_name: 'RANDRIAMPARANY',
   sex: StudentSexEnum.M,
-  birth_date: '2000-01-01',
-  address: 'Adr 1',
+  birth_date: '2004-05-26',
+  address: 'Lot II A 104 GEZ Nanisana, 101 Antananarivo, Madagascar',
   phone: '0322411123',
-  email: 'test+ryan@hei.school',
+  email: 'hei.jonatana@gmail.com',
   entrance_datetime: '2021-11-08T08:25:24Z',
   status: EnableStatus.Enabled
 }
