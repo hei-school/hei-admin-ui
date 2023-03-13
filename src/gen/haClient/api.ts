@@ -904,6 +904,17 @@ export interface User {
    * @type {string}
    * @memberof User
    */
+   /**
+     * 
+     * @type {Location}
+     * @memberof User
+     */
+   location?: Location;
+   /**
+    * 
+    * @type {string}
+    * @memberof User
+    */
   address?: string
   /**
    *
@@ -935,6 +946,28 @@ export const UserSexEnum = {
   M: 'M',
   F: 'F'
 } as const
+
+export interface Location {
+  /**
+   * 
+   * @type {string}
+   * @memberof Location
+   */
+  id?: string;
+  /**
+   * 
+   * @type {string}
+   * @memberof Location
+   */
+  longitude?: string;
+  /**
+   * 
+   * @type {string}
+   * @memberof Location
+   */
+  latitude?: string;
+}
+
 
 export type UserSexEnum = (typeof UserSexEnum)[keyof typeof UserSexEnum]
 

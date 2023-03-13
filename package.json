@@ -7,11 +7,14 @@
     "@react-admin/ra-navigation": "^4.0.6",
     "@react-admin/ra-rbac": "^4.0.1",
     "aws-amplify": "^4.3.26",
+    "isarray": "^2.0.5",
+    "isobject": "^4.0.0",
     "ra-language-french": "^4.2.0",
     "react": "^18.2.0",
     "react-admin": "^4.2.0",
     "react-dom": "^18.2.0",
     "react-router-redux": "^4.0.8",
+    "swagger-code-generate": "^2.3.1",
     "typeface-quicksand": "^1.1.13"
   },
   "devDependencies": {
@@ -20,7 +23,7 @@
     "@cypress/webpack-dev-server": "^1.8.2",
     "@testing-library/user-event": "^13.5.0",
     "babel-plugin-istanbul": "5.2.0",
-    "cypress": "9.5.4",
+    "cypress": "^9.5.4",
     "cypress-multi-reporters": "^1.5.0",
     "cypress-sonarqube-reporter": "^1.10.0",
     "eslint-plugin-cypress": "^2.12.1",
