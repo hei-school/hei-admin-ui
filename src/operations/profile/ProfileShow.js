@@ -3,6 +3,7 @@ import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
 import {GoogleMap,Marker, withGoogleMap} from 'react-google-maps'
+import { cood } from '../utils/TempNav'
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -16,20 +17,22 @@ export const ProfileLayout = () => {
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   const userLattitude = user => {
-    return user.location.lattitude != null ? user.location.lattitude : unexpectedValue
+    return user.location.lattitude == null ? user.location.lattitude : cood.lattitude
   }
   const userLongitude = user => {
-    return user.location.longitude != null ? user.location.longitude : unexpectedValue
+    return user.location.longitude == null ? user.location.longitude : cood.longitude
   }
   const MapWithAMarker = withGoogleMap(props =>
-    <GoogleMap
+    userLongitude && userLattitude &&(
+      <GoogleMap
       defaultZoom={8}
-      defaultCenter={{ lat: -34.392, lng: 150.644 }}
+      defaultCenter={{ lat: parseFloat(userLattitude) , lng: parseFloat(userLongitude) }}
     >
       <Marker
-        position={{ lat: -34.397, lng: 150.644 }}
+        position={{ lat: parseFloat(userLattitude), lng: parseFloat(userLongitude) }}
       />
     </GoogleMap>
+    )
   );
   
   
@@ -43,7 +46,7 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <MapWithAMarker containerElement={<div style={{ height: `250px` }} />}
+      <MapWithAMarker containerElement={<div style={{ height: `100px`,width: `500px`  }} />}
               mapElement={<div style={{ height: `100%` }} />}/>
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
