@@ -46,7 +46,7 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      {userLongitude==null && userLattitude==null ?(
+      {!isNaN(parseFloat(userLongitude)) ||!isNaN(parseFloat(userLattitude))  ?(
       <MapWithAMarker containerElement={<div style={{ height: `100px`,width: `500px`  }} />}
               mapElement={<div style={{ height: `100%` }} />}/>
 
