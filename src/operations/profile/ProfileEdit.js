@@ -13,7 +13,7 @@ const StatusRadioButton = () => (
   />
 )
 const transformUser = user => {
-  user.entrance_datetime = user.entrance_datetime.concat('T21:00:00.000Z')
+  user.entrance_datetime = !user.entrance_datetime.includes('T10:00:00.000Z') && user.entrance_datetime.concat('T10:00:00.000Z')
   return user
 }
 
