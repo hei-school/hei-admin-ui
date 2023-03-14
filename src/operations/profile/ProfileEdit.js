@@ -12,9 +12,13 @@ const StatusRadioButton = () => (
     ]}
   />
 )
+const transformUser = user => {
+  user.entrance_datetime = user.entrance_datetime.concat('T21:00:00.000Z')
+  return user
+}
 
 const ProfileEdit = () => (
-  <Edit>
+  <Edit transform={transformUser}>
     <SimpleForm toolbar={<EditToolBar />}>
       <TextInput source='ref' label='Référence' fullWidth={true} />
       <TextInput source='first_name' label='Prénom·s' fullWidth={true} />
