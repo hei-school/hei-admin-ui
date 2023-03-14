@@ -23,17 +23,17 @@ export const ProfileLayout = () => {
     return user.location.longitude == null ? user.location.longitude : cood.longitude
   }
   const MapWithAMarker = withGoogleMap(props =>
-    userLongitude && userLattitude &&(
+  
       <GoogleMap
       defaultZoom={8}
-      defaultCenter={{ lat: parseFloat(userLattitude) , lng: parseFloat(userLongitude) }}
+      defaultCenter={{ lat: parseFloat(userLattitude)   , lng: parseFloat(userLongitude) }}
     >
       <Marker
         position={{ lat: parseFloat(userLattitude), lng: parseFloat(userLongitude) }}
       />
     </GoogleMap>
-    )
-  );
+   
+  )
   
   
   return (
@@ -46,8 +46,12 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
+      {userLongitude==null && userLattitude==null ?(
       <MapWithAMarker containerElement={<div style={{ height: `100px`,width: `500px`  }} />}
               mapElement={<div style={{ height: `100%` }} />}/>
+
+              ): <p> Adresse GPS non Spécifiée</p>
+      }
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
