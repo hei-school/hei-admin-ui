@@ -40,10 +40,7 @@ context('Assertions', () => {
 
     it('.and() - chain multiple assertions together', () => {
       // https://on.cypress.io/and
-      cy.get('.assertions-link')
-        .should('have.class', 'active')
-        .and('have.attr', 'href')
-        .and('include', 'cypress.io')
+      cy.get('.assertions-link').should('have.class', 'active').and('have.attr', 'href').and('include', 'cypress.io')
     })
   })
 
@@ -67,7 +64,7 @@ context('Assertions', () => {
       // automatically until it passes all your explicit assertions or times out.
       cy.get('.assertions-p')
         .find('p')
-        .should(($p) => {
+        .should($p => {
           // https://on.cypress.io/$
           // return an array of texts from all of the p's
           const texts = $p.map((i, el) => Cypress.$(el).text())
@@ -84,7 +81,7 @@ context('Assertions', () => {
           expect(paragraphs, 'has expected text in each paragraph').to.deep.eq([
             'Some text from first p',
             'More text from second p',
-            'And even more text from third p',
+            'And even more text from third p'
           ])
         })
     })
@@ -93,7 +90,7 @@ context('Assertions', () => {
       cy.get('.docs-header')
         .find('div')
         // .should(cb) callback function will be retried
-        .should(($div) => {
+        .should($div => {
           expect($div).to.have.length(1)
 
           const className = $div[0].className
@@ -102,7 +99,7 @@ context('Assertions', () => {
         })
         // .then(cb) callback is not retried,
         // it either passes or fails
-        .then(($div) => {
+        .then($div => {
           expect($div, 'text content').to.have.text('Introduction')
         })
     })
@@ -110,7 +107,7 @@ context('Assertions', () => {
     it('can throw any error', () => {
       cy.get('.docs-header')
         .find('div')
-        .should(($div) => {
+        .should($div => {
           if ($div.length !== 1) {
             // you can throw your own errors
             throw new Error('Did not find 1 element')
@@ -128,26 +125,26 @@ context('Assertions', () => {
       /**
        * Text from the first element.
        * @type {string}
-      */
+       */
       let text
 
       /**
        * Normalizes passed text,
        * useful before comparing text with spaces and different capitalization.
        * @param {string} s Text to normalize
-      */
-      const normalizeText = (s) => s.replace(/\s/g, '').toLowerCase()
+       */
+      const normalizeText = s => s.replace(/\s/g, '').toLowerCase()
 
       cy.get('.two-elements')
         .find('.first')
-        .then(($first) => {
+        .then($first => {
           // save text from the first element
           text = normalizeText($first.text())
         })
 
       cy.get('.two-elements')
         .find('.second')
-        .should(($div) => {
+        .should($div => {
           // we can massage text before comparing
           const secondText = normalizeText($div.text())
 
@@ -158,19 +155,18 @@ context('Assertions', () => {
     it('assert - assert shape of an object', () => {
       const person = {
         name: 'Joe',
-        age: 20,
+        age: 20
       }
 
       assert.isObject(person, 'value is object')
     })
 
     it('retries the should callback until assertions pass', () => {
-      cy.get('#random-number')
-        .should(($div) => {
-          const n = parseFloat($div.text())
+      cy.get('#random-number').should($div => {
+        const n = parseFloat($div.text())
 
-          expect(n).to.be.gte(1).and.be.lte(10)
-        })
+        expect(n).to.be.gte(1).and.be.lte(10)
+      })
     })
   })
 })
