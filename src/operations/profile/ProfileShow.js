@@ -46,12 +46,15 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
+      <div id='local'>
       {!isNaN(parseFloat(userLongitude)) ||!isNaN(parseFloat(userLattitude))  ?(
       <MapWithAMarker containerElement={<div style={{ height: `100px`,width: `500px`  }} />}
               mapElement={<div style={{ height: `100%` }} />}/>
 
-              ): <p> Adresse GPS non Spécifiée</p>
+              ): <p > Adresse GPS non Spécifiée</p>
       }
+      </div>
+     
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
