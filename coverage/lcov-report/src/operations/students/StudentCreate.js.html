@@ -138,14 +138,13 @@
 <a name='L83'></a><a href='#L83'>83</a>
 <a name='L84'></a><a href='#L84'>84</a>
 <a name='L85'></a><a href='#L85'>85</a>
-<a name='L86'></a><a href='#L86'>86</a>
-<a name='L87'></a><a href='#L87'>87</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L86'></a><a href='#L86'>86</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">80x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -224,31 +223,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">&nbsp;
-import { useState } from 'react'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { useState } from 'react'
 import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
 import { SexRadioButton } from '../utils'
 import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
-<span class="fstat-no" title="function not covered" ></span>
-const StudentCreate = props =&gt; {<span class="cstat-no" title="statement not covered" ></span>
-  const [feesConf, setFeesConf] = useState([
+&nbsp;
+const StudentCreate = <span class="fstat-no" title="function not covered" >pr</span>ops =&gt; {
+  const [feesConf, setFeesConf] = <span class="cstat-no" title="statement not covered" >useState([</span>
     {
       monthlyAmount: null,
       monthsNumber: null,
       comment: null
     }
   ])
-<span class="cstat-no" title="statement not covered" ></span>
-  const defaultIsPredefinedType = true<span class="cstat-no" title="statement not covered" ></span>
-  const [isPredefinedType, set<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Is</span>PredefinedType] = useState(defaultIsPredefinedType)</span>
-  co<span class="cstat-no" title="statement not covered" >nst useIsPredefinedType = </span>data =&gt; {
-    setIsPredefinedType(data)
-  }<span class="cstat-no" title="statement not covered" ></span>
-  const defaultCanCreateFees = false<span class="cstat-no" title="statement not covered" ></span>
-  const [canCreateFees, set<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >Ca</span>nCreateFees] = useState(defaultCanCreateFees)</span>
-  const transformPayload = payload =&gt; {
+&nbsp;
+  const defaultIsPredefinedType = <span class="cstat-no" title="statement not covered" >true</span>
+  const [isPredefinedType, setIsPredefinedType] = <span class="cstat-no" title="statement not covered" >useState(defaultIsPredefinedType)</span>
+  const useIsPredefinedType = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >da</span>ta =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    setIsPredefinedType(data)</span>
+  }
+  const defaultCanCreateFees = <span class="cstat-no" title="statement not covered" >false</span>
+  const [canCreateFees, setCanCreateFees] = <span class="cstat-no" title="statement not covered" >useState(defaultCanCreateFees)</span>
+  const transformPayload = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >pa</span>yload =&gt; {</span>
     const {
       monthly_amount,
       manual_first_duedate,
@@ -259,21 +256,21 @@ const StudentCreate = props =&gt; {<span class="cstat-no" title="statement not c
       manual_type,
       predefined_type,
       is_predefined_type,
-      ..<span class="cstat-no" title="statement not covered" >.student</span>
-    } = payload<span class="cstat-no" title="statement not covered" ></span>
-    const fees = []<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
-    const toDate = s<span class="cstat-no" title="statement not covered" >tr =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      const parts = str.split('-')</span>
-      return new Date(parts[0], parts[1] - 1 /* note(js-months) */, parts[2])
-<span class="cstat-no" title="statement not covered" >    }</span>
-    if (canCreateFees) {<span class="cstat-no" title="statement not covered" ></span>
-      const firstDueDate = is_<span class="cstat-no" title="statement not covered" >predefined_first<span class="fstat-no" title="function not covered" >_d</span>ueDate ? predefinedFi<span class="cstat-no" title="statement not covered" >rstDueDates[predefined_first_due</span>Date</span>].value : toDate(manual_first_duedate)
-<span class="cstat-no" title="statement not covered" >      let totalMont<span class="cstat-no" title="statement not covered" >hs</span>Number = feesConf.reduce((acc, currentValue) =&gt; acc + currentValue.monthsNumber, 0)</span>
-      for (let j = 0<span class="cstat-no" title="statement not covered" >; j &lt; feesConf.length; j++) {</span>
-        let start <span class="cstat-no" title="statement not covered" >= j === 0 ? 0 : totalMonthsNumber</span> - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
-<span class="cstat-no" title="statement not covered" >        let end = sta<span class="cstat-no" title="statement not covered" >rt + f</span>eesConf[j].monthsNumber</span>
-        fo<span class="cstat-no" title="statement not covered" >r (let i = start; i &lt; end; i++) {</span>
-          fees.push({
+      ...student
+    } = <span class="cstat-no" title="statement not covered" >payload</span>
+    const fees = <span class="cstat-no" title="statement not covered" >[]</span>
+    const toDate = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >st</span>r =&gt; {</span>
+      const parts = <span class="cstat-no" title="statement not covered" >str.split('-')</span>
+<span class="cstat-no" title="statement not covered" >      return new Date(parts[0], parts[1] - 1 /* note(js-months) */, parts[2])</span>
+    }
+<span class="cstat-no" title="statement not covered" >    if (canCreateFees) {</span>
+      const firstDueDate = <span class="cstat-no" title="statement not covered" >is_predefined_first_dueDate ? predefinedFirstDueDates[predefined_first_dueDate].value : toDate(manual_first_duedate)</span>
+      let totalMonthsNumber = <span class="cstat-no" title="statement not covered" >feesConf.reduce(<span class="fstat-no" title="function not covered" >(a</span>cc, currentValue) =&gt; <span class="cstat-no" title="statement not covered" >acc + currentValue.monthsNumber,</span> 0)</span>
+<span class="cstat-no" title="statement not covered" >      for (let j = <span class="cstat-no" title="statement not covered" >0;</span> j &lt; feesConf.length; j++) {</span>
+        let start = <span class="cstat-no" title="statement not covered" >j === 0 ? 0 : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)</span>
+        let end = <span class="cstat-no" title="statement not covered" >start + feesConf[j].monthsNumber</span>
+<span class="cstat-no" title="statement not covered" >        for (let i = <span class="cstat-no" title="statement not covered" >start;</span> i &lt; end; i++) {</span>
+<span class="cstat-no" title="statement not covered" >          fees.push({</span>
             total_amount: feesConf[j].monthlyAmount,
             type: isPredefinedType ? predefinedFeeTypes[predefined_type][0].type : manualFeeTypes[manual_type].type,
             due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
@@ -281,12 +278,12 @@ const StudentCreate = props =&gt; {<span class="cstat-no" title="statement not c
           })
         }
       }
-<span class="cstat-no" title="statement not covered" >    }</span>
-    student.entranc<span class="cstat-no" title="statement not covered" >e_datetime = stu</span>dent.entrance_datetime.concat('T21:00:00.000Z')
-<span class="cstat-no" title="statement not covered" >    const result =</span> [fees, student]
-    return result
-<span class="cstat-no" title="statement not covered" >  }</span>
-  return (
+    }
+<span class="cstat-no" title="statement not covered" >    student.entrance_datetime = student.entrance_datetime.concat('T21:00:00.000Z')</span>
+    const result = <span class="cstat-no" title="statement not covered" >[fees, student]</span>
+<span class="cstat-no" title="statement not covered" >    return result</span>
+  }
+<span class="cstat-no" title="statement not covered" >  return (</span>
     &lt;Create title='Étudiants' transform={transformPayload} resource='students'&gt;
       &lt;SimpleForm&gt;
         &lt;TextInput source='ref' label='Référence' fullWidth={true} /&gt;
@@ -302,8 +299,8 @@ const StudentCreate = props =&gt; {<span class="cstat-no" title="statement not c
           label='Activer la création des frais'
           name='can_create_fees'
           source=''
-          defaultVal<span class="fstat-no" title="function not covered" >ue</span>={defaultCanCreateFees}<span class="cstat-no" title="statement not covered" ></span>
-          onChange={({ target: { checked } }) =&gt; setCanCreateFees(checked)}
+          defaultValue={defaultCanCreateFees}
+          onChange={<span class="fstat-no" title="function not covered" >({</span> target: { checked } }) =&gt; <span class="cstat-no" title="statement not covered" >setCanCreateFees(checked)}</span>
         /&gt;
         {canCreateFees &amp;&amp; &lt;FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} /&gt;}
       &lt;/SimpleForm&gt;
@@ -320,7 +317,7 @@ export default StudentCreate
     <div class="footer quiet pad2 space-top1 center small">
       Code coverage generated by
       <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-      at 2023-03-13T18:45:12.258Z
+      at 2023-03-14T07:28:10.228Z
     </div>
     <script src="../../../prettify.js"></script>
     <script>

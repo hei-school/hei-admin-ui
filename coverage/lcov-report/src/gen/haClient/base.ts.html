@@ -123,8 +123,7 @@
 <a name='L68'></a><a href='#L68'>68</a>
 <a name='L69'></a><a href='#L69'>69</a>
 <a name='L70'></a><a href='#L70'>70</a>
-<a name='L71'></a><a href='#L71'>71</a>
-<a name='L72'></a><a href='#L72'>72</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L71'></a><a href='#L71'>71</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -144,19 +143,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">65x</span>
+<span class="cline-any cline-yes">80x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">65x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">80x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -170,15 +163,6 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -193,40 +177,53 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* tslint:disable */
 /* eslint-disable */
 /**
  * HEI Admin API
- * _Programmatically connect to a computer programming [school](https://hei.school)._ After [joining us](mailto:contact@hei.school), you can get an identification token from our [dev](https://dev-hei-admin.auth.eu-west-3.amazoncognito.com/oauth2/authorize?client_id=5s8cg50doahmu855rlc8fr6qmp&amp;response_type=token&amp;scope=email+openid&amp;redirect_uri=https%3A%2F%2Fapi-dev.hei.school%2Fwhoami) or [prod](https://prod-hei-admin.auth.eu-west-3.amazoncognito.com/oauth2/authorize?client_id=i8bg538jpfu6mqmqb61m26trd&amp;response_type=token&amp;scope=email+openid&amp;redirect_uri=https%3A%2F%2Fapi-prod.hei.school%2Fwhoami) authentication service. Then, start playing with our system!  The implementation of our API is [publicly disclosed](https://github.com/hei-school/hei-admin-api). You are welcome to try and compromise it. Happy hacking! 
+ * _Programmatically connect to a computer programming [school](https://hei.school)._ After [joining us](mailto:contact@hei.school), you can get an identification token from our [dev](https://dev-hei-admin.auth.eu-west-3.amazoncognito.com/oauth2/authorize?client_id=5s8cg50doahmu855rlc8fr6qmp&amp;response_type=token&amp;scope=email+openid&amp;redirect_uri=https%3A%2F%2Fapi-dev.hei.school%2Fwhoami) or [prod](https://prod-hei-admin.auth.eu-west-3.amazoncognito.com/oauth2/authorize?client_id=i8bg538jpfu6mqmqb61m26trd&amp;response_type=token&amp;scope=email+openid&amp;redirect_uri=https%3A%2F%2Fapi-prod.hei.school%2Fwhoami) authentication service. Then, start playing with our system!  The implementation of our API is [publicly disclosed](https://github.com/hei-school/hei-admin-api). You are welcome to try and compromise it. Happy hacking!
  *
  * The version of the OpenAPI document: 1.0
- * 
+ *
  *
  * NOTE: This class is auto generated by OpenAPI Generator (https://openapi-generator.tech).
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
 &nbsp;
-&nbsp;
-import { Configuration } from "./configuration";
+import { Configuration } from './configuration'
 // Some imports not used depending on template conditions
 // @ts-ignore
-import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
 &nbsp;
-export const BASE_PATH = "https://api-dev.hei.school".replace(/\/+$/, "");
+export const BASE_PATH = 'https://api-dev.hei.school'.replace(/\/+$/, '')
 &nbsp;
 /**
  *
  * @export
  */
 export const COLLECTION_FORMATS = {
-    csv: ",",
-    ssv: " ",
-    tsv: "\t",
-    pipes: "|",
-};
+  csv: ',',
+  ssv: ' ',
+  tsv: '\t',
+  pipes: '|'
+}
 &nbsp;
 /**
  *
@@ -234,8 +231,8 @@ export const COLLECTION_FORMATS = {
  * @interface RequestArgs
  */
 export interface RequestArgs {
-    url: string;
-    options: AxiosRequestConfig;
+  url: string
+  options: AxiosRequestConfig
 }
 &nbsp;
 /**
@@ -244,15 +241,15 @@ export interface RequestArgs {
  * @class BaseAPI
  */
 export class BaseAPI {
-    protected configuration: Configuration | undefined;
+  protected configuration: Configuration | undefined
 &nbsp;
-<span class="fstat-no" title="function not covered" ></span>    constructor(configuration?: Configuration, protected basePath: string <span class="branch-0 cbranch-no" title="branch not covered" >= BASE_PAT</span>H, protected axios: AxiosInstance <span class="branch-0 cbranch-no" title="branch not covered" >= globalAxio</span>s) {
-<span class="cstat-no" title="statement not covered" >        if (configuration) {</span>
-<span class="cstat-no" title="statement not covered" >            this.configuration = configur</span>ation;
-<span class="cstat-no" title="statement not covered" >            this.basePath = configuration.basePath || this.bas</span>ePath;
-        }
-    }
-};
+  constructor(configuration?: Configuration, protected basePath: string = BASE_PATH, protected axios: AxiosInstance = globalAxios) {
+<span class="fstat-no" title="function not covered" ></span>    if (configuration) {<span class="branch-0 cbranch-no" title="branch not covered" ><span class="branch-0 cbranch-no" title="branch not covered" ></span></span>
+<span class="cstat-no" title="statement not covered" >      this.configuration = configuration</span>
+<span class="cstat-no" title="statement not covered" >      this.basePath = configuration.baseP</span>ath || this.basePath
+    }<span class="cstat-no" title="statement not covered" ></span>
+  }
+}
 &nbsp;
 /**
  *
@@ -261,10 +258,10 @@ export class BaseAPI {
  * @extends {Error}
  */
 export class RequiredError extends Error {
-<span class="fstat-no" title="function not covered" ></span>    name: "RequiredError" = "RequiredError";
-<span class="cstat-no" title="statement not covered" >    constructor</span>(public field: string, msg?: string) {
-<span class="cstat-no" title="statement not covered" >        super(msg);</span>
-    }
+  name: 'RequiredError' = 'RequiredError'
+<span class="fstat-no" title="function not covered" >  co</span>nstructor(public field: string, msg?: string) {
+<span class="cstat-no" title="statement not covered" >    super(msg)</span>
+  }<span class="cstat-no" title="statement not covered" ></span>
 }
 &nbsp;</pre></td></tr></table></pre>
 
@@ -275,7 +272,7 @@ export class RequiredError extends Error {
     <div class="footer quiet pad2 space-top1 center small">
       Code coverage generated by
       <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-      at 2023-03-13T18:45:12.258Z
+      at 2023-03-14T07:28:10.228Z
     </div>
     <script src="../../../prettify.js"></script>
     <script>

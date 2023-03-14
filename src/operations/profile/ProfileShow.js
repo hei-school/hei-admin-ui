@@ -2,7 +2,6 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
-import GooglePlaceAutocomplete from 'material-ui-autocomplete-google-places'
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -35,7 +34,8 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <GooglePlaceAutocomplete name={userLocation} />
+      <TextField source='location.longitude' label='Coordonnée longitude' />
+      <TextField source='location.lattitude' label='Coordonnée lattitude' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
