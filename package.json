@@ -15,6 +15,7 @@
     "react": "^18.2.0",
     "react-admin": "^4.2.0",
     "react-dom": "^18.2.0",
+    "react-google-maps": "^9.4.5",
     "react-router-redux": "^4.0.8",
     "swagger-code-generate": "^2.3.1",
     "typeface-quicksand": "^1.1.13"

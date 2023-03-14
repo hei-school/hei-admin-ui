@@ -2,6 +2,7 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
+import {GoogleMap,Marker, withGoogleMap} from 'react-google-maps'
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -20,10 +21,18 @@ export const ProfileLayout = () => {
   const userLongitude = user => {
     return user.location.longitude != null ? user.location.longitude : unexpectedValue
   }
-  const userLocation = {
-    userLattitude,
-    userLongitude
-  }
+  const MapWithAMarker = withGoogleMap(props =>
+    <GoogleMap
+      defaultZoom={8}
+      defaultCenter={{ lat: -34.392, lng: 150.644 }}
+    >
+      <Marker
+        position={{ lat: -34.397, lng: 150.644 }}
+      />
+    </GoogleMap>
+  );
+  
+  
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -34,8 +43,8 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <TextField source='location.longitude' label='Coordonnée longitude' />
-      <TextField source='location.lattitude' label='Coordonnée lattitude' />
+      <MapWithAMarker containerElement={<div style={{ height: `250px` }} />}
+              mapElement={<div style={{ height: `100%` }} />}/>
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
