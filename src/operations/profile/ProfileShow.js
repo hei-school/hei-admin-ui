@@ -3,7 +3,6 @@ import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
 import {GoogleMap,Marker, withGoogleMap} from 'react-google-maps'
-import { cood } from '../utils/TempNav'
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -17,10 +16,10 @@ export const ProfileLayout = () => {
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   const userLattitude = user => {
-    return user.location.lattitude == null ? user.location.lattitude : cood.lattitude
+    return user.location.lattitude != null ? user.location.lattitude : NaN
   }
   const userLongitude = user => {
-    return user.location.longitude == null ? user.location.longitude : cood.longitude
+    return user.location.longitude != null ? user.location.longitude : NaN
   }
   const MapWithAMarker = withGoogleMap(props =>
   
