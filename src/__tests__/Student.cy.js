@@ -2,7 +2,13 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import {
+  createPaymentMock,
+  feesMock,
+  student1Mock,
+  studentNameToBeCheckedMock,
+  whoamiStudentMock
+} from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -27,6 +33,17 @@ describe(specTitle('Student'), () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
+
+  describe('about location', () => {
+    const alternativeLocationValue = 'Non renseigné'
+    it('shows location if there is location', () => {
+      cy.get('#gps').contains('Longitude:')
+      cy.get('#gps').contains('Latitude:')
+    })
+    it('shows alternative value if there is no location', () => {
+      cy.get('#gps').contains(alternativeLocationValue)
+    })
+  })
   it('can detail fee (click on fee row)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
