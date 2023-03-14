@@ -3,6 +3,7 @@ import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 're
 import { ProfileLayout } from '../profile/ProfileShow'
 import { AttachMoney } from '@mui/icons-material'
 
+import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
 
 const ActionsOnShow = ({ basePath, data, resource }) => {
@@ -19,11 +20,10 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
   )
 }
 
-const StudentShow = () => { cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
-cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
+const StudentShow = () => {
   const role = authProvider.getCachedRole()
   return (
-    <Show title='Étudiants' actions={role === 'MANAGER' && <ActionsOnShow />}>
+    <Show title='Étudiants' actions={role === WhoamiRoleEnum.Manager && <ActionsOnShow />}>
       <ProfileLayout />
     </Show>
   )

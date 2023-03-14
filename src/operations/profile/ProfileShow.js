@@ -2,8 +2,7 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
-import {GooglePlaceAutocomplete} from '@material-ui-places'
-
+import GooglePlaceAutocomplete from 'material-ui-autocomplete-google-places';
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -16,9 +15,15 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
+  const userLattitude = user => {
+    return user.location.lattitude != null ? user.location.lattitude : unexpectedValue
+  }
+  const userLongitude = user => {
+    return user.location.longitude != null ? user.location.longitude : unexpectedValue
+  }
   const userLocation = {
-    lattitude: user.location.lattitude,
-    longitude: user.location.longitude
+    userLattitude,
+    userLongitude
   }
   return (
     <SimpleShowLayout>
@@ -31,12 +36,8 @@ export const ProfileLayout = () => {
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
       <GooglePlaceAutocomplete
-        searchText={'paris'}
-        onChange={onAutoCompleteInputChangeFct}
-        onNewRequest={onClickLocationFct}
         name={userLocation}
       />
-
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
