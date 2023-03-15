@@ -45,6 +45,6 @@ describe(specTitle('Student'), () => {
   })
 
   it('handle a specific message if location isn`t defined', () => {
-    cy.contains('Adresse GPS non spécifiée')
+    cy.contains('Adresse GPS Non spécifiée')
   })
 })
