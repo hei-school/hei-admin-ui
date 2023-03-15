@@ -12,3 +12,4 @@ export const manager1 = {
   username: 'test+manager1@hei.school',
   password: process.env.REACT_APP_TEST_MANAGER1_PASSWORD
 }
+
