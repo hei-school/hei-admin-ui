@@ -2,7 +2,6 @@ import { Student, EnableStatus, StudentSexEnum, Whoami, WhoamiRoleEnum, User, Us
 
 export const studentNameToBeCheckedMock: string = 'herilala'
 
-
 export const student1MockNoLocalisation: Student = {
   id: 'student1_id',
   ref: 'STD21111',
@@ -24,9 +23,9 @@ export const student1Mock: Student = {
   last_name: 'Rafanomezantsoa',
   sex: StudentSexEnum.M,
   birth_date: '2000-01-01',
-  positions:{
+  positions: {
     latitude: '-18',
-    longitude:'47'
+    longitude: '47'
   },
   address: 'Adr 1',
   phone: '0322411123',
