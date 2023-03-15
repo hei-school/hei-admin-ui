@@ -2,7 +2,14 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import {
+  student1MockNoLocalisationcreatePaymentMock,
+  feesMock,
+  student1Mock,
+  studentNameToBeCheckedMock,
+  whoamiStudentMock,
+  student1MockNoLocalisation
+} from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -42,5 +49,15 @@ describe(specTitle('Student'), () => {
       .wait(['@getStudent', '@getWhoami'])
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
+  })
+
+  it('contain the localisation of a student', () => {
+    cy.get('#Latitude').contains('-18')
+    cy.get('#Longitude').contains('47')
+  })
+  it('not contain the localisation of a student', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockNoLocalisation).as('getStudent')
+    cy.get('#Latitude').contains('null')
+    cy.get('#Longitude').contains('null')
   })
 })
