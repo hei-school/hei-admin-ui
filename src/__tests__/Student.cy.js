@@ -44,11 +44,11 @@ describe(specTitle('Student'), () => {
     cy.contains('En retard')
   })
 
-  it('cannot provide location if it\'s not specified', () => {
-    cy.get('#local').contains("Adresse GPS non Spécifiée")
-  }
-  )
+  it("cannot provide location if it's not specified", () => {
+    cy.contains('Adresse GPS non Spécifiée')
+  })
   it('can provide gps location for profile', () => {
     cy.intercept('GET', `/students`, student1MockWithLocation.id)
+    cy.not.contains('Adresse GPS non Spécifiée')
   })
 })

@@ -1,8 +1,8 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import { Link } from '@mui/material'
+import { Link,Typography } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
-import {GoogleMap,Marker, withGoogleMap} from 'react-google-maps'
+import {MapWithAMarker} from './Map'
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -15,26 +15,8 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
-  const userLattitude = user => {
-    return user.location.lattitude != null ? user.location.lattitude : NaN
-  }
-  const userLongitude = user => {
-    return user.location.longitude != null ? user.location.longitude : NaN
-  }
-  const MapWithAMarker = withGoogleMap(props =>
-  
-      <GoogleMap
-      defaultZoom={8}
-      defaultCenter={{ lat: parseFloat(userLattitude)   , lng: parseFloat(userLongitude) }}
-    >
-      <Marker
-        position={{ lat: parseFloat(userLattitude), lng: parseFloat(userLongitude) }}
-      />
-    </GoogleMap>
-   
-  )
-  
-  
+ 
+
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -45,15 +27,14 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <div id='local'>
-      {!isNaN(parseFloat(userLongitude)) ||!isNaN(parseFloat(userLattitude))  ?(
-      <MapWithAMarker containerElement={<div style={{ height: `100px`,width: `500px`  }} />}
-              mapElement={<div style={{ height: `100%` }} />}/>
+      <Typography>Adresse GPS</Typography>
+        {parseFloat(user.location.longitude)!==null || parseFloat(user.location.lattitude)!==null ? (
+            <MapWithAMarker containerElement={<div style={{ height: `100px`, width: `500px` }} />} mapElement={<div style={{ height: `100%` }} />} />
+          ) : (
+            <Typography>Adresse non spécifiée</Typography>
+        )}
 
-              ): <p > Adresse GPS non Spécifiée</p>
-      }
-      </div>
-     
+
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
