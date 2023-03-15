@@ -1,6 +1,8 @@
 import { Student, EnableStatus, StudentSexEnum, Whoami, WhoamiRoleEnum, User, UserSexEnum } from 'src/gen/haClient'
 
 export const studentNameToBeCheckedMock: string = 'herilala'
+export const gpsAddressToBeCheckedMock: string = '11.2 , 22.8'
+export const gpsMissingValueToBeCheckedMock: string = "Pas d'addresse gps pour le moment"
 
 export const student1Mock: Student = {
   id: 'student1_id',
@@ -10,6 +12,34 @@ export const student1Mock: Student = {
   sex: StudentSexEnum.M,
   birth_date: '2000-01-01',
   address: 'Adr 1',
+  gps_address: { latitude: '11.2', longitude: '22.8' },
+  phone: '0322411123',
+  email: 'test+ryan@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled
+}
+export const student1MockWithoutLocation: Student = {
+  id: 'student1_id',
+  ref: 'STD21036',
+  first_name: 'Cedric',
+  last_name: 'Adnriamampionona',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-01-01',
+  address: 'Adr 1',
+  phone: '0322411123',
+  email: 'test+ryan@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled
+}
+export const student1MockWithWrongLocation: Student = {
+  id: 'student1_id',
+  ref: 'STD21036',
+  first_name: 'Cedric',
+  last_name: 'Adnriamampionona',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-01-01',
+  address: 'Adr 1',
+  gps_address: { latitude: undefined, longitude: '22.8' },
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
@@ -18,6 +48,7 @@ export const student1Mock: Student = {
 
 export const studentsMock: Student[] = [
   student1Mock,
+  student1MockWithoutLocation,
   {
     id: 'student2_id',
     ref: 'STD00025',
@@ -26,6 +57,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2000-12-27',
     address: 'lot 1245',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '+2613356894256',
     email: 'test+twentyFive@hei.school',
     entrance_datetime: '2023-01-19T12:00:00Z',
@@ -39,6 +71,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '1992-02-12',
     address: 'lot',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '0335689752',
     email: 'mayahnyando@gmail.com',
     entrance_datetime: '2021-05-12T09:50:00Z',
@@ -52,6 +85,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2005-02-02',
     address: 'lot 12345',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '+261 33 26 523 56 ',
     email: 'test+student45132165@hei.school',
     entrance_datetime: '2022-01-20T07:00:00Z',
@@ -65,6 +99,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2000-01-01',
     address: 'Adr 1',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '0322411123',
     email: 'test+ryan@hei.school',
     entrance_datetime: '2021-11-08T08:25:24Z',
@@ -78,6 +113,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.F,
     birth_date: '2000-01-02',
     address: 'Adr 2',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '0322411124',
     email: 'test+student2@hei.school',
     entrance_datetime: '2021-11-09T08:26:24Z',
@@ -91,6 +127,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.F,
     birth_date: '2000-01-02',
     address: 'Adr 2',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '0322411124',
     email: 'test+student3@hei.school',
     entrance_datetime: '2021-11-09T08:26:24Z',
@@ -104,6 +141,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.F,
     birth_date: '2014-02-07',
     address: 'lot',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '+261 34 21 435 12',
     email: 'Test@hei.school',
     entrance_datetime: '2023-01-04T21:00:00Z',
@@ -117,6 +155,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2022-12-30',
     address: 'lot 5454f',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '+261335689741',
     email: 'test+studen354651@gmail.com',
     entrance_datetime: '2023-01-04T21:00:00Z',
@@ -130,6 +169,7 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2023-01-03',
     address: 'lot 541215246546',
+    gps_address: { latitude: '11.2', longitude: '22.8' },
     phone: '0325689456',
     email: 'test+student12665673@hei.school',
     entrance_datetime: '2022-12-31T21:00:00Z',
