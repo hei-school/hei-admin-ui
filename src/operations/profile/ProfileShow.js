@@ -15,6 +15,18 @@ export const ProfileLayout = () => {
     if (user.status === 'DISABLED') return 'Suspendu·e'
     return unexpectedValue
   }
+  const positionRenderer = user => {
+    if (!user.gps_address) {
+      return "Pas d'addresse gps"
+    }
+    if (user.gps_address.latitude === undefined || user.gps_address.longitude === undefined) {
+      return 'Valeur Gps manquante'
+    }
+    if (user.gps_address.latitude !== null && user.gps_address.longitude !== null) {
+      return user.gps_address.latitude + ' , ' + user.gps_address.longitude
+    }
+    return unexpectedValue
+  }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
@@ -25,6 +37,7 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' />
       <TextField source='address' label='Adresse' component='pre' />
+      <FunctionField source='gps_address' label='Adresse Gps' id='location' render={positionRenderer} />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" />
       <FunctionField label='Statut' render={statusRenderer} />
