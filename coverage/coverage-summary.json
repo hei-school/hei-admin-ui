@@ -1,8 +1,8 @@
 {
   "total": {
-    "lines": { "total": 1075, "covered": 410, "skipped": 0, "pct": 38.14 },
-    "statements": { "total": 1144, "covered": 441, "skipped": 0, "pct": 38.55 },
-    "functions": { "total": 333, "covered": 104, "skipped": 0, "pct": 31.23 },
+    "lines": { "total": 1077, "covered": 412, "skipped": 0, "pct": 38.25 },
+    "statements": { "total": 1146, "covered": 443, "skipped": 0, "pct": 38.66 },
+    "functions": { "total": 334, "covered": 105, "skipped": 0, "pct": 31.44 },
     "branches": { "total": 436, "covered": 74, "skipped": 0, "pct": 16.97 }
   },
   "/home/jonatana/Documents/hei-admin-ui/src/App.js": {
@@ -155,6 +155,12 @@
     "statements": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
     "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
   },
+  "/home/jonatana/Documents/hei-admin-ui/src/operations/profile/Map.js": {
+    "lines": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
   "/home/jonatana/Documents/hei-admin-ui/src/operations/profile/ProfileEdit.js": {
     "lines": { "total": 4, "covered": 2, "skipped": 0, "pct": 50 },
     "functions": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 },
@@ -162,9 +168,9 @@
     "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
   },
   "/home/jonatana/Documents/hei-admin-ui/src/operations/profile/ProfileShow.js": {
-    "lines": { "total": 14, "covered": 9, "skipped": 0, "pct": 64.29 },
-    "functions": { "total": 7, "covered": 5, "skipped": 0, "pct": 71.43 },
-    "statements": { "total": 24, "covered": 17, "skipped": 0, "pct": 70.83 },
+    "lines": { "total": 14, "covered": 10, "skipped": 0, "pct": 71.43 },
+    "functions": { "total": 7, "covered": 6, "skipped": 0, "pct": 85.71 },
+    "statements": { "total": 24, "covered": 18, "skipped": 0, "pct": 75 },
     "branches": { "total": 12, "covered": 2, "skipped": 0, "pct": 16.67 }
   },
   "/home/jonatana/Documents/hei-admin-ui/src/operations/profile/index.js": {

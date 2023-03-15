@@ -1,8 +1,8 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import { Link,Typography } from '@mui/material'
+import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
-import {MapWithAMarker} from './Map'
+import { MapField } from './Map'
 export const ProfileLayout = () => {
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
@@ -15,7 +15,6 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
- 
 
   return (
     <SimpleShowLayout>
@@ -27,14 +26,7 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <Typography>Adresse GPS</Typography>
-        {parseFloat(user.location.longitude)!==null || parseFloat(user.location.lattitude)!==null ? (
-            <MapWithAMarker containerElement={<div style={{ height: `100px`, width: `500px` }} />} mapElement={<div style={{ height: `100%` }} />} />
-          ) : (
-            <Typography>Adresse non spécifiée</Typography>
-        )}
-
-
+      <FunctionField label='Adresse GPS' render={MapField} />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>

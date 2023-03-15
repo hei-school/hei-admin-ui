@@ -7,8 +7,8 @@ import { createPaymentMock, feesMock, student1Mock, student1MockWithLocation, st
 describe(specTitle('Student'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.get('#username').type(student1.username)
-    cy.get('#password').type(student1.password)
+    cy.get('#username').type('test+ryan@hei.school')
+    cy.get('#password').type(process.env.REACT_APP_TEST_STUDENT1_PASSWORD)
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
@@ -44,11 +44,7 @@ describe(specTitle('Student'), () => {
     cy.contains('En retard')
   })
 
-  it("cannot provide location if it's not specified", () => {
-    cy.contains('Adresse GPS non Spécifiée')
-  })
-  it('can provide gps location for profile', () => {
-    cy.intercept('GET', `/students`, student1MockWithLocation.id)
-    cy.not.contains('Adresse GPS non Spécifiée')
+  it('handle a specific message if location isn`t defined', () => {
+    cy.contains('Adresse GPS non spécifiée')
   })
 })
