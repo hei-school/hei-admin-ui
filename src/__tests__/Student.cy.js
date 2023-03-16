@@ -43,4 +43,11 @@ describe(specTitle('Student'), () => {
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
   })
+
+  it('can detail map (click on show map button)', () => {
+    cy.get(`[data-testid='showMapButton']`).as('showMap')
+    cy.get('@showMap').click()
+    cy.contains(`latitude: ${student1Mock.location.latitude}`) //popup notification
+    cy.contains(`longitude: ${student1Mock.location.longitude}`)
+  })
 })
