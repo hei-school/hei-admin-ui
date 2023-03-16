@@ -57,7 +57,7 @@ export interface Coords {
      * @type {Stirng}
      * @memberof Coords
      */
-    'longitude'?: Stirng;
+    'longitude'?: String;
     /**
      * 
      * @type {string}
@@ -721,7 +721,7 @@ export interface Student {
      * @type {Stirng}
      * @memberof Student
      */
-    'longitude'?: Stirng;
+    'longitude'?: String;
     /**
      * 
      * @type {string}
