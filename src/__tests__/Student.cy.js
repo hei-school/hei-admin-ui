@@ -6,9 +6,7 @@ import {
   createPaymentMock,
   feesMock,
   student1Mock,
-  student2Mock,
   gpsAddressToBeCheckedMock,
-  gpsMissingValueToBeCheckedMock,
   studentNameToBeCheckedMock,
   whoamiStudentMock
 } from './mocks/responses'
@@ -17,7 +15,7 @@ describe(specTitle('Student'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.get('#username').type(student1.username)
-    cy.get('#password').type(student1.password)
+    cy.get('#password').type('oojohc5Z IeYu9aek&')
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')

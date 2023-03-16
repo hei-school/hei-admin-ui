@@ -19,7 +19,7 @@ export const ProfileLayout = () => {
     if (user.gps_address.latitude === null || user.gps_address.longitude === null) {
       return "Pas d'addresse gps pour le moment"
     }
-    if (user.gps_address.latitude !== null || user.gps_address.longitude !== null) {
+    if (user.gps_address.latitude !== null && user.gps_address.longitude !== null) {
       return user.gps_address.latitude + ' , ' + user.gps_address.longitude
     }
     return unexpectedValue
