@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, student1MockNoLocation, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -23,11 +23,11 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
-  xit('lands on profile page if succeeds', () => {
+  it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
-  xit('can detail fee (click on fee row)', () => {
+  it('can detail fee (click on fee row)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
@@ -35,7 +35,7 @@ describe(specTitle('Student'), () => {
     cy.contains('En retard')
   })
 
-  xit('can detail fee (click on fee button)', () => {
+  it('can detail fee (click on fee button)', () => {
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body')
       .click(200, 0) //note(uncover-menu)
@@ -50,5 +50,11 @@ describe(specTitle('Student'), () => {
     cy.get('@showMap').click()
     cy.contains(`latitude: ${student1Mock.location.latitude}`) //popup notification
     cy.contains(`longitude: ${student1Mock.location.longitude}`)
+  })
+
+  it('cannot detail map (no on show map button)', () => {
+    cy.intercept('GET',`/students/${student1Mock.id}`, student1MockNoLocation).as('getStudent')
+    cy.get(`[data-testid='showMapButton']`).as('showMap')
+    cy.get('@showMap').contains('Pas de localisation')
   })
 })
