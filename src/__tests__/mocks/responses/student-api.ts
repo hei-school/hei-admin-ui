@@ -23,7 +23,7 @@ export const student1Mock: Student = {
 export const studentMockWithoutLocation: Student = {
   id: 'student1_id',
   ref: 'STD211034',
-  first_name: "Ny Hasina Marolahy",
+  first_name: 'Ny Hasina Marolahy',
   last_name: 'VAGNO',
   sex: StudentSexEnum.M,
   birth_date: '2000-01-01',

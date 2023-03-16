@@ -17,10 +17,10 @@ export const ProfileLayout = () => {
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
 
   const latitudeRender = data => {
-    return data.location.latitude == null ? "Nous n'avons pas pu déterminer la latitude." : data.location.latitude;
+    return data.location.latitude == null ? "Nous n'avons pas pu déterminer la latitude." : data.location.latitude
   }
   const longitudeRender = data => {
-    return data.location.longitude == null ? "Nous n'avons pas pu déterminer la longitude." : data.location.longitude;
+    return data.location.longitude == null ? "Nous n'avons pas pu déterminer la longitude." : data.location.longitude
   }
 
   return (
@@ -32,8 +32,8 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
-      <FunctionField id='latitude' label='Latitude' render={latitudeRender}/>
-      <FunctionField id='longitude' label='Longitude' render={longitudeRender}/>
+      <FunctionField id='latitude' label='Latitude' render={latitudeRender} />
+      <FunctionField id='longitude' label='Longitude' render={longitudeRender} />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
