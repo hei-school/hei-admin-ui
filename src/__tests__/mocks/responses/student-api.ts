@@ -10,8 +10,27 @@ export const student1Mock: Student = {
   sex: StudentSexEnum.M,
   birth_date: '2000-01-01',
   address: 'Adr 1',
+  location: {
+    latitude: 9,
+    longitude: 14
+  },
   phone: '0322411123',
   email: 'test+ryan@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled
+}
+
+export const studentMockWithoutLocation: Student = {
+  id: 'student1_id',
+  ref: 'STD211034',
+  first_name: "Ny Hasina Marolahy",
+  last_name: 'VAGNO',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-01-01',
+  address: 'Adr 1',
+  location: {},
+  phone: '0322411123',
+  email: 'hei.nyhasina@gmail.com',
   entrance_datetime: '2021-11-08T08:25:24Z',
   status: EnableStatus.Enabled
 }
@@ -26,6 +45,10 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2000-12-27',
     address: 'lot 1245',
+    location: {
+      latitude: 8,
+      longitude: 27
+    },
     phone: '+2613356894256',
     email: 'test+twentyFive@hei.school',
     entrance_datetime: '2023-01-19T12:00:00Z',
@@ -39,6 +62,10 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '1992-02-12',
     address: 'lot',
+    location: {
+      latitude: 7,
+      longitude: 18
+    },
     phone: '0335689752',
     email: 'mayahnyando@gmail.com',
     entrance_datetime: '2021-05-12T09:50:00Z',
@@ -65,6 +92,10 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2000-01-01',
     address: 'Adr 1',
+    location: {
+      latitude: 9,
+      longitude: 17
+    },
     phone: '0322411123',
     email: 'test+ryan@hei.school',
     entrance_datetime: '2021-11-08T08:25:24Z',
@@ -91,6 +122,10 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.F,
     birth_date: '2000-01-02',
     address: 'Adr 2',
+    location: {
+      latitude: 1,
+      longitude: 16
+    },
     phone: '0322411124',
     email: 'test+student3@hei.school',
     entrance_datetime: '2021-11-09T08:26:24Z',
@@ -104,6 +139,10 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.F,
     birth_date: '2014-02-07',
     address: 'lot',
+    location: {
+      latitude: 2,
+      longitude: 7
+    },
     phone: '+261 34 21 435 12',
     email: 'Test@hei.school',
     entrance_datetime: '2023-01-04T21:00:00Z',
@@ -117,6 +156,10 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2022-12-30',
     address: 'lot 5454f',
+    location: {
+      latitude: 12,
+      longitude: 30
+    },
     phone: '+261335689741',
     email: 'test+studen354651@gmail.com',
     entrance_datetime: '2023-01-04T21:00:00Z',
@@ -130,6 +173,10 @@ export const studentsMock: Student[] = [
     sex: StudentSexEnum.M,
     birth_date: '2023-01-03',
     address: 'lot 541215246546',
+    location: {
+      latitude: 16,
+      longitude: 3
+    },
     phone: '0325689456',
     email: 'test+student12665673@hei.school',
     entrance_datetime: '2022-12-31T21:00:00Z',
