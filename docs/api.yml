@@ -19,7 +19,7 @@ servers:
   - url: 'https://api-prod.hei.school'
 
 security:
-  - BearerAuth: [ ]
+  - BearerAuth: []
 
 paths:
   '/whoami':
@@ -203,17 +203,17 @@ paths:
             $ref: '#/components/schemas/PageSize'
         - name: ref
           in: query
-          description: "Filter students by ref, case is ignored"
+          description: 'Filter students by ref, case is ignored'
           schema:
             type: string
         - name: first_name
           in: query
-          description: "Filter students by first name, case is ignored"
+          description: 'Filter students by first name, case is ignored'
           schema:
             type: string
         - name: last_name
           in: query
-          description: "Filter students by last name, case is ignored"
+          description: 'Filter students by last name, case is ignored'
           schema:
             type: string
       responses:
@@ -398,17 +398,17 @@ paths:
             $ref: '#/components/schemas/PageSize'
         - name: ref
           in: query
-          description: "Filter teachers by ref, case is ignored"
+          description: 'Filter teachers by ref, case is ignored'
           schema:
             type: string
         - name: first_name
           in: query
-          description: "Filter teachers by first name, case is ignored"
+          description: 'Filter teachers by first name, case is ignored'
           schema:
             type: string
         - name: last_name
           in: query
-          description: "Filter teachers by last name, case is ignored"
+          description: 'Filter teachers by last name, case is ignored'
           schema:
             type: string
       responses:
@@ -711,7 +711,7 @@ paths:
       parameters:
         - name: status
           in: query
-          description: "See the PaymentStatus object for its value."
+          description: 'See the PaymentStatus object for its value.'
           schema:
             type: string
             default: LATE
@@ -925,13 +925,13 @@ components:
         - $ref: '#/components/schemas/User'
       properties:
         location:
-         $ref: '#/components/schemas/Location'
+          $ref: '#/components/schemas/Location'
     Location:
       properties:
         latitude:
           type: number
           example: 80.0
-        longitude: 
+        longitude:
           type: number
           example: 50.10
     Teacher:

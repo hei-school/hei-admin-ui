@@ -43,4 +43,10 @@ describe(specTitle('Student'), () => {
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
   })
+  /**
+   * Test student1Mock with the new functionality
+   */
+  it('show message error when the api doesn"t return something', () => {
+    cy.get(``)
+  })
 })
