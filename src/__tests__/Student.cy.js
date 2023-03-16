@@ -48,4 +48,11 @@ describe(specTitle('Student'), () => {
     cy.get(`[href="#/profile"]`).click()
     cy.contains('Adresse GPS Non spécifiée')
   })
+
+  it('can give a map if there are location', () => {
+    cy.get(`[href="#/profile/${student1MockWithLocation}"]`).click()
+    cy.intercept('GET', `/students/${student1MockWithLocation}`, student1MockWithLocation).as('getStudentWithLocation')
+    cy.get('#gps').should('be.visible')
+   
+  })
 })
