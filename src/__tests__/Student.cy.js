@@ -45,7 +45,7 @@ describe(specTitle('Student'), () => {
   })
 
   it('handle a specific message if location isn`t defined', () => {
-    cy.get(`[href="#/students/${student1Mock.id}/profile"]`).click()
+    cy.get(`[href="#/profile"]`).click()
     cy.contains('Adresse GPS Non spécifiée')
   })
 })
