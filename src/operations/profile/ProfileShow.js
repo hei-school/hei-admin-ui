@@ -15,6 +15,14 @@ export const ProfileLayout = () => {
     if (user.status === 'DISABLED') return 'Suspendu·e'
     return unexpectedValue
   }
+  const latitudeRenderer = user => {
+    if (user.localisation != null) return user.latitude
+    return unexpectedValue
+  }
+  const longitudeRenderer = user => {
+    if (user.localisation != null) return user.latitude
+    return unexpectedValue
+  }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
@@ -28,6 +36,8 @@ export const ProfileLayout = () => {
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" />
       <FunctionField label='Statut' render={statusRenderer} />
+      <FunctionField label='Latitude' render={latitudeRenderer} />
+      <FunctionField label='Longitude' render={longitudeRenderer} />
     </SimpleShowLayout>
   )
 }
