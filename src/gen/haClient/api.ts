@@ -616,7 +616,7 @@ export interface Student {
    * @type {string}
    * @memberof Student
    */
-  'gps coordinate'?: string
+  gps_coordinate?: string
   /**
    *
    * @type {string}
