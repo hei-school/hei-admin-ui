@@ -20,6 +20,20 @@ export const student1Mock: Student = {
   status: EnableStatus.Enabled
 }
 
+export const student1MockNoLocation: Student = {
+  id: 'student1_id',
+  ref: 'STD21011',
+  first_name: 'Fanomezana Sarobidy',
+  last_name: 'RAKOTOMAHEFA',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-10-24',
+  address: 'Adr 1',
+  phone: '0347618452',
+  email: 'test+ryan@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled
+}
+
 export const studentsMock: Student[] = [
   student1Mock,
   {
