@@ -23,19 +23,27 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const locationRenderer = user => {
-    return (
-      <>
-        <Button color='secondary' size='small' startIcon={<VisibilityIcon />} onClick={handleOpenLocation} data-testid='showMapButton'>
-          Afficher
-        </Button>
-        <Drawer anchor='right' open={openLocation} onClose={handleOpenLocation}>
-          <Button color='secondary' size='small' startIcon={<VisibilityOffIcon />} onClick={handleOpenLocation}>
-            Cacher
+    if (user.location) {
+      return (
+        <>
+          <Button color='secondary' size='small' startIcon={<VisibilityIcon />} onClick={user.location ? handleOpenLocation : ''} data-testid='showMapButton'>
+            {user.location ? 'Afficher' : 'Pas de localisation'}
           </Button>
-          <MapViewer latitude={user.location.latitude} longitude={user.location.longitude} />
-        </Drawer>
-      </>
-    )
+          <Drawer anchor='right' open={openLocation} onClose={handleOpenLocation}>
+            <Button color='secondary' size='small' startIcon={<VisibilityOffIcon />} onClick={handleOpenLocation}>
+              Cacher
+            </Button>
+            <MapViewer latitude={user.location.latitude} longitude={user.location.longitude} />
+          </Drawer>
+        </>
+      )
+    } else {
+      return (
+        <Button color='secondary' size='small' startIcon={<VisibilityOffIcon />} data-testid='showMapButton'>
+          Pas de localisation
+        </Button>
+      )
+    }
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
