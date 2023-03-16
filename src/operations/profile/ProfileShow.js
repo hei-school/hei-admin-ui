@@ -25,7 +25,7 @@ export const ProfileLayout = () => {
   const locationRenderer = user => {
     return (
       <>
-        <Button color='secondary' size='small' startIcon={<VisibilityIcon />} onClick={handleOpenLocation}>
+        <Button color='secondary' size='small' startIcon={<VisibilityIcon />} onClick={handleOpenLocation} data-testid='showMapButton'>
           Afficher
         </Button>
         <Drawer anchor='right' open={openLocation} onClose={handleOpenLocation}>
