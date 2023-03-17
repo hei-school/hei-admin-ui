@@ -32,14 +32,14 @@ describe(specTitle('Student'), () => {
   it('lands on profile page if succeeds', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1WithLocationMock).as('getStudent')
     cy.get('button').contains('Connexion').click()
-    cy.get('#localisation').contains(student1WithLocationMock.location.latitude)
-    cy.get('#localisation').contains(student1WithLocationMock.location.longitude)
+    cy.get('#location').contains(student1WithLocationMock.location.latitude)
+    cy.get('#location').contains(student1WithLocationMock.location.longitude)
   })
 
   it('lands on profile page if succeeds', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1withoutLocationMock).as('getStudent')
     cy.get('button').contains('Connexion').click()
-    cy.get('#localisation').contains("Coordonnées absante")
+    cy.get('#location').contains("Coordonnées absante")
   })
 
   it('can detail fee (click on fee row)', () => {
