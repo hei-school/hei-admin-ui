@@ -19,7 +19,7 @@ export const ProfileLayout = () => {
   const LatitudeRenderer = (data) => {
     const latitude = data?.latitude;
     if (latitude === null) {
-      return 'Donnée Manquante';
+      return 'Donnée Manquant';
     } else {
       return latitude;
     }
@@ -28,7 +28,7 @@ export const ProfileLayout = () => {
   const longitudeRenderer = (data) => {
     const Longitude = data?.Longitude;
     if (Longitude === null) {
-      return 'Donnée Manquante';
+      return 'Donnée Manquant';
     } else {
       return Longitude;
     }
