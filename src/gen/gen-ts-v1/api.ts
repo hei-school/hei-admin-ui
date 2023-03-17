@@ -469,16 +469,10 @@ export interface Manager {
     'address'?: string;
     /**
      * 
-     * @type {string}
+     * @type {object}
      * @memberof Manager
      */
-    'longitude'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Manager
-     */
-    'latitude'?: string;
+    'location'?: object;
     /**
      * 
      * @type {string}
@@ -657,16 +651,10 @@ export interface Student {
     'address'?: string;
     /**
      * 
-     * @type {string}
+     * @type {object}
      * @memberof Student
      */
-    'longitude'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Student
-     */
-    'latitude'?: string;
+    'location'?: object;
     /**
      * 
      * @type {string}
@@ -752,16 +740,10 @@ export interface Teacher {
     'address'?: string;
     /**
      * 
-     * @type {string}
+     * @type {object}
      * @memberof Teacher
      */
-    'longitude'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof Teacher
-     */
-    'latitude'?: string;
+    'location'?: object;
     /**
      * 
      * @type {string}
@@ -866,16 +848,10 @@ export interface User {
     'address'?: string;
     /**
      * 
-     * @type {string}
+     * @type {object}
      * @memberof User
      */
-    'longitude'?: string;
-    /**
-     * 
-     * @type {string}
-     * @memberof User
-     */
-    'latitude'?: string;
+    'location'?: object;
     /**
      * 
      * @type {string}

@@ -6,6 +6,7 @@
     "@react-admin/ra-enterprise": "^6.0.3",
     "@react-admin/ra-navigation": "^4.0.6",
     "@react-admin/ra-rbac": "^4.0.1",
+    "@types/googlemaps": "^3.43.3",
     "aws-amplify": "^4.3.26",
     "ra-language-french": "^4.2.0",
     "react": "^18.2.0",
