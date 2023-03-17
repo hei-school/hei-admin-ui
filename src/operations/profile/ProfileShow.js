@@ -25,7 +25,7 @@ export const ProfileLayout = () => {
       longitude = user.localisation.longitude
     }
     return (
-      <span>
+      <span id='localisation'>
         latitude : {latitude} , longitude : {longitude}
       </span>
     )
