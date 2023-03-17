@@ -1,5 +1,6 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import { Link } from '@mui/material'
+import { Box, Link, Typography } from '@mui/material'
+import { LocationOn } from '@mui/icons-material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
 
@@ -26,8 +27,38 @@ export const ProfileLayout = () => {
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
+      <FunctionField label='Coordonnées géographiques' render={data => <GeoJsonRenderer data={data} />} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
+  )
+}
+
+const GeoJsonRenderer = ({ data: { location } }) => {
+  const geoJsonUrl = location => {
+    const geojsonBaseurl = 'https://geojson.io'
+    const data = { coordinates: [location.longitude, location.latitude], type: location.type }
+
+    return encodeURI(`${geojsonBaseurl}/#data=data:application/json,${JSON.stringify(data)}`)
+  }
+
+  return (
+    <>
+      {location ? (
+        <Box>
+          <Typography variant='body2'>longitude: {location.longitude}</Typography>
+          <Typography variant='body2'>latitude: {location.latitude}</Typography>
+          <Link href={geoJsonUrl(location)} target='_blank' underline='hover'>
+            <Typography variant='body2'>
+              <LocationOn fontSize='small' /> Voir sur la carte
+            </Typography>
+          </Link>
+        </Box>
+      ) : (
+        <Box>
+          <Typography variant='body2'>Les coordonnées géographique de cet étudiant ne sont pas encore renseigner.</Typography>
+        </Box>
+      )}
+    </>
   )
 }
 
