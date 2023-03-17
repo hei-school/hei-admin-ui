@@ -7,8 +7,8 @@ import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.get('#username').type(student1.username)
-    cy.get('#password').type(student1.password)
+    cy.get('#username').type('test+ryan@hei.school')
+    cy.get('#password').type('oojohc5Z IeYu9aek&')
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
@@ -43,4 +43,15 @@ describe(specTitle('Student'), () => {
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
   })
-})
+
+  it('Displays "Unavailable" if the location is null', () => {
+      student1Mock.location = null 
+      cy.contains('Unavailable');
+    });
+  
+  it('Displays the longitude and latitude when location is defined', () => {
+     const longitude = student1Mock.location.longitude
+     const latitude = student1Mock.location.latitude
+      cy.get('#location').should('contain',  longitude, latitude);
+    });
+  });
