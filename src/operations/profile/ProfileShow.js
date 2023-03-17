@@ -39,7 +39,7 @@ export const ProfileLayout = () => {
       <TextField source='address' label='Adresse' component='pre' />
       <div>
         <TextField label='Localisation' />
-        <Button variant="outlined" onClick={handleClickOpen}>Afficher la carte</Button>
+        <Button variant="outlined" onClick={handleClickOpen}>Localisation</Button>
         <Dialog open={open} onClose={handleClose}>
           <DialogTitle>Carte de la localisation</DialogTitle>
           <DialogContent>
