@@ -18,11 +18,15 @@ export const ProfileLayout = () => {
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
 
   const addressRenderer = user => {
-    if(user.localisation != null){
-      return <span>latitude : {user.localisation.latitude} , longitude : {user.localisation.longitude}</span>
+    if (user.localisation != null) {
+      return (
+        <span>
+          latitude : {user.localisation.latitude} , longitude : {user.localisation.longitude}
+        </span>
+      )
     }
-    return unexpectedValue;
-  }  
+    return unexpectedValue
+  }
 
   return (
     <SimpleShowLayout>
