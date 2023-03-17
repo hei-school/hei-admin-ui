@@ -10,6 +10,10 @@ export const student1Mock: Student = {
   sex: StudentSexEnum.M,
   birth_date: '2000-01-01',
   address: 'Adr 1',
+  location: {
+    longitude: '1111.222',
+    latitude: '1111.444'
+  },
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',

@@ -43,4 +43,15 @@ describe(specTitle('Student'), () => {
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
   })
+
+  it('can show Location GPS', () => {
+    cy.wait(['@getStudent'])
+    cy.get('#longitude').contains('longitude')
+    cy.get('#latitude').contains('latitude')
+  })
+
+  it('Cannot show Location GPS', () => {
+    student1Mock.location = null
+    cy.contains('Pas de coordonée')
+  })
 })
