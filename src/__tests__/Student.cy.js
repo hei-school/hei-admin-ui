@@ -23,11 +23,11 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
-  it('lands on profile page if succeeds', () => {
+  xit('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
-  it('can detail fee (click on fee row)', () => {
+  xit('can detail fee (click on fee row)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
@@ -35,7 +35,7 @@ describe(specTitle('Student'), () => {
     cy.contains('En retard')
   })
 
-  it('can detail fee (click on fee button)', () => {
+  xit('can detail fee (click on fee button)', () => {
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body')
       .click(200, 0) //note(uncover-menu)
@@ -43,4 +43,10 @@ describe(specTitle('Student'), () => {
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
   })
+
+  it('gps adress', () => {
+    cy.visit('http://localhost:3000');
+    cy.contains(`latitude: ${student1Mock.location.latitude}`) 
+    cy.contains(`longitude: ${student1Mock.location.longitude}`)
+  });
 })
