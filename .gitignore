@@ -19,5 +19,8 @@ amplify-gradle-config.json
 amplifytools.xcconfig
 .secret-*
 .idea/
+.nyc_output/
+coverage/
+.env
 **.sample
 #amplify-do-not-edit-end
