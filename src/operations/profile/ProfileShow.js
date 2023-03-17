@@ -5,7 +5,7 @@ import authProvider from '../../providers/authProvider'
 import { unexpectedValue } from '../utils'
 
 export const ProfileLayout = props => {
-  const {role} = props;
+  const { role } = props
   const sexRenderer = user => {
     if (user.sex === 'M') return 'Homme'
     if (user.sex === 'F') return 'Femme'
@@ -40,20 +40,19 @@ export const ProfileLayout = props => {
       <CustomDateField source='birth_date' label='Date de naissance' />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      {role == 'STUDENT' ? studentComponent : ""}
+      {role == 'STUDENT' ? studentComponent : ''}
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
   )
-
 }
 
 const ProfileShow = () => {
-  const id = authProvider.getCachedWhoami().id;
-  const role = authProvider.getCachedWhoami().role;
+  const id = authProvider.getCachedWhoami().id
+  const role = authProvider.getCachedWhoami().role
   return (
     <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
-      <ProfileLayout role={role}/>
+      <ProfileLayout role={role} />
     </Show>
   )
 }

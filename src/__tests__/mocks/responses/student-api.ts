@@ -19,7 +19,7 @@ export const student1Mock: Student = {
   altitude: 'altitude',
   accuracy: 'accuracy',
   altitudeAccuracy: 'altitudeAccuracy',
-  heading:'heading',
+  heading: 'heading',
   speed: 'speed'
 }
 
