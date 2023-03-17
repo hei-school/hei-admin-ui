@@ -15,7 +15,7 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const gpsLocationRenderer = user => {
-    if (!user.GpsLocation) return "no gps location"
+    if (user.GpsLocation === undefined) return "no gps location"
     return user.GpsLocation
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
