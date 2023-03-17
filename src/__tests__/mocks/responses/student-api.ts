@@ -16,6 +16,14 @@ export const student1Mock: Student = {
   status: EnableStatus.Enabled
 }
 
+export const student1MockWithLocation: Student = {
+  ...student1Mock,
+  location: {
+    latitude: -18.87919,
+    longitude: 47.507905
+  }
+}
+
 export const studentsMock: Student[] = [
   student1Mock,
   {

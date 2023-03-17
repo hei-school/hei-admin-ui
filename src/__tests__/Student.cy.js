@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, student1MockWithLocation, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -23,6 +23,14 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
+  it('display unexpected value if no location is available', () => {
+    cy.get('#location').invoke('text').should('contain', `Latitude: ? , Longitude: ?`)
+  })
+
+  it('display latitude and longitude value if location is available', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockWithLocation).as('getStudent')
+    cy.get('#location').contains(`Latitude: ${student1MockWithLocation.location.latitude} , Longitude: ${student1MockWithLocation.location.longitude}`)
+  })
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
