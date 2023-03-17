@@ -18,7 +18,7 @@ export const ProfileLayout = () => {
 
   const LocationRenderer = user => {
     if(!user.location) return 'Données indisponibles' 
-    return ` Longitude: ${user.location.longitude}, Latitude: ${user.location.latitude} `
+    return `Longitude: ${user.location.longitude}, Latitude: ${user.location.latitude} `
   }
 
   return (
@@ -30,7 +30,7 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
-      <FunctionField label='Coordonnées GPS' render={LocationRenderer}/>
+      <FunctionField label='Coordonnées GPS' render={LocationRenderer} id={'coordinates'} />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />

@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, student1MockWithoutLocation, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -21,6 +21,16 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}`, feesMock[7 - 1]).as('getFee1')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[0].id}`, feesMock[0]).as('getFee2')
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
+  })
+
+  it('shows coordinates if provided', () => {
+    cy.get('#coordinates').contains(`${student1Mock.location.longitude}`)
+    cy.get('#coordinates').contains(`${student1Mock.location.latitude}`)
+  })
+
+  it('tells that coordinates are unavailable if not provided', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockWithoutLocation).as('getStudent')
+    cy.get('#coordinates').contains('Données indisponibles')
   })
 
   it('lands on profile page if succeeds', () => {
