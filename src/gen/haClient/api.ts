@@ -726,6 +726,18 @@ export interface Student {
   address?: string
   /**
    *
+   * @type {number}
+   * @memberof Student
+   */
+  longitudeGPS?: number
+   /**
+   *
+   * @type {number}
+   * @memberof Student
+   */
+  latitudeGPS?: number
+  /**
+   *
    * @type {string}
    * @memberof Student
    */
