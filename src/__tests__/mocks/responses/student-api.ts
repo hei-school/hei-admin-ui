@@ -13,7 +13,11 @@ export const student1Mock: Student = {
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
-  status: EnableStatus.Enabled
+  status: EnableStatus.Enabled,
+  localisation:{
+    longitude:47.5361,
+    latitude: -18.9137
+  }
 }
 
 export const studentsMock: Student[] = [
