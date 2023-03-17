@@ -2,6 +2,7 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {
@@ -14,6 +15,12 @@ export const ProfileLayout = () => {
     if (user.status === 'DISABLED') return 'Suspendu·e'
     return unexpectedValue
   }
+  const role = authProvider.getCachedRole()
+  const GpsRenderer = user => {
+    if (user.location) return `Latitude,Longitude: ${user.location.latitude},${user.location.longitude}`
+    else return 'Localisation géographique pas encore spécifiée'
+  }
+
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
@@ -27,6 +34,7 @@ export const ProfileLayout = () => {
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
+      {role === WhoamiRoleEnum.Student ? <FunctionField label='Coordonnées GPS' render={GpsRenderer} /> : null}
     </SimpleShowLayout>
   )
 }
