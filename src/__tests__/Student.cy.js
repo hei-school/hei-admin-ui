@@ -25,6 +25,9 @@ describe(specTitle('Student'), () => {
 
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
+    cy.get('#latitude').contains('latitude')
+    cy.get('#longitude').contains('longitude')
+    cy.get('#accuracy').contains('accuracy')
   })
 
   it('can detail fee (click on fee row)', () => {
