@@ -28,6 +28,7 @@ const ProfileEdit = () => (
       <TextInput source='last_name' label='Nom·s' fullWidth={true} />
       <TextInput source='email' fullWidth={true} />
       <TextInput multiline source='address' label='Adresse' fullWidth={true} />
+      <TextInput multiline source='gps_coordinate' label='Coordonnée Gps' fullWidth={true} />
       <SexRadioButton />
       <TextInput source='phone' label='Téléphone' fullWidth={true} />
       <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
