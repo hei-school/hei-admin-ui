@@ -10,7 +10,8 @@ amplify/backend/.temp
 build/
 dist/
 node_modules/
-aws-exports.js
+aws-exports.js*
+.github/workflows/ci.yml
 awsconfiguration.json
 amplifyconfiguration.json
 amplifyconfiguration.dart
