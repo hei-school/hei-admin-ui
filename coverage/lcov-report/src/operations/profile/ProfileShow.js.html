@@ -23,23 +23,23 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">66.67% </span>
+                <span class="strong">71.43% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>14/21</span>
+                <span class='fraction'>15/21</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">21.43% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>3/14</span>
+                <span class='fraction'>7/14</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">83.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>5/6</span>
+                <span class='fraction'>6/6</span>
             </div>
         
             
@@ -111,30 +111,28 @@
 <a name='L46'></a><a href='#L46'>46</a>
 <a name='L47'></a><a href='#L47'>47</a>
 <a name='L48'></a><a href='#L48'>48</a>
-<a name='L49'></a><a href='#L49'>49</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L49'></a><a href='#L49'>49</a>
+<a name='L50'></a><a href='#L50'>50</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">193x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">86x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -149,9 +147,13 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">193x</span>
-<span class="cline-any cline-yes">21x</span>
-<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">320x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-yes">86x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -163,21 +165,22 @@
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 &nbsp;
 export const ProfileLayout = () =&gt; {
-  const sexRenderer = user =&gt; {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.sex === 'M') return 'Homme'
-<span class="cstat-no" title="statement not covered" >    if (user.sex === 'F') <span class="cstat-no" title="statement not covered" >return 'Femme'</span></span>
-<span class="cstat-no" title="statement not covered" >    return unexpectedValue</span>
+  co<span class="missing-if-branch" title="else path not taken" >E</span>nst sexRenderer = user =&gt; {
+<span class="cstat-no" title="statement not covered" >    if (user.sex === 'M') <span class="cstat-no" title="statement not covered" >return 'Homme'</span></span>
+<span class="cstat-no" title="statement not covered" >    if (user.sex === 'F') r</span>eturn 'Femme'
+    return unexpectedValue
   }
-  const statusRenderer = user =&gt; {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.status === 'ENABLED') return 'Actif·ve'
-<span class="cstat-no" title="statement not covered" >    if (user.status === 'DISABLED') <span class="cstat-no" title="statement not covered" >return 'Suspendu·e'</span></span>
-<span class="cstat-no" title="statement not covered" >    return unexpectedValue</span>
+  co<span class="missing-if-branch" title="else path not taken" >E</span>nst statusRenderer = user =&gt; {
+<span class="cstat-no" title="statement not covered" >    if (user.status === 'ENABLED') r<span class="cstat-no" title="statement not covered" >eturn 'Actif·ve'</span></span>
+<span class="cstat-no" title="statement not covered" >    if (user.status === 'DI</span>SABLED') return 'Suspendu·e'
+    return unexpectedValue
   }
   const phoneRenderer = data =&gt; &lt;Link href={`tel:${data.phone}`}&gt;{data.phone}&lt;/Link&gt;
-  const localisationRenderer = <span class="fstat-no" title="function not covered" >us</span>er =&gt; <span class="cstat-no" title="statement not covered" >(user.localisation !== null || user.localisation !== undefined) ?</span>
-    `latitude: ${user.localisation.latitude} longitude: ${user.localisation.longitude}` : 
+  const localisationRenderer = user =&gt; user.localisation !== undefined ?
+<span class="branch-1 cbranch-no" title="branch not covered" >    `latitude: ${user.localisat</span>ion.latitude} longitude: ${user.localisation.longitude}` : 
     'N\'est pas encore défini'
   return (
     &lt;SimpleShowLayout&gt;
@@ -188,8 +191,8 @@ export const ProfileLayout = () =&gt; {
       &lt;FunctionField label='Téléphone' render={phoneRenderer} /&gt;
       &lt;CustomDateField source='birth_date' label='Date de naissance' showTime={false} /&gt;
       &lt;TextField source='address' label='Adresse' component='pre' /&gt;
-      {authProvider.getCachedRole().role === 'STUDENT' &amp;&amp; 
-<span class="branch-1 cbranch-no" title="branch not covered" >      &lt;FunctionField label='Localisation' id='localisation' render={localisationRenderer} /&gt;}</span>
+      {authProvider.getCachedWhoami().role === WhoamiRoleEnum.Student &amp;&amp; 
+      &lt;FunctionField label='Localisation' id='localisation' render={localisationRenderer} /&gt;}
       &lt;EmailField source='email' label='Email' /&gt;
       &lt;CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} /&gt;
       &lt;FunctionField label='Statut' render={statusRenderer} /&gt;
@@ -214,7 +217,7 @@ export default ProfileShow
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-17T19:25:16.870Z
+                at 2023-03-17T20:43:29.931Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

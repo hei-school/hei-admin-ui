@@ -2,6 +2,7 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {
@@ -15,9 +16,8 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
-  const localisationRenderer = user => (user.localisation !== null || user.localisation !== undefined) ?
-    `latitude: ${user.localisation.latitude} longitude: ${user.localisation.longitude}` : 
-    'N\'est pas encore défini'
+  const localisationRenderer = user =>
+    user.localisation !== undefined ? `latitude: ${user.localisation.latitude} longitude: ${user.localisation.longitude}` : "N'est pas encore défini"
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -27,8 +27,7 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
-      {authProvider.getCachedRole() === 'STUDENT' && 
-      <FunctionField label='Localisation' id='localisation' render={localisationRenderer} />}
+      <FunctionField label='Localisation' id='localisation' render={localisationRenderer} />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
