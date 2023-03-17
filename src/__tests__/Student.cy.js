@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, student1MockWithoutLocation, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -12,6 +12,8 @@ describe(specTitle('Student'), () => {
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockWithoutLocation).as('getStudent')
+
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}/payments?page=1&page_size=10`, createPaymentMock(feesMock[7 - 1])).as(
       'getPaymentsOfFee1'
     )
@@ -25,6 +27,19 @@ describe(specTitle('Student'), () => {
 
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
+  })
+  it('show location details', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+
+    cy.get("#location > :nth-child(1)").contains(student1Mock.location.latitude)
+    cy.get("#location > :nth-child(2)").contains(student1Mock.location.longitude)
+  })
+
+  it('show error location when api doesn"t support', () => {
+    const error = "Localisation non spécifiée pour cet étudiant";
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockWithoutLocation).as('getStudent')
+
+    cy.get("#location > :nth-child(1)").contains(error)
   })
 
   it('can detail fee (click on fee row)', () => {
