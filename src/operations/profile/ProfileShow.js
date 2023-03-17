@@ -23,7 +23,11 @@ export const ProfileLayout = () => {
     if (user.location != null) return user.location.latitude
     return unexpectedValue
   }
-  const locationRenderer = user => <span>Latitude: {latitudeRenderer(user)} , Longitude: {longitudeRenderer(user)}</span>
+  const locationRenderer = user => (
+    <span>
+      Latitude: {latitudeRenderer(user)} , Longitude: {longitudeRenderer(user)}
+    </span>
+  )
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
