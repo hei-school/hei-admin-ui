@@ -16,7 +16,7 @@ export const student1Mock: Student = {
   status: EnableStatus.Enabled
 }
 
-export const studentWithGPS: Student = {
+export const student1WithGPS: Student = {
   id: 'student11_id',
   ref: 'STD21112',
   first_name: studentNameToBeCheckedMock,
@@ -34,7 +34,7 @@ export const studentWithGPS: Student = {
   }
 }
 
-export const studentWithoutGPS: Student = {
+export const student1WithoutGPS: Student = {
   id: 'student12_id',
   ref: 'STD21113',
   first_name: studentNameToBeCheckedMock,
@@ -46,10 +46,7 @@ export const studentWithoutGPS: Student = {
   email: 'test+finaritra@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
   status: EnableStatus.Enabled,
-  location: {
-    latitude: undefined,
-    longitude: undefined,
-  }
+  location: undefined
 }
 
 export const studentsMock: Student[] = [
