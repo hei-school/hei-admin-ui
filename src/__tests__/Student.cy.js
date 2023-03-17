@@ -26,6 +26,9 @@ describe(specTitle('Student'), () => {
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
+  it('gpslocation on the page if succeds', () => {
+    cy.get('body').contains('{latitude:20,longitude:90}')
+  })
 
   it('can detail fee (click on fee row)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
