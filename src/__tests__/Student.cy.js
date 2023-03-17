@@ -53,7 +53,7 @@ describe(specTitle('Student'), () => {
   })
 
   it('cannot detail map (no on show map button)', () => {
-    cy.intercept('GET',`/students/${student1Mock.id}`, student1MockNoLocation).as('getStudent')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockNoLocation).as('getStudent')
     cy.get(`[data-testid='showMapButton']`).as('showMap')
     cy.get('@showMap').contains('Pas de localisation')
   })

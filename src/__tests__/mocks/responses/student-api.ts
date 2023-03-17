@@ -11,7 +11,7 @@ export const student1Mock: Student = {
   birth_date: '2000-01-01',
   address: 'Adr 1',
   location: {
-    latitude: -18.940950,
+    latitude: -18.94095,
     longitude: 47.597283
   },
   phone: '0322411123',
