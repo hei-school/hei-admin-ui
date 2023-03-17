@@ -748,6 +748,22 @@ export interface Student {
    * @memberof Student
    */
   status?: EnableStatus
+  /**
+   * 
+   * @
+   */
+  Latitude?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Student
+   */
+  longitude?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Student
+   */
 }
 
 export const StudentSexEnum = {

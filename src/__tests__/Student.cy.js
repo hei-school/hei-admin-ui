@@ -21,6 +21,14 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}`, feesMock[7 - 1]).as('getFee1')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[0].id}`, feesMock[0]).as('getFee2')
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
+    cy.intercept('/api/profile/*', { fixture: 'profile.json' }).as('getProfile')
+    cy.visit('/profile')
+    cy.wait('@getProfile')
+  })
+
+  it('displays latitude and longitude information', () => {
+    cy.get('FunctionField ').contains(student1Mock.Latitude)
+    cy.get('FunctionField ').contains(student1Mock.longitude)
   })
 
   it('lands on profile page if succeeds', () => {
