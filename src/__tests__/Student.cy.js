@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, student1MockNoLocation, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -12,6 +12,7 @@ describe(specTitle('Student'), () => {
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockNoLocation).as('getStudent')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}/payments?page=1&page_size=10`, createPaymentMock(feesMock[7 - 1])).as(
       'getPaymentsOfFee1'
     )
@@ -26,12 +27,25 @@ describe(specTitle('Student'), () => {
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
+  it('show location details', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+
+    cy.get('#location > :nth-child(1)').contains(student1Mock.location.latitude)
+    cy.get('#location > :nth-child(2)').contains(student1Mock.location.longitude)
+  })
+
+  it('show error message when api doesn"t support the new functionality', () => {
+    const error = 'Pas de coordonée GPS'
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockNoLocation).as('getStudent')
+
+    cy.get('#location > :nth-child(1)').contains(error)
+  })
 
   it('can detail fee (click on fee row)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.contains('200,000 Ar').click()
+    cy.contains('200 000 Ar').click()
     cy.contains('En retard')
   })
 
