@@ -223,6 +223,12 @@ export interface CreateOrUpdateStudents200ResponseInner {
   address?: string
   /**
    *
+   * @type {UserLocation}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  location?: UserLocation
+  /**
+   *
    * @type {string}
    * @memberof CreateOrUpdateStudents200ResponseInner
    */
@@ -554,6 +560,12 @@ export interface Manager {
   address?: string
   /**
    *
+   * @type {UserLocation}
+   * @memberof Manager
+   */
+  location?: UserLocation
+  /**
+   *
    * @type {string}
    * @memberof Manager
    */
@@ -726,6 +738,12 @@ export interface Student {
   address?: string
   /**
    *
+   * @type {UserLocation}
+   * @memberof Student
+   */
+  location?: UserLocation
+  /**
+   *
    * @type {string}
    * @memberof Student
    */
@@ -805,6 +823,12 @@ export interface Teacher {
    * @memberof Teacher
    */
   address?: string
+  /**
+   *
+   * @type {UserLocation}
+   * @memberof Teacher
+   */
+  location?: UserLocation
   /**
    *
    * @type {string}
@@ -907,6 +931,12 @@ export interface User {
   address?: string
   /**
    *
+   * @type {UserLocation}
+   * @memberof User
+   */
+  location?: UserLocation
+  /**
+   *
    * @type {string}
    * @memberof User
    */
@@ -938,6 +968,25 @@ export const UserSexEnum = {
 
 export type UserSexEnum = (typeof UserSexEnum)[keyof typeof UserSexEnum]
 
+/**
+ *
+ * @export
+ * @interface UserLocation
+ */
+export interface UserLocation {
+  /**
+   *
+   * @type {number}
+   * @memberof UserLocation
+   */
+  latitude?: number
+  /**
+   *
+   * @type {number}
+   * @memberof UserLocation
+   */
+  longitude?: number
+}
 /**
  *
  * @export
