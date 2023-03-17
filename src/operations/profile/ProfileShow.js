@@ -27,6 +27,7 @@ export const ProfileLayout = () => {
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
+      <TextField source='gps' label='Adresse gps' />
     </SimpleShowLayout>
   )
 }
