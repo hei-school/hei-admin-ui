@@ -43,4 +43,8 @@ describe(specTitle('Student'), () => {
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
   })
+
+  it('can see gps localisation', () => {
+    cy.get('#localisation').contains('latitude')
+  })
 })

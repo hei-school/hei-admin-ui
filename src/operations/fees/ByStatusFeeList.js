@@ -1,4 +1,4 @@
-import { List, Datagrid, TextField, DateField, FunctionField, ShowButton } from 'react-admin'
+import { List, Datagrid, TextField, FunctionField, ShowButton } from 'react-admin'
 import rowStyle from './byStatusRowStyle'
 
 import { prettyPrintMoney, statusRenderer, CustomDateField } from '../utils'

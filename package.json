@@ -3,15 +3,18 @@
   "private": true,
   "dependencies": {
     "@mui/styles": "^5.10.16",
+    "@popperjs/core": "^2.11.6",
     "@react-admin/ra-enterprise": "^6.0.3",
     "@react-admin/ra-navigation": "^4.0.6",
     "@react-admin/ra-rbac": "^4.0.1",
-    "aws-amplify": "^4.3.26",
+    "aws-amplify": "^4.3.46",
+    "prettier": "^2.8.4",
     "ra-language-french": "^4.2.0",
     "react": "^18.2.0",
     "react-admin": "^4.2.0",
     "react-dom": "^18.2.0",
     "react-router-redux": "^4.0.8",
+    "sonar-scanner": "^3.1.0",
     "typeface-quicksand": "^1.1.13"
   },
   "devDependencies": {
