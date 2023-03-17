@@ -24,6 +24,6 @@ describe(specTitle("GpsLocation"), () => {
   })
 
   it('should contain GPSLocation', () => {
-    cy.wait(["@getWhoami"]).get().should("contain", "no gps location")
+    cy.wait(["@getWhoami"]).get().should("contain", "No GPS location found")
   })
 })
