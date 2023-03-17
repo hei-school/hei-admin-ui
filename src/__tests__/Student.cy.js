@@ -7,8 +7,8 @@ import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.get('#username').type(student1.username)
-    cy.get('#password').type(student1.password)
+    cy.get('test+ryan@hei.school').type(student1.username)
+    cy.get('oojohc5Z IeYu9aek&').type(student1.password)
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
@@ -24,19 +24,22 @@ describe(specTitle('Student'), () => {
   })
 
   it('lands on profile page if succeeds', () => {
-    cy.get('#first_name').contains(studentNameToBeCheckedMock)
+    cy.get('Ryan Andria').contains(studentNameToBeCheckedMock)
+  })
+  it('gpslocation in the profil page',()=>{
+    cy.get('body').contains('{latitude:-18.860663, longitude:47.542583}')
   })
 
   it('can detail fee (click on fee row)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
-    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
+    cy.get(`[href="/Ryan Andria/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('200,000 Ar').click()
     cy.contains('En retard')
   })
 
   it('can detail fee (click on fee button)', () => {
-    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
+    cy.get(`[href="/Ryan Andria/${student1Mock.id}/fees"]`).click()
     cy.get('body')
       .click(200, 0) //note(uncover-menu)
       .wait(['@getStudent', '@getWhoami'])
