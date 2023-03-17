@@ -245,6 +245,12 @@ export interface CreateOrUpdateStudents200ResponseInner {
    * @memberof CreateOrUpdateStudents200ResponseInner
    */
   status?: EnableStatus
+  /**
+   *
+   * @type {Location}
+   * @memberof CreateOrUpdateStudents200ResponseInner
+   */
+  location?: Location
 }
 
 export const CreateOrUpdateStudents200ResponseInnerSexEnum = {
@@ -507,6 +513,25 @@ export interface InternalServerException {
 /**
  *
  * @export
+ * @interface Location
+ */
+export interface Location {
+  /**
+   *
+   * @type {number}
+   * @memberof Location
+   */
+  longitude?: number
+  /**
+   *
+   * @type {number}
+   * @memberof Location
+   */
+  latitude?: number
+}
+/**
+ *
+ * @export
  * @interface Manager
  */
 export interface Manager {
@@ -576,6 +601,12 @@ export interface Manager {
    * @memberof Manager
    */
   status?: EnableStatus
+  /**
+   *
+   * @type {Location}
+   * @memberof Manager
+   */
+  location?: Location
 }
 
 export const ManagerSexEnum = {
@@ -748,6 +779,12 @@ export interface Student {
    * @memberof Student
    */
   status?: EnableStatus
+  /**
+   *
+   * @type {Location}
+   * @memberof Student
+   */
+  location?: Location
 }
 
 export const StudentSexEnum = {
@@ -829,6 +866,12 @@ export interface Teacher {
    * @memberof Teacher
    */
   status?: EnableStatus
+  /**
+   *
+   * @type {Location}
+   * @memberof Teacher
+   */
+  location?: Location
 }
 
 export const TeacherSexEnum = {
@@ -929,6 +972,12 @@ export interface User {
    * @memberof User
    */
   status?: EnableStatus
+  /**
+   *
+   * @type {Location}
+   * @memberof User
+   */
+  location?: Location
 }
 
 export const UserSexEnum = {
