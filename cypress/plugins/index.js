@@ -14,7 +14,7 @@ const customDevServer = (
       webpackConfigPath
     })
     const rules = webpackConfig.module.rules.find(rule => !!rule.oneOf).oneOf
-    const babelRule = rules.find(rule => /babel-loader/.test(rule.loader))
+    const babelRule = rules.find(rule => /babel-loader/.test(rule.loader))4
     babelRule.options.plugins.push(require.resolve('babel-plugin-istanbul'))
     return startDevServer({
       options,
