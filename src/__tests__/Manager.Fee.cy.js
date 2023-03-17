@@ -134,7 +134,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.contains('Élément créé')
     unmount()
   })
-  it.only('can create fees with manual fields', () => {
+  it('can create fees with manual fields', () => {
     const monthlyAmount = 200000//(1 + Math.floor(Math.random() * 2_000_000)).toString()
     const monthsNumber = 5//1 + Math.floor(Math.random() * 3)
     const comment = 'Dummy comment'
@@ -158,11 +158,13 @@ describe(specTitle('Manager.Fee'), () => {
 
     cy.wait('@createFees').then((requestIntersection) => {
       const feeTypeMock = "tuition"
+      const datParts = feeDateToSearch.split('-')
+      const pendingDate = new Date(datParts[0], datParts[1]-1, datParts[2])
       let createAutomaticallyFeesBodyMock = {
         comment: comment,
         type: manualFeeTypes[feeTypeMock].type,
         total_amount:monthlyAmount,
-        due_datetime: ""+feeDateToSearch+"T21:00:00.000Z",
+        due_datetime: pendingDate.toISOString(),
         student_id: student1Mock.id
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
