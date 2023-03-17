@@ -729,6 +729,18 @@ export interface Student {
    * @type {string}
    * @memberof Student
    */
+  latitude?: string | null
+  /**
+   * 
+   * @type {string}
+   * @memberof Student
+   */
+  longitude?: string | null
+  /**
+   * 
+   * @type {string}
+   * @memberof Student
+   */
   phone?: string
   /**
    *
