@@ -3,6 +3,7 @@ import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import StudentShow from '../operations/students/StudentShow'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -43,4 +44,10 @@ describe(specTitle('Student'), () => {
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
   })
+
+  it('test', () => {
+    cy.mount(StudentShow)
+    cy.get('#address').contains('?')
+  })
+  
 })
