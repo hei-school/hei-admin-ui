@@ -16,6 +16,15 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
+  const locationRenderer = data => {
+    return data.location ? (
+      <div>
+        Location: <br /> {data.location.latitude} <br /> {data.location.longitude}
+      </div>
+    ) : (
+      'Indisponible'
+    )
+  }
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -28,6 +37,7 @@ export const ProfileLayout = () => {
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" />
       <FunctionField label='Statut' render={statusRenderer} />
+      <FunctionField label='Localisation' id='location' render={locationRenderer} />
     </SimpleShowLayout>
   )
 }
