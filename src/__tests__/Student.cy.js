@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, student2Mock, studentGpsCoordinate, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -42,5 +42,15 @@ describe(specTitle('Student'), () => {
       .wait(['@getStudent', '@getWhoami'])
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
+  })
+
+  it('check the gps_coordonate', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+    cy.get('#gps_coordinate').contains(`latitude: ${student1Mock.gps_coordinate.split(',')[0]}, longitude: ${student1Mock.gps_coordinate.split(',')[1]}`)
+  })
+
+  it('check if there is no gps_coordonate', () => {
+    cy.intercept('GET', `/students/${student2Mock.id}`, student2Mock).as('getStudent')
+    cy.get('#gps_coordinate').contains('Pas disponible')
   })
 })
