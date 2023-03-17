@@ -1,8 +1,7 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
 import { Link } from '@mui/material'
-import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
-import { unexpectedValue } from '../utils'
+import { unexpectedValue, CustomDateField } from '../utils'
 
 export const ProfileLayout = props => {
   const { role } = props
@@ -37,11 +36,11 @@ export const ProfileLayout = props => {
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
       <FunctionField label='Téléphone' render={phoneRenderer} />
-      <CustomDateField source='birth_date' label='Date de naissance' />
+      <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
       {role == 'STUDENT' ? studentComponent : ''}
-      <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" />
+      <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
   )

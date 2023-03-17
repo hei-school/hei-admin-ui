@@ -54,7 +54,7 @@ const StudentCreate = props => {
         }
       }
     }
-    student.entrance_datetime = student.entrance_datetime.concat('T21:00:00.000Z')
+    student.entrance_datetime = student.entrance_datetime.concat('T10:00:00.000Z')
     const result = [fees, student]
     return result
   }
