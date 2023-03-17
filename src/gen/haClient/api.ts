@@ -496,25 +496,25 @@ export interface InternalServerException {
 /**
  * 
  * @export
- * @interface Localisation
+ * @interface Location
  */
-export interface Localisation {
+export interface Location {
     /**
      * 
      * @type {string}
-     * @memberof Localisation
+     * @memberof Location
      */
     'id'?: string;
     /**
      * 
      * @type {number}
-     * @memberof Localisation
+     * @memberof Location
      */
     'latitude'?: number;
     /**
      * 
      * @type {number}
-     * @memberof Localisation
+     * @memberof Location
      */
     'longitude'?: number;
 }
@@ -698,10 +698,10 @@ export interface ResourceNotFoundException {
 export interface Student {
     /**
      * 
-     * @type {Localisation}
+     * @type {Location}
      * @memberof Student
      */
-    'localisation'?: Localisation;
+    'location'?: Location;
     /**
      * 
      * @type {string}
