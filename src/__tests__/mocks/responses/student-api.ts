@@ -13,10 +13,10 @@ export const student1Mock: Student = {
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
-  status: EnableStatus.Enabled,
+  status: EnableStatus.Enabled
 }
 
-export const student1WithLocationMock: Student = {...student1Mock, location:{latitude:51.505, longitude:-0.09} }
+export const student1WithLocationMock: Student = { ...student1Mock, location: { latitude: 51.505, longitude: -0.09 } }
 
 export const student1withoutLocationMock: Student = student1Mock
 
@@ -35,9 +35,7 @@ export const studentsMock: Student[] = [
     entrance_datetime: '2023-01-19T12:00:00Z',
     status: EnableStatus.Enabled
   },
-  {
-
-  },
+  {},
   {
     id: 'student4_id',
     ref: 'STD 20002',
