@@ -221,11 +221,12 @@ describe(specTitle('Manager creates students'), () => {
     cy.contains('Enregistrer').click()
     cy.wait('@createStudent').then((requestInterseption) => StudentRequestBodyVerification(requestInterseption.request.body,true))
     cy.wait('@createFees').then((requestIntersection) => {
+      const datParts = feeDateToSearch.split('-')
       let createAutomaticallyFeesBodyMock = {
         comment: comment,
         type: manualFeeTypes[feeTypeMock].type,
         total_amount:monthlyAmount,
-        due_datetime: ""+feeDateToSearch+"T21:00:00.000Z"
+        due_datetime: (new Date(datParts[0], datParts[1]-1, datParts[2])).toISOString()
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
       expect(requestIntersection.request.body.length).to.equal(monthsNumber)
