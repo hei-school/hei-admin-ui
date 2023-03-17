@@ -45,13 +45,13 @@ describe(specTitle('Student'), () => {
   })
 
   it('Displays "Unavailable" if the location is null', () => {
-      student1Mock.location = null 
-      cy.contains('Unavailable');
-    });
-  
+    student1Mock.location = null
+    cy.contains('Unavailable')
+  })
+
   it('Displays the longitude and latitude when location is defined', () => {
-     const longitude = student1Mock.location.longitude
-     const latitude = student1Mock.location.latitude
-      cy.get('#location').should('contain', `${longitude}, ${latitude}`);
-    });
-  });
+    const longitude = student1Mock.location.longitude
+    const latitude = student1Mock.location.latitude
+    cy.get('#location').should('contain', `${longitude}, ${latitude}`)
+  })
+})
