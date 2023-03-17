@@ -926,7 +926,7 @@ components:
           properties:
             longitude:
               type: string
-            lagitude:
+            latitude:
               type: string
       allOf:
         - $ref: '#/components/schemas/User'
