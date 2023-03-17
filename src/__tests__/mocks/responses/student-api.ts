@@ -13,6 +13,10 @@ export const student1Mock: Student = {
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
+  localisation:{
+    longitude: '45 000',
+    latitude: '18 000'
+    },
   status: EnableStatus.Enabled
 }
 
