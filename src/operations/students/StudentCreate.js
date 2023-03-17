@@ -78,6 +78,13 @@ const StudentCreate = props => {
           onChange={({ target: { checked } }) => setCanCreateFees(checked)}
         />
         {canCreateFees && <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />}
+        <TextInput source='latitude' label='Latitude' fullWidth={true} />
+        <TextInput source='longitude' label='Longitude' fullWidth={true} />
+        <TextInput source='altitude' label='Altitude' fullWidth={true} />
+        <TextInput source='accuracy' label='Accuracy' fullWidth={true} />
+        <TextInput source='altitudeAccuracy' label='Altitude accuracy' fullWidth={true} />
+        <TextInput source='heading' label='Heading' fullWidth={true} />
+        <TextInput source='speed' label='Speed' fullWidth={true} />
       </SimpleForm>
     </Create>
   )
