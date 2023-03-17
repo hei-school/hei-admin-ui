@@ -16,6 +16,7 @@ import {
   fee1Mock
 } from './mocks/responses'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
+import { prettyPrintMoney, statusRenderer } from '../operations/utils'
 
 const feeDateToSearch = `2022-09-11`
 const feeCreatDate = 'date2'
@@ -24,7 +25,13 @@ describe(specTitle('Manager.Fee'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
+    cy.intercept('GET', `/managers/${manager1Mock.id}`, 
+    (req) => {
+      req.reply((res) => {
+        res.setDelay(200)
+        res.send(manager1Mock)
+      })
+    }).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`, []).as('getPayments')
@@ -56,19 +63,18 @@ describe(specTitle('Manager.Fee'), () => {
   })
 
   it('can detail waiting fee', () => {
-    cy.intercept(
-      'GET',
-      `/students/${student1Mock.id}/fees/${feesMock.find(fee => fee.remaining_amount === fee1Mock.remaining_amount).id}`,
-      feesMock.find(fee => fee.remaining_amount === fee1Mock.remaining_amount)
-    ).as('getFee1')
-    cy.intercept(
-      'GET',
-      `/students/${student1Mock.id}/fees/${feesMock.find(fee => fee.remaining_amount === fee1Mock.remaining_amount).id}/payments?page=1&page_size=10`,
-      createPaymentMock(feesMock.find(fee => fee.remaining_amount === fee1Mock.remaining_amount))
-    ).as('getPaymentsOfOneFee')
+    const interceptedFeeMock = feesMock.find(fee => fee.remaining_amount === fee1Mock.remaining_amount)
+    cy.intercept('GET',`/students/${student1Mock.id}/fees/${interceptedFeeMock.id}`, interceptedFeeMock).as('getFee1')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}/payments?page=1&page_size=10`, createPaymentMock(interceptedFeeMock)).as('getPaymentsOfOneFee')
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.contains('200,000 Ar').click()
-    cy.contains('En retard')
+    cy.contains(student1Mock.ref)
+    cy.contains(prettyPrintMoney(interceptedFeeMock.remaining_amount)).click()
+    cy.get('#main-content')
+    .should('contain', prettyPrintMoney(interceptedFeeMock.remaining_amount))
+    .and('contain', prettyPrintMoney(interceptedFeeMock.total_amount))
+    .and('contain', interceptedFeeMock.comment)
+    .and('contain', statusRenderer(interceptedFeeMock.status))
+    .and('contain', "Paiements")
     unmount()
   })
 

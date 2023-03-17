@@ -8,7 +8,13 @@ describe(specTitle('Manager.Fee.Late'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
+    cy.intercept('GET', `/managers/${manager1Mock.id}`, 
+    (req) => {
+      req.reply((res) => {
+        res.setDelay(200)
+        res.send(manager1Mock)
+      })
+    }).as('getManager1')
     cy.intercept('GET', `/fees?status=LATE&page=1&page_size=500`, lateFeesMock).as('getLateFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent1')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`, [payment1Mock]).as('getfees')
@@ -18,11 +24,9 @@ describe(specTitle('Manager.Fee.Late'), () => {
     cy.get('button').contains('Connexion').click()
     cy.wait('@getManager1')
     cy.wait('@getWhoami')
-    cy.get('a[href="#/profile"]').click()
   })
 
   it('can list late fees', () => {
-    cy.get(':nth-child(1) > .MuiListItem-root').click()
     cy.get(':nth-child(3) > .MuiListItem-root').click()
     cy.get('a[href="#/fees"]').click({ multiple: true, force: true }) // Étudiants category
     cy.get('body').click(200, 0) //note(uncover-menu)
