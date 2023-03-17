@@ -29,7 +29,7 @@ export const ProfileLayout = () => {
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
-      <FunctionField render={locationRenderer} label='Coordonnées GPS' id='location'/>
+      <FunctionField render={locationRenderer} label='Coordonnées GPS' id='location' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>

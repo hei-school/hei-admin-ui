@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock, student1MockWithoutLocation} from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock, student1MockWithoutLocation } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -27,12 +27,12 @@ describe(specTitle('Student'), () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
-  it('show gps location coordinates',() => {
+  it('show gps location coordinates', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
     cy.get('#location').contains(`${student1Mock.location.latitude}, ${student1Mock.location.longitude}`)
   })
 
-  it('does not show gps coordinates if not specified',() => {
+  it('does not show gps coordinates if not specified', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1MockWithoutLocation).as('getStudent')
     cy.get('#location').contains('Non spécifié')
   })
