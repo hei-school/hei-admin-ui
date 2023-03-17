@@ -2,6 +2,7 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {
@@ -15,6 +16,13 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
+  const role = authProvider.getCachedWhoami().role
+  const locationRenderer = user => {
+    let latitude = user.location?.latitude
+    let longitude = user.location?.longitude
+    return latitude ? latitude : 'Latitude non renseignée' && longitude ? longitude : 'Longitude non renseignée'
+  }
+
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -24,6 +32,7 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
+      {role === WhoamiRoleEnum.Student && <FunctionField label='Localisation' id='localisation' render={locationRenderer} />}
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
