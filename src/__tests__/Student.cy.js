@@ -49,5 +49,4 @@ describe(specTitle('Student'), () => {
     cy.mount(StudentShow)
     cy.get('#address').contains('?')
   })
-  
 })
