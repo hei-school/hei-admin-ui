@@ -16,8 +16,9 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const role = authProvider.getCachedRole()
+  const url = 'https://www.google.com/maps?q='
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
-  const addressRenderer = data => <Link href={`https://www.google.com/maps?q=${data.address_latitude},${data.address_longitude}`}>{data.address}</Link>
+  const addressRenderer = data => <Link href={`${url}${data.address_latitude},${data.address_longitude}`}>{data.address}</Link>
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
