@@ -1,5 +1,5 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import { Link } from '@mui/material'
+import { Link, Typography } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
 
@@ -15,6 +15,16 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
+  const locationRenderer = data => {
+    return data.longitudeGPS == null && data.latitudeGPS == null ? (
+      <>
+        <TextField source='longitudeGPS' label='Longitude' id='longitude_gps'/>
+        <TextField source='latitudeGPS' label='Latitude' id='latitude_gps'/>
+      </>
+    ) : (
+      <Typography id='no_location'>Emplacement GPS introuvable</Typography>
+    )
+  }
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -24,6 +34,7 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
+      <FunctionField label='Coordonnée GPS' render={locationRenderer} />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
