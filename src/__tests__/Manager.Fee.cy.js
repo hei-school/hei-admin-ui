@@ -135,8 +135,8 @@ describe(specTitle('Manager.Fee'), () => {
     unmount()
   })
   it.only('can create fees with manual fields', () => {
-    const monthlyAmount = (1 + Math.floor(Math.random() * 2_000_000)).toString()
-    const monthsNumber = 1 + Math.floor(Math.random() * 3)
+    const monthlyAmount = 200000//(1 + Math.floor(Math.random() * 2_000_000)).toString()
+    const monthsNumber = 5//1 + Math.floor(Math.random() * 3)
     const comment = 'Dummy comment'
     const manuallyCreatedFees = createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber)
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, manuallyCreatedFees).as('createFees')
@@ -144,11 +144,11 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('.MuiFab-root').click() // create fees
     cy.get('#is_predefined_type').click()
     cy.get('#manual_type_tuition').click()
-    cy.get('#monthly_amount').click().type(monthlyAmount)
+    cy.get('#monthly_amount').click().clear().type(monthlyAmount)
 
-    cy.get('#months_number').click().type(monthsNumber)
+    cy.get('#months_number').click().clear().type(monthsNumber)
 
-    cy.get('#comment').click().type(comment)
+    cy.get('#comment').click().clear().type(comment)
 
     cy.get('#is_predefined_first_dueDate').click()
     cy.get('#manual_first_duedate').click().type(feeDateToSearch)
@@ -159,9 +159,9 @@ describe(specTitle('Manager.Fee'), () => {
     cy.wait('@createFees').then((requestIntersection) => {
       const feeTypeMock = "tuition"
       let createAutomaticallyFeesBodyMock = {
-        comment: comment + " " + '(2022)',
+        comment: comment,
         type: manualFeeTypes[feeTypeMock].type,
-        total_amount:"0"+monthlyAmount,
+        total_amount:monthlyAmount,
         due_datetime: ""+feeDateToSearch+"T21:00:00.000Z",
         student_id: student1Mock.id
       }
