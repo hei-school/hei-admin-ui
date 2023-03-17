@@ -52,6 +52,6 @@ describe(specTitle('Student'), () => {
   it('Displays the longitude and latitude when location is defined', () => {
      const longitude = student1Mock.location.longitude
      const latitude = student1Mock.location.latitude
-      cy.get('#location').should('contain',  longitude, latitude);
+      cy.get('#location').should('contain', `${longitude}, ${latitude}`);
     });
   });
