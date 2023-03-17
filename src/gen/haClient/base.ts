@@ -18,7 +18,7 @@ import type { Configuration } from './configuration'
 import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
 import globalAxios from 'axios'
 
-export const BASE_PATH = (process.env.REACT_APP_API_URL || 'undefined').replace(/\/+$/, '')
+export const BASE_PATH = 'https://api-dev.hei.school'.replace(/\/+$/, '')
 
 /**
  *
