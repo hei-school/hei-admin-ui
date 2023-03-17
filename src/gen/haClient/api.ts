@@ -684,6 +684,12 @@ export interface ResourceNotFoundException {
 export interface Student {
   /**
    *
+   * @type {StudentPositions}
+   * @memberof Student
+   */
+  location?: StudentPositions
+  /**
+   *
    * @type {string}
    * @memberof Student
    */
@@ -757,6 +763,25 @@ export const StudentSexEnum = {
 
 export type StudentSexEnum = (typeof StudentSexEnum)[keyof typeof StudentSexEnum]
 
+/**
+ *
+ * @export
+ * @interface StudentPositions
+ */
+export interface StudentPositions {
+  /**
+   *
+   * @type {string}
+   * @memberof StudentPositions
+   */
+  longitude?: string
+  /**
+   *
+   * @type {string}
+   * @memberof StudentPositions
+   */
+  latitude?: string
+}
 /**
  *
  * @export
