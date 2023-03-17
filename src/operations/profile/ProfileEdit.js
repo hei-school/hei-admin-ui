@@ -20,7 +20,6 @@ const transformUser = user => {
   return user
 }
 
-
 const ProfileEdit = () => (
   <Edit transform={transformUser}>
     <SimpleForm toolbar={<EditToolBar />}>
