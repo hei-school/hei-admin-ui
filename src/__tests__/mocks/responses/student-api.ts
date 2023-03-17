@@ -1,6 +1,7 @@
 import { Student, EnableStatus, StudentSexEnum, Whoami, WhoamiRoleEnum, User, UserSexEnum } from 'src/gen/haClient'
 
 export const studentNameToBeCheckedMock: string = 'herilala'
+export const studentGpsCoordinate: string = '-18.87068,47.53415'
 
 export const student1Mock: Student = {
   id: 'student1_id',
@@ -10,7 +11,22 @@ export const student1Mock: Student = {
   sex: StudentSexEnum.M,
   birth_date: '2000-01-01',
   address: 'Adr 1',
-  gps_coordinate: '-18.87068,47.53415',
+  gps_coordinate: studentGpsCoordinate,
+  phone: '0322411123',
+  email: 'test+ryan@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled
+}
+
+export const student2Mock: Student = {
+  id: 'student11_id',
+  ref: 'STD21004',
+  first_name: 'Mihary Joel',
+  last_name: 'Andriamailanto',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-01-01',
+  address: 'Adr 1',
+  gps_coordinate: '',
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
