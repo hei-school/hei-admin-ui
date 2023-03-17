@@ -15,6 +15,23 @@ export const student1Mock: Student = {
   entrance_datetime: '2021-11-08T08:25:24Z',
   status: EnableStatus.Enabled
 }
+export const student1MockWithLocalisation: Student = {
+  id: 'student1_id',
+  ref: 'STD21111',
+  first_name: studentNameToBeCheckedMock,
+  last_name: 'Rafanomezantsoa',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-01-01',
+  address: 'Adr 1',
+  phone: '0322411123',
+  email: 'test+ryan@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled,
+  localisation: {
+    latitude: -18.8640332,
+    longitude: 47.4525344
+  }
+}
 
 export const studentsMock: Student[] = [
   student1Mock,
