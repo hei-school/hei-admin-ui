@@ -14,6 +14,14 @@ export const ProfileLayout = () => {
     if (user.status === 'DISABLED') return 'Suspendu·e'
     return unexpectedValue
   }
+  const latitudeRenderer = (data) => {
+    const latitude = data?.latitude;
+    return latitude ? latitude : 'Donnée manquante';
+  };
+  const longitudeRenderer = (data) => {
+    const longitude = data?.longitude;
+    return longitude ? longitude : 'Donnée manquante';
+  };
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
@@ -24,6 +32,8 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
+      <FunctionField  label='Latitude' render={latitudeRenderer} />
+      <FunctionField  label='Longitude' render={longitudeRenderer} />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
@@ -32,7 +42,7 @@ export const ProfileLayout = () => {
 }
 
 const ProfileShow = () => {
-  const id = authProvider.getCachedWhoami().id
+  const id = authProvider.getCachedWhoami().id.toString()
   return (
     <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
       <ProfileLayout />

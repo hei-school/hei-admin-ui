@@ -1,6 +1,8 @@
 import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
+import longitudeRenderer from '../operations/profile/ProfileShow'
+import latitudeRenderer from '../operations/profile/ProfileShow'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
@@ -44,3 +46,27 @@ describe(specTitle('Student'), () => {
     cy.contains('En retard')
   })
 })
+
+describe('latitudeRenderer', () => {
+  it('should return the latitude value if it exists', () => {
+    const data = { latitude: '40.7128' };
+    expect(latitudeRenderer(data)).to.equal('40.7128');
+  });
+
+  it('should return "Donnée manquante" if the latitude value is missing', () => {
+    const data = {};
+    expect(latitudeRenderer(data)).to.equal('Donnée manquante');
+  });
+});
+
+describe('longitudeRenderer', () => {
+  it('should return the longitude value if it exists', () => {
+    const data = { longitude: '-74.006' };
+    expect(longitudeRenderer(data)).to.equal('-74.006');
+  });
+
+  it('should return "Donnée manquante" if the longitude value is missing', () => {
+    const data = {};
+    expect(longitudeRenderer(data)).to.equal('Donnée manquante');
+  });
+});
