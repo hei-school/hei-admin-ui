@@ -3,6 +3,7 @@ import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { unexpectedValue } from '../operations/utils'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -25,6 +26,22 @@ describe(specTitle('Student'), () => {
 
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
+  })
+
+    //profile.show
+  it ('display an error if what is displayed is not an address or null', () => {
+    if(student1Mock.positions !== {lat: 10,longit: 10} || student1Mock.address == null){
+      cy.get('#testing').contains(unexpectedValue)
+    }
+  })
+
+  it('see if the address is displayed', () => {
+    if(student1Mock.positions === {lat: 10,longit: 10}) {
+      cy.get('#testing').contains("\n" +
+        "      localisation : \n" +
+        "      longitude : 10\n" +
+        "      latitude : 10")
+    }
   })
 
   it('can detail fee (click on fee row)', () => {

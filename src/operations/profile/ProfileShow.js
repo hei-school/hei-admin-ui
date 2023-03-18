@@ -14,6 +14,15 @@ export const ProfileLayout = () => {
     if (user.status === 'DISABLED') return 'Suspendu·e'
     return unexpectedValue
   }
+  const adressRenderer = data => {
+    if(!data.Adress) return `localisation : ${unexpectedValue}`
+    if (data.Adress) return (<span id={"testing"}>
+      localisation :
+      longitude : {data.Adress.longit}
+      latitude : {data.Adress.lat}
+    </span>
+    )
+  }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
@@ -21,9 +30,12 @@ export const ProfileLayout = () => {
       <TextField source='first_name' id='first_name' label='Prénom(s)' />
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
+
+      <FunctionField label='adress' render={adressRenderer}/>
+
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
-      <TextField source='address' label='Adresse' component='pre' />
+      <TextField source='address' label='Adresse' component='pre'/>
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
