@@ -17,8 +17,7 @@ export const ProfileLayout = () => {
   }
   const role = authProvider.getCachedWhoami().role
   const Localisation = user =>{
-    (user.localisation.longitude === null)? "- longitude :null" : `- longitude: ${47.5361}`
-    (user.localisation.latitude === null)? "- latitude :null" : `- latitude: ${-18.9137}`
+    (user.localisation.longitude === null && user.localisation.latitude === null )? "- longitude :null \n - latitude :null" : `- longitude: ${47.5361} \n - latitude: ${-18.9137}`
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   
