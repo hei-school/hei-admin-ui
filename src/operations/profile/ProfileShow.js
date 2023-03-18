@@ -1,5 +1,5 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import {Link, Typography} from '@mui/material'
+import { Link, Typography } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
 
@@ -19,8 +19,8 @@ export const ProfileLayout = () => {
     const longitude = user.location?.longitude
     return (
       <>
-        <Typography>Latitude: {latitude != null ? latitude : 'latitude indéfini'}</Typography>
-        <Typography>Latitude: {longitude != null ? longitude : 'Longitude indéfini'}</Typography>
+        <Typography>Latitude: {latitude != null ? latitude : 'Indéfini'}</Typography>
+        <Typography>Latitude: {longitude != null ? longitude : 'Indéfini'}</Typography>
       </>
     )
   }
@@ -37,7 +37,7 @@ export const ProfileLayout = () => {
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
-      <FunctionField source='localisation' label='Localisation' render={locationRenderer} id='location'/>
+      <FunctionField source='localisation' label='Localisation' render={locationRenderer} id='location' />
     </SimpleShowLayout>
   )
 }
