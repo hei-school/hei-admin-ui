@@ -16,7 +16,7 @@ export const student1Mock: Student = {
   status: EnableStatus.Enabled,
   location: {
     latitude: 123456,
-    longitude: 156511651,
+    longitude: 156511651
   }
 }
 
