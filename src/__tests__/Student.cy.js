@@ -2,7 +2,16 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import {
+  createPaymentMock,
+  feesMock,
+  student1Mock,
+  studentNameToBeCheckedMock,
+  whoamiStudentMock,
+  whoamiWithLocationMock,
+  withLocationMock,
+  withNoLocationMock
+} from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -31,7 +40,7 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.contains('200,000 Ar').click()
+    cy.contains('200 000 Ar').click()
     cy.contains('En retard')
   })
 
@@ -42,5 +51,43 @@ describe(specTitle('Student'), () => {
       .wait(['@getStudent', '@getWhoami'])
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
+  })
+
+  describe('student location', () => {
+    beforeEach(() => {
+      cy.intercept('GET', `/whoami`, whoamiWithLocationMock).as('whoamWithLocation')
+    })
+
+    it('[truthy] handle location display', () => {
+      cy.intercept('GET', `/students/${withLocationMock.id}`, withLocationMock)
+      checkPrimaryInfo()
+      cy.contains(withLocationMock.ref)
+      cy.contains(withLocationMock.first_name)
+      cy.contains(withLocationMock.last_name)
+      cy.contains(withLocationMock.phone)
+      cy.contains(withLocationMock.address)
+      cy.contains(withLocationMock.email)
+      cy.contains('latitude: ' + withLocationMock.location.latitude)
+      cy.contains('longitude: ' + withLocationMock.location.longitude)
+    })
+
+    it('[falsy] handle location display', () => {
+      cy.intercept('GET', `/students/${withNoLocationMock.id}`, withNoLocationMock)
+      checkPrimaryInfo()
+      cy.contains(withNoLocationMock.ref)
+      cy.contains(withNoLocationMock.first_name)
+      cy.contains(withNoLocationMock.last_name)
+      cy.contains(withNoLocationMock.phone)
+      cy.contains(withNoLocationMock.address)
+      cy.contains(withNoLocationMock.email)
+      cy.contains('Champ non renseigné')
+    })
+
+    const checkPrimaryInfo = () => {
+      cy.contains(`Date d'entrée chez HEI`)
+      cy.contains('8 novembre 2021')
+      cy.contains(`Statut`)
+      cy.contains('Actif·ve')
+    }
   })
 })
