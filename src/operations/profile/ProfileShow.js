@@ -1,5 +1,6 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import { Link } from '@mui/material'
+import { Link, Box, Typography } from '@mui/material'
+
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
 
@@ -15,6 +16,18 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
+  const coordinateRenderer = user => {
+    const {
+      coordinates: { latitude, longitude }
+    } = user
+
+    return (
+        <Link href={`http://geojson.io/#map=5/${latitude}/${longitude}`} id="coordinate">
+          <Typography variant="subtitle1">{latitude} | {longitude}</Typography>
+        </Link>
+    )
+  }
+
   return (
     <SimpleShowLayout>
       <TextField source='ref' label='Référence' />
@@ -24,6 +37,7 @@ export const ProfileLayout = () => {
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
+      <FunctionField label={'Coordonées'} render={coordinateRenderer} />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
