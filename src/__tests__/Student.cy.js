@@ -6,7 +6,6 @@ import {
   createPaymentMock,
   feesMock,
   student1Mock,
-  student1WithGPS, student1WithoutGPS,
   studentNameToBeCheckedMock,
   whoamiStudentMock
 } from './mocks/responses'
@@ -35,17 +34,23 @@ describe(specTitle('Student'), () => {
   })
 
   it('student_location_ok', () => {
-    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent1')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
 
-    cy.wait('@getStudent1')
+    cy.wait('@getStudent')
+    cy.contains('Rafanomezantsoa')
+    cy.contains('STD21111')
+    cy.contains('test+ryan@hei.school')
     cy.contains(123456)
     cy.contains(156511651)
   })
 
   it('student_location_ko', () => {
-    cy.intercept('GET', `/students/${student1Mock.id}`, { ...student1Mock, location: null }).as('getStudent1')
+    cy.intercept('GET', `/students/${student1Mock.id}`, { ...student1Mock, location: null }).as('getStudent')
 
-    cy.wait('@getStudent1')
+    cy.wait('@getStudent')
+    cy.contains('Rafanomezantsoa')
+    cy.contains('STD21111')
+    cy.contains('test+ryan@hei.school')
     cy.contains('Non renseigné')
   })
 })
