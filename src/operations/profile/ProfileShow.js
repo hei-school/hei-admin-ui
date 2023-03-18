@@ -1,5 +1,5 @@
 import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
-import { Link, Box, Typography } from '@mui/material'
+import { Link, Typography } from '@mui/material'
 
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
@@ -17,14 +17,33 @@ export const ProfileLayout = () => {
   }
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   const coordinateRenderer = user => {
-    const {
+    let {
       coordinates: { latitude, longitude }
     } = user
 
+    const COORDONATE_PLACEHOLDER = 'Coordonée non spécifié'
+    console.log(latitude, longitude)
+    if (!latitude && !longitude) {
+      return (
+        <Typography id='coordinate-placeholder' variant='subtitle1' color={'grey'}>
+          {COORDONATE_PLACEHOLDER}
+        </Typography>
+      )
+    }
+
+    if (!latitude) {
+      latitude = 'latitude non spécifé'
+    }
+    if (!longitude) {
+      longitude = 'longitude non spécifié'
+    }
+
     return (
-        <Link href={`http://geojson.io/#map=5/${latitude}/${longitude}`} id="coordinate">
-          <Typography variant="subtitle1">{latitude} | {longitude}</Typography>
-        </Link>
+      <Link href={`http://geojson.io/#map=5/${latitude}/${longitude}`} id='coordinate-link'>
+        <Typography variant='subtitle1'>
+          {latitude} | {longitude}
+        </Typography>
+      </Link>
     )
   }
 

@@ -10,10 +10,19 @@ export const student1Mock: Student = {
   sex: StudentSexEnum.M,
   birth_date: '2000-01-01',
   address: 'Adr 1',
+  coordinates: {
+    latitude: -18.89565,
+    longitude: 47.52215
+  },
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
   status: EnableStatus.Enabled
+}
+
+export const studentWithoutCoordinatesMock = {
+  ...student1Mock,
+  coordinates: {}
 }
 
 export const studentsMock: Student[] = [

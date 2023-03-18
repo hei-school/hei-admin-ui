@@ -2,7 +2,15 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import {
+  createPaymentMock,
+  feesMock,
+  student1Mock,
+  studentNameToBeCheckedMock,
+  studentsMock,
+  studentWithoutCoordinatesMock,
+  whoamiStudentMock
+} from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -25,6 +33,15 @@ describe(specTitle('Student'), () => {
 
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
+  })
+
+  it('display the student coordinate if it was provided', () => {
+    cy.get('#coordinate-link').contains(student1Mock.coordinates.longitude).contains(student1Mock.coordinates.latitude)
+  })
+
+  it('display single sentence when both latitude and longitude are not specified', () => {
+    cy.intercept('GET', `students/${studentWithoutCoordinatesMock.id}`, studentWithoutCoordinatesMock).as('getStudentWithoutCoordinates')
+    cy.get('#coordinate-placeholder').contains('Coordonée non spécifié')
   })
 
   it('can detail fee (click on fee row)', () => {
