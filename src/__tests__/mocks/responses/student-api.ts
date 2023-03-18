@@ -16,6 +16,39 @@ export const student1Mock: Student = {
   status: EnableStatus.Enabled
 }
 
+export const student1WithGPS: Student = {
+  id: 'student11_id',
+  ref: 'STD21112',
+  first_name: studentNameToBeCheckedMock,
+  last_name: 'Ratovo',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-01-01',
+  address: 'Adr 2',
+  phone: '0322411123',
+  email: 'test+liana@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled,
+  location: {
+    latitude: 123456,
+    longitude: 156511651,
+  }
+}
+
+export const student1WithoutGPS: Student = {
+  id: 'student12_id',
+  ref: 'STD21113',
+  first_name: studentNameToBeCheckedMock,
+  last_name: 'Rakoto',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-01-01',
+  address: 'Adr 3',
+  phone: '0322411123',
+  email: 'test+finaritra@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled,
+  location: undefined
+}
+
 export const studentsMock: Student[] = [
   student1Mock,
   {
