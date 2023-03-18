@@ -27,6 +27,16 @@ describe(specTitle('Student'), () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
+  it('shows student`s gps location coordinates', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+    cy.get('#location').contains(`${student1Mock.location.latitude}, ${student1Mock.location.longitude}`)
+  })
+
+  it('does not show student`s gps coordinates if not specified', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockWithoutLocation).as('getStudent')
+    cy.get('#location').contains('Non spécifié')
+  })
+
   it('can detail fee (click on fee row)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
