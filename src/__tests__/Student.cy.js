@@ -27,13 +27,12 @@ describe(specTitle('Student'), () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
-
-  it('shows student`s gps location coordinates',() => {
+  it('shows student`s gps location coordinates', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
     cy.get('#location').contains(`${student1Mock.location.latitude}, ${student1Mock.location.longitude}`)
   })
 
-  it('does not show student`s gps coordinates if not specified',() => {
+  it('does not show student`s gps coordinates if not specified', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1MockWithoutLocation).as('getStudent')
     cy.get('#location').contains('Non spécifié')
   })

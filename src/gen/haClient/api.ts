@@ -944,14 +944,12 @@ export const UserSexEnum = {
 
 export type UserSexEnum = (typeof UserSexEnum)[keyof typeof UserSexEnum]
 
-
-
 /**
  *
  * @export
  * @interface UserLocation
  */
- export interface UserLocation {
+export interface UserLocation {
   /**
    *
    * @type {string}
