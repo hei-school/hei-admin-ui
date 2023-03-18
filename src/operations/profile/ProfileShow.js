@@ -21,7 +21,7 @@ export const ProfileLayout = () => {
       <TextField source='first_name' id='first_name' label='Prénom(s)' />
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
-      <FunctionField label='Téléphone' render={phoneRenderer} />
+      <FunctionField label='Téléphone' render={phoneRenderer} /> 
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
@@ -32,16 +32,16 @@ export const ProfileLayout = () => {
   )
 }
 
-const LocationRenderer = (props) => {
-  const { location } = props;
-  location
+const LocationRenderer = ({ data: { location } }) => {
+
+ return location
     ? (
       <Box sx={{ marginLeft: 2 }}>
         <Typography component='p' variant='body2'>
-          Latitude: {location.latitude}
+          Longitude: {location.longitude}
         </Typography>
         <Typography component='p' variant='body2'>
-          Longitude: {location.longitude}
+          Latitude: {location.latitude}
         </Typography>
       </Box>)
     : (<Typography>Non renseigné</Typography>)
