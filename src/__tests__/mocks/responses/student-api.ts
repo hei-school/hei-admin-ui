@@ -20,11 +20,6 @@ export const student1Mock: Student = {
   status: EnableStatus.Enabled
 }
 
-export const student1MockWithoutLocation: Student = {
-  ...student1Mock,
-  location: undefined
-}
-
 export const studentsMock: Student[] = [
   student1Mock,
   {

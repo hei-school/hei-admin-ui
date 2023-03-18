@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock, student1MockWithoutLocation } from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -23,7 +23,7 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
-  onlyit('lands on profile page if succeeds', () => {
+  it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 

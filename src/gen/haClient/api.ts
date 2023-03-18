@@ -738,16 +738,16 @@ export interface Student {
   email?: string
   /**
    *
-   * @type {string}
-   * @memberof Student
-   */
-  entrance_datetime?: string
-  /**
-   *
    * @type {UserLocation}
    * @memberof Student
    */
   location?: UserLocation
+  /**
+   *
+   * @type {string}
+   * @memberof Student
+   */
+  entrance_datetime?: string
   /**
    *
    * @type {EnableStatus}
