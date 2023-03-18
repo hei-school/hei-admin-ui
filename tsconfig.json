@@ -2,7 +2,7 @@
   "compilerOptions": {
     "baseUrl": "./",
     "target": "es5",
-    "lib": ["es5", "dom"],
+    "lib": ["es6", "dom"],
     "types": ["cypress", "node"],
     "allowJs": true,
     "skipLibCheck": true,
@@ -18,5 +18,6 @@
     "noEmit": true,
     "jsx": "react-jsx"
   },
-  "include": ["**/*.ts"]
+  "include": ["**/*.ts"],
+  "exclude": ["node_modules", "build"]
 }
