@@ -3,7 +3,6 @@ import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 're
 import { ProfileLayout } from '../profile/ProfileShow'
 import { AttachMoney } from '@mui/icons-material'
 
-import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
 
 const ActionsOnShow = ({ basePath, data, resource }) => {
@@ -23,7 +22,7 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
 const StudentShow = () => {
   const role = authProvider.getCachedRole()
   return (
-    <Show title='Étudiants' actions={role === WhoamiRoleEnum.Manager && <ActionsOnShow />}>
+    <Show title='Étudiants' actions={role === 'MANAGER' && <ActionsOnShow />}>
       <ProfileLayout />
     </Show>
   )

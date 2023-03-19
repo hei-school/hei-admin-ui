@@ -738,6 +738,12 @@ export interface Student {
   email?: string
   /**
    *
+   * @type {UserLocation}
+   * @memberof Student
+   */
+  location?: UserLocation
+  /**
+   *
    * @type {string}
    * @memberof Student
    */
@@ -937,6 +943,26 @@ export const UserSexEnum = {
 } as const
 
 export type UserSexEnum = (typeof UserSexEnum)[keyof typeof UserSexEnum]
+
+/**
+ *
+ * @export
+ * @interface UserLocation
+ */
+export interface UserLocation {
+  /**
+   *
+   * @type {string}
+   * @memberof UserLocation
+   */
+  latitude?: string
+  /**
+   *
+   * @type {string}
+   * @memberof UserLocation
+   */
+  longitude?: string
+}
 
 /**
  *
