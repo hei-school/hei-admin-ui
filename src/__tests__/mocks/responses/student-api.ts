@@ -20,7 +20,7 @@ export const student1Mock: Student = {
   }
 }
 
-export const student1MockWithoutLocation : Student = {...student1Mock, location: undefined}
+export const student1MockWithoutLocation: Student = { ...student1Mock, location: undefined }
 
 export const studentsMock: Student[] = [
   student1Mock,

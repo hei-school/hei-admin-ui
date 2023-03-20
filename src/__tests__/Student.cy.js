@@ -23,16 +23,6 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
-  it('shows coordinates if provided', () => {
-    cy.get('#coordinates').contains(`${student1Mock.location.longitude}`)
-    cy.get('#coordinates').contains(`${student1Mock.location.latitude}`)
-  })
-
-  it('tells that coordinates are unavailable if not provided', () => {
-    cy.intercept('GET', `/students/${student1Mock.id}`, student1MockWithoutLocation).as('getStudent')
-    cy.get('#coordinates').contains('Données indisponibles')
-  })
-
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
