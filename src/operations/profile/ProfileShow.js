@@ -18,7 +18,7 @@ import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import authProvider from "../../providers/authProvider";
 import { unexpectedValue, CustomDateField } from "../utils";
 import { useState } from "react";
-import Map from "./Map";
+import Localisation from "./Localisation";
 
 export const ProfileLayout = () => {
   const sexRenderer = (user) => {
@@ -67,9 +67,9 @@ export const ProfileLayout = () => {
               </div>
             ) : (
               <>
-                <Map />
-                <p>Latitude: {Map.latitude} </p>
-                <p>Longitude: {Map.longitude} </p>
+                <Localisation />
+                <p>Latitude: {Localisation.latitude} </p>
+                <p>Longitude: {Localisation.longitude} </p>
               </>
             )}
           </DialogContent>

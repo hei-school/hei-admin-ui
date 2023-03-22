@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Card, CardContent } from "@mui/material";
 import axios from "axios";
 
-function Map({ latitude, longitude }) {
+function Localisation({ latitude, longitude }) {
   const [address, setAddress] = useState("");
 
   useEffect(() => {
@@ -20,8 +20,8 @@ function Map({ latitude, longitude }) {
 
   return (
     <>
-      <h2>{address}</h2>
-      <Card>
+      <p>{address}</p>
+      <Card id="location" >
         <CardContent>
           <iframe
             title="Iframe content"
@@ -38,4 +38,4 @@ function Map({ latitude, longitude }) {
   );
 }
 
-export default Map;
+export default Localisation;

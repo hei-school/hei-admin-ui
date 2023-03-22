@@ -504,6 +504,20 @@ export interface InternalServerException {
    */
   message?: string
 }
+export interface Location {
+  /**
+   *
+   * @type {number}
+   * @memberof Location
+   */
+  'longitude'?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof Location
+   */
+  'latitude'?: number;
+}
 /**
  *
  * @export
@@ -682,6 +696,12 @@ export interface ResourceNotFoundException {
  * @interface Student
  */
 export interface Student {
+  /**
+   *
+   * @type {Location}
+   * @memberof Student
+   */
+  'location'?: Location;
   /**
    *
    * @type {string}

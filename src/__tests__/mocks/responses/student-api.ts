@@ -13,8 +13,29 @@ export const student1Mock: Student = {
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
-  status: EnableStatus.Enabled
+  status: EnableStatus.Enabled,
+  location: {
+    longitude: 0.0,
+    latitude: 0.0
+  }
 }
+export const student1MockWithoutLocation: Student = {
+  id: 'student1_id',
+  ref: 'STD21111',
+  first_name: studentNameToBeCheckedMock,
+  last_name: 'Rafanomezantsoa',
+  sex: StudentSexEnum.M,
+  birth_date: '2000-01-01',
+  address: 'Adr 1',
+  phone: '0322411123',
+  email: 'test+ryan@hei.school',
+  entrance_datetime: '2021-11-08T08:25:24Z',
+  status: EnableStatus.Enabled,
+  location: {
+    
+  }
+}
+//export const student1MockWithoutLocation: Student = { ...student1Mock, location: undefined }
 
 export const studentsMock: Student[] = [
   student1Mock,
