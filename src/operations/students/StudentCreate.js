@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
+import { BooleanInput, Create, DateInput, SimpleForm, TextInput } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
 import { SexRadioButton } from '../utils'
 import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'

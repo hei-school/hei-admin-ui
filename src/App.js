@@ -42,6 +42,7 @@ const App = () => (
     <Resource name='student-grades' {...studentGrades} />
 
     <CustomRoutes>
+      {/* TODO: either remove StudentShow/TeacherShow (because they are dead ...somehow) or make ProfileShow more generic to integrate them */}
       <Route exact path='/profile' element={<profile.show />} />
 
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />

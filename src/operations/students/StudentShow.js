@@ -1,8 +1,6 @@
-import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 'react-admin'
-
-import { ProfileLayout } from '../profile/ProfileShow'
+import { Button, EditButton, Link, Show, TopToolbar, useRecordContext } from 'react-admin'
 import { AttachMoney } from '@mui/icons-material'
-
+import { ProfileLayout } from '../profile/ProfileShow'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
 
@@ -23,7 +21,7 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
 const StudentShow = () => {
   const role = authProvider.getCachedRole()
   return (
-    <Show title='Étudiants' actions={role === WhoamiRoleEnum.Manager && <ActionsOnShow />}>
+    <Show title='Étudiants' actions={role === WhoamiRoleEnum.MANAGER && <ActionsOnShow />}>
       <ProfileLayout />
     </Show>
   )

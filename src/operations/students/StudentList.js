@@ -1,4 +1,4 @@
-import { TextField, Datagrid, ShowButton, EditButton, List } from 'react-admin'
+import { Datagrid, EditButton, List, ShowButton, TextField } from 'react-admin'
 
 import authProvider from '../../providers/authProvider'
 import { WhoamiRoleEnum } from '../../gen/haClient'
