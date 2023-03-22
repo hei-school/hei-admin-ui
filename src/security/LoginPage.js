@@ -1,5 +1,5 @@
 import { Login } from 'react-admin'
-import { Card, CardContent, Grid, Typography, useMediaQuery, Modal, Box, TextField } from '@mui/material'
+import { Card, CardContent, Grid, Typography, useMediaQuery, Modal, Box, Link } from '@mui/material'
 import { mainTheme } from '../haTheme'
 import CompletePasswordPage from './CompletePasswordPage'
 import authProvider from '../providers/authProvider'
@@ -37,6 +37,10 @@ const aCard = (title, subtitle, description1, description2, course) => {
 }
 
 const HaLoginPage = () => {
+  const [username, setUsername] = useState('')
+  const [openModal, setOpenModal] = useState(false)
+  const [openSubmitModal, setOpenSubmitModal] = useState(false)
+
   const displayFull = useMediaQuery('(min-width:1024px) and (min-height:768px)')
   const style = {
     position: 'absolute',
@@ -53,13 +57,38 @@ const HaLoginPage = () => {
     justifyContent: 'center',
     justifyItems: 'center'
   }
-  const ResponsiveLogin = () => <Login backgroundImage={null} style={{ backgroundImage: 'inherit' }} />
+  const ResponsiveLogin = () => {
+    return (
+      <div
+        style={{
+          width: 400,
+          height: 500,
+          position: 'absolute',
+          top: '40%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)'
+        }}
+      >
+        <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
+        <Link
+          href='#/login'
+          sx={{
+            color: '#FFFF',
+            width: 'inherit',
+            position: 'absolute',
+            bottom: '0vh',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+          onClick={() => setOpenModal(true)}
+        >
+          Mot de passe oublié?
+        </Link>
+      </div>
+    )
+  }
   const ResponsiveCompletePassword = () => <CompletePasswordPage style={{ backgroundImage: 'inherit' }} />
   const PasswordChangeableLogin = () => (authProvider.isTemporaryPassword() ? <ResponsiveCompletePassword /> : <ResponsiveLogin />)
-
-  const [username, setUsername] = useState('')
-  const [openModal, setOpenModal] = useState(false)
-  const [openSubmitModal, setOpenSubmitModal] = useState(false)
 
   return (
     <div
@@ -73,9 +102,6 @@ const HaLoginPage = () => {
         height: '100%'
       }}
     >
-      <a href='#/login' style={{ color: '#FFFF' }} onClick={() => setOpenModal(true)}>
-        Mot de passe oublié?
-      </a>
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <Box sx={style}>
           <ConfirmForgotPassword username={username} setUsername={setUsername} setOpenModal={setOpenModal} setOpenSubmitModal={setOpenSubmitModal} />

@@ -1,5 +1,7 @@
 import React from 'react'
 import { TextField } from '@mui/material'
+import { Button } from 'react-admin'
+import { indigo } from '@mui/material/colors'
 
 const matchCognitoPassword = password => {
   var format = /[!@#$%^&*()_+\-=]/
@@ -44,3 +46,20 @@ export const CustomTextField = ({ placeholder, onChange, type }) => (
     }}
   />
 )
+
+export const CustomSubmitButton = ({ text, onClick }) => {
+  return (
+    <Button
+      onClick={onClick}
+      style={{
+        backgroundColor: indigo[800],
+        width: '300px',
+        color: '#FFFF',
+        padding: '0.5vw',
+        margin: '0.75vw'
+      }}
+    >
+      {text}
+    </Button>
+  )
+}

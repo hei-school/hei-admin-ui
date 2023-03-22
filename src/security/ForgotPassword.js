@@ -1,8 +1,6 @@
 import React, { useState } from 'react'
-import { submit, CustomTextField } from './utils'
+import { submit, CustomTextField, CustomSubmitButton } from './utils'
 import authProvider from '../providers/authProvider'
-import { Button } from 'react-admin'
-import { indigo } from '@mui/material/colors'
 
 const ForgotPassword = ({ username, setOpenModal }) => {
   const [password, setPassword] = useState('')
@@ -31,18 +29,7 @@ const ForgotPassword = ({ username, setOpenModal }) => {
       <CustomTextField placeholder='Code de vérification' onChange={handleCode} type='password' />
       <CustomTextField placeholder='Nouveau mot de passe' onChange={handlePassword} type='password' />
       <CustomTextField placeholder='Confirmer votre mot de passe' onChange={handleConfirmPassword} type='password' />
-      <Button
-        onClick={handleSubmit}
-        style={{
-          backgroundColor: indigo[800],
-          width: '300px',
-          color: '#FFFF',
-          padding: '0.5vw',
-          margin: '0.75vw'
-        }}
-      >
-        RÉINITIALISER
-      </Button>
+      <CustomSubmitButton onClick={handleSubmit} text='RÉINITIALISER' />
     </form>
   )
 }
