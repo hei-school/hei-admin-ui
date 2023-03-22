@@ -1,8 +1,11 @@
 import { Login } from 'react-admin'
-import { Card, CardContent, Grid, Typography, useMediaQuery } from '@mui/material'
+import { Card, CardContent, Grid, Typography, useMediaQuery, Modal, Box, TextField } from '@mui/material'
 import { mainTheme } from '../haTheme'
 import CompletePasswordPage from './CompletePasswordPage'
 import authProvider from '../providers/authProvider'
+import { useState } from 'react'
+import ForgotPassword from './ForgotPassword'
+import ConfirmForgotPassword from './ConfirmForgotPassword'
 
 const aCard = (title, subtitle, description1, description2, course) => {
   const syllabus = 'https://drive.google.com/file/d/12Lc4o3jfQOFHIzazPToO2hnGZc8epU3I/view'
@@ -35,9 +38,28 @@ const aCard = (title, subtitle, description1, description2, course) => {
 
 const HaLoginPage = () => {
   const displayFull = useMediaQuery('(min-width:1024px) and (min-height:768px)')
+  const style = {
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: 325,
+    bgcolor: 'background.paper',
+    boxShadow: 24,
+    p: 4,
+    margin: 'auto',
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+    justifyItems: 'center'
+  }
   const ResponsiveLogin = () => <Login backgroundImage={null} style={{ backgroundImage: 'inherit' }} />
   const ResponsiveCompletePassword = () => <CompletePasswordPage style={{ backgroundImage: 'inherit' }} />
   const PasswordChangeableLogin = () => (authProvider.isTemporaryPassword() ? <ResponsiveCompletePassword /> : <ResponsiveLogin />)
+
+  const [username, setUsername] = useState('')
+  const [openModal, setOpenModal] = useState(false)
+  const [openSubmitModal, setOpenSubmitModal] = useState(false)
 
   return (
     <div
@@ -51,6 +73,19 @@ const HaLoginPage = () => {
         height: '100%'
       }}
     >
+      <a href='#/login' style={{ color: '#FFFF' }} onClick={() => setOpenModal(true)}>
+        Mot de passe oublié?
+      </a>
+      <Modal open={openModal} onClose={() => setOpenModal(false)}>
+        <Box sx={style}>
+          <ConfirmForgotPassword username={username} setUsername={setUsername} setOpenModal={setOpenModal} setOpenSubmitModal={setOpenSubmitModal} />
+        </Box>
+      </Modal>
+      <Modal open={openSubmitModal} onClose={() => setOpenSubmitModal(false)}>
+        <Box sx={style}>
+          <ForgotPassword username={username} setOpenModal={setOpenSubmitModal} />
+        </Box>
+      </Modal>
       {displayFull ? (
         <Grid container spacing={2} style={{ paddingTop: '10%' }} theme={mainTheme}>
           <Grid item xs={4}>
