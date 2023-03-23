@@ -1,21 +1,36 @@
 import React, { useState } from 'react'
 import { submit, CustomTextField, CustomSubmitButton } from './utils'
 import authProvider from '../providers/authProvider'
+import { useNotify } from 'react-admin'
 
 const ForgotPassword = ({ username, setOpenModal }) => {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [code, setCode] = useState('')
+
+  const notify = useNotify()
+
   const handlePassword = e => setPassword(e.target.value)
   const handleConfirmPassword = e => setConfirmPassword(e.target.value)
   const handleCode = e => setCode(e.target.value)
-  const forgotPasswordSumbmit = () => authProvider.forgotPasswordSubmit(username, code, password)
+
+  const forgotPasswordSumbmit = () => {
+    authProvider
+      .forgotPasswordSubmit(username, code, password)
+      .then(() => {
+        setOpenModal(false)
+      })
+      .catch(() => notify(`Une erreur s'est produite`, { type: 'error', autoHideDuration: '2000' }))
+  }
+
   const handleSubmit = () => {
-    setOpenModal(false)
-    if (submit(password, confirmPassword)) {
+    if (submit(password, confirmPassword) == true) {
       return forgotPasswordSumbmit()
+    } else {
+      notify(submit(password, confirmPassword), { type: 'error', autoHideDuration: '10000' })
     }
   }
+
   return (
     <form
       style={{
@@ -26,9 +41,15 @@ const ForgotPassword = ({ username, setOpenModal }) => {
         margin: 'auto'
       }}
     >
-      <CustomTextField placeholder='Code de vérification' onChange={handleCode} type='password' />
-      <CustomTextField placeholder='Nouveau mot de passe' onChange={handlePassword} type='password' />
-      <CustomTextField placeholder='Confirmer votre mot de passe' onChange={handleConfirmPassword} type='password' />
+      <CustomTextField validator={code} label='Code de vérification' placeholder='Code de vérification' onChange={handleCode} type='password' />
+      <CustomTextField validator={password} label='Mot de passe' placeholder='Nouveau mot de passe' onChange={handlePassword} type='password' />
+      <CustomTextField
+        validator={confirmPassword}
+        label='Confirmation du mot de passe'
+        placeholder='Confirmer votre mot de passe'
+        onChange={handleConfirmPassword}
+        type='password'
+      />
       <CustomSubmitButton onClick={handleSubmit} text='RÉINITIALISER' />
     </form>
   )

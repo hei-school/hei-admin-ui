@@ -1,4 +1,5 @@
 import { getPermissions } from '../security/permissions'
+import { useNotify } from 'react-admin'
 
 import { ClientMetaData } from '@aws-amplify/auth/lib-esm/types'
 import { Amplify } from 'aws-amplify'
@@ -102,13 +103,9 @@ const authProvider = {
 
   forgotPassword: async (username: string): Promise<void> => {
     await Auth.forgotPassword(username, { clientId: process?.env?.REACT_APP_USER_CLIENT_ID! })
-      .then(() => console.log('success'))
-      .catch(error => console.log(error))
   },
   forgotPasswordSubmit: async (username: string, code: string, newPassword: string): Promise<void> => {
     await Auth.forgotPasswordSubmit(username, code, newPassword)
-      .then(() => console.log('success'))
-      .catch(error => console.log(error))
   },
   setNewPassword: async (newPassword: string): Promise<void> => {
     const queryString = window.location.search
