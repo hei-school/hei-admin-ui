@@ -135,7 +135,7 @@ const FeesCreate = props => {
           type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type]?.type,
           student_id: studentId,
           due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-          comment: `${_feesConf.comment} (${currentYear})`
+          comment: `${_feesConf.comment} (${totalMonthsNumber == 9 && 'M'}${i + 1} - ${currentYear})`
         })
       }
     } else {
@@ -148,7 +148,7 @@ const FeesCreate = props => {
             type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
             student_id: studentId,
             due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-            comment: `${_feesConf.comment} (${currentYear})`
+            comment: `${_feesConf.comment} (${totalMonthsNumber == 9 && 'M'}${i + 1} - ${currentYear})`
           })
         }
       }
