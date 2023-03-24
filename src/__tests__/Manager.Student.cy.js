@@ -32,7 +32,8 @@ updatedStudent.first_name = newFirstName
 const StudentRequestBodyVerification = (RequestBody, can_create_fees) => {
   let createStudentWithoutFeesBodyMock = {...createStudent}
   createStudentWithoutFeesBodyMock.can_create_fees = can_create_fees
-  createStudentWithoutFeesBodyMock.entrance_datetime = createStudent.entrance_datetime + 'T21:00:00.000Z'
+  const datePart = createStudent.entrance_datetime.split('-')
+  createStudentWithoutFeesBodyMock.entrance_datetime = new Date(datePart[0], datePart[1]-1, datePart[2]).toISOString()
   expect(RequestBody[0]).to.deep.equal(createStudentWithoutFeesBodyMock)
   expect(RequestBody.length).to.equal(1)
 }
@@ -45,7 +46,13 @@ describe(specTitle('Manager edit students'), () => {
     cy.get('button').contains('Connexion').click()
 
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
+    cy.intercept('GET', `/managers/${manager1Mock.id}`, 
+    (req) => {
+      req.reply((res) => {
+        res.setDelay(400)
+        res.send(manager1Mock)
+      })
+    }).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
     cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
@@ -102,7 +109,13 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('button').contains('Connexion').click()
 
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
+    cy.intercept('GET', `/managers/${manager1Mock.id}`, 
+    (req) => {
+      req.reply((res) => {
+        res.setDelay(400)
+        res.send(manager1Mock)
+      })
+    }).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
     cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
     cy.intercept('GET', `students/${createdStudent.id}`, createdStudent).as('getStudent')
@@ -119,7 +132,6 @@ describe(specTitle('Manager creates students'), () => {
     
     cy.get(':nth-child(1) > .MuiListItem-root').click()
     cy.wait('@getManager1')
-    cy.wait('@getWhoami')
     cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
 
     cy.get('[href="#/students"]').click()
@@ -232,5 +244,6 @@ describe(specTitle('Manager creates students'), () => {
       expect(requestIntersection.request.body.length).to.equal(monthsNumber)
     })
     cy.contains('Élément créé')
+    unmount()
   })
 })
