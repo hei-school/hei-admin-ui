@@ -12,7 +12,7 @@ import {
   teacher1Mock,
   teachersMock,
   whoamiManagerMock,
-  createStudent,
+  createStudent
 } from './mocks/responses'
 
 const newLastname = 'Aina herilala'
@@ -45,11 +45,11 @@ describe(specTitle('Manager'), () => {
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(managerNameToBeCheckedMock)
     cy.get('#main-content')
-    .should('contain', manager1Mock.ref)
-    .and('contain', manager1Mock.last_name)
-    .and('contain', manager1Mock.address)
-    .and('contain', manager1Mock.email)
-    .and('contain', manager1Mock.phone)
+      .should('contain', manager1Mock.ref)
+      .and('contain', manager1Mock.last_name)
+      .and('contain', manager1Mock.address)
+      .and('contain', manager1Mock.email)
+      .and('contain', manager1Mock.phone)
     unmount()
   })
 
@@ -67,7 +67,7 @@ describe(specTitle('Manager'), () => {
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
-    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist');
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
 
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
@@ -86,7 +86,7 @@ describe(specTitle('Manager'), () => {
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
-    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist');
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
 
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
