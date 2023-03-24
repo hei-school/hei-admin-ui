@@ -67,6 +67,7 @@ describe(specTitle('Manager'), () => {
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist');
 
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
@@ -85,6 +86,7 @@ describe(specTitle('Manager'), () => {
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist');
 
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')

@@ -41,9 +41,8 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#username').type(manager1.username)
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
-    cy.wait('@getWhoami').get('a[href="#/profile"]').click()
+    cy.get('a[href="#/profile"]').click()
     cy.wait('@getManager1')
-    cy.wait('@getWhoami')
     cy.get('.RaMultiLevelMenu-navWithCategories')
     .should('contain', 'Étudiants')
     .and('contain', 'Enseignants')
@@ -53,6 +52,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('body').click(200, 0)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${feesMock.length}`)
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist');
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"] > :nth-child(1)').click()
     cy.get('#last_name').click()
