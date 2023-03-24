@@ -8,9 +8,8 @@ describe(specTitle('Manager.Fee.Late'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, 
-    (req) => {
-      req.reply((res) => {
+    cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
+      req.reply(res => {
         res.setDelay(200)
         res.send(manager1Mock)
       })
@@ -30,7 +29,7 @@ describe(specTitle('Manager.Fee.Late'), () => {
     cy.get(':nth-child(3) > .MuiListItem-root').click()
     cy.get('a[href="#/fees"]').click({ multiple: true, force: true }) // Étudiants category
     cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist');
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
     cy.get('.MuiTableBody-root > :nth-child(1) > .column-due_datetime').click()
     cy.contains('En retard')
   })

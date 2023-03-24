@@ -25,9 +25,8 @@ describe(specTitle('Manager.Fee'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, 
-    (req) => {
-      req.reply((res) => {
+    cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
+      req.reply(res => {
         res.setDelay(200)
         res.send(manager1Mock)
       })
@@ -43,16 +42,13 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('button').contains('Connexion').click()
     cy.get('a[href="#/profile"]').click()
     cy.wait('@getManager1')
-    cy.get('.RaMultiLevelMenu-navWithCategories')
-    .should('contain', 'Étudiants')
-    .and('contain', 'Enseignants')
-    .and('contain', 'Mon profil')
+    cy.get('.RaMultiLevelMenu-navWithCategories').should('contain', 'Étudiants').and('contain', 'Enseignants').and('contain', 'Mon profil')
     cy.get(':nth-child(3) > .MuiListItem-root').click()
     cy.get('a[href="#/students"]').click()
     cy.get('body').click(200, 0)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${feesMock.length}`)
-    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist');
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="last_name"] > :nth-child(1)').click()
     cy.get('#last_name').click()
@@ -64,17 +60,19 @@ describe(specTitle('Manager.Fee'), () => {
 
   it('can detail waiting fee', () => {
     const interceptedFeeMock = feesMock.find(fee => fee.remaining_amount === fee1Mock.remaining_amount)
-    cy.intercept('GET',`/students/${student1Mock.id}/fees/${interceptedFeeMock.id}`, interceptedFeeMock).as('getFee1')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}/payments?page=1&page_size=10`, createPaymentMock(interceptedFeeMock)).as('getPaymentsOfOneFee')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}`, interceptedFeeMock).as('getFee1')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}/payments?page=1&page_size=10`, createPaymentMock(interceptedFeeMock)).as(
+      'getPaymentsOfOneFee'
+    )
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
     cy.contains(student1Mock.ref)
     cy.contains(prettyPrintMoney(interceptedFeeMock.remaining_amount)).click()
     cy.get('#main-content')
-    .should('contain', prettyPrintMoney(interceptedFeeMock.remaining_amount))
-    .and('contain', prettyPrintMoney(interceptedFeeMock.total_amount))
-    .and('contain', interceptedFeeMock.comment)
-    .and('contain', statusRenderer(interceptedFeeMock.status))
-    .and('contain', "Paiements")
+      .should('contain', prettyPrintMoney(interceptedFeeMock.remaining_amount))
+      .and('contain', prettyPrintMoney(interceptedFeeMock.total_amount))
+      .and('contain', interceptedFeeMock.comment)
+      .and('contain', statusRenderer(interceptedFeeMock.status))
+      .and('contain', 'Paiements')
     unmount()
   })
 
@@ -89,7 +87,7 @@ describe(specTitle('Manager.Fee'), () => {
   })
 
   it('can create fees with predefined fields', () => {
-    const feeTypeMock = "annualTuition1x"
+    const feeTypeMock = 'annualTuition1x'
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createFees')
 
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
@@ -100,11 +98,11 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get(`[data-value="${feeCreatDate}"]`).click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
     cy.contains('Enregistrer').click()
-    cy.wait('@createFees').then((requestIntersection) => {
+    cy.wait('@createFees').then(requestIntersection => {
       let createAutomaticallyFeesBodyMock = {
         comment: requestIntersection.request.body[0].comment,
         type: predefinedFeeTypes[feeTypeMock][0].type,
-        total_amount:Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
+        total_amount: Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
         due_datetime: predefinedFirstDueDates[feeCreatDate].value.toISOString(),
         student_id: student1Mock.id
       }
@@ -115,7 +113,7 @@ describe(specTitle('Manager.Fee'), () => {
     unmount()
   })
   it('can create fees with predefined fields equals to 9 months', () => {
-    const feeTypeMock = 'annualTuition9x' 
+    const feeTypeMock = 'annualTuition9x'
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createNineFees')
 
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
@@ -126,11 +124,11 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get(`[data-value="${feeCreatDate}"]`).click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
     cy.contains('Enregistrer').click()
-    cy.wait('@createNineFees').then((requestIntersection) => {
+    cy.wait('@createNineFees').then(requestIntersection => {
       let createAutomaticallyFeesBodyMock = {
         comment: requestIntersection.request.body[0].comment,
         type: predefinedFeeTypes[feeTypeMock][0].type,
-        total_amount:Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
+        total_amount: Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
         due_datetime: predefinedFirstDueDates[feeCreatDate].value.toISOString(),
         student_id: student1Mock.id
       }
@@ -141,8 +139,8 @@ describe(specTitle('Manager.Fee'), () => {
     unmount()
   })
   it('can create fees with manual fields', () => {
-    const monthlyAmount = 200000//(1 + Math.floor(Math.random() * 2_000_000)).toString()
-    const monthsNumber = 5//1 + Math.floor(Math.random() * 3)
+    const monthlyAmount = 200000 //(1 + Math.floor(Math.random() * 2_000_000)).toString()
+    const monthsNumber = 5 //1 + Math.floor(Math.random() * 3)
     const comment = 'Dummy comment'
     const manuallyCreatedFees = createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber)
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, manuallyCreatedFees).as('createFees')
@@ -162,14 +160,14 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
     cy.contains('Enregistrer').click()
 
-    cy.wait('@createFees').then((requestIntersection) => {
-      const feeTypeMock = "tuition"
+    cy.wait('@createFees').then(requestIntersection => {
+      const feeTypeMock = 'tuition'
       const datParts = feeDateToSearch.split('-')
-      const pendingDate = new Date(datParts[0], datParts[1]-1, datParts[2])
+      const pendingDate = new Date(datParts[0], datParts[1] - 1, datParts[2])
       let createAutomaticallyFeesBodyMock = {
         comment: comment,
         type: manualFeeTypes[feeTypeMock].type,
-        total_amount:monthlyAmount,
+        total_amount: monthlyAmount,
         due_datetime: pendingDate.toISOString(),
         student_id: student1Mock.id
       }
