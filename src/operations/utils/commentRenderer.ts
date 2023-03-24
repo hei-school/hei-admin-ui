@@ -9,7 +9,3 @@ export const commentRenderer = (comment: string, totalMonthsNumber: number, i: n
     return null
   }
 }
-
-export const commentFunctionRenderer = (data: any) => {
-  data.comment == null ? '-' : data.comment
-}

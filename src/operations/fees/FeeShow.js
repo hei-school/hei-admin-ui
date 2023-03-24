@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
+import { FunctionField, SimpleShowLayout, Show, useDataProvider } from 'react-admin'
 
 import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField, commentFunctionRenderer } from '../utils'
 
