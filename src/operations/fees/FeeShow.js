@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
 
-import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField } from '../utils'
+import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField, commentFunctionRenderer } from '../utils'
 
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
@@ -23,7 +23,7 @@ export const FeeLayout = ({ feeId }) => {
     <SimpleShowLayout>
       <CustomDateField label='Date de création' source='creation_datetime' showTime={false} />
       <CustomDateField label='Date limite de paiement' source='due_datetime' showTime={false} />
-      <TextField source='comment' label='Commentaire' />
+      <FunctionField source='comment' render={commentFunctionRenderer} label='Commentaire' />
       <FunctionField label='Total à payer' render={record => prettyPrintMoney(record.total_amount)} textAlign='right' />
       <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
       <FunctionField

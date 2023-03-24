@@ -15,7 +15,8 @@ import {
 } from 'react-admin'
 import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
-import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
+import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
+import { commentRenderer } from '../utils'
 
 const commonStyleSelect = {
   width: {
@@ -135,7 +136,7 @@ const FeesCreate = props => {
           type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type]?.type,
           student_id: studentId,
           due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-          comment: `${_feesConf.comment} (${totalMonthsNumber == 9 && 'M'}${i + 1} - ${currentYear})`
+          comment: commentRenderer(_feesConf.comment, totalMonthsNumber, i)
         })
       }
     } else {
@@ -148,7 +149,7 @@ const FeesCreate = props => {
             type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
             student_id: studentId,
             due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-            comment: `${_feesConf.comment} (${totalMonthsNumber == 9 && 'M'}${i + 1} - ${currentYear})`
+            comment: commentRenderer(_feesConf.comment, totalMonthsNumber, i)
           })
         }
       }
@@ -180,6 +181,8 @@ const FeesConfInput = ({ isPredefinedType, feesConf }) => {
   }
   const validateMonthlyAmount = [required(), number(), minValue(1)]
   const validateMonthsNumber = [required(), number(), minValue(1), maxValue(12)]
+  const formatValue = value => (value == '' ? null : value)
+  const parseValue = value => (value == null ? '' : value)
   return (
     <div>
       <TextInput
