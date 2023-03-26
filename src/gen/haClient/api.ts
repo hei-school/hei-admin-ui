@@ -12,26 +12,14 @@
  * Do not edit the class manually.
  */
 
-import type { Configuration } from './configuration'
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
-import globalAxios from 'axios'
+
+import { Configuration } from './configuration';
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios';
 // Some imports not used depending on template conditions
 // @ts-ignore
-import {
-  DUMMY_BASE_URL,
-  assertParamExists,
-  setApiKeyToObject,
-  setBasicAuthToObject,
-  setBearerAuthToObject,
-  setOAuthToObject,
-  setSearchParams,
-  serializeDataIfNeeded,
-  toPathString,
-  createRequestFunction
-} from './common'
-import type { RequestArgs } from './base'
+import { DUMMY_BASE_URL, assertParamExists, setApiKeyToObject, setBasicAuthToObject, setBearerAuthToObject, setOAuthToObject, setSearchParams, serializeDataIfNeeded, toPathString, createRequestFunction } from './common';
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base'
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base';
 
 /**
  *
@@ -44,13 +32,13 @@ export interface BadRequestException {
    * @type {string}
    * @memberof BadRequestException
    */
-  type?: string
+  'type'?: string;
   /**
    *
    * @type {string}
    * @memberof BadRequestException
    */
-  message?: string
+  'message'?: string;
 }
 /**
  *
@@ -63,31 +51,31 @@ export interface Course {
    * @type {string}
    * @memberof Course
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof Course
    */
-  ref?: string
+  'ref'?: string;
   /**
    *
    * @type {string}
    * @memberof Course
    */
-  name?: string
+  'name'?: string;
   /**
    *
    * @type {number}
    * @memberof Course
    */
-  credits?: number
+  'credits'?: number;
   /**
    *
    * @type {number}
    * @memberof Course
    */
-  total_hours?: number
+  'total_hours'?: number;
 }
 /**
  *
@@ -100,33 +88,34 @@ export interface CreateDelayPenaltyChange {
    * @type {number}
    * @memberof CreateDelayPenaltyChange
    */
-  interest_percent?: number
+  'interest_percent'?: number;
   /**
    *
    * @type {string}
    * @memberof CreateDelayPenaltyChange
    */
-  interest_timerate?: CreateDelayPenaltyChangeInterestTimerateEnum
+  'interest_timerate'?: CreateDelayPenaltyChangeInterestTimerateEnum;
   /**
    *
    * @type {number}
    * @memberof CreateDelayPenaltyChange
    */
-  grace_delay?: number
+  'grace_delay'?: number;
   /**
    *
    * @type {number}
    * @memberof CreateDelayPenaltyChange
    */
-  applicability_delay_after_grace?: number
+  'applicability_delay_after_grace'?: number;
 }
 
-export const CreateDelayPenaltyChangeInterestTimerateEnum = {
-  Daily: 'DAILY'
-} as const
-
-export type CreateDelayPenaltyChangeInterestTimerateEnum =
-  (typeof CreateDelayPenaltyChangeInterestTimerateEnum)[keyof typeof CreateDelayPenaltyChangeInterestTimerateEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CreateDelayPenaltyChangeInterestTimerateEnum {
+  Daily = 'DAILY'
+}
 
 /**
  *
@@ -139,121 +128,41 @@ export interface CreateFee {
    * @type {string}
    * @memberof CreateFee
    */
-  type?: CreateFeeTypeEnum
+  'type'?: CreateFeeTypeEnum;
   /**
    *
    * @type {string}
    * @memberof CreateFee
    */
-  comment?: string
+  'comment'?: string;
   /**
    *
    * @type {number}
    * @memberof CreateFee
    */
-  total_amount?: number
+  'total_amount'?: number;
   /**
    *
    * @type {string}
    * @memberof CreateFee
    */
-  creation_datetime?: string
+  'creation_datetime'?: string;
   /**
    *
    * @type {string}
    * @memberof CreateFee
    */
-  due_datetime?: string
+  'due_datetime'?: string;
 }
-
-export const CreateFeeTypeEnum = {
-  Tuition: 'TUITION',
-  Hardware: 'HARDWARE'
-} as const
-
-export type CreateFeeTypeEnum = (typeof CreateFeeTypeEnum)[keyof typeof CreateFeeTypeEnum]
 
 /**
- *
  * @export
- * @interface CreateOrUpdateStudents200ResponseInner
+ * @enum {string}
  */
-export interface CreateOrUpdateStudents200ResponseInner {
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  id?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  ref?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  first_name?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  last_name?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  sex?: CreateOrUpdateStudents200ResponseInnerSexEnum
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  birth_date?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  address?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  phone?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  email?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  entrance_datetime?: string
-  /**
-   *
-   * @type {EnableStatus}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  status?: EnableStatus
+export enum CreateFeeTypeEnum {
+  Tuition = 'TUITION',
+  Hardware = 'HARDWARE'
 }
-
-export const CreateOrUpdateStudents200ResponseInnerSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type CreateOrUpdateStudents200ResponseInnerSexEnum =
-  (typeof CreateOrUpdateStudents200ResponseInnerSexEnum)[keyof typeof CreateOrUpdateStudents200ResponseInnerSexEnum]
 
 /**
  *
@@ -266,29 +175,31 @@ export interface CreatePayment {
    * @type {string}
    * @memberof CreatePayment
    */
-  type?: CreatePaymentTypeEnum
+  'type'?: CreatePaymentTypeEnum;
   /**
    *
    * @type {number}
    * @memberof CreatePayment
    */
-  amount?: number
+  'amount'?: number;
   /**
    *
    * @type {string}
    * @memberof CreatePayment
    */
-  comment?: string
+  'comment'?: string;
 }
 
-export const CreatePaymentTypeEnum = {
-  Cash: 'CASH',
-  MobileMoney: 'MOBILE_MONEY',
-  Scholarship: 'SCHOLARSHIP',
-  Fix: 'FIX'
-} as const
-
-export type CreatePaymentTypeEnum = (typeof CreatePaymentTypeEnum)[keyof typeof CreatePaymentTypeEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CreatePaymentTypeEnum {
+  Cash = 'CASH',
+  MobileMoney = 'MOBILE_MONEY',
+  Scholarship = 'SCHOLARSHIP',
+  Fix = 'FIX'
+}
 
 /**
  *
@@ -301,44 +212,46 @@ export interface DelayPenalty {
    * @type {string}
    * @memberof DelayPenalty
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof DelayPenalty
    */
-  creation_datetime?: string
+  'creation_datetime'?: string;
   /**
    *
    * @type {number}
    * @memberof DelayPenalty
    */
-  interest_percent?: number
+  'interest_percent'?: number;
   /**
    *
    * @type {string}
    * @memberof DelayPenalty
    */
-  interest_timerate?: DelayPenaltyInterestTimerateEnum
+  'interest_timerate'?: DelayPenaltyInterestTimerateEnum;
   /**
    *
    * @type {number}
    * @memberof DelayPenalty
    */
-  grace_delay?: number
+  'grace_delay'?: number;
   /**
    *
    * @type {number}
    * @memberof DelayPenalty
    */
-  applicability_delay_after_grace?: number
+  'applicability_delay_after_grace'?: number;
 }
 
-export const DelayPenaltyInterestTimerateEnum = {
-  Daily: 'DAILY'
-} as const
-
-export type DelayPenaltyInterestTimerateEnum = (typeof DelayPenaltyInterestTimerateEnum)[keyof typeof DelayPenaltyInterestTimerateEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum DelayPenaltyInterestTimerateEnum {
+  Daily = 'DAILY'
+}
 
 /**
  *
@@ -346,12 +259,10 @@ export type DelayPenaltyInterestTimerateEnum = (typeof DelayPenaltyInterestTimer
  * @enum {string}
  */
 
-export const EnableStatus = {
-  Enabled: 'ENABLED',
-  Disabled: 'DISABLED'
-} as const
-
-export type EnableStatus = (typeof EnableStatus)[keyof typeof EnableStatus]
+export enum EnableStatus {
+  Enabled = 'ENABLED',
+  Disabled = 'DISABLED'
+}
 
 /**
  *
@@ -364,13 +275,13 @@ export interface Exception {
    * @type {string}
    * @memberof Exception
    */
-  type?: string
+  'type'?: string;
   /**
    *
    * @type {string}
    * @memberof Exception
    */
-  message?: string
+  'message'?: string;
 }
 /**
  *
@@ -383,76 +294,80 @@ export interface Fee {
    * @type {string}
    * @memberof Fee
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof Fee
    */
-  student_id?: string
+  'student_id'?: string;
   /**
    *
    * @type {number}
    * @memberof Fee
    */
-  remaining_amount?: number
+  'remaining_amount'?: number;
   /**
    *
    * @type {string}
    * @memberof Fee
    */
-  status?: FeeStatusEnum
+  'status'?: FeeStatusEnum;
   /**
    *
    * @type {string}
    * @memberof Fee
    */
-  updated_at?: string
+  'updated_at'?: string;
   /**
    *
    * @type {string}
    * @memberof Fee
    */
-  type?: FeeTypeEnum
+  'type'?: FeeTypeEnum;
   /**
    *
    * @type {string}
    * @memberof Fee
    */
-  comment?: string
+  'comment'?: string;
   /**
    *
    * @type {number}
    * @memberof Fee
    */
-  total_amount?: number
+  'total_amount'?: number;
   /**
    *
    * @type {string}
    * @memberof Fee
    */
-  creation_datetime?: string
+  'creation_datetime'?: string;
   /**
    *
    * @type {string}
    * @memberof Fee
    */
-  due_datetime?: string
+  'due_datetime'?: string;
 }
 
-export const FeeStatusEnum = {
-  Unpaid: 'UNPAID',
-  Paid: 'PAID',
-  Late: 'LATE'
-} as const
-
-export type FeeStatusEnum = (typeof FeeStatusEnum)[keyof typeof FeeStatusEnum]
-export const FeeTypeEnum = {
-  Tuition: 'TUITION',
-  Hardware: 'HARDWARE'
-} as const
-
-export type FeeTypeEnum = (typeof FeeTypeEnum)[keyof typeof FeeTypeEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum FeeStatusEnum {
+  Unpaid = 'UNPAID',
+  Paid = 'PAID',
+  Late = 'LATE'
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum FeeTypeEnum {
+  Tuition = 'TUITION',
+  Hardware = 'HARDWARE'
+}
 
 /**
  *
@@ -465,25 +380,25 @@ export interface Group {
    * @type {string}
    * @memberof Group
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof Group
    */
-  name?: string
+  'name'?: string;
   /**
    *
    * @type {string}
    * @memberof Group
    */
-  ref?: string
+  'ref'?: string;
   /**
    *
    * @type {string}
    * @memberof Group
    */
-  creation_datetime?: string
+  'creation_datetime'?: string;
 }
 /**
  *
@@ -496,13 +411,32 @@ export interface InternalServerException {
    * @type {string}
    * @memberof InternalServerException
    */
-  type?: string
+  'type'?: string;
   /**
    *
    * @type {string}
    * @memberof InternalServerException
    */
-  message?: string
+  'message'?: string;
+}
+/**
+ *
+ * @export
+ * @interface Location
+ */
+export interface Location {
+  /**
+   *
+   * @type {number}
+   * @memberof Location
+   */
+  'longitude'?: number;
+  /**
+   *
+   * @type {number}
+   * @memberof Location
+   */
+  'latitude'?: number;
 }
 /**
  *
@@ -515,75 +449,77 @@ export interface Manager {
    * @type {string}
    * @memberof Manager
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  ref?: string
+  'ref'?: string;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  first_name?: string
+  'first_name'?: string;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  last_name?: string
+  'last_name'?: string;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  sex?: ManagerSexEnum
+  'sex'?: ManagerSexEnum;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  birth_date?: string
+  'birth_date'?: string;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  address?: string
+  'address'?: string;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  phone?: string
+  'phone'?: string;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  email?: string
+  'email'?: string;
   /**
    *
    * @type {string}
    * @memberof Manager
    */
-  entrance_datetime?: string
+  'entrance_datetime'?: string;
   /**
    *
    * @type {EnableStatus}
    * @memberof Manager
    */
-  status?: EnableStatus
+  'status'?: EnableStatus;
 }
 
-export const ManagerSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type ManagerSexEnum = (typeof ManagerSexEnum)[keyof typeof ManagerSexEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum ManagerSexEnum {
+  M = 'M',
+  F = 'F'
+}
 
 /**
  *
@@ -596,13 +532,13 @@ export interface NotAuthorizedException {
    * @type {string}
    * @memberof NotAuthorizedException
    */
-  type?: string
+  'type'?: string;
   /**
    *
    * @type {string}
    * @memberof NotAuthorizedException
    */
-  message?: string
+  'message'?: string;
 }
 /**
  *
@@ -615,47 +551,49 @@ export interface Payment {
    * @type {string}
    * @memberof Payment
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof Payment
    */
-  fee_id?: string
+  'fee_id'?: string;
   /**
    *
    * @type {string}
    * @memberof Payment
    */
-  creation_datetime?: string
+  'creation_datetime'?: string;
   /**
    *
    * @type {string}
    * @memberof Payment
    */
-  type?: PaymentTypeEnum
+  'type'?: PaymentTypeEnum;
   /**
    *
    * @type {number}
    * @memberof Payment
    */
-  amount?: number
+  'amount'?: number;
   /**
    *
    * @type {string}
    * @memberof Payment
    */
-  comment?: string
+  'comment'?: string;
 }
 
-export const PaymentTypeEnum = {
-  Cash: 'CASH',
-  MobileMoney: 'MOBILE_MONEY',
-  Scholarship: 'SCHOLARSHIP',
-  Fix: 'FIX'
-} as const
-
-export type PaymentTypeEnum = (typeof PaymentTypeEnum)[keyof typeof PaymentTypeEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum PaymentTypeEnum {
+  Cash = 'CASH',
+  MobileMoney = 'MOBILE_MONEY',
+  Scholarship = 'SCHOLARSHIP',
+  Fix = 'FIX'
+}
 
 /**
  *
@@ -668,13 +606,13 @@ export interface ResourceNotFoundException {
    * @type {string}
    * @memberof ResourceNotFoundException
    */
-  type?: string
+  'type'?: string;
   /**
    *
    * @type {string}
    * @memberof ResourceNotFoundException
    */
-  message?: string
+  'message'?: string;
 }
 /**
  *
@@ -684,78 +622,86 @@ export interface ResourceNotFoundException {
 export interface Student {
   /**
    *
-   * @type {string}
+   * @type {Location}
    * @memberof Student
    */
-  id?: string
+  'location'?: Location;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  ref?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  first_name?: string
+  'ref'?: string;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  last_name?: string
+  'first_name'?: string;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  sex?: StudentSexEnum
+  'last_name'?: string;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  birth_date?: string
+  'sex'?: StudentSexEnum;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  address?: string
+  'birth_date'?: string;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  phone?: string
+  'address'?: string;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  email?: string
+  'phone'?: string;
   /**
    *
    * @type {string}
    * @memberof Student
    */
-  entrance_datetime?: string
+  'email'?: string;
+  /**
+   *
+   * @type {string}
+   * @memberof Student
+   */
+  'entrance_datetime'?: string;
   /**
    *
    * @type {EnableStatus}
    * @memberof Student
    */
-  status?: EnableStatus
+  'status'?: EnableStatus;
 }
 
-export const StudentSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type StudentSexEnum = (typeof StudentSexEnum)[keyof typeof StudentSexEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum StudentSexEnum {
+  M = 'M',
+  F = 'F'
+}
 
 /**
  *
@@ -768,75 +714,77 @@ export interface Teacher {
    * @type {string}
    * @memberof Teacher
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  ref?: string
+  'ref'?: string;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  first_name?: string
+  'first_name'?: string;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  last_name?: string
+  'last_name'?: string;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  sex?: TeacherSexEnum
+  'sex'?: TeacherSexEnum;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  birth_date?: string
+  'birth_date'?: string;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  address?: string
+  'address'?: string;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  phone?: string
+  'phone'?: string;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  email?: string
+  'email'?: string;
   /**
    *
    * @type {string}
    * @memberof Teacher
    */
-  entrance_datetime?: string
+  'entrance_datetime'?: string;
   /**
    *
    * @type {EnableStatus}
    * @memberof Teacher
    */
-  status?: EnableStatus
+  'status'?: EnableStatus;
 }
 
-export const TeacherSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type TeacherSexEnum = (typeof TeacherSexEnum)[keyof typeof TeacherSexEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum TeacherSexEnum {
+  M = 'M',
+  F = 'F'
+}
 
 /**
  *
@@ -849,13 +797,13 @@ export interface TooManyRequestsException {
    * @type {string}
    * @memberof TooManyRequestsException
    */
-  type?: string
+  'type'?: string;
   /**
    *
    * @type {string}
    * @memberof TooManyRequestsException
    */
-  message?: string
+  'message'?: string;
 }
 /**
  *
@@ -868,75 +816,77 @@ export interface User {
    * @type {string}
    * @memberof User
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  ref?: string
+  'ref'?: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  first_name?: string
+  'first_name'?: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  last_name?: string
+  'last_name'?: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  sex?: UserSexEnum
+  'sex'?: UserSexEnum;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  birth_date?: string
+  'birth_date'?: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  address?: string
+  'address'?: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  phone?: string
+  'phone'?: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  email?: string
+  'email'?: string;
   /**
    *
    * @type {string}
    * @memberof User
    */
-  entrance_datetime?: string
+  'entrance_datetime'?: string;
   /**
    *
    * @type {EnableStatus}
    * @memberof User
    */
-  status?: EnableStatus
+  'status'?: EnableStatus;
 }
 
-export const UserSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type UserSexEnum = (typeof UserSexEnum)[keyof typeof UserSexEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum UserSexEnum {
+  M = 'M',
+  F = 'F'
+}
 
 /**
  *
@@ -949,28 +899,31 @@ export interface Whoami {
    * @type {string}
    * @memberof Whoami
    */
-  id?: string
+  'id'?: string;
   /**
    *
    * @type {string}
    * @memberof Whoami
    */
-  role?: WhoamiRoleEnum
+  'role'?: WhoamiRoleEnum;
   /**
    *
    * @type {string}
    * @memberof Whoami
    */
-  bearer?: string
+  'bearer'?: string;
 }
 
-export const WhoamiRoleEnum = {
-  Student: 'STUDENT',
-  Teacher: 'TEACHER',
-  Manager: 'MANAGER'
-} as const
+/**
+ * @export
+ * @enum {string}
+ */
+export enum WhoamiRoleEnum {
+  Student = 'STUDENT',
+  Teacher = 'TEACHER',
+  Manager = 'MANAGER'
+}
 
-export type WhoamiRoleEnum = (typeof WhoamiRoleEnum)[keyof typeof WhoamiRoleEnum]
 
 /**
  * PayingApi - axios parameter creator
@@ -988,33 +941,35 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     createDelayPenaltyChange: async (createDelayPenaltyChange: CreateDelayPenaltyChange, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'createDelayPenaltyChange' is not null or undefined
       assertParamExists('createDelayPenaltyChange', 'createDelayPenaltyChange', createDelayPenaltyChange)
-      const localVarPath = `/delay_penalty_change`
+      const localVarPath = `/delay_penalty_change`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
       localVarRequestOptions.data = serializeDataIfNeeded(createDelayPenaltyChange, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1029,33 +984,36 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       assertParamExists('createStudentFees', 'studentId', studentId)
       // verify required parameter 'createFee' is not null or undefined
       assertParamExists('createStudentFees', 'createFee', createFee)
-      const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+      const localVarPath = `/students/{student_id}/fees`
+          .replace(`{${"student_id"}}`, encodeURIComponent(String(studentId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
       localVarRequestOptions.data = serializeDataIfNeeded(createFee, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1066,12 +1024,7 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createStudentPayments: async (
-      studentId: string,
-      feeId: string,
-      createPayment: Array<CreatePayment>,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
+    createStudentPayments: async (studentId: string, feeId: string, createPayment: Array<CreatePayment>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
       assertParamExists('createStudentPayments', 'studentId', studentId)
       // verify required parameter 'feeId' is not null or undefined
@@ -1079,34 +1032,36 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       // verify required parameter 'createPayment' is not null or undefined
       assertParamExists('createStudentPayments', 'createPayment', createPayment)
       const localVarPath = `/students/{student_id}/fees/{fee_id}/payments`
-        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
-        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
+          .replace(`{${"student_id"}}`, encodeURIComponent(String(studentId)))
+          .replace(`{${"fee_id"}}`, encodeURIComponent(String(feeId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'POST', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
       localVarRequestOptions.data = serializeDataIfNeeded(createPayment, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1115,30 +1070,32 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
      * @throws {RequiredError}
      */
     getDelayPenalty: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/delay_penalty`
+      const localVarPath = `/delay_penalty`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1150,42 +1107,44 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
      * @throws {RequiredError}
      */
     getFees: async (status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/fees`
+      const localVarPath = `/fees`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
       if (status !== undefined) {
-        localVarQueryParameter['status'] = status
+        localVarQueryParameter['status'] = status;
       }
 
       if (page !== undefined) {
-        localVarQueryParameter['page'] = page
+        localVarQueryParameter['page'] = page;
       }
 
       if (pageSize !== undefined) {
-        localVarQueryParameter['page_size'] = pageSize
+        localVarQueryParameter['page_size'] = pageSize;
       }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1201,31 +1160,33 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       // verify required parameter 'feeId' is not null or undefined
       assertParamExists('getStudentFeeById', 'feeId', feeId)
       const localVarPath = `/students/{student_id}/fees/{fee_id}`
-        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
-        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
+          .replace(`{${"student_id"}}`, encodeURIComponent(String(studentId)))
+          .replace(`{${"fee_id"}}`, encodeURIComponent(String(feeId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      * Fees can be filtered with an optional payment status parameter.
@@ -1237,51 +1198,48 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudentFees: async (
-      studentId: string,
-      page?: number,
-      pageSize?: number,
-      status?: 'UNPAID' | 'PAID' | 'LATE',
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
+    getStudentFees: async (studentId: string, page?: number, pageSize?: number, status?: 'UNPAID' | 'PAID' | 'LATE', options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'studentId' is not null or undefined
       assertParamExists('getStudentFees', 'studentId', studentId)
-      const localVarPath = `/students/{student_id}/fees`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+      const localVarPath = `/students/{student_id}/fees`
+          .replace(`{${"student_id"}}`, encodeURIComponent(String(studentId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
       if (page !== undefined) {
-        localVarQueryParameter['page'] = page
+        localVarQueryParameter['page'] = page;
       }
 
       if (pageSize !== undefined) {
-        localVarQueryParameter['page_size'] = pageSize
+        localVarQueryParameter['page_size'] = pageSize;
       }
 
       if (status !== undefined) {
-        localVarQueryParameter['status'] = status
+        localVarQueryParameter['status'] = status;
       }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1299,48 +1257,50 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
       // verify required parameter 'feeId' is not null or undefined
       assertParamExists('getStudentPayments', 'feeId', feeId)
       const localVarPath = `/students/{student_id}/fees/{fee_id}/payments`
-        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
-        .replace(`{${'fee_id'}}`, encodeURIComponent(String(feeId)))
+          .replace(`{${"student_id"}}`, encodeURIComponent(String(studentId)))
+          .replace(`{${"fee_id"}}`, encodeURIComponent(String(feeId)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
       if (page !== undefined) {
-        localVarQueryParameter['page'] = page
+        localVarQueryParameter['page'] = page;
       }
 
       if (pageSize !== undefined) {
-        localVarQueryParameter['page_size'] = pageSize
+        localVarQueryParameter['page_size'] = pageSize;
       }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
-    }
+        options: localVarRequestOptions,
+      };
+    },
   }
-}
+};
 
 /**
  * PayingApi - functional programming interface
  * @export
  */
-export const PayingApiFp = function (configuration?: Configuration) {
+export const PayingApiFp = function(configuration?: Configuration) {
   const localVarAxiosParamCreator = PayingApiAxiosParamCreator(configuration)
   return {
     /**
@@ -1350,12 +1310,9 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createDelayPenaltyChange(
-      createDelayPenaltyChange: CreateDelayPenaltyChange,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createDelayPenaltyChange(createDelayPenaltyChange, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async createDelayPenaltyChange(createDelayPenaltyChange: CreateDelayPenaltyChange, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createDelayPenaltyChange(createDelayPenaltyChange, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -1365,13 +1322,9 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createStudentFees(
-      studentId: string,
-      createFee: Array<CreateFee>,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentFees(studentId, createFee, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async createStudentFees(studentId: string, createFee: Array<CreateFee>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentFees(studentId, createFee, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -1382,14 +1335,9 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createStudentPayments(
-      studentId: string,
-      feeId: string,
-      createPayment: Array<CreatePayment>,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentPayments(studentId, feeId, createPayment, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async createStudentPayments(studentId: string, feeId: string, createPayment: Array<CreatePayment>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentPayments(studentId, feeId, createPayment, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -1398,8 +1346,8 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getDelayPenalty(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getDelayPenalty(options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getDelayPenalty(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -1410,14 +1358,9 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getFees(
-      status?: 'UNPAID' | 'LATE' | 'PAID',
-      page?: number,
-      pageSize?: number,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getFees(status, page, pageSize, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async getFees(status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getFees(status, page, pageSize, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -1427,13 +1370,9 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getStudentFeeById(
-      studentId: string,
-      feeId: string,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Fee>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFeeById(studentId, feeId, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async getStudentFeeById(studentId: string, feeId: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Fee>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFeeById(studentId, feeId, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      * Fees can be filtered with an optional payment status parameter.
@@ -1445,15 +1384,9 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getStudentFees(
-      studentId: string,
-      page?: number,
-      pageSize?: number,
-      status?: 'UNPAID' | 'PAID' | 'LATE',
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFees(studentId, page, pageSize, status, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async getStudentFees(studentId: string, page?: number, pageSize?: number, status?: 'UNPAID' | 'PAID' | 'LATE', options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFees(studentId, page, pageSize, status, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -1465,18 +1398,12 @@ export const PayingApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getStudentPayments(
-      studentId: string,
-      feeId: string,
-      page?: number,
-      pageSize?: number,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentPayments(studentId, feeId, page, pageSize, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
-    }
+    async getStudentPayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentPayments(studentId, feeId, page, pageSize, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   }
-}
+};
 
 /**
  * PayingApi - factory interface
@@ -1493,7 +1420,7 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      * @throws {RequiredError}
      */
     createDelayPenaltyChange(createDelayPenaltyChange: CreateDelayPenaltyChange, options?: any): AxiosPromise<DelayPenalty> {
-      return localVarFp.createDelayPenaltyChange(createDelayPenaltyChange, options).then(request => request(axios, basePath))
+      return localVarFp.createDelayPenaltyChange(createDelayPenaltyChange, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1504,7 +1431,7 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      * @throws {RequiredError}
      */
     createStudentFees(studentId: string, createFee: Array<CreateFee>, options?: any): AxiosPromise<Array<Fee>> {
-      return localVarFp.createStudentFees(studentId, createFee, options).then(request => request(axios, basePath))
+      return localVarFp.createStudentFees(studentId, createFee, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1516,7 +1443,7 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      * @throws {RequiredError}
      */
     createStudentPayments(studentId: string, feeId: string, createPayment: Array<CreatePayment>, options?: any): AxiosPromise<Array<Payment>> {
-      return localVarFp.createStudentPayments(studentId, feeId, createPayment, options).then(request => request(axios, basePath))
+      return localVarFp.createStudentPayments(studentId, feeId, createPayment, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1525,7 +1452,7 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      * @throws {RequiredError}
      */
     getDelayPenalty(options?: any): AxiosPromise<DelayPenalty> {
-      return localVarFp.getDelayPenalty(options).then(request => request(axios, basePath))
+      return localVarFp.getDelayPenalty(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1537,7 +1464,7 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      * @throws {RequiredError}
      */
     getFees(status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
-      return localVarFp.getFees(status, page, pageSize, options).then(request => request(axios, basePath))
+      return localVarFp.getFees(status, page, pageSize, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1548,7 +1475,7 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      * @throws {RequiredError}
      */
     getStudentFeeById(studentId: string, feeId: string, options?: any): AxiosPromise<Fee> {
-      return localVarFp.getStudentFeeById(studentId, feeId, options).then(request => request(axios, basePath))
+      return localVarFp.getStudentFeeById(studentId, feeId, options).then((request) => request(axios, basePath));
     },
     /**
      * Fees can be filtered with an optional payment status parameter.
@@ -1561,7 +1488,7 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      * @throws {RequiredError}
      */
     getStudentFees(studentId: string, page?: number, pageSize?: number, status?: 'UNPAID' | 'PAID' | 'LATE', options?: any): AxiosPromise<Array<Fee>> {
-      return localVarFp.getStudentFees(studentId, page, pageSize, status, options).then(request => request(axios, basePath))
+      return localVarFp.getStudentFees(studentId, page, pageSize, status, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1574,10 +1501,10 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
      * @throws {RequiredError}
      */
     getStudentPayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Payment>> {
-      return localVarFp.getStudentPayments(studentId, feeId, page, pageSize, options).then(request => request(axios, basePath))
-    }
-  }
-}
+      return localVarFp.getStudentPayments(studentId, feeId, page, pageSize, options).then((request) => request(axios, basePath));
+    },
+  };
+};
 
 /**
  * PayingApi - object-oriented interface
@@ -1595,9 +1522,7 @@ export class PayingApi extends BaseAPI {
    * @memberof PayingApi
    */
   public createDelayPenaltyChange(createDelayPenaltyChange: CreateDelayPenaltyChange, options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .createDelayPenaltyChange(createDelayPenaltyChange, options)
-      .then(request => request(this.axios, this.basePath))
+    return PayingApiFp(this.configuration).createDelayPenaltyChange(createDelayPenaltyChange, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -1610,9 +1535,7 @@ export class PayingApi extends BaseAPI {
    * @memberof PayingApi
    */
   public createStudentFees(studentId: string, createFee: Array<CreateFee>, options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .createStudentFees(studentId, createFee, options)
-      .then(request => request(this.axios, this.basePath))
+    return PayingApiFp(this.configuration).createStudentFees(studentId, createFee, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -1626,9 +1549,7 @@ export class PayingApi extends BaseAPI {
    * @memberof PayingApi
    */
   public createStudentPayments(studentId: string, feeId: string, createPayment: Array<CreatePayment>, options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .createStudentPayments(studentId, feeId, createPayment, options)
-      .then(request => request(this.axios, this.basePath))
+    return PayingApiFp(this.configuration).createStudentPayments(studentId, feeId, createPayment, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -1639,9 +1560,7 @@ export class PayingApi extends BaseAPI {
    * @memberof PayingApi
    */
   public getDelayPenalty(options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .getDelayPenalty(options)
-      .then(request => request(this.axios, this.basePath))
+    return PayingApiFp(this.configuration).getDelayPenalty(options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -1655,9 +1574,7 @@ export class PayingApi extends BaseAPI {
    * @memberof PayingApi
    */
   public getFees(status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .getFees(status, page, pageSize, options)
-      .then(request => request(this.axios, this.basePath))
+    return PayingApiFp(this.configuration).getFees(status, page, pageSize, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -1670,9 +1587,7 @@ export class PayingApi extends BaseAPI {
    * @memberof PayingApi
    */
   public getStudentFeeById(studentId: string, feeId: string, options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .getStudentFeeById(studentId, feeId, options)
-      .then(request => request(this.axios, this.basePath))
+    return PayingApiFp(this.configuration).getStudentFeeById(studentId, feeId, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -1687,9 +1602,7 @@ export class PayingApi extends BaseAPI {
    * @memberof PayingApi
    */
   public getStudentFees(studentId: string, page?: number, pageSize?: number, status?: 'UNPAID' | 'PAID' | 'LATE', options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .getStudentFees(studentId, page, pageSize, status, options)
-      .then(request => request(this.axios, this.basePath))
+    return PayingApiFp(this.configuration).getStudentFees(studentId, page, pageSize, status, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -1704,11 +1617,10 @@ export class PayingApi extends BaseAPI {
    * @memberof PayingApi
    */
   public getStudentPayments(studentId: string, feeId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
-    return PayingApiFp(this.configuration)
-      .getStudentPayments(studentId, feeId, page, pageSize, options)
-      .then(request => request(this.axios, this.basePath))
+    return PayingApiFp(this.configuration).getStudentPayments(studentId, feeId, page, pageSize, options).then((request) => request(this.axios, this.basePath));
   }
 }
+
 
 /**
  * SecurityApi - axios parameter creator
@@ -1723,30 +1635,32 @@ export const SecurityApiAxiosParamCreator = function (configuration?: Configurat
      * @throws {RequiredError}
      */
     ping: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/ping`
+      const localVarPath = `/ping`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1755,39 +1669,41 @@ export const SecurityApiAxiosParamCreator = function (configuration?: Configurat
      * @throws {RequiredError}
      */
     whoami: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/whoami`
+      const localVarPath = `/whoami`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
-    }
+        options: localVarRequestOptions,
+      };
+    },
   }
-}
+};
 
 /**
  * SecurityApi - functional programming interface
  * @export
  */
-export const SecurityApiFp = function (configuration?: Configuration) {
+export const SecurityApiFp = function(configuration?: Configuration) {
   const localVarAxiosParamCreator = SecurityApiAxiosParamCreator(configuration)
   return {
     /**
@@ -1797,8 +1713,8 @@ export const SecurityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async ping(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.ping(options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.ping(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -1807,11 +1723,11 @@ export const SecurityApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async whoami(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Whoami>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.whoami(options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
-    }
+      const localVarAxiosArgs = await localVarAxiosParamCreator.whoami(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   }
-}
+};
 
 /**
  * SecurityApi - factory interface
@@ -1827,7 +1743,7 @@ export const SecurityApiFactory = function (configuration?: Configuration, baseP
      * @throws {RequiredError}
      */
     ping(options?: any): AxiosPromise<string> {
-      return localVarFp.ping(options).then(request => request(axios, basePath))
+      return localVarFp.ping(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -1836,10 +1752,10 @@ export const SecurityApiFactory = function (configuration?: Configuration, baseP
      * @throws {RequiredError}
      */
     whoami(options?: any): AxiosPromise<Whoami> {
-      return localVarFp.whoami(options).then(request => request(axios, basePath))
-    }
-  }
-}
+      return localVarFp.whoami(options).then((request) => request(axios, basePath));
+    },
+  };
+};
 
 /**
  * SecurityApi - object-oriented interface
@@ -1856,9 +1772,7 @@ export class SecurityApi extends BaseAPI {
    * @memberof SecurityApi
    */
   public ping(options?: AxiosRequestConfig) {
-    return SecurityApiFp(this.configuration)
-      .ping(options)
-      .then(request => request(this.axios, this.basePath))
+    return SecurityApiFp(this.configuration).ping(options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -1869,11 +1783,10 @@ export class SecurityApi extends BaseAPI {
    * @memberof SecurityApi
    */
   public whoami(options?: AxiosRequestConfig) {
-    return SecurityApiFp(this.configuration)
-      .whoami(options)
-      .then(request => request(this.axios, this.basePath))
+    return SecurityApiFp(this.configuration).whoami(options).then((request) => request(this.axios, this.basePath));
   }
 }
+
 
 /**
  * TeachingApi - axios parameter creator
@@ -1891,33 +1804,35 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
     createOrUpdateCourses: async (course: Course, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'course' is not null or undefined
       assertParamExists('createOrUpdateCourses', 'course', course)
-      const localVarPath = `/courses`
+      const localVarPath = `/courses`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
       localVarRequestOptions.data = serializeDataIfNeeded(course, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      * Update groups when `id` are provided, create them otherwise.
@@ -1929,33 +1844,35 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
     createOrUpdateGroups: async (group: Array<Group>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'group' is not null or undefined
       assertParamExists('createOrUpdateGroups', 'group', group)
-      const localVarPath = `/groups`
+      const localVarPath = `/groups`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
       localVarRequestOptions.data = serializeDataIfNeeded(group, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1967,30 +1884,33 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
     getCourseById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getCourseById', 'id', id)
-      const localVarPath = `/courses/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)))
+      const localVarPath = `/courses/{id}`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -1999,30 +1919,32 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
      * @throws {RequiredError}
      */
     getCourses: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/courses`
+      const localVarPath = `/courses`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -2034,30 +1956,33 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
     getGroupById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getGroupById', 'id', id)
-      const localVarPath = `/groups/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)))
+      const localVarPath = `/groups/{id}`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -2066,39 +1991,41 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
      * @throws {RequiredError}
      */
     getGroups: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/groups`
+      const localVarPath = `/groups`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
-    }
+        options: localVarRequestOptions,
+      };
+    },
   }
-}
+};
 
 /**
  * TeachingApi - functional programming interface
  * @export
  */
-export const TeachingApiFp = function (configuration?: Configuration) {
+export const TeachingApiFp = function(configuration?: Configuration) {
   const localVarAxiosParamCreator = TeachingApiAxiosParamCreator(configuration)
   return {
     /**
@@ -2109,8 +2036,8 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async createOrUpdateCourses(course: Course, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Course>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateCourses(course, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateCourses(course, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      * Update groups when `id` are provided, create them otherwise.
@@ -2119,12 +2046,9 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createOrUpdateGroups(
-      group: Array<Group>,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateGroups(group, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async createOrUpdateGroups(group: Array<Group>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateGroups(group, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2134,8 +2058,8 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getCourseById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Course>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseById(id, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseById(id, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2144,8 +2068,8 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getCourses(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getCourses(options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getCourses(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2155,8 +2079,8 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getGroupById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Group>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getGroupById(id, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getGroupById(id, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2165,11 +2089,11 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getGroups(options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
-    }
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getGroups(options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   }
-}
+};
 
 /**
  * TeachingApi - factory interface
@@ -2186,7 +2110,7 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      * @throws {RequiredError}
      */
     createOrUpdateCourses(course: Course, options?: any): AxiosPromise<Course> {
-      return localVarFp.createOrUpdateCourses(course, options).then(request => request(axios, basePath))
+      return localVarFp.createOrUpdateCourses(course, options).then((request) => request(axios, basePath));
     },
     /**
      * Update groups when `id` are provided, create them otherwise.
@@ -2196,7 +2120,7 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      * @throws {RequiredError}
      */
     createOrUpdateGroups(group: Array<Group>, options?: any): AxiosPromise<Array<Group>> {
-      return localVarFp.createOrUpdateGroups(group, options).then(request => request(axios, basePath))
+      return localVarFp.createOrUpdateGroups(group, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2206,7 +2130,7 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      * @throws {RequiredError}
      */
     getCourseById(id: string, options?: any): AxiosPromise<Course> {
-      return localVarFp.getCourseById(id, options).then(request => request(axios, basePath))
+      return localVarFp.getCourseById(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2215,7 +2139,7 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      * @throws {RequiredError}
      */
     getCourses(options?: any): AxiosPromise<Array<Course>> {
-      return localVarFp.getCourses(options).then(request => request(axios, basePath))
+      return localVarFp.getCourses(options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2225,7 +2149,7 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      * @throws {RequiredError}
      */
     getGroupById(id: string, options?: any): AxiosPromise<Group> {
-      return localVarFp.getGroupById(id, options).then(request => request(axios, basePath))
+      return localVarFp.getGroupById(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2234,10 +2158,10 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      * @throws {RequiredError}
      */
     getGroups(options?: any): AxiosPromise<Array<Group>> {
-      return localVarFp.getGroups(options).then(request => request(axios, basePath))
-    }
-  }
-}
+      return localVarFp.getGroups(options).then((request) => request(axios, basePath));
+    },
+  };
+};
 
 /**
  * TeachingApi - object-oriented interface
@@ -2255,9 +2179,7 @@ export class TeachingApi extends BaseAPI {
    * @memberof TeachingApi
    */
   public createOrUpdateCourses(course: Course, options?: AxiosRequestConfig) {
-    return TeachingApiFp(this.configuration)
-      .createOrUpdateCourses(course, options)
-      .then(request => request(this.axios, this.basePath))
+    return TeachingApiFp(this.configuration).createOrUpdateCourses(course, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2269,9 +2191,7 @@ export class TeachingApi extends BaseAPI {
    * @memberof TeachingApi
    */
   public createOrUpdateGroups(group: Array<Group>, options?: AxiosRequestConfig) {
-    return TeachingApiFp(this.configuration)
-      .createOrUpdateGroups(group, options)
-      .then(request => request(this.axios, this.basePath))
+    return TeachingApiFp(this.configuration).createOrUpdateGroups(group, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2283,9 +2203,7 @@ export class TeachingApi extends BaseAPI {
    * @memberof TeachingApi
    */
   public getCourseById(id: string, options?: AxiosRequestConfig) {
-    return TeachingApiFp(this.configuration)
-      .getCourseById(id, options)
-      .then(request => request(this.axios, this.basePath))
+    return TeachingApiFp(this.configuration).getCourseById(id, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2296,9 +2214,7 @@ export class TeachingApi extends BaseAPI {
    * @memberof TeachingApi
    */
   public getCourses(options?: AxiosRequestConfig) {
-    return TeachingApiFp(this.configuration)
-      .getCourses(options)
-      .then(request => request(this.axios, this.basePath))
+    return TeachingApiFp(this.configuration).getCourses(options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2310,9 +2226,7 @@ export class TeachingApi extends BaseAPI {
    * @memberof TeachingApi
    */
   public getGroupById(id: string, options?: AxiosRequestConfig) {
-    return TeachingApiFp(this.configuration)
-      .getGroupById(id, options)
-      .then(request => request(this.axios, this.basePath))
+    return TeachingApiFp(this.configuration).getGroupById(id, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2323,11 +2237,10 @@ export class TeachingApi extends BaseAPI {
    * @memberof TeachingApi
    */
   public getGroups(options?: AxiosRequestConfig) {
-    return TeachingApiFp(this.configuration)
-      .getGroups(options)
-      .then(request => request(this.axios, this.basePath))
+    return TeachingApiFp(this.configuration).getGroups(options).then((request) => request(this.axios, this.basePath));
   }
 }
+
 
 /**
  * UsersApi - axios parameter creator
@@ -2345,33 +2258,35 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     createOrUpdateStudents: async (student: Array<Student>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'student' is not null or undefined
       assertParamExists('createOrUpdateStudents', 'student', student)
-      const localVarPath = `/students`
+      const localVarPath = `/students`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
       localVarRequestOptions.data = serializeDataIfNeeded(student, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      * Update teachers when `id` are provided, create them otherwise.
@@ -2383,33 +2298,35 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     createOrUpdateTeachers: async (teacher: Array<Teacher>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'teacher' is not null or undefined
       assertParamExists('createOrUpdateTeachers', 'teacher', teacher)
-      const localVarPath = `/teachers`
+      const localVarPath = `/teachers`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      localVarHeaderParameter['Content-Type'] = 'application/json'
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      localVarHeaderParameter['Content-Type'] = 'application/json';
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
       localVarRequestOptions.data = serializeDataIfNeeded(teacher, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -2421,30 +2338,33 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     getManagerById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getManagerById', 'id', id)
-      const localVarPath = `/managers/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)))
+      const localVarPath = `/managers/{id}`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -2455,38 +2375,40 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @throws {RequiredError}
      */
     getManagers: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      const localVarPath = `/managers`
+      const localVarPath = `/managers`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
       if (page !== undefined) {
-        localVarQueryParameter['page'] = page
+        localVarQueryParameter['page'] = page;
       }
 
       if (pageSize !== undefined) {
-        localVarQueryParameter['page_size'] = pageSize
+        localVarQueryParameter['page_size'] = pageSize;
       }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -2498,30 +2420,33 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     getStudentById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getStudentById', 'id', id)
-      const localVarPath = `/students/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)))
+      const localVarPath = `/students/{id}`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -2534,58 +2459,53 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getStudents: async (
-      page?: number,
-      pageSize?: number,
-      ref?: string,
-      firstName?: string,
-      lastName?: string,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/students`
+    getStudents: async (page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/students`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
       if (page !== undefined) {
-        localVarQueryParameter['page'] = page
+        localVarQueryParameter['page'] = page;
       }
 
       if (pageSize !== undefined) {
-        localVarQueryParameter['page_size'] = pageSize
+        localVarQueryParameter['page_size'] = pageSize;
       }
 
       if (ref !== undefined) {
-        localVarQueryParameter['ref'] = ref
+        localVarQueryParameter['ref'] = ref;
       }
 
       if (firstName !== undefined) {
-        localVarQueryParameter['first_name'] = firstName
+        localVarQueryParameter['first_name'] = firstName;
       }
 
       if (lastName !== undefined) {
-        localVarQueryParameter['last_name'] = lastName
+        localVarQueryParameter['last_name'] = lastName;
       }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -2597,30 +2517,33 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     getTeacherById: async (id: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       // verify required parameter 'id' is not null or undefined
       assertParamExists('getTeacherById', 'id', id)
-      const localVarPath = `/teachers/{id}`.replace(`{${'id'}}`, encodeURIComponent(String(id)))
+      const localVarPath = `/teachers/{id}`
+          .replace(`{${"id"}}`, encodeURIComponent(String(id)));
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
+        options: localVarRequestOptions,
+      };
     },
     /**
      *
@@ -2633,67 +2556,62 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getTeachers: async (
-      page?: number,
-      pageSize?: number,
-      ref?: string,
-      firstName?: string,
-      lastName?: string,
-      options: AxiosRequestConfig = {}
-    ): Promise<RequestArgs> => {
-      const localVarPath = `/teachers`
+    getTeachers: async (page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      const localVarPath = `/teachers`;
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL);
+      let baseOptions;
       if (configuration) {
-        baseOptions = configuration.baseOptions
+        baseOptions = configuration.baseOptions;
       }
 
-      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options};
+      const localVarHeaderParameter = {} as any;
+      const localVarQueryParameter = {} as any;
 
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
 
       if (page !== undefined) {
-        localVarQueryParameter['page'] = page
+        localVarQueryParameter['page'] = page;
       }
 
       if (pageSize !== undefined) {
-        localVarQueryParameter['page_size'] = pageSize
+        localVarQueryParameter['page_size'] = pageSize;
       }
 
       if (ref !== undefined) {
-        localVarQueryParameter['ref'] = ref
+        localVarQueryParameter['ref'] = ref;
       }
 
       if (firstName !== undefined) {
-        localVarQueryParameter['first_name'] = firstName
+        localVarQueryParameter['first_name'] = firstName;
       }
 
       if (lastName !== undefined) {
-        localVarQueryParameter['last_name'] = lastName
+        localVarQueryParameter['last_name'] = lastName;
       }
 
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter);
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {};
+      localVarRequestOptions.headers = {...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers};
 
       return {
         url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
-    }
+        options: localVarRequestOptions,
+      };
+    },
   }
-}
+};
 
 /**
  * UsersApi - functional programming interface
  * @export
  */
-export const UsersApiFp = function (configuration?: Configuration) {
+export const UsersApiFp = function(configuration?: Configuration) {
   const localVarAxiosParamCreator = UsersApiAxiosParamCreator(configuration)
   return {
     /**
@@ -2703,12 +2621,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createOrUpdateStudents(
-      student: Array<Student>,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CreateOrUpdateStudents200ResponseInner>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateStudents(student, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async createOrUpdateStudents(student: Array<Student>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateStudents(student, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      * Update teachers when `id` are provided, create them otherwise.
@@ -2717,12 +2632,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async createOrUpdateTeachers(
-      teacher: Array<Teacher>,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateTeachers(teacher, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async createOrUpdateTeachers(teacher: Array<Teacher>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateTeachers(teacher, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2732,8 +2644,8 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getManagerById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manager>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getManagerById(id, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getManagerById(id, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2743,13 +2655,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getManagers(
-      page?: number,
-      pageSize?: number,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Manager>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getManagers(page, pageSize, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async getManagers(page?: number, pageSize?: number, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Manager>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getManagers(page, pageSize, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2759,8 +2667,8 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getStudentById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Student>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentById(id, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentById(id, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2773,16 +2681,9 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getStudents(
-      page?: number,
-      pageSize?: number,
-      ref?: string,
-      firstName?: string,
-      lastName?: string,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudents(page, pageSize, ref, firstName, lastName, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    async getStudents(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudents(page, pageSize, ref, firstName, lastName, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2792,8 +2693,8 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @throws {RequiredError}
      */
     async getTeacherById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Teacher>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getTeacherById(id, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getTeacherById(id, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
     },
     /**
      *
@@ -2806,19 +2707,12 @@ export const UsersApiFp = function (configuration?: Configuration) {
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getTeachers(
-      page?: number,
-      pageSize?: number,
-      ref?: string,
-      firstName?: string,
-      lastName?: string,
-      options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getTeachers(page, pageSize, ref, firstName, lastName, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
-    }
+    async getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getTeachers(page, pageSize, ref, firstName, lastName, options);
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration);
+    },
   }
-}
+};
 
 /**
  * UsersApi - factory interface
@@ -2834,8 +2728,8 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createOrUpdateStudents(student: Array<Student>, options?: any): AxiosPromise<Array<CreateOrUpdateStudents200ResponseInner>> {
-      return localVarFp.createOrUpdateStudents(student, options).then(request => request(axios, basePath))
+    createOrUpdateStudents(student: Array<Student>, options?: any): AxiosPromise<Array<Student>> {
+      return localVarFp.createOrUpdateStudents(student, options).then((request) => request(axios, basePath));
     },
     /**
      * Update teachers when `id` are provided, create them otherwise.
@@ -2845,7 +2739,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @throws {RequiredError}
      */
     createOrUpdateTeachers(teacher: Array<Teacher>, options?: any): AxiosPromise<Array<Teacher>> {
-      return localVarFp.createOrUpdateTeachers(teacher, options).then(request => request(axios, basePath))
+      return localVarFp.createOrUpdateTeachers(teacher, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2855,7 +2749,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @throws {RequiredError}
      */
     getManagerById(id: string, options?: any): AxiosPromise<Manager> {
-      return localVarFp.getManagerById(id, options).then(request => request(axios, basePath))
+      return localVarFp.getManagerById(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2866,7 +2760,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @throws {RequiredError}
      */
     getManagers(page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Manager>> {
-      return localVarFp.getManagers(page, pageSize, options).then(request => request(axios, basePath))
+      return localVarFp.getManagers(page, pageSize, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2876,7 +2770,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @throws {RequiredError}
      */
     getStudentById(id: string, options?: any): AxiosPromise<Student> {
-      return localVarFp.getStudentById(id, options).then(request => request(axios, basePath))
+      return localVarFp.getStudentById(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2890,7 +2784,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @throws {RequiredError}
      */
     getStudents(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: any): AxiosPromise<Array<Student>> {
-      return localVarFp.getStudents(page, pageSize, ref, firstName, lastName, options).then(request => request(axios, basePath))
+      return localVarFp.getStudents(page, pageSize, ref, firstName, lastName, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2900,7 +2794,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @throws {RequiredError}
      */
     getTeacherById(id: string, options?: any): AxiosPromise<Teacher> {
-      return localVarFp.getTeacherById(id, options).then(request => request(axios, basePath))
+      return localVarFp.getTeacherById(id, options).then((request) => request(axios, basePath));
     },
     /**
      *
@@ -2914,10 +2808,10 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @throws {RequiredError}
      */
     getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: any): AxiosPromise<Array<Teacher>> {
-      return localVarFp.getTeachers(page, pageSize, ref, firstName, lastName, options).then(request => request(axios, basePath))
-    }
-  }
-}
+      return localVarFp.getTeachers(page, pageSize, ref, firstName, lastName, options).then((request) => request(axios, basePath));
+    },
+  };
+};
 
 /**
  * UsersApi - object-oriented interface
@@ -2935,9 +2829,7 @@ export class UsersApi extends BaseAPI {
    * @memberof UsersApi
    */
   public createOrUpdateStudents(student: Array<Student>, options?: AxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .createOrUpdateStudents(student, options)
-      .then(request => request(this.axios, this.basePath))
+    return UsersApiFp(this.configuration).createOrUpdateStudents(student, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2949,9 +2841,7 @@ export class UsersApi extends BaseAPI {
    * @memberof UsersApi
    */
   public createOrUpdateTeachers(teacher: Array<Teacher>, options?: AxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .createOrUpdateTeachers(teacher, options)
-      .then(request => request(this.axios, this.basePath))
+    return UsersApiFp(this.configuration).createOrUpdateTeachers(teacher, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2963,9 +2853,7 @@ export class UsersApi extends BaseAPI {
    * @memberof UsersApi
    */
   public getManagerById(id: string, options?: AxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .getManagerById(id, options)
-      .then(request => request(this.axios, this.basePath))
+    return UsersApiFp(this.configuration).getManagerById(id, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2978,9 +2866,7 @@ export class UsersApi extends BaseAPI {
    * @memberof UsersApi
    */
   public getManagers(page?: number, pageSize?: number, options?: AxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .getManagers(page, pageSize, options)
-      .then(request => request(this.axios, this.basePath))
+    return UsersApiFp(this.configuration).getManagers(page, pageSize, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -2992,9 +2878,7 @@ export class UsersApi extends BaseAPI {
    * @memberof UsersApi
    */
   public getStudentById(id: string, options?: AxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .getStudentById(id, options)
-      .then(request => request(this.axios, this.basePath))
+    return UsersApiFp(this.configuration).getStudentById(id, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -3010,9 +2894,7 @@ export class UsersApi extends BaseAPI {
    * @memberof UsersApi
    */
   public getStudents(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: AxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .getStudents(page, pageSize, ref, firstName, lastName, options)
-      .then(request => request(this.axios, this.basePath))
+    return UsersApiFp(this.configuration).getStudents(page, pageSize, ref, firstName, lastName, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -3024,9 +2906,7 @@ export class UsersApi extends BaseAPI {
    * @memberof UsersApi
    */
   public getTeacherById(id: string, options?: AxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .getTeacherById(id, options)
-      .then(request => request(this.axios, this.basePath))
+    return UsersApiFp(this.configuration).getTeacherById(id, options).then((request) => request(this.axios, this.basePath));
   }
 
   /**
@@ -3042,8 +2922,6 @@ export class UsersApi extends BaseAPI {
    * @memberof UsersApi
    */
   public getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: AxiosRequestConfig) {
-    return UsersApiFp(this.configuration)
-      .getTeachers(page, pageSize, ref, firstName, lastName, options)
-      .then(request => request(this.axios, this.basePath))
+    return UsersApiFp(this.configuration).getTeachers(page, pageSize, ref, firstName, lastName, options).then((request) => request(this.axios, this.basePath));
   }
 }
