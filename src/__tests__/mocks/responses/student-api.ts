@@ -13,7 +13,11 @@ export const student1Mock: Student = {
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: '2021-11-08T08:25:24Z',
-  status: EnableStatus.Enabled
+  status: EnableStatus.Enabled,
+  location: {
+    latitude: '9.2',
+    longitude: '8.6'
+  }
 }
 
 export const studentsMock: Student[] = [
@@ -42,7 +46,11 @@ export const studentsMock: Student[] = [
     phone: '0335689752',
     email: 'mayahnyando@gmail.com',
     entrance_datetime: '2021-05-12T09:50:00Z',
-    status: EnableStatus.Enabled
+    status: EnableStatus.Enabled,
+    location: {
+      latitude: '13.23',
+      longitude: '44.6'
+    }
   },
   {
     id: 'student4_id',

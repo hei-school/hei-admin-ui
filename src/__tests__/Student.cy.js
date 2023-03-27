@@ -43,4 +43,38 @@ describe(specTitle('Student'), () => {
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
   })
+
+  it('should show all student informations', () => {
+    cy.contains('Référence')
+    cy.contains(student1Mock.ref)
+    cy.contains('Prénom(s)')
+    cy.contains(student1Mock.first_name)
+    cy.contains('Nom(s)')
+    cy.contains(student1Mock.last_name)
+    cy.contains('Sexe')
+    cy.contains('Homme')
+    cy.contains('Téléphone')
+    cy.contains(student1Mock.phone)
+    cy.contains('Date de naissance')
+    cy.contains(student1Mock.address)
+    cy.contains('Adresse')
+    cy.contains('Email')
+    cy.contains(student1Mock.email)
+    cy.contains(`Date d'entrée chez HEI`)
+    cy.contains('8 novembre 2021')
+    cy.contains(`Statut`)
+    cy.contains('Actif·ve')
+    // if gps location is provided
+    cy.contains('Coordonnés GPS')
+    cy.contains('Latitude: 12.23')
+    cy.contains('Longitude: 45.6')
+
+    // if there gps location is not provided
+    const student2Mock = { ...student1Mock, location: null }
+    cy.intercept('GET', `/students/${student1Mock.id}`, student2Mock).as('getStudent2')
+    cy.get('[data-testid="RefreshIcon"]').click()
+    cy.wait('@getStudent2')
+    cy.contains('Coordonnés GPS').not()
+    cy.contains('Non renseignés')
+  })
 })
