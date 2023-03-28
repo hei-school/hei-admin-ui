@@ -21,9 +21,9 @@ jobs:
           node-version: 17.x
 
       - name: Install aws cli
-        uses: unfor19/install-aws-cli-action@v2
+        uses: unfor19/install-aws-cli-action@v1
         with:
-          version: 2
+          version: 1.0.3
           verbose: false
           arch: amd64
           rootdir: ''
