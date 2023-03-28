@@ -39,7 +39,7 @@ const aCard = (title, subtitle, description1, description2, course) => {
 const HaLoginPage = () => {
   const [username, setUsername] = useState('')
   const [openModal, setOpenModal] = useState(false)
-  const [openSubmitModal, setOpenSubmitModal] = useState(false)
+  const [confirm, setConfirm] = useState(true)
 
   const displayFull = useMediaQuery('(min-width:1024px) and (min-height:768px)')
   const style = {
@@ -104,12 +104,11 @@ const HaLoginPage = () => {
     >
       <Modal open={openModal} onClose={() => setOpenModal(false)}>
         <Box sx={style}>
-          <ConfirmForgotPassword username={username} setUsername={setUsername} setOpenModal={setOpenModal} setOpenSubmitModal={setOpenSubmitModal} />
-        </Box>
-      </Modal>
-      <Modal open={openSubmitModal} onClose={() => setOpenSubmitModal(false)}>
-        <Box sx={style}>
-          <ForgotPassword username={username} setOpenModal={setOpenSubmitModal} />
+          {confirm ? (
+            <ConfirmForgotPassword username={username} setUsername={setUsername} setConfirm={setConfirm} />
+          ) : (
+            <ForgotPassword username={username} setOpenModal={setOpenModal} />
+          )}
         </Box>
       </Modal>
       {displayFull ? (

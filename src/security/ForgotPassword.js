@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { submit, CustomTextField, CustomSubmitButton } from './utils'
+import { checkPassword, CustomTextField, CustomSubmitButton } from './utils'
 import authProvider from '../providers/authProvider'
 import { useNotify } from 'react-admin'
 
@@ -24,10 +24,10 @@ const ForgotPassword = ({ username, setOpenModal }) => {
   }
 
   const handleSubmit = () => {
-    if (submit(password, confirmPassword) == true) {
+    if (checkPassword(password, confirmPassword) == true) {
       return forgotPasswordSumbmit()
     } else {
-      notify(submit(password, confirmPassword), { type: 'error', autoHideDuration: '10000' })
+      notify(checkPassword(password, confirmPassword), { type: 'error', autoHideDuration: '10000' })
     }
   }
 
@@ -41,10 +41,10 @@ const ForgotPassword = ({ username, setOpenModal }) => {
         margin: 'auto'
       }}
     >
-      <CustomTextField validator={code} label='Code de vérification' placeholder='Code de vérification' onChange={handleCode} type='password' />
-      <CustomTextField validator={password} label='Mot de passe' placeholder='Nouveau mot de passe' onChange={handlePassword} type='password' />
+      <CustomTextField validator={code === ''} label='Code de vérification' placeholder='Code de vérification' onChange={handleCode} type='password' />
+      <CustomTextField validator={password === ''} label='Mot de passe' placeholder='Nouveau mot de passe' onChange={handlePassword} type='password' />
       <CustomTextField
-        validator={confirmPassword}
+        validator={confirmPassword === ''}
         label='Confirmation du mot de passe'
         placeholder='Confirmer votre mot de passe'
         onChange={handleConfirmPassword}

@@ -17,7 +17,7 @@ const matchCognitoPassword = password => {
   return true
 }
 
-export const submit = (password, confirmPassword) => {
+export const checkPassword = (password, confirmPassword) => {
   if (password === '') {
     return 'Le mot de passe ne peut pas être vide.'
   } else if (password !== confirmPassword) {
@@ -35,7 +35,7 @@ export const CustomTextField = props => {
     <TextField
       {...rest}
       required
-      error={validator == ''}
+      error={validator}
       helperText={validator && 'Ce champs est requis'}
       label={label}
       variant='filled'
