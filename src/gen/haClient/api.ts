@@ -126,7 +126,7 @@ export const CreateDelayPenaltyChangeInterestTimerateEnum = {
 } as const
 
 export type CreateDelayPenaltyChangeInterestTimerateEnum =
-  (typeof CreateDelayPenaltyChangeInterestTimerateEnum)[keyof typeof CreateDelayPenaltyChangeInterestTimerateEnum]
+  typeof CreateDelayPenaltyChangeInterestTimerateEnum[keyof typeof CreateDelayPenaltyChangeInterestTimerateEnum]
 
 /**
  *
@@ -171,7 +171,7 @@ export const CreateFeeTypeEnum = {
   Hardware: 'HARDWARE'
 } as const
 
-export type CreateFeeTypeEnum = (typeof CreateFeeTypeEnum)[keyof typeof CreateFeeTypeEnum]
+export type CreateFeeTypeEnum = typeof CreateFeeTypeEnum[keyof typeof CreateFeeTypeEnum]
 
 /**
  *
@@ -253,7 +253,7 @@ export const CreateOrUpdateStudents200ResponseInnerSexEnum = {
 } as const
 
 export type CreateOrUpdateStudents200ResponseInnerSexEnum =
-  (typeof CreateOrUpdateStudents200ResponseInnerSexEnum)[keyof typeof CreateOrUpdateStudents200ResponseInnerSexEnum]
+  typeof CreateOrUpdateStudents200ResponseInnerSexEnum[keyof typeof CreateOrUpdateStudents200ResponseInnerSexEnum]
 
 /**
  *
@@ -288,7 +288,7 @@ export const CreatePaymentTypeEnum = {
   Fix: 'FIX'
 } as const
 
-export type CreatePaymentTypeEnum = (typeof CreatePaymentTypeEnum)[keyof typeof CreatePaymentTypeEnum]
+export type CreatePaymentTypeEnum = typeof CreatePaymentTypeEnum[keyof typeof CreatePaymentTypeEnum]
 
 /**
  *
@@ -338,7 +338,7 @@ export const DelayPenaltyInterestTimerateEnum = {
   Daily: 'DAILY'
 } as const
 
-export type DelayPenaltyInterestTimerateEnum = (typeof DelayPenaltyInterestTimerateEnum)[keyof typeof DelayPenaltyInterestTimerateEnum]
+export type DelayPenaltyInterestTimerateEnum = typeof DelayPenaltyInterestTimerateEnum[keyof typeof DelayPenaltyInterestTimerateEnum]
 
 /**
  *
@@ -351,7 +351,7 @@ export const EnableStatus = {
   Disabled: 'DISABLED'
 } as const
 
-export type EnableStatus = (typeof EnableStatus)[keyof typeof EnableStatus]
+export type EnableStatus = typeof EnableStatus[keyof typeof EnableStatus]
 
 /**
  *
@@ -446,13 +446,13 @@ export const FeeStatusEnum = {
   Late: 'LATE'
 } as const
 
-export type FeeStatusEnum = (typeof FeeStatusEnum)[keyof typeof FeeStatusEnum]
+export type FeeStatusEnum = typeof FeeStatusEnum[keyof typeof FeeStatusEnum]
 export const FeeTypeEnum = {
   Tuition: 'TUITION',
   Hardware: 'HARDWARE'
 } as const
 
-export type FeeTypeEnum = (typeof FeeTypeEnum)[keyof typeof FeeTypeEnum]
+export type FeeTypeEnum = typeof FeeTypeEnum[keyof typeof FeeTypeEnum]
 
 /**
  *
@@ -503,6 +503,31 @@ export interface InternalServerException {
    * @memberof InternalServerException
    */
   message?: string
+}
+/**
+ *
+ * @export
+ * @interface Location
+ */
+export interface Location {
+  /**
+   *
+   * @type {string}
+   * @memberof Location
+   */
+  type?: string
+  /**
+   *
+   * @type {number}
+   * @memberof Location
+   */
+  longitude?: number
+  /**
+   *
+   * @type {number}
+   * @memberof Location
+   */
+  latitude?: number
 }
 /**
  *
@@ -583,7 +608,7 @@ export const ManagerSexEnum = {
   F: 'F'
 } as const
 
-export type ManagerSexEnum = (typeof ManagerSexEnum)[keyof typeof ManagerSexEnum]
+export type ManagerSexEnum = typeof ManagerSexEnum[keyof typeof ManagerSexEnum]
 
 /**
  *
@@ -655,7 +680,7 @@ export const PaymentTypeEnum = {
   Fix: 'FIX'
 } as const
 
-export type PaymentTypeEnum = (typeof PaymentTypeEnum)[keyof typeof PaymentTypeEnum]
+export type PaymentTypeEnum = typeof PaymentTypeEnum[keyof typeof PaymentTypeEnum]
 
 /**
  *
@@ -682,6 +707,12 @@ export interface ResourceNotFoundException {
  * @interface Student
  */
 export interface Student {
+  /**
+   *
+   * @type {Location}
+   * @memberof Student
+   */
+  location?: Location
   /**
    *
    * @type {string}
@@ -755,7 +786,7 @@ export const StudentSexEnum = {
   F: 'F'
 } as const
 
-export type StudentSexEnum = (typeof StudentSexEnum)[keyof typeof StudentSexEnum]
+export type StudentSexEnum = typeof StudentSexEnum[keyof typeof StudentSexEnum]
 
 /**
  *
@@ -836,7 +867,7 @@ export const TeacherSexEnum = {
   F: 'F'
 } as const
 
-export type TeacherSexEnum = (typeof TeacherSexEnum)[keyof typeof TeacherSexEnum]
+export type TeacherSexEnum = typeof TeacherSexEnum[keyof typeof TeacherSexEnum]
 
 /**
  *
@@ -936,7 +967,7 @@ export const UserSexEnum = {
   F: 'F'
 } as const
 
-export type UserSexEnum = (typeof UserSexEnum)[keyof typeof UserSexEnum]
+export type UserSexEnum = typeof UserSexEnum[keyof typeof UserSexEnum]
 
 /**
  *
@@ -970,7 +1001,7 @@ export const WhoamiRoleEnum = {
   Manager: 'MANAGER'
 } as const
 
-export type WhoamiRoleEnum = (typeof WhoamiRoleEnum)[keyof typeof WhoamiRoleEnum]
+export type WhoamiRoleEnum = typeof WhoamiRoleEnum[keyof typeof WhoamiRoleEnum]
 
 /**
  * PayingApi - axios parameter creator

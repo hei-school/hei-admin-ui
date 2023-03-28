@@ -26,6 +26,7 @@ export const ProfileLayout = () => {
       <TextField source='address' label='Adresse' component='pre' />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
+      <FunctionField label='Coordonnées géographiques' render={data => <GeoLocationRenderer data={data} />} />
       <FunctionField label='Statut' render={statusRenderer} />
     </SimpleShowLayout>
   )
@@ -39,5 +40,34 @@ const ProfileShow = () => {
     </Show>
   )
 }
+
+const GeoLocationRenderer = ({ data: { position } }) => {
+  const geoLocationUrl = position => {
+    const geoLocationBaseUrl = 'https://www.google.com/maps/search/?api=1';
+    const data = { query: `${position.latitude},${position.longitude}` };
+
+    return encodeURI(`${geoLocationBaseUrl}&query=${data.query}`);
+  };
+
+  return (
+    <>
+      {position ? (
+        <Box>
+          <Typography variant='body2'>Latitude: {position.latitude}</Typography>
+          <Typography variant='body2'>Longitude: {position.longitude}</Typography>
+          <Link href={geoLocationUrl(position)} target='_blank' underline='hover'>
+            <Typography variant='body2'>
+              <Map fontSize='small' /> View on Map
+            </Typography>
+          </Link>
+        </Box>
+      ) : (
+        <Box>
+          <Typography variant='body2'>This student's location is not yet available.</Typography>
+        </Box>
+      )}
+    </>
+  );
+};
 
 export default ProfileShow
