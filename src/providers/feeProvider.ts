@@ -14,7 +14,7 @@ const feeProvider: HaDataProviderType = {
     const result = filter.studentId
       ? await payingApi().getStudentFees(filter.studentId, page, perPage)
       : await payingApi().getFees(filter.status, page, perPage)
-    return result.data.map(fee => ({
+    return result.data.map(fee => ( {
       ...fee,
       id: toRaId(fee.student_id as string, fee.id as string)
     }))
