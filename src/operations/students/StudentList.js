@@ -1,7 +1,6 @@
 import { TextField, Datagrid, ShowButton, EditButton, List } from 'react-admin'
 
 import authProvider from '../../providers/authProvider'
-import { WhoamiRoleEnum } from '../../gen/haClient'
 
 import { profileFilters } from '../profile'
 import { pageSize, PrevNextPagination } from '../utils'
@@ -12,7 +11,7 @@ const StudentList = () => {
     <List
       label='Étudiants'
       bulkActionButtons={false}
-      hasCreate={role === WhoamiRoleEnum.Manager}
+      hasCreate={role === 'MANAGER'}
       filters={profileFilters}
       perPage={pageSize}
       pagination={<PrevNextPagination />}
@@ -21,7 +20,7 @@ const StudentList = () => {
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
-        {role === WhoamiRoleEnum.Manager ? <EditButton /> : <ShowButton />}
+        {role === 'MANAGER' ? <EditButton /> : <ShowButton />}
       </Datagrid>
     </List>
   )
