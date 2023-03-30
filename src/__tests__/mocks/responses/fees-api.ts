@@ -1,6 +1,19 @@
 import { Fee, FeeStatusEnum, FeeTypeEnum, Payment } from 'src/gen/haClient'
 import { student1Mock } from './student-api'
 
+
+export const partialpaidFeeMock: Fee = {
+  id: 'fee1_id',
+  student_id: student1Mock.id,
+  remaining_amount: 200000,
+  status: FeeStatusEnum.Partially_Paid,
+  type: FeeTypeEnum.Tuition,
+  comment: 'Comment',
+  total_amount: 400000,
+  creation_datetime: '2021-11-08T08:25:24Z',
+  due_datetime: '2021-12-08T08:25:24Z'
+}
+
 export const fee1Mock: Fee = {
   id: 'fee1_id',
   student_id: student1Mock.id,
