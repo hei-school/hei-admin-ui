@@ -401,7 +401,7 @@ export interface Fee {
    * @type {string}
    * @memberof Fee
    */
-  status?: FeeStatusEnum
+  status?: any
   /**
    *
    * @type {string}

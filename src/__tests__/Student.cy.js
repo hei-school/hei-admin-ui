@@ -42,5 +42,7 @@ describe(specTitle('Student'), () => {
       .wait(['@getStudent', '@getWhoami'])
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
+    cy.get(':nth-child(11) > :nth-child(5)').click()
+    cy.contains('PARTIALLY_PAID')
   })
 })

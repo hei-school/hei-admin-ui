@@ -135,6 +135,17 @@ export const studentsMock: Student[] = [
     entrance_datetime: '2022-12-31T21:00:00Z',
     status: EnableStatus.Enabled
   }
+  {
+    id: 'fee11_id',
+    student_id: student1Mock.id,
+    remaining_amount: 0,
+    status: 'PARTIALLY_PAID',
+    type: FeeTypeEnum.Hardware,
+    comment: 'Comment',
+    total_amount: 250000,
+    creation_datetime: '2021-11-10T08:25:24Z',
+    due_datetime: '2021-12-10T08:25:24Z'
+  }
 ]
 
 export const whoamiStudentMock: Whoami = { id: student1Mock.id, role: WhoamiRoleEnum.Student, bearer: 'bearer mock' }
