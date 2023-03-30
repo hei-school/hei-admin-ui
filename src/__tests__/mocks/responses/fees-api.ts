@@ -1,3 +1,4 @@
+import { LocationContext } from '@react-admin/ra-navigation'
 import { Fee, FeeStatusEnum, FeeTypeEnum, Payment } from 'src/gen/haClient'
 import { student1Mock } from './student-api'
 
@@ -25,14 +26,14 @@ export const unpaidFeeMock: Fee = {
   due_datetime: '2022-12-08T08:25:24Z'
 }
 
-export const feesMock: any = [
+export const feesMock: any[]  = [
   fee1Mock,
   unpaidFeeMock,
   {
     id: 'fee3_id',
     student_id: student1Mock.id,
     remaining_amount: 200000,
-    status: 'PARTIALLY_PAID',
+    status: FeeStatusEnum.Late,
     type: FeeTypeEnum.Tuition,
     comment: 'Comment',
     total_amount: 400000,
@@ -75,7 +76,7 @@ export const feesMock: any = [
     id: 'fee7_id',
     student_id: student1Mock.id,
     remaining_amount: 100000,
-    status: FeeStatusEnum.Late,
+    status: 'Partially paid',
     type: FeeTypeEnum.Hardware,
     comment: 'Comment',
     total_amount: 250000,
