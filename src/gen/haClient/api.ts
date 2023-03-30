@@ -443,7 +443,8 @@ export interface Fee {
 export const FeeStatusEnum = {
   Unpaid: 'UNPAID',
   Paid: 'PAID',
-  Late: 'LATE'
+  Late: 'LATE',
+  partially_paid:'PARTIALLY_PAID'
 } as const
 
 export type FeeStatusEnum = (typeof FeeStatusEnum)[keyof typeof FeeStatusEnum]

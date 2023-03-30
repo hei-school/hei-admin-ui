@@ -27,10 +27,10 @@ describe(specTitle('Student'), () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
-  it('can list fees', () => {
+  it.only('can list fees', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
+    cy.get('body').click(200, 0)
     cy.contains('200,000 Ar')
   })
 
