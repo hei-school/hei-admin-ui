@@ -43,3 +43,5 @@ describe(specTitle('Student'), () => {
     cy.contains('En retard')
   })
 })
+//FIX OF THE COMMIT:f810d29
+//chore: test fees listing by student -> test: fees listing by student
