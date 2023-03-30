@@ -3,7 +3,7 @@ import { student1Mock } from './student-api'
 
 
 export const partialpaidFeeMock: Fee = {
-  id: 'fee1_id',
+  id: 'fee11_id',
   student_id: student1Mock.id,
   remaining_amount: 200000,
   status: FeeStatusEnum.Partially_Paid,
@@ -41,6 +41,7 @@ export const unpaidFeeMock: Fee = {
 export const feesMock: Fee[] = [
   fee1Mock,
   unpaidFeeMock,
+  partialpaidFeeMock,
   {
     id: 'fee3_id',
     student_id: student1Mock.id,
