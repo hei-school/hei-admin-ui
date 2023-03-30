@@ -1,3 +1,4 @@
+import { FeeStatusEnum } from 'src/gen/haClient'
 import { payingApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
 
