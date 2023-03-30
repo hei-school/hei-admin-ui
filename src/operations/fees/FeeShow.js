@@ -2,20 +2,27 @@ import { useState, useEffect } from 'react'
 
 import { FunctionField, SimpleShowLayout, Show, TextField, useDataProvider } from 'react-admin'
 
-import { prettyPrintMoney, statusRenderer, withRedWarning } from '../utils'
+import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField } from '../utils'
 
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
 import { useParams } from 'react-router-dom'
-import { CustomDateField } from './ByStatusFeeList'
+
+const dateTimeRenderer = data => {
+  return data.updated_at == null ? (
+    <CustomDateField source='creation_datetime' showTime={true} />
+  ) : (
+    <CustomDateField source='updated_at' label='Date et heure de dernière modification' showTime={true} />
+  )
+}
 
 export const FeeLayout = ({ feeId }) => {
   return (
     <SimpleShowLayout>
-      <CustomDateField label='Date de création' source='creation_datetime' />
-      <CustomDateField label='Date limite de paiement' source='due_datetime' />
+      <CustomDateField label='Date de création' source='creation_datetime' showTime={false} />
+      <CustomDateField label='Date limite de paiement' source='due_datetime' showTime={false} />
       <TextField source='comment' label='Commentaire' />
       <FunctionField label='Total à payer' render={record => prettyPrintMoney(record.total_amount)} textAlign='right' />
       <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
@@ -23,6 +30,7 @@ export const FeeLayout = ({ feeId }) => {
         label='Statut'
         render={record => (record.status === 'LATE' ? withRedWarning(statusRenderer(record.status)) : statusRenderer(record.status))}
       />
+      <FunctionField label='Date et heure de dernière modification' render={dateTimeRenderer} />
       <Divider sx={{ mt: 2, mb: 1 }} />
       <Typography>Paiements</Typography>
       <PaymentList feeId={feeId} />
