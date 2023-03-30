@@ -33,7 +33,7 @@ describe(specTitle('Student'), () => {
   it('can detail fee (click on fee button)', () => {
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body')
-      .click(200, 0) //note(uncover-menu)
+    .click(200, 0) //note(uncover-menu)
       .wait(['@getStudent', '@getWhoami'])
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
