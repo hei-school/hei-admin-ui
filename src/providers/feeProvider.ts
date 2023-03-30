@@ -22,7 +22,7 @@ const feeProvider: HaDataProviderType = {
   async getOne(raId: string) {
     const { studentId, feeId } = toApiIds(raId)
     const result = await payingApi().getStudentFeeById(studentId, feeId)
-    return { ...result.data, id: raId }
+    return { ...result.data, status: result.data.status as string, id: raId }
   },
   async saveOrUpdate(resources: Array<any>) {
     const fees = resources[0]
