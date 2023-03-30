@@ -32,6 +32,7 @@ describe(specTitle('Student'), () => {
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('200,000 Ar')
+    cy.contains('Statut inconnue')
   })
 
   it('can detail fee (click on fee button)', () => {
