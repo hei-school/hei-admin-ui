@@ -12,11 +12,10 @@
  * Do not edit the class manually.
  */
 
-import type { Configuration } from './configuration'
+import { Configuration } from './configuration'
 // Some imports not used depending on template conditions
 // @ts-ignore
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
-import globalAxios from 'axios'
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
 
 export const BASE_PATH = (process.env.REACT_APP_API_URL || 'undefined').replace(/\/+$/, '')
 
@@ -64,8 +63,8 @@ export class BaseAPI {
  * @extends {Error}
  */
 export class RequiredError extends Error {
+  name: 'RequiredError' = 'RequiredError'
   constructor(public field: string, msg?: string) {
     super(msg)
-    this.name = 'RequiredError'
   }
 }
