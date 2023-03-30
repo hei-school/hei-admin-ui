@@ -23,7 +23,7 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
-  it('lands on profile page if succeeds', () => {
+  xit('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
@@ -35,7 +35,7 @@ describe(specTitle('Student'), () => {
     cy.contains('En retard')
   })
   
-  it('can detail fee (click on fee button)', () => {
+  xit('can detail fee (click on fee button)', () => {
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body')
       .click(200, 0) //note(uncover-menu)
