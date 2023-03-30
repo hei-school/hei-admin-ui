@@ -12,13 +12,13 @@ describe(specTitle('Student'), () => {
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}/payments?page=1&page_size=10`, createPaymentMock(feesMock[7 - 1])).as(
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[11 - 1].id}/payments?page=1&page_size=10`, createPaymentMock(feesMock[11 - 1])).as(
       'getPaymentsOfFee1'
     )
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[0].id}/payments?page=1&page_size=10`, createPaymentMock(feesMock[0])).as(
       'getPaymentsOfFee2'
     )
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}`, feesMock[7 - 1]).as('getFee1')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[11 - 1].id}`, feesMock[11 - 1]).as('getFee1')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[0].id}`, feesMock[0]).as('getFee2')
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
