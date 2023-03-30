@@ -1,7 +1,7 @@
-import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
+import { EmailField, FunctionField, Show, SimpleShowLayout, TextField } from 'react-admin'
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
-import { unexpectedValue, CustomDateField } from '../utils'
+import { CustomDateField, unexpectedValue } from '../utils'
 
 export const ProfileLayout = () => {
   const sexRenderer = user => {
@@ -14,6 +14,24 @@ export const ProfileLayout = () => {
     if (user.status === 'DISABLED') return 'Suspendu·e'
     return unexpectedValue
   }
+
+  const addressRenderer = data => {
+    if (!data.location) {
+      return (
+        <p>
+          <p id='Latitude'>Latitude:Null</p>
+          <p id='Longitude'>Longitude:Null</p>
+        </p>
+      )
+    }
+    return (
+      <p>
+        <p id='Latitude'>Longitude: {data.location.longitude}</p>
+        <p id='Longitude'>Latitude: {data.location.latitude}</p>
+      </p>
+    )
+  }
+
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
   return (
     <SimpleShowLayout>
@@ -23,7 +41,9 @@ export const ProfileLayout = () => {
       <FunctionField label='Sexe' render={sexRenderer} />
       <FunctionField label='Téléphone' render={phoneRenderer} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} />
-      <TextField source='address' label='Adresse' component='pre' />
+
+      <FunctionField label='Adresse' render={addressRenderer} />
+
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
       <FunctionField label='Statut' render={statusRenderer} />
