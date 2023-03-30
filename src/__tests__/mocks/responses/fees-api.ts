@@ -25,6 +25,18 @@ export const unpaidFeeMock: Fee = {
   due_datetime: '2022-12-08T08:25:24Z'
 }
 
+const partiallyPaid_feeMock: Fee = {
+  id: 'partiallyPaidFee1_id',
+  student_id: student1Mock.id,
+  remaining_amount: 200000,
+  status: FeeStatusEnum.PartiallyPaid,
+  type: FeeTypeEnum.Tuition,
+  comment: 'Comment',
+  total_amount: 250000,
+  creation_datetime: '2022-11-08T08:25:24Z',
+  due_datetime: '2022-12-08T08:25:24Z'
+}
+
 export const feesMock: Fee[] = [
   fee1Mock,
   unpaidFeeMock,
@@ -114,7 +126,8 @@ export const feesMock: Fee[] = [
     total_amount: 250000,
     creation_datetime: '2021-11-10T08:25:24Z',
     due_datetime: '2021-12-10T08:25:24Z'
-  }
+  },
+  partiallyPaid_feeMock
 ]
 
 let newLateFeesMock: Fee[] = []
