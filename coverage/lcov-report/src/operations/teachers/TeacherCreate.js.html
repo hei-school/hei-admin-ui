@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">40% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>1/2</span>
+                <span class='fraction'>2/5</span>
             </div>
         
             
@@ -39,7 +39,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/1</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -82,52 +82,55 @@
 <a name='L17'></a><a href='#L17'>17</a>
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
-<a name='L20'></a><a href='#L20'>20</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { Create, SimpleForm, TextInput, DateTimeInput, DateInput } from 'react-admin'
-import { SexRadioButton } from '../utils'
-&nbsp;
-const TeacherCreate = <span class="fstat-no" title="function not covered" >()</span> =&gt; (
-<span class="cstat-no" title="statement not covered" >  &lt;Create title='Enseignants'&gt;</span>
-    &lt;SimpleForm&gt;
-      &lt;TextInput source='ref' label='Référence' fullWidth={true} /&gt;
-      &lt;TextInput source='first_name' label='Prénoms' fullWidth={true} /&gt;
-      &lt;TextInput source='last_name' label='Nom' fullWidth={true} /&gt;
-      &lt;SexRadioButton /&gt;
-      &lt;TextInput source='phone' label='Téléphone' fullWidth={true} /&gt;
-      &lt;DateInput source='birth_date' label='Date de naissance' fullWidth={true} /&gt;
-      &lt;TextInput multiline source='address' label='Adresse' fullWidth={true} /&gt;
-      &lt;TextInput source='email' label='Email' fullWidth={true} /&gt;
-      &lt;DateTimeInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} /&gt;
-    &lt;/SimpleForm&gt;
-  &lt;/Create&gt;
-)
-export default TeacherCreate
-&nbsp;</pre></td></tr></table></pre>
+<a name='L20'></a><a href='#L20'>20</a>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span></td><td class="text"><pre class="prettyprint lang-js">Cannot read properties of undefined (reading 'decl')
+TypeError: Cannot read properties of undefined (reading 'decl')
+    at C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\html\annotator.js:91:27
+    at Array.forEach (<anonymous>)
+    at annotateFunctions (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\html\annotator.js:86:29)
+    at annotateSourceCode (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\html\annotator.js:270:9)
+    at HtmlReport.onDetail (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\html\index.js:414:33)
+    at LcovReport.<computed> [as onDetail] (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\lcov\index.js:28:23)
+    at Visitor.value (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:38:38)
+    at ReportNode.visit (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:88:21)
+    at C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:92:19
+    at Array.forEach (<anonymous>)
+    at ReportNode.visit (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:91:28)
+    at C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:92:19
+    at Array.forEach (<anonymous>)
+    at ReportNode.visit (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:91:28)
+    at ReportTree.visit (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:127:24)
+    at LcovReport.execute (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\report-base.js:12:44)
+    at C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\nyc\index.js:467:10
+    at Array.forEach (<anonymous>)
+    at NYC.report (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\nyc\index.js:461:19)</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-19T13:39:16.325Z
+                at 2023-03-30T05:42:26.951Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

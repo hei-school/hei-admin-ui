@@ -95,17 +95,18 @@
 <a name='L30'></a><a href='#L30'>30</a>
 <a name='L31'></a><a href='#L31'>31</a>
 <a name='L32'></a><a href='#L32'>32</a>
-<a name='L33'></a><a href='#L33'>33</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L33'></a><a href='#L33'>33</a>
+<a name='L34'></a><a href='#L34'>34</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -123,6 +124,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -130,31 +132,32 @@
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { usersApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
 import authProvider from './authProvider'
+import { WhoamiRoleEnum } from '../gen/haClient'
 &nbsp;
 const profileProvider: HaDataProviderType = {
   async getOne(id: string) {
-    const role = authProvider.getCachedRole()
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (role === 'STUDENT') {
+    <span class="missing-if-branch" title="else path not taken" >E</span>const role = authProvider.getCachedRole()
+    if (role === WhoamiRoleEnum.Student) {
       return usersApi()
         .getStudentById(id)
         .then(result =&gt; result.data)
+<span class="cstat-no" title="statement not covered" >    }</span>
+    if<span class="cstat-no" title="statement not covered" > (role === WhoamiRoleEnum.Teacher) {</span>
+      return usersApi()
+        .getTe<span class="fstat-no" title="function not covered" >ac</span>herById(<span class="cstat-no" title="statement not covered" >id)</span>
+        .then(result =&gt; result.data)
+<span class="cstat-no" title="statement not covered" >    }</span>
+    if<span class="cstat-no" title="statement not covered" > (role === WhoamiRoleEnum.Manager) {</span>
+      return usersApi()
+        .getMa<span class="fstat-no" title="function not covered" >na</span>gerById(<span class="cstat-no" title="statement not covered" >id)</span>
+        .then(result =&gt; result.data)
     }
-<span class="cstat-no" title="statement not covered" >    if (role === 'TEACHER') {</span>
-<span class="cstat-no" title="statement not covered" >      return usersApi()</span>
-        .getTeacherById(id)
-        .then(<span class="fstat-no" title="function not covered" >re</span>sult =&gt; <span class="cstat-no" title="statement not covered" >result.data)</span>
-    }
-<span class="cstat-no" title="statement not covered" >    if (role === 'MANAGER') {</span>
-<span class="cstat-no" title="statement not covered" >      return usersApi()</span>
-        .getManagerById(id)
-        .then(<span class="fstat-no" title="function not covered" >re</span>sult =&gt; <span class="cstat-no" title="statement not covered" >result.data)</span>
-    }
-  },
-  getList: <span class="fstat-no" title="function not covered" >fu</span>nction (page: number, perPage: number, filter: any): Promise&lt;any[]&gt; {
-<span class="cstat-no" title="statement not covered" >    throw new Error('Function not implemented.')</span>
-  },
-  saveOrUpdate: <span class="fstat-no" title="function not covered" >fu</span>nction (resources: any[]): Promise&lt;any[]&gt; {
-<span class="cstat-no" title="statement not covered" >    throw new Error('Function not implemented.')</span>
+  },<span class="fstat-no" title="function not covered" ></span>
+  ge<span class="cstat-no" title="statement not covered" >tList: function (page: number, perPage: numbe</span>r, filter: any): Promise&lt;any[]&gt; {
+    throw new Error('Function not implemented.')
+  },<span class="fstat-no" title="function not covered" ></span>
+  sa<span class="cstat-no" title="statement not covered" >veOrUpdate: function (resources: any[]): Prom</span>ise&lt;any[]&gt; {
+    throw new Error('Function not implemented.')
   }
 }
 &nbsp;
@@ -166,7 +169,7 @@ export default profileProvider
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-19T13:39:16.325Z
+                at 2023-03-30T05:42:26.951Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

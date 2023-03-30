@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">40% </span>
+                <span class="strong">33.33% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/5</span>
+                <span class='fraction'>2/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">100% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/0</span>
+                <span class='fraction'>0/2</span>
             </div>
         
             
@@ -83,81 +83,54 @@
 <a name='L18'></a><a href='#L18'>18</a>
 <a name='L19'></a><a href='#L19'>19</a>
 <a name='L20'></a><a href='#L20'>20</a>
-<a name='L21'></a><a href='#L21'>21</a>
-<a name='L22'></a><a href='#L22'>22</a>
-<a name='L23'></a><a href='#L23'>23</a>
-<a name='L24'></a><a href='#L24'>24</a>
-<a name='L25'></a><a href='#L25'>25</a>
-<a name='L26'></a><a href='#L26'>26</a>
-<a name='L27'></a><a href='#L27'>27</a>
-<a name='L28'></a><a href='#L28'>28</a>
-<a name='L29'></a><a href='#L29'>29</a>
-<a name='L30'></a><a href='#L30'>30</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { List } from '@react-admin/ra-rbac'
-import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
-import { CustomDateField } from '../fees/ByStatusFeeList'
-import { prettyPrintMoney } from '../utils'
-&nbsp;
-const Actions = <span class="fstat-no" title="function not covered" >({</span> basePath, resource }) =&gt; (
-<span class="cstat-no" title="statement not covered" >  &lt;TopToolbar disableGutters&gt;</span>
-    &lt;CreateButton to={basePath + '/create'} resource={resource} /&gt;
-  &lt;/TopToolbar&gt;
-)
-&nbsp;
-const PaymentList = <span class="fstat-no" title="function not covered" >({</span> feeId }) =&gt; (
-<span class="cstat-no" title="statement not covered" >  &lt;List</span>
-    title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
-    resource={'payments'}
-    actions={&lt;Actions basePath={`/fees/${feeId}/payments`} /&gt;}
-    filterDefaultValues={{ feeId: feeId }}
-    pagination={false}
-  &gt;
-    &lt;Datagrid&gt;
-      &lt;CustomDateField source='creation_datetime' label='Date de création' /&gt;
-      &lt;TextField source='comment' label='Commentaire' /&gt;
-      &lt;TextField source='type' label='Type' /&gt;
-      &lt;FunctionField label='Montant' render={<span class="fstat-no" title="function not covered" >re</span>cord =&gt; <span class="cstat-no" title="statement not covered" >prettyPrintMoney(record.amount)}</span> textAlign='right' /&gt;
-    &lt;/Datagrid&gt;
-  &lt;/List&gt;
-)
-&nbsp;
-export default PaymentList
-&nbsp;</pre></td></tr></table></pre>
+<a name='L21'></a><a href='#L21'>21</a></td><td class="line-coverage quiet"><span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span>
+<span class="cline-any cline-no">0</span></td><td class="text"><pre class="prettyprint lang-js">Cannot read properties of undefined (reading 'locations')
+TypeError: Cannot read properties of undefined (reading 'locations')
+    at C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\html\annotator.js:130:50
+    at Array.forEach (<anonymous>)
+    at annotateBranches (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\html\annotator.js:128:33)
+    at annotateSourceCode (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\html\annotator.js:269:9)
+    at HtmlReport.onDetail (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\html\index.js:414:33)
+    at LcovReport.<computed> [as onDetail] (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-reports\lib\lcov\index.js:28:23)
+    at Visitor.value (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:38:38)
+    at ReportNode.visit (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:88:21)
+    at C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:92:19
+    at Array.forEach (<anonymous>)
+    at ReportNode.visit (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:91:28)
+    at C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:92:19
+    at Array.forEach (<anonymous>)
+    at ReportNode.visit (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:91:28)
+    at ReportTree.visit (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\tree.js:127:24)
+    at LcovReport.execute (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\istanbul-lib-report\lib\report-base.js:12:44)
+    at C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\nyc\index.js:467:10
+    at Array.forEach (<anonymous>)
+    at NYC.report (C:\Users\ACER\Documents\Git\hei-admin-ui\node_modules\nyc\index.js:461:19)</pre></td></tr></table></pre>
 
                 <div class='push'></div><!-- for sticky footer -->
             </div><!-- /wrapper -->
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-19T13:39:16.325Z
+                at 2023-03-30T05:42:26.951Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

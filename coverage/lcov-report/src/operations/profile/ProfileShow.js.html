@@ -119,14 +119,13 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a>
-<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -167,10 +166,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-yes">9x</span>
 <span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -179,21 +177,20 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
 import { Link } from '@mui/material'
-import { CustomDateField } from '../fees/ByStatusFeeList'
 import authProvider from '../../providers/authProvider'
-import { unexpectedValue } from '../utils'
+import { unexpectedValue, CustomDateField } from '../utils'
 &nbsp;
 export const ProfileLayout = () =&gt; {
   const sexRenderer = user =&gt; {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.sex === 'M') return 'Homme'
-<span class="cstat-no" title="statement not covered" >    if (user.sex === 'F') <span class="cstat-no" title="statement not covered" >return 'Femme'</span></span>
-<span class="cstat-no" title="statement not covered" >    return unexpectedValue</span>
-  }
+    if (user.sex === 'M') return 'Homme'
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.sex === 'F') return 'Femme'
+<span class="cstat-no" title="statement not covered" >    return unexpectedValue<span class="cstat-no" title="statement not covered" ></span></span>
+  }<span class="cstat-no" title="statement not covered" ></span>
   const statusRenderer = user =&gt; {
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.status === 'ENABLED') return 'Actif·ve'
-<span class="cstat-no" title="statement not covered" >    if (user.status === 'DISABLED') <span class="cstat-no" title="statement not covered" >return 'Suspendu·e'</span></span>
-<span class="cstat-no" title="statement not covered" >    return unexpectedValue</span>
-  }
+    if (user.status === 'ENABLED') return 'Actif·ve'
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.status === 'DISABLED') return 'Suspendu·e'
+<span class="cstat-no" title="statement not covered" >    return unexpectedValue<span class="cstat-no" title="statement not covered" ></span></span>
+  }<span class="cstat-no" title="statement not covered" ></span>
   const positionRenderer = user =&gt; {
     if(!user.gps_address){
       return "Pas d'addresse gps"
@@ -201,11 +198,11 @@ export const ProfileLayout = () =&gt; {
     if (user.gps_address.latitude === undefined || user.gps_address.longitude === undefined) {
       return "Valeur Gps manquante"
     }
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.gps_address.latitude !== null &amp;&amp; user.gps_address.longitude !== null) {
-      return user.gps_address.latitude + ' , ' + user.gps_address.longitude
+    if (user.gps_address.latitude !== null &amp;&amp; user.gps_address.longitude !== null) {
+    <span class="missing-if-branch" title="else path not taken" >E</span>  return user.gps_address.latitude + ' , ' + user.gps_address.longitude
     }
-<span class="cstat-no" title="statement not covered" >    return unexpectedValue</span>
-  }
+    return unexpectedValue
+  }<span class="cstat-no" title="statement not covered" ></span>
   const phoneRenderer = data =&gt; &lt;Link href={`tel:${data.phone}`}&gt;{data.phone}&lt;/Link&gt;
   return (
     &lt;SimpleShowLayout&gt;
@@ -214,11 +211,11 @@ export const ProfileLayout = () =&gt; {
       &lt;TextField source='last_name' label='Nom(s)' /&gt;
       &lt;FunctionField label='Sexe' render={sexRenderer} /&gt;
       &lt;FunctionField label='Téléphone' render={phoneRenderer} /&gt;
-      &lt;CustomDateField source='birth_date' label='Date de naissance' /&gt;
+      &lt;CustomDateField source='birth_date' label='Date de naissance' showTime={false} /&gt;
       &lt;TextField source='address' label='Adresse' component='pre' /&gt;
       &lt;FunctionField source='gps_address' label='Adresse Gps' id='location' render={positionRenderer} /&gt;
       &lt;EmailField source='email' label='Email' /&gt;
-      &lt;CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" /&gt;
+      &lt;CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} /&gt;
       &lt;FunctionField label='Statut' render={statusRenderer} /&gt;
     &lt;/SimpleShowLayout&gt;
   )
@@ -241,7 +238,7 @@ export default ProfileShow
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-19T13:39:16.325Z
+                at 2023-03-30T05:42:26.951Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

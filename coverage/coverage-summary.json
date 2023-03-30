@@ -1,56 +1,356 @@
-{"total": {"lines":{"total":1074,"covered":282,"skipped":0,"pct":26.26},"statements":{"total":1138,"covered":294,"skipped":0,"pct":25.83},"functions":{"total":330,"covered":61,"skipped":0,"pct":18.48},"branches":{"total":434,"covered":48,"skipped":0,"pct":11.06}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\App.js": {"lines":{"total":4,"covered":4,"skipped":0,"pct":100},"functions":{"total":3,"covered":2,"skipped":0,"pct":66.67},"statements":{"total":5,"covered":4,"skipped":0,"pct":80},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\HaAppBar.js": {"lines":{"total":7,"covered":5,"skipped":0,"pct":71.43},"functions":{"total":3,"covered":2,"skipped":0,"pct":66.67},"statements":{"total":7,"covered":5,"skipped":0,"pct":71.43},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\HaLayout.js": {"lines":{"total":2,"covered":2,"skipped":0,"pct":100},"functions":{"total":1,"covered":1,"skipped":0,"pct":100},"statements":{"total":2,"covered":2,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\MyBreadcrumb.js": {"lines":{"total":13,"covered":4,"skipped":0,"pct":30.77},"functions":{"total":3,"covered":1,"skipped":0,"pct":33.33},"statements":{"total":13,"covered":4,"skipped":0,"pct":30.77},"branches":{"total":4,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\aws-exports.js": {"lines":{"total":1,"covered":1,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":1,"covered":1,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\conf.js": {"lines":{"total":6,"covered":6,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":6,"covered":6,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\haTheme.js": {"lines":{"total":1,"covered":1,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":1,"covered":1,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\api.ts": {"lines":{"total":528,"covered":65,"skipped":0,"pct":12.31},"functions":{"total":156,"covered":12,"skipped":0,"pct":7.69},"statements":{"total":552,"covered":65,"skipped":0,"pct":11.78},"branches":{"total":208,"covered":8,"skipped":0,"pct":3.85}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\base.ts": {"lines":{"total":7,"covered":5,"skipped":0,"pct":71.43},"functions":{"total":2,"covered":1,"skipped":0,"pct":50},"statements":{"total":7,"covered":5,"skipped":0,"pct":71.43},"branches":{"total":6,"covered":5,"skipped":0,"pct":83.33}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\common.ts": {"lines":{"total":42,"covered":26,"skipped":0,"pct":61.9},"functions":{"total":13,"covered":8,"skipped":0,"pct":61.54},"statements":{"total":44,"covered":27,"skipped":0,"pct":61.36},"branches":{"total":53,"covered":14,"skipped":0,"pct":26.42}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\configuration.ts": {"lines":{"total":9,"covered":7,"skipped":0,"pct":77.78},"functions":{"total":2,"covered":1,"skipped":0,"pct":50},"statements":{"total":9,"covered":7,"skipped":0,"pct":77.78},"branches":{"total":4,"covered":1,"skipped":0,"pct":25}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\index.ts": {"lines":{"total":0,"covered":0,"skipped":0,"pct":0},"functions":{"total":0,"covered":0,"skipped":0,"pct":0},"statements":{"total":0,"covered":0,"skipped":0,"pct":0},"branches":{"total":0,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\menu\\HaMenu.js": {"lines":{"total":9,"covered":4,"skipped":0,"pct":44.44},"functions":{"total":1,"covered":1,"skipped":0,"pct":100},"statements":{"total":9,"covered":4,"skipped":0,"pct":44.44},"branches":{"total":6,"covered":1,"skipped":0,"pct":16.67}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\menu\\ManagerMenu.js": {"lines":{"total":2,"covered":1,"skipped":0,"pct":50},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":2,"covered":1,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\menu\\StudentMenu.js": {"lines":{"total":5,"covered":5,"skipped":0,"pct":100},"functions":{"total":2,"covered":1,"skipped":0,"pct":50},"statements":{"total":6,"covered":5,"skipped":0,"pct":83.33},"branches":{"total":2,"covered":1,"skipped":0,"pct":50}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\menu\\TeacherMenu.js": {"lines":{"total":2,"covered":1,"skipped":0,"pct":50},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":2,"covered":1,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\ByStatusFeeList.js": {"lines":{"total":8,"covered":4,"skipped":0,"pct":50},"functions":{"total":4,"covered":1,"skipped":0,"pct":25},"statements":{"total":8,"covered":4,"skipped":0,"pct":50},"branches":{"total":2,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\FeeList.js": {"lines":{"total":16,"covered":2,"skipped":0,"pct":12.5},"functions":{"total":6,"covered":0,"skipped":0,"pct":0},"statements":{"total":16,"covered":2,"skipped":0,"pct":12.5},"branches":{"total":4,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\FeeShow.js": {"lines":{"total":17,"covered":2,"skipped":0,"pct":11.76},"functions":{"total":7,"covered":0,"skipped":0,"pct":0},"statements":{"total":17,"covered":2,"skipped":0,"pct":11.76},"branches":{"total":2,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\FeesCreate.js": {"lines":{"total":62,"covered":8,"skipped":0,"pct":12.9},"functions":{"total":19,"covered":0,"skipped":0,"pct":0},"statements":{"total":66,"covered":8,"skipped":0,"pct":12.12},"branches":{"total":22,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\byStatusRowStyle.js": {"lines":{"total":3,"covered":1,"skipped":0,"pct":33.33},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":3,"covered":1,"skipped":0,"pct":33.33},"branches":{"total":4,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\index.js": {"lines":{"total":1,"covered":1,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":1,"covered":1,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\payments\\PaymentCreate.js": {"lines":{"total":19,"covered":1,"skipped":0,"pct":5.26},"functions":{"total":7,"covered":0,"skipped":0,"pct":0},"statements":{"total":19,"covered":1,"skipped":0,"pct":5.26},"branches":{"total":2,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\payments\\PaymentList.js": {"lines":{"total":5,"covered":2,"skipped":0,"pct":40},"functions":{"total":3,"covered":0,"skipped":0,"pct":0},"statements":{"total":5,"covered":2,"skipped":0,"pct":40},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\payments\\index.js": {"lines":{"total":1,"covered":1,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":1,"covered":1,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\profile\\ProfileEdit.js": {"lines":{"total":4,"covered":2,"skipped":0,"pct":50},"functions":{"total":2,"covered":0,"skipped":0,"pct":0},"statements":{"total":4,"covered":2,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\profile\\ProfileShow.js": {"lines":{"total":22,"covered":17,"skipped":0,"pct":77.27},"functions":{"total":6,"covered":6,"skipped":0,"pct":100},"statements":{"total":27,"covered":20,"skipped":0,"pct":74.07},"branches":{"total":18,"covered":11,"skipped":0,"pct":61.11}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\profile\\index.js": {"lines":{"total":2,"covered":2,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":2,"covered":2,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\studentGrades\\index.js": {"lines":{"total":1,"covered":1,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":1,"covered":1,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\students\\StudentCreate.js": {"lines":{"total":27,"covered":1,"skipped":0,"pct":3.7},"functions":{"total":6,"covered":0,"skipped":0,"pct":0},"statements":{"total":30,"covered":1,"skipped":0,"pct":3.33},"branches":{"total":10,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\students\\StudentList.js": {"lines":{"total":3,"covered":1,"skipped":0,"pct":33.33},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":3,"covered":1,"skipped":0,"pct":33.33},"branches":{"total":2,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\students\\StudentShow.js": {"lines":{"total":6,"covered":2,"skipped":0,"pct":33.33},"functions":{"total":2,"covered":0,"skipped":0,"pct":0},"statements":{"total":6,"covered":2,"skipped":0,"pct":33.33},"branches":{"total":4,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\students\\index.js": {"lines":{"total":1,"covered":1,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":1,"covered":1,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\teachers\\TeacherCreate.js": {"lines":{"total":2,"covered":1,"skipped":0,"pct":50},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":2,"covered":1,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\teachers\\TeacherList.js": {"lines":{"total":2,"covered":1,"skipped":0,"pct":50},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":2,"covered":1,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\teachers\\TeacherShow.js": {"lines":{"total":4,"covered":2,"skipped":0,"pct":50},"functions":{"total":2,"covered":0,"skipped":0,"pct":0},"statements":{"total":4,"covered":2,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\teachers\\index.js": {"lines":{"total":1,"covered":1,"skipped":0,"pct":100},"functions":{"total":0,"covered":0,"skipped":0,"pct":100},"statements":{"total":1,"covered":1,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\EditToolBar.js": {"lines":{"total":2,"covered":1,"skipped":0,"pct":50},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":2,"covered":1,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\PrevNextPagination.js": {"lines":{"total":15,"covered":2,"skipped":0,"pct":13.33},"functions":{"total":3,"covered":0,"skipped":0,"pct":0},"statements":{"total":15,"covered":2,"skipped":0,"pct":13.33},"branches":{"total":17,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\SexRadioButton.js": {"lines":{"total":2,"covered":1,"skipped":0,"pct":50},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":2,"covered":1,"skipped":0,"pct":50},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\index.js": {"lines":{"total":0,"covered":0,"skipped":0,"pct":0},"functions":{"total":0,"covered":0,"skipped":0,"pct":0},"statements":{"total":0,"covered":0,"skipped":0,"pct":0},"branches":{"total":0,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\money.ts": {"lines":{"total":3,"covered":2,"skipped":0,"pct":66.67},"functions":{"total":1,"covered":0,"skipped":0,"pct":0},"statements":{"total":3,"covered":2,"skipped":0,"pct":66.67},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\typography.js": {"lines":{"total":7,"covered":3,"skipped":0,"pct":42.86},"functions":{"total":2,"covered":1,"skipped":0,"pct":50},"statements":{"total":11,"covered":4,"skipped":0,"pct":36.36},"branches":{"total":6,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\api.js": {"lines":{"total":2,"covered":2,"skipped":0,"pct":100},"functions":{"total":2,"covered":1,"skipped":0,"pct":50},"statements":{"total":4,"covered":3,"skipped":0,"pct":75},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\authProvider.ts": {"lines":{"total":57,"covered":41,"skipped":0,"pct":71.93},"functions":{"total":20,"covered":14,"skipped":0,"pct":70},"statements":{"total":62,"covered":44,"skipped":0,"pct":70.97},"branches":{"total":6,"covered":3,"skipped":0,"pct":50}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\dataProvider.ts": {"lines":{"total":31,"covered":7,"skipped":0,"pct":22.58},"functions":{"total":6,"covered":2,"skipped":0,"pct":33.33},"statements":{"total":36,"covered":8,"skipped":0,"pct":22.22},"branches":{"total":18,"covered":1,"skipped":0,"pct":5.56}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\feeProvider.ts": {"lines":{"total":19,"covered":5,"skipped":0,"pct":26.32},"functions":{"total":8,"covered":0,"skipped":0,"pct":0},"statements":{"total":22,"covered":5,"skipped":0,"pct":22.73},"branches":{"total":6,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\paymentProvider.ts": {"lines":{"total":15,"covered":3,"skipped":0,"pct":20},"functions":{"total":6,"covered":0,"skipped":0,"pct":0},"statements":{"total":17,"covered":3,"skipped":0,"pct":17.65},"branches":{"total":2,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\profileProvider.ts": {"lines":{"total":13,"covered":5,"skipped":0,"pct":38.46},"functions":{"total":6,"covered":2,"skipped":0,"pct":33.33},"statements":{"total":13,"covered":5,"skipped":0,"pct":38.46},"branches":{"total":6,"covered":1,"skipped":0,"pct":16.67}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\studentProvider.ts": {"lines":{"total":10,"covered":1,"skipped":0,"pct":10},"functions":{"total":3,"covered":0,"skipped":0,"pct":0},"statements":{"total":10,"covered":1,"skipped":0,"pct":10},"branches":{"total":2,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\teacherProvider.ts": {"lines":{"total":7,"covered":1,"skipped":0,"pct":14.29},"functions":{"total":3,"covered":0,"skipped":0,"pct":0},"statements":{"total":7,"covered":1,"skipped":0,"pct":14.29},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\CompletePasswordPage.js": {"lines":{"total":31,"covered":4,"skipped":0,"pct":12.9},"functions":{"total":6,"covered":0,"skipped":0,"pct":0},"statements":{"total":31,"covered":4,"skipped":0,"pct":12.9},"branches":{"total":14,"covered":0,"skipped":0,"pct":0}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\LoginPage.js": {"lines":{"total":9,"covered":7,"skipped":0,"pct":77.78},"functions":{"total":5,"covered":3,"skipped":0,"pct":60},"statements":{"total":12,"covered":9,"skipped":0,"pct":75},"branches":{"total":4,"covered":2,"skipped":0,"pct":50}}
-,"C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\permissions.ts": {"lines":{"total":6,"covered":6,"skipped":0,"pct":100},"functions":{"total":1,"covered":1,"skipped":0,"pct":100},"statements":{"total":6,"covered":6,"skipped":0,"pct":100},"branches":{"total":0,"covered":0,"skipped":0,"pct":100}}
+{
+  "total": {
+    "lines": { "total": 1129, "covered": 291, "skipped": 0, "pct": 25.78 },
+    "statements": { "total": 1220, "covered": 310, "skipped": 0, "pct": 25.41 },
+    "functions": { "total": 355, "covered": 62, "skipped": 0, "pct": 17.46 },
+    "branches": { "total": 466, "covered": 50, "skipped": 0, "pct": 10.73 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\App.js": {
+    "lines": { "total": 4, "covered": 4, "skipped": 0, "pct": 100 },
+    "functions": { "total": 3, "covered": 2, "skipped": 0, "pct": 66.67 },
+    "statements": { "total": 5, "covered": 4, "skipped": 0, "pct": 80 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\HaAppBar.js": {
+    "lines": { "total": 7, "covered": 5, "skipped": 0, "pct": 71.43 },
+    "functions": { "total": 3, "covered": 2, "skipped": 0, "pct": 66.67 },
+    "statements": { "total": 7, "covered": 5, "skipped": 0, "pct": 71.43 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\HaLayout.js": {
+    "lines": { "total": 2, "covered": 2, "skipped": 0, "pct": 100 },
+    "functions": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "statements": { "total": 2, "covered": 2, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\MyBreadcrumb.js": {
+    "lines": { "total": 13, "covered": 4, "skipped": 0, "pct": 30.77 },
+    "functions": { "total": 3, "covered": 1, "skipped": 0, "pct": 33.33 },
+    "statements": { "total": 13, "covered": 4, "skipped": 0, "pct": 30.77 },
+    "branches": { "total": 4, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\aws-exports.js": {
+    "lines": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\conf.js": {
+    "lines": { "total": 6, "covered": 6, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 6, "covered": 6, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\haTheme.js": {
+    "lines": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\api.ts": {
+    "lines": { "total": 528, "covered": 65, "skipped": 0, "pct": 12.31 },
+    "functions": { "total": 156, "covered": 12, "skipped": 0, "pct": 7.69 },
+    "statements": { "total": 552, "covered": 65, "skipped": 0, "pct": 11.78 },
+    "branches": { "total": 208, "covered": 8, "skipped": 0, "pct": 3.85 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\base.ts": {
+    "lines": { "total": 7, "covered": 5, "skipped": 0, "pct": 71.43 },
+    "functions": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "statements": { "total": 7, "covered": 5, "skipped": 0, "pct": 71.43 },
+    "branches": { "total": 6, "covered": 5, "skipped": 0, "pct": 83.33 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\common.ts": {
+    "lines": { "total": 42, "covered": 26, "skipped": 0, "pct": 61.9 },
+    "functions": { "total": 13, "covered": 8, "skipped": 0, "pct": 61.54 },
+    "statements": { "total": 44, "covered": 27, "skipped": 0, "pct": 61.36 },
+    "branches": { "total": 53, "covered": 14, "skipped": 0, "pct": 26.42 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\configuration.ts": {
+    "lines": { "total": 9, "covered": 7, "skipped": 0, "pct": 77.78 },
+    "functions": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "statements": { "total": 9, "covered": 7, "skipped": 0, "pct": 77.78 },
+    "branches": { "total": 4, "covered": 1, "skipped": 0, "pct": 25 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\gen\\haClient\\index.ts": {
+    "lines": { "total": 0, "covered": 0, "skipped": 0, "pct": 0 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 0, "covered": 0, "skipped": 0, "pct": 0 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\menu\\HaMenu.js": {
+    "lines": { "total": 9, "covered": 4, "skipped": 0, "pct": 44.44 },
+    "functions": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "statements": { "total": 9, "covered": 4, "skipped": 0, "pct": 44.44 },
+    "branches": { "total": 6, "covered": 1, "skipped": 0, "pct": 16.67 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\menu\\ManagerMenu.js": {
+    "lines": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\menu\\StudentMenu.js": {
+    "lines": { "total": 5, "covered": 5, "skipped": 0, "pct": 100 },
+    "functions": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "statements": { "total": 6, "covered": 5, "skipped": 0, "pct": 83.33 },
+    "branches": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\menu\\TeacherMenu.js": {
+    "lines": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\ByStatusFeeList.js": {
+    "lines": { "total": 8, "covered": 4, "skipped": 0, "pct": 50 },
+    "functions": { "total": 4, "covered": 1, "skipped": 0, "pct": 25 },
+    "statements": { "total": 8, "covered": 4, "skipped": 0, "pct": 50 },
+    "branches": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\FeeList.js": {
+    "lines": { "total": 16, "covered": 2, "skipped": 0, "pct": 12.5 },
+    "functions": { "total": 6, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 16, "covered": 2, "skipped": 0, "pct": 12.5 },
+    "branches": { "total": 4, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\FeeShow.js": {
+    "lines": { "total": 17, "covered": 4, "skipped": 0, "pct": 23.53 },
+    "functions": { "total": 8, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 19, "covered": 4, "skipped": 0, "pct": 21.05 },
+    "branches": { "total": 4, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\FeesCreate.js": {
+    "lines": { "total": 62, "covered": 8, "skipped": 0, "pct": 12.9 },
+    "functions": { "total": 19, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 66, "covered": 8, "skipped": 0, "pct": 12.12 },
+    "branches": { "total": 22, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\byStatusRowStyle.js": {
+    "lines": { "total": 3, "covered": 1, "skipped": 0, "pct": 33.33 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 3, "covered": 1, "skipped": 0, "pct": 33.33 },
+    "branches": { "total": 4, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\fees\\index.js": {
+    "lines": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\payments\\PaymentCreate.js": {
+    "lines": { "total": 19, "covered": 1, "skipped": 0, "pct": 5.26 },
+    "functions": { "total": 7, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 19, "covered": 1, "skipped": 0, "pct": 5.26 },
+    "branches": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\payments\\PaymentList.js": {
+    "lines": { "total": 5, "covered": 2, "skipped": 0, "pct": 40 },
+    "functions": { "total": 3, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 6, "covered": 2, "skipped": 0, "pct": 33.33 },
+    "branches": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\payments\\index.js": {
+    "lines": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\profile\\ProfileEdit.js": {
+    "lines": { "total": 4, "covered": 2, "skipped": 0, "pct": 50 },
+    "functions": { "total": 3, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 10, "covered": 3, "skipped": 0, "pct": 30 },
+    "branches": { "total": 4, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\profile\\ProfileShow.js": {
+    "lines": { "total": 22, "covered": 17, "skipped": 0, "pct": 77.27 },
+    "functions": { "total": 6, "covered": 6, "skipped": 0, "pct": 100 },
+    "statements": { "total": 27, "covered": 20, "skipped": 0, "pct": 74.07 },
+    "branches": { "total": 18, "covered": 11, "skipped": 0, "pct": 61.11 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\profile\\index.js": {
+    "lines": { "total": 2, "covered": 2, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 2, "covered": 2, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\studentGrades\\index.js": {
+    "lines": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\students\\StudentCreate.js": {
+    "lines": { "total": 27, "covered": 1, "skipped": 0, "pct": 3.7 },
+    "functions": { "total": 6, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 30, "covered": 1, "skipped": 0, "pct": 3.33 },
+    "branches": { "total": 10, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\students\\StudentList.js": {
+    "lines": { "total": 3, "covered": 1, "skipped": 0, "pct": 33.33 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 3, "covered": 1, "skipped": 0, "pct": 33.33 },
+    "branches": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\students\\StudentShow.js": {
+    "lines": { "total": 6, "covered": 2, "skipped": 0, "pct": 33.33 },
+    "functions": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 6, "covered": 2, "skipped": 0, "pct": 33.33 },
+    "branches": { "total": 4, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\students\\index.js": {
+    "lines": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\teachers\\TeacherCreate.js": {
+    "lines": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "functions": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 5, "covered": 2, "skipped": 0, "pct": 40 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\teachers\\TeacherList.js": {
+    "lines": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\teachers\\TeacherShow.js": {
+    "lines": { "total": 4, "covered": 2, "skipped": 0, "pct": 50 },
+    "functions": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 4, "covered": 2, "skipped": 0, "pct": 50 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\teachers\\index.js": {
+    "lines": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 },
+    "statements": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\CustomDateField.js": {
+    "lines": { "total": 4, "covered": 1, "skipped": 0, "pct": 25 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 4, "covered": 1, "skipped": 0, "pct": 25 },
+    "branches": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\EditToolBar.js": {
+    "lines": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\PrevNextPagination.js": {
+    "lines": { "total": 15, "covered": 2, "skipped": 0, "pct": 13.33 },
+    "functions": { "total": 3, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 15, "covered": 2, "skipped": 0, "pct": 13.33 },
+    "branches": { "total": 17, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\SexRadioButton.js": {
+    "lines": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\index.js": {
+    "lines": { "total": 0, "covered": 0, "skipped": 0, "pct": 0 },
+    "functions": { "total": 0, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 0, "covered": 0, "skipped": 0, "pct": 0 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\money.ts": {
+    "lines": { "total": 3, "covered": 2, "skipped": 0, "pct": 66.67 },
+    "functions": { "total": 1, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 3, "covered": 2, "skipped": 0, "pct": 66.67 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\operations\\utils\\typography.js": {
+    "lines": { "total": 7, "covered": 3, "skipped": 0, "pct": 42.86 },
+    "functions": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "statements": { "total": 11, "covered": 4, "skipped": 0, "pct": 36.36 },
+    "branches": { "total": 6, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\api.js": {
+    "lines": { "total": 2, "covered": 2, "skipped": 0, "pct": 100 },
+    "functions": { "total": 2, "covered": 1, "skipped": 0, "pct": 50 },
+    "statements": { "total": 4, "covered": 3, "skipped": 0, "pct": 75 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\authProvider.ts": {
+    "lines": { "total": 57, "covered": 41, "skipped": 0, "pct": 71.93 },
+    "functions": { "total": 22, "covered": 14, "skipped": 0, "pct": 63.64 },
+    "statements": { "total": 64, "covered": 44, "skipped": 0, "pct": 68.75 },
+    "branches": { "total": 6, "covered": 3, "skipped": 0, "pct": 50 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\dataProvider.ts": {
+    "lines": { "total": 31, "covered": 7, "skipped": 0, "pct": 22.58 },
+    "functions": { "total": 6, "covered": 2, "skipped": 0, "pct": 33.33 },
+    "statements": { "total": 36, "covered": 8, "skipped": 0, "pct": 22.22 },
+    "branches": { "total": 18, "covered": 1, "skipped": 0, "pct": 5.56 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\feeProvider.ts": {
+    "lines": { "total": 19, "covered": 5, "skipped": 0, "pct": 26.32 },
+    "functions": { "total": 8, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 22, "covered": 5, "skipped": 0, "pct": 22.73 },
+    "branches": { "total": 6, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\paymentProvider.ts": {
+    "lines": { "total": 15, "covered": 3, "skipped": 0, "pct": 20 },
+    "functions": { "total": 6, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 17, "covered": 3, "skipped": 0, "pct": 17.65 },
+    "branches": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\profileProvider.ts": {
+    "lines": { "total": 13, "covered": 5, "skipped": 0, "pct": 38.46 },
+    "functions": { "total": 6, "covered": 2, "skipped": 0, "pct": 33.33 },
+    "statements": { "total": 13, "covered": 5, "skipped": 0, "pct": 38.46 },
+    "branches": { "total": 6, "covered": 1, "skipped": 0, "pct": 16.67 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\studentProvider.ts": {
+    "lines": { "total": 10, "covered": 1, "skipped": 0, "pct": 10 },
+    "functions": { "total": 3, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 13, "covered": 1, "skipped": 0, "pct": 7.69 },
+    "branches": { "total": 4, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\providers\\teacherProvider.ts": {
+    "lines": { "total": 7, "covered": 1, "skipped": 0, "pct": 14.29 },
+    "functions": { "total": 3, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 7, "covered": 1, "skipped": 0, "pct": 14.29 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\CompletePasswordPage.js": {
+    "lines": { "total": 31, "covered": 4, "skipped": 0, "pct": 12.9 },
+    "functions": { "total": 6, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 31, "covered": 4, "skipped": 0, "pct": 12.9 },
+    "branches": { "total": 14, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\ConfirmForgotPassword.js": {
+    "lines": { "total": 10, "covered": 1, "skipped": 0, "pct": 10 },
+    "functions": { "total": 5, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 11, "covered": 1, "skipped": 0, "pct": 9.09 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\ForgotPassword.js": {
+    "lines": { "total": 17, "covered": 1, "skipped": 0, "pct": 5.88 },
+    "functions": { "total": 8, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 20, "covered": 1, "skipped": 0, "pct": 5 },
+    "branches": { "total": 2, "covered": 0, "skipped": 0, "pct": 0 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\LoginPage.js": {
+    "lines": { "total": 9, "covered": 7, "skipped": 0, "pct": 77.78 },
+    "functions": { "total": 7, "covered": 4, "skipped": 0, "pct": 57.14 },
+    "statements": { "total": 18, "covered": 14, "skipped": 0, "pct": 77.78 },
+    "branches": { "total": 6, "covered": 4, "skipped": 0, "pct": 66.67 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\permissions.ts": {
+    "lines": { "total": 6, "covered": 6, "skipped": 0, "pct": 100 },
+    "functions": { "total": 1, "covered": 1, "skipped": 0, "pct": 100 },
+    "statements": { "total": 6, "covered": 6, "skipped": 0, "pct": 100 },
+    "branches": { "total": 0, "covered": 0, "skipped": 0, "pct": 100 }
+  },
+  "C:\\Users\\ACER\\Documents\\Git\\hei-admin-ui\\src\\security\\utils.js": {
+    "lines": { "total": 24, "covered": 4, "skipped": 0, "pct": 16.67 },
+    "functions": { "total": 4, "covered": 0, "skipped": 0, "pct": 0 },
+    "statements": { "total": 24, "covered": 4, "skipped": 0, "pct": 16.67 },
+    "branches": { "total": 16, "covered": 0, "skipped": 0, "pct": 0 }
+  }
 }

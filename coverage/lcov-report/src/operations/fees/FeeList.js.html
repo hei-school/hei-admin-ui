@@ -119,7 +119,8 @@
 <a name='L54'></a><a href='#L54'>54</a>
 <a name='L55'></a><a href='#L55'>55</a>
 <a name='L56'></a><a href='#L56'>56</a>
-<a name='L57'></a><a href='#L57'>57</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L57'></a><a href='#L57'>57</a>
+<a name='L58'></a><a href='#L58'>58</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -132,22 +133,22 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">45x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -167,6 +168,7 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,48 +184,49 @@ import { List } from '@react-admin/ra-rbac'
 import { TextField, Datagrid, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 &nbsp;
 import rowStyle from './byStatusRowStyle'
-import { prettyPrintMoney } from '../utils'
+import { prettyPrintMoney, CustomDateField } from '../utils'
 &nbsp;
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
-import { CustomDateField } from './ByStatusFeeList'
 &nbsp;
-const Actions = <span class="fstat-no" title="function not covered" >({</span> basePath, resource }) =&gt; (
-<span class="cstat-no" title="statement not covered" >  &lt;TopToolbar disableGutters&gt;</span>
+import { WhoamiRoleEnum } from '../../gen/haClient'
+<span class="fstat-no" title="function not covered" ></span>
+co<span class="cstat-no" title="statement not covered" >nst Actions = ({ basePath, resource }) =&gt; (</span>
+  &lt;TopToolbar disableGutters&gt;
     &lt;CreateButton to={basePath + '/create'} resource={resource} /&gt;
   &lt;/TopToolbar&gt;
 )
-&nbsp;
-const FeeList = <span class="fstat-no" title="function not covered" >({</span> studentId }) =&gt; {
-  const params = <span class="cstat-no" title="statement not covered" >useParams()</span>
-  const definedStudentId = <span class="cstat-no" title="statement not covered" >studentId ? studentId : params.studentId</span>
-  const [studentRef, setStudentRef] = <span class="cstat-no" title="statement not covered" >useState('...')</span>
-  const dataProvider = <span class="cstat-no" title="statement not covered" >useDataProvider()</span>
-  const role = <span class="cstat-no" title="statement not covered" >authProvider.getCachedRole()</span>
-<span class="cstat-no" title="statement not covered" >  useEffect(<span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
-    const doEffect = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-      const student = <span class="cstat-no" title="statement not covered" >await dataProvider.getOne('students', { id: definedStudentId })</span>
-<span class="cstat-no" title="statement not covered" >      setStudentRef(student.data.ref)</span>
-    }
-<span class="cstat-no" title="statement not covered" >    doEffect()</span>
+<span class="fstat-no" title="function not covered" ></span>
+const FeeList = (<span class="cstat-no" title="statement not covered" >{ studentId </span>}) =&gt; {
+  const params = useParams(<span class="cstat-no" title="statement not covered" >)</span>
+  const definedStudentId = studentId ?<span class="cstat-no" title="statement not covered" > studentId : par</span>ams.studentId
+  const [studentRef, se<span class="cstat-no" title="statement not covered" >tStudentRef] = use</span>State('...')
+  const dataPro<span class="cstat-no" title="statement not covered" >vider = useDataProvider()</span>
+<span class="cstat-no" title="statement not covered" >  const role<span class="fstat-no" title="function not covered" > =</span> authProvider.getCachedRole()</span>
+  useEffect(() =&gt; {<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+    const doEffect = a<span class="cstat-no" title="statement not covered" >sync () =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >      const student = await dataProvid</span>er.getOne('students', { id: definedStudentId })
+      setStudentRef(student.data.ref)
+<span class="cstat-no" title="statement not covered" >    }</span>
+    doEffect()
     // eslint-disable-next-line
   }, [definedStudentId])
-&nbsp;
-<span class="cstat-no" title="statement not covered" >  return (</span>
+<span class="cstat-no" title="statement not covered" ></span>
+  return (
     &lt;List
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={role === 'MANAGER' &amp;&amp; &lt;Actions basePath={`/students/${definedStudentId}/fees`} /&gt;}
+      actions={role === WhoamiRoleEnum.Manager &amp;&amp; &lt;Actions basePath={`/students/${definedStudentId}/fees`} /&gt;}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}
-    &gt;
-      &lt;Datagrid bulkActionButtons={role === 'MANAGER'} rowClick={<span class="fstat-no" title="function not covered" >id</span> =&gt; <span class="cstat-no" title="statement not covered" >`/fees/${id}/show`}</span> rowStyle={rowStyle}&gt;
-        &lt;CustomDateField source='due_datetime' label='Date limite' /&gt;
-        &lt;TextField source='comment' label='Commentaire' /&gt;
-        &lt;FunctionField label='Reste à payer' render={<span class="fstat-no" title="function not covered" >re</span>cord =&gt; <span class="cstat-no" title="statement not covered" >prettyPrintMoney(record.remaining_amount)}</span> textAlign='right' /&gt;
-        &lt;CustomDateField source='creation_datetime' label='Date de création' /&gt;
+    &gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+      &lt;Datagrid bulkActionButtons={role === WhoamiRoleEnum.Manager} rowClick={id =&gt; `/fees/${id}/show`} rowStyle={rowStyle}&gt;
+        &lt;CustomDateField source='due_datetime' label='Date limite' showTime={false} /&gt;
+        &lt;TextField source='comment' label='Commentair<span class="fstat-no" title="function not covered" >e'</span> /&gt;<span class="cstat-no" title="statement not covered" ></span>
+        &lt;FunctionField label='Reste à payer' render={record =&gt; prettyPrintMoney(record.remaining_amount)} textAlign='right' /&gt;
+        &lt;CustomDateField source='creation_datetime' label='Date de création' showTime={false} /&gt;
         &lt;ShowButton basePath='/fees' /&gt;
       &lt;/Datagrid&gt;
     &lt;/List&gt;
@@ -238,7 +241,7 @@ export default FeeList
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-19T13:39:16.325Z
+                at 2023-03-30T05:42:26.951Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

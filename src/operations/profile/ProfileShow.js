@@ -15,11 +15,11 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
   const positionRenderer = user => {
-    if(!user.gps_address){
+    if (!user.gps_address) {
       return "Pas d'addresse gps"
     }
     if (user.gps_address.latitude === undefined || user.gps_address.longitude === undefined) {
-      return "Valeur Gps manquante"
+      return 'Valeur Gps manquante'
     }
     if (user.gps_address.latitude !== null && user.gps_address.longitude !== null) {
       return user.gps_address.latitude + ' , ' + user.gps_address.longitude

@@ -1,34 +1,34 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1679233156797" clover="3.2.0">
-  <project timestamp="1679233156797" name="All files">
-    <metrics statements="1074" coveredstatements="282" conditionals="434" coveredconditionals="48" methods="330" coveredmethods="61" elements="1838" coveredelements="391" complexity="0" loc="1074" ncloc="1074" packages="12" files="54" classes="54"/>
+<coverage generated="1680154947515" clover="3.2.0">
+  <project timestamp="1680154947515" name="All files">
+    <metrics statements="1129" coveredstatements="291" conditionals="466" coveredconditionals="50" methods="355" coveredmethods="62" elements="1950" coveredelements="403" complexity="0" loc="1129" ncloc="1129" packages="12" files="58" classes="58"/>
     <package name="src">
       <metrics statements="34" coveredstatements="23" conditionals="4" coveredconditionals="0" methods="10" coveredmethods="6"/>
       <file name="App.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\App.js">
         <metrics statements="4" coveredstatements="4" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
-        <line num="24" count="4" type="stmt"/>
-        <line num="25" count="4" type="stmt"/>
-        <line num="26" count="9" type="stmt"/>
-        <line num="30" count="9" type="stmt"/>
+        <line num="24" count="45" type="stmt"/>
+        <line num="25" count="45" type="stmt"/>
+        <line num="26" count="139" type="stmt"/>
+        <line num="30" count="139" type="stmt"/>
       </file>
       <file name="HaAppBar.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\HaAppBar.js">
         <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="2"/>
-        <line num="6" count="4" type="stmt"/>
+        <line num="6" count="45" type="stmt"/>
         <line num="7" count="13" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="11" count="13" type="stmt"/>
-        <line num="20" count="4" type="stmt"/>
+        <line num="20" count="45" type="stmt"/>
         <line num="21" count="13" type="stmt"/>
       </file>
       <file name="HaLayout.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\HaLayout.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="8" count="4" type="stmt"/>
+        <line num="8" count="45" type="stmt"/>
         <line num="9" count="13" type="stmt"/>
       </file>
       <file name="MyBreadcrumb.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\MyBreadcrumb.js">
         <metrics statements="13" coveredstatements="4" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="1"/>
-        <line num="5" count="4" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
         <line num="6" count="13" type="stmt"/>
         <line num="7" count="13" type="stmt"/>
         <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -44,41 +44,41 @@
       </file>
       <file name="aws-exports.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\aws-exports.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="4" count="4" type="stmt"/>
+        <line num="4" count="45" type="stmt"/>
       </file>
       <file name="conf.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\conf.js">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="1" count="4" type="stmt"/>
-        <line num="3" count="4" type="stmt"/>
-        <line num="5" count="4" type="stmt"/>
-        <line num="33" count="4" type="stmt"/>
-        <line num="38" count="4" type="stmt"/>
-        <line num="44" count="4" type="stmt"/>
+        <line num="1" count="45" type="stmt"/>
+        <line num="3" count="45" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
+        <line num="33" count="45" type="stmt"/>
+        <line num="38" count="45" type="stmt"/>
+        <line num="44" count="45" type="stmt"/>
       </file>
       <file name="haTheme.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\haTheme.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="4" count="4" type="stmt"/>
+        <line num="4" count="45" type="stmt"/>
       </file>
     </package>
     <package name="src.gen.haClient">
       <metrics statements="586" coveredstatements="103" conditionals="271" coveredconditionals="28" methods="173" coveredmethods="22"/>
       <file name="api.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\gen\haClient\api.ts">
         <metrics statements="528" coveredstatements="65" conditionals="208" coveredconditionals="8" methods="156" coveredmethods="12"/>
-        <line num="124" count="4" type="stmt"/>
-        <line num="169" count="4" type="stmt"/>
-        <line num="250" count="4" type="stmt"/>
-        <line num="284" count="4" type="stmt"/>
-        <line num="337" count="4" type="stmt"/>
-        <line num="349" count="4" type="stmt"/>
-        <line num="443" count="4" type="stmt"/>
-        <line num="450" count="4" type="stmt"/>
-        <line num="600" count="4" type="stmt"/>
-        <line num="670" count="4" type="stmt"/>
-        <line num="778" count="4" type="stmt"/>
-        <line num="859" count="4" type="stmt"/>
-        <line num="959" count="4" type="stmt"/>
-        <line num="992" count="4" type="stmt"/>
-        <line num="1004" count="4" type="stmt"/>
+        <line num="124" count="45" type="stmt"/>
+        <line num="169" count="45" type="stmt"/>
+        <line num="250" count="45" type="stmt"/>
+        <line num="284" count="45" type="stmt"/>
+        <line num="337" count="45" type="stmt"/>
+        <line num="349" count="45" type="stmt"/>
+        <line num="443" count="45" type="stmt"/>
+        <line num="450" count="45" type="stmt"/>
+        <line num="600" count="45" type="stmt"/>
+        <line num="670" count="45" type="stmt"/>
+        <line num="778" count="45" type="stmt"/>
+        <line num="859" count="45" type="stmt"/>
+        <line num="959" count="45" type="stmt"/>
+        <line num="992" count="45" type="stmt"/>
+        <line num="1004" count="45" type="stmt"/>
         <line num="1005" count="0" type="stmt"/>
         <line num="1015" count="0" type="stmt"/>
         <line num="1016" count="0" type="stmt"/>
@@ -209,7 +209,7 @@
         <line num="1353" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="1354" count="0" type="stmt"/>
         <line num="1356" count="0" type="stmt"/>
-        <line num="1368" count="4" type="stmt"/>
+        <line num="1368" count="45" type="stmt"/>
         <line num="1369" count="0" type="stmt"/>
         <line num="1370" count="0" type="stmt"/>
         <line num="1382" count="0" type="stmt"/>
@@ -228,7 +228,7 @@
         <line num="1481" count="0" type="stmt"/>
         <line num="1500" count="0" type="stmt"/>
         <line num="1501" count="0" type="stmt"/>
-        <line num="1510" count="4" type="stmt"/>
+        <line num="1510" count="45" type="stmt"/>
         <line num="1511" count="0" type="stmt"/>
         <line num="1512" count="0" type="stmt"/>
         <line num="1521" count="0" type="stmt"/>
@@ -255,7 +255,7 @@
         <line num="1717" count="0" type="stmt"/>
         <line num="1732" count="0" type="stmt"/>
         <line num="1734" count="0" type="stmt"/>
-        <line num="1742" count="4" type="stmt"/>
+        <line num="1742" count="45" type="stmt"/>
         <line num="1743" count="36" type="stmt"/>
         <line num="1751" count="0" type="stmt"/>
         <line num="1753" count="0" type="stmt"/>
@@ -281,14 +281,14 @@
         <line num="1800" count="36" type="cond" truecount="2" falsecount="2"/>
         <line num="1801" count="36" type="stmt"/>
         <line num="1803" count="36" type="stmt"/>
-        <line num="1815" count="4" type="stmt"/>
+        <line num="1815" count="45" type="stmt"/>
         <line num="1816" count="36" type="stmt"/>
         <line num="1817" count="36" type="stmt"/>
         <line num="1825" count="0" type="stmt"/>
         <line num="1826" count="0" type="stmt"/>
         <line num="1835" count="36" type="stmt"/>
         <line num="1836" count="36" type="stmt"/>
-        <line num="1845" count="4" type="stmt"/>
+        <line num="1845" count="45" type="stmt"/>
         <line num="1846" count="0" type="stmt"/>
         <line num="1847" count="0" type="stmt"/>
         <line num="1855" count="0" type="stmt"/>
@@ -297,7 +297,7 @@
         <line num="1886" count="0" type="stmt"/>
         <line num="1897" count="36" type="stmt"/>
         <line num="1899" count="36" type="stmt"/>
-        <line num="1907" count="4" type="stmt"/>
+        <line num="1907" count="45" type="stmt"/>
         <line num="1908" count="0" type="stmt"/>
         <line num="1918" count="0" type="stmt"/>
         <line num="1919" count="0" type="stmt"/>
@@ -379,7 +379,7 @@
         <line num="2111" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="2112" count="0" type="stmt"/>
         <line num="2114" count="0" type="stmt"/>
-        <line num="2126" count="4" type="stmt"/>
+        <line num="2126" count="45" type="stmt"/>
         <line num="2127" count="0" type="stmt"/>
         <line num="2128" count="0" type="stmt"/>
         <line num="2137" count="0" type="stmt"/>
@@ -394,7 +394,7 @@
         <line num="2184" count="0" type="stmt"/>
         <line num="2193" count="0" type="stmt"/>
         <line num="2194" count="0" type="stmt"/>
-        <line num="2203" count="4" type="stmt"/>
+        <line num="2203" count="45" type="stmt"/>
         <line num="2204" count="0" type="stmt"/>
         <line num="2205" count="0" type="stmt"/>
         <line num="2214" count="0" type="stmt"/>
@@ -415,7 +415,7 @@
         <line num="2340" count="0" type="stmt"/>
         <line num="2351" count="0" type="stmt"/>
         <line num="2353" count="0" type="stmt"/>
-        <line num="2361" count="4" type="stmt"/>
+        <line num="2361" count="45" type="stmt"/>
         <line num="2362" count="9" type="stmt"/>
         <line num="2372" count="0" type="stmt"/>
         <line num="2373" count="0" type="stmt"/>
@@ -546,7 +546,7 @@
         <line num="2706" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="2707" count="0" type="stmt"/>
         <line num="2709" count="0" type="stmt"/>
-        <line num="2721" count="4" type="stmt"/>
+        <line num="2721" count="45" type="stmt"/>
         <line num="2722" count="9" type="stmt"/>
         <line num="2723" count="9" type="stmt"/>
         <line num="2735" count="0" type="stmt"/>
@@ -565,7 +565,7 @@
         <line num="2821" count="0" type="stmt"/>
         <line num="2842" count="0" type="stmt"/>
         <line num="2843" count="0" type="stmt"/>
-        <line num="2852" count="4" type="stmt"/>
+        <line num="2852" count="45" type="stmt"/>
         <line num="2853" count="0" type="stmt"/>
         <line num="2854" count="0" type="stmt"/>
         <line num="2863" count="0" type="stmt"/>
@@ -595,8 +595,8 @@
       </file>
       <file name="base.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\gen\haClient\base.ts">
         <metrics statements="7" coveredstatements="5" conditionals="6" coveredconditionals="5" methods="2" coveredmethods="1"/>
-        <line num="21" count="4" type="stmt"/>
-        <line num="27" count="4" type="stmt"/>
+        <line num="21" count="45" type="stmt"/>
+        <line num="27" count="45" type="stmt"/>
         <line num="53" count="45" type="cond" truecount="1" falsecount="1"/>
         <line num="54" count="45" type="stmt"/>
         <line num="55" count="45" type="cond" truecount="2" falsecount="0"/>
@@ -605,22 +605,22 @@
       </file>
       <file name="common.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\gen\haClient\common.ts">
         <metrics statements="42" coveredstatements="26" conditionals="53" coveredconditionals="14" methods="13" coveredmethods="8"/>
-        <line num="24" count="4" type="stmt"/>
-        <line num="31" count="4" type="stmt"/>
+        <line num="24" count="45" type="stmt"/>
+        <line num="31" count="45" type="stmt"/>
         <line num="32" count="9" type="cond" truecount="3" falsecount="1"/>
         <line num="33" count="0" type="stmt"/>
-        <line num="41" count="4" type="stmt"/>
+        <line num="41" count="45" type="stmt"/>
         <line num="42" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="43" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="44" count="0" type="stmt"/>
-        <line num="52" count="4" type="stmt"/>
+        <line num="52" count="45" type="stmt"/>
         <line num="53" count="0" type="cond" truecount="0" falsecount="5"/>
         <line num="54" count="0" type="stmt"/>
-        <line num="62" count="4" type="stmt"/>
+        <line num="62" count="45" type="stmt"/>
         <line num="63" count="45" type="cond" truecount="3" falsecount="1"/>
         <line num="64" count="45" type="cond" truecount="1" falsecount="1"/>
         <line num="65" count="45" type="stmt"/>
-        <line num="73" count="4" type="stmt"/>
+        <line num="73" count="45" type="stmt"/>
         <line num="74" count="0" type="cond" truecount="0" falsecount="4"/>
         <line num="76" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="77" count="0" type="stmt"/>
@@ -633,17 +633,17 @@
         <line num="92" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="93" count="0" type="stmt"/>
         <line num="95" count="0" type="stmt"/>
-        <line num="104" count="4" type="stmt"/>
+        <line num="104" count="45" type="stmt"/>
         <line num="105" count="45" type="stmt"/>
         <line num="106" count="45" type="stmt"/>
         <line num="107" count="45" type="stmt"/>
-        <line num="114" count="4" type="stmt"/>
+        <line num="114" count="45" type="stmt"/>
         <line num="115" count="0" type="stmt"/>
         <line num="117" count="0" type="cond" truecount="0" falsecount="5"/>
         <line num="118" count="0" type="cond" truecount="0" falsecount="6"/>
-        <line num="125" count="4" type="stmt"/>
+        <line num="125" count="45" type="stmt"/>
         <line num="126" count="45" type="stmt"/>
-        <line num="133" count="4" type="stmt"/>
+        <line num="133" count="45" type="stmt"/>
         <line num="134" count="45" type="cond" truecount="0" falsecount="2"/>
         <line num="135" count="45" type="cond" truecount="2" falsecount="0"/>
         <line num="136" count="45" type="stmt"/>
@@ -668,7 +668,7 @@
       <metrics statements="18" coveredstatements="11" conditionals="8" coveredconditionals="2" methods="5" coveredmethods="2"/>
       <file name="HaMenu.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\menu\HaMenu.js">
         <metrics statements="9" coveredstatements="4" conditionals="6" coveredconditionals="1" methods="1" coveredmethods="1"/>
-        <line num="6" count="4" type="stmt"/>
+        <line num="6" count="45" type="stmt"/>
         <line num="7" count="13" type="stmt"/>
         <line num="9" count="13" type="cond" truecount="1" falsecount="1"/>
         <line num="10" count="13" type="stmt"/>
@@ -680,12 +680,12 @@
       </file>
       <file name="ManagerMenu.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\menu\ManagerMenu.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="6" count="4" type="stmt"/>
+        <line num="6" count="45" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
       </file>
       <file name="StudentMenu.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\menu\StudentMenu.js">
         <metrics statements="5" coveredstatements="5" conditionals="2" coveredconditionals="1" methods="2" coveredmethods="1"/>
-        <line num="8" count="4" type="stmt"/>
+        <line num="8" count="45" type="stmt"/>
         <line num="9" count="13" type="stmt"/>
         <line num="10" count="13" type="stmt"/>
         <line num="11" count="13" type="stmt"/>
@@ -693,15 +693,15 @@
       </file>
       <file name="TeacherMenu.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\menu\TeacherMenu.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="5" count="4" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
       </file>
     </package>
     <package name="src.operations.fees">
-      <metrics statements="107" coveredstatements="18" conditionals="34" coveredconditionals="0" methods="37" coveredmethods="1"/>
+      <metrics statements="107" coveredstatements="20" conditionals="36" coveredconditionals="0" methods="38" coveredmethods="1"/>
       <file name="ByStatusFeeList.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\fees\ByStatusFeeList.js">
         <metrics statements="8" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="1"/>
-        <line num="7" count="4" type="stmt"/>
+        <line num="7" count="45" type="stmt"/>
         <line num="8" count="18" type="stmt"/>
         <line num="9" count="18" type="stmt"/>
         <line num="11" count="4" type="stmt"/>
@@ -712,9 +712,9 @@
       </file>
       <file name="FeeList.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\fees\FeeList.js">
         <metrics statements="16" coveredstatements="2" conditionals="4" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="14" count="4" type="stmt"/>
+        <line num="14" count="45" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
-        <line num="20" count="4" type="stmt"/>
+        <line num="20" count="45" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="23" count="0" type="stmt"/>
@@ -730,15 +730,15 @@
         <line num="48" count="0" type="stmt"/>
       </file>
       <file name="FeeShow.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\fees\FeeShow.js">
-        <metrics statements="17" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="0"/>
-        <line num="14" count="4" type="stmt"/>
+        <metrics statements="17" coveredstatements="4" conditionals="4" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="14" count="45" type="stmt"/>
         <line num="15" count="0" type="stmt"/>
-        <line num="20" count="0" type="stmt"/>
+        <line num="20" count="41" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
         <line num="24" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="33" count="4" type="stmt"/>
         <line num="34" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
+        <line num="35" count="41" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
         <line num="38" count="0" type="stmt"/>
@@ -751,19 +751,19 @@
       </file>
       <file name="FeesCreate.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\fees\FeesCreate.js">
         <metrics statements="62" coveredstatements="8" conditionals="22" coveredconditionals="0" methods="19" coveredmethods="0"/>
-        <line num="20" count="4" type="stmt"/>
-        <line num="30" count="4" type="stmt"/>
-        <line num="31" count="4" type="stmt"/>
+        <line num="20" count="45" type="stmt"/>
+        <line num="30" count="45" type="stmt"/>
+        <line num="31" count="45" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
         <line num="36" count="0" type="stmt"/>
         <line num="37" count="0" type="stmt"/>
-        <line num="42" count="4" type="stmt"/>
+        <line num="42" count="45" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
         <line num="47" count="0" type="stmt"/>
-        <line num="51" count="4" type="stmt"/>
+        <line num="51" count="45" type="stmt"/>
         <line num="52" count="0" type="stmt"/>
         <line num="56" count="0" type="stmt"/>
-        <line num="61" count="4" type="stmt"/>
+        <line num="61" count="45" type="stmt"/>
         <line num="62" count="0" type="stmt"/>
         <line num="63" count="0" type="stmt"/>
         <line num="64" count="0" type="stmt"/>
@@ -772,7 +772,7 @@
         <line num="67" count="0" type="stmt"/>
         <line num="74" count="0" type="stmt"/>
         <line num="85" count="0" type="stmt"/>
-        <line num="95" count="4" type="stmt"/>
+        <line num="95" count="45" type="stmt"/>
         <line num="96" count="0" type="stmt"/>
         <line num="97" count="0" type="stmt"/>
         <line num="98" count="0" type="stmt"/>
@@ -804,7 +804,7 @@
         <line num="156" count="0" type="stmt"/>
         <line num="158" count="0" type="stmt"/>
         <line num="164" count="0" type="stmt"/>
-        <line num="174" count="4" type="stmt"/>
+        <line num="174" count="45" type="stmt"/>
         <line num="175" count="0" type="stmt"/>
         <line num="176" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="177" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -816,20 +816,20 @@
       </file>
       <file name="byStatusRowStyle.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\fees\byStatusRowStyle.js">
         <metrics statements="3" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="3" count="4" type="stmt"/>
+        <line num="3" count="45" type="stmt"/>
         <line num="4" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="5" count="0" type="stmt"/>
       </file>
       <file name="index.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\fees\index.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="7" count="4" type="stmt"/>
+        <line num="7" count="45" type="stmt"/>
       </file>
     </package>
     <package name="src.operations.payments">
-      <metrics statements="25" coveredstatements="4" conditionals="2" coveredconditionals="0" methods="10" coveredmethods="0"/>
+      <metrics statements="25" coveredstatements="4" conditionals="4" coveredconditionals="0" methods="10" coveredmethods="0"/>
       <file name="PaymentCreate.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\payments\PaymentCreate.js">
         <metrics statements="19" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="7" coveredmethods="0"/>
-        <line num="9" count="4" type="stmt"/>
+        <line num="9" count="45" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
@@ -850,30 +850,30 @@
         <line num="44" count="0" type="stmt"/>
       </file>
       <file name="PaymentList.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\payments\PaymentList.js">
-        <metrics statements="5" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="6" count="4" type="stmt"/>
+        <metrics statements="5" coveredstatements="2" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="6" count="45" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
+        <line num="12" count="45" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
       </file>
       <file name="index.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\payments\index.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="5" count="4" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
       </file>
     </package>
     <package name="src.operations.profile">
-      <metrics statements="28" coveredstatements="21" conditionals="18" coveredconditionals="11" methods="8" coveredmethods="6"/>
+      <metrics statements="28" coveredstatements="21" conditionals="22" coveredconditionals="11" methods="9" coveredmethods="6"/>
       <file name="ProfileEdit.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\profile\ProfileEdit.js">
-        <metrics statements="4" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="5" count="4" type="stmt"/>
+        <metrics statements="4" coveredstatements="2" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="5" count="45" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
+        <line num="16" count="45" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
       </file>
       <file name="ProfileShow.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\profile\ProfileShow.js">
         <metrics statements="22" coveredstatements="17" conditionals="18" coveredconditionals="11" methods="6" coveredmethods="6"/>
-        <line num="7" count="4" type="stmt"/>
+        <line num="7" count="45" type="stmt"/>
         <line num="8" count="9" type="stmt"/>
         <line num="9" count="9" type="cond" truecount="1" falsecount="1"/>
         <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -892,28 +892,28 @@
         <line num="28" count="0" type="stmt"/>
         <line num="30" count="9" type="stmt"/>
         <line num="31" count="9" type="stmt"/>
-        <line num="48" count="4" type="stmt"/>
+        <line num="48" count="45" type="stmt"/>
         <line num="49" count="9" type="stmt"/>
         <line num="50" count="9" type="stmt"/>
       </file>
       <file name="index.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\profile\index.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="4" count="4" type="stmt"/>
-        <line num="10" count="4" type="stmt"/>
+        <line num="4" count="45" type="stmt"/>
+        <line num="10" count="45" type="stmt"/>
       </file>
     </package>
     <package name="src.operations.studentGrades">
       <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
       <file name="index.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\studentGrades\index.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="5" count="4" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
       </file>
     </package>
     <package name="src.operations.students">
       <metrics statements="37" coveredstatements="5" conditionals="16" coveredconditionals="0" methods="9" coveredmethods="0"/>
       <file name="StudentCreate.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\students\StudentCreate.js">
         <metrics statements="27" coveredstatements="1" conditionals="10" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="7" count="4" type="stmt"/>
+        <line num="7" count="45" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="16" count="0" type="stmt"/>
         <line num="17" count="0" type="stmt"/>
@@ -943,59 +943,66 @@
       </file>
       <file name="StudentList.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\students\StudentList.js">
         <metrics statements="3" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="8" count="4" type="stmt"/>
+        <line num="8" count="45" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
       </file>
       <file name="StudentShow.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\students\StudentShow.js">
         <metrics statements="6" coveredstatements="2" conditionals="4" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="8" count="4" type="stmt"/>
+        <line num="8" count="45" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
-        <line num="22" count="4" type="stmt"/>
+        <line num="22" count="45" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
         <line num="24" count="0" type="stmt"/>
       </file>
       <file name="index.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\students\index.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="7" count="4" type="stmt"/>
+        <line num="7" count="45" type="stmt"/>
       </file>
     </package>
     <package name="src.operations.teachers">
-      <metrics statements="9" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="0"/>
+      <metrics statements="9" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
       <file name="TeacherCreate.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\teachers\TeacherCreate.js">
-        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="4" count="4" type="stmt"/>
+        <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
+        <line num="4" count="45" type="stmt"/>
         <line num="5" count="0" type="stmt"/>
       </file>
       <file name="TeacherList.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\teachers\TeacherList.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="6" count="4" type="stmt"/>
+        <line num="6" count="45" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
       </file>
       <file name="TeacherShow.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\teachers\TeacherShow.js">
         <metrics statements="4" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="5" count="4" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
-        <line num="13" count="4" type="stmt"/>
+        <line num="13" count="45" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
       </file>
       <file name="index.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\teachers\index.js">
         <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
-        <line num="7" count="4" type="stmt"/>
+        <line num="7" count="45" type="stmt"/>
       </file>
     </package>
     <package name="src.operations.utils">
-      <metrics statements="29" coveredstatements="9" conditionals="23" coveredconditionals="0" methods="8" coveredmethods="1"/>
+      <metrics statements="33" coveredstatements="10" conditionals="25" coveredconditionals="0" methods="9" coveredmethods="1"/>
+      <file name="CustomDateField.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\utils\CustomDateField.js">
+        <metrics statements="4" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="3" count="41" type="stmt"/>
+        <line num="4" count="0" type="stmt"/>
+        <line num="5" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="6" count="0" type="stmt"/>
+      </file>
       <file name="EditToolBar.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\utils\EditToolBar.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="3" count="4" type="stmt"/>
+        <line num="3" count="45" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
       </file>
       <file name="PrevNextPagination.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\utils\PrevNextPagination.js">
         <metrics statements="15" coveredstatements="2" conditionals="17" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="7" count="4" type="stmt"/>
-        <line num="9" count="4" type="stmt"/>
+        <line num="7" count="45" type="stmt"/>
+        <line num="9" count="45" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -1012,7 +1019,7 @@
       </file>
       <file name="SexRadioButton.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\utils\SexRadioButton.js">
         <metrics statements="2" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="3" count="4" type="stmt"/>
+        <line num="3" count="45" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
       </file>
       <file name="index.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\utils\index.js">
@@ -1020,15 +1027,15 @@
       </file>
       <file name="money.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\utils\money.ts">
         <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="1" count="4" type="stmt"/>
-        <line num="3" count="4" type="stmt"/>
+        <line num="1" count="45" type="stmt"/>
+        <line num="3" count="45" type="stmt"/>
         <line num="4" count="0" type="stmt"/>
       </file>
       <file name="typography.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\operations\utils\typography.js">
         <metrics statements="7" coveredstatements="3" conditionals="6" coveredconditionals="0" methods="2" coveredmethods="1"/>
-        <line num="1" count="4" type="stmt"/>
-        <line num="2" count="4" type="stmt"/>
-        <line num="4" count="4" type="stmt"/>
+        <line num="1" count="45" type="stmt"/>
+        <line num="2" count="45" type="stmt"/>
+        <line num="4" count="45" type="stmt"/>
         <line num="5" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="6" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="7" count="0" type="cond" truecount="0" falsecount="2"/>
@@ -1036,24 +1043,24 @@
       </file>
     </package>
     <package name="src.providers">
-      <metrics statements="154" coveredstatements="65" conditionals="40" coveredconditionals="5" methods="54" coveredmethods="19"/>
+      <metrics statements="154" coveredstatements="65" conditionals="42" coveredconditionals="5" methods="56" coveredmethods="19"/>
       <file name="api.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\providers\api.js">
         <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="1"/>
-        <line num="4" count="9" type="stmt"/>
-        <line num="5" count="4" type="stmt"/>
+        <line num="4" count="45" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
       </file>
       <file name="authProvider.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\providers\authProvider.ts">
-        <metrics statements="57" coveredstatements="41" conditionals="6" coveredconditionals="3" methods="20" coveredmethods="14"/>
-        <line num="12" count="4" type="stmt"/>
-        <line num="14" count="4" type="stmt"/>
-        <line num="15" count="4" type="stmt"/>
-        <line num="16" count="4" type="stmt"/>
-        <line num="17" count="4" type="stmt"/>
-        <line num="18" count="4" type="stmt"/>
-        <line num="19" count="4" type="stmt"/>
-        <line num="20" count="4" type="stmt"/>
-        <line num="22" count="4" type="stmt"/>
-        <line num="23" count="63" type="stmt"/>
+        <metrics statements="57" coveredstatements="41" conditionals="6" coveredconditionals="3" methods="22" coveredmethods="14"/>
+        <line num="12" count="45" type="stmt"/>
+        <line num="14" count="45" type="stmt"/>
+        <line num="15" count="45" type="stmt"/>
+        <line num="16" count="45" type="stmt"/>
+        <line num="17" count="45" type="stmt"/>
+        <line num="18" count="45" type="stmt"/>
+        <line num="19" count="45" type="stmt"/>
+        <line num="20" count="45" type="stmt"/>
+        <line num="22" count="45" type="stmt"/>
+        <line num="23" count="275" type="stmt"/>
         <line num="24" count="36" type="stmt"/>
         <line num="25" count="36" type="stmt"/>
         <line num="26" count="36" type="stmt"/>
@@ -1061,39 +1068,39 @@
         <line num="29" count="36" type="stmt"/>
         <line num="31" count="0" type="stmt"/>
         <line num="32" count="0" type="stmt"/>
-        <line num="36" count="4" type="stmt"/>
-        <line num="38" count="4" type="stmt"/>
-        <line num="40" count="4" type="stmt"/>
+        <line num="36" count="45" type="stmt"/>
+        <line num="38" count="45" type="stmt"/>
+        <line num="40" count="45" type="stmt"/>
         <line num="41" count="9" type="stmt"/>
         <line num="42" count="9" type="stmt"/>
         <line num="43" count="9" type="stmt"/>
-        <line num="46" count="93" type="stmt"/>
-        <line num="48" count="27" type="stmt"/>
-        <line num="50" count="4" type="stmt"/>
+        <line num="46" count="175" type="stmt"/>
+        <line num="48" count="68" type="stmt"/>
+        <line num="50" count="45" type="stmt"/>
         <line num="51" count="9" type="stmt"/>
         <line num="52" count="9" type="stmt"/>
         <line num="53" count="9" type="stmt"/>
-        <line num="56" count="4" type="stmt"/>
-        <line num="61" count="9" type="stmt"/>
+        <line num="56" count="45" type="stmt"/>
+        <line num="61" count="11" type="stmt"/>
         <line num="62" count="9" type="cond" truecount="1" falsecount="1"/>
         <line num="63" count="0" type="stmt"/>
         <line num="64" count="0" type="stmt"/>
         <line num="65" count="0" type="stmt"/>
         <line num="66" count="0" type="stmt"/>
         <line num="68" count="9" type="stmt"/>
-        <line num="72" count="9" type="stmt"/>
-        <line num="73" count="9" type="stmt"/>
-        <line num="74" count="9" type="stmt"/>
-        <line num="78" count="54" type="stmt"/>
+        <line num="72" count="50" type="stmt"/>
+        <line num="73" count="50" type="stmt"/>
+        <line num="74" count="50" type="stmt"/>
+        <line num="78" count="266" type="stmt"/>
         <line num="80" count="27" type="cond" truecount="2" falsecount="2"/>
         <line num="81" count="0" type="stmt"/>
-        <line num="85" count="27" type="stmt"/>
+        <line num="85" count="239" type="stmt"/>
         <line num="89" count="0" type="stmt"/>
         <line num="91" count="0" type="stmt"/>
-        <line num="93" count="18" type="stmt"/>
-        <line num="98" count="9" type="stmt"/>
-        <line num="99" count="9" type="stmt"/>
-        <line num="100" count="9" type="stmt"/>
+        <line num="93" count="59" type="stmt"/>
+        <line num="98" count="139" type="stmt"/>
+        <line num="99" count="139" type="stmt"/>
+        <line num="100" count="139" type="stmt"/>
         <line num="104" count="0" type="stmt"/>
         <line num="105" count="0" type="stmt"/>
         <line num="106" count="0" type="stmt"/>
@@ -1104,15 +1111,15 @@
       </file>
       <file name="dataProvider.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\providers\dataProvider.ts">
         <metrics statements="31" coveredstatements="7" conditionals="18" coveredconditionals="1" methods="6" coveredmethods="2"/>
-        <line num="9" count="4" type="stmt"/>
-        <line num="11" count="4" type="stmt"/>
+        <line num="9" count="45" type="stmt"/>
+        <line num="11" count="45" type="stmt"/>
         <line num="12" count="9" type="cond" truecount="1" falsecount="1"/>
         <line num="13" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="15" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="16" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="17" count="0" type="stmt"/>
-        <line num="20" count="4" type="stmt"/>
+        <line num="20" count="45" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
         <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="24" count="0" type="stmt"/>
@@ -1128,7 +1135,7 @@
         <line num="40" count="0" type="stmt"/>
         <line num="43" count="0" type="stmt"/>
         <line num="46" count="0" type="stmt"/>
-        <line num="50" count="4" type="stmt"/>
+        <line num="50" count="45" type="stmt"/>
         <line num="51" count="0" type="stmt"/>
         <line num="52" count="0" type="stmt"/>
         <line num="53" count="0" type="stmt"/>
@@ -1138,13 +1145,13 @@
       </file>
       <file name="feeProvider.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\providers\feeProvider.ts">
         <metrics statements="19" coveredstatements="5" conditionals="6" coveredconditionals="0" methods="8" coveredmethods="0"/>
-        <line num="4" count="4" type="stmt"/>
-        <line num="5" count="4" type="stmt"/>
-        <line num="6" count="4" type="stmt"/>
+        <line num="4" count="45" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
+        <line num="6" count="45" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
-        <line num="10" count="4" type="stmt"/>
-        <line num="12" count="4" type="stmt"/>
+        <line num="10" count="45" type="stmt"/>
+        <line num="12" count="45" type="stmt"/>
         <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
         <line num="17" count="0" type="stmt"/>
         <line num="23" count="0" type="stmt"/>
@@ -1160,9 +1167,9 @@
       </file>
       <file name="paymentProvider.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\providers\paymentProvider.ts">
         <metrics statements="15" coveredstatements="3" conditionals="2" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="6" count="4" type="stmt"/>
-        <line num="7" count="4" type="stmt"/>
-        <line num="9" count="4" type="stmt"/>
+        <line num="6" count="45" type="stmt"/>
+        <line num="7" count="45" type="stmt"/>
+        <line num="9" count="45" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="12" count="0" type="stmt"/>
         <line num="13" count="0" type="stmt"/>
@@ -1178,7 +1185,7 @@
       </file>
       <file name="profileProvider.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\providers\profileProvider.ts">
         <metrics statements="13" coveredstatements="5" conditionals="6" coveredconditionals="1" methods="6" coveredmethods="2"/>
-        <line num="5" count="4" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
         <line num="7" count="9" type="stmt"/>
         <line num="8" count="9" type="cond" truecount="1" falsecount="1"/>
         <line num="9" count="9" type="stmt"/>
@@ -1193,8 +1200,8 @@
         <line num="28" count="0" type="stmt"/>
       </file>
       <file name="studentProvider.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\providers\studentProvider.ts">
-        <metrics statements="10" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="5" count="4" type="stmt"/>
+        <metrics statements="10" coveredstatements="1" conditionals="4" coveredconditionals="0" methods="3" coveredmethods="0"/>
+        <line num="5" count="45" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
@@ -1207,7 +1214,7 @@
       </file>
       <file name="teacherProvider.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\providers\teacherProvider.ts">
         <metrics statements="7" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="0"/>
-        <line num="4" count="4" type="stmt"/>
+        <line num="4" count="45" type="stmt"/>
         <line num="6" count="0" type="stmt"/>
         <line num="7" count="0" type="stmt"/>
         <line num="10" count="0" type="stmt"/>
@@ -1217,13 +1224,13 @@
       </file>
     </package>
     <package name="src.security">
-      <metrics statements="46" coveredstatements="17" conditionals="18" coveredconditionals="2" methods="12" coveredmethods="4"/>
+      <metrics statements="97" coveredstatements="23" conditionals="38" coveredconditionals="4" methods="31" coveredmethods="5"/>
       <file name="CompletePasswordPage.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\security\CompletePasswordPage.js">
         <metrics statements="31" coveredstatements="4" conditionals="14" coveredconditionals="0" methods="6" coveredmethods="0"/>
-        <line num="5" count="4" type="stmt"/>
-        <line num="54" count="4" type="stmt"/>
+        <line num="5" count="45" type="stmt"/>
+        <line num="54" count="45" type="stmt"/>
         <line num="55" count="0" type="stmt"/>
-        <line num="58" count="4" type="stmt"/>
+        <line num="58" count="45" type="stmt"/>
         <line num="59" count="0" type="stmt"/>
         <line num="60" count="0" type="stmt"/>
         <line num="61" count="0" type="stmt"/>
@@ -1249,29 +1256,89 @@
         <line num="86" count="0" type="stmt"/>
         <line num="89" count="0" type="stmt"/>
         <line num="96" count="0" type="stmt"/>
-        <line num="109" count="4" type="stmt"/>
+        <line num="109" count="45" type="stmt"/>
         <line num="110" count="0" type="stmt"/>
       </file>
-      <file name="LoginPage.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\security\LoginPage.js">
-        <metrics statements="9" coveredstatements="7" conditionals="4" coveredconditionals="2" methods="5" coveredmethods="3"/>
-        <line num="7" count="4" type="stmt"/>
+      <file name="ConfirmForgotPassword.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\security\ConfirmForgotPassword.js">
+        <metrics statements="10" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="5" coveredmethods="0"/>
+        <line num="7" count="41" type="stmt"/>
         <line num="8" count="0" type="stmt"/>
         <line num="9" count="0" type="stmt"/>
-        <line num="36" count="4" type="stmt"/>
-        <line num="37" count="9" type="stmt"/>
-        <line num="38" count="9" type="stmt"/>
-        <line num="39" count="9" type="stmt"/>
-        <line num="40" count="9" type="cond" truecount="1" falsecount="1"/>
+        <line num="10" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="19" count="0" type="stmt"/>
+      </file>
+      <file name="ForgotPassword.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\security\ForgotPassword.js">
+        <metrics statements="17" coveredstatements="1" conditionals="2" coveredconditionals="0" methods="8" coveredmethods="0"/>
+        <line num="6" count="41" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="27" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="30" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+      </file>
+      <file name="LoginPage.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\security\LoginPage.js">
+        <metrics statements="9" coveredstatements="7" conditionals="6" coveredconditionals="4" methods="7" coveredmethods="4"/>
+        <line num="7" count="45" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="36" count="45" type="stmt"/>
+        <line num="37" count="139" type="stmt"/>
+        <line num="38" count="139" type="stmt"/>
+        <line num="39" count="139" type="stmt"/>
+        <line num="40" count="139" type="cond" truecount="1" falsecount="1"/>
         <line num="42" count="9" type="stmt"/>
       </file>
       <file name="permissions.ts" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\security\permissions.ts">
         <metrics statements="6" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
-        <line num="3" count="4" type="stmt"/>
-        <line num="4" count="18" type="stmt"/>
-        <line num="6" count="18" type="stmt"/>
-        <line num="7" count="18" type="stmt"/>
-        <line num="9" count="18" type="stmt"/>
-        <line num="31" count="18" type="stmt"/>
+        <line num="3" count="45" type="stmt"/>
+        <line num="4" count="59" type="stmt"/>
+        <line num="6" count="59" type="stmt"/>
+        <line num="7" count="59" type="stmt"/>
+        <line num="9" count="59" type="stmt"/>
+        <line num="31" count="59" type="stmt"/>
+      </file>
+      <file name="utils.js" path="C:\Users\ACER\Documents\Git\hei-admin-ui\src\security\utils.js">
+        <metrics statements="24" coveredstatements="4" conditionals="16" coveredconditionals="0" methods="4" coveredmethods="0"/>
+        <line num="6" count="41" type="stmt"/>
+        <line num="7" count="0" type="stmt"/>
+        <line num="8" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="10" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="14" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
+        <line num="20" count="41" type="stmt"/>
+        <line num="21" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="24" count="0" type="stmt"/>
+        <line num="25" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="26" count="0" type="stmt"/>
+        <line num="28" count="0" type="stmt"/>
+        <line num="32" count="41" type="stmt"/>
+        <line num="33" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="53" count="41" type="stmt"/>
+        <line num="54" count="0" type="stmt"/>
       </file>
     </package>
   </project>
