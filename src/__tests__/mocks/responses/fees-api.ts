@@ -25,9 +25,19 @@ export const unpaidFeeMock: Fee = {
   due_datetime: '2022-12-08T08:25:24Z'
 }
 
-export const feesMock: Fee[] = [
+export const feesMock: any[] = [
   fee1Mock,
   unpaidFeeMock,
+  {
+    id: 'dummy',
+    student_id: student1Mock.id,
+    remaining_amount: 0,
+    status: 'PARTIALLY_PAID',
+    type: FeeTypeEnum.Tuition,
+    comment: 'dummy',
+    total_amount: 0,
+    creation_datetime: '2021-11-08T08:25:24Z'
+  },
   {
     id: 'fee3_id',
     student_id: student1Mock.id,
