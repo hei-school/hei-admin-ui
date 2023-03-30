@@ -26,6 +26,16 @@ describe(specTitle('Student'), () => {
   it('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
+  it('can detail fee (click on fee row)', () => {
+    it('can list fees', () => {
+      cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
+      cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
+      cy.get('body').click(200, 0) //note(uncover-menu)
+      cy.contains('200,000 Ar').click()
+      cy.contains('En retard')
+      cy.contains('200,000 Ar')
+    })
+    
 
   it('can detail fee (click on fee row)', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
