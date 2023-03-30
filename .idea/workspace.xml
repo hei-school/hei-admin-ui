@@ -4,7 +4,12 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3200e3d-2407-4611-9d2d-a9a99fed8eb3" name="Changes" comment="" />
+    <list default="true" id="d3200e3d-2407-4611-9d2d-a9a99fed8eb3" name="Changes" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/__tests__/Student.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/__tests__/Student.cy.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/__tests__/mocks/responses/fees-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/__tests__/mocks/responses/fees-api.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/gen/haClient/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/haClient/api.ts" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -34,10 +39,25 @@
     "nodejs_package_manager_path": "npm",
     "prettierjs.PrettierConfiguration.Package": "C:\\Users\\NITRO 5\\Downloads\\hei-admin-ui\\node_modules\\prettier",
     "settings.editor.selected.configurable": "AndroidSdkUpdater",
-    "ts.external.directory.path": "C:\\Users\\NITRO 5\\Downloads\\hei-admin-ui\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "D:\\IntelliJ\\IntelliJ IDEA 2022.3.2\\plugins\\javascript-impl\\jsLanguageServicesImpl\\external",
     "vue.rearranger.settings.migration": "true"
   }
 }]]></component>
+  <component name="RunManager">
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="hei-admin-ui" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="hei-admin-ui" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
@@ -49,6 +69,9 @@
       <workItem from="1679106644968" duration="5320000" />
       <workItem from="1679287714270" duration="26000" />
       <workItem from="1680151291571" duration="3676000" />
+      <workItem from="1680158261800" duration="781000" />
+      <workItem from="1680159060034" duration="21000" />
+      <workItem from="1680159104818" duration="615000" />
     </task>
     <servers />
   </component>
