@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d3200e3d-2407-4611-9d2d-a9a99fed8eb3" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__tests__/Student.cy.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/__tests__/Student.cy.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/__tests__/mocks/responses/fees-api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/__tests__/mocks/responses/fees-api.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gen/haClient/api.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/gen/haClient/api.ts" afterDir="false" />
-    </list>
+    <list default="true" id="d3200e3d-2407-4611-9d2d-a9a99fed8eb3" name="Changes" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +66,7 @@
       <workItem from="1680151291571" duration="3676000" />
       <workItem from="1680158261800" duration="781000" />
       <workItem from="1680159060034" duration="21000" />
-      <workItem from="1680159104818" duration="615000" />
+      <workItem from="1680159104818" duration="961000" />
     </task>
     <servers />
   </component>
