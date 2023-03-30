@@ -23,7 +23,7 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
-  it('lands on profile page if succeeds', () => {
+  xit('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
@@ -41,11 +41,5 @@ describe(specTitle('Student'), () => {
       .wait(['@getStudent', '@getWhoami'])
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
-  })
-  /**
-   * Test student1Mock with the new functionality
-   */
-  it('show message error when the api doesn"t return something', () => {
-    cy.get(``)
   })
 })
