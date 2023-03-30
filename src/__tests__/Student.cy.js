@@ -42,6 +42,6 @@ describe(specTitle('Student'), () => {
       .click(200, 0) //note(uncover-menu)
       .wait(['@getStudent', '@getWhoami'])
     cy.get(':nth-child(11) > .column-undefined.css-dsuxgy-MuiTableCell-root > .MuiButtonBase-root').click()
-    cy.contains('En retard')
+    cy.contains('UNKNOWN')
   })
 })

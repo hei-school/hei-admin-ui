@@ -5,5 +5,7 @@ export const statusRenderer = status => {
   if (status === 'LATE') return 'En retard'
   if (status === 'PAID') return 'Payé'
   if (status === 'UNPAID') return 'En attente'
+  if (status === undefined) return 'UNKNOWN'
+
   return unexpectedValue
 }
