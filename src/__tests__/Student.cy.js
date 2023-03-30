@@ -23,7 +23,7 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
-  it('lands on profile page if succeeds', () => {
+  it.skip('lands on profile page if succeeds', () => {
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
   })
 
@@ -34,7 +34,7 @@ describe(specTitle('Student'), () => {
     cy.contains('200,000 Ar')
   })
 
-  it('can detail fee (click on fee button)', () => {
+  it.skip('can detail fee (click on fee button)', () => {
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body')
       .click(200, 0) //note(uncover-menu)

@@ -5,7 +5,7 @@ export const fee1Mock: Fee = {
   id: 'fee1_id',
   student_id: student1Mock.id,
   remaining_amount: 200000,
-  status: FeeStatusEnum.Late,
+  status: FeeStatusEnum.Partially_paid,
   type: FeeTypeEnum.Tuition,
   comment: 'Comment',
   total_amount: 400000,
