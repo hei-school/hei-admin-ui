@@ -29,7 +29,7 @@ jobs:
           rootdir: ''
           workdir: ''
 
-      - run: sh ./initAWS.sh AKIARJD6PHDN4JNLM4W7 hi2FMGRA3Xg5fyk8P53mprw5zGAPFiZoPvxNg1Gj eu-west-3
+      - run: sh ./initAWS.sh  eu-west-3
 
       - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
 

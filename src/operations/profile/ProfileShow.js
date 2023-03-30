@@ -17,13 +17,15 @@ export const ProfileLayout = () => {
   const phoneRenderer = data => <Link href={`tel:${data.phone}`}>{data.phone}</Link>
 
   const LatitudeRenderer = (data) => {
-    const latitude = data?.latitude;
-    return latitude ? latitude : 'Donnee manquante';
+    if(latitude === null) return 'Donnée Manquante' 
+      else
+       return latitude;
   };
 
   const longitudeRenderer = (data) => {
-    const longitude = data?.longitude;
-    return longitude ? longitude : 'Donnee manquante';
+    if(longitude === null) return 'Donnée Manquante' 
+        else 
+        return longitude.
   };
   return (
     <SimpleShowLayout>
