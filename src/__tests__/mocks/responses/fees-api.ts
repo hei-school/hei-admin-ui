@@ -114,7 +114,15 @@ export const feesMock: Fee[] = [
     total_amount: 250000,
     creation_datetime: '2021-11-10T08:25:24Z',
     due_datetime: '2021-12-10T08:25:24Z'
-  }
+  },
+  {
+    id: "8",
+    title: 'Frais de scolarité',
+    description: 'Frais de scolarité pour le premier semestre 2022-2023',
+    amount: 1000000,
+    status: FeeStatusEnum.PARTIALLY_PAID,
+    payment_date: '2022-10-15',
+  },
 ]
 
 let newLateFeesMock: Fee[] = []
