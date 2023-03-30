@@ -32,7 +32,7 @@ export const feesMock: Fee[] = [
     id: 'fee3_id',
     student_id: student1Mock.id,
     remaining_amount: 200000,
-    status: FeeStatusEnum.Late,
+    status: FeeStatusEnum.PatiallyPaid,
     type: FeeTypeEnum.Tuition,
     comment: 'Comment',
     total_amount: 400000,
