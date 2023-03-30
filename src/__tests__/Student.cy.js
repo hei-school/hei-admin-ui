@@ -2,7 +2,14 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import {
+  createPaymentMock,
+  feesMock,
+  student1Mock,
+  student2Mock,
+  studentNameToBeCheckedMock,
+  whoamiStudentMock
+} from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -29,6 +36,13 @@ describe(specTitle('Student'), () => {
 
   it('can list fees', () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
+    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
+    cy.get('body').click(200, 0) //note(uncover-menu)
+    cy.contains('200,000 Ar')
+  })
+
+  it('can list fees with a different status', () => {
+    cy.intercept('GET', `/students/${student2Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('200,000 Ar')
