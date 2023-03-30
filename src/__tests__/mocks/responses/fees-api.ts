@@ -37,7 +37,17 @@ export const feesMock: Fee[] = [
     comment: 'Comment',
     total_amount: 400000,
     creation_datetime: '2021-11-08T08:25:24Z'
+  },{
+    id: 'fee0_id',
+    student_id: student1Mock.id,
+    remaining_amount:300000,
+    status: FeeStatusEnum.Late,
+    type: FeeTypeEnum.Tuition,
+    comment: 'comment',
+    total_amount: 400000,
+    creation_datetime:'2021-11-08T08:25:24Z'
   },
+      
   {
     id: 'fee4_id',
     student_id: student1Mock.id,
@@ -143,6 +153,7 @@ export const UpdateFeeWithPaymentMock: (fee: Fee, payment: Payment) => Fee = (fe
     : newFee.remaining_amount
   return newFee
 }
+
 
 export const createFeeWithPredefinedDataMock: (feeDate: string) => Fee[] = feeDate => {
   return [
