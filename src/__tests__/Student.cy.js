@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { createPaymentMock, feesMock, feeMockWithPARTIALLY_PAID, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -41,5 +41,12 @@ describe(specTitle('Student'), () => {
       .wait(['@getStudent', '@getWhoami'])
     cy.get(':nth-child(7) > :nth-child(5)').click()
     cy.contains('En retard')
+  })
+
+  it('crach with status fee PARTIALLY_PAID', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feeMockWithPARTIALLY_PAID).as('getFees')
+    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
+    cy.get('body').click(200, 0) //note(uncover-menu)
+    cy.contains('200,000 Ar')
   })
 })
