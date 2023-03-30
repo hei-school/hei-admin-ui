@@ -33,10 +33,11 @@ describe(specTitle('Student'), () => {
   //})
 
   it('can list fees', () => {
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
-    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
-    cy.contains('PARTIALLY_PAID');
+    const sortedFees = feesMock.sort((a, b) => (a.status > b.status) ? 1 : -1);
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, sortedFees).as('getFees');
+    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click();
+    cy.get('body').click(200, 0); // note (uncover-menu)
+    cy.contains('200,000 Ar');
   })
 
   it('can detail fee (click on fee button)', () => {
