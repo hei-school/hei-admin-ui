@@ -29,7 +29,7 @@ export const partiallypaidFeeMock: Fee = {
   id: 'fee2_id',
   student_id: student1Mock.id,
   remaining_amount: 250000,
-  status: 'PARTIALLY_PAID',
+  status: FeeStatusEnum.Partiallypaid,
   type: FeeTypeEnum.Tuition,
   comment: 'Un grand montant à payer petit à petit',
   total_amount: 250000,
