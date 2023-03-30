@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">22.73% </span>
+                <span class="strong">68.18% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>5/22</span>
+                <span class='fraction'>15/22</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">16.67% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>1/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/8</span>
+                <span class='fraction'>6/8</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">26.32% </span>
+                <span class="strong">63.16% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>5/19</span>
+                <span class='fraction'>12/19</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line medium'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -107,28 +107,28 @@
 <a name='L42'></a><a href='#L42'>42</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">12x</span>
+<span class="cline-any cline-yes">12x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
@@ -149,27 +149,27 @@
 import { HaDataProviderType } from './HaDataProviderType'
 &nbsp;
 const raSeparator = '--'
-const toRaId = <span class="fstat-no" title="function not covered" >(s</span>tudentId: string, feeId: string): string =&gt; <span class="cstat-no" title="statement not covered" >studentId + raSeparator + feeId</span>
-export const toApiIds = <span class="fstat-no" title="function not covered" >(r</span>aId: string) =&gt; {
-  const ids = <span class="cstat-no" title="statement not covered" >raId.split(raSeparator)</span>
-<span class="cstat-no" title="statement not covered" >  return { studentId: ids[0], feeId: ids[1] }</span>
+const toRaId = (studentId: string, feeId: string): string =&gt; studentId + raSeparator + feeId
+export const toApiIds = (raId: string) =&gt; {
+  const ids = raId.split(raSeparator)
+  return { studentId: ids[0], feeId: ids[1] }
 }
-export const studentIdFromRaId = <span class="fstat-no" title="function not covered" >(r</span>aId: string): string =&gt; <span class="cstat-no" title="statement not covered" >toApiIds(raId).studentId</span>
+export const studentIdFromRaId = (raId: string): string =&gt; toApiIds(raId).studentId
 &nbsp;
 const feeProvider: HaDataProviderType = {
-<span class="fstat-no" title="function not covered" >  as</span>ync getList(page: number, perPage: number, filter: any) {
-    const result = <span class="cstat-no" title="statement not covered" >filter.studentId</span>
+  async getList(page: number, perPage: number, filter: any) {
+    const result = filter.studentId
       ? await payingApi().getStudentFees(filter.studentId, page, perPage)
-      : await payingApi().getFees(filter.status, page, perPage)
-<span class="cstat-no" title="statement not covered" >    return result.data.map(<span class="fstat-no" title="function not covered" >fe</span>e =&gt; (<span class="cstat-no" title="statement not covered" > {</span></span>
+      : <span class="branch-1 cbranch-no" title="branch not covered" >await payingApi().getFees(filter.status, page, perPage)</span>
+    return result.data.map(fee =&gt; ({
       ...fee,
       id: toRaId(fee.student_id as string, fee.id as string)
     }))
   },
-<span class="fstat-no" title="function not covered" >  as</span>ync getOne(raId: string) {
-    const { studentId, feeId } = <span class="cstat-no" title="statement not covered" >toApiIds(raId)</span>
-    const result = <span class="cstat-no" title="statement not covered" >await payingApi().getStudentFeeById(studentId, feeId)</span>
-<span class="cstat-no" title="statement not covered" >    return { ...result.data, id: raId }</span>
+  async getOne(raId: string) {
+    const { studentId, feeId } = toApiIds(raId)
+    const result = await payingApi().getStudentFeeById(studentId, feeId)
+    return { ...result.data, id: raId }
   },
 <span class="fstat-no" title="function not covered" >  as</span>ync saveOrUpdate(resources: Array&lt;any&gt;) {
     const fees = <span class="cstat-no" title="statement not covered" >resources[0]</span>
@@ -193,7 +193,7 @@ export default feeProvider
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-30T05:42:26.951Z
+                at 2023-03-30T06:06:07.184Z
             </div>
         <script src="../../prettify.js"></script>
         <script>

@@ -114,6 +114,17 @@ export const feesMock: Fee[] = [
     total_amount: 250000,
     creation_datetime: '2021-11-10T08:25:24Z',
     due_datetime: '2021-12-10T08:25:24Z'
+  },
+  {
+    id: 'dummy',
+    student_id: student1Mock.id,
+    remaining_amount: 0,
+    status: FeeStatusEnum.PARTIALLY_PAID,
+    type: FeeTypeEnum.Hardware,
+    comment: 'dummy',
+    total_amount: 0,
+    creation_datetime: '2021-11-10T08:25:24Z',
+    due_datetime: '2021-12-10T08:25:24Z'
   }
 ]
 

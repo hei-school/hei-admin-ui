@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30.77% </span>
+                <span class="strong">92.31% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/13</span>
+                <span class='fraction'>12/13</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">75% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>3/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">33.33% </span>
+                <span class="strong">100% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/3</span>
+                <span class='fraction'>3/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">30.77% </span>
+                <span class="strong">92.31% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/13</span>
+                <span class='fraction'>12/13</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -111,25 +111,25 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-yes">13x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">16x</span>
+<span class="cline-any cline-yes">14x</span>
+<span class="cline-any cline-yes">10x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">13x</span>
+<span class="cline-any cline-yes">14x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -157,20 +157,20 @@ import dataProvider from './providers/dataProvider'
 &nbsp;
 export const MyBreadcrumb = () =&gt; {
   const [studentRef, setStudentRef] = useState('...')
-  const takeRefFunction = <span class="fstat-no" title="function not covered" >({</span> record }) =&gt; {
-<span class="cstat-no" title="statement not covered" >    if (record) {</span>
-<span class="cstat-no" title="statement not covered" >      if (record.ref) {</span>
+  const takeRefFunction = ({ record }) =&gt; {
+    if (record) {
+      <span class="missing-if-branch" title="if path not taken" >I</span>if (record.ref) {
 <span class="cstat-no" title="statement not covered" >        return &lt;spam&gt;{record.ref}&lt;/spam&gt;</span>
       } else {
-        const doEffect = <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync () =&gt; {</span>
-          const student = <span class="cstat-no" title="statement not covered" >await dataProvider.getOne('students', { id: record.student_id })</span>
-<span class="cstat-no" title="statement not covered" >          setStudentRef(student.data.ref)</span>
+        const doEffect = async () =&gt; {
+          const student = await dataProvider.getOne('students', { id: record.student_id })
+          setStudentRef(student.data.ref)
         }
-<span class="cstat-no" title="statement not covered" >        doEffect()</span>
-<span class="cstat-no" title="statement not covered" >        return &lt;spam&gt;{studentRef}&lt;/spam&gt;</span>
+        doEffect()
+        return &lt;spam&gt;{studentRef}&lt;/spam&gt;
       }
     }
-<span class="cstat-no" title="statement not covered" >    return &lt;spam&gt;{'...'}&lt;/spam&gt;</span>
+    return &lt;spam&gt;{'...'}&lt;/spam&gt;
   }
 &nbsp;
   return (
@@ -202,7 +202,7 @@ export const MyBreadcrumb = () =&gt; {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-30T05:42:26.951Z
+                at 2023-03-30T06:06:07.184Z
             </div>
         <script src="../prettify.js"></script>
         <script>

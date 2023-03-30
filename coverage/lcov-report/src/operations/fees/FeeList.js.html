@@ -23,30 +23,30 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">93.75% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>2/16</span>
+                <span class='fraction'>15/16</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>0/4</span>
+                <span class='fraction'>2/4</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">0% </span>
+                <span class="strong">83.33% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>0/6</span>
+                <span class='fraction'>5/6</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">12.5% </span>
+                <span class="strong">93.75% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>2/16</span>
+                <span class='fraction'>15/16</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line low'></div>
+    <div class='status-line high'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -133,30 +133,29 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">6x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -164,11 +163,12 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">66x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -190,41 +190,41 @@ import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
 &nbsp;
 import { WhoamiRoleEnum } from '../../gen/haClient'
-<span class="fstat-no" title="function not covered" ></span>
-co<span class="cstat-no" title="statement not covered" >nst Actions = ({ basePath, resource }) =&gt; (</span>
-  &lt;TopToolbar disableGutters&gt;
+&nbsp;
+const Actions = <span class="fstat-no" title="function not covered" >({</span> basePath, resource }) =&gt; (
+<span class="cstat-no" title="statement not covered" >  &lt;TopToolbar disableGutters&gt;</span>
     &lt;CreateButton to={basePath + '/create'} resource={resource} /&gt;
   &lt;/TopToolbar&gt;
 )
-<span class="fstat-no" title="function not covered" ></span>
-const FeeList = (<span class="cstat-no" title="statement not covered" >{ studentId </span>}) =&gt; {
-  const params = useParams(<span class="cstat-no" title="statement not covered" >)</span>
-  const definedStudentId = studentId ?<span class="cstat-no" title="statement not covered" > studentId : par</span>ams.studentId
-  const [studentRef, se<span class="cstat-no" title="statement not covered" >tStudentRef] = use</span>State('...')
-  const dataPro<span class="cstat-no" title="statement not covered" >vider = useDataProvider()</span>
-<span class="cstat-no" title="statement not covered" >  const role<span class="fstat-no" title="function not covered" > =</span> authProvider.getCachedRole()</span>
-  useEffect(() =&gt; {<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
-    const doEffect = a<span class="cstat-no" title="statement not covered" >sync () =&gt; {</span>
-<span class="cstat-no" title="statement not covered" >      const student = await dataProvid</span>er.getOne('students', { id: definedStudentId })
+&nbsp;
+const FeeList = ({ studentId }) =&gt; {
+  const params = useParams()
+  const definedStudentId = studentId ? <span class="branch-0 cbranch-no" title="branch not covered" >studentId </span>: params.studentId
+  const [studentRef, setStudentRef] = useState('...')
+  const dataProvider = useDataProvider()
+  const role = authProvider.getCachedRole()
+  useEffect(() =&gt; {
+    const doEffect = async () =&gt; {
+      const student = await dataProvider.getOne('students', { id: definedStudentId })
       setStudentRef(student.data.ref)
-<span class="cstat-no" title="statement not covered" >    }</span>
+    }
     doEffect()
     // eslint-disable-next-line
   }, [definedStudentId])
-<span class="cstat-no" title="statement not covered" ></span>
+&nbsp;
   return (
     &lt;List
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={role === WhoamiRoleEnum.Manager &amp;&amp; &lt;Actions basePath={`/students/${definedStudentId}/fees`} /&gt;}
+      actions={role === WhoamiRoleEnum.Manager &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >&lt;Actions basePath={`/students/${definedStudentId}/fees`} /&gt;}</span>
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}
-    &gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+    &gt;
       &lt;Datagrid bulkActionButtons={role === WhoamiRoleEnum.Manager} rowClick={id =&gt; `/fees/${id}/show`} rowStyle={rowStyle}&gt;
         &lt;CustomDateField source='due_datetime' label='Date limite' showTime={false} /&gt;
-        &lt;TextField source='comment' label='Commentair<span class="fstat-no" title="function not covered" >e'</span> /&gt;<span class="cstat-no" title="statement not covered" ></span>
+        &lt;TextField source='comment' label='Commentaire' /&gt;
         &lt;FunctionField label='Reste à payer' render={record =&gt; prettyPrintMoney(record.remaining_amount)} textAlign='right' /&gt;
         &lt;CustomDateField source='creation_datetime' label='Date de création' showTime={false} /&gt;
         &lt;ShowButton basePath='/fees' /&gt;
@@ -241,7 +241,7 @@ export default FeeList
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-30T05:42:26.951Z
+                at 2023-03-30T06:06:07.184Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

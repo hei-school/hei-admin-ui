@@ -23,16 +23,16 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">74.07% </span>
+                <span class="strong">66.67% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>20/27</span>
+                <span class='fraction'>18/27</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">61.11% </span>
+                <span class="strong">50% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>11/18</span>
+                <span class='fraction'>9/18</span>
             </div>
         
             
@@ -44,9 +44,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">77.27% </span>
+                <span class="strong">68.18% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>17/22</span>
+                <span class='fraction'>15/22</span>
             </div>
         
             
@@ -124,32 +124,31 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">3x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">6x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -166,9 +165,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">9x</span>
-<span class="cline-any cline-yes">9x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -182,27 +182,27 @@ import { unexpectedValue, CustomDateField } from '../utils'
 &nbsp;
 export const ProfileLayout = () =&gt; {
   const sexRenderer = user =&gt; {
-    if (user.sex === 'M') return 'Homme'
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.sex === 'F') return 'Femme'
-<span class="cstat-no" title="statement not covered" >    return unexpectedValue<span class="cstat-no" title="statement not covered" ></span></span>
-  }<span class="cstat-no" title="statement not covered" ></span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.sex === 'M') return 'Homme'
+<span class="cstat-no" title="statement not covered" >    if (user.sex === 'F') <span class="cstat-no" title="statement not covered" >return 'Femme'</span></span>
+<span class="cstat-no" title="statement not covered" >    return unexpectedValue</span>
+  }
   const statusRenderer = user =&gt; {
-    if (user.status === 'ENABLED') return 'Actif·ve'
-    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.status === 'DISABLED') return 'Suspendu·e'
-<span class="cstat-no" title="statement not covered" >    return unexpectedValue<span class="cstat-no" title="statement not covered" ></span></span>
-  }<span class="cstat-no" title="statement not covered" ></span>
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.status === 'ENABLED') return 'Actif·ve'
+<span class="cstat-no" title="statement not covered" >    if (user.status === 'DISABLED') <span class="cstat-no" title="statement not covered" >return 'Suspendu·e'</span></span>
+<span class="cstat-no" title="statement not covered" >    return unexpectedValue</span>
+  }
   const positionRenderer = user =&gt; {
-    if(!user.gps_address){
-      return "Pas d'addresse gps"
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (!user.gps_address) {
+<span class="cstat-no" title="statement not covered" >      return "Pas d'addresse gps"</span>
     }
-    if (user.gps_address.latitude === undefined || user.gps_address.longitude === undefined) {
-      return "Valeur Gps manquante"
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (user.gps_address.latitude === undefined || user.gps_address.longitude === undefined) {
+<span class="cstat-no" title="statement not covered" >      return 'Valeur Gps manquante'</span>
     }
-    if (user.gps_address.latitude !== null &amp;&amp; user.gps_address.longitude !== null) {
-    <span class="missing-if-branch" title="else path not taken" >E</span>  return user.gps_address.latitude + ' , ' + user.gps_address.longitude
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (user.gps_address.latitude !== null &amp;&amp; user.gps_address.longitude !== null) {
+      return user.gps_address.latitude + ' , ' + user.gps_address.longitude
     }
-    return unexpectedValue
-  }<span class="cstat-no" title="statement not covered" ></span>
+<span class="cstat-no" title="statement not covered" >    return unexpectedValue</span>
+  }
   const phoneRenderer = data =&gt; &lt;Link href={`tel:${data.phone}`}&gt;{data.phone}&lt;/Link&gt;
   return (
     &lt;SimpleShowLayout&gt;
@@ -238,7 +238,7 @@ export default ProfileShow
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-30T05:42:26.951Z
+                at 2023-03-30T06:06:07.184Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>

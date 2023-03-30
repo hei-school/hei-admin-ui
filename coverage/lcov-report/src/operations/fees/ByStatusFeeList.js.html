@@ -23,9 +23,9 @@
         <div class='clearfix'>
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
@@ -37,16 +37,16 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">0% </span>
                 <span class="quiet">Functions</span>
-                <span class='fraction'>1/4</span>
+                <span class='fraction'>0/3</span>
             </div>
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">50% </span>
+                <span class="strong">20% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>4/8</span>
+                <span class='fraction'>1/5</span>
             </div>
         
             
@@ -61,7 +61,7 @@
             </div>
         </template>
     </div>
-    <div class='status-line medium'></div>
+    <div class='status-line low'></div>
     <pre><table class="coverage">
 <tr><td class="line-count quiet"><a name='L1'></a><a href='#L1'>1</a>
 <a name='L2'></a><a href='#L2'>2</a>
@@ -103,11 +103,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">45x</span>
-<span class="cline-any cline-yes">18x</span>
-<span class="cline-any cline-yes">18x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -126,6 +123,9 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -138,12 +138,12 @@ import { prettyPrintMoney, statusRenderer, CustomDateField } from '../utils'
 &nbsp;
 import { maxPageSize } from '../../providers/dataProvider'
 &nbsp;
-const ByStatusFeeList = ({ status, ...props }) =&gt; {
-  status = status ? status : 'LATE'
-  return (
-    &lt;List<span class="fstat-no" title="function not covered" ></span>
-<span class="cstat-no" title="statement not covered" >      {...props}</span>
-<span class="cstat-no" title="statement not covered" >      title={`Frais de statut ${statusRenderer(status).toLowerCase()}`}</span>
+const ByStatusFeeList = <span class="fstat-no" title="function not covered" >({</span> status, ...props }) =&gt; {
+<span class="cstat-no" title="statement not covered" >  status = status ? status : 'LATE'</span>
+<span class="cstat-no" title="statement not covered" >  return (</span>
+    &lt;List
+      {...props}
+      title={`Frais de statut ${statusRenderer(status).toLowerCase()}`}
       resource='fees'
       basePath={`/fees`}
       label='Frais'
@@ -153,13 +153,13 @@ const ByStatusFeeList = ({ status, ...props }) =&gt; {
       pagination={false}
       perPage={maxPageSize}
     &gt;
-      &lt;Datagrid rowClick={id =&gt; `/fees/${id}/show`} rowStyle={rowStyle}&gt;
+      &lt;Datagrid rowClick={<span class="fstat-no" title="function not covered" >id</span> =&gt; <span class="cstat-no" title="statement not covered" >`/fees/${id}/show`}</span> rowStyle={rowStyle}&gt;
         &lt;CustomDateField source='due_datetime' label='Date limite' showTime={false} /&gt;
         &lt;TextField source='comment' label='Commentaire' /&gt;
-        &lt;FunctionField lab<span class="fstat-no" title="function not covered" >el</span>='Re<span class="cstat-no" title="statement not covered" >ste à payer' render</span>={record =&gt; prettyPrintMoney(record.remaining_amount)} textAlign='right' /&gt;
+        &lt;FunctionField label='Reste à payer' render={<span class="fstat-no" title="function not covered" >re</span>cord =&gt; <span class="cstat-no" title="statement not covered" >prettyPrintMoney(record.remaining_amount)}</span> textAlign='right' /&gt;
         &lt;CustomDateField source='creation_datetime' label='Date de création' showTime={false} /&gt;
         &lt;ShowButton basePath='/fees' /&gt;
-      &lt;/Datagrid&gt;<span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" ></span></span>
+      &lt;/Datagrid&gt;
     &lt;/List&gt;
   )
 }
@@ -172,7 +172,7 @@ export default ByStatusFeeList
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2023-03-30T05:42:26.951Z
+                at 2023-03-30T06:06:07.184Z
             </div>
         <script src="../../../prettify.js"></script>
         <script>
