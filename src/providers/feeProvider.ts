@@ -1,3 +1,5 @@
+import { data } from 'cypress/types/jquery'
+import { FeeStatusEnum } from 'src/gen/haClient'
 import { payingApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
 
@@ -9,6 +11,13 @@ export const toApiIds = (raId: string) => {
 }
 export const studentIdFromRaId = (raId: string): string => toApiIds(raId).studentId
 
+const mapToStatus = (status: any) => {
+  if(status != Object.values(FeeStatusEnum)){
+    return 'UNKNOWN'
+  }
+  return status;
+}
+
 const feeProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     const result = filter.studentId
@@ -17,12 +26,13 @@ const feeProvider: HaDataProviderType = {
     return result.data.map(fee => ( {
       ...fee,
       id: toRaId(fee.student_id as string, fee.id as string)
+    
     }))
   },
   async getOne(raId: string) {
     const { studentId, feeId } = toApiIds(raId)
     const result = await payingApi().getStudentFeeById(studentId, feeId)
-    return { ...result.data, id: raId }
+    return { ...result.data, id: raId, status: mapToStatus(result.status)}
   },
   async saveOrUpdate(resources: Array<any>) {
     const fees = resources[0]
