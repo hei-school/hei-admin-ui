@@ -134,32 +134,6 @@ export const studentsMock: Student[] = [
     email: 'test+student12665673@hei.school',
     entrance_datetime: '2022-12-31T21:00:00Z',
     status: EnableStatus.Enabled
-  },
-  {
-    id: 'student11_id',
-    ref: 'STD2100344',
-    first_name: 'For Test',
-    last_name: 'For Test',
-    sex: StudentSexEnum.F,
-    birth_date: '2023-01-03',
-    address: 'lot 541215246545',
-    phone: '0325689456',
-    email: 'test+student12665673@hei.school',
-    entrance_datetime: '2022-12-31T21:00:00Z',
-    status: EnableStatus.Disabled
-  },
-  {
-    id: 'student11_id',
-    ref: 'STD2100334',
-    first_name: 'For Test',
-    last_name: 'For Test',
-    sex: StudentSexEnum.F,
-    birth_date: '2023-01-03',
-    address: 'lot 541215246545',
-    phone: '0325689456',
-    email: 'test+student12665673@hei.school',
-    entrance_datetime: '2022-12-31T21:00:00Z',
-    status: EnableStatus.Disabled
   }
 ]
 
