@@ -116,7 +116,7 @@ export const feesMock: Fee[] = [
     due_datetime: '2021-12-10T08:25:24Z'
   },
   {
-    id: 'fee10_id',
+    id: 'fee11_id',
     student_id: student1Mock.id,
     remaining_amount: 0,
     status: FeeStatusEnum.Partially_paid,
@@ -127,7 +127,7 @@ export const feesMock: Fee[] = [
     due_datetime: '2021-12-10T08:25:24Z'
   },
   {
-    id: 'fee10_id',
+    id: 'fee12_id',
     student_id: student1Mock.id,
     remaining_amount: 0,
     status: FeeStatusEnum.Partially_paid,
