@@ -454,6 +454,7 @@ export const FeeTypeEnum = {
 
 export type FeeTypeEnum = (typeof FeeTypeEnum)[keyof typeof FeeTypeEnum]
 
+
 /**
  *
  * @export

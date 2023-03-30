@@ -18,8 +18,15 @@ import {
 } from './mocks/responses'
 
 const feeDateToSearch = `2022-09-11`
-let createdStudent = createStudent
+const newLastname = 'Aina herilala'
+let createdStudent = {
+  ...createStudent
+}
 createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
+let updatedStudent = {
+  ...student1Mock
+}
+updatedStudent.first_name = newLastname
 
 describe(specTitle('Manager'), () => {
   beforeEach(() => {
@@ -82,6 +89,38 @@ describe(specTitle('Manager'), () => {
     cy.contains('Page : 1')
     cy.contains('Taille : 1')
     unmount()
+  })
+
+  it('can edit students', () => {
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
+    cy.intercept('PUT', `/students`, updatedStudent).as('modifyStudent').as('modifyStudent')
+    cy.contains('Étudiants')
+    cy.wait('@getWhoami')
+    cy.contains('Mon profil')
+    cy.wait('@getWhoami')
+    cy.get(':nth-child(1) > .MuiListItem-root').click()
+    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
+
+    cy.get('[href="#/students"]').click()
+    cy.get('body').click(200, 0) //note(uncover-menu)
+    cy.contains('Page : 1')
+    cy.contains('Taille : 10')
+    cy.get('button').contains('Suivant').click()
+    cy.contains('Page : 2')
+
+    cy.get('[data-testid="FilterListIcon"]').click()
+    cy.get('[data-key="last_name"]').click()
+    cy.get('#last_name').type(studentNameToBeCheckedMock)
+    cy.contains('Page : 1')
+    cy.contains('Taille : 1')
+    cy.contains(studentNameToBeCheckedMock).click()
+    cy.get('.css-1hqp8sg-MuiButtonBase-root-MuiButton-root-RaButton-root').click() //éditer
+    cy.get('#first_name').click().clear().type(newLastname)
+    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [updatedStudent]).as('getUpdatedStudent')
+    cy.contains('Enregistrer').click()
+    cy.wait('@modifyStudent')
+    cy.wait('@getUpdatedStudent')
+    cy.contains(newLastname)
   })
 })
 

@@ -5,11 +5,12 @@ import { List } from '@react-admin/ra-rbac'
 import { TextField, Datagrid, FunctionField, ShowButton, useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 
 import rowStyle from './byStatusRowStyle'
-import { prettyPrintMoney } from '../utils'
+import { prettyPrintMoney, CustomDateField } from '../utils'
 
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
-import { CustomDateField } from './ByStatusFeeList'
+
+import { WhoamiRoleEnum } from '../../gen/haClient'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -37,16 +38,16 @@ const FeeList = ({ studentId }) => {
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={role === 'MANAGER' && <Actions basePath={`/students/${definedStudentId}/fees`} />}
+      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/students/${definedStudentId}/fees`} />}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}
     >
-      <Datagrid bulkActionButtons={role === 'MANAGER'} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
-        <CustomDateField source='due_datetime' label='Date limite' />
+      <Datagrid bulkActionButtons={role === WhoamiRoleEnum.Manager} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
+        <CustomDateField source='due_datetime' label='Date limite' showTime={false} />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
-        <CustomDateField source='creation_datetime' label='Date de création' />
+        <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
         <ShowButton basePath='/fees' />
       </Datagrid>
     </List>
