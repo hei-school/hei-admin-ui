@@ -17,6 +17,10 @@ amplifyconfiguration.dart
 amplify-build-config.json
 amplify-gradle-config.json
 amplifytools.xcconfig
+.idea/
+.nyc_output/
+coverage/
+cypress/fixtures
 .secret-*
 **.sample
 #amplify-do-not-edit-end
