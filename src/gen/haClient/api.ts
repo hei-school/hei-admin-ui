@@ -12,9 +12,8 @@
  * Do not edit the class manually.
  */
 
-import type { Configuration } from './configuration'
-import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
-import globalAxios from 'axios'
+import { Configuration } from './configuration'
+import globalAxios, { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
 // Some imports not used depending on template conditions
 // @ts-ignore
 import {
@@ -29,9 +28,8 @@ import {
   toPathString,
   createRequestFunction
 } from './common'
-import type { RequestArgs } from './base'
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base'
+import { BASE_PATH, COLLECTION_FORMATS, RequestArgs, BaseAPI, RequiredError } from './base'
 
 /**
  *
@@ -60,6 +58,12 @@ export interface BadRequestException {
 export interface Course {
   /**
    *
+   * @type {Teacher}
+   * @memberof Course
+   */
+  main_teacher?: Teacher
+  /**
+   *
    * @type {string}
    * @memberof Course
    */
@@ -69,7 +73,7 @@ export interface Course {
    * @type {string}
    * @memberof Course
    */
-  ref?: string
+  code?: string
   /**
    *
    * @type {string}
@@ -86,6 +90,54 @@ export interface Course {
    *
    * @type {number}
    * @memberof Course
+   */
+  total_hours?: number
+}
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export enum CourseStatus {
+  Linked = 'LINKED',
+  Unlinked = 'UNLINKED'
+}
+
+/**
+ *
+ * @export
+ * @interface CourseTemplate
+ */
+export interface CourseTemplate {
+  /**
+   *
+   * @type {string}
+   * @memberof CourseTemplate
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CourseTemplate
+   */
+  code?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CourseTemplate
+   */
+  name?: string
+  /**
+   *
+   * @type {number}
+   * @memberof CourseTemplate
+   */
+  credits?: number
+  /**
+   *
+   * @type {number}
+   * @memberof CourseTemplate
    */
   total_hours?: number
 }
@@ -121,12 +173,13 @@ export interface CreateDelayPenaltyChange {
   applicability_delay_after_grace?: number
 }
 
-export const CreateDelayPenaltyChangeInterestTimerateEnum = {
-  Daily: 'DAILY'
-} as const
-
-export type CreateDelayPenaltyChangeInterestTimerateEnum =
-  (typeof CreateDelayPenaltyChangeInterestTimerateEnum)[keyof typeof CreateDelayPenaltyChangeInterestTimerateEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CreateDelayPenaltyChangeInterestTimerateEnum {
+  Daily = 'DAILY'
+}
 
 /**
  *
@@ -166,94 +219,14 @@ export interface CreateFee {
   due_datetime?: string
 }
 
-export const CreateFeeTypeEnum = {
-  Tuition: 'TUITION',
-  Hardware: 'HARDWARE'
-} as const
-
-export type CreateFeeTypeEnum = (typeof CreateFeeTypeEnum)[keyof typeof CreateFeeTypeEnum]
-
 /**
- *
  * @export
- * @interface CreateOrUpdateStudents200ResponseInner
+ * @enum {string}
  */
-export interface CreateOrUpdateStudents200ResponseInner {
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  id?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  ref?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  first_name?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  last_name?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  sex?: CreateOrUpdateStudents200ResponseInnerSexEnum
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  birth_date?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  address?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  phone?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  email?: string
-  /**
-   *
-   * @type {string}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  entrance_datetime?: string
-  /**
-   *
-   * @type {EnableStatus}
-   * @memberof CreateOrUpdateStudents200ResponseInner
-   */
-  status?: EnableStatus
+export enum CreateFeeTypeEnum {
+  Tuition = 'TUITION',
+  Hardware = 'HARDWARE'
 }
-
-export const CreateOrUpdateStudents200ResponseInnerSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type CreateOrUpdateStudents200ResponseInnerSexEnum =
-  (typeof CreateOrUpdateStudents200ResponseInnerSexEnum)[keyof typeof CreateOrUpdateStudents200ResponseInnerSexEnum]
 
 /**
  *
@@ -281,15 +254,60 @@ export interface CreatePayment {
   comment?: string
 }
 
-export const CreatePaymentTypeEnum = {
-  Cash: 'CASH',
-  MobileMoney: 'MOBILE_MONEY',
-  Scholarship: 'SCHOLARSHIP',
-  Fix: 'FIX'
-} as const
+/**
+ * @export
+ * @enum {string}
+ */
+export enum CreatePaymentTypeEnum {
+  Cash = 'CASH',
+  MobileMoney = 'MOBILE_MONEY',
+  Scholarship = 'SCHOLARSHIP',
+  Fix = 'FIX'
+}
 
-export type CreatePaymentTypeEnum = (typeof CreatePaymentTypeEnum)[keyof typeof CreatePaymentTypeEnum]
-
+/**
+ *
+ * @export
+ * @interface CrupdateCourse
+ */
+export interface CrupdateCourse {
+  /**
+   *
+   * @type {string}
+   * @memberof CrupdateCourse
+   */
+  main_teacher_id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CrupdateCourse
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CrupdateCourse
+   */
+  code?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CrupdateCourse
+   */
+  name?: string
+  /**
+   *
+   * @type {number}
+   * @memberof CrupdateCourse
+   */
+  credits?: number
+  /**
+   *
+   * @type {number}
+   * @memberof CrupdateCourse
+   */
+  total_hours?: number
+}
 /**
  *
  * @export
@@ -334,11 +352,13 @@ export interface DelayPenalty {
   applicability_delay_after_grace?: number
 }
 
-export const DelayPenaltyInterestTimerateEnum = {
-  Daily: 'DAILY'
-} as const
-
-export type DelayPenaltyInterestTimerateEnum = (typeof DelayPenaltyInterestTimerateEnum)[keyof typeof DelayPenaltyInterestTimerateEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum DelayPenaltyInterestTimerateEnum {
+  Daily = 'DAILY'
+}
 
 /**
  *
@@ -346,12 +366,10 @@ export type DelayPenaltyInterestTimerateEnum = (typeof DelayPenaltyInterestTimer
  * @enum {string}
  */
 
-export const EnableStatus = {
-  Enabled: 'ENABLED',
-  Disabled: 'DISABLED'
-} as const
-
-export type EnableStatus = (typeof EnableStatus)[keyof typeof EnableStatus]
+export enum EnableStatus {
+  Enabled = 'ENABLED',
+  Disabled = 'DISABLED'
+}
 
 /**
  *
@@ -440,19 +458,23 @@ export interface Fee {
   due_datetime?: string
 }
 
-export const FeeStatusEnum = {
-  Unpaid: 'UNPAID',
-  Paid: 'PAID',
-  Late: 'LATE'
-} as const
-
-export type FeeStatusEnum = (typeof FeeStatusEnum)[keyof typeof FeeStatusEnum]
-export const FeeTypeEnum = {
-  Tuition: 'TUITION',
-  Hardware: 'HARDWARE'
-} as const
-
-export type FeeTypeEnum = (typeof FeeTypeEnum)[keyof typeof FeeTypeEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum FeeStatusEnum {
+  Unpaid = 'UNPAID',
+  Paid = 'PAID',
+  Late = 'LATE'
+}
+/**
+ * @export
+ * @enum {string}
+ */
+export enum FeeTypeEnum {
+  Tuition = 'TUITION',
+  Hardware = 'HARDWARE'
+}
 
 /**
  *
@@ -578,12 +600,14 @@ export interface Manager {
   status?: EnableStatus
 }
 
-export const ManagerSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type ManagerSexEnum = (typeof ManagerSexEnum)[keyof typeof ManagerSexEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum ManagerSexEnum {
+  M = 'M',
+  F = 'F'
+}
 
 /**
  *
@@ -648,14 +672,16 @@ export interface Payment {
   comment?: string
 }
 
-export const PaymentTypeEnum = {
-  Cash: 'CASH',
-  MobileMoney: 'MOBILE_MONEY',
-  Scholarship: 'SCHOLARSHIP',
-  Fix: 'FIX'
-} as const
-
-export type PaymentTypeEnum = (typeof PaymentTypeEnum)[keyof typeof PaymentTypeEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum PaymentTypeEnum {
+  Cash = 'CASH',
+  MobileMoney = 'MOBILE_MONEY',
+  Scholarship = 'SCHOLARSHIP',
+  Fix = 'FIX'
+}
 
 /**
  *
@@ -750,12 +776,14 @@ export interface Student {
   status?: EnableStatus
 }
 
-export const StudentSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type StudentSexEnum = (typeof StudentSexEnum)[keyof typeof StudentSexEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum StudentSexEnum {
+  M = 'M',
+  F = 'F'
+}
 
 /**
  *
@@ -831,12 +859,14 @@ export interface Teacher {
   status?: EnableStatus
 }
 
-export const TeacherSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type TeacherSexEnum = (typeof TeacherSexEnum)[keyof typeof TeacherSexEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum TeacherSexEnum {
+  M = 'M',
+  F = 'F'
+}
 
 /**
  *
@@ -856,6 +886,25 @@ export interface TooManyRequestsException {
    * @memberof TooManyRequestsException
    */
   message?: string
+}
+/**
+ *
+ * @export
+ * @interface UpdateStudentCourse
+ */
+export interface UpdateStudentCourse {
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateStudentCourse
+   */
+  course_id?: string
+  /**
+   *
+   * @type {CourseStatus}
+   * @memberof UpdateStudentCourse
+   */
+  status?: CourseStatus
 }
 /**
  *
@@ -931,12 +980,14 @@ export interface User {
   status?: EnableStatus
 }
 
-export const UserSexEnum = {
-  M: 'M',
-  F: 'F'
-} as const
-
-export type UserSexEnum = (typeof UserSexEnum)[keyof typeof UserSexEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum UserSexEnum {
+  M = 'M',
+  F = 'F'
+}
 
 /**
  *
@@ -964,13 +1015,15 @@ export interface Whoami {
   bearer?: string
 }
 
-export const WhoamiRoleEnum = {
-  Student: 'STUDENT',
-  Teacher: 'TEACHER',
-  Manager: 'MANAGER'
-} as const
-
-export type WhoamiRoleEnum = (typeof WhoamiRoleEnum)[keyof typeof WhoamiRoleEnum]
+/**
+ * @export
+ * @enum {string}
+ */
+export enum WhoamiRoleEnum {
+  Student = 'STUDENT',
+  Teacher = 'TEACHER',
+  Manager = 'MANAGER'
+}
 
 /**
  * PayingApi - axios parameter creator
@@ -1143,13 +1196,18 @@ export const PayingApiAxiosParamCreator = function (configuration?: Configuratio
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {'UNPAID' | 'LATE' | 'PAID'} [status] See the PaymentStatus object for its value.
+     * @param {'UNPAID' | 'LATE' | 'PAID' | 'PARTIALLY_PAID'} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getFees: async (status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getFees: async (
+      status?: 'UNPAID' | 'LATE' | 'PAID' | 'PARTIALLY_PAID',
+      page?: number,
+      pageSize?: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/fees`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -1404,14 +1462,14 @@ export const PayingApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {'UNPAID' | 'LATE' | 'PAID'} [status] See the PaymentStatus object for its value.
+     * @param {'UNPAID' | 'LATE' | 'PAID' | 'PARTIALLY_PAID'} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async getFees(
-      status?: 'UNPAID' | 'LATE' | 'PAID',
+      status?: 'UNPAID' | 'LATE' | 'PAID' | 'PARTIALLY_PAID',
       page?: number,
       pageSize?: number,
       options?: AxiosRequestConfig
@@ -1530,13 +1588,13 @@ export const PayingApiFactory = function (configuration?: Configuration, basePat
     /**
      *
      * @summary Get all student fees filtered by status
-     * @param {'UNPAID' | 'LATE' | 'PAID'} [status] See the PaymentStatus object for its value.
+     * @param {'UNPAID' | 'LATE' | 'PAID' | 'PARTIALLY_PAID'} [status] See the PaymentStatus object for its value.
      * @param {number} [page]
      * @param {number} [pageSize]
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getFees(status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
+    getFees(status?: 'UNPAID' | 'LATE' | 'PAID' | 'PARTIALLY_PAID', page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Fee>> {
       return localVarFp.getFees(status, page, pageSize, options).then(request => request(axios, basePath))
     },
     /**
@@ -1647,14 +1705,14 @@ export class PayingApi extends BaseAPI {
   /**
    *
    * @summary Get all student fees filtered by status
-   * @param {'UNPAID' | 'LATE' | 'PAID'} [status] See the PaymentStatus object for its value.
+   * @param {'UNPAID' | 'LATE' | 'PAID' | 'PARTIALLY_PAID'} [status] See the PaymentStatus object for its value.
    * @param {number} [page]
    * @param {number} [pageSize]
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof PayingApi
    */
-  public getFees(status?: 'UNPAID' | 'LATE' | 'PAID', page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+  public getFees(status?: 'UNPAID' | 'LATE' | 'PAID' | 'PARTIALLY_PAID', page?: number, pageSize?: number, options?: AxiosRequestConfig) {
     return PayingApiFp(this.configuration)
       .getFees(status, page, pageSize, options)
       .then(request => request(this.axios, this.basePath))
@@ -1882,44 +1940,6 @@ export class SecurityApi extends BaseAPI {
 export const TeachingApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * Update courses when id are provided, create them otherwise.
-     * @summary Create new courses or update existing courses
-     * @param {Course} course
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createOrUpdateCourses: async (course: Course, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'course' is not null or undefined
-      assertParamExists('createOrUpdateCourses', 'course', course)
-      const localVarPath = `/courses`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication BearerAuth required
-      // http bearer authentication required
-      await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-      localVarHeaderParameter['Content-Type'] = 'application/json'
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
-      localVarRequestOptions.data = serializeDataIfNeeded(course, localVarRequestOptions, configuration)
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
-    },
-    /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
      * @param {Array<Group>} group Groups to update
@@ -1951,6 +1971,44 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
       localVarRequestOptions.data = serializeDataIfNeeded(group, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Update courses when id are provided, create them otherwise.
+     * @summary Crupdate courses
+     * @param {Array<CrupdateCourse>} crupdateCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    crupdateCourses: async (crupdateCourse: Array<CrupdateCourse>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'crupdateCourse' is not null or undefined
+      assertParamExists('crupdateCourses', 'crupdateCourse', crupdateCourse)
+      const localVarPath = `/courses`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(crupdateCourse, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1995,10 +2053,12 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
     /**
      *
      * @summary Get all courses
+     * @param {number} [page] Set value to 1 by default if null is provided
+     * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCourses: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getCourses: async (page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
       const localVarPath = `/courses`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -2014,6 +2074,14 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
       // authentication BearerAuth required
       // http bearer authentication required
       await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter['page_size'] = pageSize
+      }
 
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
@@ -2102,17 +2170,6 @@ export const TeachingApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = TeachingApiAxiosParamCreator(configuration)
   return {
     /**
-     * Update courses when id are provided, create them otherwise.
-     * @summary Create new courses or update existing courses
-     * @param {Course} course
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createOrUpdateCourses(course: Course, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Course>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateCourses(course, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
-    },
-    /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
      * @param {Array<Group>} group Groups to update
@@ -2124,6 +2181,20 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateGroups(group, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     * Update courses when id are provided, create them otherwise.
+     * @summary Crupdate courses
+     * @param {Array<CrupdateCourse>} crupdateCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async crupdateCourses(
+      crupdateCourse: Array<CrupdateCourse>,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.crupdateCourses(crupdateCourse, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -2140,11 +2211,17 @@ export const TeachingApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get all courses
+     * @param {number} [page] Set value to 1 by default if null is provided
+     * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getCourses(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getCourses(options)
+    async getCourses(
+      page?: number,
+      pageSize?: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getCourses(page, pageSize, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -2179,16 +2256,6 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
   const localVarFp = TeachingApiFp(configuration)
   return {
     /**
-     * Update courses when id are provided, create them otherwise.
-     * @summary Create new courses or update existing courses
-     * @param {Course} course
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createOrUpdateCourses(course: Course, options?: any): AxiosPromise<Course> {
-      return localVarFp.createOrUpdateCourses(course, options).then(request => request(axios, basePath))
-    },
-    /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
      * @param {Array<Group>} group Groups to update
@@ -2197,6 +2264,16 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      */
     createOrUpdateGroups(group: Array<Group>, options?: any): AxiosPromise<Array<Group>> {
       return localVarFp.createOrUpdateGroups(group, options).then(request => request(axios, basePath))
+    },
+    /**
+     * Update courses when id are provided, create them otherwise.
+     * @summary Crupdate courses
+     * @param {Array<CrupdateCourse>} crupdateCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    crupdateCourses(crupdateCourse: Array<CrupdateCourse>, options?: any): AxiosPromise<Array<Course>> {
+      return localVarFp.crupdateCourses(crupdateCourse, options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -2211,11 +2288,13 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
     /**
      *
      * @summary Get all courses
+     * @param {number} [page] Set value to 1 by default if null is provided
+     * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCourses(options?: any): AxiosPromise<Array<Course>> {
-      return localVarFp.getCourses(options).then(request => request(axios, basePath))
+    getCourses(page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Course>> {
+      return localVarFp.getCourses(page, pageSize, options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -2247,20 +2326,6 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
  */
 export class TeachingApi extends BaseAPI {
   /**
-   * Update courses when id are provided, create them otherwise.
-   * @summary Create new courses or update existing courses
-   * @param {Course} course
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TeachingApi
-   */
-  public createOrUpdateCourses(course: Course, options?: AxiosRequestConfig) {
-    return TeachingApiFp(this.configuration)
-      .createOrUpdateCourses(course, options)
-      .then(request => request(this.axios, this.basePath))
-  }
-
-  /**
    * Update groups when `id` are provided, create them otherwise.
    * @summary Create new groups or update existing groups
    * @param {Array<Group>} group Groups to update
@@ -2271,6 +2336,20 @@ export class TeachingApi extends BaseAPI {
   public createOrUpdateGroups(group: Array<Group>, options?: AxiosRequestConfig) {
     return TeachingApiFp(this.configuration)
       .createOrUpdateGroups(group, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update courses when id are provided, create them otherwise.
+   * @summary Crupdate courses
+   * @param {Array<CrupdateCourse>} crupdateCourse
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TeachingApi
+   */
+  public crupdateCourses(crupdateCourse: Array<CrupdateCourse>, options?: AxiosRequestConfig) {
+    return TeachingApiFp(this.configuration)
+      .crupdateCourses(crupdateCourse, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -2291,13 +2370,15 @@ export class TeachingApi extends BaseAPI {
   /**
    *
    * @summary Get all courses
+   * @param {number} [page] Set value to 1 by default if null is provided
+   * @param {number} [pageSize] Set value to 15 by default if null is provided
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TeachingApi
    */
-  public getCourses(options?: AxiosRequestConfig) {
+  public getCourses(page?: number, pageSize?: number, options?: AxiosRequestConfig) {
     return TeachingApiFp(this.configuration)
-      .getCourses(options)
+      .getCourses(page, pageSize, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -2525,6 +2606,46 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     },
     /**
      *
+     * @summary Get a specific student courses
+     * @param {string} studentId
+     * @param {CourseStatus} [status] By default, LINKED courses are provided.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getStudentCoursesById: async (studentId: string, status?: CourseStatus, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'studentId' is not null or undefined
+      assertParamExists('getStudentCoursesById', 'studentId', studentId)
+      const localVarPath = `/students/{student_id}/courses`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      if (status !== undefined) {
+        localVarQueryParameter['status'] = status
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
@@ -2685,6 +2806,51 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         url: toPathString(localVarUrlObj),
         options: localVarRequestOptions
       }
+    },
+    /**
+     *
+     * @summary Link or unlink courses to a specific student
+     * @param {string} studentId
+     * @param {Array<UpdateStudentCourse>} updateStudentCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateStudentCourses: async (
+      studentId: string,
+      updateStudentCourse: Array<UpdateStudentCourse>,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'studentId' is not null or undefined
+      assertParamExists('updateStudentCourses', 'studentId', studentId)
+      // verify required parameter 'updateStudentCourse' is not null or undefined
+      assertParamExists('updateStudentCourses', 'updateStudentCourse', updateStudentCourse)
+      const localVarPath = `/students/{student_id}/courses`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(updateStudentCourse, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
     }
   }
 }
@@ -2706,7 +2872,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
     async createOrUpdateStudents(
       student: Array<Student>,
       options?: AxiosRequestConfig
-    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<CreateOrUpdateStudents200ResponseInner>>> {
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateStudents(student, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
@@ -2764,6 +2930,22 @@ export const UsersApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @summary Get a specific student courses
+     * @param {string} studentId
+     * @param {CourseStatus} [status] By default, LINKED courses are provided.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getStudentCoursesById(
+      studentId: string,
+      status?: CourseStatus,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Course>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentCoursesById(studentId, status, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
@@ -2816,6 +2998,22 @@ export const UsersApiFp = function (configuration?: Configuration) {
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getTeachers(page, pageSize, ref, firstName, lastName, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Link or unlink courses to a specific student
+     * @param {string} studentId
+     * @param {Array<UpdateStudentCourse>} updateStudentCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateStudentCourses(
+      studentId: string,
+      updateStudentCourse: Array<UpdateStudentCourse>,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateStudentCourses(studentId, updateStudentCourse, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
 }
@@ -2834,7 +3032,7 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createOrUpdateStudents(student: Array<Student>, options?: any): AxiosPromise<Array<CreateOrUpdateStudents200ResponseInner>> {
+    createOrUpdateStudents(student: Array<Student>, options?: any): AxiosPromise<Array<Student>> {
       return localVarFp.createOrUpdateStudents(student, options).then(request => request(axios, basePath))
     },
     /**
@@ -2880,6 +3078,17 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
     },
     /**
      *
+     * @summary Get a specific student courses
+     * @param {string} studentId
+     * @param {CourseStatus} [status] By default, LINKED courses are provided.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getStudentCoursesById(studentId: string, status?: CourseStatus, options?: any): AxiosPromise<Course> {
+      return localVarFp.getStudentCoursesById(studentId, status, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
@@ -2915,6 +3124,17 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      */
     getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: any): AxiosPromise<Array<Teacher>> {
       return localVarFp.getTeachers(page, pageSize, ref, firstName, lastName, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Link or unlink courses to a specific student
+     * @param {string} studentId
+     * @param {Array<UpdateStudentCourse>} updateStudentCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateStudentCourses(studentId: string, updateStudentCourse: Array<UpdateStudentCourse>, options?: any): AxiosPromise<Array<Course>> {
+      return localVarFp.updateStudentCourses(studentId, updateStudentCourse, options).then(request => request(axios, basePath))
     }
   }
 }
@@ -2999,6 +3219,21 @@ export class UsersApi extends BaseAPI {
 
   /**
    *
+   * @summary Get a specific student courses
+   * @param {string} studentId
+   * @param {CourseStatus} [status] By default, LINKED courses are provided.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public getStudentCoursesById(studentId: string, status?: CourseStatus, options?: AxiosRequestConfig) {
+    return UsersApiFp(this.configuration)
+      .getStudentCoursesById(studentId, status, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
    * @summary Get all students
    * @param {number} [page]
    * @param {number} [pageSize]
@@ -3044,6 +3279,21 @@ export class UsersApi extends BaseAPI {
   public getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: AxiosRequestConfig) {
     return UsersApiFp(this.configuration)
       .getTeachers(page, pageSize, ref, firstName, lastName, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Link or unlink courses to a specific student
+   * @param {string} studentId
+   * @param {Array<UpdateStudentCourse>} updateStudentCourse
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public updateStudentCourses(studentId: string, updateStudentCourse: Array<UpdateStudentCourse>, options?: AxiosRequestConfig) {
+    return UsersApiFp(this.configuration)
+      .updateStudentCourses(studentId, updateStudentCourse, options)
       .then(request => request(this.axios, this.basePath))
   }
 }
