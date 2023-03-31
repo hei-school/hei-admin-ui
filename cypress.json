@@ -4,7 +4,7 @@
     "runMode": 3,
     "openMode": 0
   },
-  "viewportWidth": 600,
+  "viewportWidth": 650,
   "viewportHeight": 944,
   "component": {
     "testFiles": "**/*.cy.{js,ts,jsx,tsx}",

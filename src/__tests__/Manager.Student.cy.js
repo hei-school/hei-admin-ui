@@ -16,6 +16,7 @@ import {
   createdFeesForNewStudent
 } from './mocks/responses'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
+import { TurnsStringIntoDate } from '../operations/utils'
 
 const feeDateToSearch = `2022-09-11`
 const newFirstName = 'Aina herilala'
@@ -32,8 +33,7 @@ updatedStudent.first_name = newFirstName
 const StudentRequestBodyVerification = (RequestBody, can_create_fees) => {
   let createStudentWithoutFeesBodyMock = { ...createStudent }
   createStudentWithoutFeesBodyMock.can_create_fees = can_create_fees
-  const datePart = createStudent.entrance_datetime.split('-')
-  createStudentWithoutFeesBodyMock.entrance_datetime = new Date(datePart[0], datePart[1] - 1, datePart[2]).toISOString()
+  createStudentWithoutFeesBodyMock.entrance_datetime = TurnsStringIntoDate(createStudent.entrance_datetime)
   expect(RequestBody[0]).to.deep.equal(createStudentWithoutFeesBodyMock)
   expect(RequestBody.length).to.equal(1)
 }
@@ -84,7 +84,7 @@ describe(specTitle('Manager edit students'), () => {
     cy.contains('Page : 1')
     cy.contains('Taille : 1')
     cy.contains(studentNameToBeCheckedMock).click()
-    cy.get('.css-1hqp8sg-MuiButtonBase-root-MuiButton-root-RaButton-root').click() //éditer
+    cy.get('a[aria-label="Éditer"]').click() //éditer
     cy.get('#first_name').click().clear().type(newFirstName)
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [updatedStudent]).as('getUpdatedStudent')
     cy.contains('Enregistrer').click()
@@ -231,12 +231,11 @@ describe(specTitle('Manager creates students'), () => {
     cy.contains('Enregistrer').click()
     cy.wait('@createStudent').then(requestInterseption => StudentRequestBodyVerification(requestInterseption.request.body, true))
     cy.wait('@createFees').then(requestIntersection => {
-      const datParts = feeDateToSearch.split('-')
       let createAutomaticallyFeesBodyMock = {
         comment: comment,
         type: manualFeeTypes[feeTypeMock].type,
         total_amount: monthlyAmount,
-        due_datetime: new Date(datParts[0], datParts[1] - 1, datParts[2]).toISOString()
+        due_datetime: TurnsStringIntoDate(feeDateToSearch)
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
       expect(requestIntersection.request.body.length).to.equal(monthsNumber)

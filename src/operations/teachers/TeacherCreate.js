@@ -1,8 +1,8 @@
 import { Create, SimpleForm, TextInput, DateInput } from 'react-admin'
-import { SexRadioButton } from '../utils'
+import { SexRadioButton, TurnsStringIntoDate } from '../utils'
 
 const transformTeacher = teacher => {
-  teacher.entrance_datetime = teacher.entrance_datetime.concat('T10:00:00.000Z')
+  teacher.entrance_datetime = TurnsStringIntoDate(teacher.entrance_datetime)
   return teacher
 }
 const TeacherCreate = () => (
