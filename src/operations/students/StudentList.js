@@ -11,8 +11,7 @@ const StudentList = () => {
   return (
     <List label='Étudiants' hasCreate={role === WhoamiRoleEnum.Manager} filters={profileFilters} perPage={pageSize} pagination={<PrevNextPagination />}>
       <Datagrid bulkActionButtons={false} rowClick='show'>
-        <TextField source='first_name' label='Prénom·s' />
-
+        <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
         {role === WhoamiRoleEnum.Manager ? <EditButton /> : <ShowButton />}

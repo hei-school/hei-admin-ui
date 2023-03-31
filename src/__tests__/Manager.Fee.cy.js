@@ -16,7 +16,7 @@ import {
   fee1Mock
 } from './mocks/responses'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
-import { prettyPrintMoney, statusRenderer } from '../operations/utils'
+import { prettyPrintMoney, statusRenderer, TurnsStringIntoDate } from '../operations/utils'
 
 const feeDateToSearch = `2022-09-11`
 const feeCreatDate = 'date2'
@@ -162,13 +162,11 @@ describe(specTitle('Manager.Fee'), () => {
 
     cy.wait('@createFees').then(requestIntersection => {
       const feeTypeMock = 'tuition'
-      const datParts = feeDateToSearch.split('-')
-      const pendingDate = new Date(datParts[0], datParts[1] - 1, datParts[2])
       let createAutomaticallyFeesBodyMock = {
         comment: comment,
         type: manualFeeTypes[feeTypeMock].type,
         total_amount: monthlyAmount,
-        due_datetime: pendingDate.toISOString(),
+        due_datetime: TurnsStringIntoDate(feeDateToSearch),
         student_id: student1Mock.id
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
