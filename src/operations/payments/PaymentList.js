@@ -20,7 +20,7 @@ const PaymentList = ({ feeId }) => {
       filterDefaultValues={{ feeId: feeId }}
       pagination={false}
     >
-      <Datagrid>
+      <Datagrid bulkActionButtons={false}>
         <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
         <TextField source='comment' label='Commentaire' />
         <TextField source='type' label='Type' />
