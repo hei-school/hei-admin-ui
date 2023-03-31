@@ -181,8 +181,6 @@ const FeesConfInput = ({ isPredefinedType, feesConf }) => {
   }
   const validateMonthlyAmount = [required(), number(), minValue(1)]
   const validateMonthsNumber = [required(), number(), minValue(1), maxValue(12)]
-  const formatValue = value => (value == '' ? null : value)
-  const parseValue = value => (value == null ? '' : value)
   return (
     <div>
       <TextInput
