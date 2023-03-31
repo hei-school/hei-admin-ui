@@ -27,7 +27,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
       req.reply(res => {
-        res.setDelay(200)
+        res.setDelay(500)
         res.send(manager1Mock)
       })
     }).as('getManager1')
