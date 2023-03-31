@@ -43,7 +43,7 @@ const FeeList = ({ studentId }) => {
       pagination={false}
       perPage={maxPageSize}
     >
-      <Datagrid bulkActionButtons={role === WhoamiRoleEnum.Manager} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
+      <Datagrid bulkActionButtons={false} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
         <CustomDateField source='due_datetime' label='Date limite' showTime={false} />
         <TextField source='comment' label='Commentaire' />
         <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
