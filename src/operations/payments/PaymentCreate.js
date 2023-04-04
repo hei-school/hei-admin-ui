@@ -20,7 +20,7 @@ const PaymentCreate = props => {
     doEffect()
   })
 
-  const validateConditions = [required(), number(), minValue(1)]
+  const validateConditions = [required()]
   const [paymentChoice, setPaymentChoice] = useState('cash')
   const paymentConfToPaymentApi = ({ type, amount, comment }) => {
     return [{ feeId: feeId, type: paymentTypes[type].type, amount: amount, comment: comment }]

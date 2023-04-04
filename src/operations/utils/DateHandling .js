@@ -5,3 +5,12 @@ export const CustomDateField = ({ source, label, showTime }) => {
   showTime && Object.assign(optionsObject, { hour: 'numeric', minute: 'numeric', second: 'numeric' })
   return <DateField source={source} label={label} locales='fr-FR' options={optionsObject} />
 }
+
+export const TurnsStringIntoDate = stringDate => {
+  const datePart = stringDate.split('-')
+  return new Date(datePart[0], datePart[1] - 1, datePart[2]).toISOString()
+}
+
+export const TurnsYearMonthDayIntoDate = ({ year, month, day }) => {
+  return new Date(year, month - 1, day).toISOString()
+}
