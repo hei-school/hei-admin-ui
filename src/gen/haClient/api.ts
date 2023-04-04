@@ -60,6 +60,12 @@ export interface BadRequestException {
 export interface Course {
   /**
    *
+   * @type {Teacher}
+   * @memberof Course
+   */
+  main_teacher?: Teacher
+  /**
+   *
    * @type {string}
    * @memberof Course
    */
@@ -69,7 +75,7 @@ export interface Course {
    * @type {string}
    * @memberof Course
    */
-  ref?: string
+  code?: string
   /**
    *
    * @type {string}
@@ -86,6 +92,69 @@ export interface Course {
    *
    * @type {number}
    * @memberof Course
+   */
+  total_hours?: number
+}
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const CourseOrder = {
+  Asc: 'ASC',
+  Desc: 'DESC'
+} as const
+
+export type CourseOrder = (typeof CourseOrder)[keyof typeof CourseOrder]
+
+/**
+ *
+ * @export
+ * @enum {string}
+ */
+
+export const CourseStatus = {
+  Linked: 'LINKED',
+  Unlinked: 'UNLINKED'
+} as const
+
+export type CourseStatus = (typeof CourseStatus)[keyof typeof CourseStatus]
+
+/**
+ *
+ * @export
+ * @interface CourseTemplate
+ */
+export interface CourseTemplate {
+  /**
+   *
+   * @type {string}
+   * @memberof CourseTemplate
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CourseTemplate
+   */
+  code?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CourseTemplate
+   */
+  name?: string
+  /**
+   *
+   * @type {number}
+   * @memberof CourseTemplate
+   */
+  credits?: number
+  /**
+   *
+   * @type {number}
+   * @memberof CourseTemplate
    */
   total_hours?: number
 }
@@ -293,6 +362,49 @@ export type CreatePaymentTypeEnum = (typeof CreatePaymentTypeEnum)[keyof typeof 
 /**
  *
  * @export
+ * @interface CrupdateCourse
+ */
+export interface CrupdateCourse {
+  /**
+   *
+   * @type {string}
+   * @memberof CrupdateCourse
+   */
+  main_teacher_id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CrupdateCourse
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CrupdateCourse
+   */
+  code?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CrupdateCourse
+   */
+  name?: string
+  /**
+   *
+   * @type {number}
+   * @memberof CrupdateCourse
+   */
+  credits?: number
+  /**
+   *
+   * @type {number}
+   * @memberof CrupdateCourse
+   */
+  total_hours?: number
+}
+/**
+ *
+ * @export
  * @interface DelayPenalty
  */
 export interface DelayPenalty {
@@ -353,6 +465,37 @@ export const EnableStatus = {
 
 export type EnableStatus = (typeof EnableStatus)[keyof typeof EnableStatus]
 
+/**
+ *
+ * @export
+ * @interface Exam
+ */
+export interface Exam {
+  /**
+   *
+   * @type {string}
+   * @memberof Exam
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Exam
+   */
+  details?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Exam
+   */
+  examination_date?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Exam
+   */
+  course_id?: string
+}
 /**
  *
  * @export
@@ -454,6 +597,43 @@ export const FeeTypeEnum = {
 
 export type FeeTypeEnum = (typeof FeeTypeEnum)[keyof typeof FeeTypeEnum]
 
+/**
+ *
+ * @export
+ * @interface Grade
+ */
+export interface Grade {
+  /**
+   *
+   * @type {string}
+   * @memberof Grade
+   */
+  id?: string
+  /**
+   *
+   * @type {number}
+   * @memberof Grade
+   */
+  point?: number
+  /**
+   *
+   * @type {string}
+   * @memberof Grade
+   */
+  created_at?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Grade
+   */
+  student_id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof Grade
+   */
+  exam_id?: string
+}
 /**
  *
  * @export
@@ -760,6 +940,73 @@ export type StudentSexEnum = (typeof StudentSexEnum)[keyof typeof StudentSexEnum
 /**
  *
  * @export
+ * @interface StudentGrade
+ */
+export interface StudentGrade {
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  exam_id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  examination_date?: string
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  course_id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  course_code?: string
+  /**
+   *
+   * @type {number}
+   * @memberof StudentGrade
+   */
+  point?: number
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  created_datetime?: string
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  student_id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  student_lastname?: string
+  /**
+   *
+   * @type {string}
+   * @memberof StudentGrade
+   */
+  student_firstname?: string
+}
+/**
+ *
+ * @export
  * @interface Teacher
  */
 export interface Teacher {
@@ -856,6 +1103,25 @@ export interface TooManyRequestsException {
    * @memberof TooManyRequestsException
    */
   message?: string
+}
+/**
+ *
+ * @export
+ * @interface UpdateStudentCourse
+ */
+export interface UpdateStudentCourse {
+  /**
+   *
+   * @type {string}
+   * @memberof UpdateStudentCourse
+   */
+  course_id?: string
+  /**
+   *
+   * @type {CourseStatus}
+   * @memberof UpdateStudentCourse
+   */
+  status?: CourseStatus
 }
 /**
  *
@@ -1882,44 +2148,6 @@ export class SecurityApi extends BaseAPI {
 export const TeachingApiAxiosParamCreator = function (configuration?: Configuration) {
   return {
     /**
-     * Update courses when id are provided, create them otherwise.
-     * @summary Create new courses or update existing courses
-     * @param {Course} course
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createOrUpdateCourses: async (course: Course, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'course' is not null or undefined
-      assertParamExists('createOrUpdateCourses', 'course', course)
-      const localVarPath = `/courses`
-      // use dummy base URL string because the URL constructor only accepts absolute URLs.
-      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
-      let baseOptions
-      if (configuration) {
-        baseOptions = configuration.baseOptions
-      }
-
-      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
-      const localVarHeaderParameter = {} as any
-      const localVarQueryParameter = {} as any
-
-      // authentication BearerAuth required
-      // http bearer authentication required
-      await setBearerAuthToObject(localVarHeaderParameter, configuration)
-
-      localVarHeaderParameter['Content-Type'] = 'application/json'
-
-      setSearchParams(localVarUrlObj, localVarQueryParameter)
-      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
-      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
-      localVarRequestOptions.data = serializeDataIfNeeded(course, localVarRequestOptions, configuration)
-
-      return {
-        url: toPathString(localVarUrlObj),
-        options: localVarRequestOptions
-      }
-    },
-    /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
      * @param {Array<Group>} group Groups to update
@@ -1951,6 +2179,128 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
       localVarRequestOptions.data = serializeDataIfNeeded(group, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Update courses when id are provided, create them otherwise.
+     * @summary Crupdate courses
+     * @param {Array<CrupdateCourse>} crupdateCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    crupdateCourses: async (crupdateCourse: Array<CrupdateCourse>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'crupdateCourse' is not null or undefined
+      assertParamExists('crupdateCourses', 'crupdateCourse', crupdateCourse)
+      const localVarPath = `/courses`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(crupdateCourse, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Update exams when `id` are provided, create them otherwise.
+     * @summary Create new exams or update existing exams
+     * @param {Array<Exam>} exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    crupdateExams: async (exam: Array<Exam>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'exam' is not null or undefined
+      assertParamExists('crupdateExams', 'exam', exam)
+      const localVarPath = `/exam`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(exam, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     * Update grade when `id` is provided, create it otherwise.
+     * @summary Create new grade or update existing grade
+     * @param {string} studentId
+     * @param {string} examId
+     * @param {Grade} grade
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    crupdateGrade: async (studentId: string, examId: string, grade: Grade, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'studentId' is not null or undefined
+      assertParamExists('crupdateGrade', 'studentId', studentId)
+      // verify required parameter 'examId' is not null or undefined
+      assertParamExists('crupdateGrade', 'examId', examId)
+      // verify required parameter 'grade' is not null or undefined
+      assertParamExists('crupdateGrade', 'grade', grade)
+      const localVarPath = `/students/{student_id}/exam/{exam_id}/grade`
+        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+        .replace(`{${'exam_id'}}`, encodeURIComponent(String(examId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(grade, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
@@ -1995,11 +2345,188 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
     /**
      *
      * @summary Get all courses
+     * @param {string} [code] Filter courses by code, case is ignored
+     * @param {string} [name] Filter courses by name, case is ignored
+     * @param {number} [credits] Filter courses by credits
+     * @param {string} [teacherFirstName] Filter courses by teacher firstname, case is ignored
+     * @param {string} [teacherLastName] Filter courses by teacher lastname, case is ignored
+     * @param {CourseOrder} [creditsOrder]
+     * @param {CourseOrder} [codeOrder]
+     * @param {number} [page] Set value to 1 by default if null is provided
+     * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCourses: async (options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+    getCourses: async (
+      code?: string,
+      name?: string,
+      credits?: number,
+      teacherFirstName?: string,
+      teacherLastName?: string,
+      creditsOrder?: CourseOrder,
+      codeOrder?: CourseOrder,
+      page?: number,
+      pageSize?: number,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
       const localVarPath = `/courses`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      if (code !== undefined) {
+        localVarQueryParameter['code'] = code
+      }
+
+      if (name !== undefined) {
+        localVarQueryParameter['name'] = name
+      }
+
+      if (credits !== undefined) {
+        localVarQueryParameter['credits'] = credits
+      }
+
+      if (teacherFirstName !== undefined) {
+        localVarQueryParameter['teacher_first_name'] = teacherFirstName
+      }
+
+      if (teacherLastName !== undefined) {
+        localVarQueryParameter['teacher_last_name'] = teacherLastName
+      }
+
+      if (creditsOrder !== undefined) {
+        localVarQueryParameter['credits_order'] = creditsOrder
+      }
+
+      if (codeOrder !== undefined) {
+        localVarQueryParameter['code_order'] = codeOrder
+      }
+
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter['page_size'] = pageSize
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
+     * @summary Get all exam
+     * @param {number} page
+     * @param {number} pageSize
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getExams: async (page: number, pageSize: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'page' is not null or undefined
+      assertParamExists('getExams', 'page', page)
+      // verify required parameter 'pageSize' is not null or undefined
+      assertParamExists('getExams', 'pageSize', pageSize)
+      const localVarPath = `/exam`
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter['page_size'] = pageSize
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
+     * @summary Get a student\'s grade.
+     * @param {string} studentId
+     * @param {string} examId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getGradeById: async (studentId: string, examId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'studentId' is not null or undefined
+      assertParamExists('getGradeById', 'studentId', studentId)
+      // verify required parameter 'examId' is not null or undefined
+      assertParamExists('getGradeById', 'examId', examId)
+      const localVarPath = `/students/{student_id}/exam/{exam_id}/grade`
+        .replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+        .replace(`{${'exam_id'}}`, encodeURIComponent(String(examId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
+     * @summary Get all student\'s grades.
+     * @param {string} studentId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getGradesById: async (studentId: string, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'studentId' is not null or undefined
+      assertParamExists('getGradesById', 'studentId', studentId)
+      const localVarPath = `/students/{student_id}/grades`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
       let baseOptions
@@ -2090,6 +2617,51 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
         url: toPathString(localVarUrlObj),
         options: localVarRequestOptions
       }
+    },
+    /**
+     *
+     * @summary Get all students linked to a specific course
+     * @param {string} courseId
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getStudentsByCourseId: async (courseId: string, page?: number, pageSize?: number, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'courseId' is not null or undefined
+      assertParamExists('getStudentsByCourseId', 'courseId', courseId)
+      const localVarPath = `/students/courses/{course_id}`.replace(`{${'course_id'}}`, encodeURIComponent(String(courseId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      if (page !== undefined) {
+        localVarQueryParameter['page'] = page
+      }
+
+      if (pageSize !== undefined) {
+        localVarQueryParameter['page_size'] = pageSize
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
     }
   }
 }
@@ -2102,17 +2674,6 @@ export const TeachingApiFp = function (configuration?: Configuration) {
   const localVarAxiosParamCreator = TeachingApiAxiosParamCreator(configuration)
   return {
     /**
-     * Update courses when id are provided, create them otherwise.
-     * @summary Create new courses or update existing courses
-     * @param {Course} course
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    async createOrUpdateCourses(course: Course, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Course>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateCourses(course, options)
-      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
-    },
-    /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
      * @param {Array<Group>} group Groups to update
@@ -2124,6 +2685,49 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateGroups(group, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     * Update courses when id are provided, create them otherwise.
+     * @summary Crupdate courses
+     * @param {Array<CrupdateCourse>} crupdateCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async crupdateCourses(
+      crupdateCourse: Array<CrupdateCourse>,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.crupdateCourses(crupdateCourse, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     * Update exams when `id` are provided, create them otherwise.
+     * @summary Create new exams or update existing exams
+     * @param {Array<Exam>} exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async crupdateExams(exam: Array<Exam>, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Exam>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.crupdateExams(exam, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     * Update grade when `id` is provided, create it otherwise.
+     * @summary Create new grade or update existing grade
+     * @param {string} studentId
+     * @param {string} examId
+     * @param {Grade} grade
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async crupdateGrade(
+      studentId: string,
+      examId: string,
+      grade: Grade,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Grade>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.crupdateGrade(studentId, examId, grade, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -2140,11 +2744,88 @@ export const TeachingApiFp = function (configuration?: Configuration) {
     /**
      *
      * @summary Get all courses
+     * @param {string} [code] Filter courses by code, case is ignored
+     * @param {string} [name] Filter courses by name, case is ignored
+     * @param {number} [credits] Filter courses by credits
+     * @param {string} [teacherFirstName] Filter courses by teacher firstname, case is ignored
+     * @param {string} [teacherLastName] Filter courses by teacher lastname, case is ignored
+     * @param {CourseOrder} [creditsOrder]
+     * @param {CourseOrder} [codeOrder]
+     * @param {number} [page] Set value to 1 by default if null is provided
+     * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    async getCourses(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.getCourses(options)
+    async getCourses(
+      code?: string,
+      name?: string,
+      credits?: number,
+      teacherFirstName?: string,
+      teacherLastName?: string,
+      creditsOrder?: CourseOrder,
+      codeOrder?: CourseOrder,
+      page?: number,
+      pageSize?: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getCourses(
+        code,
+        name,
+        credits,
+        teacherFirstName,
+        teacherLastName,
+        creditsOrder,
+        codeOrder,
+        page,
+        pageSize,
+        options
+      )
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Get all exam
+     * @param {number} page
+     * @param {number} pageSize
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getExams(
+      page: number,
+      pageSize: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Exam>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getExams(page, pageSize, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Get a student\'s grade.
+     * @param {string} studentId
+     * @param {string} examId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getGradeById(
+      studentId: string,
+      examId: string,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Grade>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getGradeById(studentId, examId, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Get all student\'s grades.
+     * @param {string} studentId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getGradesById(
+      studentId: string,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<StudentGrade>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getGradesById(studentId, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -2167,6 +2848,24 @@ export const TeachingApiFp = function (configuration?: Configuration) {
     async getGroups(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getGroups(options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Get all students linked to a specific course
+     * @param {string} courseId
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getStudentsByCourseId(
+      courseId: string,
+      page?: number,
+      pageSize?: number,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentsByCourseId(courseId, page, pageSize, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
 }
@@ -2179,16 +2878,6 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
   const localVarFp = TeachingApiFp(configuration)
   return {
     /**
-     * Update courses when id are provided, create them otherwise.
-     * @summary Create new courses or update existing courses
-     * @param {Course} course
-     * @param {*} [options] Override http request option.
-     * @throws {RequiredError}
-     */
-    createOrUpdateCourses(course: Course, options?: any): AxiosPromise<Course> {
-      return localVarFp.createOrUpdateCourses(course, options).then(request => request(axios, basePath))
-    },
-    /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
      * @param {Array<Group>} group Groups to update
@@ -2197,6 +2886,38 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      */
     createOrUpdateGroups(group: Array<Group>, options?: any): AxiosPromise<Array<Group>> {
       return localVarFp.createOrUpdateGroups(group, options).then(request => request(axios, basePath))
+    },
+    /**
+     * Update courses when id are provided, create them otherwise.
+     * @summary Crupdate courses
+     * @param {Array<CrupdateCourse>} crupdateCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    crupdateCourses(crupdateCourse: Array<CrupdateCourse>, options?: any): AxiosPromise<Array<Course>> {
+      return localVarFp.crupdateCourses(crupdateCourse, options).then(request => request(axios, basePath))
+    },
+    /**
+     * Update exams when `id` are provided, create them otherwise.
+     * @summary Create new exams or update existing exams
+     * @param {Array<Exam>} exam
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    crupdateExams(exam: Array<Exam>, options?: any): AxiosPromise<Array<Exam>> {
+      return localVarFp.crupdateExams(exam, options).then(request => request(axios, basePath))
+    },
+    /**
+     * Update grade when `id` is provided, create it otherwise.
+     * @summary Create new grade or update existing grade
+     * @param {string} studentId
+     * @param {string} examId
+     * @param {Grade} grade
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    crupdateGrade(studentId: string, examId: string, grade: Grade, options?: any): AxiosPromise<Grade> {
+      return localVarFp.crupdateGrade(studentId, examId, grade, options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -2211,11 +2932,65 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
     /**
      *
      * @summary Get all courses
+     * @param {string} [code] Filter courses by code, case is ignored
+     * @param {string} [name] Filter courses by name, case is ignored
+     * @param {number} [credits] Filter courses by credits
+     * @param {string} [teacherFirstName] Filter courses by teacher firstname, case is ignored
+     * @param {string} [teacherLastName] Filter courses by teacher lastname, case is ignored
+     * @param {CourseOrder} [creditsOrder]
+     * @param {CourseOrder} [codeOrder]
+     * @param {number} [page] Set value to 1 by default if null is provided
+     * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    getCourses(options?: any): AxiosPromise<Array<Course>> {
-      return localVarFp.getCourses(options).then(request => request(axios, basePath))
+    getCourses(
+      code?: string,
+      name?: string,
+      credits?: number,
+      teacherFirstName?: string,
+      teacherLastName?: string,
+      creditsOrder?: CourseOrder,
+      codeOrder?: CourseOrder,
+      page?: number,
+      pageSize?: number,
+      options?: any
+    ): AxiosPromise<Array<Course>> {
+      return localVarFp
+        .getCourses(code, name, credits, teacherFirstName, teacherLastName, creditsOrder, codeOrder, page, pageSize, options)
+        .then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Get all exam
+     * @param {number} page
+     * @param {number} pageSize
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getExams(page: number, pageSize: number, options?: any): AxiosPromise<Array<Exam>> {
+      return localVarFp.getExams(page, pageSize, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Get a student\'s grade.
+     * @param {string} studentId
+     * @param {string} examId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getGradeById(studentId: string, examId: string, options?: any): AxiosPromise<Grade> {
+      return localVarFp.getGradeById(studentId, examId, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Get all student\'s grades.
+     * @param {string} studentId
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getGradesById(studentId: string, options?: any): AxiosPromise<Array<StudentGrade>> {
+      return localVarFp.getGradesById(studentId, options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -2235,6 +3010,18 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      */
     getGroups(options?: any): AxiosPromise<Array<Group>> {
       return localVarFp.getGroups(options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Get all students linked to a specific course
+     * @param {string} courseId
+     * @param {number} [page]
+     * @param {number} [pageSize]
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getStudentsByCourseId(courseId: string, page?: number, pageSize?: number, options?: any): AxiosPromise<Array<Student>> {
+      return localVarFp.getStudentsByCourseId(courseId, page, pageSize, options).then(request => request(axios, basePath))
     }
   }
 }
@@ -2247,20 +3034,6 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
  */
 export class TeachingApi extends BaseAPI {
   /**
-   * Update courses when id are provided, create them otherwise.
-   * @summary Create new courses or update existing courses
-   * @param {Course} course
-   * @param {*} [options] Override http request option.
-   * @throws {RequiredError}
-   * @memberof TeachingApi
-   */
-  public createOrUpdateCourses(course: Course, options?: AxiosRequestConfig) {
-    return TeachingApiFp(this.configuration)
-      .createOrUpdateCourses(course, options)
-      .then(request => request(this.axios, this.basePath))
-  }
-
-  /**
    * Update groups when `id` are provided, create them otherwise.
    * @summary Create new groups or update existing groups
    * @param {Array<Group>} group Groups to update
@@ -2271,6 +3044,50 @@ export class TeachingApi extends BaseAPI {
   public createOrUpdateGroups(group: Array<Group>, options?: AxiosRequestConfig) {
     return TeachingApiFp(this.configuration)
       .createOrUpdateGroups(group, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update courses when id are provided, create them otherwise.
+   * @summary Crupdate courses
+   * @param {Array<CrupdateCourse>} crupdateCourse
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TeachingApi
+   */
+  public crupdateCourses(crupdateCourse: Array<CrupdateCourse>, options?: AxiosRequestConfig) {
+    return TeachingApiFp(this.configuration)
+      .crupdateCourses(crupdateCourse, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update exams when `id` are provided, create them otherwise.
+   * @summary Create new exams or update existing exams
+   * @param {Array<Exam>} exam
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TeachingApi
+   */
+  public crupdateExams(exam: Array<Exam>, options?: AxiosRequestConfig) {
+    return TeachingApiFp(this.configuration)
+      .crupdateExams(exam, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   * Update grade when `id` is provided, create it otherwise.
+   * @summary Create new grade or update existing grade
+   * @param {string} studentId
+   * @param {string} examId
+   * @param {Grade} grade
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TeachingApi
+   */
+  public crupdateGrade(studentId: string, examId: string, grade: Grade, options?: AxiosRequestConfig) {
+    return TeachingApiFp(this.configuration)
+      .crupdateGrade(studentId, examId, grade, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -2291,13 +3108,77 @@ export class TeachingApi extends BaseAPI {
   /**
    *
    * @summary Get all courses
+   * @param {string} [code] Filter courses by code, case is ignored
+   * @param {string} [name] Filter courses by name, case is ignored
+   * @param {number} [credits] Filter courses by credits
+   * @param {string} [teacherFirstName] Filter courses by teacher firstname, case is ignored
+   * @param {string} [teacherLastName] Filter courses by teacher lastname, case is ignored
+   * @param {CourseOrder} [creditsOrder]
+   * @param {CourseOrder} [codeOrder]
+   * @param {number} [page] Set value to 1 by default if null is provided
+   * @param {number} [pageSize] Set value to 15 by default if null is provided
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TeachingApi
    */
-  public getCourses(options?: AxiosRequestConfig) {
+  public getCourses(
+    code?: string,
+    name?: string,
+    credits?: number,
+    teacherFirstName?: string,
+    teacherLastName?: string,
+    creditsOrder?: CourseOrder,
+    codeOrder?: CourseOrder,
+    page?: number,
+    pageSize?: number,
+    options?: AxiosRequestConfig
+  ) {
     return TeachingApiFp(this.configuration)
-      .getCourses(options)
+      .getCourses(code, name, credits, teacherFirstName, teacherLastName, creditsOrder, codeOrder, page, pageSize, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get all exam
+   * @param {number} page
+   * @param {number} pageSize
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TeachingApi
+   */
+  public getExams(page: number, pageSize: number, options?: AxiosRequestConfig) {
+    return TeachingApiFp(this.configuration)
+      .getExams(page, pageSize, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get a student\'s grade.
+   * @param {string} studentId
+   * @param {string} examId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TeachingApi
+   */
+  public getGradeById(studentId: string, examId: string, options?: AxiosRequestConfig) {
+    return TeachingApiFp(this.configuration)
+      .getGradeById(studentId, examId, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get all student\'s grades.
+   * @param {string} studentId
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TeachingApi
+   */
+  public getGradesById(studentId: string, options?: AxiosRequestConfig) {
+    return TeachingApiFp(this.configuration)
+      .getGradesById(studentId, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -2325,6 +3206,22 @@ export class TeachingApi extends BaseAPI {
   public getGroups(options?: AxiosRequestConfig) {
     return TeachingApiFp(this.configuration)
       .getGroups(options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Get all students linked to a specific course
+   * @param {string} courseId
+   * @param {number} [page]
+   * @param {number} [pageSize]
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof TeachingApi
+   */
+  public getStudentsByCourseId(courseId: string, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+    return TeachingApiFp(this.configuration)
+      .getStudentsByCourseId(courseId, page, pageSize, options)
       .then(request => request(this.axios, this.basePath))
   }
 }
@@ -2525,6 +3422,46 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
     },
     /**
      *
+     * @summary Get a specific student courses
+     * @param {string} studentId
+     * @param {CourseStatus} [status] By default, LINKED courses are provided.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getStudentCoursesById: async (studentId: string, status?: CourseStatus, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'studentId' is not null or undefined
+      assertParamExists('getStudentCoursesById', 'studentId', studentId)
+      const localVarPath = `/students/{student_id}/courses`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'GET', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      if (status !== undefined) {
+        localVarQueryParameter['status'] = status
+      }
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
+    },
+    /**
+     *
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
@@ -2685,6 +3622,51 @@ export const UsersApiAxiosParamCreator = function (configuration?: Configuration
         url: toPathString(localVarUrlObj),
         options: localVarRequestOptions
       }
+    },
+    /**
+     *
+     * @summary Link or unlink courses to a specific student
+     * @param {string} studentId
+     * @param {Array<UpdateStudentCourse>} updateStudentCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateStudentCourses: async (
+      studentId: string,
+      updateStudentCourse: Array<UpdateStudentCourse>,
+      options: AxiosRequestConfig = {}
+    ): Promise<RequestArgs> => {
+      // verify required parameter 'studentId' is not null or undefined
+      assertParamExists('updateStudentCourses', 'studentId', studentId)
+      // verify required parameter 'updateStudentCourse' is not null or undefined
+      assertParamExists('updateStudentCourses', 'updateStudentCourse', updateStudentCourse)
+      const localVarPath = `/students/{student_id}/courses`.replace(`{${'student_id'}}`, encodeURIComponent(String(studentId)))
+      // use dummy base URL string because the URL constructor only accepts absolute URLs.
+      const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
+      let baseOptions
+      if (configuration) {
+        baseOptions = configuration.baseOptions
+      }
+
+      const localVarRequestOptions = { method: 'PUT', ...baseOptions, ...options }
+      const localVarHeaderParameter = {} as any
+      const localVarQueryParameter = {} as any
+
+      // authentication BearerAuth required
+      // http bearer authentication required
+      await setBearerAuthToObject(localVarHeaderParameter, configuration)
+
+      localVarHeaderParameter['Content-Type'] = 'application/json'
+
+      setSearchParams(localVarUrlObj, localVarQueryParameter)
+      let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
+      localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
+      localVarRequestOptions.data = serializeDataIfNeeded(updateStudentCourse, localVarRequestOptions, configuration)
+
+      return {
+        url: toPathString(localVarUrlObj),
+        options: localVarRequestOptions
+      }
     }
   }
 }
@@ -2764,6 +3746,22 @@ export const UsersApiFp = function (configuration?: Configuration) {
     },
     /**
      *
+     * @summary Get a specific student courses
+     * @param {string} studentId
+     * @param {CourseStatus} [status] By default, LINKED courses are provided.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async getStudentCoursesById(
+      studentId: string,
+      status?: CourseStatus,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentCoursesById(studentId, status, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
@@ -2815,6 +3813,22 @@ export const UsersApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getTeachers(page, pageSize, ref, firstName, lastName, options)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
+    },
+    /**
+     *
+     * @summary Link or unlink courses to a specific student
+     * @param {string} studentId
+     * @param {Array<UpdateStudentCourse>} updateStudentCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    async updateStudentCourses(
+      studentId: string,
+      updateStudentCourse: Array<UpdateStudentCourse>,
+      options?: AxiosRequestConfig
+    ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
+      const localVarAxiosArgs = await localVarAxiosParamCreator.updateStudentCourses(studentId, updateStudentCourse, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
@@ -2880,6 +3894,17 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
     },
     /**
      *
+     * @summary Get a specific student courses
+     * @param {string} studentId
+     * @param {CourseStatus} [status] By default, LINKED courses are provided.
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    getStudentCoursesById(studentId: string, status?: CourseStatus, options?: any): AxiosPromise<Array<Course>> {
+      return localVarFp.getStudentCoursesById(studentId, status, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
      * @summary Get all students
      * @param {number} [page]
      * @param {number} [pageSize]
@@ -2915,6 +3940,17 @@ export const UsersApiFactory = function (configuration?: Configuration, basePath
      */
     getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: any): AxiosPromise<Array<Teacher>> {
       return localVarFp.getTeachers(page, pageSize, ref, firstName, lastName, options).then(request => request(axios, basePath))
+    },
+    /**
+     *
+     * @summary Link or unlink courses to a specific student
+     * @param {string} studentId
+     * @param {Array<UpdateStudentCourse>} updateStudentCourse
+     * @param {*} [options] Override http request option.
+     * @throws {RequiredError}
+     */
+    updateStudentCourses(studentId: string, updateStudentCourse: Array<UpdateStudentCourse>, options?: any): AxiosPromise<Array<Course>> {
+      return localVarFp.updateStudentCourses(studentId, updateStudentCourse, options).then(request => request(axios, basePath))
     }
   }
 }
@@ -2999,6 +4035,21 @@ export class UsersApi extends BaseAPI {
 
   /**
    *
+   * @summary Get a specific student courses
+   * @param {string} studentId
+   * @param {CourseStatus} [status] By default, LINKED courses are provided.
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public getStudentCoursesById(studentId: string, status?: CourseStatus, options?: AxiosRequestConfig) {
+    return UsersApiFp(this.configuration)
+      .getStudentCoursesById(studentId, status, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
    * @summary Get all students
    * @param {number} [page]
    * @param {number} [pageSize]
@@ -3044,6 +4095,21 @@ export class UsersApi extends BaseAPI {
   public getTeachers(page?: number, pageSize?: number, ref?: string, firstName?: string, lastName?: string, options?: AxiosRequestConfig) {
     return UsersApiFp(this.configuration)
       .getTeachers(page, pageSize, ref, firstName, lastName, options)
+      .then(request => request(this.axios, this.basePath))
+  }
+
+  /**
+   *
+   * @summary Link or unlink courses to a specific student
+   * @param {string} studentId
+   * @param {Array<UpdateStudentCourse>} updateStudentCourse
+   * @param {*} [options] Override http request option.
+   * @throws {RequiredError}
+   * @memberof UsersApi
+   */
+  public updateStudentCourses(studentId: string, updateStudentCourse: Array<UpdateStudentCourse>, options?: AxiosRequestConfig) {
+    return UsersApiFp(this.configuration)
+      .updateStudentCourses(studentId, updateStudentCourse, options)
       .then(request => request(this.axios, this.basePath))
   }
 }
