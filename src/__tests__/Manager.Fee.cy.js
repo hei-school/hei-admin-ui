@@ -173,8 +173,32 @@ describe(specTitle('Manager.Fee'), () => {
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
       expect(requestIntersection.request.body.length).to.equal(monthsNumber)
     })
-*/
+
     cy.contains('Élément créé')
+    unmount()
+    */
+  })
+  it('can create fees with manual fields without writing comments', () => {
+    const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
+    const monthsNumber = 1 + Math.floor(Math.random() * 3)
+    const manuallyCreatedFees = createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, null, monthsNumber)
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
+    cy.intercept('POST', `/students/${student1Mock.id}/fees`, manuallyCreatedFees)
+    cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
+    cy.get('.MuiFab-root').click() // create fees
+    cy.get('#is_predefined_type').click()
+    cy.get('#manual_type_tuition').click()
+    cy.get('#monthly_amount').click().type(monthlyAmount)
+
+    cy.get('#months_number').click().type(monthsNumber)
+
+    cy.get('#is_predefined_first_dueDate').click()
+    cy.get('#manual_first_duedate').click().type(feeDateToSearch)
+
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
+    cy.contains('Enregistrer').click()
+    cy.contains('Élément créé')
+    cy.contains('-')
     unmount()
   })
 })

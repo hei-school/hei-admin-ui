@@ -1,4 +1,4 @@
-export const currentYear = 2022
+export const currentYear = new Date().getFullYear()
 
 export const contactEmail = 'contact@hei.school'
 
@@ -8,7 +8,6 @@ export const predefinedFeeTypes = {
     { type: 'TUITION', name: 'Écolage annuel 9x', monthlyAmount: 240_000, monthsNumber: 1 },
     { type: 'TUITION', name: 'Écolage annuel 9x', monthlyAmount: 215_000, monthsNumber: 8 }
   ],
-  annualTuition3x: [{ type: 'TUITION', name: 'Écolage annuel 3x', monthlyAmount: 580_000, monthsNumber: 3 }],
   biAnnualTuition1x: [{ type: 'TUITION', name: 'Écolage semestriel 1x', monthlyAmount: 870_000, monthsNumber: 1 }],
   hardwareConf1_8x: [{ type: 'HARDWARE', name: 'Matériel conf1 8x', monthlyAmount: 240_000, monthsNumber: 8 }],
   hardwareConf2_8x: [{ type: 'HARDWARE', name: 'Matériel conf2 8x', monthlyAmount: 210_000, monthsNumber: 8 }],
