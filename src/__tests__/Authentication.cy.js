@@ -15,4 +15,15 @@ describe(specTitle('Authentication'), () => {
     cy.get('button').contains('Connexion').click()
     cy.contains('Incorrect username or password.')
   })
+  it('permits user to renew password when it is forgotten', () => {
+    mount(<App />)
+
+    cy.contains('Mot de passe oublié?').click()
+    cy.get('[data-testid="mail_input"]').type(student1.username)
+    cy.contains('ENVOYER').click()
+    cy.get('[data-testid="code_input"]').type(12345678)
+    cy.get('[data-testid="password_input"]').type(student1.password.concat('&'))
+    cy.get('[data-testid="confirm_password_input"]').type(student1.password.concat('&'))
+    cy.contains('RÉINITIALISER').click()
+  })
 })
