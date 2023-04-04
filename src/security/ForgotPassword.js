@@ -41,14 +41,29 @@ const ForgotPassword = ({ username, setOpenModal }) => {
         margin: 'auto'
       }}
     >
-      <CustomTextField validator={code === ''} label='Code de vérification' placeholder='Code de vérification' onChange={handleCode} type='password' />
-      <CustomTextField validator={password === ''} label='Mot de passe' placeholder='Nouveau mot de passe' onChange={handlePassword} type='password' />
+      <CustomTextField
+        validator={code === ''}
+        label='Code de vérification'
+        placeholder='Code de vérification'
+        onChange={handleCode}
+        type='password'
+        data-testid='code_input'
+      />
+      <CustomTextField
+        validator={password === ''}
+        label='Mot de passe'
+        placeholder='Nouveau mot de passe'
+        onChange={handlePassword}
+        type='password'
+        data-testid='password_input'
+      />
       <CustomTextField
         validator={confirmPassword === ''}
         label='Confirmation du mot de passe'
         placeholder='Confirmer votre mot de passe'
         onChange={handleConfirmPassword}
         type='password'
+        data-testid='confirm_password_input'
       />
       <CustomSubmitButton onClick={handleSubmit} text='RÉINITIALISER' />
     </form>
