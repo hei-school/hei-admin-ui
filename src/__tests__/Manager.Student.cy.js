@@ -217,9 +217,9 @@ describe(specTitle('Manager creates students'), () => {
     cy.intercept('POST', `/students/${createdStudent.id}/fees`, createdFeesWithStudent)
     cy.get('#is_predefined_type').click()
     cy.get(`#manual_type_${feeTypeMock}`).click()
-    cy.get('#monthly_amount').click().type(monthlyAmount)
+    cy.get('#monthly_amount').click().clear().type(monthlyAmount)
 
-    cy.get('#months_number').click().type(monthsNumber)
+    cy.get('#months_number').click().clear().type(monthsNumber)
 
     cy.get('#comment').click().type(comment)
 
@@ -230,18 +230,18 @@ describe(specTitle('Manager creates students'), () => {
     cy.intercept('POST', `students/${createdStudent.id}/fees`, [createdFeesForNewStudent]).as('createFees')
     cy.contains('Enregistrer').click()
     cy.wait('@createStudent').then(requestInterseption => StudentRequestBodyVerification(requestInterseption.request.body, true))
-    /*
+
     cy.wait('@createFees').then(requestIntersection => {
       let createAutomaticallyFeesBodyMock = {
-        comment: comment,
+        total_amount: monthlyAmount.toString(),
         type: manualFeeTypes[feeTypeMock].type,
-        total_amount: monthlyAmount,
-        due_datetime: TurnsStringIntoDate(feeDateToSearch)
+        due_datetime: TurnsStringIntoDate(feeDateToSearch),
+        comment: comment
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
       expect(requestIntersection.request.body.length).to.equal(monthsNumber)
     })
-    */
+
     cy.contains('Élément créé')
     unmount()
   })
