@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
-import { SexRadioButton, TurnsStringIntoDate, commentRenderer } from '../utils'
-import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
+import { SexRadioButton, TurnsStringIntoDate } from '../utils'
+import { createFees } from './utils'
 
 const StudentCreate = props => {
   const [feesConf, setFeesConf] = useState([
@@ -34,36 +34,8 @@ const StudentCreate = props => {
       ...student
     } = payload
     const fees = []
-    const toDate = str => {
-      const parts = str.split('-')
-      return new Date(parts[0], parts[1] - 1 /* note(js-months) */, parts[2])
-    }
     if (canCreateFees) {
-      const firstDueDate = is_predefined_first_dueDate ? predefinedFirstDueDates[predefined_first_dueDate].value : toDate(manual_first_duedate)
-      let totalMonthsNumber = feesConf.reduce((acc, currentValue) => acc + currentValue.monthsNumber, 0)
-      if (feesConf.length <= 1) {
-        for (let i = 0; i < payload.months_number; i++) {
-          fees.push({
-            total_amount: payload.monthly_amount,
-            type: isPredefinedType ? predefinedFeeTypes[payload.predefined_type][0].type : manualFeeTypes[payload.manual_type]?.type,
-            due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-            comment: commentRenderer(payload.comment, totalMonthsNumber, i)
-          })
-        }
-      } else {
-        for (let j = 0; j < feesConf.length; j++) {
-          let start = j === 0 ? 0 : totalMonthsNumber - (totalMonthsNumber - feesConf[j - 1].monthsNumber)
-          let end = start + feesConf[j].monthsNumber
-          for (let i = start; i < end; i++) {
-            fees.push({
-              total_amount: feesConf[j].monthlyAmount,
-              type: isPredefinedType ? predefinedFeeTypes[predefined_type][0].type : manualFeeTypes[manual_type].type,
-              due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-              comment: commentRenderer(comment, totalMonthsNumber, i)
-            })
-          }
-        }
-      }
+      createFees(fees, feesConf, payload, isPredefinedType)
     }
     student.entrance_datetime = TurnsStringIntoDate(student.entrance_datetime)
     const result = [fees, student]
