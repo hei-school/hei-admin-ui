@@ -75,7 +75,7 @@ export const FeeSimpleFormContent = props => {
         onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
       />
       {isPredefinedType ? <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} /> : <ManualFeeTypeRadioButton validate={required()} />}
-      <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} setFeesConf={setFeesConf} />
+      <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
 
       <BooleanInput
         source='is_predefined_first_dueDate'
