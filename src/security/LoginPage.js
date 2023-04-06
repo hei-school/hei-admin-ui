@@ -60,26 +60,34 @@ const HaLoginPage = () => {
   const ResponsiveLogin = () => {
     return (
       <div
-        style={{
-          width: 400,
-          height: 500,
-          position: 'absolute',
-          top: '40%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)'
-        }}
+        style={
+          displayFull
+            ? { width: 400, height: 500 }
+            : {
+                width: 400,
+                height: 500,
+                position: 'absolute',
+                top: '40%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)'
+              }
+        }
       >
         <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
         <Link
           href='#/login'
-          sx={{
-            color: '#FFFF',
-            width: 'inherit',
-            position: 'absolute',
-            bottom: '0vh',
-            display: 'flex',
-            justifyContent: 'center'
-          }}
+          sx={
+            displayFull
+              ? { color: '#FFFF', width: 'inherit', position: 'absolute', bottom: '30vh', display: 'flex', justifyContent: 'center' }
+              : {
+                  color: '#FFFF',
+                  width: 'inherit',
+                  position: 'absolute',
+                  bottom: '0vh',
+                  display: 'flex',
+                  justifyContent: 'center'
+                }
+          }
           onClick={() => setOpenModal(true)}
         >
           Mot de passe oublié?
