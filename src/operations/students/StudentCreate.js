@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
-import { SexRadioButton } from '../utils'
-import { currentYear, manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
+import { SexRadioButton, TurnsStringIntoDate, commentRenderer } from '../utils'
+import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 
 const StudentCreate = props => {
   const [feesConf, setFeesConf] = useState([
@@ -49,12 +49,12 @@ const StudentCreate = props => {
             total_amount: feesConf[j].monthlyAmount,
             type: isPredefinedType ? predefinedFeeTypes[predefined_type][0].type : manualFeeTypes[manual_type].type,
             due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
-            comment: `${comment} (${currentYear})`
+            comment: commentRenderer(comment, totalMonthsNumber, i)
           })
         }
       }
     }
-    student.entrance_datetime = student.entrance_datetime.concat('T10:00:00.000Z')
+    student.entrance_datetime = TurnsStringIntoDate(student.entrance_datetime)
     const result = [fees, student]
     return result
   }

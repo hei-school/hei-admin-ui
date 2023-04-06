@@ -9,15 +9,8 @@ import { pageSize, PrevNextPagination } from '../utils'
 const StudentList = () => {
   const role = authProvider.getCachedRole()
   return (
-    <List
-      label='Étudiants'
-      bulkActionButtons={false}
-      hasCreate={role === WhoamiRoleEnum.Manager}
-      filters={profileFilters}
-      perPage={pageSize}
-      pagination={<PrevNextPagination />}
-    >
-      <Datagrid rowClick='show'>
+    <List label='Étudiants' hasCreate={role === WhoamiRoleEnum.Manager} filters={profileFilters} perPage={pageSize} pagination={<PrevNextPagination />}>
+      <Datagrid bulkActionButtons={false} rowClick='show'>
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
