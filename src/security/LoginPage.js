@@ -1,6 +1,7 @@
 import { Login } from 'react-admin'
 import { Card, CardContent, Grid, Typography, useMediaQuery, Modal, Box, Link } from '@mui/material'
 import { mainTheme } from '../haTheme'
+import { positions } from '@mui/system'
 import CompletePasswordPage from './CompletePasswordPage'
 import authProvider from '../providers/authProvider'
 import { useState } from 'react'
@@ -58,41 +59,33 @@ const HaLoginPage = () => {
     justifyItems: 'center'
   }
   const ResponsiveLogin = () => {
-    return (
-      <div
-        style={
-          displayFull
-            ? { width: 400, height: 500 }
-            : {
-                width: 400,
-                height: 500,
-                position: 'absolute',
-                top: '40%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)'
-              }
-        }
-      >
-        <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
-        <Link
-          href='#/login'
-          sx={
-            displayFull
-              ? { color: '#FFFF', width: 'inherit', position: 'absolute', bottom: '25vh', display: 'flex', justifyContent: 'center', margin: '1vh' }
-              : {
-                  color: '#FFFF',
-                  width: 'inherit',
-                  position: 'absolute',
-                  bottom: '0vh',
-                  display: 'flex',
-                  justifyContent: 'center'
-                }
-          }
-          onClick={() => setOpenModal(true)}
+    const CommonGrid = ({ bottom, children }) => {
+      return (
+        <Grid
+          xs={displayFull ? 4 : 12}
+          sx={{
+            width: 'inherit',
+            display: 'flex',
+            justifyContent: 'center',
+            bottom: { bottom }
+          }}
+          position={'absolute'}
         >
-          Mot de passe oublié?
-        </Link>
-      </div>
+          {children}
+        </Grid>
+      )
+    }
+    return (
+      <Grid container xs={12}>
+        <CommonGrid bottom={0}>
+          <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
+        </CommonGrid>
+        <CommonGrid bottom={100}>
+          <Link href='#/login' color='#FFFF' onClick={() => setOpenModal(true)} align='center'>
+            Mot de passe oublié?
+          </Link>
+        </CommonGrid>
+      </Grid>
     )
   }
   const ResponsiveCompletePassword = () => <CompletePasswordPage style={{ backgroundImage: 'inherit' }} />
