@@ -59,32 +59,33 @@ const HaLoginPage = () => {
     justifyItems: 'center'
   }
   const ResponsiveLogin = () => {
-    const CommonGrid = ({ bottom, children }) => {
-      return (
+    return (
+      <Grid container xs={12}>
+        <Grid
+          xs={displayFull ? 4 : 12}
+          sx={{
+            width: 'inherit',
+            display: 'flex',
+            justifyContent: 'center'
+          }}
+          position={'absolute'}
+        >
+          <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
+        </Grid>
         <Grid
           xs={displayFull ? 4 : 12}
           sx={{
             width: 'inherit',
             display: 'flex',
             justifyContent: 'center',
-            bottom: { bottom }
+            bottom: 100
           }}
           position={'absolute'}
         >
-          {children}
-        </Grid>
-      )
-    }
-    return (
-      <Grid container xs={12}>
-        <CommonGrid bottom={0}>
-          <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
-        </CommonGrid>
-        <CommonGrid bottom={100}>
           <Link href='#/login' color='#FFFF' onClick={() => setOpenModal(true)} align='center'>
             Mot de passe oublié?
           </Link>
-        </CommonGrid>
+        </Grid>
       </Grid>
     )
   }
