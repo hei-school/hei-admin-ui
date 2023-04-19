@@ -8,6 +8,8 @@ export const MyBreadcrumb = () => {
     if (record) {
       if (record.ref) {
         return <spam>{record.ref}</spam>
+      } else if (record.code) {
+        return <spam>{record.code}</spam>
       } else {
         const doEffect = async () => {
           const student = await dataProvider.getOne('students', { id: record.student_id })
@@ -37,6 +39,10 @@ export const MyBreadcrumb = () => {
         <BreadcrumbItem name='edit' label={takeRefFunction} />
         <BreadcrumbItem name='show' label={takeRefFunction} />
         <BreadcrumbItem name='create' label='créer' />
+      </BreadcrumbItem>
+      <BreadcrumbItem name='courses' label='cours'>
+        <BreadcrumbItem name='edit' label={takeRefFunction} />
+        <BreadcrumbItem name='show' label={takeRefFunction} />
       </BreadcrumbItem>
       <BreadcrumbItem name='profile' label='Profiles' />
     </Breadcrumb>

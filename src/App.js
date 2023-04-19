@@ -13,6 +13,7 @@ import frenchMessages from 'ra-language-french'
 import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
+import courses from './operations/courses'
 
 import fees from './operations/fees'
 import payments from './operations/payments'
@@ -33,6 +34,7 @@ const App = () => (
     requireAuth
   >
     <Resource name='profile' />
+    <Resource name='courses' {...courses} />
     <Resource name='students' {...students} />
     <Resource name='teachers' {...teachers} />
 
