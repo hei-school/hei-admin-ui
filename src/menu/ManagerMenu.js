@@ -1,7 +1,7 @@
 import { MultiLevelMenu, MenuItemCategory, MenuItemList, MenuItemNode } from '@react-admin/ra-navigation'
 import { CardContent, Typography } from '@mui/material'
 
-import { AccountCircle, School, People, Work, Warning } from '@mui/icons-material'
+import { AccountCircle, School, People, Work, Warning, Book } from '@mui/icons-material'
 
 export const ManagerMenu = () => (
   <MultiLevelMenu variant='categories'>
@@ -20,6 +20,8 @@ export const ManagerMenu = () => (
         </MenuItemList>
       </CardContent>
     </MenuItemCategory>
+
+    <MenuItemCategory to='/courses' name='courses' label='Cours' icon={<Book />} />
   </MultiLevelMenu>
 )
 
