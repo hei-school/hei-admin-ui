@@ -6,7 +6,7 @@ const ExamCreate = props => {
   const [courseName, setCourseName] = useState('...')
   const validateConditions = [required()]
   const params = useParams()
-  const courseId = params.courseId
+  const courseId = params?.courseId
   const dataProvider = useDataProvider()
   useEffect(() => {
     const doEffect = async () => {
@@ -16,10 +16,21 @@ const ExamCreate = props => {
     doEffect()
   })
   const examConfToExamApi = ({ title, coefficient, examination_date }) => {
-    return [{ exam_info: [{ title: title, coefficient: coefficient, examination_date: examination_date }], course_id: courseId }]
+    return [
+      {
+        examInfo: [{ title: title, coefficient: coefficient, examination_date: new Date(examination_date).toISOString() }],
+        courseId: courseId
+      }
+    ]
   }
   return (
-    <Create {...props} title={`Examen du cours de ${courseName}`} resource='exams' redirect={(_basePath, _id, _data) => `/exams`} transform={examConfToExamApi}>
+    <Create
+      {...props}
+      title={`Examen du cours de ${courseName}`}
+      resource='exams'
+      redirect={(_basePath, _id, _data) => `courses/${courseId}/show`}
+      transform={examConfToExamApi}
+    >
       <SimpleForm>
         <TextInput source='title' label='Nom' fullWidth={true} validate={validateConditions} />
         <NumberInput source='coefficient' label='Coefficient' min={1} fullWidth={true} validate={validateConditions} />

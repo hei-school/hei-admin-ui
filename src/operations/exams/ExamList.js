@@ -19,12 +19,12 @@ const ExamList = ({ courseId }) => {
       hasCreate={role === WhoamiRoleEnum.Manager}
       actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/courses/${courseId}/exams`} />}
       pagination={false}
-      filterDefaultValues={{ courseId: courseId }}
+      sort={{ field: 'examination_date', order: 'DESC' }}
     >
       <Datagrid bulkActionButtons={false}>
-        <TextField source='details' label='Détails' />
+        <TextField source='title' label='Détails' />
         <CustomDateField source='examination_date' label='Date' showTime={false} />
-        <TextField source='type' label='Type' />
+        <TextField source='coefficient' label='Coefficient' />
       </Datagrid>
     </List>
   )
