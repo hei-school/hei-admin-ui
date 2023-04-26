@@ -1,6 +1,7 @@
 import { Login } from 'react-admin'
 import { Card, CardContent, Grid, Typography, useMediaQuery, Modal, Box, Link } from '@mui/material'
 import { mainTheme } from '../haTheme'
+import { positions } from '@mui/system'
 import CompletePasswordPage from './CompletePasswordPage'
 import authProvider from '../providers/authProvider'
 import { useState } from 'react'
@@ -59,32 +60,33 @@ const HaLoginPage = () => {
   }
   const ResponsiveLogin = () => {
     return (
-      <div
-        style={{
-          width: 400,
-          height: 500,
-          position: 'absolute',
-          top: '40%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)'
-        }}
-      >
-        <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
-        <Link
-          href='#/login'
+      <Grid container xs={12}>
+        <Grid
+          xs={displayFull ? 4 : 12}
           sx={{
-            color: '#FFFF',
             width: 'inherit',
-            position: 'absolute',
-            bottom: '0vh',
             display: 'flex',
             justifyContent: 'center'
           }}
-          onClick={() => setOpenModal(true)}
+          position={'absolute'}
         >
-          Mot de passe oublié?
-        </Link>
-      </div>
+          <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
+        </Grid>
+        <Grid
+          xs={displayFull ? 4 : 12}
+          sx={{
+            width: 'inherit',
+            display: 'flex',
+            justifyContent: 'center',
+            bottom: 100
+          }}
+          position={'absolute'}
+        >
+          <Link href='#/login' color='#FFFF' onClick={() => setOpenModal(true)} align='center'>
+            Mot de passe oublié?
+          </Link>
+        </Grid>
+      </Grid>
     )
   }
   const ResponsiveCompletePassword = () => <CompletePasswordPage style={{ backgroundImage: 'inherit' }} />
