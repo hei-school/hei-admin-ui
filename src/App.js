@@ -35,18 +35,22 @@ const App = () => (
     requireAuth
   >
     <Resource name='profile' />
+
     <Resource name='courses' {...courses} />
+    <Resource name='student-grades' {...studentGrades} />
+    <Resource name='exams' {...exams} />
+
     <Resource name='students' {...students} />
     <Resource name='teachers' {...teachers} />
 
     <Resource name='fees' {...fees} />
     <Resource name='payments' {...payments} />
 
-    <Resource name='student-grades' {...studentGrades} />
-    <Resource name='exams' {...exams} />
-
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
+
+      <Route exact path='/courses/:courseId/exams' element={<exams.list />} />
+      <Route exact path='/courses/:courseId/exams/create' element={<exams.create />} />
 
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
       <Route
