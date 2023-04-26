@@ -8,7 +8,6 @@ import { useParams } from 'react-router-dom'
 export const ProfileLayout = () => {
   const params = useParams()
   const courseId = params.id
-  console.log(params)
   return (
     <SimpleShowLayout>
       <TextField source='code' label='code' />
