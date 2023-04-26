@@ -5,11 +5,12 @@ const raSeparator = '--'
 const toRaId = (courseId: string, examId: string): string => courseId + raSeparator + examId
 
 const examProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
-    const result = await teachingApi().getExams(page, perPage)
+  async getList(filter: any) {
+    const courseId = filter.course_id
+    const result = await teachingApi().getExamsByCourseId(courseId)
     return result.data.map((exam: any) => ({
       ...exam,
-      id: toRaId(exam?.course_id!, exam?.id!)
+      id: toRaId(courseId, exam?.id!)
     }))
   },
   async getOne(_raId: string) {
@@ -17,7 +18,7 @@ const examProvider: HaDataProviderType = {
   },
   async saveOrUpdate(resources: Array<any>) {
     const exams = resources[0]
-    const result = await teachingApi().crupdateExams(exams)
+    const result = await teachingApi().crupdateExams(exams.course_id, exams.exam_info)
     return result.data
   }
 }

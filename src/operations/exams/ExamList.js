@@ -10,15 +10,16 @@ const Actions = ({ basePath, resource }) => (
   </TopToolbar>
 )
 
-const ExamList = () => {
+const ExamList = ({ courseId }) => {
   const role = authProvider.getCachedRole()
   return (
     <List
       title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={'exams'}
-      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/exam`} />}
-      filterDefaultValues={{ courseId: courseId }}
+      hasCreate={role === WhoamiRoleEnum.Manager}
+      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/courses/${courseId}/exams`} />}
       pagination={false}
+      filterDefaultValues={{ courseId: courseId }}
     >
       <Datagrid bulkActionButtons={false}>
         <TextField source='details' label='Détails' />
