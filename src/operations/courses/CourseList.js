@@ -19,14 +19,14 @@ const CourseList = ({ userId }) => {
       resource={'courses'}
       hasCreate={role === WhoamiRoleEnum.Manager}
       filters={coursesFilters}
-      actions={(role === WhoamiRoleEnum.Manager || role === WhoamiRoleEnum.Teacher) && <Actions basePath={`/courses`} />}
+      //actions={(role === WhoamiRoleEnum.Manager || role === WhoamiRoleEnum.Teacher) && <Actions basePath={`/courses`} />}
       perPage={pageSize}
       pagination={<PrevNextPagination />}
     >
       <Datagrid bulkActionButtons={false} rowClick='show'>
-        <TextField source='code' label='code' />
-        <TextField source='name' label='nom' />
-        <TextField source='total_hours' label='heure total' />
+        <TextField source='code' label='Code' />
+        <TextField source='name' label='Nom' />
+        <TextField source='total_hours' label='Heure total' />
         {role === WhoamiRoleEnum.Manager && false && (
           <FunctionField label="Référence de l'enseignant" render={record => record.main_teacher.ref} textAlign='right' />
         )}
@@ -37,7 +37,7 @@ const CourseList = ({ userId }) => {
             textAlign='right'
           />
         )}
-        <TextField source='credits' label='Coéfficient' />
+        <TextField source='credits' label='Coefficient' />
         {role !== WhoamiRoleEnum.Manager ? <EditButton /> : <ShowButton />}
       </Datagrid>
     </List>

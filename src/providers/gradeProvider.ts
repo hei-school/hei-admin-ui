@@ -1,31 +1,16 @@
 import { teachingApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
-
-const courseProvider: HaDataProviderType = {
-  async getList(page: number, pageSize: number, filter: any) {
-    const result = await teachingApi().getCourses(
-      filter.code,
-      filter.name,
-      filter.credits,
-      filter.teacherFirstName,
-      filter.teacherLastName,
-      filter.creditsOrder,
-      filter.codeOrder,
-      page,
-      pageSize,
-      filter.options
-    )
+const gradeProvider: HaDataProviderType = {
+  async getList(filter: any) {
+    const result = await teachingApi().getStudentGrades(filter.studentId ? filter.studentId : '...')
     return result.data
   },
   async getOne(id: string) {
-    const result = await teachingApi().getCourseById(id)
-    return result.data
+    throw new Error('Function not implemented.')
   },
   async saveOrUpdate(resources: any) {
-    const courses = resources[0]
-    const result = await teachingApi().crupdateCourses(courses)
-    return { ...result.data }
+    throw new Error('Function not implemented.')
   }
 }
 
-export default courseProvider
+export default gradeProvider

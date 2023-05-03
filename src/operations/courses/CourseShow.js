@@ -11,7 +11,7 @@ export const ProfileLayout = () => {
   return (
     <SimpleShowLayout>
       <TextField source='code' label='code' />
-      <TextField source='name' label='name' />
+      <TextField source='name' label='Nom' />
       <TextField source='credits' label='Coéfficient' />
       <TextField source='total_hours' label='heure total' />
       <ExamList courseId={courseId} />

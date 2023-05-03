@@ -9,7 +9,7 @@ import authProvider from './providers/authProvider.ts'
 
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'
-
+import grades from './operations/grades'
 import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
@@ -46,6 +46,8 @@ const App = () => (
     <Resource name='fees' {...fees} />
     <Resource name='payments' {...payments} />
 
+    <Resource name='grades' {...studentGrades} />
+
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
 
@@ -53,11 +55,14 @@ const App = () => (
       <Route exact path='/courses/:courseId/exams/create' element={<exams.create />} />
 
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
+
+      <Route exact path='/grades/:studentId' element={<grades.list />} />
+
       <Route
         exact
         path='/students/:studentId/fees/create'
         element={
-          <React.Suspense fallback='Veuillez patienter...'>
+          <React.Suspense fallback='Veuillez patienter... '>
             <FeeCreate />
           </React.Suspense>
         }
