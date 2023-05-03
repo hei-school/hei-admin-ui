@@ -13,7 +13,7 @@ export const StudentMenu = () => {
     <MultiLevelMenu variant='categories'>
       <MenuItemCategory to='/profile' name='profile' label='Mon profil' icon={<AccountCircle />} />
       <MenuItemCategory to={whoamiId ? `/students/${authProvider.getCachedWhoami().id}/fees` : '/'} name='fees' label='Frais' icon={<AttachMoney />} />
-      <MenuItemCategory to='/' name='student-grades' label='Notes' icon={<Receipt />} onClick={notifyNotImplemented} />
+      {<MenuItemCategory to={whoamiId ? `/grades/${authProvider.getCachedWhoami().id}` : '/'} name='grades' label='Notes' icon={<Receipt />} />}
     </MultiLevelMenu>
   )
 }

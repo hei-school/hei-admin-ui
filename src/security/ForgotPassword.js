@@ -24,7 +24,7 @@ const ForgotPassword = ({ username, setOpenModal }) => {
   }
 
   const handleSubmit = () => {
-    if (checkPassword(password, confirmPassword) == true) {
+    if (checkPassword(password, confirmPassword) === true) {
       return forgotPasswordSumbmit()
     } else {
       notify(checkPassword(password, confirmPassword), { type: 'error', autoHideDuration: '10000' })
