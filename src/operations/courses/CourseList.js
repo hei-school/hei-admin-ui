@@ -1,25 +1,34 @@
 import { List } from '@react-admin/ra-rbac'
-import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton, EditButton, ShowButton } from 'react-admin'
-import { prettyPrintMoney, CustomDateField, pageSize, PrevNextPagination } from '../utils'
+import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton, EditButton, ShowButton, FilterButton } from 'react-admin'
+import { pageSize, PrevNextPagination } from '../utils'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
 import { coursesFilters } from '.'
-
-const Actions = ({ basePath, resource }) => (
-  <TopToolbar disableGutters>
-    <CreateButton to={basePath + '/create'} resource={resource} />
-  </TopToolbar>
-)
+import { useEffect, useState } from 'react'
 
 const CourseList = ({ userId }) => {
-  const role = authProvider.getCachedRole()
+  const [role, setRole] = useState(authProvider.getCachedRole())
+
+  const getRole = () => {
+    setRole(authProvider.getCachedRole())
+  }
+
+  const ListActions = () => (
+    <TopToolbar>
+      <FilterButton />
+      {role === WhoamiRoleEnum.Manager && <CreateButton />}
+    </TopToolbar>
+  )
+
+  useEffect(getRole, [role])
+
   return (
     <List
       title='Liste des cours'
       resource={'courses'}
       hasCreate={role === WhoamiRoleEnum.Manager}
       filters={coursesFilters}
-      //actions={(role === WhoamiRoleEnum.Manager || role === WhoamiRoleEnum.Teacher) && <Actions basePath={`/courses`} />}
+      actions={(role === WhoamiRoleEnum.Manager || role === WhoamiRoleEnum.Teacher) && <ListActions />}
       perPage={pageSize}
       pagination={<PrevNextPagination />}
     >
@@ -38,7 +47,7 @@ const CourseList = ({ userId }) => {
           />
         )}
         <TextField source='credits' label='Coefficient' />
-        {role !== WhoamiRoleEnum.Manager ? <EditButton /> : <ShowButton />}
+        {role === WhoamiRoleEnum.Manager ? <EditButton /> : <ShowButton />}
       </Datagrid>
     </List>
   )

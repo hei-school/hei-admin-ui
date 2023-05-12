@@ -1,17 +1,14 @@
 import { List } from '@react-admin/ra-rbac'
-import { Datagrid, FunctionField, TextField, useDataProvider, useListContext } from 'react-admin'
+import { Datagrid, TextField, useDataProvider, useListContext } from 'react-admin'
 import { useParams } from 'react-router-dom'
-import { WhoamiRoleEnum } from '../../gen/haClient'
-import authProvider from '../../providers/authProvider'
 import { useEffect, useState } from 'react'
-import { CustomDateField, PrevNextPagination, pageSize, unexpectedValue } from '../utils'
+import { CustomDateField } from '../utils'
 
 const GradeList = ({ studentId }) => {
   const params = useParams()
   const definedStudentId = studentId ? studentId : params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
-  const role = authProvider.getCachedRole()
   useEffect(() => {
     const doEffect = async () => {
       const student = await dataProvider.getOne('students', { id: definedStudentId })
@@ -21,28 +18,8 @@ const GradeList = ({ studentId }) => {
     // eslint-disable-next-line
   }, [definedStudentId])
   //TurnsStringIntoDate
-  const transformData = response => {
-    const transformedData = response.data.map(examen => ({
-      codes: `herilala`
-    }))
-    console.log(response)
-    return {
-      ...response,
-      data: [
-        { id: 'dfze', code2: `herilala` },
-        { id: 'ffff', code2: `herilala` }
-      ]
-    }
-  }
   return (
-    <List
-      title={'Liste des notes de ' + studentRef}
-      label='fff'
-      resource={'grades'}
-      filterDefaultValues={{ studentId: definedStudentId }}
-      perPage={pageSize}
-      pagination={<PrevNextPagination />}
-    >
+    <List title={'Liste des notes de ' + studentRef} label='fff' resource={'grades'} filterDefaultValues={{ studentId: definedStudentId }} pagination={false}>
       <Grade />
     </List>
   )
@@ -51,12 +28,6 @@ const GradeList = ({ studentId }) => {
 const Grade = () => {
   const { data } = useListContext()
   const [examsData, setExamsDate] = useState([])
-  const dateRenderer = studentCourseExam => {
-    return <div>{studentCourseExam.examinationDate}</div>
-  }
-  const gradeRenderer = studentCourseExam => {
-    return <div>{studentCourseExam.exams[0].grade.score}</div>
-  }
   useEffect(() => {
     setExamsDate([])
     data?.forEach(course => {

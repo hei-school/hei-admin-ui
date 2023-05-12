@@ -21,8 +21,7 @@ const courseProvider: HaDataProviderType = {
     const result = await teachingApi().getCourseById(id)
     return result.data
   },
-  async saveOrUpdate(resources: any) {
-    const courses = resources[0]
+  async saveOrUpdate(courses: any) {
     const result = await teachingApi().crupdateCourses(courses)
     return { ...result.data }
   }
