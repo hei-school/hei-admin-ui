@@ -40,10 +40,11 @@ export const MyBreadcrumb = () => {
         <BreadcrumbItem name='show' label={takeRefFunction} />
         <BreadcrumbItem name='create' label='créer' />
       </BreadcrumbItem>
-      <BreadcrumbItem name='courses' label='cours'>
+      <BreadcrumbItem name='courses' label='Cours'>
         <BreadcrumbItem name='edit' label={takeRefFunction} />
         <BreadcrumbItem name='show' label={takeRefFunction} />
       </BreadcrumbItem>
+      <BreadcrumbItem name='grades' label='Notes' />
       <BreadcrumbItem name='profile' label='Profiles' />
     </Breadcrumb>
   )

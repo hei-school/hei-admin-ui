@@ -2,10 +2,14 @@ import { Book } from '@mui/icons-material'
 import CourseList from './CourseList'
 import CourseShow from './CourseShow'
 import { TextInput } from 'react-admin'
+import CourseEdit from './CourseEdit'
+import CourseCreate from './CourseCreate'
 
 const courses = {
   list: CourseList,
   show: CourseShow,
+  edit: CourseEdit,
+  create: CourseCreate,
   icon: Book,
   options: { label: 'Cours' }
 }
