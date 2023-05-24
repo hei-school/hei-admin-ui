@@ -1,28 +1,27 @@
-import React from 'react'
 import { Admin } from '@react-admin/ra-enterprise'
+import React from 'react'
 import { CustomRoutes, Resource } from 'react-admin'
 
 import { Route } from 'react-router-dom'
 
-import dataProvider from './providers/dataProvider'
 import authProvider from './providers/authProvider.ts'
+import dataProvider from './providers/dataProvider'
 
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'
+import courses from './operations/courses'
 import grades from './operations/grades'
 import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
-import courses from './operations/courses'
 
 import fees from './operations/fees'
 import payments from './operations/payments'
 
-import studentGrades from './operations/studentGrades'
-
 import MyLayout from './HaLayout'
-import HaLoginPage from './security/LoginPage'
 import exams from './operations/exams'
+import participants from './operations/participants'
+import HaLoginPage from './security/LoginPage'
 const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
 const App = () => (
   <Admin
@@ -37,8 +36,8 @@ const App = () => (
     <Resource name='profile' />
 
     <Resource name='courses' {...courses} />
-    <Resource name='student-grades' {...studentGrades} />
     <Resource name='exams' {...exams} />
+    <Resource name='participants' {...participants} />
 
     <Resource name='students' {...students} />
     <Resource name='teachers' {...teachers} />
@@ -46,18 +45,18 @@ const App = () => (
     <Resource name='fees' {...fees} />
     <Resource name='payments' {...payments} />
 
-    <Resource name='grades' {...studentGrades} />
-
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
-
       <Route exact path='/courses/:courseId/exams' element={<exams.list />} />
       <Route exact path='/courses/:courseId/exams/create' element={<exams.create />} />
 
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
 
       <Route exact path='/grades/:studentId' element={<grades.list />} />
+      <Route exact path='/courses/:courseId/exams/create' element={<exams.create />} />
+      <Route exact path='/courses/:courseId/exams/:examId/show' element={<exams.show />} />
 
+      <Route exact path='/students/:studentId/fees' element={<fees.list />} />
       <Route
         exact
         path='/students/:studentId/fees/create'

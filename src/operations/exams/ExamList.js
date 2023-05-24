@@ -14,14 +14,14 @@ const ExamList = ({ courseId }) => {
   const role = authProvider.getCachedRole()
   return (
     <List
-      title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
+      title='Examens'
       resource={'exams'}
       hasCreate={role === WhoamiRoleEnum.Manager}
       actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/courses/${courseId}/exams`} />}
       pagination={false}
       sort={{ field: 'examination_date', order: 'DESC' }}
     >
-      <Datagrid bulkActionButtons={false}>
+      <Datagrid bulkActionButtons={false} rowClick={examId => `/courses/${courseId}/exams/${examId}/show`}>
         <TextField source='title' label='Détails' />
         <CustomDateField source='examination_date' label='Date' showTime={false} />
         <TextField source='coefficient' label='Coefficient' />

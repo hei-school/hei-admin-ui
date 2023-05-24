@@ -1,14 +1,14 @@
 import { HaDataProviderType } from './HaDataProviderType'
 import { RaDataProviderType } from './RaDataProviderType'
-import profileProvider from './profileProvider'
-import studentProvider from './studentProvider'
-import feeProvider from './feeProvider'
-import paymentProvider from './paymentProvider'
-import teacherProvider from './teacherProvider'
 import courseProvider from './courseProvider'
 import examProvider from './examProvider'
+import feeProvider from './feeProvider'
 import gradeProvider from './gradeProvider'
-
+import participantProvider from './participantProvider'
+import paymentProvider from './paymentProvider'
+import profileProvider from './profileProvider'
+import studentProvider from './studentProvider'
+import teacherProvider from './teacherProvider'
 export const maxPageSize = 500
 
 const getProvider = (resourceType: string): HaDataProviderType => {
@@ -16,10 +16,11 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'students') return studentProvider
   if (resourceType === 'fees') return feeProvider
   if (resourceType === 'exams') return examProvider
+  if (resourceType === 'grades') return gradeProvider
+  if (resourceType === 'participants') return participantProvider
   if (resourceType === 'payments') return paymentProvider
   if (resourceType === 'teachers') return teacherProvider
   if (resourceType === 'courses') return courseProvider
-  if (resourceType === 'grades') return gradeProvider
   throw new Error('Unexpected resourceType: ' + resourceType)
 }
 
