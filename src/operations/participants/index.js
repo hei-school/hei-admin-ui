@@ -1,7 +1,7 @@
-import ByExamParticipantsList from "./ByExamParticipantList";
+import ByExamParticipantsList from './ByExamParticipantList'
 
 const participants = {
   list: ByExamParticipantsList,
-  options: { label: "Participants" },
-};
-export default participants;
+  options: { label: 'Participants' }
+}
+export default participants
