@@ -9,11 +9,11 @@ export const toApiIds = (raId: string) => {
 }
 const examProvider: HaDataProviderType = {
   async getList(filter: any) {
-    const courseId = filter
-    const result = await teachingApi().getExamsByCourseId(courseId)
+    console.log(filter.course_id)
+    const result = await teachingApi().getExamsByCourseId(filter)
     return result.data.map(exam => ({
       ...exam,
-      id: toRaId(courseId, exam.id as string)
+      id: toRaId(filter, exam.id as string)
     }))
   },
   async getOne(raId: string) {
@@ -49,7 +49,6 @@ const examProvider: HaDataProviderType = {
         }
       ]
     }
-    return { ...result.data, id: raId }
   },
   async saveOrUpdate(resources: Array<any>) {
     const exams = resources[0]
