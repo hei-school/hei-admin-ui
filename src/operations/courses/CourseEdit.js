@@ -1,4 +1,4 @@
-import { Edit, SelectInput, SimpleForm, TextInput, useRecordContext } from 'react-admin'
+import { Edit, SelectInput, SimpleForm, useRecordContext } from 'react-admin'
 import { useEffect, useState } from 'react'
 import teacherProvider from '../../providers/teacherProvider'
 import { WhoamiRoleEnum } from '../../gen/haClient'
