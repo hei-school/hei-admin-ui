@@ -4,9 +4,7 @@ import { useParams } from 'react-router-dom'
 import authProvider from '../../providers/authProvider'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 
-export const CourseLayout = () => {
-  const params = useParams()
-  const courseId = params.id
+export const CourseLayout = ({ courseId }) => {
   return (
     <SimpleShowLayout>
       <TextField source='code' label='code' />
@@ -18,7 +16,9 @@ export const CourseLayout = () => {
   )
 }
 
-const CourseShow = course => {
+const CourseShow = () => {
+  const params = useParams()
+  const courseId = params.id
   const role = authProvider.getCachedRole()
   const ListActions = () => {
     if (role === WhoamiRoleEnum.Manager) {
@@ -30,11 +30,8 @@ const CourseShow = course => {
     }
     return <></>
   }
-
-  const courseId = course.id
-  const courseName = course.code
   return (
-    <Show id={courseId} resource='courses' title={courseName} actions={<ListActions />}>
+    <Show id={courseId} resource='courses' title={'Cours/'} actions={<ListActions />}>
       <CourseLayout courseId={courseId} />
     </Show>
   )
