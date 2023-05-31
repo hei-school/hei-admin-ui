@@ -1,8 +1,9 @@
 import { teachingApi } from './api'
+import authProvider from './authProvider'
 import { HaDataProviderType } from './HaDataProviderType'
 const gradeProvider: HaDataProviderType = {
   async getList(filter: any) {
-    const result = await teachingApi().getStudentGrades(filter.studentId ? filter.studentId : '...')
+    const result = await teachingApi().getStudentGrades(filter.studentId ?? authProvider.getCachedWhoami().id)
     return result.data
   },
   async getOne(id: string) {

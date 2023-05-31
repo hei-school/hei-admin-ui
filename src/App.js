@@ -56,6 +56,8 @@ const App = () => (
       <Route exact path='/courses/:courseId/exams/create' element={<exams.create />} />
       <Route exact path='/courses/:courseId/exams/:examId/show' element={<exams.show />} />
 
+      <Route exact path='/students/grades/:studentId' element={<grades.list />} />
+
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
       <Route
         exact
