@@ -1,4 +1,4 @@
-import { SimpleShowLayout, Show, TextField, TopToolbar, FilterButton, CreateButton } from 'react-admin'
+import { SimpleShowLayout, Show, TextField, TopToolbar, EditButton } from 'react-admin'
 import ExamList from '../exams/ExamList'
 import { useParams } from 'react-router-dom'
 import authProvider from '../../providers/authProvider'
@@ -24,7 +24,7 @@ const CourseShow = course => {
     if (role === WhoamiRoleEnum.Manager) {
       return (
         <TopToolbar>
-          <CreateButton />
+          <EditButton />
         </TopToolbar>
       )
     }

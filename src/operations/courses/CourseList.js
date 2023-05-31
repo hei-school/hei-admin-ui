@@ -28,7 +28,7 @@ const CourseList = ({ userId }) => {
       resource={'courses'}
       hasCreate={role === WhoamiRoleEnum.Manager}
       filters={coursesFilters}
-      actions={(role === WhoamiRoleEnum.Manager || role === WhoamiRoleEnum.Teacher) && <ListActions />}
+      actions={<ListActions />}
       perPage={pageSize}
       pagination={<PrevNextPagination />}
     >

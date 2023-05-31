@@ -1,25 +1,24 @@
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, TextField, useDataProvider, useListContext } from 'react-admin'
-import { useParams } from 'react-router-dom'
 import { useEffect, useState } from 'react'
 import { CustomDateField } from '../utils'
+import authProvider from '../../providers/authProvider'
 
-const GradeList = ({ studentId }) => {
-  const params = useParams()
-  const definedStudentId = studentId ? studentId : params.studentId
+const GradeList = () => {
+  const studentId = authProvider.getCachedWhoami().id
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
   useEffect(() => {
     const doEffect = async () => {
-      const student = await dataProvider.getOne('students', { id: definedStudentId })
+      const student = await dataProvider.getOne('students', { id: studentId })
       setStudentRef(student.data.ref)
     }
     doEffect()
     // eslint-disable-next-line
-  }, [definedStudentId])
+  }, [studentId])
   //TurnsStringIntoDate
   return (
-    <List title={'Liste des notes de ' + studentRef} label='fff' resource={'grades'} filterDefaultValues={{ studentId: definedStudentId }} pagination={false}>
+    <List title={'Liste des notes de ' + studentRef} resource={'grades'} filterDefaultValues={{ studentId: studentId }} pagination={false}>
       <Grade />
     </List>
   )
@@ -29,11 +28,11 @@ const Grade = () => {
   const { data } = useListContext()
   const [examsData, setExamsDate] = useState([])
   useEffect(() => {
-    setExamsDate([])
+    let newExamData = []
     data?.forEach(course => {
       course.exams?.forEach(exam => {
-        setExamsDate([
-          ...examsData,
+        newExamData = [
+          ...newExamData,
           {
             courseName: course.name,
             id: exam.id,
@@ -42,15 +41,16 @@ const Grade = () => {
             examinationDate: exam.examination_date,
             grade: exam.grade.score
           }
-        ])
+        ]
       })
     })
+    setExamsDate(newExamData)
   }, [data])
   return (
     <Datagrid bulkActionButtons={false} data={examsData}>
-      <TextField source='courseName' label='cours' />
-      <TextField source='title' label='titre' />
-      <TextField source='coefficient' label='coéfficient' />
+      <TextField source='courseName' label='Cours' />
+      <TextField source='title' label='Titre' />
+      <TextField source='coefficient' label='Coefficient' />
       {CustomDateField({ source: 'examinationDate', label: "Date et heure d'examen", showTime: true })}
       <TextField source='grade' label='Point ' />
     </Datagrid>
