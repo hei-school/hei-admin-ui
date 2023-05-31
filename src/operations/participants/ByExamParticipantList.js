@@ -6,7 +6,7 @@ import { EditableDatagrid } from '@react-admin/ra-editable-datagrid'
 
 const ByExamParticipantsList = ({ courseId, examId, ...props }) => {
   return (
-    <List {...props} hasCreate title=' ' resource='participants' pagination={false}>
+    <List {...props} hasCreate title=' ' resource='participants' pagination={false} filterDefaultValues={{ course_id: courseId, exam_id: examId }}>
       <EditableDatagrid bulkActionButtons={false} size='small' editForm={<GradeExamEdit />}>
         <TextField label='Identifiant' source='id' />
         <TextField label='Email' source='email' />
