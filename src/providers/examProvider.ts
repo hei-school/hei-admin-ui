@@ -8,19 +8,18 @@ export const toApiIds = (raId: string) => {
   return { courseId: ids[0], examId: ids[1] }
 }
 const examProvider: HaDataProviderType = {
-  async getList(filter: any) {
-    console.log(filter.course_id)
-    const result = await teachingApi().getExamsByCourseId(filter)
+  async getList(page: number, perPage: number, filter: any) {
+    const result = await teachingApi().getExamsByCourseId(filter.course_id)
     return result.data.map(exam => ({
       ...exam,
-      id: toRaId(filter, exam.id as string)
+      id: toRaId(filter.course_id, exam.id as string)
     }))
   },
   async getOne(raId: string) {
     const { courseId, examId } = toApiIds(raId)
     const result = await teachingApi().getExamDetail(courseId, examId)
     return {
-      id: '1--string',
+      id: 'string--string',
       coefficient: 0,
       title: 'string',
       examination_date: '2023-05-05T06:46:26.852Z',

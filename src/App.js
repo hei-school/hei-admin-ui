@@ -10,7 +10,9 @@ import dataProvider from './providers/dataProvider'
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'
 import courses from './operations/courses'
+import exams from './operations/exams'
 import grades from './operations/grades'
+import participants from './operations/participants'
 import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
@@ -19,8 +21,6 @@ import fees from './operations/fees'
 import payments from './operations/payments'
 
 import MyLayout from './HaLayout'
-import exams from './operations/exams'
-import participants from './operations/participants'
 import HaLoginPage from './security/LoginPage'
 const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
 const App = () => (
@@ -35,8 +35,8 @@ const App = () => (
   >
     <Resource name='profile' />
 
-    <Resource name='courses' {...courses} />
     <Resource name='exams' {...exams} />
+    <Resource name='courses' {...courses} />
     <Resource name='participants' {...participants} />
 
     <Resource name='students' {...students} />
@@ -44,6 +44,7 @@ const App = () => (
 
     <Resource name='fees' {...fees} />
     <Resource name='payments' {...payments} />
+    <Route exact path='/courses/:courseId/exams/:examId/edit' element={<exams.edit />} />
 
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
@@ -53,7 +54,6 @@ const App = () => (
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
 
       <Route exact path='/grades/:studentId' element={<grades.list />} />
-      <Route exact path='/courses/:courseId/exams/create' element={<exams.create />} />
       <Route exact path='/courses/:courseId/exams/:examId/show' element={<exams.show />} />
 
       <Route exact path='/students/grades/:studentId' element={<grades.list />} />
