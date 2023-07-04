@@ -1,40 +1,38 @@
-import { useState, useEffect } from 'react'
-import { Create, DateInput, required, useDataProvider, SimpleForm, TextInput, NumberInput } from 'react-admin'
+import { useEffect, useState } from 'react'
+import { Create, SimpleForm, useDataProvider } from 'react-admin'
 import { useParams } from 'react-router-dom'
+import { Form } from './utils'
 
 const ExamCreate = props => {
-  const [courseName, setCourseName] = useState('...')
-  const validateConditions = [required()]
+  const [courseCode, setCourseCode] = useState('')
   const params = useParams()
-  const courseId = params?.courseId
+  const courseId = params.courseId
+
   const dataProvider = useDataProvider()
   useEffect(() => {
     const doEffect = async () => {
       const course = await dataProvider.getOne('courses', { id: courseId })
-      setCourseName(course.data.code)
+      setCourseCode(course.data.code)
     }
     doEffect()
-  })
+  }, [])
   const examConfToExamApi = ({ title, coefficient, examination_date }) => {
-    return [
-      {
-        examInfo: [{ title: title, coefficient: coefficient, examination_date: new Date(examination_date).toISOString() }],
-        courseId: courseId
-      }
-    ]
+    const examApi = {
+      examInfo: [{ title: title, coefficient: coefficient, examination_date: new Date(examination_date).toISOString() }],
+      courseId: courseId
+    }
+    return [examApi]
   }
   return (
     <Create
       {...props}
-      title={`Examen du cours de ${courseName}`}
+      title={`Examen du cours de ${courseCode}`}
       resource='exams'
       redirect={(_basePath, _id, _data) => `courses/${courseId}/show`}
       transform={examConfToExamApi}
     >
       <SimpleForm>
-        <TextInput source='title' label='Nom' fullWidth={true} validate={validateConditions} />
-        <NumberInput source='coefficient' label='Coefficient' min={1} fullWidth={true} validate={validateConditions} />
-        <DateInput source='examination_date' label="Date de l'examen" fullWidth={true} validate={validateConditions} />
+        <Form edit={false} />
       </SimpleForm>
     </Create>
   )

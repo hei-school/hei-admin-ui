@@ -17,7 +17,6 @@ const participantProvider: HaDataProviderType = {
     const grades = resources[0]
     const { course_id, exam_id, ...payload } = grades
     const result = await teachingApi().crupdateStudentsGrade(course_id, exam_id, payload)
-    console.log(result.data)
     return { ...result.data }
   }
 }
