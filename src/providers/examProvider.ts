@@ -18,11 +18,14 @@ const examProvider: HaDataProviderType = {
   async getOne(raId: string) {
     const { courseId, examId } = toApiIds(raId)
     const result = await teachingApi().getExamDetail(courseId, examId)
-    return {
+    const examDetail = result.data
+    examDetail.id = `${courseId}--${examDetail.id}`
+    return examDetail
+    /*{
       id: 'string--string',
       coefficient: 0,
       title: 'string',
-      examination_date: '2023-05-05T06:46:26.852Z',
+      examination_date: '2023-07-06T11:51:18.936Z',
       participants: [
         {
           id: 'string',
@@ -47,7 +50,7 @@ const examProvider: HaDataProviderType = {
           }
         }
       ]
-    }
+    }*/
   },
   async saveOrUpdate(resources: Array<any>) {
     const exams = resources[0]

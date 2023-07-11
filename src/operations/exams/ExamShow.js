@@ -1,7 +1,5 @@
 import { EditButton, NumberField, Show, SimpleShowLayout, TextField, TopToolbar, useDataProvider } from 'react-admin'
 
-import { CustomDateField } from '../utils'
-
 import { Divider, Typography } from '@mui/material'
 
 import { useEffect, useState } from 'react'
@@ -9,6 +7,7 @@ import { useParams } from 'react-router-dom'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
 import ByExamParticipantsList from '../participants/ByExamParticipantList'
+import { CustomDateField } from '../utils'
 
 const ExamDetailLayout = ({ courseId, examId }) => {
   return (
@@ -43,8 +42,8 @@ const ExamShow = () => {
     }
     doEffect()
   }, [])
-
   const role = authProvider.getCachedRole()
+  //resource='exams'
   return (
     <Show
       id={raExamId}

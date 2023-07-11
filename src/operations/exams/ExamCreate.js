@@ -4,7 +4,7 @@ import { useParams } from 'react-router-dom'
 import { Form } from './utils'
 
 const ExamCreate = props => {
-  const [courseCode, setCourseCode] = useState('')
+  const [courseCode, setCourseCode] = useState('...')
   const params = useParams()
   const courseId = params.courseId
 
