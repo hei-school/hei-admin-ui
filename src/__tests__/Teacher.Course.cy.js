@@ -1,16 +1,8 @@
 import { mount, unmount } from '@cypress/react'
+import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
 import { teacher1 } from './credentials'
-import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import {
-  teacher1Mock,
-  whoamiTeacherMock,
-  coursesMock,
-  course1Mock,
-  filterCourseByNameMock,
-  courseNameToBeCheckedMock,
-  course1ExamInfosMock
-} from './mocks/responses'
+import { course1Mock, course1exams, courseNameToBeCheckedMock, coursesMock, filterCourseByNameMock, teacher1Mock, whoamiTeacherMock } from './mocks/responses'
 
 describe(specTitle('Course'), () => {
   beforeEach(() => {
@@ -20,7 +12,7 @@ describe(specTitle('Course'), () => {
     cy.intercept('GET', `/courses?page=1&page_size=10`, coursesMock).as('getCourses')
     cy.intercept('GET', `/courses?page=2&page_size=10`, coursesMock).as('getCoursesPage2')
     //TODO: change /courses/${1}/exams to /courses/${course1Mock.id}/exams
-    cy.intercept('GET', `/courses/${1}/exams`, course1ExamInfosMock).as('getCourse1Exams')
+    cy.intercept('GET', `/courses/${1}/exams`, course1exams).as('getcourse1exams')
     cy.intercept('GET', `/courses/${course1Mock.id}`, course1Mock).as('getCourse1')
     cy.get('#username').type(teacher1.username)
     cy.get('#password').type(teacher1.password)

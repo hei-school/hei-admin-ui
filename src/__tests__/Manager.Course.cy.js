@@ -1,18 +1,18 @@
 import { mount, unmount } from '@cypress/react'
+import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
 import { manager1 } from './credentials'
-import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import {
-  coursesMock,
+  course1EditMock,
   course1Mock,
-  filterCourseByNameMock,
+  course1exams,
+  courseCreatedMock,
   courseNameToBeCheckedMock,
-  course1ExamInfosMock,
-  whoamiManagerMock,
+  coursesMock,
+  filterCourseByNameMock,
   manager1Mock,
   teachersMock,
-  courseCreatedMock,
-  course1EditMock
+  whoamiManagerMock
 } from './mocks/responses'
 const courseVerificationMock = creatCourseMock => {
   return requestIntersection => {
@@ -40,8 +40,7 @@ describe(specTitle('Course'), () => {
     cy.intercept('GET', `/courses?page=1&page_size=10`, coursesMock).as('getCourses')
     cy.intercept('GET', `/teachers?page=1&page_size=100`, teachersMock).as('getteachers')
     cy.intercept('GET', `/courses/${courseCreatedMock.id}`, courseCreatedMock).as('getCourseCreated')
-    //TODO: change /courses/${1}/exams to /courses/${course1Mock.id}/exams
-    cy.intercept('GET', `/courses/${1}/exams`, course1ExamInfosMock).as('getCourse1Exams')
+    cy.intercept('GET', `/courses/${course1Mock.id}/exams`, course1exams).as('getcourse1exams')
     cy.intercept('GET', `/courses/${course1Mock.id}`, course1Mock).as('getCourse1')
     cy.get('#username').type(manager1.username)
     cy.get('#password').type(manager1.password)
