@@ -2,7 +2,7 @@ import { EditButton, NumberField, Show, SimpleShowLayout, TextField, TopToolbar,
 
 import { Divider, Typography } from '@mui/material'
 
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
@@ -35,20 +35,12 @@ const ExamShow = () => {
   const raCourseId = params.courseId
   const [examName, setExamName] = useState('')
   const dataProvider = useDataProvider()
-  useEffect(() => {
-    async function doEffect() {
-      const exam = await dataProvider.getOne('exams', { id: raExamId })
-      setExamName(exam.data.title)
-    }
-    doEffect()
-  }, [])
   const role = authProvider.getCachedRole()
-  //resource='exams'
   return (
     <Show
       id={raExamId}
       actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/courses/${raCourseId}/exams/${raExamId}/edit`} />}
-      title={`Examen : ${examName}`}
+      title='Détail sur un examen'
       resource='exams'
     >
       <ExamDetailLayout examId={raExamId} courseId={raCourseId} />

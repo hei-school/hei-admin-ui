@@ -11,7 +11,7 @@ const ExamEdit = () => {
   const validateConditions = [required()]
   const examConfToExamApi = ({ id, title, coefficient, examination_date }) => {
     const examApi = {
-      examInfo: [{ id: id, title: title, coefficient: coefficient, examination_date: new Date(examination_date).toISOString() }],
+      examInfo: [{ id: id.split('--')[1], title: title, coefficient: coefficient, examination_date: new Date(examination_date).toISOString() }],
       courseId: courseId
     }
     return [examApi]
