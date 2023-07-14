@@ -1,9 +1,8 @@
 import { getPermissions } from '../security/permissions'
-import { useNotify } from 'react-admin'
 
+import { Auth } from '@aws-amplify/auth'
 import { ClientMetaData } from '@aws-amplify/auth/lib-esm/types'
 import { Amplify } from 'aws-amplify'
-import { Auth } from '@aws-amplify/auth'
 import awsExports from '../aws-exports'
 
 import { Configuration, SecurityApi, Whoami } from '../gen/haClient'
