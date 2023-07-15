@@ -78,5 +78,5 @@ jobs:
         with:
           node-version: 17.x
 
-      - run: npm install --location=global prettier
-      - run: prettier --check "src/**/*.{js,ts,tsx}" "./**/*.{json,yml,yaml}"
+      - run: npm install -D prettier --legacy-peer-deps # ensure Prettier resolves the local project config
+      - run: npm run prettier:check
