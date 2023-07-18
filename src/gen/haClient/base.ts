@@ -16,6 +16,7 @@ import { Configuration } from './configuration'
 // Some imports not used depending on template conditions
 // @ts-ignore
 import globalAxios, { AxiosInstance, AxiosRequestConfig } from 'axios'
+
 export const BASE_PATH = process?.env?.REACT_APP_API_URL!.replace(/\/+$/, '')
 
 /**
