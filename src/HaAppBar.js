@@ -1,6 +1,8 @@
-import { AppBar as DefaultAppBar, AppBarClasses } from 'react-admin'
-import { IconButton, Tooltip, Typography } from '@mui/material'
+import { AppBarClasses, AppBar as DefaultAppBar } from 'react-admin'
+
 import { Lock } from '@mui/icons-material'
+import { IconButton, Tooltip, Typography } from '@mui/material'
+
 import authProvider from './providers/authProvider'
 
 const UserMenu = () => {

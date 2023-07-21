@@ -24,7 +24,6 @@ const courseVerificationMock = creatCourseMock => {
       total_hours: '' + creatCourseMock.total_hours,
       main_teacher_id: creatCourseMock.main_teacher.id
     }
-    //const expectedCourse
     requestIntersection.request.body[0].id
       ? expect(requestIntersection.request.body[0]).to.deep.equal(pendingCourseMock)
       : expect({ ...requestIntersection.request.body[0], id: creatCourseMock.id }).to.deep.equal(pendingCourseMock)
@@ -54,7 +53,7 @@ describe(specTitle('Course'), () => {
     cy.get('#main-content')
       .should('contain', 'Code')
       .and('contain', 'Nom')
-      .and('contain', 'Heure total')
+      .and('contain', "Total d'heures")
       .and('contain', 'Coefficient')
       .and('contain', `Taille : ${coursesMock.length}`)
     cy.get('td').should('contain', course1Mock.name)

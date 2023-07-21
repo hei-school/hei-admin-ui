@@ -154,8 +154,8 @@ export const createFeeWithPredefinedDataMock: (feeDate: string) => Fee[] = feeDa
       type: FeeTypeEnum.Tuition,
       comment: 'comment',
       total_amount: fee1Mock.total_amount,
-      creation_datetime: feeDate + 'T12:25:24Z',
-      due_datetime: feeDate + 'T12:25:24Z'
+      creation_datetime: `${feeDate}T12:25:24Z`,
+      due_datetime: `${feeDate}T12:25:24Z`
     }
   ]
 }
@@ -175,8 +175,8 @@ export const createFeeWithManualDataMock: (date: string, amount: number, comment
       type: FeeTypeEnum.Tuition,
       comment: comment,
       total_amount: amount,
-      creation_datetime: date + 'T12:25:24Z',
-      due_datetime: date + 'T12:25:24Z'
+      creation_datetime: `${date}T12:25:24Z`,
+      due_datetime: `${date}T12:25:24Z`
     })
   }
   return fees

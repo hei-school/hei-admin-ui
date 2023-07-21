@@ -1,17 +1,21 @@
-import { useState, useEffect } from 'react'
+import { useEffect, useState } from 'react'
 
-import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number } from 'react-admin'
+import { Create, RadioButtonGroupInput, SimpleForm, TextInput, required, useDataProvider } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
 
 const PaymentCreate = props => {
+  const [studentRef, setStudentRef] = useState('...')
+  const [paymentChoice, setPaymentChoice] = useState('cash')
+
   const params = useParams()
+  const dataProvider = useDataProvider()
+
   const feeId = params.feeId
   const studentId = studentIdFromRaId(feeId)
-  const [studentRef, setStudentRef] = useState('...')
-  const dataProvider = useDataProvider()
+
   useEffect(() => {
     const doEffect = async () => {
       const student = await dataProvider.getOne('students', { id: studentId })
@@ -21,7 +25,7 @@ const PaymentCreate = props => {
   })
 
   const validateConditions = [required()]
-  const [paymentChoice, setPaymentChoice] = useState('cash')
+
   const paymentConfToPaymentApi = ({ type, amount, comment }) => {
     return [{ feeId: feeId, type: paymentTypes[type].type, amount: amount, comment: comment }]
   }

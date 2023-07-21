@@ -1,8 +1,11 @@
-import { List } from '@react-admin/ra-rbac'
-import { Datagrid, TextField, useDataProvider, useListContext } from 'react-admin'
 import { useEffect, useState } from 'react'
-import { CustomDateField } from '../utils'
+
+import { Datagrid, TextField, useDataProvider, useListContext } from 'react-admin'
+
+import { List } from '@react-admin/ra-rbac'
+
 import authProvider from '../../providers/authProvider'
+import { CustomDateField } from '../utils'
 
 const GradeList = () => {
   const studentId = authProvider.getCachedWhoami().id
@@ -14,19 +17,18 @@ const GradeList = () => {
       setStudentRef(student.data.ref)
     }
     doEffect()
-    // eslint-disable-next-line
   }, [studentId])
-  //TurnsStringIntoDate
   return (
-    <List title={'Liste des notes de ' + studentRef} resource={'grades'} filterDefaultValues={{ studentId: studentId }} pagination={false}>
+    <List title={`Liste des notes de ${studentRef}`} resource='grades' filterDefaultValues={{ studentId: studentId }} pagination={false}>
       <Grade />
     </List>
   )
 }
 
 const Grade = () => {
+  const [examsData, setExamsData] = useState([])
   const { data } = useListContext()
-  const [examsData, setExamsDate] = useState([])
+
   useEffect(() => {
     let newExamData = []
     data?.forEach(course => {
@@ -44,7 +46,7 @@ const Grade = () => {
         ]
       })
     })
-    setExamsDate(newExamData)
+    setExamsData(newExamData)
   }, [data])
   return (
     <Datagrid bulkActionButtons={false} data={examsData}>

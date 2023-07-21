@@ -1,20 +1,25 @@
-import { Create, SimpleForm, SelectInput } from 'react-admin'
 import { useEffect, useState } from 'react'
-import { WhoamiRoleEnum } from '../../gen/haClient'
-import teacherProvider from '../../providers/teacherProvider'
+
+import { Create, SelectInput, SimpleForm } from 'react-admin'
+
 import authProvider from '../../providers/authProvider'
+import teacherProvider from '../../providers/teacherProvider'
 import CourseForm from './CourseForm'
 
 const CourseCreate = () => {
-  const role = authProvider.getCachedRole()
-  const [teachers, setTeachers] = useState(null)
-  const optionRenderer = teachers => `${teachers.first_name} ${teachers.last_name}`
+  const [teachers, setTeachers] = useState([])
+
   useEffect(() => {
     teacherProvider.getList(1, 100, {}).then(res => {
       res && setTeachers(res)
     })
   }, [])
-  return role === WhoamiRoleEnum.Manager ? (
+
+  const role = authProvider.getCachedRole()
+
+  const optionRenderer = teachers => `${teachers.first_name} ${teachers.last_name}`
+
+  return (
     <Create title='Cours' redirect='list' resource={'courses'}>
       <SimpleForm>
         <CourseForm />
@@ -31,8 +36,6 @@ const CourseCreate = () => {
         )}
       </SimpleForm>
     </Create>
-  ) : (
-    <></>
   )
 }
 

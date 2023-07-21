@@ -1,6 +1,7 @@
-import { usersApi, payingApi } from './api'
-import { HaDataProviderType } from './HaDataProviderType'
 import { EnableStatus } from 'src/gen/haClient'
+
+import { payingApi, usersApi } from './api'
+import { HaDataProviderType } from './HaDataProviderType'
 
 const studentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
@@ -21,8 +22,8 @@ const studentProvider: HaDataProviderType = {
       return [studentResponse]
     } else {
       // for editing
-      const result = await usersApi().createOrUpdateStudents(payload)
-      return result.data
+      const result = (await usersApi().createOrUpdateStudents(payload)).data
+      return result
     }
   }
 }

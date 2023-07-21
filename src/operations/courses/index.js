@@ -1,9 +1,11 @@
+import { TextInput } from 'react-admin'
+
 import { Book } from '@mui/icons-material'
+
+import CourseCreate from './CourseCreate'
+import CourseEdit from './CourseEdit'
 import CourseList from './CourseList'
 import CourseShow from './CourseShow'
-import { TextInput } from 'react-admin'
-import CourseEdit from './CourseEdit'
-import CourseCreate from './CourseCreate'
 
 const courses = {
   list: CourseList,
@@ -15,10 +17,10 @@ const courses = {
 }
 
 export const coursesFilters = [
-  <TextInput source='code' label='code' alwaysOn />,
-  <TextInput source='name' label='nom' />,
-  <TextInput source='teacherFirstName' label='teacherFirstName' />,
-  <TextInput source='teacherLastName' label='teacherLastName' />
+  <TextInput source='code' label='Code' alwaysOn />,
+  <TextInput source='name' label='Nom' />,
+  <TextInput source='teacherFirstName' label="Prénoms de l'enseignant" />,
+  <TextInput source='teacherLastName' label="Nom de l'enseignant" />
 ]
 
 export default courses

@@ -1,8 +1,12 @@
 import React from 'react'
+
 import ReactDOM from 'react-dom'
-import './index.css'
-import 'typeface-quicksand'
+
 import App from './App'
+
+import 'typeface-quicksand'
+
+import './index.css'
 
 ReactDOM.render(
   <React.StrictMode>

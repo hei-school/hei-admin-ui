@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+
 import {
   BooleanInput,
   Create,
@@ -7,14 +8,15 @@ import {
   minValue,
   number,
   RadioButtonGroupInput,
-  SelectInput,
   required,
+  SelectInput,
   SimpleForm,
   TextInput,
   useDataProvider
 } from 'react-admin'
 import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
+
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 import { commentRenderer } from '../utils'
 

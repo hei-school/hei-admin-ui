@@ -13,9 +13,9 @@ export const course1Mock: Course = {
 }
 export const course1EditMock: Course = {
   id: course1Mock.id,
-  code: course1Mock.code + 'Edit',
+  code: `${course1Mock.code} Edit`,
   credits: 10,
-  name: course1Mock.name + 'Edit',
+  name: `${course1Mock.name} Edit`,
   total_hours: 10,
   main_teacher: teachersMock[2]
 }

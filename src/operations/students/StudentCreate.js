@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
+import { BooleanInput, Create, DateInput, SimpleForm, TextInput } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
 import { SexRadioButton, TurnsStringIntoDate } from '../utils'
 import { createFees } from './utils'
@@ -13,13 +13,11 @@ const StudentCreate = props => {
     }
   ])
 
-  const defaultIsPredefinedType = true
-  const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
-  const useIsPredefinedType = data => {
-    setIsPredefinedType(data)
-  }
   const defaultCanCreateFees = false
+
   const [canCreateFees, setCanCreateFees] = useState(defaultCanCreateFees)
+  const [isPredefinedType, setIsPredefinedType] = useState(true)
+
   const transformPayload = payload => {
     const {
       monthly_amount,
@@ -40,6 +38,9 @@ const StudentCreate = props => {
     student.entrance_datetime = TurnsStringIntoDate(student.entrance_datetime)
     const result = [fees, student]
     return result
+  }
+  const useIsPredefinedType = data => {
+    setIsPredefinedType(data)
   }
   return (
     <Create title='Étudiants' transform={transformPayload} resource='students'>

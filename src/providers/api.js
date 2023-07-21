@@ -1,4 +1,4 @@
-import { UsersApi, PayingApi, TeachingApi } from '../gen/haClient'
+import { PayingApi, TeachingApi, UsersApi } from '../gen/haClient'
 import authProvider from './authProvider'
 
 export const usersApi = () => new UsersApi(authProvider.getCachedAuthConf())

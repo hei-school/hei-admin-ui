@@ -1,4 +1,4 @@
-import { FunctionField, List, TextField } from 'react-admin'
+import { List, TextField } from 'react-admin'
 
 import GradeExamEdit from '../exams/GradeExamEdit'
 
@@ -10,7 +10,7 @@ const ByExamParticipantsList = ({ courseId, examId, ...props }) => {
       <EditableDatagrid bulkActionButtons={false} size='small' editForm={<GradeExamEdit />}>
         <TextField label='Identifiant' source='ref' />
         <TextField label='Email' source='email' />
-        <FunctionField label='Note' source='grade' render={record => record.grade.score} />
+        <TextField label='Note' source='grade.score' />
       </EditableDatagrid>
     </List>
   )

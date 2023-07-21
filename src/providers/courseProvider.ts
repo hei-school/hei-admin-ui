@@ -3,23 +3,13 @@ import { HaDataProviderType } from './HaDataProviderType'
 
 const courseProvider: HaDataProviderType = {
   async getList(page: number, pageSize: number, filter: any) {
-    const result = await teachingApi().getCourses(
-      filter.code,
-      filter.name,
-      filter.credits,
-      filter.teacherFirstName,
-      filter.teacherLastName,
-      filter.creditsOrder,
-      filter.codeOrder,
-      page,
-      pageSize,
-      filter.options
-    )
+    const { code, name, credits, teacherFirstName, teacherLastName, creditsOrder, codeOrder, options } = filter
+    const result = await teachingApi().getCourses(code, name, credits, teacherFirstName, teacherLastName, creditsOrder, codeOrder, page, pageSize, options)
     return result.data
   },
   async getOne(id: string) {
-    const result = await teachingApi().getCourseById(id)
-    return result.data
+    const result = (await teachingApi().getCourseById(id)).data
+    return result
   },
   async saveOrUpdate(courses: any) {
     const result = await teachingApi().crupdateCourses(courses)

@@ -1,5 +1,6 @@
 import { Datagrid, FunctionField, ShowButton } from 'react-admin'
-import { prettyPrintMoney, CustomDateField, commentFunctionRenderer } from '../utils'
+
+import { commentFunctionRenderer, CustomDateField, prettyPrintMoney } from '../utils'
 import rowStyle from './byStatusRowStyle'
 
 export const FeesListItems = () => {

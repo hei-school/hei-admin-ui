@@ -1,7 +1,6 @@
 import { payingApi } from './api'
-import { HaDataProviderType } from './HaDataProviderType'
-
 import { toApiIds as toApiFeeIds } from './feeProvider'
+import { HaDataProviderType } from './HaDataProviderType'
 
 const raSeparator = '--'
 const toRaId = (studentId: string, feeId: string, paymentId: string): string => studentId + raSeparator + feeId + raSeparator + paymentId

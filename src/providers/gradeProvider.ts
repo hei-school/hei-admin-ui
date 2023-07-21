@@ -3,8 +3,8 @@ import authProvider from './authProvider'
 import { HaDataProviderType } from './HaDataProviderType'
 const gradeProvider: HaDataProviderType = {
   async getList(filter: any) {
-    const result = await teachingApi().getStudentGrades(filter.studentId ?? authProvider.getCachedWhoami().id)
-    return result.data
+    const result = (await teachingApi().getStudentGrades(filter.studentId ?? authProvider.getCachedWhoami().id)).data
+    return result
   },
   async getOne(id: string) {
     throw new Error('Function not implemented.')

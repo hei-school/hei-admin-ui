@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import authProvider from '../providers/authProvider'
-import { Typography, FormControl, TextField } from '@mui/material'
-import { CustomTextField, CustomSubmitButton } from './utils'
+
 import { useNotify } from 'react-admin'
+
+import { Typography } from '@mui/material'
+
+import authProvider from '../providers/authProvider'
+import { CustomSubmitButton, CustomTextField } from './utils'
 
 const ConfirmForgotPassword = ({ setUsername, setConfirm }) => {
   const [email, setEmail] = useState('')

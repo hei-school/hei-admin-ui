@@ -1,9 +1,10 @@
 import { CreateButton, Datagrid, List, TextField, TopToolbar } from 'react-admin'
+
 import { CustomDateField } from '../utils'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
-    <CreateButton to={basePath + '/create'} resource={resource} />
+    <CreateButton to={`${basePath}/create`} resource={resource} />
   </TopToolbar>
 )
 const ExamList = ({ courseId }) => {

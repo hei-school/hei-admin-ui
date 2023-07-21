@@ -1,12 +1,14 @@
+import { CreateButton, Datagrid, FunctionField, TextField, TopToolbar } from 'react-admin'
+
 import { List } from '@react-admin/ra-rbac'
-import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
-import { prettyPrintMoney, CustomDateField } from '../utils'
+
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
+import { CustomDateField, prettyPrintMoney } from '../utils'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
-    <CreateButton to={basePath + '/create'} resource={resource} />
+    <CreateButton to={`${basePath}/create`} resource={resource} />
   </TopToolbar>
 )
 

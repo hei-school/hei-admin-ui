@@ -1,5 +1,4 @@
 import { TextInput } from 'react-admin'
-
 const CourseForm = () => {
   return (
     <>

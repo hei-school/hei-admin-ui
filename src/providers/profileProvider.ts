@@ -1,8 +1,7 @@
-import { usersApi } from './api'
-import { HaDataProviderType } from './HaDataProviderType'
-import authProvider from './authProvider'
 import { WhoamiRoleEnum } from '../gen/haClient'
-
+import { HaDataProviderType } from './HaDataProviderType'
+import { usersApi } from './api'
+import authProvider from './authProvider'
 const profileProvider: HaDataProviderType = {
   async getOne(id: string) {
     const role = authProvider.getCachedRole()

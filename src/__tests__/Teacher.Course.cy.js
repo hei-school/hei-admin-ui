@@ -27,7 +27,7 @@ describe(specTitle('Course'), () => {
     cy.get('#main-content')
       .should('contain', 'Code')
       .and('contain', 'Nom')
-      .and('contain', 'Heure total')
+      .and('contain', "Total d'heures")
       .and('contain', 'Coefficient')
       .and('contain', `Taille : ${coursesMock.length}`)
     cy.get('td').should('contain', course1Mock.name)

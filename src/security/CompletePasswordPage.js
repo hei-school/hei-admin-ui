@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
-import authProvider from '../providers/authProvider'
+
 import { makeStyles } from '@mui/styles'
+
+import authProvider from '../providers/authProvider'
 
 const useStyles = makeStyles({
   textInput: {

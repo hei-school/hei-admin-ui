@@ -1,14 +1,14 @@
-import { Edit, SimpleForm, required } from 'react-admin'
+import { Edit, SimpleForm } from 'react-admin'
 import { useLocation, useParams } from 'react-router-dom'
+
 import { EditToolBar } from '../utils'
 import { Form } from './utils'
 
 const ExamEdit = () => {
   const params = useParams()
-  const courseId = params?.id
   const location = useLocation()
+  const courseId = params?.id
 
-  const validateConditions = [required()]
   const examConfToExamApi = ({ id, title, coefficient, examination_date }) => {
     const examApi = {
       examInfo: [{ id: id.split('--')[1], title: title, coefficient: coefficient, examination_date: new Date(examination_date).toISOString() }],

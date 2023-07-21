@@ -1,9 +1,8 @@
-import { EditButton, NumberField, Show, SimpleShowLayout, TextField, TopToolbar, useDataProvider } from 'react-admin'
+import { EditButton, NumberField, Show, SimpleShowLayout, TextField, TopToolbar } from 'react-admin'
+import { useParams } from 'react-router-dom'
 
 import { Divider, Typography } from '@mui/material'
 
-import { useState } from 'react'
-import { useParams } from 'react-router-dom'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
 import ByExamParticipantsList from '../participants/ByExamParticipantList'
@@ -33,8 +32,6 @@ const ExamShow = () => {
   const params = useParams()
   const raExamId = params.examId
   const raCourseId = params.courseId
-  const [examName, setExamName] = useState('')
-  const dataProvider = useDataProvider()
   const role = authProvider.getCachedRole()
   return (
     <Show

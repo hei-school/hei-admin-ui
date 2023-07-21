@@ -1,7 +1,9 @@
 import React, { useState } from 'react'
-import { checkPassword, CustomTextField, CustomSubmitButton } from './utils'
-import authProvider from '../providers/authProvider'
+
 import { useNotify } from 'react-admin'
+
+import authProvider from '../providers/authProvider'
+import { checkPassword, CustomSubmitButton, CustomTextField } from './utils'
 
 const ForgotPassword = ({ username, setOpenModal }) => {
   const [password, setPassword] = useState('')

@@ -1,14 +1,13 @@
-import { Admin } from '@react-admin/ra-enterprise'
 import React from 'react'
-import { CustomRoutes, Resource } from 'react-admin'
-
-import { Route } from 'react-router-dom'
-
-import authProvider from './providers/authProvider.ts'
-import dataProvider from './providers/dataProvider'
 
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'
+import { CustomRoutes, Resource } from 'react-admin'
+import { Route } from 'react-router-dom'
+
+import { Admin } from '@react-admin/ra-enterprise'
+
+import MyLayout from './HaLayout'
 import courses from './operations/courses'
 import exams from './operations/exams'
 import fees from './operations/fees'
@@ -18,9 +17,10 @@ import payments from './operations/payments'
 import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
-
-import MyLayout from './HaLayout'
+import authProvider from './providers/authProvider.ts'
+import dataProvider from './providers/dataProvider'
 import HaLoginPage from './security/LoginPage'
+
 const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
 const App = () => (
   <Admin

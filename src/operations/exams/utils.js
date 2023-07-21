@@ -1,4 +1,4 @@
-import { DateInput, NumberInput, TextInput, required } from 'react-admin'
+import { DateInput, NumberInput, required, TextInput } from 'react-admin'
 
 export const Form = ({ edit }) => {
   const validateConditions = [required()]

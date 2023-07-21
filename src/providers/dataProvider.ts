@@ -1,3 +1,4 @@
+import { maxPageSize } from '../operations/utils'
 import { HaDataProviderType } from './HaDataProviderType'
 import { RaDataProviderType } from './RaDataProviderType'
 import courseProvider from './courseProvider'
@@ -9,7 +10,6 @@ import paymentProvider from './paymentProvider'
 import profileProvider from './profileProvider'
 import studentProvider from './studentProvider'
 import teacherProvider from './teacherProvider'
-export const maxPageSize = 500
 
 const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'profile') return profileProvider

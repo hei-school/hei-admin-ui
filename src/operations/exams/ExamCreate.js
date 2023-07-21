@@ -1,14 +1,17 @@
 import { useEffect, useState } from 'react'
+
 import { Create, SimpleForm, useDataProvider } from 'react-admin'
 import { useParams } from 'react-router-dom'
+
 import { Form } from './utils'
 
 const ExamCreate = props => {
-  const [courseCode, setCourseCode] = useState('...')
+  const dataProvider = useDataProvider()
   const params = useParams()
+
+  const [courseCode, setCourseCode] = useState('...')
   const courseId = params.courseId
 
-  const dataProvider = useDataProvider()
   useEffect(() => {
     const doEffect = async () => {
       const course = await dataProvider.getOne('courses', { id: courseId })
@@ -16,6 +19,7 @@ const ExamCreate = props => {
     }
     doEffect()
   }, [])
+
   const examConfToExamApi = ({ title, coefficient, examination_date }) => {
     const examApi = {
       examInfo: [{ title: title, coefficient: coefficient, examination_date: new Date(examination_date).toISOString() }],
@@ -23,6 +27,7 @@ const ExamCreate = props => {
     }
     return [examApi]
   }
+
   return (
     <Create
       {...props}
