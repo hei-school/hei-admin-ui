@@ -13,6 +13,32 @@ export const mainTheme = createTheme({
   typography: {
     fontFamily: ['Quicksand', 'sans-serif'].join(','),
     fontSize: 15
+  },
+  // change the default Mui or Ra component style
+  components: {
+    MuiPaper: {
+      styleOverrides: {
+        root: {
+          background: 'pink'
+        }
+      }
+    },
+    MuiButton: {
+      // custom style depends of the color props
+      variants: [
+        {
+          props: { color: 'error' },
+          style: {
+            background: 'red'
+          }
+        },
+        {
+          props: { color: 'info' },
+          style: {
+            background: 'blue'
+          }
+        }
+      ]
+    }
   }
-  //shadows: Array(25).fill('none')
 })
