@@ -43,7 +43,8 @@ describe(specTitle('Manager.Grade'), () => {
 
     cy.get('.MuiTableBody-root > :nth-child(1) > .column-code').click()
     cy.get(':nth-child(1) > .column-title > .MuiTypography-root').click()
-    cy.get('.RaEditableDatagrid-rowEven > .column-grade').click()
+    //cy.get('.RaEditableDatagrid-rowEven > .column-grade\.score').click()
+    cy.get('[data-testid="gradeScore"]').click({ multiple: true })
     cy.get('.RaEditableDatagrid-rowEven > .column-undefined').click().find('[data-testid="CreateIcon"]').click({ force: true })
     cy.get('.MuiTableBody-root > .css-1gvfpdu-MuiTableRow-root > :nth-child(3)').click('center').clear().type(newGrade.score)
 
@@ -53,6 +54,6 @@ describe(specTitle('Manager.Grade'), () => {
 
     cy.get('[data-testid="SaveIcon"]').click()
     cy.contains('Élément mis à jour')
-    cy.get('.RaEditableDatagrid-rowEven > .column-grade').contains(newGrade.score)
+    cy.get('[data-testid="gradeScore"]').contains(newGrade.score)
   })
 })

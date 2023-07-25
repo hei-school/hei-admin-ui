@@ -10,7 +10,7 @@ const ByExamParticipantsList = ({ courseId, examId, ...props }) => {
       <EditableDatagrid bulkActionButtons={false} size='small' editForm={<GradeExamEdit />}>
         <TextField label='Identifiant' source='ref' />
         <TextField label='Email' source='email' />
-        <TextField label='Note' source='grade.score' />
+        <TextField label='Note' source='grade.score' data-testid='gradeScore' />
       </EditableDatagrid>
     </List>
   )

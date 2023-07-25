@@ -72,7 +72,7 @@ describe(specTitle('Course'), () => {
     cy.get('td').contains(course1Mock.name).click()
     cy.wait('@getCourse1')
     cy.get('.RaBreadcrumb-list').should('contain', course1Mock.code)
-    cy.get('#main-content').should('contain', 'code').and('contain', course1Mock.name).and('contain', course1Mock.code).and('contain', course1Mock.credits)
+    cy.get('#main-content').should('contain', 'Code').and('contain', course1Mock.name).and('contain', course1Mock.code).and('contain', course1Mock.credits)
     cy.get('table').should('contain', 'Détails').and('contain', 'Coefficient')
     cy.get('#main-content').contains('Éditer').click()
     cy.get(`[value="${course1Mock.name}"]`)

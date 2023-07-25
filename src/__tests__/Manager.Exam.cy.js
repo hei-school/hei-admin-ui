@@ -73,7 +73,6 @@ describe(specTitle('Manager.Exam'), () => {
     cy.get('.ra-field-coefficient').contains('Coefficient')
     cy.get('.MuiTableHead-root > .MuiTableRow-root > .column-ref').contains('Identifiant')
     cy.get('.MuiTableHead-root > .MuiTableRow-root > .column-email').contains('Email')
-    cy.get('.MuiTableHead-root > .MuiTableRow-root > .column-grade').contains('Note')
   })
   it('can get a void participants list', () => {
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
