@@ -1,12 +1,7 @@
 import { teachingApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
+import { toApiIds, toRaId } from './utils'
 
-const raSeparator = '--'
-const toRaId = (courseId: string, examId: string): string => courseId + raSeparator + examId
-export const toApiIds = (raId: string) => {
-  const ids = raId.split(raSeparator)
-  return { courseId: ids[0], examId: ids[1] }
-}
 const examProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     const result = await teachingApi().getExamsByCourseId(filter.course_id)
@@ -16,9 +11,9 @@ const examProvider: HaDataProviderType = {
     }))
   },
   async getOne(raId: string) {
-    const { courseId, examId } = toApiIds(raId)
+    const { courseId, examId } = toApiIds(raId, 'courseId', 'examId')
     const examDetail = (await teachingApi().getExamDetail(courseId, examId)).data
-    examDetail.id = `${courseId}--${examDetail.id}`
+    examDetail.id = toRaId(courseId, examDetail?.id!)
     return examDetail
   },
   async saveOrUpdate(resources: Array<any>) {

@@ -1,13 +1,12 @@
 import { payingApi } from './api'
-import { toApiIds as toApiFeeIds } from './feeProvider'
 import { HaDataProviderType } from './HaDataProviderType'
+import { raSeparator, toApiIds } from './utils'
 
-const raSeparator = '--'
 const toRaId = (studentId: string, feeId: string, paymentId: string): string => studentId + raSeparator + feeId + raSeparator + paymentId
 
 const paymentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    const { studentId, feeId } = toApiFeeIds(filter.feeId)
+    const { studentId, feeId } = toApiIds(filter.feeId, 'studentId', 'feeId')
     const result = await payingApi().getStudentPayments(studentId, feeId, page, perPage)
     return result.data.map(payment => ({
       ...payment,
@@ -26,7 +25,7 @@ const paymentProvider: HaDataProviderType = {
       }
     })
 
-    const { studentId, feeId } = toApiFeeIds(raFeeId)
+    const { studentId, feeId } = toApiIds(raFeeId, 'studentId', 'feeId')
     const result = await payingApi().createStudentPayments(studentId, feeId, payments)
     return { ...result.data }
   }
