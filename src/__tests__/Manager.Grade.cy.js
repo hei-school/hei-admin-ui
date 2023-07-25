@@ -43,7 +43,6 @@ describe(specTitle('Manager.Grade'), () => {
 
     cy.get('.MuiTableBody-root > :nth-child(1) > .column-code').click()
     cy.get(':nth-child(1) > .column-title > .MuiTypography-root').click()
-    //cy.get('.RaEditableDatagrid-rowEven > .column-grade\.score').click()
     cy.get('[data-testid="gradeScore"]').click({ multiple: true })
     cy.get('.RaEditableDatagrid-rowEven > .column-undefined').click().find('[data-testid="CreateIcon"]').click({ force: true })
     cy.get('.MuiTableBody-root > .css-1gvfpdu-MuiTableRow-root > :nth-child(3)').click('center').clear().type(newGrade.score)
