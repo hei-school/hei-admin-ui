@@ -6,4 +6,4 @@ const claims = {
   edit: EditGuesser
 }
 
-export default claims;
+export default claims

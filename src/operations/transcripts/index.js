@@ -6,4 +6,4 @@ const transcripts = {
   edit: EditGuesser
 }
 
-export default transcripts;
+export default transcripts

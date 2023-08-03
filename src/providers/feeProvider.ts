@@ -21,7 +21,7 @@ const feeProvider: HaDataProviderType = {
   },
   async getOne(raId: string) {
     const { studentId, feeId } = toApiIds(raId)
-    console.log(raId, " raid")
+    console.log(raId, ' raid')
 
     const result = await payingApi().getStudentFeeById(studentId, feeId)
     return { ...result.data, id: raId }
