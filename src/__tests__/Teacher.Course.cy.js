@@ -48,7 +48,7 @@ describe(specTitle('Course'), () => {
     //TODO: list of exam
     cy.get('.RaBreadcrumb-list').should('contain', course1Mock.code)
     cy.get('#main-content')
-      .should('contain', 'code')
+      .should('contain', 'Code')
       .and('contain', course1Mock.name)
       .and('contain', course1Mock.code)
       .and('contain', course1Mock.credits)
