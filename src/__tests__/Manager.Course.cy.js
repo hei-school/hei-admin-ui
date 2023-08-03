@@ -55,10 +55,6 @@ const loginParams = { username: 'dummy', password: 'dummy' }
 describe(specTitle('Course'), () => {
   beforeEach(() => {
     mount(<App />)
-
-    /* cy.stub(Auth, 'currentSession').returns(Promise.resolve(sessionStub));
-  cy.stub(Auth, 'signIn').returns(Promise.resolve(cognitoResponse));
-  cy.then(async () => await authProvider.login(loginParams)); */
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/courses?page=1&page_size=10`, coursesMock).as('getCourses')
