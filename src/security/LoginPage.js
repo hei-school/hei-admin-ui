@@ -62,7 +62,6 @@ const HaLoginPage = () => {
   }
   const ResponsiveLogin = () => {
     return (
-<<<<<<< HEAD
       <Grid container xs={12}>
         <Grid
           xs={displayFull ? 4 : 12}
@@ -72,38 +71,6 @@ const HaLoginPage = () => {
             justifyContent: 'center'
           }}
           position={'absolute'}
-=======
-      <div
-        style={
-          displayFull
-            ? { width: 400, height: 500 }
-            : {
-                width: 400,
-                height: 500,
-                position: 'absolute',
-                top: '40%',
-                left: '50%',
-                transform: 'translate(-50%, -50%)'
-              }
-        }
-      >
-        <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
-        <Link
-          href='#/login'
-          sx={
-            displayFull
-              ? { color: '#FFFF', width: 'inherit', position: 'absolute', bottom: '25vh', display: 'flex', justifyContent: 'center', margin: '1vh' }
-              : {
-                  color: '#FFFF',
-                  width: 'inherit',
-                  position: 'absolute',
-                  bottom: '0vh',
-                  display: 'flex',
-                  justifyContent: 'center'
-                }
-          }
-          onClick={() => setOpenModal(true)}
->>>>>>> 4848f0c (fix: great place for the login)
         >
           <Login backgroundImage={null} style={{ backgroundImage: 'inherit', position: 'relative' }} />
         </Grid>
