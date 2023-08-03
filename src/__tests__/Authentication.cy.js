@@ -1,7 +1,7 @@
 import { mount } from '@cypress/react'
+import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
 import { student1 } from './credentials'
-import specTitle from 'cypress-sonarqube-reporter/specTitle'
 
 describe(specTitle('Authentication'), () => {
   it('remains on login page if fails', () => {

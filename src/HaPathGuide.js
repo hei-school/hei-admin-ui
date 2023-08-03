@@ -7,17 +7,20 @@ import dataProvider from './providers/dataProvider'
 export const HaPathGuide = () => {
   const [studentRef, setStudentRef] = useState('...')
   const getStudentRef = ({ record }) => {
-    if (record?.ref) {
-      setStudentRef(record.ref)
-    } else if (record?.code) {
-      setStudentRef(record.code)
-    } else {
-      const doEffect = async () => {
-        const student = await dataProvider.getOne('students', { id: record.student_id })
-        setStudentRef(student.data.ref)
+    if (record) {
+      if (record?.ref) {
+        setStudentRef(record.ref)
+      } else if (record?.code) {
+        setStudentRef(record.code)
+      } else {
+        const doEffect = async () => {
+          const student = await dataProvider.getOne('students', { id: record.student_id })
+          setStudentRef(student.data.ref)
+        }
+        doEffect()
       }
-      doEffect()
     }
+
     return <span>{studentRef}</span>
   }
 

@@ -1,6 +1,7 @@
 import { mount, unmount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
+
 import { manager1 } from './credentials'
 import {
   course1EditMock,
@@ -30,10 +31,34 @@ const courseVerificationMock = creatCourseMock => {
     expect(requestIntersection.request.body.length).to.equal(1)
   }
 }
+const sessionStub = {
+  getIdToken: () => ({ getJwtToken: () => 'dummy' }),
+  getAccessToken: () => ({ getJwtToken: () => 'dummy' }),
+  getRefreshToken: () => ({ getToken: () => 'dummy' })
+}
+
+const cognitoResponse = {
+  signInUserSession: {
+    idToken: {
+      jwtToken: 'dummy'
+    },
+    refreshToken: {
+      token: 'dummy'
+    },
+    accessToken: {
+      jwtToken: 'dummy'
+    }
+  }
+}
+const loginParams = { username: 'dummy', password: 'dummy' }
 
 describe(specTitle('Course'), () => {
   beforeEach(() => {
     mount(<App />)
+
+    /* cy.stub(Auth, 'currentSession').returns(Promise.resolve(sessionStub));
+  cy.stub(Auth, 'signIn').returns(Promise.resolve(cognitoResponse));
+  cy.then(async () => await authProvider.login(loginParams)); */
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/courses?page=1&page_size=10`, coursesMock).as('getCourses')

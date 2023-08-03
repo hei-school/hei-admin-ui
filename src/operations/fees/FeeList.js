@@ -20,6 +20,7 @@ const Actions = ({ basePath, resource }) => (
 const FeeList = ({ studentId }) => {
   const params = useParams()
   const dataProvider = useDataProvider()
+  const definedStudentId = studentId ?? params.studentId
 
   const [studentRef, setStudentRef] = useState('...')
 
@@ -31,7 +32,6 @@ const FeeList = ({ studentId }) => {
     doEffect()
   }, [definedStudentId])
 
-  const definedStudentId = studentId ?? params.studentId
   const role = authProvider.getCachedRole()
   return (
     <List
