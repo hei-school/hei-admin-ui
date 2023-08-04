@@ -15,8 +15,8 @@ import {
   createFeeWithManualDataMock,
   fee1Mock
 } from './mocks/responses'
-import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
-import { prettyPrintMoney, statusRenderer, TurnsStringIntoDate } from '../operations/utils'
+import { predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
+import { prettyPrintMoney, statusRenderer } from '../operations/utils'
 
 const feeDateToSearch = `2022-09-11`
 const feeCreatDate = 'date2'
@@ -149,14 +149,27 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('.MuiFab-root').click() // create fees
     cy.get('#is_predefined_type').click()
     cy.get('#manual_type_tuition').click()
-    cy.get('#monthly_amount').click().clear().type(monthlyAmount)
 
-    cy.get('#months_number').click().clear().type(monthsNumber)
+    cy.get('#monthly_amount').as('monthly_amount')
+    cy.get('@monthly_amount').click()
+    cy.get('@monthly_amount').clear()
+    cy.get('@monthly_amount').type(monthlyAmount)
 
-    cy.get('#comment').click().clear().type(comment)
+    cy.get('#months_number').as('months_number')
+    cy.get('@months_number').click()
+    cy.get('@months_number').clear()
+    cy.get('@months_number').type(monthsNumber)
+
+    cy.get('#comment').as('comment')
+    cy.get('@comment').click()
+    cy.get('@comment').clear()
+    cy.get('@comment').type(comment)
 
     cy.get('#is_predefined_first_dueDate').click()
-    cy.get('#manual_first_duedate').click().type(feeDateToSearch)
+
+    cy.get('#manual_first_duedate').as('manual_first_duedate')
+    cy.get('@manual_first_duedate').click()
+    cy.get('@manual_first_duedate').type(feeDateToSearch)
 
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
     cy.contains('Enregistrer').click()
@@ -188,12 +201,20 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('.MuiFab-root').click() // create fees
     cy.get('#is_predefined_type').click()
     cy.get('#manual_type_tuition').click()
-    cy.get('#monthly_amount').click().type(monthlyAmount)
 
-    cy.get('#months_number').click().type(monthsNumber)
+    cy.get('#monthly_amount').as('monthly_amount')
+    cy.get('@monthly_amount').click()
+    cy.get('@monthly_amount').type(monthlyAmount)
+
+    cy.get('#months_number').as('months_number')
+    cy.get('@months_number').click()
+    cy.get('@months_number').type(monthsNumber)
 
     cy.get('#is_predefined_first_dueDate').click()
-    cy.get('#manual_first_duedate').click().type(feeDateToSearch)
+
+    cy.get('#manual_first_duedate').as('manual_first_duedate')
+    cy.get('@manual_first_duedate').click()
+    cy.get('@manual_first_duedate').type(feeDateToSearch)
 
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
     cy.contains('Enregistrer').click()

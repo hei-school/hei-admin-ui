@@ -73,8 +73,15 @@ describe(specTitle('Manager.Payment'), () => {
 
   it('can add cash payment to a fee', () => {
     cy.get('#type_cash').click()
-    cy.get('#amount').click().type(creatPaymentMock.amount)
-    cy.get('#comment').click().type(creatPaymentMock.comment)
+
+    cy.get('#amount').as('amount')
+    cy.get('@amount').click()
+    cy.get('@amount').type(creatPaymentMock.amount)
+
+    cy.get('#comment').as('comment')
+    cy.get('@comment').click()
+    cy.get('@comment').type(creatPaymentMock.comment)
+
     cy.contains('Enregistrer').click()
     //cy.wait('@addPayments').then(paymentVerificationMock(creatPaymentMock))
     cy.contains('Élément créé')
@@ -84,8 +91,15 @@ describe(specTitle('Manager.Payment'), () => {
   })
   it('can add mobile money payment to a fee', () => {
     cy.get('#type_mobileMoney').click()
-    cy.get('#amount').click().type(creatPaymentMock.amount)
-    cy.get('#comment').click().type(creatPaymentMock.comment)
+
+    cy.get('#amount').as('amount')
+    cy.get('@amount').click()
+    cy.get('@amount').type(creatPaymentMock.amount)
+
+    cy.get('#comment').as('comment')
+    cy.get('@comment').click()
+    cy.get('@comment').type(creatPaymentMock.comment)
+
     cy.contains('Enregistrer').click()
     //cy.wait('@addPayments').then(paymentVerificationMock(creatPaymentMock))
     cy.contains('Élément créé')
@@ -94,7 +108,11 @@ describe(specTitle('Manager.Payment'), () => {
   })
   it("can't add mobile money payment to a fee without comment", () => {
     cy.get('#type_mobileMoney').click()
-    cy.get('#amount').click().type(creatPaymentMock.amount)
+
+    cy.get('#amount').as('amount')
+    cy.get('@amount').click()
+    cy.get('@amount').type(creatPaymentMock.amount)
+
     cy.contains('Enregistrer').click()
     cy.contains("Le formulaire n'est pas valide.")
     unmount()

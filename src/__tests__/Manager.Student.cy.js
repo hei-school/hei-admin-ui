@@ -85,7 +85,12 @@ describe(specTitle('Manager edit students'), () => {
     cy.contains('Taille : 1')
     cy.contains(studentNameToBeCheckedMock).click()
     cy.get('a[aria-label="Éditer"]').click() //éditer
-    cy.get('#first_name').click().clear().type(newFirstName)
+
+    cy.get('#first_name').as('first_name')
+    cy.get('@first_name').click()
+    cy.get('@first_name').clear()
+    cy.get('@first_name').type(newFirstName)
+
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [updatedStudent]).as('getUpdatedStudent')
     cy.contains('Enregistrer').click()
     cy.wait('@modifyStudent').then(requestIntersection => {
@@ -144,10 +149,17 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('#last_name').type(createStudent.last_name)
     cy.get('#sex_F').click()
     cy.get('#phone').type(createStudent.phone)
-    cy.get('#birth_date').click().type(createStudent.birth_date)
+
+    cy.get('#birth_date').as('birth_date')
+    cy.get('@birth_date').click()
+    cy.get('@birth_date').type(createStudent.birth_date)
+
     cy.get('.ra-input-address > .MuiInputBase-root').type(createStudent.address)
     cy.get('#email').type(createStudent.email)
-    cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime.slice(0, 10))
+
+    cy.get('#entrance_datetime').as('entrance_datetime')
+    cy.get('@entrance_datetime').click()
+    cy.get('@entrance_datetime').type(createStudent.entrance_datetime.slice(0, 10))
   })
   it('can create students without fees', () => {
     cy.intercept('GET', '/students?page=1&page_size=10', [createdStudent, ...studentsMock].slice(0, 10)).as('getStudents')
@@ -217,14 +229,26 @@ describe(specTitle('Manager creates students'), () => {
     cy.intercept('POST', `/students/${createdStudent.id}/fees`, createdFeesWithStudent)
     cy.get('#is_predefined_type').click()
     cy.get(`#manual_type_${feeTypeMock}`).click()
-    cy.get('#monthly_amount').click().clear().type(monthlyAmount)
 
-    cy.get('#months_number').click().clear().type(monthsNumber)
+    cy.get('#monthly_amount').as('monthly_amount')
+    cy.get('@monthly_amount').click()
+    cy.get('@monthly_amount').clear()
+    cy.get('@monthly_amount').type(monthlyAmount)
 
-    cy.get('#comment').click().type(comment)
+    cy.get('#months_number').as('months_number')
+    cy.get('@months_number').click()
+    cy.get('@months_number').clear()
+    cy.get('@months_number').type(monthsNumber)
+
+    cy.get('#comment').as('comment')
+    cy.get('@comment').click()
+    cy.get('@comment').type(comment)
 
     cy.get('#is_predefined_first_dueDate').click()
-    cy.get('#manual_first_duedate').click().type(feeDateToSearch)
+
+    cy.get('#manual_first_duedate').as('manual_first_duedate')
+    cy.get('@manual_first_duedate').click()
+    cy.get('@manual_first_duedate').type(feeDateToSearch)
 
     cy.intercept('GET', `/students/${createStudent.id}/fees?page=1&page_size=500`, createdFeesWithStudent).as('getFees')
     cy.intercept('POST', `students/${createdStudent.id}/fees`, [createdFeesForNewStudent]).as('createFees')
