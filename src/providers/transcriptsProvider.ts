@@ -8,7 +8,6 @@ const transcriptsProvider: HaDataProviderType = {
   },
 
   async getOne() {
-    //TODO: implements getOne provider. (tips) parse url
   },
 
   async saveOrUpdate() {}

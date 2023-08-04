@@ -1,5 +1,17 @@
 const claimsProvider = {
-  //TODO: update claims provider
+
+  getList(){
+
+  } ,
+
+  getOne(){
+
+  },
+
+  create(){
+
+  }
+
 }
 
 export default claimsProvider

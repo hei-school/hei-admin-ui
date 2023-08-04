@@ -1,5 +1,12 @@
 const transcriptsVersionsProvider = {
-  //TODO: implements all functions
+
+  getList(){
+
+  },
+
+  getOne(){
+
+  }
 }
 
 export default transcriptsVersionsProvider
