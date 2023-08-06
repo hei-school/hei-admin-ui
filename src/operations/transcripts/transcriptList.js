@@ -7,7 +7,6 @@ const TranscriptList = () => {
 
   const params = useParams()
   const studentId = params.studentId
-
   return (
   <List filters={profileFilters} pagination={<PrevNextPagination />} perPage={pageSize} resource={'transcripts'} filterDefaultValues={{ studentId: studentId }}>
     <Datagrid bulkActionButtons={false} rowClick='show'>
@@ -18,3 +17,5 @@ const TranscriptList = () => {
     </Datagrid>
   </List>
 )}
+
+export default TranscriptList
