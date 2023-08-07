@@ -39,12 +39,14 @@ const dataProvider: RaDataProviderType = {
   },
   async update(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate([params.data])
+    console.log([params.data])
     return { data: result[0] }
   },
   async create(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate(
       resourceType === 'students' || resourceType === 'teachers' ? toEnabledUsers([params.data]) : [params.data]
     )
+    console.log([params.data])
     return { data: result[0] }
   }
 }

@@ -23,7 +23,9 @@ const transcriptsProvider: HaDataProviderType = {
     return { ...result.data, id: raId }
   },
 
-  async saveOrUpdate() {}
+  async saveOrUpdate() {
+
+  }
 }
 
 export default transcriptsProvider

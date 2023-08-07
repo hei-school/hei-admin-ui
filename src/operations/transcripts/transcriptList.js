@@ -9,11 +9,12 @@ const TranscriptList = () => {
   const studentId = params.studentId
   return (
   <List filters={profileFilters} pagination={<PrevNextPagination />} perPage={pageSize} resource={'transcripts'} filterDefaultValues={{ studentId: studentId }}>
-    <Datagrid bulkActionButtons={false} rowClick='show'>
+    <Datagrid bulkActionButtons={false} rowClick={id => `/students/${studentId}/transcripts/${id}/show`}>
       <TextField source='semester' label='Semestre' />
       <TextField source='academic_year' label='Année académique' />
       <TextField source='creation_datetime' label='Date de création' />
       <EditButton />
+      <ShowButton />
     </Datagrid>
   </List>
 )}
