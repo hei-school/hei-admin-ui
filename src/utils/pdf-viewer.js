@@ -39,6 +39,7 @@ const PdfViewer = props => {
               <PdfPage
                 loading={<LoadingMessage />}
                 onLoadSuccess={stopLoading}
+                pageNumber={1}
                 width={pdfRef.current && pdfRef.current.clientWidth - 50}
               />
             </Pdf>
