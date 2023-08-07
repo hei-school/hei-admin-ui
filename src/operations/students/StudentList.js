@@ -8,6 +8,13 @@ import { pageSize, PrevNextPagination } from '../utils'
 
 const StudentList = () => {
   const role = authProvider.getCachedRole()
+
+  const LinkedText = ({studentId}) => {
+    return (
+      <Link to={`/students/${studentId}/transcripts/`}>Relevé de notes</Link>
+    )
+  }
+
   return (
     <List label='Étudiants' hasCreate={role === WhoamiRoleEnum.Manager} filters={profileFilters} perPage={pageSize} pagination={<PrevNextPagination />}>
       <Datagrid bulkActionButtons={false}>
@@ -21,5 +28,7 @@ const StudentList = () => {
     </List>
   )
 }
+
+
 
 export default StudentList
