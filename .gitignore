@@ -1,6 +1,15 @@
 node_modules/
 
+<<<<<<< HEAD
+<<<<<<< HEAD
+<<<<<<< HEAD
 #ide
+=======
+>>>>>>> 51bee49 (refactor: format)
+=======
+>>>>>>> 51bee49 (refactor: format)
+=======
+>>>>>>> 51bee49 (refactor: format)
 .idea
 .vscode
 

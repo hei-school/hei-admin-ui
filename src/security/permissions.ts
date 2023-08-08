@@ -13,16 +13,25 @@ export const getPermissions = (role: string) => {
       { action: updatePermissions, resource: 'teachers' },
 
       { action: createPermissions, resource: 'fees' },
-      { action: createPermissions, resource: 'payments' }
+      { action: createPermissions, resource: 'payments' },
+      { action: updatePermissions, resource: 'transcripts' },
+      { action: updatePermissions, resource: 'transcripts-versions' },
+      { action: updatePermissions, resource: 'claims' }
     ],
 
     TEACHER: [
       { action: 'read', resource: 'profile', record: { id: whoamiId } },
-      { action: ['list', 'read', 'show'], resource: 'students' }
+      { action: ['list', 'read', 'show'], resource: 'students' },
+      { action: ['list', 'read', 'show'], resource: 'transcripts' },
+      { action: ['list', 'read', 'show'], resource: 'transcripts-versions' },
+      { action: ['list', 'read', 'show'], resource: 'claims' }
     ],
 
     STUDENT: [
       { action: 'read', resource: 'profile', record: { id: whoamiId } },
+      { action: ['list', 'read', 'show'], resource: 'transcripts' },
+      { action: ['list', 'read', 'show'], resource: 'transcripts-versions' },
+      { action: ['list', 'read', 'show', 'create'], resource: 'claims' },
 
       { action: ['list', 'read', 'show'], resource: 'fees' },
       { action: ['list', 'read', 'show'], resource: 'payments' }
