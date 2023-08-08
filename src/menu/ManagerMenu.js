@@ -1,26 +1,27 @@
-import { MultiLevelMenu, MenuItemCategory, MenuItemList, MenuItemNode } from '@react-admin/ra-navigation'
+import { MenuItemCategory as Item } from '@react-admin/ra-navigation'
 import { CardContent, Typography } from '@mui/material'
 
-import { AccountCircle, School, People, Work, Warning } from '@mui/icons-material'
+import { AccountCircleOutlined, SchoolOutlined, PeopleOutlined, WorkOutlined, WarningOutlined } from '@mui/icons-material'
+import { HaMenuListContainer } from './HaMenu'
 
 export const ManagerMenu = () => (
-  <MultiLevelMenu variant='categories'>
-    <MenuItemCategory to='/profile' name='profile' label='Mon profil' icon={<AccountCircle />} />
+  <HaMenuListContainer variant='categories'>
+    <Item to='/profile' name='profile' label='Mon profil' icon={<AccountCircleOutlined />} />
 
-    <MenuItemCategory to='/teachers' name='teachers' label='Enseignants' icon={<Work />} />
+    <Item to='/teachers' name='teachers' label='Enseignants' icon={<WorkOutlined />} />
 
-    <MenuItemCategory name='students' label='Étudiants' icon={<School />}>
+    <Item name='students' label='Étudiants' icon={<SchoolOutlined />}>
       <CardContent>
         <Typography variant='h6' gutterBottom>
           Opérations sur les étudiants
         </Typography>
-        <MenuItemList>
-          <MenuItemNode to='/students' name='students' label='Liste des étudiants' icon={<People />} />
-          <MenuItemNode to='/fees' name='fees' label='Frais en retard' icon={<Warning />} />
-        </MenuItemList>
+        <HaMenuListContainer>
+          <Item to='/students' name='students' label='Liste des étudiants' icon={<PeopleOutlined />} />
+          <Item to='/fees' name='fees' label='Frais en retard' icon={<WarningOutlined />} />
+        </HaMenuListContainer>
       </CardContent>
-    </MenuItemCategory>
-  </MultiLevelMenu>
+    </Item>
+  </HaMenuListContainer>
 )
 
 export default ManagerMenu
