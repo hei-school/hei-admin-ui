@@ -11,7 +11,7 @@ import {
   teachersMock,
   whoamiManagerMock
 } from './mocks/responses'
-import { claims1Mock, claimsMock, transcript1Mock, transcriptsMock, transcriptsVersion1Mock, transcriptsVersionMock } from './mocks/responses/transcripts-api'
+import { claims1Mock, claimsMock, transcript1Mock, transcript2Mock, transcriptsMock, transcriptsVersion1Mock, transcriptsVersion2Mock, transcriptsVersionMock } from './mocks/responses/transcripts-api'
 import { manager1 } from './credentials'
 
 describe(specTitle('Transcripts'), () => {
@@ -74,17 +74,17 @@ describe(specTitle('Transcripts'), () => {
 
     cy.contains(transcript1Mock.semester)
     cy.contains(transcript1Mock.academic_year)
-    cy.contains(transcriptsVersion1Mock.created_by_user_role)
+    cy.contains(transcriptsVersion1Mock.id)
+    cy.contains(transcriptsVersion2Mock.id)
 
     cy.intercept('GET', `/students/${student1Mock.id}/transcripts/${transcript1Mock.id}/versions/${transcriptsVersion1Mock.id}/claims?page=1&page_size=10`, claimsMock).as('getClaims')
 
 
-    cy.get('.RaDatagrid-rowEven > :nth-child(5) > .MuiButtonBase-root').click()
+   // cy.get('.RaDatagrid-rowEven > :nth-child(5) > .MuiButtonBase-root').click()
 
-    cy.wait('@getClaims')
+   // cy.wait('@getClaims')
     
-    cy.contains(claims1Mock.reason)
-    cy.contains(claims1Mock.creation_datetime) 
+    cy.contains(claims1Mock.reason) 
     unmount()
   })
 })

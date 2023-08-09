@@ -1,50 +1,83 @@
-import { List, Show, SimpleShowLayout, TextField, useShowContext, Datagrid, EditButton, ShowButton } from 'react-admin'
+import {  Show, SimpleShowLayout, TextField, useShowContext, Datagrid, EditButton, ShowButton } from 'react-admin'
 import { useEffect, useState } from 'react'
 import { toApiIds } from '../../providers/transcriptsProvider'
+import { transcriptApi } from '../../providers/api'
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select from '@mui/material/Select';
+ 
+const TranscriptVersions = ({ versionId, setVersionId}) => {
+  const [ versions, setVersions ] = useState([])
+ const { record } = useShowContext()
+ const { studentId, transcriptId } = toApiIds(record.id)
+  
+useEffect(() => {
+const doFetch = async ()  => {
+  const versionsData = await transcriptApi().getTranscriptsVersions(studentId, transcriptId, 1, 10)
+  setVersions(versionsData.data)
+}
+doFetch()
+}, [studentId, transcriptId])
 
-// nb: notice how i separate this from the main Transcript details
-// not only i can access the ShowContext (which contains the record, ... everything)
-// but the responsibilities is also well defined
-const TranscriptVersions = () => {
-  const [versions, setVersions] = useState([])
+const handleChange = (e) => setVersionId(e.target.value)
+
+return (
+<>
+      <FormControl fullWidth>
+        <InputLabel id="demo-simple-select-label">Versions</InputLabel>
+        <Select
+          labelId="demo-simple-select-label"
+          id="demo-simple-select"
+          value={versionId}
+          label="Versions"
+          onChange={handleChange}
+        >
+          {versions && versions.map((record) => (
+              <MenuItem value={record.id}>{record.creation_datetime}</MenuItem>
+          ))}
+
+        </Select>
+      </FormControl>
+</>
+)
+}
+
+const Claims = ({versionsId}) => {
+  const [ claims, setClaims ] = useState([])
   const { record } = useShowContext()
   const { studentId, transcriptId } = toApiIds(record.id)
-  const [ dataToDisplay, setDataToDisplay ] = useState([])
 
- 
-
-  {
-    /*
-     useEffect(() => {
-    const doFetch = async ()  => {
-      const versionsData = await transcriptsVersionsProvider.getList(studentId, transcriptId, 1, 10)
-      setDataToDisplay( versionsData.map(async (version) => (
-        {
-          ...version,
-          claims : await claimsProvider.getList(studentId, transcriptId, version.id)
-        }
-      )) )  
+  useEffect(() => {
+    const doFetch = async () => {
+      const fetchClaims = await transcriptApi().getStudentTranscriptClaims(studentId, transcriptId, versionsId, 1, 10)
+      setClaims(fetchClaims.data)
     }
+
     doFetch()
-  }, [studentId, transcriptId])
-    */
-  }
+
+  }, [versionsId])
 
   return (
-    <List title={'Versions de relevé '} resource={'transcripts-versions'} filterDefaultValues={{studentId, transcriptId}}>
-       <Datagrid bulkActionButtons={false} rowClick={id => `/students/${studentId}/transcripts/${transcriptId}/versions/${id}`}>
-        <TextField source='creation_datetime' label='Date de création' />
-        <TextField source='ref' label='Référence' />
-        <TextField source='created_by_user_role' label='Créateur' />
-        <EditButton />
-        <ShowButton />
-      </Datagrid>   
-    </List>
+    <div>
+      {claims.length !== 0 && <div>
+        {claims.map((record) => (
+          <>
+            <span>{record.status}</span>
+            <span>{record.reason}</span>
+          </>
+        ))}
+      </div> }
+    </div>
   )
 }
 
-
 const TranscriptShow = () => {
+  
+  const { record } = useShowContext()
+  const { studentId, transcriptId } = toApiIds(record.id)
+  const [ versionId, setVersionId ] = useState("")
+
   return (
     <>
     <Show resource={'transcripts'} title={' '}>
@@ -53,8 +86,8 @@ const TranscriptShow = () => {
         <TextField source={'academic_year'} label={'Année académique'} />
         <TextField source={'creation_datetime'} label={'Date de création'} />
       </SimpleShowLayout>
-      <TranscriptVersions />
- 
+      <TranscriptVersions setVersionId={setVersionId} studentId={studentId} transcriptId={transcriptId} versionId={versionId} />
+      <Claims studentId={studentId} transcriptId={transcriptId} versionsId={versionId} />
     </Show>
 
     </>
