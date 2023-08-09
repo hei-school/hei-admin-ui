@@ -1,6 +1,8 @@
-import { SimpleForm, TextInput, DateInput, RadioButtonGroupInput, Edit } from 'react-admin'
+import { Form, RadioButtonGroupInput, Edit } from 'react-admin'
 
-import { SexRadioButton, EditToolBar, TurnsStringIntoDate } from '../utils'
+import { SexRadioButton, EditToolBar, TurnsStringIntoDate, Save, Input } from '../utils'
+
+import { Box } from '@mui/material'
 
 const StatusRadioButton = () => (
   <RadioButtonGroupInput
@@ -10,8 +12,17 @@ const StatusRadioButton = () => (
       { id: 'ENABLED', name: 'Actif·ve' },
       { id: 'DISABLED', name: 'Inactif·ve' }
     ]}
+    sx={{
+      '& .css-pqqtcc-MuiButtonBase-root-MuiRadio-root.Mui-checked': {
+        color: '#F8BF4F'
+      },
+      '& .css-pqqtcc-MuiButtonBase-root-MuiRadio-root': {
+        color: '#FDEAC4'
+      }
+    }}
   />
 )
+
 const transformUser = user => {
   let regex = /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\dZ/i // format 2023-02-28T21:00:00.00Z
   let regex2 = /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\Z/i // 2023-02-28T21:00:00Z
@@ -22,18 +33,28 @@ const transformUser = user => {
 
 const ProfileEdit = () => (
   <Edit transform={transformUser}>
-    <SimpleForm toolbar={<EditToolBar />}>
-      <TextInput source='ref' label='Référence' fullWidth={true} />
-      <TextInput source='first_name' label='Prénom·s' fullWidth={true} />
-      <TextInput source='last_name' label='Nom·s' fullWidth={true} />
-      <TextInput source='email' fullWidth={true} />
-      <TextInput multiline source='address' label='Adresse' fullWidth={true} />
-      <SexRadioButton />
-      <TextInput source='phone' label='Téléphone' fullWidth={true} />
-      <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
-      <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} />
-      <StatusRadioButton />
-    </SimpleForm>
+    <Form toolbar={<EditToolBar />}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', mt: '30px' }}>
+        <Box sx={{ ml: '150px' }}>
+          <Input source='last_name' placeholder='Nom(s)' />
+          <Input source='first_name' placeholder='Prénom(s)' />
+          <Input source='birth_date' label='' placeholder='Date de naissance' type='date' />
+          <Input multiline source='address' placeholder='Adresse' />
+          <SexRadioButton />
+        </Box>
+
+        <Box sx={{ ml: '70px' }}>
+          <Input source='email' placeholder='Email' />
+          <Input source='phone' placeholder='Téléphone' />
+          <Input source='entrance_datetime' label='' placeholder="Date d'entrée chez HEI" type='date' />
+          <Input source='ref' placeholder='Référence' />
+          <StatusRadioButton />
+          <Box>
+            <Save />
+          </Box>
+        </Box>
+      </Box>
+    </Form>
   </Edit>
 )
 

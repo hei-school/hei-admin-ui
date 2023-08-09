@@ -1,8 +1,10 @@
 import { useState } from 'react'
-import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
+import { Create, Form } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
-import { SexRadioButton, TurnsStringIntoDate } from '../utils'
+import { SexRadioButton, TurnsStringIntoDate, Input, Save, BoolInput } from '../utils'
 import { createFees } from './utils'
+
+import { Box } from '@mui/material'
 
 const StudentCreate = props => {
   const [feesConf, setFeesConf] = useState([
@@ -43,25 +45,33 @@ const StudentCreate = props => {
   }
   return (
     <Create title='Étudiants' transform={transformPayload} resource='students'>
-      <SimpleForm>
-        <TextInput source='ref' label='Référence' fullWidth={true} />
-        <TextInput source='first_name' label='Prénoms' fullWidth={true} />
-        <TextInput source='last_name' label='Nom' fullWidth={true} />
-        <SexRadioButton />
-        <TextInput source='phone' label='Téléphone' fullWidth={true} />
-        <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
-        <TextInput source='address' label='Adresse' fullWidth={true} multiline />
-        <TextInput source='email' label='Email' fullWidth={true} />
-        <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} />
-        <BooleanInput
-          label='Activer la création des frais'
-          name='can_create_fees'
-          source=''
-          defaultValue={defaultCanCreateFees}
-          onChange={({ target: { checked } }) => setCanCreateFees(checked)}
-        />
-        {canCreateFees && <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />}
-      </SimpleForm>
+      <Form>
+        <Box sx={{ display: 'flex', flexDirection: 'row', mt: '20px', ml: '50px' }}>
+          <Box>
+            <Input source='last_name' placeholder='Nom' />
+            <Input source='first_name' placeholder='Prénoms' />
+            <Input source='birth_date' placeholder='Date de naissance' type='date' />
+            <SexRadioButton />
+            <Input source='address' placeholder='Adresse' multiline />
+            <Input source='phone' placeholder='Téléphone' />
+            <Input source='email' placeholder='Email' />
+            <Save />
+          </Box>
+          <Box sx={{ ml: '50px' }}>
+            <Input source='ref' placeholder='Référence' />
+            <Input source='entrance_datetime' placeholder="Date d'entrée chez HEI" type='date' />
+            <BoolInput
+              label='Activer la création des frais'
+              name='can_create_fees'
+              source=''
+              defaultValue={defaultCanCreateFees}
+              onChange={({ target: { checked } }) => setCanCreateFees(checked)}
+            />
+
+            {canCreateFees && <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />}
+          </Box>
+        </Box>
+      </Form>
     </Create>
   )
 }

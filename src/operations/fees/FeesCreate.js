@@ -1,44 +1,33 @@
 import { useEffect, useState } from 'react'
-import {
-  BooleanInput,
-  Create,
-  DateInput,
-  maxValue,
-  minValue,
-  number,
-  RadioButtonGroupInput,
-  SelectInput,
-  required,
-  SimpleForm,
-  TextInput,
-  useDataProvider
-} from 'react-admin'
+import { Create, maxValue, minValue, number, RadioButtonGroupInput, SelectInput, required, SimpleForm, useDataProvider } from 'react-admin'
 import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
-import { commentRenderer } from '../utils'
+import { Input, commentRenderer, BoolInput } from '../utils'
+import { Box, Typography } from '@mui/material'
 
 const commonStyleSelect = {
-  width: {
-    xs: 75,
-    sm: 175,
-    md: 250,
-    lg: 300,
-    xl: 325
-  }
+  width: '50px',
+  marginRight: '10px'
 }
 
 const defaultIsPredefinedType = true
-const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
-  <SelectInput
-    {...props}
-    source='predefined_type'
-    label='Type prédéfini'
-    choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id][0].name }))}
-    onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
-    sx={commonStyleSelect}
-  />
-)
+const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => {
+  return (
+    <Box>
+      <Typography sx={{ fontWeight: 'bold' }}>Type</Typography>
+      <SelectInput
+        {...props}
+        source='predefined_type'
+        label=''
+        variant='outlined'
+        choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id][0].name }))}
+        onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
+        sx={commonStyleSelect}
+      />
+    </Box>
+  )
+}
 
 const ManualFeeTypeRadioButton = props => (
   <RadioButtonGroupInput
@@ -53,7 +42,8 @@ const PredefinedFirstDueDateRadioButton = props => (
   <SelectInput
     {...props}
     source='predefined_first_dueDate'
-    label='Première date limite prédéfinie'
+    label=''
+    variant='outlined'
     choices={Object.keys(predefinedFirstDueDates).map(id => ({ id: id, name: predefinedFirstDueDates[id].name }))}
     sx={commonStyleSelect}
   />
@@ -67,29 +57,41 @@ export const FeeSimpleFormContent = props => {
   passIsPredefinedType(isPredefinedType)
   return (
     <>
-      <BooleanInput
-        source='is_predefined_type'
-        label='Type prédéfini ?'
-        name='is_predefined_type'
-        defaultValue={defaultIsPredefinedType}
-        onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
-      />
-      {isPredefinedType ? <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} /> : <ManualFeeTypeRadioButton validate={required()} />}
-      <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
+      <Box sx={{ mt: '5px' }}>
+        <BoolInput
+          source='is_predefined_type'
+          label='Type prédéfini ?'
+          name='is_predefined_type'
+          defaultValue={defaultIsPredefinedType}
+          onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
+        />
+      </Box>
 
-      <BooleanInput
-        source='is_predefined_first_dueDate'
-        label='Première date limite prédéfinie ?'
-        name='is_predefined_first_dueDate'
-        defaultValue={defaultIsPredefinedFirstDueDate}
-        fullWidth={true}
-        onChange={({ target: { checked } }) => setIsPredefinedFirstDueDate(checked)}
-      />
-      {isPredefinedFirstDueDate ? (
-        <PredefinedFirstDueDateRadioButton validate={required()} />
-      ) : (
-        <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
-      )}
+      <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+        {isPredefinedType ? (
+          <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} />
+        ) : (
+          <ManualFeeTypeRadioButton validate={required()} />
+        )}
+        <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
+      </Box>
+
+      <Box sx={{ display: 'flex', flexDirection: 'row', mt: '5px' }}>
+        <BoolInput
+          source='is_predefined_first_dueDate'
+          label='Première date limite prédéfinie'
+          name='is_predefined_first_dueDate'
+          defaultValue={defaultIsPredefinedFirstDueDate}
+          onChange={({ target: { checked } }) => setIsPredefinedFirstDueDate(checked)}
+          sx={{ mt: '10px' }}
+        />
+
+        {isPredefinedFirstDueDate ? (
+          <PredefinedFirstDueDateRadioButton validate={required()} />
+        ) : (
+          <Input source='manual_first_duedate' name='manual_first_duedate' placeholder='Première date limite manuelle' validate={required()} type='date' />
+        )}
+      </Box>
     </>
   )
 }
@@ -183,23 +185,15 @@ const FeesConfInput = ({ isPredefinedType, feesConf }) => {
   const validateMonthsNumber = [required(), number(), minValue(1), maxValue(12)]
   return (
     <div>
-      <TextInput
+      <Input
         source='monthly_amount'
         name='monthly_amount'
-        label='Montant de la mensualité'
-        fullWidth={true}
+        placeholder='Montant de la mensualité'
         disabled={isPredefinedType}
         validate={validateMonthlyAmount}
       />
-      <TextInput
-        source='months_number'
-        name='months_number'
-        label='Nombre de mensualités'
-        fullWidth={true}
-        disabled={isPredefinedType}
-        validate={validateMonthsNumber}
-      />
-      <TextInput source='comment' name='comment' label='Commentaire' fullWidth={true} disabled={isPredefinedType} />
+      <Input source='months_number' name='months_number' placeholder='Nombre de mensualités' disabled={isPredefinedType} validate={validateMonthsNumber} />
+      <Input source='comment' name='comment' placeholder='Commentaire' disabled={isPredefinedType} />
     </div>
   )
 }

@@ -36,7 +36,18 @@ export const mainTheme = createTheme({
           }
         }
       }
-    }
+    },
+    RaCreate: {
+      styleOverrides: {
+        root:{
+           '& .RaCreate-card':{
+            height:'100vh',
+            boxShadow:'none',
+            border:'1px solid #f7f7f7'
+           }
+        }
+      }
+    },
   }
   //shadows: Array(25).fill('none')
 })
