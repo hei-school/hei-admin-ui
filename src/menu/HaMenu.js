@@ -51,7 +51,7 @@ export const HaMenuListContainer = ({ children }) => (
         padding: '0 !important',
         bgcolor: 'transparent',
         '& span': {
-          fontWeight: '700',
+          fontWeight: '500',
           fontSize: '14px'
         }
       },
