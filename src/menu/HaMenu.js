@@ -8,21 +8,28 @@ import { MultiLevelMenu as RaMenu, MenuItemCategory as Item } from '@react-admin
 import { LogoutOutlined } from '@mui/icons-material'
 import { Color } from '../utils/color'
 
-const Logout = () => (
-  <IconButton
-    onClick={authProvider.logout}
-    size='small'
-    title='Se déconnecter'
-    sx={{
-      borderRadius: '4px',
-      color: Color['500'],
-      bgcolor: Color['100'],
-      '&:hover': { bgcolor: Color['100'] }
-    }}
-  >
-    <LogoutOutlined />
-  </IconButton>
-)
+const Logout = () => {
+  const doLogout = async () => {
+    await authProvider.logout()
+    window.location.reload()
+  }
+
+  return (
+    <IconButton
+      onClick={doLogout}
+      size='small'
+      title='Se déconnecter'
+      sx={{
+        borderRadius: '4px',
+        color: Color['500'],
+        bgcolor: Color['100'],
+        '&:hover': { bgcolor: Color['100'] }
+      }}
+    >
+      <LogoutOutlined />
+    </IconButton>
+  )
+}
 
 const HaMenuHeader = () => (
   <Stack direction='row' alignItems='center' gap={1.5}>
