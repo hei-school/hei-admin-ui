@@ -1,21 +1,18 @@
+import { HaDataProviderType } from './HaDataProviderType'
 import { transcriptApi } from './api'
 
-const claimsProvider = {
-
-  async getList(studentId: string, transcriptId: string, versionId: string, page: number | undefined, pageSize: number | undefined){
-    const result = await transcriptApi().getStudentTranscriptClaims(studentId, transcriptId, versionId, page, pageSize)
+const claimsProvider: HaDataProviderType = {
+  async getList(page, perPage, filter) {
+    const { studentId, transcriptId, versionId } = filter
+    const result = await transcriptApi().getStudentTranscriptClaims(studentId, transcriptId, versionId, page, perPage)
     return result.data
     },
 
-    async getOne(studentId: string, transcriptId: string, versionId: string, claimId: string){
-    const result = await transcriptApi().getStudentClaimOfTranscriptVersion(studentId, transcriptId, versionId, claimId)
-    return result.data
-    },
+  async getOne(studentId) {
+   
+  },
 
-  create(){
-
-  }
-
+ async saveOrUpdate() {}
 }
 
 export default claimsProvider
