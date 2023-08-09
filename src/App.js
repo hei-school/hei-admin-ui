@@ -22,9 +22,6 @@ import studentGrades from './operations/studentGrades'
 import MyLayout from './HaLayout'
 import HaLoginPage from './security/LoginPage'
 import { mainTheme } from './haTheme'
-import transcripts from './operations/transcripts'
-import transcriptsVersions from './operations/transcriptsVersions'
-import claims from './operations/claims'
 
 const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
 
