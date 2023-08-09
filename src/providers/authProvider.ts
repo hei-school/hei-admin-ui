@@ -8,7 +8,7 @@ import awsExports from '../aws-exports'
 
 import { Configuration, SecurityApi, Whoami } from '../gen/haClient'
 
-import { AxiosResponse } from 'axios'
+import Axios, { AxiosResponse } from 'axios'
 
 Amplify.configure(awsExports)
 
@@ -21,9 +21,11 @@ const paramTemporaryPassword = 'p'
 const paramLocalAmplifyBoolean = 'amplify-signin-with-hostedUI'
 
 const whoami = async (): Promise<Whoami> => {
-  const session = await Auth.currentSession()
-  const conf = new Configuration()
-  conf.accessToken = session.getIdToken().getJwtToken()
+  // const session = await Auth.currentSession()
+  // const conf = new Configuration()
+  const loginUser = sessionStorage.getItem('login_user') ?? ''
+  const conf = JSON.parse(loginUser)
+  // conf.accessToken = session.getIdToken().getJwtToken()
   const securityApi = new SecurityApi(conf)
   return securityApi
     .whoami()
@@ -59,20 +61,23 @@ const authProvider = {
   // https://marmelab.com/react-admin/Authentication.html#anatomy-of-an-authprovider
 
   login: async ({ username, password, clientMetadata }: Record<string, unknown>): Promise<void> => {
-    const user = await Auth.signIn(username as string, password as string, clientMetadata as ClientMetaData)
-    if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
-      const encodedUsername = encodeURIComponent(toBase64(username as string))
-      const encodedPassword = encodeURIComponent(toBase64(password as string))
-      window.location.replace(`/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`)
-      return
-    }
+    // const user = await Auth.signIn(username as string, password as string, clientMetadata as ClientMetaData)
+    const baseUrl = process.env.REACT_APP_API_URL
+    const user = await Axios.post(`${baseUrl}/login`, { username, password })
+    sessionStorage.setItem('login_user', JSON.stringify(user.data))
+    // if (user.challengeName === 'NEW_PASSWORD_REQUIRED') {
+    //   const encodedUsername = encodeURIComponent(toBase64(username as string))
+    //   const encodedPassword = encodeURIComponent(toBase64(password as string))
+    //   window.location.replace(`/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`)
+    //   return
+    // }
     await whoami().then(whoami => cacheWhoami(whoami))
   },
 
   logout: async (): Promise<void> => {
     localStorage.clear() // Amplify stores data in localStorage
     sessionStorage.clear()
-    await Auth.signOut()
+    // await Auth.signOut()
   },
 
   checkAuth: async (): Promise<void> => {
