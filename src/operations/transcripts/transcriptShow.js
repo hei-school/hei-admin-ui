@@ -1,13 +1,6 @@
 import { List, Show, SimpleShowLayout, TextField, useShowContext, Datagrid, EditButton, ShowButton } from 'react-admin'
 import { useEffect, useState } from 'react'
-import transcriptsVersionsProvider from '../../providers/transcriptsVersionsProvider'
 import { toApiIds } from '../../providers/transcriptsProvider'
-import claimsProvider from '../../providers/claimsProvider'
-
-  const [ versions, setVersions ] = useState([])
-  const [ claims, setClaims ] = useState([])
-
-  const { studentId, transcriptId } = useParams()
 
 // nb: notice how i separate this from the main Transcript details
 // not only i can access the ShowContext (which contains the record, ... everything)
@@ -23,7 +16,7 @@ const TranscriptVersions = () => {
   {
     /*
      useEffect(() => {
-    const doFetch = async () => {
+    const doFetch = async ()  => {
       const versionsData = await transcriptsVersionsProvider.getList(studentId, transcriptId, 1, 10)
       setDataToDisplay( versionsData.map(async (version) => (
         {

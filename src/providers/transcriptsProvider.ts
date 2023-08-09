@@ -23,7 +23,10 @@ const transcriptsProvider: HaDataProviderType = {
     return { ...result.data, id: raId }
   },
 
-  async saveOrUpdate() {
+  async saveOrUpdate(resources: Array<any>) {
+    const transcripts = resources[0]
+    const { student_id, id } = transcripts
+    const result = await transcriptApi().crudStudentTranscripts(student_id, id)
 
   }
 }
