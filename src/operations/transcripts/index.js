@@ -1,9 +1,9 @@
-import { EditGuesser, ListGuesser, ShowGuesser } from 'react-admin'
+import TranscriptList from './transcriptList'
+import TranscriptShow from './transcriptShow'
 
 const transcripts = {
-  list: ListGuesser,
-  show: ShowGuesser,
-  edit: EditGuesser
+  list: TranscriptList,
+  show: TranscriptShow
 }
 
 export default transcripts

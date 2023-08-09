@@ -5,6 +5,9 @@ import studentProvider from './studentProvider'
 import feeProvider from './feeProvider'
 import paymentProvider from './paymentProvider'
 import teacherProvider from './teacherProvider'
+import transcriptsProvider from './transcriptsProvider'
+import transcriptsVersionsProvider from './transcriptsVersionsProvider'
+import claimsProvider from './claimsProvider'
 
 export const maxPageSize = 500
 
@@ -14,9 +17,12 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'fees') return feeProvider
   if (resourceType === 'payments') return paymentProvider
   if (resourceType === 'teachers') return teacherProvider
+  if (resourceType === 'transcripts') return transcriptsProvider
+  if (resourceType === 'transcripts-versions') return transcriptsVersionsProvider
+  if (resourceType === 'claims') return claimsProvider
   throw new Error('Unexpected resourceType: ' + resourceType)
 }
-
+    
 const dataProvider: RaDataProviderType = {
   async getList(resourceType: string, params: any) {
     const pagination = params.pagination
@@ -37,12 +43,14 @@ const dataProvider: RaDataProviderType = {
   },
   async update(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate([params.data])
+    console.log([params.data])
     return { data: result[0] }
   },
   async create(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate(
       resourceType === 'students' || resourceType === 'teachers' ? toEnabledUsers([params.data]) : [params.data]
     )
+    console.log([params.data])
     return { data: result[0] }
   }
 }
