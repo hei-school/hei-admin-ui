@@ -1,12 +1,7 @@
 const transcriptsVersionsProvider = {
+  getList() {},
 
-  getList(){
-
-  },
-
-  getOne(){
-
-  }
+  getOne() {}
 }
 
 export default transcriptsVersionsProvider

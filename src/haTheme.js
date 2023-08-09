@@ -33,6 +33,9 @@ export const mainTheme = createTheme({
         root: {
           '& .RaLayout-appFrame': {
             marginTop: 0
+          },
+          '& .RaLayout-content': {
+            gap: 5
           }
         }
       }

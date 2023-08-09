@@ -7,8 +7,7 @@ const transcriptsProvider: HaDataProviderType = {
     return result.data
   },
 
-  async getOne() {
-  },
+  async getOne() {},
 
   async saveOrUpdate() {}
 }

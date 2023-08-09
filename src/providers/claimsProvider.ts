@@ -1,17 +1,9 @@
 const claimsProvider = {
+  getList() {},
 
-  getList(){
+  getOne() {},
 
-  } ,
-
-  getOne(){
-
-  },
-
-  create(){
-
-  }
-
+  create() {}
 }
 
 export default claimsProvider
