@@ -1,5 +1,5 @@
 import { Error } from '@mui/icons-material';
-import { Box, Card, CardContent, CardHeader, LinearProgress, Stack, Typography } from '@mui/material';
+import { Box, Card, CardContent, CardHeader, LinearProgress, Typography } from '@mui/material';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Document as Pdf, Page as PdfPage } from 'react-pdf/dist/esm/entry.webpack';
 
@@ -35,6 +35,7 @@ const PdfViewer = props => {
               error={onLoadError || <ErrorHandling errorMessage={loadErrorMessage} />}
               loading={<LoadingMessage />}
               file={!isPending ? url : null}
+              renderMode="canvas"
             >
               <PdfPage
                 loading={<LoadingMessage />}
