@@ -98,6 +98,7 @@ const TranscriptClaimList = () => {
   const getTranscriptClaims = useCallback(async () => {
     const res = await transcriptApi().getStudentTranscriptClaims(studentId, transcriptId, 'versionId')
     setClaims(res.data)
+    console.info('claims', res.data);
   }, [setClaims, studentId, transcriptId])
 
   useEffect(() => {
@@ -152,11 +153,7 @@ const TranscriptClaimList = () => {
       </Box>
 
       <Box sx={{ flex: 1, overflowY: 'scroll', maxHeight: '25rem' }}>
-        {claims.map(claim => {
-          return (
-            <TranscriptClaim key={claim.id} claim={claim} />
-          )
-        })}
+        {claims.map(claim => <TranscriptClaim key={claim.id} claim={claim} />)}
       </Box>
     </Stack>
   )

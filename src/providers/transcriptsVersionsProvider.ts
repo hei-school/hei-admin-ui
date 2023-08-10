@@ -2,7 +2,8 @@ import { HaDataProviderType } from './HaDataProviderType'
 import { transcriptApi } from './api'
 
 const raSeparator = '--'
-const toRaId = (studentId: string | undefined, transcriptId: string | undefined, versionId : string | undefined): string => studentId + raSeparator + transcriptId + raSeparator + versionId
+const toRaId = (studentId: string | undefined, transcriptId: string | undefined, versionId: string | undefined): string =>
+  studentId + raSeparator + transcriptId + raSeparator + versionId
 
 export const toApi3Ids = (raId: string) => {
   const ids = raId.split(raSeparator)
@@ -23,10 +24,10 @@ const transcriptsVersionsProvider: HaDataProviderType = {
     const { studentId, transcriptId, versionId } = toApi3Ids(raId)
 
     const result = await transcriptApi().getStudentTranscriptByVersion(studentId, transcriptId, versionId)
-    return {...result.data, id: raId}
+    return { ...result.data, id: raId }
   },
 
- async saveOrUpdate() { }
+  async saveOrUpdate() {}
 }
 
 export default transcriptsVersionsProvider

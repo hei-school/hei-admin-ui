@@ -22,7 +22,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'claims') return claimsProvider
   throw new Error('Unexpected resourceType: ' + resourceType)
 }
-    
+
 const dataProvider: RaDataProviderType = {
   async getList(resourceType: string, params: any) {
     const pagination = params.pagination

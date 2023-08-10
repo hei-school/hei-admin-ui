@@ -6,13 +6,11 @@ const claimsProvider: HaDataProviderType = {
     const { studentId, transcriptId, versionId } = filter
     const result = await transcriptApi().getStudentTranscriptClaims(studentId, transcriptId, versionId, page, perPage)
     return result.data
-    },
-
-  async getOne(studentId) {
-   
   },
 
- async saveOrUpdate() {}
+  async getOne(studentId) {},
+
+  async saveOrUpdate() {}
 }
 
 export default claimsProvider

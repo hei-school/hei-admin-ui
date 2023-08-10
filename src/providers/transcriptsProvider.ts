@@ -13,12 +13,13 @@ const transcriptsProvider: HaDataProviderType = {
   async getList(page, perPage, filter) {
     const result = await transcriptApi().getStudentTranscripts(filter.studentId, page, perPage)
     return result.data.map(transcript => ({
-      ...transcript, id: toRaId(transcript.student_id, transcript.id )
-    }) )
+      ...transcript,
+      id: toRaId(transcript.student_id, transcript.id)
+    }))
   },
 
   async getOne(raId) {
-    const { studentId, transcriptId } = toApiIds(raId);
+    const { studentId, transcriptId } = toApiIds(raId)
     const result = await transcriptApi().getStudentTranscriptById(studentId, transcriptId)
     return { ...result.data, id: raId }
   },
@@ -27,7 +28,7 @@ const transcriptsProvider: HaDataProviderType = {
     const transcripts = resources[0]
     const { student_id, id } = transcripts
     const result = await transcriptApi().crudStudentTranscripts(student_id, id)
-
+    return result.data
   }
 }
 
