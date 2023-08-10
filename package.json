@@ -13,7 +13,8 @@
     "react-dom": "^18.2.0",
     "react-pdf": "^5.7.2",
     "react-router-redux": "^4.0.8",
-    "typeface-quicksand": "^1.1.13"
+    "typeface-quicksand": "^1.1.13",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.9.12",
