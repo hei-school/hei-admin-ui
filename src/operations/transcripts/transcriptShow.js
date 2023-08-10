@@ -6,16 +6,21 @@ import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
 import FormControl from '@mui/material/FormControl';
 import Select from '@mui/material/Select';
- 
+import Grid from '@mui/material/Grid';
+import PdfViewer from '../../utils/pdf-viewer';
+import pdf from './apache.pdf' 
+
 const TranscriptVersions = ({ versionId, setVersionId}) => {
   const [ versions, setVersions ] = useState([])
- const { record } = useShowContext()
+  const { record } = useShowContext() 
  const { studentId, transcriptId } = toApiIds(record.id)
-  
+
 useEffect(() => {
 const doFetch = async ()  => {
+  console.log(studentId, " record");
   const versionsData = await transcriptApi().getTranscriptsVersions(studentId, transcriptId, 1, 10)
   setVersions(versionsData.data)
+  console.log('student id', studentId, ' transcript id', transcriptId)
 }
 doFetch()
 }, [studentId, transcriptId])
@@ -52,6 +57,7 @@ const Claims = ({versionsId}) => {
     const doFetch = async () => {
       const fetchClaims = await transcriptApi().getStudentTranscriptClaims(studentId, transcriptId, versionsId, 1, 10)
       setClaims(fetchClaims.data)
+      console.log('version Id ', versionsId)
     }
 
     doFetch()
@@ -74,20 +80,32 @@ const Claims = ({versionsId}) => {
 
 const TranscriptShow = () => {
   
-  const { record } = useShowContext()
-  const { studentId, transcriptId } = toApiIds(record.id)
   const [ versionId, setVersionId ] = useState("")
 
   return (
     <>
     <Show resource={'transcripts'} title={' '}>
-      <SimpleShowLayout>
+    <SimpleShowLayout>
+
+    <Grid container spacing={2}>
+      <Grid item xs={3}>
         <TextField source={'semester'} label={'Semestre'} />
+      </Grid>
+      <Grid item xs={3}>
         <TextField source={'academic_year'} label={'Année académique'} />
+      </Grid>
+      <Grid item xs={3}>
         <TextField source={'creation_datetime'} label={'Date de création'} />
+      </Grid>
+      <Grid item xs={3}>
+      <TranscriptVersions setVersionId={setVersionId} versionId={versionId} />
+
+      </Grid>
+    </Grid>
       </SimpleShowLayout>
-      <TranscriptVersions setVersionId={setVersionId} studentId={studentId} transcriptId={transcriptId} versionId={versionId} />
-      <Claims studentId={studentId} transcriptId={transcriptId} versionsId={versionId} />
+      <TranscriptView versionId={versionId} />
+
+      <Claims versionsId={versionId} />
     </Show>
 
     </>
@@ -95,5 +113,26 @@ const TranscriptShow = () => {
   )
 }
 
+
+const TranscriptView = ({versionId}) => {
+  
+  const [ pdfUrl, setPdfUrl ] = useState("")
+  const { record } = useShowContext()
+  const { studentId, transcriptId } = toApiIds(record.id)
+
+  useEffect(() => {
+    const fetch = async () => {
+        const pdfBody = await transcriptApi().getStudentTranscriptVersionPdf(studentId, transcriptId, "versionId")
+        console.log( pdfBody,   " pdfBody.data");
+        const blob = await new Blob([pdfBody.data])
+        setPdfUrl(URL.createObjectURL(blob))
+    }
+    fetch()
+  }, [])
+  
+  return (
+    <PdfViewer url={pdfUrl} />
+  )
+}
 
 export default TranscriptShow
