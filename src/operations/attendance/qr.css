@@ -1,0 +1,22 @@
+.qr-scanner section div{
+    position: relative;
+    box-shadow: white 0px 0px 0px 2px inset!important;
+}
+
+.qr-scanner section div::after{
+    content: '';
+    display: block;
+    width: 100%;
+    background-color: white;
+    height: 2px;
+    position: absolute;
+    top: 5px;
+    z-index: 2;
+    left: 0px;
+    animation: upToDown 1500ms ease-in-out infinite alternate;
+}
+
+@keyframes upToDown{
+   0%{top: 0px} 
+   100%{top: 100%}
+}

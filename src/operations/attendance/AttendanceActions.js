@@ -1,8 +1,8 @@
 import React from 'react'
 import { Box, Button } from '@mui/material'
-import { tryToSendAttendance } from './utils'
+import { ATTENDANCE_TYPE, tryToSendAttendance } from './utils'
 
-function AttendanceActions({ selectedIds, sx = {}, disable = false }) {
+function AttendanceActions({ selectedIds = [], sx = {} }) {
   const submitActions = type => {
     const attendanceData = {
       type,
@@ -14,10 +14,18 @@ function AttendanceActions({ selectedIds, sx = {}, disable = false }) {
 
   return (
     <Box component='div' sx={{ display: 'flex', alignItems: 'center', gap: 1, ...sx }}>
-      <Button disabled={disable} variant='contained' color='primary' onClick={() => submitActions('arriver')}>
+      <Button
+        variant='contained'
+        color='primary'
+        onClick={() => submitActions(ATTENDANCE_TYPE.CHECK_IN)}
+      >
         Arriver
       </Button>
-      <Button disabled={disable} variant='contained' color='warning' onClick={() => submitActions('sortie')}>
+      <Button
+        variant='contained'
+        color='warning'
+        onClick={() => submitActions(ATTENDANCE_TYPE.CHECK_OUT)}
+      >
         Sortie
       </Button>
     </Box>

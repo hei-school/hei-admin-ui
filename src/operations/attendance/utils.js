@@ -15,3 +15,5 @@ export const tryToSendAttendance = newData => {
   //if there is an connection error on sending the attendance
   addAttendance(newData)
 }
+
+export const ATTENDANCE_TYPE = { CHECK_IN: 'arriver', CHECK_OUT: 'sortie'}
