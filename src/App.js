@@ -18,6 +18,7 @@ import attendance from './operations/attendance'
 
 import fees from './operations/fees'
 import payments from './operations/payments'
+import attendance from './operations/attendance'
 
 import MyLayout from './HaLayout'
 import HaLoginPage from './security/LoginPage'
@@ -60,8 +61,8 @@ const App = () => (
       <Route exact path='/fees/:feeId/payments' element={<payments.list />} />
       <Route exact path='/fees/:feeId/payments/create' element={<payments.create />} />
       <Route exact path='/docs/hei-docs' element={<docs.list title='Documents reliés à HEI' resource='hei-docs' />} />
+      <Route exact path='/attendance/scan' element={<attendance.scan title='Présence' />} />
+      <Route exact path='/attendance/create' element={<attendance.create title='Présence' />} />
     </CustomRoutes>
   </Admin>
 )
-
-export default App
