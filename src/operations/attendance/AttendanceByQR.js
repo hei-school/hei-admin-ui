@@ -13,7 +13,7 @@ const QRContainerStyle = {
   flexDirection: 'column',
   alignItems: 'center',
   justifyContent: 'center',
-  position: 'relative',
+  position: 'relative'
 }
 
 const QRBoxStyle = {
@@ -22,12 +22,12 @@ const QRBoxStyle = {
   display: 'flex',
   alignItems: 'center',
   flexDirection: 'column',
-  justifyContent: 'space-between',
+  justifyContent: 'end',
   py: 2,
   mb: 2,
   position: 'absolute',
   top: 0,
-  left: 0,
+  left: 0
 }
 
 //should work here
@@ -35,14 +35,14 @@ function AttendanceByQR() {
   const [scannerResult, setScannerResult] = useState('')
   const [notShowActions, setNotShowActions] = useState(true)
 
-  const scanSuccess = (data) => {
-    if (data){
+  const scanSuccess = data => {
+    if (data) {
       setScannerResult(data)
       setNotShowActions(false)
-    } 
+    }
   }
 
-  const scanFailed = (error) => {
+  const scanFailed = error => {
     console.log(error)
   }
 
@@ -53,21 +53,15 @@ function AttendanceByQR() {
         onScan={scanSuccess}
         onError={scanFailed}
         facingMode={'environment'}
+        id='qr-scanner'
         style={{
           width: '100%',
-          height: '100%',
+          height: '100%'
         }}
       />
       <Box sx={QRBoxStyle}>
-        <Typography sx={{ fontWeight: 'bold', color: 'rgb(255,255,255)' }}>
-          Veuillez scanner votre carte
-        </Typography>
-        <Box>
-          <Typography sx={{ m: 2, textAlign:'center'}}>
-            {scannerResult ? `STD trouver: ${scannerResult}` : 'STD Pas trouver'}
-          </Typography>
-          <AttendanceActions sx={{ gap: 3 }} selectedIds={[]} disable={notShowActions} />
-        </Box>
+        <Typography sx={{ mt: 2,fontWeight: 'bold', textAlign: 'center' }}>{scannerResult ? `STD trouver: ${scannerResult}` : 'STD Pas trouver'}</Typography>
+        <AttendanceActions sx={{ gap: 3 }} selectedIds={[]} disable={notShowActions} />
       </Box>
     </Box>
   )
