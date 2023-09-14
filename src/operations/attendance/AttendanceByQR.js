@@ -1,13 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Box, Typography } from '@mui/material'
 import AttendanceActions from './AttendanceActions'
 import QrReader from 'modern-react-qr-reader'
-
-// const QRCenter = {
-//   border: 'solid 1px white',
-//   width: '200px',
-//   height: '200px'
-// }
 
 const QRContainerStyle = {
   maxWidth: '500px',
@@ -66,11 +60,11 @@ function AttendanceByQR() {
       />
       <Box sx={QRBoxStyle}>
         <Typography sx={{ fontWeight: 'bold', color: 'rgb(255,255,255)' }}>
-          Veuiller scanner la carte
+          Veuillez scanner votre carte
         </Typography>
         <Box>
-          <Typography sx={{mb: 2}}>
-            {scannerResult ? `STD : ${scannerResult}` : 'STD Pas trouver'}
+          <Typography sx={{ m: 2, textAlign:'center'}}>
+            {scannerResult ? `STD trouver: ${scannerResult}` : 'STD Pas trouver'}
           </Typography>
           <AttendanceActions sx={{ gap: 3 }} selectedIds={[]} disable={notShowActions} />
         </Box>
