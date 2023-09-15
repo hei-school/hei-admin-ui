@@ -9,6 +9,7 @@
     "aws-amplify": "^4.3.26",
     "mime-db": "^1.52.0",
     "papaparse": "^5.4.1",
+    "html5-qrcode": "^2.3.8",
     "ra-language-french": "^4.2.0",
     "react": "^18.2.0",
     "react-admin": "^4.2.0",

@@ -17,3 +17,4 @@ export const tryToSendAttendance = newData => {
 }
 
 export const ATTENDANCE_TYPE = { CHECK_IN: 'arriver', CHECK_OUT: 'sortie'}
+export const SCAN_STATUS = { SUCCESS: 'SUCCESS', NO_SCAN: 'NO_SCAN' }

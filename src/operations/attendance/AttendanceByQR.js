@@ -1,10 +1,8 @@
-import React, { useState } from 'react'
-import { Box, Typography, FormControl, RadioGroup, Radio, FormControlLabel } from '@mui/material'
-import QrReader from 'modern-react-qr-reader'
-import './qr.css'
-import { ATTENDANCE_TYPE } from './utils'
-
-const SCAN_STATUS = { ERROR: 'ERROR', SUCCESS: 'SUCCESS', NO_SCAN: 'NO_SCAN' }
+import React, { useState, useEffect } from 'react'
+import { Box, FormControl, RadioGroup, Radio, FormControlLabel } from '@mui/material'
+import { ATTENDANCE_TYPE, SCAN_STATUS } from './utils'
+import AttendanceStatus from './AttendanceStatus'
+import { Html5QrcodeScanner, Html5QrcodeScanType } from 'html5-qrcode'
 
 const QRContainerStyle = {
   maxWidth: '500px',
@@ -32,59 +30,60 @@ const QRBoxStyle = {
 }
 
 function AttendanceByQR() {
-  const [scanInfo, setScanInfo] = useState({
-    type: ATTENDANCE_TYPE.CHECK_IN,
+  const [attendanceType, setAttendanceType]= useState(ATTENDANCE_TYPE.CHECK_IN)
+  const [scanInfo, setScanInfo]= useState({
     status: SCAN_STATUS.NO_SCAN,
-    data: '',
-    havePending: false
+    data: ''
   })
 
-  const removeStatus = () => {
-    setTimeout(() => setScanInfo({ ...scanInfo, status: SCAN_STATUS.NO_SCAN, havePending: false }), 3000)
-  }
+  useEffect(()=>{
+    const removeStatus = () => {
+      setTimeout(() => {
+        setScanInfo({...scanInfo,status: SCAN_STATUS.NO_SCAN})
+        scanner.resume()
+      },1500)
+    }
 
-  const scanSuccess = data => {
-    if (!scanInfo.havePending && data && data !== scanInfo.data) {
-      setScanInfo({ ...scanInfo, data, status: SCAN_STATUS.SUCCESS, havePending: true })
-
-      const attendanceData = {
-        type: scanInfo.type,
-        students: data,
-        time: new Date().toISOString()
-      }
-      console.log('things that will be send', attendanceData)
+    const scanSuccess = data => {
+      scanner.pause(false);
+      setScanInfo({status: SCAN_STATUS.SUCCESS, data})
       removeStatus()
     }
-  }
+    
+    const config = {
+      fps: 10,
+      qrbox: { width: 250, height: 250},
+      rememberLastUsedCamera: true,
+      supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+    };
+    
+    const scanner = new Html5QrcodeScanner('reader', config, false)
+    scanner.render(scanSuccess)
+  },[])
+  
+  //submit action
+  useEffect(()=>{
+    if(scanInfo.data){
+      const attendanceData = {
+        type: attendanceType,
+        students: scanInfo.data,
+        time: new Date().toISOString()
+      }
 
-  const scanFailed = error => {
-    console.log(error)
-    setScanInfo({ ...scanInfo, status: SCAN_STATUS.ERROR, havePending: true })
-    removeStatus()
-  }
+      console.log("I will send", attendanceData);
+    }
+  },[scanInfo.data])
 
   const toggleType = () => {
-    const newType = scanInfo.type === ATTENDANCE_TYPE.CHECK_IN ? ATTENDANCE_TYPE.CHECK_OUT: ATTENDANCE_TYPE.CHECK_IN
-    setScanInfo({ ...scanInfo, type: newType })
+    const newType = attendanceType === ATTENDANCE_TYPE.CHECK_IN ? ATTENDANCE_TYPE.CHECK_OUT : ATTENDANCE_TYPE.CHECK_IN
+    setAttendanceType(newType)
   }
-
+  
   return (
     <Box component='div' sx={QRContainerStyle}>
-      <QrReader
-        delay={100}
-        onScan={scanSuccess}
-        onError={scanFailed}
-        facingMode={'environment'}
-        className={`qr-scanner`}
-        style={{
-          width: '100%',
-          height: '100%'
-        }}
-      />
+      <Box sx={{zIndex:99, width: '100%'}} component='div' id='reader'></Box>
       <Box sx={QRBoxStyle}>
-        <Typography sx={{ mt: 2, fontWeight: 'bold', textAlign: 'center' }}>
-          {scanInfo.status !== SCAN_STATUS.NO_SCAN ? `STD trouver : ${scanInfo.data}` : 'Scanning...'}
-        </Typography>
+        <AttendanceStatus scanInfo={{...scanInfo, type: attendanceType}}/> 
         <FormControl
           component='form'
           onChange={toggleType}
