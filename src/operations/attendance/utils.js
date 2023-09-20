@@ -12,15 +12,16 @@ export const addAttendance = newData => setAttendance([...getAttendance(), newDa
 export const tryToSendAttendance = newData => {
   //try to send but waiting for the spec
 
-  //if there is an connection error on sending the attendance
-  addAttendance(newData)
+  //if there is an connection error on sending the attendance addAttendance(newData)
 }
 
 export const ATTENDANCE_TYPE = { CHECK_IN: 'IN', CHECK_OUT: 'OUT' }
 export const SCAN_STATUS = { SUCCESS: 'SUCCESS', NO_SCAN: 'NO_SCAN' }
+export const AVAILABLE_PLACE = ['Ivandry','Andraharo']
 export const qrDefaultConfig = {
   pauseDelay: 1.5,
-  boxSize: 250
+  boxSize: 250,
+  place: AVAILABLE_PLACE[0] 
 }
 export const setQrConfig = newConfig => {
   localStorage.setItem('qr-config', JSON.stringify(newConfig))

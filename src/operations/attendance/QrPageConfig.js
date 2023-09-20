@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
-import { Typography, Button, Dialog, Input, FormLabel, Box, DialogTitle, DialogContent, DialogActions } from '@mui/material'
+import { Typography,Select,MenuItem, InputLabel, Button, Dialog, Input, Box, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import CloseIcon from '@mui/icons-material/Close'
-import { getQrConfig, qrDefaultConfig, setQrConfig } from './utils'
+import { AVAILABLE_PLACE, getQrConfig, qrDefaultConfig, setQrConfig } from './utils'
 
 const formGroupStyle = {
   width: '100%',
@@ -41,7 +41,7 @@ function QrPageConfig({ openConfig, setOpenConfig }) {
         </DialogTitle>
         <DialogContent sx={{ minWidth: '300px', px: 2 }}>
           <Box sx={formGroupStyle}>
-            <FormLabel sx={{ fontSize: '15px', color: 'rgba(0,0,0,.8)', fontWeight: 'bold', marginTop: 0.5 }}>Délai d'une pause :</FormLabel>
+            <InputLabel>Délai d'une pause :</InputLabel>
             <Input
               size='large'
               value={newConfig.pauseDelay}
@@ -53,7 +53,7 @@ function QrPageConfig({ openConfig, setOpenConfig }) {
             />
           </Box>
           <Box sx={formGroupStyle}>
-            <FormLabel sx={{ fontSize: '15px', color: 'rgba(0,0,0,.8)', fontWeight: 'bold', marginTop: 0.5 }}>Taille du scanner:</FormLabel>
+            <InputLabel>Taille du scanner:</InputLabel>
             <Input
               size='large'
               value={newConfig.boxSize}
@@ -63,6 +63,20 @@ function QrPageConfig({ openConfig, setOpenConfig }) {
               name='boxSize'
               id='boxSize'
             />
+          </Box>
+          <Box sx={formGroupStyle}>
+            <InputLabel>Lieu: </InputLabel>
+            <Select
+              id='place'
+              name='place'
+              value={newConfig.place}
+              variant='outlined'
+              autoWidth
+              size='small'
+              onChange={handlerNewConfig}
+            >
+              {AVAILABLE_PLACE.map((place, id)=> <MenuItem key={id} value={place}>{place}</MenuItem>)}
+            </Select>
           </Box>
         </DialogContent>
         <DialogActions>

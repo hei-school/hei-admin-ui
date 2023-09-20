@@ -68,9 +68,10 @@ function AttendanceByQR() {
   useEffect(() => {
     if (scanInfo.data) {
       const attendanceData = {
-        type: attendanceType,
-        students: scanInfo.data,
-        time: new Date().toISOString()
+        attendance_movement_type: attendanceType,
+        student_id: scanInfo.data,
+        created_at: new Date().toISOString(),
+        place: getQrConfig().place
       }
       
       //TODO
