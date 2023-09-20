@@ -28,7 +28,7 @@ function AttendanceMenu() {
   return (
     <Box sx={menuStyle}>
       <Typography variant='h3' sx={{ fontSize: '1.8em', textAlign: 'center', color: 'rgba(0,0,0,.8)' }}>
-        Comment vous voulez faire le pointage ?
+        Comment voulez-vous faire le pointage ?
       </Typography>
       <Box component='div' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
         <Link to='/attendance/scan'>

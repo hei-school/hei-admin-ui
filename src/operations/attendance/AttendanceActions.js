@@ -14,18 +14,10 @@ function AttendanceActions({ selectedIds = [], sx = {} }) {
 
   return (
     <Box component='div' sx={{ display: 'flex', alignItems: 'center', gap: 1, ...sx }}>
-      <Button
-        variant='contained'
-        color='primary'
-        onClick={() => submitActions(ATTENDANCE_TYPE.CHECK_IN)}
-      >
+      <Button variant='contained' color='primary' onClick={() => submitActions(ATTENDANCE_TYPE.CHECK_IN)}>
         Arriver
       </Button>
-      <Button
-        variant='contained'
-        color='warning'
-        onClick={() => submitActions(ATTENDANCE_TYPE.CHECK_OUT)}
-      >
+      <Button variant='contained' color='warning' onClick={() => submitActions(ATTENDANCE_TYPE.CHECK_OUT)}>
         Sortie
       </Button>
     </Box>

@@ -16,5 +16,17 @@ export const tryToSendAttendance = newData => {
   addAttendance(newData)
 }
 
-export const ATTENDANCE_TYPE = { CHECK_IN: 'arriver', CHECK_OUT: 'sortie'}
+export const ATTENDANCE_TYPE = { CHECK_IN: 'IN', CHECK_OUT: 'OUT' }
 export const SCAN_STATUS = { SUCCESS: 'SUCCESS', NO_SCAN: 'NO_SCAN' }
+export const qrDefaultConfig = {
+  pauseDelay: 1.5,
+  boxSize: 250
+}
+export const setQrConfig = newConfig => {
+  localStorage.setItem('qr-config', JSON.stringify(newConfig))
+}
+
+export const getQrConfig = () => {
+  const config = localStorage.getItem('qr-config')
+  return config ? JSON.parse(config) : qrDefaultConfig
+}
