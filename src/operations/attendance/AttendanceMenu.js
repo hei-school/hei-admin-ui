@@ -27,13 +27,13 @@ const cardBoxStyle = {
 function AttendanceMenu() {
   return (
     <Box sx={menuStyle}>
-      <Typography variant='h3' sx={{ fontSize: '1.8em', textAlign: 'center', color: 'rgba(0,0,0,.8)' }}>
+      <Typography variant='h3' sx={{ fontSize: '1.4em', textAlign: 'center', color: 'rgba(0,0,0,.8)' }}>
         Comment voulez-vous faire le pointage ?
       </Typography>
       <Box component='div' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
         <Link to='/attendance/scan'>
           <Box sx={cardBoxStyle}>
-            <QrCodeScannerIcon sx={{ fontSize: '5em' }} />
+            <QrCodeScannerIcon sx={{ fontSize: '3em' }} />
             <Typography variant='h3' sx={{ fontSize: '1em' }}>
               Par QRCode
             </Typography>
@@ -41,7 +41,7 @@ function AttendanceMenu() {
         </Link>
         <Link to='/attendance/list'>
           <Box sx={cardBoxStyle}>
-            <ListIcon sx={{ fontSize: '5em' }} />
+            <ListIcon sx={{ fontSize: '3em' }} />
             <Typography variant='h3' sx={{ fontSize: '1em' }}>
               Par List
             </Typography>

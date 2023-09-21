@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, FunctionField, Link, TextField, TextInput } from 'react-admin'
 import { PrevNextPagination, pageSize } from '../utils'
@@ -7,7 +7,7 @@ import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import { AVAILABLE_PLACE, getQrConfig, setQrConfig } from './utils'
 import { Box, Select, MenuItem } from '@mui/material'
 
-const AttendaceList = () => {
+const AttendanceStudentList = () => {
   return (
     <List
       title='Pointage'
@@ -47,4 +47,4 @@ const AttendaceList = () => {
   )
 }
 
-export default AttendaceList
+export default AttendanceStudentList

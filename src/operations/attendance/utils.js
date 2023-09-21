@@ -1,3 +1,4 @@
+import attendanceProvider from '../../providers/attendanceProvider'
 //to manage the attendance in the localStorage
 //--------------------------------------------
 export const setAttendance = (newStore = '') => {
@@ -9,10 +10,11 @@ export const getAttendance = () => {
 }
 export const deleteFirstAttendance = () => setAttendance(getAttendance().slice(1))
 export const addAttendance = newData => setAttendance([...getAttendance(), newData])
-export const tryToSendAttendance = newData => {
-  //try to send but waiting for the spec
-
-  //if there is an connection error on sending the attendance addAttendance(newData)
+export const tryToSendAttendance = async attendanceData => {
+  attendanceProvider.create(attendanceData)
+    .catch(()=>{
+      addAttendance(attendanceData)
+    })
 }
 
 export const ATTENDANCE_TYPE = { CHECK_IN: 'IN', CHECK_OUT: 'OUT' }

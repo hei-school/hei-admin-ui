@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Box, FormControl, RadioGroup, Radio, FormControlLabel } from '@mui/material'
-import { ATTENDANCE_TYPE, SCAN_STATUS, getQrConfig } from './utils'
+import { ATTENDANCE_TYPE, SCAN_STATUS, getQrConfig, tryToSendAttendance } from './utils'
 import AttendanceStatus from './AttendanceStatus'
 import { Html5QrcodeScanner, Html5QrcodeScanType } from 'html5-qrcode'
 import { Button, Link } from 'react-admin'
 import ListIcon from '@mui/icons-material/List'
 import QrPageConfig from './QrPageConfig'
+import { useNavigate } from 'react-router-dom'
 
 const QRContainerStyle = {
   width: '100%',
@@ -38,7 +39,9 @@ function AttendanceByQR() {
     status: SCAN_STATUS.NO_SCAN,
     data: ''
   })
+  const navigate = useNavigate()
 
+  //have to use useEffect because the camera makes a lot of time to start
   useEffect(() => {
     const removeStatus = () => {
       setTimeout(() => {
@@ -73,9 +76,8 @@ function AttendanceByQR() {
         created_at: new Date().toISOString(),
         place: getQrConfig().place
       }
-      
-      //TODO
-      console.log('I will send', attendanceData)
+
+      tryToSendAttendance(attendanceData)
     }
   }, [scanInfo.data])
 
@@ -90,10 +92,8 @@ function AttendanceByQR() {
       <Box sx={QRBoxStyle}>
         <Box component='div' sx={{ width: '100%', display: 'flex', alignItems: 'center', p: 2, gap: 2, justifyContent: 'end' }}>
           <QrPageConfig openConfig={showConfig} setOpenConfig={setShowConfig} />
-          <Button variant='text'>
-            <Link to='/attendance/list'>
-              <ListIcon sx={{ fontSize: '45px' }} />
-            </Link>
+          <Button variant='text' sx={{p: 0}} onClick={()=>navigate('/attendance/list')}>
+            <ListIcon sx={{ fontSize: '35px !important' }} />
           </Button>
         </Box>
         <Box component='div'>
