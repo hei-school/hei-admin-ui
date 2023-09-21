@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Typography,Select,MenuItem, InputLabel, Button, Dialog, Input, Box, DialogTitle, DialogContent, DialogActions } from '@mui/material'
+import { Typography, Select, MenuItem, InputLabel, Button, Dialog, Input, Box, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import CloseIcon from '@mui/icons-material/Close'
 import { AVAILABLE_PLACE, getQrConfig, qrDefaultConfig, setQrConfig } from './utils'
@@ -66,16 +66,12 @@ function QrPageConfig({ openConfig, setOpenConfig }) {
           </Box>
           <Box sx={formGroupStyle}>
             <InputLabel>Lieu: </InputLabel>
-            <Select
-              id='place'
-              name='place'
-              value={newConfig.place}
-              variant='outlined'
-              autoWidth
-              size='small'
-              onChange={handlerNewConfig}
-            >
-              {AVAILABLE_PLACE.map((place, id)=> <MenuItem key={id} value={place}>{place}</MenuItem>)}
+            <Select id='place' name='place' value={newConfig.place} variant='outlined' autoWidth size='small' onChange={handlerNewConfig}>
+              {AVAILABLE_PLACE.map((place, id) => (
+                <MenuItem key={id} value={place}>
+                  {place}
+                </MenuItem>
+              ))}
             </Select>
           </Box>
         </DialogContent>

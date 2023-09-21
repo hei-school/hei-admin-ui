@@ -92,7 +92,7 @@ function AttendanceByQR() {
       <Box sx={QRBoxStyle}>
         <Box component='div' sx={{ width: '100%', display: 'flex', alignItems: 'center', p: 2, gap: 2, justifyContent: 'end' }}>
           <QrPageConfig openConfig={showConfig} setOpenConfig={setShowConfig} />
-          <Button variant='text' sx={{p: 0}} onClick={()=>navigate('/attendance/list')}>
+          <Button variant='text' sx={{ p: 0 }} onClick={() => navigate('/attendance/list')}>
             <ListIcon sx={{ fontSize: '35px !important' }} />
           </Button>
         </Box>

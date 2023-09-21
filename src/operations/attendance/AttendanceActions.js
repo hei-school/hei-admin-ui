@@ -2,7 +2,7 @@ import React from 'react'
 import { Box, Button } from '@mui/material'
 import { ATTENDANCE_TYPE, getQrConfig, tryToSendAttendance } from './utils'
 
-function AttendanceActions({ studentId ='', sx = {} }) {
+function AttendanceActions({ studentId = '', sx = {} }) {
   const submitActions = type => {
     const attendanceData = {
       attedance_mouvement_type: type,

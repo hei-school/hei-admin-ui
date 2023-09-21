@@ -1,11 +1,11 @@
 import React from 'react'
 import { Admin } from '@react-admin/ra-enterprise'
 import { CustomRoutes, Resource } from 'react-admin'
-
 import { Route } from 'react-router-dom'
 
 import dataProvider from './providers/dataProvider'
 import authProvider from './providers/authProvider.ts'
+import attendanceProvider from './providers/attendanceProvider'
 
 import polyglotI18nProvider from 'ra-i18n-polyglot'
 import frenchMessages from 'ra-language-french'

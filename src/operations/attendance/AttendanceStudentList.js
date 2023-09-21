@@ -13,7 +13,7 @@ const AttendanceStudentList = () => {
       title='Pointage'
       label='Pointage'
       actions={
-        <Box component='div' sx={{display:'flex', alignItems:'center', gap: 2}}>
+        <Box component='div' sx={{ display: 'flex', alignItems: 'center', gap: 2 }}>
           <Link to='/attendance/scan'>
             <QrCodeScannerIcon sx={{ fontSize: '2em' }} />
           </Link>
@@ -24,9 +24,13 @@ const AttendanceStudentList = () => {
             variant='outlined'
             autoWidth
             size='small'
-            onChange={(event)=>setQrConfig({...getQrConfig(),place:event.target.value})}
+            onChange={event => setQrConfig({ ...getQrConfig(), place: event.target.value })}
           >
-            {AVAILABLE_PLACE.map((place, id)=> <MenuItem key={id} value={place}>{place}</MenuItem>)}
+            {AVAILABLE_PLACE.map((place, id) => (
+              <MenuItem key={id} value={place}>
+                {place}
+              </MenuItem>
+            ))}
           </Select>
         </Box>
       }
@@ -41,7 +45,7 @@ const AttendanceStudentList = () => {
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
-        <FunctionField label='Actions' render={record => <AttendanceActions sx={{ gap: 5 }} studentId={record.ref}/>} />
+        <FunctionField label='Actions' render={record => <AttendanceActions sx={{ gap: 5 }} studentId={record.ref} />} />
       </Datagrid>
     </List>
   )
