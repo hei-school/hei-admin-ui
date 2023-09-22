@@ -3,12 +3,10 @@ import App from '../App'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { manager1Mock, teacher1Mock, teachersMock, whoamiManagerMock } from './mocks/responses'
 import { manager1 } from './credentials'
-import { EnableStatus } from '../gen/haClient'
 
 const updatedInfo = {
   ...teachersMock[0],
-  address: 'address301',
-  status: EnableStatus.Disabled
+  last_name: 'new'
 }
 
 describe(specTitle('Manager.Teachers'), () => {
@@ -71,17 +69,16 @@ describe(specTitle('Manager.Teachers'), () => {
   it('can edit teachers', () => {
     cy.get('@editButton').click()
     cy.wait('@getTeachers1')
-    cy.get('#address').clear().type(updatedInfo.address)
+    cy.get('#last_name').clear().type(updatedInfo.last_name)
     cy.get('[data-testid="SaveIcon"]').click()
-    teachersMock[0].address = updatedInfo.address;
-    teacher1Mock.address = updatedInfo.address;
+    cy.intercept('GET', `/teachers/${teachersMock[0].id}`, updatedInfo).as('getTeachers1')
     cy.wait('@putUpdate')
     cy.get('@editButton').click()
     cy.wait('@getTeachers1')
-    cy.get('#address').should('have.value', updatedInfo.address)
+    cy.get('#last_name').should('have.value', updatedInfo.last_name)
   })
 
-  afterEach(()=>{
+  afterEach(() => {
     unmount()
   })
 })
