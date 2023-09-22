@@ -13,6 +13,7 @@ const menuStyle = {
   alignItems: 'center',
   flexDirection: 'column'
 }
+
 const cardBoxStyle = {
   padding: '15px',
   backgroundColor: 'rgba(0,0,125,.1)',

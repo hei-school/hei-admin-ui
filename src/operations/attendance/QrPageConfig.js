@@ -29,17 +29,31 @@ function QrPageConfig({ openConfig, setOpenConfig }) {
 
   return (
     <>
-      <Button variant='text' sx={{ p: 0 }} onClick={() => setOpenConfig(true)}>
-        <SettingsIcon sx={{ fontSize: '30px' }} />
+      <Button variant='text' sx={{ p: 0, zIndex: 99 }} onClick={() => setOpenConfig(true)}>
+        <SettingsIcon sx={{ fontSize: '30px', color:'white' }} />
       </Button>
       <Dialog onClose={() => setOpenConfig(false)} sx={{ width: '100%' }} open={openConfig}>
         <DialogTitle sx={{ display: 'flex', p: 2, alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography sx={{ color: 'rgba(0,0,0,.8)', fontSize: '1em', fontWeight: 'bold', textAlign: 'center' }}>Paramètre du scanner</Typography>
+          <Typography sx={{ color: 'rgba(0,0,0,.8)', fontSize: '1em', fontWeight: 'bold', textAlign: 'center' }}>
+            Paramètre du scanner
+          </Typography>
           <Button onClick={() => setOpenConfig(false)}>
             <CloseIcon sx={{ color: 'rgba(0,0,0,.8)', fontSize: '30px' }} />
           </Button>
         </DialogTitle>
         <DialogContent sx={{ minWidth: '300px', px: 2 }}>
+          <Box sx={formGroupStyle}>
+            <InputLabel>Fps :</InputLabel>
+            <Input
+              size='large'
+              value={newConfig.fps}
+              onChange={handlerNewConfig}
+              placeholder='Ex: 30 (pour 30fps)'
+              type='number'
+              id='fsp'
+              name='fps'
+            />
+          </Box>
           <Box sx={formGroupStyle}>
             <InputLabel>Délai d'une pause :</InputLabel>
             <Input

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Box, Button } from '@mui/material'
-import { ATTENDANCE_TYPE, getQrConfig, tryToSendAttendance } from './utils'
+import { getQrConfig, tryToSendAttendance } from './utils'
+import { AttendanceMovementType } from '../../gen/haClient'
 
 function AttendanceActions({ studentId = '', sx = {} }) {
   const submitActions = type => {
@@ -15,10 +16,10 @@ function AttendanceActions({ studentId = '', sx = {} }) {
 
   return (
     <Box component='div' sx={{ display: 'flex', alignItems: 'center', gap: 1, ...sx }}>
-      <Button variant='contained' color='primary' onClick={() => submitActions(ATTENDANCE_TYPE.CHECK_IN)}>
+      <Button variant='contained' color='primary' onClick={() => submitActions(AttendanceMovementType.In)}>
         Arriver
       </Button>
-      <Button variant='contained' color='warning' onClick={() => submitActions(ATTENDANCE_TYPE.CHECK_OUT)}>
+      <Button variant='contained' color='warning' onClick={() => submitActions(AttendanceMovementType.Out)}>
         Sortie
       </Button>
     </Box>
