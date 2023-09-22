@@ -23,8 +23,7 @@ const participantProvider: HaDataProviderType = {
     }
     await teachingApi().crupdateStudentsGrade(courseId, examId, [grade])
     const updatedParticipant = (await teachingApi().getParticipantById(courseId, examId, participantId)).data
-    //return updatedParticipant
-    return [{ id: 'string', ref: 'STD000001', first_name: 'string', last_name: 'string', email: 'string', grade: grade }]
+    return [updatedParticipant]
   }
 }
 
