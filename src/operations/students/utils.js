@@ -1,5 +1,9 @@
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 import { commentRenderer } from '../utils'
+import { useState } from 'react'
+import Papa from 'papaparse'
+import studentProvider from '../../providers/studentProvider'
+import { Box, Button, Modal } from '@mui/material'
 
 const toDate = str => {
   const parts = str.split('-')
@@ -39,4 +43,40 @@ export const createFees = (fees, feesConf, payload, isPredefinedType) => {
       }
     }
   }
+}
+export const InsertFileModal = ({ open, onClose }) => {
+  const [data, setData] = useState([])
+  const handleChange = e => {
+    const files = e.target.files
+    if (files) {
+      Papa.parse(files[0], {
+        header: true,
+        complete: results => {
+          setData(results.data)
+        }
+      })
+    }
+  }
+  const addStudents = async () => {
+    await studentProvider.saveOrUpdate(data)
+  }
+  return (
+    <Modal open={open} onClose={onClose}>
+      <Box>
+        <input type='file' accept='.csv,.xlsx,.xls' onChange={handleChange} />
+        <Button onClick={addStudents}>IMPORTER</Button>
+      </Box>
+    </Modal>
+  )
+}
+export const ImportButton = () => {
+  const [open, setOpen] = useState(false)
+  const handleOpen = () => setOpen(true)
+  const handleClose = () => setOpen(false)
+  return (
+    <>
+      <Button onClick={handleOpen}>IMPORTER</Button>
+      <InsertFileModal open={open} onClose={handleClose} />
+    </>
+  )
 }
