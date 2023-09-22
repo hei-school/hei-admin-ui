@@ -1,31 +1,22 @@
 import { mount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
-import { manager1 } from './credentials'
-import {
-  course1exams,
-  course1Mock,
-  courseCreatedMock,
-  coursesMock,
-  exam1,
-  exam1Details,
-  exam1updatedGrades,
-  manager1Mock,
-  whoamiManagerMock
-} from './mocks/responses'
+import '../../cypress/support/commands'
+import { course1exams, course1Mock, courseCreatedMock, coursesMock, exam1, exam1Details, exam1updatedGrades, manager1Mock } from './mocks/responses'
+import { WhoamiRoleEnum } from '../gen/haClient'
 
 describe(specTitle('Manager.Grade'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
+
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/courses?page=1&page_size=10`, coursesMock).as('getCourses')
     cy.intercept('GET', `/courses/${courseCreatedMock.id}`, courseCreatedMock).as('getCourseCreated')
     cy.intercept('GET', `/courses/${course1Mock.id}/exams`, course1exams).as('getcourse1exams')
     cy.intercept('GET', `/courses/${course1Mock.id}`, course1Mock).as('getCourse1')
-    cy.get('#username').type(manager1.username)
-    cy.get('#password').type(manager1.password)
-    cy.get('button').contains('Connexion').click()
+
+    cy.cognitoLogin(WhoamiRoleEnum.Manager)
+
     cy.get('.RaMultiLevelMenu-navWithCategories').contains('Cours').click()
     cy.wait('@getCourses')
   })
@@ -37,7 +28,6 @@ describe(specTitle('Manager.Grade'), () => {
     }
     const targetParticipant = exam1updatedGrades.participants[0]
 
-    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/courses/${course1Mock.id}/exams/${exam1.id}`, exam1).as('getOneExam')
     cy.intercept('GET', `/courses/${course1Mock.id}/exams/${exam1.id}/details`, exam1Details).as('getExamDetails')
 

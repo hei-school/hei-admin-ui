@@ -1,21 +1,21 @@
 import { mount, unmount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
-import { teacher1 } from './credentials'
-import { course1Mock, course1exams, courseNameToBeCheckedMock, coursesMock, filterCourseByNameMock, teacher1Mock, whoamiTeacherMock } from './mocks/responses'
+import '../../cypress/support/commands'
+import { course1exams, course1Mock, courseNameToBeCheckedMock, coursesMock, filterCourseByNameMock, teacher1Mock } from './mocks/responses'
+import { WhoamiRoleEnum } from '../gen/haClient'
 
 describe(specTitle('Course'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.intercept('GET', `/whoami`, whoamiTeacherMock).as('getWhoami')
     cy.intercept('GET', `/teachers/${teacher1Mock.id}`, teacher1Mock).as('getTeacher1')
     cy.intercept('GET', `/courses?page=1&page_size=10`, coursesMock).as('getCourses')
     cy.intercept('GET', `/courses?page=2&page_size=10`, coursesMock).as('getCoursesPage2')
     cy.intercept('GET', `/courses/${course1Mock.id}/exams`, course1exams).as('getcourse1exams')
     cy.intercept('GET', `/courses/${course1Mock.id}`, course1Mock).as('getCourse1')
-    cy.get('#username').type(teacher1.username)
-    cy.get('#password').type(teacher1.password)
-    cy.get('button').contains('Connexion').click()
+
+    cy.cognitoLogin(WhoamiRoleEnum.Teacher)
+
     cy.get('.RaMultiLevelMenu-navWithCategories').contains('Cours').click()
     cy.wait('@getCourses')
   })

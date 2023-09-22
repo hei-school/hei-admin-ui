@@ -1,22 +1,22 @@
 import { mount, unmount } from '@cypress/react'
 import App from '../App'
-import { manager1 } from './credentials'
+import '../../cypress/support/commands'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import {
+  createdFeesForNewStudent,
+  createFeeWithManualDataMock,
+  createStudent,
   manager1Mock,
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
-  teacherNameToBeCheckedMock,
   teacher1Mock,
-  teachersMock,
-  whoamiManagerMock,
-  createFeeWithManualDataMock,
-  createStudent,
-  createdFeesForNewStudent
+  teacherNameToBeCheckedMock,
+  teachersMock
 } from './mocks/responses'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
 import { TurnsStringIntoDate } from '../operations/utils'
+import { WhoamiRoleEnum } from '../gen/haClient'
 
 const feeDateToSearch = `2022-09-11`
 const newFirstName = 'Aina herilala'
@@ -41,23 +41,16 @@ const StudentRequestBodyVerification = (RequestBody, can_create_fees) => {
 describe(specTitle('Manager edit students'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.get('#username').type(manager1.username)
-    cy.get('#password').type(manager1.password)
-    cy.get('button').contains('Connexion').click()
 
-    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
-      req.reply(res => {
-        res.setDelay(400)
-        res.send(manager1Mock)
-      })
-    }).as('getManager1')
+    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
     cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/teachers?page=1&page_size=10`, teachersMock).as('getTeachersPage1')
     cy.intercept('GET', `/teachers?page=2&page_size=10`, teachersMock).as('getTeachersPage2')
     cy.intercept('GET', `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`, [teacher1Mock]).as('getTeacherByName')
+
+    cy.cognitoLogin(WhoamiRoleEnum.Manager)
   })
 
   it('can edit students', () => {
@@ -103,11 +96,7 @@ describe(specTitle('Manager edit students'), () => {
 describe(specTitle('Manager creates students'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.get('#username').type(manager1.username)
-    cy.get('#password').type(manager1.password)
-    cy.get('button').contains('Connexion').click()
 
-    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
       req.reply(res => {
         res.setDelay(400)
@@ -122,6 +111,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.intercept('GET', `/teachers?page=2&page_size=10`, teachersMock).as('getTeachersPage2')
     cy.intercept('GET', `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`, [teacher1Mock]).as('getTeacherByName')
 
+    cy.cognitoLogin(WhoamiRoleEnum.Manager)
     cy.contains('Enseignants')
     cy.wait('@getWhoami')
     cy.contains('Étudiants')

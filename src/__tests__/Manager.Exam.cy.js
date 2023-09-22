@@ -1,7 +1,7 @@
 import { mount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
-import { manager1 } from './credentials'
+import '../../cypress/support/commands'
 import {
   course1exams,
   course1Mock,
@@ -17,19 +17,20 @@ import {
   updatedExamDetails,
   whoamiManagerMock
 } from './mocks/responses'
+import { WhoamiRoleEnum } from '../gen/haClient'
 
 describe(specTitle('Manager.Exam'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
+
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
+
+    cy.cognitoLogin(WhoamiRoleEnum.Manager)
+
     cy.intercept('GET', `/courses?page=1&page_size=10`, coursesMock).as('getCourses')
     cy.intercept('GET', `/courses/${courseCreatedMock.id}`, courseCreatedMock).as('getCourseCreated')
     cy.intercept('GET', `/courses/${course1Mock.id}/exams`, course1exams).as('getcourse1exams')
     cy.intercept('GET', `/courses/${course1Mock.id}`, course1Mock).as('getCourse1')
-    cy.get('#username').type(manager1.username)
-    cy.get('#password').type(manager1.password)
-    cy.get('button').contains('Connexion').click()
     cy.get('.RaMultiLevelMenu-navWithCategories').contains('Cours').click()
     cy.wait('@getCourses')
   })

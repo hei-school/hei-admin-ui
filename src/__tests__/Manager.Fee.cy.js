@@ -2,8 +2,8 @@ import { mount, unmount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
-import { TurnsStringIntoDate, prettyPrintMoney, statusRenderer } from '../operations/utils'
-import { manager1 } from './credentials'
+import { prettyPrintMoney, statusRenderer, TurnsStringIntoDate } from '../operations/utils'
+import '../../cypress/support/commands'
 import {
   addFeeMock,
   createFeeWithManualDataMock,
@@ -14,9 +14,9 @@ import {
   manager1Mock,
   student1Mock,
   studentNameToBeCheckedMock,
-  studentsMock,
-  whoamiManagerMock
+  studentsMock
 } from './mocks/responses'
+import { WhoamiRoleEnum } from '../gen/haClient'
 
 const feeDateToSearch = `2022-09-11`
 const feeCreatDate = 'date2'
@@ -24,22 +24,17 @@ const feeCreatDate = 'date2'
 describe(specTitle('Manager.Fee'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
-      req.reply(res => {
-        res.setDelay(500)
-        res.send(manager1Mock)
-      })
-    }).as('getManager1')
+
+    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`, []).as('getPayments')
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${fee1Mock.id}`, fee1Mock).as('getFee1')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
-    cy.get('#username').type(manager1.username)
-    cy.get('#password').type(manager1.password)
-    cy.get('button').contains('Connexion').click()
+
+    cy.cognitoLogin(WhoamiRoleEnum.Manager)
+
     cy.get('a[href="#/profile"]').click()
     cy.wait('@getManager1')
     cy.get('.RaMultiLevelMenu-navWithCategories').should('contain', 'Étudiants').and('contain', 'Enseignants').and('contain', 'Mon profil')

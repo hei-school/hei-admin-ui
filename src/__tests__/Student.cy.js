@@ -1,17 +1,19 @@
 import { mount, unmount } from '@cypress/react'
 import App from '../App'
-import { student1 } from './credentials'
+import '../../cypress/support/commands'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { WhoamiRoleEnum } from '../gen/haClient'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.get('#username').type(student1.username)
-    cy.get('#password').type(student1.password)
-    cy.get('button').contains('Connexion').click()
+
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
+
+    cy.cognitoLogin(WhoamiRoleEnum.Student)
+
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}/payments?page=1&page_size=10`, createPaymentMock(feesMock[7 - 1])).as(
       'getPaymentsOfFee1'
     )

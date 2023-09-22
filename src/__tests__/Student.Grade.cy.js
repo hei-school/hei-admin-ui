@@ -1,18 +1,19 @@
 import { mount, unmount } from '@cypress/react'
 import App from '../App'
-import { teacher1 } from './credentials'
+import '../../cypress/support/commands'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { whoamiStudentMock, student1Mock, gradesMock } from './mocks/responses'
+import { gradesMock, student1Mock } from './mocks/responses'
+import { WhoamiRoleEnum } from '../gen/haClient'
 
 describe(specTitle('Course'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
+
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent1')
     cy.intercept('GET', `/students/${student1Mock.id}/grades`, gradesMock).as('getStudent1Grades')
-    cy.get('#username').type(teacher1.username)
-    cy.get('#password').type(teacher1.password)
-    cy.get('button').contains('Connexion').click()
+
+    cy.cognitoLogin(WhoamiRoleEnum.Student)
+
     cy.wait('@getStudent1')
     cy.get('.RaMultiLevelMenu-navWithCategories').contains('Notes').click()
     cy.wait('@getStudent1Grades')

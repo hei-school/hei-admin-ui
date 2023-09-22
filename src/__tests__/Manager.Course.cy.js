@@ -1,20 +1,18 @@
 import { mount, unmount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
-
-import { manager1 } from './credentials'
 import {
   course1EditMock,
-  course1Mock,
   course1exams,
+  course1Mock,
   courseCreatedMock,
   courseNameToBeCheckedMock,
   coursesMock,
   filterCourseByNameMock,
   manager1Mock,
-  teachersMock,
-  whoamiManagerMock
+  teachersMock
 } from './mocks/responses'
+
 const courseVerificationMock = creatCourseMock => {
   return requestIntersection => {
     let pendingCourseMock = {
@@ -31,41 +29,18 @@ const courseVerificationMock = creatCourseMock => {
     expect(requestIntersection.request.body.length).to.equal(1)
   }
 }
-const sessionStub = {
-  getIdToken: () => ({ getJwtToken: () => 'dummy' }),
-  getAccessToken: () => ({ getJwtToken: () => 'dummy' }),
-  getRefreshToken: () => ({ getToken: () => 'dummy' })
-}
-
-const cognitoResponse = {
-  signInUserSession: {
-    idToken: {
-      jwtToken: 'dummy'
-    },
-    refreshToken: {
-      token: 'dummy'
-    },
-    accessToken: {
-      jwtToken: 'dummy'
-    }
-  }
-}
-const loginParams = { username: 'dummy', password: 'dummy' }
 
 describe(specTitle('Course'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/courses?page=1&page_size=10`, coursesMock).as('getCourses')
     cy.intercept('GET', `/teachers?page=1&page_size=100`, teachersMock).as('getteachers')
     cy.intercept('GET', `/courses/${courseCreatedMock.id}`, courseCreatedMock).as('getCourseCreated')
     cy.intercept('GET', `/courses/${course1Mock.id}/exams`, course1exams).as('getcourse1exams')
     cy.intercept('GET', `/courses/${course1Mock.id}`, course1Mock).as('getCourse1')
-    cy.get('#username').type(manager1.username)
-    cy.get('#password').type(manager1.password)
-    cy.get('button').contains('Connexion').click()
-    cy.get('.RaMultiLevelMenu-navWithCategories').contains('Cours').click()
+
+    cy.cy.get('.RaMultiLevelMenu-navWithCategories').contains('Cours').click()
     cy.wait('@getCourses')
   })
 
