@@ -1,6 +1,7 @@
 import { mount, unmount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
+import '../../cypress/support/commands'
 import {
   course1EditMock,
   course1exams,
@@ -12,6 +13,7 @@ import {
   manager1Mock,
   teachersMock
 } from './mocks/responses'
+import { WhoamiRoleEnum } from '../gen/haClient'
 
 const courseVerificationMock = creatCourseMock => {
   return requestIntersection => {
@@ -40,7 +42,9 @@ describe(specTitle('Course'), () => {
     cy.intercept('GET', `/courses/${course1Mock.id}/exams`, course1exams).as('getcourse1exams')
     cy.intercept('GET', `/courses/${course1Mock.id}`, course1Mock).as('getCourse1')
 
-    cy.cy.get('.RaMultiLevelMenu-navWithCategories').contains('Cours').click()
+    cy.cognitoLogin(WhoamiRoleEnum.Manager)
+
+    cy.get('.RaMultiLevelMenu-navWithCategories').contains('Cours').click()
     cy.wait('@getCourses')
   })
 
@@ -103,11 +107,5 @@ describe(specTitle('Course'), () => {
     cy.wait('@getCourses')
     cy.get('#__cy_root').contains('Élément créé')
     cy.get('#main-content').should('contain', 'Code').and('contain', courseCreatedMock.name).and('contain', courseCreatedMock.credits)
-  })
-
-  afterEach(() => {
-    cy.get('.RaMultiLevelMenu-navWithCategories').contains('Mon profil').click()
-    cy.wait('@getManager1')
-    unmount()
   })
 })
