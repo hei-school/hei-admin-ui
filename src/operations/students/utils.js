@@ -3,7 +3,9 @@ import { commentRenderer } from '../utils'
 import { useState } from 'react'
 import Papa from 'papaparse'
 import studentProvider from '../../providers/studentProvider'
-import { Box, Button, Modal } from '@mui/material'
+import { Box, Button, IconButton, Modal, Dialog, DialogTitle, DialogContent, DialogActions, useMediaQuery } from '@mui/material'
+import { Upload, UploadFile } from '@mui/icons-material'
+import { styled } from '@mui/styles'
 
 const toDate = str => {
   const parts = str.split('-')
@@ -60,22 +62,63 @@ export const InsertFileModal = ({ open, onClose }) => {
   const addStudents = async () => {
     await studentProvider.saveOrUpdate(data)
   }
+  const ConfirmDialog = (open, setOpen) => {
+    return (
+      <>
+        <Dialog open={open} onClose={setOpen(false)}>
+          <DialogTitle>
+            Importer ce fichier?
+          </DialogTitle>
+          <DialogContent>
+            Si vous importer ce fichier, les actions seront irréverssibles.
+          </DialogContent>
+          <Button onClick={addStudents}>IMPORTER</Button>
+        </Dialog>
+        <DialogActions>
+          <Button>oui</Button>
+          <Button>non</Button>
+        </DialogActions>
+      </>
+    );
+  }
+  const VisuallyHiddenInput = styled('input')({
+    clip: 'rect(0 0 0 0)',
+    clipPath: 'inset(50%)',
+    height: 1,
+    overflow: 'hidden',
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    whiteSpace: 'nowrap',
+    width: 1,
+  });
+  const [isSubmitted, setIsSubmitted] = useState(false)
   return (
     <Modal open={open} onClose={onClose}>
       <Box>
-        <input type='file' accept='.csv,.xlsx,.xls' onChange={handleChange} />
-        <Button onClick={addStudents}>IMPORTER</Button>
+        <Button startIcon={<UploadFile />}>
+          Insérer un fichier
+          <VisuallyHiddenInput type="file" onChange={handleChange} accept='.csv,.xlsx,.xls' onSubmit={() => setIsSubmitted(true)}/>
+        </Button>
+        <ConfirmDialog open={isSubmitted} setOpen={setIsSubmitted()}/>
       </Box>
     </Modal>
   )
 }
+
 export const ImportButton = () => {
   const [open, setOpen] = useState(false)
   const handleOpen = () => setOpen(true)
   const handleClose = () => setOpen(false)
+  const isSmall = useMediaQuery("(max-width: 625px)");
   return (
     <>
-      <Button onClick={handleOpen}>IMPORTER</Button>
+      <Button onClick={handleOpen}>
+        <IconButton color='primary'>
+          <Upload/>
+        </IconButton>
+        {!isSmall && <span>Importer</span>}
+      </Button>
       <InsertFileModal open={open} onClose={handleClose} />
     </>
   )
