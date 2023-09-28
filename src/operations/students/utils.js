@@ -47,28 +47,24 @@ export const createFees = (fees, feesConf, payload, isPredefinedType) => {
   }
 }
 const ConfirmDialog = ({ open, handleClose, data, setOpen }) => {
-  const notify = useNotify();
+  const notify = useNotify()
   const addStudents = async () => {
     setOpen(false)
-    await studentProvider.saveOrUpdate(data)
+    await studentProvider
+      .saveOrUpdate(data)
       .then(() => notify(`Importation effectuée avec succès`, { type: 'success' }))
       .catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error' }))
   }
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          Importer ce fichier?
-        </DialogTitle>
-        <DialogContent>
-          Si vous importer ce fichier, les actions seront irréversibles.
-        </DialogContent>
+        <DialogTitle>Importer ce fichier?</DialogTitle>
+        <DialogContent>Si vous importer ce fichier, les actions seront irréversibles.</DialogContent>
         <DialogActions>
           <Button onClick={addStudents}>oui</Button>
           <Button onClick={() => setOpen(false)}>non</Button>
         </DialogActions>
       </Dialog>
-
     </>
   )
 }
@@ -99,19 +95,17 @@ export const ImportButton = () => {
 
   return (
     <>
-      {
-        isSmall ? (
-          <IconButton onClick={handleClick} color='primary'>
-            <Upload/>
-            <Input />
-          </IconButton>
-        ) : (
-          <Button size='small' onClick={handleClick} startIcon={<Upload />} sx={{padding: 0.3}}>
-            <Input />
-            {!isSmall && <span>Importer</span>}
-          </Button>
-        )
-      }
+      {isSmall ? (
+        <IconButton onClick={handleClick} color='primary'>
+          <Upload />
+          <Input />
+        </IconButton>
+      ) : (
+        <Button size='small' onClick={handleClick} startIcon={<Upload />} sx={{ padding: 0.3 }}>
+          <Input />
+          {!isSmall && <span>Importer</span>}
+        </Button>
+      )}
       <ConfirmDialog open={isSubmitted} onClose={handleClose} setOpen={setIsSubmitted} data={data} />
     </>
   )
