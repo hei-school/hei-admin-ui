@@ -34,7 +34,7 @@ const ConfirmDialog = ({ open, handleClose, data, setOpen }) => {
     </>
   )
 }
-export const ImportButton = () => {
+const ImportButton = () => {
   const [data, setData] = useState([])
   const isSmall = useMediaQuery('(max-width: 625px)')
   const [isSubmitted, setIsSubmitted] = useState(false)
