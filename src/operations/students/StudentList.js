@@ -5,7 +5,6 @@ import { WhoamiRoleEnum } from '../../gen/haClient'
 
 import { profileFilters } from '../profile'
 import { pageSize, PrevNextPagination } from '../utils'
-import { ImportButton } from './utils'
 import studentProvider from '../../providers/studentProvider'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, useMediaQuery } from '@mui/material'
 import { useRef, useState } from 'react'
