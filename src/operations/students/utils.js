@@ -3,8 +3,9 @@ import { commentRenderer } from '../utils'
 import { useRef, useState } from 'react'
 import Papa from 'papaparse'
 import studentProvider from '../../providers/studentProvider'
-import { Button, IconButton, Dialog, DialogTitle, DialogContent, DialogActions, useMediaQuery } from '@mui/material'
-import { Upload} from '@mui/icons-material'
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, useMediaQuery } from '@mui/material'
+import { Upload } from '@mui/icons-material'
+import { useNotify } from 'react-admin'
 
 const toDate = str => {
   const parts = str.split('-')
@@ -46,9 +47,12 @@ export const createFees = (fees, feesConf, payload, isPredefinedType) => {
   }
 }
 const ConfirmDialog = ({ open, handleClose, data, setOpen }) => {
+  const notify = useNotify();
   const addStudents = async () => {
     setOpen(false)
     await studentProvider.saveOrUpdate(data)
+      .then(() => notify(`Importation effectuée avec succès`, { type: 'success' }))
+      .catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error' }))
   }
   return (
     <>
@@ -66,40 +70,49 @@ const ConfirmDialog = ({ open, handleClose, data, setOpen }) => {
       </Dialog>
 
     </>
-  );
+  )
 }
-  export const ImportButton = () => {
+export const ImportButton = () => {
   const [data, setData] = useState([])
-    const isSmall = useMediaQuery("(max-width: 625px)");
-    const [isSubmitted, setIsSubmitted] = useState(false);
-    const hiddenFileInput = useRef(null);
-    const handleClick = event => {
-      hiddenFileInput.current.click();
-    };
-    const handleClose = () => {
-      setIsSubmitted(false);
-    };
-    const handleChange = e => {
-      const files = e.target.files
-      setIsSubmitted(true)
-      if (files) {
-        Papa.parse(files[0], {
-          header: true,
-          complete: results => {
-            setData(results.data)
-          }
-        })
-      }
-    }
-
-    return (
-      <>
-        <Button size='small' onClick={handleClick}>
-          <Upload fontSize='small'/>
-          <input type="file" ref={hiddenFileInput} style={{ display: 'none' }} onChange={handleChange} />
-          {!isSmall && <span>Importer</span>}
-        </Button>
-        <ConfirmDialog open={isSubmitted} onClose={handleClose}  setOpen={setIsSubmitted} data={data}/>
-      </>
-    )
+  const isSmall = useMediaQuery('(max-width: 625px)')
+  const [isSubmitted, setIsSubmitted] = useState(false)
+  const hiddenFileInput = useRef(null)
+  const handleClick = e => {
+    hiddenFileInput.current.click()
   }
+  const handleClose = () => {
+    setIsSubmitted(false)
+  }
+  const handleChange = e => {
+    const files = e.target.files
+    setIsSubmitted(true)
+    if (files) {
+      Papa.parse(files[0], {
+        header: true,
+        complete: results => {
+          setData(results.data)
+        }
+      })
+    }
+  }
+  const Input = () => <input type='file' ref={hiddenFileInput} style={{ display: 'none' }} onChange={handleChange} />
+
+  return (
+    <>
+      {
+        isSmall ? (
+          <IconButton onClick={handleClick} color='primary'>
+            <Upload/>
+            <Input />
+          </IconButton>
+        ) : (
+          <Button size='small' onClick={handleClick} startIcon={<Upload />} sx={{padding: 0.3}}>
+            <Input />
+            {!isSmall && <span>Importer</span>}
+          </Button>
+        )
+      }
+      <ConfirmDialog open={isSubmitted} onClose={handleClose} setOpen={setIsSubmitted} data={data} />
+    </>
+  )
+}
