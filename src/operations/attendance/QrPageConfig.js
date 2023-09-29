@@ -2,7 +2,8 @@ import React, { useState } from 'react'
 import { Typography, Select, MenuItem, InputLabel, Button, Dialog, Input, Box, DialogTitle, DialogContent, DialogActions } from '@mui/material'
 import SettingsIcon from '@mui/icons-material/Settings'
 import CloseIcon from '@mui/icons-material/Close'
-import { AVAILABLE_PLACE, getQrConfig, qrDefaultConfig, setQrConfig } from './utils'
+import { getQrConfig, qrDefaultConfig, setQrConfig } from './utils'
+import { AVAILABLE_PLACE } from '../../conf'
 
 const formGroupStyle = {
   width: '100%',

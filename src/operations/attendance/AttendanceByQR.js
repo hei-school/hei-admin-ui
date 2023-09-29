@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Box, FormControl, RadioGroup, Radio, FormControlLabel } from '@mui/material'
-import {  SCAN_STATUS, getQrConfig, tryToSendAttendance } from './utils'
+import {  SCAN_STATUS, addAttendance, getQrConfig } from './utils'
 import AttendanceStatus from './AttendanceStatus'
 import { Html5QrcodeScanner, Html5QrcodeScanType } from 'html5-qrcode'
 import { Button } from 'react-admin'
@@ -53,7 +53,6 @@ function AttendanceByQR() {
 
     const scanner = new Html5QrcodeScanner('reader', config, false)
     scanner.render(scanSuccess)
-    scanner.getState()
   }, [getQrConfig().pauseDelay, getQrConfig().boxSize, getQrConfig().fps])
 
   //submit action
@@ -65,8 +64,8 @@ function AttendanceByQR() {
         created_at: new Date().toISOString(),
         place: getQrConfig().place
       }
-
-      tryToSendAttendance(attendanceData)
+      
+      addAttendance(attendanceData)
     }
   }, [scanInfo.data])
 
@@ -77,7 +76,7 @@ function AttendanceByQR() {
 
   return (
     <Box component='div' sx={QRContainerStyle}>
-      <Box sx={{  maxWidth: '500px',  width: '100%', }} component='div' id='reader' />
+      <Box sx={{  maxWidth: '500px',  width: '100%' }} component='div' id='reader' />
       <Box component='div' sx={{ 
         display: 'flex', 
         alignItems: 'center', 

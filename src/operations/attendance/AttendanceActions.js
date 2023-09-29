@@ -1,9 +1,12 @@
 import React from 'react'
 import { Box, Button } from '@mui/material'
-import { getQrConfig, tryToSendAttendance } from './utils'
+import { addAttendance, getQrConfig } from './utils'
 import { AttendanceMovementType } from '../../gen/haClient'
+import { useNotify } from 'react-admin'
 
 function AttendanceActions({ studentId = '', sx = {} }) {
+  const notify = useNotify();
+  
   const submitActions = type => {
     const attendanceData = {
       attedance_mouvement_type: type,
@@ -11,7 +14,9 @@ function AttendanceActions({ studentId = '', sx = {} }) {
       created_at: new Date().toISOString(),
       place: getQrConfig().place
     }
-    tryToSendAttendance(attendanceData)
+
+    addAttendance(attendanceData)
+    notify('Attendance réussi')
   }
 
   return (
