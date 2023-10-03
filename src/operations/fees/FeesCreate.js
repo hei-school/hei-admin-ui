@@ -17,6 +17,7 @@ import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 import { commentRenderer } from '../utils'
+import { CustomCreate } from '../utils/CustomCreate'
 
 const commonStyleSelect = {
   width: {
@@ -158,7 +159,7 @@ const FeesCreate = props => {
   }
   return (
     // https://marmelab.com/blog/2022/04/12/react-admin-v4-new-form-framework.html
-    <Create
+    <CustomCreate
       {...props}
       title={`Frais de ${studentRef}`}
       resource='fees'
@@ -168,7 +169,7 @@ const FeesCreate = props => {
       <SimpleForm>
         <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />
       </SimpleForm>
-    </Create>
+    </CustomCreate>
   )
 }
 

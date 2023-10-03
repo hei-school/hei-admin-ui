@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
+import { CustomCreate } from '../utils/CustomCreate'
 
 const PaymentCreate = props => {
   const params = useParams()
@@ -27,7 +28,7 @@ const PaymentCreate = props => {
   }
 
   return (
-    <Create
+    <CustomCreate
       {...props}
       title={`Paiement de ${studentRef}`}
       resource='payments'
@@ -47,7 +48,7 @@ const PaymentCreate = props => {
         <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
         <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === 'mobileMoney' && validateConditions} />
       </SimpleForm>
-    </Create>
+    </CustomCreate>
   )
 }
 
