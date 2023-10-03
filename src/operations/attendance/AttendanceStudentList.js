@@ -9,8 +9,8 @@ import { profileFilters } from '../profile'
 const AttendanceStudentList = () => {
   return (
     <List
-      title='Pointage'
-      label='Pointage'
+      title='Attendance'
+      label='Attendance'
       actions={<ListToolBar />}
       hasShow={false}
       filters={profileFilters}

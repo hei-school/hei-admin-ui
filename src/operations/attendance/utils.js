@@ -9,15 +9,9 @@ export const qrDefaultConfig = {
 }
 
 export const setQrConfig = newConfig => {
-  let pauseDelay = +newConfig.pauseDelay;
-  let fps = +newConfig.fps;
-
-  if(Number.isNaN(pauseDelay)){
-    pauseDelay = qrDefaultConfig.pauseDelay
-  }
-  if(Number.isNaN(fps)){
-    fps = qrDefaultConfig.fps
-  }
+  const pauseDelay = !isNaN(+newConfig.pauseDelay) ? +newConfig.pauseDelay: qrDefaultConfig.pauseDelay
+  const fps = !isNaN(+newConfig.fps) ? +newConfig.fps : qrDefaultConfig.fps
+  
   localStorage.setItem('qr-config', JSON.stringify({...newConfig,fps, pauseDelay}))
 }
 

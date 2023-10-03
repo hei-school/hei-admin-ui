@@ -3,8 +3,9 @@ import { Box, Typography } from '@mui/material'
 import QrCodeScannerIcon from '@mui/icons-material/QrCodeScanner'
 import ListIcon from '@mui/icons-material/List'
 import { Link } from 'react-admin'
+import { styled } from '@mui/styles'
 
-const menuStyle = {
+const MenuContainer = styled('div')({
   width: '100%',
   height: '100%',
   display: 'flex',
@@ -12,9 +13,9 @@ const menuStyle = {
   justifyContent: 'center',
   alignItems: 'center',
   flexDirection: 'column'
-}
+})
 
-const cardBoxStyle = {
+const CardMenu = styled('div')({
   padding: '15px',
   backgroundColor: 'rgba(0,0,125,.1)',
   borderRadius: '15px',
@@ -23,33 +24,33 @@ const cardBoxStyle = {
   alignItems: 'center',
   justifyContent: 'center',
   cursor: 'pointer'
-}
+})
 
 function AttendanceMenu() {
   return (
-    <Box sx={menuStyle}>
+    <MenuContainer>
       <Typography variant='h3' sx={{ fontSize: '1.4em', textAlign: 'center', color: 'rgba(0,0,0,.8)' }}>
         Comment voulez-vous faire le pointage ?
       </Typography>
       <Box component='div' sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 5 }}>
         <Link to='/attendance/scan'>
-          <Box sx={cardBoxStyle}>
+          <CardMenu>
             <QrCodeScannerIcon sx={{ fontSize: '3em' }} />
             <Typography variant='h3' sx={{ fontSize: '1em' }}>
               Par QRCode
             </Typography>
-          </Box>
+          </CardMenu>
         </Link>
         <Link to='/attendance/list'>
-          <Box sx={cardBoxStyle}>
+          <CardMenu>
             <ListIcon sx={{ fontSize: '3em' }} />
             <Typography variant='h3' sx={{ fontSize: '1em' }}>
               Par List
             </Typography>
-          </Box>
+          </CardMenu>
         </Link>
       </Box>
-    </Box>
+    </MenuContainer>
   )
 }
 

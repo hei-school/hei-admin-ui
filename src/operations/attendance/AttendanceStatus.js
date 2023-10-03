@@ -9,9 +9,10 @@ function AttendanceStatus({ scanInfo }) {
     position:'absolute',
     bottom:'80px',
     width:'100%',
-    left: '0'
+    left: '0',
+    color: 'rgb(0,240,0)'
   }
-  return scanInfo.status === SCAN_STATUS.SUCCESS ? <Typography sx={{ ...style, color: 'rgb(0,240,0)' }}>STD: {scanInfo.data}</Typography> : null
+  return scanInfo.status === SCAN_STATUS.SUCCESS ? <Typography sx={{ ...style}}>STD: {scanInfo.data}</Typography> : null
 }
 
 export default AttendanceStatus
