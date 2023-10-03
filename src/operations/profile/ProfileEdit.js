@@ -27,11 +27,11 @@ const ProfileEdit = () => (
       <TextInput source='ref' label='Référence' fullWidth={true} />
       <TextInput source='first_name' label='Prénom·s' fullWidth={true} />
       <TextInput source='last_name' label='Nom·s' fullWidth={true} />
-      <TextInput source='email' fullWidth={true} />
-      <TextInput multiline source='address' label='Adresse' fullWidth={true} />
       <SexRadioButton />
       <TextInput source='phone' label='Téléphone' fullWidth={true} />
       <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
+      <TextInput multiline source='address' label='Adresse' fullWidth={true} />
+      <TextInput source='email' fullWidth={true} />
       <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} />
       <StatusRadioButton />
     </SimpleForm>

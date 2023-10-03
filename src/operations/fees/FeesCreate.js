@@ -11,7 +11,8 @@ import {
   SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider, useNotify
+  useDataProvider,
+  useNotify
 } from 'react-admin'
 import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
@@ -74,8 +75,7 @@ export const FeeSimpleFormContent = props => {
         defaultValue={defaultIsPredefinedType}
         onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
       />
-      {isPredefinedType ? <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} /> :
-        <ManualFeeTypeRadioButton validate={required()} />}
+      {isPredefinedType ? <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} /> : <ManualFeeTypeRadioButton validate={required()} />}
       <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
 
       <BooleanInput
@@ -89,15 +89,14 @@ export const FeeSimpleFormContent = props => {
       {isPredefinedFirstDueDate ? (
         <PredefinedFirstDueDateRadioButton validate={required()} />
       ) : (
-        <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle'
-                   fullWidth={true} validate={required()} />
+        <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
       )}
     </>
   )
 }
 const FeesCreate = props => {
   const params = useParams()
-  const notify = useNotify();
+  const notify = useNotify()
   const studentId = params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
@@ -174,8 +173,7 @@ const FeesCreate = props => {
       transform={feesConfToFeesApi}
     >
       <SimpleForm>
-        <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf}
-                              feesConf={feesConf} />
+        <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />
       </SimpleForm>
     </Create>
   )

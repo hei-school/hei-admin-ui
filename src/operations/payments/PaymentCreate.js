@@ -9,7 +9,9 @@ import {
   required,
   minValue,
   number,
-  useNotify, NumberInput, maxValue
+  useNotify,
+  NumberInput,
+  maxValue
 } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
@@ -31,7 +33,11 @@ const PaymentCreate = props => {
     doEffect()
   })
 
-  const validateConditions = [required(), minValue(1, 'Le montant doit être une somme supérieure à 0'), maxValue(10000000, 'Le montant doit être inférieure à 10000000')]
+  const validateConditions = [
+    required(),
+    minValue(1, 'Le montant doit être une somme supérieure à 0'),
+    maxValue(10000000, 'Le montant doit être inférieure à 10000000')
+  ]
   const [paymentChoice, setPaymentChoice] = useState('cash')
   const paymentConfToPaymentApi = ({ type, amount, comment }) => {
     return [{ feeId: feeId, type: paymentTypes[type].type, amount: amount, comment: comment }]
