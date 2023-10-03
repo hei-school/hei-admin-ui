@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
+import { Create, SimpleForm, TextInput, DateInput, BooleanInput, email } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
 import { SexRadioButton, TurnsStringIntoDate } from '../utils'
 import { createFees } from './utils'
@@ -42,6 +42,7 @@ const StudentCreate = props => {
     const result = [fees, student]
     return result
   }
+  const validateConditions = [email("Le mail que vous avez donné n'est pas valide.")]
   return (
     <CustomCreate title='Étudiants' transform={transformPayload} resource='students'>
       <SimpleForm>
@@ -52,7 +53,7 @@ const StudentCreate = props => {
         <TextInput source='phone' label='Téléphone' fullWidth={true} required />
         <DateInput source='birth_date' label='Date de naissance' fullWidth={true} required />
         <TextInput source='address' label='Adresse' fullWidth={true} multiline required />
-        <TextInput source='email' label='Email' fullWidth={true} required />
+        <TextInput source='email' label='Email' fullWidth={true} required validate={validateConditions} />
         <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} required />
         <BooleanInput
           label='Activer la création des frais'

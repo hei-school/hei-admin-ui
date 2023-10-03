@@ -1,7 +1,6 @@
-import { List, Datagrid, TextField, DateField, FunctionField, ShowButton } from 'react-admin'
-import rowStyle from './byStatusRowStyle'
+import { List } from 'react-admin'
 
-import { prettyPrintMoney, statusRenderer, CustomDateField, commentFunctionRenderer } from '../utils'
+import { statusRenderer } from '../utils'
 
 import { maxPageSize } from '../../providers/dataProvider'
 import { FeesListItems } from './utils'

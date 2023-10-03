@@ -1,14 +1,24 @@
 import { useState, useEffect } from 'react'
 
-import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number } from 'react-admin'
+import {
+  Create,
+  SimpleForm,
+  TextInput,
+  RadioButtonGroupInput,
+  useDataProvider,
+  required,
+  minValue,
+  number,
+  useNotify, NumberInput, maxValue
+} from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
-import { CustomCreate } from '../utils/CustomCreate'
 
 const PaymentCreate = props => {
   const params = useParams()
+  const notify = useNotify()
   const feeId = params.feeId
   const studentId = studentIdFromRaId(feeId)
   const [studentRef, setStudentRef] = useState('...')
@@ -21,14 +31,19 @@ const PaymentCreate = props => {
     doEffect()
   })
 
-  const validateConditions = [required()]
+  const validateConditions = [required(), minValue(1, 'Le montant doit être une somme supérieure à 0'), maxValue(10000000, 'Le montant doit être inférieure à 10000000')]
   const [paymentChoice, setPaymentChoice] = useState('cash')
   const paymentConfToPaymentApi = ({ type, amount, comment }) => {
     return [{ feeId: feeId, type: paymentTypes[type].type, amount: amount, comment: comment }]
   }
 
   return (
-    <CustomCreate
+    <Create
+      mutationOptions={{
+        onError: error => {
+          notify(`Une erreur s'est produite`, { type: 'error', autoHideDuration: 1000 })
+        }
+      }}
       {...props}
       title={`Paiement de ${studentRef}`}
       resource='payments'
@@ -44,11 +59,12 @@ const PaymentCreate = props => {
           onChange={e => {
             setPaymentChoice(e.target.value)
           }}
+          required
         />
-        <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
+        <NumberInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
         <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === 'mobileMoney' && validateConditions} />
       </SimpleForm>
-    </CustomCreate>
+    </Create>
   )
 }
 

@@ -7,17 +7,16 @@ import {
   minValue,
   number,
   RadioButtonGroupInput,
-  SelectInput,
   required,
+  SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider
+  useDataProvider, useNotify
 } from 'react-admin'
 import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 import { commentRenderer } from '../utils'
-import { CustomCreate } from '../utils/CustomCreate'
 
 const commonStyleSelect = {
   width: {
@@ -75,7 +74,8 @@ export const FeeSimpleFormContent = props => {
         defaultValue={defaultIsPredefinedType}
         onChange={({ target: { checked } }) => setIsPredefinedType(checked)}
       />
-      {isPredefinedType ? <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} /> : <ManualFeeTypeRadioButton validate={required()} />}
+      {isPredefinedType ? <PredefinedFeeTypeRadioButton setFeesConf={setFeesConf} validate={required()} /> :
+        <ManualFeeTypeRadioButton validate={required()} />}
       <FeesConfInput isPredefinedType={isPredefinedType} feesConf={feesConf} />
 
       <BooleanInput
@@ -89,13 +89,15 @@ export const FeeSimpleFormContent = props => {
       {isPredefinedFirstDueDate ? (
         <PredefinedFirstDueDateRadioButton validate={required()} />
       ) : (
-        <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
+        <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle'
+                   fullWidth={true} validate={required()} />
       )}
     </>
   )
 }
 const FeesCreate = props => {
   const params = useParams()
+  const notify = useNotify();
   const studentId = params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
@@ -159,7 +161,12 @@ const FeesCreate = props => {
   }
   return (
     // https://marmelab.com/blog/2022/04/12/react-admin-v4-new-form-framework.html
-    <CustomCreate
+    <Create
+      mutationOptions={{
+        onError: error => {
+          notify(`Une erreur s'est produite`, { type: 'error', autoHideDuration: 1000 })
+        }
+      }}
       {...props}
       title={`Frais de ${studentRef}`}
       resource='fees'
@@ -167,9 +174,10 @@ const FeesCreate = props => {
       transform={feesConfToFeesApi}
     >
       <SimpleForm>
-        <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />
+        <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf}
+                              feesConf={feesConf} />
       </SimpleForm>
-    </CustomCreate>
+    </Create>
   )
 }
 
