@@ -2,7 +2,6 @@ import { RadioButtonGroupInput } from 'react-admin'
 
 export const SexRadioButton = () => (
   <RadioButtonGroupInput
-    required
     source='sex'
     label='Sexe'
     choices={[
