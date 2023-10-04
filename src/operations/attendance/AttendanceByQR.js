@@ -2,10 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Box, FormControl, RadioGroup, Radio, FormControlLabel } from '@mui/material'
 import { SCAN_STATUS, addAttendance, getQrConfig } from './utils'
 import AttendanceStatus from './AttendanceStatus'
-import { Button } from 'react-admin'
+import { Link } from 'react-admin'
 import ListIcon from '@mui/icons-material/List'
 import QrPageConfig from './QrPageConfig'
-import { useNavigate } from 'react-router-dom'
 import { AttendanceMovementType } from '../../gen/haClient'
 import createScannerBox, { ScannerBox } from './QrScanner'
 
@@ -16,7 +15,6 @@ function AttendanceByQR() {
     status: SCAN_STATUS.NO_SCAN,
     data: ''
   })
-  const navigate = useNavigate()
 
   useEffect(() => {
     createScannerBox(scanInfo, setScanInfo);
@@ -43,25 +41,17 @@ function AttendanceByQR() {
   return (
     <Box component='div' sx={{
       display:'flex',
-      alignItems: 'center',
-      justifyContent: 'center', 
+      justifyContent:'center',
       width:'100%',
       height:'100%'
     }}>
-      <Box component='div' sx={{ width: '100%', maxWidth: '700px', position: 'relative' }}>
+      <Box component='div' sx={{ width: '100%', maxWidth: '700px',height:'fit-content',position: 'relative' }}>
         <ScannerBox id='reader' />
-        <Box component='div' sx={{
-          display: 'flex',
-          alignItems: 'center',
-          py: 1, gap: 1,
-          position: 'absolute',
-          top: 0,
-          right: 0,
-        }}>
+        <Box component='div' sx={{ display: 'flex', position: 'absolute', top: 0, right: 0, p: 1}}>
           <QrPageConfig openConfig={showConfig} setOpenConfig={setShowConfig} />
-          <Button variant='text' sx={{ p: 0 }} onClick={() => navigate('/attendance/list')}>
-            <ListIcon sx={{ fontSize: '35px !important', color: 'white' }} />
-          </Button>
+          <Link sx={{ p: 0, ml: 1 }} to='/attendance'>
+            <ListIcon sx={{ fontSize: '40px !important',pt: '2px', color: 'white' }} />
+          </Link>
         </Box>
         <AttendanceStatus scanInfo={{ ...scanInfo, type: attendanceType }} />
         <Box component='div' sx={{ position: 'absolute', bottom: 5, width: '100%' }}>

@@ -1,5 +1,5 @@
 import React from 'react'
-import { Box, Button } from '@mui/material'
+import { Box, Button} from '@mui/material'
 import { addAttendance, getQrConfig } from './utils'
 import { AttendanceMovementType } from '../../gen/haClient'
 import { useNotify } from 'react-admin'
@@ -21,10 +21,10 @@ function AttendanceActions({ studentId = '', sx = {} }) {
 
   return (
     <Box component='div' sx={{ display: 'flex', alignItems: 'center', gap: 1, ...sx }}>
-      <Button variant='contained' color='primary' onClick={() => submitActions(AttendanceMovementType.In)}>
+      <Button variant='outlined' color='primary' onClick={() => submitActions(AttendanceMovementType.In)}>
         Arriver
       </Button>
-      <Button variant='contained' color='warning' onClick={() => submitActions(AttendanceMovementType.Out)}>
+      <Button variant='outlined' color='warning' onClick={() => submitActions(AttendanceMovementType.Out)}>
         Sortie
       </Button>
     </Box>

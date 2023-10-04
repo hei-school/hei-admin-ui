@@ -23,7 +23,7 @@ const AttendanceStudentList = () => {
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
-        <FunctionField label='Actions' render={record => <AttendanceActions sx={{ gap: 2 }} studentId={record.ref} />} />
+        <FunctionField render={record => <AttendanceActions sx={{ gap: 2 }} studentId={record.ref} />} />
       </Datagrid>
     </List>
   )

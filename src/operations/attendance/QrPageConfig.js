@@ -9,11 +9,11 @@ import { styled } from '@mui/styles'
 const FormGroup = styled('div')({
   width: '100%',
   display: 'flex',
-  my: 2,
-  alignItems: 'start',
+  margin:'10px 0',
+  alignItems: 'center',
   justifyContent: 'space-between',
   flexDirection: 'row',
-  gap: 1
+  gap: 2 
 })
 
 function QrPageConfig({openConfig, setOpenConfig}) {
@@ -37,7 +37,7 @@ function QrPageConfig({openConfig, setOpenConfig}) {
   return (
     <>
       <Button variant='text' sx={{ p: 0 }} onClick={toggleShowConfig}>
-        <SettingsIcon sx={{ fontSize: '30px', color:'white' }} />
+        <SettingsIcon sx={{ fontSize: '32px', pb: '3px', color:'white' }} />
       </Button>
       <Dialog onClose={toggleShowConfig} sx={{ width: '100%' }} open={openConfig}>
         <DialogTitle sx={{ display: 'flex', p: 2, alignItems: 'center', justifyContent: 'space-between' }}>

@@ -4,11 +4,12 @@ import { styled } from "@mui/styles"
 
 export const ScannerBox = styled('div')({
   width:'100%',
+  marginTop:'5px',
   maxWidth:'700px',
   minHeight:'400px',
   borderColor:'transparent',
   backgroundColor:'rgba(0,0,0,.8)',
-  '& button:not(#html5-qrcode-button-camera-permission), & img': { display: 'none !important' },
+  '& button:not(#html5-qrcode-button-camera-permission), & img, & select': { display: 'none !important' },
   '& #reader__dashboard_section': { padding: '0 !important' },
   '& #html5-qrcode-button-camera-permission': {
     position: 'absolute',
@@ -31,7 +32,7 @@ export const ScannerBox = styled('div')({
       width:'100%',
       transform: 'translate(-50%, -50%)',
     }
-  }
+  },
 })
 
 function createScannerBox(scanInfo, setScanInfo) {
@@ -52,10 +53,12 @@ function createScannerBox(scanInfo, setScanInfo) {
     fps: getQrConfig().fps,
     qrbox: { width: getQrConfig().boxSize, height: getQrConfig().boxSize },
     rememberLastUsedCamera: true,
-    supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA]
+    supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
+    videoConstraints:{
+      facingMode:'environment'
+    }
   }
-
-  const scanner = new Html5QrcodeScanner('reader', config, false)
+  const scanner = new Html5QrcodeScanner('reader',config, false)
   scanner.render(scanSuccess)
 }
 
