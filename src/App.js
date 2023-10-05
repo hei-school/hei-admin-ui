@@ -14,6 +14,8 @@ import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
 
+import { Home } from './operations/home'
+
 import fees from './operations/fees'
 import payments from './operations/payments'
 
@@ -42,6 +44,8 @@ const App = () => (
     <Resource name='student-grades' {...studentGrades} />
 
     <CustomRoutes>
+      <Route exact path='/home' element={<Home />} />
+
       <Route exact path='/profile' element={<profile.show />} />
 
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
@@ -59,6 +63,7 @@ const App = () => (
 
       <Route exact path='/fees/:feeId/payments' element={<payments.list />} />
       <Route exact path='/fees/:feeId/payments/create' element={<payments.create />} />
+
     </CustomRoutes>
   </Admin>
 )
