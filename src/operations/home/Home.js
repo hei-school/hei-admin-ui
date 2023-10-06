@@ -1,47 +1,29 @@
 import React from 'react'
-import { Link } from 'react-admin'
-import { Box, Typography } from '@mui/material'
-import HomeAside from './HomeAside'
-import { styled } from '@mui/styles'
+import { Box } from '@mui/material'
 import StatStudent from './StatStudent'
 import StatMoney from './StatMoney'
+import CardNumber from './utils/CardNumber' 
+import HelloBox from './HelloBox'
+import { getIconValues } from './utils/config'
+import authProvider from '../../providers/authProvider'
+import { WhoamiRoleEnum } from '../../gen/haClient'
 
-const HelloBox = styled('div')({
-  borderRadius:'5px',
-  padding:'20px', 
-  display:'flex', 
-  gap: 3,
-  backgroundColor:'rgba(176, 192, 245, .4)',
-  width:'100%',
-  maxWidth:'800px',
-  flex: 2
-})
+//mock
+const data = [ 300, 3, 10, 3 ]
 
 function Home(){
+  const icons = getIconValues()
+  const role = authProvider.getCachedRole()
+
   return (
     <Box sx={{ width:'100%', p: 1, height:'100%', backgroundColor:'#ebe9e6' }}>
-      <Box sx={{ display:'flex', gap:1}}>
-        {/* <HelloBox> */}
-        {/*   <Box sx={{ width:'100%', color:'rgba(0,0,0,.8)', flex: 2}}> */}
-        {/*     <Typography variant='h2' sx={{ fontSize:'1.5em', color:'#214ad1'}}> */}
-        {/*       Bienvenue à Hei admin */}
-        {/*     </Typography> */}
-        {/*     <Typography variant='h4' sx={{ fontSize:'1em', my:1, color:'rgba(0,0,0,.7)' }}> */}
-        {/*       Lorem ipsum dolor sit amet, qui minim labore adipisicing minim sint  */}
-        {/*       cillum sint consectetur cupidatat xillum sint consectetur cupidatat. */}
-        {/*        sint consectetur cupidatat xillum sint consectetur cupidatat. */}
-        {/*     </Typography> */}
-        {/*     <Link to='/profile'>Voir plus</Link> */}
-        {/*   </Box> */}
-        {/*   <Box sx={{ flex: 1 }}> */}
-        {/*     <img src='/home_image.png' style={{ width:'100%' }}/> */}
-        {/*   </Box> */}
-        {/* </HelloBox> */}
-        <HomeAside />
+      <HelloBox />
+      <Box sx={{ display:'flex',width:'100%', gap:1, justifyContent: 'space-evenly'}}>
+        { icons.map((el, index) => <CardNumber key={index} value={{...el, count: data[index]}} /> )}
       </Box>
-      <Box sx={{ display:'flex', gap: 1}}>
+      <Box sx={{ display:'flex', gap: 1, alignItems:'start'}}>
         <StatStudent />
-        <StatMoney />
+        { role === WhoamiRoleEnum.Manager && <StatMoney /> }
       </Box>
     </Box>
   ) 

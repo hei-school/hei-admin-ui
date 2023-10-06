@@ -1,7 +1,7 @@
 import { Box } from '@mui/material'
 import { Line } from 'react-chartjs-2';
-import { CardStyle } from './style'
-import { createBasicOptions } from './utils/stat.config';
+import { CardStyle } from './utils/style'
+import { createBasicConfig } from './utils/config';
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
@@ -20,18 +20,18 @@ const data = {
 
 const config = {
   plugins: {
-      legend: { display: false },
-      title: {
-        display: true,
-        text: 'Argent entrant',
-        font:{ size:'16px' }
-      },
-    }
+    legend: { display: false },
+    title: {
+      display: true,
+      text: 'Revenu',
+      font:{ size:'16px' }
+    },
+  }
 } 
 
 function StatMoney(){
   return <Box sx={{ ...CardStyle, width:'100%', flex: 1, mt: 1 }}>
-    <Line style={{ height: '400px', width:'100%' }} options={createBasicOptions(config)} data={data} />
+    <Line style={{ maxHeight:'300px' }} options={createBasicConfig(config)} data={data} />
   </Box>
 }
 

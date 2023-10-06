@@ -1,24 +1,13 @@
 import { Box } from '@mui/material'
 import { Line } from 'react-chartjs-2';
-import { CardStyle } from './style'
-import { createBasicOptions } from './utils/stat.config';
+import { CardStyle } from './utils/style'
+import { createBasicConfig } from './utils/config';
+import authProvider from '../../providers/authProvider';
+import { WhoamiRoleEnum } from '../../gen/haClient';
 
 const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July'];
 
-const config = {
-  plugins: {
-      legend: {
-        position: 'top',
-        align: 'end'
-      },
-      title: {
-        display: true,
-        text: 'Evolution du nombre d\'étudiants',
-        font:{ size:'20px' }
-      },
-    }
-} 
-
+//mock
 const data = {
   labels,
   datasets: [
@@ -46,9 +35,26 @@ const data = {
   ],
 };
 
+
+const getStudentConfig = ()=>{
+  const role = authProvider.getCachedRole()
+  const config = {
+    plugins: {
+      legend: { position: 'top', align: 'end' },
+      title: {
+        display: true,
+        text: role !== WhoamiRoleEnum.Student ? 'Augmentation des étudiants' : 'Évolution de la moyenne',
+        font:{ size:'20px' }
+      },
+    }
+  }
+
+  return createBasicConfig(config)
+}
+
 function StatStudent(){
-  return <Box sx={{ ...CardStyle,maxWidth:'800px',flex: 2, mt: 1 }}>
-    <Line style={{ maxHeight:'200px' }} options={createBasicOptions(config)} data={data} />
+  return <Box sx={{ ...CardStyle, flex: 1, mt: 1 }}>
+    <Line style={{ maxHeight:'300px' }} options={getStudentConfig()} data={data} />
   </Box>
 }
 
