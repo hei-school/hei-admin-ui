@@ -4,7 +4,7 @@ import { CardContent, Typography } from '@mui/material'
 import { AccountCircle, School, People, Work, Warning, Home } from '@mui/icons-material'
 
 export const ManagerMenu = () => (
-  <MultiLevelMenu variant='categories'>
+  <MultiLevelMenu sx={{backgroundColor: 'red', width:'300px !important'}}>
     <MenuItemCategory to='/home' name='home' label='Acceuil' icon={<Home />} />
     <MenuItemCategory to='/profile' name='profile' label='Mon profil' icon={<AccountCircle />} />
 

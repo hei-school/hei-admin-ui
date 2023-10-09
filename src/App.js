@@ -21,7 +21,7 @@ import payments from './operations/payments'
 
 import studentGrades from './operations/studentGrades'
 
-import MyLayout from './HaLayout'
+import HaLayout from './haLayout'
 import HaLoginPage from './security/LoginPage'
 const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
 const App = () => (
@@ -31,7 +31,7 @@ const App = () => (
     dataProvider={dataProvider}
     i18nProvider={polyglotI18nProvider(() => frenchMessages, 'fr')}
     loginPage={HaLoginPage}
-    layout={MyLayout}
+    layout={HaLayout}
     requireAuth
   >
     <Resource name='profile' />

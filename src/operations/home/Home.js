@@ -16,7 +16,7 @@ function Home(){
   const role = authProvider.getCachedRole()
 
   return (
-    <Box sx={{ width:'100%', p: 1, height:'100%', backgroundColor:'#ebe9e6' }}>
+    <Box sx={{ width:'100%', p: 1, height:'100%'}}>
       <HelloBox />
       <Box sx={{ display:'flex',width:'100%', gap:1, justifyContent: 'space-evenly'}}>
         { icons.map((el, index) => <CardNumber key={index} value={{...el, count: data[index]}} /> )}

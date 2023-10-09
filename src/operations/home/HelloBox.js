@@ -7,7 +7,8 @@ const HelloBoxContainer = styled('div')({
   marginBottom: 10, 
   width: '100%',
   color: 'rgba(0,0,0,.7)', 
-  backgroundColor: 'rgba(255, 191, 0, .8)',
+  // backgroundColor: 'rgba(255, 191, 0, .8)',
+  backgroundColor: '#fadc6e',
   display: 'flex',
   gap: 2,
   flex: 2,
@@ -20,7 +21,7 @@ function HelloBox(){
       <Box sx={{width:'100%',flex: 1}}>
         <img src='home_image.png' style={{ maxHeight:'250px' }}/>
       </Box>
-      <Box sx={{flex: 2, maxHeight:'250px'}}>
+      <Box sx={{flex: 2, pr:5, maxHeight:'250px'}}>
         <Typography variant='h2' sx={{ fontSize:'2.5em', fontWeight: 'bold' }}>
           Bienvenue a nouveau
         </Typography>
