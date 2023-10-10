@@ -6,7 +6,6 @@ import {
 import { LoadingIndicator } from 'react-admin'
 import LogoutMenu from './LogoutMenu'
 import NotificationMenu from './NotificationMenu'
-// import { AppBar as TestL } from 'react-admin'
 
 const HaAppBar = ()=> {
   return (

@@ -1,11 +1,11 @@
 import {
   Popover,
-  Typography,
   Badge,
   IconButton
 } from '@mui/material'
 import { useState } from 'react';
 import { Notifications } from '@mui/icons-material'
+import NotificationContent from './NotificationContent';
 
 //dataMock
 const dataMock ={ 
@@ -40,7 +40,7 @@ function NotificationMenu(){
           horizontal: 'right',
         }}
       >
-        <Typography sx={{ p: 2 }}>The content of the Popover.</Typography>
+        <NotificationContent />
       </Popover>
     </>
   )
