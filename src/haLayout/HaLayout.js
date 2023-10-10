@@ -18,7 +18,12 @@ const HaLayout = (props) => {
     <ThemeProvider theme={mainTheme}>
       <HaLayoutStyled>
         <HaMenu />
-        <Box sx={{marginLeft: '250px', width:'calc(100% - 250px)',display:'flex', flexDirection:'column'}}>
+        <Box sx={{
+          marginLeft: '250px', 
+          width:'calc(100% - 250px)',
+          display:'flex', 
+          flexDirection:'column'}}
+        >
           <HaAppBar title={title}/>
           {children}
         </Box>
