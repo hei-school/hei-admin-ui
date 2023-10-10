@@ -3,7 +3,7 @@ import { ThemeProvider } from '@mui/material/styles'
 import { styled } from '@mui/styles';
 import { mainTheme } from '../haTheme';
 import HaAppBar from './appBar';
-import HaMenu from './menu/';
+import { HaMenu } from './menu';
 
 const HaLayoutStyled = styled('div')({
   backgroundColor: '#ebe9e6',

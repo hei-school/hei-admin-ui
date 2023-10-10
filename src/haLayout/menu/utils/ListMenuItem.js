@@ -17,7 +17,7 @@ function ListMenuItem({ label, icon, sx = {}, to }){
         label={label}
         to={to} 
         icon={icon} 
-        sx={{ pl: 4.5, pr: 3}}
+        sx={{ pl: 4.5, pr: 3, ...sx}}
         fontSize='.9em'
       />
     </Collapse>

@@ -1,9 +1,9 @@
 import { Typography } from '@mui/material'
 import { styled } from '@mui/styles'
-import { School, AccountCircle, Home, Warning, People, Work } from '@mui/icons-material'
-import ListMenu from './ListMenu'
-import ListMenuItem from './ListMenuItem'
 import SingleMenu from './SingleMenu'
+import UserInfo from './UserInfo'
+import {  AccountCircleOutlined,  HomeOutlined } from '@mui/icons-material'
+import HaMenuContent from '../HaMenuContent'
 
 export const whiteLight = '#e3e2de'
 const HaMenuStyled = styled('div')({
@@ -19,10 +19,9 @@ const HaMenuStyled = styled('div')({
   flexDirection:'column',
   alignItems:'center',
   top: 0,
-  paddingTop: 13,
+  paddingTop: 15,
   color: whiteLight,
 })
-
 
 function HaMenu(){
   return (
@@ -30,13 +29,10 @@ function HaMenu(){
       <Typography variant='h1' sx={{color: 'inherit', fontSize:'1.2em',mb:2,fontWeight:400}}>
         HEI ADMIN
       </Typography>
-      <SingleMenu label='Home' icon={<Home />} to='/home'/>
-      <SingleMenu label='Profile' icon={<AccountCircle />} to='/profile'/>
-      <SingleMenu to='/teachers' label='Enseignants' icon={<Work />} />
-      <ListMenu label='Étudiants' icon={<School />}>
-        <ListMenuItem label='Liste des étudiants' icon={<People sx={{fontSize: '20px'}} />} to='/students'/>
-        <ListMenuItem label='Frais en retards' icon={<Warning sx={{fontSize: '20px'}} />} to='/fees'/>
-      </ListMenu>
+      <UserInfo />
+      <SingleMenu label='Home' icon={<HomeOutlined />} to='/home'/>
+      <SingleMenu label='Profile' icon={<AccountCircleOutlined />} to='/profile'/>
+      <HaMenuContent />
     </HaMenuStyled>
   )
 }
