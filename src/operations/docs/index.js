@@ -7,4 +7,4 @@ const docs = {
   options: { label: 'Document' }
 }
 
-export default docs;
+export default docs

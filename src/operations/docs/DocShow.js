@@ -22,18 +22,19 @@ const DocLayout = ({ resource }) => {
 
   useEffect(() => {
     const getFile = async () => await dataProvider.getOne(resource, { id: id })
-    getFile().then((result) => setFile(result.data))
+    getFile().then(result => setFile(result.data))
   }, [])
   const handleClose = () => redirect('list', resource)
   const downloadFile = () => {
     fetch(file.url)
-      .then((response) => response.blob()).then((blob) => {
-      let url = window.URL.createObjectURL(blob)
-      let a = document.createElement('a')
-      a.href = url
-      a.download = `${file.fileName}.${file.type}`
-      a.click()
-    })
+      .then(response => response.blob())
+      .then(blob => {
+        let url = window.URL.createObjectURL(blob)
+        let a = document.createElement('a')
+        a.href = url
+        a.download = `${file.fileName}.${file.type}`
+        a.click()
+      })
   }
   const buttons = [
     {
@@ -53,18 +54,16 @@ const DocLayout = ({ resource }) => {
       <div style={{ display: 'grid', gridTemplateColumns: '5fr 2fr' }}>
         <Typography variant='h6'>Document : {file.fileName}</Typography>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '1vw' }}>
-          {
-            buttons.map((button) => (<Button onClick={button.onClick} variant='outlined' size='small'>
+          {buttons.map(button => (
+            <Button onClick={button.onClick} variant='outlined' size='small'>
               {isSmall ? button.icon : button.text}
-            </Button>))
-          }
+            </Button>
+          ))}
         </div>
       </div>
       <Divider sx={{ mt: 2, mb: 1 }} />
       <FilePreviewerContainer>
-        <FilePreviewer
-          file={file}
-          hideControls={true} />
+        <FilePreviewer file={file} hideControls={true} />
       </FilePreviewerContainer>
     </>
   )

@@ -8,6 +8,6 @@ const HeiDocsShow = () => {
         <DocLayout resource='hei-docs' />
       </SimpleShowLayout>
     </Show>
-  );
+  )
 }
-export default HeiDocsShow;
+export default HeiDocsShow
