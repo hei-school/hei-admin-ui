@@ -11,7 +11,8 @@ import {
   required,
   SimpleForm,
   TextInput,
-  useDataProvider
+  useDataProvider,
+  useNotify
 } from 'react-admin'
 import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
@@ -95,6 +96,7 @@ export const FeeSimpleFormContent = props => {
 }
 const FeesCreate = props => {
   const params = useParams()
+  const notify = useNotify()
   const studentId = params.studentId
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
@@ -159,6 +161,11 @@ const FeesCreate = props => {
   return (
     // https://marmelab.com/blog/2022/04/12/react-admin-v4-new-form-framework.html
     <Create
+      mutationOptions={{
+        onError: error => {
+          notify(`Une erreur s'est produite`, { type: 'error', autoHideDuration: 1000 })
+        }
+      }}
       {...props}
       title={`Frais de ${studentRef}`}
       resource='fees'
