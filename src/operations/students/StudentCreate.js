@@ -3,7 +3,6 @@ import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-ad
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
 import { SexRadioButton, TurnsStringIntoDate } from '../utils'
 import { createFees } from './utils'
-import { CustomCreate } from '../utils/CustomCreate'
 
 const StudentCreate = props => {
   const [feesConf, setFeesConf] = useState([
@@ -43,7 +42,7 @@ const StudentCreate = props => {
     return result
   }
   return (
-    <CustomCreate title='Étudiants' transform={transformPayload} resource='students'>
+    <Create title='Étudiants' transform={transformPayload} resource='students'>
       <SimpleForm>
         <TextInput source='ref' label='Référence' fullWidth={true} required />
         <TextInput source='first_name' label='Prénoms' fullWidth={true} required />
@@ -63,7 +62,7 @@ const StudentCreate = props => {
         />
         {canCreateFees && <FeeSimpleFormContent passIsPredefinedType={useIsPredefinedType} setFeesConf={setFeesConf} feesConf={feesConf} />}
       </SimpleForm>
-    </CustomCreate>
+    </Create>
   )
 }
 export default StudentCreate
