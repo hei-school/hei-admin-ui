@@ -1,9 +1,9 @@
 import { DateField } from 'react-admin'
 
-export const CustomDateField = ({ source, label, showTime }) => {
+export const CustomDateField = ({ source, label, showTime, ...props }) => {
   let optionsObject = { year: 'numeric', month: 'long', day: 'numeric' }
   showTime && Object.assign(optionsObject, { hour: 'numeric', minute: 'numeric', second: 'numeric' })
-  return <DateField source={source} label={label} locales='fr-FR' options={optionsObject} />
+  return <DateField source={source} label={label} locales='fr-FR' options={optionsObject} {...props} />
 }
 
 export const TurnsStringIntoDate = stringDate => {

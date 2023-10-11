@@ -51,7 +51,7 @@ const StudentCreate = props => {
         <TextInput source='phone' label='Téléphone' fullWidth={true} />
         <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
         <TextInput source='address' label='Adresse' fullWidth={true} multiline />
-        <TextInput source='email' label='Email' fullWidth={true} />
+        <TextInput source='email' label='Email' fullWidth={true} required />
         <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} required />
         <BooleanInput
           label='Activer la création des frais'
