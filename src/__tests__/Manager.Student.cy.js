@@ -42,7 +42,7 @@ const fillInputs = () => {
   cy.get('#sex_F').click()
   cy.get('#phone').type(createStudent.phone)
   cy.get('#birth_date').click().type(createStudent.birth_date)
-  cy.get('.ra-input-address > .MuiInputBase-root').type(createStudent.address)
+  cy.get("[data-testid='addressInput']").type(createStudent.address)
 }
 describe(specTitle('Manager edit students'), () => {
   beforeEach(() => {
