@@ -17,6 +17,7 @@ import {
 } from './mocks/responses'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
 import { TurnsStringIntoDate } from '../operations/utils'
+import { StudentRequestBodyVerification } from './utils'
 
 const feeDateToSearch = `2022-09-11`
 const newFirstName = 'Aina herilala'
@@ -29,14 +30,6 @@ let updatedStudent = {
   ...student1Mock
 }
 updatedStudent.first_name = newFirstName
-
-const StudentRequestBodyVerification = (RequestBody, can_create_fees) => {
-  let createStudentWithoutFeesBodyMock = { ...createStudent }
-  createStudentWithoutFeesBodyMock.can_create_fees = can_create_fees
-  createStudentWithoutFeesBodyMock.entrance_datetime = TurnsStringIntoDate(createStudent.entrance_datetime)
-  expect(RequestBody[0]).to.deep.equal(createStudentWithoutFeesBodyMock)
-  expect(RequestBody.length).to.equal(1)
-}
 
 describe(specTitle('Manager edit students'), () => {
   beforeEach(() => {
@@ -62,7 +55,7 @@ describe(specTitle('Manager edit students'), () => {
 
   it('can edit students', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
-    cy.intercept('PUT', `/students`, updatedStudent).as('modifyStudent').as('modifyStudent')
+    cy.intercept('PUT', `/students`, [updatedStudent]).as('modifyStudent').as('modifyStudent')
     cy.contains('Étudiants')
     cy.wait('@getWhoami')
     cy.contains('Mon profil')
