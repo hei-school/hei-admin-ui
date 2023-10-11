@@ -155,6 +155,7 @@ export const liteCreatedStudent: User = {
   ref: 'STD000001',
   first_name: 'string',
   last_name: 'string',
+  email: 'test+create+student@hei.school',
   entrance_datetime: '2023-02-17',
   status: EnableStatus.Enabled
 }

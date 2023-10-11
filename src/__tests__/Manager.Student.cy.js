@@ -43,7 +43,6 @@ const fillInputs = () => {
   cy.get('#phone').type(createStudent.phone)
   cy.get('#birth_date').click().type(createStudent.birth_date)
   cy.get('.ra-input-address > .MuiInputBase-root').type(createStudent.address)
-  cy.get('#email').type(createStudent.email)
 }
 describe(specTitle('Manager edit students'), () => {
   beforeEach(() => {
@@ -150,6 +149,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('#first_name').type(createStudent.first_name)
     cy.get('#last_name').type(createStudent.last_name)
     cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime.slice(0, 10))
+    cy.get('#email').type(createStudent.email)
   })
   it('can create students without fees', () => {
     cy.intercept('GET', '/students?page=1&page_size=10', [createdStudent, ...studentsMock].slice(0, 10)).as('getStudents')
