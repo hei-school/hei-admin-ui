@@ -1,9 +1,17 @@
 import { Box, Typography } from '@mui/material'
-import { useNavigate } from 'react-router-dom'
+import { useTheme } from '@mui/styles'
+import { useNavigate, useLocation } from 'react-router-dom'
+import { useContext } from 'react'
+import { MenuHoverProvider } from '../../HaLayout'
 
-function SingleMenu({ label, icon, sx, to, fontSize = '1em' }){
+function SingleMenu({ label, icon, sx, to, fontSize = '1em', ...rest }){
   const navigate = useNavigate()
+  const location = useLocation()
+  const theme = useTheme() 
+  const {isHover, open } = useContext(MenuHoverProvider)
+
   const handlerClick = ()=> to && navigate(to)
+  const getColor = ()=> location.pathname.startsWith(to) ? theme.typography[':hover'] : 'inherit'
 
   return (
     <Box 
@@ -16,15 +24,19 @@ function SingleMenu({ label, icon, sx, to, fontSize = '1em' }){
         mb: 1,
         gap:2, 
         cursor: to ? 'pointer': 'default',
-        ':hover':{backgroundColor:'#575859'},
+        color: getColor(),
+        ':hover':{ color: theme.typography[':hover']},
         ...sx
       }}
       onClick={handlerClick}
+      {...rest}
     >
       { icon }
-      <Typography variant='h6' sx={{fontSize}}>
-        {label}
-      </Typography>
+      { ( open || isHover ) && 
+        <Typography variant='h6' sx={{fontSize}}>
+          {label}
+        </Typography>
+      } 
     </Box>
   )
 }

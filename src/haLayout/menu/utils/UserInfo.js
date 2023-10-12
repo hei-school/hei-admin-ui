@@ -1,12 +1,15 @@
 import { Box, Typography } from '@mui/material'
+import { useTheme } from '@mui/styles'
+import { useContext } from 'react'
 import { useGetOne } from 'react-admin'
 import authProvider from '../../../providers/authProvider'
-import { whiteLight } from './HaMenu'
-import { AccountCircle } from '@mui/icons-material'
+import { MenuHoverProvider } from '../../HaLayout'
 
 function UserInfo(){
   const profile = useGetOne( 'profile', { id: authProvider.getCachedWhoami().id})
   const name = (profile && profile.data) ? profile.data.first_name : '' 
+  const theme = useTheme() 
+  const { isHover, open } = useContext(MenuHoverProvider)
 
   return (
     <Box 
@@ -20,14 +23,18 @@ function UserInfo(){
         px: 3,
         py: 2,
         width: '100%',
-        overflow:'hidden'
-    }}>
-      <Box sx={{width: 35, height: 35 }}>
-        <AccountCircle sx={{ fontSize:'2em' }} />
+      }}
+    >
+      <Box sx={{ backgroundColor: theme.typography[':hover'], borderRadius:'50%'}}>
+        <Typography variant='h3' sx={{fontSize:'1.5em', fontWeight:'bold',py: .7, px: 1.4}}>
+          { name[0] && name[0].toUpperCase() }
+        </Typography>
       </Box>
-      <Typography variant='h2' sx={{fontSize: '1.2em',pb: .5,color: whiteLight}}>
-        { name }
-      </Typography>
+      { (open || isHover) && 
+        <Typography variant='h2' sx={{fontSize: '1.2em',pb: .5}}>
+          { name }
+        </Typography>
+      }
     </Box>
   )
 }

@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { MenuContext } from './ListMenu'
 import SingleMenu from './SingleMenu';
 
-function ListMenuItem({ label, icon, sx = {}, to }){
+function ListMenuItem({ label, icon, sx = {}, to, ...rest }){
   const menuContext = useContext(MenuContext)
 
   if(!menuContext){
@@ -19,6 +19,7 @@ function ListMenuItem({ label, icon, sx = {}, to }){
         icon={icon} 
         sx={{ pl: 4.5, pr: 3, ...sx}}
         fontSize='.9em'
+        {...rest}
       />
     </Collapse>
   </>

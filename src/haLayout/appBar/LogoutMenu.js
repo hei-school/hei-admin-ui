@@ -1,9 +1,6 @@
 import { Lock } from '@mui/icons-material'
 import authProvider from '../../providers/authProvider'
-import {
-  IconButton, 
-  Tooltip 
-} from '@mui/material'
+import { IconButton, Tooltip } from '@mui/material'
 
 function LogoutMenu(){
   const logout = () => {
