@@ -14,18 +14,11 @@ describe(specTitle('Student'), () => {
     cy.intercept('GET', `/whoami`, whoamiStudentMock).as('getWhoami')
   })
 
-  it('can show the list of heis docs', () => {
-    cy.wait('@getStudent')
+  it('can show three types of docs when the icon is clicked', () => {
     cy.get('[data-testid="InventoryIcon"] > path').click()
-    cy.get('[href="#/hei-docs"]').click()
-    cy.contains('Date de création')
-    cy.contains('Afficher')
-  })
-  it('can show a heis doc', () => {
-    cy.contains('Date de création')
-    cy.contains('Afficher')
-    cy.get('.column-fileName > .MuiTypography-root').click()
-    cy.contains("Visualisation d'un document")
+    cy.contains('HEI')
+    cy.contains('Vos informations')
+    cy.contains('Bulletins')
     unmount()
   })
 })

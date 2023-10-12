@@ -24,18 +24,24 @@ const DocLayout = ({ resource }) => {
     const getFile = async () => await dataProvider.getOne(resource, { id: id })
     getFile().then(result => setFile(result.data))
   }, [])
+
   const handleClose = () => redirect('list', resource)
+
+  // TODO: change this when the api is ready
   const downloadFile = () => {
-    fetch(file.url)
-      .then(response => response.blob())
-      .then(blob => {
-        let url = window.URL.createObjectURL(blob)
-        let a = document.createElement('a')
-        a.href = url
-        a.download = `${file.fileName}.${file.type}`
-        a.click()
-      })
+    if (file) {
+      fetch(file.url)
+        .then(response => response.blob())
+        .then(blob => {
+          const url = window.URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = `${file.fileName}.${file.type}`
+          a.click()
+        })
+    }
   }
+
   const buttons = [
     {
       icon: <Download />,
@@ -55,7 +61,7 @@ const DocLayout = ({ resource }) => {
         <Typography variant='h6'>Document : {file.fileName}</Typography>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gridGap: '1vw' }}>
           {buttons.map(button => (
-            <Button onClick={button.onClick} variant='outlined' size='small'>
+            <Button key={button.text} onClick={button.onClick} variant='outlined' size='small'>
               {isSmall ? button.icon : button.text}
             </Button>
           ))}
