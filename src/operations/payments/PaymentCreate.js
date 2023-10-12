@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number } from 'react-admin'
+import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number, useNotify } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 
@@ -8,6 +8,7 @@ import { studentIdFromRaId } from '../../providers/feeProvider'
 
 const PaymentCreate = props => {
   const params = useParams()
+  const notify = useNotify()
   const feeId = params.feeId
   const studentId = studentIdFromRaId(feeId)
   const [studentRef, setStudentRef] = useState('...')
@@ -28,6 +29,11 @@ const PaymentCreate = props => {
 
   return (
     <Create
+      mutationOptions={{
+        onError: error => {
+          notify(`Une erreur s'est produite`, { type: 'error', autoHideDuration: 1000 })
+        }
+      }}
       {...props}
       title={`Paiement de ${studentRef}`}
       resource='payments'

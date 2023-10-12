@@ -1,6 +1,7 @@
 import { SimpleForm, TextInput, DateInput, RadioButtonGroupInput, Edit } from 'react-admin'
 
 import { SexRadioButton, EditToolBar, TurnsStringIntoDate } from '../utils'
+import { CustomEdit } from '../utils/CustomEdit'
 
 const StatusRadioButton = () => (
   <RadioButtonGroupInput
@@ -21,7 +22,7 @@ const transformUser = user => {
 }
 
 const ProfileEdit = () => (
-  <Edit transform={transformUser}>
+  <CustomEdit transform={transformUser}>
     <SimpleForm toolbar={<EditToolBar />}>
       <TextInput source='ref' label='Référence' fullWidth={true} />
       <TextInput source='first_name' label='Prénom·s' fullWidth={true} />
@@ -34,7 +35,7 @@ const ProfileEdit = () => (
       <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} />
       <StatusRadioButton />
     </SimpleForm>
-  </Edit>
+  </CustomEdit>
 )
 
 export default ProfileEdit

@@ -5,11 +5,11 @@ import { AccountCircle, School, People, Work, Warning } from '@mui/icons-materia
 
 export const ManagerMenu = () => (
   <MultiLevelMenu variant='categories'>
-    <MenuItemCategory to='/profile' name='profile' label='Mon profil' icon={<AccountCircle />} />
+    <MenuItemCategory to='/profile' name='profile' label='Mon profil' icon={<AccountCircle />} data-testid='profileMenuItem' />
 
     <MenuItemCategory to='/teachers' name='teachers' label='Enseignants' icon={<Work />} />
 
-    <MenuItemCategory name='students' label='Étudiants' icon={<School />}>
+    <MenuItemCategory name='students' label='Étudiants' icon={<School />} data-testid='studentsMenuItem'>
       <CardContent>
         <Typography variant='h6' gutterBottom>
           Opérations sur les étudiants

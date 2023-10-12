@@ -18,24 +18,18 @@ import {
 } from './mocks/responses'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
 import { TurnsStringIntoDate } from '../operations/utils'
+import { studentRequestBodyVerification } from './utils'
 
 const feeDateToSearch = `2022-09-11`
 const newFirstName = 'Aina herilala'
 let createdStudent = {
-  ...createStudent
+  ...createStudent,
+  id: 'ajbfq-fqdfjdh-2jkg3j'
 }
 const feeCreatDate = 'date2'
-createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
 let updatedStudent = {
-  ...student1Mock
-}
-updatedStudent.first_name = newFirstName
-
-const studentRequestBodyVerification = (requestBody, canCreateFees, createStudentNoFees) => {
-  createStudentNoFees.can_create_fees = canCreateFees
-  createStudentNoFees.entrance_datetime = TurnsStringIntoDate(createStudent.entrance_datetime)
-  expect(requestBody[0]).to.deep.equal(createStudentNoFees)
-  expect(requestBody.length).to.equal(1)
+  ...student1Mock,
+  first_name: newFirstName
 }
 
 const fillInputs = () => {
@@ -68,7 +62,7 @@ describe(specTitle('Manager edit students'), () => {
 
   it('can edit students', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
-    cy.intercept('PUT', `/students`, updatedStudent).as('modifyStudent').as('modifyStudent')
+    cy.intercept('PUT', `/students`, [updatedStudent]).as('modifyStudent')
     cy.contains('Étudiants')
     cy.wait('@getWhoami')
     cy.contains('Mon profil')
@@ -142,7 +136,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
-    cy.get('.MuiFab-root').click()
+    cy.get('[href="#/students/create"]').click()
     cy.intercept('PUT', '/students', [createdStudent]).as('createStudent')
     cy.intercept('POST', `students/${createdStudent.id}/fees`, [createdFeesForNewStudent]).as('createFees')
     cy.get('#ref').type(createStudent.ref)
