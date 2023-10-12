@@ -17,15 +17,10 @@ import {
 } from './mocks/responses'
 import { updatedInfo } from './utils'
 
-const newFirstName = 'Aina herilala'
 let createdStudent = {
-  ...createStudent
+  ...createStudent,
+  id: 'ajbfq-fqdfjdh-2jkg3j'
 }
-createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
-let updatedStudent = {
-  ...student1Mock
-}
-updatedStudent.first_name = newFirstName
 describe(specTitle('Notifications on error when create, e.g: StudentCreate'), () => {
   it('notifies when there is error', () => {
     mount(<App />)
