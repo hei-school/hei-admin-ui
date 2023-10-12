@@ -14,7 +14,7 @@ const HaAppBar = ({ title })=> {
     
   return (
     <Slide appear={false} direction="down" in={!trigger}>
-      <AppBar position='sticky' sx={{
+      <AppBar id='appbar' position='sticky' sx={{
         backgroundColor: '#ffc619', 
         display:'flex', 
         flexDirection:'row',
@@ -27,9 +27,9 @@ const HaAppBar = ({ title })=> {
       }}> 
         <Box sx={{display: 'flex', alignItems:'center', gap: 1}}>
           <SidebarToggleButton className={AppBarClasses.menuButton} />
-          <Typography variant='h2' sx={{fontSize: '1.4em',p: 0,fontWeight:'500', color:'#323333'}}>
-            { title }
-          </Typography>
+          <h2 id="pagetitle" style={{fontSize: '1.2em', padding:0,margin:0,fontWeight:'500', color:'#323333'}}>
+            {/* title portal here */}
+          </h2>
         </Box>
         <Box sx={{display:'flex', alignItems: 'center'}}>
           <LoadingIndicator sx={{ color: '#40403f' }}/>

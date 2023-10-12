@@ -20,7 +20,7 @@ function UserInfo(){
         my: 1,
         borderBottom: '1px solid rgba(255,255,255,.2)',
         borderTop: '1px solid rgba(255,255,255,.2)',
-        px: 3,
+        px: isHover || open ? 3 : 2,
         py: 2,
         width: '100%',
       }}

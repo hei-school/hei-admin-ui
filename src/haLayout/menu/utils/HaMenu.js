@@ -18,7 +18,6 @@ const HaMenuStyled = {
   transition: 'all .5s',
   paddingTop: 1,
   color: '#e3e2de',
-  zIndex: 555,
   top: 0,
   left: 0
 }

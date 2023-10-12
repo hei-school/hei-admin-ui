@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 
 import { FunctionField, SimpleShowLayout, Show, useDataProvider } from 'react-admin'
 
-import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField, commentFunctionRenderer } from '../utils'
+import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField, commentFunctionRenderer, TitledShow, TitledPage } from '../utils'
 
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
@@ -50,12 +50,13 @@ const FeeShow = props => {
       setStudentRef(student.data.ref)
     }
     doEffect()
-    // eslint-disable-next-line
   }, [studentId])
 
   return (
     <Show id={feeId} resource='fees' basePath={`/fees/${feeId}/show`} title={`Frais de ${studentRef}`}>
-      <FeeLayout feeId={feeId} />
+      <TitledPage title={`Frais #${feeId}`}>
+        <FeeLayout feeId={feeId} />
+      </TitledPage>
     </Show>
   )
 }
