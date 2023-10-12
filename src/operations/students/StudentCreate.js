@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
-import { SexRadioButton, TurnsStringIntoDate } from '../utils'
+import { SexRadioButton, TitledPage, TurnsStringIntoDate } from '../utils'
 import { createFees } from './utils'
 import { CustomCreate } from '../utils/CustomCreate'
 

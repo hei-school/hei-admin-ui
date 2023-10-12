@@ -43,11 +43,11 @@ export const ProfileLayout = () => {
 const ProfileShow = () => {
   const id = authProvider.getCachedWhoami().id
   return (
-    <TitledPage title='Mon profil'>
-      <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
+    <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
+      <TitledPage title='Mon profil'>
         <ProfileLayout />
-      </Show>
-    </TitledPage>
+      </TitledPage>
+    </Show>
   )
 }
 

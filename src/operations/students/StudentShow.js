@@ -25,7 +25,7 @@ const StudentShow = () => {
   const role = authProvider.getCachedRole()
   return (
     <Show actions={role === WhoamiRoleEnum.Manager && <ActionsOnShow />}>
-      <TitledShow title='Étudiant' showCol='ref'>
+      <TitledShow showCol='ref'>
         <ProfileLayout />
       </TitledShow>
     </Show>

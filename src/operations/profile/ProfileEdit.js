@@ -1,4 +1,4 @@
-import { SimpleForm, TextInput, DateInput, RadioButtonGroupInput, Edit } from 'react-admin'
+import { SimpleForm, TextInput, DateInput, RadioButtonGroupInput, Edit, Title } from 'react-admin'
 
 import { SexRadioButton, EditToolBar, TurnsStringIntoDate } from '../utils'
 import { CustomEdit } from '../utils/CustomEdit'

@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 
 import { studentIdFromRaId } from '../../providers/feeProvider'
+import { TitledPage } from '../utils'
 
 const PaymentCreate = props => {
   const params = useParams()
@@ -35,24 +36,25 @@ const PaymentCreate = props => {
         }
       }}
       {...props}
-      title={`Paiement de ${studentRef}`}
       resource='payments'
       redirect={(_basePath, _id, _data) => `fees/${feeId}/show`}
       transform={paymentConfToPaymentApi}
     >
-      <SimpleForm>
-        <RadioButtonGroupInput
-          {...props}
-          source='type'
-          label='Type'
-          choices={Object.keys(paymentTypes).map(id => ({ id: id, name: paymentTypes[id].name }))}
-          onChange={e => {
-            setPaymentChoice(e.target.value)
-          }}
-        />
-        <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
-        <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === 'mobileMoney' && validateConditions} />
-      </SimpleForm>
+      <TitledPage title={`Paiement de ${studentRef}`}>
+        <SimpleForm>
+          <RadioButtonGroupInput
+            {...props}
+            source='type'
+            label='Type'
+            choices={Object.keys(paymentTypes).map(id => ({ id: id, name: paymentTypes[id].name }))}
+            onChange={e => {
+              setPaymentChoice(e.target.value)
+            }}
+          />
+          <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
+          <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === 'mobileMoney' && validateConditions} />
+        </SimpleForm>
+      </TitledPage>
     </Create>
   )
 }

@@ -1,6 +1,7 @@
 import { Show, TopToolbar, EditButton } from 'react-admin'
 
 import { ProfileLayout } from '../profile/ProfileShow'
+import { TitledShow } from '../utils'
 
 const ActionsOnShow = ({ basePath, data, resource }) => {
   return (
@@ -12,8 +13,10 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
 
 const TeacherShow = () => {
   return (
-    <Show title='Enseignants' actions={<ActionsOnShow />}>
-      <ProfileLayout />
+    <Show actions={<ActionsOnShow />}>
+      <TitledShow showCol='ref'>
+        <ProfileLayout />
+      </TitledShow>
     </Show>
   )
 }
