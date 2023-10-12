@@ -30,7 +30,11 @@ export function TitledEdit({ children, title, showCol='id'}){
   const { resource, record }= useEditController()
   const ressourceName = title ? title : getRessourceName(resource)
 
-  return <TitledPage title={`${ressourceName} #${record[showCol]}`}>{ children }</TitledPage>
+  return (
+    <TitledPage title={`${ressourceName} #${record && record[showCol]}`}>
+      { children }
+    </TitledPage>
+  )
 }
 
 export function TitledShow({ children, title, showCol = 'id' }){
@@ -38,5 +42,9 @@ export function TitledShow({ children, title, showCol = 'id' }){
 
   const ressourceName = title ? title : getRessourceName(resource)
 
-  return <TitledPage title={`${ressourceName} #${record[showCol]}`}>{ children }</TitledPage>
+  return (
+    <TitledPage title={`${ressourceName} #${record && record[showCol]}`}>
+      { children }
+    </TitledPage>
+  )
 }

@@ -54,7 +54,7 @@ const FeeShow = props => {
 
   return (
     <Show id={feeId} resource='fees' basePath={`/fees/${feeId}/show`} title={`Frais de ${studentRef}`}>
-      <TitledPage title={`Frais #${feeId}`}>
+      <TitledPage title={`Frais de #${studentRef}`}>
         <FeeLayout feeId={feeId} />
       </TitledPage>
     </Show>
