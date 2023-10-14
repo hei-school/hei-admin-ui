@@ -14,6 +14,7 @@ import profile from './operations/profile'
 import students from './operations/students'
 import teachers from './operations/teachers'
 import docs from './operations/docs'
+import attendance from './operations/attendance'
 
 import fees from './operations/fees'
 import payments from './operations/payments'
@@ -40,6 +41,10 @@ const App = () => (
 
     <Resource name='fees' {...fees} />
     <Resource name='payments' {...payments} />
+
+    <Resource name='student-grades' {...studentGrades} />
+
+    <Resource name='attendance' {...attendance} />
 
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
