@@ -6,11 +6,15 @@ import {
   ListItemSecondaryAction,
 } from '@mui/material';
 import { Cancel } from '@mui/icons-material'
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const FilterListItem = ({ label, value, type}) => {
   const { filterValues, setFilters } = useListFilterContext();
   const [values,setValues] = useState(filterValues[type] || [])
+  
+  useEffect(()=>{
+    filterValues[type] !== values && setValues(filterValues[type] || [])
+  },[filterValues[type]])
 
   const isSelected = ()=> values.indexOf(value) !== -1
   const toggleFilter = ()=>{
