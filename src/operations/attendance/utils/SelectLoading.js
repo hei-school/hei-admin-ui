@@ -13,6 +13,10 @@ function SelectLoading({ fetcher, source, label, valueKey, labelKey}){
       .then(response => setOptions({data: response.data, pending: false }))
       .catch(()=>setOptions({...options, pending: false}))
   },[])  
+  
+  useEffect(()=>{
+    filterValues[source] !== values && setValues(filterValues[source] || [])
+  },[filterValues[source]])
 
   const checked = (item)=> Boolean(values.find(el => el.value === item.value))
   const toggleValue = (item)=>{
