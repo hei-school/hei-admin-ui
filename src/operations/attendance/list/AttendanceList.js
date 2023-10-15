@@ -22,6 +22,7 @@ const AttendanceList = () => {
       hasCreate={false}
       actions={<ListActions />}
       perPage={pageSize}
+      filters={attendanceFilters}
       pagination={<PrevNextPagination />}
       aside={<AttendanceAside />}
     >
