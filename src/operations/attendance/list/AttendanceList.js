@@ -2,7 +2,6 @@ import React from 'react'
 import { Datagrid, DateField, List, TextField } from 'react-admin';
 import { PrevNextPagination, pageSize } from '../../utils';
 import AttendanceAside from './AttendanceAside';
-import { attendanceFilters } from './AttendanceFilter';
 import ListActions from './ListActions';
 
 export const dateOptions = {
@@ -20,9 +19,9 @@ const AttendanceList = () => {
     <List
       title='Présences'
       hasCreate={false}
-      actions={<ListActions />}
       perPage={pageSize}
-      filters={attendanceFilters}
+      actions={<ListActions />}
+      exporter={false}
       pagination={<PrevNextPagination />}
       aside={<AttendanceAside />}
     >
@@ -31,6 +30,7 @@ const AttendanceList = () => {
         <DateField label='Heure' locales='fr-FR' source='created_at' options={dateOptions} />
         <TextField source='place' label='Lieu' />
         <TextField source='student.first_name' label='Prénom·s' />
+        <TextField source='student.last_name' label='Nom·s' />
       </Datagrid>
     </List>
   );

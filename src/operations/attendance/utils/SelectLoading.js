@@ -34,7 +34,7 @@ function SelectLoading({ fetcher, source, label, valueKey, labelKey}){
       value={values}
       size='small'
       select
-      sx={{ width: 200, '& input':{color:'red'}}}
+      sx={{ width: 200 }}
       SelectProps={{
         multiple: true,
         renderValue: selected => selected.map(el => el.label).join(', '),
