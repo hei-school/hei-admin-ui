@@ -1,10 +1,12 @@
 import { TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
+import { useListFilterContext } from 'react-admin'
 import Items from './Items'
 
 function SelectLoading({ fetcher, source, label, valueKey, labelKey}){
   const [options, setOptions] = useState({ data: [], pending: true })
-  const [values, setValues] = useState([])
+  const { filterValues, setFilters } = useListFilterContext();
+  const [values, setValues] = useState(filterValues[source] || [])
 
   useEffect(()=>{
     fetcher
@@ -12,14 +14,13 @@ function SelectLoading({ fetcher, source, label, valueKey, labelKey}){
       .catch(()=>setOptions({...options, pending: false}))
   },[])  
 
-  const checked = (choice)=>values.find(el => el.value === choice.value)
-  
-  const toggleValue = (choice)=>{
-    const newValues = !checked(choice) ? 
-      [...values, choice] : 
-      [...values].filter(el => el.value !== choice.value)
-    
-    setValues(newValues)
+  const checked = (item)=> Boolean(values.find(el => el.value === item.value))
+  const toggleValue = (item)=>{
+    const newFilter = !checked(item) ? 
+      [...values, item] : 
+      [...values].filter(el => el.value !== item.value)
+    setValues(newFilter)
+    setFilters({...filterValues, [source]: newFilter})
   }
 
   return (
