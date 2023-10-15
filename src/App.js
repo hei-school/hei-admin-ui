@@ -24,6 +24,7 @@ import HaLoginPage from './security/LoginPage'
 import { heiDocs } from './operations/heiDocs'
 
 const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
+
 const App = () => (
   <Admin
     title='HEI Admin'
