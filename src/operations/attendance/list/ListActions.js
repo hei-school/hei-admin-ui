@@ -15,7 +15,7 @@ function ListActions(){
       />
       <SelectLoading 
         fetcher={ usersApi().getTeachers() } 
-        source='teachers_id'  
+        source='teachers_ids'  
         label='Profs' 
         labelKey='first_name' 
         valueKey='id' 
