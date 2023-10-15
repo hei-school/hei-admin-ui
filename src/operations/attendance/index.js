@@ -1,4 +1,4 @@
-import AttendanceList from './AttendanceList'
+import AttendanceList from './list/AttendanceList'
 
 const attendance = {
   list: AttendanceList
