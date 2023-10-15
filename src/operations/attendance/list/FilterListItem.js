@@ -6,23 +6,21 @@ import {
   ListItemSecondaryAction,
 } from '@mui/material';
 import { Cancel } from '@mui/icons-material'
+import { useState } from "react";
 
 export const FilterListItem = ({ label, value, type}) => {
   const { filterValues, setFilters } = useListFilterContext();
-  const isSelected = ()=> {
-    if(filterValues[type]){
-      return filterValues[type].indexOf(value) !== -1
-    }
-    return false;
+  const [values,setValues] = useState(filterValues[type] || [])
+
+  const isSelected = ()=> values.indexOf(value) !== -1
+  const toggleFilter = ()=>{
+    const newFilter = !isSelected(value) ? 
+      [...values, value]: 
+      [...values].filter(el => el !== value)
+
+    setValues(newFilter)
+    setFilters({...filterValues, [type]: newFilter})
   }
-  const addFilter = () => {
-    setFilters({...filterValues, [type]: [...filterValues[type] || [], value]})
-  }
-  const removeFilter = () => {
-    const newValue = [...filterValues[type] || []].filter(el => el !== value)
-    setFilters({...filterValues, [type]: newValue});
-  }
-  const toggleFilter = () => (isSelected() ? removeFilter() : addFilter());
 
     return (
       <ListItemButton onClick={toggleFilter} selected={isSelected()} className={ FilterListItemClasses.listItemButton } >

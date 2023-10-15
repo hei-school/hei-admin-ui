@@ -5,15 +5,11 @@ function Items({ options, labelKey, valueKey, onClick, checked }){
   if(options.data.length){
     return (
       options.data.map((el,index) =>{
-        const label = getObjValue(el, labelKey)
-        const value = getObjValue(el, valueKey)
+        const currentItem = {label: getObjValue(el, labelKey), value:getObjValue(el, valueKey)}
         return (
-          <MenuItem sx={{ py: 0, px: 1 }} onClick={()=>onClick({ label, value })} key={index} value={value}>
-            <Checkbox 
-              checked={Boolean(checked({ label, value }))} 
-              size='small'
-            />
-            { getObjValue(el, labelKey) }
+          <MenuItem sx={{py: 0,px:1}} onClick={()=>onClick(currentItem)} key={index} value={currentItem.value}>
+            <Checkbox  checked={checked(currentItem)} size='small' />
+            { currentItem.label }
           </MenuItem >
         )
       })
