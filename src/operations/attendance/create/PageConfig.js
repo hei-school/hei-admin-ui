@@ -1,9 +1,19 @@
 import React, { useState } from 'react'
-import { Typography, Select, MenuItem, InputLabel, Button, Dialog, Input, Box, DialogTitle, DialogContent, DialogActions } from '@mui/material'
-import SettingsIcon from '@mui/icons-material/Settings'
-import CloseIcon from '@mui/icons-material/Close'
-import { getQrConfig, qrDefaultConfig, setQrConfig } from './utils'
-import { AVAILABLE_PLACE } from '../../conf'
+import { 
+  Typography, 
+  Select, 
+  MenuItem, 
+  InputLabel, 
+  Button, 
+  Dialog,
+  IconButton,
+  Input,
+  DialogTitle, 
+  DialogContent, 
+  DialogActions 
+} from '@mui/material'
+import { Settings,Close } from '@mui/icons-material'
+import { qrcode, AvailablePlace } from './config'
 import { styled } from '@mui/styles'
 
 const FormGroup = styled('div')({
@@ -16,12 +26,13 @@ const FormGroup = styled('div')({
   gap: 2 
 })
 
-function QrPageConfig({openConfig, setOpenConfig}) {
-  const [newConfig, setNewConfig] = useState(getQrConfig());
+function QrPageConfig({open,toggle}) {
+  const { getConfig, setConfig, defaultConfig } = qrcode
+  const [newConfig, setNewConfig] = useState(getConfig());
 
   const toggleShowConfig = ()=>{
-    setNewConfig(getQrConfig())
-    setOpenConfig(!openConfig)
+    setNewConfig(getConfig())
+    toggle()
   }
 
   const handlerNewConfig = event => {
@@ -30,23 +41,23 @@ function QrPageConfig({openConfig, setOpenConfig}) {
   }
 
   const changeQrConfig = configValue => {
-    setQrConfig(configValue)
+    setConfig(configValue)
     toggleShowConfig();
   }
 
   return (
     <>
-      <Button variant='text' sx={{ p: 0 }} onClick={toggleShowConfig}>
-        <SettingsIcon sx={{ fontSize: '32px', pb: '3px', color:'white' }} />
-      </Button>
-      <Dialog onClose={toggleShowConfig} sx={{ width: '100%' }} open={openConfig}>
+      <IconButton onClick={toggleShowConfig}>
+        <Settings sx={{fontSize:'1.3em',color:'white' }} />
+      </IconButton>
+      <Dialog onClose={toggleShowConfig} sx={{ width: '100%' }} open={open}>
         <DialogTitle sx={{ display: 'flex', p: 2, alignItems: 'center', justifyContent: 'space-between' }}>
           <Typography sx={{ color: 'rgba(0,0,0,.8)', fontSize: '1em', fontWeight: 'bold', textAlign: 'center' }}>
             Paramètre du scanner
           </Typography>
-          <Button onClick={toggleShowConfig}>
-            <CloseIcon sx={{ color: 'rgba(0,0,0,.8)', fontSize: '30px' }} />
-          </Button>
+          <IconButton onClick={toggleShowConfig}>
+            <Close sx={{ color: 'rgba(0,0,0,.8)'}} />
+          </IconButton>
         </DialogTitle>
         <DialogContent sx={{ minWidth: '300px', px: 2 }}>
           <FormGroup>
@@ -65,39 +76,39 @@ function QrPageConfig({openConfig, setOpenConfig}) {
             <InputLabel>Délai d'une pause :</InputLabel>
             <Input
               size='large'
-              value={newConfig.pauseDelay}
+              value={newConfig.pause}
               onChange={handlerNewConfig}
               placeholder='Ex: 2 (pour 2s)'
               type='number'
-              id='pauseDelay'
-              name='pauseDelay'
+              id='pause'
+              name='pause'
             />
           </FormGroup>
           <FormGroup>
             <InputLabel>Taille du scanner:</InputLabel>
             <Input
               size='large'
-              value={newConfig.boxSize}
+              value={newConfig.box}
               onChange={handlerNewConfig}
               placeholder='Ex: 100 (pour 100*100)'
               type='number'
-              name='boxSize'
-              id='boxSize'
+              name='box'
+              id='box'
             />
           </FormGroup>
           <FormGroup>
             <InputLabel>Lieu: </InputLabel>
             <Select id='place' name='place' value={newConfig.place} variant='outlined' autoWidth size='small' onChange={handlerNewConfig}>
-              {AVAILABLE_PLACE.map((place, id) => (
-                <MenuItem key={id} value={place}>
-                  {place}
+              {AvailablePlace.map((place, id) => (
+                <MenuItem key={id} value={place.value}>
+                  {place.label}
                 </MenuItem>
               ))}
             </Select>
           </FormGroup>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => changeQrConfig(qrDefaultConfig)} size='small' variant='outlined' color='info'>
+          <Button onClick={() => changeQrConfig(defaultConfig)} size='small' variant='outlined' color='info'>
             Retablir
           </Button>
           <Button onClick={() => changeQrConfig(newConfig)} size='small' variant='outlined' color='primary'>

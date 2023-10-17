@@ -1,11 +1,11 @@
 import { Html5QrcodeScanType, Html5QrcodeScanner } from "html5-qrcode"
-import { SCAN_STATUS, getQrConfig } from "./utils"
+import { qrcode, ScanStatus } from "./config"
 import { styled } from "@mui/styles"
 
 export const ScannerBox = styled('div')({
   width:'100%',
   marginTop:'5px',
-  maxWidth:'700px',
+  maxWidth:'750px',
   minHeight:'400px',
   borderColor:'transparent',
   backgroundColor:'rgba(0,0,0,.8)',
@@ -35,31 +35,36 @@ export const ScannerBox = styled('div')({
   },
 })
 
-function createScannerBox(scanInfo, setScanInfo) {
-  const removeStatus = () => {
-    setTimeout(() => {
-      setScanInfo({ ...scanInfo, status: SCAN_STATUS.NO_SCAN })
-      scanner.resume()
-    }, getQrConfig().pauseDelay * 1000)
-  }
-
-  const scanSuccess = data => {
-    scanner.pause(false)
-    setScanInfo({ status: SCAN_STATUS.SUCCESS, data })
-    removeStatus()
-  }
-
+export function createScanner(setInfo){
+  const { getConfig } = qrcode
   const config = {
-    fps: getQrConfig().fps,
-    qrbox: { width: getQrConfig().boxSize, height: getQrConfig().boxSize },
+    fps: getConfig().fps,
+    qrbox: { width: getConfig().box, height: getConfig().box},
     rememberLastUsedCamera: true,
     supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
     videoConstraints:{
       facingMode:'environment'
     }
   }
-  const scanner = new Html5QrcodeScanner('reader',config, false)
-  scanner.render(scanSuccess)
-}
 
-export default createScannerBox;
+  const removeStatus = () => {
+    setTimeout(() => {
+      setInfo({ status: ScanStatus.NoScan, data: ''})
+      scanner.resume()
+    }, getConfig().pause * 1000)
+  }
+
+  const onSuccess = data => {
+    scanner.pause(false)
+    setInfo({ status: ScanStatus.Success, data })
+    typeof data === 'string' && qrcode.addAttendance(data)
+    removeStatus()
+  }
+  
+  const scanner = new Html5QrcodeScanner('reader',config, false)
+  
+  return {
+    clear: ()=> scanner.clear(),
+    render: ()=> scanner.render(onSuccess)
+  }
+}
