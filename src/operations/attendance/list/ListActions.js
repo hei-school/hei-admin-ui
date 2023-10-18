@@ -1,7 +1,7 @@
 import { teachingApi, usersApi } from '../../../providers/api'
 import { SelectLoading } from '../utils'
 import { Box } from '@mui/material'
-import { ExportButton, FilterButton, FilterForm, DateTimeInput, useListFilterContext } from 'react-admin'
+import { ExportButton, FilterButton, FilterForm, DateTimeInput, useListFilterContext, CreateButton } from 'react-admin'
 
 export const attendanceFilters = [
   <DateTimeInput variant='outlined' source='from' label='Après' />,
@@ -36,6 +36,7 @@ function ListActions(){
           <FilterButton filters={attendanceFilters}/>
         }
         <ExportButton />
+        <CreateButton />
       </Box>
     </Box>
   )

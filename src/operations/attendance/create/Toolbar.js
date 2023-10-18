@@ -1,6 +1,6 @@
 import { Box, Select, MenuItem, IconButton } from '@mui/material'
 import { QrCodeScanner } from '@mui/icons-material'
-import { FilterButton, FilterForm, Link, TextInput } from 'react-admin'
+import { CreateButton, FilterButton, FilterForm, Link, TextInput } from 'react-admin'
 import { AvailablePlace, qrcode } from './config'
 
 const filters = [

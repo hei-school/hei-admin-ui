@@ -9,7 +9,7 @@ const defaultConfig = {
   fps: 30,
   box: 250,
   send: 10,
-  interval: 10_000,
+  interval: 10_000, //ms
   type: AttendanceMovementType.In,
   place: PlaceEnum.Andraharo 
 }
@@ -30,7 +30,6 @@ const getAttendance = () => {
   const data = localStorage.getItem('attendance-store')
   return data ? JSON.parse(data) : []
 }
-const deleteAttendance = () => setAttendance(getAttendance().slice(getConfig().send))
 const addAttendance = (studentId, type = getConfig().type)=> {
   const attendance = {
     attedance_mouvement_type: type,
@@ -45,7 +44,7 @@ const addAttendance = (studentId, type = getConfig().type)=> {
 
 export const qrcode = {
   addAttendance,
-  deleteAttendance,
+  setAttendance,
   getAttendance,
   getConfig,
   setConfig,

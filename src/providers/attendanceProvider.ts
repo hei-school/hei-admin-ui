@@ -27,7 +27,7 @@ const attendanceProvider: HaDataProviderType = {
     throw new Error('Function not implemented.')
   },
   async saveOrUpdate(payload: any) {
-    throw new Error('Function not implemented.')
+    return attendanceApi().createAttendanceMovement(payload)
   }
 }
 

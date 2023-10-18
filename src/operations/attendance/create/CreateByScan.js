@@ -25,9 +25,7 @@ function CreateByScan() {
   const [ scanner, setScanner ] = useState(null);
  
   //unmount event
-  // useEffect(()=> ()=> {
-  //   scanner !== null && scanner.clear()
-  // }, [])
+  useEffect(()=> ()=> scanner !== null && scanner.clear(),[])
 
   useEffect(() => {
     const newScanner = createScanner(setInfo)
@@ -46,7 +44,7 @@ function CreateByScan() {
     <Box sx={{ display:'flex', justifyContent:'center',width:'100%',height:'100%'}}>
       <Box sx={{ width: '100%', maxWidth: '750px',height:'fit-content',position: 'relative' }}>
         <ScannerBox id='reader' />
-        <Box sx={{ display: 'flex', position: 'absolute',gap: 2,top: 5, right: 5}}>
+        <Box sx={{ display: 'flex', position: 'absolute',gap: 1.5,top: 5, right: 5}}>
           <PageConfig open={current.open} toggle={()=>setCurrent({...current,open:!current.open})} />
           <Link to='/attendance/create'>
             <IconButton>
