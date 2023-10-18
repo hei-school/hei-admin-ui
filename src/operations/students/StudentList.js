@@ -1,25 +1,41 @@
-import { CreateButton, Datagrid, EditButton, ExportButton, FilterButton, List, ShowButton, TextField, TopToolbar, useNotify } from 'react-admin'
-
+import {
+  CreateButton,
+  Datagrid,
+  EditButton,
+  ExportButton,
+  FilterButton,
+  List,
+  ShowButton,
+  TextField,
+  TopToolbar,
+  useNotify
+} from 'react-admin'
 import authProvider from '../../providers/authProvider'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 
 import { profileFilters } from '../profile'
-import { pageSize, PrevNextPagination } from '../utils'
+import { exporter, exportHeaders, importHeaders, importValidator, pageSize, PrevNextPagination } from '../utils'
 import studentProvider from '../../providers/studentProvider'
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, useMediaQuery } from '@mui/material'
 import { useRef, useState } from 'react'
-import Papa from 'papaparse'
-import { Upload } from '@mui/icons-material'
+import { Upload, UploadFile } from '@mui/icons-material'
+import { read, utils } from 'xlsx'
+import { Controller, useForm } from 'react-hook-form'
 
 const ConfirmDialog = ({ open, handleClose, data, setOpen }) => {
   const notify = useNotify()
   const addStudents = async () => {
     setOpen(false)
-    await studentProvider
-      .saveOrUpdate(data)
-      .then(() => notify(`Importation effectuée avec succès`, { type: 'success' }))
-      .catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error' }))
+    if(importValidator(data).isValidate){
+      await studentProvider
+        .saveOrUpdate(data)
+        .then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
+        .catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error', autoHideDuration: 1000 }))
+    }else{
+      notify(importValidator(data).message, { type: 'error', autoHideDuration: 1000 })
+    }
   }
+
   return (
     <>
       <Dialog open={open} onClose={handleClose}>
@@ -44,20 +60,49 @@ const ImportButton = () => {
   const handleClose = () => {
     setIsSubmitted(false)
   }
-  const handleChange = e => {
-    const files = e.target.files
-    setIsSubmitted(true)
-    if (files) {
-      Papa.parse(files[0], {
-        header: true,
-        complete: results => {
-          setData(results.data)
-        }
-      })
-    }
-  }
-  const Input = () => <input type='file' ref={hiddenFileInput} style={{ display: 'none' }} onChange={handleChange} />
 
+
+  const Input = () => {
+    const {
+      control,
+      formState: { errors }
+    } = useForm()
+
+    const handleFileAsync = async (e) => {
+      setIsSubmitted(true)
+      const file = e.target.files[0]
+
+      if (file) {
+        try {
+          const data = await file.arrayBuffer()
+          const workbook = read(data)
+          const jsonData = utils.sheet_to_json(workbook.Sheets[workbook.SheetNames[0]])
+          setData(jsonData)
+        } catch (e) {
+          console.error(e)
+        }
+      }
+    }
+    return (
+      <Controller
+        control={control}
+        rules={{
+          maxLength: 10
+        }}
+        render={({ field }) => (
+          <input
+            {...field}
+            type='file'
+            ref={hiddenFileInput}
+            style={{ display: 'none' }}
+            onChange={handleFileAsync}
+            accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+          />
+        )}
+        name='files'
+      />
+    )
+  }
   return (
     <>
       {isSmall ? (
@@ -82,6 +127,8 @@ const ListActions = () => (
     <CreateButton />
     <ExportButton />
     <ImportButton />
+    <ExportButton exporter={() => exporter([], importHeaders, 'template_students')} label='TEMPLATE'
+                  startIcon={<UploadFile />} />
   </TopToolbar>
 )
 const StudentList = () => {
@@ -92,6 +139,7 @@ const StudentList = () => {
       hasCreate={role === WhoamiRoleEnum.Manager}
       actions={<ListActions />}
       filters={profileFilters}
+      exporter={list => exporter(list, exportHeaders, 'students')}
       perPage={pageSize}
       pagination={<PrevNextPagination />}
     >
