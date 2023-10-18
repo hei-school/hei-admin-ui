@@ -1,9 +1,12 @@
 import { teachingApi, usersApi } from '../../../providers/api'
 import { SelectLoading } from '../utils'
 import { Box } from '@mui/material'
-import { ExportButton, FilterButton, FilterForm, useListFilterContext } from 'react-admin'
-import { attendanceFilters } from './AttendanceFilter'
+import { ExportButton, FilterButton, FilterForm, DateTimeInput, useListFilterContext } from 'react-admin'
 
+export const attendanceFilters = [
+  <DateTimeInput variant='outlined' source='from' label='Après' />,
+  <DateTimeInput variant='outlined' source='to' label='Avant' />,
+]
 
 function ListActions(){
   const { displayedFilters }= useListFilterContext()

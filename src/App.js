@@ -39,17 +39,12 @@ const App = () => (
     <Resource name='students' {...students} />
     <Resource name='teachers' {...teachers} />
     <Resource name='hei-docs' {...heiDocs} />
-
     <Resource name='fees' {...fees} />
     <Resource name='payments' {...payments} />
-
-    <Resource name='student-grades' {...studentGrades} />
-
     <Resource name='attendance' {...attendance} />
 
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
-
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
       <Route
         exact
@@ -62,10 +57,8 @@ const App = () => (
       />
       <Route exact path='/fees/:feeId/show' element={<fees.show />} />
       <Route exact path='/fees' element={<fees.listByStatus />} />
-
       <Route exact path='/fees/:feeId/payments' element={<payments.list />} />
       <Route exact path='/fees/:feeId/payments/create' element={<payments.create />} />
-
       <Route exact path='/docs/hei-docs' element={<docs.list title='Documents reliés à HEI' resource='hei-docs' />} />
     </CustomRoutes>
   </Admin>
