@@ -9,7 +9,7 @@ export const ScannerBox = styled('div')({
   minHeight:'400px',
   borderColor:'transparent',
   backgroundColor:'rgba(0,0,0,.8)',
-  '& button:not(#html5-qrcode-button-camera-permission), & img, & select': { display: 'none !important' },
+  '& button:not(#html5-qrcode-button-camera-permission), & img, & label': { display: 'none !important' },
   '& #reader__dashboard_section': { padding: '0 !important' },
   '& #html5-qrcode-button-camera-permission': {
     position: 'absolute',
@@ -31,6 +31,16 @@ export const ScannerBox = styled('div')({
       left:'50%',
       width:'100%',
       transform: 'translate(-50%, -50%)',
+    },
+    '& select':{
+      border:'1px solid white',
+      backgroundColor:'transparent',
+      padding:'7px 5px',
+      position: 'absolute',
+      top: 5,
+      left: 5,
+      color:'rgba(0,0,0,.0)',
+      cursor: 'pointer',
     }
   },
 })

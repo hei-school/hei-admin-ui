@@ -14,7 +14,7 @@ const StatusStyled = styled('p')({
   position:'absolute',
   bottom:'80px',
   width:'100%',
-  left: '0',
+  left: 0,
   color: 'rgb(0,240,0)'
 })
 
@@ -25,9 +25,9 @@ function CreateByScan() {
   const [ scanner, setScanner ] = useState(null);
  
   //unmount event
-  useEffect(()=> ()=> {
-    scanner !== null && scanner.clear()
-  }, [])
+  // useEffect(()=> ()=> {
+  //   scanner !== null && scanner.clear()
+  // }, [])
 
   useEffect(() => {
     const newScanner = createScanner(setInfo)

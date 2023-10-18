@@ -8,8 +8,8 @@ const defaultConfig = {
   pause: 1.5,
   fps: 30,
   box: 250,
-  send: 500,
-  interval: 30_000,
+  send: 10,
+  interval: 10_000,
   type: AttendanceMovementType.In,
   place: PlaceEnum.Andraharo 
 }
