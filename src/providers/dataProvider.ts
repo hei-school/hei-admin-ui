@@ -17,7 +17,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'payments') return paymentProvider
   if (resourceType === 'teachers') return teacherProvider
   if (resourceType === 'hei-docs') return heiDocsProvider
-  if (resourceType === 'attendance') return attendanceProvider 
+  if (resourceType === 'attendance') return attendanceProvider
   throw new Error('Unexpected resourceType: ' + resourceType)
 }
 

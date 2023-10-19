@@ -1,5 +1,5 @@
 export function getObjValue(obj, path) {
-  return path.split('.').reduce((acc, key) => (acc && acc[key] !== 'undefined' ? acc[key] : undefined), {...obj});
+  return path.split('.').reduce((acc, key) => (acc && acc[key] !== 'undefined' ? acc[key] : undefined), { ...obj })
 }
 
 export const dateOptions = {
@@ -9,8 +9,8 @@ export const dateOptions = {
   day: 'numeric',
   hour: 'numeric',
   minute: 'numeric',
-  second: 'numeric',
-};
+  second: 'numeric'
+}
 
 export function formatDate(dateIso) {
   if (!dateIso) {
@@ -18,7 +18,7 @@ export function formatDate(dateIso) {
   }
 
   const date = new Date(dateIso)
-  const formatter = new Intl.DateTimeFormat('fr-FR', dateOptions);
+  const formatter = new Intl.DateTimeFormat('fr-FR', dateOptions)
   const dateFormater = formatter.format(date)
-  return dateFormater.at(0).toUpperCase() + dateFormater.slice(1) 
+  return dateFormater.at(0).toUpperCase() + dateFormater.slice(1)
 }
