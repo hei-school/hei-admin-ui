@@ -3,25 +3,16 @@ import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import {
+  createdStudents,
+  liteCreatedStudents,
   manager1Mock,
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
-  whoamiManagerMock,
-  createdStudents,
-  liteCreatedStudents
+  whoamiManagerMock
 } from './mocks/responses'
 
 const importFile = (file, message) => {
-  cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
-  cy.contains('Étudiants')
-  cy.wait('@getWhoami')
-
-  cy.get("[data-testid='profileMenuItem']").click()
-  cy.get("[data-testid='studentsMenuItem']").click()
-
-  cy.get('[href="#/students"]').click()
-  cy.get('body').click(200, 0) //note(uncover-menu)
   const _path = 'cypress/fixtures'
   const _mockFile = `${_path}/${file}`
   cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true })
@@ -47,30 +38,41 @@ describe(specTitle('Manager create multiple students'), () => {
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
     cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
+    cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
+
+    cy.contains('Étudiants')
+    cy.wait('@getWhoami')
+
+    cy.get("[data-testid='profileMenuItem']").click()
+    cy.get("[data-testid='studentsMenuItem']").click()
+
+    cy.get('[href="#/students"]').click()
+    cy.get('body').click(200, 0) //note(uncover-menu)
   })
 
   it('cannot create students if the file is empty', () => {
     importFile('0_template.xlsx', "Il n'y a pas d'élément à insérer")
     unmount()
   })
+
   it('cannot create students if there is too much students to create', () => {
-    importFile('t13_template.xlsx', 'Vous ne pouvez importer que 10 éléments à la fois.')
-    unmount()
+    importFile('13_template.xlsx', 'Vous ne pouvez importer que 10 éléments à la fois.')
   })
+
   it('cannot create students if the headers are not corrects', () => {
-    importFile('wrong_headers_template.xlsx', 'Veuillez re-vérifier les en-têtes de votre fichier')
-    unmount()
+    importFile('wrong_heads_template.xlsx', 'Veuillez re-vérifier les en-têtes de votre fichier')
   })
+
   it('can create multiple students with the correct file', () => {
     cy.intercept('PUT', '/students', [createdStudents]).as('createStudents')
     importFile('correct_template.xlsx', 'Importation effectuée avec succès')
-    unmount()
   })
+
   it('can create multiple students with the correct file and minimum infos', () => {
     cy.intercept('PUT', '/students', [liteCreatedStudents]).as('createStudents')
     importFile('lite_correct_template.xlsx', 'Importation effectuée avec succès')
-    unmount()
   })
+
   it('notifies if the multiple students creation failed', () => {
     cy.intercept('PUT', '/students', {
       statusCode: 500,
@@ -79,6 +81,8 @@ describe(specTitle('Manager create multiple students'), () => {
       }
     }).as('createStudent')
     importFile('correct_template.xlsx', "L'importation n'a pas pu être effectuée")
+  })
+  afterEach(() => {
     unmount()
   })
 })
