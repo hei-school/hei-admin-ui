@@ -1,9 +1,9 @@
 import { TextField } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useListFilterContext } from 'react-admin'
-import Items from './Items'
+import { Items } from './Items'
 
-function SelectLoading({ fetcher, source, label, valueKey, labelKey }) {
+export function SelectLoading({ fetcher, source, label, valueKey, labelKey }) {
   const [options, setOptions] = useState({ data: [], pending: true })
   const { filterValues, setFilters } = useListFilterContext()
   const [values, setValues] = useState(filterValues[source] || [])
@@ -16,7 +16,7 @@ function SelectLoading({ fetcher, source, label, valueKey, labelKey }) {
     filterValues[source] !== values && setValues(filterValues[source] || [])
   }, [filterValues[source]])
 
-  const checked = item => Boolean(values.find(el => el.value === item.value))
+  const checked = item => values.some(el => el.value === item.value)
   const toggleValue = item => {
     const newFilter = !checked(item) ? [...values, item] : [...values].filter(el => el.value !== item.value)
     setValues(newFilter)
@@ -40,5 +40,3 @@ function SelectLoading({ fetcher, source, label, valueKey, labelKey }) {
     </TextField>
   )
 }
-
-export default SelectLoading
