@@ -11,7 +11,7 @@ import {
   useNotify
 } from 'react-admin'
 import authProvider from '../../providers/authProvider'
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { EnableStatus, WhoamiRoleEnum } from '../../gen/haClient'
 
 import { profileFilters } from '../profile'
 import { exporter, exportHeaders, importHeaders, importValidator, pageSize, PrevNextPagination } from '../utils'
@@ -21,11 +21,17 @@ import { useRef, useState } from 'react'
 import { Upload, UploadFile } from '@mui/icons-material'
 import { read, utils } from 'xlsx'
 
-const ConfirmDialog = ({ open, handleClose, data, setOpen }) => {
+const ConfirmDialog = ({ open, handleClose, data, setData, setOpen }) => {
   const notify = useNotify()
   const addStudents = async () => {
     setOpen(false)
     if(importValidator(data).isValidate){
+      const modifiedData = data.map((element) => {
+        element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
+        element['status'] = EnableStatus.Enabled
+      })
+      console.log(modifiedData)
+      setData(modifiedData)
       await studentProvider
         .saveOrUpdate(data)
         .then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
@@ -101,21 +107,27 @@ const ImportButton = () => {
           {!isSmall && <span>Importer</span>}
         </Button>
       )}
-      <ConfirmDialog open={isSubmitted} onClose={handleClose} setOpen={setIsSubmitted} data={data} />
+      <ConfirmDialog open={isSubmitted} onClose={handleClose} setOpen={setIsSubmitted} data={data} setData={setData}/>
     </>
   )
 }
 
-const ListActions = () => (
-  <TopToolbar>
-    <FilterButton />
-    <CreateButton />
-    <ExportButton />
-    <ImportButton  />
-    <ExportButton exporter={() => exporter([], importHeaders, 'template_students')} label='TEMPLATE'
-                  startIcon={<UploadFile />} />
-  </TopToolbar>
-)
+const ListActions = () => {
+  const role = authProvider.getCachedRole()
+  return (
+    <TopToolbar>
+      <FilterButton />
+      <CreateButton />
+      <ExportButton />
+      {role === WhoamiRoleEnum.Manager && (
+        <>
+          <ImportButton />
+          <ExportButton exporter={() => exporter([], importHeaders, 'template_students')} label='TEMPLATE'
+          startIcon={<UploadFile />} />
+        </>)}
+    </TopToolbar>
+  )
+}
 const StudentList = () => {
   const role = authProvider.getCachedRole()
   return (
