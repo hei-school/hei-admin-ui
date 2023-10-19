@@ -1,9 +1,5 @@
-import Items from "./Items";
-import SelectLoading from "./SelectLoading";
+import Items from './Items'
+import SelectLoading from './SelectLoading'
 export * from './utils'
 
-export {
-  Items,
-  SelectLoading
-}
-
+export { Items, SelectLoading }
