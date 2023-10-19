@@ -20,7 +20,6 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, IconButton, 
 import { useRef, useState } from 'react'
 import { Upload, UploadFile } from '@mui/icons-material'
 import { read, utils } from 'xlsx'
-import { Controller, useForm } from 'react-hook-form'
 
 const ConfirmDialog = ({ open, handleClose, data, setOpen }) => {
   const notify = useNotify()
@@ -42,8 +41,8 @@ const ConfirmDialog = ({ open, handleClose, data, setOpen }) => {
         <DialogTitle>Importer ce fichier?</DialogTitle>
         <DialogContent>Si vous importer ce fichier, les actions seront irréversibles.</DialogContent>
         <DialogActions>
-          <Button onClick={addStudents}>oui</Button>
-          <Button onClick={() => setOpen(false)}>non</Button>
+          <Button onClick={addStudents}>Oui</Button>
+          <Button onClick={() => setOpen(false)}>Non</Button>
         </DialogActions>
       </Dialog>
     </>
@@ -63,11 +62,6 @@ const ImportButton = () => {
 
 
   const Input = () => {
-    const {
-      control,
-      formState: { errors }
-    } = useForm()
-
     const handleFileAsync = async (e) => {
       setIsSubmitted(true)
       const file = e.target.files[0]
@@ -84,23 +78,14 @@ const ImportButton = () => {
       }
     }
     return (
-      <Controller
-        control={control}
-        rules={{
-          maxLength: 10
-        }}
-        render={({ field }) => (
           <input
-            {...field}
+            data-testid='inputFile'
             type='file'
             ref={hiddenFileInput}
             style={{ display: 'none' }}
             onChange={handleFileAsync}
             accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
           />
-        )}
-        name='files'
-      />
     )
   }
   return (
@@ -126,7 +111,7 @@ const ListActions = () => (
     <FilterButton />
     <CreateButton />
     <ExportButton />
-    <ImportButton />
+    <ImportButton  />
     <ExportButton exporter={() => exporter([], importHeaders, 'template_students')} label='TEMPLATE'
                   startIcon={<UploadFile />} />
   </TopToolbar>
