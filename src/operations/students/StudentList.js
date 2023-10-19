@@ -76,7 +76,7 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
       }
     }
   }
-  return <input data-testid='inputFile' type='file' ref={ref} style={{ display: 'none' }} onChange={handleFileAsync} accept={excelType} />
+  return <input data-testid='inputFile' type='file' ref={ref} style={{ display: 'none' }} onChange={handleFile} accept={excelType} />
 })
 
 const ImportButton = () => {
