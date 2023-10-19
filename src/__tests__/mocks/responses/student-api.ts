@@ -171,7 +171,7 @@ export const createdStudents: User[] = [
     birth_date: "02-06-05",
     address : "address",
     "phone": '236542132',
-    entrance_datetime: "03-03-23",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
     status: EnableStatus.Enabled
   },
   {
@@ -184,7 +184,7 @@ export const createdStudents: User[] = [
     birth_date: "03-06-05",
     address : "address",
     phone: '236542132',
-    entrance_datetime: "04-03-23",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
     status: EnableStatus.Enabled
   },
   {
@@ -197,7 +197,7 @@ export const createdStudents: User[] = [
     birth_date: "04-06-05",
     address : "address",
     phone: '236542132',
-    entrance_datetime: "05-03-23",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
     status: EnableStatus.Enabled
   },
   {
@@ -210,7 +210,7 @@ export const createdStudents: User[] = [
     birth_date: "05-06-05",
     address : "address",
     phone: '236542132',
-    entrance_datetime: "06-03-23",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
     status: EnableStatus.Enabled
   },
   {
@@ -223,7 +223,7 @@ export const createdStudents: User[] = [
     birth_date: "06-06-05",
     address : "address",
     phone: '236542132',
-    entrance_datetime: "07-03-23",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
     status: EnableStatus.Enabled
   },
   {
@@ -236,7 +236,7 @@ export const createdStudents: User[] = [
     birth_date: "07-06-05",
     address : "address",
     phone: '236542132',
-    entrance_datetime: "08-03-23",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
     status: EnableStatus.Enabled
   },
   {
@@ -249,7 +249,27 @@ export const createdStudents: User[] = [
     birth_date: "08-06-05",
     address : "address",
     phone: '236542132',
-    entrance_datetime: "09-03-23",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  }
+]
+export const liteCreatedStudents: User[] = [
+  {
+    id: "id1",
+    ref: "STD000001",
+    first_name: "John",
+    last_name: "Smith",
+    email: "userSTD000001@hei.school",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  },
+  {
+    id: "id2",
+    ref: "STD000002",
+    first_name: "Patrick",
+    last_name: "Smith",
+    email: "userSTD000002@hei.school",
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
     status: EnableStatus.Enabled
   }
 ]

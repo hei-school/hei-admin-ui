@@ -7,7 +7,7 @@ import {
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
-  whoamiManagerMock, createdStudents
+  whoamiManagerMock, createdStudents, liteCreatedStudents
 } from './mocks/responses'
 
 const importFile = (file, message) => {
@@ -48,20 +48,25 @@ describe(specTitle('Manager create multiple students'), () => {
   })
 
   it('cannot create students if the file is empty', () => {
-    importFile('empty_template.xlsx', "Il n'y a pas d'élément à insérer")
+    importFile('0_template.xlsx', "Il n'y a pas d'élément à insérer")
     unmount()
   })
   it('cannot create students if there is too much students to create', () => {
-    importFile('too_big.xlsx', 'Vous ne pouvez importer que 10 éléments à la fois.')
+    importFile('t13_template.xlsx', 'Vous ne pouvez importer que 10 éléments à la fois.')
     unmount()
   })
   it('cannot create students if the headers are not corrects', () => {
-    importFile('diff_headers_template.xlsx', 'Veuillez re-vérifier les en-têtes de votre fichier')
+    importFile('wrong_headers_template.xlsx', 'Veuillez re-vérifier les en-têtes de votre fichier')
     unmount()
   })
   it('can create multiple students with the correct file', () => {
     cy.intercept('PUT', '/students', [createdStudents]).as('createStudents')
-    importFile('good_template.xlsx', 'Importation effectuée avec succès')
+    importFile('correct_template.xlsx', 'Importation effectuée avec succès')
+    unmount()
+  })
+  it('can create multiple students with the correct file and minimum infos', () => {
+    cy.intercept('PUT', '/students', [liteCreatedStudents]).as('createStudents')
+    importFile('lite_correct_template.xlsx', 'Importation effectuée avec succès')
     unmount()
   })
   it('notifies if the multiple students creation failed', () => {
@@ -71,7 +76,7 @@ describe(specTitle('Manager create multiple students'), () => {
         message: 'error'
       }
     }).as('createStudent')
-    importFile('good_template.xlsx', "L'importation n'a pas pu être effectuée")
+    importFile('correct_template.xlsx', "L'importation n'a pas pu être effectuée")
     unmount()
   })
 })
