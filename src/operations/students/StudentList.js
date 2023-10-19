@@ -19,7 +19,6 @@ const ConfirmDialog = ({ open, handleClose, data, setData, setOpen }) => {
         element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
         element['status'] = EnableStatus.Enabled
       })
-      console.log(modifiedData)
       setData(modifiedData)
       await studentProvider
         .saveOrUpdate(data)
