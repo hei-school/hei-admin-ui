@@ -53,7 +53,7 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
 
   const excelType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
 
-  const handleFileAsync = async e => {
+  const handleFile = async e => {
     setIsSubmitted(true)
 
     const files = e.target.files
