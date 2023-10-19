@@ -1,15 +1,4 @@
-import {
-  CreateButton,
-  Datagrid,
-  EditButton,
-  ExportButton,
-  FilterButton,
-  List,
-  ShowButton,
-  TextField,
-  TopToolbar,
-  useNotify
-} from 'react-admin'
+import { CreateButton, Datagrid, EditButton, ExportButton, FilterButton, List, ShowButton, TextField, TopToolbar, useNotify } from 'react-admin'
 import authProvider from '../../providers/authProvider'
 import { EnableStatus, WhoamiRoleEnum } from '../../gen/haClient'
 
@@ -25,8 +14,8 @@ const ConfirmDialog = ({ open, handleClose, data, setData, setOpen }) => {
   const notify = useNotify()
   const addStudents = async () => {
     setOpen(false)
-    if(importValidator(data).isValidate){
-      const modifiedData = data.map((element) => {
+    if (importValidator(data).isValidate) {
+      const modifiedData = data.map(element => {
         element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
         element['status'] = EnableStatus.Enabled
       })
@@ -36,7 +25,7 @@ const ConfirmDialog = ({ open, handleClose, data, setData, setOpen }) => {
         .saveOrUpdate(data)
         .then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
         .catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error', autoHideDuration: 1000 }))
-    }else{
+    } else {
       notify(importValidator(data).message, { type: 'error', autoHideDuration: 1000 })
     }
   }
@@ -66,9 +55,8 @@ const ImportButton = () => {
     setIsSubmitted(false)
   }
 
-
   const Input = () => {
-    const handleFileAsync = async (e) => {
+    const handleFileAsync = async e => {
       setIsSubmitted(true)
       const file = e.target.files[0]
 
@@ -84,14 +72,14 @@ const ImportButton = () => {
       }
     }
     return (
-          <input
-            data-testid='inputFile'
-            type='file'
-            ref={hiddenFileInput}
-            style={{ display: 'none' }}
-            onChange={handleFileAsync}
-            accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
-          />
+      <input
+        data-testid='inputFile'
+        type='file'
+        ref={hiddenFileInput}
+        style={{ display: 'none' }}
+        onChange={handleFileAsync}
+        accept='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
+      />
     )
   }
   return (
@@ -107,7 +95,7 @@ const ImportButton = () => {
           {!isSmall && <span>Importer</span>}
         </Button>
       )}
-      <ConfirmDialog open={isSubmitted} onClose={handleClose} setOpen={setIsSubmitted} data={data} setData={setData}/>
+      <ConfirmDialog open={isSubmitted} onClose={handleClose} setOpen={setIsSubmitted} data={data} setData={setData} />
     </>
   )
 }
@@ -122,9 +110,9 @@ const ListActions = () => {
       {role === WhoamiRoleEnum.Manager && (
         <>
           <ImportButton />
-          <ExportButton exporter={() => exporter([], importHeaders, 'template_students')} label='TEMPLATE'
-          startIcon={<UploadFile />} />
-        </>)}
+          <ExportButton exporter={() => exporter([], importHeaders, 'template_students')} label='TEMPLATE' startIcon={<UploadFile />} />
+        </>
+      )}
     </TopToolbar>
   )
 }

@@ -7,7 +7,9 @@ import {
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
-  whoamiManagerMock, createdStudents, liteCreatedStudents
+  whoamiManagerMock,
+  createdStudents,
+  liteCreatedStudents
 } from './mocks/responses'
 
 const importFile = (file, message) => {
@@ -15,14 +17,14 @@ const importFile = (file, message) => {
   cy.contains('Étudiants')
   cy.wait('@getWhoami')
 
-  cy.get('[data-testid=\'profileMenuItem\']').click()
-  cy.get('[data-testid=\'studentsMenuItem\']').click()
+  cy.get("[data-testid='profileMenuItem']").click()
+  cy.get("[data-testid='studentsMenuItem']").click()
 
   cy.get('[href="#/students"]').click()
   cy.get('body').click(200, 0) //note(uncover-menu)
-  const _path = 'cypress/fixtures';
-  const _mockFile = `${_path}/${file}`;
-  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, {force: true})
+  const _path = 'cypress/fixtures'
+  const _mockFile = `${_path}/${file}`
+  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true })
 
   cy.contains('Oui').click()
 
@@ -80,5 +82,3 @@ describe(specTitle('Manager create multiple students'), () => {
     unmount()
   })
 })
-
-
