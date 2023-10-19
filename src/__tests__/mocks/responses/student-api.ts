@@ -159,3 +159,117 @@ export const liteCreatedStudent: User = {
   entrance_datetime: '2023-02-17',
   status: EnableStatus.Enabled
 }
+
+export const createdStudents: User[] = [
+  {
+    id: 'id1',
+    ref: 'STD000001',
+    first_name: 'John',
+    last_name: 'Smith',
+    email: 'userSTD000001@hei.school',
+    sex: 'M',
+    birth_date: '02-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  },
+  {
+    id: 'id2',
+    ref: 'STD000002',
+    first_name: 'Patrick',
+    last_name: 'Smith',
+    email: 'userSTD000002@hei.school',
+    sex: 'F',
+    birth_date: '03-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  },
+  {
+    id: 'id3',
+    ref: 'STD000003',
+    first_name: 'Jeanne',
+    last_name: 'Smith',
+    email: 'userSTD000003@hei.school',
+    sex: 'M',
+    birth_date: '04-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  },
+  {
+    id: 'id4',
+    ref: 'STD000004',
+    first_name: 'Jean',
+    last_name: 'Smith',
+    email: 'userSTD000004@hei.school',
+    sex: 'F',
+    birth_date: '05-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  },
+  {
+    id: 'id5',
+    ref: 'STD000005',
+    first_name: 'Pierre',
+    last_name: 'Smith',
+    email: 'userSTD000005@hei.school',
+    sex: 'M',
+    birth_date: '06-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  },
+  {
+    id: 'id6',
+    ref: 'STD000006',
+    first_name: 'Hélène',
+    last_name: 'Smith',
+    email: 'userSTD000006@hei.school',
+    sex: 'F',
+    birth_date: '07-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  },
+  {
+    id: 'id7',
+    ref: 'STD000007',
+    first_name: 'Patrice',
+    last_name: 'Smith',
+    email: 'userSTD000007@hei.school',
+    sex: 'M',
+    birth_date: '08-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  }
+]
+export const liteCreatedStudents: User[] = [
+  {
+    id: 'id1',
+    ref: 'STD000001',
+    first_name: 'John',
+    last_name: 'Smith',
+    email: 'userSTD000001@hei.school',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  },
+  {
+    id: 'id2',
+    ref: 'STD000002',
+    first_name: 'Patrick',
+    last_name: 'Smith',
+    email: 'userSTD000002@hei.school',
+    entrance_datetime: '2023-03-03T00:00:00.000Z',
+    status: EnableStatus.Enabled
+  }
+]
