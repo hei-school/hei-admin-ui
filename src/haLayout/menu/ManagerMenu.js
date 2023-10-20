@@ -1,4 +1,4 @@
-import { ListMenu, ListMenuItem, SingleMenu } from ".";
+import { ListMenu, ListMenuItem, SingleMenu } from './utils';
 import {
   WorkOutlined, 
   SchoolOutlined,
@@ -11,8 +11,8 @@ function ManagerMenu(){
     <>
       <SingleMenu to='/teachers' label='Enseignants' icon={<WorkOutlined />} />
       <ListMenu label='Étudiants' icon={<SchoolOutlined />}>
-        <ListMenuItem label='Liste des étudiants' icon={<PeopleOutlined sx={{fontSize: '20px'}} />} to='/students'/>
-        <ListMenuItem label='Frais en retards' icon={<WarningOutlined sx={{fontSize: '20px'}} />} to='/fees'/>
+        <ListMenuItem label='Liste des étudiants' icon={<PeopleOutlined />} to='/students'/>
+        <ListMenuItem label='Frais en retards' icon={<WarningOutlined  />} to='/fees'/>
       </ListMenu>
     </>
   )

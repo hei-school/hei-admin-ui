@@ -1,22 +1,17 @@
-import {
-  Popover,
-  Badge,
-  IconButton,
-  Tooltip
-} from '@mui/material'
+import { Popover, Badge, IconButton, Tooltip } from '@mui/material'
 import { useState } from 'react';
 import { Notifications } from '@mui/icons-material'
 import NotificationContent from './NotificationContent';
+import { palette } from '../palette';
 
 function NotificationMenu(){
   const [anchorEl, setAnchorEl] = useState(null);
-   
   return (
     <>
     <Tooltip title='Notification'onClick={(e)=>setAnchorEl(e.currentTarget)} >
       <IconButton>
-        <Badge badgeContent={0} color='warning'>
-          <Notifications sx={{color: '#40403f'}} />
+        <Badge badgeContent={0} sx={{color: palette.yellow}}>
+          <Notifications sx={{color: palette.black}}/>
         </Badge>
       </IconButton>
     </Tooltip>

@@ -1,38 +1,35 @@
-import { 
-  AppBar, 
-  Typography,
-  Box,
-  Slide,
-  useScrollTrigger
-} from '@mui/material'
+import { AppBar, Box, Slide, useScrollTrigger } from '@mui/material'
 import { AppBarClasses, LoadingIndicator, SidebarToggleButton } from 'react-admin'
 import LogoutMenu from './LogoutMenu'
 import NotificationMenu from './NotificationMenu'
+import { palette } from '../palette'
 
-const HaAppBar = ({ title })=> {
-  const trigger = useScrollTrigger({})
-    
+export const HaAppBar = ()=> {
+  const trigger = useScrollTrigger()
+  
+  const style = {
+    display:'flex', 
+    flexDirection:'row',
+    justifyContent:'space-between',
+    alignItems:'center',
+    width:'100%',
+    color:palette.black,
+    boxShadow:'none',
+    p: 1,
+    backgroundColor: palette.yellow, 
+  }
+
   return (
     <Slide appear={false} direction="down" in={!trigger}>
-      <AppBar id='appbar' position='sticky' sx={{
-        backgroundColor: '#ffc619', 
-        display:'flex', 
-        flexDirection:'row',
-        boxShadow:'none',
-        borderBottom:'1px solid rgba(0,0,0,.1)',
-        alignItems:'center',
-        p: 1,
-        color:'#323333',
-        justifyContent:'space-between',
-      }}> 
+      <AppBar id='appbar' position='sticky' sx={style}> 
         <Box sx={{display: 'flex', alignItems:'center', gap: 1}}>
           <SidebarToggleButton className={AppBarClasses.menuButton} />
-          <h2 id="pagetitle" style={{fontSize: '1.2em', padding:0,margin:0,fontWeight:'500', color:'#323333'}}>
+          <h2 id="pagetitle" style={{fontSize:'1.2em',padding:0,margin:0,fontWeight:'500',color:palette.black}}>
             {/* title portal here */}
           </h2>
         </Box>
-        <Box sx={{display:'flex', alignItems: 'center'}}>
-          <LoadingIndicator sx={{ color: '#40403f' }}/>
+        <Box sx={{display:'flex',alignItems: 'center'}}>
+          <LoadingIndicator sx={{color:palette.black}}/>
           <NotificationMenu />
           <LogoutMenu />
         </Box>

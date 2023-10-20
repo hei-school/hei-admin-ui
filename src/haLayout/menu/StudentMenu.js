@@ -1,4 +1,4 @@
-import { SingleMenu } from '.';
+import { SingleMenu } from './utils';
 import { AttachMoney, Receipt } from '@mui/icons-material'
 import authProvider from '../../providers/authProvider';
 

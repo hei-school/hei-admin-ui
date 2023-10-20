@@ -1,63 +1,50 @@
-import { Typography, Box } from '@mui/material'
-import { ThemeProvider } from '@mui/styles'
-import SingleMenu from './SingleMenu'
+import { styled } from '@mui/styles'
+import { palette } from '../../palette'
+import { Box, Typography } from '@mui/material'
 import UserInfo from './UserInfo'
-import {  AccountCircleOutlined } from '@mui/icons-material'
-import HaMenuContent from '../HaMenuContent'
-import { createTheme } from '@mui/material/styles';
-import { useContext } from 'react'
-import { MenuHoverProvider } from '../../HaLayout'
+import { AccountCircleOutlined } from '@mui/icons-material'
+import { HaMenuContent } from '../HaMenuContent'
+import { SingleMenu } from './SingleMenu'
+import { useSidebarState } from 'react-admin'
 
-
-const HaMenuStyled = {
-  backgroundColor:'#363636',
-  height:'100vh',
-  overflowY:'auto', 
-  overflowX: 'hidden',
+const haMenuStyled = {
+  width:'250px',
+  height:'100%',
+  boxSizing:'border-box',
+  paddingLeft: '20px',
+  transition:'all .3s linear',
   position:'fixed',
-  transition: 'all .5s',
-  paddingTop: 1,
-  color: '#e3e2de',
-  top: 0,
-  left: 0
+  overflowX: 'hidden',
+  overflowY: 'scroll',
+  backgroundColor: palette.black,
+  color: palette.white,
+  top:0,
 }
 
-const MenuTheme = createTheme({
-  typography:{
-    color: '#e3e2de',
-    ':hover': '#edb91a'
-  }
+const Separator = styled('div')({
+  backgroundColor: 'rgba(255,255,255,.2)',
+  height:1,
+  display:'block',
+  width:'300%',
+  transform: 'translateX(-50%)'
 })
 
-function HaMenu(){
-  const { isHover, setIsHover, open } = useContext(MenuHoverProvider) 
+export function HaMenu(){
+  const [ open ] = useSidebarState()
 
   return (
-    <ThemeProvider theme={MenuTheme}>
-      <Box
-        component='div'
-        sx={{ 
-          ...HaMenuStyled,
-          borderRight: open || isHover ? 'none': '10px solid #363636',
-          width: open || isHover ? '250px' : '80px'
-        }}
-        onMouseOver={()=> !open && setIsHover(true) }
-        onMouseLeave={()=> !open && setIsHover(false) }
-      >
-        <Box sx={{ display:'flex', width: '100%',alignItems:'center', gap:2, my:2, px: 3}}>
-          <img src='/menu-logo.png' style={{ width: 40, height: 27 }}/>
-          { ( open || isHover )  && 
-            <Typography variant='h1' sx={{ fontSize:'1.1em', fontWeight:400 }}>
-              HEI Admin
-            </Typography>
-          } 
-        </Box>
-        <UserInfo />
-        <SingleMenu label='Profile' icon={<AccountCircleOutlined />} to='/profile'/>
-        <HaMenuContent />
+    <Box sx={{...haMenuStyled, left: open ? 0 : '-250px'}}>
+      <Box sx={{display:'flex',width:'100%',alignItems:'center',py:2.5,gap:2}}>
+        <img src='/menu-logo.png' style={{ width:40,height: 27 }}/>
+        <Typography variant='h1' sx={{fontSize:'1.1em',color:palette.white,fontWeight:400 }}>
+          HEI Admin
+        </Typography>
       </Box>
-    </ThemeProvider>
+      <Separator />
+      <UserInfo />
+      <Separator />
+      <SingleMenu label='Profile' to='/profile' icon={<AccountCircleOutlined />} sx={{mt: 3}}/>
+      <HaMenuContent />
+    </Box>
   )
 }
-
-export default HaMenu

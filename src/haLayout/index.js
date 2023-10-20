@@ -1,2 +1,1 @@
-import HaLayout from "./HaLayout";
-export default HaLayout;
+export * from './HaLayout'

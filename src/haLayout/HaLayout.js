@@ -1,49 +1,37 @@
+import { AppLocationContext } from '@react-admin/ra-navigation'
+import { styled, ThemeProvider } from '@mui/styles'
 import { Box } from '@mui/material'
-import { ThemeProvider } from '@mui/material/styles'
-import { styled } from '@mui/styles';
-import { AppLocationContext } from '@react-admin/ra-navigation';
-import { useState } from 'react';
-import { useSidebarState } from 'react-admin';
-import { createContext } from 'react';
-import { mainTheme } from '../haTheme';
-import HaAppBar from './appBar';
-import { HaMenu } from './menu';
+import { mainTheme } from '../haTheme'
+import { HaMenu } from './menu/utils/'
+import { HaAppBar } from './appBar'
+import { useSidebarState } from 'react-admin'
 
 const HaLayoutStyled = styled('div')({
   backgroundColor: '#ebe9e6',
   minHeight:'100vh',
   position:'relative',
-  width:'100%',
+  width:'100%'
 })
 
-export const MenuHoverProvider = createContext();
-
-const HaLayout = (props) => {
-  const { children, title } = props
-  const [ open ] = useSidebarState()
-  const [ isHover, setIsHover ]= useState(false)
+export function HaLayout({ children }){
+  const [open] = useSidebarState()
 
   return (
     <AppLocationContext>
-      <MenuHoverProvider.Provider value={{ isHover, setIsHover, open }} >
-        <ThemeProvider theme={mainTheme}>
-          <HaLayoutStyled>
-            <HaMenu hoverState={{ isHover, setIsHover }} />
-            <Box sx={{
-              zIndex:55,
-              transition: 'all .5s',
-              marginLeft: open || isHover ? '250px' : '80px', 
-              width: open || isHover ? 'calc(100% - 250px)' : 'cacl(100% - 100px)',
-              display:'flex', 
-              flexDirection:'column'}}
-            >
-              <HaAppBar title={title}/>
-              {children}
-            </Box>
-          </HaLayoutStyled>
-        </ThemeProvider>
-      </MenuHoverProvider.Provider>
+      <ThemeProvider theme={mainTheme}>
+        <HaLayoutStyled>
+          <HaMenu />
+          <Box sx={{
+            ml: open ? '250px' : 0,
+            width: open ? 'calc(100% - 250px)' : '100%',
+            boxSizing:'border-box',
+            transition: 'all .35s linear'
+          }}>
+            <HaAppBar />
+            {children}
+          </Box>
+        </HaLayoutStyled>
+      </ThemeProvider>
     </AppLocationContext>
-  );
-} 
-export default HaLayout;
+  )  
+}

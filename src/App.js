@@ -20,7 +20,7 @@ import payments from './operations/payments'
 
 import studentGrades from './operations/studentGrades'
 
-import HaLayout from './haLayout/'
+import { HaLayout } from './haLayout/'
 import HaLoginPage from './security/LoginPage'
 import { heiDocs } from './operations/heiDocs'
 

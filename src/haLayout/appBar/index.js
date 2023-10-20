@@ -1,3 +1,1 @@
-import HaAppBar from './HaAppBar'
-
-export default HaAppBar
+export * from './HaAppBar'

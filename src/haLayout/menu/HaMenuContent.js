@@ -4,7 +4,7 @@ import ManagerMenu from './ManagerMenu'
 import StudentMenu from './StudentMenu'
 import TeacherMenu from './TeacherMenu'
 
-function HaMenuContent(){
+export function HaMenuContent(){
   const role = authProvider.getCachedWhoami().role
 
   if (role === WhoamiRoleEnum.Student) {
@@ -18,5 +18,3 @@ function HaMenuContent(){
   }
   return null
 }
-
-export default HaMenuContent
