@@ -7,13 +7,15 @@
     "@react-admin/ra-navigation": "^4.0.6",
     "@react-admin/ra-rbac": "^4.0.1",
     "aws-amplify": "^4.3.26",
-    "papaparse": "^5.4.1",
+    "mime-db": "^1.52.0",
     "ra-language-french": "^4.2.0",
     "react": "^18.2.0",
     "react-admin": "^4.2.0",
     "react-dom": "^18.2.0",
+    "react-file-previewer": "^0.6.3",
     "react-router-redux": "^4.0.8",
-    "typeface-quicksand": "^1.1.13"
+    "typeface-quicksand": "^1.1.13",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.9.12",

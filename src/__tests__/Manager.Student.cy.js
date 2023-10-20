@@ -13,31 +13,31 @@ import {
   whoamiManagerMock,
   createFeeWithManualDataMock,
   createStudent,
-  createdFeesForNewStudent
+  createdFeesForNewStudent,
+  liteCreatedStudent
 } from './mocks/responses'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
 import { TurnsStringIntoDate } from '../operations/utils'
+import { studentRequestBodyVerification } from './utils'
 
 const feeDateToSearch = `2022-09-11`
 const newFirstName = 'Aina herilala'
 let createdStudent = {
-  ...createStudent
+  ...createStudent,
+  id: 'ajbfq-fqdfjdh-2jkg3j'
 }
 const feeCreatDate = 'date2'
-createdStudent.id = 'ajbfq-fqdfjdh-2jkg3j'
 let updatedStudent = {
-  ...student1Mock
-}
-updatedStudent.first_name = newFirstName
-
-const StudentRequestBodyVerification = (RequestBody, can_create_fees) => {
-  let createStudentWithoutFeesBodyMock = { ...createStudent }
-  createStudentWithoutFeesBodyMock.can_create_fees = can_create_fees
-  createStudentWithoutFeesBodyMock.entrance_datetime = TurnsStringIntoDate(createStudent.entrance_datetime)
-  expect(RequestBody[0]).to.deep.equal(createStudentWithoutFeesBodyMock)
-  expect(RequestBody.length).to.equal(1)
+  ...student1Mock,
+  first_name: newFirstName
 }
 
+const fillInputs = () => {
+  cy.get('#sex_F').click()
+  cy.get('#phone').type(createStudent.phone)
+  cy.get('#birth_date').click().type(createStudent.birth_date)
+  cy.get("[data-testid='addressInput']").type(createStudent.address)
+}
 describe(specTitle('Manager edit students'), () => {
   beforeEach(() => {
     mount(<App />)
@@ -62,7 +62,7 @@ describe(specTitle('Manager edit students'), () => {
 
   it('can edit students', () => {
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
-    cy.intercept('PUT', `/students`, updatedStudent).as('modifyStudent').as('modifyStudent')
+    cy.intercept('PUT', `/students`, [updatedStudent]).as('modifyStudent')
     cy.contains('Étudiants')
     cy.wait('@getWhoami')
     cy.contains('Mon profil')
@@ -136,29 +136,35 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
-    cy.get('.MuiFab-root').click()
+    cy.get('[href="#/students/create"]').click()
     cy.intercept('PUT', '/students', [createdStudent]).as('createStudent')
     cy.intercept('POST', `students/${createdStudent.id}/fees`, [createdFeesForNewStudent]).as('createFees')
     cy.get('#ref').type(createStudent.ref)
     cy.get('#first_name').type(createStudent.first_name)
     cy.get('#last_name').type(createStudent.last_name)
-    cy.get('#sex_F').click()
-    cy.get('#phone').type(createStudent.phone)
-    cy.get('#birth_date').click().type(createStudent.birth_date)
-    cy.get('.ra-input-address > .MuiInputBase-root').type(createStudent.address)
-    cy.get('#email').type(createStudent.email)
     cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime.slice(0, 10))
+    cy.get('#email').type(createStudent.email)
   })
   it('can create students without fees', () => {
     cy.intercept('GET', '/students?page=1&page_size=10', [createdStudent, ...studentsMock].slice(0, 10)).as('getStudents')
+    fillInputs()
     cy.contains('Enregistrer').click()
-    cy.wait('@createStudent').then(requestInterseption => StudentRequestBodyVerification(requestInterseption.request.body, false))
+    cy.wait('@createStudent').then(requestInterseption => studentRequestBodyVerification(requestInterseption.request.body, false, { ...createStudent }))
+    cy.contains('Élément créé')
+    unmount()
+  })
+
+  it('can create students with only ref, firstname, lastname and entranceDatetime', () => {
+    cy.intercept('GET', '/students?page=1&page_size=10', [createdStudent, ...studentsMock].slice(0, 10)).as('getStudents')
+    cy.contains('Enregistrer').click()
+    cy.wait('@createStudent').then(requestInterception => studentRequestBodyVerification(requestInterception.request.body, false, { ...liteCreatedStudent }))
     cy.contains('Élément créé')
     unmount()
   })
 
   it('can create student with his/her fees using predefined fees', () => {
     const feeTypeMock = 'annualTuition1x' //have to change if the name of predefinedFirstDueDates's properties change
+    fillInputs()
     cy.get('.MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click()
     cy.get('#predefined_type').click()
     cy.get(`[data-value="${feeTypeMock}"]`).click()
@@ -167,7 +173,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.intercept('GET', '/students?page=1&page_size=10', [...studentsMock, createdStudent].slice(0, 10)).as('getStudents')
 
     cy.contains('Enregistrer').click()
-    cy.wait('@createStudent').then(requestInterseption => StudentRequestBodyVerification(requestInterseption.request.body, true))
+    cy.wait('@createStudent').then(requestInterseption => studentRequestBodyVerification(requestInterseption.request.body, true, { ...createStudent }))
     cy.wait('@createFees').then(requestIntersection => {
       let createAutomaticallyFeesBodyMock = {
         comment: requestIntersection.request.body[0].comment,
@@ -184,6 +190,7 @@ describe(specTitle('Manager creates students'), () => {
 
   it('can create student with his/her 9 months fees', () => {
     const feeTypeMock = 'annualTuition9x'
+    fillInputs()
     cy.get('.MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click()
     cy.get('#predefined_type').click()
     cy.get(`[data-value="${feeTypeMock}"]`).click()
@@ -192,7 +199,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.intercept('GET', '/students?page=1&page_size=10', [...studentsMock, createdStudent].slice(0, 10)).as('getStudents')
     cy.intercept('POST', `students/${createdStudent.id}/fees`, [createdFeesForNewStudent]).as('createNineFees')
     cy.contains('Enregistrer').click()
-    cy.wait('@createStudent').then(requestInterseption => StudentRequestBodyVerification(requestInterseption.request.body, true))
+    cy.wait('@createStudent').then(requestInterseption => studentRequestBodyVerification(requestInterseption.request.body, true, { ...createStudent }))
     cy.wait('@createNineFees').then(requestIntersection => {
       let createAutomaticallyFeesBodyMock = {
         comment: requestIntersection.request.body[0].comment,
@@ -209,6 +216,7 @@ describe(specTitle('Manager creates students'), () => {
 
   it('can create student with his/her fees manually', () => {
     const feeTypeMock = 'tuition'
+    fillInputs()
     cy.get('.MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input').click()
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
     const monthsNumber = 1 + Math.floor(Math.random() * 3)
@@ -229,7 +237,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.intercept('GET', `/students/${createStudent.id}/fees?page=1&page_size=500`, createdFeesWithStudent).as('getFees')
     cy.intercept('POST', `students/${createdStudent.id}/fees`, [createdFeesForNewStudent]).as('createFees')
     cy.contains('Enregistrer').click()
-    cy.wait('@createStudent').then(requestInterseption => StudentRequestBodyVerification(requestInterseption.request.body, true))
+    cy.wait('@createStudent').then(requestInterseption => studentRequestBodyVerification(requestInterseption.request.body, true, { ...createStudent }))
 
     cy.wait('@createFees').then(requestIntersection => {
       let createAutomaticallyFeesBodyMock = {

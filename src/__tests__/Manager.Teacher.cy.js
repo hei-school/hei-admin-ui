@@ -3,11 +3,7 @@ import App from '../App'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { manager1Mock, teacher1Mock, teachersMock, whoamiManagerMock } from './mocks/responses'
 import { manager1 } from './credentials'
-
-const updatedInfo = {
-  ...teachersMock[0],
-  last_name: 'new'
-}
+import { updatedInfo } from './utils'
 
 describe(specTitle('Manager.Teachers'), () => {
   beforeEach(() => {

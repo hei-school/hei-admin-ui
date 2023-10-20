@@ -5,6 +5,7 @@ import studentProvider from './studentProvider'
 import feeProvider from './feeProvider'
 import paymentProvider from './paymentProvider'
 import teacherProvider from './teacherProvider'
+import heiDocsProvider from './heiDocsProvider'
 
 export const maxPageSize = 500
 
@@ -14,6 +15,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'fees') return feeProvider
   if (resourceType === 'payments') return paymentProvider
   if (resourceType === 'teachers') return teacherProvider
+  if (resourceType === 'hei-docs') return heiDocsProvider
   throw new Error('Unexpected resourceType: ' + resourceType)
 }
 
