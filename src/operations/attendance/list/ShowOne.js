@@ -31,7 +31,6 @@ function ShowOne({ showOne, setShowOne }) {
 
   const close = () => setShowOne({ status: false, record: null })
   const student = `${record.student.first_name} ${record.student.ref}`
-  console.log(record)
   const teacher = isSession ? `${awareded_course.main_teacher.first_name} ${awareded_course.main_teacher.ref}` : ''
 
   const data = isSession
