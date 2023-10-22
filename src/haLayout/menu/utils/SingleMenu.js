@@ -1,5 +1,6 @@
 import { Box, Typography } from '@mui/material'
-import { Link } from 'react-admin'
+import { useMediaQuery } from '@mui/material'
+import { Link, useSidebarState } from 'react-admin'
 import { useLocation } from 'react-router-dom'
 import { palette } from '../../palette'
 
@@ -12,8 +13,15 @@ const style = {
 }
 export function SingleMenuBase({label,icon,to,menu=true,sx={}}){
   const location = useLocation()
+  const isSmall = useMediaQuery('(max-width:900px)')
+  const [open, setOpen] = useSidebarState()
   const color = ( to && location.pathname.startsWith(to)) ? palette.yellow : 'inherit' 
-   
+  
+  const handlerClick = ()=>{
+    if(to && isSmall) 
+      setOpen(!open)
+  }
+
   return (
     <Box 
       sx={{
@@ -25,6 +33,8 @@ export function SingleMenuBase({label,icon,to,menu=true,sx={}}){
         '& .MuiSvgIcon-root':{fontSize: menu ? '1.6rem !important' : '1.5rem !important'},
         ...sx,
       }}
+      component='div'
+      onClick={handlerClick}
     >
       { icon }
       <Typography variant='h6' sx={{fontSize:'.9em',color: 'inherit'}}>

@@ -1,10 +1,11 @@
 import { AppLocationContext } from '@react-admin/ra-navigation'
 import { styled, ThemeProvider } from '@mui/styles'
-import { Box } from '@mui/material'
+import { Box, useMediaQuery } from '@mui/material'
 import { mainTheme } from '../haTheme'
 import { HaMenu } from './menu/utils/'
 import { HaAppBar } from './appBar'
 import { useSidebarState } from 'react-admin'
+import { createContext } from 'react'
 
 const HaLayoutStyled = styled('div')({
   backgroundColor: '#ebe9e6',
@@ -12,9 +13,11 @@ const HaLayoutStyled = styled('div')({
   position:'relative',
   width:'100%'
 })
+export const LayoutContext = createContext()
 
 export function HaLayout({ children }){
   const [open] = useSidebarState()
+  const isSmall = useMediaQuery('(max-width:900px)')
 
   return (
     <AppLocationContext>
@@ -22,10 +25,10 @@ export function HaLayout({ children }){
         <HaLayoutStyled>
           <HaMenu />
           <Box sx={{
-            ml: open ? '250px' : 0,
-            width: open ? 'calc(100% - 250px)' : '100%',
+            ml: (isSmall || !open ) ? 0 : '250px',
+            width: (isSmall || !open ) ? '100%' : 'calc(100% - 250px)',
             boxSizing:'border-box',
-            transition: 'all .35s linear'
+            transition: 'all .3s linear'
           }}>
             <HaAppBar />
             {children}
