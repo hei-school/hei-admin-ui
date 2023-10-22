@@ -7,7 +7,6 @@ import PageConfig from './PageConfig'
 import { AttendanceMovementType } from '../../../gen/haClient'
 import { createScanner, ScannerBox } from './QrScanner'
 import { styled } from '@mui/styles'
-import './style.css'
 
 const StatusStyled = styled('p')({
   mt: 2,
@@ -20,28 +19,25 @@ const StatusStyled = styled('p')({
 })
 
 function CreateByScan() {
-  const { getConfig, setConfig } = qrcode
+  const { setConfig } = qrcode
+  const config = qrcode.getConfig()
   const [info, setInfo] = useState({ status: ScanStatus.NoScan, data: ''})
-  const [current, setCurrent] = useState({ type: getConfig().type, open: false })
+  const [current, setCurrent] = useState({ type: config.type, open: false })
   const [ scanner, setScanner ] = useState(null);
   const navigate = useNavigate()
 
   //unmount event
-  useEffect(()=> ()=> {
-    scanner !== null && scanner.clear()
-    console.log('unmount')
-    console.log()
-  },[])
+  useEffect(()=> ()=> scanner !== null && scanner.clear(),[])
 
   useEffect(() => {
     const newScanner = createScanner(setInfo)
     newScanner.render()
 
     setScanner(newScanner)
-  }, [getConfig().pause, getConfig().box, getConfig().fps])
+  }, [config.pause, config.box, config.fps])
 
   const toggleType = () => {
-    const newType = getConfig().type === AttendanceMovementType.In ? AttendanceMovementType.Out : AttendanceMovementType.In
+    const newType = config.type === AttendanceMovementType.In ? AttendanceMovementType.Out : AttendanceMovementType.In
     setConfig({ type: newType })
     setCurrent({...current, type: newType})
   }
@@ -53,7 +49,7 @@ function CreateByScan() {
   } 
 
   return (
-    <Box sx={{ display:'flex', justifyContent:'center',width:'100%',height:'100%'}}>
+    <Box sx={{ display:'flex',justifyContent:'center',width:'100%',height:'100%'}}>
       <Box sx={{ width: '100%', maxWidth: '750px',height:'fit-content',position: 'relative' }}>
         <ScannerBox id='reader' />
         <Box sx={{ display: 'flex', position: 'absolute',gap: 1.5,top: 5, right: 5}}>

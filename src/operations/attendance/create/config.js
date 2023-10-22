@@ -5,7 +5,7 @@ export const AvailablePlace = Object.entries(PlaceEnum).map(el => (
 ))
 export const ScanStatus = { Success : 'SUCCESS', NoScan: 'NO_SCAN' }
 const defaultConfig = {
-  pause: 1.5,
+  pause: 2,
   fps: 30,
   box: 250,
   send: 10,
@@ -18,14 +18,9 @@ const getConfig = () => {
   const config = localStorage.getItem('qr-config')
   return config ? JSON.parse(config) : defaultConfig 
 }
-const setConfig = config => {
-  const pause= !isNaN(+config.pause) ? +config.pause: defaultConfig.pause
-  const fps = !isNaN(+config.fps) ? +config.fps : defaultConfig.fps
-  localStorage.setItem('qr-config', JSON.stringify({ ...getConfig(), ...config, fps, pause }))
-}
-const setAttendance = (newStore = '') => {
-  localStorage.setItem('attendance-store', JSON.stringify(newStore))
-}
+const setConfig = config => localStorage.setItem('qr-config', JSON.stringify({ ...getConfig(), ...config }))
+
+const setAttendance = (newStore = '') => localStorage.setItem('attendance-store', JSON.stringify(newStore))
 const getAttendance = () => {
   const data = localStorage.getItem('attendance-store')
   return data ? JSON.parse(data) : []
@@ -38,8 +33,6 @@ const addAttendance = (studentId, type = getConfig().type)=> {
     place: qrcode.getConfig().place
   }
   setAttendance([...getAttendance(), attendance])
-
-  console.log(attendance)
 }
 
 export const qrcode = {

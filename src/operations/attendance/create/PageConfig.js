@@ -26,6 +26,21 @@ const FormGroup = styled('div')({
   gap: 2 
 })
 
+const ConfigInput = ({label, id, value, placeHolder, handler})=>(
+  <FormGroup>
+    <InputLabel sx={{fontSize: '15px'}}>{label} :</InputLabel>
+    <Input
+      size='large'
+      value={value}
+      onChange={handler}
+      placeholder={placeHolder}
+      sx={{fontSize: '15px', py: .2}}
+      id={id}
+      name={id}
+    />
+  </FormGroup>
+)
+
 function QrPageConfig({open,toggle}) {
   const { getConfig, setConfig, defaultConfig } = qrcode
   const [newConfig, setNewConfig] = useState(getConfig());
@@ -34,16 +49,26 @@ function QrPageConfig({open,toggle}) {
     setNewConfig(getConfig())
     toggle()
   }
-
+  
   const handlerNewConfig = event => {
     const { name, value } = event.target
-    setNewConfig({ ...newConfig, [name]: value })
+    if( value === '' || name === 'place')
+      setNewConfig({ ...newConfig, [name]: value})
+
+    if(!isNaN(parseInt(value)))
+      setNewConfig({ ...newConfig, [name]: parseInt(value)})
   }
 
   const changeQrConfig = configValue => {
     setConfig(configValue)
     toggleShowConfig();
   }
+  
+  const inputs = [
+    { label: 'Fps', value: newConfig.fps, placeHolder: 'Ex: 30 (pour 30fps)', id: 'fps'},
+    { label: 'Pause', value: newConfig.pause, placeHolder: 'Ex: 2 (pour 2s)', id: 'pause' },
+    { label: 'Scanner', value: newConfig.box, placeHolder: 'Ex: 100 (pour 100px)', id: 'box' }
+  ]
 
   return (
     <>
@@ -52,57 +77,20 @@ function QrPageConfig({open,toggle}) {
       </IconButton>
       <Dialog onClose={toggleShowConfig} sx={{ width: '100%' }} open={open}>
         <DialogTitle sx={{ display: 'flex', p: 2, alignItems: 'center', justifyContent: 'space-between' }}>
-          <Typography sx={{ color: 'rgba(0,0,0,.8)', fontSize: '1em', fontWeight: 'bold', textAlign: 'center' }}>
+          <Typography sx={{ color: '#232423', fontSize: '.9em', fontWeight: 'bold'}}>
             Paramètre du scanner
           </Typography>
           <IconButton onClick={toggleShowConfig}>
-            <Close sx={{ color: 'rgba(0,0,0,.8)'}} />
+            <Close sx={{color:'#232423'}} />
           </IconButton>
         </DialogTitle>
         <DialogContent sx={{ minWidth: '300px', px: 2 }}>
-          <FormGroup>
-            <InputLabel>Fps :</InputLabel>
-            <Input
-              size='large'
-              value={newConfig.fps}
-              onChange={handlerNewConfig}
-              placeholder='Ex: 30 (pour 30fps)'
-              type='number'
-              id='fps'
-              name='fps'
-            />
-          </FormGroup>
-          <FormGroup>
-            <InputLabel>Délai d'une pause :</InputLabel>
-            <Input
-              size='large'
-              value={newConfig.pause}
-              onChange={handlerNewConfig}
-              placeholder='Ex: 2 (pour 2s)'
-              type='number'
-              id='pause'
-              name='pause'
-            />
-          </FormGroup>
-          <FormGroup>
-            <InputLabel>Taille du scanner:</InputLabel>
-            <Input
-              size='large'
-              value={newConfig.box}
-              onChange={handlerNewConfig}
-              placeholder='Ex: 100 (pour 100*100)'
-              type='number'
-              name='box'
-              id='box'
-            />
-          </FormGroup>
+          {inputs.map(el => <ConfigInput key={el.id} handler={handlerNewConfig} {...el}/>)}
           <FormGroup>
             <InputLabel>Lieu: </InputLabel>
-            <Select id='place' name='place' value={newConfig.place} variant='outlined' autoWidth size='small' onChange={handlerNewConfig}>
+            <Select id='place' name='place' value={newConfig.place} variant='outlined' autoWidth size='small' onChange={handlerNewConfig} sx={{fontSize: '15px'}}>
               {AvailablePlace.map((place, id) => (
-                <MenuItem key={id} value={place.value}>
-                  {place.label}
-                </MenuItem>
+                <MenuItem key={id} value={place.value} sx={{fontSize:'15px'}}> {place.label} </MenuItem>
               ))}
             </Select>
           </FormGroup>

@@ -1,6 +1,6 @@
 import { Box, Select, MenuItem, IconButton } from '@mui/material'
 import { QrCodeScanner } from '@mui/icons-material'
-import { CreateButton, FilterButton, FilterForm, Link, TextInput } from 'react-admin'
+import { FilterButton, FilterForm, Link, TextInput } from 'react-admin'
 import { AvailablePlace, qrcode } from './config'
 
 const filters = [
@@ -25,14 +25,7 @@ function ToolBar(){
         </Select>
         <FilterForm filters={filters}/>
       </Box>
-      <Box sx={{ display: 'flex',alignItems: 'center', gap: 1 }}>
-        <FilterButton style={{ minWidth:'180px' }} filters={filters} disableSaveQuery/>
-        <Link to='/attendance/scan'>
-          <IconButton>
-            <QrCodeScanner sx={{ fontSize: '1.5em'}} color='primary' />
-          </IconButton>
-        </Link>
-      </Box>
+      <FilterButton style={{ minWidth:'180px' }} filters={filters} disableSaveQuery/>
     </Box>
   ) 
 }

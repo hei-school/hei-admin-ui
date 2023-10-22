@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
 import { Datagrid, FunctionField, List, TextField } from 'react-admin';
+import { QrCodeScanner, Add } from '@mui/icons-material'
 import { PrevNextPagination, pageSize } from '../../utils';
 import { formatDate } from '../utils';
 import AttendanceAside from './AttendanceAside';
 import ListActions from './ListActions';
 import ShowOne from './ShowOne';
+import LinkButton from './LinkButton';
 
 const AttendanceList = () => {
   const [showOne, setShowOne] = useState({status: false, record: null})
@@ -13,6 +15,8 @@ const AttendanceList = () => {
   
   return (
     <>
+      <LinkButton to='create' icon={<Add />} bottom='90px'/>
+      <LinkButton to='scan' icon={<QrCodeScanner />} bottom='30px'/>
       <List
         title='Présences'
         hasCreate={false}

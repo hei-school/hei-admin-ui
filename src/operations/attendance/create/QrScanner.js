@@ -4,14 +4,17 @@ import { styled } from "@mui/styles"
 
 export const ScannerBox = styled('div')({
   width:'100%',
-  marginTop:'5px',
-  maxWidth:'750px',
-  minHeight:'400px',
+  marginTop:5,
+  maxWidth:750,
+  minHeight:400,
   borderColor:'transparent',
   backgroundColor:'rgba(0,0,0,.8)',
-  '& button:not(#html5-qrcode-button-camera-permission), & img,& label': { display: 'none !important' },
+  '& button:not(#html5-qrcode-button-camera-permission, #html5-qrcode-button-camera-start), & img': { 
+    display: 'none !important' 
+  },
   '& #reader__dashboard_section': { padding: '0 !important' },
-  '& #html5-qrcode-button-camera-permission': {
+  '& #reader__dashboard_section_csr span:nth-of-type(1)':{display:'none !important'},
+  '& #html5-qrcode-button-camera-permission,& #html5-qrcode-button-camera-start': {
     position: 'absolute',
     top: '50%',
     left: '50%',
@@ -19,27 +22,16 @@ export const ScannerBox = styled('div')({
     padding:'7px 5px',
     border:'1px solid white',
     backgroundColor:'transparent',
-    color:'rgba(0,0,0,.0)',
+    color:'white',
     cursor: 'pointer',
-    '&::after': { 
-      content:'\'Demander une permission\'',
-      position:'absolute',
-      display:'block',
-      fontSize:'14px',
-      color:'white',
-      top: '50%',
-      left:'50%',
-      width:'100%',
-      transform: 'translate(-50%, -50%)',
-    }
   }
 })
 
 export function createScanner(setInfo){
-  const { getConfig } = qrcode
+  const currentConfig = qrcode.getConfig()
   const config = {
-    fps: getConfig().fps,
-    qrbox: { width: getConfig().box, height: getConfig().box},
+    fps: currentConfig.fps,
+    qrbox: { width: currentConfig.box, height: currentConfig.box},
     rememberLastUsedCamera: true,
     supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
     videoConstraints:{
@@ -51,7 +43,7 @@ export function createScanner(setInfo){
     setTimeout(() => {
       setInfo({ status: ScanStatus.NoScan, data: ''})
       scanner.resume()
-    }, getConfig().pause * 1000)
+    }, currentConfig.pause * 1000)
   }
 
   const onSuccess = data => {

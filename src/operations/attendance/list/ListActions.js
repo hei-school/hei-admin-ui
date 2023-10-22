@@ -36,7 +36,6 @@ function ListActions(){
           <FilterButton filters={attendanceFilters}/>
         }
         <ExportButton />
-        <CreateButton />
       </Box>
     </Box>
   )

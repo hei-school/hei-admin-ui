@@ -1,12 +1,17 @@
 import React from 'react'
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, FunctionField, TextField } from 'react-admin'
+import LinkButton from '../list/LinkButton'
+import { QrCodeScanner, List as ListIcon } from '@mui/icons-material'
 import { PrevNextPagination, pageSize } from '../../utils'
 import ToolBar from './Toolbar'
 import Actions from './Actions'
 
 const CreateByList = () => {
   return (
+    <>
+    <LinkButton to='/attendance' icon={<ListIcon />} bottom='90px'/>
+    <LinkButton to='/attendance/scan' icon={<QrCodeScanner />} bottom='30px'/>
     <List
       title='Présence'
       label='Présence'
@@ -22,6 +27,7 @@ const CreateByList = () => {
         <FunctionField render={record => <Actions sx={{ gap: 2, justifyContent:'end'}} studentId={record.ref} />} />
       </Datagrid>
     </List>
+    </>
   )
 }
 
