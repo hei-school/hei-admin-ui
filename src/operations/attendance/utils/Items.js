@@ -7,7 +7,6 @@ export function Items({ options, labelKey, valueKey, onClick, checked }) {
     return options.data.map((el, index) => {
       const currentItem = { label: getObjValue(el, labelKey), value: getObjValue(el, valueKey) }
       return (
-      <>
         <MenuItem 
           sx={{ display:'flex', justifyContent:'space-between', alignItems:'center',py:.7}} 
           onClick={() => onClick(currentItem)} 
@@ -21,20 +20,6 @@ export function Items({ options, labelKey, valueKey, onClick, checked }) {
             </IconButton>
           }
         </MenuItem>
-        <MenuItem 
-          sx={{ display:'flex', justifyContent:'space-between', alignItems:'center',py:.7}} 
-          onClick={() => onClick(currentItem)} 
-          key={index} 
-          value={currentItem.value}
-        >
-          {currentItem.label}
-          { checked(currentItem) && 
-            <IconButton sx={{p:0}} size='small'>
-              <Cancel />
-            </IconButton>
-          }
-        </MenuItem>
-        </>
       )
     })
   }
