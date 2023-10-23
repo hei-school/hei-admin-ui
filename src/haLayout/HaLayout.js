@@ -29,7 +29,10 @@ export function HaLayout({ children }){
             width: (isSmall || !open ) ? '100%' : 'calc(100% - 250px)',
             boxSizing:'border-box',
             transition: 'all .3s linear'
-          }}>
+          }} 
+            component='div'
+            id='main-content'
+          >
             <HaAppBar />
             {children}
           </Box>

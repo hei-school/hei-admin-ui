@@ -13,7 +13,6 @@ const Separator = styled('div')({
   display:'block',
   width:'300%',
   transform: 'translateX(-50%)',
-  position: 'fixed'
 })
 
 export function HaMenuBase({ sx = {}}){
@@ -26,7 +25,6 @@ export function HaMenuBase({ sx = {}}){
     paddingLeft: '20px',
     transition:'all .3s linear',
     overflowX: 'hidden',
-    overflowY: 'scroll',
     bgcolor: palette.black,
     color: palette.white,
     top:0,

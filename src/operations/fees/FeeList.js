@@ -9,7 +9,6 @@ import authProvider from '../../providers/authProvider'
 
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import { FeesListItems } from './utils'
-import { TitledPage } from '../utils'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -33,6 +32,7 @@ const FeeList = ({ studentId }) => {
   }, [definedStudentId])
   return (
     <List
+      title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
       actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/students/${definedStudentId}/fees`} />}
@@ -40,9 +40,7 @@ const FeeList = ({ studentId }) => {
       pagination={false}
       perPage={maxPageSize}
     >
-      <TitledPage title={`Frais de ${studentRef}`}>
-        <FeesListItems />
-      </TitledPage>
+      <FeesListItems />
     </List>
   )
 }

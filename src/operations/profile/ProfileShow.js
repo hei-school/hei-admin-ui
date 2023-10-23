@@ -2,7 +2,6 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
-import { TitledPage } from '../utils'
 
 export const ProfileLayout = () => {
   const emptyText = 'Non défini.e'
@@ -44,9 +43,7 @@ const ProfileShow = () => {
   const id = authProvider.getCachedWhoami().id
   return (
     <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
-      <TitledPage title='Mon profil'>
-        <ProfileLayout />
-      </TitledPage>
+      <ProfileLayout />
     </Show>
   )
 }

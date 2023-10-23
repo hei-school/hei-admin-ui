@@ -4,11 +4,11 @@ import { useState } from 'react';
 import { palette } from '../../palette';
 import { SingleMenuBase } from './SingleMenu';
 
-export function ListMenu({ children, label, icon }){
+export function ListMenu({ children, label, icon, ...rest}){
   const [showList, setShowList] = useState(false)
 
   return (
-    <Box sx={{width:'100%', color: palette.white}}>
+    <Box sx={{width:'100%', color: palette.white}} component='div' {...rest}>
       <Box
         sx={{
           cursor: 'pointer', 

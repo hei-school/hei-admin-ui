@@ -24,7 +24,7 @@ export const HaAppBar = ()=> {
       <AppBar id='appbar' position='sticky' sx={style}> 
         <Box sx={{display: 'flex', alignItems:'center', gap: 1}}>
           <SidebarToggleButton className={AppBarClasses.menuButton} />
-          <h2 id="pagetitle" style={{fontSize:'1.2em',padding:0,margin:0,fontWeight:'500',color:palette.black}}>
+          <h2 id="react-admin-title" style={{fontSize:'1.2em',padding:0,margin:0,fontWeight:'500',color:palette.black}}>
             {/* title portal here */}
           </h2>
         </Box>

@@ -5,13 +5,13 @@ import { prettyPrintMoney, statusRenderer, CustomDateField, commentFunctionRende
 
 import { maxPageSize } from '../../providers/dataProvider'
 import { FeesListItems } from './utils'
-import { TitledPage } from '../utils'
 
 const ByStatusFeeList = ({ status, ...props }) => {
   status = status ? status : 'LATE'
   return (
     <List
       {...props}
+      title={`Frais de statut ${statusRenderer(status).toLowerCase()}`}
       resource='fees'
       basePath={`/fees`}
       label='Frais'
@@ -21,9 +21,7 @@ const ByStatusFeeList = ({ status, ...props }) => {
       pagination={false}
       perPage={maxPageSize}
     >
-      <TitledPage title={`Frais de statut ${statusRenderer(status).toLowerCase()}`}>
-        <FeesListItems />
-      </TitledPage>
+      <FeesListItems />
     </List>
   )
 }

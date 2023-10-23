@@ -11,7 +11,7 @@ const style = {
   gap:2, 
   ':hover':{color: palette.yellow}
 }
-export function SingleMenuBase({label,icon,to,menu=true,sx={}}){
+export function SingleMenuBase({label,icon,to,menu=true,sx={},...rest}){
   const location = useLocation()
   const isSmall = useMediaQuery('(max-width:900px)')
   const [open, setOpen] = useSidebarState()
@@ -35,6 +35,7 @@ export function SingleMenuBase({label,icon,to,menu=true,sx={}}){
       }}
       component='div'
       onClick={handlerClick}
+      {...rest}
     >
       { icon }
       <Typography variant='h6' sx={{fontSize:'.9em',color: 'inherit'}}>
@@ -47,7 +48,7 @@ export function SingleMenuBase({label,icon,to,menu=true,sx={}}){
 export const SingleMenu = ({label,icon,to,menu,...rest}) => (
   to?(
     <Link to={to} sx={{color: 'inherit'}}>
-      <SingleMenuBase {...{label,icon,to,menu}} {...rest}/>
+      <SingleMenuBase {...{label,icon,to,menu,...rest}}/>
     </Link>
-  ):<SingleMenuBase {...{label,icon,to,menu}} {...rest}/>
+  ):<SingleMenuBase {...{label,icon,to,menu, ...rest}}/>
 )

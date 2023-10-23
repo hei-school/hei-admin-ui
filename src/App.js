@@ -1,7 +1,6 @@
 import React from 'react'
 import { Admin } from '@react-admin/ra-enterprise'
 import { CustomRoutes, Resource } from 'react-admin'
-
 import { Route } from 'react-router-dom'
 
 import dataProvider from './providers/dataProvider'
@@ -17,8 +16,6 @@ import docs from './operations/docs'
 
 import fees from './operations/fees'
 import payments from './operations/payments'
-
-import studentGrades from './operations/studentGrades'
 
 import { HaLayout } from './haLayout/'
 import HaLoginPage from './security/LoginPage'
@@ -41,8 +38,8 @@ const App = () => (
     <Resource name='teachers' {...teachers} />
     <Resource name='hei-docs' {...heiDocs} />
 
-    <Resource name='fees' {...fees} />
-    <Resource name='payments' {...payments} />
+      <Resource name='fees' {...fees} />
+      <Resource name='payments' {...payments} />
 
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
