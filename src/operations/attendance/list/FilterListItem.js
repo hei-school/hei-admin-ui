@@ -3,7 +3,7 @@ import { IconButton, ListItemButton, ListItemText, ListItemSecondaryAction } fro
 import { Cancel } from '@mui/icons-material'
 import { useEffect, useState } from 'react'
 
-export const FilterListItem = ({ label, value, type }) => {
+export function FilterListItem({ label, value, type }) {
   const { filterValues, setFilters } = useListFilterContext()
   const [values, setValues] = useState(filterValues[type] || [])
   const isSelected = values.indexOf(value) !== -1
