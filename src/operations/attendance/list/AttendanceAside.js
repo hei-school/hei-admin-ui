@@ -7,7 +7,7 @@ import FilterListItem from './FilterListItem'
 
 function AttendanceAside() {
   return (
-    <Card sx={{ order: -1, mr:2,mt:8 }}>
+    <Card sx={{ order: -1, mr: 2, mt: 8 }}>
       <CardContent>
         <FilterLiveSearch label='Étudiant' variant='outlined' source='student_key_word' />
         <SavedQueriesList />

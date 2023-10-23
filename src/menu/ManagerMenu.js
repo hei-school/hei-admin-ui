@@ -21,7 +21,7 @@ export const ManagerMenu = () => (
       </CardContent>
     </MenuItemCategory>
 
-    <MenuItemCategory to='/attendance' name='attendance' label='Présence' icon={<PanToolAlt />} />
+    <MenuItemCategory to='/attendance' name='attendance' label='Présences' icon={<PanToolAlt />} />
   </MultiLevelMenu>
 )
 
