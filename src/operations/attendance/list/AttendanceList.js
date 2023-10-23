@@ -6,10 +6,10 @@ import AttendanceAside from './AttendanceAside'
 import ListActions from './ListActions'
 import ShowOne from './ShowOne'
 
-const AttendanceList = () => {
+function AttendanceList() {
   const [showOne, setShowOne] = useState({ status: false, record: null })
 
-  const handlerRowClick = (id, ressource, record) => setShowOne({ status: true, record })
+  const showRecord = (id, ressource, record) => setShowOne({ status: true, record })
 
   return (
     <>
@@ -22,7 +22,7 @@ const AttendanceList = () => {
         pagination={<PrevNextPagination />}
         aside={<AttendanceAside />}
       >
-        <Datagrid bulkActionButtons={false} rowClick={handlerRowClick}>
+        <Datagrid bulkActionButtons={false} rowClick={showRecord}>
           <TextField source='student.ref' label='Référence' />
           <FunctionField label='Heure' render={record => formatDate(record.created_at) || '---'} />
           <TextField source='place' label='Lieu' />

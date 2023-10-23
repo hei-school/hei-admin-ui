@@ -1,15 +1,16 @@
-import { TextField } from '@mui/material'
+import { TextField, MenuItem, CircularProgress } from '@mui/material'
 import { useEffect, useState } from 'react'
 import { useListFilterContext } from 'react-admin'
 import { Items } from './Items'
 
 export function SelectLoading({ fetcher, source, label, valueKey, labelKey }) {
-  const [options, setOptions] = useState({ data: [], pending: true })
+  const [data, setData] = useState({ options: [], pending: true })
   const { filterValues, setFilters } = useListFilterContext()
   const [values, setValues] = useState(filterValues[source] || [])
+  const error = !data.pending && !data.options.length
 
   useEffect(() => {
-    fetcher.then(response => setOptions({ data: response.data, pending: false })).catch(() => setOptions({ ...options, pending: false }))
+    fetcher.then(response => setData({ options: response.data, pending: false })).catch(() => setData({ ...data, pending: false }))
   }, [])
 
   useEffect(() => {
@@ -36,7 +37,17 @@ export function SelectLoading({ fetcher, source, label, valueKey, labelKey }) {
         renderValue: selected => selected.map(el => el.label).join(', ')
       }}
     >
-      <Items valueKey={valueKey} checked={checked} onClick={toggleValue} labelKey={labelKey} options={options} />
+      {data.pending && (
+        <MenuItem value='' sx={{ backgroundColor: 'white !important' }}>
+          <CircularProgress style={{ width: '20px', height: '20px' }} />
+        </MenuItem>
+      )}
+      {error && (
+        <MenuItem value='' sx={{ fontSize: '.8em', width: '100%', backgroundColor: 'white !important' }}>
+          Une erreur c'est produite
+        </MenuItem>
+      )}
+      <Items valueKey={valueKey} checked={checked} onClick={toggleValue} labelKey={labelKey} options={data.options} />
     </TextField>
   )
 }
