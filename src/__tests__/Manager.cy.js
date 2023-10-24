@@ -42,10 +42,10 @@ describe(specTitle('Manager'), () => {
     cy.intercept('GET', `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`, [teacher1Mock]).as('getTeacherByName')
 
     cy.wait('@getWhoami')
-    cy.get('[href="#/profile"]').click()
   })
 
   it('lands on profile page if succeeds', () => {
+    cy.get('[href="#/profile"]').click()
     cy.get('#first_name').contains(managerNameToBeCheckedMock)
     cy.get('#main-content')
       .should('contain', manager1Mock.ref)
@@ -58,16 +58,11 @@ describe(specTitle('Manager'), () => {
 
   it('can list and filter students', () => {
     cy.contains('Enseignants')
-    cy.wait('@getWhoami')
     cy.contains('Étudiants')
-    cy.wait('@getWhoami')
     cy.contains('Mon profil')
-    cy.wait('@getWhoami')
-    cy.get(':nth-child(1) > .MuiListItem-root').click()
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
 
+    cy.get('[data-testid="students-menu"]').click() // Étudiants category
     cy.get('[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
     cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
@@ -86,7 +81,6 @@ describe(specTitle('Manager'), () => {
 
   it('can list and filter teachers', () => {
     cy.get('[href="#/teachers"]').click() //Enseignants menu
-    cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
     cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')

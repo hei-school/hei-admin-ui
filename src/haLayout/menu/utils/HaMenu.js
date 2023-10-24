@@ -31,7 +31,7 @@ export function HaMenuBase({ sx = {}}){
   }
 
   return (
-    <Box sx={{...haMenuStyled, left: open ? 0 : '-250px', ...sx}}>
+    <Box sx={{...haMenuStyled, left: open ? 0 : '-250px', ...sx}} component='div' id='ha-menu'>
       <Box sx={{display:'flex',width:'100%',alignItems:'center',py:2.5,gap:2}}>
         <img src='/menu-logo.png' style={{ width:40,height: 27 }}/>
         <Typography variant='h1' sx={{fontSize:'1.1em',color:palette.white,fontWeight:400 }}>

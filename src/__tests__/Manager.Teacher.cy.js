@@ -19,7 +19,7 @@ describe(specTitle('Manager.Teachers'), () => {
     cy.intercept('PUT', `/teachers`, [updatedInfo]).as('putUpdate')
 
     cy.wait('@getWhoami')
-    cy.get('[data-testid="WorkIcon"] > path').click()
+    cy.get('[href="#/teachers"]').click()
     cy.get(':nth-child(1) > .column-undefined > .MuiButtonBase-root').as('editButton')
     cy.get('.css-t6tio9-RaFilterButton-root > .MuiButtonBase-root').as('add-filter-button')
   })

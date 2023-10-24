@@ -47,14 +47,10 @@ describe(specTitle('Notifications on error when create, e.g: StudentCreate'), ()
     cy.wait('@getWhoami')
     cy.contains('Étudiants')
 
-    cy.contains('Mon profil')
 
-    cy.get("[data-testid='profileMenuItem']").click()
-    cy.wait('@getManager1')
-    cy.get('[data-testid="studentsMenuItem"]').click() // Étudiants category
+    cy.get('[data-testid="students-menu"]').click() // Étudiants category
 
     cy.get('[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
     cy.get('.MuiFab-root').click()
@@ -91,7 +87,7 @@ describe(specTitle('Notifications on error when edit, e.g: TeacherEdit'), () => 
     cy.intercept('GET', `/teachers/${teachersMock[0].id}`, teachersMock[0]).as('getTeachers1')
 
     cy.wait('@getWhoami')
-    cy.get('[data-testid="WorkIcon"] > path').click()
+    cy.get('[href="#/teachers"]').click()
     cy.get(':nth-child(1) > .column-undefined > .MuiButtonBase-root').as('editButton')
     cy.get('.css-t6tio9-RaFilterButton-root > .MuiButtonBase-root').as('add-filter-button')
     cy.get('@editButton').click()

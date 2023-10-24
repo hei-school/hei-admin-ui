@@ -40,10 +40,8 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#username').type(manager1.username)
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
-    cy.get('a[href="#/profile"]').click()
-    cy.wait('@getManager1')
-    cy.get('.RaMultiLevelMenu-navWithCategories').should('contain', 'Étudiants').and('contain', 'Enseignants').and('contain', 'Mon profil')
-    cy.get(':nth-child(3) > .MuiListItem-root').click()
+    cy.wait('@getWhoami')
+    cy.get('[data-testid="students-menu"]').click()
     cy.get('a[href="#/students"]').click()
     cy.get('body').click(200, 0)
     cy.contains('Page : 1')
@@ -85,7 +83,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.contains("Le formulaire n'est pas valide")
     unmount()
   })
-
+  
   it('can create fees with predefined fields', () => {
     const feeTypeMock = 'annualTuition1x'
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createFees')
@@ -112,6 +110,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.contains('Élément créé')
     unmount()
   })
+
   it('can create fees with predefined fields equals to 9 months', () => {
     const feeTypeMock = 'annualTuition9x'
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createNineFees')
@@ -160,7 +159,6 @@ describe(specTitle('Manager.Fee'), () => {
 
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
     cy.contains('Enregistrer').click()
-    /*
     cy.wait('@createFees').then(requestIntersection => {
       const feeTypeMock = 'tuition'
       let createAutomaticallyFeesBodyMock = {
@@ -176,7 +174,6 @@ describe(specTitle('Manager.Fee'), () => {
 
     cy.contains('Élément créé')
     unmount()
-    */
   })
   it('can create fees with manual fields without writing comments', () => {
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)

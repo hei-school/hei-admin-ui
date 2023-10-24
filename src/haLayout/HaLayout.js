@@ -6,9 +6,9 @@ import { HaMenu } from './menu/utils/'
 import { HaAppBar } from './appBar'
 import { useSidebarState } from 'react-admin'
 import { createContext } from 'react'
+import { HaBreadcrumb } from './HaBreadcrumb'
 
 const HaLayoutStyled = styled('div')({
-  backgroundColor: '#ebe9e6',
   minHeight:'100vh',
   position:'relative',
   width:'100%'
@@ -34,7 +34,10 @@ export function HaLayout({ children }){
             id='main-content'
           >
             <HaAppBar />
-            {children}
+            <Box sx={{px: 1, width:'100%'}}>
+              <HaBreadcrumb />
+              {children}
+            </Box>
           </Box>
         </HaLayoutStyled>
       </ThemeProvider>

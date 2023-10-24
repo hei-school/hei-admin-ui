@@ -25,6 +25,7 @@ describe(specTitle('Student'), () => {
   })
 
   it('lands on profile page if succeeds', () => {
+    cy.get('[href="#/profile"]').click()
     cy.get('#first_name').contains(studentNameToBeCheckedMock)
     cy.get('#main-content')
       .should('contain', student1Mock.ref)
@@ -32,11 +33,12 @@ describe(specTitle('Student'), () => {
       .and('contain', student1Mock.address)
       .and('contain', student1Mock.email)
       .and('contain', student1Mock.phone)
-    cy.get('.RaMultiLevelMenu-navWithCategories')
-      .should('not.contain', 'Enseignants', { timeout: 50 })
+    cy.get('[data-testid="MenuIcon"]').click()
+    cy.get('#ha-menu').should('not.contain', 'Enseignants', { timeout: 50 })
       .and('not.contain', 'Étudiants', { timeout: 50 })
       .and('contain', 'Frais')
       .and('contain', 'Notes')
+    cy.get('[href="#/profile"]').click()
     cy.get('.RaBreadcrumb-list').should('not.contain', 'CRÉER').and('not.contain', 'ÉDITER')
     unmount()
   })
