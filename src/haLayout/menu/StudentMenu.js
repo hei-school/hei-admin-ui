@@ -1,8 +1,8 @@
-import { ListMenu, ListMenuItem, SingleMenu } from './utils';
+import { ListMenu, ListMenuItem, SingleMenu } from './utils'
 import { AttachMoney, Receipt, Inventory, Work, School, Info } from '@mui/icons-material'
-import authProvider from '../../providers/authProvider';
+import authProvider from '../../providers/authProvider'
 
-function StudentMenu(){
+function StudentMenu() {
   const whoamiId = authProvider.getCachedWhoami().id
 
   return (

@@ -2,7 +2,7 @@ import { Breadcrumb, BreadcrumbItem } from '@react-admin/ra-navigation'
 import { useState } from 'react'
 import dataProvider from '../providers/dataProvider'
 
-export function HaBreadcrumb(){
+export function HaBreadcrumb() {
   const [studentRef, setStudentRef] = useState('...')
   const takeRefFunction = ({ record }) => {
     if (record) {

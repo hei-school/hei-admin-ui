@@ -83,7 +83,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.contains("Le formulaire n'est pas valide")
     unmount()
   })
-  
+
   it('can create fees with predefined fields', () => {
     const feeTypeMock = 'annualTuition1x'
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createFees')

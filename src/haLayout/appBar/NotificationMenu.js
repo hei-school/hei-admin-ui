@@ -1,31 +1,31 @@
 import { Popover, Badge, IconButton, Tooltip } from '@mui/material'
-import { useState } from 'react';
+import { useState } from 'react'
 import { Notifications } from '@mui/icons-material'
-import NotificationContent from './NotificationContent';
-import { palette } from '../palette';
+import NotificationContent from './NotificationContent'
+import { palette } from '../palette'
 
-function NotificationMenu(){
-  const [anchorEl, setAnchorEl] = useState(null);
+function NotificationMenu() {
+  const [anchorEl, setAnchorEl] = useState(null)
   return (
     <>
-    <Tooltip title='Notification'onClick={(e)=>setAnchorEl(e.currentTarget)} >
-      <IconButton>
-        <Badge badgeContent={0} sx={{color: palette.yellow}}>
-          <Notifications sx={{color: palette.black}}/>
-        </Badge>
-      </IconButton>
-    </Tooltip>
+      <Tooltip title='Notification' onClick={e => setAnchorEl(e.currentTarget)}>
+        <IconButton>
+          <Badge badgeContent={0} sx={{ color: palette.yellow }}>
+            <Notifications sx={{ color: palette.black }} />
+          </Badge>
+        </IconButton>
+      </Tooltip>
       <Popover
         open={Boolean(anchorEl)}
         anchorEl={anchorEl}
-        onClose={()=>setAnchorEl(null)}
+        onClose={() => setAnchorEl(null)}
         anchorOrigin={{
           vertical: 'bottom',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
       >
         <NotificationContent />
@@ -34,4 +34,4 @@ function NotificationMenu(){
   )
 }
 
-export default NotificationMenu;
+export default NotificationMenu

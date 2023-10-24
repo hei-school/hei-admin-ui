@@ -9,13 +9,13 @@ import { createContext } from 'react'
 import { HaBreadcrumb } from './HaBreadcrumb'
 
 const HaLayoutStyled = styled('div')({
-  minHeight:'100vh',
-  position:'relative',
-  width:'100%'
+  minHeight: '100vh',
+  position: 'relative',
+  width: '100%'
 })
 export const LayoutContext = createContext()
 
-export function HaLayout({ children }){
+export function HaLayout({ children }) {
   const [open] = useSidebarState()
   const isSmall = useMediaQuery('(max-width:900px)')
 
@@ -24,17 +24,18 @@ export function HaLayout({ children }){
       <ThemeProvider theme={mainTheme}>
         <HaLayoutStyled>
           <HaMenu />
-          <Box sx={{
-            ml: (isSmall || !open ) ? 0 : '250px',
-            width: (isSmall || !open ) ? '100%' : 'calc(100% - 250px)',
-            boxSizing:'border-box',
-            transition: 'all .3s linear'
-          }} 
+          <Box
+            sx={{
+              ml: isSmall || !open ? 0 : '250px',
+              width: isSmall || !open ? '100%' : 'calc(100% - 250px)',
+              boxSizing: 'border-box',
+              transition: 'all .3s linear'
+            }}
             component='div'
             id='main-content'
           >
             <HaAppBar />
-            <Box sx={{px: 1, width:'100%'}}>
+            <Box sx={{ px: 1, width: '100%' }}>
               <HaBreadcrumb />
               {children}
             </Box>
@@ -42,5 +43,5 @@ export function HaLayout({ children }){
         </HaLayoutStyled>
       </ThemeProvider>
     </AppLocationContext>
-  )  
+  )
 }

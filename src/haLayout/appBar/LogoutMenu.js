@@ -3,7 +3,7 @@ import authProvider from '../../providers/authProvider'
 import { IconButton, Tooltip } from '@mui/material'
 import { palette } from '../palette'
 
-function LogoutMenu(){
+function LogoutMenu() {
   const logout = () => {
     authProvider.logout()
     window.location.reload()
@@ -12,7 +12,7 @@ function LogoutMenu(){
   return (
     <Tooltip title='Se déconnecter' onClick={logout}>
       <IconButton>
-        <Lock sx={{color: palette.black}}/>
+        <Lock sx={{ color: palette.black }} />
       </IconButton>
     </Tooltip>
   )

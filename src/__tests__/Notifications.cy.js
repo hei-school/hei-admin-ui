@@ -47,7 +47,6 @@ describe(specTitle('Notifications on error when create, e.g: StudentCreate'), ()
     cy.wait('@getWhoami')
     cy.contains('Étudiants')
 
-
     cy.get('[data-testid="students-menu"]').click() // Étudiants category
 
     cy.get('[href="#/students"]').click()

@@ -38,8 +38,8 @@ const App = () => (
     <Resource name='teachers' {...teachers} />
     <Resource name='hei-docs' {...heiDocs} />
 
-      <Resource name='fees' {...fees} />
-      <Resource name='payments' {...payments} />
+    <Resource name='fees' {...fees} />
+    <Resource name='payments' {...payments} />
 
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
