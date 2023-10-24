@@ -22,6 +22,8 @@ describe(specTitle('Student'), () => {
     cy.contains('Afficher')
   })
   it('can show a heis doc', () => {
+    cy.get('[data-testid="InventoryIcon"] > path').click()
+    cy.get('[href="#/hei-docs"]').click()
     cy.contains('Date de création')
     cy.contains('Afficher')
     cy.get('.column-fileName > .MuiTypography-root').click()

@@ -68,8 +68,7 @@ describe(specTitle('Manager edit students'), () => {
     cy.contains('Mon profil')
     cy.wait('@getManager1')
     cy.wait('@getWhoami')
-    cy.get(':nth-child(1) > .MuiListItem-root').click()
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
+    cy.get('[data-testid="students-menu"]').click() // Étudiants category
 
     cy.get('[href="#/students"]').click()
     cy.get('body').click(200, 0) //note(uncover-menu)
@@ -126,11 +125,8 @@ describe(specTitle('Manager creates students'), () => {
     cy.wait('@getWhoami')
     cy.contains('Étudiants')
 
-    cy.contains('Mon profil')
-
-    cy.get(':nth-child(1) > .MuiListItem-root').click()
     cy.wait('@getManager1')
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
+    cy.get('[data-testid="students-menu"]').click() // Étudiants category
 
     cy.get('[href="#/students"]').click()
     cy.get('body').click(200, 0) //note(uncover-menu)

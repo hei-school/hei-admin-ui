@@ -40,14 +40,9 @@ describe(specTitle('Manager create multiple students'), () => {
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
 
-    cy.contains('Étudiants')
     cy.wait('@getWhoami')
-
-    cy.get("[data-testid='profileMenuItem']").click()
-    cy.get("[data-testid='studentsMenuItem']").click()
-
+    cy.get('[data-testid="students-menu"]').click()
     cy.get('[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
   })
 
   it('cannot create students if the file is empty', () => {
