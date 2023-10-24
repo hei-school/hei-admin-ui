@@ -1,8 +1,8 @@
 import { AppBar, Box, Slide, useScrollTrigger } from '@mui/material'
 import { AppBarClasses, LoadingIndicator, SidebarToggleButton } from 'react-admin'
+import { palette } from '../../constants'
 import LogoutMenu from './LogoutMenu'
-import NotificationMenu from './NotificationMenu'
-import { palette } from '../palette'
+import NotificationMenu from '../../notification/NotificationMenu'
 
 export const HaAppBar = () => {
   const trigger = useScrollTrigger()

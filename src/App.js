@@ -17,7 +17,7 @@ import docs from './operations/docs'
 import fees from './operations/fees'
 import payments from './operations/payments'
 
-import { HaLayout } from './haLayout/'
+import { HaLayout } from './ui/haLayout'
 import HaLoginPage from './security/LoginPage'
 import { heiDocs } from './operations/heiDocs'
 

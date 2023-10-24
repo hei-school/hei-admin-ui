@@ -1,5 +1,5 @@
 import { Box, Typography } from '@mui/material'
-import { palette } from '../palette'
+import { palette } from '../constants/palette'
 
 //TODO: wait for backend implementation
 function NotificationContent() {

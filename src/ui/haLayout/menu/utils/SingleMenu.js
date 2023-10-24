@@ -2,7 +2,7 @@ import { Box, Typography } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 import { Link, useSidebarState } from 'react-admin'
 import { useLocation } from 'react-router-dom'
-import { palette } from '../../palette'
+import { palette } from '../../../constants'
 
 const style = {
   display: 'flex',

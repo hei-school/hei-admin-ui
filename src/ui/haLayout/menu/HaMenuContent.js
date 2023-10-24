@@ -1,5 +1,5 @@
-import authProvider from '../../providers/authProvider'
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { WhoamiRoleEnum } from '../../../gen/haClient'
+import authProvider from '../../../providers/authProvider'
 import ManagerMenu from './ManagerMenu'
 import StudentMenu from './StudentMenu'
 import TeacherMenu from './TeacherMenu'

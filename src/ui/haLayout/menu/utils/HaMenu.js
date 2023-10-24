@@ -1,5 +1,5 @@
 import { styled } from '@mui/styles'
-import { palette } from '../../palette'
+import { palette } from '../../../constants'
 import { Box, Drawer, Typography, useMediaQuery } from '@mui/material'
 import UserInfo from './UserInfo'
 import { AccountCircleOutlined } from '@mui/icons-material'

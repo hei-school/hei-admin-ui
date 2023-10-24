@@ -1,7 +1,7 @@
 import { ArrowDropDown, ArrowDropUp } from '@mui/icons-material'
 import { Box, Collapse } from '@mui/material'
 import { useState } from 'react'
-import { palette } from '../../palette'
+import { palette } from '../../../constants'
 import { SingleMenuBase } from './SingleMenu'
 
 export function ListMenu({ children, label, icon, ...rest }) {

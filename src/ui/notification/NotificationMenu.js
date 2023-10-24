@@ -1,8 +1,8 @@
 import { Popover, Badge, IconButton, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { Notifications } from '@mui/icons-material'
+import { palette } from '../constants/palette'
 import NotificationContent from './NotificationContent'
-import { palette } from '../palette'
 
 function NotificationMenu() {
   const [anchorEl, setAnchorEl] = useState(null)

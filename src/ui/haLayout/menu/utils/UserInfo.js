@@ -1,8 +1,8 @@
-import { Box, Typography } from '@mui/material'
+import { Typography } from '@mui/material'
 import { styled } from '@mui/styles'
 import { useGetOne } from 'react-admin'
-import authProvider from '../../../providers/authProvider'
-import { palette } from '../../palette'
+import { palette } from '../../../constants'
+import authProvider from '../../../../providers/authProvider'
 
 const StyledUserInfo = styled('div')({
   display: 'flex',
