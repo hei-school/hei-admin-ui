@@ -51,12 +51,9 @@ describe(specTitle('Manager.Payment'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`, []).as('getPaymentOfUnpaidFee')
     cy.intercept('POST', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments`, [payment1Mock]).as('addPayments')
     // note(listFees)
-    cy.get('a[href="#/profile"]').click()
     cy.wait('@getManager1')
-    cy.get(':nth-child(1) > .MuiListItem-root').click()
-    cy.get(':nth-child(3) > .MuiListItem-root').click() // Étudiants category
+    cy.get('[data-testid="students-menu"]').click() // Étudiants category
     cy.get('a[href="#/students"]').click()
-    cy.get('body').click(200, 0) //note(uncover-menu)
     cy.get('button').contains('Suivant').click()
     cy.get('[data-testid="FilterListIcon"]').click()
     cy.get('[data-key="ref"]').click()
