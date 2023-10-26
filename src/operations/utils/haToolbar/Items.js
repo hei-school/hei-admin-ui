@@ -1,4 +1,4 @@
-import { MenuItem, CircularProgress, IconButton } from '@mui/material'
+import { MenuItem, IconButton } from '@mui/material'
 import { Cancel } from '@mui/icons-material'
 import { getObjValue } from './utils'
 

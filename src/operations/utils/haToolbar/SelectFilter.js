@@ -1,27 +1,25 @@
 import { TextField, MenuItem, CircularProgress } from '@mui/material'
-import { useEffect, useState } from 'react'
-import { useListFilterContext } from 'react-admin'
+import { useContext, useEffect, useState } from 'react'
+import { ToolbarContext } from './AddFilter'
 import { Items } from './Items'
 
-export function SelectLoading({ fetcher, source, label, valueKey, labelKey }) {
+export function SelectFilter({ fetcher, source, label, valueKey, labelKey }) {
   const [data, setData] = useState({ options: [], pending: true })
-  const { filterValues, setFilters } = useListFilterContext()
-  const [values, setValues] = useState(filterValues[source] || [])
+  const { currentFilter, setOneFilter } = useContext(ToolbarContext)
+  const values = currentFilter[source] || []
   const error = !data.pending && !data.options.length
 
   useEffect(() => {
-    fetcher.then(response => setData({ options: response.data, pending: false })).catch(() => setData({ ...data, pending: false }))
+    if(!Array.isArray(fetcher))
+      fetcher.then(response => setData({ options: response.data, pending: false })).catch(() => setData({ ...data, pending: false }))
+    else 
+      setData({ options: fetcher, pending:false})
   }, [])
-
-  useEffect(() => {
-    filterValues[source] !== values && setValues(filterValues[source] || [])
-  }, [filterValues[source]])
 
   const checked = item => values.some(el => el.value === item.value)
   const toggleValue = item => {
     const newFilter = !checked(item) ? [...values, item] : [...values].filter(el => el.value !== item.value)
-    setValues(newFilter)
-    setFilters({ ...filterValues, [source]: newFilter })
+    setOneFilter(source, newFilter)
   }
 
   return (
@@ -31,7 +29,7 @@ export function SelectLoading({ fetcher, source, label, valueKey, labelKey }) {
       value={values}
       size='small'
       select
-      sx={{ width: 200 }}
+      sx={{ width: '100%',minWidth:'350px',boxSizing:'border-box'}}
       SelectProps={{
         multiple: true,
         renderValue: selected => selected.map(el => el.label).join(', ')

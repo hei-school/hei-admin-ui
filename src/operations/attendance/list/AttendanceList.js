@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { Datagrid, FunctionField, List, TextField } from 'react-admin'
-import { PrevNextPagination, pageSize } from '../../utils'
-import { formatDate } from '../utils'
-import AttendanceAside from './AttendanceAside'
-import ListActions from './ListActions'
+import { PrevNextPagination, pageSize, formatDate } from '../../utils'
+import { AttendanceTooblar } from './AttendanceToolbar'
 import ShowOne from './ShowOne'
+
 
 function AttendanceList() {
   const [showOne, setShowOne] = useState({ status: false, record: null })
-
   const showRecord = (id, ressource, record) => setShowOne({ status: true, record })
 
   return (
@@ -17,10 +15,10 @@ function AttendanceList() {
         title='Présences'
         hasCreate={false}
         perPage={pageSize}
-        actions={<ListActions />}
+        actions={<AttendanceTooblar />}
         exporter={false}
         pagination={<PrevNextPagination />}
-        aside={<AttendanceAside />}
+        sx={{'& .MuiToolbar-root':{ minHeight:'0 !important'}}}
       >
         <Datagrid bulkActionButtons={false} rowClick={showRecord}>
           <TextField source='student.ref' label='Référence' />
