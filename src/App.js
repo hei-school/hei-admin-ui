@@ -1,7 +1,6 @@
 import React from 'react'
 import { Admin } from '@react-admin/ra-enterprise'
 import { CustomRoutes, Resource } from 'react-admin'
-
 import { Route } from 'react-router-dom'
 import groups from './operations/groups'
 
@@ -19,11 +18,12 @@ import docs from './operations/docs'
 import fees from './operations/fees'
 import payments from './operations/payments'
 
-import MyLayout from './HaLayout'
+import { HaLayout } from './ui/haLayout'
 import HaLoginPage from './security/LoginPage'
 import { heiDocs } from './operations/heiDocs'
 
 const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
+
 const App = () => (
   <Admin
     title='HEI Admin'
@@ -31,7 +31,7 @@ const App = () => (
     dataProvider={dataProvider}
     i18nProvider={polyglotI18nProvider(() => frenchMessages, 'fr')}
     loginPage={HaLoginPage}
-    layout={MyLayout}
+    layout={HaLayout}
     requireAuth
   >
     <Resource name='profile' />

@@ -1,10 +1,10 @@
-import authProvider from '../providers/authProvider'
-import StudentMenu from './StudentMenu'
+import { WhoamiRoleEnum } from '../../../gen/haClient'
+import authProvider from '../../../providers/authProvider'
 import ManagerMenu from './ManagerMenu'
+import StudentMenu from './StudentMenu'
 import TeacherMenu from './TeacherMenu'
-import { WhoamiRoleEnum } from '../gen/haClient'
 
-const HaMenu = () => {
+export function HaMenuContent() {
   const role = authProvider.getCachedWhoami().role
 
   if (role === WhoamiRoleEnum.Student) {
@@ -18,5 +18,3 @@ const HaMenu = () => {
   }
   return null
 }
-
-export default HaMenu
