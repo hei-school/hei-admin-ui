@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Datagrid, FunctionField, List, TextField } from 'react-admin'
-import { PrevNextPagination, pageSize, formatDate } from '../../utils'
+import { PrevNextPagination, pageSize } from '../../utils'
+import { formatDate } from '../../../ui/utils'
 import { AttendanceTooblar } from './AttendanceToolbar'
 import ShowOne from './ShowOne'
 

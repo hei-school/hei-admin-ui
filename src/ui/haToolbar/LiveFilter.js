@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Input, InputAdornment } from '@mui/material';
 import { Search } from '@mui/icons-material'
 import { useListFilterContext } from 'ra-core';
-import { actionPalette } from './style';
+import { actionUI } from '../constants'
 
 export function LiveFilter({ source, placeholder }) {
   const { filterValues, setFilters } = useListFilterContext();
@@ -11,7 +11,8 @@ export function LiveFilter({ source, placeholder }) {
   
   const style = {
     ':hover':{bgcolor:'white', color:'black'},
-    width:'220px'
+    width:'220px',
+    fontSize: '16px'
   }
 
   return (
@@ -19,7 +20,7 @@ export function LiveFilter({ source, placeholder }) {
       size='small'
       placeholder={placeholder}
       defaultValue={initialValues}
-      sx={{...actionPalette, ...style}}
+      sx={{...actionUI, ...style}}
       onChange={handleChange}
       endAdornment={
         <InputAdornment position='end'> 

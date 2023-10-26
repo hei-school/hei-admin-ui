@@ -1,6 +1,6 @@
 import { TextField } from '@mui/material'
 import { useContext } from 'react'
-import { ToolbarContext } from './AddFilter'
+import { ToolbarContext } from './FilterForm'
 
 export function TextFilter({ label, source }) {
   const { currentFilter, setOneFilter } = useContext(ToolbarContext)

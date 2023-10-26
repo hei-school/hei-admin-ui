@@ -1,6 +1,6 @@
 import { Button, Popover, Typography, Box } from '@mui/material'
 import { Add } from '@mui/icons-material'
-import { actionPalette } from './style'
+import { actionUI } from '../constants'
 import { createContext, useContext, useState } from 'react'
 import { styled } from '@mui/styles'
 import { useListFilterContext } from 'react-admin'
@@ -55,7 +55,7 @@ function FilterContent({anchorEl, onClose, onSubmit, children}){
   )
 }
 
-export function AddFilter({children}) {
+export function FilterForm({children}) {
   const {filterValues, setFilters} = useListFilterContext()
   const [anchorEl, setAnchorEl] = useState(null)
   const [currentFilter, setCurrentFilter] = useState(filterValues)
@@ -65,7 +65,7 @@ export function AddFilter({children}) {
   
   return (
     <ToolbarContext.Provider value={{ setCurrentFilter, currentFilter, setOneFilter }}>
-      <Button variant='outlined' size='small' sx={actionPalette} onClick={e => setAnchorEl(e.currentTarget)} >
+      <Button variant='outlined' size='small' sx={actionUI} onClick={e => setAnchorEl(e.currentTarget)} >
         <Add sx={{mr: .5}}/> Filtres
       </Button>
       <FilterContent anchorEl={anchorEl} onClose={()=>setAnchorEl(null)} onSubmit={submitChange}>

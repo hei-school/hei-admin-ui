@@ -1,7 +1,7 @@
 import { TextField, MenuItem, CircularProgress } from '@mui/material'
 import { useContext, useEffect, useState } from 'react'
-import { ToolbarContext } from './AddFilter'
-import { Items } from './Items'
+import { ToolbarContext } from './FilterForm'
+import { Items } from './utils/Items'
 
 export function SelectFilter({ fetcher, source, label, valueKey, labelKey }) {
   const [data, setData] = useState({ options: [], pending: true })

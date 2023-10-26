@@ -1,10 +1,10 @@
-import { HaToolbar, LiveFilter, AddFilter, SelectFilter, DateTimeFilter } from "../../utils";
+import { HaToolbar, LiveFilter, FilterForm, SelectFilter, DateTimeFilter, AutocompleteFilter } from '../../../ui/haToolbar';
 import { teachingApi, usersApi } from '../../../providers/api'
 import { AttendanceStatus } from "../../../gen/haClient";
 
 function AttendanceRightAction(){
   return(
-    <AddFilter>
+    <FilterForm>
       <SelectFilter 
         label='Status'
         fetcher={[
@@ -16,23 +16,25 @@ function AttendanceRightAction(){
         valueKey='value'
         labelKey='label'
       />
-      <SelectFilter 
+      <AutocompleteFilter
+        fetcher={(courseCode)=>teachingApi().getCourses(courseCode,undefined,undefined,undefined,undefined,undefined, undefined, 1, 5)}
         label='Cours'
-        fetcher={teachingApi().getCourses()}
-        source='courses_ids'
-        valueKey='id'
         labelKey='code'
-      />
-      <SelectFilter 
-        label='Enseignants'
-        fetcher={usersApi().getTeachers()}
-        source='teachers_ids'
+        labelKeyOnNull='name'
         valueKey='id'
-        labelKey='first_name'
+        source='courses_ids'
       />
-      <DateTimeFilter source='from' label='Avant'/>
-      <DateTimeFilter source='to' label='Après'/>
-    </AddFilter>
+      <AutocompleteFilter
+        fetcher={(first_name)=>usersApi().getTeachers(1, 5, undefined, first_name)}
+        label='Enseignants'
+        labelKey='first_name'
+        labelKeyOnNull='last_name'
+        valueKey='id'
+        source='teachers_ids'
+      />
+      <DateTimeFilter source='from' label='Après'/>
+      <DateTimeFilter source='to' label='Avant'/>
+    </FilterForm>
   ) 
 }
 

@@ -8,7 +8,7 @@ type SelectFilter = {
 
 const attendanceProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    const { courses_ids = [], teachers_ids = [] } = filter
+    const { courses_ids = [], teachers_ids = [], attendance_statuses = [] } = filter
 
     const result = await attendanceApi().getStudentsAttendance(
       page,
@@ -18,7 +18,7 @@ const attendanceProvider: HaDataProviderType = {
       filter.student_key_word,
       filter.from,
       filter.to,
-      filter.attendance_statuses
+      attendance_statuses.map((el: SelectFilter) => el.value)
     )
 
     return result.data

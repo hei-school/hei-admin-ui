@@ -2,7 +2,7 @@ import { IconButton, Dialog, DialogTitle, DialogContent, Typography } from '@mui
 import { Link } from 'react-admin'
 import { Close } from '@mui/icons-material'
 import { styled } from '@mui/styles'
-import { formatDate } from '../../utils'
+import { formatDate } from '../../../ui/utils'
 
 const StyledTypography = styled('h3')({
   color: '#3a3a3b',
