@@ -1,6 +1,16 @@
-import { Delete } from '@mui/icons-material'
 import { useState } from 'react'
-import { Button, Confirm, Datagrid, ExportButton, List, TextField, TopToolbar, useNotify, useRecordContext } from 'react-admin'
+import { Delete } from '@mui/icons-material'
+import {
+  Button,
+  Confirm,
+  Datagrid,
+  ExportButton,
+  List,
+  TextField,
+  TopToolbar,
+  useNotify,
+  useRecordContext
+} from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { GroupFlowMoveTypeEnum, WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
@@ -51,7 +61,7 @@ const GroupStudentList = () => {
 
   const ListActions = () => (
     <TopToolbar>
-      <MoveButton moveType={Join} migrate={false} />
+      <MoveButton moveType={Join} create />
       <ExportButton />
     </TopToolbar>
   )
@@ -61,16 +71,18 @@ const GroupStudentList = () => {
       label='Étudiants'
       actions={<ListActions />}
       hasCreate={isManager}
+      title=' '
+      empty
       perPage={pageSize}
       pagination={<PrevNextPagination />}
       resource='group-students'
       queryOptions={{ meta: { groupId } }}
     >
-      <Datagrid bulkActionButtons={false}>
+      <Datagrid bulkActionButtons={false} >
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
-        <MoveButton moveType={Leave} migrate />
+        <MoveButton moveType={Leave} create={false} />
         <DeleteButton groupId={groupId} />
       </Datagrid>
     </List>

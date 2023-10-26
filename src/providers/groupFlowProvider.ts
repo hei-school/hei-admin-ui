@@ -11,6 +11,7 @@ const groupFlowProvider: HaDataProviderType = {
     throw new Error('Function not implemented.')
   },
   async saveOrUpdate(payload: any) {
+    console.log(payload)
     const basicDetails = {
       studentId: payload.studentId
     }

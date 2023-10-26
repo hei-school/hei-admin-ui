@@ -1,13 +1,13 @@
+import { useState } from 'react'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Button, useGetList, useNotify, useRecordContext } from 'react-admin'
 import { useForm } from 'react-hook-form'
-import groupFlowProvider from '../../providers/groupFlowProvider'
-import { useState } from 'react'
-import { CustomAutoComplete } from '../utils/CustomAutoComplete'
-import { GroupFlowMoveTypeEnum } from '../../gen/haClient'
 import { useParams } from 'react-router-dom'
+import { GroupFlowMoveTypeEnum } from '../../gen/haClient'
+import groupFlowProvider from '../../providers/groupFlowProvider'
+import { CustomAutoComplete } from '../utils/CustomAutoComplete'
 
-const GroupFlowCreate = ({ moveType, migrate, handleClose, open, setIsOpen }) => {
+const GroupFlowCreate = ({ moveType, create, handleClose, open, setIsOpen }) => {
   const notify = useNotify()
   const params = useParams()
   const getStudents = useGetList('students')
@@ -18,7 +18,7 @@ const GroupFlowCreate = ({ moveType, migrate, handleClose, open, setIsOpen }) =>
     studentId: '',
     groupId: '',
     leftGroupId: '',
-    migrate: migrate
+    create: create
   })
   const { control, handleSubmit } = useForm({
     defaultValues: {
@@ -27,18 +27,23 @@ const GroupFlowCreate = ({ moveType, migrate, handleClose, open, setIsOpen }) =>
     }
   })
 
-  const leftGroupId = params.id
+  const actualGroupId = params.id
   const studentId = record.id
-  const students = getStudents.data
 
-  const groups = getGroups.data
+  let students = getStudents.data
+  let groups = getGroups.data
+
+  if(students && groups){
+    !create && (students = students.filter((student) => student.id === studentId))
+    groups = groups.filter((group) => (create ? group.id === actualGroupId : group.id !== actualGroupId));
+  }
 
   const notification = (message, type) => notify(message, { type: type, autoHideDuration: 1000 })
 
   const onSubmit = async data => {
-    payload.studentId = studentId ? studentId : data.student.id
+    payload.studentId = data.student.id
     payload.groupId = data.group.id
-    payload.leftGroupId = leftGroupId
+    payload.leftGroupId = actualGroupId
 
     await groupFlowProvider
       .saveOrUpdate(payload)
@@ -61,7 +66,7 @@ const GroupFlowCreate = ({ moveType, migrate, handleClose, open, setIsOpen }) =>
           {moveType === GroupFlowMoveTypeEnum.Join && (
             <CustomAutoComplete control={control} name='student' data={students} label="Référence de l'étudiant" fullWidth />
           )}
-          <CustomAutoComplete control={control} name='group' data={groups} label='Référence du groupe' fullWidth />
+          <CustomAutoComplete control={control} name='group'  data={groups} label='Référence du groupe' fullWidth/>
         </DialogContent>
         <DialogActions>
           <Button type='submit' sx={{ margin: 'auto' }} size='medium' variant='contained' color='primary'>

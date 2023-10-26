@@ -25,7 +25,7 @@ const GroupShow = props => {
   )
 
   return (
-    <Show actions={<Actions />}>
+    <Show actions={<Actions />} title='Groupe'>
       <GroupLayout />
     </Show>
   )

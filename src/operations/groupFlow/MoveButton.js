@@ -1,11 +1,11 @@
+import { Add } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import { useState } from 'react'
-import GroupFlowCreate from './GroupFlowCreate'
-import { GroupFlowMoveTypeEnum } from '../../gen/haClient'
 import { useRecordContext } from 'react-admin'
-import { Add } from '@mui/icons-material'
+import { GroupFlowMoveTypeEnum } from '../../gen/haClient'
+import GroupFlowCreate from './GroupFlowCreate'
 
-const MoveButton = ({ moveType, migrate }) => {
+const MoveButton = ({ moveType, create }) => {
   const [isOpen, setIsOpen] = useState(false)
   const record = useRecordContext()
   const studentId = record.id
@@ -21,7 +21,7 @@ const MoveButton = ({ moveType, migrate }) => {
       <Button onClick={handleClick} color='primary' size='small' startIcon={join && <Add />}>
         {label}
       </Button>
-      <GroupFlowCreate migrate={migrate} open={isOpen} handleClose={handleClose} moveType={moveType} studentId={studentId || undefined} setIsOpen={setIsOpen} />
+      <GroupFlowCreate create={create} open={isOpen} handleClose={handleClose} moveType={moveType} studentId={studentId || undefined} setIsOpen={setIsOpen} />
     </div>
   )
 }

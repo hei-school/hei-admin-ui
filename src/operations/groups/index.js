@@ -10,7 +10,8 @@ const groups = {
   show: GroupShow,
   create: GroupCreate,
   edit: GroupEdit,
-  icon: Groups
+  icon: Groups,
+  options: { label: 'Groupes' }
 }
 
 export const groupFilters = [
