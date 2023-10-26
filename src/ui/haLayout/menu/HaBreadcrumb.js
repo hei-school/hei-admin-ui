@@ -1,44 +1,66 @@
-import { Breadcrumb, BreadcrumbItem } from '@react-admin/ra-navigation'
 import { useState } from 'react'
+import { Breadcrumb, BreadcrumbItem } from '@react-admin/ra-navigation'
 import dataProvider from '../../../providers/dataProvider'
 
-export function HaBreadcrumb() {
-  const [studentRef, setStudentRef] = useState('...')
-  const takeRefFunction = ({ record }) => {
-    if (record) {
-      if (record.ref) {
-        return <spam>{record.ref}</spam>
-      } else {
-        const doEffect = async () => {
-          const student = await dataProvider.getOne('students', { id: record.student_id })
-          setStudentRef(student.data.ref)
-        }
-        doEffect()
-        return <spam>{studentRef}</spam>
-      }
-    }
-    return <spam>{'...'}</spam>
-  }
 
+const HaBreadCrumb = () => {
+  const [studentRef, setStudentRef] = useState('...')
+
+  const getRef = ({ record }) => {
+    if (record && record.student_id && !record.ref) {
+      const student = async () => dataProvider.getOne('students', { id: record.student_id })
+      setStudentRef(student.data.ref)
+    }
+    return <span>{record && record.ref ? record.ref : studentRef}</span>
+  }
+  const typicalBreadCrumb = {
+    edit: getRef,
+    show: getRef,
+    create: 'Créer'
+  }
+  const breadCrumbs = [
+    {
+      name: 'students',
+      label: 'Étudiants',
+      children: { ...typicalBreadCrumb }
+    },
+    {
+      name: 'teachers',
+      label: 'Enseignants',
+      children: { ...typicalBreadCrumb }
+    },
+    {
+      name: 'fees',
+      label: 'Frais',
+      children: { ...typicalBreadCrumb }
+    },
+    {
+      name: 'profile',
+      label: 'Profil',
+      children: {}
+    },
+    {
+      name: 'groups',
+      label: 'Groupes',
+      children: { ...typicalBreadCrumb }
+    },
+    {
+      name: 'payments',
+      label: 'Paiement',
+      children: { create: 'Créer' }
+    }
+  ]
   return (
     <Breadcrumb>
-      <BreadcrumbItem name='students' label='Étudiants'>
-        <BreadcrumbItem name='edit' label={takeRefFunction} />
-        <BreadcrumbItem name='show' label={takeRefFunction} />
-        <BreadcrumbItem name='create' label='créer' />
-      </BreadcrumbItem>
-      <BreadcrumbItem name='teachers' label='Enseignants'>
-        <BreadcrumbItem name='edit' label={takeRefFunction} />
-        <BreadcrumbItem name='show' label={takeRefFunction} />
-        <BreadcrumbItem name='create' label='créer' />
-      </BreadcrumbItem>
-      <BreadcrumbItem name='profile' label='Profiles' />
-      <BreadcrumbItem name='fees' label='Frais'>
-        <BreadcrumbItem name='edit' label={takeRefFunction} />
-        <BreadcrumbItem name='show' label={takeRefFunction} />
-        <BreadcrumbItem name='create' label='créer' />
-      </BreadcrumbItem>
-      <BreadcrumbItem name='profile' label='Profiles' />
+      {breadCrumbs.map(({ name, label, children }) => (
+        <BreadcrumbItem key={name} name={name} label={label}>
+          {Object.entries(children).map(([name, label]) => (
+            <BreadcrumbItem key={name} name={name} label={label} />
+          ))}
+        </BreadcrumbItem>
+      ))}
     </Breadcrumb>
   )
 }
+
+export default HaBreadCrumb

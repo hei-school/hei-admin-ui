@@ -1,12 +1,12 @@
 import { AppLocationContext } from '@react-admin/ra-navigation'
 import { styled, ThemeProvider } from '@mui/styles'
 import { Box, useMediaQuery } from '@mui/material'
+import HaBreadCrumb from './menu/HaBreadCrumb'
 import { HaMenu } from './menu/utils/'
 import { HaAppBar } from './appBar'
 import { useSidebarState } from 'react-admin'
 import { createContext } from 'react'
 import { mainTheme } from '../../haTheme'
-import { HaBreadcrumb } from './menu/HaBreadcrumb'
 
 const HaLayoutStyled = styled('div')({
   minHeight: '100vh',
@@ -36,7 +36,7 @@ export function HaLayout({ children }) {
           >
             <HaAppBar />
             <Box sx={{ px: 1, width: '100%' }}>
-              <HaBreadcrumb />
+              <HaBreadCrumb />
               {children}
             </Box>
           </Box>
