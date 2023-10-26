@@ -2,7 +2,6 @@ import { useState } from 'react'
 import { Breadcrumb, BreadcrumbItem } from '@react-admin/ra-navigation'
 import dataProvider from '../../../providers/dataProvider'
 
-
 const HaBreadCrumb = () => {
   const [studentRef, setStudentRef] = useState('...')
 

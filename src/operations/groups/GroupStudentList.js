@@ -1,16 +1,6 @@
 import { useState } from 'react'
 import { Delete } from '@mui/icons-material'
-import {
-  Button,
-  Confirm,
-  Datagrid,
-  ExportButton,
-  List,
-  TextField,
-  TopToolbar,
-  useNotify,
-  useRecordContext
-} from 'react-admin'
+import { Button, Confirm, Datagrid, ExportButton, List, TextField, TopToolbar, useNotify, useRecordContext } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { GroupFlowMoveTypeEnum, WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
@@ -78,7 +68,7 @@ const GroupStudentList = () => {
       resource='group-students'
       queryOptions={{ meta: { groupId } }}
     >
-      <Datagrid bulkActionButtons={false} >
+      <Datagrid bulkActionButtons={false}>
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />

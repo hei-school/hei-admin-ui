@@ -33,9 +33,9 @@ const GroupFlowCreate = ({ moveType, create, handleClose, open, setIsOpen }) => 
   let students = getStudents.data
   let groups = getGroups.data
 
-  if(students && groups){
-    !create && (students = students.filter((student) => student.id === studentId))
-    groups = groups.filter((group) => (create ? group.id === actualGroupId : group.id !== actualGroupId));
+  if (students && groups) {
+    !create && (students = students.filter(student => student.id === studentId))
+    groups = groups.filter(group => (create ? group.id === actualGroupId : group.id !== actualGroupId))
   }
 
   const notification = (message, type) => notify(message, { type: type, autoHideDuration: 1000 })
@@ -66,7 +66,7 @@ const GroupFlowCreate = ({ moveType, create, handleClose, open, setIsOpen }) => 
           {moveType === GroupFlowMoveTypeEnum.Join && (
             <CustomAutoComplete control={control} name='student' data={students} label="Référence de l'étudiant" fullWidth />
           )}
-          <CustomAutoComplete control={control} name='group'  data={groups} label='Référence du groupe' fullWidth/>
+          <CustomAutoComplete control={control} name='group' data={groups} label='Référence du groupe' fullWidth />
         </DialogContent>
         <DialogActions>
           <Button type='submit' sx={{ margin: 'auto' }} size='medium' variant='contained' color='primary'>

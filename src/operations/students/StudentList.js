@@ -15,7 +15,6 @@ const ListActions = () => {
 
   const isManager = role === WhoamiRoleEnum.Manager
   const addStudents = async (data, setData) => {
-    console.log(data)
     const importValidate = validateData(data)
 
     if (importValidate.isValid) {
