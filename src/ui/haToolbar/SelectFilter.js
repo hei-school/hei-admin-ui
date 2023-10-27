@@ -11,7 +11,9 @@ export function SelectFilter({ fetcher, source, label, valueKey, labelKey }) {
 
   useEffect(() => {
     if(!Array.isArray(fetcher))
-      fetcher.then(response => setData({ options: response.data, pending: false })).catch(() => setData({ ...data, pending: false }))
+      fetcher
+        .then(response => setData({ options: response.data, pending: false }))
+        .catch(() => setData({ ...data, pending: false }))
     else 
       setData({ options: fetcher, pending:false})
   }, [])

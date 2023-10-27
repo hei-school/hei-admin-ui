@@ -1,32 +1,21 @@
-import React, { useMemo } from 'react';
-import { Input, InputAdornment } from '@mui/material';
-import { Search } from '@mui/icons-material'
+import React from 'react';
+import { TextField } from '@mui/material';
 import { useListFilterContext } from 'ra-core';
-import { actionUI } from '../constants'
 
-export function LiveFilter({ source, placeholder }) {
+export function LiveFilter({ source, label }) {
   const { filterValues, setFilters } = useListFilterContext();
-  const initialValues = useMemo(() => filterValues[source] || '',[filterValues[source]]);
+  const initialValues = filterValues[source] || '';
   const handleChange = event => setFilters({ ...filterValues, [source]: event.target.value }, null)
   
-  const style = {
-    ':hover':{bgcolor:'white', color:'black'},
-    width:'220px',
-    fontSize: '16px'
-  }
-
   return (
-    <Input
+    <TextField
       size='small'
-      placeholder={placeholder}
+      variant='filled'
+      sx={{width: '220px'}}
+      hiddenLabel={false}
+      label={label}
       defaultValue={initialValues}
-      sx={{...actionUI, ...style}}
       onChange={handleChange}
-      endAdornment={
-        <InputAdornment position='end'> 
-          <Search /> 
-        </InputAdornment> 
-      }
     />
   );
 };

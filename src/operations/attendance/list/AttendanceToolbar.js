@@ -41,7 +41,7 @@ function AttendanceRightAction(){
 export function AttendanceTooblar(){
   return <HaToolbar
     leftAction={
-      <LiveFilter source='student_key_word' placeholder='Étudiant' />
+      <LiveFilter source='student_key_word' label='Filtre par étudiant' />
     }
     rightAction={
       <AttendanceRightAction />

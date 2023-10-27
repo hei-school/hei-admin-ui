@@ -12,7 +12,6 @@ const HaLayoutStyled = styled('div')({
   minHeight: '100vh',
   position: 'relative',
   width: '100%',
-  backgroundColor:'#f0efed'
 })
 export const LayoutContext = createContext()
 

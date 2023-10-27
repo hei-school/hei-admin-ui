@@ -1,6 +1,5 @@
 import { Button, Popover, Typography, Box } from '@mui/material'
 import { Add } from '@mui/icons-material'
-import { actionUI } from '../constants'
 import { createContext, useContext, useState } from 'react'
 import { styled } from '@mui/styles'
 import { useListFilterContext } from 'react-admin'
@@ -38,14 +37,14 @@ function FilterContent({anchorEl, onClose, onSubmit, children}){
         </Typography>
         {children} 
         <Box sx={{display:'flex', alignItems:'center',justifyContent:'space-between',mt:3,gap:2}}>
-          <Button variant='outlined' size='small' onClick={onClose}>
+          <Button variant='outlined' size='small' onClick={()=>onClose(false)}>
             Annuler 
           </Button>
           <Box>
             <Button variant='outlined' size='small' onClick={()=>setCurrentFilter({})} sx={{mr: 1}}>
               Effacer 
             </Button>
-            <Button variant='outlined' size='small' onClick={()=>{onSubmit(); onClose();}}>
+            <Button variant='outlined' size='small' onClick={()=>{onSubmit(); onClose(true)}}>
               Appliquer
             </Button>
           </Box>
@@ -61,14 +60,21 @@ export function FilterForm({children}) {
   const [currentFilter, setCurrentFilter] = useState(filterValues)
  
   const submitChange = ()=>setFilters(currentFilter)
-  const setOneFilter = (source, values)=>setCurrentFilter({...currentFilter, [source]: values})
-  
+  const setOneFilter = (source, values) =>setCurrentFilter(prev => ({...prev, [source]: values}))
+
+  const handleCloseFilter = isChangedMade =>{
+    if(!isChangedMade){
+      setCurrentFilter(filterValues)
+    }
+    setAnchorEl(null)
+  }
+
   return (
     <ToolbarContext.Provider value={{ setCurrentFilter, currentFilter, setOneFilter }}>
-      <Button variant='outlined' size='small' sx={actionUI} onClick={e => setAnchorEl(e.currentTarget)} >
+      <Button variant='text' size='small' onClick={e => setAnchorEl(e.currentTarget)} >
         <Add sx={{mr: .5}}/> Filtres
       </Button>
-      <FilterContent anchorEl={anchorEl} onClose={()=>setAnchorEl(null)} onSubmit={submitChange}>
+      <FilterContent anchorEl={anchorEl} onClose={handleCloseFilter} onSubmit={submitChange}>
         {children}
       </FilterContent>
     </ToolbarContext.Provider>
