@@ -2,7 +2,7 @@ import { TextField } from '@mui/material'
 import { useContext } from 'react'
 import { ToolbarContext } from './FilterForm'
 
-export function TextFilter({ label, source }) {
+export function TextFilter({ label, source, ...rest }) {
   const { currentFilter, setOneFilter } = useContext(ToolbarContext)
   return (
     <TextField
@@ -11,8 +11,9 @@ export function TextFilter({ label, source }) {
       size='small'
       variant='outlined'
       value={currentFilter[source] || ''}
-      sx={{width:'100%', minWidth:'320px'}}
-      onChange={(event)=>setOneFilter(source, event.target.value)}
+      sx={{ width: '100%', minWidth: '320px' }}
+      onChange={event => setOneFilter(source, event.target.value)}
+      {...rest}
     />
   )
 }

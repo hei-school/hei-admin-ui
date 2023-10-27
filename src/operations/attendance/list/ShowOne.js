@@ -5,7 +5,7 @@ import { styled } from '@mui/styles'
 import { formatDate } from '../../../ui/utils'
 
 const StyledTypography = styled('h3')({
-  color: '#3a3a3b',
+  color: '#484a49',
   fontSize: '1em',
   marginTop: 10,
   marginBottom: 0,
@@ -45,8 +45,8 @@ function ShowOne({ showOne, setShowOne }) {
 
   return (
     <Dialog open={status} onClose={close}>
-      <DialogTitle component='div' sx={{ pb: 1, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-        <Typography sx={{ fontSize: '1em', fontWeight: 'bold' }}> ID: #{record.id} </Typography>
+      <DialogTitle component='div' sx={{ pb: 0, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <Typography sx={{ fontSize: '.9em', fontWeight: 'bold', color: '#484a49' }}> Pointage: {record.id} </Typography>
         <IconButton onClick={close}>
           <Close />
         </IconButton>

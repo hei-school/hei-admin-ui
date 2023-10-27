@@ -5,7 +5,6 @@ import { formatDate } from '../../../ui/utils'
 import { AttendanceTooblar } from './AttendanceToolbar'
 import ShowOne from './ShowOne'
 
-
 function AttendanceList() {
   const [showOne, setShowOne] = useState({ status: false, record: null })
   const showRecord = (id, ressource, record) => setShowOne({ status: true, record })
@@ -19,14 +18,13 @@ function AttendanceList() {
         actions={<AttendanceTooblar />}
         exporter={false}
         pagination={<PrevNextPagination />}
-        sx={{'& .MuiToolbar-root':{ minHeight:'0 !important'}}}
+        sx={{ '& .MuiToolbar-root': { minHeight: '0 !important' } }}
       >
         <Datagrid bulkActionButtons={false} rowClick={showRecord}>
           <TextField source='student.ref' label='Référence' />
-          <FunctionField label='Heure' render={record => formatDate(record.created_at) || '---'} />
-          <TextField source='place' label='Lieu' />
           <TextField source='student.first_name' label='Prénom·s' />
-          <TextField source='student.last_name' label='Nom·s' />
+          <TextField source='place' label='Lieu' />
+          <FunctionField label='Heure' render={record => formatDate(record.created_at) || '---'} />
         </Datagrid>
       </List>
       <ShowOne showOne={showOne} setShowOne={setShowOne} />

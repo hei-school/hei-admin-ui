@@ -2,9 +2,9 @@ import { TextField } from '@mui/material'
 import { useContext } from 'react'
 import { ToolbarContext } from './FilterForm'
 
-export function DateTimeFilter({ source, label }){
+export function DateTimeFilter({ source, label, ...rest }) {
   const { currentFilter, setOneFilter } = useContext(ToolbarContext)
-  const value = currentFilter[source] ? currentFilter[source].slice(0,currentFilter[source].lastIndexOf(':')) : ''
+  const value = currentFilter[source] ? currentFilter[source].slice(0, currentFilter[source].lastIndexOf(':')) : ''
 
   return (
     <TextField
@@ -12,11 +12,11 @@ export function DateTimeFilter({ source, label }){
       type='datetime-local'
       variant='outlined'
       label={label}
-      sx={{ width:'100%'}}
+      sx={{ width: '100%' }}
       InputLabelProps={{ shrink: true }}
       value={value}
-      onChange={(event)=>setOneFilter(source,event.target.value + ':00.000Z')}
+      onChange={event => setOneFilter(source, event.target.value + ':00.000Z')}
+      {...rest}
     />
   )
 }
-

@@ -3,19 +3,15 @@ import { useContext, useEffect, useState } from 'react'
 import { ToolbarContext } from './FilterForm'
 import { Items } from './utils/Items'
 
-export function SelectFilter({ fetcher, source, label, valueKey, labelKey }) {
+export function SelectFilter({ fetcher, source, label, valueKey, labelKey, ...rest }) {
   const [data, setData] = useState({ options: [], pending: true })
   const { currentFilter, setOneFilter } = useContext(ToolbarContext)
   const values = currentFilter[source] || []
   const error = !data.pending && !data.options.length
 
   useEffect(() => {
-    if(!Array.isArray(fetcher))
-      fetcher
-        .then(response => setData({ options: response.data, pending: false }))
-        .catch(() => setData({ ...data, pending: false }))
-    else 
-      setData({ options: fetcher, pending:false})
+    if (!Array.isArray(fetcher)) fetcher.then(response => setData({ options: response.data, pending: false })).catch(() => setData({ ...data, pending: false }))
+    else setData({ options: fetcher, pending: false })
   }, [])
 
   const checked = item => values.some(el => el.value === item.value)
@@ -31,11 +27,12 @@ export function SelectFilter({ fetcher, source, label, valueKey, labelKey }) {
       value={values}
       size='small'
       select
-      sx={{ width: '100%',minWidth:'350px',boxSizing:'border-box'}}
+      sx={{ width: '100%', minWidth: '350px', boxSizing: 'border-box' }}
       SelectProps={{
         multiple: true,
         renderValue: selected => selected.map(el => el.label).join(', ')
       }}
+      {...rest}
     >
       {data.pending && (
         <MenuItem value='' sx={{ backgroundColor: 'white !important' }}>
