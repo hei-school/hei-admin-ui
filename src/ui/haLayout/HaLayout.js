@@ -1,7 +1,7 @@
 import { AppLocationContext } from '@react-admin/ra-navigation'
 import { styled, ThemeProvider } from '@mui/styles'
 import { Box, useMediaQuery } from '@mui/material'
-import HaBreadCrumb from './menu/HaBreadCrumb'
+import { HaBreadCrumb } from './menu/HaBreadCrumb'
 import { HaMenu } from './menu/utils/'
 import { HaAppBar } from './appBar'
 import { useSidebarState } from 'react-admin'
