@@ -19,6 +19,7 @@ const groupProvider: HaDataProviderType = {
       })
   },
   async saveOrUpdate(payload: any) {
+    console.log(payload)
     return await teachingApi()
       .createOrUpdateGroups(payload)
       .then(result => result.data)

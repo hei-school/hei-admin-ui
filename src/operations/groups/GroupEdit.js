@@ -7,7 +7,7 @@ const GroupEdit = () => {
   const students = getStudents.data
   return (
     <CustomEdit resource='groups' title='Groupe'>
-      <GroupForm students={students} />
+      <GroupForm students={students} create={false} />
     </CustomEdit>
   )
 }

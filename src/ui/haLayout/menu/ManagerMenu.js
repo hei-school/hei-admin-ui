@@ -9,7 +9,7 @@ function ManagerMenu() {
         <ListMenuItem label='Liste des étudiants' icon={<PeopleOutlined />} to='/students' />
         <ListMenuItem label='Frais en retards' icon={<WarningOutlined />} to='/fees' />
       </ListMenu>
-      <SingleMenu to='/groups' label='Groupes' icon={<Groups />} />
+      <SingleMenu to='/groups' label='Groupes' icon={<Groups />} data-testid='groups' />
     </>
   )
 }

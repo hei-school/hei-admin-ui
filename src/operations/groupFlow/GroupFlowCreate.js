@@ -41,13 +41,15 @@ const GroupFlowCreate = ({ moveType, create, handleClose, open, setIsOpen }) => 
   const notification = (message, type) => notify(message, { type: type, autoHideDuration: 1000 })
 
   const onSubmit = async data => {
-    payload.studentId = data.student.id
+    payload.studentId = create ? data.student.id : studentId
     payload.groupId = data.group.id
-    payload.leftGroupId = actualGroupId
+    !create && (payload.leftGroupId = actualGroupId)
+
+    const studentRef = students ? students.find(student => student.id === payload.studentId).ref : ''
 
     await groupFlowProvider
       .saveOrUpdate(payload)
-      .then(() => notification(`L'étudiant ${data.student.ref} a été migré avec succès`, 'success'))
+      .then(() => notification(`L'étudiant ${studentRef} a été migré avec succès`, 'success'))
       .then(() => setIsOpen(false))
       .catch(() => notification("Une erreur s'est produite.", 'error'))
   }
@@ -64,9 +66,16 @@ const GroupFlowCreate = ({ moveType, create, handleClose, open, setIsOpen }) => 
           }}
         >
           {moveType === GroupFlowMoveTypeEnum.Join && (
-            <CustomAutoComplete control={control} name='student' data={students} label="Référence de l'étudiant" fullWidth />
+            <CustomAutoComplete
+              control={control}
+              name='student'
+              data={students}
+              label="Référence de l'étudiant"
+              fullWidth
+              data-testid='students-autocomplete'
+            />
           )}
-          <CustomAutoComplete control={control} name='group' data={groups} label='Référence du groupe' fullWidth />
+          <CustomAutoComplete control={control} name='group' data={groups} label='Référence du groupe' fullWidth data-testid='groups-autocomplete' />
         </DialogContent>
         <DialogActions>
           <Button type='submit' sx={{ margin: 'auto' }} size='medium' variant='contained' color='primary'>

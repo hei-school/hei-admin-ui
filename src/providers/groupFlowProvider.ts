@@ -1,6 +1,5 @@
 import { HaDataProviderType } from './HaDataProviderType'
 import { GroupFlowMoveTypeEnum } from '../gen/haClient'
-// @ts-ignore
 import { teachingApi } from './api'
 
 const groupFlowProvider: HaDataProviderType = {
@@ -11,14 +10,13 @@ const groupFlowProvider: HaDataProviderType = {
     throw new Error('Function not implemented.')
   },
   async saveOrUpdate(payload: any) {
-    console.log(payload)
     const basicDetails = {
       studentId: payload.studentId
     }
     const forMigratePayload = [
       {
         ...basicDetails,
-        MoveType: payload.migrate ? GroupFlowMoveTypeEnum.Join : payload.MoveType,
+        MoveType: !payload.create ? GroupFlowMoveTypeEnum.Join : payload.MoveType,
         groupId: payload.groupId
       },
       {
@@ -27,7 +25,7 @@ const groupFlowProvider: HaDataProviderType = {
         groupId: payload.leftGroupId
       }
     ]
-    const groupFlow = payload.migrate ? forMigratePayload : [forMigratePayload[0]]
+    const groupFlow = !payload.create ? forMigratePayload : [forMigratePayload[0]]
     return await teachingApi()
       .moveOrDeleteStudentInGroup(payload.studentId, groupFlow)
       .then(result => result.data)

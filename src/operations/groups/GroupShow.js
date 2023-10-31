@@ -1,6 +1,8 @@
 import { Divider, Typography } from '@mui/material'
 import { EditButton, Show, SimpleShowLayout, TextField, TopToolbar } from 'react-admin'
 import { useParams } from 'react-router-dom'
+import { WhoamiRoleEnum } from '../../gen/haClient'
+import authProvider from '../../providers/authProvider'
 import { CustomDateField } from '../utils/DateHandling '
 import GroupStudentList from './GroupStudentList'
 
@@ -17,15 +19,17 @@ export const GroupLayout = () => {
   )
 }
 
-const GroupShow = props => {
+const GroupShow = () => {
+  const role = authProvider.getCachedRole()
+  const isManager = role === WhoamiRoleEnum.Manager
+
   const Actions = () => (
     <TopToolbar>
       <EditButton />
     </TopToolbar>
   )
-
   return (
-    <Show actions={<Actions />} title='Groupe'>
+    <Show actions={isManager && <Actions />} title='Groupe'>
       <GroupLayout />
     </Show>
   )

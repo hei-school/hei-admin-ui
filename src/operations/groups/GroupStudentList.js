@@ -1,5 +1,5 @@
-import { useState } from 'react'
 import { Delete } from '@mui/icons-material'
+import { useState } from 'react'
 import { Button, Confirm, Datagrid, ExportButton, List, TextField, TopToolbar, useNotify, useRecordContext } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { GroupFlowMoveTypeEnum, WhoamiRoleEnum } from '../../gen/haClient'
@@ -51,7 +51,7 @@ const GroupStudentList = () => {
 
   const ListActions = () => (
     <TopToolbar>
-      <MoveButton moveType={Join} create />
+      {isManager && <MoveButton moveType={Join} create />}
       <ExportButton />
     </TopToolbar>
   )
@@ -72,8 +72,12 @@ const GroupStudentList = () => {
         <TextField source='ref' label='Référence' />
         <TextField source='first_name' label='Prénom·s' />
         <TextField source='last_name' label='Nom·s' />
-        <MoveButton moveType={Leave} create={false} />
-        <DeleteButton groupId={groupId} />
+        {isManager && (
+          <>
+            <MoveButton moveType={Leave} create={false} />
+            <DeleteButton groupId={groupId} />
+          </>
+        )}
       </Datagrid>
     </List>
   )

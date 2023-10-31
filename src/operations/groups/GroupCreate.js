@@ -6,9 +6,9 @@ const GroupCreate = () => {
   const getStudents = useGetList('students')
   const students = getStudents.data
   return (
-    <CustomCreate resource='groups'>
-      <GroupForm students={students} />
-    </CustomCreate>
+    <Create resource='groups'>
+      <GroupForm students={students} create />
+    </Create>
   )
 }
 export default GroupCreate
