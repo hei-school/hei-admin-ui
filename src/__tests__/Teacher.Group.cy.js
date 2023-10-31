@@ -24,7 +24,7 @@ describe(specTitle('Manager'), () => {
     cy.wait('@getWhoami')
     cy.wait('@getTeacher1')
 
-    cy.get('[data-testid=\'groups\']').click()
+    cy.get("[data-testid='groups']").click()
   })
 
   it('can view groups list', () => {

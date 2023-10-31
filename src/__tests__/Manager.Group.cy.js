@@ -32,10 +32,9 @@ describe(specTitle('Manager and groups'), () => {
     cy.intercept('GET', `/groups?page=1&page_size=25`, groups).as('getGroups')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
 
-
     cy.wait('@getWhoami')
 
-    cy.get('[data-testid=\'groups\']').click()
+    cy.get("[data-testid='groups']").click()
   })
 
   it('can view groups list', () => {
@@ -45,7 +44,7 @@ describe(specTitle('Manager and groups'), () => {
     cy.contains('Année de création')
   })
   it('can create a group without student list', () => {
-    const {ref, name, students} = newGroup1
+    const { ref, name, students } = newGroup1
 
     cy.intercept('PUT', `/groups`, [newGroup1]).as('createGroup')
 
@@ -54,25 +53,24 @@ describe(specTitle('Manager and groups'), () => {
     cy.get('#ref').type(ref)
     cy.get('#name').type(name)
 
-
-    cy.get('[data-testid=\'group-students\']').click()
+    cy.get("[data-testid='group-students']").click()
     cy.get(`[data-value="${students[0]}"]`).click().as('selectStudent')
     cy.get(`[data-value="${students[1]}"]`).click().as('selectStudent')
 
-    cy.contains('Enregistrer').click({force: true})
+    cy.contains('Enregistrer').click({ force: true })
 
     cy.contains('Élément créé')
   })
   it('can create a group with student list', () => {
-    const {ref, name} = newGroup1
-    const {students, ...withoutGroups} = newGroup1
+    const { ref, name } = newGroup1
+    const { students, ...withoutGroups } = newGroup1
 
     cy.intercept('PUT', `/groups`, [withoutGroups]).as('createGroup')
 
     cy.get('[data-testid="AddIcon"]').click()
     cy.get('#ref').type(ref)
     cy.get('#name').type(name)
-    cy.contains('Enregistrer').click({force: true})
+    cy.contains('Enregistrer').click({ force: true })
     cy.contains('Élément créé')
   })
   it('can view a group detail', () => {
@@ -84,7 +82,7 @@ describe(specTitle('Manager and groups'), () => {
   })
   it('can edit a group', () => {
     const { ref, name } = editedGroup
-    const newGroupList = [ editedGroup, groups[1]]
+    const newGroupList = [editedGroup, groups[1]]
 
     cy.intercept('GET', `/groups?page=1&page_size=10`, newGroupList).as('getGroups')
     cy.intercept('PUT', `/groups`, [editedGroup]).as('createGroup')
@@ -113,7 +111,7 @@ describe(specTitle('Manager and groups'), () => {
 
     filterAndShow()
     cy.contains('Migrer').click()
-    cy.get('[data-testid=\'groups-autocomplete\']').click()
+    cy.get("[data-testid='groups-autocomplete']").click()
     cy.contains(`${groups[1].ref}`).click().as('selectGroup')
     cy.contains('Envoyer').click()
 
@@ -124,10 +122,10 @@ describe(specTitle('Manager and groups'), () => {
 
     filterAndShow()
     cy.contains('Créer').click()
-    cy.get('[data-testid=\'students-autocomplete\']').click()
+    cy.get("[data-testid='students-autocomplete']").click()
     cy.contains(`${student1.ref}`).click().as('selectStudent')
-    cy.get('[data-testid=\'groups-autocomplete\']').click()
-    cy.contains(`${group1.ref}`).click({force: true}).as('selectGroup')
+    cy.get("[data-testid='groups-autocomplete']").click()
+    cy.contains(`${group1.ref}`).click({ force: true }).as('selectGroup')
     cy.contains('Envoyer').click()
 
     cy.contains(`L'étudiant ${student1.ref} a été migré avec succès`)
