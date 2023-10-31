@@ -5,6 +5,7 @@ import GroupForm from './GroupForm'
 const GroupEdit = () => {
   const getStudents = useGetList('students')
   const students = getStudents.data
+
   return (
     <CustomEdit resource='groups' title='Groupe'>
       <GroupForm students={students} create={false} />

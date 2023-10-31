@@ -1,6 +1,5 @@
 import { Divider, Typography } from '@mui/material'
 import { EditButton, Show, SimpleShowLayout, TextField, TopToolbar } from 'react-admin'
-import { useParams } from 'react-router-dom'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
 import { CustomDateField } from '../utils/DateHandling '

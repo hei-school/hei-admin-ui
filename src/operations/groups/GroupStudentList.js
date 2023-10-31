@@ -1,5 +1,5 @@
-import { Delete } from '@mui/icons-material'
 import { useState } from 'react'
+import { Delete } from '@mui/icons-material'
 import { Button, Confirm, Datagrid, ExportButton, List, TextField, TopToolbar, useNotify, useRecordContext } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { GroupFlowMoveTypeEnum, WhoamiRoleEnum } from '../../gen/haClient'
@@ -10,7 +10,6 @@ import { pageSize, PrevNextPagination } from '../utils'
 
 const DeleteButton = ({ groupId }) => {
   const notify = useNotify()
-  const notification = (message, type) => notify(message, { type: type, autoHideDuration: 1000 })
   const student = useRecordContext()
   const [open, setOpen] = useState(false)
   const payload = {
@@ -19,6 +18,9 @@ const DeleteButton = ({ groupId }) => {
     MoveType: GroupFlowMoveTypeEnum.Leave,
     migrate: false
   }
+
+  const notification = (message, type) => notify(message, { type: type, autoHideDuration: 1000 })
+
   const handleConfirm = async () => {
     setOpen(false)
     await groupFlowProvider
@@ -26,6 +28,7 @@ const DeleteButton = ({ groupId }) => {
       .then(() => notification(`Etudiant ${student.ref} supprimé de ce groupe avec succès`, 'success'))
       .catch(() => notification(`Etudiant ${student.ref} n'a pas pu être supprimé de ce groupe`, 'error'))
   }
+
   return (
     <div>
       <Button onClick={() => setOpen(true)} startIcon={<Delete />} label='Supprimer' color='error' />
@@ -42,8 +45,8 @@ const DeleteButton = ({ groupId }) => {
 
 const GroupStudentList = () => {
   const params = useParams()
-
   const role = authProvider.getCachedRole()
+
   const isManager = role === WhoamiRoleEnum.Manager
   const groupId = params.id
 
