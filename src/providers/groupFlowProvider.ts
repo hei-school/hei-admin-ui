@@ -16,7 +16,7 @@ const groupFlowProvider: HaDataProviderType = {
     const forMigratePayload = [
       {
         ...basicDetails,
-        MoveType: !payload.create ? GroupFlowMoveTypeEnum.Join : payload.MoveType,
+        MoveType: payload.canCreate ? payload.MoveType : GroupFlowMoveTypeEnum.Join,
         groupId: payload.groupId
       },
       {
@@ -25,7 +25,7 @@ const groupFlowProvider: HaDataProviderType = {
         groupId: payload.leftGroupId
       }
     ]
-    const groupFlow = !payload.create ? forMigratePayload : [forMigratePayload[0]]
+    const groupFlow = payload.canCreate ? [forMigratePayload[0]] : forMigratePayload
     return await teachingApi()
       .moveOrDeleteStudentInGroup(payload.studentId, groupFlow)
       .then(result => result.data)

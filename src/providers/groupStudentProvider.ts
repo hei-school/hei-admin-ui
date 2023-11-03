@@ -8,9 +8,6 @@ const groupStudentProvider: HaDataProviderType = {
       .then(result => {
         return result.data
       })
-      .catch(error => {
-        throw new Error(error)
-      })
   },
   async getOne(id: string) {
     throw new Error('Function not implemented.')

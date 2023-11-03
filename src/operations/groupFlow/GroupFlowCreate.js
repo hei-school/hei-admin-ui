@@ -1,25 +1,17 @@
-import { useState } from 'react'
 import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material'
 import { Button, useGetList, useNotify, useRecordContext } from 'react-admin'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { GroupFlowMoveTypeEnum } from '../../gen/haClient'
-import groupFlowProvider from '../../providers/groupFlowProvider'
 import { CustomAutoComplete } from '../utils/CustomAutoComplete'
+import groupFlowProvider from '../../providers/groupFlowProvider'
 
-const GroupFlowCreate = ({ moveType, create, handleClose, open, setIsOpen }) => {
+const GroupFlowCreate = ({ moveType, canCreate, handleClose, open, setIsOpen }) => {
   const notify = useNotify()
   const params = useParams()
-  const getStudents = useGetList('students')
+  const queryStudents = useGetList('students')
   const record = useRecordContext()
-  const getGroups = useGetList('groups')
-  const [payload, _setPayload] = useState({
-    MoveType: moveType,
-    studentId: '',
-    groupId: '',
-    leftGroupId: '',
-    create: create
-  })
+  const queryGroups = useGetList('groups')
   const { control, handleSubmit } = useForm({
     defaultValues: {
       student: { id: '', ref: '' },
@@ -30,28 +22,32 @@ const GroupFlowCreate = ({ moveType, create, handleClose, open, setIsOpen }) => 
   const actualGroupId = params.id
   const studentId = record.id
 
-  let students = getStudents.data
-  let groups = getGroups.data
+  let students = queryStudents.data
+  let groups = queryGroups.data
 
   if (students && groups) {
-    !create && (students = students.filter(student => student.id === studentId))
-    groups = groups.filter(group => (create ? group.id === actualGroupId : group.id !== actualGroupId))
+    !canCreate && (students = students.filter(student => student.id === studentId))
+    groups = groups.filter(group => (canCreate ? group.id === actualGroupId : group.id !== actualGroupId))
   }
-
+  // TODO: use custom hooks
   const notification = (message, type) => notify(message, { type: type, autoHideDuration: 1000 })
 
   const onSubmit = async data => {
-    payload.studentId = create ? data.student.id : studentId
-    payload.groupId = data.group.id
-    !create && (payload.leftGroupId = actualGroupId)
+    const payload = {
+      MoveType: moveType,
+      studentId: canCreate ? data.student.id : studentId,
+      groupId: data.group.id,
+      leftGroupId: canCreate ? '' : actualGroupId,
+      canCreate: canCreate
+    }
 
     const studentRef = students ? students.find(student => student.id === payload.studentId).ref : ''
 
     await groupFlowProvider
       .saveOrUpdate(payload)
       .then(() => notification(`L'étudiant ${studentRef} a été migré avec succès`, 'success'))
-      .then(() => setIsOpen(false))
       .catch(() => notification("Une erreur s'est produite.", 'error'))
+      .finally(() => setIsOpen(false))
   }
 
   return (
@@ -71,11 +67,11 @@ const GroupFlowCreate = ({ moveType, create, handleClose, open, setIsOpen }) => 
               name='student'
               data={students}
               label="Référence de l'étudiant"
-              fullWidth
               data-testid='students-autocomplete'
+              fullWidth
             />
           )}
-          <CustomAutoComplete control={control} name='group' data={groups} label='Référence du groupe' fullWidth data-testid='groups-autocomplete' />
+          <CustomAutoComplete control={control} name='group' data={groups} label='Référence du groupe' data-testid='groups-autocomplete' fullWidth />
         </DialogContent>
         <DialogActions>
           <Button type='submit' sx={{ margin: 'auto' }} size='medium' variant='contained' color='primary'>

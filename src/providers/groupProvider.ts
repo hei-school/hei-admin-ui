@@ -6,17 +6,11 @@ const groupProvider: HaDataProviderType = {
     return await teachingApi()
       .getGroups(page, perPage, filter)
       .then(result => result.data)
-      .catch(error => {
-        throw new Error(error)
-      })
   },
   async getOne(id: string) {
     return await teachingApi()
       .getGroupById(id)
       .then(result => result.data)
-      .catch(error => {
-        throw new Error(error)
-      })
   },
   async saveOrUpdate(payload: any) {
     console.log(payload)

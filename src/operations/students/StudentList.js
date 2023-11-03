@@ -41,7 +41,7 @@ const ListActions = () => {
       <ExportButton />
       {isManager && (
         <>
-          <ImportListButton providerCall={addStudents} />
+          <ImportListButton mutationRequest={addStudents} />
           <ExportButton exporter={() => exporter([], importHeaders, 'template_students')} label='TEMPLATE' startIcon={<UploadFile />} />
         </>
       )}

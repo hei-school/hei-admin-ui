@@ -2,7 +2,7 @@ import { Breadcrumb, BreadcrumbItem } from '@react-admin/ra-navigation'
 import { useState } from 'react'
 import dataProvider from '../../../providers/dataProvider'
 
-const HaBreadCrumb = () => {
+export const HaBreadCrumb = () => {
   const [studentRef, setStudentRef] = useState('...')
 
   const getRef = ({ record }) => {
@@ -10,7 +10,7 @@ const HaBreadCrumb = () => {
       const student = async () => dataProvider.getOne('students', { id: record.student_id })
       setStudentRef(student.data.ref)
     }
-    return <span>{record && record.ref ? record.ref : studentRef}</span>
+    return <span>{record?.ref || studentRef}</span>
   }
   const typicalBreadCrumb = {
     edit: getRef,
@@ -21,39 +21,39 @@ const HaBreadCrumb = () => {
     {
       name: 'students',
       label: 'Étudiants',
-      children: { ...typicalBreadCrumb }
+      childBreadCrumb: { ...typicalBreadCrumb }
     },
     {
       name: 'teachers',
       label: 'Enseignants',
-      children: { ...typicalBreadCrumb }
+      childBreadCrumb: { ...typicalBreadCrumb }
     },
     {
       name: 'fees',
       label: 'Frais',
-      children: { ...typicalBreadCrumb }
+      childBreadCrumb: { ...typicalBreadCrumb }
     },
     {
       name: 'profile',
       label: 'Profil',
-      children: {}
+      childBreadCrumb: {}
     },
     {
       name: 'groups',
       label: 'Groupes',
-      children: { ...typicalBreadCrumb }
+      childBreadCrumb: { ...typicalBreadCrumb }
     },
     {
       name: 'payments',
       label: 'Paiement',
-      children: { create: 'Créer' }
+      childBreadCrumb: { create: 'Créer' }
     }
   ]
   return (
     <Breadcrumb>
-      {breadCrumbs.map(({ name, label, children }) => (
+      {breadCrumbs.map(({ name, label, childBreadCrumb }) => (
         <BreadcrumbItem key={name} name={name} label={label}>
-          {Object.entries(children).map(([name, label]) => (
+          {Object.entries(childBreadCrumb).map(([name, label]) => (
             <BreadcrumbItem key={name} name={name} label={label} />
           ))}
         </BreadcrumbItem>
@@ -61,5 +61,3 @@ const HaBreadCrumb = () => {
     </Breadcrumb>
   )
 }
-
-export default HaBreadCrumb

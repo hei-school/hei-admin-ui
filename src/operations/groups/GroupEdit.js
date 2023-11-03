@@ -3,8 +3,8 @@ import { CustomEdit } from '../utils/CustomEdit'
 import GroupForm from './GroupForm'
 
 const GroupEdit = () => {
-  const getStudents = useGetList('students')
-  const students = getStudents.data
+  const queryStudents = useGetList('students')
+  const students = queryStudents.data
 
   return (
     <CustomEdit resource='groups' title='Groupe'>

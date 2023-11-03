@@ -3,13 +3,13 @@ import { Button, IconButton, useMediaQuery } from '@mui/material'
 import { forwardRef, useRef, useState } from 'react'
 import { read, utils } from 'xlsx'
 import { Upload } from '@mui/icons-material'
+import { useToggle } from '../../hooks/useToggle'
 
+const excelType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
 const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
   const notify = useNotify()
 
-  const excelType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
-
-  const handleFile = async e => {
+  const processFile = async e => {
     setIsSubmitted(true)
 
     const files = e.target.files
@@ -32,12 +32,12 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
       }
     }
   }
-  return <input data-testid='inputFile' type='file' ref={ref} style={{ display: 'none' }} onChange={handleFile} accept={excelType} />
+  return <input data-testid='inputFile' type='file' ref={ref} style={{ display: 'none' }} onChange={processFile} accept={excelType} />
 })
 
-const ImportListButton = ({ providerCall }) => {
+const ImportListButton = ({ mutationRequest }) => {
   const [data, setData] = useState([])
-  const [open, setOpen] = useState(false)
+  const [open, setOpen, _toggle] = useToggle()
 
   const isSmall = useMediaQuery('(max-width: 625px)')
   const inputRef = useRef(null)
@@ -46,9 +46,9 @@ const ImportListButton = ({ providerCall }) => {
     inputRef.current.click()
   }
 
-  const handleConfirm = () => {
+  const makeRequest = () => {
     setOpen(false)
-    providerCall(data, setData)
+    mutationRequest(data, setData)
   }
 
   const InputFile = () => <FileInput ref={inputRef} setData={setData} setIsSubmitted={setOpen} />
@@ -69,7 +69,7 @@ const ImportListButton = ({ providerCall }) => {
         isOpen={open}
         title={`Importer`}
         content='Êtes-vous sûr de vouloir importer ce fichier ? Les changements seront irréversibles.'
-        onConfirm={handleConfirm}
+        onConfirm={makeRequest}
         onClose={() => setOpen(false)}
       />
     </>

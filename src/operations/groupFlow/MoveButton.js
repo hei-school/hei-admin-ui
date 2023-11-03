@@ -1,29 +1,24 @@
-import { useState } from 'react'
 import { Add } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import { useRecordContext } from 'react-admin'
 import { GroupFlowMoveTypeEnum } from '../../gen/haClient'
+import { useToggle } from '../../hooks/useToggle'
 import GroupFlowCreate from './GroupFlowCreate'
 
-const MoveButton = ({ moveType, create }) => {
-  const [isOpen, setIsOpen] = useState(false)
+const MoveButton = ({ moveType, canCreate }) => {
+  const [isOpen, setIsOpen, toggle] = useToggle()
   const record = useRecordContext()
 
   const studentId = record.id
-  const join = moveType === GroupFlowMoveTypeEnum.Join
-  const label = join ? 'Créer' : 'Migrer'
-
-  const handleClick = event => {
-    setIsOpen(true)
-  }
-  const handleClose = () => setIsOpen(false)
+  const isJoinMoveType = moveType === GroupFlowMoveTypeEnum.Join
+  const label = isJoinMoveType ? 'Créer' : 'Migrer'
 
   return (
     <div>
-      <Button onClick={handleClick} color='primary' size='small' startIcon={join && <Add />}>
+      <Button onClick={toggle} color='primary' size='small' startIcon={isJoinMoveType && <Add />}>
         {label}
       </Button>
-      <GroupFlowCreate create={create} open={isOpen} handleClose={handleClose} moveType={moveType} studentId={studentId || undefined} setIsOpen={setIsOpen} />
+      <GroupFlowCreate canCreate={canCreate} open={isOpen} handleClose={toggle} moveType={moveType} studentId={studentId || undefined} setIsOpen={setIsOpen} />
     </div>
   )
 }
