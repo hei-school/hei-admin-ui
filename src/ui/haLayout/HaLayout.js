@@ -1,11 +1,9 @@
 import { AppLocationContext } from '@react-admin/ra-navigation'
 import { styled, ThemeProvider } from '@mui/styles'
 import { Box, useMediaQuery } from '@mui/material'
-import { HaBreadCrumb } from './menu/HaBreadCrumb'
 import { HaMenu } from './menu/utils/'
 import { HaAppBar } from './appBar'
 import { useSidebarState } from 'react-admin'
-import { createContext } from 'react'
 import { mainTheme } from '../../haTheme'
 
 const HaLayoutStyled = styled('div')({
@@ -13,7 +11,6 @@ const HaLayoutStyled = styled('div')({
   position: 'relative',
   width: '100%'
 })
-export const LayoutContext = createContext()
 
 export function HaLayout({ children }) {
   const [open] = useSidebarState()
@@ -35,10 +32,7 @@ export function HaLayout({ children }) {
             id='main-content'
           >
             <HaAppBar />
-            <Box sx={{ px: 1, width: '100%' }}>
-              <HaBreadCrumb />
-              {children}
-            </Box>
+            <Box sx={{ px: 1, width: '100%' }}>{children}</Box>
           </Box>
         </HaLayoutStyled>
       </ThemeProvider>

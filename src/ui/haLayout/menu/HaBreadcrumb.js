@@ -2,7 +2,7 @@ import { Breadcrumb, BreadcrumbItem } from '@react-admin/ra-navigation'
 import { useState } from 'react'
 import dataProvider from '../../../providers/dataProvider'
 
-export const HaBreadCrumb = () => {
+const HaBreadCrumb = () => {
   const [studentRef, setStudentRef] = useState('...')
 
   const getRef = ({ record }) => {
@@ -61,3 +61,5 @@ export const HaBreadCrumb = () => {
     </Breadcrumb>
   )
 }
+
+export default HaBreadCrumb
