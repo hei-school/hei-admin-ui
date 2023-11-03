@@ -40,7 +40,7 @@ describe(specTitle('Student'), () => {
       .and('contain', 'Frais')
       .and('contain', 'Notes')
     cy.get('[href="#/profile"]').click()
-    cy.get('.RaBreadcrumb-list').should('not.contain', 'CRÉER').and('not.contain', 'ÉDITER')
+    //cy.get('.RaBreadcrumb-list').should('not.contain', 'CRÉER').and('not.contain', 'ÉDITER')
     unmount()
   })
 
@@ -50,7 +50,7 @@ describe(specTitle('Student'), () => {
     cy.wait('@getFees')
     cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
     cy.get('td a').should('not.contain', 'ÉDITER', { timeout: 50 })
-    cy.get('.RaBreadcrumb-list').should('not.contain', 'CRÉER', { timeout: 50 })
+    //cy.get('.RaBreadcrumb-list').should('not.contain', 'CRÉER', { timeout: 50 })
     cy.get('body').click(200, 0) //note(uncover-menu)
     cy.contains('200,000 Ar').click()
     cy.get('#main-content').should('contain', 'Paiements')

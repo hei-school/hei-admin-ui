@@ -4,16 +4,13 @@ import { Box, useMediaQuery } from '@mui/material'
 import { HaMenu } from './menu/utils/'
 import { HaAppBar } from './appBar'
 import { useSidebarState } from 'react-admin'
-import { createContext } from 'react'
 import { mainTheme } from '../../haTheme'
-import { HaBreadcrumb } from './menu/HaBreadcrumb'
 
 const HaLayoutStyled = styled('div')({
   minHeight: '100vh',
   position: 'relative',
   width: '100%'
 })
-export const LayoutContext = createContext()
 
 export function HaLayout({ children }) {
   const [open] = useSidebarState()
@@ -35,10 +32,7 @@ export function HaLayout({ children }) {
             id='main-content'
           >
             <HaAppBar />
-            <Box sx={{ px: 1, width: '100%' }}>
-              <HaBreadcrumb />
-              {children}
-            </Box>
+            <Box sx={{ px: 1, width: '100%' }}>{children}</Box>
           </Box>
         </HaLayoutStyled>
       </ThemeProvider>

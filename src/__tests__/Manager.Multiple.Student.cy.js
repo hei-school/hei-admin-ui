@@ -17,7 +17,7 @@ const importFile = (file, message) => {
   const _mockFile = `${_path}/${file}`
   cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true })
 
-  cy.contains('Oui').click()
+  cy.contains('Confirmer').click()
 
   cy.contains(message)
 }
