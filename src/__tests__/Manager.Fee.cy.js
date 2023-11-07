@@ -138,8 +138,8 @@ describe(specTitle('Manager.Fee'), () => {
   })
 
   it('can create fees with manual fields', () => {
-    const monthlyAmount = 200000 //(1 + Math.floor(Math.random() * 2_000_000)).toString()
-    const monthsNumber = 5 //1 + Math.floor(Math.random() * 3)
+    const monthlyAmount = '200000'
+    const monthsNumber = '5'
     const comment = 'Dummy comment'
     const manuallyCreatedFees = createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber)
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, manuallyCreatedFees).as('createFees')
@@ -158,22 +158,9 @@ describe(specTitle('Manager.Fee'), () => {
 
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
     cy.contains('Enregistrer').click()
-    /*
-    cy.wait('@createFees').then(requestIntersection => {
-     const feeTypeMock = 'tuition'
-      let createAutomaticallyFeesBodyMock = {
-        comment: comment,
-        type: manualFeeTypes[feeTypeMock].type,
-        total_amount: monthlyAmount,
-        due_datetime: TurnsStringIntoDate(feeDateToSearch),
-        student_id: student1Mock.id
-      }
-      expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
-      expect(requestIntersection.request.body.length).to.equal(monthsNumber)
-    })
 
-    cy.contains('Élément créé') 
-    */
+    cy.contains('Élément créé')
+
     unmount()
   })
   it('can create fees with manual fields without writing comments', () => {
