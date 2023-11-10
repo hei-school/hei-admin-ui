@@ -18,6 +18,7 @@ export const profileFilters = [
 export function ProfileFilters(){
   return (
     <FilterForm>
+      <TextFilter label='Référence' source='ref' />
       <TextFilter label='Prénom·s' source='fist_name' />
       <TextFilter label='Nom·s' source='last_name' />
     </FilterForm>
