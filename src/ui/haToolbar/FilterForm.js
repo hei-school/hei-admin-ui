@@ -3,7 +3,7 @@ import { FilterList } from '@mui/icons-material'
 import { createContext, useState } from 'react'
 import { useListFilterContext } from 'react-admin'
 import { FilterContentResponsive } from './FilterFormContent'
-import { HaActionWrapper } from '../haList'
+import { HaActionWrapper } from '../haToolbar'
 
 export const ToolbarContext = createContext()
 
@@ -11,7 +11,7 @@ export function FilterForm({ children }) {
   const { filterValues, setFilters } = useListFilterContext()
   const [anchorEl, setAnchorEl] = useState(null)
   const [currentFilter, setCurrentFilter] = useState(filterValues)
-
+  
   const submitChange = () => setFilters(currentFilter)
   const setOneFilter = (source, values) => setCurrentFilter(prev => ({ ...prev, [source]: values }))
 
@@ -24,11 +24,11 @@ export function FilterForm({ children }) {
 
   return (
     <ToolbarContext.Provider value={{ setCurrentFilter, currentFilter, setOneFilter}}>
-      <HaActionWrapper button={
+      <HaActionWrapper>
         <Button variant='text' size='small' data-testid='add-filter' onClick={e => setAnchorEl(e.currentTarget)}>
           <FilterList sx={{ mr: 0.5 }} /> Filtres
         </Button>
-      } />
+      </HaActionWrapper>
       <FilterContentResponsive anchorEl={anchorEl} onClose={handleCloseFilter} onSubmit={submitChange}>
         {children}
       </FilterContentResponsive>

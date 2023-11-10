@@ -24,21 +24,21 @@ const MainSearchContainer = styled('div')({
   borderRadius:'15px',
 })
 
-export function HaActionWrapper({ button }){
+export function HaActionWrapper({ children }){
   return (
     <Box sx={{
       py: .5,
       width: '100%',
-      ':hover': { bgcolor: '#f7f7f7' },
       '& .MuiButton-root':{
+        w: '100%',
         color: '#575757',
-        width: '100%',
+        width: '100% !important',
+        display: 'flex',
+        bgcolor:'red',
         justifyContent:'start',
-        pl: 2,
-        ':hover': { bgcolor:'transparent' } 
       }
     }}>
-      { button }
+      { children }
     </Box>
   )
 }
@@ -58,9 +58,11 @@ export function HaListTitle({ title, icon, actions, mainSearch }){
           <HaMainSearch source={mainSearch.source} label={mainSearch.label} />
           <label htmlFor='main-search'><SearchOutlined sx={{ p:0, transform:'translateY(4px)', cursor: 'pointer'}} /></label>
         </MainSearchContainer>
-        <IconButton onClick={ event => setShowAction( event.currentTarget )}>
-          <MenuOutlined />
-        </IconButton>
+        { actions && 
+          <IconButton onClick={ event => setShowAction( event.currentTarget )}>
+            <MenuOutlined />
+          </IconButton>
+        }
       </Box>
       <Popover
         open={ showAction !== null }
