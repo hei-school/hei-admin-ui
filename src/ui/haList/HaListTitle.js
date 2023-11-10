@@ -1,6 +1,7 @@
 import { MenuOutlined, SearchOutlined } from '@mui/icons-material'
 import { Box, Typography, IconButton, Popover } from '@mui/material'
 import { styled } from '@mui/styles'
+import { useListFilterContext } from 'ra-core'
 import { useState } from 'react'
 import { HaMainSearch } from './HaMainSearch'
 
@@ -24,27 +25,34 @@ const MainSearchContainer = styled('div')({
   borderRadius:'15px',
 })
 
-export function HaActionWrapper({ children }){
-  return (
-    <Box sx={{
-      py: .5,
-      width: '100%',
-      '& .MuiButton-root':{
-        w: '100%',
-        color: '#575757',
-        width: '100% !important',
-        display: 'flex',
-        bgcolor:'red',
-        justifyContent:'start',
-      }
-    }}>
-      { children }
-    </Box>
-  )
-}
 
 export function HaListTitle({ title, icon, actions, mainSearch }){
   const [showAction, setShowAction] = useState(null)
+  const { filterValues } = useListFilterContext()
+  
+  const showIndication = ()=>{
+    const isFilterApplied = Object.keys(filterValues || []).some(el => el !== mainSearch.source)
+
+    if(isFilterApplied){
+      return {
+        position: 'relative',
+        display: 'block !important',
+        '::after':  {
+          content: '""',
+          display: 'block',
+          width:'10px',
+          position: 'absolute',
+          height:'10px',
+          bgcolor: 'blue',
+          top: '2px',
+          borderRadius:'50%',
+          right: '5px',
+        }
+      }
+    }
+    return {}
+  } 
+
   return (
     <TitleContainer>
       <Box sx={{ display:'flex', alignItems:'center', gap: 2.5 }}>
@@ -59,9 +67,11 @@ export function HaListTitle({ title, icon, actions, mainSearch }){
           <label htmlFor='main-search'><SearchOutlined sx={{ p:0, transform:'translateY(4px)', cursor: 'pointer'}} /></label>
         </MainSearchContainer>
         { actions && 
-          <IconButton onClick={ event => setShowAction( event.currentTarget )}>
-            <MenuOutlined />
-          </IconButton>
+          <Box sx={showIndication}>
+            <IconButton  onClick={event => setShowAction( event.currentTarget )}>
+              <MenuOutlined />
+            </IconButton>
+          </Box>
         }
       </Box>
       <Popover

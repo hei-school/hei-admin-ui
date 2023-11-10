@@ -14,18 +14,35 @@ export function FilterForm({ children }) {
   
   const submitChange = () => setFilters(currentFilter)
   const setOneFilter = (source, values) => setCurrentFilter(prev => ({ ...prev, [source]: values }))
-
+  const isFilterApplied = Object.keys(filterValues || []).length > 0
+  
   const handleCloseFilter = isChangedMade => {
     setAnchorEl(null)
     if (!isChangedMade) {
       setCurrentFilter(filterValues)
     }
   }
+  
+  const indicator = {
+    position: 'relative',
+    display: 'block',
+    '::after': {
+      content: '""',
+      display: 'block',
+      width:'7px',
+      position: 'absolute',
+      height:'7px',
+      bgcolor: 'blue',
+      top: '5px',
+      borderRadius:'50%',
+      right: '5px',
+    }
+  }
 
   return (
     <ToolbarContext.Provider value={{ setCurrentFilter, currentFilter, setOneFilter}}>
       <HaActionWrapper>
-        <Button variant='text' size='small' data-testid='add-filter' onClick={e => setAnchorEl(e.currentTarget)}>
+        <Button sx={ isFilterApplied ? indicator : undefined } variant='text' size='small' data-testid='add-filter' onClick={e => setAnchorEl(e.currentTarget)}>
           <FilterList sx={{ mr: 0.5 }} /> Filtres
         </Button>
       </HaActionWrapper>

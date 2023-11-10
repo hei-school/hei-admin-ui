@@ -37,7 +37,6 @@ export function LinkButton({ to, icon, label, ...rest }){
 
 export function CreateButton(){
   const list = useListContext()
-  
   return (
     <LinkButton
       label='Créer'
@@ -49,9 +48,7 @@ export function CreateButton(){
 
 export function ExportButton({...rest}){
   const list = useListContext()
-  
   const exportData = ()=> exporter(list.data,[], list.resource)
-
   return (
     <HaActionWrapper onClick={exportData}>
       <Button variant='text' size='small' {...rest}>
