@@ -5,7 +5,7 @@ const HaMainSearchInput = styled('input')({
   outline: 'none',
   border: 'none',
   fontSize: '14px',
-  width: '170px',
+  width: '150px',
   color: '#48494a',
   '&::placeholder':{
     color: '#666967',

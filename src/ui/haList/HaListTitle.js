@@ -1,4 +1,4 @@
-import { MenuOutlined, SearchOutlined } from '@mui/icons-material'
+import { MoreVert , SearchOutlined } from '@mui/icons-material'
 import { Box, Typography, IconButton, Popover } from '@mui/material'
 import { styled } from '@mui/styles'
 import { useListFilterContext } from 'ra-core'
@@ -63,9 +63,9 @@ export function HaListTitle({ title, icon, actions, mainSearch }){
           <label htmlFor='main-search'><SearchOutlined sx={{ p:0, transform:'translateY(4px)', cursor: 'pointer'}} /></label>
         </MainSearchContainer>
         { actions && 
-          <Box sx={ isFilterApplied ? showIndication : undefined }>
+          <Box ml={2} sx={ isFilterApplied ? showIndication : undefined }>
             <IconButton  onClick={event => setShowAction( event.currentTarget )}>
-              <MenuOutlined />
+              <MoreVert />
             </IconButton>
           </Box>
         }
