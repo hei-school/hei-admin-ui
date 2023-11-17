@@ -63,7 +63,7 @@ export function HaListTitle({ title, icon, actions, mainSearch }){
           <label htmlFor='main-search'><SearchOutlined sx={{ p:0, transform:'translateY(4px)', cursor: 'pointer'}} /></label>
         </MainSearchContainer>
         { actions && 
-          <Box ml={2} sx={ isFilterApplied ? showIndication : undefined }>
+          <Box sx={ isFilterApplied ? showIndication : undefined }>
             <IconButton  onClick={event => setShowAction( event.currentTarget )}>
               <MoreVert />
             </IconButton>
