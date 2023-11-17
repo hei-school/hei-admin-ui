@@ -49,7 +49,7 @@ export function LinkButton({ to, icon, label, ...rest }){
   return(
     <HaActionWrapper>
       <Link to={to} sx={{w:'100%'}}>
-        <ButtonBase icon={icon} label={label} />
+        <ButtonBase icon={icon} label={label} {...rest} />
       </Link>
     </HaActionWrapper>
   ) 
@@ -66,12 +66,13 @@ export function CreateButton(){
   )
 }
 
-export function ExportButton({...rest}){
+export function ExportButton({exporterFunction,icon, ...rest}){
   const list = useListContext()
-  const exportData = ()=> exporter(list.data,[], list.resource)
+  const exportData = ()=> exporterFunction ? exporterFunction(list.data) : exporter(list.data,[], list.resource) 
+
   return (
     <ButtonBase
-      icon={<Download />}
+      icon={icon ? icon : <Download />}
       label="Exporter"
       onClick={exportData}
       {...rest}

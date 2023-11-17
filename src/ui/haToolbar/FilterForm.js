@@ -1,9 +1,8 @@
-import { Button } from '@mui/material'
 import { FilterList } from '@mui/icons-material'
 import { createContext, useContext, useState } from 'react'
 import { useListFilterContext } from 'react-admin'
 import { FilterContentResponsive } from './FilterFormContent'
-import { ButtonBase, HaActionWrapper } from '../haToolbar'
+import { ButtonBase } from '../haToolbar'
 import { HaListContext } from '../haList/HaListTitle'
 
 export const ToolbarContext = createContext()

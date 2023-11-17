@@ -44,7 +44,7 @@ export function HaList({ title,  actions, resource, children, icon,listProps={},
         <Box>
           <HaListTitle actions={actions} title={title} icon={icon} mainSearch={mainSearch}/>
           <DatagridWrapper>
-            <Datagrid { ...datagridProps } >
+            <Datagrid bulkActionButtons={false} rowClick='show' { ...datagridProps } >
               {children}
             </Datagrid>
           </DatagridWrapper>

@@ -9,7 +9,6 @@ export function TeacherList(){
     <HaList
       icon={<WorkOutlined />}
       title='Listes des enseignants'
-      datagridProps={{ bulkActionButtons: false, rowClick: 'show'}}
       mainSearch={{source:'ref', label: 'Rérérence'}}
       actions={
         <>
