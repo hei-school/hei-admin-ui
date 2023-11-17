@@ -3,7 +3,7 @@ import { FilterList } from '@mui/icons-material'
 import { createContext, useContext, useState } from 'react'
 import { useListFilterContext } from 'react-admin'
 import { FilterContentResponsive } from './FilterFormContent'
-import { HaActionWrapper } from '../haToolbar'
+import { ButtonBase, HaActionWrapper } from '../haToolbar'
 import { HaListContext } from '../haList/HaListTitle'
 
 export const ToolbarContext = createContext()
@@ -28,7 +28,6 @@ export function FilterForm({ children }) {
   
   const indicator = {
     position: 'relative',
-    display: 'block',
     '::after': {
       content: '""',
       display: 'block',
@@ -44,11 +43,14 @@ export function FilterForm({ children }) {
 
   return (
     <ToolbarContext.Provider value={{ setCurrentFilter, currentFilter, setOneFilter}}>
-      <HaActionWrapper>
-        <Button sx={ isFilterApplied ? indicator : undefined } variant='text' size='small' data-testid='add-filter' onClick={e => setAnchorEl(e.currentTarget)}>
-          <FilterList sx={{ mr: 0.5 }} /> Filtres
-        </Button>
-      </HaActionWrapper>
+      <ButtonBase
+        label='Filtres'
+        icon={<FilterList />}
+        data-testid='add-filter'
+        closeAction={false}
+        onClick={ e => setAnchorEl(e.currentTarget)}
+        sx={isFilterApplied ? indicator : undefined }
+      />
       <FilterContentResponsive anchorEl={anchorEl} onClose={handleCloseFilter} onSubmit={submitChange}>
         {children}
       </FilterContentResponsive>

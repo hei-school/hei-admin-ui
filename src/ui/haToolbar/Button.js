@@ -1,17 +1,17 @@
+import { useContext } from 'react';
 import { Link, useListContext } from 'react-admin';
 import { Button } from '@mui/material';
 import { AddOutlined, Download } from '@mui/icons-material';
-import styled from '@emotion/styled';
 import { exporter } from '../../operations/utils';
+import { HaListContext } from '../haList/HaListTitle';
+import styled from '@emotion/styled';
 
 export const HaActionWrapper = styled('div')({
   width: '100%',
   '& .MuiButton-root':{
     width: '100%',
-    display: 'flex',
-    alignItems: 'center',
     justifyContent: 'start',
-    gap: 10,
+    gap: 7,
     paddingLeft:'20px',
     paddingTop:'7px',
     paddingBottom:'7px',
@@ -19,17 +19,37 @@ export const HaActionWrapper = styled('div')({
     textTransform:'none'
   },
   '& .MuiSvgIcon-root':{
-    fontSize:'25px'
+    fontSize:'20px'
   }
 })
+
+export function ButtonBase({label, icon,onClick,closeAction = true, children, ...rest}){
+  const listContext = useContext(HaListContext)
+
+  const doAction = (event)=>{
+    closeAction && listContext.closeAction();
+    onClick && onClick(event)
+  }
+
+  return(
+    <HaActionWrapper>
+      <Button
+        startIcon={icon}
+        onClick={doAction}
+        {...rest}
+      >
+        {label}
+        {children}
+      </Button>
+    </HaActionWrapper>
+  )
+}
 
 export function LinkButton({ to, icon, label, ...rest }){
   return(
     <HaActionWrapper>
       <Link to={to} sx={{w:'100%'}}>
-        <Button variant='text' size='small' {...rest}>
-          {icon} {label}
-        </Button>
+        <ButtonBase icon={icon} label={label} />
       </Link>
     </HaActionWrapper>
   ) 
@@ -50,10 +70,11 @@ export function ExportButton({...rest}){
   const list = useListContext()
   const exportData = ()=> exporter(list.data,[], list.resource)
   return (
-    <HaActionWrapper onClick={exportData}>
-      <Button variant='text' size='small' {...rest}>
-        <Download sx={{fontSize:'15px'}}/> Exporter
-      </Button>
-    </HaActionWrapper>
+    <ButtonBase
+      icon={<Download />}
+      label="Exporter"
+      onClick={exportData}
+      {...rest}
+    />
   )
 }

@@ -39,9 +39,9 @@ export function HaListTitle({ title, icon, actions, mainSearch }){
     '::after':  {
       content: '""',
       display: 'block',
-      width:'10px',
+      width:'7px',
       position: 'absolute',
-      height:'10px',
+      height:'7px',
       bgcolor: 'blue',
       top: '2px',
       borderRadius:'50%',
