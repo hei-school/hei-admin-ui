@@ -13,7 +13,7 @@ const GroupList = () => {
     <HaList
       listProps={{title: 'Groupes'}}
       resource='groups'
-      title='Listes des groupes'
+      title='Liste de groupes'
       icon={<GroupsOutlined />}
       actions={<GroupFilters isManager={isManager}/>}
       mainSearch={{source: 'ref', label: 'Référence'}}

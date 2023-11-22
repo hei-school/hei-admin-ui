@@ -62,6 +62,7 @@ export function CreateButton(){
       label='Créer'
       to={`/${list.resource}/create`}
       icon={<AddOutlined />}
+      data-testid='create-button'
     />
   )
 }

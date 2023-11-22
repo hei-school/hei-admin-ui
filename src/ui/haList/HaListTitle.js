@@ -15,7 +15,6 @@ const TitleContainer = styled('div')({
   borderBottom: '1px solid #e8e9eb',
 })
 
-
 const MainSearchContainer = styled('div')({
   display:'flex',
   alignItems:'center',
@@ -63,8 +62,8 @@ export function HaListTitle({ title, icon, actions, mainSearch }){
           <label htmlFor='main-search'><SearchOutlined sx={{ p:0, transform:'translateY(4px)', cursor: 'pointer'}} /></label>
         </MainSearchContainer>
         { actions && 
-          <Box sx={ isFilterApplied ? showIndication : undefined }>
-            <IconButton  onClick={event => setShowAction( event.currentTarget )}>
+          <Box data-testid='menu-list-action' sx={ isFilterApplied ? showIndication : undefined }>
+            <IconButton onClick={event => setShowAction( event.currentTarget )}>
               <MoreVert />
             </IconButton>
           </Box>

@@ -36,12 +36,12 @@ describe(specTitle('Manager'), () => {
     cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
     cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
-    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
+    cy.intercept('GET', `/students?page=1&page_size=10&first_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/teachers?page=1&page_size=10`, teachersMock).as('getTeachersPage1')
     cy.intercept('GET', `/teachers?page=2&page_size=10`, teachersMock).as('getTeachersPage2')
     cy.intercept('GET', `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`, [teacher1Mock]).as('getTeacherByName')
 
-    cy.wait('@getWhoami')
+    cy.wait('@getWhoami', { timeout: 10000 })
   })
 
   it('lands on profile page if succeeds', () => {
@@ -70,9 +70,7 @@ describe(specTitle('Manager'), () => {
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
 
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type(studentNameToBeCheckedMock)
+    cy.get('[data-testid="main-search-filter"]').type(studentNameToBeCheckedMock)
     cy.wait('@getStudentsByName')
     cy.get('#main-content table').contains(studentNameToBeCheckedMock)
     cy.contains('Page : 1')
@@ -80,7 +78,7 @@ describe(specTitle('Manager'), () => {
   })
 
   it('can list and filter teachers', () => {
-    cy.get('[href="#/teachers"]').click() //Enseignants menu
+    cy.get('[href="#/teachers"]').click() 
     cy.contains('Page : 1')
     cy.contains(`Taille : ${studentsMock.length}`)
     cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
@@ -88,7 +86,7 @@ describe(specTitle('Manager'), () => {
     cy.get('button').contains('Suivant').click()
     cy.contains('Page : 2')
 
-    cy.get('#first_name').type(teacherNameToBeCheckedMock)
+    cy.get('[data-testid="main-search-filter"]').type(teacherNameToBeCheckedMock)
     cy.wait('@getTeacherByName')
     cy.get('#main-content table').contains(teacherNameToBeCheckedMock)
     cy.contains('Page : 1')

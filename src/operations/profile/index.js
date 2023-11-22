@@ -11,9 +11,9 @@ export default profile
 export function ProfileFilters(){
   return (
     <FilterForm>
-      <TextFilter label='Référence' source='ref' />
-      <TextFilter label='Prénom·s' source='first_name' />
-      <TextFilter label='Nom·s' source='last_name' />
+      <TextFilter data-testid='filter-profile-last_name' label='Nom·s' source='last_name' />
+      <TextFilter data-testid='filter-profile-first_name'  label='Prénom·s' source='first_name' />
+      <TextFilter data-testid='filter-profile-ref' label='Référence' source='ref' />
     </FilterForm>
   )
 }

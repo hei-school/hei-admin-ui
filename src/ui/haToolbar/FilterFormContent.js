@@ -8,7 +8,7 @@ const FilterContainer = styled('div')({
   overflowX: 'hidden',
   maxHeight: '500px',
   maxWidth: '350px',
-  overflowY: 'scroll'
+  overflowY: 'auto'
 })
 
 //TODO: maybe can use popover instead of Dialog for small screen

@@ -20,9 +20,9 @@ export function GroupFilters({isManager}){
       { isManager && <CreateButton /> }
       <ExportButton />
       <FilterForm>
-        <TextFilter source='ref' label={'Référence'} />
-        <TextFilter source='name' label={'Nom'} />
-        <TextFilter source='creation_datetime' label={'Date ou année'} />
+        <TextFilter data-testid='filter-group-name' source='name' label={'Nom'} />
+        <TextFilter data-testid='filter-group-ref' source='ref' label={'Référence'} />
+        <TextFilter data-testid='filter-group-create_datetime' source='creation_datetime' label={'Date ou année'} />
       </FilterForm>
     </>
   ) 
