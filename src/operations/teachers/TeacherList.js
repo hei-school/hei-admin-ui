@@ -9,7 +9,7 @@ export function TeacherList(){
     <HaList
       icon={<WorkOutlined />}
       title='Listes des enseignants'
-      mainSearch={{source:'ref', label: 'Rérérence'}}
+      mainSearch={{label: 'Prénom·s', source: 'first_name'}}
       actions={
         <>
           <CreateButton />

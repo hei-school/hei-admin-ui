@@ -31,8 +31,8 @@ function StudentList() {
   return (
     <HaList
       icon={<SchoolOutlined />}
-      title={'Liste des étudiants'}
-      mainSearch={{ label: 'Prénom·s', source: 'first_name' }}
+      title={'Listes des étudiants'}
+      mainSearch={{label: 'Prénom·s', source: 'first_name'}}
       actions={<ListActions isManager={isManager} />}
     >
       <TextField source='ref' label='Référence' />
