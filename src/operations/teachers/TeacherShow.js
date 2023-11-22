@@ -1,18 +1,10 @@
-import { Show, TopToolbar, EditButton } from 'react-admin'
-
+import { Show } from 'react-admin'
 import { ProfileLayout } from '../profile/ProfileShow'
-
-const ActionsOnShow = ({ basePath, data, resource }) => {
-  return (
-    <TopToolbar disableGutters>
-      <EditButton basePath={basePath} resource={resource} record={data} />
-    </TopToolbar>
-  )
-}
+import { ActionsOnShow } from '../utils'
 
 const TeacherShow = () => {
   return (
-    <Show title='Enseignants' actions={<ActionsOnShow />}>
+    <Show title='Scanners' actions={<ActionsOnShow />}>
       <ProfileLayout />
     </Show>
   )
