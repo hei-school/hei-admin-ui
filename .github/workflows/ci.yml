@@ -9,6 +9,9 @@ on:
       - '*'
   workflow_dispatch:
 
+env:
+  AWS_REGION: eu-west-3
+
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -31,7 +34,7 @@ jobs:
           rootdir: ''
           workdir: ''
 
-      - run: sh ./initAWS.sh ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }} ${{ secrets.AWS_REGION }}
+      - run: sh ./initAWS.sh ${{ secrets.AWS_ACCESS_KEY_ID }} ${{ secrets.AWS_SECRET_ACCESS_KEY_ID }} ${{ env.AWS_REGION }}
 
       - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
 
@@ -44,11 +47,27 @@ jobs:
         run: |
           sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
       - name: Test
+        if: ${{ github.ref_name != 'prod' }}
         run: |
           export REACT_APP_TEST_STUDENT1_PASSWORD=${{ secrets.TEST_STUDENT1_PASSWORD }}
           export REACT_APP_TEST_TEACHER1_PASSWORD=${{ secrets.TEST_TEACHER1_PASSWORD }}
           export REACT_APP_TEST_MANAGER1_PASSWORD=${{ secrets.TEST_MANAGER1_PASSWORD }}
-          export REACT_APP_AWS_REGION=eu-west-3
+          export REACT_APP_AWS_REGION=${{ env.AWS_REGION }}
+          export REACT_APP_USERPOOL_ID=${{ vars.PREPROD_USERPOOL_ID }}
+          export REACT_APP_WEBCLIENT_ID=${{ vars.PREPROD_WEBCLIENT_ID }}
+          export REACT_APP_OAUTH_DOMAIN=${{ vars.PREPROD_OAUTH_DOMAIN }}
+          npm run test
+
+      - name: Test
+        if: ${{ github.ref_name =='prod' }}
+        run: |
+          export REACT_APP_TEST_STUDENT1_PASSWORD=${{ secrets.TEST_STUDENT1_PASSWORD }}
+          export REACT_APP_TEST_TEACHER1_PASSWORD=${{ secrets.TEST_TEACHER1_PASSWORD }}
+          export REACT_APP_TEST_MANAGER1_PASSWORD=${{ secrets.TEST_MANAGER1_PASSWORD }}
+          export REACT_APP_AWS_REGION=${{ env.AWS_REGION }}
+          export REACT_APP_USERPOOL_ID=${{ vars.PROD_USERPOOL_ID }}
+          export REACT_APP_WEBCLIENT_ID=${{ vars.PROD_WEBCLIENT_ID }}
+          export REACT_APP_OAUTH_DOMAIN=${{ vars.PROD_OAUTH_DOMAIN }}
           npm run test
 
       - name: Read version file
