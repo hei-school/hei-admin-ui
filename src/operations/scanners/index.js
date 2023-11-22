@@ -3,11 +3,11 @@ import ScannerShow from './ScannerShow'
 import ScannerList from './ScannerList'
 import ScannerCreate from './ScannerCreate'
 
-const teachers = {
+const scanners = {
   list: ScannerList,
   edit: ProfileEdit,
   show: ScannerShow,
   create: ScannerCreate,
 }
 
-export default teachers
+export default scanners

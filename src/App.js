@@ -21,6 +21,7 @@ import payments from './operations/payments'
 import { HaLayout } from './ui/haLayout'
 import HaLoginPage from './security/LoginPage'
 import { heiDocs } from './operations/heiDocs'
+import scanners from './operations/scanners'
 
 const FeeCreate = React.lazy(() => import('./operations/fees/FeesCreate'))
 
@@ -39,13 +40,11 @@ const App = () => (
     <Resource name='teachers' {...teachers} />
     <Resource name='hei-docs' {...heiDocs} />
     <Resource name='groups' {...groups} />
-
     <Resource name='fees' {...fees} />
     <Resource name='payments' {...payments} />
-
+    <Resource name='scanners' {...scanners} />
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
-
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
       <Route
         exact
@@ -58,10 +57,8 @@ const App = () => (
       />
       <Route exact path='/fees/:feeId/show' element={<fees.show />} />
       <Route exact path='/fees' element={<fees.listByStatus />} />
-
       <Route exact path='/fees/:feeId/payments' element={<payments.list />} />
       <Route exact path='/fees/:feeId/payments/create' element={<payments.create />} />
-
       <Route exact path='/docs/hei-docs' element={<docs.list title='Documents reliés à HEI' resource='hei-docs' />} />
     </CustomRoutes>
   </Admin>
