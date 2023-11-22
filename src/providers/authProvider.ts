@@ -1,16 +1,15 @@
 import { getPermissions } from '../security/permissions'
-import { useNotify } from 'react-admin'
 
 import { ClientMetaData } from '@aws-amplify/auth/lib-esm/types'
 import { Amplify } from 'aws-amplify'
 import { Auth } from '@aws-amplify/auth'
-import awsExports from '../aws-exports'
+import { awsConfig } from './aws-config'
 
 import { Configuration, SecurityApi, Whoami } from '../gen/haClient'
 
 import { AxiosResponse } from 'axios'
 
-Amplify.configure(awsExports)
+Amplify.configure(awsConfig)
 
 const idItem = 'ha_id'
 const roleItem = 'ha_role'
