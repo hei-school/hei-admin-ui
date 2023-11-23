@@ -1,5 +1,5 @@
 import { ListMenu, ListMenuItem, SingleMenu } from './utils'
-import { WorkOutlined, SchoolOutlined, PeopleOutlined, WarningOutlined } from '@mui/icons-material'
+import { WorkOutlined, SchoolOutlined, PeopleOutlined, WarningOutlined, Groups } from '@mui/icons-material'
 
 function ManagerMenu() {
   return (
@@ -9,6 +9,7 @@ function ManagerMenu() {
         <ListMenuItem label='Liste des étudiants' icon={<PeopleOutlined />} to='/students' />
         <ListMenuItem label='Frais en retards' icon={<WarningOutlined />} to='/fees' />
       </ListMenu>
+      <SingleMenu to='/groups' label='Groupes' icon={<Groups />} data-testid='groups' />
     </>
   )
 }

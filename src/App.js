@@ -2,6 +2,7 @@ import React from 'react'
 import { Admin } from '@react-admin/ra-enterprise'
 import { CustomRoutes, Resource } from 'react-admin'
 import { Route } from 'react-router-dom'
+import groups from './operations/groups'
 
 import dataProvider from './providers/dataProvider'
 import authProvider from './providers/authProvider.ts'
@@ -37,6 +38,7 @@ const App = () => (
     <Resource name='students' {...students} />
     <Resource name='teachers' {...teachers} />
     <Resource name='hei-docs' {...heiDocs} />
+    <Resource name='groups' {...groups} />
 
     <Resource name='fees' {...fees} />
     <Resource name='payments' {...payments} />

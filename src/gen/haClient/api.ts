@@ -446,6 +446,43 @@ export interface CreateGrade {
 /**
  *
  * @export
+ * @interface CreateGroup
+ */
+export interface CreateGroup {
+  /**
+   *
+   * @type {Array<string>}
+   * @memberof CreateGroup
+   */
+  students?: Array<string>
+  /**
+   *
+   * @type {string}
+   * @memberof CreateGroup
+   */
+  id?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateGroup
+   */
+  name?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateGroup
+   */
+  ref?: string
+  /**
+   *
+   * @type {string}
+   * @memberof CreateGroup
+   */
+  creation_datetime?: string
+}
+/**
+ *
+ * @export
  * @interface CreateGroupFlow
  */
 export interface CreateGroupFlow {
@@ -2925,13 +2962,13 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
     /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
-     * @param {Array<Group>} group Groups to update
+     * @param {Array<CreateGroup>} createGroup Groups to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createOrUpdateGroups: async (group: Array<Group>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
-      // verify required parameter 'group' is not null or undefined
-      assertParamExists('createOrUpdateGroups', 'group', group)
+    createOrUpdateGroups: async (createGroup: Array<CreateGroup>, options: AxiosRequestConfig = {}): Promise<RequestArgs> => {
+      // verify required parameter 'createGroup' is not null or undefined
+      assertParamExists('createOrUpdateGroups', 'createGroup', createGroup)
       const localVarPath = `/groups`
       // use dummy base URL string because the URL constructor only accepts absolute URLs.
       const localVarUrlObj = new URL(localVarPath, DUMMY_BASE_URL)
@@ -2953,7 +2990,7 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
       setSearchParams(localVarUrlObj, localVarQueryParameter)
       let headersFromBaseOptions = baseOptions && baseOptions.headers ? baseOptions.headers : {}
       localVarRequestOptions.headers = { ...localVarHeaderParameter, ...headersFromBaseOptions, ...options.headers }
-      localVarRequestOptions.data = serializeDataIfNeeded(group, localVarRequestOptions, configuration)
+      localVarRequestOptions.data = serializeDataIfNeeded(createGroup, localVarRequestOptions, configuration)
 
       return {
         url: toPathString(localVarUrlObj),
@@ -3593,7 +3630,7 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
      *
      * @summary Moving or removing a student from a group.
      * @param {string} id
-     * @param {CreateGroupFlow} createGroupFlow Movement of a student towards a group to create.
+     * @param {Array<CreateGroupFlow>} createGroupFlow Movement of a student towards a group to create.
      * @param {number} [page] Set value to 1 by default if null is provided
      * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
@@ -3601,7 +3638,7 @@ export const TeachingApiAxiosParamCreator = function (configuration?: Configurat
      */
     moveOrDeleteStudentInGroup: async (
       id: string,
-      createGroupFlow: CreateGroupFlow,
+      createGroupFlow: Array<CreateGroupFlow>,
       page?: number,
       pageSize?: number,
       options: AxiosRequestConfig = {}
@@ -3707,15 +3744,15 @@ export const TeachingApiFp = function (configuration?: Configuration) {
     /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
-     * @param {Array<Group>} group Groups to update
+     * @param {Array<CreateGroup>} createGroup Groups to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
     async createOrUpdateGroups(
-      group: Array<Group>,
+      createGroup: Array<CreateGroup>,
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
-      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateGroups(group, options)
+      const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateGroups(createGroup, options)
       return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
@@ -3967,7 +4004,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      *
      * @summary Moving or removing a student from a group.
      * @param {string} id
-     * @param {CreateGroupFlow} createGroupFlow Movement of a student towards a group to create.
+     * @param {Array<CreateGroupFlow>} createGroupFlow Movement of a student towards a group to create.
      * @param {number} [page] Set value to 1 by default if null is provided
      * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
@@ -3975,7 +4012,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      */
     async moveOrDeleteStudentInGroup(
       id: string,
-      createGroupFlow: CreateGroupFlow,
+      createGroupFlow: Array<CreateGroupFlow>,
       page?: number,
       pageSize?: number,
       options?: AxiosRequestConfig
@@ -4029,12 +4066,12 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
     /**
      * Update groups when `id` are provided, create them otherwise.
      * @summary Create new groups or update existing groups
-     * @param {Array<Group>} group Groups to update
+     * @param {Array<CreateGroup>} createGroup Groups to update
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    createOrUpdateGroups(group: Array<Group>, options?: any): AxiosPromise<Array<Group>> {
-      return localVarFp.createOrUpdateGroups(group, options).then(request => request(axios, basePath))
+    createOrUpdateGroups(createGroup: Array<CreateGroup>, options?: any): AxiosPromise<Array<Group>> {
+      return localVarFp.createOrUpdateGroups(createGroup, options).then(request => request(axios, basePath))
     },
     /**
      *
@@ -4224,13 +4261,13 @@ export const TeachingApiFactory = function (configuration?: Configuration, baseP
      *
      * @summary Moving or removing a student from a group.
      * @param {string} id
-     * @param {CreateGroupFlow} createGroupFlow Movement of a student towards a group to create.
+     * @param {Array<CreateGroupFlow>} createGroupFlow Movement of a student towards a group to create.
      * @param {number} [page] Set value to 1 by default if null is provided
      * @param {number} [pageSize] Set value to 15 by default if null is provided
      * @param {*} [options] Override http request option.
      * @throws {RequiredError}
      */
-    moveOrDeleteStudentInGroup(id: string, createGroupFlow: CreateGroupFlow, page?: number, pageSize?: number, options?: any): AxiosPromise<GroupFlow> {
+    moveOrDeleteStudentInGroup(id: string, createGroupFlow: Array<CreateGroupFlow>, page?: number, pageSize?: number, options?: any): AxiosPromise<GroupFlow> {
       return localVarFp.moveOrDeleteStudentInGroup(id, createGroupFlow, page, pageSize, options).then(request => request(axios, basePath))
     }
   }
@@ -4291,14 +4328,14 @@ export class TeachingApi extends BaseAPI {
   /**
    * Update groups when `id` are provided, create them otherwise.
    * @summary Create new groups or update existing groups
-   * @param {Array<Group>} group Groups to update
+   * @param {Array<CreateGroup>} createGroup Groups to update
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TeachingApi
    */
-  public createOrUpdateGroups(group: Array<Group>, options?: AxiosRequestConfig) {
+  public createOrUpdateGroups(createGroup: Array<CreateGroup>, options?: AxiosRequestConfig) {
     return TeachingApiFp(this.configuration)
-      .createOrUpdateGroups(group, options)
+      .createOrUpdateGroups(createGroup, options)
       .then(request => request(this.axios, this.basePath))
   }
 
@@ -4528,14 +4565,14 @@ export class TeachingApi extends BaseAPI {
    *
    * @summary Moving or removing a student from a group.
    * @param {string} id
-   * @param {CreateGroupFlow} createGroupFlow Movement of a student towards a group to create.
+   * @param {Array<CreateGroupFlow>} createGroupFlow Movement of a student towards a group to create.
    * @param {number} [page] Set value to 1 by default if null is provided
    * @param {number} [pageSize] Set value to 15 by default if null is provided
    * @param {*} [options] Override http request option.
    * @throws {RequiredError}
    * @memberof TeachingApi
    */
-  public moveOrDeleteStudentInGroup(id: string, createGroupFlow: CreateGroupFlow, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
+  public moveOrDeleteStudentInGroup(id: string, createGroupFlow: Array<CreateGroupFlow>, page?: number, pageSize?: number, options?: AxiosRequestConfig) {
     return TeachingApiFp(this.configuration)
       .moveOrDeleteStudentInGroup(id, createGroupFlow, page, pageSize, options)
       .then(request => request(this.axios, this.basePath))

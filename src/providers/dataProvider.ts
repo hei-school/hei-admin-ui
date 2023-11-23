@@ -6,6 +6,9 @@ import feeProvider from './feeProvider'
 import paymentProvider from './paymentProvider'
 import teacherProvider from './teacherProvider'
 import heiDocsProvider from './heiDocsProvider'
+import groupProvider from './groupProvider'
+import groupFlowProvider from './groupFlowProvider'
+import groupStudentProvider from './groupStudentProvider'
 
 export const maxPageSize = 500
 
@@ -16,12 +19,16 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'payments') return paymentProvider
   if (resourceType === 'teachers') return teacherProvider
   if (resourceType === 'hei-docs') return heiDocsProvider
+  if (resourceType === 'groups') return groupProvider
+  if (resourceType === 'group-flow') return groupFlowProvider
+  if (resourceType === 'group-students') return groupStudentProvider
   throw new Error('Unexpected resourceType: ' + resourceType)
 }
 
 const dataProvider: RaDataProviderType = {
   async getList(resourceType: string, params: any) {
     const pagination = params.pagination
+    const meta = params.meta
     const page = pagination.page === 0 ? 1 /* TODO(empty-pages) */ : pagination.page
     let perPage = pagination.perPage
     if (perPage > maxPageSize) {
@@ -30,7 +37,7 @@ const dataProvider: RaDataProviderType = {
     }
 
     const filter = params.filter
-    const result = await getProvider(resourceType).getList(page, perPage, filter)
+    const result = await getProvider(resourceType).getList(page, perPage, filter, meta)
     return { data: result, total: Number.MAX_SAFE_INTEGER }
   },
   async getOne(resourceType: string, params: any) {
