@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react'
 
-import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number, useNotify, DateTimeInput } from 'react-admin'
+import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number, useNotify, DateTimeInput, BooleanInput } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
-
+import { useToggle } from '../../hooks/useToggle'
 import { studentIdFromRaId } from '../../providers/feeProvider'
 
 const PaymentCreate = props => {
@@ -11,6 +11,7 @@ const PaymentCreate = props => {
   const notify = useNotify()
   const feeId = params.feeId
   const studentId = studentIdFromRaId(feeId)
+  const [ notSpecifiedDate, setSpecifyDate ] =  useToggle(true)
   const [studentRef, setStudentRef] = useState('...')
   const dataProvider = useDataProvider()
   useEffect(() => {
@@ -20,13 +21,14 @@ const PaymentCreate = props => {
     }
     doEffect()
   })
-
   const validateConditions = [required()]
   const [paymentChoice, setPaymentChoice] = useState('cash')
-  const paymentConfToPaymentApi = ({ type, amount, comment }) => {
-    return [{ feeId: feeId, type: paymentTypes[type].type, amount: amount, comment: comment }]
-  }
 
+  const paymentConfToPaymentApi = ({ type, amount, comment, creation_datetime }) => {
+    const datetimeValue = notSpecifiedDate ? new Date().toISOString() : creation_datetime;
+    return [{ feeId, type: paymentTypes[type].type, amount,  comment,  creation_datetime: datetimeValue }]
+  }
+  
   return (
     <Create
       mutationOptions={{
@@ -45,6 +47,7 @@ const PaymentCreate = props => {
           {...props}
           source='type'
           label='Type'
+          validate={validateConditions}
           choices={Object.keys(paymentTypes).map(id => ({ id: id, name: paymentTypes[id].name }))}
           onChange={e => {
             setPaymentChoice(e.target.value)
@@ -52,7 +55,14 @@ const PaymentCreate = props => {
         />
         <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
         <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === 'mobileMoney' && validateConditions} />
-        <DateTimeInput source='creation-datetime' label='Date de paiement' required defaultValue={new Date().toISOString()}/>
+        <BooleanInput
+          source='specify-date'
+          label={'Date de paiement aujourd\'hui'}
+          name='create'
+          defaultValue={notSpecifiedDate}
+          onChange={({ target: { checked } }) => setSpecifyDate(checked)}
+        />
+        { !notSpecifiedDate && <DateTimeInput source='creation_datetime' label='Date de paiement' validate={validateConditions} defaultValue={new Date().toISOString()}/>}
       </SimpleForm>
     </Create>
   )
