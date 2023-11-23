@@ -41,7 +41,7 @@ export function HaMenuBase({ sx = {} }) {
       <Separator />
       <UserInfo />
       <Separator />
-      <SingleMenu label='Profile' to='/profile' icon={<AccountCircleOutlined />} sx={{ mt: 3 }} />
+      <SingleMenu label='Profil' to='/profile' icon={<AccountCircleOutlined />} sx={{ mt: 3 }} />
       <HaMenuContent />
     </Box>
   )
