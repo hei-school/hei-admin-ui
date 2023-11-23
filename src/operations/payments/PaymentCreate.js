@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number, useNotify } from 'react-admin'
+import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, minValue, number, useNotify, DateTimeInput } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 
@@ -52,6 +52,7 @@ const PaymentCreate = props => {
         />
         <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={validateConditions} />
         <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === 'mobileMoney' && validateConditions} />
+        <DateTimeInput source='creation-datetime' label='Date de paiement' required defaultValue={new Date().toISOString()}/>
       </SimpleForm>
     </Create>
   )
