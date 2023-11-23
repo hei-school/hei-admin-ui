@@ -40,7 +40,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#username').type(manager1.username)
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
-    cy.wait('@getWhoami', {timeout: 10000})
+    cy.wait('@getWhoami', { timeout: 10000 })
     cy.get('[data-testid="students-menu"]').click()
     cy.get('a[href="#/students"]').click()
     cy.get('body').click(200, 0)

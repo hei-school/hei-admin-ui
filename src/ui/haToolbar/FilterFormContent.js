@@ -12,19 +12,13 @@ const FilterContainer = styled('div')({
 })
 
 //TODO: maybe can use popover instead of Dialog for small screen
-export function FilterContentResponsive({ anchorEl, onClose, onSubmit, children }){
+export function FilterContentResponsive({ anchorEl, onClose, onSubmit, children }) {
   return (
-    <Dialog
-      open={Boolean(anchorEl)}
-      onClose={()=>onClose(false)}
-    >
-      <FilterContent {...{ onClose, onSubmit }}>
-        {children}
-      </FilterContent>
+    <Dialog open={Boolean(anchorEl)} onClose={() => onClose(false)}>
+      <FilterContent {...{ onClose, onSubmit }}>{children}</FilterContent>
     </Dialog>
   )
 }
-
 
 function FilterContent({ onClose, onSubmit, children }) {
   const { setCurrentFilter } = useContext(ToolbarContext)
@@ -46,7 +40,7 @@ function FilterContent({ onClose, onSubmit, children }) {
             size='small'
             data-testid='apply-filter'
             onClick={() => {
-              onSubmit();
+              onSubmit()
               onClose(true)
             }}
           >

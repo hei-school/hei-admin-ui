@@ -28,7 +28,7 @@ const importFile = (file, message) => {
 describe(specTitle('Manager create multiple students'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.get('#username').type(manager1.username)
+    cy.get('#usernsrc/ui/haToolbar/ImportInputFile.jsame').type(manager1.username)
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
 
@@ -44,7 +44,7 @@ describe(specTitle('Manager create multiple students'), () => {
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
 
-    //cy.wait('@getWhoami')
+    cy.wait('@getWhoami', { timeout: 10000 })
     cy.get('[data-testid="students-menu"]').click()
     cy.get('[href="#/students"]').click()
   })

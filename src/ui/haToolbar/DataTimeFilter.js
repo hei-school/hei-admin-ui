@@ -16,10 +16,8 @@ export function DateTimeFilter({ source, label, ...rest }) {
       InputLabelProps={{ shrink: true }}
       value={value}
       onChange={event => {
-        if(event.target.value !== '')
-          setOneFilter(source, event.target.value + ':00.000Z')
-        else
-          setOneFilter(source, event.target.value)
+        if (event.target.value !== '') setOneFilter(source, event.target.value + ':00.000Z')
+        else setOneFilter(source, event.target.value)
       }}
       {...rest}
     />

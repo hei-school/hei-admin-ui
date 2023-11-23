@@ -22,7 +22,7 @@ describe(specTitle('Manager.Fee.Late'), () => {
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
     cy.wait('@getManager1')
-    cy.wait('@getWhoami',{timeout: 10000})
+    cy.wait('@getWhoami', { timeout: 10000 })
   })
 
   it('can list late fees', () => {

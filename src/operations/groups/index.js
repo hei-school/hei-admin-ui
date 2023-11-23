@@ -14,10 +14,10 @@ const groups = {
   options: { label: 'Groupes' }
 }
 
-export function GroupFilters({isManager}){
-  return(
+export function GroupFilters({ isManager }) {
+  return (
     <>
-      { isManager && <CreateButton /> }
+      {isManager && <CreateButton />}
       <ExportButton />
       <FilterForm>
         <TextFilter data-testid='filter-group-name' source='name' label={'Nom'} />
@@ -25,7 +25,7 @@ export function GroupFilters({isManager}){
         <TextFilter data-testid='filter-group-create_datetime' source='creation_datetime' label={'Date ou année'} />
       </FilterForm>
     </>
-  ) 
+  )
 }
 
 export default groups

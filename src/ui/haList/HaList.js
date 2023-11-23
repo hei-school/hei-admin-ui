@@ -5,51 +5,51 @@ import { PrevNextPagination } from './PrevNextPagination'
 import { HaListTitle } from './HaListTitle'
 
 const ListWrapper = styled('div')({
-  width:'100%', 
-  height:'100%',
-  overflow:'hidden',
+  width: '100%',
+  height: '100%',
+  overflow: 'hidden',
   borderRadius: 10,
   marginTop: 10,
-  boxShadow:'2px 2px 15px rgba(0,0,0,.1)'
+  boxShadow: '2px 2px 15px rgba(0,0,0,.1)'
 })
 
 const DatagridWrapper = styled('div')({
   padding: '0 15px',
-  '& th, & th span': { 
-    fontWeight: 600, 
-    backgroundColor:'transparent !important',
+  '& th, & th span': {
+    fontWeight: 600,
+    backgroundColor: 'transparent !important',
     color: '#bf660d'
   },
-  '& table, & th, & td, & tr ':{
-    border: '1px solid #e8e9eb',
+  '& table, & th, & td, & tr ': {
+    border: '1px solid #e8e9eb'
   },
-  '& thead th span':{
-    color: '#807d7a' 
+  '& thead th span': {
+    color: '#807d7a'
   },
-  '& tbody .MuiTableRow-root':{
+  '& tbody .MuiTableRow-root': {
     '&:hover': { backgroundColor: '#edf1fa' }
   }
 })
 
-export function HaList({ title,  actions, resource, children, icon,listProps={}, datagridProps = {}, mainSearch={source: 'q', label: 'q'}}){
+export function HaList({ title, actions, resource, children, icon, listProps = {}, datagridProps = {}, mainSearch = { source: 'q', label: 'q' } }) {
   return (
     <ListWrapper>
       <List
         actions={false}
         pagination={<PrevNextPagination />}
-        resource={ resource }
-        sx={{ '& .MuiPaper-root': { boxShadow: 'none' }, '& td':{ border: 'none' }}}
+        resource={resource}
+        sx={{ '& .MuiPaper-root': { boxShadow: 'none' }, '& td': { border: 'none' } }}
         {...listProps}
-      > 
+      >
         <Box>
-          <HaListTitle actions={actions} title={title} icon={icon} mainSearch={mainSearch}/>
+          <HaListTitle actions={actions} title={title} icon={icon} mainSearch={mainSearch} />
           <DatagridWrapper>
-            <Datagrid bulkActionButtons={false} rowClick='show' { ...datagridProps } >
+            <Datagrid bulkActionButtons={false} rowClick='show' {...datagridProps}>
               {children}
             </Datagrid>
           </DatagridWrapper>
         </Box>
-      </List> 
+      </List>
     </ListWrapper>
   )
 }

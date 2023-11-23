@@ -26,15 +26,15 @@ export const PrevNextPagination = () => {
     setLastPage(null)
   }
   return (
-    <Toolbar sx={{ bgcolor:'white' }}>
+    <Toolbar sx={{ bgcolor: 'white' }}>
       {page > 1 && (
-        <Button sx={{color :'#575757',textTransform:'none'}} color='primary' key='prev' onClick={onPrevClick}>
+        <Button sx={{ color: '#575757', textTransform: 'none' }} color='primary' key='prev' onClick={onPrevClick}>
           <ChevronLeft />
           Précédent
         </Button>
       )}
       {(!lastPage || page < lastPage) && (
-        <Button sx={{color :'#575757', textTransform:'none'}} key='next' onClick={() => setPage(page + 1)}>
+        <Button sx={{ color: '#575757', textTransform: 'none' }} key='next' onClick={() => setPage(page + 1)}>
           Suivant
           <ChevronRight />
         </Button>

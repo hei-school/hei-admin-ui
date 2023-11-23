@@ -1,4 +1,4 @@
-import {  FunctionField, ShowButton, TextField } from 'react-admin'
+import { FunctionField, ShowButton, TextField } from 'react-admin'
 import { HaList } from '../../ui/haList'
 import { GroupsOutlined } from '@mui/icons-material'
 import { WhoamiRoleEnum } from '../../gen/haClient'
@@ -11,12 +11,12 @@ const GroupList = () => {
 
   return (
     <HaList
-      listProps={{title: 'Groupes'}}
+      listProps={{ title: 'Groupes' }}
       resource='groups'
       title='Liste de groupes'
       icon={<GroupsOutlined />}
-      actions={<GroupFilters isManager={isManager}/>}
-      mainSearch={{source: 'ref', label: 'Référence'}}
+      actions={<GroupFilters isManager={isManager} />}
+      mainSearch={{ source: 'ref', label: 'Référence' }}
     >
       <TextField source='ref' label='Référence' />
       <TextField source='name' label='Nom' />

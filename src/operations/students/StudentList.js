@@ -32,7 +32,7 @@ function StudentList() {
     <HaList
       icon={<SchoolOutlined />}
       title={'Listes des étudiants'}
-      mainSearch={{label: 'Prénom·s', source: 'first_name'}}
+      mainSearch={{ label: 'Prénom·s', source: 'first_name' }}
       actions={<ListActions isManager={isManager} />}
     >
       <TextField source='ref' label='Référence' />

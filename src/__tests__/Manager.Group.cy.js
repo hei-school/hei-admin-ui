@@ -33,7 +33,7 @@ describe(specTitle('Manager and groups'), () => {
     cy.intercept('GET', `/groups?page=1&page_size=25`, groups).as('getGroups')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
 
-    cy.wait('@getWhoami', { timeout: 10000})
+    cy.wait('@getWhoami', { timeout: 10000 })
 
     cy.get("[data-testid='groups']").click()
   })
@@ -48,7 +48,7 @@ describe(specTitle('Manager and groups'), () => {
     const { ref, name, students } = newGroup1
 
     cy.intercept('PUT', `/groups`, [newGroup1]).as('createGroup')
-    
+
     cy.get('[data-testid="menu-list-action"]').click()
     cy.get('[data-testid="create-button"]').click()
 

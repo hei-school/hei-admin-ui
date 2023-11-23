@@ -1,15 +1,15 @@
-import { TextField, EditButton} from 'react-admin'
+import { TextField, EditButton } from 'react-admin'
 import { CreateButton, ExportButton } from '../../ui/haToolbar'
 import { HaList } from '../../ui/haList'
 import { WorkOutlined } from '@mui/icons-material'
 import { ProfileFilters } from '../profile'
 
-export function TeacherList(){
+export function TeacherList() {
   return (
     <HaList
       icon={<WorkOutlined />}
       title='Listes des enseignants'
-      mainSearch={{label: 'Prénom·s', source: 'first_name'}}
+      mainSearch={{ label: 'Prénom·s', source: 'first_name' }}
       actions={
         <>
           <CreateButton />
