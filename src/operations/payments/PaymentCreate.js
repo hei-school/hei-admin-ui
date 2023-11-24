@@ -1,16 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import {
-  Create,
-  SimpleForm,
-  TextInput,
-  RadioButtonGroupInput,
-  useDataProvider,
-  required,
-  useNotify,
-  DateTimeInput,
-  BooleanInput
-} from 'react-admin'
+import { Create, SimpleForm, TextInput, RadioButtonGroupInput, useDataProvider, required, useNotify, DateInput, BooleanInput } from 'react-admin'
 import { useParams } from 'react-router-dom'
 import { paymentTypes, PaymentTypeValue } from '../../conf'
 import { useToggle } from '../../hooks/useToggle'
@@ -36,16 +26,14 @@ const PaymentCreate = props => {
   const notifyError = error => {
     let message = "Une erreur s`'est produite"
     if (error.response && error.response.status === 400) {
-      if(error.response.message.startsWith('Payment amount'))
-        message = 'Le paiement dépasse le montant restant du frais'
-      else
-        message = 'Paiement pour date future non autorisé'
+      if (error.response.message.startsWith('Payment amount')) message = 'Le paiement dépasse le montant restant du frais'
+      else message = 'Paiement pour date future non autorisé'
     }
     notify(message, { type: 'error', autoHideDuration: 2500 })
   }
-  const paymentConfToPaymentApi = ({ type, amount, comment, creation_datetime }) => {
+  const paymentConfToPaymentApi = ({ ref, type, amount, comment, creation_datetime }) => {
     const datetimeValue = notSpecifiedDate ? new Date().toISOString() : creation_datetime
-    return [{ feeId, type, amount, comment, creation_datetime: datetimeValue }]
+    return [{ feeId, type, amount, comment, ref, creation_datetime: datetimeValue }]
   }
 
   return (
@@ -67,7 +55,7 @@ const PaymentCreate = props => {
           defaultValue={PaymentTypeValue.BankPayement}
           onChange={event => setPaymentChoice(event.target.value)}
         />
-        { paymentChoice === PaymentTypeValue.BankPayement && <TextInput source='ref' label='Réference' fullWidth={true} validate={required()} /> }
+        {paymentChoice === PaymentTypeValue.BankPayement && <TextInput source='ref' label='Réference' fullWidth={true} validate={required()} />}
         <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={required()} />
         <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === PaymentTypeValue.MobileMoney && required()} />
         <BooleanInput
@@ -77,7 +65,7 @@ const PaymentCreate = props => {
           defaultValue={notSpecifiedDate}
           onChange={({ target: { checked } }) => setSpecifyDate(checked)}
         />
-        { !notSpecifiedDate && <DateTimeInput source='creation_datetime' label='Date de paiement' validate={required()} defaultValue={new Date().toISOString()} /> }
+        {!notSpecifiedDate && <DateInput source='creation_datetime' label='Date de paiement' validate={required()} defaultValue={new Date().toISOString()} />}
       </SimpleForm>
     </Create>
   )
