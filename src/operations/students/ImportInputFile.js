@@ -2,7 +2,7 @@ import { Confirm, useNotify } from 'react-admin'
 import { forwardRef, useRef, useState } from 'react'
 import { read, utils } from 'xlsx'
 import { useToggle } from '../../hooks/useToggle'
-import {Upload} from '@mui/icons-material'
+import { Upload } from '@mui/icons-material'
 import { MenuItem, Popover } from '@mui/material'
 import { EnableStatus } from '../../gen/haClient'
 import { validateData } from '../../operations/utils'
@@ -43,7 +43,7 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
 
 const ImportInputFile = forwardRef(function ImportInput({ mutationRequest, ...props }, ref) {
   const [data, setData] = useState([])
-  const [open, setOpen ] = useToggle()
+  const [open, setOpen] = useToggle()
   const notify = useNotify()
 
   const makeRequest = () => {
@@ -66,10 +66,10 @@ const ImportInputFile = forwardRef(function ImportInput({ mutationRequest, ...pr
 })
 export default ImportInputFile
 
-export function ImportButton(){
+export function ImportButton() {
   const notify = useNotify()
-  const [isOpen, ,toggle] = useToggle()
-  const [isShown, ,toggleMenu] = useToggle()
+  const [isOpen, , toggle] = useToggle()
+  const [isShown, , toggleMenu] = useToggle()
   const [anchorEl, setAnchorEl] = useState(null)
   const buttonRef = useRef(null)
 
@@ -90,7 +90,7 @@ export function ImportButton(){
       const modifiedData = data.map(element => {
         element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
         element['status'] = EnableStatus.Enabled
-        return element;
+        return element
       })
 
       setData(modifiedData)
@@ -103,18 +103,18 @@ export function ImportButton(){
 
   return (
     <>
-      <ButtonBase label='Importer' closeAction={false} id='import-button' icon={<Upload />} onClick={openMenu}/>
+      <ButtonBase label='Importer' closeAction={false} id='import-button' icon={<Upload />} onClick={openMenu} />
       <Popover
         open={isShown}
         onClose={closeMenu}
         anchorEl={anchorEl}
         anchorOrigin={{
           vertical: 'center',
-          horizontal: 'center',
+          horizontal: 'center'
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'right',
+          horizontal: 'right'
         }}
       >
         <MenuItem
