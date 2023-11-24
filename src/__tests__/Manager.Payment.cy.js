@@ -86,7 +86,7 @@ describe(specTitle('Manager.Payment'), () => {
     unmount()
   })
   it('can add bank payment to a fee', () => {
-    cy.get('#type_BANK_PAYMENT').click()
+    cy.get('#type_BANK_TRANSFER').click()
     cy.get('#amount').click().type(createPayment.amount)
     cy.get('#comment').click().type(createPayment.comment)
     cy.get('#ref').click().type(amount)
