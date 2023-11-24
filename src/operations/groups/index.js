@@ -1,9 +1,9 @@
 import { Groups } from '@mui/icons-material'
-import { TextInput } from 'react-admin'
 import GroupList from './GroupList'
 import GroupShow from './GroupShow'
 import GroupCreate from './GroupCreate'
 import GroupEdit from './GroupEdit'
+import { CreateButton, ExportButton, FilterForm, TextFilter } from '../../ui/haToolbar'
 
 const groups = {
   list: GroupList,
@@ -14,9 +14,18 @@ const groups = {
   options: { label: 'Groupes' }
 }
 
-export const groupFilters = [
-  <TextInput source='ref' label='Filtre par référence' />,
-  <TextInput source='name' label='Nom' />,
-  <TextInput source='creation_datetime' label='Date ou année' />
-]
+export function GroupFilters({ isManager }) {
+  return (
+    <>
+      {isManager && <CreateButton />}
+      <ExportButton />
+      <FilterForm>
+        <TextFilter data-testid='filter-group-name' source='name' label={'Nom'} />
+        <TextFilter data-testid='filter-group-ref' source='ref' label={'Référence'} />
+        <TextFilter data-testid='filter-group-create_datetime' source='creation_datetime' label={'Date ou année'} />
+      </FilterForm>
+    </>
+  )
+}
+
 export default groups

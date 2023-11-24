@@ -44,9 +44,10 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('[data-testid="students-menu"]').click() // Étudiants category
     cy.get('a[href="#/students"]').click()
     cy.get('button').contains('Suivant').click()
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="ref"]').click()
-    cy.get('#ref').type(student1Mock.ref)
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="add-filter"]').click()
+    cy.get('[data-testid="filter-profile-ref"]').type(student1Mock.ref)
+    cy.get('[data-testid="apply-filter"]').click()
     cy.get('table').contains(student1Mock.ref).click()
     cy.get('[aria-label="fees"]').click()
 

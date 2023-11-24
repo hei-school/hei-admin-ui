@@ -34,9 +34,7 @@ describe(specTitle('Manager'), () => {
     cy.contains('Année de création')
   })
   it('can view a group detail', () => {
-    cy.contains('Ajouter un filtre').click()
-    cy.get('[data-key="ref"]').click()
-    cy.get('#ref').type(group1.ref)
+    cy.get('[data-testid="main-search-filter"]').type(group1.ref)
     cy.contains(`Afficher`).click()
     cy.contains('Référence')
     cy.contains('Nom')

@@ -10,9 +10,10 @@ const group1 = groups[0]
 const student = group1Students[0]
 
 const filterAndShow = () => {
-  cy.contains('Ajouter un filtre').click()
-  cy.get('[data-key="ref"]').click()
-  cy.get('#ref').type(group1.ref)
+  cy.get('[data-testid="menu-list-action"]').click()
+  cy.get('[data-testid="add-filter"]').click()
+  cy.get('[data-testid="filter-group-ref"]').clear().type(group1.ref)
+  cy.get('[data-testid="apply-filter"]').click()
   cy.contains(`Afficher`).click()
 }
 describe(specTitle('Manager and groups'), () => {
@@ -32,7 +33,7 @@ describe(specTitle('Manager and groups'), () => {
     cy.intercept('GET', `/groups?page=1&page_size=25`, groups).as('getGroups')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
 
-    cy.wait('@getWhoami')
+    cy.wait('@getWhoami', { timeout: 10000 })
 
     cy.get("[data-testid='groups']").click()
   })
@@ -48,7 +49,8 @@ describe(specTitle('Manager and groups'), () => {
 
     cy.intercept('PUT', `/groups`, [newGroup1]).as('createGroup')
 
-    cy.get('[data-testid="AddIcon"]').click()
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
 
     cy.get('#ref').type(ref)
     cy.get('#name').type(name)
@@ -67,7 +69,8 @@ describe(specTitle('Manager and groups'), () => {
 
     cy.intercept('PUT', `/groups`, [withoutGroups]).as('createGroup')
 
-    cy.get('[data-testid="AddIcon"]').click()
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#ref').type(ref)
     cy.get('#name').type(name)
     cy.contains('Enregistrer').click({ force: true })

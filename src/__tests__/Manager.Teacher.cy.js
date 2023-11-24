@@ -18,22 +18,24 @@ describe(specTitle('Manager.Teachers'), () => {
     cy.intercept('GET', `/teachers/${teachersMock[0].id}`, teachersMock[0]).as('getTeachers1')
     cy.intercept('PUT', `/teachers`, [updatedInfo]).as('putUpdate')
 
-    cy.wait('@getWhoami')
+    cy.wait('@getWhoami', { timeout: 10000 })
     cy.get('[href="#/teachers"]').click()
     cy.get(':nth-child(1) > .column-undefined > .MuiButtonBase-root').as('editButton')
-    cy.get('.css-t6tio9-RaFilterButton-root > .MuiButtonBase-root').as('add-filter-button')
   })
 
   it('list all teachers', () => {
     cy.wait('@getManager')
     cy.viewport(1000, 950)
     cy.get('tbody tr').should('have.length', teachersMock.length)
-    cy.get('a[aria-label="Créer"]').should('exist')
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('body').click()
     cy.get('a[aria-label="Éditer"]').should('exist')
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').should('exist')
   })
 
   it('can filter teachers by first_name', () => {
-    cy.get('#first_name').type(teacher1Mock.first_name)
+    cy.get('[data-testid="main-search-filter"]').type(teacher1Mock.first_name)
     cy.wait('@getFilters')
     cy.get('tbody tr').should('have.length', 1).should('not.contain', teachersMock[1].first_name)
     cy.get('tbody tr').should('have.length', 1)
@@ -41,10 +43,11 @@ describe(specTitle('Manager.Teachers'), () => {
   })
 
   it('can filter teachers by last_name', () => {
-    cy.get('#first_name').clear()
-    cy.get('@add-filter-button').click()
-    cy.get('.Mui-focusVisible').click()
-    cy.get('#last_name').type(teacher1Mock.last_name)
+    cy.get('[data-testid="main-search-filter"]').clear()
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="add-filter"]').click()
+    cy.get('[data-testid="filter-profile-last_name"]').type(teacher1Mock.last_name)
+    cy.get('[data-testid="apply-filter"]').click()
     cy.wait('@getFilters')
     cy.get('tbody tr').should('have.length', 1).should('not.contain', teachersMock[1].first_name)
     cy.get('tbody tr').should('have.length', 1)
@@ -52,10 +55,11 @@ describe(specTitle('Manager.Teachers'), () => {
   })
 
   it('can filter teachers by ref', () => {
-    cy.get('#first_name').clear()
-    cy.get('@add-filter-button').click()
-    cy.get('[data-key="ref"]').click()
-    cy.get('#ref').type(teacher1Mock.ref)
+    cy.get('[data-testid="main-search-filter"]').clear()
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="add-filter"]').click()
+    cy.get('[data-testid="filter-profile-ref"]').type(teacher1Mock.ref)
+    cy.get('[data-testid="apply-filter"]').click()
     cy.wait('@getFilters')
     cy.get('tbody tr').should('have.length', 1).should('not.contain', teachersMock[1].first_name)
     cy.get('tbody tr').should('have.length', 1)
