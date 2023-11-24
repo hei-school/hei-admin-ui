@@ -45,7 +45,7 @@ export const PaymentTypeValue = {
 }
 
 export const paymentTypes = [
-  { name: 'Virement Bancaire', id: PaymentTypeValue.BankPayement},
-  { name: 'Mobile money', id: PaymentTypeValue.MobileMoney},
-  { name: 'Cash', id: PaymentTypeValue.Cash}
+  { name: 'Virement Bancaire', id: PaymentTypeValue.BankPayement },
+  { name: 'Mobile money', id: PaymentTypeValue.MobileMoney },
+  { name: 'Cash', id: PaymentTypeValue.Cash }
 ]
