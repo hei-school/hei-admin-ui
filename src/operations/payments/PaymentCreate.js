@@ -35,7 +35,13 @@ const PaymentCreate = props => {
   })
   const validateConditions = [required()]
   const [paymentChoice, setPaymentChoice] = useState('cash')
-
+  const notifyError = (error) => {
+    let message = 'Une erreur s`\'est produite';
+    if(error.response && error.response.status === 400){
+      message = 'Paiement pour date future non autorisé'
+    }
+    notify(message, { type: 'error', autoHideDuration: 2500 })
+  }
   const paymentConfToPaymentApi = ({ type, amount, comment, creation_datetime }) => {
     const datetimeValue = notSpecifiedDate ? new Date().toISOString() : creation_datetime
     return [{ feeId, type: paymentTypes[type].type, amount, comment, creation_datetime: datetimeValue }]
@@ -43,11 +49,7 @@ const PaymentCreate = props => {
 
   return (
     <Create
-      mutationOptions={{
-        onError: error => {
-          notify(`Une erreur s'est produite`, { type: 'error', autoHideDuration: 1000 })
-        }
-      }}
+      mutationOptions={{ onError: notifyError }}
       {...props}
       title={`Paiement de ${studentRef}`}
       resource='payments'
