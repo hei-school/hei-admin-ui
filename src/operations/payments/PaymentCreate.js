@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom'
 import { paymentTypes, PaymentTypeValue } from '../../conf'
 import { useToggle } from '../../hooks/useToggle'
 import { studentIdFromRaId } from '../../providers/feeProvider'
+import { PaymentTypeEnum } from '../../gen/haClient'
 
 const PaymentCreate = props => {
   const params = useParams()
@@ -52,12 +53,12 @@ const PaymentCreate = props => {
           label='Type'
           validate={required()}
           choices={paymentTypes}
-          defaultValue={PaymentTypeValue.BankPayement}
+          defaultValue={PaymentTypeEnum.BankTransfer}
           onChange={event => setPaymentChoice(event.target.value)}
         />
-        {paymentChoice === PaymentTypeValue.BankPayement && <TextInput source='ref' label='Réference' fullWidth={true} validate={required()} />}
+        {paymentChoice === PaymentTypeEnum.BankTransfer && <TextInput source='ref' label='Réference' fullWidth={true} validate={required()} />}
         <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={required()} />
-        <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === PaymentTypeValue.MobileMoney && required()} />
+        <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === PaymentTypeEnum.MobileMoney && required()} />
         <BooleanInput
           source='specify-date'
           label={"Date de paiement aujourd'hui"}
