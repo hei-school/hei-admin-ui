@@ -16,18 +16,7 @@ import {
 } from './mocks/responses'
 
 const amount = 1 + Math.floor(Math.random() * 100_000)
-const creatPaymentMock = createPaymentWithAmountMock(amount)
-const paymentVerificationMock = creatPaymentMock => {
-  return requestIntersection => {
-    let pendingPaymentMock = {
-      comment: creatPaymentMock.comment,
-      type: creatPaymentMock.type,
-      amount: '' + creatPaymentMock.amount
-    }
-    expect(requestIntersection.request.body[0]).to.deep.equal(pendingPaymentMock)
-    expect(requestIntersection.request.body.length).to.equal(1)
-  }
-}
+const createPayment = createPaymentWithAmountMock(amount)
 
 describe(specTitle('Manager.Payment'), () => {
   beforeEach(() => {
@@ -64,36 +53,49 @@ describe(specTitle('Manager.Payment'), () => {
     cy.contains(unpaidFeeMock.comment).click()
     cy.contains('En attente')
     cy.get('.MuiFab-root').click()
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`, [creatPaymentMock]).as('getPayment')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`, UpdateFeeWithPaymentMock(unpaidFeeMock, creatPaymentMock)).as('getFee')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`, [createPayment]).as('getPayment')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`, UpdateFeeWithPaymentMock(unpaidFeeMock, createPayment)).as('getFee')
   })
 
   it('can add cash payment to a fee', () => {
-    cy.get('#type_cash').click()
-    cy.get('#amount').click().type(creatPaymentMock.amount)
-    cy.get('#comment').click().type(creatPaymentMock.comment)
+    cy.get('#type_CASH').click()
+    cy.get('#amount').click().type(createPayment.amount)
+    cy.get('#comment').click().type(createPayment.comment)
     cy.contains('Enregistrer').click()
-    //cy.wait('@addPayments').then(paymentVerificationMock(creatPaymentMock))
+    //cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
     cy.contains('Élément créé')
     cy.get(`.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`).should('have.length', 1)
     cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
     unmount()
   })
   it('can add mobile money payment to a fee', () => {
-    cy.get('#type_mobileMoney').click()
-    cy.get('#amount').click().type(creatPaymentMock.amount)
-    cy.get('#comment').click().type(creatPaymentMock.comment)
+    cy.get('#type_MOBILE_MONEY').click()
+    cy.get('#amount').click().type(createPayment.amount)
+    cy.get('#comment').click().type(createPayment.comment)
     cy.contains('Enregistrer').click()
-    //cy.wait('@addPayments').then(paymentVerificationMock(creatPaymentMock))
+    //cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
     cy.contains('Élément créé')
     cy.get(`.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`).should('have.length', 1)
     unmount()
   })
   it("can't add mobile money payment to a fee without comment", () => {
-    cy.get('#type_mobileMoney').click()
-    cy.get('#amount').click().type(creatPaymentMock.amount)
+    cy.get('#type_MOBILE_MONEY').click()
+    cy.get('#amount').click().type(createPayment.amount)
     cy.contains('Enregistrer').click()
     cy.contains("Le formulaire n'est pas valide.")
+    unmount()
+  })
+  it('can add bank payment to a fee', () => {
+    cy.get('#type_BANK_PAYMENT').click()
+    cy.get('#amount').click().type(createPayment.amount)
+    cy.get('#comment').click().type(createPayment.comment)
+    cy.get('#ref').click().type(amount)
+    cy.get('#specify-date').click()
+    cy.get('#creation_datetime').click().type('2023-11-24')
+    cy.contains('Enregistrer').click()
+    //cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
+    cy.contains('Élément créé')
+    cy.get(`.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`).should('have.length', 1)
     unmount()
   })
 })
