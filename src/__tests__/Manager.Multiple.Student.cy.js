@@ -15,9 +15,8 @@ import {
 const importFile = (file, message) => {
   const _path = 'cypress/fixtures'
   const _mockFile = `${_path}/${file}`
-  cy.get('#import-button')
-    .trigger('mousemove')
-  cy.get('[data-testid=\'inputFile\']').selectFile(_mockFile, { force: true })
+  cy.get('#import-button').trigger('mousemove')
+  cy.get("[data-testid='inputFile']").selectFile(_mockFile, { force: true })
 
   cy.contains('Confirmer').click()
 

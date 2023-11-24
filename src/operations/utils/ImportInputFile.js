@@ -35,15 +35,14 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
   return <input data-testid='inputFile' type='file' ref={ref} style={{ display: 'none' }} onChange={processFile} accept={excelType} />
 })
 
-const ImportInputFile = forwardRef(function ImportInput ({ mutationRequest, ...props }, ref){
+const ImportInputFile = forwardRef(function ImportInput({ mutationRequest, ...props }, ref) {
   const [data, setData] = useState([])
   const [open, setOpen, _toggle] = useToggle()
   const notify = useNotify()
 
   const makeRequest = () => {
     setOpen(false)
-    mutationRequest(data, setData)
-      .catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error', autoHideDuration: 1000 }))
+    mutationRequest(data, setData).catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error', autoHideDuration: 1000 }))
   }
 
   return (

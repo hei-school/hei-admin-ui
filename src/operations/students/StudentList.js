@@ -1,16 +1,5 @@
 import { useRef, useState } from 'react'
-import {
-  CreateButton,
-  Datagrid,
-  EditButton,
-  ExportButton,
-  FilterButton,
-  List,
-  ShowButton,
-  TextField,
-  TopToolbar,
-  useNotify
-} from 'react-admin'
+import { CreateButton, Datagrid, EditButton, ExportButton, FilterButton, List, ShowButton, TextField, TopToolbar, useNotify } from 'react-admin'
 import { EnableStatus, WhoamiRoleEnum } from '../../gen/haClient'
 import { profileFilters } from '../profile'
 import { exporter, exportHeaders, pageSize, PrevNextPagination, validateData } from '../utils'
@@ -44,16 +33,14 @@ const ListActions = () => {
     const importValidate = validateData(data)
 
     if (importValidate.isValid) {
-      const modifiedData = data.map((element) => {
+      const modifiedData = data.map(element => {
         element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
         element['status'] = EnableStatus.Enabled
       })
 
       setData(modifiedData)
 
-      await studentProvider
-        .saveOrUpdate(data)
-        .then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
+      await studentProvider.saveOrUpdate(data).then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
     } else {
       notify(importValidate.message, { type: 'error', autoHideDuration: 1000 })
     }
@@ -65,25 +52,34 @@ const ListActions = () => {
       <ExportButton />
       {isManager && (
         <>
-          <Button id='import-button' startIcon={<Upload />} onMouseMove={openMenu} size='small'>Importer</Button>
-          <Popover open={isShown} onClose={closeMenu} anchorEl={anchorEl}
-                   anchorOrigin={{
-                     vertical: 'bottom',
-                     horizontal: 'left'
-                   }}
-                   transformOrigin={{
-                     vertical: 'top',
-                     horizontal: 'left'
-                   }}>
-            <MenuItem data-testid='existantTemplate' onClick={() => {
-              buttonRef.current.click()
-            }}>A partir d'un template existant <ImportInputFile
-              mutationRequest={addStudents} ref={buttonRef} /></MenuItem>
+          <Button id='import-button' startIcon={<Upload />} onMouseMove={openMenu} size='small'>
+            Importer
+          </Button>
+          <Popover
+            open={isShown}
+            onClose={closeMenu}
+            anchorEl={anchorEl}
+            anchorOrigin={{
+              vertical: 'bottom',
+              horizontal: 'left'
+            }}
+            transformOrigin={{
+              vertical: 'top',
+              horizontal: 'left'
+            }}
+          >
+            <MenuItem
+              data-testid='existantTemplate'
+              onClick={() => {
+                buttonRef.current.click()
+              }}
+            >
+              A partir d'un template existant <ImportInputFile mutationRequest={addStudents} ref={buttonRef} />
+            </MenuItem>
             <MenuItem onClick={toggle}>A partir d'un nouveau template</MenuItem>
           </Popover>
           <ImportNewTemplate toggle={toggle} isOpen={isOpen} />
         </>
-
       )}
     </TopToolbar>
   )
@@ -113,7 +109,6 @@ const StudentList = () => {
       </List>
       <ImportNewTemplate />
     </>
-
   )
 }
 

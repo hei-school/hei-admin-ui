@@ -7,8 +7,8 @@ export const validateData = data => {
   let message = ''
   const isEqual = (data1, headers) => {
     let isEq = true
-    data1.forEach((element) => {
-      if(!headers.includes(element)){
+    data1.forEach(element => {
+      if (!headers.includes(element)) {
         isEq = false
       }
     })
