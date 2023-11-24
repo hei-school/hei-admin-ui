@@ -28,7 +28,7 @@ const importFile = (file, message) => {
 describe(specTitle('Manager create multiple students'), () => {
   beforeEach(() => {
     mount(<App />)
-    cy.get('#user').type(manager1.username)
+    cy.get('#username').type(manager1.username)
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
 
