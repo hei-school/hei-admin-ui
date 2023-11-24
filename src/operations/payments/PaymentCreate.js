@@ -35,9 +35,9 @@ const PaymentCreate = props => {
   })
   const validateConditions = [required()]
   const [paymentChoice, setPaymentChoice] = useState('cash')
-  const notifyError = (error) => {
-    let message = 'Une erreur s`\'est produite';
-    if(error.response && error.response.status === 400){
+  const notifyError = error => {
+    let message = "Une erreur s`'est produite"
+    if (error.response && error.response.status === 400) {
       message = 'Paiement pour date future non autorisé'
     }
     notify(message, { type: 'error', autoHideDuration: 2500 })
