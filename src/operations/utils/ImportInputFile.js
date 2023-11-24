@@ -35,36 +35,19 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
   return <input data-testid='inputFile' type='file' ref={ref} style={{ display: 'none' }} onChange={processFile} accept={excelType} />
 })
 
-const ImportListButton = ({ mutationRequest }) => {
+const ImportInputFile = forwardRef(function ImportInput({ mutationRequest, ...props }, ref) {
   const [data, setData] = useState([])
   const [open, setOpen, _toggle] = useToggle()
-
-  const isSmall = useMediaQuery('(max-width: 625px)')
-  const inputRef = useRef(null)
-
-  const handleClick = e => {
-    inputRef.current.click()
-  }
+  const notify = useNotify()
 
   const makeRequest = () => {
     setOpen(false)
-    mutationRequest(data, setData)
+    mutationRequest(data, setData).catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error', autoHideDuration: 1000 }))
   }
 
-  const InputFile = () => <FileInput ref={inputRef} setData={setData} setIsSubmitted={setOpen} />
   return (
     <>
-      {isSmall ? (
-        <IconButton onClick={handleClick} color='primary'>
-          <Upload />
-          <InputFile />
-        </IconButton>
-      ) : (
-        <Button size='small' onClick={handleClick} startIcon={<Upload />} sx={{ padding: 0.3 }}>
-          <InputFile />
-          <span>Importer</span>
-        </Button>
-      )}
+      <FileInput ref={ref} setData={setData} setIsSubmitted={setOpen} />
       <Confirm
         isOpen={open}
         title={`Importer`}
@@ -74,5 +57,5 @@ const ImportListButton = ({ mutationRequest }) => {
       />
     </>
   )
-}
-export default ImportListButton
+})
+export default ImportInputFile
