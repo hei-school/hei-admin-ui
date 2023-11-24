@@ -31,7 +31,7 @@ import {
 } from './common'
 import type { RequestArgs } from './base'
 // @ts-ignore
-import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError, operationServerMap } from './base'
+import { BASE_PATH, COLLECTION_FORMATS, BaseAPI, RequiredError } from './base'
 
 /**
  *
@@ -546,6 +546,7 @@ export interface CreatePayment {
 }
 
 export const CreatePaymentTypeEnum = {
+  BankTransfer: 'BANK_TRANSFER',
   Cash: 'CASH',
   MobileMoney: 'MOBILE_MONEY',
   Scholarship: 'SCHOLARSHIP',
@@ -1063,6 +1064,7 @@ export interface Payment {
 }
 
 export const PaymentTypeEnum = {
+  BankTransfer: 'BANK_TRANSFER',
   Cash: 'CASH',
   MobileMoney: 'MOBILE_MONEY',
   Scholarship: 'SCHOLARSHIP',
@@ -1758,9 +1760,7 @@ export const AttendanceApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<StudentAttendanceMovement>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createAttendanceMovement(createAttendanceMovement, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['AttendanceApi.createAttendanceMovement']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -1798,9 +1798,7 @@ export const AttendanceApiFp = function (configuration?: Configuration) {
         attendanceStatuses,
         options
       )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['AttendanceApi.getStudentsAttendance']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
 }
@@ -2290,9 +2288,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createDelayPenaltyChange(createDelayPenaltyChange, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['PayingApi.createDelayPenaltyChange']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -2308,9 +2304,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentFees(studentId, createFee, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['PayingApi.createStudentFees']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -2328,9 +2322,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentPayments(studentId, feeId, createPayment, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['PayingApi.createStudentPayments']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -2340,9 +2332,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
      */
     async getDelayPenalty(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<DelayPenalty>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getDelayPenalty(options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['PayingApi.getDelayPenalty']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -2360,9 +2350,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getFees(status, page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['PayingApi.getFees']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -2378,9 +2366,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Fee>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFeeById(studentId, feeId, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['PayingApi.getStudentFeeById']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      * Fees can be filtered with an optional payment status parameter.
@@ -2400,9 +2386,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Fee>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentFees(studentId, page, pageSize, status, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['PayingApi.getStudentFees']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -2422,9 +2406,7 @@ export const PayingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Payment>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentPayments(studentId, feeId, page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['PayingApi.getStudentPayments']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
 }
@@ -2768,9 +2750,7 @@ export const SecurityApiFp = function (configuration?: Configuration) {
      */
     async ping(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<string>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.ping(options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['SecurityApi.ping']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -2780,9 +2760,7 @@ export const SecurityApiFp = function (configuration?: Configuration) {
      */
     async whoami(options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Whoami>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.whoami(options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['SecurityApi.whoami']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
 }
@@ -3795,9 +3773,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AwardedCourse>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateAwardedCourses(id, createAwardedCourse, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.createOrUpdateAwardedCourses']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      * Update courses when `id` are provided, create them otherwise.
@@ -3811,9 +3787,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Course>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateCourses(course, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.createOrUpdateCourses']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      * Update exams when `id` are provided, create them otherwise.
@@ -3831,9 +3805,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExamInfo>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateExams(groupId, awardedCourseId, examInfo, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.createOrUpdateExams']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      * Update groups when `id` are provided, create them otherwise.
@@ -3847,9 +3819,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateGroups(createGroup, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.createOrUpdateGroups']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -3869,9 +3839,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExamDetail>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createStudentExamGrade(groupId, awardedCourseId, examId, createGrade, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.createStudentExamGrade']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -3891,9 +3859,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AwardedCourse>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getAllAwardedCourseByCriteria(teacherId, courseId, page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getAllAwardedCourseByCriteria']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -3911,9 +3877,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AwardedCourse>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getAllAwardedCourseByGroup(id, page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getAllAwardedCourseByGroup']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -3931,9 +3895,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getAllStudentByGroup(id, page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getAllStudentByGroup']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -3949,9 +3911,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<AwardedCourse>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getAwardedCoursesByIdAndGroupId(groupId, awardedCourseId, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getAwardedCoursesByIdAndGroupId']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -3962,9 +3922,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      */
     async getCourseById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Course>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getCourseById(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getCourseById']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4005,9 +3963,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
         pageSize,
         options
       )
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getCourses']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4025,9 +3981,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExamInfo>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getExamById(groupId, awardedCourseId, examId, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getExamById']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4045,9 +3999,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<ExamDetail>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getExamGrades(groupId, examId, awardedCourseId, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getExamGrades']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4067,9 +4019,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<ExamInfo>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getExamsByGroupIdAndAwardedCourse(groupId, awardedCourseId, page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getExamsByGroupIdAndAwardedCourse']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4080,9 +4030,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
      */
     async getGroupById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Group>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getGroupById(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getGroupById']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4098,9 +4046,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Group>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getGroups(page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getGroups']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4120,9 +4066,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<StudentGrade>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getParticipantGrade(groupId, examId, studentId, awardedCourseId, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getParticipantGrade']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4140,9 +4084,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<AwardedCourseExam>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentGrades(studentId, page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.getStudentGrades']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -4162,9 +4104,7 @@ export const TeachingApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<GroupFlow>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.moveOrDeleteStudentInGroup(id, createGroupFlow, page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['TeachingApi.moveOrDeleteStudentInGroup']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
 }
@@ -5140,9 +5080,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateStudents(student, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['UsersApi.createOrUpdateStudents']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      * Update teachers when `id` are provided, create them otherwise.
@@ -5156,9 +5094,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.createOrUpdateTeachers(teacher, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['UsersApi.createOrUpdateTeachers']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -5169,9 +5105,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
      */
     async getManagerById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Manager>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getManagerById(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['UsersApi.getManagerById']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -5187,9 +5121,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Manager>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getManagers(page, pageSize, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['UsersApi.getManagers']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -5200,9 +5132,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
      */
     async getStudentById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Student>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStudentById(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['UsersApi.getStudentById']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -5226,9 +5156,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Student>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getStudents(page, pageSize, ref, firstName, lastName, courseId, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['UsersApi.getStudents']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -5239,9 +5167,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
      */
     async getTeacherById(id: string, options?: AxiosRequestConfig): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Teacher>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getTeacherById(id, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['UsersApi.getTeacherById']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     },
     /**
      *
@@ -5263,9 +5189,7 @@ export const UsersApiFp = function (configuration?: Configuration) {
       options?: AxiosRequestConfig
     ): Promise<(axios?: AxiosInstance, basePath?: string) => AxiosPromise<Array<Teacher>>> {
       const localVarAxiosArgs = await localVarAxiosParamCreator.getTeachers(page, pageSize, ref, firstName, lastName, options)
-      const index = configuration?.serverIndex ?? 0
-      const operationBasePath = operationServerMap['UsersApi.getTeachers']?.[index]?.url
-      return (axios, basePath) => createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)(axios, operationBasePath || basePath)
+      return createRequestFunction(localVarAxiosArgs, globalAxios, BASE_PATH, configuration)
     }
   }
 }

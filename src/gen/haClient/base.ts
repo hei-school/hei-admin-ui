@@ -18,7 +18,7 @@ import type { Configuration } from './configuration'
 import type { AxiosPromise, AxiosInstance, AxiosRequestConfig } from 'axios'
 import globalAxios from 'axios'
 
-export const BASE_PATH = process.env.REACT_APP_API_URL?.replace(/\/+$/, '')!
+export const BASE_PATH = process?.env?.REACT_APP_API_URL?.replace(/\/+$/, '')!
 
 /**
  *
@@ -56,7 +56,7 @@ export class BaseAPI {
   ) {
     if (configuration) {
       this.configuration = configuration
-      this.basePath = configuration.basePath ?? basePath
+      this.basePath = configuration.basePath || this.basePath
     }
   }
 }
@@ -76,16 +76,3 @@ export class RequiredError extends Error {
     this.name = 'RequiredError'
   }
 }
-
-interface ServerMap {
-  [key: string]: {
-    url: string
-    description: string
-  }[]
-}
-
-/**
- *
- * @export
- */
-export const operationServerMap: ServerMap = {}
