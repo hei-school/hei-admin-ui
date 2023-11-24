@@ -8,7 +8,7 @@ function TeacherList() {
   return (
     <HaList
       icon={<WorkOutlined />}
-      title='Listes des enseignants'
+      title='Liste des enseignants'
       mainSearch={{ label: 'Prénom·s', source: 'first_name' }}
       actions={
         <>

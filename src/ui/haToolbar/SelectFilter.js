@@ -14,9 +14,9 @@ export function SelectFilter({ fetcher, source, label, valueKey, labelKey, ...re
     else setData({ options: fetcher, pending: false })
   }, [])
 
-  const checked = item => values.some(el => el.value === item.value)
+  const isChecked = item => values.some(el => el.value === item.value)
   const toggleValue = item => {
-    const newFilter = !checked(item) ? [...values, item] : [...values].filter(el => el.value !== item.value)
+    const newFilter = !isChecked(item) ? [...values, item] : [...values].filter(el => el.value !== item.value)
     setOneFilter(source, newFilter)
   }
 
@@ -44,7 +44,7 @@ export function SelectFilter({ fetcher, source, label, valueKey, labelKey, ...re
           Une erreur c'est produite
         </MenuItem>
       )}
-      <Items valueKey={valueKey} checked={checked} onClick={toggleValue} labelKey={labelKey} options={data.options} />
+      <Items valueKey={valueKey} checked={isChecked} onClick={toggleValue} labelKey={labelKey} options={data.options} />
     </TextField>
   )
 }

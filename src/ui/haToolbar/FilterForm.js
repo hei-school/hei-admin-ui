@@ -1,26 +1,26 @@
 import { FilterList } from '@mui/icons-material'
-import { createContext, useContext, useState } from 'react'
+import { createContext, useState } from 'react'
 import { useListFilterContext } from 'react-admin'
 import { FilterContentResponsive } from './FilterFormContent'
 import { ButtonBase } from '../haToolbar'
-import { HaListContext } from '../haList/HaListTitle'
+import useHaListContext from '../haList/useHaListContext'
 
 export const HaToolbarContext = createContext()
 
 export function FilterForm({ children }) {
   const { filterValues, setFilters } = useListFilterContext()
   const [anchorEl, setAnchorEl] = useState(null)
-  const listContext = useContext(HaListContext)
+  const {closeAction }= useHaListContext() 
   const [currentFilter, setCurrentFilter] = useState(filterValues)
 
   const submitChange = () => setFilters(currentFilter)
   const setOneFilter = (source, values) => setCurrentFilter(prev => ({ ...prev, [source]: values }))
   const isFilterApplied = Object.keys(filterValues || []).length > 0
 
-  const handleCloseFilter = isChangedMade => {
+  const handleCloseFilter = hasChanged => {
     setAnchorEl(null)
-    listContext.closeAction()
-    if (!isChangedMade) {
+    closeAction()
+    if (!hasChanged) {
       setCurrentFilter(filterValues)
     }
   }

@@ -3,18 +3,18 @@ import { TextField, Autocomplete } from '@mui/material'
 import { getObjValue } from '../utils'
 import useHaToolbarContext from './useHaToolbarContext'
 
-export function AutocompleteFilter({ source, label, fetcher, labelKey, valueKey, labelKeyOnNull, ...rest }) {
+export function AutocompleteFilter({ source, label, fetcher, labelKey, valueKey, defaultKey, ...rest }) {
   const { currentFilter, setOneFilter } = useHaToolbarContext()
   const [data, setData] = useState({ options: [], pending: false, inputValue: '' })
 
-  useEffect(() => fetchAllOption(''), [])
+  useEffect(() => fetchOptions(''), [])
 
-  const fetchAllOption = inputValue => {
+  const fetchOptions = inputValue => {
     setData({ ...data, pending: true, inputValue })
     fetcher(inputValue === '' ? undefined : inputValue)
       .then(response => {
         const newOptions = response.data.map(el => {
-          const label = getObjValue(el, labelKey) || getObjValue(el, labelKeyOnNull)
+          const label = getObjValue(el, labelKey) || getObjValue(el, defaultKey)
           const value = getObjValue(el, valueKey)
           return { label, value }
         })
@@ -25,7 +25,7 @@ export function AutocompleteFilter({ source, label, fetcher, labelKey, valueKey,
 
   const onInputChange = (event, value) => {
     if (!event) return
-    fetchAllOption(value)
+    fetchOptions(value)
   }
 
   const onSelectChange = (event, value) => {
