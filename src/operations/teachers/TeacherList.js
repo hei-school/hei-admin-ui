@@ -1,16 +1,29 @@
-import { List, Datagrid, TextField, EditButton } from 'react-admin'
+import { TextField, EditButton } from 'react-admin'
+import { CreateButton, ExportButton } from '../../ui/haToolbar'
+import { HaList } from '../../ui/haList'
+import { WorkOutlined } from '@mui/icons-material'
+import { ProfileFilters } from '../profile'
 
-import { profileFilters } from '../profile'
-import { pageSize, PrevNextPagination } from '../utils'
-
-const TeacherList = () => (
-  <List filters={profileFilters} pagination={<PrevNextPagination />} perPage={pageSize} resource={'teachers'}>
-    <Datagrid bulkActionButtons={false} rowClick='show'>
+function TeacherList() {
+  return (
+    <HaList
+      icon={<WorkOutlined />}
+      title='Liste des enseignants'
+      mainSearch={{ label: 'Prénom·s', source: 'first_name' }}
+      actions={
+        <>
+          <CreateButton />
+          <ExportButton />
+          <ProfileFilters />
+        </>
+      }
+    >
       <TextField source='ref' label='Rérérence' />
       <TextField source='first_name' label='Prénom·s' />
       <TextField source='last_name' label='Nom·s' />
       <EditButton />
-    </Datagrid>
-  </List>
-)
+    </HaList>
+  )
+}
+
 export default TeacherList

@@ -3,12 +3,12 @@ import { Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControlLabel,
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons'
 import { useWizardFormContext, WizardForm, WizardFormStep } from '@react-admin/ra-form-layout'
 import { useNotify } from 'react-admin'
-import { exporter, importHeaders, validateData } from '../utils'
+import { exporter, validateData } from '../utils'
 import { Download, Upload } from '@mui/icons-material'
 import { useForm } from 'react-hook-form'
 import { EnableStatus } from '../../gen/haClient'
 import studentProvider from '../../providers/studentProvider'
-import ImportInputFile from '../utils/ImportInputFile'
+import ImportInputFile from './ImportInputFile'
 
 const WizardToolbar = () => {
   const { hasNextStep, hasPreviousStep, goToNextStep, goToPreviousStep } = useWizardFormContext()

@@ -15,8 +15,11 @@ import {
 const importFile = (file, message) => {
   const _path = 'cypress/fixtures'
   const _mockFile = `${_path}/${file}`
-  cy.get('#import-button').trigger('mousemove')
+
+  cy.get('[data-testid="menu-list-action"]').click()
+  cy.get('#import-button').click()
   cy.get("[data-testid='inputFile']").selectFile(_mockFile, { force: true })
+  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true })
 
   cy.contains('Confirmer').click()
 
@@ -41,7 +44,7 @@ describe(specTitle('Manager create multiple students'), () => {
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
 
-    //cy.wait('@getWhoami')
+    cy.wait('@getWhoami', { timeout: 10000 })
     cy.get('[data-testid="students-menu"]').click()
     cy.get('[href="#/students"]').click()
   })

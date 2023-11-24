@@ -68,9 +68,10 @@ describe(specTitle('Teacher'), () => {
     cy.wait('@getStudentsPage2')
     cy.contains('Page : 2')
 
-    cy.get('[data-testid="FilterListIcon"]').click()
-    cy.get('[data-key="last_name"]').click()
-    cy.get('#last_name').type(studentNameToBeCheckedMock)
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="add-filter"]').click()
+    cy.get('[data-testid="filter-profile-last_name"]').type(studentNameToBeCheckedMock)
+    cy.get('[data-testid="apply-filter"]').click()
     cy.contains('Page : 1')
     unmount()
   })
