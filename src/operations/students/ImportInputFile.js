@@ -109,12 +109,12 @@ export function ImportButton(){
         onClose={closeMenu}
         anchorEl={anchorEl}
         anchorOrigin={{
-          vertical: 'bottom',
-          horizontal: 'left'
+          vertical: 'center',
+          horizontal: 'center',
         }}
         transformOrigin={{
           vertical: 'top',
-          horizontal: 'left'
+          horizontal: 'right',
         }}
       >
         <MenuItem
