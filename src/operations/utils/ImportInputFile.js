@@ -35,7 +35,7 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
   return <input data-testid='inputFile' type='file' ref={ref} style={{ display: 'none' }} onChange={processFile} accept={excelType} />
 })
 
-const ImportListButton = ({ mutationRequest }) => {
+const ImportListButton = ({ mutationRequest, ...props }) => {
   const [data, setData] = useState([])
   const [open, setOpen, _toggle] = useToggle()
 
@@ -60,7 +60,7 @@ const ImportListButton = ({ mutationRequest }) => {
           <InputFile />
         </IconButton>
       ) : (
-        <Button size='small' onClick={handleClick} startIcon={<Upload />} sx={{ padding: 0.3 }}>
+        <Button {...props} onClick={handleClick} startIcon={<Upload />}  >
           <InputFile />
           <span>Importer</span>
         </Button>
