@@ -10,7 +10,7 @@ export const HaToolbarContext = createContext()
 export function FilterForm({ children }) {
   const { filterValues, setFilters } = useListFilterContext()
   const [anchorEl, setAnchorEl] = useState(null)
-  const {closeAction }= useHaListContext() 
+  const { closeAction } = useHaListContext()
   const [currentFilter, setCurrentFilter] = useState(filterValues)
 
   const submitChange = () => setFilters(currentFilter)

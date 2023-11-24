@@ -55,9 +55,9 @@ export function CreateButton() {
   return <LinkButton label='Créer' to={`/${list.resource}/create`} icon={<AddOutlined />} data-testid='create-button' />
 }
 
-export function ExportButton({ exportHandler , icon, ...rest }) {
+export function ExportButton({ exportHandler, icon, ...rest }) {
   const list = useListContext()
-  const doExport  = () => (exportHandler ? exportHandler(list.data) : exporter(list.data, [], list.resource))
+  const doExport = () => (exportHandler ? exportHandler(list.data) : exporter(list.data, [], list.resource))
 
   return <ButtonBase icon={icon ? icon : <Download />} label='Exporter' onClick={doExport} {...rest} />
 }
