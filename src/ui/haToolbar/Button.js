@@ -1,10 +1,9 @@
-import { useContext } from 'react'
 import { Link, useListContext } from 'react-admin'
 import { Button } from '@mui/material'
 import { AddOutlined, Download } from '@mui/icons-material'
 import { exporter } from '../../operations/utils'
-import { HaListContext } from '../haList/HaListTitle'
 import styled from '@emotion/styled'
+import useHaListContext from '../haList/useHaListContext'
 
 export const HaActionWrapper = styled('div')({
   width: '100%',
@@ -24,7 +23,7 @@ export const HaActionWrapper = styled('div')({
 })
 
 export function ButtonBase({ label, icon, onClick, closeAction = true, children, ...rest }) {
-  const listContext = useContext(HaListContext)
+  const listContext = useHaListContext()
 
   const doAction = event => {
     closeAction && listContext.closeAction()
@@ -56,9 +55,9 @@ export function CreateButton() {
   return <LinkButton label='Créer' to={`/${list.resource}/create`} icon={<AddOutlined />} data-testid='create-button' />
 }
 
-export function ExportButton({ exporterFunction, icon, ...rest }) {
+export function ExportButton({ exportHandler , icon, ...rest }) {
   const list = useListContext()
-  const exportData = () => (exporterFunction ? exporterFunction(list.data) : exporter(list.data, [], list.resource))
+  const doExport  = () => (exportHandler ? exportHandler(list.data) : exporter(list.data, [], list.resource))
 
-  return <ButtonBase icon={icon ? icon : <Download />} label='Exporter' onClick={exportData} {...rest} />
+  return <ButtonBase icon={icon ? icon : <Download />} label='Exporter' onClick={doExport} {...rest} />
 }

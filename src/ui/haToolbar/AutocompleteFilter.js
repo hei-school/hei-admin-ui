@@ -1,10 +1,10 @@
-import { useContext, useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TextField, Autocomplete } from '@mui/material'
 import { getObjValue } from '../utils'
-import { ToolbarContext } from './FilterForm'
+import useHaToolbarContext from './useHaToolbarContext'
 
 export function AutocompleteFilter({ source, label, fetcher, labelKey, valueKey, labelKeyOnNull, ...rest }) {
-  const { currentFilter, setOneFilter } = useContext(ToolbarContext)
+  const { currentFilter, setOneFilter } = useHaToolbarContext()
   const [data, setData] = useState({ options: [], pending: false, inputValue: '' })
 
   useEffect(() => fetchAllOption(''), [])

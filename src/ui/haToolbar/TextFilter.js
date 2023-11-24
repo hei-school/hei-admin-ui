@@ -1,9 +1,8 @@
 import { TextField } from '@mui/material'
-import { useContext } from 'react'
-import { ToolbarContext } from './FilterForm'
+import useHaToolbarContext from './useHaToolbarContext'
 
 export function TextFilter({ label, source, ...rest }) {
-  const { currentFilter, setOneFilter } = useContext(ToolbarContext)
+  const { currentFilter, setOneFilter } = useHaToolbarContext()
   return (
     <TextField
       type='text'

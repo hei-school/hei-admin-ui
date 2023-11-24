@@ -5,7 +5,7 @@ import { FilterContentResponsive } from './FilterFormContent'
 import { ButtonBase } from '../haToolbar'
 import { HaListContext } from '../haList/HaListTitle'
 
-export const ToolbarContext = createContext()
+export const HaToolbarContext = createContext()
 
 export function FilterForm({ children }) {
   const { filterValues, setFilters } = useListFilterContext()
@@ -41,7 +41,7 @@ export function FilterForm({ children }) {
   }
 
   return (
-    <ToolbarContext.Provider value={{ setCurrentFilter, currentFilter, setOneFilter }}>
+    <HaToolbarContext.Provider value={{ setCurrentFilter, currentFilter, setOneFilter }}>
       <ButtonBase
         label='Filtres'
         icon={<FilterList />}
@@ -53,6 +53,6 @@ export function FilterForm({ children }) {
       <FilterContentResponsive anchorEl={anchorEl} onClose={handleCloseFilter} onSubmit={submitChange}>
         {children}
       </FilterContentResponsive>
-    </ToolbarContext.Provider>
+    </HaToolbarContext.Provider>
   )
 }

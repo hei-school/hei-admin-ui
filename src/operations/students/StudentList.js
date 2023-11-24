@@ -31,7 +31,7 @@ function StudentList() {
   return (
     <HaList
       icon={<SchoolOutlined />}
-      title={'Listes des étudiants'}
+      title={'Liste des étudiants'}
       mainSearch={{ label: 'Prénom·s', source: 'first_name' }}
       actions={<ListActions isManager={isManager} />}
     >

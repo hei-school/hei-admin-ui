@@ -1,7 +1,6 @@
 import { Button, Typography, Box, Dialog } from '@mui/material'
-import { useContext } from 'react'
 import { styled } from '@mui/styles'
-import { ToolbarContext } from './FilterForm'
+import useHaToolbarContext from './useHaToolbarContext'
 
 const FilterContainer = styled('div')({
   padding: 15,
@@ -21,7 +20,7 @@ export function FilterContentResponsive({ anchorEl, onClose, onSubmit, children 
 }
 
 function FilterContent({ onClose, onSubmit, children }) {
-  const { setCurrentFilter } = useContext(ToolbarContext)
+  const { setCurrentFilter } = useHaToolbarContext()
 
   return (
     <FilterContainer>

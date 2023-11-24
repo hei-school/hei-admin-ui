@@ -4,7 +4,7 @@ import { HaList } from '../../ui/haList'
 import { WorkOutlined } from '@mui/icons-material'
 import { ProfileFilters } from '../profile'
 
-export function TeacherList() {
+function TeacherList() {
   return (
     <HaList
       icon={<WorkOutlined />}
@@ -25,3 +25,5 @@ export function TeacherList() {
     </HaList>
   )
 }
+
+export default TeacherList

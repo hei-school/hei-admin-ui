@@ -1,11 +1,11 @@
 import { TextField, MenuItem, CircularProgress } from '@mui/material'
-import { useContext, useEffect, useState } from 'react'
-import { ToolbarContext } from './FilterForm'
+import { useEffect, useState } from 'react'
+import useHaToolbarContext from './useHaToolbarContext'
 import { Items } from './utils/Items'
 
 export function SelectFilter({ fetcher, source, label, valueKey, labelKey, ...rest }) {
   const [data, setData] = useState({ options: [], pending: true })
-  const { currentFilter, setOneFilter } = useContext(ToolbarContext)
+  const { currentFilter, setOneFilter } = useHaToolbarContext()
   const values = currentFilter[source] || []
   const error = !data.pending && !data.options.length
 

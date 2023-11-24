@@ -1,9 +1,8 @@
 import { TextField } from '@mui/material'
-import { useContext } from 'react'
-import { ToolbarContext } from './FilterForm'
+import useHaToolbarContext from './useHaToolbarContext'
 
 export function DateTimeFilter({ source, label, ...rest }) {
-  const { currentFilter, setOneFilter } = useContext(ToolbarContext)
+  const { currentFilter, setOneFilter } = useHaToolbarContext()
   const value = currentFilter[source] ? currentFilter[source].slice(0, currentFilter[source].lastIndexOf(':')) : ''
 
   return (
