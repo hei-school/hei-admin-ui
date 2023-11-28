@@ -1,9 +1,8 @@
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
-import { prettyPrintMoney, CustomDateField } from '../utils'
+import { prettyPrintMoney, paymentTypeRenderer, CustomDateField } from '../utils'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
-import { paymentTypeRenderer } from '../utils/paymentTypeRenderer'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
