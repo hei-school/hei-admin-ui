@@ -1,18 +1,9 @@
-import { SimpleForm, TextInput, DateInput, RadioButtonGroupInput, Edit } from 'react-admin'
+import { SimpleForm, TextInput, DateInput } from 'react-admin'
 
 import { SexRadioButton, EditToolBar, TurnsStringIntoDate } from '../utils'
 import { CustomEdit } from '../utils/CustomEdit'
+import { StatusRadioButton } from '../utils/UserStatusRadioButton'
 
-const StatusRadioButton = () => (
-  <RadioButtonGroupInput
-    source='status'
-    label='Statut'
-    choices={[
-      { id: 'ENABLED', name: 'Actif·ve' },
-      { id: 'DISABLED', name: 'Inactif·ve' }
-    ]}
-  />
-)
 const transformUser = user => {
   let regex = /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\dZ/i // format 2023-02-28T21:00:00.00Z
   let regex2 = /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\Z/i // 2023-02-28T21:00:00Z
