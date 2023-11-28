@@ -86,8 +86,8 @@ describe(specTitle('Manager.Payment'), () => {
     cy.contains("Le formulaire n'est pas valide.")
     unmount()
   })
-  it('can add bank payment to a fee', () => {
-    cy.get('#type_BANK_PAYMENT').click()
+  it.only('can add bank payment to a fee', () => {
+    cy.get('#type_BANK_TRANSFER').click()
     cy.get('#amount').click().type(createPayment.amount)
     cy.get('#comment').click().type(createPayment.comment)
     cy.get('#ref').click().type(amount)

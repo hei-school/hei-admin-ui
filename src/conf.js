@@ -1,3 +1,5 @@
+import { PaymentTypeEnum } from './gen/haClient'
+
 export const currentYear = new Date().getFullYear()
 
 export const contactEmail = 'contact@hei.school'
@@ -38,14 +40,8 @@ export const predefinedFirstDueDates = {
   date2: { name: `15 janvier ${currentYear + 1}`, value: new Date(currentYear + 1, 0, 15) }
 }
 
-export const PaymentTypeValue = {
-  BankPayement: 'BANK_PAYMENT',
-  MobileMoney: 'MOBILE_MONEY',
-  Cash: 'CASH'
-}
-
 export const paymentTypes = [
-  { name: 'Virement Bancaire', id: PaymentTypeValue.BankPayement },
-  { name: 'Mobile money', id: PaymentTypeValue.MobileMoney },
-  { name: 'Cash', id: PaymentTypeValue.Cash }
+  { name: 'Virement Bancaire', id: PaymentTypeEnum.BankTransfer },
+  { name: 'Mobile money', id: PaymentTypeEnum.MobileMoney },
+  { name: 'Cash', id: PaymentTypeEnum.Cash }
 ]
