@@ -33,7 +33,7 @@ const PaymentCreate = props => {
     notify(message, { type: 'error', autoHideDuration: 2500 })
   }
   const paymentConfToPaymentApi = ({ ref, type, amount, comment, creation_datetime }) => {
-    const datetimeValue = notSpecifiedDate ? new Date().toISOString() : creation_datetime
+    const datetimeValue = notSpecifiedDate ? new Date().toISOString() : new Date(creation_datetime).toISOString()
     return [{ feeId, type, amount, comment, ref, creation_datetime: datetimeValue }]
   }
 

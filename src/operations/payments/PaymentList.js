@@ -3,6 +3,7 @@ import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 're
 import { prettyPrintMoney, CustomDateField } from '../utils'
 import { WhoamiRoleEnum } from '../../gen/haClient'
 import authProvider from '../../providers/authProvider'
+import { paymentTypeRenderer } from '../utils/paymentTypeRenderer'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -23,7 +24,7 @@ const PaymentList = ({ feeId }) => {
       <Datagrid bulkActionButtons={false}>
         <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
         <TextField source='comment' label='Commentaire' />
-        <TextField source='type' label='Type' />
+        <FunctionField label='Type' render={record => paymentTypeRenderer(record.type)?.name || '-'} />
         <FunctionField label='Montant' render={record => prettyPrintMoney(record.amount)} textAlign='right' />
       </Datagrid>
     </List>
