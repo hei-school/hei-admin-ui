@@ -5,7 +5,7 @@ import { Amplify } from 'aws-amplify'
 import { Auth } from '@aws-amplify/auth'
 import { awsConfig } from './aws-config'
 
-import { Configuration, SecurityApi, Whoami } from '../gen/haClient'
+import { Configuration, SecurityApi, Whoami } from 'haapi-Ts-client'
 
 import { AxiosResponse } from 'axios'
 

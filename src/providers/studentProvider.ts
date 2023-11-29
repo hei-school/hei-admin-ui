@@ -1,6 +1,6 @@
 import { usersApi, payingApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
-import { EnableStatus } from 'src/gen/haClient'
+import { EnableStatus } from 'haapi-Ts-client'
 
 const studentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
@@ -15,7 +15,7 @@ const studentProvider: HaDataProviderType = {
     if (payload[0].length > 1) {
       // when we want to create student
       const [fees, student] = payload[0]
-      Object.assign(student, { status: EnableStatus.Enabled })
+      Object.assign(student, { status: EnableStatus.ENABLED })
       const [studentResponse] = (await usersApi().createOrUpdateStudents([student])).data
       fees.length !== 0 && (await payingApi().createStudentFees(studentResponse?.id!, fees))
       return [studentResponse]

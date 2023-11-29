@@ -17,7 +17,7 @@ import {
   liteCreatedStudent
 } from './mocks/responses'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
-import { TurnsStringIntoDate } from '../operations/utils'
+import { toUTC, turnStringIntoDate } from '../operations/utils'
 import { studentRequestBodyVerification } from './utils'
 
 const feeDateToSearch = `2022-09-11`
@@ -140,7 +140,7 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('#ref').type(createStudent.ref)
     cy.get('#first_name').type(createStudent.first_name)
     cy.get('#last_name').type(createStudent.last_name)
-    cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime.slice(0, 10))
+    cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime.toISOString().slice(0, 10))
     cy.get('#email').type(createStudent.email)
   })
   it('can create students without fees', () => {
@@ -173,11 +173,12 @@ describe(specTitle('Manager creates students'), () => {
     cy.contains('Enregistrer').click()
     cy.wait('@createStudent').then(requestInterseption => studentRequestBodyVerification(requestInterseption.request.body, true, { ...createStudent }))
     cy.wait('@createFees').then(requestIntersection => {
+      const dueDate = predefinedFirstDueDates[feeCreatDate].value
       let createAutomaticallyFeesBodyMock = {
         comment: requestIntersection.request.body[0].comment,
         type: predefinedFeeTypes[feeTypeMock][0].type,
         total_amount: Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
-        due_datetime: predefinedFirstDueDates[feeCreatDate].value.toISOString()
+        due_datetime: toUTC(dueDate).toISOString()
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
       expect(requestIntersection.request.body.length).to.equal(1)
@@ -199,11 +200,12 @@ describe(specTitle('Manager creates students'), () => {
     cy.contains('Enregistrer').click()
     cy.wait('@createStudent').then(requestInterseption => studentRequestBodyVerification(requestInterseption.request.body, true, { ...createStudent }))
     cy.wait('@createNineFees').then(requestIntersection => {
+      const dueDate = predefinedFirstDueDates[feeCreatDate].value
       let createAutomaticallyFeesBodyMock = {
         comment: requestIntersection.request.body[0].comment,
         type: predefinedFeeTypes[feeTypeMock][0].type,
         total_amount: Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
-        due_datetime: predefinedFirstDueDates[feeCreatDate].value.toISOString()
+        due_datetime: toUTC(dueDate).toISOString()
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
       expect(requestIntersection.request.body.length).to.equal(9)
@@ -241,7 +243,7 @@ describe(specTitle('Manager creates students'), () => {
       let createAutomaticallyFeesBodyMock = {
         total_amount: monthlyAmount.toString(),
         type: manualFeeTypes[feeTypeMock].type,
-        due_datetime: TurnsStringIntoDate(feeDateToSearch),
+        due_datetime: turnStringIntoDate(feeDateToSearch),
         comment: comment
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)

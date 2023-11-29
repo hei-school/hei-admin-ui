@@ -1,6 +1,6 @@
 import { SimpleForm, TextInput, DateInput } from 'react-admin'
 
-import { SexRadioButton, EditToolBar, TurnsStringIntoDate } from '../utils'
+import { SexRadioButton, EditToolBar, turnStringIntoDate } from '../utils'
 import { CustomEdit } from '../utils/CustomEdit'
 import { StatusRadioButton } from '../utils/UserStatusRadioButton'
 
@@ -8,7 +8,7 @@ const transformUser = user => {
   let regex = /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\.\d\d\dZ/i // format 2023-02-28T21:00:00.00Z
   let regex2 = /\d\d\d\d-\d\d-\d\dT\d\d:\d\d:\d\d\Z/i // 2023-02-28T21:00:00Z
   let condition = !regex.test(user.entrance_datetime) && !regex2.test(user.entrance_datetime)
-  user.entrance_datetime = condition ? TurnsStringIntoDate(user.entrance_datetime) : user.entrance_datetime
+  user.entrance_datetime = condition ? turnStringIntoDate(user.entrance_datetime) : user.entrance_datetime
   return user
 }
 

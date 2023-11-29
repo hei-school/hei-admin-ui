@@ -1,4 +1,4 @@
-import { PaymentTypeEnum } from './gen/haClient'
+import { PaymentTypeEnum } from 'haapi-Ts-client'
 
 export const currentYear = new Date().getFullYear()
 
@@ -41,7 +41,7 @@ export const predefinedFirstDueDates = {
 }
 
 export const paymentTypes = [
-  { name: 'Virement Bancaire', id: PaymentTypeEnum.BankTransfer },
-  { name: 'Mobile money', id: PaymentTypeEnum.MobileMoney },
-  { name: 'Cash', id: PaymentTypeEnum.Cash }
+  { name: 'Virement Bancaire', id: PaymentTypeEnum.BANK_TRANSFER },
+  { name: 'Mobile money', id: PaymentTypeEnum.MOBILE_MONEY },
+  { name: 'Cash', id: PaymentTypeEnum.CASH }
 ]

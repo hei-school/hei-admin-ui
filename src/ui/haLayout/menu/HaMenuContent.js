@@ -1,4 +1,4 @@
-import { WhoamiRoleEnum } from '../../../gen/haClient'
+import { WhoamiRoleEnum } from 'haapi-Ts-client'
 import authProvider from '../../../providers/authProvider'
 import ManagerMenu from './ManagerMenu'
 import StudentMenu from './StudentMenu'
@@ -7,13 +7,13 @@ import TeacherMenu from './TeacherMenu'
 export function HaMenuContent() {
   const role = authProvider.getCachedWhoami().role
 
-  if (role === WhoamiRoleEnum.Student) {
+  if (role === WhoamiRoleEnum.STUDENT) {
     return <StudentMenu />
   }
-  if (role === WhoamiRoleEnum.Manager) {
+  if (role === WhoamiRoleEnum.MANAGER) {
     return <ManagerMenu />
   }
-  if (role === WhoamiRoleEnum.Teacher) {
+  if (role === WhoamiRoleEnum.TEACHER) {
     return <TeacherMenu />
   }
   return null

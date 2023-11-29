@@ -1,22 +1,22 @@
 import { usersApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
 import authProvider from './authProvider'
-import { WhoamiRoleEnum } from '../gen/haClient'
+import { WhoamiRoleEnum } from 'haapi-Ts-client'
 
 const profileProvider: HaDataProviderType = {
   async getOne(id: string) {
     const role = authProvider.getCachedRole()
-    if (role === WhoamiRoleEnum.Student) {
+    if (role === WhoamiRoleEnum.STUDENT) {
       return usersApi()
         .getStudentById(id)
         .then(result => result.data)
     }
-    if (role === WhoamiRoleEnum.Teacher) {
+    if (role === WhoamiRoleEnum.TEACHER) {
       return usersApi()
         .getTeacherById(id)
         .then(result => result.data)
     }
-    if (role === WhoamiRoleEnum.Manager) {
+    if (role === WhoamiRoleEnum.MANAGER) {
       return usersApi()
         .getManagerById(id)
         .then(result => result.data)

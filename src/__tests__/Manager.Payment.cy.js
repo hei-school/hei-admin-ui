@@ -39,7 +39,6 @@ describe(specTitle('Manager.Payment'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`, unpaidFeeMock).as('getUnpaidFee')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`, []).as('getPaymentOfUnpaidFee')
     cy.intercept('POST', `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments`, [payment1Mock]).as('addPayments')
-    // note(listFees)
     cy.wait('@getManager1')
     cy.get('[data-testid="students-menu"]').click() // Étudiants category
     cy.get('a[href="#/students"]').click()
@@ -63,7 +62,7 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('#amount').click().type(createPayment.amount)
     cy.get('#comment').click().type(createPayment.comment)
     cy.contains('Enregistrer').click()
-    //cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
+    cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
     cy.contains('Élément créé')
     cy.get(`.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`).should('have.length', 1)
     cy.get('td input[type="checkbox"]', { timeout: 50 }).should('not.exist')
@@ -74,7 +73,7 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('#amount').click().type(createPayment.amount)
     cy.get('#comment').click().type(createPayment.comment)
     cy.contains('Enregistrer').click()
-    //cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
+    cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
     cy.contains('Élément créé')
     cy.get(`.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`).should('have.length', 1)
     unmount()
@@ -86,7 +85,7 @@ describe(specTitle('Manager.Payment'), () => {
     cy.contains("Le formulaire n'est pas valide.")
     unmount()
   })
-  it.only('can add bank payment to a fee', () => {
+  it('can add bank payment to a fee', () => {
     cy.get('#type_BANK_TRANSFER').click()
     cy.get('#amount').click().type(createPayment.amount)
     cy.get('#comment').click().type(createPayment.comment)
@@ -94,7 +93,7 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('#specify-date').click()
     cy.get('#creation_datetime').click().type('2023-11-24')
     cy.contains('Enregistrer').click()
-    //cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
+    cy.wait('@addPayments').then(paymentVerificationMock(createPayment))
     cy.contains('Élément créé')
     cy.get(`.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`).should('have.length', 1)
     unmount()

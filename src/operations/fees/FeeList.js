@@ -7,7 +7,7 @@ import { useDataProvider, TopToolbar, CreateButton } from 'react-admin'
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
 
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { WhoamiRoleEnum } from 'haapi-Ts-client'
 import { FeesListItems } from './utils'
 
 const Actions = ({ basePath, resource }) => (
@@ -35,7 +35,7 @@ const FeeList = ({ studentId }) => {
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/students/${definedStudentId}/fees`} />}
+      actions={role === WhoamiRoleEnum.MANAGER && <Actions basePath={`/students/${definedStudentId}/fees`} />}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}

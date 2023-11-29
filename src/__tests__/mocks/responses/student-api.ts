@@ -1,4 +1,4 @@
-import { Student, EnableStatus, StudentSexEnum, Whoami, WhoamiRoleEnum, User, UserSexEnum } from 'src/gen/haClient'
+import { Student, EnableStatus, StudentSexEnum, Whoami, WhoamiRoleEnum, User, UserSexEnum } from 'haapi-Ts-client'
 
 export const studentNameToBeCheckedMock: string = 'herilala'
 
@@ -12,8 +12,8 @@ export const student1Mock: Student = {
   address: 'Adr 1',
   phone: '0322411123',
   email: 'test+ryan@hei.school',
-  entrance_datetime: '2021-11-08T08:25:24Z',
-  status: EnableStatus.Enabled
+  entrance_datetime: new Date('2021-11-08T08:25:24Z'),
+  status: EnableStatus.ENABLED
 }
 
 export const studentsMock: Student[] = [
@@ -28,8 +28,8 @@ export const studentsMock: Student[] = [
     address: 'lot 1245',
     phone: '+2613356894256',
     email: 'test+twentyFive@hei.school',
-    entrance_datetime: '2023-01-19T12:00:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-01-19T12:00:00Z'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'student3_id',
@@ -41,8 +41,8 @@ export const studentsMock: Student[] = [
     address: 'lot',
     phone: '0335689752',
     email: 'mayahnyando@gmail.com',
-    entrance_datetime: '2021-05-12T09:50:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-05-12T09:50:00Z'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'student4_id',
@@ -54,8 +54,8 @@ export const studentsMock: Student[] = [
     address: 'lot 12345',
     phone: '+261 33 26 523 56 ',
     email: 'test+student45132165@hei.school',
-    entrance_datetime: '2022-01-20T07:00:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2022-01-20T07:00:00Z'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'student5_id',
@@ -67,8 +67,8 @@ export const studentsMock: Student[] = [
     address: 'Adr 1',
     phone: '0322411123',
     email: 'test+ryan@hei.school',
-    entrance_datetime: '2021-11-08T08:25:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-11-08T08:25:24Z'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'student6_id',
@@ -80,8 +80,8 @@ export const studentsMock: Student[] = [
     address: 'Adr 2',
     phone: '0322411124',
     email: 'test+student2@hei.school',
-    entrance_datetime: '2021-11-09T08:26:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-11-09T08:26:24Z'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'student7_id',
@@ -93,8 +93,8 @@ export const studentsMock: Student[] = [
     address: 'Adr 2',
     phone: '0322411124',
     email: 'test+student3@hei.school',
-    entrance_datetime: '2021-11-09T08:26:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-11-09T08:26:24Z'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'student8_id',
@@ -106,8 +106,8 @@ export const studentsMock: Student[] = [
     address: 'lot',
     phone: '+261 34 21 435 12',
     email: 'Test@hei.school',
-    entrance_datetime: '2023-01-04T21:00:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-01-04'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'student9_id',
@@ -119,8 +119,8 @@ export const studentsMock: Student[] = [
     address: 'lot 5454f',
     phone: '+261335689741',
     email: 'test+studen354651@gmail.com',
-    entrance_datetime: '2023-01-04T21:00:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-01-04'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'student10_id',
@@ -132,12 +132,12 @@ export const studentsMock: Student[] = [
     address: 'lot 541215246546',
     phone: '0325689456',
     email: 'test+student12665673@hei.school',
-    entrance_datetime: '2022-12-31T21:00:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2022-12-31'),
+    status: EnableStatus.ENABLED
   }
 ]
 
-export const whoamiStudentMock: Whoami = { id: student1Mock.id, role: WhoamiRoleEnum.Student, bearer: 'bearer mock' }
+export const whoamiStudentMock: Whoami = { id: student1Mock.id, role: WhoamiRoleEnum.STUDENT, bearer: 'bearer mock' }
 
 export const createStudent: User = {
   ref: 'STD000001',
@@ -148,16 +148,16 @@ export const createStudent: User = {
   address: 'Rue Dr Raseta Andraharo ,Ambanja,Madagascar',
   phone: '+261 234 1779',
   email: 'test+create+student@hei.school',
-  entrance_datetime: '2023-02-17',
-  status: EnableStatus.Enabled
+  entrance_datetime: new Date('2023-02-17'),
+  status: EnableStatus.ENABLED
 }
 export const liteCreatedStudent: User = {
   ref: 'STD000001',
   first_name: 'string',
   last_name: 'string',
   email: 'test+create+student@hei.school',
-  entrance_datetime: '2023-02-17',
-  status: EnableStatus.Enabled
+  entrance_datetime: new Date('2023-02-17'),
+  status: EnableStatus.ENABLED
 }
 
 export const createdStudents: User[] = [
@@ -167,12 +167,12 @@ export const createdStudents: User[] = [
     first_name: 'John',
     last_name: 'Smith',
     email: 'userSTD000001@hei.school',
-    sex: 'M',
+    sex: UserSexEnum.M,
     birth_date: '02-06-05',
     address: 'address',
     phone: '236542132',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'id2',
@@ -180,12 +180,12 @@ export const createdStudents: User[] = [
     first_name: 'Patrick',
     last_name: 'Smith',
     email: 'userSTD000002@hei.school',
-    sex: 'F',
+    sex: UserSexEnum.F,
     birth_date: '03-06-05',
     address: 'address',
     phone: '236542132',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'id3',
@@ -193,12 +193,12 @@ export const createdStudents: User[] = [
     first_name: 'Jeanne',
     last_name: 'Smith',
     email: 'userSTD000003@hei.school',
-    sex: 'M',
+    sex: UserSexEnum.M,
     birth_date: '04-06-05',
     address: 'address',
     phone: '236542132',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'id4',
@@ -206,12 +206,12 @@ export const createdStudents: User[] = [
     first_name: 'Jean',
     last_name: 'Smith',
     email: 'userSTD000004@hei.school',
-    sex: 'F',
+    sex: UserSexEnum.F,
     birth_date: '05-06-05',
     address: 'address',
     phone: '236542132',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'id5',
@@ -219,12 +219,12 @@ export const createdStudents: User[] = [
     first_name: 'Pierre',
     last_name: 'Smith',
     email: 'userSTD000005@hei.school',
-    sex: 'M',
+    sex: UserSexEnum.M,
     birth_date: '06-06-05',
     address: 'address',
     phone: '236542132',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'id6',
@@ -232,12 +232,12 @@ export const createdStudents: User[] = [
     first_name: 'Hélène',
     last_name: 'Smith',
     email: 'userSTD000006@hei.school',
-    sex: 'F',
+    sex: UserSexEnum.F,
     birth_date: '07-06-05',
     address: 'address',
     phone: '236542132',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'id7',
@@ -245,12 +245,12 @@ export const createdStudents: User[] = [
     first_name: 'Patrice',
     last_name: 'Smith',
     email: 'userSTD000007@hei.school',
-    sex: 'M',
+    sex: UserSexEnum.M,
     birth_date: '08-06-05',
     address: 'address',
     phone: '236542132',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   }
 ]
 export const liteCreatedStudents: User[] = [
@@ -260,8 +260,8 @@ export const liteCreatedStudents: User[] = [
     first_name: 'John',
     last_name: 'Smith',
     email: 'userSTD000001@hei.school',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'id2',
@@ -269,7 +269,7 @@ export const liteCreatedStudents: User[] = [
     first_name: 'Patrick',
     last_name: 'Smith',
     email: 'userSTD000002@hei.school',
-    entrance_datetime: '2023-03-03T00:00:00.000Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-03-03'),
+    status: EnableStatus.ENABLED
   }
 ]

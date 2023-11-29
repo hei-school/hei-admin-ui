@@ -1,7 +1,7 @@
 import { useState } from 'react'
-import { Create, SimpleForm, TextInput, DateInput, BooleanInput } from 'react-admin'
+import { BooleanInput, DateInput, SimpleForm, TextInput } from 'react-admin'
 import { FeeSimpleFormContent } from '../fees/FeesCreate'
-import { SexRadioButton, TurnsStringIntoDate } from '../utils'
+import { SexRadioButton, turnStringIntoDate } from '../utils'
 import { createFees } from './utils'
 import { CustomCreate } from '../utils/CustomCreate'
 
@@ -38,7 +38,7 @@ const StudentCreate = props => {
     if (canCreateFees) {
       createFees(fees, feesConf, payload, isPredefinedType)
     }
-    student.entrance_datetime = TurnsStringIntoDate(student.entrance_datetime)
+    student.entrance_datetime = turnStringIntoDate(student.entrance_datetime)
     const result = [fees, student]
     return result
   }

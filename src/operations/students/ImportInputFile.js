@@ -4,7 +4,7 @@ import { read, utils } from 'xlsx'
 import { useToggle } from '../../hooks/useToggle'
 import { Upload } from '@mui/icons-material'
 import { MenuItem, Popover } from '@mui/material'
-import { EnableStatus } from '../../gen/haClient'
+import { EnableStatus } from 'haapi-Ts-client'
 import { validateData } from '../../operations/utils'
 import studentProvider from '../../providers/studentProvider'
 import { ImportNewTemplate } from './ImportNewTemplate'
@@ -89,7 +89,7 @@ export function ImportButton() {
     if (importValidate.isValid) {
       const modifiedData = data.map(element => {
         element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
-        element['status'] = EnableStatus.Enabled
+        element['status'] = EnableStatus.ENABLED
         return element
       })
 

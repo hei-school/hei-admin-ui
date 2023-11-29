@@ -1,5 +1,4 @@
-import { EnableStatus, StudentSexEnum } from '../../../gen/haClient'
-import { student1Mock, studentNameToBeCheckedMock, studentsMock } from './student-api'
+import { studentsMock } from './student-api'
 
 export const groups = [
   {

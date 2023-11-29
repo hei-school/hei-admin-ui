@@ -23,9 +23,10 @@ export function formatDate(dateIso) {
   if (!dateIso) {
     return ''
   }
-
-  const date = new Date(dateIso)
-  const formatter = new Intl.DateTimeFormat('fr-FR', DATE_OPTIONS)
-  const dateFormater = formatter.format(date)
-  return dateFormater.at(0).toUpperCase() + dateFormater.slice(1)
+  if (typeof dateIso === 'string') {
+    const date = new Date(dateIso)
+    const formatter = new Intl.DateTimeFormat('fr-FR', DATE_OPTIONS)
+    const dateFormatter = formatter.format(date)
+    return dateFormatter.at(0).toUpperCase() + dateFormatter.slice(1)
+  }
 }
