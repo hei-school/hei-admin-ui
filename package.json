@@ -8,6 +8,7 @@
     "@react-admin/ra-rbac": "^4.0.1",
     "aws-amplify": "^4.3.26",
     "dotenv": "^16.3.1",
+    "haapi-Ts-client": "^0.9.0",
     "mime-db": "^1.52.0",
     "ra-language-french": "^4.2.0",
     "react": "^18.2.0",
