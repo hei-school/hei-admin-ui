@@ -9,8 +9,8 @@ import { PredefinedFeeTypeRadioButton, PredefinedFirstDueDateRadioButton } from 
 import { defaultIsPredefinedType } from './utils'
 
 export const FeesCreateField = props => {
-  const { feesConf, setFeesConf, predefinedConf } = props
-  const { isPredefinedType, isPredefinedDueDate, setIsPredefinedType, setIsPredefinedDueDate } =  predefinedConf
+  const { feesConf, setFeesConf, createFeesConf} = props
+  const { isPredefinedType, isPredefinedDueDate, setIsPredefinedType, setIsPredefinedDueDate } = createFeesConf 
 
   return (
     <>
@@ -32,7 +32,7 @@ export const FeesCreateField = props => {
         onChange={({ target: { checked } }) => setIsPredefinedDueDate(checked)}
       />
       {isPredefinedDueDate ? (
-        <PredefinedFirstDueDateRadioButton validate={required()} />
+        <PredefinedFirstDueDateRadioButton createFeesConf={createFeesConf} validate={required()} />
       ) : (
         <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth validate={required()} />
       )}

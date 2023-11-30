@@ -4,14 +4,14 @@ import { SexRadioButton, turnStringIntoDate } from '../utils'
 import { createFees } from './utils'
 import { CustomCreate } from '../utils/CustomCreate'
 import { defaultFeeConf } from '../fees/utils'
-import { usePredefinedType } from '../../hooks'
+import { useCreateFees } from '../../hooks'
 import { FeesCreateField } from '../fees/FeesCreateField'
 
 const StudentCreate = () => {
   const [feesConf, setFeesConf] = useState([defaultFeeConf])
   const [canCreateFees, setCanCreateFees] = useState(false)
-  const predefinedConf = usePredefinedType()
-  const { isPredefinedType  } = predefinedConf
+  const createFeesConf = useCreateFees()
+  const { isPredefinedType  } = createFeesConf 
   
   const transformPayload = payload => {
     const fees = []
@@ -41,7 +41,7 @@ const StudentCreate = () => {
           defaultValue={false}
           onChange={({ target: { checked } }) => setCanCreateFees(checked)}
         />
-        {canCreateFees && <FeesCreateField predefinedConf={predefinedConf} setFeesConf={setFeesConf} feesConf={feesConf} />}
+        {canCreateFees && <FeesCreateField createFeesConf={createFeesConf} setFeesConf={setFeesConf} feesConf={feesConf} />}
       </SimpleForm>
     </CustomCreate>
   )

@@ -11,7 +11,7 @@ import {
 } from 'react-admin'
 import { useFormContext } from 'react-hook-form'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
-import { usePredefinedType, useStudentRef } from '../../hooks'
+import { useStudentRef, useCreateFees } from '../../hooks'
 import { commentRenderer, toUTC } from '../utils'
 import { FeesCreateField } from './FeesCreateField'
 import { defaultFeeConf } from './utils'
@@ -20,8 +20,8 @@ const FeesCreate = props => {
   const notify = useNotify()
   const [feesConf, setFeesConf] = useState([defaultFeeConf])
   const { studentId, studentRef, fetchRef }  = useStudentRef('studentId')
-  const predefinedConf = usePredefinedType()
-  const { isPredefinedType } = predefinedConf
+  const createFeesConf = useCreateFees()
+  const { isPredefinedType } = createFeesConf
   
   useEffect(() => {
     fetchRef()
@@ -78,7 +78,7 @@ const FeesCreate = props => {
       transform={feesConfToFeesApi}
     >
       <SimpleForm>
-        <FeesCreateField predefinedConf={predefinedConf} setFeesConf={setFeesConf} feesConf={feesConf} />
+        <FeesCreateField createFeesConf={createFeesConf} setFeesConf={setFeesConf} feesConf={feesConf} />
       </SimpleForm>
     </Create>
   )

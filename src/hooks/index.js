@@ -1,3 +1,3 @@
 export * from './useStudentRef'
-export * from './usePredefinedType'
+export * from './useCreateFees'
 export * from './useToggle'
