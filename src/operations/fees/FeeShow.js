@@ -1,12 +1,8 @@
 import { useState, useEffect } from 'react'
-
-import { FunctionField, SimpleShowLayout, Show, useDataProvider } from 'react-admin'
-
+import { FunctionField, SimpleShowLayout, Show, useDataProvider, EditButton, Toolbar, TopToolbar } from 'react-admin'
 import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField, commentFunctionRenderer } from '../utils'
-
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'
-
 import { studentIdFromRaId } from '../../providers/feeProvider'
 import { useParams } from 'react-router-dom'
 
@@ -54,7 +50,13 @@ const FeeShow = props => {
   }, [studentId])
 
   return (
-    <Show id={feeId} resource='fees' basePath={`/fees/${feeId}/show`} title={`Frais de ${studentRef}`}>
+    <Show 
+      id={feeId} 
+      resource='fees' 
+      actions={ <TopToolbar> <EditButton /> </TopToolbar> } 
+      basePath={`/fees/${feeId}/show`} 
+      title={`Frais de ${studentRef}`}
+    >
       <FeeLayout feeId={feeId} />
     </Show>
   )
