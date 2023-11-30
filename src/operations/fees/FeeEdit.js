@@ -20,20 +20,20 @@ function EditToolbar(){
     const { feeId } = toApiIds(record.id)
     const updated_at = new Date().toISOString()
     const due_datetime = new Date(record.due_datetime).toISOString()
-    setPending(true)
-
-    return await payingApi()
-      .updateStudentFees(record.student_id, [{...record, updated_at, id: feeId, due_datetime}])
-      .then(() => {
-        redirect(`/fees/${record.id}/show`)
-      })
-      .catch(()=>notify("Une erreur c'est produite", { type:'error' }))
-      .finally(()=>setPending(false))
+    // setPending(true)
+    
+    // return await payingApi()
+    //   .updateStudentFees(record.student_id, [{...record, updated_at, id: feeId, due_datetime}])
+    //   .then(() => {
+    //     redirect(`/fees/${record.id}/show`)
+    //   })
+    //   .catch(()=>notify("Une erreur c'est produite", { type:'error' }))
+    //   .finally(()=>setPending(false))
   }
 
   return (
     <Toolbar>
-      <Button variant='contained' disabled={pending} size='medium' onClick={updateFee} >
+      <Button variant='contained' disabled={pending || !record.due_datetime} size='medium' onClick={updateFee} >
         { pending ? 
           <CircularProgress size={20} sx={{mt: .3, mr: 1.5}}/> 
           : <Save sx={{mr: 1, mt: .3 }} />
@@ -71,6 +71,7 @@ function DisabledInfo(){
 
 function FeeEdit(){
   const { studentRef, fetchRef } = useStudentRef('id')
+  
   useEffect(()=> {
     fetchRef()
   },[])
