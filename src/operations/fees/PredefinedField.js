@@ -22,15 +22,20 @@ export function PredefinedFirstDueDateRadioButton({createFeesConf, ...props}){
   const { firstDate, setFirstDate } = createFeesConf
   const showFirstDateInput = ({target})=> setIsLastDay(target.value === 'date3')
   const updateFirstDate = ({target})=>setFirstDate({...firstDate, [target.name]: target.value})
-
+  
+  const firstDateValidator = () =>{
+    if(!firstDate.year){
+      return "L'Année est obligatoire"
+    }
+  }
   return (
     <Box sx={{display:'flex', alignItems:'start', gap: 1 }}>
       <SelectInput
         {...props}
         source='predefined_first_dueDate'
         name='predefined_first_dueDate'
-        validate={[required(), ]}
         label='Première date limite prédéfinie'
+        validate={[required(), firstDateValidator()]}
         choices={Object.keys(predefinedFirstDueDates).map(id => ({ id: id, name: predefinedFirstDueDates[id].name }))}
         onChange={showFirstDateInput}
         sx={commonStyleSelect}

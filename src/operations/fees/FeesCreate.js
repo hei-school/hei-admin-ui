@@ -14,15 +14,15 @@ import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../
 import { useStudentRef, useCreateFees } from '../../hooks'
 import { commentRenderer, toUTC } from '../utils'
 import { FeesCreateField } from './FeesCreateField'
-import { defaultFeeConf } from './utils'
+import { defaultFeeConf, getLastDay } from './utils'
 
 const FeesCreate = props => {
   const notify = useNotify()
   const [feesConf, setFeesConf] = useState([defaultFeeConf])
   const { studentId, studentRef, fetchRef }  = useStudentRef('studentId')
   const createFeesConf = useCreateFees()
-  const { isPredefinedType } = createFeesConf
-  
+  const { isPredefinedType, firstDate } = createFeesConf
+   
   useEffect(() => {
     fetchRef()
   }, [studentRef])
@@ -36,6 +36,19 @@ const FeesCreate = props => {
     const firstDueDate = _feesConf.is_predefined_first_dueDate
       ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value
       : toDate(_feesConf.manual_first_duedate)
+    const isLastDay = _feesConf.predefined_first_dueDate === 'date3'
+    const currentDate = new Date(firstDate.year, firstDate.month, 1) 
+    
+    const createDueDatetime = (index)=>{
+      if(isLastDay){
+        const result = toUTC(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)).toISOString()
+        currentDate.setMonth(currentDate.getMonth() + 1)
+        return result;
+      }
+
+      return toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + index, firstDueDate.getDate())).toISOString()
+    }
+
     let totalMonthsNumber = feesConf.reduce((acc, currentValue) => acc + currentValue.monthsNumber, 0)
     if (feesConf.length <= 1) {
       for (let i = 0; i < _feesConf.months_number; i++) {
@@ -43,7 +56,7 @@ const FeesCreate = props => {
           total_amount: _feesConf.monthly_amount,
           type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type]?.type,
           student_id: studentId,
-          due_datetime: toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate())).toISOString(),
+          due_datetime: createDueDatetime(i) ,
           comment: commentRenderer(_feesConf.comment, totalMonthsNumber, i)
         })
       }
@@ -56,7 +69,7 @@ const FeesCreate = props => {
             total_amount: feesConf[j].monthlyAmount,
             type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
             student_id: studentId,
-            due_datetime: toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate())).toISOString(),
+            due_datetime: createDueDatetime(i) ,
             comment: commentRenderer(_feesConf.comment, totalMonthsNumber, i)
           })
         }

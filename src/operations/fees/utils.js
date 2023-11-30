@@ -58,9 +58,3 @@ export function DateValueInput({ dateValue, onChange }) {
     </Box>
   )
 }
-
-export function getLastDay(year, month) {
-  const firstNextMonth = new Date(year, month + 1, 1)
-  const lastDay = new Date(firstNextMonth - 1)
-  return lastDay.getDate()
-}
