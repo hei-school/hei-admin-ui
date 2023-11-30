@@ -3,6 +3,22 @@ import { Datagrid, FunctionField, ShowButton } from 'react-admin'
 import { prettyPrintMoney, CustomDateField, commentFunctionRenderer } from '../utils'
 import rowStyle from './byStatusRowStyle'
 
+export const defaultFeeConf = {
+  monthlyAmount: null,
+  monthsNumber: null,
+  comment: null
+}
+
+export const commonStyleSelect = {
+  width: {
+    xs: 75,
+    sm: 175,
+    md: 250,
+    lg: 300,
+    xl: 325
+  }
+}
+
 export const FeesListItems = () => {
   return (
     <Datagrid bulkActionButtons={false} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
@@ -16,7 +32,7 @@ export const FeesListItems = () => {
 }
 
 export function DateValueInput({ dateValue, onChange }) {
-  const months = Array.from({ length: 12 }, (_, mois) => new Intl.DateTimeFormat('fr-FR', { month: 'long' }).format(new Date(2023, mois, 1)))
+  const months = Array.from({ length: 12 }, (_, _month) => new Intl.DateTimeFormat('fr-FR', { month: 'long' }).format(new Date(2023, _month, 1)))
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>

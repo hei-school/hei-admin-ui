@@ -7,7 +7,6 @@ import {
   minValue,
   number,
   RadioButtonGroupInput,
-  SelectInput,
   required,
   SimpleForm,
   TextInput,
@@ -17,29 +16,12 @@ import {
 import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
+import { useStudentRef } from '../../hooks/useStudentRef'
 import { commentRenderer, toUTC } from '../utils'
-
-const commonStyleSelect = {
-  width: {
-    xs: 75,
-    sm: 175,
-    md: 250,
-    lg: 300,
-    xl: 325
-  }
-}
+import { PredefinedFeeTypeRadioButton, PredefinedFirstDueDateRadioButton } from './Predefined'
+import { defaultFeeConf } from './utils'
 
 const defaultIsPredefinedType = true
-const PredefinedFeeTypeRadioButton = ({ setFeesConf, ...props }) => (
-  <SelectInput
-    {...props}
-    source='predefined_type'
-    label='Type prédéfini'
-    choices={Object.keys(predefinedFeeTypes).map(id => ({ id: id, name: predefinedFeeTypes[id][0].name }))}
-    onChange={({ target: { value } }) => setFeesConf(predefinedFeeTypes[value])}
-    sx={commonStyleSelect}
-  />
-)
 
 const ManualFeeTypeRadioButton = props => (
   <RadioButtonGroupInput
@@ -47,16 +29,6 @@ const ManualFeeTypeRadioButton = props => (
     source='manual_type'
     label='Type manuel'
     choices={Object.keys(manualFeeTypes).map(id => ({ id: id, name: manualFeeTypes[id].name }))}
-  />
-)
-
-const PredefinedFirstDueDateRadioButton = props => (
-  <SelectInput
-    {...props}
-    source='predefined_first_dueDate'
-    label='Première date limite prédéfinie'
-    choices={Object.keys(predefinedFirstDueDates).map(id => ({ id: id, name: predefinedFirstDueDates[id].name }))}
-    sx={commonStyleSelect}
   />
 )
 
@@ -95,27 +67,13 @@ export const FeeSimpleFormContent = props => {
   )
 }
 const FeesCreate = props => {
-  const params = useParams()
   const notify = useNotify()
-  const studentId = params.studentId
-  const [studentRef, setStudentRef] = useState('...')
-  const dataProvider = useDataProvider()
+  const [feesConf, setFeesConf] = useState([defaultFeeConf])
+  const { studentId, studentRef, fetchRef }  = useStudentRef('studentId')
+  
   useEffect(() => {
-    const doEffect = async () => {
-      const student = await dataProvider.getOne('students', { id: studentId })
-      setStudentRef(student.data.ref)
-    }
-    doEffect()
-    // eslint-disable-next-line
+    fetchRef()
   }, [studentRef])
-
-  const [feesConf, setFeesConf] = useState([
-    {
-      monthlyAmount: null,
-      monthsNumber: null,
-      comment: null
-    }
-  ])
 
   const [isPredefinedType, setIsPredefinedType] = useState(defaultIsPredefinedType)
   const useIsPredefinedType = data => {

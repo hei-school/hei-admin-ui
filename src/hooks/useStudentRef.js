@@ -14,5 +14,5 @@ export const useStudentRef = source => {
     setStudentRef(student.data.ref)
   }
 
-  return { studentRef, fetchRef, studentId, baseId: params[source] }
+  return { studentRef, fetchRef, studentId }
 }
