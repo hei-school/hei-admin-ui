@@ -20,15 +20,16 @@ function EditToolbar(){
     const { feeId } = toApiIds(record.id)
     const updated_at = new Date().toISOString()
     const due_datetime = new Date(record.due_datetime).toISOString()
-    // setPending(true)
+    setPending(true)
     
-    // return await payingApi()
-    //   .updateStudentFees(record.student_id, [{...record, updated_at, id: feeId, due_datetime}])
-    //   .then(() => {
-    //     redirect(`/fees/${record.id}/show`)
-    //   })
-    //   .catch(()=>notify("Une erreur c'est produite", { type:'error' }))
-    //   .finally(()=>setPending(false))
+    return await payingApi()
+      .updateStudentFees(record.student_id, [{...record, updated_at, id: feeId, due_datetime}])
+      .then(() => {
+        notify('Frais mis à jour')
+        redirect(`/fees/${record.id}/show`)
+      })
+      .catch(()=>notify("Une erreur c'est produite", { type:'error' }))
+      .finally(()=>setPending(false))
   }
 
   return (
