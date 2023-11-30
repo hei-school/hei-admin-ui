@@ -45,16 +45,16 @@ const StudentCreate = props => {
   return (
     <CustomCreate title='Étudiants' transform={transformPayload} resource='students'>
       <SimpleForm>
-        <TextInput source='ref' label='Référence' fullWidth={true} required />
-        <TextInput source='first_name' label='Prénoms' fullWidth={true} required />
-        <TextInput source='last_name' label='Nom' fullWidth={true} required />
+        <TextInput source='ref' label='Référence' fullWidth required />
+        <TextInput source='first_name' label='Prénoms' fullWidth required />
+        <TextInput source='last_name' label='Nom' fullWidth required />
         <SexRadioButton />
-        <TextInput source='phone' label='Téléphone' fullWidth={true} />
-        <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
-        <TextInput source='address' label='Adresse' fullWidth={true} multiline data-testid='addressInput' />
+        <TextInput source='phone' label='Téléphone' fullWidth />
+        <DateInput source='birth_date' label='Date de naissance' fullWidth />
+        <TextInput source='address' label='Adresse' fullWidth multiline data-testid='addressInput' />
 
-        <TextInput source='email' label='Email' fullWidth={true} required />
-        <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} required />
+        <TextInput source='email' label='Email' fullWidth required />
+        <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth required />
         <BooleanInput
           label='Activer la création des frais'
           name='can_create_fees'

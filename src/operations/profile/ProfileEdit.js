@@ -15,15 +15,15 @@ const transformUser = user => {
 const ProfileEdit = () => (
   <CustomEdit transform={transformUser}>
     <SimpleForm toolbar={<EditToolBar />}>
-      <TextInput source='ref' label='Référence' fullWidth={true} />
-      <TextInput source='first_name' label='Prénom·s' fullWidth={true} />
-      <TextInput source='last_name' label='Nom·s' fullWidth={true} />
-      <TextInput source='email' fullWidth={true} />
-      <TextInput multiline source='address' label='Adresse' fullWidth={true} />
+      <TextInput source='ref' label='Référence' fullWidth />
+      <TextInput source='first_name' label='Prénom·s' fullWidth />
+      <TextInput source='last_name' label='Nom·s' fullWidth />
+      <TextInput source='email' fullWidth />
+      <TextInput multiline source='address' label='Adresse' fullWidth />
       <SexRadioButton />
-      <TextInput source='phone' label='Téléphone' fullWidth={true} />
-      <DateInput source='birth_date' label='Date de naissance' fullWidth={true} />
-      <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth={true} />
+      <TextInput source='phone' label='Téléphone' fullWidth />
+      <DateInput source='birth_date' label='Date de naissance' fullWidth />
+      <DateInput source='entrance_datetime' label="Date d'entrée chez HEI" fullWidth />
       <StatusRadioButton />
     </SimpleForm>
   </CustomEdit>

@@ -12,9 +12,9 @@ import { useParams } from 'react-router-dom'
 
 const dateTimeRenderer = data => {
   return data.updated_at == null ? (
-    <CustomDateField source='creation_datetime' showTime={true} />
+    <CustomDateField source='creation_datetime' showTime />
   ) : (
-    <CustomDateField source='updated_at' label='Date et heure de dernière modification' showTime={true} />
+    <CustomDateField source='updated_at' label='Date et heure de dernière modification' showTime />
   )
 }
 

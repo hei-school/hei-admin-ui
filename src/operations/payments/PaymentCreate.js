@@ -57,7 +57,7 @@ const PaymentCreate = props => {
           onChange={event => setPaymentChoice(event.target.value)}
         />
         {paymentChoice === PaymentTypeEnum.BANK_TRANSFER && <TextInput source='ref' label='Réference' fullWidth validate={required()} />}
-        <TextInput source='amount' label='Montant du paiement' fullWidt validate={required()} />
+        <TextInput source='amount' label='Montant du paiement' fullWidthvalidate={required()} />
         <TextInput source='comment' label='Commentaire' fullWidth validate={paymentChoice === PaymentTypeEnum.MOBILE_MONEY && required()} />
         <BooleanInput
           source='specify-date'
