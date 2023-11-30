@@ -1,12 +1,13 @@
 import { RadioButtonGroupInput } from 'react-admin'
+import { Sex } from 'haapi-Ts-client'
 
 export const SexRadioButton = () => (
   <RadioButtonGroupInput
     source='sex'
     label='Sexe'
     choices={[
-      { id: 'M', name: 'Homme' },
-      { id: 'F', name: 'Femme' }
+      { id: Sex.M, name: 'Homme' },
+      { id: Sex.F, name: 'Femme' }
     ]}
   />
 )
