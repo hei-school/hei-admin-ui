@@ -71,7 +71,6 @@ function DisabledInfo(){
 
 function FeeEdit(){
   const { studentRef, fetchRef } = useStudentRef('id')
-  
   useEffect(()=> {
     fetchRef()
   },[])
