@@ -50,11 +50,16 @@ const FeeShow = props => {
   }, [studentId])
 
   return (
-    <Show 
-      id={feeId} 
-      resource='fees' 
-      actions={ <TopToolbar> <EditButton /> </TopToolbar> } 
-      basePath={`/fees/${feeId}/show`} 
+    <Show
+      id={feeId}
+      resource='fees'
+      actions={
+        <TopToolbar>
+          {' '}
+          <EditButton />{' '}
+        </TopToolbar>
+      }
+      basePath={`/fees/${feeId}/show`}
       title={`Frais de ${studentRef}`}
     >
       <FeeLayout feeId={feeId} />

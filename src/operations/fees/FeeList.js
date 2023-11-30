@@ -1,4 +1,4 @@
-import {  useEffect } from 'react'
+import { useEffect } from 'react'
 import { List } from '@react-admin/ra-rbac'
 import { TopToolbar, CreateButton } from 'react-admin'
 import { maxPageSize } from '../../providers/dataProvider'

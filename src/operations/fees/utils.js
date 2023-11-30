@@ -15,36 +15,34 @@ export const FeesListItems = () => {
   )
 }
 
-export function DateValueInput({dateValue, onChange}){
-  const months = Array.from({ length: 12 }, (_, mois) => 
-    new Intl.DateTimeFormat('fr-FR', { month: 'long' }).format(new Date(2023, mois, 1))
-  );
+export function DateValueInput({ dateValue, onChange }) {
+  const months = Array.from({ length: 12 }, (_, mois) => new Intl.DateTimeFormat('fr-FR', { month: 'long' }).format(new Date(2023, mois, 1)))
 
   return (
-    <Box sx={{display: 'flex', alignItems:'center', gap: 1}}>
+    <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
       <TextField
         select
         label='Premier mois'
         name='month'
-        sx={{width:'150px'}}
+        sx={{ width: '150px' }}
         value={dateValue.month}
         SelectProps={{
           onChange
         }}
       >
-        {months.map((el,index)=>(
+        {months.map((el, index) => (
           <MenuItem key={index} value={index}>
             {el[0].toUpperCase() + el.slice(1)}
           </MenuItem>
         ))}
       </TextField>
-      <TextField name='year' onChange={onChange} value={dateValue.year} type='number' sx={{width:'120px'}} label='Année'/>
+      <TextField name='year' onChange={onChange} value={dateValue.year} type='number' sx={{ width: '120px' }} label='Année' />
     </Box>
   )
 }
 
-export function getLastDay(year, month){
-  const firstNextMonth = new Date(year, month + 1, 1);
-  const lastDay = new Date(firstNextMonth - 1);
-  return lastDay.getDate();
+export function getLastDay(year, month) {
+  const firstNextMonth = new Date(year, month + 1, 1)
+  const lastDay = new Date(firstNextMonth - 1)
+  return lastDay.getDate()
 }
