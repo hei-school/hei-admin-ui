@@ -3,6 +3,8 @@ import { Datagrid, FunctionField, ShowButton } from 'react-admin'
 import { prettyPrintMoney, CustomDateField, commentFunctionRenderer } from '../utils'
 import rowStyle from './byStatusRowStyle'
 
+export const defaultIsPredefinedType = true
+
 export const defaultFeeConf = {
   monthlyAmount: null,
   monthsNumber: null,
