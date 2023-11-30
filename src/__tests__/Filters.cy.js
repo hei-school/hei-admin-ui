@@ -53,7 +53,7 @@ describe('Manager filter students', () => {
     checkParameters([`status=${filters?.status?.value}`])
     cy.get('[data-testid="apply-filter"]').click()
   })
-  it('can filter students by multiple criterias sex included', () => {
+  it('can filter students by multiple criteria sex included', () => {
     clickFilterAction()
     cy.get('[data-testid="filter-profile-sex"]').click()
     cy.contains(filters?.sex?.name).click()
