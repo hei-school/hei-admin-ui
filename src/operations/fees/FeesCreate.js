@@ -83,13 +83,13 @@ export const FeeSimpleFormContent = props => {
         label='Première date limite prédéfinie ?'
         name='is_predefined_first_dueDate'
         defaultValue={defaultIsPredefinedFirstDueDate}
-        fullWidth={true}
+        fullWidth
         onChange={({ target: { checked } }) => setIsPredefinedFirstDueDate(checked)}
       />
       {isPredefinedFirstDueDate ? (
         <PredefinedFirstDueDateRadioButton validate={required()} />
       ) : (
-        <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth={true} validate={required()} />
+        <DateInput source='manual_first_duedate' name='manual_first_duedate' label='Première date limite manuelle' fullWidth validate={required()} />
       )}
     </>
   )
@@ -194,7 +194,7 @@ const FeesConfInput = ({ isPredefinedType, feesConf }) => {
         source='monthly_amount'
         name='monthly_amount'
         label='Montant de la mensualité'
-        fullWidth={true}
+        fullWidth
         disabled={isPredefinedType}
         validate={validateMonthlyAmount}
       />
@@ -202,11 +202,11 @@ const FeesConfInput = ({ isPredefinedType, feesConf }) => {
         source='months_number'
         name='months_number'
         label='Nombre de mensualités'
-        fullWidth={true}
+        fullWidth
         disabled={isPredefinedType}
         validate={validateMonthsNumber}
       />
-      <TextInput source='comment' name='comment' label='Commentaire' fullWidth={true} disabled={isPredefinedType} />
+      <TextInput source='comment' name='comment' label='Commentaire' fullWidth disabled={isPredefinedType} />
     </div>
   )
 }
