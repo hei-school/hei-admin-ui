@@ -1,4 +1,4 @@
-import { EnableStatus, Whoami, WhoamiRoleEnum, Manager, ManagerSexEnum } from 'haapi-Ts-client'
+import { EnableStatus, Manager, ManagerSexEnum, Whoami, WhoamiRoleEnum } from 'haapi-Ts-client'
 
 export const managerNameToBeCheckedMock: string = 'Lou'
 
