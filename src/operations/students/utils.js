@@ -1,5 +1,5 @@
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
-import { commentRenderer } from '../utils'
+import { commentRenderer, toUTC } from '../utils'
 
 const toDate = str => {
   const parts = str.split('-')
@@ -14,7 +14,7 @@ export const createFees = (fees, feesConf, payload, isPredefinedType) => {
   let feeType = isPredefinedType ? predefinedFeeTypes[payload.predefined_type][0].type : manualFeeTypes[payload.manual_type]?.type
   if (feesConf.length <= 1) {
     for (let i = 0; i < payload.months_number; i++) {
-      let dueDate = new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString()
+      let dueDate = toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate())).toISOString()
       fees.push({
         total_amount: payload.monthly_amount,
         type: feeType,
@@ -29,7 +29,7 @@ export const createFees = (fees, feesConf, payload, isPredefinedType) => {
       let end = start + feesConf[j].monthsNumber
 
       for (let i = start; i < end; i++) {
-        let dueDate = new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString()
+        let dueDate = toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate())).toISOString()
         fees.push({
           total_amount: feesConf[j].monthlyAmount,
           type: feeType,

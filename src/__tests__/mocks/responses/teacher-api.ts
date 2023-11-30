@@ -1,4 +1,4 @@
-import { EnableStatus, Whoami, WhoamiRoleEnum, Teacher, TeacherSexEnum } from 'src/gen/haClient'
+import { EnableStatus, Whoami, WhoamiRoleEnum, Teacher, TeacherSexEnum } from 'haapi-Ts-client'
 
 export const teacherNameToBeCheckedMock: string = 'Toky'
 
@@ -12,11 +12,11 @@ export const teacher1Mock: Teacher = {
   address: 'Adr 3',
   phone: '0322411125',
   email: 'test+teacher1@hei.school',
-  entrance_datetime: '2021-10-08T08:27:24Z',
-  status: EnableStatus.Enabled
+  entrance_datetime: new Date('2021-10-08T08:27:24Z'),
+  status: EnableStatus.ENABLED
 }
 
-export const whoamiTeacherMock: Whoami = { id: 'teacher1_id', role: WhoamiRoleEnum.Teacher, bearer: 'bearer mock' }
+export const whoamiTeacherMock: Whoami = { id: 'teacher1_id', role: WhoamiRoleEnum.TEACHER, bearer: 'bearer mock' }
 
 export const teachersMock: Teacher[] = [
   teacher1Mock,
@@ -30,8 +30,8 @@ export const teachersMock: Teacher[] = [
     address: 'LOT 215641',
     phone: '+261335682546',
     email: 'test+fortest5341313@hei.school',
-    entrance_datetime: '2023-01-17T21:00:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-01-17'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'teacher3_id',
@@ -43,8 +43,8 @@ export const teachersMock: Teacher[] = [
     address: 'Adr 3',
     phone: '0322411125',
     email: 'test+teacher1@hei.school',
-    entrance_datetime: '2021-10-08T08:27:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-10-08'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'teacher4_id',
@@ -56,8 +56,8 @@ export const teachersMock: Teacher[] = [
     address: 'Adr 4',
     phone: '0322411126',
     email: 'test+teacher2@hei.school',
-    entrance_datetime: '2021-10-09T08:28:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-10-09'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'teacher5_id',
@@ -69,8 +69,8 @@ export const teachersMock: Teacher[] = [
     address: 'Adr 4',
     phone: '0322411126',
     email: 'test+teacher3@hei.school',
-    entrance_datetime: '2021-10-09T08:28:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-10-09'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'teacher6_id',
@@ -82,8 +82,8 @@ export const teachersMock: Teacher[] = [
     address: 'Antanimena ',
     phone: '+261 39 34 323 30',
     email: 'hei.mayah.3@gmail.com',
-    entrance_datetime: '2021-01-13T11:58:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-01-13'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'teacher7_id',
@@ -95,8 +95,8 @@ export const teachersMock: Teacher[] = [
     address: 'LOT A58 Itosy',
     phone: '+261339536218',
     email: 'Sandrine@hei.school',
-    entrance_datetime: '2023-01-17T21:00:00Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2023-01-17'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'teacher8_id',
@@ -108,8 +108,8 @@ export const teachersMock: Teacher[] = [
     address: 'Adr 8',
     phone: '0331413432',
     email: 'herilala@hei.school',
-    entrance_datetime: '2021-10-08T08:27:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-10-08'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'teacher9_id',
@@ -121,8 +121,8 @@ export const teachersMock: Teacher[] = [
     address: 'Adr 9',
     phone: '0322865596',
     email: 'Mandresy@hei.school',
-    entrance_datetime: '2021-10-09T08:28:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-10-09'),
+    status: EnableStatus.ENABLED
   },
   {
     id: 'teacher10_id',
@@ -134,7 +134,7 @@ export const teachersMock: Teacher[] = [
     address: 'Adr 4',
     phone: '0322411126',
     email: 'test+teacher3@hei.school',
-    entrance_datetime: '2021-10-09T08:28:24Z',
-    status: EnableStatus.Enabled
+    entrance_datetime: new Date('2021-10-09'),
+    status: EnableStatus.ENABLED
   }
 ]

@@ -1,7 +1,7 @@
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
 import { prettyPrintMoney, paymentTypeRenderer, CustomDateField } from '../utils'
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { WhoamiRoleEnum } from 'haapi-Ts-client'
 import authProvider from '../../providers/authProvider'
 
 const Actions = ({ basePath, resource }) => (
@@ -16,7 +16,7 @@ const PaymentList = ({ feeId }) => {
     <List
       title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={'payments'}
-      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/fees/${feeId}/payments`} />}
+      actions={role === WhoamiRoleEnum.MANAGER && <Actions basePath={`/fees/${feeId}/payments`} />}
       filterDefaultValues={{ feeId: feeId }}
       pagination={false}
     >

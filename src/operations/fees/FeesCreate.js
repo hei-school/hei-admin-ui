@@ -17,7 +17,7 @@ import {
 import { useFormContext } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
-import { commentRenderer } from '../utils'
+import { commentRenderer, toUTC } from '../utils'
 
 const commonStyleSelect = {
   width: {
@@ -137,7 +137,7 @@ const FeesCreate = props => {
           total_amount: _feesConf.monthly_amount,
           type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type]?.type,
           student_id: studentId,
-          due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
+          due_datetime: toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate())).toISOString(),
           comment: commentRenderer(_feesConf.comment, totalMonthsNumber, i)
         })
       }
@@ -150,7 +150,7 @@ const FeesCreate = props => {
             total_amount: feesConf[j].monthlyAmount,
             type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
             student_id: studentId,
-            due_datetime: new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate()).toISOString(),
+            due_datetime: toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + i, firstDueDate.getDate())).toISOString(),
             comment: commentRenderer(_feesConf.comment, totalMonthsNumber, i)
           })
         }

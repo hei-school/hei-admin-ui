@@ -1,8 +1,8 @@
 import { Divider, Typography } from '@mui/material'
 import { EditButton, Show, SimpleShowLayout, TextField, TopToolbar } from 'react-admin'
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { WhoamiRoleEnum } from 'haapi-Ts-client'
 import authProvider from '../../providers/authProvider'
-import { CustomDateField } from '../utils/DateHandling '
+import { CustomDateField } from '../utils/DateHandling'
 import GroupStudentList from './GroupStudentList'
 
 export const GroupLayout = () => {
@@ -20,7 +20,7 @@ export const GroupLayout = () => {
 
 const GroupShow = () => {
   const role = authProvider.getCachedRole()
-  const isManager = role === WhoamiRoleEnum.Manager
+  const isManager = role === WhoamiRoleEnum.MANAGER
 
   const Actions = () => (
     <TopToolbar>

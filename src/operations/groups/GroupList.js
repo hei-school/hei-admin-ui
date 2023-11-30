@@ -1,13 +1,13 @@
 import { FunctionField, ShowButton, TextField } from 'react-admin'
 import { HaList } from '../../ui/haList'
 import { GroupsOutlined } from '@mui/icons-material'
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { WhoamiRoleEnum } from 'haapi-Ts-client'
 import { GroupFilters } from '.'
 import authProvider from '../../providers/authProvider'
 
 const GroupList = () => {
   const role = authProvider.getCachedRole()
-  const isManager = role === WhoamiRoleEnum.Manager
+  const isManager = role === WhoamiRoleEnum.MANAGER
 
   return (
     <HaList

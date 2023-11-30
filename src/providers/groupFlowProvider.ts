@@ -1,5 +1,5 @@
 import { HaDataProviderType } from './HaDataProviderType'
-import { GroupFlowMoveTypeEnum } from '../gen/haClient'
+import { GroupFlowMoveTypeEnum } from 'haapi-Ts-client'
 import { teachingApi } from './api'
 
 const groupFlowProvider: HaDataProviderType = {
@@ -16,12 +16,12 @@ const groupFlowProvider: HaDataProviderType = {
     const forMigratePayload = [
       {
         ...basicDetails,
-        MoveType: payload.canCreate ? payload.MoveType : GroupFlowMoveTypeEnum.Join,
+        MoveType: payload.canCreate ? payload.MoveType : GroupFlowMoveTypeEnum.JOIN,
         groupId: payload.groupId
       },
       {
         ...basicDetails,
-        MoveType: GroupFlowMoveTypeEnum.Leave,
+        MoveType: GroupFlowMoveTypeEnum.LEAVE,
         groupId: payload.leftGroupId
       }
     ]
