@@ -14,12 +14,25 @@ const StudentCreate = () => {
   const { isPredefinedType } = createFeesConf
 
   const transformPayload = payload => {
+    const {
+      monthly_amount,
+      manual_first_duedate,
+      is_predefined_first_dueDate,
+      predefined_first_dueDate,
+      comment,
+      months_number,
+      manual_type,
+      predefined_type,
+      is_predefined_type,
+      ...student
+    } = payload
     const fees = []
     if (canCreateFees) {
       createFees(fees, feesConf, payload, isPredefinedType, createFeesConf)
     }
-    payload.entrance_datetime = turnStringIntoDate(payload.entrance_datetime)
-    return [fees, payload]
+    student.entrance_datetime = turnStringIntoDate(student.entrance_datetime)
+    const result = [fees, student]
+    return result
   }
 
   return (
