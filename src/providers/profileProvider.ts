@@ -27,18 +27,19 @@ const profileProvider: HaDataProviderType = {
   async saveOrUpdate(payload) {
     const role = authProvider.getCachedRole()
     const id = payload[0].id
+    const profileData = payload[0]
     switch (role) {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
-          .updateStudent(id, payload)
+          .updateStudent(id, profileData)
           .then(result => result.data)
       case WhoamiRoleEnum.TEACHER:
         return usersApi()
-          .updateTeacher(id, payload)
+          .updateTeacher(id, profileData)
           .then(result => result.data)
       case WhoamiRoleEnum.MANAGER:
         return usersApi()
-          .updateManager(id, payload)
+          .updateManager(id, profileData)
           .then(result => result.data)
     }
   }
