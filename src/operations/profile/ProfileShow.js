@@ -1,8 +1,8 @@
-import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 'react-admin'
+import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, TopToolbar, EditButton } from 'react-admin'
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
-import { EnableStatus, Sex } from '@haapi/typescript-client'
+import { EnableStatus, Sex, WhoamiRoleEnum } from '@haapi/typescript-client'
 
 export const ProfileLayout = () => {
   const emptyText = 'Non défini.e'
@@ -41,10 +41,17 @@ export const ProfileLayout = () => {
   )
 }
 
+const Actions = ({ userId }) => {
+  return (
+    <TopToolbar>
+      <EditButton to={`/profile/${userId}/edit`} data-testid='profile-edit-button' />
+    </TopToolbar>
+  )
+}
 const ProfileShow = () => {
   const id = authProvider.getCachedWhoami().id
   return (
-    <Show id={id} resource='profile' basePath='/profile' title='Mon profil'>
+    <Show id={id} resource='profile' basePath='/profile' title='Mon profil' actions={<Actions userId={id} />}>
       <ProfileLayout />
     </Show>
   )

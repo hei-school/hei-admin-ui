@@ -1,9 +1,12 @@
 import ProfileShow from './ProfileShow'
 import { FilterForm, SelectInputFilter, TextFilter } from '../../ui/haToolbar'
 import { EnableStatus, Sex } from '@haapi/typescript-client'
+import ProfileEdit from './ProfileEdit'
 
 const profile = {
-  show: ProfileShow
+  show: ProfileShow,
+  edit: <ProfileEdit isOwnProfile />,
+  options: { label: 'Profil' }
 }
 
 export default profile

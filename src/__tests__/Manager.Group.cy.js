@@ -2,7 +2,7 @@ import { mount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
 import { manager1 } from './credentials'
-import { manager1Mock, studentsMock, whoamiManagerMock } from './mocks/responses'
+import { manager2, studentsMock, whoamiManagerMock } from './mocks/responses'
 import { addGroupFlow, leaveGroupFlow, migrateGroupFlow } from './mocks/responses/group-flow-api'
 import { editedGroup, group1Students, groups, newGroup1, student1 } from './mocks/responses/groups-api'
 
@@ -24,7 +24,7 @@ describe(specTitle('Manager and groups'), () => {
     cy.get('button').contains('Connexion').click()
 
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
+    cy.intercept('GET', `/managers/${manager2.id}`, manager2).as('getManager1')
     cy.intercept('GET', `/groups?page=1&page_size=10`, groups).as('getGroups')
     cy.intercept('GET', `/students?page=1&page_size=25`, studentsMock).as('getStudents')
     cy.intercept('GET', `/groups?page=1&page_size=10&ref=${group1.ref}`, [group1]).as('getFilteredGroup')

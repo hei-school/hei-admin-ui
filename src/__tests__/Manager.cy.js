@@ -3,8 +3,8 @@ import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import {
-  manager1Mock,
-  managerNameToBeCheckedMock,
+  manager2,
+  manager1FirstName,
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
@@ -33,7 +33,7 @@ describe(specTitle('Manager'), () => {
     cy.get('button').contains('Connexion').click()
 
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager1')
+    cy.intercept('GET', `/managers/${manager2.id}`, manager2).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
     cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
     cy.intercept('GET', `/students?page=1&page_size=10&first_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
@@ -46,13 +46,13 @@ describe(specTitle('Manager'), () => {
 
   it('lands on profile page if succeeds', () => {
     cy.get('[href="#/profile"]').click()
-    cy.get('#first_name').contains(managerNameToBeCheckedMock)
+    cy.get('#first_name').contains(manager1FirstName)
     cy.get('#main-content')
-      .should('contain', manager1Mock.ref)
-      .and('contain', manager1Mock.last_name)
-      .and('contain', manager1Mock.address)
-      .and('contain', manager1Mock.email)
-      .and('contain', manager1Mock.phone)
+      .should('contain', manager2.ref)
+      .and('contain', manager2.last_name)
+      .and('contain', manager2.address)
+      .and('contain', manager2.email)
+      .and('contain', manager2.phone)
     unmount()
   })
 

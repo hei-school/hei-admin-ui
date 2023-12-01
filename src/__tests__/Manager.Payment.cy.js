@@ -7,7 +7,7 @@ import {
   createPaymentWithAmountMock,
   feesMock,
   unpaidFeeMock,
-  manager1Mock,
+  manager2,
   payment1Mock,
   student1Mock,
   studentsMock,
@@ -25,10 +25,10 @@ describe(specTitle('Manager.Payment'), () => {
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
+    cy.intercept('GET', `/managers/${manager2.id}`, req => {
       req.reply(res => {
         res.setDelay(500)
-        res.send(manager1Mock)
+        res.send(manager2)
       })
     }).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')

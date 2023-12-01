@@ -11,7 +11,7 @@ import {
   createPaymentMock,
   fee1Mock,
   feesMock,
-  manager1Mock,
+  manager2,
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
@@ -25,10 +25,10 @@ describe(specTitle('Manager.Fee'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
+    cy.intercept('GET', `/managers/${manager2.id}`, req => {
       req.reply(res => {
         res.setDelay(500)
-        res.send(manager1Mock)
+        res.send(manager2)
       })
     }).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
