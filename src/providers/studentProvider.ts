@@ -4,7 +4,7 @@ import { EnableStatus } from 'haapi-Ts-client'
 
 const studentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    const result = await usersApi().getStudents(page, perPage, filter.ref, filter.first_name, filter.last_name, filter.course_id, filter.status)
+    const result = await usersApi().getStudents(page, perPage, filter.ref, filter.first_name, filter.last_name, filter.course_id, filter.status, filter.sex)
     return result.data
   },
   async getOne(id: string) {

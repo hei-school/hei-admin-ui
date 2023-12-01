@@ -1,4 +1,4 @@
-import { EnableStatus, Manager, ManagerSexEnum, Whoami, WhoamiRoleEnum } from 'haapi-Ts-client'
+import { EnableStatus, Manager, Sex, Whoami, WhoamiRoleEnum } from 'haapi-Ts-client'
 
 export const managerNameToBeCheckedMock: string = 'Lou'
 
@@ -7,7 +7,7 @@ export const manager1Mock: Manager = {
   ref: 'MGR21001',
   first_name: managerNameToBeCheckedMock,
   last_name: 'Manager',
-  sex: ManagerSexEnum.M,
+  sex: Sex.M,
   birth_date: '1890-01-01',
   address: 'A78 Ambohitrarahaba',
   phone: '0322411127',

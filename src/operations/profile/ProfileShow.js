@@ -2,14 +2,15 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField } from 're
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
+import { EnableStatus, Sex } from 'haapi-Ts-client'
 
 export const ProfileLayout = () => {
   const emptyText = 'Non défini.e'
   const sexRenderer = user => {
     switch (user.sex) {
-      case 'M':
+      case Sex.M:
         return 'Homme'
-      case 'F':
+      case Sex.F:
         return 'Femme'
       case null:
         return emptyText
@@ -18,8 +19,9 @@ export const ProfileLayout = () => {
     }
   }
   const statusRenderer = user => {
-    if (user.status === 'ENABLED') return 'Actif·ve'
-    if (user.status === 'DISABLED') return 'Suspendu·e'
+    if (user.status === EnableStatus.ENABLED) return 'Actif·ve'
+    if (user.status === EnableStatus.SUSPENDED) return 'Suspendu·e'
+    if (user.status === EnableStatus.DISABLED) return 'Inactif.ve'
     return unexpectedValue
   }
   const phoneRenderer = data => (data.phone ? <Link href={`tel:${data.phone}`}>{data.phone}</Link> : <span>{emptyText}</span>)

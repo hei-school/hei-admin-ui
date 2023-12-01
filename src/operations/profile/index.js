@@ -1,6 +1,6 @@
 import ProfileShow from './ProfileShow'
 import { FilterForm, SelectInputFilter, TextFilter } from '../../ui/haToolbar'
-import { EnableStatus } from 'haapi-Ts-client'
+import { EnableStatus, Sex } from 'haapi-Ts-client'
 
 const profile = {
   show: ProfileShow
@@ -20,7 +20,18 @@ export function ProfileFilters() {
         source='status'
         choices={[
           { id: EnableStatus.ENABLED, name: 'Actif.ve' },
-          { id: EnableStatus.DISABLED, name: 'Inactif.ve' },
+          { id: EnableStatus.SUSPENDED, name: 'Suspendu.e' },
+          { id: EnableStatus.DISABLED, name: 'Quitté.e' },
+          { id: null, name: 'Aucune valeur' }
+        ]}
+      />
+      <SelectInputFilter
+        data-testid='filter-profile-sex'
+        label='Sexe'
+        source='sex'
+        choices={[
+          { id: Sex.M, name: 'Homme' },
+          { id: Sex.F, name: 'Femme' },
           { id: null, name: 'Aucune valeur' }
         ]}
       />
