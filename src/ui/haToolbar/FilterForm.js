@@ -15,7 +15,7 @@ export function FilterForm({ children }) {
 
   const submitChange = () => setFilters(currentFilter)
   const setOneFilter = (source, values) => setCurrentFilter(prev => ({ ...prev, [source]: values }))
-  const isFilterApplied = Object.keys(filterValues || []).length > 0
+  const isFilterApplied = Object.keys(filterValues || {}).length > 0
 
   const handleCloseFilter = hasChanged => {
     setAnchorEl(null)

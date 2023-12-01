@@ -22,7 +22,7 @@ function EditToolbar() {
     const due_datetime = new Date(record.due_datetime).toISOString()
     setPending(true)
 
-    return await payingApi()
+    await payingApi()
       .updateStudentFees(record.student_id, [{ ...record, updated_at, id: feeId, due_datetime }])
       .then(() => {
         notify('Frais mis à jour')
