@@ -1,7 +1,7 @@
 import { mount, unmount } from '@cypress/react'
 import App from '../App'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { manager2, teacher1Mock, teachersMock, whoamiManagerMock } from './mocks/responses'
+import { teacher1Mock, teachersMock, whoamiManagerMock } from './mocks/responses'
 import { manager1 } from './credentials'
 import { updatedInfo } from './utils'
 
@@ -24,7 +24,6 @@ describe(specTitle('Manager.Teachers'), () => {
   })
 
   it('list all teachers', () => {
-    cy.wait('@getManager')
     cy.viewport(1000, 950)
     cy.get('tbody tr').should('have.length', teachersMock.length)
     cy.get('[data-testid="menu-list-action"]').click()
