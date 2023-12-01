@@ -1,16 +1,12 @@
-import {
-  BooleanInput,
-  DateInput,
-  required,
-} from 'react-admin'
+import { BooleanInput, DateInput, required } from 'react-admin'
 import { FeesConfInput } from './FeesCreate'
 import { ManualFeeTypeRadioButton } from './ManualField'
 import { PredefinedFeeTypeRadioButton, PredefinedFirstDueDateRadioButton } from './PredefinedField'
 import { defaultIsPredefinedType } from './utils'
 
 export const FeesCreateField = props => {
-  const { feesConf, setFeesConf, createFeesConf} = props
-  const { isPredefinedType, isPredefinedDueDate, setIsPredefinedType, setIsPredefinedDueDate } = createFeesConf 
+  const { feesConf, setFeesConf, createFeesConf } = props
+  const { isPredefinedType, isPredefinedDueDate, setIsPredefinedType, setIsPredefinedDueDate } = createFeesConf
 
   return (
     <>

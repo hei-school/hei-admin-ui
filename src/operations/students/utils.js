@@ -7,19 +7,19 @@ const toDate = str => {
 }
 
 export const createFees = (fees, feesConf, payload, isPredefinedType, createFeesConf) => {
-  const { firstDate }  = createFeesConf
+  const { firstDate } = createFeesConf
   const firstDueDate = payload.is_predefined_first_dueDate
     ? predefinedFirstDueDates[payload.predefined_first_dueDate].value
     : toDate(payload.manual_first_duedate)
 
   let feeType = isPredefinedType ? predefinedFeeTypes[payload.predefined_type][0].type : manualFeeTypes[payload.manual_type]?.type
   const isLastDay = isPredefinedType && payload.predefined_first_dueDate === 'date3'
-  const currentDate = new Date(firstDate.year, firstDate.month, 1) 
-  const createDueDatetime = (index)=>{
-    if(isLastDay){
+  const currentDate = new Date(firstDate.year, firstDate.month, 1)
+  const createDueDatetime = index => {
+    if (isLastDay) {
       const result = toUTC(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)).toISOString()
       currentDate.setMonth(currentDate.getMonth() + 1)
-      return result;
+      return result
     }
     return toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + index, firstDueDate.getDate())).toISOString()
   }

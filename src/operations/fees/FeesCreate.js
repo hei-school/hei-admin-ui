@@ -1,14 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-  Create,
-  maxValue,
-  minValue,
-  number,
-  required,
-  SimpleForm,
-  TextInput,
-  useNotify
-} from 'react-admin'
+import { Create, maxValue, minValue, number, required, SimpleForm, TextInput, useNotify } from 'react-admin'
 import { useFormContext } from 'react-hook-form'
 import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
 import { useStudentRef, useCreateFees } from '../../hooks'
@@ -19,14 +10,14 @@ import { defaultFeeConf, getLastDay } from './utils'
 const FeesCreate = props => {
   const notify = useNotify()
   const [feesConf, setFeesConf] = useState([defaultFeeConf])
-  const { studentId, studentRef, fetchRef }  = useStudentRef('studentId')
+  const { studentId, studentRef, fetchRef } = useStudentRef('studentId')
   const createFeesConf = useCreateFees()
   const { isPredefinedType, firstDate } = createFeesConf
-   
+
   useEffect(() => {
     fetchRef()
   }, [studentRef])
-  
+
   const feesConfToFeesApi = _feesConf => {
     const fees = []
     const toDate = str => {
@@ -37,13 +28,13 @@ const FeesCreate = props => {
       ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value
       : toDate(_feesConf.manual_first_duedate)
     const isLastDay = isPredefinedType && _feesConf.predefined_first_dueDate === 'date3'
-    const currentDate = new Date(firstDate.year, firstDate.month, 1) 
-    
-    const createDueDatetime = (index)=>{
-      if(isLastDay){
+    const currentDate = new Date(firstDate.year, firstDate.month, 1)
+
+    const createDueDatetime = index => {
+      if (isLastDay) {
         const result = toUTC(new Date(currentDate.getFullYear(), currentDate.getMonth() + 1, 0)).toISOString()
         currentDate.setMonth(currentDate.getMonth() + 1)
-        return result;
+        return result
       }
 
       return toUTC(new Date(firstDueDate.getFullYear(), firstDueDate.getMonth() + index, firstDueDate.getDate())).toISOString()
@@ -56,7 +47,7 @@ const FeesCreate = props => {
           total_amount: _feesConf.monthly_amount,
           type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type]?.type,
           student_id: studentId,
-          due_datetime: createDueDatetime(i) ,
+          due_datetime: createDueDatetime(i),
           comment: commentRenderer(_feesConf.comment, totalMonthsNumber, i)
         })
       }
@@ -69,7 +60,7 @@ const FeesCreate = props => {
             total_amount: feesConf[j].monthlyAmount,
             type: isPredefinedType ? predefinedFeeTypes[_feesConf.predefined_type][0].type : manualFeeTypes[_feesConf.manual_type].type,
             student_id: studentId,
-            due_datetime: createDueDatetime(i) ,
+            due_datetime: createDueDatetime(i),
             comment: commentRenderer(_feesConf.comment, totalMonthsNumber, i)
           })
         }

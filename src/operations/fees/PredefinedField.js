@@ -1,10 +1,10 @@
-import { required, SelectInput } from "react-admin"
+import { required, SelectInput } from 'react-admin'
 import { Box } from '@mui/material'
-import { predefinedFeeTypes, predefinedFirstDueDates } from "../../conf"
-import { commonStyleSelect, DateValueInput } from "./utils"
-import { useState } from "react"
+import { predefinedFeeTypes, predefinedFirstDueDates } from '../../conf'
+import { commonStyleSelect, DateValueInput } from './utils'
+import { useState } from 'react'
 
-export function PredefinedFeeTypeRadioButton({ setFeesConf, ...props }){
+export function PredefinedFeeTypeRadioButton({ setFeesConf, ...props }) {
   return (
     <SelectInput
       {...props}
@@ -17,19 +17,19 @@ export function PredefinedFeeTypeRadioButton({ setFeesConf, ...props }){
   )
 }
 
-export function PredefinedFirstDueDateRadioButton({createFeesConf, ...props}){
-  const [ isLastDay, setIsLastDay ] = useState(false)
+export function PredefinedFirstDueDateRadioButton({ createFeesConf, ...props }) {
+  const [isLastDay, setIsLastDay] = useState(false)
   const { firstDate, setFirstDate } = createFeesConf
-  const showFirstDateInput = ({target})=> setIsLastDay(target.value === 'date3')
-  const updateFirstDate = ({target})=>setFirstDate({...firstDate, [target.name]: target.value})
-  
-  const firstDateValidator = () =>{
-    if(!firstDate.year){
+  const showFirstDateInput = ({ target }) => setIsLastDay(target.value === 'date3')
+  const updateFirstDate = ({ target }) => setFirstDate({ ...firstDate, [target.name]: target.value })
+
+  const firstDateValidator = () => {
+    if (!firstDate.year) {
       return "L'Année est obligatoire"
     }
   }
   return (
-    <Box sx={{display:'flex', alignItems:'start', gap: 1 }}>
+    <Box sx={{ display: 'flex', alignItems: 'start', gap: 1 }}>
       <SelectInput
         {...props}
         source='predefined_first_dueDate'
@@ -40,7 +40,7 @@ export function PredefinedFirstDueDateRadioButton({createFeesConf, ...props}){
         onChange={showFirstDateInput}
         sx={commonStyleSelect}
       />
-      { isLastDay && <DateValueInput dateValue={firstDate} onChange={updateFirstDate} /> }
+      {isLastDay && <DateValueInput dateValue={firstDate} onChange={updateFirstDate} />}
     </Box>
   )
 }

@@ -11,8 +11,8 @@ const StudentCreate = () => {
   const [feesConf, setFeesConf] = useState([defaultFeeConf])
   const [canCreateFees, setCanCreateFees] = useState(false)
   const createFeesConf = useCreateFees()
-  const { isPredefinedType  } = createFeesConf 
-  
+  const { isPredefinedType } = createFeesConf
+
   const transformPayload = payload => {
     const fees = []
     if (canCreateFees) {

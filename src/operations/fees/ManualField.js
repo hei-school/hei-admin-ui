@@ -1,7 +1,7 @@
-import { RadioButtonGroupInput } from "react-admin";
-import { manualFeeTypes } from "../../conf";
+import { RadioButtonGroupInput } from 'react-admin'
+import { manualFeeTypes } from '../../conf'
 
-export function ManualFeeTypeRadioButton(props){
+export function ManualFeeTypeRadioButton(props) {
   return (
     <RadioButtonGroupInput
       {...props}

@@ -20,7 +20,7 @@ export function TextFilter({ label, source, ...rest }) {
 export const SelectInputFilter = ({ choices, label, source, ...props }) => {
   const { currentFilter, setOneFilter } = useHaToolbarContext()
   return (
-    <FormControl sx={{width:'100%'}}>
+    <FormControl sx={{ width: '100%' }}>
       <InputLabel id='select-label' size='small' variant='outlined'>
         {label}
       </InputLabel>
