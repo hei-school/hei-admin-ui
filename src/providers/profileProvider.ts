@@ -6,27 +6,41 @@ import { WhoamiRoleEnum } from '@haapi/typescript-client'
 const profileProvider: HaDataProviderType = {
   async getOne(id: string) {
     const role = authProvider.getCachedRole()
-    if (role === WhoamiRoleEnum.STUDENT) {
-      return usersApi()
-        .getStudentById(id)
-        .then(result => result.data)
-    }
-    if (role === WhoamiRoleEnum.TEACHER) {
-      return usersApi()
-        .getTeacherById(id)
-        .then(result => result.data)
-    }
-    if (role === WhoamiRoleEnum.MANAGER) {
-      return usersApi()
-        .getManagerById(id)
-        .then(result => result.data)
+    switch (role) {
+      case WhoamiRoleEnum.STUDENT:
+        return usersApi()
+          .getStudentById(id)
+          .then(result => result.data)
+      case WhoamiRoleEnum.TEACHER:
+        return usersApi()
+          .getTeacherById(id)
+          .then(result => result.data)
+      case WhoamiRoleEnum.MANAGER:
+        return usersApi()
+          .getManagerById(id)
+          .then(result => result.data)
     }
   },
-  getList: function (page: number, perPage: number, filter: any): Promise<any[]> {
-    throw new Error('Function not implemented.')
+  async getList() {
+    throw new Error('Function not implemented')
   },
-  saveOrUpdate: function (resources: any[]): Promise<any[]> {
-    throw new Error('Function not implemented.')
+  async saveOrUpdate(payload) {
+    const role = authProvider.getCachedRole()
+    const id = payload[0].id
+    switch (role) {
+      case WhoamiRoleEnum.STUDENT:
+        return usersApi()
+          .updateStudent(id, payload)
+          .then(result => result.data)
+      case WhoamiRoleEnum.TEACHER:
+        return usersApi()
+          .updateTeacher(id, payload)
+          .then(result => result.data)
+      case WhoamiRoleEnum.MANAGER:
+        return usersApi()
+          .updateManager(id, payload)
+          .then(result => result.data)
+    }
   }
 }
 

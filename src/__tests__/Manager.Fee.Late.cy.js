@@ -2,16 +2,16 @@ import { mount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { fee1Mock, lateFeesMock, manager1Mock, payment1Mock, student1Mock, whoamiManagerMock } from './mocks/responses'
+import { fee1Mock, lateFeesMock, manager2, payment1Mock, student1Mock, whoamiManagerMock } from './mocks/responses'
 
 describe(specTitle('Manager.Fee.Late'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
+    cy.intercept('GET', `/managers/${manager2.id}`, req => {
       req.reply(res => {
         res.setDelay(200)
-        res.send(manager1Mock)
+        res.send(manager2)
       })
     }).as('getManager1')
     cy.intercept('GET', `/fees?status=LATE&page=1&page_size=500`, lateFeesMock).as('getLateFees')

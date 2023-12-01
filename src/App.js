@@ -34,7 +34,7 @@ const App = () => (
     layout={HaLayout}
     requireAuth
   >
-    <Resource name='profile' />
+    <Resource name='profile' {...profile} />
     <Resource name='students' {...students} />
     <Resource name='teachers' {...teachers} />
     <Resource name='hei-docs' {...heiDocs} />
@@ -45,7 +45,6 @@ const App = () => (
 
     <CustomRoutes>
       <Route exact path='/profile' element={<profile.show />} />
-
       <Route exact path='/students/:studentId/fees' element={<fees.list />} />
       <Route
         exact

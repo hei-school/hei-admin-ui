@@ -1,7 +1,7 @@
 import { mount, unmount } from '@cypress/react'
 import App from '../App'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { manager1Mock, teacher1Mock, teachersMock, whoamiManagerMock } from './mocks/responses'
+import { manager2, teacher1Mock, teachersMock, whoamiManagerMock } from './mocks/responses'
 import { manager1 } from './credentials'
 import { updatedInfo } from './utils'
 
@@ -12,7 +12,7 @@ describe(specTitle('Manager.Teachers'), () => {
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', '/whoami', whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager')
+    cy.intercept('GET', `/managers/${manager1.id}`, manager1).as('getManager')
     cy.intercept('GET', '/teachers?page=1&page_size=10', teachersMock).as('getTeachers')
     cy.intercept('GET', /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/, [teacher1Mock]).as('getFilters')
     cy.intercept('GET', `/teachers/${teachersMock[0].id}`, teachersMock[0]).as('getTeachers1')
