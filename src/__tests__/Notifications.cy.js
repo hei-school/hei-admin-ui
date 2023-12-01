@@ -3,7 +3,7 @@ import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import {
-  manager1Mock,
+  manager2,
   student1Mock,
   studentNameToBeCheckedMock,
   studentsMock,
@@ -29,10 +29,10 @@ describe(specTitle('Notifications on error when create, e.g: StudentCreate'), ()
     cy.get('button').contains('Connexion').click()
 
     cy.intercept('GET', `/whoami`, whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, req => {
+    cy.intercept('GET', `/managers/${manager2.id}`, req => {
       req.reply(res => {
         res.setDelay(400)
-        res.send(manager1Mock)
+        res.send(manager2)
       })
     }).as('getManager1')
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
@@ -81,7 +81,7 @@ describe(specTitle('Notifications on error when edit, e.g: TeacherEdit'), () => 
     cy.get('#password').type(manager1.password)
     cy.get('button').contains('Connexion').click()
     cy.intercept('GET', '/whoami', whoamiManagerMock).as('getWhoami')
-    cy.intercept('GET', `/managers/${manager1Mock.id}`, manager1Mock).as('getManager')
+    cy.intercept('GET', `/managers/${manager2.id}`, manager2).as('getManager')
     cy.intercept('GET', '/teachers?page=1&page_size=10', teachersMock).as('getTeachers')
     cy.intercept('GET', /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/, [teacher1Mock]).as('getFilters')
     cy.intercept('GET', `/teachers/${teachersMock[0].id}`, teachersMock[0]).as('getTeachers1')
