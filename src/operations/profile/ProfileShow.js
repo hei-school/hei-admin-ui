@@ -21,7 +21,7 @@ export const ProfileLayout = () => {
   const statusRenderer = user => {
     if (user.status === EnableStatus.ENABLED) return 'Actif·ve'
     if (user.status === EnableStatus.SUSPENDED) return 'Suspendu·e'
-    if (user.status === EnableStatus.DISABLED) return 'Inactif.ve'
+    if (user.status === EnableStatus.DISABLED) return 'Quitté.e'
     return unexpectedValue
   }
   const phoneRenderer = data => (data.phone ? <Link href={`tel:${data.phone}`}>{data.phone}</Link> : <span>{emptyText}</span>)
