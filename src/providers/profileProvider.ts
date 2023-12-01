@@ -32,15 +32,15 @@ const profileProvider: HaDataProviderType = {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
           .updateStudent(id, profileData)
-          .then(result => result.data)
+          .then(result => [result.data])
       case WhoamiRoleEnum.TEACHER:
         return usersApi()
           .updateTeacher(id, profileData)
-          .then(result => result.data)
+          .then(result => [result.data])
       case WhoamiRoleEnum.MANAGER:
         return usersApi()
           .updateManager(id, profileData)
-          .then(result => result.data)
+          .then(result => [result.data])
     }
   }
 }
