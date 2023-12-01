@@ -1,5 +1,5 @@
 export * from './FilterForm'
-export * from './TextFilter'
+export * from './Filters'
 export * from './SelectFilter'
 export * from './LiveFilter'
 export * from './DataTimeFilter'

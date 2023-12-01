@@ -2,7 +2,7 @@ import { EditButton, ShowButton, TextField } from 'react-admin'
 import { SchoolOutlined, UploadFile } from '@mui/icons-material'
 import { CreateButton, ExportButton } from '../../ui/haToolbar'
 import { HaList } from '../../ui/haList'
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import authProvider from '../../providers/authProvider'
 import { exporter, exportHeaders, importHeaders } from '../utils'
 import { ProfileFilters } from '../profile'
@@ -26,7 +26,7 @@ const ListActions = ({ isManager }) => {
 
 function StudentList() {
   const role = authProvider.getCachedRole()
-  const isManager = role === WhoamiRoleEnum.Manager
+  const isManager = role === WhoamiRoleEnum.MANAGER
 
   return (
     <HaList

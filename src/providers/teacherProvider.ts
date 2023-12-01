@@ -3,7 +3,7 @@ import { HaDataProviderType } from './HaDataProviderType'
 
 const teacherProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    const result = await usersApi().getTeachers(page, perPage, filter.ref, filter.first_name, filter.last_name)
+    const result = await usersApi().getTeachers(page, perPage, filter.ref, filter.first_name, filter.last_name, filter.status, filter.sex)
     return result.data
   },
   async getOne(id: string) {

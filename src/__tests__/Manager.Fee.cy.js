@@ -2,7 +2,7 @@ import { mount, unmount } from '@cypress/react'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import App from '../App'
 import { predefinedFeeTypes, predefinedFirstDueDates } from '../conf'
-import { prettyPrintMoney, statusRenderer } from '../operations/utils'
+import { prettyPrintMoney, statusRenderer, toUTC } from '../operations/utils'
 import { manager1 } from './credentials'
 import {
   addFeeMock,
@@ -97,11 +97,12 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
     cy.contains('Enregistrer').click()
     cy.wait('@createFees').then(requestIntersection => {
+      const dueDate = predefinedFirstDueDates[feeCreatDate].value
       let createAutomaticallyFeesBodyMock = {
         comment: requestIntersection.request.body[0].comment,
         type: predefinedFeeTypes[feeTypeMock][0].type,
         total_amount: Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
-        due_datetime: predefinedFirstDueDates[feeCreatDate].value.toISOString(),
+        due_datetime: toUTC(dueDate).toISOString(),
         student_id: student1Mock.id
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)
@@ -124,11 +125,12 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
     cy.contains('Enregistrer').click()
     cy.wait('@createNineFees').then(requestIntersection => {
+      const dueDate = predefinedFirstDueDates[feeCreatDate].value
       let createAutomaticallyFeesBodyMock = {
         comment: requestIntersection.request.body[0].comment,
         type: predefinedFeeTypes[feeTypeMock][0].type,
         total_amount: Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
-        due_datetime: predefinedFirstDueDates[feeCreatDate].value.toISOString(),
+        due_datetime: toUTC(dueDate).toISOString(),
         student_id: student1Mock.id
       }
       expect(requestIntersection.request.body[0]).to.deep.equal(createAutomaticallyFeesBodyMock)

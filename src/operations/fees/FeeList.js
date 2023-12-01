@@ -1,14 +1,11 @@
-import { useState, useEffect } from 'react'
-import { useParams } from 'react-router-dom'
-
+import { useEffect } from 'react'
 import { List } from '@react-admin/ra-rbac'
-import { useDataProvider, TopToolbar, CreateButton } from 'react-admin'
-
+import { TopToolbar, CreateButton } from 'react-admin'
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
-
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import { FeesListItems } from './utils'
+import { useStudentRef } from '../../hooks/useStudentRef'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -17,25 +14,21 @@ const Actions = ({ basePath, resource }) => (
 )
 
 const FeeList = ({ studentId }) => {
-  const params = useParams()
-  const definedStudentId = studentId ? studentId : params.studentId
-  const [studentRef, setStudentRef] = useState('...')
-  const dataProvider = useDataProvider()
+  const studentRefContext = useStudentRef('studentId')
+  const { studentRef, fetchRef } = studentRefContext
+  const definedStudentId = studentId ? studentId : studentRefContext.studentId
   const role = authProvider.getCachedRole()
+
   useEffect(() => {
-    const doEffect = async () => {
-      const student = await dataProvider.getOne('students', { id: definedStudentId })
-      setStudentRef(student.data.ref)
-    }
-    doEffect()
-    // eslint-disable-next-line
+    fetchRef()
   }, [definedStudentId])
+
   return (
     <List
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       label='Frais'
-      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/students/${definedStudentId}/fees`} />}
+      actions={role === WhoamiRoleEnum.MANAGER && <Actions basePath={`/students/${definedStudentId}/fees`} />}
       filterDefaultValues={{ studentId: definedStudentId }}
       pagination={false}
       perPage={maxPageSize}

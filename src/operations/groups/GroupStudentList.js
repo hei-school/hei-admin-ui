@@ -1,7 +1,7 @@
 import { Delete } from '@mui/icons-material'
 import { Button, Confirm, Datagrid, ExportButton, List, TextField, TopToolbar, useNotify, useRecordContext } from 'react-admin'
 import { useParams } from 'react-router-dom'
-import { GroupFlowMoveTypeEnum, WhoamiRoleEnum } from '../../gen/haClient'
+import { GroupFlowMoveTypeEnum, WhoamiRoleEnum } from '@haapi/typescript-client'
 import { useToggle } from '../../hooks/useToggle'
 import { pageSize, PrevNextPagination } from '../utils'
 import authProvider from '../../providers/authProvider'
@@ -15,7 +15,7 @@ const DeleteGroupStudent = ({ groupId }) => {
   const payload = {
     studentId: student.id,
     groupId: groupId,
-    MoveType: GroupFlowMoveTypeEnum.Leave,
+    MoveType: GroupFlowMoveTypeEnum.LEAVE,
     migrate: false
   }
 
@@ -47,12 +47,12 @@ const GroupStudentList = () => {
   const params = useParams()
   const role = authProvider.getCachedRole()
 
-  const isManager = role === WhoamiRoleEnum.Manager
+  const isManager = role === WhoamiRoleEnum.MANAGER
   const groupId = params.id
 
   const ListActions = () => (
     <TopToolbar>
-      {isManager && <MoveButton moveType={GroupFlowMoveTypeEnum.Join} canCreate />}
+      {isManager && <MoveButton moveType={GroupFlowMoveTypeEnum.JOIN} canCreate />}
       <ExportButton />
     </TopToolbar>
   )
@@ -75,7 +75,7 @@ const GroupStudentList = () => {
         <TextField source='last_name' label='Nom·s' />
         {isManager && (
           <div style={{ display: 'flex', justifyContent: 'space-around' }}>
-            <MoveButton moveType={GroupFlowMoveTypeEnum.Leave} canCreate={false} />
+            <MoveButton moveType={GroupFlowMoveTypeEnum.LEAVE} canCreate={false} />
             <DeleteGroupStudent groupId={groupId} />
           </div>
         )}

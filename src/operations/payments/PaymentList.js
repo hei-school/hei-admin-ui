@@ -1,9 +1,8 @@
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
-import { prettyPrintMoney, CustomDateField } from '../utils'
-import { WhoamiRoleEnum } from '../../gen/haClient'
+import { prettyPrintMoney, paymentTypeRenderer, CustomDateField } from '../utils'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import authProvider from '../../providers/authProvider'
-import { paymentTypeRenderer } from '../utils/paymentTypeRenderer'
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -17,7 +16,7 @@ const PaymentList = ({ feeId }) => {
     <List
       title=' ' // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={'payments'}
-      actions={role === WhoamiRoleEnum.Manager && <Actions basePath={`/fees/${feeId}/payments`} />}
+      actions={role === WhoamiRoleEnum.MANAGER && <Actions basePath={`/fees/${feeId}/payments`} />}
       filterDefaultValues={{ feeId: feeId }}
       pagination={false}
     >

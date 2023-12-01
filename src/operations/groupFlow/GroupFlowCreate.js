@@ -2,7 +2,7 @@ import { Dialog, DialogActions, DialogContent, DialogTitle } from '@mui/material
 import { Button, useGetList, useNotify, useRecordContext } from 'react-admin'
 import { useForm } from 'react-hook-form'
 import { useParams } from 'react-router-dom'
-import { GroupFlowMoveTypeEnum } from '../../gen/haClient'
+import { GroupFlowMoveTypeEnum } from '@haapi/typescript-client'
 import { CustomAutoComplete } from '../utils/CustomAutoComplete'
 import groupFlowProvider from '../../providers/groupFlowProvider'
 
@@ -61,7 +61,7 @@ const GroupFlowCreate = ({ moveType, canCreate, handleClose, open, setIsOpen }) 
             width: '300px'
           }}
         >
-          {moveType === GroupFlowMoveTypeEnum.Join && (
+          {moveType === GroupFlowMoveTypeEnum.JOIN && (
             <CustomAutoComplete
               control={control}
               name='student'

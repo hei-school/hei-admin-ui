@@ -62,7 +62,7 @@ describe(specTitle('Notifications on error when create, e.g: StudentCreate'), ()
     cy.get('#birth_date').click().type(createStudent.birth_date)
     cy.get('.ra-input-address > .MuiInputBase-root').type(createStudent.address)
     cy.get('#email').type(createStudent.email)
-    cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime.slice(0, 10))
+    cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime.toISOString().slice(0, 10))
     cy.intercept('PUT', '/students', {
       statusCode: 500,
       body: {

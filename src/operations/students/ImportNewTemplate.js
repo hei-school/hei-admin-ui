@@ -6,7 +6,7 @@ import { useNotify } from 'react-admin'
 import { exporter, validateData } from '../utils'
 import { Download, Upload } from '@mui/icons-material'
 import { useForm } from 'react-hook-form'
-import { EnableStatus } from '../../gen/haClient'
+import { EnableStatus } from '@haapi/typescript-client'
 import studentProvider from '../../providers/studentProvider'
 import ImportInputFile from './ImportInputFile'
 
@@ -65,7 +65,7 @@ export const ImportNewTemplate = ({ isOpen, toggle }) => {
     if (importValidate.isValid) {
       const modifiedData = data.map(element => {
         element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
-        element['status'] = EnableStatus.Enabled
+        element['status'] = EnableStatus.ENABLED
       })
 
       setData(modifiedData)

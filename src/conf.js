@@ -1,4 +1,4 @@
-import { PaymentTypeEnum } from './gen/haClient'
+import { PaymentTypeEnum } from '@haapi/typescript-client'
 
 export const currentYear = new Date().getFullYear()
 
@@ -37,11 +37,12 @@ export const manualFeeTypes = {
 export const predefinedFirstDueDates = {
   // /!\ note(js-months): months are zero-based in JS
   date1: { name: `15 octobre ${currentYear}`, value: new Date(currentYear, 9, 15) },
-  date2: { name: `15 janvier ${currentYear + 1}`, value: new Date(currentYear + 1, 0, 15) }
+  date2: { name: `15 janvier ${currentYear + 1}`, value: new Date(currentYear + 1, 0, 15) },
+  date3: { name: `Tous les fin du mois`, value: new Date() }
 }
 
 export const paymentTypes = [
-  { name: 'Virement Bancaire', id: PaymentTypeEnum.BankTransfer },
-  { name: 'Mobile money', id: PaymentTypeEnum.MobileMoney },
-  { name: 'Cash', id: PaymentTypeEnum.Cash }
+  { name: 'Virement Bancaire', id: PaymentTypeEnum.BANK_TRANSFER },
+  { name: 'Mobile money', id: PaymentTypeEnum.MOBILE_MONEY },
+  { name: 'Cash', id: PaymentTypeEnum.CASH }
 ]

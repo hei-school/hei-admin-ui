@@ -1,17 +1,24 @@
-import { PaymentTypeEnum, Payment, Fee } from 'src/gen/haClient'
+import { Fee, Payment, PaymentTypeEnum } from '@haapi/typescript-client'
 import { fee1Mock } from './fees-api'
 
 export const payment1Mock: Payment = {
   id: 'payment1_id',
   fee_id: fee1Mock.id,
-  creation_datetime: '2022-11-11T08:25:26Z',
-  type: PaymentTypeEnum.Cash,
+  creation_datetime: new Date('2022-11-11T08:25:26Z'),
+  type: PaymentTypeEnum.CASH,
   amount: 200000,
   comment: 'Comment'
 }
 
 export const createPaymentWithAmountMock: (amount: number) => Payment = amount => {
-  return { id: 'payment3_id', fee_id: fee1Mock.id, creation_datetime: '2022-11-11T08:25:26Z', type: PaymentTypeEnum.Cash, amount: amount, comment: 'Comment' }
+  return {
+    id: 'payment3_id',
+    fee_id: fee1Mock.id,
+    creation_datetime: new Date('2022-11-11T08:25:26Z'),
+    type: PaymentTypeEnum.CASH,
+    amount: amount,
+    comment: 'Comment'
+  }
 }
 
 export const addPaymentMock: (payments: Payment[], payment: Payment) => Payment[] = (payments, payment) => {
@@ -31,7 +38,7 @@ export const createPaymentMock: (fee: Fee) => Payment[] = fee => {
       id: `payment_of_${fee.id}_id`,
       fee_id: fee.id,
       creation_datetime: fee.creation_datetime,
-      type: PaymentTypeEnum.Cash,
+      type: PaymentTypeEnum.CASH,
       amount: total_amount - remaining_amount,
       comment: 'Comment'
     }

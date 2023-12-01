@@ -1,7 +1,7 @@
 import { Add } from '@mui/icons-material'
 import { Button } from '@mui/material'
 import { useRecordContext } from 'react-admin'
-import { GroupFlowMoveTypeEnum } from '../../gen/haClient'
+import { GroupFlowMoveTypeEnum } from '@haapi/typescript-client'
 import { useToggle } from '../../hooks/useToggle'
 import GroupFlowCreate from './GroupFlowCreate'
 
@@ -10,7 +10,7 @@ const MoveButton = ({ moveType, canCreate }) => {
   const record = useRecordContext()
 
   const studentId = record.id
-  const isJoinMoveType = moveType === GroupFlowMoveTypeEnum.Join
+  const isJoinMoveType = moveType === GroupFlowMoveTypeEnum.JOIN
   const label = isJoinMoveType ? 'Créer' : 'Migrer'
 
   return (

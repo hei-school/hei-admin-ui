@@ -69,7 +69,7 @@ const DocLayout = ({ resource }) => {
       </div>
       <Divider sx={{ mt: 2, mb: 1 }} />
       <FilePreviewerContainer>
-        <FilePreviewer file={file} hideControls={true} />
+        <FilePreviewer file={file} hideControls />
       </FilePreviewerContainer>
     </>
   )

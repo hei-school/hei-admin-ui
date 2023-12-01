@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 import { useToggle } from '../../hooks/useToggle'
 import { studentIdFromRaId } from '../../providers/feeProvider'
-import { PaymentTypeEnum } from '../../gen/haClient'
+import { PaymentTypeEnum } from '@haapi/typescript-client'
 
 const PaymentCreate = props => {
   const params = useParams()
@@ -23,7 +23,7 @@ const PaymentCreate = props => {
     }
     doEffect()
   })
-  const [paymentChoice, setPaymentChoice] = useState(PaymentTypeEnum.BankTransfer)
+  const [paymentChoice, setPaymentChoice] = useState(PaymentTypeEnum.BANK_TRANSFER)
   const notifyError = error => {
     let message = "Une erreur s`'est produite"
     if (error.response && error.response.status === 400) {
@@ -53,12 +53,12 @@ const PaymentCreate = props => {
           label='Type'
           validate={required()}
           choices={paymentTypes}
-          defaultValue={PaymentTypeEnum.BankTransfer}
+          defaultValue={PaymentTypeEnum.BANK_TRANSFER}
           onChange={event => setPaymentChoice(event.target.value)}
         />
-        {paymentChoice === PaymentTypeEnum.BankTransfer && <TextInput source='ref' label='Réference' fullWidth={true} validate={required()} />}
-        <TextInput source='amount' label='Montant du paiement' fullWidth={true} validate={required()} />
-        <TextInput source='comment' label='Commentaire' fullWidth={true} validate={paymentChoice === PaymentTypeEnum.MobileMoney && required()} />
+        {paymentChoice === PaymentTypeEnum.BANK_TRANSFER && <TextInput source='ref' label='Réference' fullWidth validate={required()} />}
+        <TextInput source='amount' label='Montant du paiement' fullWidthvalidate={required()} />
+        <TextInput source='comment' label='Commentaire' fullWidth validate={paymentChoice === PaymentTypeEnum.MOBILE_MONEY && required()} />
         <BooleanInput
           source='specify-date'
           label={"Date de paiement aujourd'hui"}
