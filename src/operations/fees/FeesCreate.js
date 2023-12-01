@@ -5,14 +5,14 @@ import { manualFeeTypes, predefinedFeeTypes, predefinedFirstDueDates } from '../
 import { useStudentRef, useCreateFees } from '../../hooks'
 import { commentRenderer, toUTC } from '../utils'
 import { FeesCreateField } from './FeesCreateField'
-import { defaultFeeConf, getLastDay } from './utils'
+import { defaultFeeConf } from './utils'
 
 const FeesCreate = props => {
   const notify = useNotify()
   const [feesConf, setFeesConf] = useState([defaultFeeConf])
   const { studentId, studentRef, fetchRef } = useStudentRef('studentId')
   const createFeesConf = useCreateFees()
-  const { isPredefinedType, firstDate } = createFeesConf
+  const { isPredefinedType, firstDate, isPredefinedDueDate } = createFeesConf
 
   useEffect(() => {
     fetchRef()
@@ -27,7 +27,7 @@ const FeesCreate = props => {
     const firstDueDate = _feesConf.is_predefined_first_dueDate
       ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value
       : toDate(_feesConf.manual_first_duedate)
-    const isLastDay = isPredefinedType && _feesConf.predefined_first_dueDate === 'date3'
+    const isLastDay = isPredefinedDueDate && _feesConf.predefined_first_dueDate === 'date3'
     const currentDate = new Date(firstDate.year, firstDate.month, 1)
 
     const createDueDatetime = index => {
