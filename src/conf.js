@@ -1,4 +1,4 @@
-import { PaymentTypeEnum } from 'haapi-Ts-client'
+import { PaymentTypeEnum } from '@haapi/typescript-client'
 
 export const currentYear = new Date().getFullYear()
 

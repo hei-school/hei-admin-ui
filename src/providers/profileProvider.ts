@@ -1,7 +1,7 @@
 import { usersApi } from './api'
 import { HaDataProviderType } from './HaDataProviderType'
 import authProvider from './authProvider'
-import { WhoamiRoleEnum } from 'haapi-Ts-client'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 
 const profileProvider: HaDataProviderType = {
   async getOne(id: string) {

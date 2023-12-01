@@ -3,7 +3,7 @@ import { List } from '@react-admin/ra-rbac'
 import { TopToolbar, CreateButton } from 'react-admin'
 import { maxPageSize } from '../../providers/dataProvider'
 import authProvider from '../../providers/authProvider'
-import { WhoamiRoleEnum } from 'haapi-Ts-client'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import { FeesListItems } from './utils'
 import { useStudentRef } from '../../hooks/useStudentRef'
 

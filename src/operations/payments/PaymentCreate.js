@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom'
 import { paymentTypes } from '../../conf'
 import { useToggle } from '../../hooks/useToggle'
 import { studentIdFromRaId } from '../../providers/feeProvider'
-import { PaymentTypeEnum } from 'haapi-Ts-client'
+import { PaymentTypeEnum } from '@haapi/typescript-client'
 
 const PaymentCreate = props => {
   const params = useParams()

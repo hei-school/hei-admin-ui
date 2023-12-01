@@ -1,6 +1,6 @@
 import { Divider, Typography } from '@mui/material'
 import { EditButton, Show, SimpleShowLayout, TextField, TopToolbar } from 'react-admin'
-import { WhoamiRoleEnum } from 'haapi-Ts-client'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import authProvider from '../../providers/authProvider'
 import { CustomDateField } from '../utils/DateHandling'
 import GroupStudentList from './GroupStudentList'

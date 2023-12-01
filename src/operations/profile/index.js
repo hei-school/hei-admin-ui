@@ -1,6 +1,6 @@
 import ProfileShow from './ProfileShow'
 import { FilterForm, SelectInputFilter, TextFilter } from '../../ui/haToolbar'
-import { EnableStatus, Sex } from 'haapi-Ts-client'
+import { EnableStatus, Sex } from '@haapi/typescript-client'
 
 const profile = {
   show: ProfileShow

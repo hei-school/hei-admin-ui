@@ -1,7 +1,7 @@
 import { Delete } from '@mui/icons-material'
 import { Button, Confirm, Datagrid, ExportButton, List, TextField, TopToolbar, useNotify, useRecordContext } from 'react-admin'
 import { useParams } from 'react-router-dom'
-import { GroupFlowMoveTypeEnum, WhoamiRoleEnum } from 'haapi-Ts-client'
+import { GroupFlowMoveTypeEnum, WhoamiRoleEnum } from '@haapi/typescript-client'
 import { useToggle } from '../../hooks/useToggle'
 import { pageSize, PrevNextPagination } from '../utils'
 import authProvider from '../../providers/authProvider'

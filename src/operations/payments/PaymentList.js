@@ -1,7 +1,7 @@
 import { List } from '@react-admin/ra-rbac'
 import { Datagrid, TextField, FunctionField, TopToolbar, CreateButton } from 'react-admin'
 import { prettyPrintMoney, paymentTypeRenderer, CustomDateField } from '../utils'
-import { WhoamiRoleEnum } from 'haapi-Ts-client'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import authProvider from '../../providers/authProvider'
 
 const Actions = ({ basePath, resource }) => (

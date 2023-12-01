@@ -3,7 +3,7 @@ import { Button, Show, EditButton, TopToolbar, Link, useRecordContext } from 're
 import { ProfileLayout } from '../profile/ProfileShow'
 import { AttachMoney } from '@mui/icons-material'
 
-import { WhoamiRoleEnum } from 'haapi-Ts-client'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import authProvider from '../../providers/authProvider'
 
 const ActionsOnShow = ({ basePath, data, resource }) => {

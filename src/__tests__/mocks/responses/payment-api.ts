@@ -1,4 +1,4 @@
-import { Fee, Payment, PaymentTypeEnum } from 'haapi-Ts-client'
+import { Fee, Payment, PaymentTypeEnum } from '@haapi/typescript-client'
 import { fee1Mock } from './fees-api'
 
 export const payment1Mock: Payment = {
