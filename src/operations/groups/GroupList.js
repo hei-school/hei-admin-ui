@@ -1,7 +1,7 @@
 import { FunctionField, ShowButton, TextField } from 'react-admin'
 import { HaList } from '../../ui/haList'
 import { GroupsOutlined } from '@mui/icons-material'
-import { WhoamiRoleEnum } from 'haapi-Ts-client'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import { GroupFilters } from '.'
 import authProvider from '../../providers/authProvider'
 

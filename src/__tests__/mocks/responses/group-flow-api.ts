@@ -1,4 +1,4 @@
-import { GroupFlowMoveTypeEnum } from 'haapi-Ts-client'
+import { GroupFlowMoveTypeEnum } from '@haapi/typescript-client'
 import { group1, group1Students, groups, student1 } from './groups-api'
 
 const group2 = groups[1]

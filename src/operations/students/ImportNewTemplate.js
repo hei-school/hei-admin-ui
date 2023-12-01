@@ -6,7 +6,7 @@ import { useNotify } from 'react-admin'
 import { exporter, validateData } from '../utils'
 import { Download, Upload } from '@mui/icons-material'
 import { useForm } from 'react-hook-form'
-import { EnableStatus } from 'haapi-Ts-client'
+import { EnableStatus } from '@haapi/typescript-client'
 import studentProvider from '../../providers/studentProvider'
 import ImportInputFile from './ImportInputFile'
 

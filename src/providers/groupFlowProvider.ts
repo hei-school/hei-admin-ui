@@ -1,5 +1,5 @@
 import { HaDataProviderType } from './HaDataProviderType'
-import { GroupFlowMoveTypeEnum } from 'haapi-Ts-client'
+import { GroupFlowMoveTypeEnum } from '@haapi/typescript-client'
 import { teachingApi } from './api'
 
 const groupFlowProvider: HaDataProviderType = {

@@ -1,4 +1,4 @@
-import { EnableStatus, Whoami, WhoamiRoleEnum, Teacher, Sex } from 'haapi-Ts-client'
+import { EnableStatus, Whoami, WhoamiRoleEnum, Teacher, Sex } from '@haapi/typescript-client'
 
 export const teacherNameToBeCheckedMock: string = 'Toky'
 

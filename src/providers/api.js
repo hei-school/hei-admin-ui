@@ -1,4 +1,4 @@
-import { UsersApi, PayingApi, TeachingApi } from 'haapi-Ts-client'
+import { UsersApi, PayingApi, TeachingApi } from '@haapi/typescript-client'
 import authProvider from './authProvider'
 
 export const usersApi = () => new UsersApi(authProvider.getCachedAuthConf())
