@@ -30,7 +30,7 @@ export const SelectInputFilter = ({ choices, label, source, ...props }) => {
         size='small'
         variant='outlined'
         value={currentFilter[source] || ''}
-        sx={{ minWidth: '320px' }}
+        sx={{ minWidth: '350px' }}
         fullWidth
         onChange={event => setOneFilter(source, event.target.value)}
         {...props}
