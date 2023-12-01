@@ -16,7 +16,7 @@ const StudentCreate = () => {
   const transformPayload = payload => {
     const fees = []
     if (canCreateFees) {
-      createFees(fees, feesConf, payload, isPredefinedType)
+      createFees(fees, feesConf, payload, isPredefinedType, createFeesConf)
     }
     payload.entrance_datetime = turnStringIntoDate(payload.entrance_datetime)
     return [fees, payload]

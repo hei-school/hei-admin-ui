@@ -36,7 +36,7 @@ const FeesCreate = props => {
     const firstDueDate = _feesConf.is_predefined_first_dueDate
       ? predefinedFirstDueDates[_feesConf.predefined_first_dueDate].value
       : toDate(_feesConf.manual_first_duedate)
-    const isLastDay = _feesConf.predefined_first_dueDate === 'date3'
+    const isLastDay = isPredefinedType && _feesConf.predefined_first_dueDate === 'date3'
     const currentDate = new Date(firstDate.year, firstDate.month, 1) 
     
     const createDueDatetime = (index)=>{
