@@ -1,8 +1,7 @@
 import { DateInput, SimpleForm, TextInput } from 'react-admin'
-
 import { EditToolBar, SexRadioButton } from '../utils'
-import { CustomEdit } from '../utils/CustomEdit'
 import { StatusRadioButton } from '../utils/UserStatusRadioButton'
+import { CustomEdit } from '../utils/CustomEdit'
 
 const ProfileEdit = ({ isOwnProfile }) => (
   <CustomEdit title='Modifier le profil'>
