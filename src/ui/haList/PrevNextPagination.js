@@ -15,9 +15,6 @@ export const PrevNextPagination = () => {
     setPage(page - 1)
   }
   if (lastPage && page === 1) {
-    // react-admin redirects to page 1 if no more data to show
-    // We dont't like that behavior!
-    // Let the user stay on the last page.
     setPage(lastPage)
   }
 
