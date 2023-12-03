@@ -1,14 +1,13 @@
 import { useEffect } from 'react'
-import authProvider from '../../providers/authProvider'
 import { WhoamiRoleEnum } from '@haapi/typescript-client'
+import { FunctionField, ShowButton } from 'react-admin'
 import { WarningOutlined } from '@mui/icons-material'
-import { FeesListItems } from './utils'
 import { useStudentRef } from '../../hooks/useStudentRef'
 import { HaList } from '../../ui/haList/HaList'
 import { CreateButton } from '../../ui/haToolbar'
-import rowStyle from './byStatusRowStyle'
 import { commentFunctionRenderer, CustomDateField, prettyPrintMoney } from '../utils'
-import { FunctionField, ShowButton } from 'react-admin'
+import { rowStyle } from './utils'
+import authProvider from '../../providers/authProvider'
 
 const FeeList = ({ studentId }) => {
   const studentRefContext = useStudentRef('studentId')
@@ -26,6 +25,7 @@ const FeeList = ({ studentId }) => {
       title={`Frais de ${studentRef}`}
       resource={'fees'}
       actions={role === WhoamiRoleEnum.MANAGER && <CreateButton resource={`students/${definedStudentId}/fees`} />}
+      filterIndicator={false}
       listProps={{
         filterDefaultValues: { studentId: definedStudentId }
       }}

@@ -1,7 +1,14 @@
 import { Box, TextField, MenuItem } from '@mui/material'
-import { Datagrid, FunctionField, ShowButton } from 'react-admin'
+import { FunctionField, ShowButton } from 'react-admin'
 import { prettyPrintMoney, CustomDateField, commentFunctionRenderer } from '../utils'
-import rowStyle from './byStatusRowStyle'
+import { mainTheme } from '../../haTheme'
+
+export const rowStyle = (record, _index) => {
+  const lateColor = record.status === 'LATE' ? '#faacb2' : 'inherit'
+  return {
+    '& .RaDatagrid-rowCell': {color: 'red !important'}
+  }
+}
 
 export const defaultIsPredefinedType = true
 

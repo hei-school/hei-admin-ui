@@ -26,7 +26,7 @@ const MainSearchContainer = styled('div')({
 
 export const HaListContext = createContext()
 
-export function HaListTitle({ title, icon, actions, mainSearch }) {
+export function HaListTitle({ title, icon, actions, mainSearch, filterIndicator }) {
   const [showAction, setShowAction] = useState(null)
   const { filterValues } = useListFilterContext()
   const closeAction = () => setShowAction(null)
@@ -67,7 +67,7 @@ export function HaListTitle({ title, icon, actions, mainSearch }) {
           </MainSearchContainer>
         }
         {actions && (
-          <Box data-testid='menu-list-action' sx={isFilterApplied ? showIndication : undefined}>
+          <Box data-testid='menu-list-action' sx={(isFilterApplied && filterIndicator) ? showIndication : undefined}>
             <IconButton onClick={event => setShowAction(event.currentTarget)}>
               <MoreVert />
             </IconButton>

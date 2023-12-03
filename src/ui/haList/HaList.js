@@ -27,11 +27,11 @@ const DatagridWrapper = styled('div')({
     color: '#807d7a'
   },
   '& tbody .MuiTableRow-root': {
-    '&:hover': { backgroundColor: '#edf1fa' }
+    '&:hover': { backgroundColor: '#edf1fa !important' }
   }
 })
 
-export function HaList({ title, actions, resource, children, icon, listProps = {}, datagridProps = {}, mainSearch = { source: '', label: '' } }) {
+export function HaList({ title, actions,resource, children, icon, listProps = {}, datagridProps = {}, mainSearch = { source: '', label: '' }, filterIndicator=true }) {
   return (
     <ListWrapper>
       <List
@@ -42,7 +42,7 @@ export function HaList({ title, actions, resource, children, icon, listProps = {
         {...listProps}
       >
         <Box>
-          <HaListTitle actions={actions} title={title} icon={icon} mainSearch={mainSearch} />
+          <HaListTitle actions={actions} filterIndicator={filterIndicator} title={title} icon={icon} mainSearch={mainSearch} />
           <DatagridWrapper>
             <Datagrid bulkActionButtons={false} rowClick='show' {...datagridProps}>
               {children}
