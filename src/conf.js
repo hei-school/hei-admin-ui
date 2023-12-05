@@ -38,7 +38,7 @@ export const predefinedFirstDueDates = {
   // /!\ note(js-months): months are zero-based in JS
   date1: { name: `15 octobre ${currentYear}`, value: new Date(currentYear, 9, 15) },
   date2: { name: `15 janvier ${currentYear + 1}`, value: new Date(currentYear + 1, 0, 15) },
-  date3: { name: `Tous les fin du mois`, value: new Date() }
+  date3: { name: `À chaque fin du mois`, value: new Date() }
 }
 
 export const paymentTypes = [
