@@ -1,11 +1,10 @@
 export const importHeaders = ['ref', 'first_name', 'last_name', 'email', 'sex', 'birth_date', 'address', 'phone', 'entrance_datetime']
-
 export const minimalImportHeaders = ['ref', 'first_name', 'last_name', 'email', 'entrance_datetime']
 
-export const validateData = data => {
+export const validateData = (data, headers) => {
   let isValid = false
   let message = ''
-  const isEqual = (data1, headers) => {
+  const isEqual = (data1) => {
     let isEq = true
     data1.forEach(element => {
       if (!headers.includes(element)) {
