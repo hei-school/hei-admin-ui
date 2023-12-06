@@ -1,12 +1,13 @@
 import { EditButton, ShowButton, TextField } from 'react-admin'
 import { SchoolOutlined, UploadFile } from '@mui/icons-material'
-import { CreateButton, ExportButton } from '../../ui/haToolbar'
+import { CreateButton, ExportButton, ImportButton } from '../../ui/haToolbar'
 import { HaList } from '../../ui/haList'
 import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import authProvider from '../../providers/authProvider'
+import studentProvider from '../../providers/studentProvider'
 import { exporter, exportHeaders, importHeaders } from '../utils'
+import { minimalStudentHeaders, optionalStudentHeaders, transformStudentData, valideStudentData } from './importConf'
 import { ProfileFilters } from '../profile'
-import { ImportButton } from './ImportInputFile'
 
 const ListActions = ({ isManager }) => {
   return (
@@ -15,7 +16,14 @@ const ListActions = ({ isManager }) => {
       {isManager && (
         <>
           <ExportButton exportHandler={() => exporter([], importHeaders, 'template_students')} label='Template' icon={<UploadFile />} />
-          <ImportButton />
+          <ImportButton
+            validateData={valideStudentData}
+            resource='students'
+            provider={studentProvider.saveOrUpdate}
+            transformData={transformStudentData}
+            minimalHeaders={minimalStudentHeaders}
+            optionalHeaders={optionalStudentHeaders}
+          />
         </>
       )}
       <ExportButton exportHandler={list => exporter(list, exportHeaders, 'students')} />

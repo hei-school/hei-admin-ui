@@ -1,14 +1,12 @@
 import { useRef } from 'react'
+import { useNotify } from 'react-admin'
+import { useForm } from 'react-hook-form'
 import { Button, Checkbox, Dialog, DialogContent, DialogTitle, FormControlLabel, FormGroup, Grid, TextField, Typography } from '@mui/material'
 import { ArrowBackIos, ArrowForwardIos } from '@material-ui/icons'
-import { useWizardFormContext, WizardForm, WizardFormStep } from '@react-admin/ra-form-layout'
-import { useNotify } from 'react-admin'
-import { exporter, validateData } from '../utils'
 import { Download, Upload } from '@mui/icons-material'
-import { useForm } from 'react-hook-form'
-import { EnableStatus } from '@haapi/typescript-client'
-import studentProvider from '../../providers/studentProvider'
-import ImportInputFile from './ImportInputFile'
+import { useWizardFormContext, WizardForm, WizardFormStep } from '@react-admin/ra-form-layout'
+import { exporter } from '../../../operations/utils'
+import { ImportInputFile } from './ImportInputFile'
 
 const WizardToolbar = () => {
   const { hasNextStep, hasPreviousStep, goToNextStep, goToPreviousStep } = useWizardFormContext()
@@ -34,23 +32,11 @@ const WizardToolbar = () => {
   )
 }
 
-const defaultHeaders = [
-  { id: 1, label: 'Référence (ref)', value: 'ref', disabled: true },
-  { id: 2, label: 'Prénoms (first_name)', value: 'first_name', disabled: true },
-  { id: 3, label: 'Nom (last_name)', value: 'last_name', disabled: true },
-  { id: 4, label: 'Mail (email)', value: 'email', disabled: true },
-  { id: 5, label: "Date d'entrée à HEI (entrance_datetime)", value: 'entrance_datetime', disabled: true }
-]
-const optionalHeaders = [
-  { id: 5, label: 'Sexe (sex)', value: 'sex', disabled: false },
-  { id: 6, label: 'Date de naissance (birth_date)', value: 'birth_date', disabled: false },
-  { id: 8, label: 'Adresse (address)', value: 'address', disabled: false },
-  { id: 9, label: 'Numéro de téléphone (phone)', value: 'phone', disabled: false }
-]
-export const ImportNewTemplate = ({ isOpen, toggle }) => {
+export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, provider, transformData, isOpen, toggle, resource }) {
   const notify = useNotify()
   const inputRef = useRef(null)
-  const headers = defaultHeaders.map(header => header.value)
+  const headers = minimalHeaders.map(header => header.value)
+
   const { register, handleSubmit } = useForm({
     fileName: 'template',
     importHeaders: headers
@@ -60,20 +46,11 @@ export const ImportNewTemplate = ({ isOpen, toggle }) => {
     exporter([], [...headers, ...data?.importHeaders], data.fileName)
   }
 
-  const addStudents = async (data, setData) => {
+  const doImport = async data => {
     const importValidate = validateData(data)
     if (importValidate.isValid) {
-      const modifiedData = data.map(element => {
-        element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
-        element['status'] = EnableStatus.ENABLED
-      })
-
-      setData(modifiedData)
-
-      await studentProvider
-        .saveOrUpdate(data)
-        .then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
-        .catch(() => notify(`L'importation n'a pas pu être effectuée`, { type: 'error', autoHideDuration: 1000 }))
+      const modifiedData = transformData ? transformData(data) : data
+      await provider(modifiedData).then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
     } else {
       notify(importValidate.message, { type: 'error', autoHideDuration: 1000 })
     }
@@ -81,7 +58,7 @@ export const ImportNewTemplate = ({ isOpen, toggle }) => {
 
   return (
     <Dialog open={isOpen} onClose={toggle}>
-      <DialogTitle>Importer des étudiants en 3 étapes</DialogTitle>
+      <DialogTitle>Importer des {resource} en 3 étapes</DialogTitle>
       <DialogContent>
         <WizardForm toolbar={<WizardToolbar />}>
           <WizardFormStep label='Fichier'>
@@ -103,7 +80,7 @@ export const ImportNewTemplate = ({ isOpen, toggle }) => {
               </Grid>
               <Grid item>
                 <FormGroup>
-                  {defaultHeaders.map(head => (
+                  {minimalHeaders.map(head => (
                     <FormControlLabel
                       key={head.id}
                       control={<Checkbox size='small' disabled={head.disabled} checked {...register('importHeaders', {})} />}
@@ -135,7 +112,7 @@ export const ImportNewTemplate = ({ isOpen, toggle }) => {
               </Grid>
               <Grid item>
                 <Button size='medium' variant='outlined' onClick={() => inputRef.current.click()} startIcon={<Upload />}>
-                  <ImportInputFile ref={inputRef} mutationRequest={addStudents} />
+                  <ImportInputFile ref={inputRef} mutationRequest={doImport} />
                   <span>Importer</span>
                 </Button>
               </Grid>
