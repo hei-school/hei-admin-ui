@@ -1,28 +1,31 @@
-import { List, Datagrid, TextField, DateField, FunctionField, ShowButton } from 'react-admin'
-import rowStyle from './byStatusRowStyle'
-
+import { FunctionField, ShowButton } from 'react-admin'
+import { rowStyle } from './utils'
+import { WarningOutlined } from '@mui/icons-material'
 import { prettyPrintMoney, statusRenderer, CustomDateField, commentFunctionRenderer } from '../utils'
-
-import { maxPageSize } from '../../providers/dataProvider'
-import { FeesListItems } from './utils'
+import { HaList } from '../../ui/haList/HaList'
 
 const ByStatusFeeList = ({ status, ...props }) => {
-  status = status ? status : 'LATE'
   return (
-    <List
+    <HaList
       {...props}
-      title={`Frais de statut ${statusRenderer(status).toLowerCase()}`}
+      icon={<WarningOutlined />}
+      title={`Frais de statut ${statusRenderer(status || 'LATE').toLowerCase()}`}
       resource='fees'
-      basePath={`/fees`}
-      label='Frais'
-      actions={null}
-      filterDefaultValues={{ status: status }}
-      bulkActionButtons={false}
-      pagination={false}
-      perPage={maxPageSize}
+      listProps={{
+        filterDefaultValues: { status: status || 'LATE' }
+      }}
+      filterIndicator={false}
+      datagridProps={{
+        rowClick: id => `/fees/${id}/show`,
+        rowStyle
+      }}
     >
-      <FeesListItems />
-    </List>
+      <CustomDateField source='due_datetime' label='Date limite' showTime={false} />
+      <FunctionField source='comment' render={commentFunctionRenderer} label='Commentaire' />
+      <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
+      <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
+      <ShowButton basePath='/fees' />
+    </HaList>
   )
 }
 

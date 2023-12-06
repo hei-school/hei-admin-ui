@@ -1,7 +1,14 @@
 import { Box, TextField, MenuItem } from '@mui/material'
-import { Datagrid, FunctionField, ShowButton } from 'react-admin'
+import { FunctionField, ShowButton } from 'react-admin'
 import { prettyPrintMoney, CustomDateField, commentFunctionRenderer } from '../utils'
-import rowStyle from './byStatusRowStyle'
+import { mainTheme } from '../../haTheme'
+
+export const rowStyle = (record, _index) => {
+  const lateColor = record.status === 'LATE' ? '#f57c73' : 'inherit'
+  return {
+    backgroundColor: record.status === 'PAID' ? mainTheme.palette.grey[300] : lateColor
+  }
+}
 
 export const defaultIsPredefinedType = true
 
@@ -23,13 +30,13 @@ export const commonStyleSelect = {
 
 export const FeesListItems = () => {
   return (
-    <Datagrid bulkActionButtons={false} rowClick={id => `/fees/${id}/show`} rowStyle={rowStyle}>
+    <>
       <CustomDateField source='due_datetime' label='Date limite' showTime={false} />
       <FunctionField source='comment' render={commentFunctionRenderer} label='Commentaire' />
       <FunctionField label='Reste à payer' render={record => prettyPrintMoney(record.remaining_amount)} textAlign='right' />
       <CustomDateField source='creation_datetime' label='Date de création' showTime={false} />
       <ShowButton basePath='/fees' />
-    </Datagrid>
+    </>
   )
 }
 

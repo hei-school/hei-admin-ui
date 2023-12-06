@@ -34,7 +34,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudents')
     cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentsByName')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`, []).as('getPayments')
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=10`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${fee1Mock.id}`, fee1Mock).as('getFee1')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock)
     cy.get('#username').type(manager1.username)
@@ -77,7 +77,8 @@ describe(specTitle('Manager.Fee'), () => {
 
   it('cannot create fees when fields are missing', () => {
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('[data-testid="AddIcon"] > path').click()
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#predefined_type').click()
     cy.get('.MuiList-root > [tabindex="0"]').click()
     cy.contains('Enregistrer').click()
@@ -89,12 +90,13 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createFees')
 
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#predefined_type').click()
     cy.get(`[data-value="${feeTypeMock}"]`).click()
     cy.get('#predefined_first_dueDate').click()
     cy.get(`[data-value="${feeCreatDate}"]`).click()
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=10`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
     cy.contains('Enregistrer').click()
     cy.wait('@createFees').then(requestIntersection => {
       const dueDate = predefinedFirstDueDates[feeCreatDate].value
@@ -117,12 +119,13 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createNineFees')
 
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#predefined_type').click()
     cy.get(`[data-value="${feeTypeMock}"]`).click()
     cy.get('#predefined_first_dueDate').click()
     cy.get(`[data-value="${feeCreatDate}"]`).click()
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=10`, addFeeMock(feesMock, createFeeWithPredefinedDataMock(feeDateToSearch)))
     cy.contains('Enregistrer').click()
     cy.wait('@createNineFees').then(requestIntersection => {
       const dueDate = predefinedFirstDueDates[feeCreatDate].value
@@ -147,7 +150,8 @@ describe(specTitle('Manager.Fee'), () => {
     const manuallyCreatedFees = createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber)
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, manuallyCreatedFees).as('createFees')
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#is_predefined_type').click()
     cy.get('#manual_type_tuition').click()
     cy.get('#monthly_amount').click().clear().type(monthlyAmount)
@@ -159,7 +163,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#is_predefined_first_dueDate').click()
     cy.get('#manual_first_duedate').click().type(feeDateToSearch)
 
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=10`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
     cy.contains('Enregistrer').click()
     cy.contains('Élément créé')
     unmount()
@@ -168,10 +172,11 @@ describe(specTitle('Manager.Fee'), () => {
     const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000)
     const monthsNumber = 1 + Math.floor(Math.random() * 3)
     const manuallyCreatedFees = createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, null, monthsNumber)
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=10`, feesMock).as('getFees')
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, manuallyCreatedFees)
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#is_predefined_type').click()
     cy.get('#manual_type_tuition').click()
     cy.get('#monthly_amount').click().type(monthlyAmount)
@@ -181,7 +186,7 @@ describe(specTitle('Manager.Fee'), () => {
     cy.get('#is_predefined_first_dueDate').click()
     cy.get('#manual_first_duedate').click().type(feeDateToSearch)
 
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=10`, addFeeMock(feesMock, manuallyCreatedFees)).as('getFees')
     cy.contains('Enregistrer').click()
     cy.contains('Élément créé')
     cy.contains('-')

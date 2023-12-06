@@ -14,7 +14,7 @@ describe(specTitle('Manager.Fee.Late'), () => {
         res.send(manager2)
       })
     }).as('getManager1')
-    cy.intercept('GET', `/fees?status=LATE&page=1&page_size=500`, lateFeesMock).as('getLateFees')
+    cy.intercept('GET', `/fees?status=LATE&page=1&page_size=10`, lateFeesMock).as('getLateFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent1')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`, [payment1Mock]).as('getfees')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${fee1Mock.id}`, fee1Mock).as('getFee1')
