@@ -10,7 +10,7 @@ describe(specTitle('Student'), () => {
     cy.get('#username').type(student1.username)
     cy.get('#password').type(student1.password)
     cy.get('button').contains('Connexion').click()
-    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
+    cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=10`, feesMock).as('getFees')
     cy.intercept('GET', `/students/${student1Mock.id}`, student1Mock).as('getStudent')
     cy.intercept('GET', `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}/payments?page=1&page_size=10`, createPaymentMock(feesMock[7 - 1])).as(
       'getPaymentsOfFee1'
