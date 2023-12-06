@@ -57,17 +57,16 @@ export function HaListTitle({ title, icon, actions, mainSearch, filterIndicator 
         </Typography>
       </Box>
       <Box sx={{ display: 'flex', alignItems: 'center', gap: 1.5 }}>
-        {
-          mainSearch.source !== '' && 
+        {mainSearch.source !== '' && (
           <MainSearchContainer>
             <HaMainSearch source={mainSearch.source} label={mainSearch.label} />
             <label htmlFor='main-search'>
               <SearchOutlined sx={{ p: 0, transform: 'translateY(4px)', cursor: 'pointer' }} />
             </label>
           </MainSearchContainer>
-        }
+        )}
         {actions && (
-          <Box data-testid='menu-list-action' sx={(isFilterApplied && filterIndicator) ? showIndication : undefined}>
+          <Box data-testid='menu-list-action' sx={isFilterApplied && filterIndicator ? showIndication : undefined}>
             <IconButton onClick={event => setShowAction(event.currentTarget)}>
               <MoreVert />
             </IconButton>

@@ -31,7 +31,17 @@ const DatagridWrapper = styled('div')({
   }
 })
 
-export function HaList({ title, actions,resource, children, icon, listProps = {}, datagridProps = {}, mainSearch = { source: '', label: '' }, filterIndicator=true }) {
+export function HaList({
+  title,
+  actions,
+  resource,
+  children,
+  icon,
+  listProps = {},
+  datagridProps = {},
+  mainSearch = { source: '', label: '' },
+  filterIndicator = true
+}) {
   return (
     <ListWrapper>
       <List

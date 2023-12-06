@@ -77,7 +77,8 @@ describe(specTitle('Manager.Fee'), () => {
 
   it('cannot create fees when fields are missing', () => {
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('[data-testid="AddIcon"] > path').click()
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#predefined_type').click()
     cy.get('.MuiList-root > [tabindex="0"]').click()
     cy.contains('Enregistrer').click()
@@ -89,7 +90,8 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createFees')
 
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#predefined_type').click()
     cy.get(`[data-value="${feeTypeMock}"]`).click()
     cy.get('#predefined_first_dueDate').click()
@@ -117,7 +119,8 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, createFeeWithPredefinedDataMock(feeDateToSearch)).as('createNineFees')
 
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#predefined_type').click()
     cy.get(`[data-value="${feeTypeMock}"]`).click()
     cy.get('#predefined_first_dueDate').click()
@@ -147,7 +150,8 @@ describe(specTitle('Manager.Fee'), () => {
     const manuallyCreatedFees = createFeeWithManualDataMock(feeDateToSearch, monthlyAmount, comment, monthsNumber)
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, manuallyCreatedFees).as('createFees')
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#is_predefined_type').click()
     cy.get('#manual_type_tuition').click()
     cy.get('#monthly_amount').click().clear().type(monthlyAmount)
@@ -171,7 +175,8 @@ describe(specTitle('Manager.Fee'), () => {
     cy.intercept('GET', `/students/${student1Mock.id}/fees?page=1&page_size=500`, feesMock).as('getFees')
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, manuallyCreatedFees)
     cy.get('.show-page > .MuiToolbar-root > .MuiTypography-root').click() //click on fees
-    cy.get('.MuiFab-root').click() // create fees
+    cy.get('[data-testid="menu-list-action"]').click()
+    cy.get('[data-testid="create-button"]').click()
     cy.get('#is_predefined_type').click()
     cy.get('#manual_type_tuition').click()
     cy.get('#monthly_amount').click().type(monthlyAmount)

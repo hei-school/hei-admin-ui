@@ -16,7 +16,7 @@ const ByStatusFeeList = ({ status, ...props }) => {
       }}
       filterIndicator={false}
       datagridProps={{
-        rowClick: id => `/fees/${id}/show`, 
+        rowClick: id => `/fees/${id}/show`,
         rowStyle
       }}
     >

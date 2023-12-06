@@ -30,7 +30,7 @@ const FeeList = ({ studentId }) => {
         filterDefaultValues: { studentId: definedStudentId }
       }}
       datagridProps={{
-        rowClick: id => `/fees/${id}/show`, 
+        rowClick: id => `/fees/${id}/show`,
         rowStyle
       }}
     >

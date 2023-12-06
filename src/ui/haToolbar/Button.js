@@ -50,7 +50,7 @@ export function LinkButton({ to, icon, label, ...rest }) {
   )
 }
 
-export function CreateButton({resource}) {
+export function CreateButton({ resource }) {
   const list = useListContext()
   return <LinkButton label='Créer' to={`/${resource || list.resource}/create`} icon={<AddOutlined />} data-testid='create-button' />
 }
