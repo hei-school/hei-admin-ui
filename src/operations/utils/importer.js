@@ -4,7 +4,7 @@ export const minimalImportHeaders = ['ref', 'first_name', 'last_name', 'email', 
 export const validateData = (data, headers) => {
   let isValid = false
   let message = ''
-  const isEqual = (data1) => {
+  const isEqual = data1 => {
     let isEq = true
     data1.forEach(element => {
       if (!headers.includes(element)) {

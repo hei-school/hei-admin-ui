@@ -32,11 +32,11 @@ const WizardToolbar = () => {
   )
 }
 
-export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, provider, transformData , isOpen, toggle, resource }){
+export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, provider, transformData, isOpen, toggle, resource }) {
   const notify = useNotify()
   const inputRef = useRef(null)
   const headers = minimalHeaders.map(header => header.value)
-  
+
   const { register, handleSubmit } = useForm({
     fileName: 'template',
     importHeaders: headers
@@ -46,7 +46,7 @@ export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, pr
     exporter([], [...headers, ...data?.importHeaders], data.fileName)
   }
 
-  const doImport = async (data) => {
+  const doImport = async data => {
     const importValidate = validateData(data)
     if (importValidate.isValid) {
       const modifiedData = transformData ? transformData(data) : data
@@ -58,7 +58,7 @@ export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, pr
 
   return (
     <Dialog open={isOpen} onClose={toggle}>
-      <DialogTitle>Importer des { resource } en 3 étapes</DialogTitle>
+      <DialogTitle>Importer des {resource} en 3 étapes</DialogTitle>
       <DialogContent>
         <WizardForm toolbar={<WizardToolbar />}>
           <WizardFormStep label='Fichier'>

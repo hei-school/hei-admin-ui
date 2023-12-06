@@ -1,4 +1,4 @@
-import { validateData } from "../../ui/haToolbar"
+import { validateData } from '../../ui/haToolbar'
 import { EnableStatus } from '@haapi/typescript-client'
 
 export const minimalStudentHeaders = [
@@ -15,15 +15,15 @@ export const optionalStudentHeaders = [
   { id: 10, label: 'Numéro de téléphone (phone)', value: 'phone', disabled: false }
 ]
 
-export const valideStudentData = (data)=>{
+export const valideStudentData = data => {
   return validateData(
-    data, 
-    minimalStudentHeaders.map(el=> el.value), 
-    optionalStudentHeaders.map(el=> el.value), 
-  );
+    data,
+    minimalStudentHeaders.map(el => el.value),
+    optionalStudentHeaders.map(el => el.value)
+  )
 }
 
-export const transformStudentData = (data)=>{
+export const transformStudentData = data => {
   return data.map(element => {
     element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
     element['status'] = EnableStatus.ENABLED
