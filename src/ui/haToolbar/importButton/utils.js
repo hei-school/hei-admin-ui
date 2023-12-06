@@ -1,10 +1,10 @@
 export const excelType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel'
 
-export const validateData = (data, headers, minimalHeaders) => {
+export const validateData = (data, minimalHeaders, optionalHeaders) => {
   const result = { isValid: false, message: '' }
 
   const isAllValid = (data1) => {
-    const areValidHeader = data1.every(el => headers.includes(el))
+    const areValidHeader = data1.every(el => [...minimalHeaders, ...optionalHeaders].includes(el))
     const includeMinimal = minimalHeaders.every(el => data1.includes(el))
     return { areValidHeader, includeMinimal }
   }

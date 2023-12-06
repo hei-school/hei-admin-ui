@@ -4,8 +4,8 @@ import { CreateButton, ExportButton, ImportButton } from '../../ui/haToolbar'
 import { HaList } from '../../ui/haList'
 import { WhoamiRoleEnum } from '@haapi/typescript-client'
 import authProvider from '../../providers/authProvider'
+import studentProvider from '../../providers/studentProvider'
 import { exporter, exportHeaders, importHeaders } from '../utils'
-import { usersApi } from '../../providers/api'
 import { minimalStudentHeaders, optionalStudentHeaders, transformStudentData, valideStudentData } from './importConf'
 import { ProfileFilters } from '../profile'
 
@@ -19,7 +19,7 @@ const ListActions = ({ isManager }) => {
           <ImportButton 
             validateData={valideStudentData}
             resource='students'
-            provider={usersApi().createOrUpdateStudents}
+            provider={studentProvider.saveOrUpdate}
             transformData={transformStudentData}
             minimalHeaders={minimalStudentHeaders}
             optionalHeaders={optionalStudentHeaders}
