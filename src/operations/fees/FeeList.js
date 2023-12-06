@@ -9,7 +9,7 @@ import { commentFunctionRenderer, CustomDateField, prettyPrintMoney } from '../u
 import { rowStyle } from './utils'
 import authProvider from '../../providers/authProvider'
 import feeProvider from '../../providers/feeProvider'
-import { minimalFeesHeaders, optionalFeesHeaders, valideFeesData } from './importConf'
+import { minimalFeesHeaders, optionalFeesHeaders, transformFeesData, valideFeesData } from './importConf'
 import { transformStudentData } from '../students/importConf'
 
 const FeeList = () => {
@@ -52,11 +52,11 @@ function FeesActions({studentId}){
       <CreateButton resource={`students/${studentId}/fees`} />
       <ImportButton 
         resource='frais'
-        provider={(data)=>feeProvider.saveOrUpdate(studentId, data)}
+        provider={feeProvider.saveOrUpdate}
         validateData={valideFeesData}
         optionalHeaders={optionalFeesHeaders}
         minimalHeaders={minimalFeesHeaders}
-        transformData={transformStudentData}
+        transformData={(data) => transformFeesData(data, studentId)}
       />
     </>
   )

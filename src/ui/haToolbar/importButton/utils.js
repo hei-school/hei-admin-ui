@@ -29,7 +29,13 @@ export const validateData = (data, minimalHeaders, optionalHeaders) => {
 
 // excel date is like a number 
 // https://docs.telerik.com/aspnet-core/knowledge-base/spreadsheet-dates-to-javascript
-export function excelDateToJsDate(serial) {
-  const date = new Date((serial - 25569) * 86400 * 1000);
-  return date.toISOString();
+export function excelDateToJsDate(excelDate) {
+  const SECONDS_IN_DAY = 24 * 60 * 60;
+  const MISSING_LEAP_YEAR_DAY = SECONDS_IN_DAY * 1000;
+  const MAGIC_NUMBER_OF_DAYS = (25567 + 2);    
+  
+  const delta = excelDate - MAGIC_NUMBER_OF_DAYS;
+  const parsed = delta * MISSING_LEAP_YEAR_DAY;
+
+  return new Date(parsed).toISOString()
 }

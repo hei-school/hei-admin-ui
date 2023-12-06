@@ -53,7 +53,7 @@ export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, pr
       const modifiedData = transformData ? transformData(data) : data
       await provider(modifiedData).then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
     } else {
-      notify(importValidate.message, { type: 'error', autoHideDuration: 1000 })
+      notify(importValidate.message, { type: 'error', autoHideDuration: 3000 })
     }
   }
   
