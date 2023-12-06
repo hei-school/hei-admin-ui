@@ -27,7 +27,7 @@ const DatagridWrapper = styled('div')({
     color: '#807d7a'
   },
   '& tbody .MuiTableRow-root': {
-    '&:hover': { backgroundColor: '#edf1fa !important' }
+    '&:hover': { backgroundColor: '#edf1fa' }
   }
 })
 

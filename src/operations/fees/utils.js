@@ -4,9 +4,9 @@ import { prettyPrintMoney, CustomDateField, commentFunctionRenderer } from '../u
 import { mainTheme } from '../../haTheme'
 
 export const rowStyle = (record, _index) => {
-  const lateColor = record.status === 'LATE' ? '#faacb2' : 'inherit'
+  const lateColor = record.status === 'LATE' ? '#f57c73' : 'inherit'
   return {
-    '& .RaDatagrid-rowCell': {color: 'red !important'}
+    backgroundColor: record.status === 'PAID' ? mainTheme.palette.grey[300] : lateColor
   }
 }
 
