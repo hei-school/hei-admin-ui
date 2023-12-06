@@ -18,7 +18,7 @@ const ListActions = ({ isManager }) => {
           <ExportButton exportHandler={() => exporter([], importHeaders, 'template_students')} label='Template' icon={<UploadFile />} />
           <ImportButton
             validateData={valideStudentData}
-            resource='students'
+            resource='étudiants'
             provider={studentProvider.saveOrUpdate}
             transformData={transformStudentData}
             minimalHeaders={minimalStudentHeaders}

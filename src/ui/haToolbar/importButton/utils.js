@@ -26,3 +26,10 @@ export const validateData = (data, minimalHeaders, optionalHeaders) => {
 
   return result
 }
+
+// excel date is like a number 
+// https://docs.telerik.com/aspnet-core/knowledge-base/spreadsheet-dates-to-javascript
+export function excelDateToJsDate(serial) {
+  const date = new Date((serial - 25569) * 86400 * 1000);
+  return date.toISOString();
+}

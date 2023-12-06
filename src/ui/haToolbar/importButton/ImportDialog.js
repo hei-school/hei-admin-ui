@@ -7,6 +7,7 @@ import { Download, Upload } from '@mui/icons-material'
 import { useWizardFormContext, WizardForm, WizardFormStep } from '@react-admin/ra-form-layout'
 import { exporter } from '../../../operations/utils'
 import { ImportInputFile } from './ImportInputFile'
+import useHaListContext from '../../haList/useHaListContext'
 
 const WizardToolbar = () => {
   const { hasNextStep, hasPreviousStep, goToNextStep, goToPreviousStep } = useWizardFormContext()
@@ -33,10 +34,10 @@ const WizardToolbar = () => {
 }
 
 export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, provider, transformData, isOpen, toggle, resource }) {
+  const { closeAction } = useHaListContext()
   const notify = useNotify()
   const inputRef = useRef(null)
   const headers = minimalHeaders.map(header => header.value)
-
   const { register, handleSubmit } = useForm({
     fileName: 'template',
     importHeaders: headers
@@ -55,9 +56,13 @@ export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, pr
       notify(importValidate.message, { type: 'error', autoHideDuration: 1000 })
     }
   }
+  
+  const closeDialog = ()=>{
+    closeAction()
+  }
 
   return (
-    <Dialog open={isOpen} onClose={toggle}>
+    <Dialog open={isOpen} onClose={closeDialog}>
       <DialogTitle>Importer des {resource} en 3 étapes</DialogTitle>
       <DialogContent>
         <WizardForm toolbar={<WizardToolbar />}>
