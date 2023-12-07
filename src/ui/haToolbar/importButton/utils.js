@@ -8,7 +8,6 @@ export const validateData = (data, minimalHeaders, optionalHeaders) => {
     const includeMinimal = minimalHeaders.every(el => data1.includes(el))
     return { areValidHeader, includeMinimal }
   }
-
   if (data.length === 0) {
     result.message = "Il n'y a pas d'élément à insérer"
   } else if (data.length >= 10) {

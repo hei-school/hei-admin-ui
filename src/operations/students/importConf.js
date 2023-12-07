@@ -1,4 +1,4 @@
-import { validateData } from '../../ui/haToolbar'
+import { excelDateToJsDate, validateData } from '../../ui/haToolbar'
 import { EnableStatus } from '@haapi/typescript-client'
 
 export const minimalStudentHeaders = [
@@ -25,7 +25,7 @@ export const valideStudentData = data => {
 
 export const transformStudentData = data => {
   return data.map(element => {
-    element.entrance_datetime = new Date(element.entrance_datetime).toISOString()
+    element.entrance_datetime = excelDateToJsDate(element.entrance_datetime) 
     element['status'] = EnableStatus.ENABLED
     return element
   })
