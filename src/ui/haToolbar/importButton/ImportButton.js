@@ -28,9 +28,9 @@ export function ImportButton({ provider, optionalHeaders, validateData, minimalH
     const importValidate = validateData(data)
     if (importValidate.isValid) {
       const modifiedData = transformData ? transformData(data) : data
-      await provider(modifiedData).then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1000 }))
+      await provider(modifiedData).then(() => notify(`Importation effectuée avec succès`, { type: 'success', autoHideDuration: 1500 }))
     } else {
-      notify(importValidate.message, { type: 'error', autoHideDuration: 1000 })
+      notify(importValidate.message, { type: 'error', autoHideDuration: 4000 })
     }
   }
 
@@ -52,7 +52,7 @@ export function ImportButton({ provider, optionalHeaders, validateData, minimalH
           horizontal: 'right'
         }}
       >
-        <Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#8f8e8c', width: '100%', px: 2, mt: 1, mb: 1 }}>Options d'importation</Typography>
+        <Typography sx={{ fontSize: '14px', fontWeight: 'bold', color: '#8f8e8c', width: '100%', px: 2, mt: 1, mb: 1 }}>Choix d'Importation</Typography>
         <MenuItem
           data-testid='existantTemplate'
           sx={{ color: '#4a4a48' }}
