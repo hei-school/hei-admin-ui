@@ -25,7 +25,7 @@ export const valideStudentData = data => {
 
 export const transformStudentData = data => {
   return data.map(element => {
-    element.entrance_datetime = excelDateToJsDate(element.entrance_datetime) 
+    element.entrance_datetime = excelDateToJsDate(element.entrance_datetime)
     element['status'] = EnableStatus.ENABLED
     return element
   })

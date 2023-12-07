@@ -10,11 +10,14 @@ export const PrevNextPagination = () => {
   const [lastPage, setLastPage] = useState(0)
   const { page, data, isLoading, setPage } = useListContext()
   const resourcesCount = data ? Object.keys(data).length : 0
-  
+
   //unmount
-  useEffect(()=>()=>{
-    localStorage.setItem('RaStore.fees.listParams','');
-  },[])
+  useEffect(
+    () => () => {
+      localStorage.setItem('RaStore.fees.listParams', '')
+    },
+    []
+  )
 
   if (!lastPage && lastPage !== 0 /* TODO(empty-pages): test! */ && !isLoading && resourcesCount === 0) {
     setLastPage(page - 1)

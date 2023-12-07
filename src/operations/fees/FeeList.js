@@ -13,7 +13,7 @@ import { minimalFeesHeaders, optionalFeesHeaders, transformFeesData, valideFeesD
 import { transformStudentData } from '../students/importConf'
 
 const FeeList = () => {
-  const { studentRef, fetchRef, studentId } = useStudentRef ('studentId')
+  const { studentRef, fetchRef, studentId } = useStudentRef('studentId')
   const role = authProvider.getCachedRole()
 
   useEffect(() => {
@@ -25,7 +25,7 @@ const FeeList = () => {
       icon={<WarningOutlined />}
       title={`Frais de ${studentRef}`}
       resource={'fees'}
-      actions={role === WhoamiRoleEnum.MANAGER &&  <FeesActions studentId={studentId} />}
+      actions={role === WhoamiRoleEnum.MANAGER && <FeesActions studentId={studentId} />}
       filterIndicator={false}
       listProps={{
         filterDefaultValues: { studentId }
@@ -46,17 +46,17 @@ const FeeList = () => {
 
 export default FeeList
 
-function FeesActions({studentId}){
-  return(
+function FeesActions({ studentId }) {
+  return (
     <>
       <CreateButton resource={`students/${studentId}/fees`} />
-      <ImportButton 
+      <ImportButton
         resource='frais'
         provider={feeProvider.saveOrUpdate}
         validateData={valideFeesData}
         optionalHeaders={optionalFeesHeaders}
         minimalHeaders={minimalFeesHeaders}
-        transformData={(data) => transformFeesData(data, studentId)}
+        transformData={data => transformFeesData(data, studentId)}
       />
     </>
   )

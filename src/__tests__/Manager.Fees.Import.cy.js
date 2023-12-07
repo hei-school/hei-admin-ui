@@ -2,7 +2,16 @@ import { mount, unmount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createdStudents, feesMock, liteCreatedStudents, manager2, student1Mock, studentNameToBeCheckedMock, studentsMock, whoamiManagerMock } from './mocks/responses'
+import {
+  createdStudents,
+  feesMock,
+  liteCreatedStudents,
+  manager2,
+  student1Mock,
+  studentNameToBeCheckedMock,
+  studentsMock,
+  whoamiManagerMock
+} from './mocks/responses'
 
 const importFile = (file, message, middleware) => {
   const _path = 'cypress/fixtures/fees_import'
@@ -14,7 +23,7 @@ const importFile = (file, message, middleware) => {
   cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true })
 
   cy.contains('Confirmer').click()
-  middleware &&  middleware()
+  middleware && middleware()
   cy.contains(message)
 }
 
@@ -38,7 +47,7 @@ describe(specTitle('Manager import fees for one students'), () => {
     cy.get('[href="#/students"]').click()
     cy.get('[data-testid="main-search-filter"]').type(student1Mock.first_name)
     cy.wait('@getStudentsByFirstName')
-    cy.contains(student1Mock.first_name).click() 
+    cy.contains(student1Mock.first_name).click()
     cy.wait('@getStudent1')
     cy.get('[data-testid="AttachMoneyIcon"]').click()
     cy.wait('@getStudent1Fees')
@@ -64,20 +73,19 @@ describe(specTitle('Manager import fees for one students'), () => {
   //   importFile('nv_fees_template.xlsx', 'Tous les montants totaux doivent être des nombres')
   // })
 
-
   it('notifies if the multiple students creation failed', () => {
-    cy.intercept('POST', `/students/${student1Mock.id}/fees`,[feesMock]).as('createFees')
-    importFile('v_fees_template.xlsx', 'Importation effectuée avec succès', ()=>{
+    cy.intercept('POST', `/students/${student1Mock.id}/fees`, [feesMock]).as('createFees')
+    importFile('v_fees_template.xlsx', 'Importation effectuée avec succès', () => {
       cy.wait('@createFees').then(requestIntersection => {
         const DATA_LENGTH = 7 //data inside the correct xlsx file fixtures
         //One type of data inside the xlsx
         const feesExpected = {
-          type: 'TUITION', 
-          comment: 'comment1', 
-          total_amount: 10, 
+          type: 'TUITION',
+          comment: 'comment1',
+          total_amount: 10,
           due_datetime: new Date('2023-01-01').toISOString(),
           student_id: student1Mock.id
-        } 
+        }
         const feesRequest = requestIntersection.request.body[0]
         delete feesRequest.creation_datetime
         expect(feesRequest).to.deep.equal(feesExpected)

@@ -56,8 +56,8 @@ export function ImportDialog({ optionalHeaders, minimalHeaders, validateData, pr
       notify(importValidate.message, { type: 'error', autoHideDuration: 3000 })
     }
   }
-  
-  const closeDialog = ()=>{
+
+  const closeDialog = () => {
     closeAction()
   }
 
