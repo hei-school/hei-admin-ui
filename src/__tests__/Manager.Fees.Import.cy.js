@@ -2,16 +2,7 @@ import { mount, unmount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import {
-  createdStudents,
-  feesMock,
-  liteCreatedStudents,
-  manager2,
-  student1Mock,
-  studentNameToBeCheckedMock,
-  studentsMock,
-  whoamiManagerMock
-} from './mocks/responses'
+import { feesMock, student1Mock, studentsMock, whoamiManagerMock } from './mocks/responses'
 
 const importFile = (file, message, middleware) => {
   const _path = 'cypress/fixtures/fees_import'
@@ -53,25 +44,25 @@ describe(specTitle('Manager import fees for one students'), () => {
     cy.wait('@getStudent1Fees')
   })
 
-  // it('cannot create fees if the file is empty', () => {
-  //   importFile('0_fees_template.xlsx', "Il n'y a pas d'élément à insérer")
-  // })
+  it('cannot create fees if the file is empty', () => {
+    importFile('0_fees_template.xlsx', "Il n'y a pas d'élément à insérer")
+  })
 
-  // it('cannot create fees if there is too much students to create', () => {
-  //   importFile('13_fees_template.xlsx', 'Vous ne pouvez importer que 10 éléments à la fois.')
-  // })
+  it('cannot create fees if there is too much students to create', () => {
+    importFile('13_fees_template.xlsx', 'Vous ne pouvez importer que 10 éléments à la fois.')
+  })
 
-  // it('cannot create fees if the headers are not corrects', () => {
-  //   importFile('nv_heads_fees_template.xlsx', 'Veuillez re-vérifier les en-têtes de votre fichier')
-  // })
+  it('cannot create fees if the headers are not corrects', () => {
+    importFile('nv_heads_fees_template.xlsx', 'Veuillez re-vérifier les en-têtes de votre fichier')
+  })
 
-  // it('cannot create fees if the minimal headers are missing', () => {
-  //   importFile('missing_header_fees_template.xlsx', 'Quelques en-têtes obligatoire sont manquantes')
-  // })
+  it('cannot create fees if the minimal headers are missing', () => {
+    importFile('missing_header_fees_template.xlsx', 'Quelques en-têtes obligatoire sont manquantes')
+  })
 
-  // it('cannot create fees if some data are not correct', () => {
-  //   importFile('nv_fees_template.xlsx', 'Tous les montants totaux doivent être des nombres')
-  // })
+  it('cannot create fees if some data are not correct', () => {
+    importFile('nv_fees_template.xlsx', 'Tous les montants totaux doivent être des nombres')
+  })
 
   it('notifies if the multiple students creation failed', () => {
     cy.intercept('POST', `/students/${student1Mock.id}/fees`, [feesMock]).as('createFees')
