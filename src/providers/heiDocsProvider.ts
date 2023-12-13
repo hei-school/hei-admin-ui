@@ -28,7 +28,7 @@ const heiDocsProvider: HaDataProviderType = {
     return heiDocs.map(transform)
   },
   async getOne(id: string) {
-    return heiDocs.map(transform).find(element => element.id == id)
+    return heiDocs.map(transform).find(element => element.id === id)
   },
   async saveOrUpdate(users: Array<any>) {
     throw new Error('Not implemented')

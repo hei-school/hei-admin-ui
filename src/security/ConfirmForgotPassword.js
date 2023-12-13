@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import authProvider from '../providers/authProvider'
-import { Typography, FormControl, TextField } from '@mui/material'
+import { Typography } from '@mui/material'
 import { CustomTextField, CustomSubmitButton } from './utils'
 import { useNotify } from 'react-admin'
 

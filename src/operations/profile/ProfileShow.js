@@ -2,7 +2,7 @@ import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, TopToolba
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
-import { EnableStatus, Sex, WhoamiRoleEnum } from '@haapi/typescript-client'
+import { EnableStatus, Sex } from '@haapi/typescript-client'
 
 export const ProfileLayout = () => {
   const emptyText = 'Non défini.e'
