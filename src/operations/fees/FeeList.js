@@ -10,7 +10,6 @@ import { rowStyle } from './utils'
 import authProvider from '../../providers/authProvider'
 import feeProvider from '../../providers/feeProvider'
 import { minimalFeesHeaders, optionalFeesHeaders, transformFeesData, valideFeesData } from './importConf'
-import { transformStudentData } from '../students/importConf'
 
 const FeeList = () => {
   const { studentRef, fetchRef, studentId } = useStudentRef('studentId')

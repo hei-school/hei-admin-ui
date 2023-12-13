@@ -1,4 +1,4 @@
-import { Datagrid, List, ShowButton, TextField, useGetRecordId, useRecordContext, useRedirect } from 'react-admin'
+import { Datagrid, List, ShowButton, TextField } from 'react-admin'
 import { CustomDateField, PrevNextPagination } from '../utils'
 
 const DocsList = ({ title, resource }) => {

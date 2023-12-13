@@ -1,7 +1,6 @@
 import { Login } from 'react-admin'
 import { Card, CardContent, Grid, Typography, useMediaQuery, Modal, Box, Link } from '@mui/material'
 import { mainTheme } from '../haTheme'
-import { positions } from '@mui/system'
 import CompletePasswordPage from './CompletePasswordPage'
 import authProvider from '../providers/authProvider'
 import { useState } from 'react'

@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { FunctionField, SimpleShowLayout, Show, useDataProvider, EditButton, Toolbar, TopToolbar } from 'react-admin'
+import { FunctionField, SimpleShowLayout, Show, useDataProvider, EditButton, TopToolbar } from 'react-admin'
 import { prettyPrintMoney, statusRenderer, withRedWarning, CustomDateField, commentFunctionRenderer } from '../utils'
 import { Divider, Typography } from '@mui/material'
 import PaymentList from '../payments/PaymentList'

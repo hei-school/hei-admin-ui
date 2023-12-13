@@ -1,4 +1,4 @@
-import { Create, SimpleForm, TextInput, DateInput } from 'react-admin'
+import { SimpleForm, TextInput, DateInput } from 'react-admin'
 import { SexRadioButton, turnStringIntoDate } from '../utils'
 import { CustomCreate } from '../utils/CustomCreate'
 
