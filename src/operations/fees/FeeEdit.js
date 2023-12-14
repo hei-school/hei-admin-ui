@@ -36,7 +36,7 @@ function EditToolbar() {
     <Toolbar>
       <Button variant='contained' disabled={pending || !record.due_datetime} size='medium' onClick={updateFee}>
         {pending ? <CircularProgress size={20} sx={{ mt: 0.3, mr: 1.5 }} /> : <Save sx={{ mr: 1, mt: 0.3 }} />}
-        Enregistrés
+        Enregistrer
       </Button>
     </Toolbar>
   )
