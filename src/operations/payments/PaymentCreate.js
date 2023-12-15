@@ -10,11 +10,14 @@ import { PaymentTypeEnum } from '@haapi/typescript-client'
 const PaymentCreate = props => {
   const params = useParams()
   const notify = useNotify()
+  const dataProvider = useDataProvider()
+  const [studentRef, setStudentRef] = useState('...')
+  const [paymentChoice, setPaymentChoice] = useState(PaymentTypeEnum.BANK_TRANSFER)
+  const [notSpecifiedDate, setSpecifyDate] = useToggle(true)
+
   const feeId = params.feeId
   const studentId = studentIdFromRaId(feeId)
-  const [notSpecifiedDate, setSpecifyDate] = useToggle(true)
-  const [studentRef, setStudentRef] = useState('...')
-  const dataProvider = useDataProvider()
+  const isCommentNecessary = paymentChoice === PaymentTypeEnum.MOBILE_MONEY || paymentChoice === PaymentTypeEnum.BANK_TRANSFER
 
   useEffect(() => {
     const doEffect = async () => {
@@ -23,7 +26,7 @@ const PaymentCreate = props => {
     }
     doEffect()
   })
-  const [paymentChoice, setPaymentChoice] = useState(PaymentTypeEnum.BANK_TRANSFER)
+
   const notifyError = error => {
     let message = "Une erreur s`'est produite"
     if (error.response && error.response.status === 400) {
@@ -57,8 +60,8 @@ const PaymentCreate = props => {
           onChange={event => setPaymentChoice(event.target.value)}
         />
         {paymentChoice === PaymentTypeEnum.BANK_TRANSFER && <TextInput source='ref' label='Réference' fullWidth validate={required()} />}
-        <TextInput source='amount' label='Montant du paiement' fullWidthvalidate={required()} />
-        <TextInput source='comment' label='Commentaire' fullWidth validate={paymentChoice === PaymentTypeEnum.MOBILE_MONEY && required()} />
+        <TextInput source='amount' label='Montant du paiement' fullWidth validate={required()} />
+        <TextInput source='comment' label='Commentaire' fullWidth validate={isCommentNecessary && required()} />
         <BooleanInput
           source='specify-date'
           label={"Date de paiement aujourd'hui"}

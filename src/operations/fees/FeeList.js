@@ -4,30 +4,30 @@ import { FunctionField, ShowButton } from 'react-admin'
 import { WarningOutlined } from '@mui/icons-material'
 import { useStudentRef } from '../../hooks/useStudentRef'
 import { HaList } from '../../ui/haList/HaList'
-import { CreateButton } from '../../ui/haToolbar'
+import { CreateButton, ImportButton } from '../../ui/haToolbar'
 import { commentFunctionRenderer, CustomDateField, prettyPrintMoney } from '../utils'
 import { rowStyle } from './utils'
 import authProvider from '../../providers/authProvider'
+import feeProvider from '../../providers/feeProvider'
+import { minimalFeesHeaders, optionalFeesHeaders, transformFeesData, valideFeesData } from './importConf'
 
-const FeeList = ({ studentId }) => {
-  const studentRefContext = useStudentRef('studentId')
-  const { studentRef, fetchRef } = studentRefContext
-  const definedStudentId = studentId ? studentId : studentRefContext.studentId
+const FeeList = () => {
+  const { studentRef, fetchRef, studentId } = useStudentRef('studentId')
   const role = authProvider.getCachedRole()
 
   useEffect(() => {
     fetchRef()
-  }, [definedStudentId])
+  }, [studentId])
 
   return (
     <HaList
       icon={<WarningOutlined />}
       title={`Frais de ${studentRef}`}
       resource={'fees'}
-      actions={role === WhoamiRoleEnum.MANAGER && <CreateButton resource={`students/${definedStudentId}/fees`} />}
+      actions={role === WhoamiRoleEnum.MANAGER && <FeesActions studentId={studentId} />}
       filterIndicator={false}
       listProps={{
-        filterDefaultValues: { studentId: definedStudentId }
+        filterDefaultValues: { studentId }
       }}
       datagridProps={{
         rowClick: id => `/fees/${id}/show`,
@@ -44,3 +44,19 @@ const FeeList = ({ studentId }) => {
 }
 
 export default FeeList
+
+function FeesActions({ studentId }) {
+  return (
+    <>
+      <CreateButton resource={`students/${studentId}/fees`} />
+      <ImportButton
+        resource='frais'
+        provider={feeProvider.saveOrUpdate}
+        validateData={valideFeesData}
+        optionalHeaders={optionalFeesHeaders}
+        minimalHeaders={minimalFeesHeaders}
+        transformData={data => transformFeesData(data, studentId)}
+      />
+    </>
+  )
+}
