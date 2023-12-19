@@ -11,3 +11,16 @@ export const updatedInfo = {
   ...teachersMock[0],
   last_name: 'new'
 }
+
+export const importFile = (file, message, _path) => {
+  const _mockFile = `${_path}/${file}`
+
+  cy.get('[data-testid="menu-list-action"]').click()
+  cy.get('#import-button').click()
+  cy.get("[data-testid='inputFile']").selectFile(_mockFile, { force: true })
+  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true })
+
+  cy.contains('Confirmer').click()
+
+  cy.contains(message)
+}
