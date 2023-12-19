@@ -3,20 +3,8 @@ import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { createdStudents, liteCreatedStudents, manager2, student1Mock, studentNameToBeCheckedMock, studentsMock, whoamiManagerMock } from './mocks/responses'
-
-const importFile = (file, message) => {
-  const _path = 'cypress/fixtures'
-  const _mockFile = `${_path}/${file}`
-
-  cy.get('[data-testid="menu-list-action"]').click()
-  cy.get('#import-button').click()
-  cy.get("[data-testid='inputFile']").selectFile(_mockFile, { force: true })
-  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true })
-
-  cy.contains('Confirmer').click()
-
-  cy.contains(message)
-}
+import { importFile } from './utils'
+const _path = 'cypress/fixtures/students_import'
 describe(specTitle('Manager create multiple students'), () => {
   beforeEach(() => {
     mount(<App />)
