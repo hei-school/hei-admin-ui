@@ -8,6 +8,7 @@ import studentProvider from '../../providers/studentProvider'
 import { exporter, exportHeaders, importHeaders } from '../utils'
 import { minimalStudentHeaders, optionalStudentHeaders, transformStudentData, valideStudentData } from './importConf'
 import { ProfileFilters } from '../profile'
+import { minimalUserHeaders, optionalUserHeaders, transformUserData, validateUserData } from '../utils/userImportConf'
 
 const ListActions = ({ isManager }) => {
   return (
@@ -17,12 +18,12 @@ const ListActions = ({ isManager }) => {
         <>
           <ExportButton exportHandler={() => exporter([], importHeaders, 'template_students')} label='Template' icon={<UploadFile />} />
           <ImportButton
-            validateData={valideStudentData}
+            validateData={validateUserData}
             resource='étudiants'
             provider={studentProvider.saveOrUpdate}
-            transformData={transformStudentData}
-            minimalHeaders={minimalStudentHeaders}
-            optionalHeaders={optionalStudentHeaders}
+            transformData={transformUserData}
+            minimalHeaders={minimalUserHeaders}
+            optionalHeaders={optionalUserHeaders}
           />
         </>
       )}
