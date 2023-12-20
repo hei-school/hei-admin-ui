@@ -3,20 +3,8 @@ import App from '../App'
 import { manager1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
 import { createdStudents, liteCreatedStudents, manager2, student1Mock, studentNameToBeCheckedMock, studentsMock, whoamiManagerMock } from './mocks/responses'
-
-const importFile = (file, message) => {
-  const _path = 'cypress/fixtures'
-  const _mockFile = `${_path}/${file}`
-
-  cy.get('[data-testid="menu-list-action"]').click()
-  cy.get('#import-button').click()
-  cy.get("[data-testid='inputFile']").selectFile(_mockFile, { force: true })
-  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true })
-
-  cy.contains('Confirmer').click()
-
-  cy.contains(message)
-}
+import { importFile } from './utils'
+const _path = 'cypress/fixtures/students_import'
 describe(specTitle('Manager create multiple students'), () => {
   beforeEach(() => {
     mount(<App />)
@@ -42,26 +30,26 @@ describe(specTitle('Manager create multiple students'), () => {
   })
 
   it('cannot create students if the file is empty', () => {
-    importFile('0_template.xlsx', "Il n'y a pas d'élément à insérer")
+    importFile('0_student_template.xlsx', "Il n'y a pas d'élément à insérer", _path)
     unmount()
   })
 
   it('cannot create students if there is too much students to create', () => {
-    importFile('13_template.xlsx', 'Vous ne pouvez importer que 10 éléments à la fois.')
+    importFile('13_template.xlsx', 'Vous ne pouvez importer que 10 éléments à la fois.', _path)
   })
 
   it('cannot create students if the headers are not corrects', () => {
-    importFile('wrong_heads_template.xlsx', 'Veuillez re-vérifier les en-têtes de votre fichier')
+    importFile('wrong_heads_students_template.xlsx', 'Veuillez re-vérifier les en-têtes de votre fichier', _path)
   })
 
   it('can create multiple students with the correct file', () => {
     cy.intercept('PUT', '/students', [createdStudents]).as('createStudents')
-    importFile('correct_template.xlsx', 'Importation effectuée avec succès')
+    importFile('correct_students_template.xlsx', 'Importation effectuée avec succès', _path)
   })
 
   it('can create multiple students with the correct file and minimum infos', () => {
     cy.intercept('PUT', '/students', [liteCreatedStudents]).as('createStudents')
-    importFile('lite_correct_template.xlsx', 'Importation effectuée avec succès')
+    importFile('lite_correct_students_template.xlsx', 'Importation effectuée avec succès', _path)
   })
 
   it('notifies if the multiple students creation failed', () => {
@@ -71,7 +59,7 @@ describe(specTitle('Manager create multiple students'), () => {
         message: 'error'
       }
     }).as('createStudent')
-    importFile('correct_template.xlsx', "L'importation n'a pas pu être effectuée")
+    importFile('correct_students_template.xlsx', "L'importation n'a pas pu être effectuée", _path)
   })
   afterEach(() => {
     unmount()
