@@ -1,10 +1,11 @@
-import { mount } from '@cypress/react'
+import { mount, unmount } from '@cypress/react'
 import App from '../App'
 import { manager1 } from './credentials'
 import { editedManager2, manager2, whoamiManagerMock } from './mocks/responses'
 import { toUTC } from '../operations/utils'
+import specTitle from 'cypress-sonarqube-reporter/specTitle'
 
-describe('', () => {
+describe(specTitle('Profile test'), () => {
   beforeEach(() => {
     mount(<App />)
     cy.get('#username').type(manager1.username)
@@ -35,5 +36,9 @@ describe('', () => {
     })
 
     cy.contains('Élément mis à jour')
+  })
+
+  afterEach(() => {
+    unmount()
   })
 })
