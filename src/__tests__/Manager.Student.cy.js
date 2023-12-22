@@ -140,6 +140,8 @@ describe(specTitle('Manager creates students'), () => {
     cy.get('#ref').type(createStudent.ref)
     cy.get('#first_name').type(createStudent.first_name)
     cy.get('#last_name').type(createStudent.last_name)
+    cy.get('#nic').type(createStudent.nic)
+    cy.get('#birth_place').type(createStudent.birth_place)
     cy.get('#entrance_datetime').click().type(createStudent.entrance_datetime.toISOString().slice(0, 10))
     cy.get('#email').type(createStudent.email)
   })
