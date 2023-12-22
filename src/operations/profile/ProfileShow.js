@@ -1,4 +1,4 @@
-import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, TopToolbar, EditButton } from 'react-admin'
+import { EmailField, FunctionField, SimpleShowLayout, Show, TextField, TopToolbar, EditButton, NumberField } from 'react-admin'
 import { Link } from '@mui/material'
 import authProvider from '../../providers/authProvider'
 import { unexpectedValue, CustomDateField } from '../utils'
@@ -32,7 +32,9 @@ export const ProfileLayout = () => {
       <TextField source='last_name' label='Nom(s)' />
       <FunctionField label='Sexe' render={sexRenderer} />
       <FunctionField label='Téléphone' render={phoneRenderer} />
+      <TextField source='nic' label='Numéro CIN' emptyText={emptyText} />
       <CustomDateField source='birth_date' label='Date de naissance' showTime={false} emptyText={emptyText} />
+      <TextField source='birth_place' label='Lieu de naissance' emptyText={emptyText} />
       <TextField source='address' label='Adresse' component='pre' emptyText={emptyText} />
       <EmailField source='email' label='Email' />
       <CustomDateField source='entrance_datetime' label="Date d'entrée chez HEI" showTime={false} />
