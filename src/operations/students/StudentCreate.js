@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { BooleanInput, DateInput, SimpleForm, TextInput } from 'react-admin'
+import { BooleanInput, DateInput, maxLength, SimpleForm, TextInput } from 'react-admin'
 import { SexRadioButton, turnStringIntoDate } from '../utils'
 import { createFees } from './utils'
 import { CustomCreate } from '../utils/CustomCreate'
@@ -43,6 +43,8 @@ const StudentCreate = () => {
         <TextInput source='last_name' label='Nom' fullWidth required />
         <SexRadioButton />
         <TextInput source='phone' label='Téléphone' fullWidth />
+        <TextInput source='nic' label='Numéro CIN' fullWidth validate={maxLength(12, 'Le numéro CIN ne doit pas dépasser 12 caractères.')} />
+        <TextInput source='birth_place' label='Lieu de naissance' fullWidth />
         <DateInput source='birth_date' label='Date de naissance' fullWidth />
         <TextInput source='address' label='Adresse' fullWidth multiline data-testid='addressInput' />
         <TextInput source='email' label='Email' fullWidth required />
