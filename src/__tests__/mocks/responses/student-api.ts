@@ -13,7 +13,9 @@ export const student1Mock: Student = {
   phone: '0322411123',
   email: 'test+ryan@hei.school',
   entrance_datetime: new Date('2021-11-08T08:25:24Z'),
-  status: EnableStatus.ENABLED
+  status: EnableStatus.ENABLED,
+  nic: '123456789012',
+  birth_place: 'Antananarivo'
 }
 
 export const studentsMock: Student[] = [
@@ -29,7 +31,9 @@ export const studentsMock: Student[] = [
     phone: '+2613356894256',
     email: 'test+twentyFive@hei.school',
     entrance_datetime: new Date('2023-01-19T12:00:00Z'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '123456789012',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'student3_id',
@@ -42,7 +46,9 @@ export const studentsMock: Student[] = [
     phone: '0335689752',
     email: 'mayahnyando@gmail.com',
     entrance_datetime: new Date('2021-05-12T09:50:00Z'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '345678901234',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'student4_id',
@@ -55,7 +61,9 @@ export const studentsMock: Student[] = [
     phone: '+261 33 26 523 56 ',
     email: 'test+student45132165@hei.school',
     entrance_datetime: new Date('2022-01-20T07:00:00Z'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '456789012345',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'student5_id',
@@ -68,7 +76,9 @@ export const studentsMock: Student[] = [
     phone: '0322411123',
     email: 'test+ryan@hei.school',
     entrance_datetime: new Date('2021-11-08T08:25:24Z'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '567890123456',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'student6_id',
@@ -81,7 +91,9 @@ export const studentsMock: Student[] = [
     phone: '0322411124',
     email: 'test+student2@hei.school',
     entrance_datetime: new Date('2021-11-09T08:26:24Z'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '678901234567',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'student7_id',
@@ -94,7 +106,9 @@ export const studentsMock: Student[] = [
     phone: '0322411124',
     email: 'test+student3@hei.school',
     entrance_datetime: new Date('2021-11-09T08:26:24Z'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '789012345678',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'student8_id',
@@ -107,7 +121,9 @@ export const studentsMock: Student[] = [
     phone: '+261 34 21 435 12',
     email: 'Test@hei.school',
     entrance_datetime: new Date('2023-01-04'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '890123456789',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'student9_id',
@@ -120,7 +136,9 @@ export const studentsMock: Student[] = [
     phone: '+261335689741',
     email: 'test+studen354651@gmail.com',
     entrance_datetime: new Date('2023-01-04'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '901234567890',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'student10_id',
@@ -133,7 +151,9 @@ export const studentsMock: Student[] = [
     phone: '0325689456',
     email: 'test+student12665673@hei.school',
     entrance_datetime: new Date('2022-12-31'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '012345678901',
+    birth_place: 'Antananarivo'
   }
 ]
 
@@ -145,19 +165,24 @@ export const createStudent: User = {
   last_name: 'string',
   sex: Sex.F,
   birth_date: '2023-02-17',
-  address: 'Rue Dr Raseta Andraharo ,Ambanja,Madagascar',
+  address: 'Rue Dr Raseta Andraharo, Ambanja, Madagascar',
   phone: '+261 234 1779',
   email: 'test+create+student@hei.school',
   entrance_datetime: new Date('2023-02-17'),
-  status: EnableStatus.ENABLED
+  status: EnableStatus.ENABLED,
+  nic: '123456789012',
+  birth_place: 'Antananarivo'
 }
+
 export const liteCreatedStudent: User = {
   ref: 'STD000001',
   first_name: 'string',
   last_name: 'string',
   email: 'test+create+student@hei.school',
   entrance_datetime: new Date('2023-02-17'),
-  status: EnableStatus.ENABLED
+  status: EnableStatus.ENABLED,
+  nic: '123456789012',
+  birth_place: 'Antananarivo'
 }
 
 export const createdStudents: User[] = [
@@ -172,7 +197,9 @@ export const createdStudents: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '345678901234',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id2',
@@ -185,7 +212,9 @@ export const createdStudents: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '456789012345',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id3',
@@ -198,7 +227,9 @@ export const createdStudents: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '567890123456',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id4',
@@ -211,7 +242,9 @@ export const createdStudents: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '678901234567',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id5',
@@ -224,7 +257,9 @@ export const createdStudents: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '789012345678',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id6',
@@ -237,7 +272,9 @@ export const createdStudents: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '890123456789',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id7',
@@ -250,9 +287,12 @@ export const createdStudents: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '901234567890',
+    birth_place: 'Antananarivo'
   }
 ]
+
 export const liteCreatedStudents: User[] = [
   {
     id: 'id1',
@@ -261,7 +301,9 @@ export const liteCreatedStudents: User[] = [
     last_name: 'Smith',
     email: 'userSTD000001@hei.school',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '012345678901',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id2',
@@ -270,6 +312,8 @@ export const liteCreatedStudents: User[] = [
     last_name: 'Smith',
     email: 'userSTD000002@hei.school',
     entrance_datetime: new Date('2023-03-03'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '123456789012',
+    birth_place: 'Antananarivo'
   }
 ]

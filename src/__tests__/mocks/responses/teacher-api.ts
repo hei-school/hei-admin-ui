@@ -13,7 +13,9 @@ export const teacher1Mock: Teacher = {
   phone: '0322411125',
   email: 'test+teacher1@hei.school',
   entrance_datetime: new Date('2021-10-08T08:27:24Z'),
-  status: EnableStatus.ENABLED
+  status: EnableStatus.ENABLED,
+  nic: '234567890123', // Remplacez par un numéro NIC unique
+  birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
 }
 
 export const whoamiTeacherMock: Whoami = { id: 'teacher1_id', role: WhoamiRoleEnum.TEACHER, bearer: 'bearer mock' }
@@ -31,7 +33,9 @@ export const teachersMock: Teacher[] = [
     phone: '+261335682546',
     email: 'test+fortest5341313@hei.school',
     entrance_datetime: new Date('2023-01-17'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '345678901234', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   },
   {
     id: 'teacher3_id',
@@ -44,7 +48,9 @@ export const teachersMock: Teacher[] = [
     phone: '0322411125',
     email: 'test+teacher1@hei.school',
     entrance_datetime: new Date('2021-10-08'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '456789012345', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   },
   {
     id: 'teacher4_id',
@@ -57,7 +63,9 @@ export const teachersMock: Teacher[] = [
     phone: '0322411126',
     email: 'test+teacher2@hei.school',
     entrance_datetime: new Date('2021-10-09'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '567890123456', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   },
   {
     id: 'teacher5_id',
@@ -70,7 +78,9 @@ export const teachersMock: Teacher[] = [
     phone: '0322411126',
     email: 'test+teacher3@hei.school',
     entrance_datetime: new Date('2021-10-09'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '678901234567', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   },
   {
     id: 'teacher6_id',
@@ -83,7 +93,9 @@ export const teachersMock: Teacher[] = [
     phone: '+261 39 34 323 30',
     email: 'hei.mayah.3@gmail.com',
     entrance_datetime: new Date('2021-01-13'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '789012345678', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   },
   {
     id: 'teacher7_id',
@@ -96,7 +108,9 @@ export const teachersMock: Teacher[] = [
     phone: '+261339536218',
     email: 'Sandrine@hei.school',
     entrance_datetime: new Date('2023-01-17'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '890123456789', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   },
   {
     id: 'teacher8_id',
@@ -109,7 +123,9 @@ export const teachersMock: Teacher[] = [
     phone: '0331413432',
     email: 'herilala@hei.school',
     entrance_datetime: new Date('2021-10-08'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '901234567890', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   },
   {
     id: 'teacher9_id',
@@ -122,7 +138,9 @@ export const teachersMock: Teacher[] = [
     phone: '0322865596',
     email: 'Mandresy@hei.school',
     entrance_datetime: new Date('2021-10-09'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '012345678901', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   },
   {
     id: 'teacher10_id',
@@ -135,37 +153,13 @@ export const teachersMock: Teacher[] = [
     phone: '0322411126',
     email: 'test+teacher3@hei.school',
     entrance_datetime: new Date('2021-10-09'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '123456789012', // Remplacez par un numéro NIC unique
+    birth_place: 'Antananarivo' // Lieu de naissance : Antananarivo
   }
 ]
 
 export const createdTeachers: User[] = [
-  {
-    id: 'id1',
-    ref: 'TCR000001',
-    first_name: 'John',
-    last_name: 'Smith',
-    email: 'userTCR000001@hei.school',
-    sex: Sex.F,
-    birth_date: '02-06-05',
-    address: 'address',
-    phone: '236542132',
-    entrance_datetime: new Date('2022-02-28'),
-    status: EnableStatus.ENABLED
-  },
-  {
-    id: 'id2',
-    ref: 'TCR000002',
-    first_name: 'Patrick',
-    last_name: 'Smith',
-    email: 'userTCR000002@hei.school',
-    sex: Sex.F,
-    birth_date: '03-06-05',
-    address: 'address',
-    phone: '236542132',
-    entrance_datetime: new Date('2022-02-28'),
-    status: EnableStatus.ENABLED
-  },
   {
     id: 'id3',
     ref: 'TCR000003',
@@ -206,6 +200,51 @@ export const createdTeachers: User[] = [
     status: EnableStatus.ENABLED
   },
   {
+    id: 'id3',
+    ref: 'TCR000003',
+    first_name: 'Jeanne',
+    last_name: 'Smith',
+    email: 'userTCR000003@hei.school',
+    sex: Sex.F,
+    birth_date: '04-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: new Date('2022-02-28'),
+    status: EnableStatus.ENABLED,
+    nic: '123456789012',
+    birth_place: 'Antananarivo'
+  },
+  {
+    id: 'id4',
+    ref: 'TCR000004',
+    first_name: 'Jean',
+    last_name: 'Smith',
+    email: 'userTCR000004@hei.school',
+    sex: Sex.F,
+    birth_date: '05-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: new Date('2022-02-28'),
+    status: EnableStatus.ENABLED,
+    nic: '234567890123',
+    birth_place: 'Antananarivo'
+  },
+  {
+    id: 'id5',
+    ref: 'TCR000005',
+    first_name: 'Pierre',
+    last_name: 'Smith',
+    email: 'userTCR000005@hei.school',
+    sex: Sex.F,
+    birth_date: '06-06-05',
+    address: 'address',
+    phone: '236542132',
+    entrance_datetime: new Date('2022-02-28'),
+    status: EnableStatus.ENABLED,
+    nic: '345678901234',
+    birth_place: 'Antananarivo'
+  },
+  {
     id: 'id6',
     ref: 'TCR000006',
     first_name: 'Hélène',
@@ -216,7 +255,9 @@ export const createdTeachers: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2022-02-28'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '456789012345',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id7',
@@ -229,7 +270,9 @@ export const createdTeachers: User[] = [
     address: 'address',
     phone: '236542132',
     entrance_datetime: new Date('2022-02-28'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '567890123456',
+    birth_place: 'Antananarivo'
   }
 ]
 export const liteCreatedTeachers: User[] = [
@@ -240,7 +283,9 @@ export const liteCreatedTeachers: User[] = [
     last_name: 'Smith',
     email: 'userTCR000001@hei.school',
     entrance_datetime: new Date('2022-02-28'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '123456789454',
+    birth_place: 'Antananarivo'
   },
   {
     id: 'id2',
@@ -249,6 +294,8 @@ export const liteCreatedTeachers: User[] = [
     last_name: 'Smith',
     email: 'userTCR000002@hei.school',
     entrance_datetime: new Date('2022-02-28'),
-    status: EnableStatus.ENABLED
+    status: EnableStatus.ENABLED,
+    nic: '123456789011',
+    birth_place: 'Antananarivo'
   }
 ]
