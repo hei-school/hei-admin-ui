@@ -4,7 +4,6 @@ import { manager1 } from './credentials'
 import { editedManager2, manager2, whoamiManagerMock } from './mocks/responses'
 import { toUTC } from '../operations/utils'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { compareObjects } from './utils'
 
 describe(specTitle('Profile test'), () => {
   beforeEach(() => {
@@ -33,7 +32,7 @@ describe(specTitle('Profile test'), () => {
       reqBody.entrance_datetime = toUTC(new Date(reqBody.entrance_datetime)).toISOString()
       editedManager2.entrance_datetime = toUTC(new Date(editedManager2.entrance_datetime)).toISOString()
       editedManager2.birth_date = toUTC(new Date(editedManager2.birth_date)).toISOString()
-      compareObjects(reqBody, editedManager2)
+      expect(reqBody).to.equal(editedManager2)
     })
 
     cy.contains('Élément mis à jour')
