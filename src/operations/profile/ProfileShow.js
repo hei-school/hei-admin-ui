@@ -34,13 +34,6 @@ const renderStatus = ({ status }) => {
   return unexpectedValue
 }
 
-const CardContainer = ({ children, style }) => {
-  return (
-    <Card sx={style}>
-      <SimpleShowLayout sx={{ padding: 0 }}>{children}</SimpleShowLayout>
-    </Card>
-  )
-}
 
 const UploadPictureButton = () => {
   const [isOpen, , toggle] = useToggle()
