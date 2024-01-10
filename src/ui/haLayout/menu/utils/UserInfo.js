@@ -18,9 +18,10 @@ function UserInfo() {
 
   const name = profile && profile.data ? profile.data.first_name : ''
 
-  const ProfileImage = ({ src }) => (<img src={src} style={{ height: 25, width: 25, borderRadius: '50%' }} />)
+  const ProfileImage = ({ src }) => <img src={src} style={{ height: 25, width: 25, borderRadius: '50%' }} />
 
-  const ProfilePicture = () => (profile?.data?.profile_picture ? <ProfileImage src={profile.data.profile_picture} /> : <ProfileImage src='/blank-profile-photo.png' />)
+  const ProfilePicture = () =>
+    profile?.data?.profile_picture ? <ProfileImage src={profile.data.profile_picture} /> : <ProfileImage src='/blank-profile-photo.png' />
 
   return (
     <StyledUserInfo>

@@ -1,17 +1,14 @@
-import { DateInput, maxLength, SimpleForm, TextInput } from 'react-admin'
+import { DateInput, ImageField, ImageInput, maxLength, SimpleForm, TextInput } from 'react-admin'
 import { EditToolBar, SexRadioButton, toUTC } from '../utils'
 import { StatusRadioButton } from '../utils/UserStatusRadioButton'
 import { CustomEdit } from '../utils/CustomEdit'
 
 const ProfileEdit = ({ isOwnProfile }) => {
-  const transformUser = ({ birth_date, entrance_datetime, ...data }) => {
-    return {
-      ...data,
-      birth_date: toUTC(new Date(birth_date)).toISOString(),
-      entrance_datetime: toUTC(new Date(entrance_datetime)).toISOString()
-    }
-  }
-
+  const transformUser = ({ birth_date, entrance_datetime, ...data }) => ({
+    ...data,
+    birth_date: toUTC(new Date(birth_date)).toISOString(),
+    entrance_datetime: toUTC(new Date(entrance_datetime)).toISOString()
+  })
   return (
     <CustomEdit title='Modifier le profil' transform={transformUser}>
       <SimpleForm toolbar={<EditToolBar />}>

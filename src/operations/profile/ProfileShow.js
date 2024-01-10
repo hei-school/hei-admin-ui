@@ -14,11 +14,13 @@ export const ProfileLayout = () => {
   const emptyText = 'Non défini.e'
 
   const cardStyle = {
-    minHeight: '310px', my: 3
+    minHeight: '310px',
+    my: 3
   }
 
   const midCardStyle = {
-    minHeight: '200px', my: 3
+    minHeight: '200px',
+    my: 3
   }
 
   const commonGridAttribute = { gridTemplateRows: '2fr 1fr', direction: 'column', item: true }
@@ -43,21 +45,22 @@ export const ProfileLayout = () => {
     return unexpectedValue
   }
 
-  const phoneRenderer = data => (data.phone ? <Link href={`tel:${data.phone}`}>{data.phone}</Link> :
-    <span>{emptyText}</span>)
+  const phoneRenderer = data => (data.phone ? <Link href={`tel:${data.phone}`}>{data.phone}</Link> : <span>{emptyText}</span>)
 
   const ProfileImage = ({ src }) => <img src={src} style={{ height: 80, width: 80, border: '1px solid #e0e0e0', borderRadius: '50%' }} />
 
   const pictureRenderer = user => (user.profile_picture ? <ProfileImage src={user.profile_picture} /> : <ProfileImage src='/blank-profile-photo.png' />)
 
-  const nameRenderer = (user) => (<Typography variant='h5'>{user.first_name} {user.last_name}</Typography>)
+  const nameRenderer = user => (
+    <Typography variant='h5'>
+      {user.first_name} {user.last_name}
+    </Typography>
+  )
 
   const CardContainer = ({ children, style }) => {
     return (
       <Card sx={style}>
-        <SimpleShowLayout>
-          {children}
-        </SimpleShowLayout>
+        <SimpleShowLayout>{children}</SimpleShowLayout>
       </Card>
     )
   }
@@ -67,11 +70,16 @@ export const ProfileLayout = () => {
 
     const id = authProvider?.getCachedWhoami()?.id
 
-    const savePicture = (data) => ({ rawFile: data?.profile_picture?.rawFile, id })
+    const savePicture = data => ({ rawFile: data?.profile_picture?.rawFile, id })
 
     return (
       <>
-        <IconButton onClick={() => toggle()} sx={{ borderRadius: '50%', transform: 'translate(-15px, -15px)', bgcolor: palette.primary, height: 20, width: 20 }}><PhotoCamera sx={{ height: 15, width: 15, color: palette.white}}  /></IconButton>
+        <IconButton
+          onClick={() => toggle()}
+          sx={{ borderRadius: '50%', transform: 'translate(-15px, -15px)', bgcolor: palette.primary, height: 20, width: 20 }}
+        >
+          <PhotoCamera sx={{ height: 15, width: 15, color: palette.white }} />
+        </IconButton>
         <Dialog open={isOpen} onClose={() => toggle()}>
           <DialogTitle>Modifier la photo de profil</DialogTitle>
           <CustomCreate title=' ' resource='profile-picture' transform={savePicture}>
@@ -88,25 +96,32 @@ export const ProfileLayout = () => {
 
   const ProfileCardAvatar = () => (
     <>
-      <Badge variant='contained' badgeContent={<UploadPictureButton />} sx={{ bgcolor: 'transparent' }}
+      <Badge
+        variant='contained'
+        badgeContent={<UploadPictureButton />}
+        sx={{ bgcolor: 'transparent' }}
         anchorOrigin={{
           vertical: 'bottom',
           horizontal: 'right'
-        }}>
+        }}
+      >
         <FunctionField label=' ' render={pictureRenderer} />
       </Badge>
     </>
   )
 
-  const Title = ({ children }) => <Typography color={palette.yellow} fontWeight='bold' variant='h7'>{children}</Typography>
+  const Title = ({ children }) => (
+    <Typography color={palette.yellow} fontWeight='bold' variant='h7'>
+      {children}
+    </Typography>
+  )
 
   return (
     <>
-      <Grid container gridTemplateColumns='repeat(2, 1fr)'
-        justifyContent='space-evenly'>
+      <Grid container gridTemplateColumns='repeat(2, 1fr)' justifyContent='space-evenly'>
         <Grid xs={5} {...commonGridAttribute}>
           <CardContainer style={cardStyle}>
-            <CardHeader avatar={<ProfileCardAvatar/>} sx={{ minHeight: '85px', bgcolor: '#e0e0e0'}}/>
+            <CardHeader avatar={<ProfileCardAvatar />} sx={{ minHeight: '85px', bgcolor: '#e0e0e0' }} />
             <FunctionField label=' ' render={nameRenderer} />
             <TextField source='ref' label='Référence' color={palette.yellow} />
             <TextField source='role' label='Rôle' />
@@ -138,10 +153,10 @@ export const ProfileLayout = () => {
 }
 
 const Actions = ({ userId }) => (
-  <TopToolbar variant='dense' sx={{padding: 0.5}}>
-    <EditButton size='medium' to={`/profile/${userId}/edit`} data-testid='profile-edit-button'/>
+  <TopToolbar variant='dense' sx={{ padding: 0.5 }}>
+    <EditButton size='medium' to={`/profile/${userId}/edit`} data-testid='profile-edit-button' />
   </TopToolbar>
-);
+)
 
 const ProfileShow = () => {
   const id = authProvider.getCachedWhoami().id

@@ -28,7 +28,7 @@ describe(specTitle('Student'), () => {
     cy.get('[href="#/profile"]').click()
     cy.get('#main-content')
       .should('contain', student1Mock.ref)
-      .and('contain',studentNameToBeCheckedMock)
+      .and('contain', studentNameToBeCheckedMock)
       .and('contain', student1Mock.last_name)
       .and('contain', student1Mock.address)
       .and('contain', student1Mock.email)
