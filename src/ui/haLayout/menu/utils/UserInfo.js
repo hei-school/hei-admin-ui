@@ -13,23 +13,18 @@ const StyledUserInfo = styled('div')({
   color: palette.white
 })
 
-const LetterStyled = styled('p')({
-  padding: '3px 11px',
-  backgroundColor: palette.yellow,
-  borderRadius: '50%',
-  margin: 0,
-  color: 'inherit',
-  fontSize: '1.3em',
-  fontWeight: 'bold'
-})
-
 function UserInfo() {
   const profile = useGetOne('profile', { id: authProvider.getCachedWhoami().id })
+
   const name = profile && profile.data ? profile.data.first_name : ''
+
+  const ProfileImage = ({ src }) => (<img src={src} style={{ height: 25, width: 25, borderRadius: '50%' }} />)
+
+  const ProfilePicture = () => (profile?.data?.profile_picture ? <ProfileImage src={profile.data.profile_picture} /> : <ProfileImage src='/blank-profile-photo.png' />)
 
   return (
     <StyledUserInfo>
-      <LetterStyled>{name ? name.at(0).toUpperCase() : '-'}</LetterStyled>
+      <ProfilePicture />
       <Typography sx={{ color: 'inherit' }}>{name}</Typography>
     </StyledUserInfo>
   )
