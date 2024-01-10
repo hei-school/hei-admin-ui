@@ -10,15 +10,15 @@ const profileProvider: HaDataProviderType = {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
           .getStudentById(id)
-          .then(result => ({role, ...result.data}))
+          .then(result => ({ role, ...result.data }))
       case WhoamiRoleEnum.TEACHER:
         return usersApi()
           .getTeacherById(id)
-          .then(result => ({role, ...result.data}))
+          .then(result => ({ role, ...result.data }))
       case WhoamiRoleEnum.MANAGER:
         return usersApi()
           .getManagerById(id)
-          .then(result => ({role, ...result.data}))
+          .then(result => ({ role, ...result.data }))
     }
   },
   async getList() {
