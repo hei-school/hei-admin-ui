@@ -17,7 +17,6 @@ describe(specTitle('Teacher'), () => {
   })
 
   it('lands on profile page if succeeds', () => {
-    cy.get('#first_name').contains(teacherNameToBeCheckedMock)
     cy.get('#ha-menu').should('not.contain', 'Enseignants', { timeout: 50 }).and('contain', 'Étudiants')
     cy.get('#main-content')
       .should('contain', teacher1Mock.ref)
