@@ -9,6 +9,7 @@ import heiDocsProvider from './heiDocsProvider'
 import groupProvider from './groupProvider'
 import groupFlowProvider from './groupFlowProvider'
 import groupStudentProvider from './groupStudentProvider'
+import profilePicProvider from './profilePicProvider'
 
 export const maxPageSize = 500
 
@@ -22,6 +23,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === 'groups') return groupProvider
   if (resourceType === 'group-flow') return groupFlowProvider
   if (resourceType === 'group-students') return groupStudentProvider
+  if (resourceType === 'profile-picture') return profilePicProvider
   throw new Error('Unexpected resourceType: ' + resourceType)
 }
 

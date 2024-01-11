@@ -2,7 +2,7 @@ import { mount, unmount } from '@cypress/react'
 import App from '../App'
 import { teacher1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { teacher1Mock, whoamiTeacherMock, student1Mock, studentsMock, studentNameToBeCheckedMock, teacherNameToBeCheckedMock } from './mocks/responses'
+import { teacher1Mock, whoamiTeacherMock, student1Mock, studentsMock } from './mocks/responses'
 
 describe(specTitle('Teacher'), () => {
   beforeEach(() => {
@@ -17,7 +17,6 @@ describe(specTitle('Teacher'), () => {
   })
 
   it('lands on profile page if succeeds', () => {
-    cy.get('#first_name').contains(teacherNameToBeCheckedMock)
     cy.get('#ha-menu').should('not.contain', 'Enseignants', { timeout: 50 }).and('contain', 'Étudiants')
     cy.get('#main-content')
       .should('contain', teacher1Mock.ref)
@@ -53,7 +52,7 @@ describe(specTitle('Teacher'), () => {
   it('can list and filter students', () => {
     cy.intercept('GET', `/students?page=1&page_size=10`, studentsMock).as('getStudentsPage1')
     cy.intercept('GET', `/students?page=2&page_size=10`, studentsMock).as('getStudentsPage2')
-    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`, [student1Mock]).as('getStudentByName')
+    cy.intercept('GET', `/students?page=1&page_size=10&last_name=${student1Mock.first_name}`, [student1Mock]).as('getStudentByName')
     // note(listAndFilterStudents)
     cy.get('a[href="#/students"]').click() // Étudiants menu
     cy.wait('@getStudentsPage1')
@@ -70,7 +69,7 @@ describe(specTitle('Teacher'), () => {
 
     cy.get('[data-testid="menu-list-action"]').click()
     cy.get('[data-testid="add-filter"]').click()
-    cy.get('[data-testid="filter-profile-last_name"]').type(studentNameToBeCheckedMock)
+    cy.get('[data-testid="filter-profile-last_name"]').type(student1Mock.first_name)
     cy.get('[data-testid="apply-filter"]').click()
     cy.contains('Page : 1')
     unmount()

@@ -1,7 +1,7 @@
 import { Popover, Badge, IconButton, Tooltip } from '@mui/material'
 import { useState } from 'react'
 import { Notifications } from '@mui/icons-material'
-import { palette } from '../constants/palette'
+import { PALETTE_COLORS } from '../constants'
 import NotificationContent from './NotificationContent'
 
 function NotificationMenu() {
@@ -10,8 +10,8 @@ function NotificationMenu() {
     <>
       <Tooltip title='Notification' onClick={e => setAnchorEl(e.currentTarget)}>
         <IconButton>
-          <Badge badgeContent={0} sx={{ color: palette.yellow }}>
-            <Notifications sx={{ color: palette.black }} />
+          <Badge badgeContent={0} sx={{ color: PALETTE_COLORS.yellow }}>
+            <Notifications sx={{ color: PALETTE_COLORS.black }} />
           </Badge>
         </IconButton>
       </Tooltip>
