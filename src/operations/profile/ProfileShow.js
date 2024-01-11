@@ -20,7 +20,7 @@ const renderSex = ({ sex }) => {
       return 'Homme'
     case Sex.F:
       return 'Femme'
-    case null:
+    case null: // display empty_text if sex is null
       return EMPTY_TEXT
     default:
       return unexpectedValue
@@ -28,26 +28,30 @@ const renderSex = ({ sex }) => {
 }
 
 const renderStatus = ({ status }) => {
-  if (status === EnableStatus.ENABLED) return 'Actif·ve'
-  if (status === EnableStatus.SUSPENDED) return 'Suspendu·e'
-  if (status === EnableStatus.DISABLED) return 'Quitté.e'
-  return unexpectedValue
+  switch (status) {
+    case EnableStatus.ENABLED:
+      return 'Actif.ve'
+    case EnableStatus.SUSPENDED:
+      return 'Suspendu·e'
+    case EnableStatus.DISABLED:
+      return 'Quitté.e'
+    default:
+      // TODO: better error reporting
+      return unexpectedValue
+  }
 }
 
 const UploadPictureButton = () => {
   const [isOpen, , toggle] = useToggle()
 
-  const id = authProvider?.getCachedWhoami()?.id
+  const id = authProvider.getCachedWhoami().id
 
   return (
     <>
-      <IconButton
-        onClick={() => toggle()}
-        sx={{ borderRadius: '50%', transform: 'translate(-15px, -15px)', bgcolor: PALETTE_COLORS.primary, height: 20, width: 20 }}
-      >
+      <IconButton onClick={toggle} sx={{ borderRadius: '50%', transform: 'translate(-15px, -15px)', bgcolor: PALETTE_COLORS.primary, height: 20, width: 20 }}>
         <PhotoCamera sx={{ height: 15, width: 15, color: PALETTE_COLORS.white }} />
       </IconButton>
-      <Dialog open={isOpen} onClose={() => toggle()}>
+      <Dialog open={isOpen} onClose={toggle}>
         <DialogTitle color={PALETTE_COLORS.yellow} fontWeight='bold'>
           Modifier la photo de profil
         </DialogTitle>
@@ -64,28 +68,26 @@ const UploadPictureButton = () => {
 }
 
 const ProfileCardAvatar = () => (
-  <>
-    <Badge
-      variant='contained'
-      badgeContent={<UploadPictureButton />}
-      sx={{ bgcolor: 'transparent' }}
-      anchorOrigin={{
-        vertical: 'bottom',
-        horizontal: 'right'
-      }}
-    >
-      <FunctionField
-        label=' '
-        render={user => (
-          <img
-            src={user?.profile_picture ? user.profile_picture : './blank-profile-photo.png'}
-            style={{ objectFit: 'cover', height: 80, width: 80, border: '1px solid #e0e0e0', borderRadius: '50%' }}
-            alt='your profile picture'
-          />
-        )}
-      />
-    </Badge>
-  </>
+  <Badge
+    variant='contained'
+    badgeContent={<UploadPictureButton />}
+    sx={{ bgcolor: 'transparent' }}
+    anchorOrigin={{
+      vertical: 'bottom',
+      horizontal: 'right'
+    }}
+  >
+    <FunctionField
+      label=' '
+      render={user => (
+        <img
+          src={user?.profile_picture ? user.profile_picture : './blank-profile-photo.png'}
+          style={{ objectFit: 'cover', height: 80, width: 80, border: '1px solid #e0e0e0', borderRadius: '50%' }}
+          alt='your profile picture'
+        />
+      )}
+    />
+  </Badge>
 )
 
 const Title = ({ children }) => (
@@ -97,7 +99,7 @@ const Title = ({ children }) => (
 export const ProfileLayout = () => {
   const isSmall = useMediaQuery('(max-width:900px)')
 
-  const CARD_STYLE = {
+  const cardStyle = {
     padding: 0,
     boxShadow: 'none',
     borderRadius: '10px',
@@ -109,7 +111,7 @@ export const ProfileLayout = () => {
     <>
       <Grid container columns={{ xs: 6, sm: 8, md: 12 }} gridTemplateRows='repeat(2, 1fr)' justifyContent='space-evenly'>
         <Grid xs={5} {...COMMON_GRID_ATTRIBUTES}>
-          <Card sx={CARD_STYLE}>
+          <Card sx={cardStyle}>
             <SimpleShowLayout sx={{ padding: 0 }}>
               <CardHeader
                 avatar={<ProfileCardAvatar />}
@@ -135,7 +137,7 @@ export const ProfileLayout = () => {
           </Card>
         </Grid>
         <Grid xs={6} {...COMMON_GRID_ATTRIBUTES}>
-          <Card sx={{ ...CARD_STYLE, border: '1px solid', borderColor: PALETTE_COLORS.grey }}>
+          <Card sx={{ ...cardStyle, border: '1px solid', borderColor: PALETTE_COLORS.grey }}>
             <SimpleShowLayout>
               <Title>Détails sur l'utilisateur</Title>
               <EmailField source='email' label='Email' />
