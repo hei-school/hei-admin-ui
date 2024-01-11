@@ -34,7 +34,6 @@ const renderStatus = ({ status }) => {
   return unexpectedValue
 }
 
-
 const UploadPictureButton = () => {
   const [isOpen, , toggle] = useToggle()
 
