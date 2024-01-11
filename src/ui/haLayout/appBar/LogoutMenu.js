@@ -1,7 +1,7 @@
 import { Lock } from '@mui/icons-material'
 import { IconButton, Tooltip } from '@mui/material'
 import authProvider from '../../../providers/authProvider'
-import { palette } from '../../constants'
+import { PALETTE_COLORS } from '../../constants'
 
 function LogoutMenu() {
   const logout = () => {
@@ -12,7 +12,7 @@ function LogoutMenu() {
   return (
     <Tooltip title='Se déconnecter' onClick={logout}>
       <IconButton>
-        <Lock sx={{ color: palette.black }} />
+        <Lock sx={{ color: PALETTE_COLORS.black }} />
       </IconButton>
     </Tooltip>
   )

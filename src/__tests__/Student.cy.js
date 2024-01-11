@@ -2,7 +2,7 @@ import { mount, unmount } from '@cypress/react'
 import App from '../App'
 import { student1 } from './credentials'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
-import { createPaymentMock, feesMock, student1Mock, studentNameToBeCheckedMock, whoamiStudentMock } from './mocks/responses'
+import { createPaymentMock, feesMock, student1Mock, whoamiStudentMock } from './mocks/responses'
 
 describe(specTitle('Student'), () => {
   beforeEach(() => {
@@ -26,9 +26,9 @@ describe(specTitle('Student'), () => {
 
   it('lands on profile page if succeeds', () => {
     cy.get('[href="#/profile"]').click()
-    cy.get('#first_name').contains(studentNameToBeCheckedMock)
     cy.get('#main-content')
       .should('contain', student1Mock.ref)
+      .and('contain', student1Mock.first_name)
       .and('contain', student1Mock.last_name)
       .and('contain', student1Mock.address)
       .and('contain', student1Mock.email)

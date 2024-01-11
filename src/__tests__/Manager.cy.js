@@ -46,7 +46,7 @@ describe(specTitle('Manager'), () => {
 
   it('lands on profile page if succeeds', () => {
     cy.get('[href="#/profile"]').click()
-    cy.get('#first_name').contains(manager1FirstName)
+    cy.get('.MuiGrid-container').contains(manager1FirstName)
     cy.get('#main-content')
       .should('contain', manager2.ref)
       .and('contain', manager2.last_name)

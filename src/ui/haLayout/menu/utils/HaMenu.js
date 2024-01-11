@@ -1,5 +1,5 @@
 import { styled } from '@mui/styles'
-import { palette } from '../../../constants'
+import { PALETTE_COLORS } from '../../../constants'
 import { Box, Drawer, Typography, useMediaQuery } from '@mui/material'
 import UserInfo from './UserInfo'
 import { AccountCircleOutlined } from '@mui/icons-material'
@@ -25,8 +25,8 @@ export function HaMenuBase({ sx = {} }) {
     paddingLeft: '20px',
     transition: 'all .3s linear',
     overflowX: 'hidden',
-    bgcolor: palette.black,
-    color: palette.white,
+    bgcolor: PALETTE_COLORS.black,
+    color: PALETTE_COLORS.white,
     top: 0
   }
 
@@ -34,7 +34,7 @@ export function HaMenuBase({ sx = {} }) {
     <Box sx={{ ...haMenuStyled, left: open ? 0 : '-250px', ...sx }} component='div' id='ha-menu'>
       <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', py: 2.5, gap: 2 }}>
         <img src='/menu-logo.png' style={{ width: 40, height: 27 }} />
-        <Typography variant='h1' sx={{ fontSize: '1.1em', color: palette.white, fontWeight: 400 }}>
+        <Typography variant='h1' sx={{ fontSize: '1.1em', color: PALETTE_COLORS.white, fontWeight: 400 }}>
           HEI Admin
         </Typography>
       </Box>
