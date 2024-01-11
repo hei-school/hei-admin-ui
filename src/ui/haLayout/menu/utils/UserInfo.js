@@ -1,37 +1,47 @@
-import { Typography } from '@mui/material'
-import { styled } from '@mui/styles'
-import { useGetOne } from 'react-admin'
-import { PALETTE_COLORS } from '../../../constants'
-import authProvider from '../../../../providers/authProvider'
+import {Typography} from "@mui/material";
+import {styled} from "@mui/styles";
+import {useGetOne} from "react-admin";
+import {PALETTE_COLORS} from "../../../constants";
+import authProvider from "../../../../providers/authProvider";
 
-const StyledUserInfo = styled('div')({
-  display: 'flex',
-  alignItems: 'center',
+const StyledUserInfo = styled("div")({
+  display: "flex",
+  alignItems: "center",
   gap: 15,
-  padding: '10px 0',
-  width: '100%',
-  color: PALETTE_COLORS.white
-})
+  padding: "10px 0",
+  width: "100%",
+  color: PALETTE_COLORS.white,
+});
 
 function UserInfo() {
-  const profile = useGetOne('profile', { id: authProvider.getCachedWhoami().id })
+  const profile = useGetOne("profile", {id: authProvider.getCachedWhoami().id});
 
-  const name = profile && profile.data ? profile.data.first_name : ''
+  const name = profile && profile.data ? profile.data.first_name : "";
 
   const ProfilePicture = () => (
     <img
-      src={profile?.profile_picture ? profile.profile_picture : './blank-profile-photo.png'}
-      style={{ objectFit: 'cover', height: 25, width: 25, border: '1px solid #e0e0e0', borderRadius: '50%' }}
-      alt='your profile picture'
+      src={
+        profile?.profile_picture
+          ? profile.profile_picture
+          : "./blank-profile-photo.png"
+      }
+      style={{
+        objectFit: "cover",
+        height: 25,
+        width: 25,
+        border: "1px solid #e0e0e0",
+        borderRadius: "50%",
+      }}
+      alt="your profile picture"
     />
-  )
+  );
 
   return (
     <StyledUserInfo>
       <ProfilePicture />
-      <Typography sx={{ color: 'inherit' }}>{name}</Typography>
+      <Typography sx={{color: "inherit"}}>{name}</Typography>
     </StyledUserInfo>
-  )
+  );
 }
 
-export default UserInfo
+export default UserInfo;

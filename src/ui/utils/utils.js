@@ -6,27 +6,32 @@
  * @returns {*} The value of the specified property or undefined if it doesn't exist.
  */
 export function getObjValue(obj, path) {
-  return path.split('.').reduce((acc, key) => (acc && acc[key] !== 'undefined' ? acc[key] : undefined), { ...obj })
+  return path
+    .split(".")
+    .reduce(
+      (acc, key) => (acc && acc[key] !== "undefined" ? acc[key] : undefined),
+      {...obj}
+    );
 }
 
 export const DATE_OPTIONS = {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'numeric',
-  day: 'numeric',
-  hour: 'numeric',
-  minute: 'numeric',
-  second: 'numeric'
-}
+  weekday: "long",
+  year: "numeric",
+  month: "numeric",
+  day: "numeric",
+  hour: "numeric",
+  minute: "numeric",
+  second: "numeric",
+};
 
 export function formatDate(dateIso) {
   if (!dateIso) {
-    return ''
+    return "";
   }
-  if (typeof dateIso === 'string') {
-    const date = new Date(dateIso)
-    const formatter = new Intl.DateTimeFormat('fr-FR', DATE_OPTIONS)
-    const dateFormatter = formatter.format(date)
-    return dateFormatter.at(0).toUpperCase() + dateFormatter.slice(1)
+  if (typeof dateIso === "string") {
+    const date = new Date(dateIso);
+    const formatter = new Intl.DateTimeFormat("fr-FR", DATE_OPTIONS);
+    const dateFormatter = formatter.format(date);
+    return dateFormatter.at(0).toUpperCase() + dateFormatter.slice(1);
   }
 }

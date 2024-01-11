@@ -1,18 +1,21 @@
-import { Create, useNotify } from 'react-admin'
+import {Create, useNotify} from "react-admin";
 
-export const CustomCreate = ({ children, ...props }) => {
-  const notify = useNotify()
+export const CustomCreate = ({children, ...props}) => {
+  const notify = useNotify();
   return (
     <Create
-      mutationMode='pessimistic'
+      mutationMode="pessimistic"
       mutationOptions={{
-        onError: error => {
-          notify(`Une erreur s'est produite`, { type: 'error', autoHideDuration: 1000 })
-        }
+        onError: (error) => {
+          notify(`Une erreur s'est produite`, {
+            type: "error",
+            autoHideDuration: 1000,
+          });
+        },
       }}
       {...props}
     >
       {children}
     </Create>
-  )
-}
+  );
+};

@@ -1,23 +1,23 @@
-import { HaDataProviderType } from './HaDataProviderType'
-import { teachingApi } from './api'
+import {HaDataProviderType} from "./HaDataProviderType";
+import {teachingApi} from "./api";
 
 const groupProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     return await teachingApi()
       .getGroups(page, perPage)
-      .then(result => result.data)
+      .then((result) => result.data);
   },
   async getOne(id: string) {
     return await teachingApi()
       .getGroupById(id)
-      .then(result => result.data)
+      .then((result) => result.data);
   },
   async saveOrUpdate(payload: any) {
-    console.log(payload)
+    console.log(payload);
     return await teachingApi()
       .createOrUpdateGroups(payload)
-      .then(result => result.data)
-  }
-}
+      .then((result) => result.data);
+  },
+};
 
-export default groupProvider
+export default groupProvider;

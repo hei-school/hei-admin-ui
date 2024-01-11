@@ -1,17 +1,22 @@
-import { EditButton, TextField } from 'react-admin'
-import { CreateButton, ExportButton, ImportButton } from '../../ui/haToolbar'
-import { HaList } from '../../ui/haList'
-import { WorkOutlined } from '@mui/icons-material'
-import { ProfileFilters } from '../profile'
-import { minimalUserHeaders, optionalUserHeaders, transformUserData, validateUserData } from '../utils/userImportConf'
-import teacherProvider from '../../providers/teacherProvider'
+import {EditButton, TextField} from "react-admin";
+import {CreateButton, ExportButton, ImportButton} from "../../ui/haToolbar";
+import {HaList} from "../../ui/haList";
+import {WorkOutlined} from "@mui/icons-material";
+import {ProfileFilters} from "../profile";
+import {
+  minimalUserHeaders,
+  optionalUserHeaders,
+  transformUserData,
+  validateUserData,
+} from "../utils/userImportConf";
+import teacherProvider from "../../providers/teacherProvider";
 
 function TeacherList() {
   return (
     <HaList
       icon={<WorkOutlined />}
-      title='Liste des enseignants'
-      mainSearch={{ label: 'Prénom·s', source: 'first_name' }}
+      title="Liste des enseignants"
+      mainSearch={{label: "Prénom·s", source: "first_name"}}
       actions={
         <>
           <CreateButton />
@@ -20,7 +25,7 @@ function TeacherList() {
             minimalHeaders={minimalUserHeaders}
             optionalHeaders={optionalUserHeaders}
             provider={teacherProvider.saveOrUpdate}
-            resource='professeurs'
+            resource="professeurs"
             transformData={transformUserData}
             validateData={validateUserData}
           />
@@ -28,12 +33,12 @@ function TeacherList() {
         </>
       }
     >
-      <TextField source='ref' label='Référence' />
-      <TextField source='first_name' label='Prénom·s' />
-      <TextField source='last_name' label='Nom·s' />
+      <TextField source="ref" label="Référence" />
+      <TextField source="first_name" label="Prénom·s" />
+      <TextField source="last_name" label="Nom·s" />
       <EditButton />
     </HaList>
-  )
+  );
 }
 
-export default TeacherList
+export default TeacherList;

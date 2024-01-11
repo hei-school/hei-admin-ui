@@ -1,15 +1,15 @@
-import { useGetList } from 'react-admin'
-import { CustomEdit } from '../utils/CustomEdit'
-import GroupForm from './GroupForm'
+import {useGetList} from "react-admin";
+import {CustomEdit} from "../utils/CustomEdit";
+import GroupForm from "./GroupForm";
 
 const GroupEdit = () => {
-  const queryStudents = useGetList('students')
-  const students = queryStudents.data
+  const queryStudents = useGetList("students");
+  const students = queryStudents.data;
 
   return (
-    <CustomEdit resource='groups' title='Groupe'>
+    <CustomEdit resource="groups" title="Groupe">
       <GroupForm students={students} create={false} />
     </CustomEdit>
-  )
-}
-export default GroupEdit
+  );
+};
+export default GroupEdit;

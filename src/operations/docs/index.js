@@ -1,10 +1,10 @@
-import DocsList from './DocsList'
-import DocShow from './DocShow'
+import DocsList from "./DocsList";
+import DocShow from "./DocShow";
 
 const docs = {
   list: DocsList,
   show: DocShow,
-  options: { label: 'Document' }
-}
+  options: {label: "Document"},
+};
 
-export default docs
+export default docs;

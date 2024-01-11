@@ -1,8 +1,8 @@
-import { School } from '@mui/icons-material'
-import ProfileEdit from '../profile/ProfileEdit'
-import StudentShow from './StudentShow'
-import StudentList from './StudentList'
-import StudentCreate from './StudentCreate'
+import {School} from "@mui/icons-material";
+import ProfileEdit from "../profile/ProfileEdit";
+import StudentShow from "./StudentShow";
+import StudentList from "./StudentList";
+import StudentCreate from "./StudentCreate";
 
 const students = {
   list: StudentList,
@@ -10,7 +10,7 @@ const students = {
   show: StudentShow,
   create: StudentCreate,
   icon: School,
-  options: { label: 'Étudiants' }
-}
+  options: {label: "Étudiants"},
+};
 
-export default students
+export default students;
