@@ -1,1 +1,2 @@
-export const commentFunctionRenderer = data => (data.comment == null ? '  -  ' : data.comment)
+export const commentFunctionRenderer = (data) =>
+  data.comment == null ? "  -  " : data.comment;
