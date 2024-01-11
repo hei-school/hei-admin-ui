@@ -1,7 +1,7 @@
 import { Typography } from '@mui/material'
 import { styled } from '@mui/styles'
 import { useGetOne } from 'react-admin'
-import { palette } from '../../../constants'
+import { PALETTE_COLORS } from '../../../constants'
 import authProvider from '../../../../providers/authProvider'
 
 const StyledUserInfo = styled('div')({
@@ -10,7 +10,7 @@ const StyledUserInfo = styled('div')({
   gap: 15,
   padding: '10px 0',
   width: '100%',
-  color: palette.white
+  color: PALETTE_COLORS.white
 })
 
 function UserInfo() {
@@ -18,10 +18,13 @@ function UserInfo() {
 
   const name = profile && profile.data ? profile.data.first_name : ''
 
-  const ProfileImage = ({ src }) => <img src={src} style={{ height: 25, width: 25, borderRadius: '50%' }} />
-
-  const ProfilePicture = () =>
-    profile?.data?.profile_picture ? <ProfileImage src={profile.data.profile_picture} /> : <ProfileImage src='/blank-profile-photo.png' />
+  const ProfilePicture = () => (
+    <img
+      src={profile?.profile_picture ? profile.profile_picture : './blank-profile-photo.png'}
+      style={{ objectFit: 'cover', height: 25, width: 25, border: '1px solid #e0e0e0', borderRadius: '50%' }}
+      alt='your profile picture'
+    />
+  )
 
   return (
     <StyledUserInfo>

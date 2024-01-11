@@ -2,20 +2,20 @@ import { Box, Typography } from '@mui/material'
 import { useMediaQuery } from '@mui/material'
 import { Link, useSidebarState } from 'react-admin'
 import { useLocation } from 'react-router-dom'
-import { palette } from '../../../constants'
+import { PALETTE_COLORS } from '../../../constants'
 
 const style = {
   display: 'flex',
   alignItems: 'center',
   cursor: 'pointer',
   gap: 2,
-  ':hover': { color: palette.yellow }
+  ':hover': { color: PALETTE_COLORS.yellow }
 }
 export function SingleMenuBase({ label, icon, to, menu = true, sx = {}, ...rest }) {
   const location = useLocation()
   const isSmall = useMediaQuery('(max-width:900px)')
   const [open, setOpen] = useSidebarState()
-  const color = to && location.pathname.startsWith(to) ? palette.yellow : 'inherit'
+  const color = to && location.pathname.startsWith(to) ? PALETTE_COLORS.yellow : 'inherit'
 
   const handlerClick = () => {
     if (to && isSmall) setOpen(!open)
