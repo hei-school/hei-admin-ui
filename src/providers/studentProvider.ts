@@ -1,30 +1,42 @@
-import { usersApi, payingApi } from './api'
-import { HaDataProviderType } from './HaDataProviderType'
-import { EnableStatus } from '@haapi/typescript-client'
+import {usersApi, payingApi} from "./api";
+import {HaDataProviderType} from "./HaDataProviderType";
+import {EnableStatus} from "@haapi/typescript-client";
 
 const studentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    const result = await usersApi().getStudents(page, perPage, filter.ref, filter.first_name, filter.last_name, filter.course_id, filter.status, filter.sex)
-    return result.data
+    const result = await usersApi().getStudents(
+      page,
+      perPage,
+      filter.ref,
+      filter.first_name,
+      filter.last_name,
+      filter.course_id,
+      filter.status,
+      filter.sex
+    );
+    return result.data;
   },
   async getOne(id: string) {
-    const result = await usersApi().getStudentById(id)
-    return result.data
+    const result = await usersApi().getStudentById(id);
+    return result.data;
   },
   async saveOrUpdate(payload: any) {
     if (payload[0].length > 1) {
       // when we want to create student
-      const [fees, student] = payload[0]
-      Object.assign(student, { status: EnableStatus.ENABLED })
-      const [studentResponse] = (await usersApi().createOrUpdateStudents([student])).data
-      fees.length !== 0 && (await payingApi().createStudentFees(studentResponse?.id!, fees))
-      return [studentResponse]
+      const [fees, student] = payload[0];
+      Object.assign(student, {status: EnableStatus.ENABLED});
+      const [studentResponse] = (
+        await usersApi().createOrUpdateStudents([student])
+      ).data;
+      fees.length !== 0 &&
+        (await payingApi().createStudentFees(studentResponse?.id!, fees));
+      return [studentResponse];
     } else {
       // for editing
-      const result = await usersApi().createOrUpdateStudents(payload)
-      return result.data
+      const result = await usersApi().createOrUpdateStudents(payload);
+      return result.data;
     }
-  }
-}
+  },
+};
 
-export default studentProvider
+export default studentProvider;

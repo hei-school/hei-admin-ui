@@ -1,9 +1,9 @@
-import { AttachMoney } from '@mui/icons-material'
-import FeeList from './FeeList'
-import ByStatusFeeList from './ByStatusFeeList'
-import FeeShow from './FeeShow'
-import FeesCreate from './FeesCreate'
-import FeeEdit from './FeeEdit'
+import {AttachMoney} from "@mui/icons-material";
+import FeeList from "./FeeList";
+import ByStatusFeeList from "./ByStatusFeeList";
+import FeeShow from "./FeeShow";
+import FeesCreate from "./FeesCreate";
+import FeeEdit from "./FeeEdit";
 
 const fees = {
   list: FeeList,
@@ -12,7 +12,7 @@ const fees = {
   create: FeesCreate,
   edit: FeeEdit,
   icon: AttachMoney,
-  options: { label: 'Frais' }
-}
+  options: {label: "Frais"},
+};
 
-export default fees
+export default fees;
