@@ -4,6 +4,7 @@ import { manager1 } from './credentials'
 import { editedManager2, manager2, whoamiManagerMock } from './mocks/responses'
 import { toUTC } from '../operations/utils'
 import specTitle from 'cypress-sonarqube-reporter/specTitle'
+import { WhoamiRoleEnum } from '@haapi/typescript-client'
 
 describe(specTitle('Profile test'), () => {
   beforeEach(() => {
@@ -28,11 +29,19 @@ describe(specTitle('Profile test'), () => {
     cy.contains('Enregistrer').click()
 
     cy.wait('@modifyProfile').then(interceptedReq => {
-      let reqBody = interceptedReq.request.body
+      const reqBody = interceptedReq.request.body
+      const sortObject = obj => {
+        return Object.keys(obj)
+          .sort()
+          .reduce((sortedObj, key) => {
+            sortedObj[key] = obj[key]
+            return sortedObj
+          }, {})
+      }
       reqBody.entrance_datetime = toUTC(new Date(reqBody.entrance_datetime)).toISOString()
       editedManager2.entrance_datetime = toUTC(new Date(editedManager2.entrance_datetime)).toISOString()
       editedManager2.birth_date = toUTC(new Date(editedManager2.birth_date)).toISOString()
-      expect(reqBody).to.equal(editedManager2)
+      expect(JSON.stringify(sortObject(reqBody))).to.equal(JSON.stringify(sortObject({ role: WhoamiRoleEnum.MANAGER, ...editedManager2 })))
     })
 
     cy.contains('Élément mis à jour')
