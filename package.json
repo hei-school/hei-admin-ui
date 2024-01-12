@@ -2,7 +2,7 @@
   "name": "hei-admin-ui",
   "private": true,
   "dependencies": {
-    "@haapi/typescript-client": "^0.13.0",
+    "@haapi/typescript-client": "^1.1.0",
     "@mui/styles": "^5.10.16",
     "@react-admin/ra-enterprise": "^7.0.0",
     "@react-admin/ra-navigation": "^4.0.6",
@@ -29,11 +29,11 @@
     "cypress-multi-reporters": "^1.5.0",
     "cypress-sonarqube-reporter": "^1.10.0",
     "eslint-plugin-cypress": "^2.12.1",
+    "prettier": "^3.1.1",
     "prop-types": "^15.7.2",
     "react-scripts": "4.0.3",
     "ts-jest": "^26.5.4",
-    "typescript": "^4.5.4",
-    "prettier": "^3.1.1"
+    "typescript": "^4.5.4"
   },
   "scripts": {
     "start": "react-scripts start",
