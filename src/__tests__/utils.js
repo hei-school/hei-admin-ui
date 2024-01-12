@@ -30,3 +30,8 @@ export const importFile = (file, message, _path) => {
 
   cy.contains(message);
 };
+
+// testing
+export const findByTestid = (id) => {
+  return cy.get(`[data-testid='${id}']`);
+};
