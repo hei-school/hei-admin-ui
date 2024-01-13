@@ -29,7 +29,6 @@ export function SelectSpecialization({ignoreRole = false, ...props}) {
       optionText="name"
       optionValue="value"
       fullWidth
-      required
       {...props}
     />
   ) : null;
