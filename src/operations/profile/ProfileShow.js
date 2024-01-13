@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 
 import {PhotoCamera} from "@mui/icons-material";
-import {EnableStatus, Sex} from "@haapi/typescript-client";
+import {EnableStatus, Sex, WhoamiRoleEnum} from "@haapi/typescript-client";
 import {
   Badge,
   Card,
@@ -29,8 +29,9 @@ import {
 import {useToggle} from "../../hooks";
 import {PALETTE_COLORS} from "../../ui/constants";
 import {CustomCreate} from "../utils/CustomCreate";
-import {CustomDateField, unexpectedValue} from "../utils";
+import {CustomDateField, GenCertificateButton, unexpectedValue} from "../utils";
 import authProvider from "../../providers/authProvider";
+import {getSpecializationValue} from "../utils/SelectSpecialization";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -52,6 +53,8 @@ const renderSex = ({sex}) => {
       return unexpectedValue;
   }
 };
+
+const renderSpecialization =({specialization_field})=> getSpecializationValue(specialization_field);
 
 const renderStatus = ({status}) => {
   switch (status) {
@@ -147,7 +150,7 @@ const Title = ({children}) => (
   </Typography>
 );
 
-export const ProfileLayout = () => {
+export const ProfileLayout = ({ isStudent = false }) => {
   const isSmall = useMediaQuery("(max-width:900px)");
 
   const cardStyle = {
@@ -197,6 +200,7 @@ export const ProfileLayout = () => {
                 color={PALETTE_COLORS.yellow}
               />
               <TextField source="role" label="Rôle" />
+              { isStudent && <FunctionField label='Parcours de Spécialisation' render={renderSpecialization} /> }
               <CustomDateField
                 source="entrance_datetime"
                 label="Date d'entrée chez HEI"
@@ -259,7 +263,8 @@ export const ProfileLayout = () => {
 };
 
 const ProfileShow = () => {
-  const id = authProvider.getCachedWhoami().id;
+  const { role, id }= authProvider.getCachedWhoami();
+  const isStudent = role === WhoamiRoleEnum.STUDENT
   return (
     <Show
       id={id}
@@ -272,10 +277,11 @@ const ProfileShow = () => {
             to={`/profile/${id}/edit`}
             data-testid="profile-edit-button"
           />
+          { isStudent && <GenCertificateButton studentId={id}/>}
         </TopToolbar>
       }
     >
-      <ProfileLayout />
+      <ProfileLayout isStudent={isStudent} />
     </Show>
   );
 };

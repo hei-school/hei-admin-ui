@@ -6,7 +6,7 @@ import StudentCreate from "./StudentCreate";
 
 const students = {
   list: StudentList,
-  edit: <ProfileEdit isOwnProfile={false} />,
+  edit: <ProfileEdit isOwnProfile={false} isStudent={true} />,
   show: StudentShow,
   create: StudentCreate,
   icon: School,

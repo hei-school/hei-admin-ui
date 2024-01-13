@@ -9,7 +9,7 @@ import {
 
 import {ProfileLayout} from "../profile/ProfileShow";
 import {AttachMoney} from "@mui/icons-material";
-
+import { GenCertificateButton } from "../utils";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import authProvider from "../../providers/authProvider";
 
@@ -19,14 +19,17 @@ const ActionsOnShow = ({basePath, data, resource}) => {
     <TopToolbar disableGutters>
       <EditButton basePath={basePath} resource={resource} record={data} />
       {record && (
-        <Button
-          label="Frais"
-          aria-label="fees"
-          component={Link}
-          to={`/students/${record.id}/fees`}
-        >
-          <AttachMoney />
-        </Button>
+        <>
+          <Button
+            label="Frais"
+            aria-label="fees"
+            component={Link}
+            to={`/students/${record.id}/fees`}
+          >
+            <AttachMoney />
+          </Button>
+          <GenCertificateButton studentId={record.id}/>
+        </>
       )}
     </TopToolbar>
   );
@@ -39,7 +42,7 @@ const StudentShow = () => {
       title="Étudiants"
       actions={role === WhoamiRoleEnum.MANAGER && <ActionsOnShow />}
     >
-      <ProfileLayout />
+      <ProfileLayout isStudent={true} />
     </Show>
   );
 };
