@@ -9,7 +9,7 @@ import {
 
 import {ProfileLayout} from "../profile/ProfileShow";
 import {AttachMoney} from "@mui/icons-material";
-import { GenCertificateButton } from "../utils";
+import {GenCertificateButton} from "../utils";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import authProvider from "../../providers/authProvider";
 
@@ -28,7 +28,7 @@ const ActionsOnShow = ({basePath, data, resource}) => {
           >
             <AttachMoney />
           </Button>
-          <GenCertificateButton studentId={record.id}/>
+          <GenCertificateButton studentId={record.id} />
         </>
       )}
     </TopToolbar>

@@ -12,7 +12,7 @@ import {CustomCreate} from "../utils/CustomCreate";
 import {defaultFeeConf} from "../fees/utils";
 import {useCreateFees} from "../../hooks";
 import {FeesCreateField} from "../fees/FeesCreateField";
-import { SelectSpecialization } from "../utils/SelectSpecialization";
+import {SelectSpecialization} from "../utils/SelectSpecialization";
 
 const StudentCreate = () => {
   const [feesConf, setFeesConf] = useState([defaultFeeConf]);
@@ -54,7 +54,7 @@ const StudentCreate = () => {
         <TextInput source="last_name" label="Nom" fullWidth required />
         <SexRadioButton />
         <TextInput source="phone" label="Téléphone" fullWidth />
-        <SelectSpecialization ignoreRole={true}/>
+        <SelectSpecialization ignoreRole={true} />
         <TextInput
           source="nic"
           label="Numéro CIN"

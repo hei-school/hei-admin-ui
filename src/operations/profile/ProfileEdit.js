@@ -2,7 +2,7 @@ import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
 import {EditToolBar, SexRadioButton, toUTC} from "../utils";
 import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 import {CustomEdit} from "../utils/CustomEdit";
-import { SelectSpecialization } from "../utils/SelectSpecialization";
+import {SelectSpecialization} from "../utils/SelectSpecialization";
 
 const usertoUserApi = ({birth_date, entrance_datetime, ...data}) => ({
   ...data,
@@ -21,7 +21,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => (
       />
       <TextInput source="first_name" label="Prénom·s" fullWidth />
       <TextInput source="last_name" la bel="Nom·s" fullWidth />
-      <SelectSpecialization ignoreRole={isStudent} disabled={isOwnProfile}/>
+      <SelectSpecialization ignoreRole={isStudent} disabled={isOwnProfile} />
       <TextInput source="email" fullWidth disabled={isOwnProfile} />
       <TextInput multiline source="address" label="Adresse" fullWidth />
       <SexRadioButton />

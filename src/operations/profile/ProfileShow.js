@@ -54,7 +54,8 @@ const renderSex = ({sex}) => {
   }
 };
 
-const renderSpecialization =({specialization_field})=> getSpecializationValue(specialization_field);
+const renderSpecialization = ({specialization_field}) =>
+  getSpecializationValue(specialization_field);
 
 const renderStatus = ({status}) => {
   switch (status) {
@@ -150,7 +151,7 @@ const Title = ({children}) => (
   </Typography>
 );
 
-export const ProfileLayout = ({ isStudent = false }) => {
+export const ProfileLayout = ({isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
 
   const cardStyle = {
@@ -200,7 +201,12 @@ export const ProfileLayout = ({ isStudent = false }) => {
                 color={PALETTE_COLORS.yellow}
               />
               <TextField source="role" label="Rôle" />
-              { isStudent && <FunctionField label='Parcours de Spécialisation' render={renderSpecialization} /> }
+              {isStudent && (
+                <FunctionField
+                  label="Parcours de Spécialisation"
+                  render={renderSpecialization}
+                />
+              )}
               <CustomDateField
                 source="entrance_datetime"
                 label="Date d'entrée chez HEI"
@@ -263,8 +269,8 @@ export const ProfileLayout = ({ isStudent = false }) => {
 };
 
 const ProfileShow = () => {
-  const { role, id }= authProvider.getCachedWhoami();
-  const isStudent = role === WhoamiRoleEnum.STUDENT
+  const {role, id} = authProvider.getCachedWhoami();
+  const isStudent = role === WhoamiRoleEnum.STUDENT;
   return (
     <Show
       id={id}
@@ -277,7 +283,7 @@ const ProfileShow = () => {
             to={`/profile/${id}/edit`}
             data-testid="profile-edit-button"
           />
-          { isStudent && <GenCertificateButton studentId={id}/>}
+          {isStudent && <GenCertificateButton studentId={id} />}
         </TopToolbar>
       }
     >
