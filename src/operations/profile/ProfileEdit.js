@@ -3,7 +3,7 @@ import {EditToolBar, SexRadioButton, toUTC} from "../utils";
 import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 import {CustomEdit} from "../utils/CustomEdit";
 import {SelectSpecialization} from "../students/components";
-import { useRole } from "../../hooks";
+import {useRole} from "../../hooks";
 
 const usertoUserApi = ({birth_date, entrance_datetime, ...data}) => ({
   ...data,
@@ -12,7 +12,7 @@ const usertoUserApi = ({birth_date, entrance_datetime, ...data}) => ({
 });
 
 const ProfileEdit = ({isOwnProfile, isStudent}) => {
-  const role = useRole()
+  const role = useRole();
 
   return (
     <CustomEdit title="Modifier le profil" transform={usertoUserApi}>
@@ -25,7 +25,9 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
         />
         <TextInput source="first_name" label="Prénom·s" fullWidth />
         <TextInput source="last_name" label="Nom·s" fullWidth />
-        { (isStudent || role.isStudent ) && <SelectSpecialization disabled={isOwnProfile && role.isManager} /> }
+        {(isStudent || role.isStudent) && (
+          <SelectSpecialization disabled={isOwnProfile} />
+        )}
         <TextInput source="email" fullWidth disabled={isOwnProfile} />
         <TextInput multiline source="address" label="Adresse" fullWidth />
         <SexRadioButton />
@@ -51,6 +53,6 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
       </SimpleForm>
     </CustomEdit>
   );
-}
+};
 
 export default ProfileEdit;

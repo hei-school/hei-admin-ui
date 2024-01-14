@@ -2,12 +2,12 @@ import {Button} from "ra-ui-materialui";
 import {Download as DownloadIcon} from "@mui/icons-material";
 import {studenstFileApi} from "../../../providers/api";
 import {useNotifyMessage} from "../../../hooks";
-import { useRef } from "react";
+import {useRef} from "react";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
 export function GenCertificateButton({studentId}) {
-  const certificateLink = useRef(null)
+  const certificateLink = useRef(null);
   const notify = useNotifyMessage();
 
   const getScholarshipCertificate = () => {
@@ -19,7 +19,7 @@ export function GenCertificateButton({studentId}) {
         responseType: "arraybuffer",
       })
       .then((response) => {
-        if(!response.data){
+        if (!response.data) {
           throw new Error("The response data from the server is null");
         }
         certificateLink.current.href = window.URL.createObjectURL(
@@ -37,7 +37,7 @@ export function GenCertificateButton({studentId}) {
 
   return (
     <>
-      <a ref={certificateLink} style={{display:'none'}} />
+      <a ref={certificateLink} style={{display: "none"}} />
       <Button label="Certificat" onClick={getScholarshipCertificate}>
         <DownloadIcon />
       </Button>

@@ -1,10 +1,12 @@
 import {SpecializationField, WhoamiRoleEnum} from "@haapi/typescript-client";
 import {SelectInput} from "react-admin";
 
-const SPECIALIZATION_LIST = Object.entries(SpecializationField).map(([value, name]) => ({
-  value,
-  name: getSpecializationValue(name),
-}));
+const SPECIALIZATION_LIST = Object.entries(SpecializationField).map(
+  ([value, name]) => ({
+    value,
+    name: getSpecializationValue(name),
+  })
+);
 
 export function getSpecializationValue(specialization) {
   switch (specialization) {
@@ -28,5 +30,5 @@ export function SelectSpecialization(props) {
       fullWidth
       {...props}
     />
-  )
+  );
 }

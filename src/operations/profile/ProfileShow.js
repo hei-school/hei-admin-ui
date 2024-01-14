@@ -30,7 +30,10 @@ import {useRole, useToggle} from "../../hooks";
 import {PALETTE_COLORS} from "../../ui/constants";
 import {CustomCreate} from "../utils/CustomCreate";
 import {CustomDateField, unexpectedValue} from "../utils";
-import {getSpecializationValue, GenCertificateButton} from "../students/components";
+import {
+  getSpecializationValue,
+  GenCertificateButton,
+} from "../students/components";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -72,7 +75,7 @@ const renderStatus = (status) => {
 
 const UploadPictureButton = () => {
   const [isOpen, , toggle] = useToggle();
-  const { id } = useRole()
+  const {id} = useRole();
 
   return (
     <>
@@ -152,8 +155,8 @@ const Title = ({children}) => (
 // TODO: put ProfilLayout in operations/common/components
 export const ProfileLayout = ({isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
-  const role = useRole()
-  
+  const role = useRole();
+
   const cardStyle = {
     padding: 0,
     boxShadow: "none",
@@ -204,7 +207,9 @@ export const ProfileLayout = ({isStudent = false}) => {
               {(isStudent || role.isStudent) && (
                 <FunctionField
                   label="Parcours de Spécialisation"
-                  render={(record) => renderSpecialization(record.specialization_field)}
+                  render={(record) =>
+                    renderSpecialization(record.specialization_field)
+                  }
                 />
               )}
               <CustomDateField
@@ -212,7 +217,10 @@ export const ProfileLayout = ({isStudent = false}) => {
                 label="Date d'entrée chez HEI"
                 showTime={false}
               />
-              <FunctionField label="Statut" render={record => renderStatus(record.status)} />
+              <FunctionField
+                label="Statut"
+                render={(record) => renderStatus(record.status)}
+              />
             </SimpleShowLayout>
           </Card>
         </Grid>
@@ -243,7 +251,10 @@ export const ProfileLayout = ({isStudent = false}) => {
                 component="pre"
                 emptyText={EMPTY_TEXT}
               />
-              <FunctionField label="Sexe" render={record => renderSex(record.sex)} />
+              <FunctionField
+                label="Sexe"
+                render={(record) => renderSex(record.sex)}
+              />
               <TextField
                 source="nic"
                 label="Numéro CIN"
@@ -269,7 +280,7 @@ export const ProfileLayout = ({isStudent = false}) => {
 };
 
 const ProfileShow = () => {
-  const {isStudent, id} = useRole()
+  const {isStudent, id} = useRole();
   return (
     <Show
       id={id}
