@@ -149,6 +149,7 @@ const Title = ({children}) => (
   </Typography>
 );
 
+// TODO: put ProfilLayout in operations/common/components
 export const ProfileLayout = ({isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = useRole()
