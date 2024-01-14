@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 
 import {PhotoCamera} from "@mui/icons-material";
-import {EnableStatus, Sex, WhoamiRoleEnum} from "@haapi/typescript-client";
+import {EnableStatus, Sex} from "@haapi/typescript-client";
 import {
   Badge,
   Card,
@@ -26,12 +26,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {useToggle} from "../../hooks";
+import {useRole, useToggle} from "../../hooks";
 import {PALETTE_COLORS} from "../../ui/constants";
 import {CustomCreate} from "../utils/CustomCreate";
-import {CustomDateField, GenCertificateButton, unexpectedValue} from "../utils";
-import authProvider from "../../providers/authProvider";
-import {getSpecializationValue} from "../utils/SelectSpecialization";
+import {CustomDateField, unexpectedValue} from "../utils";
+import {getSpecializationValue, GenCertificateButton} from "../students/components";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -41,7 +40,7 @@ const COMMON_GRID_ATTRIBUTES = {
   item: true,
 };
 
-const renderSex = ({sex}) => {
+const renderSex = (sex) => {
   switch (sex) {
     case Sex.M:
       return "Homme";
@@ -54,10 +53,10 @@ const renderSex = ({sex}) => {
   }
 };
 
-const renderSpecialization = ({specialization_field}) =>
+const renderSpecialization = (specialization_field) =>
   getSpecializationValue(specialization_field);
 
-const renderStatus = ({status}) => {
+const renderStatus = (status) => {
   switch (status) {
     case EnableStatus.ENABLED:
       return "Actif.ve";
@@ -73,8 +72,7 @@ const renderStatus = ({status}) => {
 
 const UploadPictureButton = () => {
   const [isOpen, , toggle] = useToggle();
-
-  const id = authProvider.getCachedWhoami().id;
+  const { id } = useRole()
 
   return (
     <>
@@ -153,7 +151,8 @@ const Title = ({children}) => (
 
 export const ProfileLayout = ({isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
-
+  const role = useRole()
+  
   const cardStyle = {
     padding: 0,
     boxShadow: "none",
@@ -201,10 +200,10 @@ export const ProfileLayout = ({isStudent = false}) => {
                 color={PALETTE_COLORS.yellow}
               />
               <TextField source="role" label="Rôle" />
-              {isStudent && (
+              {(isStudent || role.isStudent) && (
                 <FunctionField
                   label="Parcours de Spécialisation"
-                  render={renderSpecialization}
+                  render={(record) => renderSpecialization(record.specialization_field)}
                 />
               )}
               <CustomDateField
@@ -212,7 +211,7 @@ export const ProfileLayout = ({isStudent = false}) => {
                 label="Date d'entrée chez HEI"
                 showTime={false}
               />
-              <FunctionField label="Statut" render={renderStatus} />
+              <FunctionField label="Statut" render={record => renderStatus(record.status)} />
             </SimpleShowLayout>
           </Card>
         </Grid>
@@ -241,24 +240,24 @@ export const ProfileLayout = ({isStudent = false}) => {
                 source="address"
                 label="Adresse"
                 component="pre"
-                EMPTY_TEXT={EMPTY_TEXT}
+                emptyText={EMPTY_TEXT}
               />
-              <FunctionField label="Sexe" render={renderSex} />
+              <FunctionField label="Sexe" render={record => renderSex(record.sex)} />
               <TextField
                 source="nic"
                 label="Numéro CIN"
-                EMPTY_TEXT={EMPTY_TEXT}
+                emptyText={EMPTY_TEXT}
               />
               <CustomDateField
                 source="birth_date"
                 label="Date de naissance"
                 showTime={false}
-                EMPTY_TEXT={EMPTY_TEXT}
+                emptyText={EMPTY_TEXT}
               />
               <TextField
                 source="birth_place"
                 label="Lieu de naissance"
-                EMPTY_TEXT={EMPTY_TEXT}
+                emptyText={EMPTY_TEXT}
               />
             </SimpleShowLayout>
           </Card>
@@ -269,8 +268,7 @@ export const ProfileLayout = ({isStudent = false}) => {
 };
 
 const ProfileShow = () => {
-  const {role, id} = authProvider.getCachedWhoami();
-  const isStudent = role === WhoamiRoleEnum.STUDENT;
+  const {isStudent, id} = useRole()
   return (
     <Show
       id={id}
@@ -287,7 +285,7 @@ const ProfileShow = () => {
         </TopToolbar>
       }
     >
-      <ProfileLayout isStudent={isStudent} />
+      <ProfileLayout />
     </Show>
   );
 };

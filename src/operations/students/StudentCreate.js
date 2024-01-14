@@ -12,7 +12,7 @@ import {CustomCreate} from "../utils/CustomCreate";
 import {defaultFeeConf} from "../fees/utils";
 import {useCreateFees} from "../../hooks";
 import {FeesCreateField} from "../fees/FeesCreateField";
-import {SelectSpecialization} from "../utils/SelectSpecialization";
+import {SelectSpecialization} from "./components";
 
 const StudentCreate = () => {
   const [feesConf, setFeesConf] = useState([defaultFeeConf]);

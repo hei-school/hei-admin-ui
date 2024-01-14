@@ -9,7 +9,7 @@ import {
 
 import {ProfileLayout} from "../profile/ProfileShow";
 import {AttachMoney} from "@mui/icons-material";
-import {GenCertificateButton} from "../utils";
+import {GenCertificateButton} from "./components";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import authProvider from "../../providers/authProvider";
 

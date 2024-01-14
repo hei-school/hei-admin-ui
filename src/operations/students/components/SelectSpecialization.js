@@ -1,6 +1,10 @@
 import {SpecializationField, WhoamiRoleEnum} from "@haapi/typescript-client";
 import {SelectInput} from "react-admin";
-import authProvider from "../../providers/authProvider";
+
+const SPECIALIZATION_LIST = Object.entries(SpecializationField).map(([value, name]) => ({
+  value,
+  name: getSpecializationValue(name),
+}));
 
 export function getSpecializationValue(specialization) {
   switch (specialization) {
@@ -13,23 +17,16 @@ export function getSpecializationValue(specialization) {
   }
 }
 
-export function SelectSpecialization({ignoreRole = false, ...props}) {
-  const isStudent = authProvider.getCachedRole() == WhoamiRoleEnum.STUDENT;
-
-  const SpecializationList = Object.entries(SpecializationField).map((el) => ({
-    value: el[0],
-    name: getSpecializationValue(el[1]),
-  }));
-
-  return ignoreRole || isStudent ? (
+export function SelectSpecialization(props) {
+  return (
     <SelectInput
       label="Parcours de Spécialization"
       source="specialization_field"
-      choices={SpecializationList}
+      choices={SPECIALIZATION_LIST}
       optionText="name"
       optionValue="value"
       fullWidth
       {...props}
     />
-  ) : null;
+  )
 }
