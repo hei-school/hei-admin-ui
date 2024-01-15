@@ -1,14 +1,14 @@
 import {Button} from "ra-ui-materialui";
 import {Download as DownloadIcon} from "@mui/icons-material";
 import {studenstFileApi} from "../../../providers/api";
-import {useNotifyMessage} from "../../../hooks";
+import { useNotify } from "../../../hooks";
 import {useRef} from "react";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
 export function GenCertificateButton({studentId}) {
   const certificateLink = useRef(null);
-  const notify = useNotifyMessage();
+  const notify = useNotify();
 
   const getScholarshipCertificate = () => {
     notify("Certificat de scolarité en cours de téléchargement", {
