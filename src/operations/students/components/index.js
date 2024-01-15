@@ -1,2 +1,2 @@
-export * from "./GenCertificateButton";
+export * from "./GetCertificate";
 export * from "./SelectSpecialization";

@@ -26,14 +26,16 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {useRole, useToggle} from "../../hooks";
+import {useToggle} from "../../hooks";
+import {useRole} from "../../security/hooks";
 import {PALETTE_COLORS} from "../../ui/constants";
 import {CustomCreate} from "../utils/CustomCreate";
 import {CustomDateField, unexpectedValue} from "../utils";
 import {
   getSpecializationValue,
-  GenCertificateButton,
+  GetCertificate,
 } from "../students/components";
+import authProvider from "../../providers/authProvider";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -75,7 +77,7 @@ const renderStatus = (status) => {
 
 const UploadPictureButton = () => {
   const [isOpen, , toggle] = useToggle();
-  const {id} = useRole();
+  const {id} = authProvider.getCachedWhoami()
 
   return (
     <>
@@ -204,7 +206,7 @@ export const ProfileLayout = ({isStudent = false}) => {
                 color={PALETTE_COLORS.yellow}
               />
               <TextField source="role" label="Rôle" />
-              {(isStudent || role.isStudent) && (
+              {(isStudent || role.isStudent()) && (
                 <FunctionField
                   label="Parcours de Spécialisation"
                   render={(record) =>
@@ -280,7 +282,8 @@ export const ProfileLayout = ({isStudent = false}) => {
 };
 
 const ProfileShow = () => {
-  const {isStudent, id} = useRole();
+  const {isStudent} = useRole();
+  const {id} = authProvider.getCachedWhoami()
   return (
     <Show
       id={id}
@@ -293,7 +296,7 @@ const ProfileShow = () => {
             to={`/profile/${id}/edit`}
             data-testid="profile-edit-button"
           />
-          {isStudent && <GenCertificateButton studentId={id} />}
+          {isStudent() && <GetCertificate studentId={id} />}
         </TopToolbar>
       }
     >

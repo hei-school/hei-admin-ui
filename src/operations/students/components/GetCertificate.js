@@ -6,7 +6,7 @@ import {useRef} from "react";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
-export function GenCertificateButton({studentId}) {
+export function GetCertificate({studentId}) {
   const certificateLink = useRef(null);
   const notify = useNotify();
 
