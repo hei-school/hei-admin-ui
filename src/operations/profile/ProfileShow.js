@@ -206,8 +206,8 @@ export const ProfileLayout = ({isStudent = false}) => {
               {(isStudent || role.isStudent()) && (
                 <FunctionField
                   label="Parcours de Spécialisation"
-                  render={(record) =>
-                    renderSpecialization(record.specialization_field)
+                  render={(user) =>
+                    renderSpecialization(user.specialization_field)
                   }
                 />
               )}
@@ -218,7 +218,7 @@ export const ProfileLayout = ({isStudent = false}) => {
               />
               <FunctionField
                 label="Statut"
-                render={(record) => renderStatus(record.status)}
+                render={(user) => renderStatus(user.status)}
               />
             </SimpleShowLayout>
           </Card>
@@ -252,7 +252,7 @@ export const ProfileLayout = ({isStudent = false}) => {
               />
               <FunctionField
                 label="Sexe"
-                render={(record) => renderSex(record.sex)}
+                render={(user) => renderSex(user.sex)}
               />
               <TextField
                 source="nic"
