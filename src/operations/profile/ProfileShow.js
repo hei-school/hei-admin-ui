@@ -32,7 +32,7 @@ import {PALETTE_COLORS} from "../../ui/constants";
 import {CustomCreate} from "../utils/CustomCreate";
 import {CustomDateField, unexpectedValue} from "../utils";
 import {
-  getSpecializationValue,
+  SPECIALIZATION_VALUE,
   GetCertificate,
 } from "../students/components";
 import authProvider from "../../providers/authProvider";
@@ -59,7 +59,7 @@ const renderSex = (sex) => {
 };
 
 const renderSpecialization = (specialization_field) =>
-  getSpecializationValue(specialization_field);
+  SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
 
 const renderStatus = (status) => {
   switch (status) {

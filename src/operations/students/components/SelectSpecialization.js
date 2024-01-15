@@ -1,30 +1,20 @@
-import {SpecializationField, WhoamiRoleEnum} from "@haapi/typescript-client";
-import {SelectInput} from "react-admin";
+import { SelectInput } from "react-admin";
 
-const SPECIALIZATION_LIST = Object.entries(SpecializationField).map(
-  ([value, name]) => ({
-    value,
-    name: getSpecializationValue(name),
-  })
-);
-
-export function getSpecializationValue(specialization) {
-  switch (specialization) {
-    case SpecializationField.EL:
-      return "Écosystéme Logiciel (EL)";
-    case SpecializationField.TN:
-      return "Transformation Numérique (TN)";
-    default:
-      return "Tronc commun";
-  }
+export const SPECIALIZATION_VALUE=  {
+  EL:"Écosystéme Logiciel (EL)",
+  TN: "Transformation Numérique (TN)",
+  COMMON_CORE: "Tronc commun",
 }
 
 export function SelectSpecialization(props) {
+  const specializationChoices = Object.entries(SPECIALIZATION_VALUE)
+    .map(([value, label]) => ({value, label}))
+
   return (
     <SelectInput
       label="Parcours de Spécialization"
       source="specialization_field"
-      choices={SPECIALIZATION_LIST}
+      choices={specializationChoices}
       optionText="name"
       optionValue="value"
       fullWidth

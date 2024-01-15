@@ -21,7 +21,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
           source="ref"
           label="Référence"
           fullWidth
-          disabled={isOwnProfile}
+          disabled={true}
         />
         <TextInput source="first_name" label="Prénom·s" fullWidth />
         <TextInput source="last_name" label="Nom·s" fullWidth />

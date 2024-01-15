@@ -8,6 +8,8 @@ const FILE_NAME = "Certificat_Scolarité.pdf";
 
 export function GetCertificate({studentId}) {
   const certificateLink = useRef(null);
+  const certificateLinkRef = certificateLink.current;
+
   const notify = useNotify();
 
   const getScholarshipCertificate = () => {
@@ -18,21 +20,20 @@ export function GetCertificate({studentId}) {
       .getStudentScholarshipCertificate(studentId, {
         responseType: "arraybuffer",
       })
-      .then((response) => {
-        if (!response.data) {
-          throw new Error("The response data from the server is null");
+      .then(({data}) => {
+        if (!data || data.byteLength < 0) {
+          notify("Échec de téléchargement. Veuillez réessayer", { type: "error"});
         }
-        certificateLink.current.href = window.URL.createObjectURL(
-          new Blob([response.data], {type: "application/pdf"})
+        console.log(data.byteLength)
+        certificateLinkRef.href = window.URL.createObjectURL(
+          new Blob([data], {type: "application/pdf"})
         );
-        certificateLink.current.download = FILE_NAME;
-        certificateLink.current.click();
+        certificateLinkRef.download = FILE_NAME;
+        certificateLinkRef.click();
       })
-      .catch(() =>
-        notify("Échec de téléchargement. Veuillez réessayer", {
-          autoHideDuration: 5000,
-        })
-      );
+      .catch(() =>{
+        notify("Échec de téléchargement. Veuillez réessayer", {type: "error"})
+      });
   };
 
   return (
