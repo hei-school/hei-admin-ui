@@ -40,8 +40,16 @@ export function GetCertificate({studentId}) {
 
   return (
     <div style={{padding: 0, margin: 0}}>
-      <a ref={certificateLink} style={{display: "none"}} />
-      <Button data-testid="get-certificate-btn" label="Certificat" onClick={getScholarshipCertificate}>
+      <a
+        data-testid="certificate-link"
+        ref={certificateLink}
+        style={{display: "none"}}
+      />
+      <Button
+        data-testid="get-certificate-btn"
+        label="Certificat"
+        onClick={getScholarshipCertificate}
+      >
         <DownloadIcon />
       </Button>
     </div>
