@@ -10,14 +10,14 @@ import {
 import {ProfileLayout} from "../profile/ProfileShow";
 import {AttachMoney} from "@mui/icons-material";
 import {GetCertificate} from "./components";
-import { useRole } from "../../security/hooks";
+import {useRole} from "../../security/hooks";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
   return (
     <TopToolbar disableGutters>
       <EditButton basePath={basePath} resource={resource} record={data} />
-      { student && (
+      {student && (
         <>
           <Button
             label="Frais"
@@ -37,11 +37,8 @@ const ActionsOnShow = ({basePath, data, resource}) => {
 const StudentShow = () => {
   const {isManager} = useRole();
   return (
-    <Show
-      title="Étudiants"
-      actions={isManager() && <ActionsOnShow />}
-    >
-      <ProfileLayout isStudent/>
+    <Show title="Étudiants" actions={isManager() && <ActionsOnShow />}>
+      <ProfileLayout isStudent />
     </Show>
   );
 };

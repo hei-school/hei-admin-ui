@@ -31,10 +31,7 @@ import {useRole} from "../../security/hooks";
 import {PALETTE_COLORS} from "../../ui/constants";
 import {CustomCreate} from "../utils/CustomCreate";
 import {CustomDateField, unexpectedValue} from "../utils";
-import {
-  SPECIALIZATION_VALUE,
-  GetCertificate,
-} from "../students/components";
+import {SPECIALIZATION_VALUE, GetCertificate} from "../students/components";
 import authProvider from "../../providers/authProvider";
 
 const EMPTY_TEXT = "Non défini.e";
@@ -77,7 +74,7 @@ const renderStatus = (status) => {
 
 const UploadPictureButton = () => {
   const [isOpen, , toggle] = useToggle();
-  const {id} = authProvider.getCachedWhoami()
+  const {id} = authProvider.getCachedWhoami();
 
   return (
     <>
@@ -283,7 +280,7 @@ export const ProfileLayout = ({isStudent = false}) => {
 
 const ProfileShow = () => {
   const {isStudent} = useRole();
-  const {id} = authProvider.getCachedWhoami()
+  const {id} = authProvider.getCachedWhoami();
   return (
     <Show
       id={id}

@@ -1,14 +1,15 @@
-import { SelectInput } from "react-admin";
+import {SelectInput} from "react-admin";
 
-export const SPECIALIZATION_VALUE=  {
-  EL:"Écosystéme Logiciel (EL)",
+export const SPECIALIZATION_VALUE = {
+  EL: "Écosystéme Logiciel (EL)",
   TN: "Transformation Numérique (TN)",
   COMMON_CORE: "Tronc commun",
-}
+};
 
 export function SelectSpecialization(props) {
-  const specializationChoices = Object.entries(SPECIALIZATION_VALUE)
-    .map(([value, label]) => ({value, label}))
+  const specializationChoices = Object.entries(SPECIALIZATION_VALUE).map(
+    ([value, label]) => ({value, label})
+  );
 
   return (
     <SelectInput

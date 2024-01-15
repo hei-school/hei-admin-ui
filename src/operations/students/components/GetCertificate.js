@@ -1,7 +1,7 @@
 import {Button} from "ra-ui-materialui";
 import {Download as DownloadIcon} from "@mui/icons-material";
 import {studenstFileApi} from "../../../providers/api";
-import { useNotify } from "../../../hooks";
+import {useNotify} from "../../../hooks";
 import {useRef} from "react";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
@@ -22,17 +22,19 @@ export function GetCertificate({studentId}) {
       })
       .then(({data}) => {
         if (!data || data.byteLength < 0) {
-          notify("Échec de téléchargement. Veuillez réessayer", { type: "error"});
+          notify("Échec de téléchargement. Veuillez réessayer", {
+            type: "error",
+          });
         }
-        console.log(data.byteLength)
+        console.log(data.byteLength);
         certificateLinkRef.href = window.URL.createObjectURL(
           new Blob([data], {type: "application/pdf"})
         );
         certificateLinkRef.download = FILE_NAME;
         certificateLinkRef.click();
       })
-      .catch(() =>{
-        notify("Échec de téléchargement. Veuillez réessayer", {type: "error"})
+      .catch(() => {
+        notify("Échec de téléchargement. Veuillez réessayer", {type: "error"});
       });
   };
 

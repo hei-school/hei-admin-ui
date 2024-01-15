@@ -17,12 +17,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
   return (
     <CustomEdit title="Modifier le profil" transform={usertoUserApi}>
       <SimpleForm toolbar={<EditToolBar />}>
-        <TextInput
-          source="ref"
-          label="Référence"
-          fullWidth
-          disabled={true}
-        />
+        <TextInput source="ref" label="Référence" fullWidth disabled={true} />
         <TextInput source="first_name" label="Prénom·s" fullWidth />
         <TextInput source="last_name" label="Nom·s" fullWidth />
         {(isStudent || role.isStudent()) && (
