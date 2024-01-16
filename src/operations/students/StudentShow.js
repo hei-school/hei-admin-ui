@@ -35,9 +35,9 @@ const ActionsOnShow = ({basePath, data, resource}) => {
 };
 
 const StudentShow = () => {
-  const {isManager} = useRole();
+  const role = useRole();
   return (
-    <Show title="Étudiants" actions={isManager() && <ActionsOnShow />}>
+    <Show title="Étudiants" actions={role.isManager() && <ActionsOnShow />}>
       <ProfileLayout isStudent />
     </Show>
   );

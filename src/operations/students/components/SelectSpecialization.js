@@ -6,16 +6,16 @@ export const SPECIALIZATION_VALUE = {
   COMMON_CORE: "Tronc commun",
 };
 
-export function SelectSpecialization(props) {
-  const specializationChoices = Object.entries(SPECIALIZATION_VALUE).map(
-    ([value, label]) => ({value, label})
-  );
+const SPECIALIZATION_CHOICES = Object.entries(SPECIALIZATION_VALUE).map(
+  ([value, label]) => ({value, label})
+);
 
+export function SelectSpecialization(props) {
   return (
     <SelectInput
       label="Parcours de Spécialization"
       source="specialization_field"
-      choices={specializationChoices}
+      choices={SPECIALIZATION_CHOICES}
       optionText="name"
       optionValue="value"
       fullWidth
