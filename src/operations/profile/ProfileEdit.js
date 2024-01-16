@@ -13,7 +13,7 @@ const usertoUserApi = ({birth_date, entrance_datetime, ...data}) => ({
 
 const ProfileEdit = ({isOwnProfile, isStudent}) => {
   const role = useRole();
-  const isRecordOfStudent = isStudent || role.isStudent();
+  const isStudentProfile = isStudent || role.isStudent();
 
   return (
     <CustomEdit title="Modifier le profil" transform={usertoUserApi}>
@@ -21,7 +21,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
         <TextInput source="ref" label="Référence" fullWidth disabled={true} />
         <TextInput source="first_name" label="Prénom·s" fullWidth />
         <TextInput source="last_name" label="Nom·s" fullWidth />
-        {isRecordOfStudent && <SelectSpecialization disabled={isOwnProfile} />}
+        {isStudentProfile && <SelectSpecialization disabled={isOwnProfile} />}
         <TextInput source="email" fullWidth disabled={isOwnProfile} />
         <TextInput multiline source="address" label="Adresse" fullWidth />
         <SexRadioButton />
