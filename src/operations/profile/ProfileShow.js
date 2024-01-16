@@ -155,6 +155,7 @@ const Title = ({children}) => (
 export const ProfileLayout = ({isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = useRole();
+  const isRecordOfStudent = isStudent || role.isStudent();
 
   const cardStyle = {
     padding: 0,
@@ -203,17 +204,14 @@ export const ProfileLayout = ({isStudent = false}) => {
                 color={PALETTE_COLORS.yellow}
               />
               <TextField source="role" label="Rôle" />
-              {
-                // Shown if the record of user is a student or if the current logged user is a student
-                (isStudent || role.isStudent()) && (
-                  <FunctionField
-                    label="Parcours de Spécialisation"
-                    render={(user) =>
-                      renderSpecialization(user.specialization_field)
-                    }
-                  />
-                )
-              }
+              {isRecordOfStudent && (
+                <FunctionField
+                  label="Parcours de Spécialisation"
+                  render={(user) =>
+                    renderSpecialization(user.specialization_field)
+                  }
+                />
+              )}
               <CustomDateField
                 source="entrance_datetime"
                 label="Date d'entrée chez HEI"
