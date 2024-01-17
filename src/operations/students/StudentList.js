@@ -6,12 +6,6 @@ import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import authProvider from "../../providers/authProvider";
 import studentProvider from "../../providers/studentProvider";
 import {exporter, exportHeaders, importHeaders} from "../utils";
-import {
-  minimalStudentHeaders,
-  optionalStudentHeaders,
-  transformStudentData,
-  valideStudentData,
-} from "./importConf";
 import {ProfileFilters} from "../profile";
 import {
   minimalUserHeaders,
