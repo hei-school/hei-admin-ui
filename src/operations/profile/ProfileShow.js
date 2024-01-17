@@ -27,9 +27,11 @@ import {
 } from "@mui/material";
 
 import {useToggle} from "../../hooks";
+import {useRole} from "../../security/hooks";
 import {PALETTE_COLORS} from "../../ui/constants";
 import {CustomCreate} from "../utils/CustomCreate";
 import {CustomDateField, unexpectedValue} from "../utils";
+import {SPECIALIZATION_VALUE, GetCertificate} from "../students/components";
 import authProvider from "../../providers/authProvider";
 
 const EMPTY_TEXT = "Non défini.e";
@@ -40,7 +42,7 @@ const COMMON_GRID_ATTRIBUTES = {
   item: true,
 };
 
-const renderSex = ({sex}) => {
+const renderSex = (sex) => {
   switch (sex) {
     case Sex.M:
       return "Homme";
@@ -53,7 +55,10 @@ const renderSex = ({sex}) => {
   }
 };
 
-const renderStatus = ({status}) => {
+const renderSpecialization = (specialization_field) =>
+  SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
+
+const renderStatus = (status) => {
   switch (status) {
     case EnableStatus.ENABLED:
       return "Actif.ve";
@@ -69,8 +74,7 @@ const renderStatus = ({status}) => {
 
 const UploadPictureButton = () => {
   const [isOpen, , toggle] = useToggle();
-
-  const id = authProvider.getCachedWhoami().id;
+  const {id} = authProvider.getCachedWhoami();
 
   return (
     <>
@@ -147,8 +151,11 @@ const Title = ({children}) => (
   </Typography>
 );
 
-export const ProfileLayout = () => {
+// TODO: put ProfilLayout in operations/common/components
+export const ProfileLayout = ({isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
+  const role = useRole();
+  const isStudentProfile = isStudent || role.isStudent();
 
   const cardStyle = {
     padding: 0,
@@ -197,12 +204,23 @@ export const ProfileLayout = () => {
                 color={PALETTE_COLORS.yellow}
               />
               <TextField source="role" label="Rôle" />
+              {isStudentProfile && (
+                <FunctionField
+                  label="Parcours de Spécialisation"
+                  render={(user) =>
+                    renderSpecialization(user.specialization_field)
+                  }
+                />
+              )}
               <CustomDateField
                 source="entrance_datetime"
                 label="Date d'entrée chez HEI"
                 showTime={false}
               />
-              <FunctionField label="Statut" render={renderStatus} />
+              <FunctionField
+                label="Statut"
+                render={(user) => renderStatus(user.status)}
+              />
             </SimpleShowLayout>
           </Card>
         </Grid>
@@ -231,24 +249,27 @@ export const ProfileLayout = () => {
                 source="address"
                 label="Adresse"
                 component="pre"
-                EMPTY_TEXT={EMPTY_TEXT}
+                emptyText={EMPTY_TEXT}
               />
-              <FunctionField label="Sexe" render={renderSex} />
+              <FunctionField
+                label="Sexe"
+                render={(user) => renderSex(user.sex)}
+              />
               <TextField
                 source="nic"
                 label="Numéro CIN"
-                EMPTY_TEXT={EMPTY_TEXT}
+                emptyText={EMPTY_TEXT}
               />
               <CustomDateField
                 source="birth_date"
                 label="Date de naissance"
                 showTime={false}
-                EMPTY_TEXT={EMPTY_TEXT}
+                emptyText={EMPTY_TEXT}
               />
               <TextField
                 source="birth_place"
                 label="Lieu de naissance"
-                EMPTY_TEXT={EMPTY_TEXT}
+                emptyText={EMPTY_TEXT}
               />
             </SimpleShowLayout>
           </Card>
@@ -259,7 +280,8 @@ export const ProfileLayout = () => {
 };
 
 const ProfileShow = () => {
-  const id = authProvider.getCachedWhoami().id;
+  const role = useRole();
+  const {id} = authProvider.getCachedWhoami();
   return (
     <Show
       id={id}
@@ -272,6 +294,7 @@ const ProfileShow = () => {
             to={`/profile/${id}/edit`}
             data-testid="profile-edit-button"
           />
+          {role.isStudent() && <GetCertificate studentId={id} />}
         </TopToolbar>
       }
     >

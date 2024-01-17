@@ -9,37 +9,36 @@ import {
 
 import {ProfileLayout} from "../profile/ProfileShow";
 import {AttachMoney} from "@mui/icons-material";
-
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import authProvider from "../../providers/authProvider";
+import {GetCertificate} from "./components";
+import {useRole} from "../../security/hooks";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
-  const record = useRecordContext();
+  const student = useRecordContext();
   return (
     <TopToolbar disableGutters>
       <EditButton basePath={basePath} resource={resource} record={data} />
-      {record && (
-        <Button
-          label="Frais"
-          aria-label="fees"
-          component={Link}
-          to={`/students/${record.id}/fees`}
-        >
-          <AttachMoney />
-        </Button>
+      {student && (
+        <>
+          <Button
+            label="Frais"
+            aria-label="fees"
+            component={Link}
+            to={`/students/${student.id}/fees`}
+          >
+            <AttachMoney />
+          </Button>
+          <GetCertificate studentId={student.id} />
+        </>
       )}
     </TopToolbar>
   );
 };
 
 const StudentShow = () => {
-  const role = authProvider.getCachedRole();
+  const role = useRole();
   return (
-    <Show
-      title="Étudiants"
-      actions={role === WhoamiRoleEnum.MANAGER && <ActionsOnShow />}
-    >
-      <ProfileLayout />
+    <Show title="Étudiants" actions={role.isManager() && <ActionsOnShow />}>
+      <ProfileLayout isStudent />
     </Show>
   );
 };
