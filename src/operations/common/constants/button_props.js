@@ -1,12 +1,12 @@
-import { PALETTE_COLORS } from "../../../ui/constants"
+import {PALETTE_COLORS} from "../../../ui/constants";
 
-const {primary, white} = PALETTE_COLORS
+const {primary, white} = PALETTE_COLORS;
 
 export const BUTTON_PROPS = {
-    size: 'large',
-    variant: 'contained',
-    style: {
-        backgroundColor: primary,
-        color: white
-    }
-}
+  size: "large",
+  variant: "contained",
+  style: {
+    backgroundColor: primary,
+    color: white,
+  },
+};

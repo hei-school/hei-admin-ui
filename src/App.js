@@ -21,7 +21,7 @@ import payments from "./operations/payments";
 import {HaLayout} from "./ui/haLayout";
 import HaLoginPage from "./security/LoginPage";
 import {heiDocs} from "./operations/heiDocs";
-import { mainTheme, theme } from "./haTheme.js";
+import {mainTheme, theme} from "./haTheme.js";
 
 const FeeCreate = React.lazy(() => import("./operations/fees/FeesCreate"));
 

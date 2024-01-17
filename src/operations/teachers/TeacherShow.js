@@ -1,12 +1,17 @@
-import { EditButton } from "react-admin";
+import {EditButton} from "react-admin";
 
-import { HaShow } from "../common/components/HaShow";
-import { ProfileLayout } from "../profile/ProfileShow";
-import { BUTTON_PROPS } from "../common/constants/button_props";
+import {HaShow} from "../common/components/HaShow";
+import {ProfileLayout} from "../profile/ProfileShow";
+import {BUTTON_PROPS} from "../common/constants/button_props";
 
-const ActionsOnShow = ({ basePath, data, resource }) => {
+const ActionsOnShow = ({basePath, data, resource}) => {
   return (
-    <EditButton basePath={basePath} resource={resource} record={data} {...BUTTON_PROPS}/>
+    <EditButton
+      basePath={basePath}
+      resource={resource}
+      record={data}
+      {...BUTTON_PROPS}
+    />
   );
 };
 
@@ -14,10 +19,10 @@ const TeacherShow = () => {
   return (
     <HaShow
       sx={{
-        '& .RaShow-card': {
-          backgroundColor: 'transparent',
-          boxShadow: 'none'
-        }
+        "& .RaShow-card": {
+          backgroundColor: "transparent",
+          boxShadow: "none",
+        },
       }}
       actions={false}
       title="Enseignants"

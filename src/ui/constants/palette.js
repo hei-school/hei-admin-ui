@@ -1,4 +1,4 @@
-import {indigo, grey, } from '@mui/material/colors'
+import {indigo, grey} from "@mui/material/colors";
 export const PALETTE_COLORS = {
   black: "#323333",
   yellow: "#edb91a",
@@ -8,5 +8,5 @@ export const PALETTE_COLORS = {
   typography: {
     grey: grey[700],
     black: "#323333",
-  }
+  },
 };

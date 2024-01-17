@@ -10,7 +10,7 @@ const HaLayoutStyled = styled("div")({
   minHeight: "100vh",
   position: "relative",
   backgroundColor: "#e6eaed",
-  width: "100%"
+  width: "100%",
 });
 
 export function HaLayout({children}) {
