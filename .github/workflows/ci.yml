@@ -70,12 +70,6 @@ jobs:
           export REACT_APP_OAUTH_DOMAIN=${{ vars.PREPROD_OAUTH_DOMAIN }}
           npm run test
 
-      - name: Read version file
-        id: read-version
-        uses: CumulusDS/get-yaml-paths-action@v0.1.0
-        with:
-          file: version.yml
-          version: version
   style:
     runs-on: ubuntu-latest
     steps:
