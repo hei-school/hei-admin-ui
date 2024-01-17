@@ -1,5 +1,6 @@
 import {createTheme} from "@mui/material/styles";
 import {amber, indigo} from "@mui/material/colors";
+import { PALETTE_COLORS } from "./ui/constants";
 
 export const mainTheme = createTheme({
   palette: {
@@ -11,8 +12,6 @@ export const mainTheme = createTheme({
     },
   },
   typography: {
-    fontFamily: ["Quicksand", "sans-serif"].join(","),
-    fontSize: 15,
+    fontFamily: 'Quicksand, sans-serif'
   },
-  //shadows: Array(25).fill('none')
 });
