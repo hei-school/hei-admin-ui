@@ -1,46 +1,52 @@
 import {
-  Button,
-  Show,
+  Button
+} from "@mui/material";
+import {
   EditButton,
-  TopToolbar,
   Link,
-  useRecordContext,
+  Show,
+  useRecordContext
 } from "react-admin";
 
-import {ProfileLayout} from "../profile/ProfileShow";
-import {AttachMoney} from "@mui/icons-material";
+import { AttachMoney } from "@mui/icons-material";
+import { ProfileLayout } from "../profile/ProfileShow";
 
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import { WhoamiRoleEnum } from "@haapi/typescript-client";
 import authProvider from "../../providers/authProvider";
+import { PALETTE_COLORS } from "../../ui/constants";
+import { HaShow } from "../common/components/HaShow";
+import { BUTTON_PROPS } from "../common/constants/button_props";
 
-const ActionsOnShow = ({basePath, data, resource}) => {
+
+const ActionsOnShow = ({ basePath, data, resource }) => {
   const record = useRecordContext();
   return (
-    <TopToolbar disableGutters>
-      <EditButton basePath={basePath} resource={resource} record={data} />
+    <>
+      <EditButton basePath={basePath} resource={resource} record={data} {...BUTTON_PROPS}/>
       {record && (
         <Button
-          label="Frais"
           aria-label="fees"
           component={Link}
           to={`/students/${record.id}/fees`}
+          startIcon={<AttachMoney />}
+          {...BUTTON_PROPS}
         >
-          <AttachMoney />
+          Frais
         </Button>
       )}
-    </TopToolbar>
+    </>
   );
 };
 
 const StudentShow = () => {
   const role = authProvider.getCachedRole();
   return (
-    <Show
+    <HaShow
       title="Étudiants"
-      actions={role === WhoamiRoleEnum.MANAGER && <ActionsOnShow />}
+      actions={false}
     >
-      <ProfileLayout />
-    </Show>
+      <ProfileLayout actions={role === WhoamiRoleEnum.MANAGER && <ActionsOnShow />} />
+    </HaShow>
   );
 };
 

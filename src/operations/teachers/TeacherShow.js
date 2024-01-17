@@ -1,20 +1,29 @@
-import {Show, TopToolbar, EditButton} from "react-admin";
+import { EditButton } from "react-admin";
 
-import {ProfileLayout} from "../profile/ProfileShow";
+import { HaShow } from "../common/components/HaShow";
+import { ProfileLayout } from "../profile/ProfileShow";
+import { BUTTON_PROPS } from "../common/constants/button_props";
 
-const ActionsOnShow = ({basePath, data, resource}) => {
+const ActionsOnShow = ({ basePath, data, resource }) => {
   return (
-    <TopToolbar disableGutters>
-      <EditButton basePath={basePath} resource={resource} record={data} />
-    </TopToolbar>
+    <EditButton basePath={basePath} resource={resource} record={data} {...BUTTON_PROPS}/>
   );
 };
 
 const TeacherShow = () => {
   return (
-    <Show title="Enseignants" actions={<ActionsOnShow />}>
-      <ProfileLayout />
-    </Show>
+    <HaShow
+      sx={{
+        '& .RaShow-card': {
+          backgroundColor: 'transparent',
+          boxShadow: 'none'
+        }
+      }}
+      actions={false}
+      title="Enseignants"
+    >
+      <ProfileLayout actions={<ActionsOnShow />} />
+    </HaShow>
   );
 };
 
