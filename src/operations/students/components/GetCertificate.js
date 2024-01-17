@@ -1,10 +1,10 @@
-import { useRef } from "react";
-import {Button} from 'react-admin'
-import { Download as DownloadIcon } from "@mui/icons-material";
+import {useRef} from "react";
+import {Button} from "react-admin";
+import {Download as DownloadIcon} from "@mui/icons-material";
 
-import { useNotify } from "../../../hooks";
-import { studenstFileApi } from "../../../providers/api";
-import { BUTTON_PROPS } from "../../common/constants/button_props";
+import {useNotify} from "../../../hooks";
+import {studenstFileApi} from "../../../providers/api";
+import {BUTTON_PROPS} from "../../common/constants/button_props";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 

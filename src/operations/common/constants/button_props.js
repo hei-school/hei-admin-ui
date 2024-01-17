@@ -8,6 +8,6 @@ export const BUTTON_PROPS = {
   style: {
     backgroundColor: primary,
     color: white,
-    marginTop: '5px',
+    marginTop: "5px",
   },
 };
