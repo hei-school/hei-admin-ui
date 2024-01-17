@@ -23,8 +23,6 @@ import HaLoginPage from "./security/LoginPage";
 import {heiDocs} from "./operations/heiDocs";
 import {mainTheme, theme} from "./haTheme.js";
 
-const FeeCreate = React.lazy(() => import("./operations/fees/FeesCreate"));
-
 const App = () => (
   <Admin
     title="HEI Admin"
@@ -48,15 +46,7 @@ const App = () => (
     <CustomRoutes>
       <Route exact path="/profile" element={<profile.show />} />
       <Route exact path="/students/:studentId/fees" element={<fees.list />} />
-      <Route
-        exact
-        path="/students/:studentId/fees/create"
-        element={
-          <React.Suspense fallback="Veuillez patienter...">
-            <FeeCreate />
-          </React.Suspense>
-        }
-      />
+      <Route exact path="/students/:studentId/fees/create" element={<fees.create/>} />
       <Route exact path="/fees/:feeId/show" element={<fees.show />} />
       <Route exact path="/fees" element={<fees.listByStatus />} />
 
