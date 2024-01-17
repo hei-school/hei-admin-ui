@@ -1,48 +1,50 @@
-import {Button} from "@mui/material";
-import {EditButton, Link, Show, useRecordContext} from "react-admin";
+import {Button, EditButton, Link, useRecordContext} from "react-admin";
 
 import {AttachMoney} from "@mui/icons-material";
-import {ProfileLayout} from "../profile/ProfileShow";
 
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import authProvider from "../../providers/authProvider";
-import {PALETTE_COLORS} from "../../ui/constants";
-import {HaShow} from "../common/components/HaShow";
-import {BUTTON_PROPS} from "../common/constants/button_props";
+import {GetCertificate} from "./components";
+import {useRole} from "../../security/hooks";
+import {Show} from "../common/components/Show";
+import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
+import {ProfileLayout} from "../common/components/ProfileLayout";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
-  const record = useRecordContext();
+  const student = useRecordContext();
   return (
-    <>
+    <div style={{display: "grid", gridTemplateColumns: "1fr 2fr", gap: 4}}>
       <EditButton
         basePath={basePath}
         resource={resource}
         record={data}
-        {...BUTTON_PROPS}
+        {...COMMON_BUTTON_PROPS}
       />
-      {record && (
-        <Button
-          aria-label="fees"
-          component={Link}
-          to={`/students/${record.id}/fees`}
-          startIcon={<AttachMoney />}
-          {...BUTTON_PROPS}
-        >
-          Frais
-        </Button>
+      {student && (
+        <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4}}>
+          <Button
+            aria-label="fees"
+            component={Link}
+            to={`/students/${student.id}/fees`}
+            label="Frais"
+            {...COMMON_BUTTON_PROPS}
+          >
+            <AttachMoney />
+          </Button>
+          <GetCertificate studentId={student.id} />
+        </div>
       )}
-    </>
+    </div>
   );
 };
 
 const StudentShow = () => {
-  const role = authProvider.getCachedRole();
+  const role = useRole();
   return (
-    <HaShow title="Étudiants" actions={false}>
+    <Show title="Étudiants" actions={false}>
       <ProfileLayout
-        actions={role === WhoamiRoleEnum.MANAGER && <ActionsOnShow />}
+        actions={role.isManager() && <ActionsOnShow />}
+        isStudent
       />
-    </HaShow>
+    </Show>
   );
 };
 
