@@ -76,18 +76,6 @@ jobs:
         with:
           file: version.yml
           version: version
-
-      - run: npm install --location=global sonar-scanner
-
-      - name: Sonar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner \
-            -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
-            -Dsonar.branch.name=${GITHUB_REF##*/}
-
   style:
     runs-on: ubuntu-latest
     steps:
