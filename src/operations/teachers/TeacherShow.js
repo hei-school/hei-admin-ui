@@ -1,8 +1,8 @@
 import {EditButton} from "react-admin";
 
 import {HaShow} from "../common/components/HaShow";
-import {ProfileLayout} from "../profile/ProfileShow";
 import {BUTTON_PROPS} from "../common/constants/button_props";
+import {ProfileLayout} from "../common/components/ProfileLayout";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
   return (
