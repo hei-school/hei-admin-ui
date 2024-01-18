@@ -1,8 +1,11 @@
 import {Typography} from "@mui/material";
 import {styled} from "@mui/styles";
 import {useGetOne} from "react-admin";
-import {PALETTE_COLORS} from "../../../constants";
+
+// /!\ TODO: refactor with path alias
+import {PALETTE_COLORS} from "../../../constants/palette";
 import authProvider from "../../../../providers/authProvider";
+import defaultProfilePicture from "../../../../assets/blank-profile-photo.png";
 
 const StyledUserInfo = styled("div")({
   display: "flex",
@@ -20,16 +23,12 @@ function UserInfo() {
 
   const ProfilePicture = () => (
     <img
-      src={
-        profile?.profile_picture
-          ? profile.profile_picture
-          : "./blank-profile-photo.png"
-      }
+      src={profile?.profile_picture || defaultProfilePicture}
       style={{
         objectFit: "cover",
         height: 25,
         width: 25,
-        border: "1px solid #e0e0e0",
+        border: `1px solid ${PALETTE_COLORS.grey}`,
         borderRadius: "50%",
       }}
       alt="your profile picture"

@@ -16,8 +16,8 @@ export function ImportButton({
   resource,
 }) {
   const notify = useNotify();
-  const [isOpen, , toggle] = useToggle();
-  const [isShown, , toggleMenu] = useToggle();
+  const [isOpen, _setIsOpen, toggle] = useToggle();
+  const [isShown, _setIsShown, toggleMenu] = useToggle();
   const [anchorEl, setAnchorEl] = useState(null);
   const buttonRef = useRef(null);
 

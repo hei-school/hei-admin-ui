@@ -4,7 +4,7 @@ import {
   LoadingIndicator,
   SidebarToggleButton,
 } from "react-admin";
-import {PALETTE_COLORS} from "../../constants";
+import {PALETTE_COLORS} from "../../constants/palette";
 import LogoutMenu from "./LogoutMenu";
 import NotificationMenu from "../../notification/NotificationMenu";
 

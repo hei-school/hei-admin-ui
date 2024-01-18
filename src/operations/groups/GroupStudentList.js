@@ -21,7 +21,7 @@ import MoveButton from "../groupFlow/MoveButton";
 const DeleteGroupStudent = ({groupId}) => {
   const notify = useNotify();
   const student = useRecordContext();
-  const [isOpen, , toggle] = useToggle();
+  const [isOpen, _set, toggle] = useToggle();
   const payload = {
     studentId: student.id,
     groupId: groupId,

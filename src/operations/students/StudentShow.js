@@ -1,44 +1,49 @@
-import {
-  Button,
-  Show,
-  EditButton,
-  TopToolbar,
-  Link,
-  useRecordContext,
-} from "react-admin";
+import {Button, EditButton, Link, useRecordContext} from "react-admin";
 
-import {ProfileLayout} from "../profile/ProfileShow";
 import {AttachMoney} from "@mui/icons-material";
+
 import {GetCertificate} from "./components";
 import {useRole} from "../../security/hooks";
+import {Show} from "../common/components/Show";
+import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
+import {ProfileLayout} from "../common/components/ProfileLayout";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
   return (
-    <TopToolbar disableGutters>
-      <EditButton basePath={basePath} resource={resource} record={data} />
+    <div style={{display: "grid", gridTemplateColumns: "1fr 2fr", gap: 4}}>
+      <EditButton
+        basePath={basePath}
+        resource={resource}
+        record={data}
+        {...COMMON_BUTTON_PROPS}
+      />
       {student && (
-        <>
+        <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4}}>
           <Button
-            label="Frais"
             aria-label="fees"
             component={Link}
             to={`/students/${student.id}/fees`}
+            label="Frais"
+            {...COMMON_BUTTON_PROPS}
           >
             <AttachMoney />
           </Button>
           <GetCertificate studentId={student.id} />
-        </>
+        </div>
       )}
-    </TopToolbar>
+    </div>
   );
 };
 
 const StudentShow = () => {
   const role = useRole();
   return (
-    <Show title="Étudiants" actions={role.isManager() && <ActionsOnShow />}>
-      <ProfileLayout isStudent />
+    <Show title="Étudiants" actions={false}>
+      <ProfileLayout
+        actions={role.isManager() && <ActionsOnShow />}
+        isStudent
+      />
     </Show>
   );
 };
