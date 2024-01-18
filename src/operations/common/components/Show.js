@@ -1,17 +1,18 @@
-import {Show} from "react-admin";
+import {Show as RaShow} from "react-admin";
 
-export const HaShow = ({children, ...props}) => {
+export const Show = ({children,sx, ...props}) => {
   return (
-    <Show
-      {...props}
+    <RaShow
       sx={{
+        ...sx,
         "& .RaShow-card": {
           backgroundColor: "transparent",
           boxShadow: "none",
         },
       }}
+      {...props}
     >
       {children}
-    </Show>
+    </RaShow>
   );
 };

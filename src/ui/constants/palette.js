@@ -1,4 +1,6 @@
 import {indigo, grey} from "@mui/material/colors";
+
+// TODO: move this to haTheme
 export const PALETTE_COLORS = {
   black: "#323333",
   yellow: "#edb91a",

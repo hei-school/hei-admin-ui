@@ -4,7 +4,7 @@ import {Download as DownloadIcon} from "@mui/icons-material";
 
 import {useNotify} from "../../../hooks";
 import {studenstFileApi} from "../../../providers/api";
-import {BUTTON_PROPS} from "../../common/constants/button_props";
+import {COMMON_BUTTON_PROPS} from "../../../ui/constants/common_styles";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
@@ -51,7 +51,7 @@ export function GetCertificate({studentId}) {
         data-testid="get-certificate-btn"
         onClick={getScholarshipCertificate}
         label="Certificat"
-        {...BUTTON_PROPS}
+        {...COMMON_BUTTON_PROPS}
       >
         <DownloadIcon />
       </Button>

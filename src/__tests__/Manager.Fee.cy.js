@@ -91,7 +91,7 @@ describe(specTitle("Manager.Fee"), () => {
       `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}/payments?page=1&page_size=10`,
       createPaymentMock(interceptedFeeMock)
     ).as("getPaymentsOfOneFee");
-    cy.get('[aria-label="fees"]').click(); //click on fees
+    cy.get('[aria-label="fees"]').click();
     cy.contains(student1Mock.ref);
     cy.contains(prettyPrintMoney(interceptedFeeMock.remaining_amount)).click();
     cy.get("#main-content")
@@ -121,7 +121,7 @@ describe(specTitle("Manager.Fee"), () => {
       createFeeWithPredefinedDataMock(feeDateToSearch)
     ).as("createFees");
 
-    cy.get('[aria-label="fees"]').click(); //click on fees
+    cy.get('[aria-label="fees"]').click();
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
     cy.get("#predefined_type").click();
@@ -160,7 +160,7 @@ describe(specTitle("Manager.Fee"), () => {
       createFeeWithPredefinedDataMock(feeDateToSearch)
     ).as("createNineFees");
 
-    cy.get('[aria-label="fees"]').click(); //click on fees
+    cy.get('[aria-label="fees"]').click();
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
     cy.get("#predefined_type").click();
@@ -206,7 +206,7 @@ describe(specTitle("Manager.Fee"), () => {
       `/students/${student1Mock.id}/fees`,
       manuallyCreatedFees
     ).as("createFees");
-    cy.get('[aria-label="fees"]').click(); //click on fees
+    cy.get('[aria-label="fees"]').click();
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
     cy.get("#is_predefined_type").click();
@@ -248,7 +248,7 @@ describe(specTitle("Manager.Fee"), () => {
       `/students/${student1Mock.id}/fees`,
       manuallyCreatedFees
     );
-    cy.get('[aria-label="fees"]').click(); //click on fees
+    cy.get('[aria-label="fees"]').click();
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
     cy.get("#is_predefined_type").click();

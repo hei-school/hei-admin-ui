@@ -26,10 +26,10 @@ import {
 import {useToggle} from "../../../hooks";
 import {CustomDateField} from "../../utils";
 import {useRole} from "../../../security/hooks";
-import {PALETTE_COLORS} from "../../../ui/constants";
 import {CustomCreate} from "../../utils/CustomCreate";
-import authProvider from "../../../providers/authProvider";
 import {SPECIALIZATION_VALUE} from "../../students/components";
+import authProvider from "../../../providers/authProvider";
+import { PALETTE_COLORS } from "../../../ui/constants/palette";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -76,11 +76,11 @@ const renderStatus = ({status}) => {
 };
 
 const UploadPictureButton = () => {
-  const [isOpen, , toggle] = useToggle();
+  const [isOpen,_set, toggle] = useToggle();
   const {id} = authProvider.getCachedWhoami();
 
   return (
-    <>
+    <div>
       <IconButton
         onClick={toggle}
         sx={{
@@ -102,7 +102,7 @@ const UploadPictureButton = () => {
         <CustomCreate
           title=" "
           resource="profile-picture"
-          transform={(data) => ({rawFile: data?.profile_picture?.rawFile, id})}
+          transform={(user) => ({rawFile: user?.profile_picture?.rawFile, id})}
         >
           <SimpleForm>
             <ImageInput source="profile_picture" label=" " accept="image/png">
@@ -111,7 +111,7 @@ const UploadPictureButton = () => {
           </SimpleForm>
         </CustomCreate>
       </Dialog>
-    </>
+    </div>
   );
 };
 
@@ -130,15 +130,13 @@ const ProfileCardAvatar = () => (
       render={(user) => (
         <img
           src={
-            user?.profile_picture
-              ? user.profile_picture
-              : "./blank-profile-photo.png"
+            user?.profile_picture || "./blank-profile-photo.png"
           }
           style={{
             objectFit: "cover",
             height: 200,
             width: 200,
-            border: "1px solid #e0e0e0",
+            border: `1px solid ${PALETTE_COLORS.grey}`,
             borderRadius: "50%",
           }}
           alt="user profile picture"
@@ -148,7 +146,7 @@ const ProfileCardAvatar = () => (
   </Badge>
 );
 
-const Title = ({children}) => (
+const Title = ({children: label}) => (
   <Box
     padding={1}
     border="1px solid"
@@ -159,18 +157,18 @@ const Title = ({children}) => (
     borderRadius="10px"
   >
     <Typography color={PALETTE_COLORS.yellow} fontWeight="bold" variant="h7">
-      {children}
+      {label}
     </Typography>
   </Box>
 );
 
-const FieldLabel = ({content}) => (
+const FieldLabel = ({children: label}) => (
   <Typography
     color={PALETTE_COLORS.typography.black}
     fontWeight="bold"
     variant="subtitle1"
   >
-    {content}
+    {label}
   </Typography>
 );
 
@@ -187,7 +185,7 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
   };
 
   return (
-    <>
+    <div>
       <Grid
         container
         columns={{xs: 6, sm: 8, md: 12}}
@@ -230,19 +228,19 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
               >
                 <EmailField
                   source="email"
-                  label={<FieldLabel content="Email" />}
+                  label={<FieldLabel>Email</FieldLabel>}
                   {...COMMON_FIELD_ATTRIBUTES}
                 />
                 <FunctionField
                   {...COMMON_FIELD_ATTRIBUTES.variant}
-                  label={<FieldLabel content="Téléphone" />}
-                  render={(data) =>
-                    data.phone ? (
+                  label={<FieldLabel>Téléphone</FieldLabel>}
+                  render={(user) =>
+                    user.phone ? (
                       <Link
-                        href={`tel:${data.phone}`}
+                        href={`tel:${user.phone}`}
                         color={PALETTE_COLORS.typography.grey}
                       >
-                        {data.phone}
+                        {user.phone}
                       </Link>
                     ) : (
                       <span>{EMPTY_TEXT}</span>
@@ -251,7 +249,7 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
                 />
                 <TextField
                   source="address"
-                  label={<FieldLabel content="Adresse" />}
+                  label={<FieldLabel>Adresse</FieldLabel>}
                   component="pre"
                   emptyText={EMPTY_TEXT}
                   {...COMMON_FIELD_ATTRIBUTES}
@@ -282,27 +280,27 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
                 <Title>Informations personnelles</Title>
                 <SimpleShowLayout>
                   <FunctionField
-                    label={<FieldLabel content="Nom" />}
+                    label={<FieldLabel>Nom</FieldLabel>}
                     render={({first_name, last_name}) =>
                       `${first_name} ${last_name}`
                     }
                     {...COMMON_FIELD_ATTRIBUTES}
                   />
                   <FunctionField
-                    label={<FieldLabel content="Statut" />}
+                    label={<FieldLabel>Statut</FieldLabel>}
                     render={renderStatus}
                     {...COMMON_FIELD_ATTRIBUTES}
                   />
                   <CustomDateField
                     source="entrance_datetime"
-                    label={<FieldLabel content="Date d'entrée chez HEI" />}
+                    label={<FieldLabel>Date d'entrée chez HEI</FieldLabel>}
                     showTime={false}
                     {...COMMON_FIELD_ATTRIBUTES}
                   />
                   {isStudentProfile && (
                     <FunctionField
                       label={
-                        <FieldLabel content="Parcours de Spécialisation" />
+                        <FieldLabel>Parcours de Spécialisation</FieldLabel>
                       }
                       {...COMMON_FIELD_ATTRIBUTES}
                       render={(user) =>
@@ -315,26 +313,26 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
               <Title>Détails personnels</Title>
               <SimpleShowLayout>
                 <FunctionField
-                  label={<FieldLabel content="Sexe" />}
+                  label={<FieldLabel>Sexe</FieldLabel>}
                   render={renderSex}
                   {...COMMON_FIELD_ATTRIBUTES}
                 />
                 <TextField
                   source="nic"
-                  label={<FieldLabel content="Numéro CIN" />}
+                  label={<FieldLabel>Numéro CIN</FieldLabel>}
                   emptyText={EMPTY_TEXT}
                   {...COMMON_FIELD_ATTRIBUTES}
                 />
                 <CustomDateField
                   source="birth_date"
-                  label={<FieldLabel content="Date de naissance" />}
+                  label={<FieldLabel>Date de naissance</FieldLabel>}
                   showTime={false}
                   emptyText={EMPTY_TEXT}
                   {...COMMON_FIELD_ATTRIBUTES}
                 />
                 <TextField
                   source="birth_place"
-                  label={<FieldLabel content="Lieu de naissance" />}
+                  label={<FieldLabel>Lieu de naissance</FieldLabel>}
                   emptyText={EMPTY_TEXT}
                   {...COMMON_FIELD_ATTRIBUTES}
                 />
@@ -343,6 +341,6 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
           </Card>
         </Grid>
       </Grid>
-    </>
+    </div>
   );
 };

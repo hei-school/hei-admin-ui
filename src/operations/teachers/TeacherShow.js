@@ -1,7 +1,7 @@
 import {EditButton} from "react-admin";
 
-import {HaShow} from "../common/components/HaShow";
-import {BUTTON_PROPS} from "../common/constants/button_props";
+import {Show} from "../common/components/Show";
+import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
 import {ProfileLayout} from "../common/components/ProfileLayout";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
@@ -10,14 +10,14 @@ const ActionsOnShow = ({basePath, data, resource}) => {
       basePath={basePath}
       resource={resource}
       record={data}
-      {...BUTTON_PROPS}
+      {...COMMON_BUTTON_PROPS}
     />
   );
 };
 
 const TeacherShow = () => {
   return (
-    <HaShow
+    <Show
       sx={{
         "& .RaShow-card": {
           backgroundColor: "transparent",
@@ -28,7 +28,7 @@ const TeacherShow = () => {
       title="Enseignants"
     >
       <ProfileLayout actions={<ActionsOnShow />} />
-    </HaShow>
+    </Show>
   );
 };
 
