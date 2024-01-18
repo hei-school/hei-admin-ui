@@ -29,7 +29,7 @@ import {useRole} from "../../../security/hooks";
 import {CustomCreate} from "../../utils/CustomCreate";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import authProvider from "../../../providers/authProvider";
-import { PALETTE_COLORS } from "../../../ui/constants/palette";
+import {PALETTE_COLORS} from "../../../ui/constants/palette";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -76,7 +76,7 @@ const renderStatus = ({status}) => {
 };
 
 const UploadPictureButton = () => {
-  const [isOpen,_set, toggle] = useToggle();
+  const [isOpen, _set, toggle] = useToggle();
   const {id} = authProvider.getCachedWhoami();
 
   return (
@@ -129,9 +129,7 @@ const ProfileCardAvatar = () => (
       label=" "
       render={(user) => (
         <img
-          src={
-            user?.profile_picture || "./blank-profile-photo.png"
-          }
+          src={user?.profile_picture || "./blank-profile-photo.png"}
           style={{
             objectFit: "cover",
             height: 200,

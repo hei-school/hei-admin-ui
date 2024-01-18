@@ -3,7 +3,7 @@ import {styled} from "@mui/styles";
 import {useGetOne} from "react-admin";
 import {PALETTE_COLORS} from "../../../constants/palette";
 import authProvider from "../../../../providers/authProvider";
-import defaultProfilePicture from '../../../../assets/blank-profile-photo.png'
+import defaultProfilePicture from "../../../../assets/blank-profile-photo.png";
 
 const StyledUserInfo = styled("div")({
   display: "flex",
@@ -21,9 +21,7 @@ function UserInfo() {
 
   const ProfilePicture = () => (
     <img
-      src={
-        profile?.profile_picture || defaultProfilePicture
-      }
+      src={profile?.profile_picture || defaultProfilePicture}
       style={{
         objectFit: "cover",
         height: 25,
