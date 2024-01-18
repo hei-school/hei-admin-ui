@@ -1,6 +1,8 @@
 import {Typography} from "@mui/material";
 import {styled} from "@mui/styles";
 import {useGetOne} from "react-admin";
+
+// /!\ TODO: refactor with path alias
 import {PALETTE_COLORS} from "../../../constants/palette";
 import authProvider from "../../../../providers/authProvider";
 import defaultProfilePicture from "../../../../assets/blank-profile-photo.png";

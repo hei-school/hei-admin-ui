@@ -192,9 +192,9 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
       >
         <Grid
           xs={isSmall ? 6 : 5}
-          {...COMMON_GRID_ATTRIBUTES}
           columns={{xs: 6, sm: 4, md: 4}}
           marginBottom={isSmall ? 2 : 0}
+          {...COMMON_GRID_ATTRIBUTES}
         >
           <Card sx={cardStyle}>
             <CardContent>
@@ -211,9 +211,9 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
                 <ProfileCardAvatar />
                 <FunctionField
                   label=" "
-                  render={({ref}) => (
+                  render={(user) => (
                     <Typography m="auto" variant="h6">
-                      {ref}
+                      {user.ref}
                     </Typography>
                   )}
                 />
@@ -230,18 +230,18 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
                   {...COMMON_FIELD_ATTRIBUTES}
                 />
                 <FunctionField
-                  {...COMMON_FIELD_ATTRIBUTES.variant}
                   label={<FieldLabel>Téléphone</FieldLabel>}
+                  variant={COMMON_FIELD_ATTRIBUTES.variant}
                   render={(user) =>
-                    user.phone ? (
+                    !user.phone ? (
+                      <span>{EMPTY_TEXT}</span>
+                    ) : (
                       <Link
                         href={`tel:${user.phone}`}
                         color={PALETTE_COLORS.typography.grey}
                       >
                         {user.phone}
                       </Link>
-                    ) : (
-                      <span>{EMPTY_TEXT}</span>
                     )
                   }
                 />
@@ -300,10 +300,10 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
                       label={
                         <FieldLabel>Parcours de Spécialisation</FieldLabel>
                       }
-                      {...COMMON_FIELD_ATTRIBUTES}
                       render={(user) =>
                         renderSpecialization(user.specialization_field)
                       }
+                      {...COMMON_FIELD_ATTRIBUTES}
                     />
                   )}
                 </SimpleShowLayout>
