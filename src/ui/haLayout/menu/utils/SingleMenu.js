@@ -2,7 +2,7 @@ import {Box, Typography} from "@mui/material";
 import {useMediaQuery} from "@mui/material";
 import {Link, useSidebarState} from "react-admin";
 import {useLocation} from "react-router-dom";
-import {PALETTE_COLORS} from "../../../constants";
+import {PALETTE_COLORS} from "../../../constants/palette";
 
 const style = {
   "display": "flex",

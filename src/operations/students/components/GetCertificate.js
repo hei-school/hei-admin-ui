@@ -1,8 +1,10 @@
-import {Button} from "ra-ui-materialui";
-import {Download as DownloadIcon} from "@mui/icons-material";
-import {studenstFileApi} from "../../../providers/api";
-import {useNotify} from "../../../hooks";
 import {useRef} from "react";
+import {Button} from "react-admin";
+import {Download as DownloadIcon} from "@mui/icons-material";
+
+import {useNotify} from "../../../hooks";
+import {studenstFileApi} from "../../../providers/api";
+import {COMMON_BUTTON_PROPS} from "../../../ui/constants/common_styles";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
@@ -47,8 +49,9 @@ export function GetCertificate({studentId}) {
       />
       <Button
         data-testid="get-certificate-btn"
-        label="Certificat"
         onClick={getScholarshipCertificate}
+        label="Certificat"
+        {...COMMON_BUTTON_PROPS}
       >
         <DownloadIcon />
       </Button>

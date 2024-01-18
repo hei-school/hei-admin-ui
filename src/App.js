@@ -21,6 +21,7 @@ import payments from "./operations/payments";
 import {HaLayout} from "./ui/haLayout";
 import HaLoginPage from "./security/LoginPage";
 import {heiDocs} from "./operations/heiDocs";
+import {mainTheme, theme} from "./haTheme.js";
 
 const FeeCreate = React.lazy(() => import("./operations/fees/FeesCreate"));
 
@@ -31,6 +32,7 @@ const App = () => (
     dataProvider={dataProvider}
     i18nProvider={polyglotI18nProvider(() => frenchMessages, "fr")}
     loginPage={HaLoginPage}
+    theme={mainTheme}
     layout={HaLayout}
     requireAuth
   >
