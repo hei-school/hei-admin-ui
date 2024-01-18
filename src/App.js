@@ -41,6 +41,7 @@ const App = () => (
     <Resource name="groups" {...groups} />
 
     <Resource name="fees" {...fees} />
+    <Resource name="feestypes" />
     <Resource name="payments" {...payments} />
 
     <CustomRoutes>
