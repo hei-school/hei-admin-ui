@@ -16,7 +16,7 @@ export function SelectSpecialization(props) {
       label="Parcours de Spécialization"
       source="specialization_field"
       choices={SPECIALIZATION_CHOICES}
-      optionText="name"
+      optionText="label"
       optionValue="value"
       fullWidth
       {...props}
