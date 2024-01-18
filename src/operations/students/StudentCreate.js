@@ -4,7 +4,7 @@ import {
   SimpleForm,
   TextInput,
 } from "react-admin";
-import {SexRadioButton} from "../utils";
+import {SexRadioButton, turnStringIntoDate} from "../utils";
 import {CustomCreate} from "../utils/CustomCreate";
 import {SelectSpecialization} from "./components";
 
@@ -13,6 +13,7 @@ const StudentCreate = () => {
     <CustomCreate
       title="Étudiants"
       resource="students"
+      transform={student => ({...student,entrance_datetime: turnStringIntoDate(student.entrance_datetime)})}
     >
       <SimpleForm>
         <TextInput source="ref" label="Référence" fullWidth required />
