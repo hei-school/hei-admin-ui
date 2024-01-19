@@ -1,11 +1,10 @@
 import { required, SelectInput, useGetList } from "react-admin"
-import { useFormContext, useFormState } from "react-hook-form"
+import { useFormContext } from "react-hook-form"
 import {FEE_SELECT_STYLE} from "../utils"
 
 export function SelectPredefinedType(props){
   const {data, isLoading} = useGetList("feetypes")
   const {setValue} = useFormContext()
-  const state = useFormState()
   
   const updateFeesFields = (event)=>{
     const configId = event.target.value;
@@ -20,15 +19,15 @@ export function SelectPredefinedType(props){
 
   return(
     <SelectInput
-      source="predefined_type"
+      source="predefinedType"
       label="Type prédéfini"
       optionValue="id"
       optionText="name"
       choices={data || []}
       isLoading={isLoading}
       onChange={updateFeesFields}
-      sx={FEE_SELECT_STYLE}
       validate={required()}
+      sx={FEE_SELECT_STYLE}
       {...props}
     />
   )

@@ -10,7 +10,7 @@ function getNextDate(currentDate, index){
   return tempDate.toISOString();
 }
 
-export function createFeesApi(feesRecord, studentId){
+export function createFeesApi(payload, studentId){
   const feesToCreate = [];
   const {
     isPredefinedDate, 
@@ -21,7 +21,7 @@ export function createFeesApi(feesRecord, studentId){
     number_of_payments,
     comment,
     type
-  } = feesRecord;
+  } = payload;
   const firstDueDatetime = new Date(due_datetime);
   
   for(let i = 0; i < number_of_payments; i++){
@@ -37,7 +37,5 @@ export function createFeesApi(feesRecord, studentId){
       due_datetime: dueDatetime
     })
   }
-
-  console.log(feesToCreate)
-  return [[]]
+  return feesToCreate;
 }

@@ -2,7 +2,6 @@ import { useState } from "react";
 import { BooleanInput, RadioButtonGroupInput, TextInput, maxValue, minValue, number, required, DateInput} from "react-admin";
 import { SelectDueDatetime } from "./SelectDueDatetime";
 import { SelectPredefinedType } from "./SelectPredefinedType";
-import { useFormContext } from "react-hook-form";
 import { FEETYPE_CHOICES } from "../utils";
 
 export function FeeFields(){
@@ -10,7 +9,6 @@ export function FeeFields(){
     isPredefinedFee: true,
     isPredefinedDate: true
   })
-  const {setValue}= useFormContext()
   const validateAmount = [required(), number(), minValue(1)];
   const validateMonthsNumber = [required(),number(),minValue(1),maxValue(12)];
   const {isPredefinedDate, isPredefinedFee} = feeConfig;
@@ -69,7 +67,6 @@ export function FeeFields(){
           disabled={isPredefinedFee}
         />
         <BooleanInput
-          fullWidth
           label="Date limite à chaque fin du mois ?"
           source="isPredefinedDate"
           name="isPredefinedDate"

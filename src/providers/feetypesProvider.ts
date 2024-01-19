@@ -1,7 +1,7 @@
 import {HaDataProviderType} from "./HaDataProviderType";
 import {payingApi} from "./api";
 
-//TODO: remove unecessary mapping
+//TODO: Fix after waiting for the backend specification and implementation
 const feetypesProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     return new Promise((resolve, reject)=>{
@@ -9,9 +9,17 @@ const feetypesProvider: HaDataProviderType = {
         {
           id: "feetypes1",
           name: "Ecolage annuelle 1 ans",
-          amount: 555,
+          amount: 1_900_000,
           type: "TUITION",
-          number_of_payments: 5,
+          number_of_payments: 1,
+          creation_datetime: "2024-01-18T10:30:22.521Z"
+        },
+        {
+          id: "feetypes2",
+          name: "Ecolage annuelle 1 x9",
+          amount: 240_000,
+          type: "TUITION",
+          number_of_payments: 9,
           creation_datetime: "2024-01-18T10:30:22.521Z"
         }
       ]

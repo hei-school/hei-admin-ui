@@ -1,4 +1,5 @@
 import {
+    BooleanInput,
   DateInput,
   maxLength,
   SimpleForm,
@@ -6,14 +7,18 @@ import {
 } from "react-admin";
 import {SexRadioButton, turnStringIntoDate} from "../utils";
 import {CustomCreate} from "../utils/CustomCreate";
+import {FeeFields} from "../fees/components";
 import {SelectSpecialization} from "./components";
+import { useState } from "react";
+import { createStudentApi } from "./utils/createStudentApi";
 
 const StudentCreate = () => {
+  const [canCreateFees, setCanCreateFees] = useState(false)
   return (
     <CustomCreate
       title="Étudiants"
       resource="students"
-      transform={student => ({...student,entrance_datetime: turnStringIntoDate(student.entrance_datetime)})}
+      transform={createStudentApi}
     >
       <SimpleForm>
         <TextInput source="ref" label="Référence" fullWidth required />
@@ -47,6 +52,14 @@ const StudentCreate = () => {
           fullWidth
           required
         />
+        <BooleanInput
+          label="Activer la création des frais"
+          name="canCreateFees"
+          source="canCreateFees"
+          defaultValue={false}
+          onChange={() => setCanCreateFees(prev => !prev)}
+        />
+        {canCreateFees && <FeeFields />}
       </SimpleForm>
     </CustomCreate>
   );
