@@ -59,16 +59,23 @@ const PaymentCreate = (props) => {
     comment,
     creation_datetime,
   }) => {
-    const getDatetimeValue = ()=>{
-      if(notSpecifiedDate){
+    const getDatetimeValue = () => {
+      if (notSpecifiedDate) {
         const currentDate = new Date();
         currentDate.setSeconds(0);
         return currentDate.toISOString();
       }
       return new Date(creation_datetime).toISOString();
-    }
+    };
     return [
-      {feeId, type, amount, comment, ref, creation_datetime: getDatetimeValue()},
+      {
+        feeId,
+        type,
+        amount,
+        comment,
+        ref,
+        creation_datetime: getDatetimeValue(),
+      },
     ];
   };
 
