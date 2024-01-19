@@ -1,4 +1,4 @@
-import { ImageField, ImageInput, SimpleForm } from "react-admin";
+import {ImageField, ImageInput, SimpleForm} from "react-admin";
 import {
   EmailField,
   FunctionField,
@@ -6,9 +6,9 @@ import {
   TextField,
 } from "react-admin";
 
-import { Badge } from "@mui/material";
-import { PhotoCamera } from "@mui/icons-material";
-import { EnableStatus, Sex } from "@haapi/typescript-client";
+import {Badge} from "@mui/material";
+import {PhotoCamera} from "@mui/icons-material";
+import {EnableStatus, Sex} from "@haapi/typescript-client";
 import {
   Box,
   Card,
@@ -23,13 +23,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import { useToggle } from "../../../hooks";
-import { CustomDateField } from "../../utils";
-import { useRole } from "../../../security/hooks";
-import { CustomCreate } from "../../utils/CustomCreate";
-import { SPECIALIZATION_VALUE } from "../../students/components";
+import {useToggle} from "../../../hooks";
+import {CustomDateField} from "../../utils";
+import {useRole} from "../../../security/hooks";
+import {CustomCreate} from "../../utils/CustomCreate";
+import {SPECIALIZATION_VALUE} from "../../students/components";
 import authProvider from "../../../providers/authProvider";
-import { PALETTE_COLORS } from "../../../ui/constants/palette";
+import {PALETTE_COLORS} from "../../../ui/constants/palette";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -46,7 +46,7 @@ const COMMON_FIELD_ATTRIBUTES = {
   color: PALETTE_COLORS.typography.grey,
 };
 
-const renderSex = ({ sex }) => {
+const renderSex = ({sex}) => {
   switch (sex) {
     case Sex.M:
       return "Homme";
@@ -62,7 +62,7 @@ const renderSex = ({ sex }) => {
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
 
-const renderStatus = ({ status }) => {
+const renderStatus = ({status}) => {
   switch (status) {
     case EnableStatus.ENABLED:
       return "Actif.ve";
@@ -77,7 +77,7 @@ const renderStatus = ({ status }) => {
 
 const UploadPictureButton = () => {
   const [isOpen, _set, toggle] = useToggle();
-  const { id } = authProvider.getCachedWhoami();
+  const {id} = authProvider.getCachedWhoami();
 
   return (
     <div>
@@ -92,7 +92,7 @@ const UploadPictureButton = () => {
         }}
       >
         <PhotoCamera
-          sx={{ height: 20, width: 20, color: PALETTE_COLORS.yellow }}
+          sx={{height: 20, width: 20, color: PALETTE_COLORS.yellow}}
         />
       </IconButton>
       <Dialog open={isOpen} onClose={toggle}>
@@ -102,7 +102,7 @@ const UploadPictureButton = () => {
         <CustomCreate
           title=" "
           resource="profile-picture"
-          transform={(user) => ({ rawFile: user?.profile_picture?.rawFile, id })}
+          transform={(user) => ({rawFile: user?.profile_picture?.rawFile, id})}
         >
           <SimpleForm>
             <ImageInput source="profile_picture" label=" " accept="image/png">
@@ -119,7 +119,7 @@ const ProfileCardAvatar = () => (
   <Badge
     variant="contained"
     badgeContent={<UploadPictureButton />}
-    sx={{ bgcolor: "transparent" }}
+    sx={{bgcolor: "transparent"}}
     anchorOrigin={{
       vertical: "bottom",
       horizontal: "right",
@@ -144,9 +144,9 @@ const ProfileCardAvatar = () => (
   </Badge>
 );
 
-const Title = ({ children: label }) => (
+const Title = ({children: label}) => (
   <Box
-    padding='5px'
+    padding="5px"
     border="1px solid"
     borderColor={PALETTE_COLORS.yellow}
     display="flex"
@@ -160,7 +160,7 @@ const Title = ({ children: label }) => (
   </Box>
 );
 
-const FieldLabel = ({ children: label }) => (
+const FieldLabel = ({children: label}) => (
   <Typography
     color={PALETTE_COLORS.typography.black}
     fontWeight="bold"
@@ -170,7 +170,7 @@ const FieldLabel = ({ children: label }) => (
   </Typography>
 );
 
-export const ProfileLayout = ({ id, actions, isStudent = false }) => {
+export const ProfileLayout = ({id, actions, isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
   const role = useRole();
   const isStudentProfile = isStudent || role.isStudent();
@@ -178,85 +178,85 @@ export const ProfileLayout = ({ id, actions, isStudent = false }) => {
   const cardStyle = {
     borderRadius: "10px",
     boxShadow: "none",
-    p: 1.5
+    p: 1.5,
   };
 
   return (
     <Grid
       container
-      columns={{ xs: 6, sm: 8, md: 12 }}
+      columns={{xs: 6, sm: 8, md: 12}}
       gridTemplateRows="repeat(2, 1fr)"
       justifyContent="center"
     >
       <Grid
         xs={isSmall ? 6 : 5}
-        columns={{ xs: 6, sm: 4, md: 4 }}
+        columns={{xs: 6, sm: 4, md: 4}}
         {...COMMON_GRID_ATTRIBUTES}
       >
         <Card sx={cardStyle}>
-            <SimpleShowLayout
-              sx={{
-                minHeight: "275px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                textAlign: "center",
-                boxShadow: "none",
-              }}
-            >
-              <ProfileCardAvatar />
-              <FunctionField
-                label=" "
-                render={(user) => (
-                  <Typography m="auto" variant="h6">
-                    {user.ref}
-                  </Typography>
-                )}
-              />
-            </SimpleShowLayout>
-            <Title>Coordonnées</Title>
-            <SimpleShowLayout
-              sx={{
-                overflowX: "auto",
-              }}
-            >
-              <EmailField
-                source="email"
-                label={<FieldLabel>Email</FieldLabel>}
-                {...COMMON_FIELD_ATTRIBUTES}
-              />
-              <FunctionField
-                label={<FieldLabel>Téléphone</FieldLabel>}
-                variant={COMMON_FIELD_ATTRIBUTES.variant}
-                render={(user) =>
-                  !user.phone ? (
-                    <span>{EMPTY_TEXT}</span>
-                  ) : (
-                    <Link
-                      href={`tel:${user.phone}`}
-                      color={PALETTE_COLORS.typography.grey}
-                    >
-                      {user.phone}
-                    </Link>
-                  )
-                }
-              />
-              <TextField
-                source="address"
-                label={<FieldLabel>Adresse</FieldLabel>}
-                component="pre"
-                emptyText={EMPTY_TEXT}
-                {...COMMON_FIELD_ATTRIBUTES}
-              />
-            </SimpleShowLayout>
-            <CardActions
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
-              }}
-            >
-              {actions}
-            </CardActions>
+          <SimpleShowLayout
+            sx={{
+              minHeight: "275px",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              textAlign: "center",
+              boxShadow: "none",
+            }}
+          >
+            <ProfileCardAvatar />
+            <FunctionField
+              label=" "
+              render={(user) => (
+                <Typography m="auto" variant="h6">
+                  {user.ref}
+                </Typography>
+              )}
+            />
+          </SimpleShowLayout>
+          <Title>Coordonnées</Title>
+          <SimpleShowLayout
+            sx={{
+              overflowX: "auto",
+            }}
+          >
+            <EmailField
+              source="email"
+              label={<FieldLabel>Email</FieldLabel>}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+            <FunctionField
+              label={<FieldLabel>Téléphone</FieldLabel>}
+              variant={COMMON_FIELD_ATTRIBUTES.variant}
+              render={(user) =>
+                !user.phone ? (
+                  <span>{EMPTY_TEXT}</span>
+                ) : (
+                  <Link
+                    href={`tel:${user.phone}`}
+                    color={PALETTE_COLORS.typography.grey}
+                  >
+                    {user.phone}
+                  </Link>
+                )
+              }
+            />
+            <TextField
+              source="address"
+              label={<FieldLabel>Adresse</FieldLabel>}
+              component="pre"
+              emptyText={EMPTY_TEXT}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+          </SimpleShowLayout>
+          <CardActions
+            sx={{
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            {actions}
+          </CardActions>
         </Card>
       </Grid>
       <Grid xs={6} {...COMMON_GRID_ATTRIBUTES}>
@@ -267,67 +267,65 @@ export const ProfileLayout = ({ id, actions, isStudent = false }) => {
             borderColor: PALETTE_COLORS.grey,
           }}
         >
-            <Box minHeight={275}>
-              <Title>Informations personnelles</Title>
-              <SimpleShowLayout>
-                <FunctionField
-                  label={<FieldLabel>Nom</FieldLabel>}
-                  render={({ first_name, last_name }) =>
-                    `${first_name} ${last_name}`
-                  }
-                  {...COMMON_FIELD_ATTRIBUTES}
-                />
-                <FunctionField
-                  label={<FieldLabel>Statut</FieldLabel>}
-                  render={renderStatus}
-                  {...COMMON_FIELD_ATTRIBUTES}
-                />
-                <CustomDateField
-                  source="entrance_datetime"
-                  label={<FieldLabel>Date d'entrée chez HEI</FieldLabel>}
-                  showTime={false}
-                  {...COMMON_FIELD_ATTRIBUTES}
-                />
-                {isStudentProfile && (
-                  <FunctionField
-                    label={
-                      <FieldLabel>Parcours de Spécialisation</FieldLabel>
-                    }
-                    render={(user) =>
-                      renderSpecialization(user.specialization_field)
-                    }
-                    {...COMMON_FIELD_ATTRIBUTES}
-                  />
-                )}
-              </SimpleShowLayout>
-            </Box>
-            <Title>Détails personnels</Title>
+          <Box minHeight={275}>
+            <Title>Informations personnelles</Title>
             <SimpleShowLayout>
               <FunctionField
-                label={<FieldLabel>Sexe</FieldLabel>}
-                render={renderSex}
+                label={<FieldLabel>Nom</FieldLabel>}
+                render={({first_name, last_name}) =>
+                  `${first_name} ${last_name}`
+                }
                 {...COMMON_FIELD_ATTRIBUTES}
               />
-              <TextField
-                source="nic"
-                label={<FieldLabel>Numéro CIN</FieldLabel>}
-                emptyText={EMPTY_TEXT}
+              <FunctionField
+                label={<FieldLabel>Statut</FieldLabel>}
+                render={renderStatus}
                 {...COMMON_FIELD_ATTRIBUTES}
               />
               <CustomDateField
-                source="birth_date"
-                label={<FieldLabel>Date de naissance</FieldLabel>}
+                source="entrance_datetime"
+                label={<FieldLabel>Date d'entrée chez HEI</FieldLabel>}
                 showTime={false}
-                emptyText={EMPTY_TEXT}
                 {...COMMON_FIELD_ATTRIBUTES}
               />
-              <TextField
-                source="birth_place"
-                label={<FieldLabel>Lieu de naissance</FieldLabel>}
-                emptyText={EMPTY_TEXT}
-                {...COMMON_FIELD_ATTRIBUTES}
-              />
+              {isStudentProfile && (
+                <FunctionField
+                  label={<FieldLabel>Parcours de Spécialisation</FieldLabel>}
+                  render={(user) =>
+                    renderSpecialization(user.specialization_field)
+                  }
+                  {...COMMON_FIELD_ATTRIBUTES}
+                />
+              )}
             </SimpleShowLayout>
+          </Box>
+          <Title>Détails personnels</Title>
+          <SimpleShowLayout>
+            <FunctionField
+              label={<FieldLabel>Sexe</FieldLabel>}
+              render={renderSex}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+            <TextField
+              source="nic"
+              label={<FieldLabel>Numéro CIN</FieldLabel>}
+              emptyText={EMPTY_TEXT}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+            <CustomDateField
+              source="birth_date"
+              label={<FieldLabel>Date de naissance</FieldLabel>}
+              showTime={false}
+              emptyText={EMPTY_TEXT}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+            <TextField
+              source="birth_place"
+              label={<FieldLabel>Lieu de naissance</FieldLabel>}
+              emptyText={EMPTY_TEXT}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+          </SimpleShowLayout>
         </Card>
       </Grid>
     </Grid>
