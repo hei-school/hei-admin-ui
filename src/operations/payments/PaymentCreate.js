@@ -11,7 +11,7 @@ import {
   minValue,
   number,
   DateInput,
-  BooleanInput
+  BooleanInput,
 } from "react-admin";
 import {useParams} from "react-router-dom";
 import {paymentTypes} from "../../conf";
