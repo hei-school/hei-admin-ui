@@ -16,12 +16,13 @@ import teachers from "./operations/teachers";
 import docs from "./operations/docs";
 
 import fees from "./operations/fees";
+import feestypes from "./operations/feestypes";
 import payments from "./operations/payments";
 
 import {HaLayout} from "./ui/haLayout";
 import HaLoginPage from "./security/LoginPage";
 import {heiDocs} from "./operations/heiDocs";
-import {mainTheme, theme} from "./haTheme.js";
+import {mainTheme} from "./haTheme.js";
 
 const App = () => (
   <Admin
@@ -41,13 +42,17 @@ const App = () => (
     <Resource name="groups" {...groups} />
 
     <Resource name="fees" {...fees} />
-    <Resource name="feestypes" />
+    <Resource name="feestypes" {...feestypes} />
     <Resource name="payments" {...payments} />
 
     <CustomRoutes>
       <Route exact path="/profile" element={<profile.show />} />
       <Route exact path="/students/:studentId/fees" element={<fees.list />} />
-      <Route exact path="/students/:studentId/fees/create" element={<fees.create/>} />
+      <Route
+        exact
+        path="/students/:studentId/fees/create"
+        element={<fees.create />}
+      />
       <Route exact path="/fees/:feeId/show" element={<fees.show />} />
       <Route exact path="/fees" element={<fees.listByStatus />} />
 

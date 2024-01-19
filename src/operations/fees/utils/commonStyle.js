@@ -1,4 +1,4 @@
-import { mainTheme } from "../../../haTheme";
+import {mainTheme} from "../../../haTheme";
 
 export const rowStyle = (record, _index) => {
   const lateColor = record.status === "LATE" ? "#f57c73" : "inherit";
