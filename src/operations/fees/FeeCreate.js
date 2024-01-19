@@ -1,11 +1,11 @@
-import { useEffect } from "react";
-import { Create, SimpleForm } from "react-admin";
-import { useNotify, useStudentRef } from "../../hooks";
-import { FeeFields } from "./components";
+import {useEffect} from "react";
+import {Create, SimpleForm} from "react-admin";
+import {useNotify, useStudentRef} from "../../hooks";
+import {FeeFields} from "./components";
 import {createFeesApi} from "./utils";
 
-export default function FeeCreate(props){
-  const notify = useNotify()
+export default function FeeCreate(props) {
+  const notify = useNotify();
   const {studentId, studentRef, fetchRef} = useStudentRef("studentId");
 
   useEffect(() => {
@@ -23,11 +23,11 @@ export default function FeeCreate(props){
       title={`Frais de ${studentRef}`}
       resource="fees"
       redirect={() => `students/${studentId}/fees`}
-      transform={feesRecord => createFeesApi(feesRecord, studentId)}
+      transform={(feesRecord) => createFeesApi(feesRecord, studentId)}
     >
       <SimpleForm>
         <FeeFields />
       </SimpleForm>
     </Create>
-  )
+  );
 }

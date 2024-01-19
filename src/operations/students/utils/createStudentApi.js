@@ -1,6 +1,6 @@
-import {createFeesApi} from "../../fees/utils"
+import {createFeesApi} from "../../fees/utils";
 
-export function createStudentApi(payload){
+export function createStudentApi(payload) {
   const {
     amount,
     comment,
@@ -15,9 +15,9 @@ export function createStudentApi(payload){
     canCreateFees,
     ...student
   } = payload;
-    
+
   let fees = [];
-  
+
   if (canCreateFees) {
     fees = createFeesApi({
       amount,
@@ -28,7 +28,7 @@ export function createStudentApi(payload){
       number_of_payments,
       predefinedYear,
       predefinedMonth,
-      type
+      type,
     });
   }
 

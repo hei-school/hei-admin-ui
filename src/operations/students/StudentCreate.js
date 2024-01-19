@@ -1,5 +1,5 @@
 import {
-    BooleanInput,
+  BooleanInput,
   DateInput,
   maxLength,
   SimpleForm,
@@ -9,11 +9,11 @@ import {SexRadioButton, turnStringIntoDate} from "../utils";
 import {CustomCreate} from "../utils/CustomCreate";
 import {FeeFields} from "../fees/components";
 import {SelectSpecialization} from "./components";
-import { useState } from "react";
-import { createStudentApi } from "./utils/createStudentApi";
+import {useState} from "react";
+import {createStudentApi} from "./utils/createStudentApi";
 
 const StudentCreate = () => {
-  const [canCreateFees, setCanCreateFees] = useState(false)
+  const [canCreateFees, setCanCreateFees] = useState(false);
   return (
     <CustomCreate
       title="Étudiants"
@@ -57,7 +57,7 @@ const StudentCreate = () => {
           name="canCreateFees"
           source="canCreateFees"
           defaultValue={false}
-          onChange={() => setCanCreateFees(prev => !prev)}
+          onChange={() => setCanCreateFees((prev) => !prev)}
         />
         {canCreateFees && <FeeFields />}
       </SimpleForm>

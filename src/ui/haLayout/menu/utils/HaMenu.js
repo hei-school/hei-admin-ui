@@ -2,26 +2,31 @@ import {styled} from "@mui/styles";
 import {PALETTE_COLORS} from "../../../constants";
 import {Box, Drawer, Typography, useMediaQuery} from "@mui/material";
 import UserInfo from "./UserInfo";
-import {AccountCircleOutlined, SettingsOutlined, LogoutOutlined} from "@mui/icons-material";
+import {
+  AccountCircleOutlined,
+  SettingsOutlined,
+  LogoutOutlined,
+} from "@mui/icons-material";
 import {HaMenuContent} from "../HaMenuContent";
-import {SingleMenu} from "./SingleMenu"; import {useSidebarState} from "react-admin";
-import {useRole} from "../../../../security/hooks"
+import {SingleMenu} from "./SingleMenu";
+import {useSidebarState} from "react-admin";
+import {useRole} from "../../../../security/hooks";
 import authProvider from "../../../../providers/authProvider";
 
 const MENU_STYLE = {
-    width: '250px',
-    height: '100%',
-    boxSizing: 'border-box',
-    paddingLeft: '20px',
-    transition: 'all .3s linear',
-    overflowX: 'hidden',
-    bgcolor: PALETTE_COLORS.black,
-    color: PALETTE_COLORS.white,
-    top: 0,
-    display: 'flex',
-    justifyContent: 'space-between',
-    flexDirection: 'column'
-}
+  width: "250px",
+  height: "100%",
+  boxSizing: "border-box",
+  paddingLeft: "20px",
+  transition: "all .3s linear",
+  overflowX: "hidden",
+  bgcolor: PALETTE_COLORS.black,
+  color: PALETTE_COLORS.white,
+  top: 0,
+  display: "flex",
+  justifyContent: "space-between",
+  flexDirection: "column",
+};
 
 const Separator = styled("div")({
   backgroundColor: "rgba(255,255,255,.2)",
@@ -33,45 +38,79 @@ const Separator = styled("div")({
 
 export function HaMenuBase({sx = {}}) {
   const [open] = useSidebarState();
-  const role = useRole()
+  const role = useRole();
 
-  const logout = ()=> {
+  const logout = () => {
     authProvider.logout();
     window.location.reload();
   };
 
   return (
-    <Box sx={{ ...MENU_STYLE, left: open ? 0 : '-250px', ...sx }} component='div' id='ha-menu'>
-      <Box sx={{width:'100%'}}>
-        <Box sx={{ display: 'flex', width: '100%', alignItems: 'center', py: 2.5, gap: 2 }}>
-          <img src='/menu-logo.png' style={{ width: 40, height: 27 }} />
-          <Typography variant='h1' sx={{ fontSize: '1.1em', color: PALETTE_COLORS.white, fontWeight: 400 }}>
+    <Box
+      sx={{...MENU_STYLE, left: open ? 0 : "-250px", ...sx}}
+      component="div"
+      id="ha-menu"
+    >
+      <Box sx={{width: "100%"}}>
+        <Box
+          sx={{
+            display: "flex",
+            width: "100%",
+            alignItems: "center",
+            py: 2.5,
+            gap: 2,
+          }}
+        >
+          <img src="/menu-logo.png" style={{width: 40, height: 27}} />
+          <Typography
+            variant="h1"
+            sx={{
+              fontSize: "1.1em",
+              color: PALETTE_COLORS.white,
+              fontWeight: 400,
+            }}
+          >
             HEI Admin
           </Typography>
         </Box>
         <Separator />
         <UserInfo />
         <Separator />
-        <SingleMenu label='Profil' to='/profile' icon={<AccountCircleOutlined />} sx={{ mt: 3 }} />
+        <SingleMenu
+          label="Profil"
+          to="/profile"
+          icon={<AccountCircleOutlined />}
+          sx={{mt: 3}}
+        />
         <HaMenuContent />
       </Box>
-      <Box sx={{width:'100%'}}>
-        { role.isManager() && <SingleMenu label='Paramètres' to='/configuration/fees' icon={<SettingsOutlined />} /> }
-        <SingleMenu label='Se déconnecter' icon={<LogoutOutlined />} onClick={logout} />
+      <Box sx={{width: "100%"}}>
+        {role.isManager() && (
+          <SingleMenu
+            label="Paramètres"
+            to="/feestypes"
+            icon={<SettingsOutlined />}
+          />
+        )}
+        <SingleMenu
+          label="Se déconnecter"
+          icon={<LogoutOutlined />}
+          onClick={logout}
+        />
       </Box>
     </Box>
-  )
+  );
 }
 
 export function HaMenu() {
-  const isSmall = useMediaQuery('(max-width:920px)')
-  const [open, setOpen] = useSidebarState()
+  const isSmall = useMediaQuery("(max-width:920px)");
+  const [open, setOpen] = useSidebarState();
 
   return isSmall ? (
-    <Drawer anchor='left' open={open} onClose={() => setOpen(false)}>
+    <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
       <HaMenuBase />
     </Drawer>
   ) : (
-    <HaMenuBase sx={{ position: 'fixed' }} />
-  )
+    <HaMenuBase sx={{position: "fixed"}} />
+  );
 }

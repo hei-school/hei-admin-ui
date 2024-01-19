@@ -1,23 +1,23 @@
-import { required, SelectInput, useGetList } from "react-admin"
-import { useFormContext } from "react-hook-form"
-import {FEE_SELECT_STYLE} from "../utils"
+import {required, SelectInput, useGetList} from "react-admin";
+import {useFormContext} from "react-hook-form";
+import {FEE_SELECT_STYLE} from "../utils";
 
-export function SelectPredefinedType(props){
-  const {data, isLoading} = useGetList("feetypes")
-  const {setValue} = useFormContext()
-  
-  const updateFeesFields = (event)=>{
+export function SelectPredefinedType(props) {
+  const {data, isLoading} = useGetList("feestypes");
+  const {setValue} = useFormContext();
+
+  const updateFeesFields = (event) => {
     const configId = event.target.value;
-    const feeConfig = data.find(el => el.id === configId);
-    
-    //have to set field one by one cause react hook form doesn't have update many
-    setValue("amount", feeConfig.amount)
-    setValue("number_of_payments", feeConfig.number_of_payments)
-    setValue("comment", feeConfig.name)
-    setValue("type", feeConfig.type)
-  }
+    const feeConfig = data.find((el) => el.id === configId);
 
-  return(
+    //have to set field one by one cause react hook form doesn't have update many
+    setValue("amount", feeConfig.amount);
+    setValue("number_of_payments", feeConfig.number_of_payments);
+    setValue("comment", feeConfig.name);
+    setValue("type", feeConfig.type);
+  };
+
+  return (
     <SelectInput
       source="predefinedType"
       label="Type prédéfini"
@@ -30,6 +30,5 @@ export function SelectPredefinedType(props){
       sx={FEE_SELECT_STYLE}
       {...props}
     />
-  )
+  );
 }
-
