@@ -8,6 +8,8 @@ import {
   useDataProvider,
   required,
   useNotify,
+  minValue,
+  number,
   DateInput,
   BooleanInput,
 } from "react-admin";
@@ -96,7 +98,7 @@ const PaymentCreate = (props) => {
           source="amount"
           label="Montant du paiement"
           fullWidth
-          validate={required()}
+          validate={[required(), number(), minValue(1)]}
         />
         <TextInput
           source="comment"
