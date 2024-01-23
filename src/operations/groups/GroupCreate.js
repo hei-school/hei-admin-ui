@@ -6,7 +6,7 @@ const GroupCreate = () => {
   const students = queryStudents.data;
 
   return (
-    <Create resource="groups">
+    <Create resource="groups" title="Création de groupe">
       <GroupForm students={students} create />
     </Create>
   );
