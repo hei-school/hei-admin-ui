@@ -1,4 +1,4 @@
-import {FunctionField, ShowButton} from "react-admin";
+import {DeleteButton, FunctionField, ShowButton} from "react-admin";
 import {rowStyle} from "./utils";
 import {WarningOutlined} from "@mui/icons-material";
 import {
@@ -48,6 +48,7 @@ const ByStatusFeeList = ({status, ...props}) => {
         showTime={false}
       />
       <ShowButton basePath="/fees" />
+      <DeleteButton />
     </HaList>
   );
 };

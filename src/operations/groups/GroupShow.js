@@ -1,5 +1,6 @@
 import {Divider, Typography} from "@mui/material";
 import {
+  DeleteButton,
   EditButton,
   Show,
   SimpleShowLayout,
@@ -31,6 +32,7 @@ const GroupShow = () => {
   const Actions = () => (
     <TopToolbar>
       <EditButton />
+      {isManager && <DeleteButton />}
     </TopToolbar>
   );
   return (

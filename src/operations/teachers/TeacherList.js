@@ -1,4 +1,4 @@
-import {EditButton, TextField} from "react-admin";
+import {DeleteButton, EditButton, TextField} from "react-admin";
 import {CreateButton, ExportButton, ImportButton} from "../../ui/haToolbar";
 import {HaList} from "../../ui/haList";
 import {WorkOutlined} from "@mui/icons-material";
@@ -37,6 +37,7 @@ function TeacherList() {
       <TextField source="first_name" label="Prénom·s" />
       <TextField source="last_name" label="Nom·s" />
       <EditButton />
+      <DeleteButton />
     </HaList>
   );
 }

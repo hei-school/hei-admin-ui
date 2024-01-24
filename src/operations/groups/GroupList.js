@@ -1,4 +1,10 @@
-import {FunctionField, ShowButton, TextField} from "react-admin";
+import {
+  DeleteButton,
+  EditButton,
+  FunctionField,
+  ShowButton,
+  TextField,
+} from "react-admin";
 import {HaList} from "../../ui/haList";
 import {GroupsOutlined} from "@mui/icons-material";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
@@ -25,7 +31,9 @@ const GroupList = () => {
         render={(group) => parseInt(group.creation_datetime)}
         label="Année de création"
       />
-      <ShowButton />
+      {isManager && <EditButton />}
+      {isManager && <DeleteButton />}
+      {!isManager && <ShowButton />}
     </HaList>
   );
 };

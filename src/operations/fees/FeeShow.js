@@ -6,6 +6,7 @@ import {
   useDataProvider,
   EditButton,
   TopToolbar,
+  DeleteButton,
 } from "react-admin";
 import {
   prettyPrintMoney,
@@ -18,7 +19,7 @@ import {Divider, Typography} from "@mui/material";
 import PaymentList from "../payments/PaymentList";
 import {studentIdFromRaId} from "../../providers/feeProvider";
 import {useParams} from "react-router-dom";
-
+import {useRole} from "../../security/hooks";
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
     <CustomDateField source="creation_datetime" showTime />
@@ -80,6 +81,7 @@ export const FeeLayout = ({feeId}) => {
 
 const FeeShow = (props) => {
   const params = useParams();
+  const role = useRole();
   const feeId = params.feeId;
   const studentId = studentIdFromRaId(feeId);
   const [studentRef, setStudentRef] = useState("...");
@@ -92,15 +94,14 @@ const FeeShow = (props) => {
     doEffect();
     // eslint-disable-next-line
   }, [studentId]);
-
   return (
     <Show
       id={feeId}
       resource="fees"
       actions={
         <TopToolbar>
-          {" "}
-          <EditButton />{" "}
+          <EditButton />
+          {role.isManager() && <DeleteButton />}
         </TopToolbar>
       }
       basePath={`/fees/${feeId}/show`}

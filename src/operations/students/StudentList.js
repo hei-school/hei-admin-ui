@@ -1,4 +1,4 @@
-import {EditButton, ShowButton, TextField} from "react-admin";
+import {DeleteButton, EditButton, ShowButton, TextField} from "react-admin";
 import {SchoolOutlined, UploadFile} from "@mui/icons-material";
 import {CreateButton, ExportButton, ImportButton} from "../../ui/haToolbar";
 import {HaList} from "../../ui/haList";
@@ -13,7 +13,6 @@ import {
   transformUserData,
   validateUserData,
 } from "../utils/userImportConf";
-
 const ListActions = ({isManager}) => {
   return (
     <>
@@ -59,7 +58,9 @@ function StudentList() {
       <TextField source="ref" label="Référence" />
       <TextField source="first_name" label="Prénom·s" />
       <TextField source="last_name" label="Nom·s" />
-      {isManager ? <EditButton /> : <ShowButton />}
+      {isManager && <EditButton />}
+      {isManager && <DeleteButton />}
+      {!isManager && <ShowButton />}
     </HaList>
   );
 }
