@@ -1,12 +1,5 @@
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
-import {
-  AttachMoney,
-  Receipt,
-  Inventory,
-  Work,
-  School,
-  Info,
-} from "@mui/icons-material";
+import {AttachMoney, Receipt, Inventory, Work} from "@mui/icons-material";
 import authProvider from "../../../providers/authProvider";
 
 function StudentMenu() {
@@ -32,16 +25,6 @@ function StudentMenu() {
           data-testid="hei-docs"
           label="HEI"
           icon={<Work />}
-        />
-        <ListMenuItem
-          data-testid="transcripts"
-          label="Bulletins"
-          icon={<School />}
-        />
-        <ListMenuItem
-          data-testid="student-infos-docs"
-          label="Vos informations"
-          icon={<Info />}
         />
       </ListMenu>
     </>
