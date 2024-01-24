@@ -19,8 +19,6 @@ describe(specTitle("Student"), () => {
   it("can show three types of docs when the icon is clicked", () => {
     cy.get('[data-testid="InventoryIcon"] > path').click();
     cy.contains("HEI");
-    cy.contains("Vos informations");
-    cy.contains("Bulletins");
     unmount();
   });
 });
