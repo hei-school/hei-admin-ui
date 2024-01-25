@@ -21,7 +21,9 @@ const ProfileShow = () => {
       <ProfileLayout
         id={id}
         actions={
-          <div>
+          <div
+            style={{display: "flex", width: "100%", justifyContent: "flex-end"}}
+          >
             <EditButton
               to={`/profile/${id}/edit`}
               data-testid="profile-edit-button"

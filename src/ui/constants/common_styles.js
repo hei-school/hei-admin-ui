@@ -7,5 +7,6 @@ export const COMMON_BUTTON_PROPS = {
     backgroundColor: PALETTE_COLORS.primary,
     color: PALETTE_COLORS.white,
     marginTop: "15px",
+    marginLeft: "5px",
   },
 };
