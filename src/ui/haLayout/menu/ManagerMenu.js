@@ -5,7 +5,7 @@ import {
   SchoolOutlined,
   Inventory,
   PeopleOutlined,
-  WarningOutlined,
+  AttachMoney,
   Groups,
 } from "@mui/icons-material";
 
@@ -24,8 +24,8 @@ function ManagerMenu() {
           to="/students"
         />
         <ListMenuItem
-          label="Frais en retards"
-          icon={<WarningOutlined />}
+          label="Liste de tous les frais"
+          icon={<AttachMoney />}
           to="/fees"
         />
       </ListMenu>

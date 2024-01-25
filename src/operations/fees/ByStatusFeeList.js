@@ -1,22 +1,20 @@
 import {FunctionField, ShowButton} from "react-admin";
 import {rowStyle} from "./utils";
-import {WarningOutlined} from "@mui/icons-material";
+import {AttachMoney} from "@mui/icons-material";
 import {
   prettyPrintMoney,
-  statusRenderer,
   CustomDateField,
   commentFunctionRenderer,
 } from "../utils";
 import {HaList} from "../../ui/haList/HaList";
+import {FeesFilter} from ".";
 
 const ByStatusFeeList = ({status, ...props}) => {
   return (
     <HaList
       {...props}
-      icon={<WarningOutlined />}
-      title={`Frais de statut ${statusRenderer(
-        status || "LATE"
-      ).toLowerCase()}`}
+      icon={<AttachMoney />}
+      title={`Liste de tous les frais`}
       resource="fees"
       listProps={{
         filterDefaultValues: {status: status || "LATE"},
@@ -26,6 +24,7 @@ const ByStatusFeeList = ({status, ...props}) => {
         rowClick: (id) => `/fees/${id}/show`,
         rowStyle,
       }}
+      actions={<FeesFilter />}
     >
       <CustomDateField
         source="due_datetime"
