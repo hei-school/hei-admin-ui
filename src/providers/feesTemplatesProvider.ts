@@ -1,7 +1,7 @@
 import { payingApi } from "./api";
 import { HaDataProviderType } from "./HaDataProviderType";
 
-const feetypesProvider: HaDataProviderType = {
+const feesTemplatesProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     return payingApi()
       .getFeeTemplates(filter.name, filter.amount, filter.numberOfPayments, page, perPage)
@@ -19,4 +19,4 @@ const feetypesProvider: HaDataProviderType = {
   },
 };
 
-export default feetypesProvider;
+export default feesTemplatesProvider;

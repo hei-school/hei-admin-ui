@@ -1,3 +1,3 @@
-export * from "./feetypeChoices";
+export * from "./feesTemplatesChoices";
 export * from "./createFeesApi";
 export * from "./commonStyle";

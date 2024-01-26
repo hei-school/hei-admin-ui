@@ -33,8 +33,5 @@ export function createStudentApi(payload) {
   }
 
   student.entrance_datetime = new Date(student.entrance_datetime).toISOString();
-  const result = [fees, student];
-
-  console.log(result);
-  return [];
+  return [fees, student];
 }

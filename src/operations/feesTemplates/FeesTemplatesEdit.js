@@ -8,7 +8,7 @@ import {
 } from "react-admin";
 import {EditToolBar, CustomEdit} from "../utils";
 
-export function feesTemplatesEdit() {
+function FeesTemplatesEdit() {
   const validateAmount = [required(), number(), minValue(1)];
   const validateMonthsNumber = [
     required(),
@@ -42,3 +42,5 @@ export function feesTemplatesEdit() {
     </CustomEdit>
   );
 }
+
+export default FeesTemplatesEdit;
