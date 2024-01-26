@@ -1,5 +1,9 @@
-import {ImageField, ImageInput, SimpleForm} from "react-admin";
+import {useRef} from "react";
 import {
+  ImageField,
+  ImageInput,
+  SimpleForm,
+  useRecordContext,
   EmailField,
   FunctionField,
   SimpleShowLayout,
@@ -13,7 +17,6 @@ import {
   Box,
   Card,
   CardActions,
-  CardContent,
   Dialog,
   DialogTitle,
   Grid,
@@ -30,6 +33,7 @@ import {CustomCreate} from "../../utils/CustomCreate";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import authProvider from "../../../providers/authProvider";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
+import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -115,34 +119,46 @@ const UploadPictureButton = () => {
   );
 };
 
-const ProfileCardAvatar = () => (
-  <Badge
-    variant="contained"
-    badgeContent={<UploadPictureButton />}
-    sx={{bgcolor: "transparent"}}
-    anchorOrigin={{
-      vertical: "bottom",
-      horizontal: "right",
-    }}
-  >
-    <FunctionField
-      label=" "
-      render={(user) => (
-        <img
-          src={user?.profile_picture || "./blank-profile-photo.png"}
-          style={{
-            objectFit: "cover",
-            height: 175,
-            width: 175,
-            border: `1px solid ${PALETTE_COLORS.grey}`,
-            borderRadius: "50%",
-          }}
-          alt="user profile picture"
-        />
-      )}
-    />
-  </Badge>
-);
+const ProfileCardAvatar = () => {
+  const user = useRecordContext();
+  const imgRef = useRef(null);
+
+  return (
+    <Badge
+      variant="contained"
+      badgeContent={<UploadPictureButton />}
+      sx={{bgcolor: "transparent"}}
+      anchorOrigin={{
+        vertical: "bottom",
+        horizontal: "right",
+      }}
+    >
+      <FunctionField
+        label=" "
+        render={() => (
+          <img
+            data-testid="profile-pic"
+            ref={imgRef}
+            src={user?.profile_picture || defaultProfilePicture}
+            onError={() => {
+              if (imgRef.current) {
+                imgRef.current.src = defaultProfilePicture;
+              }
+            }}
+            alt="profile picture"
+            style={{
+              objectFit: "cover",
+              height: 175,
+              width: 175,
+              border: `1px solid ${PALETTE_COLORS.grey}`,
+              borderRadius: "50%",
+            }}
+          />
+        )}
+      />
+    </Badge>
+  );
+};
 
 const Title = ({children: label}) => (
   <Box
