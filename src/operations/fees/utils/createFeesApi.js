@@ -3,9 +3,13 @@ function getEndOfMonth(predefinedYear, predefinedMonth, index) {
   const dateAfterIndex = new Date(
     +predefinedYear,
     predefinedMonth + index + 1,
-    1
+    0 
   );
   return dateAfterIndex.toISOString();
+}
+
+function createComment(comment, i, number_of_payments){
+  return number_of_payments == 9 ? `${comment} (M${i + 1})` : comment ;
 }
 
 function getNextDate(currentDate, index) {
@@ -35,7 +39,7 @@ export function createFeesApi(payload, studentId) {
 
     feesToCreate.push({
       type,
-      comment: `${comment} (M${i + 1})`,
+      comment: createComment(comment, i, number_of_payments),
       total_amount: amount,
       student_id: studentId,
       due_datetime: dueDatetime,

@@ -14,8 +14,8 @@ const feesTemplatesProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload: any) {
     return payingApi()
-      .crupdateFeeTemplate(payload.id , payload)
-      .then(response => response.data)
+      .crupdateFeeTemplate(payload, payload[0])
+      .then(response => [response.data])
   },
 };
 

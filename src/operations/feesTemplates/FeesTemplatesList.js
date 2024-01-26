@@ -9,6 +9,7 @@ function FeesTemplatesList() {
       title="Type de frais prédefinies"
       mainSearch={{ source: "name", label: "label" }}
       listProps={{ title: "Frais Prédéfinies" }}
+      filterIndicator={false}
       datagridProps={{ rowClick: "edit" }}
       actions={<CreateButton/>}
     >
