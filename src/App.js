@@ -16,7 +16,7 @@ import teachers from "./operations/teachers";
 import docs from "./operations/docs";
 
 import fees from "./operations/fees";
-import feestypes from "./operations/feestypes";
+import feesTemplates from "./operations/feesTemplates";
 import payments from "./operations/payments";
 
 import {HaLayout} from "./ui/haLayout";
@@ -42,7 +42,7 @@ const App = () => (
     <Resource name="groups" {...groups} />
 
     <Resource name="fees" {...fees} />
-    <Resource name="feestypes" {...feestypes} />
+    <Resource name="feesTemplates" {...feesTemplates} />
     <Resource name="payments" {...payments} />
 
     <CustomRoutes>

@@ -10,7 +10,7 @@ import groupProvider from "./groupProvider";
 import groupFlowProvider from "./groupFlowProvider";
 import groupStudentProvider from "./groupStudentProvider";
 import profilePicProvider from "./profilePicProvider";
-import feestypesProvider from "./feestypesProvider";
+import feesTemplatesProvider from "./feesTemplatesProvider";
 
 export const maxPageSize = 500;
 
@@ -25,7 +25,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "group-flow") return groupFlowProvider;
   if (resourceType === "group-students") return groupStudentProvider;
   if (resourceType === "profile-picture") return profilePicProvider;
-  if (resourceType === "feestypes") return feestypesProvider;
+  if (resourceType === "feesTemplates") return feesTemplatesProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 

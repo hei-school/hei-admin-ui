@@ -7,7 +7,7 @@ export function FeestypesList() {
     <HaList
       title="Type de frais prédefinies"
       mainSearch={{source: "name", label: "label"}}
-      listProps={{title: "Configuration"}}
+      listProps={{title: "Frais Prédéfinies"}}
       datagridProps={{rowClick: "edit"}}
     >
       <TextField source="name" label="Label" />

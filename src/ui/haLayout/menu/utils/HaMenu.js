@@ -87,8 +87,8 @@ export function HaMenuBase({sx = {}}) {
       <Box sx={{width: "100%"}}>
         {role.isManager() && (
           <SingleMenu
-            label="Paramètres"
-            to="/feestypes"
+            label="Frais Prédéfinies"
+            to="/feesTemplates"
             icon={<SettingsOutlined />}
           />
         )}
