@@ -16,7 +16,7 @@ function FeesTemplatesCreate() {
   return (
     <Create 
       title={'Créer une frais prédéfinie'} 
-      redirect={() => `feesTemplates`}
+      redirect={() => `fees-templates`}
       transform={feesTemplates => ({ ...feesTemplates, id})}
     >
       <SimpleForm>

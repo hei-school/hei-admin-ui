@@ -1,4 +1,5 @@
 import { EditButton, FunctionField, TextField } from "react-admin";
+import { AttachMoney } from "@mui/icons-material";
 import { HaList } from "../../ui/haList";
 import { CreateButton } from "../../ui/haToolbar";
 import { prettyPrintMoney } from "../utils";
@@ -11,7 +12,8 @@ function FeesTemplatesList() {
       listProps={{ title: "Frais Prédéfinies" }}
       filterIndicator={false}
       datagridProps={{ rowClick: "edit" }}
-      actions={<CreateButton/>}
+      actions={<CreateButton />}
+      icon={<AttachMoney />}
     >
       <TextField source="name" label="Label" />
       <FunctionField

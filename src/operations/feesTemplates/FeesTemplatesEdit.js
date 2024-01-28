@@ -7,8 +7,7 @@ import {
   TextInput,
   RadioButtonGroupInput,
 } from "react-admin";
-import {EditToolBar, CustomEdit} from "../utils";
-import { v4 as uuidv4 } from "uuid";
+import { EditToolBar, CustomEdit } from "../utils";
 import { FEESTEMPLATES_CHOICES } from "../fees/utils";
 
 function FeesTemplatesEdit() {
@@ -21,7 +20,7 @@ function FeesTemplatesEdit() {
   ];
 
   return (
-    <CustomEdit title={'Modification de frais prédefinies'}>
+    <CustomEdit title={'Modification de frais prédefinies'} redirect='fees-templates'>
       <SimpleForm toolbar={<EditToolBar />}>
         <TextInput
           fullWidth

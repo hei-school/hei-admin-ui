@@ -25,7 +25,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "group-flow") return groupFlowProvider;
   if (resourceType === "group-students") return groupStudentProvider;
   if (resourceType === "profile-picture") return profilePicProvider;
-  if (resourceType === "feesTemplates") return feesTemplatesProvider;
+  if (resourceType === "fees-templates") return feesTemplatesProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 

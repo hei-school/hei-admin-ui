@@ -42,7 +42,7 @@ const App = () => (
     <Resource name="groups" {...groups} />
 
     <Resource name="fees" {...fees} />
-    <Resource name="feesTemplates" {...feesTemplates} />
+    <Resource name="fees-templates" {...feesTemplates} />
     <Resource name="payments" {...payments} />
 
     <CustomRoutes>
