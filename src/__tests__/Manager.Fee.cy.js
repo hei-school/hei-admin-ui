@@ -20,7 +20,7 @@ import {
   annual1xTemplate,
   annual9xTemplate
 } from "./mocks/responses";
-import { getEndOfMonth, testDateWithoutTime } from "./utils";
+import { getEndOfMonth } from "./utils";
 
 const testFees = (feesToCreate, template)=>{
   const currentDateString = new Date().toDateString();
@@ -94,7 +94,6 @@ describe(specTitle("Manager.Fee"), () => {
     cy.contains(studentNameToBeCheckedMock).click();
   });
 
-  //NOTE: This test should pass
   // it("can detail waiting fee", () => {
   //   const interceptedFeeMock = feesMock.find(
   //     (fee) => fee.remaining_amount === fee1Mock.remaining_amount
@@ -196,7 +195,7 @@ describe(specTitle("Manager.Fee"), () => {
 
     cy.contains("Élément créé");
   });
-  
+
   it.only("can create fees with manual fields", () => {
     const FIRST_DUE_DATETIME = '2022-01-12';
     const feesToCreate = {
@@ -239,47 +238,21 @@ describe(specTitle("Manager.Fee"), () => {
     cy.contains("Élément créé");
   });
   
-  // it("can create fees with manual fields without writing comments", () => {
-  //   const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000);
-  //   const monthsNumber = 1 + Math.floor(Math.random() * 3);
-  //   const manuallyCreatedFees = createFeeWithManualDataMock(
-  //     feeDateToSearch,
-  //     monthlyAmount,
-  //     null,
-  //     monthsNumber
-  //   );
-  //   cy.intercept(
-  //     "GET",
-  //     `/students/${student1Mock.id}/fees?page=1&page_size=10`,
-  //     feesMock
-  //   ).as("getFees");
-  //   cy.intercept(
-  //     "POST",
-  //     `/students/${student1Mock.id}/fees`,
-  //     manuallyCreatedFees
-  //   );
-  //   cy.get('[aria-label="fees"]').click();
-  //   cy.get('[data-testid="menu-list-action"]').click();
-  //   cy.get('[data-testid="create-button"]').click();
-  //   cy.get("#is_predefined_type").click();
-  //   cy.get("#manual_type_tuition").click();
-  //   cy.get("#monthly_amount").click().type(monthlyAmount);
+  it("can create fees with manual fields without writing comments", () => {
+    const AMOUNT = 500_000;
+    const NUMBER_OF_PAYMENTS = 5;
+    
+    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="menu-list-action"]').click();
+    cy.get('[data-testid="create-button"]').click();
+    cy.get("#isPredefinedFee").click();
+    cy.get(`#type_${FeeTypeEnum.TUITION}`).click();
+    cy.get("#amount").click().type(AMOUNT);
+    cy.get("#number_of_payments").click().type(NUMBER_OF_PAYMENTS);
 
-  //   cy.get("#months_number").click().type(monthsNumber);
-
-  //   cy.get("#is_predefined_first_dueDate").click();
-  //   cy.get("#manual_first_duedate").click().type(feeDateToSearch);
-
-  //   cy.intercept(
-  //     "GET",
-  //     `/students/${student1Mock.id}/fees?page=1&page_size=10`,
-  //     addFeeMock(feesMock, manuallyCreatedFees)
-  //   ).as("getFees");
-  //   cy.contains("Enregistrer").click();
-  //   cy.contains("Élément créé");
-  //   cy.contains("-");
-  //   unmount();
-  // });
+    cy.contains("Enregistrer").click();
+    cy.contains("Élément créé");
+  });
   
   afterEach(() => {
     unmount()
