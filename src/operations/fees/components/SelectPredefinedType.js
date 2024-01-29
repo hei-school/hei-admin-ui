@@ -19,7 +19,7 @@ export function SelectPredefinedType(props) {
 
   return (
     <SelectInput
-      id="predefined_type"
+      id="predefinedType"
       source="predefinedType"
       label="Type prédéfini"
       optionValue="id"

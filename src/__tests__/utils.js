@@ -31,17 +31,7 @@ export const importFile = (file, message, _path) => {
   cy.contains(message);
 };
 
-
 export const getEndOfMonth = (year, month) => {
   const lastDayOfMonth = new Date(year, month + 1, 1);
   return lastDayOfMonth;
-}
-
-export const testDateWithoutTime = (givenIsoDate, expectedIsoDate) => {
-  const givenDate = new Date(givenIsoDate);
-  const expectedDate = new Date(expectedIsoDate);
-
-  expect(givenDate.getFullYear()).to.equal(expectedDate.getFullYear());
-  expect(givenDate.getMonth()).to.equal(expectedDate.getMonth());
-  expect(givenDate.getDay()).to.equal(expectedDate.getDay());
 }

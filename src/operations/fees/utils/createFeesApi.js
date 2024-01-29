@@ -40,7 +40,7 @@ export function createFeesApi(payload, studentId) {
     feesToCreate.push({
       type,
       comment: createComment(comment, i, number_of_payments),
-      total_amount: amount,
+      total_amount: +amount,
       student_id: studentId,
       due_datetime: dueDatetime,
       creation_datetime: new Date().toISOString()

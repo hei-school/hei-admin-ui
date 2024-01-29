@@ -35,6 +35,7 @@ export function FeeFields() {
   return (
     <>
       <BooleanInput
+        id="isPredefinedFee"
         label="Type prédéfini ?"
         name="isPredefinedFee"
         source="isPredefinedFee"
@@ -59,6 +60,7 @@ export function FeeFields() {
         <TextInput
           fullWidth
           source="amount"
+          id="amount"
           name="amount"
           label="Montant de la mensualité"
           disabled={isPredefinedFee}
@@ -67,6 +69,7 @@ export function FeeFields() {
         <TextInput
           fullWidth
           source="number_of_payments"
+          id="number_of_payments"
           name="number_of_payments"
           label="Nombre de mensualités"
           disabled={isPredefinedFee}
@@ -76,12 +79,14 @@ export function FeeFields() {
           fullWidth
           source="comment"
           name="comment"
+          id="comment"
           label="Commentaire"
           disabled={isPredefinedFee}
         />
         <BooleanInput
           label="Date limite à chaque fin du mois ?"
           source="isPredefinedDate"
+          id="isPredefinedDate"
           name="isPredefinedDate"
           defaultValue={true}
           onChange={udpateFeeConfig}
@@ -92,6 +97,7 @@ export function FeeFields() {
           <DateInput
             fullWidth
             source="due_datetime"
+            id="due_datetime"
             name="due_datetime"
             label="Première date limite manuelle"
             validate={required()}

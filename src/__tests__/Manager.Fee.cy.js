@@ -1,4 +1,5 @@
 import { mount, unmount } from "@cypress/react";
+import { FeeTypeEnum } from "@haapi/typescript-client";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import App from "../App";
 import { prettyPrintMoney, statusRenderer, toUTC } from "../operations/utils";
@@ -21,14 +22,11 @@ import {
 } from "./mocks/responses";
 import { getEndOfMonth, testDateWithoutTime } from "./utils";
 
-const feeDateToSearch = `2022-09-11`;
-const feeCreatDate = "date2";
-
-const testPredefinedFees = (feesToCreate, template, endOfMonth)=>{
-  expect(feesToCreate.total_amount).to.equal(annual1xTemplate.amount);
-  expect(feesToCreate.type).to.equal(annual1xTemplate.type);
-  testDateWithoutTime(feesToCreate.due_datetime, endOfMonth.toISOString());
-  testDateWithoutTime(feesToCreate.creation_datetime, currentDate.toISOString());
+const testFees = (feesToCreate, template)=>{
+  const currentDateString = new Date().toDateString();
+  expect(feesToCreate.total_amount).to.equal(template.amount);
+  expect(feesToCreate.type).to.equal(template.type);
+  expect(new Date(feesToCreate.creation_datetime).toDateString()).to.equal(currentDateString);
 }
 
 describe(specTitle("Manager.Fee"), () => {
@@ -123,26 +121,25 @@ describe(specTitle("Manager.Fee"), () => {
   //   unmount();
   // });
 
-  //NOTE: passed
-  // it("cannot create fees when fields are missing", () => {
-  //   cy.get('[aria-label="fees"]').click();
-  //   cy.get('[data-testid="menu-list-action"]').click();
-  //   cy.get('[data-testid="create-button"]').click();
-  //   cy.get('@getFeesTemplates')
-  //   cy.get("#predefined_type").click();
-  //   cy.get('.MuiList-root > [tabindex="0"]').click();
-  //   cy.get("#isPredefinedDate").click();
-  //   cy.contains("Enregistrer").click();
-  //   cy.contains("Le formulaire n'est pas valide");
-  //   unmount();
-  // });
-  
-  it("can create fees with predefined fields", () => {
+  it("cannot create fees when fields are missing", () => {
     cy.get('[aria-label="fees"]').click();
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
     cy.get('@getFeesTemplates')
-    cy.get("#predefined_type").click();
+    cy.get("#predefinedType").click();
+    cy.get('.MuiList-root > [tabindex="0"]').click();
+    cy.get("#isPredefinedDate").click();
+    cy.contains("Enregistrer").click();
+    cy.contains("Le formulaire n'est pas valide");
+    unmount();
+  });
+  
+  it("can create fees with predefined fields equals to 1 month", () => {
+    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="menu-list-action"]').click();
+    cy.get('[data-testid="create-button"]').click();
+    cy.get('@getFeesTemplates')
+    cy.get("#predefinedType").click();
     cy.get(`[data-value="${annual1xTemplate.id}"`).click();
 
     cy.contains("Enregistrer").click();
@@ -156,7 +153,8 @@ describe(specTitle("Manager.Fee"), () => {
       const currentDate = new Date();
       const currentEndOfMonth = getEndOfMonth(currentDate.getFullYear(), currentDate.getMonth());
 
-      testPredefinedFees(feesToCreate, annual9xTemplate, currentEndOfMonth);
+      testFees(feesToCreate, annual1xTemplate);
+      expect(feesToCreate.due_datetime, currentEndOfMonth.toISOString());
       expect(feesToCreate.comment).to.equal(annual1xTemplate.name);
     });
 
@@ -170,71 +168,77 @@ describe(specTitle("Manager.Fee"), () => {
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
     cy.get('@getFeesTemplates')
-    cy.get("#predefined_type").click();
+    cy.get("#predefinedType").click();
     cy.get(`[data-value="${annual9xTemplate.id}"`).click();
-    cy.get('#predefinedYear').type(FIRST_YEAR);
-    cy.get('#predefinedMonth');
+    cy.get('#predefinedYear').clear().type(FIRST_YEAR)
+    cy.get('#predefinedMonth').click()
     cy.get(`[data-value=${FIRST_MONTH}]`).click()
     cy.contains("Enregistrer").click();
 
     cy.wait("@createFees").then((intersection) => {
       const requestBody = intersection.request.body;
       
-      expect(requestBody.length).to.equal(annual1xTemplate.number_of_payments);
+      expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
       
-      requestBody.foreach((feesToCreate, index)=>{
-        /* making sure that the month will not greater than 11 */
+      requestBody.forEach((feesToCreate, index)=>{
+        /* making sure that the month will not greater than number of month (11)*/
         const is_valid_month = FIRST_MONTH + index <= 11; 
-        const year_value = is_valid_month ? FIRST_YEAR + 1 : FIRST_YEAR;
-        const month_value = is_valid_month ? FIRST_MONTH + index : 0;
+        const year_value = is_valid_month ? FIRST_YEAR : FIRST_YEAR + 1;
+        const month_value = is_valid_month ? FIRST_MONTH + index : (FIRST_MONTH + index - 12);
 
         const currentEndOfMonth = getEndOfMonth(year_value, month_value);
-        testPredefinedFees(feesToCreate, annual9xTemplate, currentEndOfMonth);
-        expect(feesToCreate.comment).to.equal(`${annual1xTemplate.name} (M${index + 1})`);
+
+        testFees(feesToCreate, annual9xTemplate);
+        expect(feesToCreate.due_datetime, currentEndOfMonth.toISOString());
+        expect(feesToCreate.comment).to.equal(`${annual9xTemplate.name} (M${index + 1})`);
       })
     });
 
     cy.contains("Élément créé");
   });
+  
+  it.only("can create fees with manual fields", () => {
+    const FIRST_DUE_DATETIME = '2022-01-12';
+    const feesToCreate = {
+      amount: 200_000,
+      number_of_payments: 5,
+      comment: "Dummy comment",
+      type: FeeTypeEnum.TUITION,
+      due_datetime: new Date(FIRST_DUE_DATETIME)
+    }
 
-  // it("can create fees with manual fields", () => {
-  //   const monthlyAmount = 200000;
-  //   const monthsNumber = 5;
-  //   const comment = "Dummy comment";
-  //   const manuallyCreatedFees = createFeeWithManualDataMock(
-  //     feeDateToSearch,
-  //     monthlyAmount,
-  //     comment,
-  //     monthsNumber
-  //   );
-  //   cy.intercept(
-  //     "POST",
-  //     `/students/${student1Mock.id}/fees`,
-  //     manuallyCreatedFees
-  //   ).as("createFees");
-  //   cy.get('[aria-label="fees"]').click();
-  //   cy.get('[data-testid="menu-list-action"]').click();
-  //   cy.get('[data-testid="create-button"]').click();
-  //   cy.get("#is_predefined_type").click();
-  //   cy.get("#manual_type_tuition").click();
-  //   cy.get("#monthly_amount").click().clear().type(monthlyAmount);
+    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="menu-list-action"]').click();
+    cy.get('[data-testid="create-button"]').click();
+    cy.get("#isPredefinedFee").click();
+    
+    cy.get(`#type_${feesToCreate.type}`).click();
+    cy.get("#amount").click().clear().type(feesToCreate.amount);
+    cy.get("#number_of_payments").click().clear().type(feesToCreate.number_of_payments);
+    cy.get("#comment").click().clear().type(feesToCreate.comment);
+    cy.get("#isPredefinedDate").click();
+    cy.get("#due_datetime").click().type(FIRST_DUE_DATETIME);
+    cy.contains("Enregistrer").click();
 
-  //   cy.get("#months_number").click().clear().type(monthsNumber);
 
-  //   cy.get("#comment").click().clear().type(comment);
+    cy.wait("@createFees").then((intersection) => {
+      const requestBody = intersection.request.body;
 
-  //   cy.get("#is_predefined_first_dueDate").click();
-  //   cy.get("#manual_first_duedate").click().type(feeDateToSearch);
+      expect(requestBody.length).to.equal(feesToCreate.number_of_payments);
+      
+      requestBody.forEach((fees, index)=>{
+        const first_duedatetime = feesToCreate.due_datetime;
+        first_duedatetime.setMonth(first_duedatetime.getMonth() + index);
 
-  //   cy.intercept(
-  //     "GET",
-  //     `/students/${student1Mock.id}/fees?page=1&page_size=10`,
-  //     addFeeMock(feesMock, manuallyCreatedFees)
-  //   ).as("getFees");
-  //   cy.contains("Enregistrer").click();
-  //   cy.contains("Élément créé");
-  //   unmount();
-  // });
+        testFees(fees, feesToCreate);
+        expect(feesToCreate.due_datetime, first_duedatetime.toISOString());
+        expect(fees.comment).to.be.equal(feesToCreate.comment);
+      });
+    })
+    
+    cy.contains("Élément créé");
+  });
+  
   // it("can create fees with manual fields without writing comments", () => {
   //   const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000);
   //   const monthsNumber = 1 + Math.floor(Math.random() * 3);
