@@ -11,7 +11,7 @@ const heiDocs: Doc[] = [
     url: 'https://hei-regulations.s3.eu-west-3.amazonaws.com/R%C3%A8glement+de+HEI.pdf',
     data: '',
     mime_type: 'application/pdf',
-    file_name: 'Règlement intérieure',
+    file_name: 'Règlement intérieur',
     created_at: new Date(2023, 10, 6),
     has_owner: false,
     owner_id: ''
