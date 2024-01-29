@@ -3,7 +3,7 @@ import {useFormContext} from "react-hook-form";
 import {FEE_SELECT_STYLE} from "../utils";
 
 export function SelectPredefinedType(props) {
-  const {data, isLoading} = useGetList("feesTemplates");
+  const {data, isLoading} = useGetList("fees-templates");
   const {setValue} = useFormContext();
 
   const updateFeesFields = (event) => {
@@ -19,6 +19,7 @@ export function SelectPredefinedType(props) {
 
   return (
     <SelectInput
+      id="predefined_type"
       source="predefinedType"
       label="Type prédéfini"
       optionValue="id"

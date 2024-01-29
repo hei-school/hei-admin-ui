@@ -1,9 +1,9 @@
 //Get the end of month after $index months
 function getEndOfMonth(predefinedYear, predefinedMonth, index) {
   const dateAfterIndex = new Date(
-    +predefinedYear,
+    predefinedYear,
     predefinedMonth + index + 1,
-    0 
+    1 
   );
   return dateAfterIndex.toISOString();
 }
@@ -34,7 +34,7 @@ export function createFeesApi(payload, studentId) {
 
   for (let i = 0; i < number_of_payments; i++) {
     const dueDatetime = isPredefinedDate
-      ? getEndOfMonth(predefinedYear, predefinedMonth, i)
+      ? getEndOfMonth(+predefinedYear, predefinedMonth, i)
       : getNextDate(firstDueDatetime, i);
 
     feesToCreate.push({
@@ -43,6 +43,7 @@ export function createFeesApi(payload, studentId) {
       total_amount: amount,
       student_id: studentId,
       due_datetime: dueDatetime,
+      creation_datetime: new Date().toISOString()
     });
   }
   return feesToCreate;
