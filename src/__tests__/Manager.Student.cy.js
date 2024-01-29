@@ -20,7 +20,7 @@ import {
 } from "./mocks/responses";
 
 import {studentRequestBodyVerification, testFeesWithTemplate} from "./utils";
-import { FeeTypeEnum } from "@haapi/typescript-client";
+import {FeeTypeEnum} from "@haapi/typescript-client";
 
 const newFirstName = "Aina herilala";
 let createdStudent = {
@@ -142,9 +142,11 @@ describe(specTitle("Manager creates students"), () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
-    cy.intercept("GET", `/fees/templates?page=1&page_size=25`, feesTemplatesApi).as(
-      "getFeesTemplates"
-    );
+    cy.intercept(
+      "GET",
+      `/fees/templates?page=1&page_size=25`,
+      feesTemplatesApi
+    ).as("getFeesTemplates");
     cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
@@ -240,16 +242,16 @@ describe(specTitle("Manager creates students"), () => {
     cy.get(`[data-value="${annual1xTemplate.id}"]`).click();
 
     cy.contains("Enregistrer").click();
-    
+
     cy.wait("@createStudent").then((requestInterseption) =>
       studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
       })
     );
-    
+
     cy.wait("@createFees").then((intersection) => {
-      const requestBody = intersection.request.body ;
-      
+      const requestBody = intersection.request.body;
+
       expect(requestBody.length).to.equal(1);
       testFeesWithTemplate(requestBody[0], annual1xTemplate);
     });
@@ -264,7 +266,7 @@ describe(specTitle("Manager creates students"), () => {
     ).click();
     cy.get("#predefinedType").click();
     cy.get(`[data-value="${annual9xTemplate.id}"]`).click();
-    
+
     cy.intercept(
       "GET",
       "/students?page=1&page_size=10",
@@ -273,26 +275,28 @@ describe(specTitle("Manager creates students"), () => {
     cy.intercept("POST", `students/${createdStudent.id}/fees`, [
       createdFeesForNewStudent,
     ]).as("createFees");
-    
+
     cy.contains("Enregistrer").click();
-    
+
     cy.wait("@createStudent").then((requestInterseption) =>
       studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
       })
     );
-    
+
     cy.wait("@createFees").then((intersection) => {
-      const requestBody = intersection.request.body ;
-      
+      const requestBody = intersection.request.body;
+
       expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
-      
-      requestBody.forEach((feesToCreate, index) =>{
+
+      requestBody.forEach((feesToCreate, index) => {
         testFeesWithTemplate(feesToCreate, annual9xTemplate);
-        expect(feesToCreate.comment).to.equal(`${annual9xTemplate.name} (M${index + 1})`);
+        expect(feesToCreate.comment).to.equal(
+          `${annual9xTemplate.name} (M${index + 1})`
+        );
       });
     });
-    
+
     cy.contains("Élément créé");
   });
 
@@ -301,7 +305,7 @@ describe(specTitle("Manager creates students"), () => {
     const NUMBER_OF_PAYEMENTS = 4;
     const DUEDATETIME = "2022-10-05";
     const COMMENT = "Dummy comment";
-    
+
     fillInputs();
     cy.get(
       ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
@@ -313,10 +317,10 @@ describe(specTitle("Manager creates students"), () => {
     cy.get("#number_of_payments").click().clear().type(NUMBER_OF_PAYEMENTS);
     cy.get("#comment").click().type(COMMENT);
     cy.get("#isPredefinedDate").click();
-    cy.get("#due_datetime").click().type(DUEDATETIME );
+    cy.get("#due_datetime").click().type(DUEDATETIME);
 
     cy.contains("Enregistrer").click();
-    
+
     cy.wait("@createStudent").then((requestInterseption) =>
       studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
@@ -324,13 +328,15 @@ describe(specTitle("Manager creates students"), () => {
     );
 
     cy.wait("@createFees").then((requestIntersection) => {
-      expect(requestIntersection.request.body.length).to.equal(NUMBER_OF_PAYEMENTS);
+      expect(requestIntersection.request.body.length).to.equal(
+        NUMBER_OF_PAYEMENTS
+      );
     });
 
     cy.contains("Élément créé");
   });
 
-  afterEach(()=>{
+  afterEach(() => {
     unmount();
-  })
+  });
 });

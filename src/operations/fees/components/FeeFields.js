@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 import {
   BooleanInput,
   RadioButtonGroupInput,
@@ -9,9 +9,9 @@ import {
   required,
   DateInput,
 } from "react-admin";
-import { SelectDueDatetime } from "./SelectDueDatetime";
-import { SelectPredefinedType } from "./SelectPredefinedType";
-import { FEESTEMPLATES_CHOICES } from "../utils/feesTemplatesChoices.js"
+import {SelectDueDatetime} from "./SelectDueDatetime";
+import {SelectPredefinedType} from "./SelectPredefinedType";
+import {FEESTEMPLATES_CHOICES} from "../utils/feesTemplatesChoices.js";
 
 export function FeeFields() {
   const [feeConfig, setFeeConfig] = useState({
@@ -25,11 +25,11 @@ export function FeeFields() {
     minValue(1),
     maxValue(12),
   ];
-  const { isPredefinedDate, isPredefinedFee } = feeConfig;
+  const {isPredefinedDate, isPredefinedFee} = feeConfig;
 
   const udpateFeeConfig = (event) => {
-    const { name, checked } = event.target;
-    setFeeConfig({ ...feeConfig, [name]: checked });
+    const {name, checked} = event.target;
+    setFeeConfig({...feeConfig, [name]: checked});
   };
 
   return (

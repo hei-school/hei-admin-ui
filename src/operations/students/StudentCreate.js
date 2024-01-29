@@ -5,12 +5,12 @@ import {
   SimpleForm,
   TextInput,
 } from "react-admin";
-import { SexRadioButton } from "../utils";
-import { CustomCreate } from "../utils/CustomCreate";
-import { FeeFields } from "../fees/components";
-import { SelectSpecialization } from "./components";
-import { useState } from "react";
-import { createStudentApi } from "./utils/createStudentApi";
+import {SexRadioButton} from "../utils";
+import {CustomCreate} from "../utils/CustomCreate";
+import {FeeFields} from "../fees/components";
+import {SelectSpecialization} from "./components";
+import {useState} from "react";
+import {createStudentApi} from "./utils/createStudentApi";
 
 const StudentCreate = () => {
   const [canCreateFees, setCanCreateFees] = useState(false);

@@ -1,17 +1,17 @@
-import { EditButton, FunctionField, TextField } from "react-admin";
-import { AttachMoney } from "@mui/icons-material";
-import { HaList } from "../../ui/haList";
-import { CreateButton } from "../../ui/haToolbar";
-import { prettyPrintMoney } from "../utils";
+import {EditButton, FunctionField, TextField} from "react-admin";
+import {AttachMoney} from "@mui/icons-material";
+import {HaList} from "../../ui/haList";
+import {CreateButton} from "../../ui/haToolbar";
+import {prettyPrintMoney} from "../utils";
 
 function FeesTemplatesList() {
   return (
     <HaList
       title="Type de frais prédefinies"
-      mainSearch={{ source: "name", label: "label" }}
-      listProps={{ title: "Frais Prédéfinies" }}
+      mainSearch={{source: "name", label: "label"}}
+      listProps={{title: "Frais Prédéfinies"}}
       filterIndicator={false}
-      datagridProps={{ rowClick: "edit" }}
+      datagridProps={{rowClick: "edit"}}
       actions={<CreateButton />}
       icon={<AttachMoney />}
     >
@@ -22,7 +22,7 @@ function FeesTemplatesList() {
       />
       <TextField source="number_of_payments" label="Nombre de mensualités" />
       <EditButton />
-    </HaList >
+    </HaList>
   );
 }
 

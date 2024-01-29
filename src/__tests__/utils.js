@@ -1,5 +1,5 @@
-import { createStudent, teachersMock } from "./mocks/responses";
-import { turnStringIntoDate } from "../operations/utils";
+import {createStudent, teachersMock} from "./mocks/responses";
+import {turnStringIntoDate} from "../operations/utils";
 
 export const studentRequestBodyVerification = (
   requestBody,
@@ -21,8 +21,8 @@ export const importFile = (file, message, _path) => {
 
   cy.get('[data-testid="menu-list-action"]').click();
   cy.get("#import-button").click();
-  cy.get("[data-testid='inputFile']").selectFile(_mockFile, { force: true });
-  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true });
+  cy.get("[data-testid='inputFile']").selectFile(_mockFile, {force: true});
+  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, {force: true});
 
   cy.contains("Confirmer").click();
 
@@ -32,11 +32,13 @@ export const importFile = (file, message, _path) => {
 export const getEndOfMonth = (year, month) => {
   const lastDayOfMonth = new Date(year, month + 1, 1);
   return lastDayOfMonth;
-}
+};
 
-export const testFeesWithTemplate = (feesToCreate, template)=>{
+export const testFeesWithTemplate = (feesToCreate, template) => {
   const currentDateString = new Date().toDateString();
   expect(feesToCreate.total_amount).to.equal(template.amount);
   expect(feesToCreate.type).to.equal(template.type);
-  expect(new Date(feesToCreate.creation_datetime).toDateString()).to.equal(currentDateString);
-}
+  expect(new Date(feesToCreate.creation_datetime).toDateString()).to.equal(
+    currentDateString
+  );
+};

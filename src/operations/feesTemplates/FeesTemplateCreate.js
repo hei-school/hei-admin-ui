@@ -1,7 +1,16 @@
-import { maxValue, minValue, required, number, Create, SimpleForm, TextInput, RadioButtonGroupInput } from "react-admin";
-import { FEESTEMPLATES_CHOICES } from "../fees/utils";
-import { v4 as uuidv4 } from "uuid";
-import { useMemo } from "react";
+import {
+  maxValue,
+  minValue,
+  required,
+  number,
+  Create,
+  SimpleForm,
+  TextInput,
+  RadioButtonGroupInput,
+} from "react-admin";
+import {FEESTEMPLATES_CHOICES} from "../fees/utils";
+import {v4 as uuidv4} from "uuid";
+import {useMemo} from "react";
 
 function FeesTemplatesCreate() {
   const validateAmount = [required(), number(), minValue(1)];
@@ -11,16 +20,21 @@ function FeesTemplatesCreate() {
     minValue(1),
     maxValue(12),
   ];
-  const id = useMemo(()=>uuidv4(), [])
+  const id = useMemo(() => uuidv4(), []);
 
   return (
-    <Create 
-      title={'Créer une frais prédéfinie'} 
+    <Create
+      title={"Créer une frais prédéfinie"}
       redirect={() => `fees-templates`}
-      transform={feesTemplates => ({ ...feesTemplates, id})}
+      transform={(feesTemplates) => ({...feesTemplates, id})}
     >
       <SimpleForm>
-        <TextInput label="Label" source="name" fullWidth validate={[required()]} />
+        <TextInput
+          label="Label"
+          source="name"
+          fullWidth
+          validate={[required()]}
+        />
         <RadioButtonGroupInput
           source="type"
           name="type"
@@ -46,7 +60,7 @@ function FeesTemplatesCreate() {
         />
       </SimpleForm>
     </Create>
-  )
+  );
 }
 
 export default FeesTemplatesCreate;
