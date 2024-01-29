@@ -2,12 +2,9 @@ import { mount, unmount } from "@cypress/react";
 import { FeeTypeEnum } from "@haapi/typescript-client";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import App from "../App";
-import { prettyPrintMoney, statusRenderer, toUTC } from "../operations/utils";
+import { prettyPrintMoney, statusRenderer } from "../operations/utils";
 import { manager1 } from "./credentials";
 import {
-  addFeeMock,
-  createFeeWithManualDataMock,
-  createFeeWithPredefinedDataMock,
   createPaymentMock,
   fee1Mock,
   feesMock,
@@ -20,14 +17,7 @@ import {
   annual1xTemplate,
   annual9xTemplate
 } from "./mocks/responses";
-import { getEndOfMonth } from "./utils";
-
-const testFees = (feesToCreate, template)=>{
-  const currentDateString = new Date().toDateString();
-  expect(feesToCreate.total_amount).to.equal(template.amount);
-  expect(feesToCreate.type).to.equal(template.type);
-  expect(new Date(feesToCreate.creation_datetime).toDateString()).to.equal(currentDateString);
-}
+import { getEndOfMonth, testFeesWithTemplate} from "./utils";
 
 describe(specTitle("Manager.Fee"), () => {
   beforeEach(() => {
@@ -94,31 +84,30 @@ describe(specTitle("Manager.Fee"), () => {
     cy.contains(studentNameToBeCheckedMock).click();
   });
 
-  // it("can detail waiting fee", () => {
-  //   const interceptedFeeMock = feesMock.find(
-  //     (fee) => fee.remaining_amount === fee1Mock.remaining_amount
-  //   );
-  //   cy.intercept(
-  //     "GET",
-  //     `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}`,
-  //     interceptedFeeMock
-  //   ).as("getFee1");
-  //   cy.intercept(
-  //     "GET",
-  //     `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}/payments?page=1&page_size=10`,
-  //     createPaymentMock(interceptedFeeMock)
-  //   ).as("getPaymentsOfOneFee");
-  //   cy.get('[aria-label="fees"]').click();
-  //   cy.contains(student1Mock.ref);
-  //   cy.contains(prettyPrintMoney(interceptedFeeMock.remaining_amount)).click();
-  //   cy.get("#main-content")
-  //     .should("contain", prettyPrintMoney(interceptedFeeMock.remaining_amount))
-  //     .and("contain", prettyPrintMoney(interceptedFeeMock.total_amount))
-  //     .and("contain", interceptedFeeMock.comment)
-  //     .and("contain", statusRenderer(interceptedFeeMock.status))
-  //     .and("contain", "Paiements");
-  //   unmount();
-  // });
+  it("can detail waiting fee", () => {
+    const interceptedFeeMock = feesMock.find(
+      (fee) => fee.remaining_amount === fee1Mock.remaining_amount
+    );
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}`,
+      interceptedFeeMock
+    ).as("getFee1");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}/payments?page=1&page_size=10`,
+      createPaymentMock(interceptedFeeMock)
+    ).as("getPaymentsOfOneFee");
+    cy.get('[aria-label="fees"]').click();
+    cy.contains(student1Mock.ref);
+    cy.contains(prettyPrintMoney(interceptedFeeMock.remaining_amount)).click();
+    cy.get("#main-content")
+      .should("contain", prettyPrintMoney(interceptedFeeMock.remaining_amount))
+      .and("contain", prettyPrintMoney(interceptedFeeMock.total_amount))
+      .and("contain", interceptedFeeMock.comment)
+      .and("contain", statusRenderer(interceptedFeeMock.status))
+      .and("contain", "Paiements");
+  });
 
   it("cannot create fees when fields are missing", () => {
     cy.get('[aria-label="fees"]').click();
@@ -128,9 +117,9 @@ describe(specTitle("Manager.Fee"), () => {
     cy.get("#predefinedType").click();
     cy.get('.MuiList-root > [tabindex="0"]').click();
     cy.get("#isPredefinedDate").click();
+    
     cy.contains("Enregistrer").click();
     cy.contains("Le formulaire n'est pas valide");
-    unmount();
   });
   
   it("can create fees with predefined fields equals to 1 month", () => {
@@ -152,7 +141,7 @@ describe(specTitle("Manager.Fee"), () => {
       const currentDate = new Date();
       const currentEndOfMonth = getEndOfMonth(currentDate.getFullYear(), currentDate.getMonth());
 
-      testFees(feesToCreate, annual1xTemplate);
+      testFeesWithTemplate(feesToCreate, annual1xTemplate);
       expect(feesToCreate.due_datetime, currentEndOfMonth.toISOString());
       expect(feesToCreate.comment).to.equal(annual1xTemplate.name);
     });
@@ -187,7 +176,7 @@ describe(specTitle("Manager.Fee"), () => {
 
         const currentEndOfMonth = getEndOfMonth(year_value, month_value);
 
-        testFees(feesToCreate, annual9xTemplate);
+        testFeesWithTemplate(feesToCreate, annual9xTemplate);
         expect(feesToCreate.due_datetime, currentEndOfMonth.toISOString());
         expect(feesToCreate.comment).to.equal(`${annual9xTemplate.name} (M${index + 1})`);
       })
@@ -229,7 +218,7 @@ describe(specTitle("Manager.Fee"), () => {
         const first_duedatetime = feesToCreate.due_datetime;
         first_duedatetime.setMonth(first_duedatetime.getMonth() + index);
 
-        testFees(fees, feesToCreate);
+        testFeesWithTemplate(fees, feesToCreate);
         expect(feesToCreate.due_datetime, first_duedatetime.toISOString());
         expect(fees.comment).to.be.equal(feesToCreate.comment);
       });
