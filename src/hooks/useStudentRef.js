@@ -9,10 +9,14 @@ export const useStudentRef = (source) => {
   const studentId = studentIdFromRaId(params[source]);
   const [studentRef, setStudentRef] = useState("...");
 
-  useEffect(async () => {
-    const student = await dataProvider.getOne("students", { id: studentId });
-    setStudentRef(student.data.ref);
-  }, [studentRef]);
+  useEffect(() => {
+    const fetchRef = async ()=>{
+      const student = await dataProvider.getOne("students", { id: studentId });
+      setStudentRef(student.data.ref);
+    }
+
+    fetchRef()
+  }, [studentRef, studentId]);
 
   return { studentRef, studentId };
 };
