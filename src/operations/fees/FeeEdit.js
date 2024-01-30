@@ -14,7 +14,7 @@ import {
 import {statusRenderer} from "../utils";
 import {CustomEdit} from "../utils/CustomEdit";
 import {Box, CircularProgress} from "@mui/material";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {Save} from "@mui/icons-material";
 import {useFormContext} from "react-hook-form";
 import {useStudentRef} from "../../hooks/useStudentRef";

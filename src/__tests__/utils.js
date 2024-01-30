@@ -29,10 +29,6 @@ export const importFile = (file, message, _path) => {
   cy.contains(message);
 };
 
-export const getEndOfMonth = (year, month) => {
-  return new Date(year, month + 1, 1);
-};
-
 export const verifyFeesWithTemplate = (feeToCreate, template) => {
   const currentDateString = new Date().toDateString();
   expect(feeToCreate.total_amount).to.equal(template.amount);

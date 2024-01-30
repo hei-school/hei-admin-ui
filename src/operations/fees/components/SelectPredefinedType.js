@@ -3,13 +3,13 @@ import {useFormContext} from "react-hook-form";
 import {FEE_SELECT_STYLE} from "../utils";
 
 export function SelectPredefinedType(props) {
-  const {data, isLoading} = useGetList("fees-templates");
+  const {data = [], isLoading} = useGetList("fees-templates");
   const {setValue} = useFormContext();
 
   const updateFeesFields = (event) => {
     const configId = event.target.value;
     const feeConfig = data.find((el) => el.id === configId);
-
+    
     //have to set field one by one cause react hook form doesn't have update many
     setValue("amount", feeConfig.amount);
     setValue("number_of_payments", feeConfig.number_of_payments);
@@ -25,7 +25,7 @@ export function SelectPredefinedType(props) {
       label="Type prédéfini"
       optionValue="id"
       optionText="name"
-      choices={data || []}
+      choices={data}
       isLoading={isLoading}
       onChange={updateFeesFields}
       validate={required()}

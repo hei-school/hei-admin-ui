@@ -32,7 +32,7 @@ let updatedStudent = {
   first_name: newFirstName,
 };
 
-const fillInputs = () => {
+const fillEditInputs= () => {
   cy.get("#sex_F").click();
   cy.get("#phone").type(createStudent.phone);
   cy.get("#birth_date").click().type(createStudent.birth_date);
@@ -203,7 +203,7 @@ describe(specTitle("Manager creates students"), () => {
       "/students?page=1&page_size=10",
       [createdStudent, ...studentsMock].slice(0, 10)
     ).as("getStudents");
-    fillInputs();
+    fillEditInputs();
     cy.contains("Enregistrer").click();
     cy.wait("@createStudent").then((requestInterseption) =>
       studentRequestBodyVerification(requestInterseption.request.body, {
@@ -229,7 +229,7 @@ describe(specTitle("Manager creates students"), () => {
   });
 
   it("can create student with his/her fees using predefined fees", () => {
-    fillInputs();
+    fillEditInputs();
     cy.get(
       ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
     ).click();
@@ -260,7 +260,7 @@ describe(specTitle("Manager creates students"), () => {
   });
 
   it("can create student with his/her 9 months fees", () => {
-    fillInputs();
+    fillEditInputs();
     cy.get(
       ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
     ).click();
@@ -306,18 +306,18 @@ describe(specTitle("Manager creates students"), () => {
     const DUEDATETIME = "2022-10-05";
     const COMMENT = "Dummy comment";
 
-    fillInputs();
+    fillEditInputs();
     cy.get(
       ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
     ).click();
 
-    cy.get("#isPredefinedFee").click();
+    cy.get('[data-testid="isPredefinedFee"]').click();
     cy.get(`#type_${FeeTypeEnum.TUITION}`).click();
-    cy.get("#amount").click().clear().type(AMOUNT);
-    cy.get("#number_of_payments").click().clear().type(NUMBER_OF_PAYEMENTS);
-    cy.get("#comment").click().type(COMMENT);
-    cy.get("#isPredefinedDate").click();
-    cy.get("#due_datetime").click().type(DUEDATETIME);
+    cy.get('[data-testid="amount"]').click().clear().type(AMOUNT);
+    cy.get('[data-testid="number_of_payments"]').click().clear().type(NUMBER_OF_PAYEMENTS);
+    cy.get('[data-testid="comment"]').click().type(COMMENT);
+    cy.get('[data-testid="isPredefinedDate"]').click();
+    cy.get('[data-testid="due_datetime"]').click().type(DUEDATETIME);
 
     cy.contains("Enregistrer").click();
 

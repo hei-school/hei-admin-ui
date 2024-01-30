@@ -1,28 +1,26 @@
 import React from "react";
+import polyglotI18nProvider from "ra-i18n-polyglot";
+import frenchMessages from "ra-language-french";
 import {Admin} from "@react-admin/ra-enterprise";
 import {CustomRoutes, Resource} from "react-admin";
 import {Route} from "react-router-dom";
-import groups from "./operations/groups";
+
+import HaLoginPage from "./security/LoginPage";
+import {HaLayout} from "./ui/haLayout";
+import {mainTheme} from "./haTheme.js";
 
 import dataProvider from "./providers/dataProvider";
 import authProvider from "./providers/authProvider.ts";
 
-import polyglotI18nProvider from "ra-i18n-polyglot";
-import frenchMessages from "ra-language-french";
-
+import groups from "./operations/groups";
 import profile from "./operations/profile";
 import students from "./operations/students";
 import teachers from "./operations/teachers";
 import docs from "./operations/docs";
-
+import {heiDocs} from "./operations/heiDocs";
 import fees from "./operations/fees";
 import feesTemplates from "./operations/feesTemplates";
 import payments from "./operations/payments";
-
-import {HaLayout} from "./ui/haLayout";
-import HaLoginPage from "./security/LoginPage";
-import {heiDocs} from "./operations/heiDocs";
-import {mainTheme} from "./haTheme.js";
 
 const App = () => (
   <Admin

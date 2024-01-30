@@ -1,4 +1,4 @@
-import {useState} from "react";
+import { useState } from "react";
 import {
   BooleanInput,
   RadioButtonGroupInput,
@@ -9,27 +9,20 @@ import {
   required,
   DateInput,
 } from "react-admin";
-import {SelectDueDatetime} from "./SelectDueDatetime";
-import {SelectPredefinedType} from "./SelectPredefinedType";
-import {FEESTEMPLATES_CHOICES} from "../utils/feesTemplatesChoices.js";
+import { SelectDueDatetime } from "./SelectDueDatetime";
+import { SelectPredefinedType } from "./SelectPredefinedType";
+import { FEESTEMPLATES_CHOICES } from "../feesTemplatesChoices";
 
 export function FeeFields() {
   const [feeConfig, setFeeConfig] = useState({
     isPredefinedFee: true,
     isPredefinedDate: true,
   });
-  const validateAmount = [required(), number(), minValue(1)];
-  const validateMonthsNumber = [
-    required(),
-    number(),
-    minValue(1),
-    maxValue(12),
-  ];
-  const {isPredefinedDate, isPredefinedFee} = feeConfig;
+  const { isPredefinedDate, isPredefinedFee } = feeConfig;
 
-  const udpateFeeConfig = (event) => {
-    const {name, checked} = event.target;
-    setFeeConfig({...feeConfig, [name]: checked});
+  const updateFeeConfig = (event) => {
+    const { name, checked } = event.target;
+    setFeeConfig({ ...feeConfig, [name]: checked });
   };
 
   return (
@@ -37,16 +30,18 @@ export function FeeFields() {
       <BooleanInput
         id="isPredefinedFee"
         label="Type prédéfini ?"
+        data-testid="isPredefinedFee"
         name="isPredefinedFee"
         source="isPredefinedFee"
         defaultValue={true}
-        onChange={udpateFeeConfig}
+        onChange={updateFeeConfig}
       />
       {!isPredefinedFee ? (
         <RadioButtonGroupInput
           source="type"
           name="type"
           label="Type manuel"
+          data-testid="type"
           optionText="label"
           optionValue="value"
           choices={FEESTEMPLATES_CHOICES}
@@ -62,24 +57,27 @@ export function FeeFields() {
           source="amount"
           id="amount"
           name="amount"
+          data-testid="amount"
           label="Montant de la mensualité"
           disabled={isPredefinedFee}
-          validate={validateAmount}
+          validate={[required(), number(), minValue(1)]}
         />
         <TextInput
           fullWidth
           source="number_of_payments"
           id="number_of_payments"
           name="number_of_payments"
+          data-testid="number_of_payments"
           label="Nombre de mensualités"
           disabled={isPredefinedFee}
-          validate={validateMonthsNumber}
+          validate={[required(), number(), minValue(1), maxValue(12)]}
         />
         <TextInput
           fullWidth
           source="comment"
           name="comment"
           id="comment"
+          data-testid="comment"
           label="Commentaire"
           disabled={isPredefinedFee}
         />
@@ -88,8 +86,9 @@ export function FeeFields() {
           source="isPredefinedDate"
           id="isPredefinedDate"
           name="isPredefinedDate"
+          data-testid="isPredefinedDate"
           defaultValue={true}
-          onChange={udpateFeeConfig}
+          onChange={updateFeeConfig}
         />
         {isPredefinedDate ? (
           <SelectDueDatetime />
@@ -99,6 +98,7 @@ export function FeeFields() {
             source="due_datetime"
             id="due_datetime"
             name="due_datetime"
+            data-testid="due_datetime"
             label="Première date limite manuelle"
             validate={required()}
           />

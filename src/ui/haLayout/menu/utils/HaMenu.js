@@ -1,17 +1,20 @@
-import {styled} from "@mui/styles";
-import {PALETTE_COLORS} from "../../../constants";
+import {useSidebarState} from "react-admin";
 import {Box, Drawer, Typography, useMediaQuery} from "@mui/material";
-import UserInfo from "./UserInfo";
+import {styled} from "@mui/styles";
 import {
   AccountCircleOutlined,
   SettingsOutlined,
   LogoutOutlined,
 } from "@mui/icons-material";
+
+import UserInfo from "./UserInfo";
 import {HaMenuContent} from "../HaMenuContent";
 import {SingleMenu} from "./SingleMenu";
-import {useSidebarState} from "react-admin";
+
 import {useRole} from "../../../../security/hooks";
+import {PALETTE_COLORS} from "../../../constants";
 import authProvider from "../../../../providers/authProvider";
+import menuLogo from  "../../../../assets/menu-logo.png"
 
 const MENU_STYLE = {
   width: "250px",
@@ -61,7 +64,7 @@ export function HaMenuBase({sx = {}}) {
             gap: 2,
           }}
         >
-          <img src="/menu-logo.png" style={{width: 40, height: 27}} />
+          <img src={menuLogo} style={{width: 40, height: 27}} />
           <Typography
             variant="h1"
             sx={{

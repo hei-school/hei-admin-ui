@@ -8,17 +8,9 @@ import {
   RadioButtonGroupInput,
 } from "react-admin";
 import {EditToolBar, CustomEdit} from "../utils";
-import {FEESTEMPLATES_CHOICES} from "../fees/utils";
+import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
 
 function FeesTemplatesEdit() {
-  const validateAmount = [required(), number(), minValue(1)];
-  const validateMonthsNumber = [
-    required(),
-    number(),
-    minValue(1),
-    maxValue(12),
-  ];
-
   return (
     <CustomEdit
       title={"Modification de frais prédefinies"}
@@ -44,13 +36,18 @@ function FeesTemplatesEdit() {
           fullWidth
           source="amount"
           label="Montant de la mensualité"
-          validate={validateAmount}
+          validate={[required(), number(), minValue(1)]}
         />
         <TextInput
           fullWidth
           source="number_of_payments"
           label="Nombre de mensualités"
-          validate={validateMonthsNumber}
+          validate={[
+            required(),
+            number(),
+            minValue(1),
+            maxValue(12),
+          ]}
         />
       </SimpleForm>
     </CustomEdit>
