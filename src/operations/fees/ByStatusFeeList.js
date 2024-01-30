@@ -10,9 +10,9 @@ import {HaList} from "../../ui/haList/HaList";
 import {FeesFilter} from ".";
 
 const FEES_STATUS_VALUE = {
-  LATE: "Écosystéme Logiciel (EL)",
-  PAID: "Transformation Numérique (TN)",
-  UNPAID: "Tronc commun",
+  LATE: "en retard",
+  PAID: "payés",
+  UNPAID: "non payés",
 };
 
 const ByStatusFeeList = ({status, ...props}) => {
