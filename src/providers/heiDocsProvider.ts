@@ -16,6 +16,16 @@ const heiDocs: Doc[] = [
     has_owner: false,
     owner_id: "",
   },
+  {
+    id: "2",
+    url: "https://hei-regulations.s3.eu-west-3.amazonaws.com/%5BHEI%5D+Lettre+d%E2%80%99information+sur+l'alternance.pdf",
+    data: "",
+    mime_type: "application/pdf",
+    file_name: "Lettre d'information sur l'alternance",
+    created_at: new Date(2024, 0, 30),
+    has_owner: false,
+    owner_id: "",
+  },
 ];
 const transform = (doc: Doc) => {
   const newDoc = toCamelCaseJSON(doc);
