@@ -9,6 +9,7 @@ import {
   required,
   DateInput,
 } from "react-admin";
+import {useFormContext} from "react-hook-form";
 import { SelectDueDatetime } from "./SelectDueDatetime";
 import { SelectPredefinedType } from "./SelectPredefinedType";
 import { FEESTEMPLATES_CHOICES } from "../feesTemplatesChoices";
@@ -18,6 +19,8 @@ export function FeeFields() {
     isPredefinedFee: true,
     isPredefinedDate: true,
   });
+  const {reset} = useFormContext()
+
   const { isPredefinedDate, isPredefinedFee } = feeConfig;
 
   const updateFeeConfig = (event) => {

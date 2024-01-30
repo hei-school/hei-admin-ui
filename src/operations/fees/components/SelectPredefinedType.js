@@ -1,20 +1,21 @@
-import {required, SelectInput, useGetList} from "react-admin";
-import {useFormContext} from "react-hook-form";
-import {FEE_SELECT_STYLE} from "../utils";
+import { required, SelectInput, useGetList } from "react-admin";
+import { useFormContext } from "react-hook-form";
+import { FEE_SELECT_STYLE } from "../utils";
 
 export function SelectPredefinedType(props) {
-  const {data = [], isLoading} = useGetList("fees-templates");
-  const {setValue} = useFormContext();
+  const { data = [], isLoading } = useGetList("fees-templates");
+  const { reset } = useFormContext();
 
   const updateFeesFields = (event) => {
     const configId = event.target.value;
     const feeConfig = data.find((el) => el.id === configId);
-    
-    //have to set field one by one cause react hook form doesn't have update many
-    setValue("amount", feeConfig.amount);
-    setValue("number_of_payments", feeConfig.number_of_payments);
-    setValue("comment", feeConfig.name);
-    setValue("type", feeConfig.type);
+
+    reset({
+      amount: feeConfig.amount,
+      number_of_payments: feeConfig.number_of_payments,
+      comment: feeConfig.name,
+      type: feeConfig.type
+    }, { keepDirtyValues: true })
   };
 
   return (
