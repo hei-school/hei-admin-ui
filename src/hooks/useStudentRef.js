@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { useDataProvider } from "react-admin";
-import { useParams } from "react-router-dom";
-import { studentIdFromRaId } from "../providers/feeProvider";
+import {useEffect, useState} from "react";
+import {useDataProvider} from "react-admin";
+import {useParams} from "react-router-dom";
+import {studentIdFromRaId} from "../providers/feeProvider";
 
 export const useStudentRef = (source) => {
   const params = useParams();
@@ -10,13 +10,13 @@ export const useStudentRef = (source) => {
   const [studentRef, setStudentRef] = useState("...");
 
   useEffect(() => {
-    const fetchRef = async ()=>{
-      const student = await dataProvider.getOne("students", { id: studentId });
+    const fetchRef = async () => {
+      const student = await dataProvider.getOne("students", {id: studentId});
       setStudentRef(student.data.ref);
-    }
+    };
 
-    fetchRef()
+    fetchRef();
   }, [studentRef, studentId]);
 
-  return { studentRef, studentId };
+  return {studentRef, studentId};
 };

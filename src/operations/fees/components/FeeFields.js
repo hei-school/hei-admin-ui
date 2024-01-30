@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 import {
   BooleanInput,
   RadioButtonGroupInput,
@@ -9,23 +9,21 @@ import {
   required,
   DateInput,
 } from "react-admin";
-import {useFormContext} from "react-hook-form";
-import { SelectDueDatetime } from "./SelectDueDatetime";
-import { SelectPredefinedType } from "./SelectPredefinedType";
-import { FEESTEMPLATES_CHOICES } from "../feesTemplatesChoices";
+import {SelectDueDatetime} from "./SelectDueDatetime";
+import {SelectPredefinedType} from "./SelectPredefinedType";
+import {FEESTEMPLATES_CHOICES} from "../feesTemplatesChoices";
 
 export function FeeFields() {
   const [feeConfig, setFeeConfig] = useState({
     isPredefinedFee: true,
     isPredefinedDate: true,
   });
-  const {reset} = useFormContext()
 
-  const { isPredefinedDate, isPredefinedFee } = feeConfig;
+  const {isPredefinedDate, isPredefinedFee} = feeConfig;
 
   const updateFeeConfig = (event) => {
-    const { name, checked } = event.target;
-    setFeeConfig({ ...feeConfig, [name]: checked });
+    const {name, checked} = event.target;
+    setFeeConfig({...feeConfig, [name]: checked});
   };
 
   return (

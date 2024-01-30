@@ -1,18 +1,20 @@
 function getEndOfMonth(year, month, index) {
-  const dateAfterIndex = new Date(
-    year,
-    month + index + 1,
-    0
-  );
+  const dateAfterIndex = new Date(year, month + index + 1, 0);
   return dateAfterIndex.toISOString();
 }
 
 function createComment(baseComment, monthValue, numberOfPayemnts) {
-  return numberOfPayemnts === 9 ? `${baseComment} (M${monthValue + 1})` : numberOfPayemnts;
+  return numberOfPayemnts === 9
+    ? `${baseComment} (M${monthValue + 1})`
+    : baseComment;
 }
 
 function getNextDate(currentDate, index) {
-  return new Date(currentDate.getFullYear(), currentDate.getMonth() + index, currentDate.getDate());
+  return new Date(
+    currentDate.getFullYear(),
+    currentDate.getMonth() + index,
+    currentDate.getDate()
+  );
 }
 
 export function createFeesApi(fees, studentId) {
@@ -33,7 +35,10 @@ export function createFeesApi(fees, studentId) {
     const currentIsoDate = new Date().toISOString();
     const dueDatetime = isPredefinedDate
       ? getEndOfMonth(+predefinedYear, predefinedMonth, i)
-      : getNextDate(new Date(firstDueDatetime), i /*to get the next date after $i*/);
+      : getNextDate(
+          new Date(firstDueDatetime),
+          i /*to get the next date after $i*/
+        );
 
     feesToCreate.push({
       type,

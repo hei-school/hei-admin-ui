@@ -32,7 +32,7 @@ let updatedStudent = {
   first_name: newFirstName,
 };
 
-const fillEditInputs= () => {
+const fillEditInputs = () => {
   cy.get("#sex_F").click();
   cy.get("#phone").type(createStudent.phone);
   cy.get("#birth_date").click().type(createStudent.birth_date);
@@ -314,7 +314,10 @@ describe(specTitle("Manager creates students"), () => {
     cy.get('[data-testid="isPredefinedFee"]').click();
     cy.get(`#type_${FeeTypeEnum.TUITION}`).click();
     cy.get('[data-testid="amount"]').click().clear().type(AMOUNT);
-    cy.get('[data-testid="number_of_payments"]').click().clear().type(NUMBER_OF_PAYEMENTS);
+    cy.get('[data-testid="number_of_payments"]')
+      .click()
+      .clear()
+      .type(NUMBER_OF_PAYEMENTS);
     cy.get('[data-testid="comment"]').click().type(COMMENT);
     cy.get('[data-testid="isPredefinedDate"]').click();
     cy.get('[data-testid="due_datetime"]').click().type(DUEDATETIME);

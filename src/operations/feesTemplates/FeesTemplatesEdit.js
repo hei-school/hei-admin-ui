@@ -42,12 +42,7 @@ function FeesTemplatesEdit() {
           fullWidth
           source="number_of_payments"
           label="Nombre de mensualités"
-          validate={[
-            required(),
-            number(),
-            minValue(1),
-            maxValue(12),
-          ]}
+          validate={[required(), number(), minValue(1), maxValue(12)]}
         />
       </SimpleForm>
     </CustomEdit>
