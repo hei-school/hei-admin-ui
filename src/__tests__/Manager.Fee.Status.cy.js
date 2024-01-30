@@ -10,6 +10,25 @@ import {
   student1Mock,
   whoamiManagerMock,
 } from "./mocks/responses";
+import {FeeStatusEnum} from "@haapi/typescript-client";
+
+const filterByStatus = (status) => {
+  cy.get('[data-testid="students-menu"]').click();
+  cy.get('a[href="#/fees"]').click();
+  cy.get('[data-testid="menu-list-action"]').click();
+  cy.get('[data-testid="add-filter"]').click();
+  cy.get('[data-testid="filter-fees-status"]').click();
+  cy.get(`[data-value=${status}]`).click();
+  cy.contains("Appliquer").click();
+};
+
+const checkRequestUrl = (status) => {
+  cy.intercept("GET", `/fees*`).as("getFees");
+
+  cy.wait("@getFees").then((interception) => {
+    expect(interception.request.url).to.include(status);
+  });
+};
 
 describe(specTitle("Manager.Fee.Late"), () => {
   beforeEach(() => {
@@ -44,11 +63,13 @@ describe(specTitle("Manager.Fee.Late"), () => {
     cy.get("button").contains("Connexion").click();
   });
 
-  it("can list late fees", () => {
-    cy.get('[data-testid="students-menu"]').click();
-    cy.get('a[href="#/fees"]').click(); // Étudiants category
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
-    cy.get(".MuiTableBody-root > :nth-child(1) > .column-due_datetime").click();
-    cy.contains("En retard");
+  it("can list paid fees", () => {
+    filterByStatus(FeeStatusEnum.PAID);
+    checkRequestUrl(FeeStatusEnum.PAID);
+  });
+
+  it("can list unpaid fees", () => {
+    filterByStatus(FeeStatusEnum.UNPAID);
+    checkRequestUrl(FeeStatusEnum.UNPAID);
   });
 });
