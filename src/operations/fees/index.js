@@ -20,7 +20,7 @@ const fees = {
 export const FeesFilter = () => (
   <FilterForm>
     <SelectInputFilter
-      data-testid="filter-profile-status"
+      data-testid="filter-fees-status"
       label="Statut"
       source="status"
       choices={[

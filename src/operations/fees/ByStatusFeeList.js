@@ -9,12 +9,18 @@ import {
 import {HaList} from "../../ui/haList/HaList";
 import {FeesFilter} from ".";
 
+const FEES_STATUS_VALUE = {
+  LATE: "Écosystéme Logiciel (EL)",
+  PAID: "Transformation Numérique (TN)",
+  UNPAID: "Tronc commun",
+};
+
 const ByStatusFeeList = ({status, ...props}) => {
   return (
     <HaList
       {...props}
       icon={<AttachMoney />}
-      title={`Liste de tous les frais`}
+      title={`Liste de tous les frais ${FEES_STATUS_VALUE[status]}`}
       resource="fees"
       listProps={{
         filterDefaultValues: {status: status || "LATE"},
