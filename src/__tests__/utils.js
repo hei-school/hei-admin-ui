@@ -30,15 +30,14 @@ export const importFile = (file, message, _path) => {
 };
 
 export const getEndOfMonth = (year, month) => {
-  const lastDayOfMonth = new Date(year, month + 1, 1);
-  return lastDayOfMonth;
+  return new Date(year, month + 1, 1);
 };
 
-export const testFeesWithTemplate = (feesToCreate, template) => {
+export const verifyFeesWithTemplate = (feeToCreate, template) => {
   const currentDateString = new Date().toDateString();
-  expect(feesToCreate.total_amount).to.equal(template.amount);
-  expect(feesToCreate.type).to.equal(template.type);
-  expect(new Date(feesToCreate.creation_datetime).toDateString()).to.equal(
+  expect(feeToCreate.total_amount).to.equal(template.amount);
+  expect(feeToCreate.type).to.equal(template.type);
+  expect(new Date(feeToCreate.creation_datetime).toDateString()).to.equal(
     currentDateString
   );
 };

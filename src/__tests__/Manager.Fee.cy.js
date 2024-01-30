@@ -17,8 +17,9 @@ import {
   annual1xTemplate,
   annual9xTemplate,
 } from "./mocks/responses";
-import {getEndOfMonth, testFeesWithTemplate} from "./utils";
+import {getEndOfMonth, verifyFeesWithTemplate} from "./utils";
 
+// /!\ TODO: create custom cypress command "getByTestid"
 describe(specTitle("Manager.Fee"), () => {
   beforeEach(() => {
     mount(<App />);
@@ -114,7 +115,7 @@ describe(specTitle("Manager.Fee"), () => {
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
     cy.get("@getFeesTemplates");
-    cy.get("#predefinedType").click();
+    cy.get('[data-testid="predefinedType"]').click();
     cy.get('.MuiList-root > [tabindex="0"]').click();
     cy.get("#isPredefinedDate").click();
 
@@ -126,8 +127,8 @@ describe(specTitle("Manager.Fee"), () => {
     cy.get('[aria-label="fees"]').click();
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
-    cy.get("@getFeesTemplates");
-    cy.get("#predefinedType").click();
+    cy.wait("@getFeesTemplates");
+    cy.get('[data-testid="predefinedType"]').click();
     cy.get(`[data-value="${annual1xTemplate.id}"`).click();
 
     cy.contains("Enregistrer").click();
@@ -137,16 +138,16 @@ describe(specTitle("Manager.Fee"), () => {
 
       expect(requestBody.length).to.equal(1);
 
-      const feesToCreate = requestBody[0];
+      const feeToCreate = requestBody[0];
       const currentDate = new Date();
       const currentEndOfMonth = getEndOfMonth(
         currentDate.getFullYear(),
         currentDate.getMonth()
       );
 
-      testFeesWithTemplate(feesToCreate, annual1xTemplate);
-      expect(feesToCreate.due_datetime, currentEndOfMonth.toISOString());
-      expect(feesToCreate.comment).to.equal(annual1xTemplate.name);
+      verifyFeesWithTemplate(feeToCreate, annual1xTemplate);
+      expect(feeToCreate.due_datetime, currentEndOfMonth.toISOString());
+      expect(feeToCreate.comment).to.equal(annual1xTemplate.name);
     });
 
     cy.contains("Élément créé");
@@ -160,7 +161,7 @@ describe(specTitle("Manager.Fee"), () => {
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="create-button"]').click();
     cy.get("@getFeesTemplates");
-    cy.get("#predefinedType").click();
+    cy.get('[data-testid="predefinedType"]').click();
     cy.get(`[data-value="${annual9xTemplate.id}"`).click();
     cy.get("#predefinedYear").clear().type(FIRST_YEAR);
     cy.get("#predefinedMonth").click();
@@ -182,7 +183,7 @@ describe(specTitle("Manager.Fee"), () => {
 
         const currentEndOfMonth = getEndOfMonth(year_value, month_value);
 
-        testFeesWithTemplate(feesToCreate, annual9xTemplate);
+        verifyFeesWithTemplate(feesToCreate, annual9xTemplate);
         expect(feesToCreate.due_datetime, currentEndOfMonth.toISOString());
         expect(feesToCreate.comment).to.equal(
           `${annual9xTemplate.name} (M${index + 1})`
@@ -228,7 +229,7 @@ describe(specTitle("Manager.Fee"), () => {
         const first_duedatetime = feesToCreate.due_datetime;
         first_duedatetime.setMonth(first_duedatetime.getMonth() + index);
 
-        testFeesWithTemplate(fees, feesToCreate);
+        verifyFeesWithTemplate(fees, feesToCreate);
         expect(feesToCreate.due_datetime, first_duedatetime.toISOString());
         expect(fees.comment).to.be.equal(feesToCreate.comment);
       });

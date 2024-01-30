@@ -19,7 +19,7 @@ import {
   annual9xTemplate,
 } from "./mocks/responses";
 
-import {studentRequestBodyVerification, testFeesWithTemplate} from "./utils";
+import {studentRequestBodyVerification, verifyFeesWithTemplate} from "./utils";
 import {FeeTypeEnum} from "@haapi/typescript-client";
 
 const newFirstName = "Aina herilala";
@@ -238,7 +238,7 @@ describe(specTitle("Manager creates students"), () => {
       "/students?page=1&page_size=10",
       [...studentsMock, createdStudent].slice(0, 10)
     ).as("getStudents");
-    cy.get("#predefinedType").click();
+    cy.get('[data-testid="predefinedType"]').click();
     cy.get(`[data-value="${annual1xTemplate.id}"]`).click();
 
     cy.contains("Enregistrer").click();
@@ -253,7 +253,7 @@ describe(specTitle("Manager creates students"), () => {
       const requestBody = intersection.request.body;
 
       expect(requestBody.length).to.equal(1);
-      testFeesWithTemplate(requestBody[0], annual1xTemplate);
+      verifyFeesWithTemplate(requestBody[0], annual1xTemplate);
     });
 
     cy.contains("Élément créé");
@@ -264,7 +264,7 @@ describe(specTitle("Manager creates students"), () => {
     cy.get(
       ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
     ).click();
-    cy.get("#predefinedType").click();
+    cy.get('[data-testid="predefinedType"]').click();
     cy.get(`[data-value="${annual9xTemplate.id}"]`).click();
 
     cy.intercept(
@@ -290,7 +290,7 @@ describe(specTitle("Manager creates students"), () => {
       expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
 
       requestBody.forEach((feesToCreate, index) => {
-        testFeesWithTemplate(feesToCreate, annual9xTemplate);
+        verifyFeesWithTemplate(feesToCreate, annual9xTemplate);
         expect(feesToCreate.comment).to.equal(
           `${annual9xTemplate.name} (M${index + 1})`
         );

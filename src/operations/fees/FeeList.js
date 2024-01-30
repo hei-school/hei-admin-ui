@@ -21,12 +21,8 @@ import {
 } from "./importConf";
 
 const FeeList = () => {
-  const {studentRef, fetchRef, studentId} = useStudentRef("studentId");
+  const {studentRef, studentId} = useStudentRef("studentId");
   const role = authProvider.getCachedRole();
-
-  useEffect(() => {
-    fetchRef();
-  }, [studentId]);
 
   return (
     <HaList

@@ -106,11 +106,7 @@ function DisabledInfo() {
 }
 
 function FeeEdit() {
-  const {studentRef, fetchRef} = useStudentRef("id");
-
-  useEffect(() => {
-    fetchRef();
-  }, []);
+  const {studentRef} = useStudentRef("id");
 
   return (
     <CustomEdit title={`Frais de ${studentRef}`}>
