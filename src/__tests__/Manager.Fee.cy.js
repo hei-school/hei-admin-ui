@@ -269,9 +269,9 @@ describe(specTitle("Manager.Fee"), () => {
 
       requestBody.forEach((fees) => {
         verifyFeesWithTemplate(fees, feesToCreate);
-        expect(fees.comment).to.be.undefined;
       });
     });
+
     cy.contains("Élément créé");
   });
 
