@@ -28,7 +28,7 @@ describe(specTitle("Student"), () => {
     cy.get('[href="#/hei-docs"]').click();
     cy.contains("Date de création");
     cy.contains("Afficher");
-    cy.get(".column-fileName > .MuiTypography-root").click();
+    cy.contains("Règlement intérieur").click();
     cy.contains("Visualisation d'un document");
     unmount();
   });
