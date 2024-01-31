@@ -13,7 +13,7 @@ import {FeeStatusEnum} from "@haapi/typescript-client";
 const FEES_STATUS_VALUE = {
   LATE: "en retard",
   PAID: "payés",
-  UNPAID: "non payés",
+  UNPAID: "en attente",
 };
 
 const ListTitle = () => {
