@@ -6,6 +6,7 @@ import FeesCreate from "./FeesCreate";
 import FeeEdit from "./FeeEdit";
 import {FilterForm, SelectInputFilter} from "../../ui/haToolbar";
 import {FeeStatusEnum} from "@haapi/typescript-client";
+import {useListContext} from "react-admin";
 
 const fees = {
   list: FeeList,
@@ -31,4 +32,5 @@ export const FeesFilter = () => (
     />
   </FilterForm>
 );
+
 export default fees;
