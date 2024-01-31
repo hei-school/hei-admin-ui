@@ -12,9 +12,9 @@ import {HaMenuContent} from "../HaMenuContent";
 import {SingleMenu} from "./SingleMenu";
 
 import {useRole} from "../../../../security/hooks";
-import {PALETTE_COLORS} from "../../../constants";
 import authProvider from "../../../../providers/authProvider";
 import menuLogo from "../../../../assets/menu-logo.png";
+import {PALETTE_COLORS} from "../../../constants/palette";
 
 const MENU_STYLE = {
   width: "250px",
