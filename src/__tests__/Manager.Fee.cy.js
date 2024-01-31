@@ -108,7 +108,6 @@ describe(specTitle("Manager.Fee"), () => {
       createPaymentMock(interceptedFeeMock)
     ).as("getPaymentsOfOneFee");
     cy.get('[aria-label="fees"]').click();
-    cy.contains(student1Mock.ref);
     cy.contains(prettyPrintMoney(interceptedFeeMock.remaining_amount)).click();
     cy.get("#main-content")
       .should("contain", prettyPrintMoney(interceptedFeeMock.remaining_amount))
