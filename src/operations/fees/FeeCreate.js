@@ -1,7 +1,7 @@
 import {Create, SimpleForm} from "react-admin";
 import {useNotify, useStudentRef} from "../../hooks";
 import {FeeFields} from "./components";
-import {createFeesApi} from "./utils";
+import {createFeesApi} from "./utils/feeFactory";
 
 export default function FeeCreate(props) {
   const notify = useNotify();
@@ -18,7 +18,7 @@ export default function FeeCreate(props) {
       title={`Frais de ${studentRef}`}
       resource="fees"
       redirect={() => `students/${studentId}/fees`}
-      transform={(feesRecord) => createFeesApi(feesRecord, studentId)}
+      transform={(fees) => createFeesApi(fees, studentId)}
     >
       <SimpleForm>
         <FeeFields />

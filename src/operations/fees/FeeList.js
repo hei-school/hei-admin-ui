@@ -20,6 +20,7 @@ import {
   valideFeesData,
 } from "./importConf";
 
+// /!\ TODO: update to use useRole hook
 const FeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
   const role = authProvider.getCachedRole();

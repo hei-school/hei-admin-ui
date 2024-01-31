@@ -5,15 +5,17 @@ import {
   SimpleForm,
   TextInput,
 } from "react-admin";
+
+import {SelectSpecialization} from "./components";
+import {createStudentApi} from "./utils/studentFactory";
+
 import {SexRadioButton} from "../utils";
 import {CustomCreate} from "../utils/CustomCreate";
 import {FeeFields} from "../fees/components";
-import {SelectSpecialization} from "./components";
-import {useState} from "react";
-import {createStudentApi} from "./utils/createStudentApi";
+import {useToggle} from "../../hooks";
 
 const StudentCreate = () => {
-  const [canCreateFees, setCanCreateFees] = useState(false);
+  const [canCreateFees, , toggleCanCreateFees] = useToggle(false);
   return (
     <CustomCreate
       title="Étudiants"
@@ -57,7 +59,7 @@ const StudentCreate = () => {
           name="canCreateFees"
           source="canCreateFees"
           defaultValue={false}
-          onChange={() => setCanCreateFees((prev) => !prev)}
+          onChange={toggleCanCreateFees}
         />
         {canCreateFees && <FeeFields />}
       </SimpleForm>

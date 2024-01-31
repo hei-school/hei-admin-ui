@@ -1,9 +1,7 @@
 import {mount, unmount} from "@cypress/react";
 import {FeeTypeEnum} from "@haapi/typescript-client";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
-import App from "../App";
-import {prettyPrintMoney, statusRenderer} from "../operations/utils";
-import {manager1} from "./credentials";
+
 import {
   createPaymentMock,
   fee1Mock,
@@ -17,8 +15,17 @@ import {
   annual1xTemplate,
   annual9xTemplate,
 } from "./mocks/responses";
-import {verifyFeesWithTemplate} from "./utils";
-import {getEndOfMonth} from "../operations/utils";
+
+import App from "../App";
+
+import {manager1} from "./credentials";
+import {assertFeeMatchesTemplate} from "./utils";
+
+import {
+  prettyPrintMoney,
+  statusRenderer,
+  getEndOfMonth,
+} from "../operations/utils";
 
 // /!\ TODO: create custom cypress command "getByTestid"
 describe(specTitle("Manager.Fee"), () => {
@@ -146,7 +153,7 @@ describe(specTitle("Manager.Fee"), () => {
         currentDate.getMonth()
       );
 
-      verifyFeesWithTemplate(feeToCreate, annual1xTemplate);
+      assertFeeMatchesTemplate(feeToCreate, annual1xTemplate);
       expect(feeToCreate.due_datetime, currentEndOfMonth.toISOString());
       expect(feeToCreate.comment).to.equal(annual1xTemplate.name);
     });
@@ -184,7 +191,7 @@ describe(specTitle("Manager.Fee"), () => {
 
         const currentEndOfMonth = getEndOfMonth(year_value, month_value);
 
-        verifyFeesWithTemplate(feeToCreate, annual9xTemplate);
+        assertFeeMatchesTemplate(feeToCreate, annual9xTemplate);
         expect(feeToCreate.due_datetime, currentEndOfMonth.toISOString());
         expect(feeToCreate.comment).to.equal(
           `${annual9xTemplate.name} (M${index + 1})`
@@ -233,7 +240,7 @@ describe(specTitle("Manager.Fee"), () => {
         const first_duedatetime = feesToCreate.due_datetime;
         first_duedatetime.setMonth(first_duedatetime.getMonth() + index);
 
-        verifyFeesWithTemplate(fees, feesToCreate);
+        assertFeeMatchesTemplate(fees, feesToCreate);
         expect(feesToCreate.due_datetime, first_duedatetime.toISOString());
         expect(fees.comment).to.be.equal(feesToCreate.comment);
       });
@@ -268,7 +275,7 @@ describe(specTitle("Manager.Fee"), () => {
       expect(requestBody.length).to.equal(feesToCreate.number_of_payments);
 
       requestBody.forEach((fees) => {
-        verifyFeesWithTemplate(fees, feesToCreate);
+        assertFeeMatchesTemplate(fees, feesToCreate);
       });
     });
 

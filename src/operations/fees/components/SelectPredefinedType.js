@@ -2,13 +2,14 @@ import {required, SelectInput, useGetList} from "react-admin";
 import {useFormContext} from "react-hook-form";
 import {FEE_SELECT_STYLE} from "../utils";
 
+// /!\ TODO: all previously declared props could be overwritten by redeclaring them through props
 export function SelectPredefinedType(props) {
-  const {data = [], isLoading} = useGetList("fees-templates");
+  const {data: feeTemplates = [], isLoading} = useGetList("fees-templates");
   const {reset} = useFormContext();
 
   const updateFeesFields = (event) => {
     const configId = event.target.value;
-    const feeConfig = data.find((el) => el.id === configId);
+    const feeConfig = feeTemplates.find((el) => el.id === configId);
 
     reset(
       {
@@ -29,7 +30,7 @@ export function SelectPredefinedType(props) {
       label="Type prédéfini"
       optionValue="id"
       optionText="name"
-      choices={data}
+      choices={feeTemplates}
       isLoading={isLoading}
       onChange={updateFeesFields}
       validate={required()}

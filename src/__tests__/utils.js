@@ -29,7 +29,7 @@ export const importFile = (file, message, _path) => {
   cy.contains(message);
 };
 
-export const verifyFeesWithTemplate = (feeToCreate, template) => {
+export const assertFeeMatchesTemplate = (feeToCreate, template) => {
   const currentDateString = new Date().toDateString();
   expect(feeToCreate.total_amount).to.equal(template.amount);
   expect(feeToCreate.type).to.equal(template.type);

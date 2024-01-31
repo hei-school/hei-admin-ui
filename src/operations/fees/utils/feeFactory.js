@@ -1,11 +1,10 @@
-function getEndOfMonth(year, month, index) {
-  const dateAfterIndex = new Date(year, month + index + 1, 0);
-  return dateAfterIndex.toISOString();
-}
+import {getEndOfMonth} from "../../utils";
 
-function createComment(baseComment, monthValue, numberOfPayemnts) {
+function createComment(baseComment, monthIndex, numberOfPayemnts) {
+  // add the suffix M(monthValue + 1) when numberOfPayemnts is 9
+  // This is based on client requirements.
   return numberOfPayemnts === 9
-    ? `${baseComment} (M${monthValue + 1})`
+    ? `${baseComment} (M${monthIndex + 1})`
     : baseComment;
 }
 
@@ -30,11 +29,11 @@ export function createFeesApi(fees, studentId) {
     type,
   } = fees;
   const firstDueDatetime = new Date(due_datetime);
+  const currentDate = new Date().toISOString();
 
   for (let i = 0; i < number_of_payments; i++) {
-    const currentIsoDate = new Date().toISOString();
     const dueDatetime = isPredefinedDate
-      ? getEndOfMonth(+predefinedYear, predefinedMonth, i)
+      ? getEndOfMonth(+predefinedYear, predefinedMonth + i)
       : getNextDate(
           new Date(firstDueDatetime),
           i /*to get the next date after $i*/
@@ -42,11 +41,15 @@ export function createFeesApi(fees, studentId) {
 
     feesToCreate.push({
       type,
-      comment: createComment(comment, i, number_of_payments),
+      comment: createComment(
+        comment,
+        i /* to create the comment suffixed by monthIndex */,
+        number_of_payments
+      ),
       total_amount: +amount,
       student_id: studentId,
-      due_datetime: dueDatetime,
-      creation_datetime: currentIsoDate,
+      due_datetime: dueDatetime.toISOString(),
+      creation_datetime: currentDate,
     });
   }
   return feesToCreate;

@@ -2,6 +2,7 @@ import {Box} from "@mui/material";
 import {SelectInput, TextInput, minValue, required, number} from "react-admin";
 
 const DATETIME_FORMAT = new Intl.DateTimeFormat("fr-FR", {month: "long"});
+
 const MONTHS_LISTS = Array.from({length: 12}, (_, month) => {
   return DATETIME_FORMAT.format(new Date(2023, month, 1));
 });
@@ -14,7 +15,6 @@ const MONTHS_CHOICES = MONTHS_LISTS.map((month, index) => {
 });
 
 export function SelectDueDatetime() {
-  const validateYear = [required(), number(), minValue(2021)];
   const currentDate = new Date();
 
   return (
@@ -36,7 +36,7 @@ export function SelectDueDatetime() {
         data-testid="predefinedYear"
         source="predefinedYear"
         name="predefinedYear"
-        validate={validateYear}
+        validate={[required(), number(), minValue(2021)]}
         defaultValue={currentDate.getFullYear()}
         sx={{flex: 1}}
       />

@@ -18,7 +18,7 @@ function FeesTemplatesList() {
       <TextField source="name" label="Label" />
       <FunctionField
         label="Montant de la mensualité"
-        render={(feestype) => prettyPrintMoney(feestype.amount)}
+        render={(feetype) => prettyPrintMoney(feetype.amount)}
       />
       <TextField source="number_of_payments" label="Nombre de mensualités" />
       <EditButton />

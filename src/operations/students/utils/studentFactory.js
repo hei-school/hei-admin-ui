@@ -1,4 +1,4 @@
-import {createFeesApi} from "../../fees/utils";
+import {createFeesApi} from "../../fees/utils/feeFactory";
 
 export function createStudentApi(payload) {
   const {

@@ -19,7 +19,10 @@ import {
   annual9xTemplate,
 } from "./mocks/responses";
 
-import {studentRequestBodyVerification, verifyFeesWithTemplate} from "./utils";
+import {
+  studentRequestBodyVerification,
+  assertFeeMatchesTemplate,
+} from "./utils";
 import {FeeTypeEnum} from "@haapi/typescript-client";
 
 const newFirstName = "Aina herilala";
@@ -253,7 +256,7 @@ describe(specTitle("Manager creates students"), () => {
       const requestBody = intersection.request.body;
 
       expect(requestBody.length).to.equal(1);
-      verifyFeesWithTemplate(requestBody[0], annual1xTemplate);
+      assertFeeMatchesTemplate(requestBody[0], annual1xTemplate);
     });
 
     cy.contains("Élément créé");
@@ -290,7 +293,7 @@ describe(specTitle("Manager creates students"), () => {
       expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
 
       requestBody.forEach((feesToCreate, index) => {
-        verifyFeesWithTemplate(feesToCreate, annual9xTemplate);
+        assertFeeMatchesTemplate(feesToCreate, annual9xTemplate);
         expect(feesToCreate.comment).to.equal(
           `${annual9xTemplate.name} (M${index + 1})`
         );

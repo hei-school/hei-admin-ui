@@ -2,8 +2,10 @@ import {useEffect, useState} from "react";
 import {useDataProvider} from "react-admin";
 import {useParams} from "react-router-dom";
 import {studentIdFromRaId} from "../providers/feeProvider";
+import {useNotify} from "./useNotify";
 
 export const useStudentRef = (source) => {
+  const notify = useNotify();
   const params = useParams();
   const dataProvider = useDataProvider();
   const studentId = studentIdFromRaId(params[source]);
@@ -11,12 +13,18 @@ export const useStudentRef = (source) => {
 
   useEffect(() => {
     const fetchRef = async () => {
-      const student = await dataProvider.getOne("students", {id: studentId});
-      setStudentRef(student.data.ref);
+      try {
+        const student = await dataProvider.getOne("students", {id: studentId});
+        setStudentRef(student.data.ref);
+      } catch (error) {
+        notify("Erreur lors de la récupération des données de l'étudiant");
+      }
     };
 
-    fetchRef();
-  }, [studentRef, studentId]);
+    if (studentId) {
+      fetchRef();
+    }
+  }, [studentId, setStudentRef]);
 
   return {studentRef, studentId};
 };

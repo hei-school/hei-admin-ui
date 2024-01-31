@@ -1,5 +1,6 @@
 import {mainTheme} from "../../../haTheme";
 
+// /!\ TODO: TO function name
 export const rowStyle = (record, _index) => {
   const lateColor = record.status === "LATE" ? "#f57c73" : "inherit";
   return {
@@ -8,6 +9,7 @@ export const rowStyle = (record, _index) => {
   };
 };
 
+// /!\ TODO: FEE_SIZES
 export const FEE_SELECT_STYLE = {
   width: {
     xs: 75,

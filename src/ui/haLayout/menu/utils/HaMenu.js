@@ -43,8 +43,8 @@ export function HaMenuBase({sx = {}}) {
   const [open] = useSidebarState();
   const role = useRole();
 
-  const logout = () => {
-    authProvider.logout();
+  const logout = async () => {
+    await authProvider.logout();
     window.location.reload();
   };
 
