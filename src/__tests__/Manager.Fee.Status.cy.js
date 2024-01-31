@@ -1,7 +1,8 @@
 import {mount} from "@cypress/react";
+import {FeeStatusEnum} from "@haapi/typescript-client";
+import specTitle from "cypress-sonarqube-reporter/specTitle";
 import App from "../App";
 import {manager1} from "./credentials";
-import specTitle from "cypress-sonarqube-reporter/specTitle";
 import {
   fee1Mock,
   lateFeesMock,
@@ -10,6 +11,25 @@ import {
   student1Mock,
   whoamiManagerMock,
 } from "./mocks/responses";
+
+const applyFilter = (status) => {
+  cy.get('[data-testid="students-menu"]').click();
+  cy.get('a[href="#/fees"]').click();
+  // TODO: getByTestid
+  cy.get('[data-testid="menu-list-action"]').click();
+  cy.get('[data-testid="add-filter"]').click();
+  cy.get('[data-testid="filter-fees-status"]').click();
+  cy.get(`[data-value=${status}]`).click();
+  cy.contains("Appliquer").click();
+};
+
+const assertRequestUrl = (status) => {
+  cy.intercept("GET", `/fees*`).as("getFees");
+
+  cy.wait("@getFees").then((interception) => {
+    expect(interception.request.url).to.include(status);
+  });
+};
 
 describe(specTitle("Manager.Fee.Late"), () => {
   beforeEach(() => {
@@ -44,11 +64,13 @@ describe(specTitle("Manager.Fee.Late"), () => {
     cy.get("button").contains("Connexion").click();
   });
 
-  it("can list late fees", () => {
-    cy.get('[data-testid="students-menu"]').click();
-    cy.get('a[href="#/fees"]').click(); // Étudiants category
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
-    cy.get(".MuiTableBody-root > :nth-child(1) > .column-due_datetime").click();
-    cy.contains("En retard");
+  it("can list paid fees", () => {
+    applyFilter(FeeStatusEnum.PAID);
+    assertRequestUrl(FeeStatusEnum.PAID);
+  });
+
+  it("can list unpaid fees", () => {
+    applyFilter(FeeStatusEnum.UNPAID);
+    assertRequestUrl(FeeStatusEnum.UNPAID);
   });
 });
