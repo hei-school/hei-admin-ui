@@ -27,7 +27,7 @@ export const FeesFilter = () => (
       choices={[
         {id: FeeStatusEnum.LATE, name: "En retard"},
         {id: FeeStatusEnum.PAID, name: "Payés"},
-        {id: FeeStatusEnum.UNPAID, name: "Non payés"},
+        {id: FeeStatusEnum.UNPAID, name: "En attente"},
       ]}
     />
   </FilterForm>
