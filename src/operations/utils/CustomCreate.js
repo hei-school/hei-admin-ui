@@ -1,6 +1,6 @@
 import {Create, useNotify} from "react-admin";
 
-export const CustomCreate = ({children, ...props}) => {
+export const CustomCreate = ({children, mutationOptions = {}, ...props}) => {
   const notify = useNotify();
   return (
     <Create
@@ -12,6 +12,7 @@ export const CustomCreate = ({children, ...props}) => {
             autoHideDuration: 1000,
           });
         },
+        ...mutationOptions,
       }}
       {...props}
     >

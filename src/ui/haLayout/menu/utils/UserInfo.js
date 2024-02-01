@@ -1,7 +1,7 @@
 import {useRef} from "react";
-import {useGetOne, useRecordContext} from "react-admin";
+import {useGetOne} from "react-admin";
 import {styled} from "@mui/styles";
-import {Typography} from "@mui/material";
+import {Typography, CircularProgress} from "@mui/material";
 import {PALETTE_COLORS} from "../../../constants/palette";
 import authProvider from "../../../../providers/authProvider";
 import defaultProfilePicture from "../../../../assets/blank-profile-photo.png";
@@ -16,19 +16,32 @@ const StyledUserInfo = styled("div")({
 });
 
 function UserInfo() {
-  const profile = useGetOne("profile", {id: authProvider.getCachedWhoami().id});
+  const imgRef = useRef(null);
 
-  const name = profile && profile.data ? profile.data.first_name : "";
+  const {data: user = {}, isLoading} = useGetOne("profile", {
+    id: authProvider.getCachedWhoami().id,
+  });
+  const {first_name = "", profile_picture = defaultProfilePicture} = user;
 
-  const ProfilePicture = () => {
-    const user = useRecordContext();
-    const imgRef = useRef(null);
-
+  if (isLoading)
     return (
+      <CircularProgress
+        size={25}
+        style={{margin: "7px"}}
+        sx={{
+          ".MuiCircularProgress-circle": {
+            color: PALETTE_COLORS.yellow,
+          },
+        }}
+      />
+    );
+
+  return (
+    <StyledUserInfo>
       <img
         data-testid="profile-pic"
         ref={imgRef}
-        src={user?.profile_picture || defaultProfilePicture}
+        src={profile_picture}
         onError={() => {
           if (imgRef.current) {
             imgRef.current.src = defaultProfilePicture;
@@ -43,12 +56,7 @@ function UserInfo() {
           borderRadius: "50%",
         }}
       />
-    );
-  };
-  return (
-    <StyledUserInfo>
-      <ProfilePicture />
-      <Typography sx={{color: "inherit"}}>{name}</Typography>
+      <Typography sx={{color: "inherit"}}>{first_name}</Typography>
     </StyledUserInfo>
   );
 }

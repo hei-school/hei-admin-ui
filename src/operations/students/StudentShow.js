@@ -1,4 +1,10 @@
-import {Button, EditButton, Link, useRecordContext} from "react-admin";
+import {
+  Button,
+  EditButton,
+  Link,
+  useRecordContext,
+  useShowContext,
+} from "react-admin";
 
 import {AttachMoney} from "@mui/icons-material";
 
@@ -7,9 +13,11 @@ import {useRole} from "../../security/hooks";
 import {Show} from "../common/components/Show";
 import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
 import {ProfileLayout} from "../common/components/ProfileLayout";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
+
   return (
     <div style={{display: "grid", gridTemplateColumns: "1fr 2fr", gap: 4}}>
       <EditButton
@@ -38,9 +46,11 @@ const ActionsOnShow = ({basePath, data, resource}) => {
 
 const StudentShow = () => {
   const role = useRole();
+
   return (
     <Show title="Étudiants" actions={false}>
       <ProfileLayout
+        role={WhoamiRoleEnum.STUDENT}
         actions={role.isManager() && <ActionsOnShow />}
         isStudent
       />
