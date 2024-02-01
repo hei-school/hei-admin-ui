@@ -15,13 +15,13 @@ import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
 function FeesTemplatesCreate() {
   return (
     <Create
-      title={"Créer une frais prédéfinie"}
+      title={"Créer un frais prédéfini"}
       redirect={() => "fees-templates"}
       transform={(feesTemplates) => ({...feesTemplates, id: uuid()})}
     >
       <SimpleForm>
         <TextInput
-          label="Label"
+          label="Nom"
           source="name"
           fullWidth
           validate={[required()]}

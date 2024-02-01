@@ -7,15 +7,15 @@ import {prettyPrintMoney} from "../utils";
 function FeesTemplatesList() {
   return (
     <HaList
-      title="Type de frais prédefinies"
-      mainSearch={{source: "name", label: "label"}}
+      title="Type de frais prédéfini"
+      mainSearch={{source: "name", label: "Nom"}}
       listProps={{title: "Frais Prédéfinies"}}
       filterIndicator={false}
       datagridProps={{rowClick: "edit"}}
       actions={<CreateButton />}
       icon={<AttachMoney />}
     >
-      <TextField source="name" label="Label" />
+      <TextField source="name" label="Nom" />
       <FunctionField
         label="Montant de la mensualité"
         render={(feetype) => prettyPrintMoney(feetype.amount)}
