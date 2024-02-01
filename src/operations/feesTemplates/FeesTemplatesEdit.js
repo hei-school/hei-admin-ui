@@ -7,8 +7,8 @@ import {
   TextInput,
   RadioButtonGroupInput,
 } from "react-admin";
-import { EditToolBar, CustomEdit } from "../utils";
-import { FEESTEMPLATES_CHOICES } from "../fees/feesTemplatesChoices";
+import {EditToolBar, CustomEdit} from "../utils";
+import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
 
 function FeesTemplatesEdit() {
   return (
@@ -17,12 +17,7 @@ function FeesTemplatesEdit() {
       redirect={() => "fees-templates"}
     >
       <SimpleForm toolbar={<EditToolBar />}>
-        <TextInput
-          fullWidth
-          source="name"
-          label="Nom"
-          validate={required()}
-        />
+        <TextInput fullWidth source="name" label="Nom" validate={required()} />
         <RadioButtonGroupInput
           source="type"
           name="type"

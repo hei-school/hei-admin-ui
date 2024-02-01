@@ -5,7 +5,7 @@ import FeesTemplatesCreate from "./FeesTemplateCreate";
 const feesTemplates = {
   list: <FeesTemplatesList />,
   edit: <FeesTemplatesEdit />,
-  create: <FeesTemplatesCreate />
+  create: <FeesTemplatesCreate />,
 };
 
 export default feesTemplates;

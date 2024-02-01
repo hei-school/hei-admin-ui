@@ -1,4 +1,10 @@
-import {Create, SimpleForm} from "react-admin";
+import {
+  Create,
+  DeleteButton,
+  SaveButton,
+  SimpleForm,
+  Toolbar,
+} from "react-admin";
 import {useNotify, useStudentRef} from "../../hooks";
 import {FeeFields} from "./components";
 import {createFeesApi} from "./utils/feeFactory";
@@ -20,7 +26,14 @@ export default function FeeCreate(props) {
       redirect={() => `students/${studentId}/fees`}
       transform={(fees) => createFeesApi(fees, studentId)}
     >
-      <SimpleForm>
+      <SimpleForm
+        toolbar={
+          <Toolbar>
+            {" "}
+            <SaveButton alwaysEnable />{" "}
+          </Toolbar>
+        }
+      >
         <FeeFields />
       </SimpleForm>
     </Create>

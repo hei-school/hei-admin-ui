@@ -12,7 +12,7 @@ import {
 import {SelectDueDatetime} from "./SelectDueDatetime";
 import {SelectPredefinedType} from "./SelectPredefinedType";
 import {FEESTEMPLATES_CHOICES} from "../feesTemplatesChoices";
-import { useFormContext} from "react-hook-form";
+import {useFormContext} from "react-hook-form";
 
 export function FeeFields() {
   const {reset} = useFormContext();
@@ -27,10 +27,14 @@ export function FeeFields() {
     const {name, checked} = event.target;
     setFeeConfig({...feeConfig, [name]: checked});
 
-    if(shouldResetField){
-      reset({
-        [name]: checked,
-      });
+    if (shouldResetField) {
+      reset(
+        {
+          [name]: checked,
+          predefinedType: "",
+        },
+        {keepDefaultValues: true}
+      );
     }
   };
 
@@ -42,7 +46,7 @@ export function FeeFields() {
         data-testid="isPredefinedFee"
         name="isPredefinedFee"
         source="isPredefinedFee"
-        onChange={(event)=>updateFeeConfig(event,true)}
+        onChange={(event) => updateFeeConfig(event, true)}
         defaultValue={true}
       />
       {!isPredefinedFee ? (

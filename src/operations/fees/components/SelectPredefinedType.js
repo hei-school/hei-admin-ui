@@ -11,15 +11,13 @@ export function SelectPredefinedType(props) {
     const configId = event.target.value;
     const feeConfig = feeTemplates.find((el) => el.id === configId);
 
-    reset(
-      {
-        amount: feeConfig.amount,
-        number_of_payments: feeConfig.number_of_payments,
-        comment: feeConfig.name,
-        type: feeConfig.type,
-      },
-      {keepDirtyValues: true}
-    );
+    reset({
+      predefinedType: feeConfig.id,
+      amount: feeConfig.amount,
+      number_of_payments: feeConfig.number_of_payments,
+      comment: feeConfig.name,
+      type: feeConfig.type,
+    });
   };
 
   return (
