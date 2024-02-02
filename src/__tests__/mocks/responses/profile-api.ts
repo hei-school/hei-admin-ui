@@ -13,3 +13,9 @@ export const badPicManager = (): Manager => ({
   ...noPicManager(),
   profile_picture: "https://pixabay.com/fr/phot",
 });
+
+export const updatedManager = (): Manager => ({
+  ...noPicManager(),
+  profile_picture:
+    "https://img.freepik.com/free-photo/happy-african-american-young-man-colorful-shirt-wearing-glasses-looking-camera-smiling-cheerfully_141793-108881.jpg",
+});

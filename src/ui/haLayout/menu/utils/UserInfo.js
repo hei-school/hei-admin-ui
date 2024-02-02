@@ -39,7 +39,7 @@ function UserInfo() {
   return (
     <StyledUserInfo>
       <img
-        data-testid="profile-pic"
+        data-testid="appbar-profile-pic"
         ref={imgRef}
         src={profile_picture}
         onError={() => {

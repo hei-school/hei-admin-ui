@@ -93,6 +93,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   return (
     <div>
       <IconButton
+        data-testid="upload-picture-button"
         onClick={toggle}
         sx={{
           borderRadius: "50%",
