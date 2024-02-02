@@ -1,3 +1,4 @@
+import {SpecializationField} from "@haapi/typescript-client";
 import {SelectInput, required} from "react-admin";
 
 export const SPECIALIZATION_VALUE = {
@@ -10,6 +11,8 @@ const SPECIALIZATION_CHOICES = Object.entries(SPECIALIZATION_VALUE).map(
   ([value, label]) => ({value, label})
 );
 
+const DEFAULT_CHOICE = SPECIALIZATION_CHOICES[2];
+
 export function SelectSpecialization(props) {
   return (
     <SelectInput
@@ -18,7 +21,7 @@ export function SelectSpecialization(props) {
       choices={SPECIALIZATION_CHOICES}
       optionText="label"
       optionValue="value"
-      defaultValue={SPECIALIZATION_VALUE.COMMON_CORE}
+      defaultValue={DEFAULT_CHOICE.value}
       validate={required()}
       fullWidth
       {...props}
