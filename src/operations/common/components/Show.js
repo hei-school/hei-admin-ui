@@ -8,6 +8,7 @@ export const Show = ({children, sx, ...props}) => {
         "& .RaShow-card": {
           backgroundColor: "transparent",
           boxShadow: "none",
+          zIndex: 999
         },
       }}
       {...props}

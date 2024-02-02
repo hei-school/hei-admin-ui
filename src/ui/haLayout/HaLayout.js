@@ -49,10 +49,10 @@ export function HaLayout({ children }) {
             id="main-content"
           >
             <BackgroundBoxStyle sx={{ top: "-70px", left: "-50px", transform: "rotate(-15deg)" }} />
-            <BackgroundBoxStyle sx={{ bottom: "-70px", right: "-50px", transform: "rotate(-100deg)" }} />
             {children}
           </Box>
         </HaLayoutStyled>
+        <BackgroundBoxStyle sx={{ bottom: "-70px", position:"fixed", right: "-50px", transform: "rotate(-100deg)" }} />
       </ThemeProvider>
     </AppLocationContext>
   );

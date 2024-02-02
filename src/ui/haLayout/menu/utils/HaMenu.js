@@ -1,10 +1,11 @@
-import { PALETTE_COLORS } from "../../../constants/palette";
 import { Box, Drawer, useMediaQuery } from "@mui/material";
-import { AccountCircle, Logout } from "@mui/icons-material";
+import { AccountCircle, Logout, Settings as SettingsIcon } from "@mui/icons-material";
 import { HaMenuContent } from "../HaMenuContent";
 import { SingleMenu } from "./SingleMenu";
 import { useSidebarState } from "react-admin";
 import authProvider from "../../../../providers/authProvider";
+import {useRole} from "../../../../security/hooks";
+import { PALETTE_COLORS } from "../../../constants/palette";
 
 const MENU_STYLE = {
   width: "250px",
@@ -25,9 +26,10 @@ const MENU_STYLE = {
 export function HaMenuBase({ sx = {} }) {
   const [open] = useSidebarState();
   const isSmall = useMediaQuery("(max-width:920px)");
+  const role = useRole();
 
-  const logout = () => {
-    authProvider.logout();
+  const logout = async () => {
+    await authProvider.logout();
     window.location.reload();
   };
 
@@ -47,6 +49,13 @@ export function HaMenuBase({ sx = {} }) {
         <HaMenuContent />
       </Box>
       <Box sx={{ width: "100%" }}>
+        {role.isManager() && (
+          <SingleMenu
+            label="Frais prédéfinis"
+            to="/fees-templates"
+            icon={<SettingsIcon />}
+          />
+        )}
         <SingleMenu
           label="Se déconnecter"
           icon={<Logout />}

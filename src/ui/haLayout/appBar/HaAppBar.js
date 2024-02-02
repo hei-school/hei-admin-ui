@@ -1,6 +1,7 @@
 import { AppBar, Box, Slide, useScrollTrigger, Typography } from "@mui/material";
 import { PALETTE_COLORS } from "../../constants/palette";
 import UserInfo from "./UserInfo";
+import menuLogo from "../../../assets/menu-logo.png";
 
 const APPBAR_STYLE = {
   display: "flex",
@@ -24,7 +25,7 @@ export const HaAppBar = () => {
     <Slide appear={false} direction="down" in={!trigger}>
       <AppBar id="appbar" position="sticky" sx={APPBAR_STYLE}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <img src="/menu-logo.png" style={{ width: 40, height: 27 }} />
+          <img src={menuLogo} style={{ width: 40, height: 27 }} />
           <Typography sx={{ fontWeight: "bold", color: PALETTE_COLORS.black, fontSize: "17px" }}>
             HEI Admin
           </Typography>
