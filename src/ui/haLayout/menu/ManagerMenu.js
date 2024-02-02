@@ -1,30 +1,30 @@
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 import {
-  WorkOutlined,
   Work,
-  SchoolOutlined,
+  School,
   Inventory,
-  PeopleOutlined,
-  AttachMoney,
+  People,
+  Warning,
+  Groups,
 } from "@mui/icons-material";
 
 function ManagerMenu() {
   return (
     <>
-      <SingleMenu to="/teachers" label="Enseignants" icon={<WorkOutlined />} />
+      <SingleMenu to="/teachers" label="Enseignants" icon={<Work />} />
       <ListMenu
         label="Étudiants"
-        icon={<SchoolOutlined />}
+        icon={<School />}
         data-testid="students-menu"
       >
         <ListMenuItem
           label="Liste des étudiants"
-          icon={<PeopleOutlined />}
+          icon={<People />}
           to="/students"
         />
         <ListMenuItem
-          label="Liste de tous les frais"
-          icon={<AttachMoney />}
+          label="Frais en retards"
+          icon={<Warning />}
           to="/fees"
         />
       </ListMenu>
@@ -40,6 +40,12 @@ function ManagerMenu() {
           icon={<Work />}
         />
       </ListMenu>
+      <SingleMenu
+        to="/groups"
+        label="Groupes"
+        icon={<Groups />}
+        data-testid="groups"
+      />
     </>
   );
 }
