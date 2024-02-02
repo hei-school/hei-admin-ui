@@ -5,21 +5,20 @@ import {FEE_SELECT_STYLE} from "../utils";
 // /!\ TODO: all previously declared props could be overwritten by redeclaring them through props
 export function SelectPredefinedType(props) {
   const {data: feeTemplates = [], isLoading} = useGetList("fees-templates");
-  const {reset} = useFormContext();
+  const {reset, setValue} = useFormContext();
 
   const updateFeesFields = (event) => {
     const configId = event.target.value;
     const feeConfig = feeTemplates.find((el) => el.id === configId);
 
-    reset(
-      {
-        amount: feeConfig.amount,
-        number_of_payments: feeConfig.number_of_payments,
-        comment: feeConfig.name,
-        type: feeConfig.type,
-      },
-      {keepDirtyValues: true}
-    );
+    reset((prev) => ({
+      ...prev,
+      predefinedType: feeConfig.id,
+      amount: feeConfig.amount,
+      number_of_payments: feeConfig.number_of_payments,
+      comment: feeConfig.name,
+      type: feeConfig.type,
+    }));
   };
 
   return (

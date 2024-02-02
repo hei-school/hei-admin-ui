@@ -2,8 +2,8 @@ import {
   minValue,
   required,
   number,
-  maxValue,
   SimpleForm,
+  maxValue,
   TextInput,
   RadioButtonGroupInput,
 } from "react-admin";
@@ -13,16 +13,11 @@ import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
 function FeesTemplatesEdit() {
   return (
     <CustomEdit
-      title={"Modification de frais prédefinies"}
-      redirect="fees-templates"
+      title={"Modifier un frais prédéfini"}
+      redirect={() => "fees-templates"}
     >
       <SimpleForm toolbar={<EditToolBar />}>
-        <TextInput
-          fullWidth
-          source="name"
-          label="Label"
-          validate={required()}
-        />
+        <TextInput fullWidth source="name" label="Nom" validate={required()} />
         <RadioButtonGroupInput
           source="type"
           name="type"

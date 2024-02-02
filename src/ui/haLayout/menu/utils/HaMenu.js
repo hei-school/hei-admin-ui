@@ -90,7 +90,7 @@ export function HaMenuBase({sx = {}}) {
       <Box sx={{width: "100%"}}>
         {role.isManager() && (
           <SingleMenu
-            label="Frais prédéfinies"
+            label="Frais prédéfinis"
             to="/fees-templates"
             icon={<SettingsOutlined />}
           />
