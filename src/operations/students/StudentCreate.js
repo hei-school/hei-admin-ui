@@ -2,8 +2,10 @@ import {
   BooleanInput,
   DateInput,
   maxLength,
+  SaveButton,
   SimpleForm,
   TextInput,
+  Toolbar,
 } from "react-admin";
 
 import {SelectSpecialization} from "./components";
@@ -22,7 +24,13 @@ const StudentCreate = () => {
       resource="students"
       transform={createStudentApi}
     >
-      <SimpleForm>
+      <SimpleForm
+        toolbar={
+          <Toolbar>
+            <SaveButton alwaysEnable />
+          </Toolbar>
+        }
+      >
         <TextInput source="ref" label="Référence" fullWidth required />
         <TextInput source="first_name" label="Prénoms" fullWidth required />
         <TextInput source="last_name" label="Nom" fullWidth required />

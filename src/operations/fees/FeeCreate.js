@@ -29,8 +29,7 @@ export default function FeeCreate(props) {
       <SimpleForm
         toolbar={
           <Toolbar>
-            {" "}
-            <SaveButton alwaysEnable />{" "}
+            <SaveButton alwaysEnable />
           </Toolbar>
         }
       >
