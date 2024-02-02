@@ -8,7 +8,7 @@ import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
 import {ProfileLayout} from "../common/components/ProfileLayout";
 
 const ProfileShow = () => {
-  const role = useRole();
+  const {isStudent, role} = useRole();
   const {id} = authProvider.getCachedWhoami();
   return (
     <Show
@@ -19,7 +19,7 @@ const ProfileShow = () => {
       actions={false}
     >
       <ProfileLayout
-        id={id}
+        role={role}
         actions={
           <div
             style={{display: "flex", width: "100%", justifyContent: "flex-end"}}
@@ -29,7 +29,7 @@ const ProfileShow = () => {
               data-testid="profile-edit-button"
               {...COMMON_BUTTON_PROPS}
             />
-            {role.isStudent() && <GetCertificate studentId={id} />}
+            {isStudent() && <GetCertificate studentId={id} />}
           </div>
         }
       />
