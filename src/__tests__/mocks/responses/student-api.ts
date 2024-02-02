@@ -4,7 +4,7 @@ import {
   Sex,
   Whoami,
   WhoamiRoleEnum,
-  User,
+  SpecializationField,
 } from "@haapi/typescript-client";
 
 export const studentNameToBeCheckedMock: string = "herilala";
@@ -16,6 +16,7 @@ export const student1Mock: Student = {
   last_name: "Rafanomezantsoa",
   sex: Sex.M,
   birth_date: "2000-01-01",
+  specialization_field: SpecializationField.COMMON_CORE,
   address: "Adr 1",
   phone: "0322411123",
   email: "test+ryan@hei.school",
@@ -170,11 +171,12 @@ export const whoamiStudentMock: Whoami = {
   bearer: "bearer mock",
 };
 
-export const createStudent: User = {
+export const createStudent: Student = {
   ref: "STD000001",
   first_name: "string",
   last_name: "string",
   sex: Sex.F,
+  specialization_field: SpecializationField.COMMON_CORE,
   birth_date: "2023-02-17",
   address: "Rue Dr Raseta Andraharo, Ambanja, Madagascar",
   phone: "+261 234 1779",
@@ -185,10 +187,11 @@ export const createStudent: User = {
   birth_place: "Antananarivo",
 };
 
-export const liteCreatedStudent: User = {
+export const liteCreatedStudent: Student = {
   ref: "STD000001",
   first_name: "string",
   last_name: "string",
+  specialization_field: SpecializationField.COMMON_CORE,
   email: "test+create+student@hei.school",
   entrance_datetime: new Date("2023-02-17"),
   status: EnableStatus.ENABLED,
@@ -196,7 +199,7 @@ export const liteCreatedStudent: User = {
   birth_place: "Antananarivo",
 };
 
-export const createdStudents: User[] = [
+export const createdStudents: Student[] = [
   {
     id: "id1",
     ref: "STD000001",
@@ -304,7 +307,7 @@ export const createdStudents: User[] = [
   },
 ];
 
-export const liteCreatedStudents: User[] = [
+export const liteCreatedStudents: Student[] = [
   {
     id: "id1",
     ref: "STD000001",
