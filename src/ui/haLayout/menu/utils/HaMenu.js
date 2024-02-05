@@ -1,13 +1,17 @@
-import { Box, Drawer, Typography, useMediaQuery } from "@mui/material";
-import { AccountCircle, Logout, Settings as SettingsIcon } from "@mui/icons-material";
-import { HaMenuContent } from "../HaMenuContent";
-import { SingleMenu } from "./SingleMenu";
-import { useSidebarState } from "react-admin";
+import {Box, Drawer, Typography, useMediaQuery} from "@mui/material";
+import {
+  AccountCircle,
+  Logout,
+  Settings as SettingsIcon,
+} from "@mui/icons-material";
+import {HaMenuContent} from "../HaMenuContent";
+import {SingleMenu} from "./SingleMenu";
+import {useSidebarState} from "react-admin";
 import authProvider from "../../../../providers/authProvider";
-import { useRole } from "../../../../security/hooks";
-import { PALETTE_COLORS } from "../../../constants/palette";
-import menuLogo from "../../../../assets/menu-logo.png"
-import { styled } from "@mui/styles";
+import {useRole} from "../../../../security/hooks";
+import {PALETTE_COLORS} from "../../../constants/palette";
+import menuLogo from "../../../../assets/menu-logo.png";
+import {styled} from "@mui/styles";
 
 //TODO: create hook useIsSmall
 
@@ -34,7 +38,7 @@ const Separator = styled("div")({
   transform: "translateX(-50%)",
 });
 
-export function HaMenuBase({ sx = {} }) {
+export function HaMenuBase({sx = {}}) {
   const [open] = useSidebarState();
   const isSmall = useMediaQuery("(max-width:920px)");
   const role = useRole();
@@ -51,12 +55,12 @@ export function HaMenuBase({ sx = {} }) {
         ...MENU_STYLE,
         left: isShown ? 0 : "-250px",
         height: isSmall ? "100%" : "calc(100% - 60px)",
-        ...sx
+        ...sx,
       }}
       component="div"
       id="ha-menu"
     >
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{width: "100%"}}>
         {isSmall && (
           <>
             <Box
@@ -68,7 +72,7 @@ export function HaMenuBase({ sx = {} }) {
                 gap: 2,
               }}
             >
-              <img src={menuLogo} style={{ width: 40, height: 27 }} />
+              <img src={menuLogo} style={{width: 40, height: 27}} />
               <Typography
                 variant="h1"
                 sx={{
@@ -87,11 +91,11 @@ export function HaMenuBase({ sx = {} }) {
           label="Profil"
           to="/profile"
           icon={<AccountCircle />}
-          sx={{ mt: 3 }}
+          sx={{mt: 3}}
         />
         <HaMenuContent />
       </Box>
-      <Box sx={{ width: "100%" }}>
+      <Box sx={{width: "100%"}}>
         {role.isManager() && (
           <SingleMenu
             label="Frais prédéfinis"
@@ -99,11 +103,7 @@ export function HaMenuBase({ sx = {} }) {
             icon={<SettingsIcon />}
           />
         )}
-        <SingleMenu
-          label="Se déconnecter"
-          icon={<Logout />}
-          onClick={logout}
-        />
+        <SingleMenu label="Se déconnecter" icon={<Logout />} onClick={logout} />
       </Box>
     </Box>
   );
@@ -118,6 +118,6 @@ export function HaMenu() {
       <HaMenuBase />
     </Drawer>
   ) : (
-    <HaMenuBase sx={{ position: "fixed" }} />
+    <HaMenuBase sx={{position: "fixed"}} />
   );
 }

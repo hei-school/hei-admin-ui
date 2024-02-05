@@ -11,11 +11,7 @@ function ManagerMenu() {
   return (
     <>
       <SingleMenu to="/teachers" label="Enseignants" icon={<Work />} />
-      <ListMenu
-        label="Étudiants"
-        icon={<School />}
-        data-testid="students-menu"
-      >
+      <ListMenu label="Étudiants" icon={<School />} data-testid="students-menu">
         <ListMenuItem
           label="Liste des étudiants"
           icon={<People />}
