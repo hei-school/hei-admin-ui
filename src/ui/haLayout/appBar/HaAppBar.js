@@ -1,53 +1,73 @@
-import {AppBar, Box, Slide, useScrollTrigger} from "@mui/material";
-import {
-  AppBarClasses,
-  LoadingIndicator,
-  SidebarToggleButton,
-} from "react-admin";
+import {useMediaQuery, AppBar, Box, Slide, Typography} from "@mui/material";
 import {PALETTE_COLORS} from "../../constants/palette";
-import LogoutMenu from "./LogoutMenu";
-import NotificationMenu from "../../notification/NotificationMenu";
+import UserInfo from "./UserInfo";
+import menuLogo from "../../../assets/menu-logo.png";
+import {SidebarToggleButton} from "react-admin";
+
+const APPBAR_STYLE = {
+  display: "flex",
+  flexDirection: "row",
+  justifyContent: "space-between",
+  alignItems: "center",
+  width: "100%",
+  color: PALETTE_COLORS.black,
+  boxShadow: "none",
+  height: "60px",
+  py: 1,
+  px: 2,
+  backgroundColor: PALETTE_COLORS.white,
+  boxShadow: "10px 0px 10px gray",
+};
 
 export const HaAppBar = () => {
-  const trigger = useScrollTrigger();
-
-  const style = {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    width: "100%",
-    color: PALETTE_COLORS.black,
-    boxShadow: "none",
-    p: 1,
-    backgroundColor: PALETTE_COLORS.yellow,
-  };
+  const isSmall = useMediaQuery("(max-width:900px)");
 
   return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      <AppBar id="appbar" position="sticky" sx={style}>
-        <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
-          <SidebarToggleButton className={AppBarClasses.menuButton} />
+    <AppBar id="appbar" position="sticky" sx={APPBAR_STYLE}>
+      {isSmall ? (
+        <SidebarToggleButton />
+      ) : (
+        <Box
+          sx={{
+            height: "100%",
+            position: "fixed",
+            top: 0,
+            left: "250px",
+            height: "60px",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
           <h2
             id="react-admin-title"
             style={{
-              fontSize: "1.2em",
+              fontSize: "16px",
               padding: 0,
               margin: 0,
-              fontWeight: "500",
+              fontWeight: "600",
               color: PALETTE_COLORS.black,
             }}
           >
             {/* title portal here */}
           </h2>
         </Box>
-        <Box sx={{display: "flex", alignItems: "center"}}>
-          <LoadingIndicator sx={{color: PALETTE_COLORS.black}} />
-          <NotificationMenu />
-          <LogoutMenu />
-        </Box>
-      </AppBar>
-    </Slide>
+      )}
+      <Box sx={{display: "flex", alignItems: "center", gap: 2}}>
+        <img src={menuLogo} style={{width: 40, height: 27}} />
+        {!isSmall && (
+          <Typography
+            sx={{
+              fontWeight: "bold",
+              color: PALETTE_COLORS.black,
+              fontSize: "17px",
+            }}
+          >
+            HEI Admin
+          </Typography>
+        )}
+      </Box>
+      <UserInfo />
+    </AppBar>
   );
 };
 

@@ -1,31 +1,30 @@
-import {useSidebarState} from "react-admin";
 import {Box, Drawer, Typography, useMediaQuery} from "@mui/material";
-import {styled} from "@mui/styles";
 import {
-  AccountCircleOutlined,
-  SettingsOutlined,
-  LogoutOutlined,
+  AccountCircle,
+  Logout,
+  Settings as SettingsIcon,
 } from "@mui/icons-material";
-
-import UserInfo from "./UserInfo";
 import {HaMenuContent} from "../HaMenuContent";
 import {SingleMenu} from "./SingleMenu";
-
-import {useRole} from "../../../../security/hooks";
+import {useSidebarState} from "react-admin";
 import authProvider from "../../../../providers/authProvider";
-import menuLogo from "../../../../assets/menu-logo.png";
+import {useRole} from "../../../../security/hooks";
 import {PALETTE_COLORS} from "../../../constants/palette";
+import menuLogo from "../../../../assets/menu-logo.png";
+import {styled} from "@mui/styles";
+
+//TODO: create hook useIsSmall
 
 const MENU_STYLE = {
   width: "250px",
-  height: "100%",
   boxSizing: "border-box",
   paddingLeft: "20px",
+  zIndex: 9999,
   transition: "all .3s linear",
   overflowX: "hidden",
-  bgcolor: PALETTE_COLORS.black,
+  bgcolor: "#001948",
   color: PALETTE_COLORS.white,
-  top: 0,
+  top: 60,
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "column",
@@ -41,48 +40,57 @@ const Separator = styled("div")({
 
 export function HaMenuBase({sx = {}}) {
   const [open] = useSidebarState();
+  const isSmall = useMediaQuery("(max-width:920px)");
   const role = useRole();
 
   const logout = async () => {
     await authProvider.logout();
     window.location.reload();
   };
+  const isShown = !isSmall || open;
 
   return (
     <Box
-      sx={{...MENU_STYLE, left: open ? 0 : "-250px", ...sx}}
+      sx={{
+        ...MENU_STYLE,
+        left: isShown ? 0 : "-250px",
+        height: isSmall ? "100%" : "calc(100% - 60px)",
+        ...sx,
+      }}
       component="div"
       id="ha-menu"
     >
       <Box sx={{width: "100%"}}>
-        <Box
-          sx={{
-            display: "flex",
-            width: "100%",
-            alignItems: "center",
-            py: 2.5,
-            gap: 2,
-          }}
-        >
-          <img src={menuLogo} style={{width: 40, height: 27}} />
-          <Typography
-            variant="h1"
-            sx={{
-              fontSize: "1.1em",
-              color: PALETTE_COLORS.white,
-              fontWeight: 400,
-            }}
-          >
-            HEI Admin
-          </Typography>
-        </Box>
-        <Separator />
-        <UserInfo />
-        <Separator />
+        {isSmall && (
+          <>
+            <Box
+              sx={{
+                display: "flex",
+                width: "100%",
+                alignItems: "center",
+                py: 2.5,
+                gap: 2,
+              }}
+            >
+              <img src={menuLogo} style={{width: 40, height: 27}} />
+              <Typography
+                variant="h1"
+                sx={{
+                  fontSize: "1.1em",
+                  color: PALETTE_COLORS.white,
+                  fontWeight: 400,
+                }}
+              >
+                HEI Admin
+              </Typography>
+            </Box>
+            <Separator />
+          </>
+        )}
         <SingleMenu
           label="Profil"
           to="/profile"
-          icon={<AccountCircleOutlined />}
+          icon={<AccountCircle />}
           sx={{mt: 3}}
         />
         <HaMenuContent />
@@ -92,14 +100,10 @@ export function HaMenuBase({sx = {}}) {
           <SingleMenu
             label="Frais prédéfinis"
             to="/fees-templates"
-            icon={<SettingsOutlined />}
+            icon={<SettingsIcon />}
           />
         )}
-        <SingleMenu
-          label="Se déconnecter"
-          icon={<LogoutOutlined />}
-          onClick={logout}
-        />
+        <SingleMenu label="Se déconnecter" icon={<Logout />} onClick={logout} />
       </Box>
     </Box>
   );

@@ -75,7 +75,6 @@ describe(specTitle("Manager"), () => {
   it("can list and filter students", () => {
     cy.contains("Enseignants");
     cy.contains("Étudiants");
-    cy.contains("Mon profil");
 
     cy.get('[data-testid="students-menu"]').click(); // Étudiants category
     cy.get('[href="#/students"]').click();
