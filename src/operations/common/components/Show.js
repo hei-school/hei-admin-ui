@@ -1,5 +1,5 @@
 import {Show as RaShow} from "react-admin";
-import {Box} from "@mui/material"
+import {Box, useMediaQuery } from "@mui/material"
 import { PALETTE_COLORS } from "../../../ui/constants/palette";
 
 function BackgroundBoxStyle({ sx = {} }) {
@@ -7,7 +7,7 @@ function BackgroundBoxStyle({ sx = {} }) {
     <Box sx={{
       width: '220px',
       height: '300px',
-      position: "absolute",
+      position: "fixed",
       bgcolor: PALETTE_COLORS.yellow,
       zIndex: 0,
       ...sx
@@ -17,9 +17,17 @@ function BackgroundBoxStyle({ sx = {} }) {
 }
 
 export const Show = ({children, sx, ...props}) => {
+  const isSmall = useMediaQuery("(max-width:1200px)");
+
   return (
     <>
-      <BackgroundBoxStyle sx={{ bottom: "-70px", position:"fixed", right: "-50px", transform: "rotate(-100deg)" }} />
+      {
+        !isSmall && 
+        <>
+          <BackgroundBoxStyle sx={{ bottom: "-70px", right: "-70px", transform: "rotate(-100deg)" }} />
+          <BackgroundBoxStyle sx={{ top: "10px", left: "200px", transform: "rotate(-15deg)" }} />
+        </>
+      }
       <RaShow
         sx={{
           ...sx,
@@ -33,7 +41,6 @@ export const Show = ({children, sx, ...props}) => {
       >
         {children}
       </RaShow>
-      <BackgroundBoxStyle sx={{ top: "-70px", left: "-50px", transform: "rotate(-15deg)" }} />
     </>
   );
 };

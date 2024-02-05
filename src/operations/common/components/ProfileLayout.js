@@ -235,7 +235,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
       justifyContent="center"
     >
       <Grid
-        xs={isSmall ? 6 : 5}
+        xs={isSmall ? 10 : 5}
         columns={{xs: 6, sm: 4, md: 4}}
         {...COMMON_GRID_ATTRIBUTES}
       >
@@ -264,7 +264,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           <SimpleShowLayout
             sx={{
               overflowX: "auto",
-            }}
+            }}a
           >
             <EmailField
               source="email"
@@ -305,7 +305,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           </CardActions>
         </Card>
       </Grid>
-      <Grid xs={6} {...COMMON_GRID_ATTRIBUTES}>
+      <Grid xs={isSmall ? 10 : 6} {...COMMON_GRID_ATTRIBUTES}>
         <Card
           sx={{
             ...cardStyle,

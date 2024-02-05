@@ -1,7 +1,8 @@
-import { AppBar, Box, Slide, useScrollTrigger, Typography } from "@mui/material";
+import { useMediaQuery, AppBar, Box, Slide, Typography } from "@mui/material";
 import { PALETTE_COLORS } from "../../constants/palette";
 import UserInfo from "./UserInfo";
 import menuLogo from "../../../assets/menu-logo.png";
+import { SidebarToggleButton } from "react-admin";
 
 const APPBAR_STYLE = {
   display: "flex",
@@ -19,20 +20,26 @@ const APPBAR_STYLE = {
 };
 
 export const HaAppBar = () => {
-  const trigger = useScrollTrigger();
+  const isSmall = useMediaQuery("(max-width:900px)");
 
   return (
-    <Slide appear={false} direction="down" in={!trigger}>
-      <AppBar id="appbar" position="sticky" sx={APPBAR_STYLE}>
-        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <img src={menuLogo} style={{ width: 40, height: 27 }} />
-          <Typography sx={{ fontWeight: "bold", color: PALETTE_COLORS.black, fontSize: "17px" }}>
-            HEI Admin
-          </Typography>
-        </Box>
-        <UserInfo />
-      </AppBar>
-    </Slide >
+    <AppBar id="appbar" position="sticky" sx={APPBAR_STYLE}>
+      {
+        isSmall &&
+        <SidebarToggleButton />
+      }
+      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+        <img src={menuLogo} style={{ width: 40, height: 27 }} />
+        {
+          !isSmall && (
+            <Typography sx={{ fontWeight: "bold", color: PALETTE_COLORS.black, fontSize: "17px" }}>
+              HEI Admin
+            </Typography>
+          )
+        }
+      </Box>
+      <UserInfo />
+    </AppBar>
   );
 };
 
