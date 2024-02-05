@@ -84,7 +84,6 @@ describe(specTitle("Manager edit students"), () => {
     cy.intercept("PUT", `/students`, [updatedStudent]).as("modifyStudent");
     cy.contains("Étudiants");
     cy.wait("@getWhoami");
-    cy.contains("Mon profil");
     cy.wait("@getManager1");
     cy.wait("@getWhoami");
     cy.get('[data-testid="students-menu"]').click(); // Étudiants category

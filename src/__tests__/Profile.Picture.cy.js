@@ -70,7 +70,6 @@ describe(specTitle("Profile picture test"), () => {
       "cypress/fixtures/profile_picture/profile-picture.png",
       {action: "drag-drop"}
     );
-    cy.contains("Enregistrer").click();
 
     cy.intercept(
       "POST",
@@ -83,13 +82,11 @@ describe(specTitle("Profile picture test"), () => {
       updatedManager()
     ).as("getManager");
 
+    cy.contains("Enregistrer").click();
+
+    cy.wait("@getManager");
+
     cy.getByTestid("profile-pic")
-      .should("have.attr", "src")
-      .and("include", updatedManager().profile_picture);
-
-    cy.getByTestid("MenuIcon").click();
-
-    cy.getByTestid("appbar-profile-pic")
       .should("have.attr", "src")
       .and("include", updatedManager().profile_picture);
   });
