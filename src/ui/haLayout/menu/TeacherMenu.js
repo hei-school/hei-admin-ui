@@ -1,4 +1,4 @@
-import {School, Inventory, Work} from "@mui/icons-material";
+import {Groups, School, Inventory, Work} from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function TeacherMenu() {

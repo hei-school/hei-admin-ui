@@ -4,8 +4,7 @@ import {
   School,
   Inventory,
   People,
-  Warning,
-  Groups,
+  AttachMoney,
 } from "@mui/icons-material";
 
 function ManagerMenu() {
@@ -23,8 +22,8 @@ function ManagerMenu() {
           to="/students"
         />
         <ListMenuItem
-          label="Frais en retards"
-          icon={<Warning />}
+          label="Liste de tous les frais"
+          icon={<AttachMoney />}
           to="/fees"
         />
       </ListMenu>

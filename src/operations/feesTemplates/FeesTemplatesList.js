@@ -9,7 +9,7 @@ function FeesTemplatesList() {
     <HaList
       title="Type de frais prédéfini"
       mainSearch={{source: "name", label: "Nom"}}
-      listProps={{title: "Frais Prédéfinies"}}
+      listProps={{title: "Frais Prédéfinis"}}
       filterIndicator={false}
       datagridProps={{rowClick: "edit"}}
       actions={<CreateButton />}

@@ -25,8 +25,24 @@ export const HaAppBar = () => {
   return (
     <AppBar id="appbar" position="sticky" sx={APPBAR_STYLE}>
       {
-        isSmall &&
-        <SidebarToggleButton />
+        isSmall ?
+          <SidebarToggleButton />
+          : (
+            <Box sx={{ height: "100%", position: "fixed",top: 0, left: "250px", height: "60px", display: "flex", alignItems:"center"}}>
+              <h2
+                id="react-admin-title"
+                style={{
+                  fontSize: "16px",
+                  padding: 0,
+                  margin: 0,
+                  fontWeight: "600",
+                  color: PALETTE_COLORS.black,
+                }}
+              >
+                {/* title portal here */}
+              </h2>
+            </Box>
+          )
       }
       <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
         <img src={menuLogo} style={{ width: 40, height: 27 }} />
