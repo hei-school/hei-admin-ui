@@ -40,12 +40,6 @@ function ManagerMenu() {
           icon={<Work />}
         />
       </ListMenu>
-      <SingleMenu
-        to="/groups"
-        label="Groupes"
-        icon={<Groups />}
-        data-testid="groups"
-      />
     </>
   );
 }
