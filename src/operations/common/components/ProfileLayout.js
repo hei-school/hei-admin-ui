@@ -265,7 +265,6 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
             sx={{
               overflowX: "auto",
             }}
-            a
           >
             <EmailField
               source="email"
