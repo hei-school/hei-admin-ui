@@ -1,25 +1,20 @@
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 import {
-  WorkOutlined,
   Work,
-  SchoolOutlined,
+  School,
   Inventory,
-  PeopleOutlined,
+  People,
   AttachMoney,
 } from "@mui/icons-material";
 
 function ManagerMenu() {
   return (
     <>
-      <SingleMenu to="/teachers" label="Enseignants" icon={<WorkOutlined />} />
-      <ListMenu
-        label="Étudiants"
-        icon={<SchoolOutlined />}
-        data-testid="students-menu"
-      >
+      <SingleMenu to="/teachers" label="Enseignants" icon={<Work />} />
+      <ListMenu label="Étudiants" icon={<School />} data-testid="students-menu">
         <ListMenuItem
           label="Liste des étudiants"
-          icon={<PeopleOutlined />}
+          icon={<People />}
           to="/students"
         />
         <ListMenuItem

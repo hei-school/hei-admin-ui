@@ -13,21 +13,19 @@ const profilePicProvider: HaDataProviderType = {
   async saveOrUpdate(payload: any) {
     const user = payload[0];
 
-    const role = authProvider.getCachedRole();
-
-    switch (role) {
+    switch (user?.role) {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
           .uploadStudentProfilePicture(user?.id, user?.rawFile)
-          .then((result) => result.data);
+          .then((result) => [result.data]);
       case WhoamiRoleEnum.TEACHER:
         return usersApi()
           .uploadTeacherProfilePicture(user?.id, user?.rawFile)
-          .then((result) => result.data);
+          .then((result) => [result.data]);
       case WhoamiRoleEnum.MANAGER:
         return usersApi()
           .uploadManagerProfilePicture(user?.id, user?.rawFile)
-          .then((result) => result.data);
+          .then((result) => [result.data]);
     }
   },
 };

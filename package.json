@@ -2,7 +2,7 @@
   "name": "hei-admin-ui",
   "private": true,
   "dependencies": {
-    "@haapi/typescript-client": "^1.1.0",
+    "@haapi/typescript-client": "^1.2.1",
     "@mui/styles": "^5.10.16",
     "@react-admin/ra-enterprise": "^7.0.0",
     "@react-admin/ra-navigation": "^4.0.6",
@@ -17,6 +17,7 @@
     "react-file-previewer": "^0.6.3",
     "react-router-redux": "^4.0.8",
     "typeface-quicksand": "^1.1.13",
+    "uuid": "^9.0.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
@@ -24,6 +25,7 @@
     "@cypress/react": "^5.12.4",
     "@cypress/webpack-dev-server": "^1.8.2",
     "@testing-library/user-event": "^13.5.0",
+    "@types/uuid": "^9.0.8",
     "babel-plugin-istanbul": "5.2.0",
     "cypress": "9.5.4",
     "cypress-multi-reporters": "^1.5.0",

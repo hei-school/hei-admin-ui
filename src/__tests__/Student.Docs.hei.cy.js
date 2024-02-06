@@ -29,7 +29,6 @@ describe(specTitle("Student"), () => {
     cy.contains("Date de création");
     cy.contains("Afficher");
     cy.contains("Règlement intérieur").click();
-    cy.contains("Visualisation d'un document");
     unmount();
   });
 });

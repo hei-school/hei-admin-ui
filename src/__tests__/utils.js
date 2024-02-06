@@ -3,10 +3,8 @@ import {turnStringIntoDate} from "../operations/utils";
 
 export const studentRequestBodyVerification = (
   requestBody,
-  canCreateFees,
   createStudentNoFees
 ) => {
-  createStudentNoFees.can_create_fees = canCreateFees;
   createStudentNoFees.entrance_datetime = turnStringIntoDate(
     createStudent.entrance_datetime
   );
@@ -29,4 +27,13 @@ export const importFile = (file, message, _path) => {
   cy.contains("Confirmer").click();
 
   cy.contains(message);
+};
+
+export const assertFeeMatchesTemplate = (feeToCreate, template) => {
+  const currentDateString = new Date().toDateString();
+  expect(feeToCreate.total_amount).to.equal(template.amount);
+  expect(feeToCreate.type).to.equal(template.type);
+  expect(new Date(feeToCreate.creation_datetime).toDateString()).to.equal(
+    currentDateString
+  );
 };

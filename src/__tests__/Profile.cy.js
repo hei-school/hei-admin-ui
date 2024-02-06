@@ -50,9 +50,7 @@ describe(specTitle("Profile test"), () => {
         new Date(editedManager2.birth_date)
       ).toISOString();
       expect(JSON.stringify(sortObject(reqBody))).to.equal(
-        JSON.stringify(
-          sortObject({role: WhoamiRoleEnum.MANAGER, ...editedManager2})
-        )
+        JSON.stringify(sortObject(editedManager2))
       );
     });
 

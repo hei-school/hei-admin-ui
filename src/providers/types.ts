@@ -1,3 +1,5 @@
+import {Manager, Student, Teacher} from "@haapi/typescript-client";
+
 export interface Doc {
   id: string;
   url: string;

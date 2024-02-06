@@ -1,17 +1,18 @@
 import {useRef} from "react";
-import {Button} from "react-admin";
+import {Button, useShowContext} from "react-admin";
 import {Download as DownloadIcon} from "@mui/icons-material";
 
 import {useNotify} from "../../../hooks";
 import {studenstFileApi} from "../../../providers/api";
 import {COMMON_BUTTON_PROPS} from "../../../ui/constants/common_styles";
+import authProvider from "../../../providers/authProvider";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
 export function GetCertificate({studentId}) {
   const certificateLink = useRef(null);
-
   const notify = useNotify();
+  const id = authProvider.getCachedWhoami().id;
 
   const getScholarshipCertificate = () => {
     const certificateLinkRef = certificateLink.current;

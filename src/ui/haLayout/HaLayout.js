@@ -3,37 +3,37 @@ import {styled, ThemeProvider} from "@mui/styles";
 import {Box, useMediaQuery} from "@mui/material";
 import {HaMenu} from "./menu/utils/";
 import {HaAppBar} from "./appBar";
-import {useSidebarState} from "react-admin";
 import {mainTheme} from "../../haTheme";
 
 const HaLayoutStyled = styled("div")({
   minHeight: "100vh",
   position: "relative",
-  backgroundColor: "#e6eaed",
+  backgroundColor: "#f0f0f0",
   width: "100%",
 });
 
 export function HaLayout({children}) {
-  const [open] = useSidebarState();
   const isSmall = useMediaQuery("(max-width:900px)");
 
   return (
     <AppLocationContext>
       <ThemeProvider theme={mainTheme}>
         <HaLayoutStyled>
+          <HaAppBar />
           <HaMenu />
           <Box
             sx={{
-              ml: isSmall || !open ? 0 : "250px",
-              width: isSmall || !open ? "100%" : "calc(100% - 250px)",
+              ml: isSmall ? 0 : "250px",
+              width: isSmall ? "100%" : "calc(100% - 250px)",
               boxSizing: "border-box",
               transition: "all .3s linear",
+              px: 1,
+              position: "relative",
             }}
             component="div"
             id="main-content"
           >
-            <HaAppBar />
-            <Box sx={{px: 1, width: "100%"}}>{children}</Box>
+            {children}
           </Box>
         </HaLayoutStyled>
       </ThemeProvider>

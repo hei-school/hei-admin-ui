@@ -10,15 +10,15 @@ const profileProvider: HaDataProviderType = {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
           .getStudentById(id)
-          .then((result) => ({role, ...result.data}));
+          .then((result) => result.data);
       case WhoamiRoleEnum.TEACHER:
         return usersApi()
           .getTeacherById(id)
-          .then((result) => ({role, ...result.data}));
+          .then((result) => result.data);
       case WhoamiRoleEnum.MANAGER:
         return usersApi()
           .getManagerById(id)
-          .then((result) => ({role, ...result.data}));
+          .then((result) => result.data);
     }
   },
   async getList() {
@@ -26,8 +26,10 @@ const profileProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload) {
     const role = authProvider.getCachedRole();
+
     const id = payload[0].id;
     const profileData = payload[0];
+
     switch (role) {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()

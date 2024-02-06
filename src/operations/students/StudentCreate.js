@@ -1,54 +1,36 @@
-import {useState} from "react";
 import {
   BooleanInput,
   DateInput,
   maxLength,
+  SaveButton,
   SimpleForm,
   TextInput,
+  Toolbar,
 } from "react-admin";
-import {SexRadioButton, turnStringIntoDate} from "../utils";
-import {createFees} from "./utils";
-import {CustomCreate} from "../utils/CustomCreate";
-import {defaultFeeConf} from "../fees/utils";
-import {useCreateFees} from "../../hooks";
-import {FeesCreateField} from "../fees/FeesCreateField";
+
 import {SelectSpecialization} from "./components";
+import {createStudentApi} from "./utils/studentFactory";
+
+import {SexRadioButton} from "../utils";
+import {CustomCreate} from "../utils/CustomCreate";
+import {FeeFields} from "../fees/components";
+import {useToggle} from "../../hooks";
 
 const StudentCreate = () => {
-  const [feesConf, setFeesConf] = useState([defaultFeeConf]);
-  const [canCreateFees, setCanCreateFees] = useState(false);
-  const createFeesConf = useCreateFees();
-  const {isPredefinedType} = createFeesConf;
-
-  const transformPayload = (payload) => {
-    const {
-      monthly_amount,
-      manual_first_duedate,
-      is_predefined_first_dueDate,
-      predefined_first_dueDate,
-      comment,
-      months_number,
-      manual_type,
-      predefined_type,
-      is_predefined_type,
-      ...student
-    } = payload;
-    const fees = [];
-    if (canCreateFees) {
-      createFees(fees, feesConf, payload, isPredefinedType, createFeesConf);
-    }
-    student.entrance_datetime = turnStringIntoDate(student.entrance_datetime);
-    const result = [fees, student];
-    return result;
-  };
-
+  const [canCreateFees, , toggleCanCreateFees] = useToggle(false);
   return (
     <CustomCreate
       title="Étudiants"
-      transform={transformPayload}
       resource="students"
+      transform={createStudentApi}
     >
-      <SimpleForm>
+      <SimpleForm
+        toolbar={
+          <Toolbar>
+            <SaveButton alwaysEnable />
+          </Toolbar>
+        }
+      >
         <TextInput source="ref" label="Référence" fullWidth required />
         <TextInput source="first_name" label="Prénoms" fullWidth required />
         <TextInput source="last_name" label="Nom" fullWidth required />
@@ -82,18 +64,12 @@ const StudentCreate = () => {
         />
         <BooleanInput
           label="Activer la création des frais"
-          name="can_create_fees"
-          source=""
+          name="canCreateFees"
+          source="canCreateFees"
           defaultValue={false}
-          onChange={({target: {checked}}) => setCanCreateFees(checked)}
+          onChange={toggleCanCreateFees}
         />
-        {canCreateFees && (
-          <FeesCreateField
-            createFeesConf={createFeesConf}
-            setFeesConf={setFeesConf}
-            feesConf={feesConf}
-          />
-        )}
+        {canCreateFees && <FeeFields />}
       </SimpleForm>
     </CustomCreate>
   );

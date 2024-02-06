@@ -11,32 +11,31 @@ import {
   teacher1Mock,
   teachersMock,
   whoamiManagerMock,
-  createFeeWithManualDataMock,
   createStudent,
   createdFeesForNewStudent,
   liteCreatedStudent,
+  feesTemplatesApi,
+  annual1xTemplate,
+  annual9xTemplate,
 } from "./mocks/responses";
-import {
-  manualFeeTypes,
-  predefinedFeeTypes,
-  predefinedFirstDueDates,
-} from "../conf";
-import {toUTC, turnStringIntoDate} from "../operations/utils";
-import {studentRequestBodyVerification} from "./utils";
 
-const feeDateToSearch = `2022-09-11`;
+import {
+  studentRequestBodyVerification,
+  assertFeeMatchesTemplate,
+} from "./utils";
+import {FeeTypeEnum} from "@haapi/typescript-client";
+
 const newFirstName = "Aina herilala";
 let createdStudent = {
   ...createStudent,
   id: "ajbfq-fqdfjdh-2jkg3j",
 };
-const feeCreatDate = "date2";
 let updatedStudent = {
   ...student1Mock,
   first_name: newFirstName,
 };
 
-const fillInputs = () => {
+const fillEditInputs = () => {
   cy.get("#sex_F").click();
   cy.get("#phone").type(createStudent.phone);
   cy.get("#birth_date").click().type(createStudent.birth_date);
@@ -85,7 +84,6 @@ describe(specTitle("Manager edit students"), () => {
     cy.intercept("PUT", `/students`, [updatedStudent]).as("modifyStudent");
     cy.contains("Étudiants");
     cy.wait("@getWhoami");
-    cy.contains("Mon profil");
     cy.wait("@getManager1");
     cy.wait("@getWhoami");
     cy.get('[data-testid="students-menu"]').click(); // Étudiants category
@@ -146,6 +144,11 @@ describe(specTitle("Manager creates students"), () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
+    cy.intercept(
+      "GET",
+      `/fees/templates?page=1&page_size=25`,
+      feesTemplatesApi
+    ).as("getFeesTemplates");
     cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
@@ -202,15 +205,14 @@ describe(specTitle("Manager creates students"), () => {
       "/students?page=1&page_size=10",
       [createdStudent, ...studentsMock].slice(0, 10)
     ).as("getStudents");
-    fillInputs();
+    fillEditInputs();
     cy.contains("Enregistrer").click();
     cy.wait("@createStudent").then((requestInterseption) =>
-      studentRequestBodyVerification(requestInterseption.request.body, false, {
+      studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
       })
     );
     cy.contains("Élément créé");
-    unmount();
   });
 
   it("can create students with only ref, firstname, lastname and entranceDatetime", () => {
@@ -221,63 +223,52 @@ describe(specTitle("Manager creates students"), () => {
     ).as("getStudents");
     cy.contains("Enregistrer").click();
     cy.wait("@createStudent").then((requestInterception) =>
-      studentRequestBodyVerification(requestInterception.request.body, false, {
+      studentRequestBodyVerification(requestInterception.request.body, {
         ...liteCreatedStudent,
       })
     );
     cy.contains("Élément créé");
-    unmount();
   });
 
   it("can create student with his/her fees using predefined fees", () => {
-    const feeTypeMock = "annualTuition1x"; //have to change if the name of predefinedFirstDueDates's properties change
-    fillInputs();
+    fillEditInputs();
     cy.get(
       ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
     ).click();
-    cy.get("#predefined_type").click();
-    cy.get(`[data-value="${feeTypeMock}"]`).click();
-    cy.get("#predefined_first_dueDate").click();
-    cy.get(`[data-value="${feeCreatDate}"]`).click();
     cy.intercept(
       "GET",
       "/students?page=1&page_size=10",
       [...studentsMock, createdStudent].slice(0, 10)
     ).as("getStudents");
+    cy.get('[data-testid="predefinedType"]').click();
+    cy.get(`[data-value="${annual1xTemplate.id}"]`).click();
 
     cy.contains("Enregistrer").click();
+
     cy.wait("@createStudent").then((requestInterseption) =>
-      studentRequestBodyVerification(requestInterseption.request.body, true, {
+      studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
       })
     );
-    cy.wait("@createFees").then((requestIntersection) => {
-      const dueDate = predefinedFirstDueDates[feeCreatDate].value;
-      let createAutomaticallyFeesBodyMock = {
-        comment: requestIntersection.request.body[0].comment,
-        type: predefinedFeeTypes[feeTypeMock][0].type,
-        total_amount: Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
-        due_datetime: toUTC(dueDate).toISOString(),
-      };
-      expect(requestIntersection.request.body[0]).to.deep.equal(
-        createAutomaticallyFeesBodyMock
-      );
-      expect(requestIntersection.request.body.length).to.equal(1);
+
+    cy.wait("@createFees").then((intersection) => {
+      const requestBody = intersection.request.body;
+
+      expect(requestBody.length).to.equal(1);
+      assertFeeMatchesTemplate(requestBody[0], annual1xTemplate);
     });
+
     cy.contains("Élément créé");
-    unmount();
   });
 
   it("can create student with his/her 9 months fees", () => {
-    const feeTypeMock = "annualTuition9x";
-    fillInputs();
+    fillEditInputs();
     cy.get(
       ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
     ).click();
-    cy.get("#predefined_type").click();
-    cy.get(`[data-value="${feeTypeMock}"]`).click();
-    cy.get("#predefined_first_dueDate").click();
-    cy.get(`[data-value="${feeCreatDate}"]`).click();
+    cy.get('[data-testid="predefinedType"]').click();
+    cy.get(`[data-value="${annual9xTemplate.id}"]`).click();
+
     cy.intercept(
       "GET",
       "/students?page=1&page_size=10",
@@ -285,90 +276,72 @@ describe(specTitle("Manager creates students"), () => {
     ).as("getStudents");
     cy.intercept("POST", `students/${createdStudent.id}/fees`, [
       createdFeesForNewStudent,
-    ]).as("createNineFees");
+    ]).as("createFees");
+
     cy.contains("Enregistrer").click();
+
     cy.wait("@createStudent").then((requestInterseption) =>
-      studentRequestBodyVerification(requestInterseption.request.body, true, {
+      studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
       })
     );
-    cy.wait("@createNineFees").then((requestIntersection) => {
-      const dueDate = predefinedFirstDueDates[feeCreatDate].value;
-      let createAutomaticallyFeesBodyMock = {
-        comment: requestIntersection.request.body[0].comment,
-        type: predefinedFeeTypes[feeTypeMock][0].type,
-        total_amount: Number(predefinedFeeTypes[feeTypeMock][0].monthlyAmount),
-        due_datetime: toUTC(dueDate).toISOString(),
-      };
-      expect(requestIntersection.request.body[0]).to.deep.equal(
-        createAutomaticallyFeesBodyMock
-      );
-      expect(requestIntersection.request.body.length).to.equal(9);
+
+    cy.wait("@createFees").then((intersection) => {
+      const requestBody = intersection.request.body;
+
+      expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
+
+      requestBody.forEach((feesToCreate, index) => {
+        assertFeeMatchesTemplate(feesToCreate, annual9xTemplate);
+        expect(feesToCreate.comment).to.equal(
+          `${annual9xTemplate.name} (M${index + 1})`
+        );
+      });
     });
+
     cy.contains("Élément créé");
-    unmount();
   });
 
   it("can create student with his/her fees manually", () => {
-    const feeTypeMock = "tuition";
-    fillInputs();
+    const AMOUNT = 300_000;
+    const NUMBER_OF_PAYEMENTS = 4;
+    const DUEDATETIME = "2022-10-05";
+    const COMMENT = "Dummy comment";
+
+    fillEditInputs();
     cy.get(
       ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
     ).click();
-    const monthlyAmount = 1 + Math.floor(Math.random() * 2_000_000);
-    const monthsNumber = 1 + Math.floor(Math.random() * 3);
-    const comment = "Dummy comment";
-    const createdFeesWithStudent = createFeeWithManualDataMock(
-      feeDateToSearch,
-      monthlyAmount,
-      comment,
-      monthsNumber
-    );
-    cy.intercept(
-      "POST",
-      `/students/${createdStudent.id}/fees`,
-      createdFeesWithStudent
-    );
-    cy.get("#is_predefined_type").click();
-    cy.get(`#manual_type_${feeTypeMock}`).click();
-    cy.get("#monthly_amount").click().clear().type(monthlyAmount);
 
-    cy.get("#months_number").click().clear().type(monthsNumber);
+    cy.get('[data-testid="isPredefinedFee"]').click();
+    cy.get(`#type_${FeeTypeEnum.TUITION}`).click();
+    cy.get('[data-testid="amount"]').click().clear().type(AMOUNT);
+    cy.get('[data-testid="number_of_payments"]')
+      .click()
+      .clear()
+      .type(NUMBER_OF_PAYEMENTS);
+    cy.get('[data-testid="comment"]').click().type(COMMENT);
+    cy.get('[data-testid="isPredefinedDate"]').click();
+    cy.get('[data-testid="due_datetime"]').click().type(DUEDATETIME);
 
-    cy.get("#comment").click().type(comment);
-
-    cy.get("#is_predefined_first_dueDate").click();
-    cy.get("#manual_first_duedate").click().type(feeDateToSearch);
-
-    cy.intercept(
-      "GET",
-      `/students/${createStudent.id}/fees?page=1&page_size=500`,
-      createdFeesWithStudent
-    ).as("getFees");
-    cy.intercept("POST", `students/${createdStudent.id}/fees`, [
-      createdFeesForNewStudent,
-    ]).as("createFees");
     cy.contains("Enregistrer").click();
+
     cy.wait("@createStudent").then((requestInterseption) =>
-      studentRequestBodyVerification(requestInterseption.request.body, true, {
+      studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
       })
     );
 
     cy.wait("@createFees").then((requestIntersection) => {
-      let createAutomaticallyFeesBodyMock = {
-        total_amount: monthlyAmount.toString(),
-        type: manualFeeTypes[feeTypeMock].type,
-        due_datetime: turnStringIntoDate(feeDateToSearch),
-        comment: comment,
-      };
-      expect(requestIntersection.request.body[0]).to.deep.equal(
-        createAutomaticallyFeesBodyMock
+      expect(requestIntersection.request.body.length).to.equal(
+        NUMBER_OF_PAYEMENTS
       );
-      expect(requestIntersection.request.body.length).to.equal(monthsNumber);
     });
 
     cy.contains("Élément créé");
+  });
+
+  afterEach(() => {
     unmount();
   });
 });

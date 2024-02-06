@@ -8,6 +8,12 @@ import {
   FunctionField,
   SimpleShowLayout,
   TextField,
+  useRedirect,
+  useCreate,
+  useCreateContext,
+  SaveButton,
+  Toolbar,
+  useRefresh,
 } from "react-admin";
 
 import {Badge} from "@mui/material";
@@ -31,9 +37,9 @@ import {CustomDateField} from "../../utils";
 import {useRole} from "../../../security/hooks";
 import {CustomCreate} from "../../utils/CustomCreate";
 import {SPECIALIZATION_VALUE} from "../../students/components";
-import authProvider from "../../../providers/authProvider";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
+import {NOOP_FN} from "../../../utils/noop";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -79,13 +85,15 @@ const renderStatus = ({status}) => {
   }
 };
 
-const UploadPictureButton = () => {
+const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, _set, toggle] = useToggle();
-  const {id} = authProvider.getCachedWhoami();
+  const user = useRecordContext();
+  const id = user.id;
 
   return (
     <div>
       <IconButton
+        data-testid="upload-picture-button"
         onClick={toggle}
         sx={{
           borderRadius: "50%",
@@ -105,8 +113,19 @@ const UploadPictureButton = () => {
         </DialogTitle>
         <CustomCreate
           title=" "
+          redirect={false}
           resource="profile-picture"
-          transform={(user) => ({rawFile: user?.profile_picture?.rawFile, id})}
+          transform={(user) => ({
+            rawFile: user?.profile_picture?.rawFile,
+            id,
+            role,
+          })}
+          mutationOptions={{
+            onSuccess: (user) => {
+              toggle();
+              onUpload(user);
+            },
+          }}
         >
           <SimpleForm>
             <ImageInput source="profile_picture" label=" " accept="image/png">
@@ -119,14 +138,25 @@ const UploadPictureButton = () => {
   );
 };
 
-const ProfileCardAvatar = () => {
+const ProfileCardAvatar = ({role}) => {
   const user = useRecordContext();
   const imgRef = useRef(null);
+
+  const updateImage = (newImage) => {
+    imgRef.current.src = newImage;
+  };
 
   return (
     <Badge
       variant="contained"
-      badgeContent={<UploadPictureButton />}
+      badgeContent={
+        <UploadPictureButton
+          role={role}
+          onUpload={(user) => {
+            updateImage(user.profile_picture);
+          }}
+        />
+      }
       sx={{bgcolor: "transparent"}}
       anchorOrigin={{
         vertical: "bottom",
@@ -186,10 +216,10 @@ const FieldLabel = ({children: label}) => (
   </Typography>
 );
 
-export const ProfileLayout = ({id, actions, isStudent = false}) => {
+export const ProfileLayout = ({role, actions, isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
-  const role = useRole();
-  const isStudentProfile = isStudent || role.isStudent();
+  const viewerRole = useRole();
+  const isStudentProfile = isStudent || viewerRole.isStudent();
 
   const cardStyle = {
     borderRadius: "10px",
@@ -205,7 +235,7 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
       justifyContent="center"
     >
       <Grid
-        xs={isSmall ? 6 : 5}
+        xs={isSmall ? 10 : 5}
         columns={{xs: 6, sm: 4, md: 4}}
         {...COMMON_GRID_ATTRIBUTES}
       >
@@ -220,7 +250,7 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
               boxShadow: "none",
             }}
           >
-            <ProfileCardAvatar />
+            <ProfileCardAvatar role={role} />
             <FunctionField
               label=" "
               render={(user) => (
@@ -275,7 +305,7 @@ export const ProfileLayout = ({id, actions, isStudent = false}) => {
           </CardActions>
         </Card>
       </Grid>
-      <Grid xs={6} {...COMMON_GRID_ATTRIBUTES}>
+      <Grid xs={isSmall ? 10 : 6} {...COMMON_GRID_ATTRIBUTES}>
         <Card
           sx={{
             ...cardStyle,
