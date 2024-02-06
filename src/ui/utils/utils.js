@@ -1,3 +1,5 @@
+import { WhoamiRoleEnum } from "@haapi/typescript-client";
+
 /**
  * Retrieves the value of a nested property in an object using a specified path.
  *
@@ -34,4 +36,10 @@ export function formatDate(dateIso) {
     const dateFormatter = formatter.format(date);
     return dateFormatter.at(0).toUpperCase() + dateFormatter.slice(1);
   }
+}
+
+export const ROLE_RENDERER = {
+  MANAGER: "Admin",
+  TEACHER: "Enseignant(e)",
+  STUDENT: "Étudiant(e)"
 }

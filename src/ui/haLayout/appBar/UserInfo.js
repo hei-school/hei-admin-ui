@@ -8,6 +8,7 @@ import {PALETTE_COLORS} from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 import {useRef} from "react";
+import { ROLE_RENDERER } from "../../utils";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
 const StyledUserInfo = styled("div")({
@@ -19,10 +20,12 @@ const StyledUserInfo = styled("div")({
 function UserInfo() {
   const imgRef = useRef(null);
   const isSmall = useMediaQuery("(max-width:900px)");
+  const role = authProvider.getCachedWhoami().role;
 
   const {data: user = {}, isLoading} = useGetOne("profile", {
     id: authProvider.getCachedWhoami().id,
   });
+
   const {first_name = "", profile_picture = defaultProfilePicture} = user;
 
   if (isLoading) {
@@ -91,7 +94,7 @@ function UserInfo() {
                 lineHeight: 1.2,
               }}
             >
-              Manager
+              {ROLE_RENDERER[role]}
             </Typography>
           </Box>
           <a href={HEI_CALENDAR_URL} target="_blank">
