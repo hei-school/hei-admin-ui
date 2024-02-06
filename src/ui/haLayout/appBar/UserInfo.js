@@ -8,7 +8,7 @@ import {PALETTE_COLORS} from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 import {useRef} from "react";
-import { ROLE_RENDERER } from "../../utils";
+import {ROLE_RENDERER} from "../../utils";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
 const StyledUserInfo = styled("div")({
