@@ -128,7 +128,11 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
           }}
         >
           <SimpleForm>
-            <ImageInput source="profile_picture" label=" " accept="image/png">
+            <ImageInput
+              source="profile_picture"
+              label=" "
+              accept="image/jpeg,image/png,image/webp"
+            >
               <ImageField source="src" title="title" />
             </ImageInput>
           </SimpleForm>
