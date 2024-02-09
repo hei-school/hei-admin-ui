@@ -7,6 +7,9 @@ import {
   EditButton,
   TopToolbar,
 } from "react-admin";
+import {useParams} from "react-router-dom";
+import {Divider, Typography} from "@mui/material";
+import {useRole} from "../../security/hooks";
 import {
   prettyPrintMoney,
   statusRenderer,
@@ -14,10 +17,8 @@ import {
   CustomDateField,
   commentFunctionRenderer,
 } from "../utils";
-import {Divider, Typography} from "@mui/material";
 import PaymentList from "../payments/PaymentList";
 import {studentIdFromRaId} from "../../providers/feeProvider";
-import {useParams} from "react-router-dom";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
@@ -79,11 +80,13 @@ export const FeeLayout = ({feeId}) => {
 };
 
 const FeeShow = (props) => {
+  const role = useRole();
   const params = useParams();
   const feeId = params.feeId;
   const studentId = studentIdFromRaId(feeId);
   const [studentRef, setStudentRef] = useState("...");
   const dataProvider = useDataProvider();
+
   useEffect(() => {
     const doEffect = async () => {
       const student = await dataProvider.getOne("students", {id: studentId});
@@ -98,10 +101,11 @@ const FeeShow = (props) => {
       id={feeId}
       resource="fees"
       actions={
-        <TopToolbar>
-          {" "}
-          <EditButton />{" "}
-        </TopToolbar>
+        role.isManager() && (
+          <TopToolbar>
+            <EditButton />
+          </TopToolbar>
+        )
       }
       basePath={`/fees/${feeId}/show`}
       title={`Frais de ${studentRef}`}
