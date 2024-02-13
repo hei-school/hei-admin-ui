@@ -137,7 +137,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
 };
 
 const ProfileCardAvatar = ({role}) => {
-  const {isManager} = useRole();
+  const {isStudent} = useRole();
   const user = useRecordContext();
   const imgRef = useRef(null);
 
@@ -149,7 +149,7 @@ const ProfileCardAvatar = ({role}) => {
     <Badge
       variant="contained"
       badgeContent={
-        isManager() && (
+        !isStudent() && (
           <UploadPictureButton
             role={role}
             onUpload={(user) => {
