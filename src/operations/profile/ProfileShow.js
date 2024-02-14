@@ -24,12 +24,15 @@ const ProfileShow = () => {
           <div
             style={{display: "flex", width: "100%", justifyContent: "flex-end"}}
           >
-            <EditButton
-              to={`/profile/${id}/edit`}
-              data-testid="profile-edit-button"
-              {...COMMON_BUTTON_PROPS}
-            />
-            {isStudent() && <GetCertificate studentId={id} />}
+            {isStudent() ? (
+              <GetCertificate studentId={id} />
+            ) : (
+              <EditButton
+                to={`/profile/${id}/edit`}
+                data-testid="profile-edit-button"
+                {...COMMON_BUTTON_PROPS}
+              />
+            )}
           </div>
         }
       />
