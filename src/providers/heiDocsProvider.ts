@@ -26,6 +26,26 @@ const heiDocs: Doc[] = [
     has_owner: false,
     owner_id: "",
   },
+  {
+    id: "3",
+    url: "https://hei-regulations.s3.eu-west-3.amazonaws.com/La+devise+de+HEI.pdf",
+    data: "",
+    mime_type: "application/pdf",
+    file_name: "La devise de HEI",
+    created_at: new Date(2024, 1, 14),
+    has_owner: false,
+    owner_id: "",
+  },
+  {
+    id: "4",
+    url: "https://hei-regulations.s3.eu-west-3.amazonaws.com/Projections+2024+-+2025+%C3%A0+date+du+16+f%C3%A9vrier+2024.pdf",
+    data: "",
+    mime_type: "application/pdf",
+    file_name: "Projections 2024 - 2025 à date du 16 février 2024",
+    created_at: new Date(2024, 1, 14),
+    has_owner: false,
+    owner_id: "",
+  },
 ];
 const transform = (doc: Doc) => {
   const newDoc = toCamelCaseJSON(doc);
