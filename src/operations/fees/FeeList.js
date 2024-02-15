@@ -36,7 +36,7 @@ const FeeList = () => {
         filterDefaultValues: { studentId },
       }}
       datagridProps={{
-        rowClick: () => { },
+        rowClick: (id) => `/fees/${id}/show`,
         rowStyle,
       }}
     >
@@ -60,7 +60,7 @@ const FeeList = () => {
         label="Date de création"
         showTime={false}
       />
-      { role.isManager() ? <DeleteButton /> : <ShowButton basePath="/fees" /> }
+      {role.isManager() ? <DeleteButton /> : <ShowButton basePath="/fees" />}
     </HaList>
   );
 };

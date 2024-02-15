@@ -19,6 +19,7 @@ import {
 } from "../utils";
 import PaymentList from "../payments/PaymentList";
 import {studentIdFromRaId} from "../../providers/feeProvider";
+import { DeleteButton } from "../common/components";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
@@ -104,6 +105,7 @@ const FeeShow = (props) => {
         role.isManager() && (
           <TopToolbar>
             <EditButton />
+            <DeleteButton />
           </TopToolbar>
         )
       }

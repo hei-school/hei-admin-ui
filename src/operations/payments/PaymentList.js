@@ -1,4 +1,4 @@
-import {List} from "@react-admin/ra-rbac";
+import { List } from "@react-admin/ra-rbac";
 import {
   Datagrid,
   TextField,
@@ -6,28 +6,28 @@ import {
   TopToolbar,
   CreateButton,
 } from "react-admin";
-import {prettyPrintMoney, paymentTypeRenderer, CustomDateField} from "../utils";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import authProvider from "../../providers/authProvider";
+import { prettyPrintMoney, paymentTypeRenderer, CustomDateField } from "../utils";
+import { useRole } from "../../security/hooks";
+import { DeleteButton } from "../common/components";
 
-const Actions = ({basePath, resource}) => (
+const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
     <CreateButton to={basePath + "/create"} resource={resource} />
   </TopToolbar>
 );
 
-const PaymentList = ({feeId}) => {
-  const role = authProvider.getCachedRole();
+const PaymentList = ({ feeId }) => {
+  const role = useRole();
   return (
     <List
       title=" " // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={"payments"}
       actions={
-        role === WhoamiRoleEnum.MANAGER && (
+        role.isManager() && (
           <Actions basePath={`/fees/${feeId}/payments`} />
         )
       }
-      filterDefaultValues={{feeId: feeId}}
+      filterDefaultValues={{ feeId: feeId }}
       pagination={false}
     >
       <Datagrid bulkActionButtons={false}>
@@ -46,6 +46,7 @@ const PaymentList = ({feeId}) => {
           render={(record) => prettyPrintMoney(record.amount)}
           textAlign="right"
         />
+        {role.isManager() && <DeleteButton />}
       </Datagrid>
     </List>
   );
