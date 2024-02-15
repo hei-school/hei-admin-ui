@@ -1,13 +1,11 @@
-import {useEffect} from "react";
-import {FunctionField, ShowButton} from "react-admin";
-import {WarningOutlined} from "@mui/icons-material";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import {rowStyle} from "./utils";
-import {HaList} from "../../ui/haList/HaList";
+import { FunctionField, ShowButton } from "react-admin";
+import { WarningOutlined } from "@mui/icons-material";
+import { rowStyle } from "./utils";
+import { HaList } from "../../ui/haList/HaList";
 import feeProvider from "../../providers/feeProvider";
-import authProvider from "../../providers/authProvider";
-import {useStudentRef} from "../../hooks/useStudentRef";
-import {CreateButton, ImportButton} from "../../ui/haToolbar";
+import { useRole } from "../../security/hooks/useRole"
+import { useStudentRef } from "../../hooks/useStudentRef";
+import { CreateButton, ImportButton } from "../../ui/haToolbar";
 import {
   commentFunctionRenderer,
   CustomDateField,
@@ -19,11 +17,11 @@ import {
   transformFeesData,
   valideFeesData,
 } from "./importConf";
+import { DeleteButton } from "../common/components";
 
-// /!\ TODO: update to use useRole hook
 const FeeList = () => {
-  const {studentRef, studentId} = useStudentRef("studentId");
-  const role = authProvider.getCachedRole();
+  const { studentRef, studentId } = useStudentRef("studentId");
+  const role = useRole();
 
   return (
     <HaList
@@ -31,14 +29,14 @@ const FeeList = () => {
       title={`Frais de ${studentRef}`}
       resource={"fees"}
       actions={
-        role === WhoamiRoleEnum.MANAGER && <FeesActions studentId={studentId} />
+        role.isManager() && <FeesActions studentId={studentId} />
       }
       filterIndicator={false}
       listProps={{
-        filterDefaultValues: {studentId},
+        filterDefaultValues: { studentId },
       }}
       datagridProps={{
-        rowClick: (id) => `/fees/${id}/show`,
+        rowClick: () => { },
         rowStyle,
       }}
     >
@@ -62,14 +60,14 @@ const FeeList = () => {
         label="Date de création"
         showTime={false}
       />
-      <ShowButton basePath="/fees" />
+      { role.isManager() ? <DeleteButton /> : <ShowButton basePath="/fees" /> }
     </HaList>
   );
 };
 
 export default FeeList;
 
-function FeesActions({studentId}) {
+function FeesActions({ studentId }) {
   return (
     <>
       <CreateButton resource={`students/${studentId}/fees`} />
