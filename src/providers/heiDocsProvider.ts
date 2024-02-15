@@ -63,9 +63,9 @@ const heiDocsProvider: HaDataProviderType = {
   async saveOrUpdate(users: Array<any>) {
     throw new Error("Not implemented");
   },
-  async delete(id: string){
+  async delete(id: string) {
     throw new Error("Not implemented");
-  }
+  },
 };
 
 export default heiDocsProvider;

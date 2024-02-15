@@ -1,5 +1,5 @@
-import { mount, unmount } from "@cypress/react";
-import { FeeTypeEnum } from "@haapi/typescript-client";
+import {mount, unmount} from "@cypress/react";
+import {FeeTypeEnum} from "@haapi/typescript-client";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 
 import {
@@ -18,8 +18,8 @@ import {
 
 import App from "../App";
 
-import { manager1 } from "./credentials";
-import { assertFeeMatchesTemplate } from "./utils";
+import {manager1} from "./credentials";
+import {assertFeeMatchesTemplate} from "./utils";
 
 import {
   prettyPrintMoney,
@@ -74,13 +74,13 @@ describe(specTitle("Manager.Fee"), () => {
     cy.get("#username").type(manager1.username);
     cy.get("#password").type(manager1.password);
     cy.get("button").contains("Connexion").click();
-    cy.wait("@getWhoami", { timeout: 10000 });
+    cy.wait("@getWhoami", {timeout: 10000});
     cy.get('[data-testid="students-menu"]').click();
     cy.get('a[href="#/students"]').click();
     cy.get("body").click(200, 0);
     cy.contains("Page : 1");
     cy.contains(`Taille : ${feesMock.length}`);
-    cy.get('td input[type="checkbox"]', { timeout: 50 }).should("not.exist");
+    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="add-filter"]').click();
     cy.get('[data-testid="filter-profile-last_name"]').type(
@@ -444,19 +444,6 @@ describe(specTitle("Manager.Fee"), () => {
 
     cy.contains("Élément créé");
   });
-
-  it.only("Can delete Fee on details view", () => {
-    const feesToDelete = feesMock[0];
-
-    cy.intercept(
-      "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,[feesToDelete]
-    ).as("getFees");
-    cy.get('[aria-label="fees"]').click()
-    cy.wait('@getFees')
-    cy.getByTestid("delete-button").click()
-    cy.getByTestid("delete-button").click()
-  })
 
   afterEach(() => {
     unmount();

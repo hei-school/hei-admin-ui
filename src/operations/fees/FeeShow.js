@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 import {
   FunctionField,
   SimpleShowLayout,
@@ -6,11 +6,11 @@ import {
   useDataProvider,
   EditButton,
   TopToolbar,
-  DeleteWithConfirmButton
+  DeleteWithConfirmButton,
 } from "react-admin";
-import { useParams } from "react-router-dom";
-import { Divider, Typography } from "@mui/material";
-import { useRole } from "../../security/hooks";
+import {useParams} from "react-router-dom";
+import {Divider, Typography} from "@mui/material";
+import {useRole} from "../../security/hooks";
 import {
   prettyPrintMoney,
   statusRenderer,
@@ -19,7 +19,7 @@ import {
   commentFunctionRenderer,
 } from "../utils";
 import PaymentList from "../payments/PaymentList";
-import { studentIdFromRaId } from "../../providers/feeProvider";
+import {studentIdFromRaId} from "../../providers/feeProvider";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
@@ -33,7 +33,7 @@ const dateTimeRenderer = (data) => {
   );
 };
 
-export const FeeLayout = ({ feeId }) => {
+export const FeeLayout = ({feeId}) => {
   return (
     <SimpleShowLayout>
       <CustomDateField
@@ -73,7 +73,7 @@ export const FeeLayout = ({ feeId }) => {
         label="Date et heure de dernière modification"
         render={dateTimeRenderer}
       />
-      <Divider sx={{ mt: 2, mb: 1 }} />
+      <Divider sx={{mt: 2, mb: 1}} />
       <Typography>Paiements</Typography>
       <PaymentList feeId={feeId} />
     </SimpleShowLayout>
@@ -90,7 +90,7 @@ const FeeShow = (props) => {
 
   useEffect(() => {
     const doEffect = async () => {
-      const student = await dataProvider.getOne("students", { id: studentId });
+      const student = await dataProvider.getOne("students", {id: studentId});
       setStudentRef(student.data.ref);
     };
     doEffect();

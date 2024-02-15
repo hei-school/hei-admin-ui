@@ -1,33 +1,31 @@
-import { List } from "@react-admin/ra-rbac";
+import {List} from "@react-admin/ra-rbac";
 import {
   Datagrid,
   TextField,
   FunctionField,
   TopToolbar,
   CreateButton,
-  DeleteWithConfirmButton
+  DeleteWithConfirmButton,
 } from "react-admin";
-import { prettyPrintMoney, paymentTypeRenderer, CustomDateField } from "../utils";
-import { useRole } from "../../security/hooks";
+import {prettyPrintMoney, paymentTypeRenderer, CustomDateField} from "../utils";
+import {useRole} from "../../security/hooks";
 
-const Actions = ({ basePath, resource }) => (
+const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>
     <CreateButton to={basePath + "/create"} resource={resource} />
   </TopToolbar>
 );
 
-const PaymentList = ({ feeId }) => {
+const PaymentList = ({feeId}) => {
   const role = useRole();
   return (
     <List
       title=" " // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={"payments"}
       actions={
-        role.isManager() && (
-          <Actions basePath={`/fees/${feeId}/payments`} />
-        )
+        role.isManager() && <Actions basePath={`/fees/${feeId}/payments`} />
       }
-      filterDefaultValues={{ feeId: feeId }}
+      filterDefaultValues={{feeId: feeId}}
       pagination={false}
     >
       <Datagrid bulkActionButtons={false}>
@@ -46,14 +44,13 @@ const PaymentList = ({ feeId }) => {
           render={(record) => prettyPrintMoney(record.amount)}
           textAlign="right"
         />
-        {
-          role.isManager() &&
+        {role.isManager() && (
           <DeleteWithConfirmButton
             redirect="/"
             confirmTitle="Suppression du paiement"
             confirmContent="Confirmez-vous la suppression de ce paiement ?"
           />
-        }
+        )}
       </Datagrid>
     </List>
   );

@@ -45,9 +45,9 @@ const profileProvider: HaDataProviderType = {
           .then((result) => [result.data]);
     }
   },
-  async delete(id: string){
+  async delete(id: string) {
     throw new Error("Not implemented");
-  }
+  },
 };
 
 export default profileProvider;

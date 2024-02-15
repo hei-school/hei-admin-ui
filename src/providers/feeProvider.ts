@@ -40,12 +40,12 @@ const feeProvider: HaDataProviderType = {
     const result = await payingApi().createStudentFees(studentId, fees);
     return {...result.data};
   },
-  async delete(raId: string){
+  async delete(raId: string) {
     const {studentId, feeId} = toApiIds(raId);
     return await payingApi()
       .deleteStudentFeeById(feeId, studentId)
-      .then(response => response.data);
-  }
+      .then((response) => response.data);
+  },
 };
 
 export default feeProvider;

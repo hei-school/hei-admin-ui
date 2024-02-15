@@ -1,11 +1,11 @@
-import { DeleteWithConfirmButton, FunctionField, ShowButton } from "react-admin";
-import { WarningOutlined } from "@mui/icons-material";
-import { rowStyle } from "./utils";
-import { HaList } from "../../ui/haList/HaList";
+import {DeleteWithConfirmButton, FunctionField, ShowButton} from "react-admin";
+import {WarningOutlined} from "@mui/icons-material";
+import {rowStyle} from "./utils";
+import {HaList} from "../../ui/haList/HaList";
 import feeProvider from "../../providers/feeProvider";
-import { useRole } from "../../security/hooks/useRole"
-import { useStudentRef } from "../../hooks/useStudentRef";
-import { CreateButton, ImportButton } from "../../ui/haToolbar";
+import {useRole} from "../../security/hooks/useRole";
+import {useStudentRef} from "../../hooks/useStudentRef";
+import {CreateButton, ImportButton} from "../../ui/haToolbar";
 import {
   commentFunctionRenderer,
   CustomDateField,
@@ -19,7 +19,7 @@ import {
 } from "./importConf";
 
 const FeeList = () => {
-  const { studentRef, studentId } = useStudentRef("studentId");
+  const {studentRef, studentId} = useStudentRef("studentId");
   const role = useRole();
 
   return (
@@ -27,12 +27,10 @@ const FeeList = () => {
       icon={<WarningOutlined />}
       title={`Frais de ${studentRef}`}
       resource={"fees"}
-      actions={
-        role.isManager() && <FeesActions studentId={studentId} />
-      }
+      actions={role.isManager() && <FeesActions studentId={studentId} />}
       filterIndicator={false}
       listProps={{
-        filterDefaultValues: { studentId },
+        filterDefaultValues: {studentId},
       }}
       datagridProps={{
         rowClick: (id) => `/fees/${id}/show`,
@@ -59,22 +57,22 @@ const FeeList = () => {
         label="Date de création"
         showTime={false}
       />
-      {
-        role.isManager() ?
-          <DeleteWithConfirmButton 
-            redirect={`/students/${studentId}/fees`}
-            confirmTitle="Suppression de frais"
-            confirmContent="Confirmez-vous la suppression de ce frais ?"
-          /> 
-          : <ShowButton basePath="/fees" />
-      }
+      {role.isManager() ? (
+        <DeleteWithConfirmButton
+          redirect={`/students/${studentId}/fees`}
+          confirmTitle="Suppression de frais"
+          confirmContent="Confirmez-vous la suppression de ce frais ?"
+        />
+      ) : (
+        <ShowButton basePath="/fees" />
+      )}
     </HaList>
   );
 };
 
 export default FeeList;
 
-function FeesActions({ studentId }) {
+function FeesActions({studentId}) {
   return (
     <>
       <CreateButton resource={`students/${studentId}/fees`} />

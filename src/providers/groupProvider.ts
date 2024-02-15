@@ -18,9 +18,9 @@ const groupProvider: HaDataProviderType = {
       .createOrUpdateGroups(payload)
       .then((result) => result.data);
   },
-  async delete(id: string){
+  async delete(id: string) {
     throw new Error("Not implemented");
-  }
+  },
 };
 
 export default groupProvider;
