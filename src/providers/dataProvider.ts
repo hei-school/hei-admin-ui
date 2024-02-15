@@ -42,7 +42,6 @@ const dataProvider: RaDataProviderType = {
       );
       perPage = maxPageSize;
     }
-
     const filter = params.filter;
     const result = await getProvider(resourceType).getList(
       page,
@@ -68,6 +67,10 @@ const dataProvider: RaDataProviderType = {
     );
     return {data: result[0]};
   },
+  async delete(resourceType: string, params: any){
+    const result = await getProvider(resourceType).delete(params.id);
+    return {data: result};
+  }
 };
 
 const toEnabledUsers = (users: Array<any>): Array<any> => {

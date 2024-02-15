@@ -12,4 +12,5 @@ export type RaDataProviderType = {
   getOne: (resourceType: string, params: any) => Promise<RaSingleResponseType>;
   create: (resourceType: string, params: any) => Promise<RaSingleResponseType>;
   update: (resourceType: string, params: any) => Promise<RaSingleResponseType>;
+  delete: (resourceType: string, params: any) => Promise<RaSingleResponseType>;
 };

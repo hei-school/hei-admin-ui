@@ -41,6 +41,9 @@ const paymentProvider: HaDataProviderType = {
     );
     return {...result.data};
   },
+  async delete(id: string){
+    throw new Error("Not implemented");
+  }
 };
 
 export default paymentProvider;

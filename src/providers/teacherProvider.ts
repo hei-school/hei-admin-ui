@@ -22,6 +22,9 @@ const teacherProvider: HaDataProviderType = {
     const result = await usersApi().createOrUpdateTeachers(users);
     return result.data;
   },
+  async delete(id: string){
+    throw new Error("Not implemented");
+  }
 };
 
 export default teacherProvider;

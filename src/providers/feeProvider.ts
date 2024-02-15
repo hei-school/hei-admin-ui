@@ -38,6 +38,9 @@ const feeProvider: HaDataProviderType = {
     const result = await payingApi().createStudentFees(studentId, fees);
     return {...result.data};
   },
+  async delete(id: string){
+    throw new Error("Not implemented");
+  }
 };
 
 export default feeProvider;
