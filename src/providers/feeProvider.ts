@@ -4,10 +4,12 @@ import {HaDataProviderType} from "./HaDataProviderType";
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
   studentId + raSeparator + feeId;
+
 export const toApiIds = (raId: string) => {
   const ids = raId.split(raSeparator);
   return {studentId: ids[0], feeId: ids[1]};
 };
+
 export const studentIdFromRaId = (raId: string): string =>
   toApiIds(raId).studentId;
 
@@ -38,8 +40,11 @@ const feeProvider: HaDataProviderType = {
     const result = await payingApi().createStudentFees(studentId, fees);
     return {...result.data};
   },
-  async delete(id: string){
-    throw new Error("Not implemented");
+  async delete(raId: string){
+    const {studentId, feeId} = toApiIds(raId);
+    return await payingApi()
+      .deleteStudentFeeById(feeId, studentId)
+      .then(response => response.data);
   }
 };
 

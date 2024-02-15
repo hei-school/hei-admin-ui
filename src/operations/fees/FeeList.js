@@ -1,4 +1,4 @@
-import { FunctionField, ShowButton } from "react-admin";
+import { DeleteWithConfirmButton, FunctionField, ShowButton } from "react-admin";
 import { WarningOutlined } from "@mui/icons-material";
 import { rowStyle } from "./utils";
 import { HaList } from "../../ui/haList/HaList";
@@ -17,7 +17,6 @@ import {
   transformFeesData,
   valideFeesData,
 } from "./importConf";
-import { DeleteButton } from "../common/components";
 
 const FeeList = () => {
   const { studentRef, studentId } = useStudentRef("studentId");
@@ -60,7 +59,15 @@ const FeeList = () => {
         label="Date de création"
         showTime={false}
       />
-      {role.isManager() ? <DeleteButton /> : <ShowButton basePath="/fees" />}
+      {
+        role.isManager() ?
+          <DeleteWithConfirmButton 
+            redirect={`/students/${studentId}/fees`}
+            confirmTitle="Suppression de frais"
+            confirmContent="Confirmez-vous la suppression de ce frais ?"
+          /> 
+          : <ShowButton basePath="/fees" />
+      }
     </HaList>
   );
 };

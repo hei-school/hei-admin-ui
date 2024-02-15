@@ -5,10 +5,10 @@ import {
   FunctionField,
   TopToolbar,
   CreateButton,
+  DeleteWithConfirmButton
 } from "react-admin";
 import { prettyPrintMoney, paymentTypeRenderer, CustomDateField } from "../utils";
 import { useRole } from "../../security/hooks";
-import { DeleteButton } from "../common/components";
 
 const Actions = ({ basePath, resource }) => (
   <TopToolbar disableGutters>
@@ -46,7 +46,14 @@ const PaymentList = ({ feeId }) => {
           render={(record) => prettyPrintMoney(record.amount)}
           textAlign="right"
         />
-        {role.isManager() && <DeleteButton />}
+        {
+          role.isManager() &&
+          <DeleteWithConfirmButton
+            redirect="/"
+            confirmTitle="Suppression du paiement"
+            confirmContent="Confirmez-vous la suppression de ce paiement ?"
+          />
+        }
       </Datagrid>
     </List>
   );
