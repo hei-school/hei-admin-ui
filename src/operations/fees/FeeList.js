@@ -17,6 +17,7 @@ import {
   transformFeesData,
   valideFeesData,
 } from "./importConf";
+import {DeleteWithConfirm} from "../common/components";
 
 const FeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
@@ -58,7 +59,8 @@ const FeeList = () => {
         showTime={false}
       />
       {role.isManager() ? (
-        <DeleteWithConfirmButton
+        <DeleteWithConfirm
+          resourceType="fees"
           redirect={`/students/${studentId}/fees`}
           confirmTitle="Suppression de frais"
           confirmContent="Confirmez-vous la suppression de ce frais ?"

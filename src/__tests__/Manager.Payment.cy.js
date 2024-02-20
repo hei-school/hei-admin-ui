@@ -65,10 +65,10 @@ describe(specTitle("Manager.Payment"), () => {
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments`,
       [payment1Mock]
     ).as("addPayments");
-    cy.wait("@getManager1");
+    cy.wait("@getWhoami");
     cy.get('[data-testid="students-menu"]').click(); // Étudiants category
     cy.get('a[href="#/students"]').click();
-    cy.get("button").contains("Suivant").click();
+    cy.wait("@getStudentsPage1");
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="add-filter"]').click();
     cy.get('[data-testid="filter-profile-ref"]').type(student1Mock.ref);
