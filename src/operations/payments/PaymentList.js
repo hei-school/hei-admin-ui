@@ -7,8 +7,8 @@ import {
   CreateButton,
 } from "react-admin";
 import {prettyPrintMoney, paymentTypeRenderer, CustomDateField} from "../utils";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import authProvider from "../../providers/authProvider";
+import {useRole} from "../../security/hooks";
+import {DeleteWithConfirm} from "../common/components";
 
 const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>
@@ -17,15 +17,13 @@ const Actions = ({basePath, resource}) => (
 );
 
 const PaymentList = ({feeId}) => {
-  const role = authProvider.getCachedRole();
+  const role = useRole();
   return (
     <List
       title=" " // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={"payments"}
       actions={
-        role === WhoamiRoleEnum.MANAGER && (
-          <Actions basePath={`/fees/${feeId}/payments`} />
-        )
+        role.isManager() && <Actions basePath={`/fees/${feeId}/payments`} />
       }
       filterDefaultValues={{feeId: feeId}}
       pagination={false}
@@ -46,6 +44,13 @@ const PaymentList = ({feeId}) => {
           render={(record) => prettyPrintMoney(record.amount)}
           textAlign="right"
         />
+        {role.isManager() && (
+          <DeleteWithConfirm
+            resourceType="payments"
+            confirmTitle="Suppression du paiement"
+            confirmContent="Confirmez-vous la suppression de ce paiement ?"
+          />
+        )}
       </Datagrid>
     </List>
   );

@@ -15,6 +15,9 @@ const groupStudentProvider: HaDataProviderType = {
   async saveOrUpdate(payload: any) {
     throw new Error("Function not implemented.");
   },
+  async delete(id: string) {
+    throw new Error("Not implemented");
+  },
 };
 
 export default groupStudentProvider;

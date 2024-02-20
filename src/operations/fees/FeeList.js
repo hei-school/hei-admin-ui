@@ -1,11 +1,9 @@
-import {useEffect} from "react";
-import {FunctionField, ShowButton} from "react-admin";
+import {DeleteWithConfirmButton, FunctionField, ShowButton} from "react-admin";
 import {WarningOutlined} from "@mui/icons-material";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {rowStyle} from "./utils";
 import {HaList} from "../../ui/haList/HaList";
 import feeProvider from "../../providers/feeProvider";
-import authProvider from "../../providers/authProvider";
+import {useRole} from "../../security/hooks/useRole";
 import {useStudentRef} from "../../hooks/useStudentRef";
 import {CreateButton, ImportButton} from "../../ui/haToolbar";
 import {
@@ -19,20 +17,18 @@ import {
   transformFeesData,
   valideFeesData,
 } from "./importConf";
+import {DeleteWithConfirm} from "../common/components";
 
-// /!\ TODO: update to use useRole hook
 const FeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
-  const role = authProvider.getCachedRole();
+  const role = useRole();
 
   return (
     <HaList
       icon={<WarningOutlined />}
       title={`Frais de ${studentRef}`}
       resource={"fees"}
-      actions={
-        role === WhoamiRoleEnum.MANAGER && <FeesActions studentId={studentId} />
-      }
+      actions={role.isManager() && <FeesActions studentId={studentId} />}
       filterIndicator={false}
       listProps={{
         filterDefaultValues: {studentId},
@@ -62,7 +58,16 @@ const FeeList = () => {
         label="Date de création"
         showTime={false}
       />
-      <ShowButton basePath="/fees" />
+      {role.isManager() ? (
+        <DeleteWithConfirm
+          resourceType="fees"
+          redirect={`/students/${studentId}/fees`}
+          confirmTitle="Suppression de frais"
+          confirmContent="Confirmez-vous la suppression de ce frais ?"
+        />
+      ) : (
+        <ShowButton basePath="/fees" />
+      )}
     </HaList>
   );
 };

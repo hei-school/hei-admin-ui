@@ -7,4 +7,5 @@ export type HaDataProviderType = {
   ) => Promise<Array<any>>;
   getOne: (id: string) => Promise<any>;
   saveOrUpdate: (resources: any) => Promise<any>;
+  delete: (id: string) => Promise<any>;
 };
