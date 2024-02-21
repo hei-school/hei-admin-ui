@@ -1,0 +1,1 @@
+export {DeleteWithConfirm} from "./DeleteWithConfirm";
