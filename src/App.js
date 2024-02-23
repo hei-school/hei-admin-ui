@@ -16,8 +16,6 @@ import groups from "./operations/groups";
 import profile from "./operations/profile";
 import students from "./operations/students";
 import teachers from "./operations/teachers";
-import docs from "./operations/docs";
-import {heiDocs} from "./operations/heiDocs";
 import fees from "./operations/fees";
 import feesTemplates from "./operations/feesTemplates";
 import payments from "./operations/payments";
@@ -36,7 +34,6 @@ const App = () => (
     <Resource name="profile" {...profile} />
     <Resource name="students" {...students} />
     <Resource name="teachers" {...teachers} />
-    <Resource name="hei-docs" {...heiDocs} />
     <Resource name="groups" {...groups} />
 
     <Resource name="fees" {...fees} />
@@ -59,14 +56,6 @@ const App = () => (
         exact
         path="/fees/:feeId/payments/create"
         element={<payments.create />}
-      />
-
-      <Route
-        exact
-        path="/docs/hei-docs"
-        element={
-          <docs.list title="Documents reliés à HEI" resource="hei-docs" />
-        }
       />
     </CustomRoutes>
   </Admin>
