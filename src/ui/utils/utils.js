@@ -1,5 +1,3 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-
 /**
  * Retrieves the value of a nested property in an object using a specified path.
  *
