@@ -1,8 +1,8 @@
 import {DocList as CommonDocList} from "../components/DocList";
-import {useType} from "../hooks/useType";
+import {useViewType} from "../hooks/useViewType";
 
 export const DocList = () => {
-  const type = useType("LIST");
+  const type = useViewType("LIST");
 
   return (
     <CommonDocList

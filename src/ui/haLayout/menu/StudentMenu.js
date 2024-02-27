@@ -1,3 +1,4 @@
+import {Box} from "@mui/material";
 import {
   AttachMoney,
   Home,
@@ -12,7 +13,7 @@ function StudentMenu() {
   const whoamiId = authProvider.getCachedWhoami().id;
 
   return (
-    <div>
+    <Box>
       <SingleMenu
         to={
           whoamiId ? `/students/${authProvider.getCachedWhoami().id}/fees` : "/"
@@ -29,18 +30,18 @@ function StudentMenu() {
         />
         <ListMenuItem
           to="/docs/students/TRANSCRIPT"
-          data-testid="transcript"
+          data-testid="transcript-docs"
           label="Bulletins"
           icon={<CollectionsBookmark />}
         />
         <ListMenuItem
           to="/docs/students/OTHER"
-          data-testid="other"
+          data-testid="other-docs"
           label="Autres"
           icon={<Work />}
         />
       </ListMenu>
-    </div>
+    </Box>
   );
 }
 

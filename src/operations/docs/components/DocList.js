@@ -2,27 +2,27 @@ import {ShowButton, TextField} from "react-admin";
 import {CustomDateField} from "../../utils";
 import {HaList} from "../../../ui/haList";
 
-export const DocList = ({owner, type, datagridProps}) => {
-  const getTitle = () => {
-    if (owner == "SCHOOL") {
-      return "Liste des documents chez HEI";
-    } else if (owner == "STUDENT") {
-      switch (type) {
-        case "TRANSCRIPT":
-          return "Liste des bulletins";
-        case "OTHER":
-          return "Liste des autres documents étudiant";
-        default:
-          break;
-      }
-    } else {
-      console.error("Owner not known");
+const getTitle = (owner, type) => {
+  if (owner == "SCHOOL") {
+    return "Liste des documents chez HEI";
+  }
+  if (owner == "STUDENT") {
+    switch (type) {
+      case "TRANSCRIPT":
+        return "Liste des bulletins";
+      case "OTHER":
+        return "Liste des autres documents étudiant";
+      default:
+        return "Liste des documents";
     }
-  };
+  }
+  return "Liste des documents";
+};
 
+export const DocList = ({owner, type, datagridProps}) => {
   return (
     <HaList
-      title={getTitle()}
+      title={getTitle(owner, type)}
       resource="docs"
       listProps={{queryOptions: {meta: {owner, type}}}}
       datagridProps={datagridProps}

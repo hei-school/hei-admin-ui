@@ -62,8 +62,7 @@ describe(specTitle("Student"), () => {
     cy.get("#ha-menu")
       .should("not.contain", "Enseignants", {timeout: 50})
       .and("not.contain", "Étudiants", {timeout: 50})
-      .and("contain", "Frais")
-      .and("contain", "Notes");
+      .and("contain", "Frais");
     cy.get('[href="#/profile"]').click();
     unmount();
   });

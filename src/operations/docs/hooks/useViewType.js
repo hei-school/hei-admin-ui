@@ -1,6 +1,6 @@
 import {useLocation} from "react-router-dom";
 
-export const useType = (utility) => {
+export const useViewType = (utility) => {
   const location = useLocation();
 
   const endpoint = location.pathname.split("/");

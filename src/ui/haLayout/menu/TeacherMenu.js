@@ -1,11 +1,12 @@
+import {Box} from "@mui/material";
 import {School} from "@mui/icons-material";
 import {SingleMenu} from "./utils";
 
 function TeacherMenu() {
   return (
-    <div>
+    <Box>
       <SingleMenu to="/students" label="Étudiants" icon={<School />} />
-    </div>
+    </Box>
   );
 }
 
