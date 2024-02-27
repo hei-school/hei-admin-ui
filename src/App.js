@@ -19,6 +19,8 @@ import teachers from "./operations/teachers";
 import fees from "./operations/fees";
 import feesTemplates from "./operations/feesTemplates";
 import payments from "./operations/payments";
+import heiDocs from "./operations/docs/hei";
+import studentDocs from "./operations/docs/students";
 
 const App = () => (
   <Admin
@@ -42,6 +44,7 @@ const App = () => (
 
     <CustomRoutes>
       <Route exact path="/profile" element={<profile.show />} />
+
       <Route exact path="/students/:studentId/fees" element={<fees.list />} />
       <Route
         exact
@@ -57,6 +60,21 @@ const App = () => (
         path="/fees/:feeId/payments/create"
         element={<payments.create />}
       />
+
+      <Route exact path="/docs/school" element={<heiDocs.list />} />
+      <Route exact path="/docs/school/:id" element={heiDocs.show} />
+      <Route
+        exact
+        path="/docs/students/TRANSCRIPT"
+        element={<studentDocs.list />}
+      />
+      <Route
+        exact
+        path="/docs/students/TRANSCRIPT/:id"
+        element={studentDocs.show}
+      />
+      <Route exact path="/docs/students/OTHER" element={<studentDocs.list />} />
+      <Route exact path="/docs/students/OTHER/:id" element={studentDocs.show} />
     </CustomRoutes>
   </Admin>
 );
