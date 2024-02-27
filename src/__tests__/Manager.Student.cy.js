@@ -33,6 +33,7 @@ let createdStudent = {
 let updatedStudent = {
   ...student1Mock,
   first_name: newFirstName,
+    coordinates: {latitude: 500000, longitude: 600000}
 };
 
 const fillEditInputs = () => {
@@ -40,7 +41,10 @@ const fillEditInputs = () => {
   cy.get("#phone").type(createStudent.phone);
   cy.get("#birth_date").click().type(createStudent.birth_date);
   cy.get("[data-testid='addressInput']").type(createStudent.address);
+  cy.get("[data-testid='longitude-input']").type(createStudent.coordinates.longitude);
+  cy.get("[data-testid='latitude-input']").type(createStudent.coordinates.latitude);
 };
+
 describe(specTitle("Manager edit students"), () => {
   beforeEach(() => {
     mount(<App />);
@@ -106,6 +110,9 @@ describe(specTitle("Manager edit students"), () => {
     cy.contains(studentNameToBeCheckedMock).click();
     cy.get('a[aria-label="Éditer"]').click(); //éditer
     cy.get("#first_name").click().clear().type(newFirstName);
+    cy.getByTestid("latitude-input").type(updatedStudent.coordinates.latitude);
+    cy.getByTestid("longitude-input").type(updatedStudent.coordinates.longitude);
+
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`,
@@ -116,10 +123,12 @@ describe(specTitle("Manager edit students"), () => {
       let modifyStudentWithoutFeesBodyMock =
         requestIntersection.request.body[0];
       modifyStudentWithoutFeesBodyMock.first_name = newFirstName;
+
       expect(requestIntersection.request.body[0]).to.deep.equal(
         modifyStudentWithoutFeesBodyMock
       );
-      expect(requestIntersection.request.body.length).to.equal(1);
+
+      expect(modifyStudentWithoutFeesBodyMock.coordinates).to.deep.equal(updatedStudent.coordinates);
     });
     cy.wait("@getUpdatedStudent");
     cy.contains(newFirstName);
@@ -143,9 +152,7 @@ describe(specTitle("Manager creates students"), () => {
     }).as("getManager1");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
-    );
-    cy.intercept(
-      "GET",
+    ); cy.intercept( "GET",
       `/fees/templates?page=1&page_size=25`,
       feesTemplatesApi
     ).as("getFeesTemplates");
@@ -224,7 +231,7 @@ describe(specTitle("Manager creates students"), () => {
     cy.contains("Enregistrer").click();
     cy.wait("@createStudent").then((requestInterception) =>
       studentRequestBodyVerification(requestInterception.request.body, {
-        ...liteCreatedStudent,
+        ...liteCreatedStudent, coordinates: {longitude: 0, latitude: 0}
       })
     );
     cy.contains("Élément créé");
