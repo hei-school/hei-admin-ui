@@ -1,18 +1,13 @@
+import {DocShow as CommonDocShow} from "../components/DocShow";
+import {useParams} from "react-router-dom";
 import {useRole} from "../../../security/hooks/useRole";
 import authProvider from "../../../providers/authProvider";
 
-const StudentViewDocShow = () => {
-  const id = authProvider.getCachedWhoami().id;
-  return <DocShow owner="STUDENT" studentId={id} />;
-};
-
-// TODO: add this later for manager view
-const ManagerViewDocShow = () => {
-  return <></>;
-};
-
 export const DocShow = () => {
+  const params = useParams();
   const {isStudent} = useRole();
 
-  return isStudent() ? <StudentViewDocShow /> : <ManagerViewDocShow />;
+  const id = isStudent() ? authProvider.getCachedWhoami().id : params.studentId;
+
+  return <CommonDocShow owner="STUDENT" studentId={id} />;
 };
