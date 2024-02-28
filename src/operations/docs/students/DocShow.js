@@ -14,5 +14,5 @@ const ManagerViewDocShow = () => {
 export const DocShow = () => {
   const {isStudent} = useRole();
 
-  return isStudent ? <StudentViewDocShow /> : <ManagerViewDocShow />;
+  return isStudent() ? <StudentViewDocShow /> : <ManagerViewDocShow />;
 };

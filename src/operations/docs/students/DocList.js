@@ -1,7 +1,7 @@
-import authProvider from "../../../providers/authProvider";
 import {useRole} from "../../../security/hooks";
 import {DocList as CommonDocList} from "../components/DocList";
 import {useViewType} from "../hooks/useViewType";
+import authProvider from "../../../providers/authProvider";
 
 export const DocList = () => {
   const {isStudent} = useRole();
