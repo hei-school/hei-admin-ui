@@ -185,6 +185,7 @@ export const createStudent: Student = {
   status: EnableStatus.ENABLED,
   nic: "123456789012",
   birth_place: "Antananarivo",
+  coordinates: {longitude: 1500, latitude: 1500},
 };
 
 export const liteCreatedStudent: Student = {
@@ -197,6 +198,7 @@ export const liteCreatedStudent: Student = {
   status: EnableStatus.ENABLED,
   nic: "123456789012",
   birth_place: "Antananarivo",
+  coordinates: {longitude: 1500, latitude: 1500},
 };
 
 export const createdStudents: Student[] = [

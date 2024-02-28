@@ -23,6 +23,12 @@ describe(specTitle("Profile test"), () => {
     cy.get("[data-testid='profile-edit-button']").click();
     cy.get("#last_name").click().clear().type(editedManager2.last_name);
     cy.get("#birth_date").click().type(editedManager2.birth_date);
+    cy.get("[data-testid='longitude-input']")
+      .click()
+      .type(editedManager2.coordinates.longitude);
+    cy.get("[data-testid='latitude-input']")
+      .click()
+      .type(editedManager2.coordinates.latitude);
 
     cy.intercept("PUT", `/managers/${manager2.id}`, editedManager2).as(
       "modifyProfile"

@@ -32,6 +32,10 @@ export function createStudentApi(payload) {
     });
   }
 
-  student.entrance_datetime = new Date(student.entrance_datetime).toISOString();
-  return [fees, student];
+  //map student
+  let {entrance_datetime, longitude, latitude, ...studentRest} = student;
+  entrance_datetime = new Date(entrance_datetime).toISOString();
+  const coordinates = {longitude: +longitude, latitude: +latitude};
+
+  return [fees, {...studentRest, entrance_datetime, coordinates}];
 }

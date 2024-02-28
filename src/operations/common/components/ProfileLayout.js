@@ -26,14 +26,16 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
+import {GeoPositionName} from "./GeoLocalisation";
 import {useToggle} from "../../../hooks";
 import {CustomDateField} from "../../utils";
 import {useRole} from "../../../security/hooks";
 import {CustomCreate} from "../../utils/CustomCreate";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
-import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 import {NOOP_FN} from "../../../utils/noop";
+
+import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -366,11 +368,14 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
               emptyText={EMPTY_TEXT}
               {...COMMON_FIELD_ATTRIBUTES}
             />
-            <TextField
-              source="birth_place"
-              label={<FieldLabel>Lieu de naissance</FieldLabel>}
-              emptyText={EMPTY_TEXT}
-              {...COMMON_FIELD_ATTRIBUTES}
+            <FunctionField
+              label={<FieldLabel>Géolocalisation</FieldLabel>}
+              render={(user) => (
+                <GeoPositionName
+                  coordinates={user.coordinates}
+                  {...COMMON_FIELD_ATTRIBUTES}
+                />
+              )}
             />
           </SimpleShowLayout>
         </Card>

@@ -1,11 +1,15 @@
 import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
+import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
 import {SexRadioButton, turnStringIntoDate} from "../utils";
 import {CustomCreate} from "../utils/CustomCreate";
 
-const transformTeacher = (teacher) => {
-  teacher.entrance_datetime = turnStringIntoDate(teacher.entrance_datetime);
-  return teacher;
+const transformTeacher = (record) => {
+  let {entrance_datetime, longitude, latitude, ...teacher} = record;
+  entrance_datetime = turnStringIntoDate(entrance_datetime);
+  const coordinates = {longitude: +longitude, latitude: +latitude};
+  return {...teacher, entrance_datetime, coordinates};
 };
+
 const TeacherCreate = () => (
   <CustomCreate title="Enseignants" transform={transformTeacher}>
     <SimpleForm>
@@ -23,6 +27,7 @@ const TeacherCreate = () => (
           "Le numéro CIN ne doit pas dépasser 12 caractères."
         )}
       />
+      <CreateGeoLocalisation />
       <TextInput source="birth_place" label="Lieu de naissance" fullWidth />
       <DateInput source="birth_date" label="Date de naissance" fullWidth />
       <TextInput multiline source="address" label="Adresse" fullWidth />

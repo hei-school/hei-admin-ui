@@ -15,6 +15,7 @@ import {SexRadioButton} from "../utils";
 import {CustomCreate} from "../utils/CustomCreate";
 import {FeeFields} from "../fees/components";
 import {useToggle} from "../../hooks";
+import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
 
 const StudentCreate = () => {
   const [canCreateFees, , toggleCanCreateFees] = useToggle(false);
@@ -36,6 +37,7 @@ const StudentCreate = () => {
         <TextInput source="last_name" label="Nom" fullWidth required />
         <SexRadioButton />
         <TextInput source="phone" label="Téléphone" fullWidth />
+        <CreateGeoLocalisation />
         <SelectSpecialization ignoreRole={true} />
         <TextInput
           source="nic"
