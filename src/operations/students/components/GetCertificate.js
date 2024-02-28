@@ -3,7 +3,7 @@ import {Button, useShowContext} from "react-admin";
 import {Download as DownloadIcon} from "@mui/icons-material";
 
 import {useNotify} from "../../../hooks";
-import {studenstFileApi} from "../../../providers/api";
+import {filesApi} from "../../../providers/api";
 import {COMMON_BUTTON_PROPS} from "../../../ui/constants/common_styles";
 import authProvider from "../../../providers/authProvider";
 
@@ -19,7 +19,7 @@ export function GetCertificate({studentId}) {
     notify("Certificat de scolarité en cours de téléchargement", {
       autoHideDuration: 5000,
     });
-    studenstFileApi()
+    filesApi()
       .getStudentScholarshipCertificate(studentId, {
         responseType: "arraybuffer",
       })
