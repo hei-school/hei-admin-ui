@@ -114,6 +114,9 @@ const docsProvider: HaDataProviderType = {
   async saveOrUpdate(payload: any) {
     throw new Error("Not implemented.");
   },
+  async delete(id: string) {
+    throw new Error("Not implemented.");
+  },
 };
 
 export default docsProvider;
