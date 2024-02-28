@@ -15,7 +15,7 @@ export function createGoogleMapLink(coordinates) {
 function formatGeoInformation(displayName) {
   try {
     const infos = displayName.split(",");
-    return infos.slice(0, 4).join(", ");
+    return infos.slice(0, 3).join(", ");
   } catch (e) {
     console.log(e);
     return displayName;
