@@ -4,13 +4,16 @@ import {Container} from "@mui/material";
 import {useViewType} from "../hooks/useViewType";
 import PdfViewer from "../../common/components/PdfViewer";
 
-export const DocShow = ({owner}) => {
+export const DocShow = ({owner, studentId}) => {
   const params = useParams();
 
   const id = params.id;
   const type = useViewType("SHOW");
 
-  const {isLoading, data: doc} = useGetOne("docs", {id, meta: {owner, type}});
+  const {isLoading, data: doc} = useGetOne("docs", {
+    id,
+    meta: {owner, type, studentId},
+  });
 
   return (
     <Container fixed>

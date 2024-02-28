@@ -1,9 +1,9 @@
-import {DocShow} from "../components/DocShow";
 import {DocList as StudentDocList} from "./DocList";
+import {DocShow} from "./DocShow";
 
 const studentDocs = {
   list: StudentDocList,
-  show: <DocShow owner="STUDENT" />,
+  show: DocShow,
   options: {label: "Document de l'étudiant"},
 };
 

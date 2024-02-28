@@ -71,10 +71,14 @@ const App = () => (
       <Route
         exact
         path="/docs/students/TRANSCRIPT/:id"
-        element={studentDocs.show}
+        element={<studentDocs.show />}
       />
       <Route exact path="/docs/students/OTHER" element={<studentDocs.list />} />
-      <Route exact path="/docs/students/OTHER/:id" element={studentDocs.show} />
+      <Route
+        exact
+        path="/docs/students/OTHER/:id"
+        element={<studentDocs.show />}
+      />
     </CustomRoutes>
   </Admin>
 );
