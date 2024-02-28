@@ -19,12 +19,12 @@ const getTitle = (owner, type) => {
   return "Liste des documents";
 };
 
-export const DocList = ({owner, type, datagridProps}) => {
+export const DocList = ({owner, type, studentId, datagridProps}) => {
   return (
     <HaList
       title={getTitle(owner, type)}
       resource="docs"
-      listProps={{queryOptions: {meta: {owner, type}}}}
+      listProps={{queryOptions: {meta: {owner, type, studentId}}}}
       datagridProps={datagridProps}
     >
       <TextField source="name" label="Nom du fichier" />
