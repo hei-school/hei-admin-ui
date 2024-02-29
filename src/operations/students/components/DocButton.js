@@ -79,9 +79,10 @@ export const DocButton = ({studentId}) => {
   return (
     <Box>
       <Button
-        id="demo-customized-button"
+        id="docs-button"
+        data-testid="docs-button"
         label="Documents"
-        aria-controls={open ? "demo-customized-menu" : undefined}
+        aria-controls={open ? "docs-menu" : undefined}
         aria-haspopup
         aria-expanded={open ? "true" : undefined}
         disableElevation
@@ -95,9 +96,9 @@ export const DocButton = ({studentId}) => {
         <Inventory />
       </Button>
       <StyledMenu
-        id="demo-customized-menu"
+        id="docs-menu"
         MenuListProps={{
-          "aria-labelledby": "demo-customized-button",
+          "aria-labelledby": "docs-button",
         }}
         anchorEl={anchorEl}
         open={open}

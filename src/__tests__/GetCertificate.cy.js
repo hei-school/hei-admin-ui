@@ -46,6 +46,7 @@ describe(specTitle("Student Ceritificate"), () => {
       new Blob()
     ).as("downloadCertificate");
 
+    cy.get('[data-testid="docs-button"]').click();
     cy.get('[data-testid="get-certificate-btn"]').click();
     cy.wait("@downloadCertificate");
 
@@ -58,6 +59,7 @@ describe(specTitle("Student Ceritificate"), () => {
     cy.get("body").click();
     cy.wait("@getStudent1");
 
+    cy.get('[data-testid="docs-button"]').click();
     cy.get('[data-testid="get-certificate-btn"]').click();
     cy.wait("@downloadCertificate");
 
@@ -96,6 +98,7 @@ describe(specTitle("Student Ceritificate"), () => {
 
     cy.contains(student1Mock.first_name).click();
     cy.wait("@getStudent1");
+    cy.get('[data-testid="docs-button"]').click();
     cy.get('[data-testid="get-certificate-btn"]').click();
     cy.wait("@downloadCertificate");
 
