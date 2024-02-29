@@ -46,11 +46,7 @@ export function GetCertificate({studentId}) {
         ref={certificateLink}
         style={{display: "none"}}
       />
-      <a
-        data-testid="get-certificate-btn"
-        onClick={getScholarshipCertificate}
-        label="Certificat"
-      >
+      <a onClick={getScholarshipCertificate} label="Certificat">
         Certificat
       </a>
     </div>
