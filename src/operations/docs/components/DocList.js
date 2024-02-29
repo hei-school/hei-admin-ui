@@ -1,6 +1,6 @@
 import {ShowButton, TextField} from "react-admin";
-import {CustomDateField} from "../../utils";
 import {HaList} from "../../../ui/haList";
+import {CustomDateField} from "../../utils";
 
 const getTitle = (owner, type) => {
   if (owner == "SCHOOL") {
@@ -19,17 +19,25 @@ const getTitle = (owner, type) => {
   return "Liste des documents";
 };
 
-export const DocList = ({owner, type, studentId, datagridProps}) => {
+export const DocList = ({
+  owner,
+  type,
+  studentId,
+  datagridProps,
+  studentRef,
+}) => {
+  const title = `${getTitle(owner, type, studentRef)} ${studentRef ? ` de ${studentRef}` : ""}`;
+
   return (
     <HaList
-      title={getTitle(owner, type)}
+      title={title}
       resource="docs"
       listProps={{queryOptions: {meta: {owner, type, studentId}}}}
       datagridProps={datagridProps}
     >
       <TextField source="name" label="Nom du fichier" />
       <CustomDateField source="creation_datetime" label="Date de création" />
-      <ShowButton />
+      <ShowButton redirect={() => datagridProps?.rowClick} />
     </HaList>
   );
 };

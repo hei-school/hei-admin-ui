@@ -1,10 +1,6 @@
 import {useRef} from "react";
-import {Button, useShowContext} from "react-admin";
-import {Download as DownloadIcon} from "@mui/icons-material";
-
 import {useNotify} from "../../../hooks";
 import {filesApi} from "../../../providers/api";
-import {COMMON_BUTTON_PROPS} from "../../../ui/constants/common_styles";
 import authProvider from "../../../providers/authProvider";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
@@ -36,8 +32,10 @@ export function GetCertificate({studentId}) {
         certificateLinkRef.download = FILE_NAME;
         certificateLinkRef.click();
       })
-      .catch(() => {
+      .catch((e) => {
         notify("Échec de téléchargement. Veuillez réessayer", {type: "error"});
+        console.log("CATCH");
+        console.error(e);
       });
   };
 
@@ -48,14 +46,13 @@ export function GetCertificate({studentId}) {
         ref={certificateLink}
         style={{display: "none"}}
       />
-      <Button
+      <a
         data-testid="get-certificate-btn"
         onClick={getScholarshipCertificate}
         label="Certificat"
-        {...COMMON_BUTTON_PROPS}
       >
-        <DownloadIcon />
-      </Button>
+        Certificat
+      </a>
     </div>
   );
 }
