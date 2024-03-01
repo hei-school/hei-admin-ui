@@ -101,7 +101,8 @@ const commentProvider: HaDataProviderType = {
     throw new Error("Not implemented");
   },
   async saveOrUpdate(payload: any) {
-    return payload;
+    console.log(payload);
+    return MOCK_DATA[0];
   },
   async delete(id: string) {
     throw new Error("Not implemented");

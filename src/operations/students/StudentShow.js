@@ -39,7 +39,14 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
           <DocMenu studentId={student.id} />
         </div>
       )}
-      {showComments && <StudentComments open={showComments} onClose={toogleShowComments} />}
+      {
+        showComments && (
+          <StudentComments
+            studentId={student.id}
+            open={showComments}
+            onClose={toogleShowComments}
+          />
+        )}
     </div>
   );
 };

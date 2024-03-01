@@ -18,7 +18,7 @@ const CommentWrapper = styled('div')({
 
 const DIALOG_STYLES = {
   zIndex: 9999,
-  padding: 0, 
+  padding: 0,
   overflowX: "hidden",
   "& .MuiDialog-paper": {
     padding: "0px 20px",
@@ -27,7 +27,7 @@ const DIALOG_STYLES = {
   },
 }
 
-export function StudentComments({ open, onClose }) {
+export function StudentComments({ studentId, open, onClose }) {
   return (
     <Dialog
       open={open}
@@ -53,7 +53,7 @@ export function StudentComments({ open, onClose }) {
         </Box>
         <Separator />
         <CommentList />
-        <CommentCreate />
+        <CommentCreate studentId={studentId} />
       </CommentWrapper>
     </Dialog>
   )
