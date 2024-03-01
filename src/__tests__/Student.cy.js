@@ -50,7 +50,7 @@ describe(specTitle("Student"), () => {
   });
 
   it("lands on profile page if succeeds", () => {
-    cy.get('[href="#/profile"]').click();
+    cy.get('[href="#/profile"] > .MuiBox-root').click();
     cy.get("#main-content")
       .should("contain", student1Mock.ref)
       .and("contain", student1Mock.first_name)
@@ -63,7 +63,6 @@ describe(specTitle("Student"), () => {
       .should("not.contain", "Enseignants", {timeout: 50})
       .and("not.contain", "Étudiants", {timeout: 50})
       .and("contain", "Frais");
-    cy.get('[href="#/profile"]').click();
     unmount();
   });
 

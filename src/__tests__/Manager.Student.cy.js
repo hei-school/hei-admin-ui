@@ -112,7 +112,7 @@ describe(specTitle("Manager edit students"), () => {
     cy.contains("Page : 1");
     cy.contains("Taille : 1");
     cy.contains(studentNameToBeCheckedMock).click();
-    cy.get('a[aria-label="Éditer"]').click(); //éditer
+    cy.get('[aria-label="Éditer"]').click(); //éditer
     cy.get("#first_name").click().clear().type(newFirstName);
     cy.getByTestid("latitude-input").type(updatedStudent.coordinates.latitude);
     cy.getByTestid("longitude-input").type(
