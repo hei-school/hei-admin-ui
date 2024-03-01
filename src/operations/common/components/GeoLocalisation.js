@@ -1,5 +1,3 @@
-import axios from "axios";
-import {useEffect, useState} from "react";
 import {TextInput, useEditContext, number} from "react-admin";
 import {Typography, Box} from "@mui/material";
 
@@ -12,52 +10,30 @@ export function createGoogleMapLink(coordinates) {
   return `https://www.google.com/maps/search/${latitude},${longitude}?entry=tts`;
 }
 
-function formatGeoInformation(displayName) {
-  try {
-    const infos = displayName.split(",");
-    return infos.slice(0, 3).join(", ");
-  } catch (e) {
-    console.log(e);
-    return displayName;
-  }
-}
-
 export function GeoPositionName({
   coordinates = {longitude: 50000, latitude: 50000},
   ...rest
 }) {
   const {longitude, latitude} = coordinates;
-  const [positionName, setPositionName] = useState(NOT_DEFINED_POSITION);
-  const TO_ADRESS_URL = `https://nominatim.openstreetmap.org/reverse?format=json&lat=${latitude}&lon=${longitude}`;
+  const isDefinedPosition = longitude && latitude;
 
-  useEffect(() => {
-    const fetchPosition = async () => {
-      axios
-        .get(TO_ADRESS_URL)
-        .then((response) => {
-          if (response.data.display_name)
-            setPositionName(formatGeoInformation(response.data.display_name));
-        })
-        // NOT_DEFINED_POSITION will be shown automatically
-        .catch(() => {});
-    };
-    fetchPosition();
-  }, [longitude, latitude]);
-
-  return positionName !== NOT_DEFINED_POSITION ? (
+  return isDefinedPosition ? (
     <a
       target="_blank"
       href={createGoogleMapLink(coordinates)}
       style={{
         color: PALETTE_COLORS.typography.grey,
+        display: "flex",
+        gap: "2px",
+        alignItems: "center",
         fontSize: "14px",
         textDecoration: "underline",
       }}
     >
-      {positionName}
+      {`${longitude}, ${latitude}`}
     </a>
   ) : (
-    <Typography {...rest}>{positionName}</Typography>
+    <Typography {...rest}>{NOT_DEFINED_POSITION}</Typography>
   );
 }
 
