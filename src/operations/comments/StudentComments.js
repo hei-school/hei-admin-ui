@@ -10,8 +10,6 @@ import { useRole } from "../../security/hooks"
 
 const CommentWrapper = styled('div')({
   width: "100%",
-  overflowY: "auto",
-  maxHeight: "500px",
   borderRadius: "15px",
   padding: "20px 0px",
   zIndex: 999
@@ -22,7 +20,7 @@ const DIALOG_STYLES = {
   padding: 0,
   overflowX: "hidden",
   "& .MuiDialog-paper": {
-    padding: "0px 20px",
+    padding: "0 20px 20px 20px",
     minWidth: "700px",
     maxWidth: "800px",
   },
@@ -40,18 +38,17 @@ export function StudentComments({ studentId, open, onClose }) {
       <CommentWrapper>
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: 2 }}>
           <Typography variant="h3" sx={{
-            color: PALETTE_COLORS.black,
+            color: PALETTE_COLORS.primary,
             fontSize: "16px",
             fontWeight: "bold",
             display: "inline-flex",
-            opacity: .6,
             gap: 2
           }}>
-            <CommentIcon sx={{ color: "#5c5b5a" }} />
+            <CommentIcon />
             Liste de commentaires
           </Typography>
           <IconButton onClick={onClose}>
-            <CloseIcon sx={{ color: "#5c5b5a" }} />
+            <CloseIcon sx={{ color: PALETTE_COLORS.primary }} />
           </IconButton>
         </Box>
         <Separator />

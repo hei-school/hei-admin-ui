@@ -6,9 +6,10 @@ import { useNotify } from "../../hooks";
 import { PALETTE_COLORS } from "../../ui/constants/palette";
 import { ROLE_RENDERER } from "../../ui/utils/utils";
 import { Separator } from "./utils";
+import { DATE_OPTIONS, TIME_OPTIONS } from "../utils";
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 
-const LIST_PER_PAGE = 4;
+const LIST_PER_PAGE = 10;
 
 const COMMENT_ITEM_STYLE = {
   mb: 1,
@@ -34,22 +35,24 @@ export function CommentItem({ comment }) {
             <Typography
               variant="h5"
               color={PALETTE_COLORS.black}
-              sx={{ fontSize: "13px", fontWeight: "bold", opacity: .8 }}
+              sx={{ fontSize: "13px", fontWeight: "bold", opacity: .9 }}
             >
               {observer.first_name}
             </Typography>
             <Typography
               color={PALETTE_COLORS.black}
-              sx={{ fontSize: "13px", opacity: .8 }}
+              sx={{ fontSize: "13px", opacity: .9 }}
             >
-              {ROLE_RENDERER[observer.role]}
+              {ROLE_RENDERER[observer.role] || "Non défini.e"}
             </Typography>
           </div>
         </Box>
         <Typography
           sx={{ fontSize: "13px", color: PALETTE_COLORS.black, opacity: .7, fontWeight: "bold" }}
         >
-          {new Date(comment.creation_datetime).toLocaleDateString()}
+          {
+            new Date(comment.creation_datetime).toLocaleString("fr-FR", { ...DATE_OPTIONS, ...TIME_OPTIONS })
+          }
         </Typography>
       </Box>
       <Separator style={{ margin: "5px 0", opacity: .5 }} />

@@ -1,8 +1,26 @@
-import { Box, IconButton } from "@mui/material"
+import { Create, Form, TextInput, useCreate } from "react-admin"
+import { Box, IconButton, CircularProgress } from "@mui/material"
 import { v4 as uuid } from "uuid"
 import { Send as SendIcon } from "@mui/icons-material"
-import { Create, Form, TextInput } from "react-admin"
 import authProvider from "../../providers/authProvider"
+import { PALETTE_COLORS } from "../../ui/constants/palette"
+
+function SaveCommentButton() {
+  const [, { isLoading }] = useCreate();
+
+  return (
+    isLoading ? (
+      <CircularProgress size={35} sx={{marginTop: 1}} />
+    ) : (
+      <IconButton
+        type="submit"
+        sx={{ marginTop: "10px", color: PALETTE_COLORS.primary }}
+      >
+        <SendIcon />
+      </IconButton>
+    )
+  )
+}
 
 export function CommentCreate({ studentId }) {
   const observerId = authProvider.getCachedWhoami().id;
@@ -38,17 +56,17 @@ export function CommentCreate({ studentId }) {
             <TextInput
               multiline
               fullWidth
+              required
               variant="outlined"
               label="Commentaire"
               source="content"
               size="small"
               sx={{
-                minWidth: "170px", fontSize: "14px"
+                minWidth: "170px",
+                fontSize: "14px",
               }}
             />
-            <IconButton type="submit" sx={{ marginTop: "10px" }}>
-              <SendIcon />
-            </IconButton>
+            <SaveCommentButton />
           </Box>
         </Form>
       </Create>
