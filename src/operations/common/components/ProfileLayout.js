@@ -23,6 +23,7 @@ import {
   FeaturedVideoOutlined as NicIcon,
   HowToRegOutlined as StatusIcon,
   PersonOutlined as PersonIcon,
+  AssignmentOutlined as SpecializationIcon,
 } from "@mui/icons-material";
 
 import {EnableStatus, Sex} from "@haapi/typescript-client";
@@ -366,7 +367,11 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
               />
               {isStudentProfile && (
                 <FunctionField
-                  label={<FieldLabel>Parcours de Spécialisation</FieldLabel>}
+                  label={
+                    <FieldLabel icon={<SpecializationIcon />}>
+                      Parcours de Spécialisation
+                    </FieldLabel>
+                  }
                   render={(user) =>
                     renderSpecialization(user.specialization_field)
                   }
