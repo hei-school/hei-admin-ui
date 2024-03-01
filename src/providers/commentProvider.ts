@@ -54,7 +54,7 @@ const MOCK_DATA = [
       "ref": "OBS000002",
       "first_name": "Bob",
       "last_name": "Williams",
-      "role": "SUPERVISOR",
+      "role": "TEACHER",
       "profile_picture": null
     },
     "content": "Sed euismod justo vel lacus cursus, in iaculis tortor ullamcorper.",
@@ -84,7 +84,7 @@ const MOCK_DATA = [
       "ref": "OBS000002",
       "first_name": "Bob",
       "last_name": "Williams",
-      "role": "SUPERVISOR",
+      "role": "MANAGER",
       "profile_picture": null
     },
     "content": "Sed euismod justo vel lacus cursus, in iaculis tortor ullamcorper.",

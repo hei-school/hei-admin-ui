@@ -5,6 +5,7 @@ import { useGetList } from "react-admin";
 import { useNotify } from "../../hooks";
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 import { PALETTE_COLORS } from "../../ui/constants/palette";
+import { ROLE_RENDERER } from "../../ui/utils/utils";
 import { Separator } from "./utils";
 
 const LIST_PER_PAGE = 10;
@@ -41,7 +42,7 @@ export function CommentItem({ comment }) {
               color={PALETTE_COLORS.black}
               sx={{ fontSize: "13px", opacity: .8 }}
             >
-              {observer.role}
+              {ROLE_RENDERER[observer.role]}
             </Typography>
           </div>
         </Box>
