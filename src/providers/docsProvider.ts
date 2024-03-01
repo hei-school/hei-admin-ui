@@ -13,9 +13,7 @@ const docsProvider: HaDataProviderType = {
       case "STUDENT":
         if (meta.type in FileType) {
           return filesApi()
-            .getStudentFiles(meta?.studentId, {
-              params: {file_type: meta.type},
-            })
+            .getStudentFiles(meta?.studentId, meta.type)
             .then((result) => result.data);
         }
         return [];
@@ -27,14 +25,9 @@ const docsProvider: HaDataProviderType = {
     if (!meta) return [];
     switch (meta.owner) {
       case "SCHOOL":
-        return {
-          id: "doc_1",
-          name: "Document document",
-          creation_datetime: "2024-02-23T12:13:43.714Z",
-          file_type: "TRANSCRIPT",
-          file_url:
-            "https://hei-regulations.s3.eu-west-3.amazonaws.com/R%C3%A8glement+de+HEI.pdf",
-        };
+        return filesApi()
+          .getSchoolRegulationById(id)
+          .then((result) => result.data);
       case "STUDENT":
         return filesApi()
           .getStudentFilesById(meta.studentId, id)

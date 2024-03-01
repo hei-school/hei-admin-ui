@@ -1,5 +1,5 @@
-import {EditButton} from "react-admin";
-
+import {EditButton, Button} from "react-admin";
+import {Download} from "@mui/icons-material";
 import {useRole} from "../../security/hooks";
 import {Show} from "../common/components/Show";
 import authProvider from "../../providers/authProvider";
@@ -25,7 +25,12 @@ const ProfileShow = () => {
             style={{display: "flex", width: "100%", justifyContent: "flex-end"}}
           >
             {isStudent() ? (
-              <GetCertificate studentId={id} />
+              <Button
+                startIcon={<Download />}
+                label={<GetCertificate studentId={id} />}
+                data-testid="get-certificate-btn"
+                {...COMMON_BUTTON_PROPS}
+              ></Button>
             ) : (
               <EditButton
                 to={`/profile/${id}/edit`}

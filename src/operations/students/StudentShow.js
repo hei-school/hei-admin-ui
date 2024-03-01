@@ -1,19 +1,11 @@
-import {
-  Button,
-  EditButton,
-  Link,
-  useRecordContext,
-  useShowContext,
-} from "react-admin";
-
+import {Button, EditButton, Link, useRecordContext} from "react-admin";
 import {AttachMoney} from "@mui/icons-material";
-
-import {GetCertificate} from "./components";
-import {useRole} from "../../security/hooks";
-import {Show} from "../common/components/Show";
-import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
-import {ProfileLayout} from "../common/components/ProfileLayout";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {Show} from "../common/components/Show";
+import {ProfileLayout} from "../common/components/ProfileLayout";
+import {DocMenu} from "./components/DocMenu";
+import {useRole} from "../../security/hooks";
+import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
@@ -37,7 +29,7 @@ const ActionsOnShow = ({basePath, data, resource}) => {
           >
             <AttachMoney />
           </Button>
-          <GetCertificate studentId={student.id} />
+          <DocMenu studentId={student.id} />
         </div>
       )}
     </div>

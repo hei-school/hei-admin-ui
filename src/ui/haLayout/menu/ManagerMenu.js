@@ -1,5 +1,12 @@
 import {Box} from "@mui/material";
-import {Work, School, People, AttachMoney} from "@mui/icons-material";
+import {
+  Work,
+  School,
+  People,
+  AttachMoney,
+  Inventory,
+  Home,
+} from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function ManagerMenu() {
@@ -16,6 +23,14 @@ function ManagerMenu() {
           label="Liste de tous les frais"
           icon={<AttachMoney />}
           to="/fees"
+        />
+      </ListMenu>
+      <ListMenu data-testid="docs" label="Documents" icon={<Inventory />}>
+        <ListMenuItem
+          to="/docs/school"
+          data-testid="hei-docs"
+          label="HEI"
+          icon={<Home />}
         />
       </ListMenu>
     </Box>

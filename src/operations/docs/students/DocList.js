@@ -1,22 +1,31 @@
+import {useParams, useLocation} from "react-router-dom";
+import {useStudentRef} from "../../../hooks";
 import {useRole} from "../../../security/hooks";
 import {DocList as CommonDocList} from "../components/DocList";
 import {useViewType} from "../hooks/useViewType";
 import authProvider from "../../../providers/authProvider";
 
 export const DocList = () => {
-  const {isStudent} = useRole();
-  const type = useViewType("LIST");
+  const params = useParams();
+  const location = useLocation();
 
-  // TODO: add manager view for list
-  const studentId = isStudent() ? authProvider.getCachedWhoami().id : "";
+  const type = useViewType("LIST");
+  const {isStudent, isManager} = useRole();
+
+  const {studentRef} = useStudentRef("studentId");
+
+  const studentId = isStudent()
+    ? authProvider.getCachedWhoami().id
+    : params.studentId;
 
   return (
     <CommonDocList
       owner="STUDENT"
       type={type}
       studentId={studentId}
+      studentRef={isManager() && studentRef}
       datagridProps={{
-        rowClick: (id) => `/docs/students/${type}/${id}`,
+        rowClick: (id) => `${isManager() ? location.pathname : ""}/${id}`,
       }}
     />
   );

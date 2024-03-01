@@ -41,6 +41,7 @@ const App = () => (
     <Resource name="fees" {...fees} />
     <Resource name="fees-templates" {...feesTemplates} />
     <Resource name="payments" {...payments} />
+    <Resource name="docs" options={{label: "Documents"}} />
 
     <CustomRoutes>
       <Route exact path="/profile" element={<profile.show />} />
@@ -63,6 +64,7 @@ const App = () => (
 
       <Route exact path="/docs/school" element={<heiDocs.list />} />
       <Route exact path="/docs/school/:id" element={heiDocs.show} />
+
       <Route
         exact
         path="/docs/students/TRANSCRIPT"
@@ -74,9 +76,25 @@ const App = () => (
         element={<studentDocs.show />}
       />
       <Route exact path="/docs/students/OTHER" element={<studentDocs.list />} />
+
       <Route
         exact
-        path="/docs/students/OTHER/:id"
+        path="/students/:studentId/docs/students/OTHER"
+        element={<studentDocs.list />}
+      />
+      <Route
+        exact
+        path="/students/:studentId/docs/students/TRANSCRIPT"
+        element={<studentDocs.list />}
+      />
+      <Route
+        exact
+        path="/students/:studentId/docs/students/TRANSCRIPT/:id"
+        element={<studentDocs.show />}
+      />
+      <Route
+        exact
+        path="/students/:studentId/docs/students/OTHER/:id"
         element={<studentDocs.show />}
       />
     </CustomRoutes>

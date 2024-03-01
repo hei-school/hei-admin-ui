@@ -10,7 +10,7 @@ export const DocShow = ({owner, studentId}) => {
   const id = params.id;
   const type = useViewType("SHOW");
 
-  const {isLoading, data: doc} = useGetOne("docs", {
+  const {data: doc, isLoading} = useGetOne("docs", {
     id,
     meta: {owner, type, studentId},
   });
