@@ -13,7 +13,6 @@ import { COMMON_BUTTON_PROPS } from "../../ui/constants/common_styles";
 import { useToggle } from "../../hooks";
 import { StudentComments } from "../comments";
 
-//TODO: add edit button for manager
 export const ActionsOnShow = ({ basePath, data, resource }) => {
   const student = useRecordContext();
   const role = useRole();

@@ -3,10 +3,10 @@ import { useRef, useState } from "react";
 import { useGetList } from "react-admin";
 
 import { useNotify } from "../../hooks";
-import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 import { PALETTE_COLORS } from "../../ui/constants/palette";
 import { ROLE_RENDERER } from "../../ui/utils/utils";
 import { Separator } from "./utils";
+import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 
 const LIST_PER_PAGE = 10;
 

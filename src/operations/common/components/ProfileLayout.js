@@ -273,7 +273,7 @@ export const ProfileLayout = ({ role, actions, isStudent = false }) => {
       >
         <Card sx={{ ...cardStyle, position: "relative" }}>
           {
-            viewerRole.isManager() && (
+            isStudent && viewerRole.isManager() && (
               <IconButton
                 sx={{
                   position: "absolute",
