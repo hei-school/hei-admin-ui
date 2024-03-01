@@ -248,11 +248,11 @@ const FieldLabel = ({ children: label, icon }) => (
 
 export const ProfileLayout = ({ role, actions, isStudent = false }) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
+  const viewerRole  = useRole();
   const profile = useRecordContext();
   const redirect = useRedirect();
-  const viewerRole = useRole();
   const isStudentProfile = isStudent || viewerRole.isStudent();
-
+  
   const cardStyle = {
     borderRadius: "10px",
     boxShadow: "none",
@@ -273,7 +273,7 @@ export const ProfileLayout = ({ role, actions, isStudent = false }) => {
       >
         <Card sx={{ ...cardStyle, position: "relative" }}>
           {
-            isStudent && (
+            viewerRole.isManager() && (
               <IconButton
                 sx={{
                   position: "absolute",

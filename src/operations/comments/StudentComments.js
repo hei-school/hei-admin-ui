@@ -28,7 +28,7 @@ const DIALOG_STYLES = {
   },
 }
 
-export function StudentComments({ studentId, studentRef, open, onClose }) {
+export function StudentComments({ studentId, open, onClose }) {
   const role = useRole();
 
   return (
@@ -48,7 +48,7 @@ export function StudentComments({ studentId, studentRef, open, onClose }) {
             gap: 2
           }}>
             <CommentIcon sx={{ color: "#5c5b5a" }} />
-            Commentaire sur {studentRef}
+            Liste de commentaire
           </Typography>
           <IconButton onClick={onClose}>
             <CloseIcon sx={{ color: "#5c5b5a" }} />

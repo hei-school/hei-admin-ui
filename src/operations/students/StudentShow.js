@@ -14,8 +14,9 @@ import { useToggle } from "../../hooks";
 import { StudentComments } from "../comments";
 
 //TODO: add edit button for manager
-const ActionsOnShow = ({ basePath, data, resource }) => {
+export const ActionsOnShow = ({ basePath, data, resource }) => {
   const student = useRecordContext();
+  const role = useRole();
   const [showComments, , toogleShowComments] = useToggle(false);
 
   return (
@@ -26,7 +27,7 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
         onClick={toogleShowComments}
         {...COMMON_BUTTON_PROPS}
       />
-      {student && (
+      {role.isManager() && student && (
         <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4 }}>
           <Button
             aria-label="fees"
@@ -44,7 +45,6 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
         showComments && (
           <StudentComments
             studentId={student.id}
-            studentRef={student.ref}
             open={showComments}
             onClose={toogleShowComments}
           />
@@ -53,18 +53,14 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
   );
 };
 
-const StudentShow = () => {
-  const role = useRole();
-
-  return (
-    <Show title="Étudiants" actions={false}>
-      <ProfileLayout
-        role={WhoamiRoleEnum.STUDENT}
-        actions={role.isManager() && <ActionsOnShow />}
-        isStudent
-      />
-    </Show>
-  );
-};
+const StudentShow = () => (
+  <Show title="Étudiants" actions={false}>
+    <ProfileLayout
+      role={WhoamiRoleEnum.STUDENT}
+      actions={<ActionsOnShow />}
+      isStudent
+    />
+  </Show>
+)
 
 export default StudentShow;
