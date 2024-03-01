@@ -3,11 +3,8 @@ import { CommentOutlined as CommentIcon, Close as CloseIcon } from "@mui/icons-m
 import { styled } from "@mui/styles"
 
 import { CommentList } from "./CommentList"
-import { CommentCreate } from "./CommentCreate"
 import { Separator } from "./utils"
 import { PALETTE_COLORS } from "../../ui/constants/palette"
-import { useRole } from "../../security/hooks"
-import { useToggle } from "../../hooks"
 
 const CommentWrapper = styled('div')({
   width: "100%",
@@ -28,9 +25,6 @@ const DIALOG_STYLES = {
 }
 
 export function StudentComments({ studentId, open, onClose }) {
-  const role = useRole();
-  const [resetList, , toggleResetList] = useToggle(false);
-
   return (
     <Dialog
       open={open}
@@ -54,12 +48,7 @@ export function StudentComments({ studentId, open, onClose }) {
           </IconButton>
         </Box>
         <Separator />
-        <CommentList 
-          reset={resetList} 
-          stopReset={toggleResetList} 
-          studentId={studentId} 
-        />
-        {!role.isStudent() && <CommentCreate doRest={toggleResetList} studentId={studentId} />}
+        <CommentList studentId={studentId}/>
       </CommentWrapper>
     </Dialog>
   )

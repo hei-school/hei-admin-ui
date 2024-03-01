@@ -1,6 +1,8 @@
 import { Create, Form, TextInput, useCreate } from "react-admin"
 import { Box, IconButton, CircularProgress } from "@mui/material"
 import { v4 as uuid } from "uuid"
+import { useForm } from "react-hook-form"
+
 import { Send as SendIcon } from "@mui/icons-material"
 import authProvider from "../../providers/authProvider"
 import { PALETTE_COLORS } from "../../ui/constants/palette"
@@ -23,14 +25,13 @@ function SaveCommentButton({ }) {
   )
 }
 
-export function CommentCreate({ studentId, doReset }) {
-  const [commentContent, setCommentContent] = useState("");
+export function CommentCreate({ studentId, refetch }) {
   const observerId = authProvider.getCachedWhoami().id;
+  const [commentContent, setCommentContent] = useState("");
 
-  const resetField = () => {
+  const reset = () => {
+    refetch();
     setCommentContent("");
-    doReset();
-    return "";
   }
 
   return (
@@ -38,7 +39,8 @@ export function CommentCreate({ studentId, doReset }) {
       <Create
         resource="comments"
         title=" "
-        redirect={resetField}
+        redirect=""
+        mutationOptions={{ onSuccess: reset }}
         transform={(comment) => ({
           id: uuid(),
           student_id: studentId,
@@ -67,16 +69,16 @@ export function CommentCreate({ studentId, doReset }) {
               required
               variant="outlined"
               label="Commentaire"
+              source="content"
               value={commentContent}
               onChange={(event) => setCommentContent(event.target.value)}
-              source="content"
               size="small"
               sx={{
                 minWidth: "170px",
                 fontSize: "14px",
               }}
             />
-            <SaveCommentButton onClick={doReset} />
+            <SaveCommentButton />
           </Box>
         </Form>
       </Create>
