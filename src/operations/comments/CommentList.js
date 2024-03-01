@@ -7,7 +7,6 @@ import { PALETTE_COLORS } from "../../ui/constants/palette";
 import { ROLE_RENDERER } from "../../ui/utils/utils";
 import { Separator } from "./utils";
 import { DATE_OPTIONS, TIME_OPTIONS } from "../utils";
-import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 
 const LIST_PER_PAGE = 10;
 
@@ -22,26 +21,23 @@ const COMMENT_ITEM_STYLE = {
 export function CommentItem({ comment }) {
   const { observer } = comment;
   const profilePicture = observer?.profile_picture;
+  const creationDatetime = new Date(comment.creation_datetime).toLocaleString("fr-FR", { ...DATE_OPTIONS, ...TIME_OPTIONS });
 
   return (
     <Box sx={COMMENT_ITEM_STYLE}>
       <Box sx={{ display: "flex", alignItems: "start", justifyContent: "space-between" }}>
         <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-          <img
-            src={profilePicture || defaultProfilePicture}
-            style={{ width: "35px", height: "35px", borderRadius: "50%" }}
-          />
           <div>
             <Typography
               variant="h5"
               color={PALETTE_COLORS.black}
-              sx={{ fontSize: "13px", fontWeight: "bold", opacity: .9 }}
+              sx={{ fontSize: "14px", fontWeight: "bold", opacity: .9 }}
             >
               {observer.first_name}
             </Typography>
             <Typography
               color={PALETTE_COLORS.black}
-              sx={{ fontSize: "13px", opacity: .9 }}
+              sx={{ fontSize: "14px", opacity: .9 }}
             >
               {ROLE_RENDERER[observer.role] || "Non défini.e"}
             </Typography>
@@ -50,13 +46,11 @@ export function CommentItem({ comment }) {
         <Typography
           sx={{ fontSize: "13px", color: PALETTE_COLORS.black, opacity: .7, fontWeight: "bold" }}
         >
-          {
-            new Date(comment.creation_datetime).toLocaleString("fr-FR", { ...DATE_OPTIONS, ...TIME_OPTIONS })
-          }
+          {creationDatetime}
         </Typography>
       </Box>
       <Separator style={{ margin: "5px 0", opacity: .5 }} />
-      <Typography sx={{ fontSize: "13px", color: PALETTE_COLORS.black, opacity: .8 }}>
+      <Typography sx={{ fontSize: "14px", color: PALETTE_COLORS.black, opacity: .8 }}>
         {comment.content}
       </Typography>
     </Box>
@@ -64,13 +58,13 @@ export function CommentItem({ comment }) {
 }
 
 
-export function CommentList({ studentId }) {
+export function CommentList({ studentId, reset, stopReset}) {
   const listContainerRef = useRef(null);
   const [page, setPage] = useState(1);
   const [comments, setComments] = useState([]);
 
   const notify = useNotify();
-  const { data, isLoading, error, refetch } = useGetList(
+  const { data, isLoading, error } = useGetList(
     "comments",
     { pagination: { page, perPage: LIST_PER_PAGE }, filter: { studentId } }
   );
@@ -82,11 +76,16 @@ export function CommentList({ studentId }) {
     if (!data)
       return;
 
-    setComments(prev => ([...prev, ...data]))
+    setComments(prev => page === 1 ? data : [...prev, ...data])
   }, [page, data])
 
   if (error)
     notify("Une erreur s'est produite", { type: "error" });
+
+  if (reset) {
+    setPage(1);
+    stopReset();
+  }
 
   const showNextComments = () => {
     if (isEndOfPage)

@@ -4,13 +4,14 @@ import { v4 as uuid } from "uuid"
 import { Send as SendIcon } from "@mui/icons-material"
 import authProvider from "../../providers/authProvider"
 import { PALETTE_COLORS } from "../../ui/constants/palette"
+import { useState } from "react"
 
-function SaveCommentButton() {
+function SaveCommentButton({ }) {
   const [, { isLoading }] = useCreate();
 
   return (
     isLoading ? (
-      <CircularProgress size={35} sx={{marginTop: 1}} />
+      <CircularProgress size={35} sx={{ marginTop: 1 }} />
     ) : (
       <IconButton
         type="submit"
@@ -22,15 +23,22 @@ function SaveCommentButton() {
   )
 }
 
-export function CommentCreate({ studentId }) {
+export function CommentCreate({ studentId, doReset }) {
+  const [commentContent, setCommentContent] = useState("");
   const observerId = authProvider.getCachedWhoami().id;
+
+  const resetField = () => {
+    setCommentContent("");
+    doReset();
+    return "";
+  }
 
   return (
     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
       <Create
         resource="comments"
         title=" "
-        redirect=""
+        redirect={resetField}
         transform={(comment) => ({
           id: uuid(),
           student_id: studentId,
@@ -59,6 +67,8 @@ export function CommentCreate({ studentId }) {
               required
               variant="outlined"
               label="Commentaire"
+              value={commentContent}
+              onChange={(event) => setCommentContent(event.target.value)}
               source="content"
               size="small"
               sx={{
@@ -66,7 +76,7 @@ export function CommentCreate({ studentId }) {
                 fontSize: "14px",
               }}
             />
-            <SaveCommentButton />
+            <SaveCommentButton onClick={doReset} />
           </Box>
         </Form>
       </Create>

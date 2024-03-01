@@ -7,6 +7,7 @@ import { CommentCreate } from "./CommentCreate"
 import { Separator } from "./utils"
 import { PALETTE_COLORS } from "../../ui/constants/palette"
 import { useRole } from "../../security/hooks"
+import { useToggle } from "../../hooks"
 
 const CommentWrapper = styled('div')({
   width: "100%",
@@ -28,6 +29,7 @@ const DIALOG_STYLES = {
 
 export function StudentComments({ studentId, open, onClose }) {
   const role = useRole();
+  const [resetList, , toggleResetList] = useToggle(false);
 
   return (
     <Dialog
@@ -52,8 +54,12 @@ export function StudentComments({ studentId, open, onClose }) {
           </IconButton>
         </Box>
         <Separator />
-        <CommentList studentId={studentId} />
-        {!role.isStudent() && <CommentCreate studentId={studentId} />}
+        <CommentList 
+          reset={resetList} 
+          stopReset={toggleResetList} 
+          studentId={studentId} 
+        />
+        {!role.isStudent() && <CommentCreate doRest={toggleResetList} studentId={studentId} />}
       </CommentWrapper>
     </Dialog>
   )
