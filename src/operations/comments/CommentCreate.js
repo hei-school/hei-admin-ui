@@ -1,68 +1,73 @@
-import { Create, Form, TextInput, useCreate } from "react-admin"
-import { Box, IconButton, CircularProgress } from "@mui/material"
-import { v4 as uuid } from "uuid"
-import { useForm } from "react-hook-form"
+import {Create, Form, TextInput, useCreate} from "react-admin";
+import {Box, IconButton, CircularProgress} from "@mui/material";
+import {v4 as uuid} from "uuid";
+import {useForm} from "react-hook-form";
 
-import { Send as SendIcon } from "@mui/icons-material"
-import authProvider from "../../providers/authProvider"
-import { PALETTE_COLORS } from "../../ui/constants/palette"
-import { useState } from "react"
+import {Send as SendIcon} from "@mui/icons-material";
+import authProvider from "../../providers/authProvider";
+import {PALETTE_COLORS} from "../../ui/constants/palette";
+import {useState} from "react";
 
-function SaveCommentButton({ }) {
-  const [, { isLoading }] = useCreate();
+function SaveCommentButton({}) {
+  const [, {isLoading}] = useCreate();
 
-  return (
-    isLoading ? (
-      <CircularProgress size={35} sx={{ marginTop: 1 }} />
-    ) : (
-      <IconButton
-        type="submit"
-        sx={{ marginTop: "10px", color: PALETTE_COLORS.primary }}
-      >
-        <SendIcon />
-      </IconButton>
-    )
-  )
+  return isLoading ? (
+    <CircularProgress size={35} sx={{marginTop: 1}} />
+  ) : (
+    <IconButton
+      type="submit"
+      sx={{marginTop: "10px", color: PALETTE_COLORS.primary}}
+    >
+      <SendIcon />
+    </IconButton>
+  );
 }
 
-export function CommentCreate({ studentId, refetch }) {
+export function CommentCreate({studentId, refetch}) {
   const observerId = authProvider.getCachedWhoami().id;
   const [commentContent, setCommentContent] = useState("");
 
   const reset = () => {
     refetch();
     setCommentContent("");
-  }
+  };
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+    <Box
+      sx={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+      }}
+    >
       <Create
         resource="comments"
         title=" "
         redirect=""
-        mutationOptions={{ onSuccess: reset }}
+        mutationOptions={{onSuccess: reset}}
         transform={(comment) => ({
           id: uuid(),
           student_id: studentId,
           observer_id: observerId,
-          content: comment.content
+          content: comment.content,
         })}
         sx={{
-          padding: 0,
-          boxShadow: "none",
-          width: "100%",
+          "padding": 0,
+          "boxShadow": "none",
+          "width": "100%",
           "& #content-helper-text": {
             display: "none",
             padding: 0,
-            margin: 0
+            margin: 0,
           },
           "& .MuiPaper-root": {
-            boxShadow: "none"
-          }
+            boxShadow: "none",
+          },
         }}
       >
         <Form>
-          <Box sx={{ display: "flex", alignItems: "start", gap: 2 }}>
+          <Box sx={{display: "flex", alignItems: "start", gap: 2}}>
             <TextInput
               multiline
               fullWidth
@@ -82,6 +87,6 @@ export function CommentCreate({ studentId, refetch }) {
           </Box>
         </Form>
       </Create>
-    </Box >
-  )
+    </Box>
+  );
 }

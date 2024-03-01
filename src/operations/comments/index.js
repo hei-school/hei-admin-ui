@@ -1,1 +1,1 @@
-export { StudentComments } from "./StudentComments"
+export {StudentComments} from "./StudentComments";

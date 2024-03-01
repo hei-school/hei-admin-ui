@@ -79,7 +79,7 @@ function UserInfo() {
 
   return (
     <StyledUserInfo>
-      {/* <ProfilePicture /> */}
+      <ProfilePicture />
       {!isSmall && (
         <>
           <Box

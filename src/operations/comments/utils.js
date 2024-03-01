@@ -1,4 +1,4 @@
-export function Separator({ style }) {
+export function Separator({style}) {
   return (
     <div
       style={{
@@ -6,8 +6,8 @@ export function Separator({ style }) {
         width: "100%",
         backgroundColor: "#b0adac",
         marginBottom: "20px",
-        ...style
+        ...style,
       }}
     />
-  )
+  );
 }
