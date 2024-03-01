@@ -29,9 +29,13 @@ function UserInfo() {
   useEffect(() => {
     const doEffect = async () => {
       setIsLoading(true);
-      const profile = (await dataProvider.getOne("profile", {id})).data;
-      setUser(profile);
-      setIsLoading(false);
+      await dataProvider
+        .getOne("profile", {id})
+        .then((result) => {
+          setUser(result.data);
+          setIsLoading(false);
+        })
+        .catch(() => {});
     };
     doEffect();
   }, []);
