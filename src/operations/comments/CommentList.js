@@ -1,5 +1,5 @@
 import { Box, Typography, CircularProgress } from "@mui/material"
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useGetList } from "react-admin";
 
 import { useNotify } from "../../hooks";
@@ -8,7 +8,7 @@ import { ROLE_RENDERER } from "../../ui/utils/utils";
 import { Separator } from "./utils";
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 
-const LIST_PER_PAGE = 10;
+const LIST_PER_PAGE = 4;
 
 const COMMENT_ITEM_STYLE = {
   mb: 1,
@@ -19,8 +19,8 @@ const COMMENT_ITEM_STYLE = {
 }
 
 export function CommentItem({ comment }) {
-  const { subject, observer } = comment;
-  const profilePicture = subject?.profile_picture;
+  const { observer } = comment;
+  const profilePicture = observer?.profile_picture;
 
   return (
     <Box sx={COMMENT_ITEM_STYLE}>
@@ -61,20 +61,29 @@ export function CommentItem({ comment }) {
 }
 
 
-export function CommentList() {
+export function CommentList({ studentId }) {
   const listContainerRef = useRef(null);
   const [page, setPage] = useState(1);
+  const [comments, setComments] = useState([]);
+
   const notify = useNotify();
-  const { data, isLoading, error } = useGetList(
+  const { data, isLoading, error, refetch } = useGetList(
     "comments",
-    { pagination: { page, perPage: LIST_PER_PAGE } }
+    { pagination: { page, perPage: LIST_PER_PAGE }, filter: { studentId } }
   );
 
   const isDataAvalaible = !isLoading && data;
-  const isEndOfPage = isDataAvalaible && (data.length < page * LIST_PER_PAGE);
+  const isEndOfPage = isDataAvalaible && (data.length < LIST_PER_PAGE);
+
+  useEffect(() => {
+    if (!data)
+      return;
+
+    setComments(prev => ([...prev, ...data]))
+  }, [page, data])
 
   if (error)
-    notify("Une erreur s'est produite");
+    notify("Une erreur s'est produite", { type: "error" });
 
   const showNextComments = () => {
     if (isEndOfPage)
@@ -98,8 +107,8 @@ export function CommentList() {
         overflowY: "auto"
       }}
     >
-      {isDataAvalaible && data.map((comment, index) => <CommentItem key={index} comment={comment} />)}
-      {(isDataAvalaible && data.length < 1) && (
+      {comments.map((comment, index) => <CommentItem key={index} comment={comment} />)}
+      {(isDataAvalaible && comments.length < 1) && (
         <Typography
           sx={{
             fontSize: "14px",

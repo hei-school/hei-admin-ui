@@ -23,8 +23,8 @@ const DIALOG_STYLES = {
   overflowX: "hidden",
   "& .MuiDialog-paper": {
     padding: "0px 20px",
-    minWidth: "500px",
-    maxWidth: "700px",
+    minWidth: "700px",
+    maxWidth: "800px",
   },
 }
 
@@ -48,14 +48,14 @@ export function StudentComments({ studentId, open, onClose }) {
             gap: 2
           }}>
             <CommentIcon sx={{ color: "#5c5b5a" }} />
-            Liste de commentaire
+            Liste de commentaires
           </Typography>
           <IconButton onClick={onClose}>
             <CloseIcon sx={{ color: "#5c5b5a" }} />
           </IconButton>
         </Box>
         <Separator />
-        <CommentList />
+        <CommentList studentId={studentId} />
         {!role.isStudent() && <CommentCreate studentId={studentId} />}
       </CommentWrapper>
     </Dialog>

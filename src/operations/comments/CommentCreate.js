@@ -1,4 +1,5 @@
 import { Box, IconButton } from "@mui/material"
+import { v4 as uuid } from "uuid"
 import { Send as SendIcon } from "@mui/icons-material"
 import { Create, Form, TextInput } from "react-admin"
 import authProvider from "../../providers/authProvider"
@@ -10,7 +11,14 @@ export function CommentCreate({ studentId }) {
     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
       <Create
         resource="comments"
-        transform={(comment) => ({ studentId, observerId, content: comment.content })}
+        title=" "
+        redirect=""
+        transform={(comment) => ({
+          id: uuid(),
+          student_id: studentId,
+          observer_id: observerId,
+          content: comment.content
+        })}
         sx={{
           padding: 0,
           boxShadow: "none",
@@ -29,11 +37,11 @@ export function CommentCreate({ studentId }) {
           <Box sx={{ display: "flex", alignItems: "start", gap: 2 }}>
             <TextInput
               multiline
+              fullWidth
               variant="outlined"
               label="Commentaire"
               source="content"
               size="small"
-              fullWidth
               sx={{
                 minWidth: "170px", fontSize: "14px"
               }}

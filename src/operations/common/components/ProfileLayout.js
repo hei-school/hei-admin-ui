@@ -28,7 +28,7 @@ import {
   AssignmentOutlined as SpecializationIcon,
 } from "@mui/icons-material";
 
-import { EnableStatus, Sex, WhoamiRoleEnum } from "@haapi/typescript-client";
+import { EnableStatus, Sex } from "@haapi/typescript-client";
 import {
   Box,
   Card,
