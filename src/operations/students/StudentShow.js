@@ -1,9 +1,10 @@
 import { Button, Link, useRecordContext } from "react-admin";
 import {
   AttachMoney,
-  Comment as CommentIcon
+  Comment as CommentIcon,
 } from "@mui/icons-material";
 import { WhoamiRoleEnum } from "@haapi/typescript-client";
+
 import { Show } from "../common/components/Show";
 import { ProfileLayout } from "../common/components/ProfileLayout";
 import { DocMenu } from "./components/DocMenu";
@@ -43,6 +44,7 @@ const ActionsOnShow = ({ basePath, data, resource }) => {
         showComments && (
           <StudentComments
             studentId={student.id}
+            studentRef={student.ref}
             open={showComments}
             onClose={toogleShowComments}
           />

@@ -1,4 +1,4 @@
-import {useRef} from "react";
+import { useRef } from "react";
 import {
   ImageField,
   ImageInput,
@@ -8,11 +8,13 @@ import {
   FunctionField,
   SimpleShowLayout,
   TextField,
+  Link,
+  useRedirect
 } from "react-admin";
 
-import {Badge} from "@mui/material";
 import {
   PhotoCamera,
+  Edit as EditIcon,
   MailOutlined as MailIcon,
   PhoneOutlined as PhoneIcon,
   LocationOnOutlined as AdressIcon,
@@ -26,28 +28,28 @@ import {
   AssignmentOutlined as SpecializationIcon,
 } from "@mui/icons-material";
 
-import {EnableStatus, Sex} from "@haapi/typescript-client";
+import { EnableStatus, Sex, WhoamiRoleEnum } from "@haapi/typescript-client";
 import {
   Box,
   Card,
   CardActions,
   Dialog,
+  Badge,
   DialogTitle,
   Grid,
   IconButton,
-  Link,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 
-import {GeoPositionName} from "./GeoLocalisation";
-import {useToggle} from "../../../hooks";
-import {BirthDatePlace, CustomDateField} from "../../utils";
-import {useRole} from "../../../security/hooks";
-import {CustomCreate} from "../../utils/CustomCreate";
-import {SPECIALIZATION_VALUE} from "../../students/components";
-import {PALETTE_COLORS} from "../../../ui/constants/palette";
-import {NOOP_FN} from "../../../utils/noop";
+import { GeoPositionName } from "./GeoLocalisation";
+import { useToggle } from "../../../hooks";
+import { BirthDatePlace, CustomDateField } from "../../utils";
+import { useRole } from "../../../security/hooks";
+import { CustomCreate } from "../../utils/CustomCreate";
+import { SPECIALIZATION_VALUE } from "../../students/components";
+import { PALETTE_COLORS } from "../../../ui/constants/palette";
+import { NOOP_FN } from "../../../utils/noop";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 
@@ -66,7 +68,7 @@ const COMMON_FIELD_ATTRIBUTES = {
   color: PALETTE_COLORS.typography.grey,
 };
 
-const renderSex = ({sex}) => {
+const renderSex = ({ sex }) => {
   switch (sex) {
     case Sex.M:
       return "Homme";
@@ -82,7 +84,7 @@ const renderSex = ({sex}) => {
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
 
-const renderStatus = ({status}) => {
+const renderStatus = ({ status }) => {
   switch (status) {
     case EnableStatus.ENABLED:
       return "Actif.ve";
@@ -95,10 +97,11 @@ const renderStatus = ({status}) => {
   }
 };
 
-const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
+const UploadPictureButton = ({ role, onUpload = NOOP_FN }) => {
   const [isOpen, _set, toggle] = useToggle();
   const user = useRecordContext();
   const id = user.id;
+
 
   return (
     <div>
@@ -114,7 +117,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
         }}
       >
         <PhotoCamera
-          sx={{height: 20, width: 20, color: PALETTE_COLORS.yellow}}
+          sx={{ height: 20, width: 20, color: PALETTE_COLORS.yellow }}
         />
       </IconButton>
       <Dialog open={isOpen} onClose={toggle}>
@@ -152,8 +155,8 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   );
 };
 
-const ProfileCardAvatar = ({role}) => {
-  const {isStudent} = useRole();
+const ProfileCardAvatar = ({ role }) => {
+  const { isStudent } = useRole();
   const user = useRecordContext();
   const imgRef = useRef(null);
 
@@ -174,7 +177,7 @@ const ProfileCardAvatar = ({role}) => {
           />
         )
       }
-      sx={{bgcolor: "transparent"}}
+      sx={{ bgcolor: "transparent" }}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "right",
@@ -207,7 +210,7 @@ const ProfileCardAvatar = ({role}) => {
   );
 };
 
-const Title = ({children: label}) => (
+const Title = ({ children: label }) => (
   <Box
     padding="5px"
     border="1px solid"
@@ -223,7 +226,7 @@ const Title = ({children: label}) => (
   </Box>
 );
 
-const FieldLabel = ({children: label, icon}) => (
+const FieldLabel = ({ children: label, icon }) => (
   <Typography
     color={PALETTE_COLORS.typography.black}
     fontWeight="bold"
@@ -243,8 +246,10 @@ const FieldLabel = ({children: label, icon}) => (
   </Typography>
 );
 
-export const ProfileLayout = ({role, actions, isStudent = false}) => {
+export const ProfileLayout = ({ role, actions, isStudent = false }) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
+  const profile = useRecordContext();
+  const redirect = useRedirect();
   const viewerRole = useRole();
   const isStudentProfile = isStudent || viewerRole.isStudent();
 
@@ -257,16 +262,31 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
   return (
     <Grid
       container
-      columns={{xs: 6, sm: 8, md: 12}}
+      columns={{ xs: 6, sm: 8, md: 12 }}
       gridTemplateRows="repeat(2, 1fr)"
       justifyContent="center"
     >
       <Grid
         xs={isSmall ? 10 : 5}
-        columns={{xs: 6, sm: 4, md: 4}}
+        columns={{ xs: 6, sm: 4, md: 4 }}
         {...COMMON_GRID_ATTRIBUTES}
       >
-        <Card sx={cardStyle}>
+        <Card sx={{ ...cardStyle, position: "relative" }}>
+          {
+            isStudent && (
+              <IconButton
+                sx={{
+                  position: "absolute",
+                  top: 8,
+                  right: 12,
+                  color: PALETTE_COLORS.primary
+                }}
+                onClick={() => redirect(`/students/${profile.id}/edit`)}
+              >
+                <EditIcon color={PALETTE_COLORS.primary} />
+              </IconButton>
+            )
+          }
           <SimpleShowLayout
             sx={{
               minHeight: "275px",
@@ -345,7 +365,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
             <SimpleShowLayout>
               <FunctionField
                 label={<FieldLabel icon={<PersonIcon />}>Nom</FieldLabel>}
-                render={({first_name, last_name}) =>
+                render={({ first_name, last_name }) =>
                   `${first_name} ${last_name}`
                 }
                 {...COMMON_FIELD_ATTRIBUTES}
@@ -404,7 +424,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
                   birthdate={user.birth_date}
                   birthplace={user.birth_place}
                   emptyText={EMPTY_TEXT}
-                  sx={{fontSize: "12px"}}
+                  sx={{ fontSize: "12px" }}
                   {...COMMON_FIELD_ATTRIBUTES}
                 />
               )}

@@ -27,7 +27,7 @@ const DIALOG_STYLES = {
   },
 }
 
-export function StudentComments({ studentId, open, onClose }) {
+export function StudentComments({ studentId, studentRef, open, onClose }) {
   return (
     <Dialog
       open={open}
@@ -45,7 +45,7 @@ export function StudentComments({ studentId, open, onClose }) {
             gap: 2
           }}>
             <CommentIcon sx={{ color: "#5c5b5a" }} />
-            Commentaire sur RickaPrincy
+            Commentaire sur {studentRef}
           </Typography>
           <IconButton onClick={onClose}>
             <CloseIcon sx={{ color: "#5c5b5a" }} />
