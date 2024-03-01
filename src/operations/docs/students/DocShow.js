@@ -1,5 +1,5 @@
-import {DocShow as CommonDocShow} from "../components/DocShow";
 import {useParams} from "react-router-dom";
+import {DocShow as CommonDocShow} from "../components/DocShow";
 import {useRole} from "../../../security/hooks/useRole";
 import authProvider from "../../../providers/authProvider";
 

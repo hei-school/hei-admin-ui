@@ -64,12 +64,13 @@ const MenuItem = ({children, to, handleClose}) => {
   );
 };
 
-export const DocButton = ({studentId}) => {
+export const DocMenu = ({studentId}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const location = useLocation();
 
   const open = Boolean(anchorEl);
 
+  // get the path without /show
   const path = location.pathname.split("/").slice(0, -1).join("/");
 
   const handleClose = () => {

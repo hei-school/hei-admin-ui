@@ -1,16 +1,18 @@
-import {useRef} from "react";
+import {useRef, useState} from "react";
+import {CircularProgress} from "@mui/material";
 import {useNotify} from "../../../hooks";
 import {filesApi} from "../../../providers/api";
-import authProvider from "../../../providers/authProvider";
+import {PALETTE_COLORS} from "../../../ui/constants/palette";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
 export function GetCertificate({studentId}) {
+  const [isLoading, setIsLoading] = useState(false);
   const certificateLink = useRef(null);
   const notify = useNotify();
-  const id = authProvider.getCachedWhoami().id;
 
   const getScholarshipCertificate = () => {
+    setIsLoading(true);
     const certificateLinkRef = certificateLink.current;
     notify("Certificat de scolarité en cours de téléchargement", {
       autoHideDuration: 5000,
@@ -31,11 +33,11 @@ export function GetCertificate({studentId}) {
         );
         certificateLinkRef.download = FILE_NAME;
         certificateLinkRef.click();
+        setIsLoading(false);
       })
-      .catch((e) => {
+      .catch(() => {
         notify("Échec de téléchargement. Veuillez réessayer", {type: "error"});
-        console.log("CATCH");
-        console.error(e);
+        setIsLoading(false);
       });
   };
 
@@ -46,8 +48,20 @@ export function GetCertificate({studentId}) {
         ref={certificateLink}
         style={{display: "none"}}
       />
-      <a onClick={getScholarshipCertificate} label="Certificat">
-        Certificat
+      <a aria-disabled={isLoading} onClick={getScholarshipCertificate}>
+        {isLoading ? (
+          <CircularProgress
+            size={40}
+            style={{margin: "7px"}}
+            sx={{
+              ".MuiCircularProgress-circle": {
+                color: PALETTE_COLORS.yellow,
+              },
+            }}
+          />
+        ) : (
+          "Certificat"
+        )}
       </a>
     </div>
   );

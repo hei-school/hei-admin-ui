@@ -26,7 +26,8 @@ export const DocList = ({
   datagridProps,
   studentRef,
 }) => {
-  const title = `${getTitle(owner, type, studentRef)} ${studentRef ? ` de ${studentRef}` : ""}`;
+  const title =
+    getTitle(owner, type, studentRef) + (studentRef ? ` de ${studentRef}` : "");
 
   return (
     <HaList
@@ -37,7 +38,7 @@ export const DocList = ({
     >
       <TextField source="name" label="Nom du fichier" />
       <CustomDateField source="creation_datetime" label="Date de création" />
-      <ShowButton redirect={() => datagridProps?.rowClick} />
+      <ShowButton redirect={datagridProps?.rowClick} />
     </HaList>
   );
 };

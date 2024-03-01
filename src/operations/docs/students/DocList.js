@@ -25,7 +25,7 @@ export const DocList = () => {
       studentId={studentId}
       studentRef={isManager() && studentRef}
       datagridProps={{
-        rowClick: (id) => `${isManager && location.pathname}/${id}`,
+        rowClick: (id) => `${isManager() ? location.pathname : ""}/${id}`,
       }}
     />
   );

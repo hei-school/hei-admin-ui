@@ -3,7 +3,7 @@ import {AttachMoney} from "@mui/icons-material";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {Show} from "../common/components/Show";
 import {ProfileLayout} from "../common/components/ProfileLayout";
-import {DocButton} from "./components/DocButton";
+import {DocMenu} from "./components/DocMenu";
 import {useRole} from "../../security/hooks";
 import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
 
@@ -29,7 +29,7 @@ const ActionsOnShow = ({basePath, data, resource}) => {
           >
             <AttachMoney />
           </Button>
-          <DocButton studentId={student.id} />
+          <DocMenu studentId={student.id} />
         </div>
       )}
     </div>
