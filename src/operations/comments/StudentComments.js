@@ -6,6 +6,7 @@ import { CommentList } from "./CommentList"
 import { CommentCreate } from "./CommentCreate"
 import { Separator } from "./utils"
 import { PALETTE_COLORS } from "../../ui/constants/palette"
+import { useRole } from "../../security/hooks"
 
 const CommentWrapper = styled('div')({
   width: "100%",
@@ -28,6 +29,8 @@ const DIALOG_STYLES = {
 }
 
 export function StudentComments({ studentId, studentRef, open, onClose }) {
+  const role = useRole();
+
   return (
     <Dialog
       open={open}
@@ -53,7 +56,7 @@ export function StudentComments({ studentId, studentRef, open, onClose }) {
         </Box>
         <Separator />
         <CommentList />
-        <CommentCreate studentId={studentId} />
+        {!role.isStudent() && <CommentCreate studentId={studentId} />}
       </CommentWrapper>
     </Dialog>
   )
