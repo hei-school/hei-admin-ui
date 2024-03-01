@@ -1,13 +1,13 @@
+import {useEffect, useRef, useState} from "react";
 import {Typography, Box, CircularProgress, useMediaQuery} from "@mui/material";
 import {CalendarMonth} from "@mui/icons-material";
 import {styled} from "@mui/styles";
-import {useGetOne} from "react-admin";
+import {useDataProvider} from "react-admin";
 
 // /!\ TODO: refactor with path alias
 import {PALETTE_COLORS} from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-import {useRef} from "react";
 import {ROLE_RENDERER} from "../../utils";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
@@ -18,13 +18,23 @@ const StyledUserInfo = styled("div")({
 });
 
 function UserInfo() {
+  const [isLoading, setIsLoading] = useState(false);
+  const [user, setUser] = useState({});
   const imgRef = useRef(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
+  const id = authProvider.getCachedWhoami().id;
+  const dataProvider = useDataProvider();
 
-  const {data: user = {}, isLoading} = useGetOne("profile", {
-    id: authProvider.getCachedWhoami().id,
-  });
+  useEffect(() => {
+    const doEffect = async () => {
+      setIsLoading(true);
+      const profile = (await dataProvider.getOne("profile", {id})).data;
+      setUser(profile);
+      setIsLoading(false);
+    };
+    doEffect();
+  }, []);
 
   const {first_name = "", profile_picture = defaultProfilePicture} = user;
 
