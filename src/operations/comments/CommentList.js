@@ -2,6 +2,7 @@ import { Box, Typography, CircularProgress } from "@mui/material"
 import { useRef, useState } from "react";
 import { useGetList } from "react-admin";
 
+import { useNotify } from "../../hooks";
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 import { PALETTE_COLORS } from "../../ui/constants/palette";
 import { Separator } from "./utils";
@@ -51,7 +52,7 @@ export function CommentItem({ comment }) {
         </Typography>
       </Box>
       <Separator style={{ margin: "5px 0", opacity: .5 }} />
-      <Typography sx={{ fontSize: "13px", color: PALETTE_COLORS.black, opacity: .7 }}>
+      <Typography sx={{ fontSize: "13px", color: PALETTE_COLORS.black, opacity: .8 }}>
         {comment.content}
       </Typography>
     </Box>
@@ -59,20 +60,20 @@ export function CommentItem({ comment }) {
 }
 
 
-//TODO: use `useGetLists` from react admin
 export function CommentList() {
   const listContainerRef = useRef(null);
   const [page, setPage] = useState(1);
+  const notify = useNotify();
   const { data, isLoading, error } = useGetList(
     "comments",
     { pagination: { page, perPage: LIST_PER_PAGE } }
   );
-  const isDataAvalaible = !isLoading && data;
-  let isEndOfPage = false;
 
-  if (isDataAvalaible) {
-    isEndOfPage = data.length < page * LIST_PER_PAGE
-  }
+  const isDataAvalaible = !isLoading && data;
+  const isEndOfPage = isDataAvalaible && (data.length < page * LIST_PER_PAGE);
+
+  if (error)
+    notify("Une erreur s'est produite");
 
   const showNextComments = () => {
     if (isEndOfPage)
@@ -80,7 +81,7 @@ export function CommentList() {
 
     const currentHeight = listContainerRef.current.scrollTop + listContainerRef.current.clientHeight;
     if (currentHeight === listContainerRef.current.scrollHeight) {
-      console.log("will take more comments");
+      setPage(prev => prev + 1);
     }
   }
 
@@ -97,6 +98,19 @@ export function CommentList() {
       }}
     >
       {isDataAvalaible && data.map((comment, index) => <CommentItem key={index} comment={comment} />)}
+      {(isDataAvalaible && data.length < 1) && (
+        <Typography
+          sx={{
+            fontSize: "14px",
+            textAlign: "center",
+            fontWeight: "bold",
+            color: PALETTE_COLORS.black,
+            opacity: .7
+          }}
+        >
+          Pas encore de commentaire
+        </Typography>
+      )}
       {
         isLoading && (
           <Box sx={{ width: "100%", display: "flex", alignItems: "100%", justifyContent: "center" }}>

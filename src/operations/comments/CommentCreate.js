@@ -1,6 +1,6 @@
 import { Box, IconButton } from "@mui/material"
 import { Send as SendIcon } from "@mui/icons-material"
-import { Create, Form, TextInput, useCreate } from "react-admin"
+import { Create, Form, TextInput } from "react-admin"
 import authProvider from "../../providers/authProvider"
 
 export function CommentCreate({ studentId }) {
@@ -10,9 +10,7 @@ export function CommentCreate({ studentId }) {
     <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
       <Create
         resource="comments"
-        transform={(comment) => {
-          return { studentId, observerId, content: comment.content };
-        }}
+        transform={(comment) => ({ studentId, observerId, content: comment.content })}
         sx={{
           padding: 0,
           boxShadow: "none",
@@ -46,6 +44,6 @@ export function CommentCreate({ studentId }) {
           </Box>
         </Form>
       </Create>
-    </Box>
+    </Box >
   )
 }

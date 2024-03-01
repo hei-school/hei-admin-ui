@@ -1,6 +1,5 @@
 import { HaDataProviderType } from "./HaDataProviderType";
 
-
 const MOCK_DATA = [
   {
     "id": "abc123",
@@ -101,7 +100,7 @@ const commentProvider: HaDataProviderType = {
     throw new Error("Not implemented");
   },
   async saveOrUpdate(payload: any) {
-    console.log(payload);
+    console.log(payload[0]);
     return MOCK_DATA[0];
   },
   async delete(id: string) {
