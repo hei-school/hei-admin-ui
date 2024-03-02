@@ -1,11 +1,11 @@
 import {createStudent, teachersMock} from "./mocks/responses";
-import {turnStringIntoDate} from "../operations/utils";
+import {toISO} from "../utils/date";
 
 export const studentRequestBodyVerification = (
   requestBody,
   createStudentNoFees
 ) => {
-  createStudentNoFees.entrance_datetime = turnStringIntoDate(
+  createStudentNoFees.entrance_datetime = toISO(
     createStudent.entrance_datetime
   );
   expect(requestBody[0]).to.deep.equal(createStudentNoFees);
