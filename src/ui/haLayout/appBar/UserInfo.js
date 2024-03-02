@@ -1,14 +1,14 @@
-import {useEffect, useRef, useState} from "react";
-import {Typography, Box, CircularProgress, useMediaQuery} from "@mui/material";
-import {CalendarMonth} from "@mui/icons-material";
-import {styled} from "@mui/styles";
-import {useDataProvider} from "react-admin";
+import { useEffect, useRef, useState } from "react";
+import { Typography, Box, CircularProgress, useMediaQuery } from "@mui/material";
+import { CalendarMonth } from "@mui/icons-material";
+import { styled } from "@mui/styles";
+import { useDataProvider } from "react-admin";
 
 // /!\ TODO: refactor with path alias
-import {PALETTE_COLORS} from "../../constants/palette";
+import { getUserRoleInFr } from "../../../utils";
+import { PALETTE_COLORS } from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-import {ROLE_RENDERER} from "../../utils";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
 const StyledUserInfo = styled("div")({
@@ -30,23 +30,23 @@ function UserInfo() {
     const doEffect = async () => {
       setIsLoading(true);
       await dataProvider
-        .getOne("profile", {id})
+        .getOne("profile", { id })
         .then((result) => {
           setUser(result.data);
           setIsLoading(false);
         })
-        .catch(() => {});
+        .catch(() => { });
     };
     doEffect();
   }, []);
 
-  const {first_name = "", profile_picture = defaultProfilePicture} = user;
+  const { first_name = "", profile_picture = defaultProfilePicture } = user;
 
   if (isLoading) {
     return (
       <CircularProgress
         size={40}
-        style={{margin: "7px"}}
+        style={{ margin: "7px" }}
         sx={{
           ".MuiCircularProgress-circle": {
             color: PALETTE_COLORS.yellow,
@@ -108,12 +108,12 @@ function UserInfo() {
                 lineHeight: 1.2,
               }}
             >
-              {ROLE_RENDERER[role]}
+              {getUserRoleInFr(role)}
             </Typography>
           </Box>
           <a href={HEI_CALENDAR_URL} target="_blank">
             <CalendarMonth
-              sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
+              sx={{ color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5 }}
             />
           </a>
         </>
