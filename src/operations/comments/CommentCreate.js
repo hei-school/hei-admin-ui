@@ -1,9 +1,7 @@
-import {useState} from "react";
 import {Create, Form, TextInput, useCreate} from "react-admin";
 import {Box, IconButton, CircularProgress} from "@mui/material";
 import {Send as SendIcon} from "@mui/icons-material";
 import {v4 as uuid} from "uuid";
-import {useForm} from "react-hook-form";
 
 import {PALETTE_COLORS} from "../../ui/constants/palette";
 import authProvider from "../../providers/authProvider";
@@ -25,11 +23,9 @@ function SaveCommentButton({}) {
 
 export function CommentCreate({studentId, refetch}) {
   const observerId = authProvider.getCachedWhoami().id;
-  const [commentContent, setCommentContent] = useState("");
 
   const reset = () => {
     refetch();
-    setCommentContent("");
   };
 
   return (
@@ -75,8 +71,6 @@ export function CommentCreate({studentId, refetch}) {
               variant="outlined"
               label="Commentaire"
               source="content"
-              value={commentContent}
-              onChange={(event) => setCommentContent(event.target.value)}
               size="small"
               sx={{
                 minWidth: "170px",

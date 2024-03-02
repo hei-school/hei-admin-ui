@@ -23,6 +23,7 @@ const COMMENT_ITEM_STYLE = {
   borderRadius: "5px",
 };
 
+// /!\ TODO: create custom hooks useGetProfilePic
 export function CommentItem({comment}) {
   const [user, setUser] = useState({});
   const [isLoading, setIsLoading] = useState(false);
@@ -41,9 +42,9 @@ export function CommentItem({comment}) {
         .getOne("profile", {id: observer?.id})
         .then((result) => {
           setUser(result.data);
-          setIsLoading(false);
         })
-        .catch(() => {});
+        .catch(() => {})
+        .finally(() => setIsLoading(false));
     };
     doEffect();
   }, []);

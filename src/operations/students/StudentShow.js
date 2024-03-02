@@ -16,7 +16,14 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
   const [showComments, , toogleShowComments] = useToggle(false);
 
   return (
-    <div style={{display: "grid", gridTemplateColumns: "1fr 2fr", gap: 4}}>
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "end",
+        gap: 4,
+      }}
+    >
       <Button
         startIcon={<CommentIcon />}
         label="Comment"
