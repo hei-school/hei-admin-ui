@@ -1,5 +1,5 @@
 import {useGetList} from "react-admin";
-import {CustomEdit} from "../utils/CustomEdit";
+import {Edit} from "../common/components";
 import GroupForm from "./GroupForm";
 
 const GroupEdit = () => {
@@ -7,9 +7,9 @@ const GroupEdit = () => {
   const students = queryStudents.data;
 
   return (
-    <CustomEdit resource="groups" title="Groupe">
+    <Edit resource="groups" title="Groupe">
       <GroupForm students={students} create={false} />
-    </CustomEdit>
+    </Edit>
   );
 };
 export default GroupEdit;

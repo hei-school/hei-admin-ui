@@ -1,7 +1,7 @@
 import {ShowButton, TextField} from "react-admin";
 import {HaList} from "../../../ui/haList";
 
-import { DateField } from "../../common/components/fields";
+import {DateField} from "../../common/components/fields";
 
 const getTitle = (owner, type) => {
   if (owner == "SCHOOL") {

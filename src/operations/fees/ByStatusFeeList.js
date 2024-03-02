@@ -1,15 +1,12 @@
 import {FunctionField, ShowButton, useListContext} from "react-admin";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {AttachMoney} from "@mui/icons-material";
-import {
-  prettyPrintMoney,
-  commentFunctionRenderer,
-} from "../utils";
+import {prettyPrintMoney, commentFunctionRenderer} from "../utils";
 import {HaList} from "../../ui/haList/HaList";
 import {FeesFilter} from ".";
 import {rowStyle} from "./utils";
 
-import { DateField } from "../common/components/fields";
+import {DateField} from "../common/components/fields";
 
 const FEES_STATUS_VALUE = {
   LATE: "en retard",
@@ -42,11 +39,7 @@ const ByStatusFeeList = (props) => (
     }}
     actions={<FeesFilter />}
   >
-    <DateField
-      source="due_datetime"
-      label="Date limite"
-      showTime={false}
-    />
+    <DateField source="due_datetime" label="Date limite" showTime={false} />
     <FunctionField
       source="comment"
       render={commentFunctionRenderer}

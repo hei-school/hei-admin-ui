@@ -1,11 +1,11 @@
 import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
 import {EditToolBar, SexRadioButton} from "../utils";
 import {StatusRadioButton} from "../utils/UserStatusRadioButton";
-import {CustomEdit} from "../utils/CustomEdit";
 import {SelectSpecialization} from "../students/components";
 import {useRole} from "../../security/hooks";
 import {EditGeoLocalisation} from "../common/components/GeoLocalisation";
-import { toUTC } from "../../utils/date";
+import {Edit} from "../common/components";
+import {toUTC} from "../../utils/date";
 
 const userToUserApi = ({
   birth_date,
@@ -25,7 +25,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
   const isStudentProfile = isStudent || role.isStudent();
 
   return (
-    <CustomEdit title="Modifier le profil" transform={userToUserApi}>
+    <Edit title="Modifier le profil" transform={userToUserApi}>
       <SimpleForm toolbar={<EditToolBar />}>
         <TextInput source="ref" label="Référence" fullWidth disabled={true} />
         <TextInput source="first_name" label="Prénom·s" fullWidth />
@@ -55,7 +55,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
         />
         <StatusRadioButton disabled={isOwnProfile} />
       </SimpleForm>
-    </CustomEdit>
+    </Edit>
   );
 };
 

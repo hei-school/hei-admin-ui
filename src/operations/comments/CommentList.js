@@ -1,6 +1,6 @@
-import { Box, Typography, CircularProgress } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { useGetList } from "react-admin";
+import {Box, Typography, CircularProgress} from "@mui/material";
+import {useEffect, useRef, useState} from "react";
+import {useGetList} from "react-admin";
 
 import dataProvider from "../../providers/dataProvider";
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
@@ -41,7 +41,7 @@ export function CommentItem({comment}) {
           justifyContent: "space-between",
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
           <img
             src={profilePicture}
             style={{width: "35px", height: "35px", borderRadius: "50%"}}
@@ -63,7 +63,7 @@ export function CommentItem({comment}) {
             </Typography>
             <Typography
               color={PALETTE_COLORS.black}
-              sx={{ fontSize: "14px", opacity: 0.9 }}
+              sx={{fontSize: "14px", opacity: 0.9}}
             >
               {getUserRoleInFr(observer.role)}
             </Typography>
@@ -80,9 +80,9 @@ export function CommentItem({comment}) {
           {creationDatetime}
         </Typography>
       </Box>
-      <Separator style={{ margin: "5px 0", opacity: 0.5 }} />
+      <Separator style={{margin: "5px 0", opacity: 0.5}} />
       <Typography
-        sx={{ fontSize: "14px", color: PALETTE_COLORS.black, opacity: 0.8 }}
+        sx={{fontSize: "14px", color: PALETTE_COLORS.black, opacity: 0.8}}
       >
         {comment.content}
       </Typography>
@@ -90,7 +90,7 @@ export function CommentItem({comment}) {
   );
 }
 
-export function CommentList({ studentId }) {
+export function CommentList({studentId}) {
   const listContainerRef = useRef(null);
   const [page, setPage] = useState(1);
   const [shownComments, setShowComments] = useState([]);
@@ -114,7 +114,7 @@ export function CommentList({ studentId }) {
     setShowComments((prev) => (page === 1 ? comments : [...prev, ...comments]));
   }, [page, comments]);
 
-  if (error) notify("Une erreur s'est produite", { type: "error" });
+  if (error) notify("Une erreur s'est produite", {type: "error"});
 
   const showNextComments = () => {
     if (isEndOfPage) return;
@@ -165,7 +165,7 @@ export function CommentList({ studentId }) {
               justifyContent: "center",
             }}
           >
-            <CircularProgress size={30} sx={{ my: 1 }} />
+            <CircularProgress size={30} sx={{my: 1}} />
           </Box>
         )}
       </Box>

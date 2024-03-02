@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material"
-import { formatDate } from "../../../../utils";
+import {Typography} from "@mui/material";
+import {formatDate} from "../../../../utils";
 
 export function BirthDateField({
   birthdate,
@@ -8,9 +8,8 @@ export function BirthDateField({
   sx = {},
   ...typographyProps
 }) {
-  
   if (!birthdate) return emptyText;
-  
+
   const localBirthplace = formatDate(birthdate, false);
 
   return (

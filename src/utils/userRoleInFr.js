@@ -1,19 +1,13 @@
-import { WhoamiRoleEnum } from "@haapi/typescript-client";
-
-const UserRoleInFr = {
-  MANAGER: "Admin",
-  TEACHER: "Enseignant(e)",
-  STUDENT: "Étudiant(e)",
-};
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 
 export function getUserRoleInFr(userRole) {
   switch (userRole) {
     case WhoamiRoleEnum.MANAGER:
-      return UserRoleInFr.MANAGER;
+      return "Admin";
     case WhoamiRoleEnum.TEACHER:
-      return UserRoleInFr.TEACHER;
+      return "Enseignant(e)";
     case WhoamiRoleEnum.STUDENT:
-      return UserRoleInFr.STUDENT;
+      return "Étudiant(e)";
     default:
       throw new Error("Unknown user role");
   }

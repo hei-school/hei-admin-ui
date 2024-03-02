@@ -7,12 +7,13 @@ import {
   TextInput,
   RadioButtonGroupInput,
 } from "react-admin";
-import {EditToolBar, CustomEdit} from "../utils";
+import {EditToolBar} from "../utils";
 import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
+import {Edit} from "../common/components";
 
 function FeesTemplatesEdit() {
   return (
-    <CustomEdit
+    <Edit
       title={"Modifier un frais prédéfini"}
       redirect={() => "fees-templates"}
     >
@@ -40,7 +41,7 @@ function FeesTemplatesEdit() {
           validate={[required(), number(), minValue(1), maxValue(12)]}
         />
       </SimpleForm>
-    </CustomEdit>
+    </Edit>
   );
 }
 

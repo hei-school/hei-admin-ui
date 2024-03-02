@@ -6,10 +6,7 @@ import feeProvider from "../../providers/feeProvider";
 import {useRole} from "../../security/hooks/useRole";
 import {useStudentRef} from "../../hooks/useStudentRef";
 import {CreateButton, ImportButton} from "../../ui/haToolbar";
-import {
-  commentFunctionRenderer,
-  prettyPrintMoney,
-} from "../utils";
+import {commentFunctionRenderer, prettyPrintMoney} from "../utils";
 import {
   minimalFeesHeaders,
   optionalFeesHeaders,
@@ -39,11 +36,7 @@ const FeeList = () => {
         rowStyle,
       }}
     >
-      <DateField
-        source="due_datetime"
-        label="Date limite"
-        showTime={false}
-      />
+      <DateField source="due_datetime" label="Date limite" showTime={false} />
       <FunctionField
         source="comment"
         render={commentFunctionRenderer}

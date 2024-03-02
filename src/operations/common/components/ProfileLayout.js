@@ -28,7 +28,6 @@ import {
   AssignmentOutlined as SpecializationIcon,
 } from "@mui/icons-material";
 
-import {EnableStatus, Sex} from "@haapi/typescript-client";
 import {
   Box,
   Card,
@@ -42,19 +41,22 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {GeoPositionName} from "./GeoLocalisation";
+import {GeoPositionName, Create} from ".";
+import {DateField, BirthDateField} from "./fields";
+
 import {useToggle} from "../../../hooks";
-import {CustomCreate} from "../../utils/CustomCreate";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
 import {NOOP_FN} from "../../../utils/noop";
 
+import {useRole} from "../../../security/hooks";
+import {
+  EMPTY_TEXT,
+  getGenderInFr,
+  getUserStatusInFr,
+} from "../utils/frenchSupport";
+
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-
-import { DateField, BirthDateField } from "./fields";
-import { useRole } from "../../../security/hooks";
-
-const EMPTY_TEXT = "Non défini.e";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -69,34 +71,8 @@ const COMMON_FIELD_ATTRIBUTES = {
   color: PALETTE_COLORS.typography.grey,
 };
 
-const renderSex = ({sex}) => {
-  switch (sex) {
-    case Sex.M:
-      return "Homme";
-    case Sex.F:
-      return "Femme";
-    case null: // display empty_text if sex is null
-      return EMPTY_TEXT;
-    default:
-      console.error("Le sexe ne peut pas être affiché");
-  }
-};
-
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
-
-const renderStatus = ({status}) => {
-  switch (status) {
-    case EnableStatus.ENABLED:
-      return "Actif.ve";
-    case EnableStatus.SUSPENDED:
-      return "Suspendu·e";
-    case EnableStatus.DISABLED:
-      return "Quitté.e";
-    default:
-      console.error("Le statut ne peut pas être affiché");
-  }
-};
 
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, _set, toggle] = useToggle();
@@ -124,7 +100,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
         <DialogTitle color={PALETTE_COLORS.yellow} fontWeight="bold">
           Modifier la photo de profil
         </DialogTitle>
-        <CustomCreate
+        <Create
           title=" "
           redirect={false}
           resource="profile-picture"
@@ -149,7 +125,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
               <ImageField source="src" title="title" />
             </ImageInput>
           </SimpleForm>
-        </CustomCreate>
+        </Create>
       </Dialog>
     </div>
   );
@@ -371,7 +347,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
               />
               <FunctionField
                 label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
-                render={renderStatus}
+                render={(user) => getUserStatusInFr(user.status)}
                 {...COMMON_FIELD_ATTRIBUTES}
               />
               <DateField
@@ -403,7 +379,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           <SimpleShowLayout>
             <FunctionField
               label={<FieldLabel icon={<GenderIcon />}>Sexe</FieldLabel>}
-              render={renderSex}
+              render={(user) => getGenderInFr(user.sex)}
               {...COMMON_FIELD_ATTRIBUTES}
             />
             <TextField
