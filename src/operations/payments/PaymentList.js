@@ -6,9 +6,10 @@ import {
   TopToolbar,
   CreateButton,
 } from "react-admin";
-import {prettyPrintMoney, paymentTypeRenderer} from "../utils";
+import {paymentTypeRenderer} from "../utils";
 import {useRole} from "../../security/hooks";
 import {DeleteWithConfirm} from "../common/components";
+import {renderPrettyMoney} from "../common/utils/money";
 import {DateField} from "../common/components/fields";
 
 const Actions = ({basePath, resource}) => (
@@ -42,7 +43,7 @@ const PaymentList = ({feeId}) => {
         />
         <FunctionField
           label="Montant"
-          render={(record) => prettyPrintMoney(record.amount)}
+          render={(record) => renderPrettyMoney(record.amount)}
           textAlign="right"
         />
         {role.isManager() && (

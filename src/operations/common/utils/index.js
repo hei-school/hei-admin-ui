@@ -1,1 +1,0 @@
-export {userStatusInFr} from "./userStatusInFr";

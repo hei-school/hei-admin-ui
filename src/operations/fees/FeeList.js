@@ -1,21 +1,21 @@
 import {FunctionField, ShowButton} from "react-admin";
 import {WarningOutlined} from "@mui/icons-material";
-import {rowStyle} from "./utils";
 import {HaList} from "../../ui/haList/HaList";
-import feeProvider from "../../providers/feeProvider";
-import {useRole} from "../../security/hooks/useRole";
-import {useStudentRef} from "../../hooks/useStudentRef";
 import {CreateButton, ImportButton} from "../../ui/haToolbar";
-import {commentFunctionRenderer, prettyPrintMoney} from "../utils";
+import {DeleteWithConfirm} from "../common/components";
+import {DateField} from "../common/components/fields";
+import {rowStyle} from "./utils";
+import {commentFunctionRenderer} from "../utils";
+import {useStudentRef} from "../../hooks/useStudentRef";
+import {useRole} from "../../security/hooks/useRole";
+import {renderPrettyMoney} from "../common/utils/money";
+import feeProvider from "../../providers/feeProvider";
 import {
   minimalFeesHeaders,
   optionalFeesHeaders,
   transformFeesData,
   valideFeesData,
 } from "./importConf";
-
-import {DeleteWithConfirm} from "../common/components";
-import {DateField} from "../common/components/fields";
 
 const FeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
@@ -44,7 +44,7 @@ const FeeList = () => {
       />
       <FunctionField
         label="Reste à payer"
-        render={(record) => prettyPrintMoney(record.remaining_amount)}
+        render={(record) => renderPrettyMoney(record.remaining_amount)}
         textAlign="right"
       />
       <DateField

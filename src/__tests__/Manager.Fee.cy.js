@@ -17,12 +17,10 @@ import {
 } from "./mocks/responses";
 
 import App from "../App";
-
 import {manager1} from "./credentials";
 import {assertFeeMatchesTemplate} from "./utils";
-
-import {prettyPrintMoney, statusRenderer} from "../operations/utils";
-
+import {statusRenderer} from "../operations/utils";
+import {renderPrettyMoney} from "../operations/common/utils/money";
 import {getEndOfMonth} from "../utils/date";
 
 // /!\ TODO: create custom cypress command "getByTestid"
@@ -106,10 +104,10 @@ describe(specTitle("Manager.Fee"), () => {
       createPaymentMock(interceptedFeeMock)
     ).as("getPaymentsOfOneFee");
     cy.get('[aria-label="fees"]').click();
-    cy.contains(prettyPrintMoney(interceptedFeeMock.remaining_amount)).click();
+    cy.contains(renderPrettyMoney(interceptedFeeMock.remaining_amount)).click();
     cy.get("#main-content")
-      .should("contain", prettyPrintMoney(interceptedFeeMock.remaining_amount))
-      .and("contain", prettyPrintMoney(interceptedFeeMock.total_amount))
+      .should("contain", renderPrettyMoney(interceptedFeeMock.remaining_amount))
+      .and("contain", renderPrettyMoney(interceptedFeeMock.total_amount))
       .and("contain", interceptedFeeMock.comment)
       .and("contain", statusRenderer(interceptedFeeMock.status))
       .and("contain", "Paiements");

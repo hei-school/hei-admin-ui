@@ -5,7 +5,7 @@ import {styled} from "@mui/styles";
 import {useDataProvider} from "react-admin";
 
 // /!\ TODO: refactor with path alias
-import {getUserRoleInFr} from "../../../utils";
+import {getUserRoleInFr} from "../../../operations/common/utils/typo_util";
 import {PALETTE_COLORS} from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
@@ -33,9 +33,9 @@ function UserInfo() {
         .getOne("profile", {id})
         .then((result) => {
           setUser(result.data);
-          setIsLoading(false);
         })
-        .catch(() => {});
+        .catch(() => {})
+        .finally(()=>setIsLoading(false));
     };
     doEffect();
   }, []);
@@ -108,7 +108,7 @@ function UserInfo() {
                 lineHeight: 1.2,
               }}
             >
-              {role && getUserRoleInFr(role)}
+              {(!isLoading && role) && getUserRoleInFr(role)}
             </Typography>
           </Box>
           <a href={HEI_CALENDAR_URL} target="_blank">

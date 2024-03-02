@@ -11,17 +11,17 @@ import {useParams} from "react-router-dom";
 import {Divider, Typography} from "@mui/material";
 import {useRole} from "../../security/hooks";
 import {
-  prettyPrintMoney,
-  statusRenderer,
   withRedWarning,
   commentFunctionRenderer,
 } from "../utils";
+import {renderPrettyMoney} from "../common/utils/money";
 import PaymentList from "../payments/PaymentList";
 import {studentIdFromRaId} from "../../providers/feeProvider";
 import {DeleteWithConfirm} from "../common/components";
 import {DateField} from "../common/components/fields";
+import { getFeesStatusInFr } from "../common/utils/typo_util";
 
-const dateTimeRenderer = (data) => {
+const renderDateTimeField = (data) => {
   return data.updated_at == null ? (
     <DateField source="creation_datetime" showTime />
   ) : (
@@ -53,25 +53,25 @@ export const FeeLayout = ({feeId}) => {
       />
       <FunctionField
         label="Total à payer"
-        render={(record) => prettyPrintMoney(record.total_amount)}
+        render={(record) => renderPrettyMoney(record.total_amount)}
         textAlign="right"
       />
       <FunctionField
         label="Reste à payer"
-        render={(record) => prettyPrintMoney(record.remaining_amount)}
+        render={(record) => renderPrettyMoney(record.remaining_amount)}
         textAlign="right"
       />
       <FunctionField
         label="Statut"
         render={(record) =>
           record.status === "LATE"
-            ? withRedWarning(statusRenderer(record.status))
-            : statusRenderer(record.status)
+            ? withRedWarning(getFeesStatusInFr(record.status))
+            : getFeesStatusInFr(record.status)
         }
       />
       <FunctionField
         label="Date et heure de dernière modification"
-        render={dateTimeRenderer}
+        render={renderDateTimeField}
       />
       <Divider sx={{mt: 2, mb: 1}} />
       <Typography>Paiements</Typography>
@@ -80,7 +80,7 @@ export const FeeLayout = ({feeId}) => {
   );
 };
 
-const FeeShow = (props) => {
+const FeeShow = () => {
   const role = useRole();
   const params = useParams();
   const feeId = params.feeId;

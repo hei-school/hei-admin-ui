@@ -1,12 +1,12 @@
 import {FunctionField, ShowButton, useListContext} from "react-admin";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {AttachMoney} from "@mui/icons-material";
-import {prettyPrintMoney, commentFunctionRenderer} from "../utils";
+import {commentFunctionRenderer} from "../utils";
 import {HaList} from "../../ui/haList/HaList";
 import {FeesFilter} from ".";
-import {rowStyle} from "./utils";
-
+import {rowStyle} from "./utils/commonStyle";
 import {DateField} from "../common/components/fields";
+import {renderPrettyMoney} from "../common/utils/money"
 
 const FEES_STATUS_VALUE = {
   LATE: "en retard",
@@ -47,7 +47,7 @@ const ByStatusFeeList = (props) => (
     />
     <FunctionField
       label="Reste à payer"
-      render={(fee) => prettyPrintMoney(fee.remaining_amount)}
+      render={(fee) => renderPrettyMoney(fee.remaining_amount)}
       textAlign="right"
     />
     <DateField

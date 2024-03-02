@@ -2,7 +2,7 @@ import {mount, unmount} from "@cypress/react";
 import App from "../App";
 import {manager1} from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
-import {prettyPrintMoney} from "../operations/utils";
+import {renderPrettyMoney} from "../operations/common/utils/money";
 import {
   createPaymentWithAmountMock,
   feesMock,
@@ -98,7 +98,7 @@ describe(specTitle("Manager.Payment"), () => {
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
     cy.get(
-      `.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`
+      `.MuiTableCell-alignRight:contains(${renderPrettyMoney(amount)})`
     ).should("have.length", 1);
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     unmount();
@@ -110,7 +110,7 @@ describe(specTitle("Manager.Payment"), () => {
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
     cy.get(
-      `.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`
+      `.MuiTableCell-alignRight:contains(${renderPrettyMoney(amount)})`
     ).should("have.length", 1);
     unmount();
   });
@@ -131,7 +131,7 @@ describe(specTitle("Manager.Payment"), () => {
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
     cy.get(
-      `.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`
+      `.MuiTableCell-alignRight:contains(${renderPrettyMoney(amount)})`
     ).should("have.length", 1);
     unmount();
   });
