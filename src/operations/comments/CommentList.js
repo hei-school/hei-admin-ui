@@ -9,7 +9,6 @@ import { useNotify } from "../../hooks";
 import {useRole} from "../../security/hooks";
 import {PALETTE_COLORS} from "../../ui/constants/palette";
 import {DATE_OPTIONS, TIME_OPTIONS} from "../utils";
-import { PALETTE_COLORS } from "../../ui/constants/palette";
 import {CommentCreate} from "./CommentCreate";
 import { Separator } from "./utils";
 
@@ -32,34 +31,6 @@ export function CommentItem({comment}) {
     "fr-FR",
     { ...DATE_OPTIONS, ...TIME_OPTIONS }
   );
-
-  useEffect(() => {
-    const doEffect = async () => {
-      setIsLoading(true);
-      await dataProvider
-        .getOne("profile", { id: observer?.id })
-        .then((result) => {
-          setUser(result.data);
-        })
-        .catch(() => { })
-        .finally(() => setIsLoading(false));
-    };
-    doEffect();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <CircularProgress
-        size={40}
-        style={{ margin: "7px" }}
-        sx={{
-          ".MuiCircularProgress-circle": {
-            color: PALETTE_COLORS.yellow,
-          },
-        }}
-      />
-    );
-  }
 
   return (
     <Box sx={COMMENT_ITEM_STYLE}>

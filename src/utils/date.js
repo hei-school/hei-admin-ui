@@ -1,25 +1,34 @@
-const DATE_OPTIONS = {
+export const DATE_OPTIONS = {
   year: "numeric",
   month: "long",
   day: "numeric",
 };
 
-const TIME_OPTIONS = {
+export const TIME_OPTIONS = {
   hour: "numeric",
   minute: "numeric",
   second: "numeric",
 };
 
+export const DATETIME_OPTIONS = {
+  ...DATE_OPTIONS,
+  ...TIME_OPTIONS
+}
+
 export function formatDate(dateIso, showTime = true) {
-  const DATETIME_OPTIONS = showTime ? { ...DATE_OPTIONS, ...TIME_OPTIONS } : DATE_OPTIONS;
+  const OPTIONS = showTime ? DATETIME_OPTIONS : DATE_OPTIONS;
   return new Date(dateIso).toLocaleDateString(
     "fr-FR",
-    DATETIME_OPTIONS
+    OPTIONS
   );
 }
 
-export const ROLE_RENDERER = {
-  MANAGER: "Admin",
-  TEACHER: "Enseignant(e)",
-  STUDENT: "Étudiant(e)",
+export const toISO = (stringDate) => {
+  return new Date(stringDate).toISOString();
+};
+
+export const toUTC = (date) => {
+  return new Date(
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+  );
 };

@@ -1,4 +1,4 @@
-import {Divider, Typography} from "@mui/material";
+import { Divider, Typography } from "@mui/material";
 import {
   EditButton,
   Show,
@@ -6,17 +6,17 @@ import {
   TextField,
   TopToolbar,
 } from "react-admin";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import { WhoamiRoleEnum } from "@haapi/typescript-client";
 import authProvider from "../../providers/authProvider";
-import {CustomDateField} from "../utils/DateHandling";
 import GroupStudentList from "./GroupStudentList";
+import { DateField } from "../common/components/fields"
 
 export const GroupLayout = () => {
   return (
     <SimpleShowLayout>
       <TextField source="ref" label="Référence" />
       <TextField source="name" label="Nom" />
-      <CustomDateField source="creation_datetime" label="Date de création" />
+      <DateField source="creation_datetime" label="Date de création" />
       <Divider />
       <Typography>Les étudiants dans ce groupe</Typography>
       <GroupStudentList />

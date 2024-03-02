@@ -1,6 +1,7 @@
 import {ShowButton, TextField} from "react-admin";
 import {HaList} from "../../../ui/haList";
-import {CustomDateField} from "../../utils";
+
+import { DateField } from "../../common/components/fields";
 
 const getTitle = (owner, type) => {
   if (owner == "SCHOOL") {
@@ -37,7 +38,7 @@ export const DocList = ({
       datagridProps={datagridProps}
     >
       <TextField source="name" label="Nom du fichier" />
-      <CustomDateField source="creation_datetime" label="Date de création" />
+      <DateField source="creation_datetime" label="Date de création" />
       <ShowButton redirect={datagridProps?.rowClick} />
     </HaList>
   );
