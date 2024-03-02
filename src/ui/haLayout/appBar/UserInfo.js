@@ -108,7 +108,7 @@ function UserInfo() {
                 lineHeight: 1.2,
               }}
             >
-              {getUserRoleInFr(role)}
+              {role && getUserRoleInFr(role)}
             </Typography>
           </Box>
           <a href={HEI_CALENDAR_URL} target="_blank">

@@ -1,6 +1,5 @@
 import {
   Create,
-  DeleteButton,
   SaveButton,
   SimpleForm,
   Toolbar,

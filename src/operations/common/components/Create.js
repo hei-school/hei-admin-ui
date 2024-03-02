@@ -1,10 +1,10 @@
-import {Create as _Create} from "react-admin";
+import {Create as RaCreate} from "react-admin";
 import {useNotify} from "../../../hooks";
 
 export const Create = ({children, mutationOptions = {}, ...createProps}) => {
   const notify = useNotify();
   return (
-    <_Create
+    <RaCreate
       mutationMode="pessimistic"
       mutationOptions={{
         onError: () => {
@@ -17,6 +17,6 @@ export const Create = ({children, mutationOptions = {}, ...createProps}) => {
       {...createProps}
     >
       {children}
-    </_Create>
+    </RaCreate>
   );
 };

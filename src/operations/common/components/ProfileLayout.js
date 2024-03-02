@@ -75,7 +75,7 @@ const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
 
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
-  const [isOpen, _set, toggle] = useToggle();
+  const [isOpen, , toggle] = useToggle();
   const user = useRecordContext();
   const id = user.id;
 
@@ -171,7 +171,7 @@ const ProfileCardAvatar = ({role}) => {
                 imgRef.current.src = defaultProfilePicture;
               }
             }}
-            alt="profile picture"
+            alt="profile pic"
             style={{
               objectFit: "cover",
               height: 175,

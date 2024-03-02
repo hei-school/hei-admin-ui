@@ -4,10 +4,10 @@ import {HaList} from "../../../ui/haList";
 import {DateField} from "../../common/components/fields";
 
 const getTitle = (owner, type) => {
-  if (owner == "SCHOOL") {
+  if (owner === "SCHOOL") {
     return "Liste des documents chez HEI";
   }
-  if (owner == "STUDENT") {
+  if (owner === "STUDENT") {
     switch (type) {
       case "TRANSCRIPT":
         return "Liste des bulletins";
