@@ -1,12 +1,12 @@
+import {useState} from "react";
 import {Create, Form, TextInput, useCreate} from "react-admin";
 import {Box, IconButton, CircularProgress} from "@mui/material";
+import {Send as SendIcon} from "@mui/icons-material";
 import {v4 as uuid} from "uuid";
 import {useForm} from "react-hook-form";
 
-import {Send as SendIcon} from "@mui/icons-material";
-import authProvider from "../../providers/authProvider";
 import {PALETTE_COLORS} from "../../ui/constants/palette";
-import {useState} from "react";
+import authProvider from "../../providers/authProvider";
 
 function SaveCommentButton({}) {
   const [, {isLoading}] = useCreate();

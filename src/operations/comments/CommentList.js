@@ -9,6 +9,9 @@ import {ROLE_RENDERER} from "../../ui/utils/utils";
 import {Separator} from "./utils";
 import {DATE_OPTIONS, TIME_OPTIONS} from "../utils";
 import {useRole} from "../../security/hooks";
+import dataProvider from "../../providers/dataProvider";
+
+import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 
 const LIST_PER_PAGE = 10;
 
@@ -21,11 +24,43 @@ const COMMENT_ITEM_STYLE = {
 };
 
 export function CommentItem({comment}) {
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
   const {observer} = comment;
+  const profilePicture = user?.profile_picture;
   const creationDatetime = new Date(comment.creation_datetime).toLocaleString(
     "fr-FR",
     {...DATE_OPTIONS, ...TIME_OPTIONS}
   );
+
+  useEffect(() => {
+    const doEffect = async () => {
+      setIsLoading(true);
+      await dataProvider
+        .getOne("profile", {id: observer?.id})
+        .then((result) => {
+          setUser(result.data);
+          setIsLoading(false);
+        })
+        .catch(() => {});
+    };
+    doEffect();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <CircularProgress
+        size={40}
+        style={{margin: "7px"}}
+        sx={{
+          ".MuiCircularProgress-circle": {
+            color: PALETTE_COLORS.yellow,
+          },
+        }}
+      />
+    );
+  }
 
   return (
     <Box sx={COMMENT_ITEM_STYLE}>
@@ -37,13 +72,24 @@ export function CommentItem({comment}) {
         }}
       >
         <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+          <img
+            src={profilePicture || defaultProfilePicture}
+            style={{width: "35px", height: "35px", borderRadius: "50%"}}
+          />
           <div>
             <Typography
               variant="h5"
               color={PALETTE_COLORS.black}
-              sx={{fontSize: "14px", fontWeight: "bold", opacity: 0.9}}
+              sx={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                opacity: 0.9,
+                display: "inline-flex",
+                gap: 1,
+              }}
             >
-              {observer.first_name}
+              <span>{observer.last_name && observer.last_name}</span>
+              <span>{observer.first_name && observer.first_name}</span>
             </Typography>
             <Typography
               color={PALETTE_COLORS.black}
@@ -78,9 +124,9 @@ export function CommentList({studentId}) {
   const listContainerRef = useRef(null);
   const [page, setPage] = useState(1);
   const [comments, setComments] = useState([]);
+  const notify = useNotify();
   const role = useRole();
 
-  const notify = useNotify();
   const {data, isLoading, error, refetch} = useGetList("comments", {
     pagination: {page, perPage: LIST_PER_PAGE},
     filter: {studentId},
