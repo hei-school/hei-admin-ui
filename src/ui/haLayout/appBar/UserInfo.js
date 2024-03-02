@@ -35,7 +35,7 @@ function UserInfo() {
           setUser(result.data);
         })
         .catch(() => {})
-        .finally(()=>setIsLoading(false));
+        .finally(() => setIsLoading(false));
     };
     doEffect();
   }, []);
@@ -108,7 +108,7 @@ function UserInfo() {
                 lineHeight: 1.2,
               }}
             >
-              {(!isLoading && role) && getUserRoleInFr(role)}
+              {!isLoading && role && getUserRoleInFr(role)}
             </Typography>
           </Box>
           <a href={HEI_CALENDAR_URL} target="_blank">

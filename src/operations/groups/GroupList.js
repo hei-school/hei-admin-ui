@@ -2,10 +2,10 @@ import {FunctionField, ShowButton, TextField} from "react-admin";
 import {HaList} from "../../ui/haList";
 import {GroupsOutlined} from "@mui/icons-material";
 import {GroupFilters} from ".";
-import { useRole } from "../../security/hooks";
+import {useRole} from "../../security/hooks";
 
 const GroupList = () => {
-  const role = useRole() ;
+  const role = useRole();
   return (
     <HaList
       listProps={{title: "Groupes"}}

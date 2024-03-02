@@ -51,10 +51,7 @@ import {NOOP_FN} from "../../../utils/noop";
 import {UNDEFINED} from "../../../utils/undefined";
 
 import {useRole} from "../../../security/hooks";
-import {
-  getGenderInFr,
-  getUserStatusInFr,
-} from "../utils/typo_util";
+import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 

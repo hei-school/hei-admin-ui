@@ -5,7 +5,6 @@ import {CreateButton, ImportButton} from "../../ui/haToolbar";
 import {DeleteWithConfirm} from "../common/components";
 import {DateField} from "../common/components/fields";
 import {rowStyle} from "./utils";
-import {commentFunctionRenderer} from "../utils";
 import {useStudentRef} from "../../hooks/useStudentRef";
 import {useRole} from "../../security/hooks/useRole";
 import {renderPrettyMoney} from "../common/utils/money";
@@ -16,6 +15,7 @@ import {
   transformFeesData,
   valideFeesData,
 } from "./importConf";
+import {EMPTY_FEE_COMMENT} from "./utils/empty";
 
 const FeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
@@ -39,7 +39,7 @@ const FeeList = () => {
       <DateField source="due_datetime" label="Date limite" showTime={false} />
       <FunctionField
         source="comment"
-        render={commentFunctionRenderer}
+        render={(fee) => fee.comment || EMPTY_FEE_COMMENT}
         label="Commentaire"
       />
       <FunctionField

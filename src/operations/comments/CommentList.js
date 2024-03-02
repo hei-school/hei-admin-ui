@@ -1,18 +1,16 @@
-import {Box, Typography, CircularProgress} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import {useGetList} from "react-admin";
+import {Box, Typography, CircularProgress} from "@mui/material";
 
-import dataProvider from "../../providers/dataProvider";
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 
 import { useNotify } from "../../hooks";
 import {useRole} from "../../security/hooks";
+import { getUserRoleInFr } from "../common/utils/typo_util";
 import {PALETTE_COLORS} from "../../ui/constants/palette";
-import {DATE_OPTIONS, TIME_OPTIONS} from "../utils";
+import {DATE_OPTIONS, TIME_OPTIONS} from "../../utils/date";
 import {CommentCreate} from "./CommentCreate";
 import { Separator } from "./utils";
-
-import { getUserRoleInFr } from "../../utils";
 
 const ITEMS_PER_PAGE = 10;
 

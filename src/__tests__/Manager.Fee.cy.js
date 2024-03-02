@@ -19,8 +19,8 @@ import {
 import App from "../App";
 import {manager1} from "./credentials";
 import {assertFeeMatchesTemplate} from "./utils";
-import {statusRenderer} from "../operations/utils";
 import {renderPrettyMoney} from "../operations/common/utils/money";
+import {getFeesStatusInFr} from "../operations/common/utils/typo_util";
 import {getEndOfMonth} from "../utils/date";
 
 // /!\ TODO: create custom cypress command "getByTestid"
@@ -109,7 +109,7 @@ describe(specTitle("Manager.Fee"), () => {
       .should("contain", renderPrettyMoney(interceptedFeeMock.remaining_amount))
       .and("contain", renderPrettyMoney(interceptedFeeMock.total_amount))
       .and("contain", interceptedFeeMock.comment)
-      .and("contain", statusRenderer(interceptedFeeMock.status))
+      .and("contain", getFeesStatusInFr(interceptedFeeMock.status))
       .and("contain", "Paiements");
   });
 

@@ -1,4 +1,4 @@
-type Obj = { [key: string]: any };
+type Obj = {[key: string]: any};
 
 /**
  * Retrieves the value of a nested property in an object using a specified path.
@@ -12,6 +12,6 @@ export function getObjValue(obj: Obj, path: string): any {
     .split(".")
     .reduce(
       (acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined),
-      { ...obj }
+      {...obj}
     );
 }

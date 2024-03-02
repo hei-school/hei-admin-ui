@@ -3,35 +3,21 @@ import {
   FunctionField,
   SimpleShowLayout,
   Show,
-  useDataProvider,
   EditButton,
   TopToolbar,
+  useDataProvider,
 } from "react-admin";
-import {useParams} from "react-router-dom";
 import {Divider, Typography} from "@mui/material";
-import {useRole} from "../../security/hooks";
-import {
-  withRedWarning,
-  commentFunctionRenderer,
-} from "../utils";
-import {renderPrettyMoney} from "../common/utils/money";
 import PaymentList from "../payments/PaymentList";
-import {studentIdFromRaId} from "../../providers/feeProvider";
 import {DeleteWithConfirm} from "../common/components";
 import {DateField} from "../common/components/fields";
-import { getFeesStatusInFr } from "../common/utils/typo_util";
-
-const renderDateTimeField = (data) => {
-  return data.updated_at == null ? (
-    <DateField source="creation_datetime" showTime />
-  ) : (
-    <DateField
-      source="updated_at"
-      label="Date et heure de dernière modification"
-      showTime
-    />
-  );
-};
+import {useParams} from "react-router-dom";
+import {useRole} from "../../security/hooks";
+import {withRedWarning} from "../utils";
+import {renderPrettyMoney} from "../common/utils/money";
+import {studentIdFromRaId} from "../../providers/feeProvider";
+import {getFeesStatusInFr} from "../common/utils/typo_util";
+import {EMPTY_FEE_COMMENT} from "./utils/empty";
 
 export const FeeLayout = ({feeId}) => {
   return (
@@ -48,7 +34,7 @@ export const FeeLayout = ({feeId}) => {
       />
       <FunctionField
         source="comment"
-        render={commentFunctionRenderer}
+        render={(fee) => fee.comment || EMPTY_FEE_COMMENT}
         label="Commentaire"
       />
       <FunctionField
@@ -71,7 +57,17 @@ export const FeeLayout = ({feeId}) => {
       />
       <FunctionField
         label="Date et heure de dernière modification"
-        render={renderDateTimeField}
+        render={(fee) =>
+          fee.updated_at == null ? (
+            <DateField source="creation_datetime" showTime />
+          ) : (
+            <DateField
+              source="updated_at"
+              label="Date et heure de dernière modification"
+              showTime
+            />
+          )
+        }
       />
       <Divider sx={{mt: 2, mb: 1}} />
       <Typography>Paiements</Typography>

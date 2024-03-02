@@ -1,5 +1,10 @@
-import { EnableStatus, FeeStatusEnum, Sex, WhoamiRoleEnum } from "@haapi/typescript-client";
-import { UNDEFINED } from "../../../utils/undefined";
+import {
+  EnableStatus,
+  FeeStatusEnum,
+  Sex,
+  WhoamiRoleEnum,
+} from "@haapi/typescript-client";
+import {UNDEFINED} from "../../../utils/undefined";
 
 export function getGenderInFr(sex) {
   switch (sex) {
@@ -12,7 +17,7 @@ export function getGenderInFr(sex) {
     default:
       throw new Error("Unknown gender");
   }
-};
+}
 
 export const getUserStatusInFr = (status) => {
   switch (status) {
@@ -38,7 +43,7 @@ export function getFeesStatusInFr(status) {
     default:
       throw new Error("Unknown fees status");
   }
-};
+}
 
 export function getUserRoleInFr(userRole) {
   switch (userRole) {

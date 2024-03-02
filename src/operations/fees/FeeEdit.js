@@ -20,7 +20,7 @@ import {Edit} from "../common/components";
 import {toApiIds} from "../../providers/feeProvider";
 import {payingApi} from "../../providers/api";
 import {useStudentRef} from "../../hooks/useStudentRef";
-import { getFeesStatusInFr } from "../common/utils/typo_util";
+import {getFeesStatusInFr} from "../common/utils/typo_util";
 
 function EditToolbar() {
   const notify = useNotify();
@@ -97,7 +97,9 @@ function DisabledInfo() {
         <SelectInput
           label="Statut"
           source="status"
-          choices={[{id: record.status, name: getFeesStatusInFr(record.status)}]}
+          choices={[
+            {id: record.status, name: getFeesStatusInFr(record.status)},
+          ]}
           {...props}
           sx={{flex: 1}}
         />
