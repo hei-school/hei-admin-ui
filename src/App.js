@@ -42,6 +42,7 @@ const App = () => (
     <Resource name="fees-templates" {...feesTemplates} />
     <Resource name="payments" {...payments} />
     <Resource name="docs" options={{label: "Documents"}} />
+    <Resource name="comments" />
 
     <CustomRoutes>
       <Route exact path="/profile" element={<profile.show />} />

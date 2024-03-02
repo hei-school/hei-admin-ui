@@ -1,0 +1,203 @@
+import {Box, Typography, CircularProgress} from "@mui/material";
+import {useEffect, useRef, useState} from "react";
+import {useGetList} from "react-admin";
+
+import {CommentCreate} from "./CommentCreate";
+import {useNotify} from "../../hooks";
+import {PALETTE_COLORS} from "../../ui/constants/palette";
+import {ROLE_RENDERER} from "../../ui/utils/utils";
+import {Separator} from "./utils";
+import {DATE_OPTIONS, TIME_OPTIONS} from "../utils";
+import {useRole} from "../../security/hooks";
+import dataProvider from "../../providers/dataProvider";
+
+import defaultProfilePicture from "../../assets/blank-profile-photo.png";
+
+const LIST_PER_PAGE = 10;
+
+const COMMENT_ITEM_STYLE = {
+  mb: 1,
+  bgcolor: "white",
+  p: 1,
+  boxShadow: "1px 1px 5px rgba(0,0,0,.3)",
+  borderRadius: "5px",
+};
+
+// /!\ TODO: create custom hooks useGetProfilePic
+export function CommentItem({comment}) {
+  const [user, setUser] = useState({});
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {observer} = comment;
+  const profilePicture = user?.profile_picture;
+  const creationDatetime = new Date(comment.creation_datetime).toLocaleString(
+    "fr-FR",
+    {...DATE_OPTIONS, ...TIME_OPTIONS}
+  );
+
+  useEffect(() => {
+    const doEffect = async () => {
+      setIsLoading(true);
+      await dataProvider
+        .getOne("profile", {id: observer?.id})
+        .then((result) => {
+          setUser(result.data);
+        })
+        .catch(() => {})
+        .finally(() => setIsLoading(false));
+    };
+    doEffect();
+  }, []);
+
+  if (isLoading) {
+    return (
+      <CircularProgress
+        size={40}
+        style={{margin: "7px"}}
+        sx={{
+          ".MuiCircularProgress-circle": {
+            color: PALETTE_COLORS.yellow,
+          },
+        }}
+      />
+    );
+  }
+
+  return (
+    <Box sx={COMMENT_ITEM_STYLE}>
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "start",
+          justifyContent: "space-between",
+        }}
+      >
+        <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+          <img
+            src={profilePicture || defaultProfilePicture}
+            style={{width: "35px", height: "35px", borderRadius: "50%"}}
+          />
+          <div>
+            <Typography
+              variant="h5"
+              color={PALETTE_COLORS.black}
+              sx={{
+                fontSize: "14px",
+                fontWeight: "bold",
+                opacity: 0.9,
+                display: "inline-flex",
+                gap: 1,
+              }}
+            >
+              <span>{observer.last_name && observer.last_name}</span>
+              <span>{observer.first_name && observer.first_name}</span>
+            </Typography>
+            <Typography
+              color={PALETTE_COLORS.black}
+              sx={{fontSize: "14px", opacity: 0.9}}
+            >
+              {ROLE_RENDERER[observer.role] || "Non défini.e"}
+            </Typography>
+          </div>
+        </Box>
+        <Typography
+          sx={{
+            fontSize: "13px",
+            color: PALETTE_COLORS.black,
+            opacity: 0.7,
+            fontWeight: "bold",
+          }}
+        >
+          {creationDatetime}
+        </Typography>
+      </Box>
+      <Separator style={{margin: "5px 0", opacity: 0.5}} />
+      <Typography
+        sx={{fontSize: "14px", color: PALETTE_COLORS.black, opacity: 0.8}}
+      >
+        {comment.content}
+      </Typography>
+    </Box>
+  );
+}
+
+export function CommentList({studentId}) {
+  const listContainerRef = useRef(null);
+  const [page, setPage] = useState(1);
+  const [comments, setComments] = useState([]);
+  const notify = useNotify();
+  const role = useRole();
+
+  const {data, isLoading, error, refetch} = useGetList("comments", {
+    pagination: {page, perPage: LIST_PER_PAGE},
+    filter: {studentId},
+  });
+  const isDataAvalaible = !isLoading && data;
+  const isEndOfPage = isDataAvalaible && data.length < LIST_PER_PAGE;
+
+  useEffect(() => {
+    if (!data) return;
+    setComments((prev) => (page === 1 ? data : [...prev, ...data]));
+  }, [page, data]);
+
+  if (error) notify("Une erreur s'est produite", {type: "error"});
+
+  const showNextComments = () => {
+    if (isEndOfPage) return;
+
+    const currentHeight =
+      listContainerRef.current.scrollTop +
+      listContainerRef.current.clientHeight;
+    if (currentHeight === listContainerRef.current.scrollHeight) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  return (
+    <>
+      <Box
+        ref={listContainerRef}
+        onScroll={showNextComments}
+        sx={{
+          bgcolor: "#f2f1ed",
+          px: 1,
+          py: 2,
+          maxHeight: "300px",
+          overflowY: "auto",
+        }}
+      >
+        {comments.map((comment, index) => (
+          <CommentItem key={index} comment={comment} />
+        ))}
+        {isDataAvalaible && comments.length < 1 && (
+          <Typography
+            sx={{
+              fontSize: "14px",
+              textAlign: "center",
+              fontWeight: "bold",
+              color: PALETTE_COLORS.black,
+              opacity: 0.7,
+            }}
+          >
+            Pas encore de commentaire
+          </Typography>
+        )}
+        {isLoading && (
+          <Box
+            sx={{
+              width: "100%",
+              display: "flex",
+              alignItems: "100%",
+              justifyContent: "center",
+            }}
+          >
+            <CircularProgress size={30} sx={{my: 1}} />
+          </Box>
+        )}
+      </Box>
+      {!role.isStudent() && (
+        <CommentCreate refetch={refetch} studentId={studentId} />
+      )}
+    </>
+  );
+}

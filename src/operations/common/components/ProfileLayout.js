@@ -8,11 +8,13 @@ import {
   FunctionField,
   SimpleShowLayout,
   TextField,
+  Link,
+  useRedirect,
 } from "react-admin";
 
-import {Badge} from "@mui/material";
 import {
   PhotoCamera,
+  Edit as EditIcon,
   MailOutlined as MailIcon,
   PhoneOutlined as PhoneIcon,
   LocationOnOutlined as AdressIcon,
@@ -32,10 +34,10 @@ import {
   Card,
   CardActions,
   Dialog,
+  Badge,
   DialogTitle,
   Grid,
   IconButton,
-  Link,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -246,6 +248,8 @@ const FieldLabel = ({children: label, icon}) => (
 export const ProfileLayout = ({role, actions, isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
   const viewerRole = useRole();
+  const profile = useRecordContext();
+  const redirect = useRedirect();
   const isStudentProfile = isStudent || viewerRole.isStudent();
 
   const cardStyle = {
@@ -266,7 +270,21 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
         columns={{xs: 6, sm: 4, md: 4}}
         {...COMMON_GRID_ATTRIBUTES}
       >
-        <Card sx={cardStyle}>
+        <Card sx={{...cardStyle, position: "relative"}}>
+          {isStudent && viewerRole.isManager() && (
+            <IconButton
+              aria-label="Éditer"
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 12,
+                color: PALETTE_COLORS.primary,
+              }}
+              onClick={() => redirect(`/students/${profile.id}/edit`)}
+            >
+              <EditIcon color={PALETTE_COLORS.primary} />
+            </IconButton>
+          )}
           <SimpleShowLayout
             sx={{
               minHeight: "275px",

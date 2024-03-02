@@ -67,7 +67,7 @@ describe(specTitle("Student Ceritificate"), () => {
       .and("include", "blob");
   });
 
-  it("manager can student's certificate", () => {
+  it("manager can get student's certificate", () => {
     login(manager1, whoamiManagerMock);
 
     cy.intercept("GET", `/managers/${manager2.id}`, manager2).as("getManager2");
@@ -98,7 +98,8 @@ describe(specTitle("Student Ceritificate"), () => {
     cy.wait("@getStudent1");
 
     cy.get('[data-testid="docs-button"]').click();
-    cy.get('[href="#/students/student1_id/show"]').click();
+    cy.get('[data-testid="get-certificat"]').click();
+
     cy.wait("@downloadCertificate");
 
     cy.get('[data-testid="certificate-link"]')

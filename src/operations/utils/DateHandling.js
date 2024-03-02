@@ -1,13 +1,13 @@
 import {DateField} from "react-admin";
 import {Typography} from "@mui/material";
 
-const DATE_OPTIONS = {
+export const DATE_OPTIONS = {
   year: "numeric",
   month: "long",
   day: "numeric",
 };
 
-const TIME_OPTIONS = {
+export const TIME_OPTIONS = {
   hour: "numeric",
   minute: "numeric",
   second: "numeric",

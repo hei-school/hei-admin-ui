@@ -48,7 +48,11 @@ export function GetCertificate({studentId}) {
         ref={certificateLink}
         style={{display: "none"}}
       />
-      <a aria-disabled={isLoading} onClick={getScholarshipCertificate}>
+      <a
+        data-testid="get-certificat"
+        aria-disabled={isLoading}
+        onClick={getScholarshipCertificate}
+      >
         {isLoading ? (
           <CircularProgress
             size={40}
