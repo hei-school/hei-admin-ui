@@ -21,7 +21,7 @@ import {
   CakeOutlined as BirthDateIcon,
   CalendarTodayOutlined as CalendarIcon,
   MapOutlined as GeoIcon,
-  MaleOutlined as GenderIcon,
+  AccountBoxOutlined as GenderIcon,
   FeaturedVideoOutlined as NicIcon,
   HowToRegOutlined as StatusIcon,
   PersonOutlined as PersonIcon,
