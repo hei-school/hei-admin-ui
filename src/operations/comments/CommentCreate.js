@@ -3,8 +3,8 @@ import {Box, Button, Dialog} from "@mui/material";
 import {Add as AddIcon} from "@mui/icons-material";
 import {v4 as uuid} from "uuid";
 
-import authProvider from "../../providers/authProvider";
 import {useToggle} from "../../hooks";
+import authProvider from "../../providers/authProvider";
 
 const CREATE_WRAPPER_STYLE = {
   display: "flex",
@@ -67,7 +67,7 @@ export function CommentCreate({studentId, refetchList}) {
               label="Commentaire"
               source="content"
               size="small"
-              sx={{width: "74%"}}
+              sx={{width: "79%"}}
             />
           </SimpleForm>
         </Create>

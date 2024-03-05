@@ -1,5 +1,5 @@
-const CURRENCY: string = "Ar";
+const CURRENCY = "Ar";
 
-export const renderPrettyMoney = (amount: number): string => {
+export const renderMoney = (amount: number): string => {
   return amount.toLocaleString() + " " + CURRENCY;
 };

@@ -18,6 +18,8 @@ import {
 const amount = 1 + Math.floor(Math.random() * 100_000);
 const createPayment = createPaymentWithAmountMock(amount);
 
+// /!\ TODO: use of core fn should be minimized in test assertions, explicit declaration is best
+// e.g: instead of importing the 'renderPrettyMoney' fn, directly write the rendered money as is
 describe(specTitle("Manager.Payment"), () => {
   beforeEach(() => {
     mount(<App />);

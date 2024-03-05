@@ -5,7 +5,7 @@ import {HaList} from "../../ui/haList/HaList";
 import {FeesFilter} from ".";
 import {DateField} from "../common/components/fields";
 import {rowStyle} from "./utils/commonStyle";
-import {renderPrettyMoney} from "../common/utils/money";
+import {renderMoney} from "../common/utils/money";
 import {EMPTY_FEE_COMMENT} from "./utils/empty";
 
 const FEES_STATUS_VALUE = {
@@ -47,7 +47,7 @@ const ByStatusFeeList = (props) => (
     />
     <FunctionField
       label="Reste à payer"
-      render={(fee) => renderPrettyMoney(fee.remaining_amount)}
+      render={(fee) => renderMoney(fee.remaining_amount)}
       textAlign="right"
     />
     <DateField

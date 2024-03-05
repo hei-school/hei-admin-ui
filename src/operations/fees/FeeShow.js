@@ -14,7 +14,7 @@ import {DateField} from "../common/components/fields";
 import {useParams} from "react-router-dom";
 import {useRole} from "../../security/hooks";
 import {withRedWarning} from "../utils";
-import {renderPrettyMoney} from "../common/utils/money";
+import {renderMoney} from "../common/utils/money";
 import {studentIdFromRaId} from "../../providers/feeProvider";
 import {getFeesStatusInFr} from "../common/utils/typo_util";
 import {EMPTY_FEE_COMMENT} from "./utils/empty";
@@ -39,12 +39,12 @@ export const FeeLayout = ({feeId}) => {
       />
       <FunctionField
         label="Total à payer"
-        render={(record) => renderPrettyMoney(record.total_amount)}
+        render={(record) => renderMoney(record.total_amount)}
         textAlign="right"
       />
       <FunctionField
         label="Reste à payer"
-        render={(record) => renderPrettyMoney(record.remaining_amount)}
+        render={(record) => renderMoney(record.remaining_amount)}
         textAlign="right"
       />
       <FunctionField

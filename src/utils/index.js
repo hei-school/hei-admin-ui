@@ -1,1 +1,1 @@
-export {getObjValue} from "./getObjValue";
+export * from "./getObjValue";

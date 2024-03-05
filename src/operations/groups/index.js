@@ -9,6 +9,7 @@ import {
   FilterForm,
   TextFilter,
 } from "../../ui/haToolbar";
+import {useRole} from "../../security/hooks";
 
 const groups = {
   list: GroupList,
@@ -19,10 +20,11 @@ const groups = {
   options: {label: "Groupes"},
 };
 
-export function GroupFilters({isManager}) {
+export function GroupFilters() {
+  const role = useRole();
   return (
     <>
-      {isManager && <CreateButton />}
+      {role.isManager() && <CreateButton />}
       <ExportButton />
       <FilterForm>
         <TextFilter

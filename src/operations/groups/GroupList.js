@@ -1,18 +1,16 @@
 import {FunctionField, ShowButton, TextField} from "react-admin";
-import {HaList} from "../../ui/haList";
 import {GroupsOutlined} from "@mui/icons-material";
+import {HaList} from "../../ui/haList";
 import {GroupFilters} from ".";
-import {useRole} from "../../security/hooks";
 
 const GroupList = () => {
-  const role = useRole();
   return (
     <HaList
       listProps={{title: "Groupes"}}
       resource="groups"
       title="Liste de groupes"
       icon={<GroupsOutlined />}
-      actions={<GroupFilters isManager={role.isManager()} />}
+      actions={<GroupFilters />}
       mainSearch={{source: "ref", label: "Référence"}}
     >
       <TextField source="ref" label="Référence" />

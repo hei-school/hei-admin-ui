@@ -1,11 +1,12 @@
 import {useEffect, useRef, useState} from "react";
+import {useDataProvider} from "react-admin";
 import {Typography, Box, CircularProgress, useMediaQuery} from "@mui/material";
 import {CalendarMonth} from "@mui/icons-material";
 import {styled} from "@mui/styles";
-import {useDataProvider} from "react-admin";
 
 // /!\ TODO: refactor with path alias
 import {getUserRoleInFr} from "../../../operations/common/utils/typo_util";
+import {useNotify} from "../../../hooks";
 import {PALETTE_COLORS} from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
@@ -24,6 +25,7 @@ function UserInfo() {
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
   const id = authProvider.getCachedWhoami().id;
+  const notify = useNotify();
   const dataProvider = useDataProvider();
 
   useEffect(() => {
@@ -34,8 +36,15 @@ function UserInfo() {
         .then((result) => {
           setUser(result.data);
         })
-        .catch(() => {})
-        .finally(() => setIsLoading(false));
+        .catch(() => {
+          notify(
+            "Une erreur s'est produite lors du téléchargement de votre photo de profil",
+            {type: "error"}
+          );
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
     };
     doEffect();
   }, []);

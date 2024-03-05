@@ -4,7 +4,7 @@ import {
   Sex,
   WhoamiRoleEnum,
 } from "@haapi/typescript-client";
-import {UNDEFINED} from "../../../utils/undefined";
+import {NOT_DEFINED} from "../../../utils/constants";
 
 export function getGenderInFr(sex) {
   switch (sex) {
@@ -13,7 +13,7 @@ export function getGenderInFr(sex) {
     case Sex.F:
       return "Femme";
     case null: // display empty_text if sex is null
-      return UNDEFINED;
+      return NOT_DEFINED;
     default:
       throw new Error("Unknown gender");
   }

@@ -7,7 +7,7 @@ import {DateField} from "../common/components/fields";
 import {rowStyle} from "./utils";
 import {useStudentRef} from "../../hooks/useStudentRef";
 import {useRole} from "../../security/hooks/useRole";
-import {renderPrettyMoney} from "../common/utils/money";
+import {renderMoney} from "../common/utils/money";
 import feeProvider from "../../providers/feeProvider";
 import {
   minimalFeesHeaders,
@@ -44,7 +44,7 @@ const FeeList = () => {
       />
       <FunctionField
         label="Reste à payer"
-        render={(record) => renderPrettyMoney(record.remaining_amount)}
+        render={(record) => renderMoney(record.remaining_amount)}
         textAlign="right"
       />
       <DateField

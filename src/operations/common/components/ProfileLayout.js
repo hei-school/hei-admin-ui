@@ -48,7 +48,7 @@ import {useToggle} from "../../../hooks";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
 import {NOOP_FN} from "../../../utils/noop";
-import {UNDEFINED} from "../../../utils/undefined";
+import {NOT_DEFINED} from "../../../utils/constants";
 
 import {useRole} from "../../../security/hooks";
 import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
@@ -69,7 +69,7 @@ const COMMON_FIELD_ATTRIBUTES = {
 };
 
 const renderSpecialization = (specialization_field) =>
-  SPECIALIZATION_VALUE[specialization_field] || UNDEFINED;
+  SPECIALIZATION_VALUE[specialization_field] || NOT_DEFINED;
 
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
@@ -295,7 +295,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
               variant={COMMON_FIELD_ATTRIBUTES.variant}
               render={(user) =>
                 !user.phone ? (
-                  <span>{UNDEFINED}</span>
+                  <span>{NOT_DEFINED}</span>
                 ) : (
                   <Link
                     href={`tel:${user.phone}`}
@@ -310,7 +310,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
               source="address"
               label={<FieldLabel icon={<AdressIcon />}>Adresse</FieldLabel>}
               component="pre"
-              emptyText={UNDEFINED}
+              emptyText={NOT_DEFINED}
               {...COMMON_FIELD_ATTRIBUTES}
             />
           </SimpleShowLayout>
@@ -382,7 +382,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
             <TextField
               source="nic"
               label={<FieldLabel icon={<NicIcon />}> Numéro CIN</FieldLabel>}
-              emptyText={UNDEFINED}
+              emptyText={NOT_DEFINED}
               {...COMMON_FIELD_ATTRIBUTES}
             />
             <FunctionField
@@ -395,7 +395,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
                 <BirthDateField
                   birthdate={user.birth_date}
                   birthplace={user.birth_place}
-                  emptyText={UNDEFINED}
+                  emptyText={NOT_DEFINED}
                   sx={{fontSize: "12px"}}
                   {...COMMON_FIELD_ATTRIBUTES}
                 />
