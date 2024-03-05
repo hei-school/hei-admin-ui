@@ -25,11 +25,12 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
       }}
     >
       <Button
-        startIcon={<CommentIcon />}
-        label="Comment"
+        label="Comments"
         onClick={toogleShowComments}
         {...COMMON_BUTTON_PROPS}
-      />
+      >
+        <CommentIcon />
+      </Button>
       {role.isManager() && student && (
         <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4}}>
           <Button

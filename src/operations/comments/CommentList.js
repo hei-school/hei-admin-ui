@@ -9,11 +9,10 @@ import {ROLE_RENDERER} from "../../ui/utils/utils";
 import {Separator} from "./utils";
 import {DATE_OPTIONS, TIME_OPTIONS} from "../utils";
 import {useRole} from "../../security/hooks";
-import dataProvider from "../../providers/dataProvider";
 
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 
-const LIST_PER_PAGE = 10;
+const ITEMS_PER_PAGE = 10;
 
 const COMMENT_ITEM_STYLE = {
   mb: 1,
@@ -23,45 +22,13 @@ const COMMENT_ITEM_STYLE = {
   borderRadius: "5px",
 };
 
-// /!\ TODO: create custom hooks useGetProfilePic
 export function CommentItem({comment}) {
-  const [user, setUser] = useState({});
-  const [isLoading, setIsLoading] = useState(false);
-
   const {observer} = comment;
-  const profilePicture = user?.profile_picture;
+  const profilePicture = observer?.profile_picture || defaultProfilePicture;
   const creationDatetime = new Date(comment.creation_datetime).toLocaleString(
     "fr-FR",
     {...DATE_OPTIONS, ...TIME_OPTIONS}
   );
-
-  useEffect(() => {
-    const doEffect = async () => {
-      setIsLoading(true);
-      await dataProvider
-        .getOne("profile", {id: observer?.id})
-        .then((result) => {
-          setUser(result.data);
-        })
-        .catch(() => {})
-        .finally(() => setIsLoading(false));
-    };
-    doEffect();
-  }, []);
-
-  if (isLoading) {
-    return (
-      <CircularProgress
-        size={40}
-        style={{margin: "7px"}}
-        sx={{
-          ".MuiCircularProgress-circle": {
-            color: PALETTE_COLORS.yellow,
-          },
-        }}
-      />
-    );
-  }
 
   return (
     <Box sx={COMMENT_ITEM_STYLE}>
@@ -74,7 +41,7 @@ export function CommentItem({comment}) {
       >
         <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
           <img
-            src={profilePicture || defaultProfilePicture}
+            src={profilePicture}
             style={{width: "35px", height: "35px", borderRadius: "50%"}}
           />
           <div>
@@ -124,21 +91,26 @@ export function CommentItem({comment}) {
 export function CommentList({studentId}) {
   const listContainerRef = useRef(null);
   const [page, setPage] = useState(1);
-  const [comments, setComments] = useState([]);
+  const [shownComments, setShowComments] = useState([]);
   const notify = useNotify();
   const role = useRole();
 
-  const {data, isLoading, error, refetch} = useGetList("comments", {
-    pagination: {page, perPage: LIST_PER_PAGE},
+  const {
+    data: comments,
+    isLoading,
+    error,
+    refetch: refetchList,
+  } = useGetList("comments", {
+    pagination: {page, perPage: ITEMS_PER_PAGE},
     filter: {studentId},
   });
-  const isDataAvalaible = !isLoading && data;
-  const isEndOfPage = isDataAvalaible && data.length < LIST_PER_PAGE;
+  const isDataAvalaible = !isLoading && comments;
+  const isEndOfPage = isDataAvalaible && comments.length < ITEMS_PER_PAGE;
 
   useEffect(() => {
-    if (!data) return;
-    setComments((prev) => (page === 1 ? data : [...prev, ...data]));
-  }, [page, data]);
+    if (!comments) return;
+    setShowComments((prev) => (page === 1 ? comments : [...prev, ...comments]));
+  }, [page, comments]);
 
   if (error) notify("Une erreur s'est produite", {type: "error"});
 
@@ -166,10 +138,10 @@ export function CommentList({studentId}) {
           overflowY: "auto",
         }}
       >
-        {comments.map((comment, index) => (
+        {shownComments.map((comment, index) => (
           <CommentItem key={index} comment={comment} />
         ))}
-        {isDataAvalaible && comments.length < 1 && (
+        {isDataAvalaible && shownComments.length < 1 && (
           <Typography
             sx={{
               fontSize: "14px",
@@ -196,7 +168,7 @@ export function CommentList({studentId}) {
         )}
       </Box>
       {!role.isStudent() && (
-        <CommentCreate refetch={refetch} studentId={studentId} />
+        <CommentCreate refetchList={refetchList} studentId={studentId} />
       )}
     </>
   );

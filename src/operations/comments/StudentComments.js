@@ -1,7 +1,7 @@
 import {Dialog, Typography, Box, IconButton} from "@mui/material";
 import {
-  CommentOutlined as CommentIcon,
   Close as CloseIcon,
+  CommentOutlined as CommentIcon,
 } from "@mui/icons-material";
 import {styled} from "@mui/styles";
 
@@ -12,8 +12,8 @@ import {PALETTE_COLORS} from "../../ui/constants/palette";
 const CommentWrapper = styled("div")({
   width: "100%",
   borderRadius: "15px",
-  padding: "20px 0px",
-  zIndex: 999,
+  paddingTop: "20px",
+  zIndex: 9999,
 });
 
 const DIALOG_STYLES = {
@@ -22,8 +22,8 @@ const DIALOG_STYLES = {
   "overflowX": "hidden",
   "& .MuiDialog-paper": {
     padding: "0 20px 20px 20px",
-    minWidth: "700px",
-    maxWidth: "800px",
+    width: "100%",
+    maxWidth: "850px",
   },
 };
 
