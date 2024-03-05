@@ -1,5 +1,4 @@
 // the data given by the api shouldn't respect camelCase, so we use this
-
 const stringToCamelCase = (str) => {
   return str.replace(/([-_][a-z])/g, (group) =>
     group.toUpperCase().replace("-", "").replace("_", "")
@@ -19,4 +18,8 @@ export const toCamelCaseJSON = (input) => {
       [stringToCamelCase(key)]: val,
     };
   }, {});
+};
+
+export const MULTIPART_HEADERS = {
+  "Content-Type": "multipart/form-data",
 };
