@@ -65,6 +65,11 @@ const App = () => (
 
       <Route exact path="/docs/school" element={<heiDocs.list />} />
       <Route exact path="/docs/school/:id" element={heiDocs.show} />
+      <Route
+        exact
+        path="/docs/school/create"
+        element={<heiDocs.create />}
+      />
 
       <Route
         exact
