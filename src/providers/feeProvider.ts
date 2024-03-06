@@ -5,7 +5,7 @@ const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
   studentId + raSeparator + feeId;
 
-export const toApiIds = (raId: string) => {
+export const toApiIds = (raId: string = "") => {
   const ids = raId.split(raSeparator);
   return {studentId: ids[0], feeId: ids[1]};
 };
