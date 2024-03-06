@@ -25,7 +25,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
       }}
     >
       <Button
-        label="Comments"
+        label="Commentaires"
         onClick={toogleShowComments}
         {...COMMON_BUTTON_PROPS}
       >

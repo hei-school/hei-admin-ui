@@ -32,7 +32,7 @@ const ProfileShow = () => {
             {isStudent() ? (
               <>
                 <Button
-                  label="Comments"
+                  label="Commentaires"
                   studentId={id}
                   onClick={toogleShowComments}
                   {...COMMON_BUTTON_PROPS}
