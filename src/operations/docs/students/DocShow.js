@@ -1,6 +1,7 @@
 import {useParams} from "react-router-dom";
 import {DocShow as CommonDocShow} from "../components/DocShow";
 import {useRole} from "../../../security/hooks/useRole";
+import {OwnerType} from "../types";
 import authProvider from "../../../providers/authProvider";
 
 export const DocShow = () => {
@@ -9,5 +10,5 @@ export const DocShow = () => {
 
   const id = isStudent() ? authProvider.getCachedWhoami().id : params.studentId;
 
-  return <CommonDocShow owner="STUDENT" studentId={id} />;
+  return <CommonDocShow owner={OwnerType.STUDENT} studentId={id} />;
 };

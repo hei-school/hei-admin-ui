@@ -12,7 +12,9 @@ export const DocList = () => {
   const type = useViewType("LIST");
   const {isStudent, isManager} = useRole();
 
-  const {studentRef} = useStudentRef("studentId");
+  const getStudentRef = useStudentRef("studentId");
+
+  let studentRef = isManager() ? getStudentRef?.studentRef : "";
 
   const studentId = isStudent()
     ? authProvider.getCachedWhoami().id

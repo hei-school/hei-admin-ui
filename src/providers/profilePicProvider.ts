@@ -1,11 +1,10 @@
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {usersApi} from "./api";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {MULTIPART_HEADERS} from "./constants";
 
-const PIC_HEADERS = {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
+const PIC_OPTIONS = {
+  headers: MULTIPART_HEADERS,
 };
 
 const profilePicProvider: HaDataProviderType = {
@@ -21,15 +20,15 @@ const profilePicProvider: HaDataProviderType = {
     switch (user?.role) {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
-          .uploadStudentProfilePicture(user?.id, user?.rawFile, PIC_HEADERS)
+          .uploadStudentProfilePicture(user?.id, user?.rawFile, PIC_OPTIONS)
           .then((result) => [result.data]);
       case WhoamiRoleEnum.TEACHER:
         return usersApi()
-          .uploadTeacherProfilePicture(user?.id, user?.rawFile, PIC_HEADERS)
+          .uploadTeacherProfilePicture(user?.id, user?.rawFile, PIC_OPTIONS)
           .then((result) => [result.data]);
       case WhoamiRoleEnum.MANAGER:
         return usersApi()
-          .uploadManagerProfilePicture(user?.id, user?.rawFile, PIC_HEADERS)
+          .uploadManagerProfilePicture(user?.id, user?.rawFile, PIC_OPTIONS)
           .then((result) => [result.data]);
     }
   },
