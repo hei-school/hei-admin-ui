@@ -16,11 +16,11 @@ import groups from "./operations/groups";
 import profile from "./operations/profile";
 import students from "./operations/students";
 import teachers from "./operations/teachers";
-import docs from "./operations/docs";
-import {heiDocs} from "./operations/heiDocs";
 import fees from "./operations/fees";
 import feesTemplates from "./operations/feesTemplates";
 import payments from "./operations/payments";
+import heiDocs from "./operations/docs/hei";
+import studentDocs from "./operations/docs/students";
 
 const App = () => (
   <Admin
@@ -36,15 +36,17 @@ const App = () => (
     <Resource name="profile" {...profile} />
     <Resource name="students" {...students} />
     <Resource name="teachers" {...teachers} />
-    <Resource name="hei-docs" {...heiDocs} />
     <Resource name="groups" {...groups} />
 
     <Resource name="fees" {...fees} />
     <Resource name="fees-templates" {...feesTemplates} />
     <Resource name="payments" {...payments} />
+    <Resource name="docs" options={{label: "Documents"}} />
+    <Resource name="comments" />
 
     <CustomRoutes>
       <Route exact path="/profile" element={<profile.show />} />
+
       <Route exact path="/students/:studentId/fees" element={<fees.list />} />
       <Route
         exact
@@ -61,12 +63,41 @@ const App = () => (
         element={<payments.create />}
       />
 
+      <Route exact path="/docs/school" element={<heiDocs.list />} />
+      <Route exact path="/docs/school/:id" element={heiDocs.show} />
+      <Route exact path="/docs/school/create" element={<heiDocs.create />} />
+
       <Route
         exact
-        path="/docs/hei-docs"
-        element={
-          <docs.list title="Documents reliés à HEI" resource="hei-docs" />
-        }
+        path="/docs/students/TRANSCRIPT"
+        element={<studentDocs.list />}
+      />
+      <Route
+        exact
+        path="/docs/students/TRANSCRIPT/:id"
+        element={<studentDocs.show />}
+      />
+      <Route exact path="/docs/students/OTHER" element={<studentDocs.list />} />
+
+      <Route
+        exact
+        path="/students/:studentId/docs/students/OTHER"
+        element={<studentDocs.list />}
+      />
+      <Route
+        exact
+        path="/students/:studentId/docs/students/TRANSCRIPT"
+        element={<studentDocs.list />}
+      />
+      <Route
+        exact
+        path="/students/:studentId/docs/students/TRANSCRIPT/:id"
+        element={<studentDocs.show />}
+      />
+      <Route
+        exact
+        path="/students/:studentId/docs/students/OTHER/:id"
+        element={<studentDocs.show />}
       />
     </CustomRoutes>
   </Admin>

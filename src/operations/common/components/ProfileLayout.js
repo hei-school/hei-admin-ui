@@ -8,32 +8,50 @@ import {
   FunctionField,
   SimpleShowLayout,
   TextField,
+  Link,
+  useRedirect,
 } from "react-admin";
 
-import {Badge} from "@mui/material";
-import {PhotoCamera} from "@mui/icons-material";
+import {
+  PhotoCamera,
+  Edit as EditIcon,
+  MailOutlined as MailIcon,
+  PhoneOutlined as PhoneIcon,
+  LocationOnOutlined as AdressIcon,
+  CakeOutlined as BirthDateIcon,
+  CalendarTodayOutlined as CalendarIcon,
+  MapOutlined as GeoIcon,
+  AccountBoxOutlined as GenderIcon,
+  FeaturedVideoOutlined as NicIcon,
+  HowToRegOutlined as StatusIcon,
+  PersonOutlined as PersonIcon,
+  AssignmentOutlined as SpecializationIcon,
+} from "@mui/icons-material";
+
 import {EnableStatus, Sex} from "@haapi/typescript-client";
 import {
   Box,
   Card,
   CardActions,
   Dialog,
+  Badge,
   DialogTitle,
   Grid,
   IconButton,
-  Link,
   Typography,
   useMediaQuery,
 } from "@mui/material";
 
+import {GeoPositionName} from "./GeoLocalisation";
 import {useToggle} from "../../../hooks";
-import {CustomDateField} from "../../utils";
+import {BirthDatePlace, CustomDateField} from "../../utils";
 import {useRole} from "../../../security/hooks";
 import {CustomCreate} from "../../utils/CustomCreate";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
-import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 import {NOOP_FN} from "../../../utils/noop";
+
+import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -207,12 +225,22 @@ const Title = ({children: label}) => (
   </Box>
 );
 
-const FieldLabel = ({children: label}) => (
+const FieldLabel = ({children: label, icon}) => (
   <Typography
     color={PALETTE_COLORS.typography.black}
     fontWeight="bold"
     variant="body2"
+    sx={{
+      "display": "inline-flex",
+      "alignItems": "center",
+      "gap": 1,
+      "& .MuiSvgIcon-root": {
+        fontSize: "15px",
+        mt: "1px",
+      },
+    }}
   >
+    {icon}
     {label}
   </Typography>
 );
@@ -220,6 +248,8 @@ const FieldLabel = ({children: label}) => (
 export const ProfileLayout = ({role, actions, isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
   const viewerRole = useRole();
+  const profile = useRecordContext();
+  const redirect = useRedirect();
   const isStudentProfile = isStudent || viewerRole.isStudent();
 
   const cardStyle = {
@@ -240,7 +270,21 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
         columns={{xs: 6, sm: 4, md: 4}}
         {...COMMON_GRID_ATTRIBUTES}
       >
-        <Card sx={cardStyle}>
+        <Card sx={{...cardStyle, position: "relative"}}>
+          {isStudent && viewerRole.isManager() && (
+            <IconButton
+              aria-label="Éditer"
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 12,
+                color: PALETTE_COLORS.primary,
+              }}
+              onClick={() => redirect(`/students/${profile.id}/edit`)}
+            >
+              <EditIcon color={PALETTE_COLORS.primary} />
+            </IconButton>
+          )}
           <SimpleShowLayout
             sx={{
               minHeight: "275px",
@@ -269,11 +313,11 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           >
             <EmailField
               source="email"
-              label={<FieldLabel>Email</FieldLabel>}
+              label={<FieldLabel icon={<MailIcon />}>Email</FieldLabel>}
               {...COMMON_FIELD_ATTRIBUTES}
             />
             <FunctionField
-              label={<FieldLabel>Téléphone</FieldLabel>}
+              label={<FieldLabel icon={<PhoneIcon />}>Téléphone</FieldLabel>}
               variant={COMMON_FIELD_ATTRIBUTES.variant}
               render={(user) =>
                 !user.phone ? (
@@ -290,7 +334,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
             />
             <TextField
               source="address"
-              label={<FieldLabel>Adresse</FieldLabel>}
+              label={<FieldLabel icon={<AdressIcon />}>Adresse</FieldLabel>}
               component="pre"
               emptyText={EMPTY_TEXT}
               {...COMMON_FIELD_ATTRIBUTES}
@@ -318,26 +362,34 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
             <Title>Informations personnelles</Title>
             <SimpleShowLayout>
               <FunctionField
-                label={<FieldLabel>Nom</FieldLabel>}
+                label={<FieldLabel icon={<PersonIcon />}>Nom</FieldLabel>}
                 render={({first_name, last_name}) =>
                   `${first_name} ${last_name}`
                 }
                 {...COMMON_FIELD_ATTRIBUTES}
               />
               <FunctionField
-                label={<FieldLabel>Statut</FieldLabel>}
+                label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
                 render={renderStatus}
                 {...COMMON_FIELD_ATTRIBUTES}
               />
               <CustomDateField
                 source="entrance_datetime"
-                label={<FieldLabel>Date d'entrée chez HEI</FieldLabel>}
+                label={
+                  <FieldLabel icon={<CalendarIcon />}>
+                    Date d'entrée chez HEI
+                  </FieldLabel>
+                }
                 showTime={false}
                 {...COMMON_FIELD_ATTRIBUTES}
               />
               {isStudentProfile && (
                 <FunctionField
-                  label={<FieldLabel>Parcours de Spécialisation</FieldLabel>}
+                  label={
+                    <FieldLabel icon={<SpecializationIcon />}>
+                      Parcours de Spécialisation
+                    </FieldLabel>
+                  }
                   render={(user) =>
                     renderSpecialization(user.specialization_field)
                   }
@@ -349,28 +401,42 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           <Title>Détails personnels</Title>
           <SimpleShowLayout>
             <FunctionField
-              label={<FieldLabel>Sexe</FieldLabel>}
+              label={<FieldLabel icon={<GenderIcon />}>Sexe</FieldLabel>}
               render={renderSex}
               {...COMMON_FIELD_ATTRIBUTES}
             />
             <TextField
               source="nic"
-              label={<FieldLabel>Numéro CIN</FieldLabel>}
+              label={<FieldLabel icon={<NicIcon />}> Numéro CIN</FieldLabel>}
               emptyText={EMPTY_TEXT}
               {...COMMON_FIELD_ATTRIBUTES}
             />
-            <CustomDateField
-              source="birth_date"
-              label={<FieldLabel>Date de naissance</FieldLabel>}
-              showTime={false}
-              emptyText={EMPTY_TEXT}
-              {...COMMON_FIELD_ATTRIBUTES}
+            <FunctionField
+              label={
+                <FieldLabel icon={<BirthDateIcon />}>
+                  Date et lieu de naissance
+                </FieldLabel>
+              }
+              render={(user) => (
+                <BirthDatePlace
+                  birthdate={user.birth_date}
+                  birthplace={user.birth_place}
+                  emptyText={EMPTY_TEXT}
+                  sx={{fontSize: "12px"}}
+                  {...COMMON_FIELD_ATTRIBUTES}
+                />
+              )}
             />
-            <TextField
-              source="birth_place"
-              label={<FieldLabel>Lieu de naissance</FieldLabel>}
-              emptyText={EMPTY_TEXT}
-              {...COMMON_FIELD_ATTRIBUTES}
+            <FunctionField
+              label={
+                <FieldLabel icon={<GeoIcon />}>Géolocalisation</FieldLabel>
+              }
+              render={(user) => (
+                <GeoPositionName
+                  coordinates={user.coordinates}
+                  {...COMMON_FIELD_ATTRIBUTES}
+                />
+              )}
             />
           </SimpleShowLayout>
         </Card>

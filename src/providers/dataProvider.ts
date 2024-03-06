@@ -5,12 +5,13 @@ import studentProvider from "./studentProvider";
 import feeProvider from "./feeProvider";
 import paymentProvider from "./paymentProvider";
 import teacherProvider from "./teacherProvider";
-import heiDocsProvider from "./heiDocsProvider";
 import groupProvider from "./groupProvider";
 import groupFlowProvider from "./groupFlowProvider";
 import groupStudentProvider from "./groupStudentProvider";
 import profilePicProvider from "./profilePicProvider";
 import feesTemplatesProvider from "./feesTemplatesProvider";
+import docsProvider from "./docsProvider";
+import commentProvider from "./commentProvider";
 
 export const maxPageSize = 500;
 
@@ -20,12 +21,13 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "fees") return feeProvider;
   if (resourceType === "payments") return paymentProvider;
   if (resourceType === "teachers") return teacherProvider;
-  if (resourceType === "hei-docs") return heiDocsProvider;
+  if (resourceType === "docs") return docsProvider;
   if (resourceType === "groups") return groupProvider;
   if (resourceType === "group-flow") return groupFlowProvider;
   if (resourceType === "group-students") return groupStudentProvider;
   if (resourceType === "profile-picture") return profilePicProvider;
   if (resourceType === "fees-templates") return feesTemplatesProvider;
+  if (resourceType === "comments") return commentProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
@@ -52,7 +54,10 @@ const dataProvider: RaDataProviderType = {
     return {data: result, total: Number.MAX_SAFE_INTEGER};
   },
   async getOne(resourceType: string, params: any) {
-    const result = await getProvider(resourceType).getOne(params.id);
+    const result = await getProvider(resourceType).getOne(
+      params.id,
+      params.meta
+    );
     return {data: result};
   },
   async update(resourceType: string, params: any) {

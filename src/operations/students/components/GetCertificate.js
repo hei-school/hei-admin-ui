@@ -1,25 +1,23 @@
-import {useRef} from "react";
-import {Button, useShowContext} from "react-admin";
-import {Download as DownloadIcon} from "@mui/icons-material";
-
+import {useRef, useState} from "react";
+import {CircularProgress} from "@mui/material";
 import {useNotify} from "../../../hooks";
-import {studenstFileApi} from "../../../providers/api";
-import {COMMON_BUTTON_PROPS} from "../../../ui/constants/common_styles";
-import authProvider from "../../../providers/authProvider";
+import {filesApi} from "../../../providers/api";
+import {PALETTE_COLORS} from "../../../ui/constants/palette";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
 export function GetCertificate({studentId}) {
+  const [isLoading, setIsLoading] = useState(false);
   const certificateLink = useRef(null);
   const notify = useNotify();
-  const id = authProvider.getCachedWhoami().id;
 
   const getScholarshipCertificate = () => {
+    setIsLoading(true);
     const certificateLinkRef = certificateLink.current;
     notify("Certificat de scolarité en cours de téléchargement", {
       autoHideDuration: 5000,
     });
-    studenstFileApi()
+    filesApi()
       .getStudentScholarshipCertificate(studentId, {
         responseType: "arraybuffer",
       })
@@ -35,9 +33,11 @@ export function GetCertificate({studentId}) {
         );
         certificateLinkRef.download = FILE_NAME;
         certificateLinkRef.click();
+        setIsLoading(false);
       })
       .catch(() => {
         notify("Échec de téléchargement. Veuillez réessayer", {type: "error"});
+        setIsLoading(false);
       });
   };
 
@@ -48,14 +48,25 @@ export function GetCertificate({studentId}) {
         ref={certificateLink}
         style={{display: "none"}}
       />
-      <Button
-        data-testid="get-certificate-btn"
+      <a
+        data-testid="get-certificat"
+        aria-disabled={isLoading}
         onClick={getScholarshipCertificate}
-        label="Certificat"
-        {...COMMON_BUTTON_PROPS}
       >
-        <DownloadIcon />
-      </Button>
+        {isLoading ? (
+          <CircularProgress
+            size={40}
+            style={{margin: "7px"}}
+            sx={{
+              ".MuiCircularProgress-circle": {
+                color: PALETTE_COLORS.yellow,
+              },
+            }}
+          />
+        ) : (
+          "Certificat"
+        )}
+      </a>
     </div>
   );
 }

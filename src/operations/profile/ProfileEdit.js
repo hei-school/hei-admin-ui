@@ -4,11 +4,19 @@ import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 import {CustomEdit} from "../utils/CustomEdit";
 import {SelectSpecialization} from "../students/components";
 import {useRole} from "../../security/hooks";
+import {EditGeoLocalisation} from "../common/components/GeoLocalisation";
 
-const usertoUserApi = ({birth_date, entrance_datetime, ...data}) => ({
+const userToUserApi = ({
+  birth_date,
+  entrance_datetime,
+  longitude,
+  latitude,
+  ...data
+}) => ({
   ...data,
   birth_date: toUTC(new Date(birth_date)).toISOString(),
   entrance_datetime: toUTC(new Date(entrance_datetime)).toISOString(),
+  coordinates: {latitude: +latitude, longitude: +longitude},
 });
 
 const ProfileEdit = ({isOwnProfile, isStudent}) => {
@@ -16,7 +24,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
   const isStudentProfile = isStudent || role.isStudent();
 
   return (
-    <CustomEdit title="Modifier le profil" transform={usertoUserApi}>
+    <CustomEdit title="Modifier le profil" transform={userToUserApi}>
       <SimpleForm toolbar={<EditToolBar />}>
         <TextInput source="ref" label="Référence" fullWidth disabled={true} />
         <TextInput source="first_name" label="Prénom·s" fullWidth />
@@ -24,6 +32,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
         {isStudentProfile && <SelectSpecialization disabled={isOwnProfile} />}
         <TextInput source="email" fullWidth disabled={isOwnProfile} />
         <TextInput multiline source="address" label="Adresse" fullWidth />
+        <EditGeoLocalisation />
         <SexRadioButton />
         <TextInput source="phone" label="Téléphone" fullWidth />
         <TextInput

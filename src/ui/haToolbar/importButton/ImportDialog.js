@@ -13,8 +13,12 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {ArrowBackIos, ArrowForwardIos} from "@material-ui/icons";
-import {Download, Upload} from "@mui/icons-material";
+import {
+  Download,
+  Upload,
+  ArrowBackIos,
+  ArrowForwardIos,
+} from "@mui/icons-material";
 import {
   useWizardFormContext,
   WizardForm,
