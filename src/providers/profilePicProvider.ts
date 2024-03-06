@@ -1,7 +1,7 @@
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {usersApi} from "./api";
-import {MULTIPART_HEADERS} from "./utils";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {MULTIPART_HEADERS} from "./constants";
 
 const PIC_OPTIONS = {
   headers: MULTIPART_HEADERS,

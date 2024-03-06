@@ -14,11 +14,7 @@ export const DocList = () => {
 
   const getStudentRef = useStudentRef("studentId");
 
-  let studentRef = "";
-
-  if (isManager()) {
-    studentRef = getStudentRef.studentRef;
-  }
+  let studentRef = isManager() ? getStudentRef?.studentRef : "";
 
   const studentId = isStudent()
     ? authProvider.getCachedWhoami().id

@@ -1,15 +1,15 @@
-import {FileField, FileInput, SimpleForm, regex} from "react-admin";
+import {FileField, FileInput, SimpleForm} from "react-admin";
 import {Dialog, DialogTitle} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {FileType} from "@haapi/typescript-client";
 import {CustomCreate} from "../../utils/CustomCreate";
 import {useRole} from "../../../security/hooks/useRole";
-import {removeExtension} from "../../../utils/removeExtension";
+import {removeExtension} from "../../../utils/files";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
 import {OwnerType} from "../types";
 import authProvider from "../../../providers/authProvider";
 
-const FILENAME_REGEX = /^[^\s.]+$/;
+const DOCUMENT_FILENAME_PATTERN = /^[^\s.]+$/;
 
 const getTitle = (owner, type) => {
   if (owner === OwnerType.SCHOOL) {
@@ -22,20 +22,33 @@ const getTitle = (owner, type) => {
       case FileType.OTHER:
         return "document étudiant";
       default:
-        return "";
+        return "document";
     }
   }
-  return "";
+  return "document";
 };
 
 const transformDoc = (raw, type, owner, studentId) => {
   if (!raw) return null;
+
+  raw.raw.title = removeExtension(raw.raw.title);
+
   return {
     type,
     studentId,
     owner,
     ...raw,
   };
+};
+
+const validateFile = (value) => {
+  if (!value) {
+    return "Ce champ est obligatoire.";
+  }
+  if (!DOCUMENT_FILENAME_PATTERN.test(removeExtension(value.title))) {
+    return "Le nom du fichier ne doit pas contenir de point ni de caractère spécial ni d'espace.";
+  }
+  return undefined;
 };
 
 export const DocCreateDialog = ({type, owner, isOpen, toggle}) => {
@@ -45,16 +58,6 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle}) => {
   const studentId = isStudent()
     ? authProvider.getCachedWhoami().id
     : params.studentId;
-
-  const validateFile = (value, _allValues) => {
-    if (!value) {
-      return "Ce champ est obligatoire.";
-    }
-    if (!FILENAME_REGEX.test(removeExtension(value.title))) {
-      return "Le nom du fichier ne doit pas contenir de point ni de caractère spécial ni d'espace.";
-    }
-    return undefined;
-  };
 
   return (
     <Dialog open={isOpen} onClose={toggle}>
@@ -67,9 +70,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle}) => {
         resource="docs"
         transform={(doc) => transformDoc(doc, type, owner, studentId)}
         mutationOptions={{
-          onSuccess: () => {
-            toggle();
-          },
+          onSuccess: toggle,
         }}
       >
         <SimpleForm>

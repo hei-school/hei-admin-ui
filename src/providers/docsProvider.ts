@@ -1,8 +1,8 @@
 import {FileType} from "@haapi/typescript-client";
 import {OwnerType} from "src/operations/docs/types";
-import {removeExtension} from "../utils/removeExtension";
+import {removeExtension} from "../utils/files";
 import {HaDataProviderType} from "./HaDataProviderType";
-import {MULTIPART_HEADERS} from "./utils";
+import {MULTIPART_HEADERS} from "./constants";
 import {filesApi} from "./api";
 
 const docsProvider: HaDataProviderType = {
@@ -41,8 +41,6 @@ const docsProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload: any) {
     const {raw, ...doc} = payload[0];
-
-    raw.title = removeExtension(raw.title);
 
     if (!doc || !raw) return [];
 
