@@ -11,12 +11,12 @@ const docsProvider: HaDataProviderType = {
     switch (meta.owner) {
       case OwnerType.SCHOOL:
         return filesApi()
-          .getSchoolRegulations()
+          .getSchoolRegulations(page, perPage)
           .then((result) => result.data);
       case OwnerType.STUDENT:
         if (meta.type in FileType) {
           return filesApi()
-            .getStudentFiles(meta?.studentId, meta.type)
+            .getStudentFiles(meta?.studentId, meta.type, page, perPage)
             .then((result) => result.data);
         }
         return [];
@@ -47,7 +47,7 @@ const docsProvider: HaDataProviderType = {
     switch (doc.owner) {
       case OwnerType.SCHOOL:
         return filesApi()
-          .uploadSchoolFile(FileType.DOCUMENT, raw.title, raw.rawFile, {
+          .uploadSchoolFile(FileType.DOCUMENT, doc.title, raw.rawFile, {
             headers: MULTIPART_HEADERS,
           })
           .then((result) => [result.data]);
@@ -57,7 +57,7 @@ const docsProvider: HaDataProviderType = {
             .uploadStudentFile(
               doc.studentId,
               doc.type,
-              raw.title,
+              doc.title,
               raw.rawFile,
               {headers: MULTIPART_HEADERS}
             )
