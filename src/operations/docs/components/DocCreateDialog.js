@@ -1,4 +1,4 @@
-import {FileField, FileInput, SimpleForm} from "react-admin";
+import {FileField, FileInput, SimpleForm, TextInput, regex} from "react-admin";
 import {Dialog, DialogTitle} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {FileType} from "@haapi/typescript-client";
@@ -9,7 +9,7 @@ import {PALETTE_COLORS} from "../../../ui/constants/palette";
 import {OwnerType} from "../types";
 import authProvider from "../../../providers/authProvider";
 
-const DOCUMENT_FILENAME_PATTERN = /^[^\s.]+$/;
+const DOCUMENT_FILENAME_PATTERN = /^[^.]*$/;
 
 const getTitle = (owner, type) => {
   if (owner === OwnerType.SCHOOL) {
@@ -28,30 +28,20 @@ const getTitle = (owner, type) => {
   return "document";
 };
 
-const transformDoc = (raw, type, owner, studentId) => {
-  if (!raw) return null;
+const transformDoc = (doc, type, owner, studentId) => {
+  if (!doc) return null;
 
-  raw.raw.title = removeExtension(raw.raw.title);
+  doc.title = doc.name || removeExtension(doc.raw?.title);
 
   return {
     type,
     studentId,
     owner,
-    ...raw,
+    ...doc,
   };
 };
 
-const validateFile = (value) => {
-  if (!value) {
-    return "Ce champ est obligatoire.";
-  }
-  if (!DOCUMENT_FILENAME_PATTERN.test(removeExtension(value.title))) {
-    return "Le nom du fichier ne doit pas contenir de point ni de caractère spécial ni d'espace.";
-  }
-  return undefined;
-};
-
-export const DocCreateDialog = ({type, owner, isOpen, toggle}) => {
+export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
   const params = useParams();
   const {isStudent} = useRole();
 
@@ -61,7 +51,11 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle}) => {
 
   return (
     <Dialog open={isOpen} onClose={toggle}>
-      <DialogTitle color={PALETTE_COLORS.yellow} fontWeight="bold">
+      <DialogTitle
+        color={PALETTE_COLORS.yellow}
+        sx={{bgcolor: PALETTE_COLORS.grey}}
+        fontWeight="bold"
+      >
         Ajouter un {getTitle(owner, type)}
       </DialogTitle>
       <CustomCreate
@@ -70,16 +64,31 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle}) => {
         resource="docs"
         transform={(doc) => transformDoc(doc, type, owner, studentId)}
         mutationOptions={{
-          onSuccess: toggle,
+          onSuccess: () => {
+            toggle();
+            refresh();
+          },
         }}
       >
         <SimpleForm>
+          <TextInput
+            source="name"
+            label="Titre du document (optionnel)"
+            validate={[
+              regex(
+                DOCUMENT_FILENAME_PATTERN,
+                "Le nom du fichier ne doit pas contenir de point."
+              ),
+            ]}
+            fullWidth
+          />
           <FileInput
             source="raw"
             label=" "
             multiple={false}
             accept="application/pdf,image/jpeg,image/png,image/webp"
-            validate={[validateFile]}
+            isRequired
+            sx={{border: `1px solid ${PALETTE_COLORS.grey}`}}
           >
             <FileField source="src" title="title" />
           </FileInput>
