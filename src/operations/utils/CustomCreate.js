@@ -6,6 +6,12 @@ export const CustomCreate = ({children, mutationOptions = {}, ...props}) => {
     <Create
       mutationMode="pessimistic"
       mutationOptions={{
+        onMutate: () => {
+          notify(`En cours de création...`, {
+            type: "info",
+            autoHideDuration: 1000,
+          });
+        },
         onError: (error) => {
           notify(`Une erreur s'est produite`, {
             type: "error",
