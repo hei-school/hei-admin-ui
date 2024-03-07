@@ -1,4 +1,9 @@
-import {ShowButton, TextField} from "react-admin";
+import {
+  ShowButton as RaShowButton,
+  TextField,
+  useRecordContext,
+} from "react-admin";
+import {useLocation} from "react-router-dom";
 import {FileType} from "@haapi/typescript-client";
 import {AddOutlined} from "@mui/icons-material";
 import {DocCreateDialog} from "./DocCreateDialog";
@@ -47,6 +52,15 @@ const ListAction = ({type, owner}) => {
   );
 };
 
+const ShowButton = () => {
+  const record = useRecordContext();
+  const location = useLocation();
+
+  if (!record) return;
+
+  return <RaShowButton to={location.pathname + `/` + record.id} />;
+};
+
 export const DocList = ({
   owner,
   type,
@@ -68,7 +82,7 @@ export const DocList = ({
     >
       <TextField source="name" label="Nom du fichier" />
       <CustomDateField source="creation_datetime" label="Date de création" />
-      <ShowButton redirect={datagridProps?.rowClick} />
+      <ShowButton />
     </HaList>
   );
 };
