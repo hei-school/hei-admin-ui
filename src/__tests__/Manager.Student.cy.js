@@ -89,7 +89,9 @@ describe(specTitle("Manager edit students"), () => {
 
   it("can edit students", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
-    cy.intercept("PUT", `/students`, [updatedStudent]).as("modifyStudent");
+    cy.intercept("PUT", `/students/${student1Mock.id}`, [updatedStudent]).as(
+      "modifyStudent"
+    );
     cy.contains("Étudiants");
     cy.wait("@getWhoami");
     cy.wait("@getManager1");

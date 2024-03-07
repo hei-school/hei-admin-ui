@@ -61,7 +61,9 @@ const dataProvider: RaDataProviderType = {
     return {data: result};
   },
   async update(resourceType: string, params: any) {
-    const result = await getProvider(resourceType).saveOrUpdate([params.data]);
+    const result = await getProvider(resourceType).saveOrUpdate([params.data], {
+      isUpdate: true,
+    });
     return {data: result[0]};
   },
   async create(resourceType: string, params: any) {

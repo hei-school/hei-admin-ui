@@ -33,8 +33,9 @@ const studentProvider: HaDataProviderType = {
       return [studentResponse];
     } else {
       // for editing
-      const result = await usersApi().createOrUpdateStudents(payload);
-      return result.data;
+      const [student] = payload;
+      const result = await usersApi().updateStudent(student.id, student);
+      return [result.data];
     }
   },
   async delete(id: string) {
