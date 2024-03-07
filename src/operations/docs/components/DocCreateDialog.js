@@ -51,7 +51,7 @@ const validateFile = (value) => {
   return undefined;
 };
 
-export const DocCreateDialog = ({type, owner, isOpen, toggle}) => {
+export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
   const params = useParams();
   const {isStudent} = useRole();
 
@@ -70,7 +70,10 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle}) => {
         resource="docs"
         transform={(doc) => transformDoc(doc, type, owner, studentId)}
         mutationOptions={{
-          onSuccess: toggle,
+          onSuccess: () => {
+            toggle();
+            refresh();
+          },
         }}
       >
         <SimpleForm>
