@@ -18,7 +18,12 @@ const teacherProvider: HaDataProviderType = {
     const result = await usersApi().getTeacherById(id);
     return result.data;
   },
-  async saveOrUpdate(users: Array<any>) {
+  async saveOrUpdate(users: Array<any>, meta: any) {
+    if (meta?.isUpdate) {
+      const [teacher] = users;
+      const result = await usersApi().updateTeacher(teacher.id, teacher);
+      return [result.data];
+    }
     const result = await usersApi().createOrUpdateTeachers(users);
     return result.data;
   },

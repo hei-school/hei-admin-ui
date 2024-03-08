@@ -37,5 +37,5 @@ export function createStudentApi(payload) {
   entrance_datetime = new Date(entrance_datetime).toISOString();
   const coordinates = {longitude: +longitude, latitude: +latitude};
 
-  return [fees, {...studentRest, entrance_datetime, coordinates}];
+  return [fees, [{...studentRest, entrance_datetime, coordinates}]];
 }

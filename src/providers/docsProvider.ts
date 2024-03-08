@@ -16,7 +16,7 @@ const docsProvider: HaDataProviderType = {
       case OwnerType.STUDENT:
         if (meta.type in FileType) {
           return filesApi()
-            .getStudentFiles(meta?.studentId, meta.type, page, perPage)
+            .getStudentFiles(meta?.studentId, page, perPage, meta.type)
             .then((result) => result.data);
         }
         return [];

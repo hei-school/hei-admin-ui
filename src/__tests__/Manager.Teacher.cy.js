@@ -24,7 +24,9 @@ describe(specTitle("Manager.Teachers"), () => {
     cy.intercept("GET", `/teachers/${teachersMock[0].id}`, teachersMock[0]).as(
       "getTeachers1"
     );
-    cy.intercept("PUT", `/teachers`, [updatedInfo]).as("putUpdate");
+    cy.intercept("PUT", `/teachers/${teachersMock[0].id}`, updatedInfo).as(
+      "putUpdate"
+    );
 
     cy.wait("@getWhoami", {timeout: 10000});
     cy.get('[href="#/teachers"]').click();
