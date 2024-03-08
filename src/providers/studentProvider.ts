@@ -20,23 +20,25 @@ const studentProvider: HaDataProviderType = {
     const result = await usersApi().getStudentById(id);
     return result.data;
   },
-  async saveOrUpdate(payload: any) {
-    if (payload[0].length > 1) {
-      // when we want to create student
-      const [fees, student] = payload[0];
-      Object.assign(student, {status: EnableStatus.ENABLED});
-      const [studentResponse] = (
-        await usersApi().createOrUpdateStudents([student])
-      ).data;
-      fees.length !== 0 &&
-        (await payingApi().createStudentFees(studentResponse?.id!, fees));
-      return [studentResponse];
-    } else {
-      // for editing
+  async saveOrUpdate(payload: any, meta: any) {
+    if (meta?.isUpdate) {
       const [student] = payload;
       const result = await usersApi().updateStudent(student.id, student);
       return [result.data];
     }
+    let [fees, students] = payload[0];
+
+    students = students.map((student: any) => ({
+      ...student,
+      status: EnableStatus.ENABLED,
+    }));
+    const studentResponse = (await usersApi().createOrUpdateStudents(students))
+      .data;
+
+    if (students.length <= 1 && fees.length > 0) {
+      await payingApi().createStudentFees(studentResponse[0]?.id!, fees);
+    }
+    return studentResponse;
   },
   async delete(id: string) {
     throw new Error("Not implemented");

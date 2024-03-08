@@ -89,7 +89,7 @@ describe(specTitle("Manager edit students"), () => {
 
   it("can edit students", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
-    cy.intercept("PUT", `/students/${student1Mock.id}`, [updatedStudent]).as(
+    cy.intercept("PUT", `/students/${student1Mock.id}`, updatedStudent).as(
       "modifyStudent"
     );
     cy.contains("Étudiants");
@@ -128,11 +128,10 @@ describe(specTitle("Manager edit students"), () => {
     ).as("getUpdatedStudent");
     cy.contains("Enregistrer").click();
     cy.wait("@modifyStudent").then((requestIntersection) => {
-      let modifyStudentWithoutFeesBodyMock =
-        requestIntersection.request.body[0];
+      let modifyStudentWithoutFeesBodyMock = requestIntersection.request.body;
       modifyStudentWithoutFeesBodyMock.first_name = newFirstName;
 
-      expect(requestIntersection.request.body[0]).to.deep.equal(
+      expect(requestIntersection.request.body).to.deep.equal(
         modifyStudentWithoutFeesBodyMock
       );
 
