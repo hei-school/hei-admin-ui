@@ -10,9 +10,9 @@ import {ProfileFilters} from "../profile";
 import {
   minimalUserHeaders,
   optionalUserHeaders,
-  transformUserData,
   validateUserData,
 } from "../utils/userImportConf";
+import {transformStudentData} from "./importConf";
 
 const ListActions = ({isManager}) => {
   return (
@@ -31,7 +31,7 @@ const ListActions = ({isManager}) => {
             validateData={validateUserData}
             resource="étudiants"
             provider={studentProvider.saveOrUpdate}
-            transformData={transformUserData}
+            transformData={transformStudentData}
             minimalHeaders={minimalUserHeaders}
             optionalHeaders={optionalUserHeaders}
           />

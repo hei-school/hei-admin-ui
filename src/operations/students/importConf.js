@@ -1,5 +1,7 @@
-import {validateData} from "../../ui/haToolbar";
 import {EnableStatus} from "@haapi/typescript-client";
+import {v4 as uuid} from "uuid";
+import {validateData} from "../../ui/haToolbar";
+import {transformUserData} from "../utils/userImportConf";
 
 export const minimalStudentHeaders = [
   {id: 1, label: "Référence (ref)", value: "ref", disabled: true},
@@ -39,11 +41,6 @@ export const valideStudentData = (data) => {
 };
 
 export const transformStudentData = (data) => {
-  return data.map((element) => {
-    element.entrance_datetime = new Date(
-      element.entrance_datetime
-    ).toISOString();
-    element["status"] = EnableStatus.ENABLED;
-    return element;
-  });
+  const students = transformUserData(data);
+  return [[[], students]];
 };
