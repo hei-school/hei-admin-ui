@@ -17,9 +17,9 @@ import {transformStudentData} from "./importConf";
 const ListActions = ({isManager}) => {
   return (
     <>
-      <CreateButton />
       {isManager && (
         <>
+          <CreateButton />
           <ExportButton
             exportHandler={() =>
               exporter([], importHeaders, "template_students")
