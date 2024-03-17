@@ -25,28 +25,6 @@ export const CustomDateField = ({source, label, showTime, ...props}) => {
   );
 };
 
-export function BirthDatePlace({
-  birthdate,
-  birthplace,
-  emptyText,
-  sx = {},
-  ...rest
-}) {
-  if (!birthdate) return emptyText;
-
-  const localBirthplace = new Date(birthdate).toLocaleDateString(
-    "fr-FR",
-    DATE_OPTIONS
-  );
-
-  return (
-    <Typography sx={sx} {...rest}>
-      {localBirthplace}
-      {birthplace && ` à ${birthplace}`}
-    </Typography>
-  );
-}
-
 export const turnStringIntoDate = (stringDate) => {
   return new Date(stringDate).toISOString();
 };
