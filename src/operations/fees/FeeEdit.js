@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {
   Button,
   DateInput,
@@ -11,15 +12,15 @@ import {
   useNotify,
   useRedirect,
 } from "react-admin";
-import {statusRenderer} from "../utils";
-import {CustomEdit} from "../utils/CustomEdit";
 import {Box, CircularProgress} from "@mui/material";
-import {useState} from "react";
 import {Save} from "@mui/icons-material";
 import {useFormContext} from "react-hook-form";
+
+import {Edit} from "../common/components";
 import {useStudentRef} from "../../hooks/useStudentRef";
 import {toApiIds} from "../../providers/feeProvider";
 import {payingApi} from "../../providers/api";
+import {statusRenderer} from "../utils";
 
 function EditToolbar() {
   const notify = useNotify();
@@ -109,7 +110,7 @@ function FeeEdit() {
   const {studentRef} = useStudentRef("id");
 
   return (
-    <CustomEdit title={`Frais de ${studentRef}`}>
+    <Edit title={`Frais de ${studentRef}`}>
       <SimpleForm toolbar={<EditToolbar />}>
         <DisabledInfo />
         <DateInput
@@ -126,7 +127,7 @@ function FeeEdit() {
           fullWidth
         />
       </SimpleForm>
-    </CustomEdit>
+    </Edit>
   );
 }
 

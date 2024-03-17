@@ -1,8 +1,9 @@
 import {EditButton, FunctionField, TextField} from "react-admin";
 import {AttachMoney} from "@mui/icons-material";
+
 import {HaList} from "../../ui/haList";
 import {CreateButton} from "../../ui/haToolbar";
-import {prettyPrintMoney} from "../utils";
+import {renderMoney} from "../common/utils/money";
 
 function FeesTemplatesList() {
   return (
@@ -18,7 +19,7 @@ function FeesTemplatesList() {
       <TextField source="name" label="Nom" />
       <FunctionField
         label="Montant de la mensualité"
-        render={(feetype) => prettyPrintMoney(feetype.amount)}
+        render={(feetype) => renderMoney(feetype.amount)}
       />
       <TextField source="number_of_payments" label="Nombre de mensualités" />
       <EditButton />

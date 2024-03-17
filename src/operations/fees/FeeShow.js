@@ -11,7 +11,6 @@ import {useParams} from "react-router-dom";
 import {Divider, Typography} from "@mui/material";
 import {useRole} from "../../security/hooks";
 import {
-  prettyPrintMoney,
   statusRenderer,
   withRedWarning,
   commentFunctionRenderer,
@@ -20,6 +19,7 @@ import PaymentList from "../payments/PaymentList";
 import {studentIdFromRaId} from "../../providers/feeProvider";
 import {DeleteWithConfirm} from "../common/components";
 import {DateField} from "../common/components/fields";
+import {renderMoney} from "../common/utils/money";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
@@ -53,12 +53,12 @@ export const FeeLayout = ({feeId}) => {
       />
       <FunctionField
         label="Total à payer"
-        render={(record) => prettyPrintMoney(record.total_amount)}
+        render={(record) => renderMoney(record.total_amount)}
         textAlign="right"
       />
       <FunctionField
         label="Reste à payer"
-        render={(record) => prettyPrintMoney(record.remaining_amount)}
+        render={(record) => renderMoney(record.remaining_amount)}
         textAlign="right"
       />
       <FunctionField

@@ -1,21 +1,21 @@
-import {Edit, useNotify} from "react-admin";
+import {Edit as RaEdit} from "react-admin";
+import {useNotify} from "../../../hooks";
 
-export const CustomEdit = ({children, ...props}) => {
+export function Edit({children, ...editProps}) {
   const notify = useNotify();
   return (
-    <Edit
+    <RaEdit
       mutationMode="pessimistic"
       mutationOptions={{
-        onError: (error) => {
+        onError: () => {
           notify(`Une erreur s'est produite`, {
             type: "error",
-            autoHideDuration: 1000,
           });
         },
       }}
-      {...props}
+      {...editProps}
     >
       {children}
-    </Edit>
+    </RaEdit>
   );
-};
+}

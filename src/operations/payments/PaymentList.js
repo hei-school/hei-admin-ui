@@ -6,10 +6,11 @@ import {
   TopToolbar,
   CreateButton,
 } from "react-admin";
-import {prettyPrintMoney, paymentTypeRenderer} from "../utils";
+import {paymentTypeRenderer} from "../utils";
 import {useRole} from "../../security/hooks";
 import {DeleteWithConfirm} from "../common/components";
 import {DateField} from "../common/components/fields";
+import {renderMoney} from "../common/utils/money";
 
 const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>
@@ -42,7 +43,7 @@ const PaymentList = ({feeId}) => {
         />
         <FunctionField
           label="Montant"
-          render={(record) => prettyPrintMoney(record.amount)}
+          render={(record) => renderMoney(record.amount)}
           textAlign="right"
         />
         {role.isManager() && (
