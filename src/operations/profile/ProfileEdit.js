@@ -2,10 +2,9 @@ import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
 import {EditToolBar, SexRadioButton} from "../utils";
 import {toUTC} from "../../utils/date";
 import {StatusRadioButton} from "../utils/UserStatusRadioButton";
-import {CustomEdit} from "../utils/CustomEdit";
 import {SelectSpecialization} from "../students/components";
 import {useRole} from "../../security/hooks";
-import {EditGeoLocalisation} from "../common/components/GeoLocalisation";
+import {EditGeoLocalisation, Edit} from "../common/components";
 
 const userToUserApi = ({
   birth_date,
@@ -25,7 +24,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
   const isStudentProfile = isStudent || role.isStudent();
 
   return (
-    <CustomEdit
+    <Edit
       title="Modifier le profil"
       transform={userToUserApi}
       queryOptions={{meta: {isUpdate: true}}}
@@ -59,7 +58,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
         />
         <StatusRadioButton disabled={isOwnProfile} />
       </SimpleForm>
-    </CustomEdit>
+    </Edit>
   );
 };
 
