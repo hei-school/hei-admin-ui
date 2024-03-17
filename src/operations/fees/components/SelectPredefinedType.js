@@ -5,7 +5,7 @@ import {FEE_SELECT_STYLE} from "../utils";
 // /!\ TODO: all previously declared props could be overwritten by redeclaring them through props
 export function SelectPredefinedType(props) {
   const {data: feeTemplates = [], isLoading} = useGetList("fees-templates");
-  const {reset, setValue} = useFormContext();
+  const {reset} = useFormContext();
 
   const updateFeesFields = (event) => {
     const configId = event.target.value;

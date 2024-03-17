@@ -35,7 +35,7 @@ export const addPaymentMock: (
 export const createPaymentMock: (fee: Fee) => Payment[] = (fee) => {
   let total_amount = fee.total_amount ? fee.total_amount : 0;
   let remaining_amount = fee.remaining_amount ? fee.remaining_amount : 0;
-  if (total_amount - remaining_amount == 0) {
+  if (total_amount - remaining_amount === 0) {
     return [];
   }
   return [

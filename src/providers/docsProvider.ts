@@ -1,6 +1,5 @@
 import {FileType} from "@haapi/typescript-client";
 import {OwnerType} from "src/operations/docs/types";
-import {removeExtension} from "../utils/files";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {MULTIPART_HEADERS} from "./constants";
 import {filesApi} from "./api";

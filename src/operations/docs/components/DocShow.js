@@ -26,7 +26,7 @@ export const DocShow = ({owner, studentId}) => {
         .catch(() => {});
     };
     doEffect();
-  }, [studentId, type, id, owner]);
+  }, [studentId, type, id, owner, dataProvider]);
 
   return (
     <Container fixed>

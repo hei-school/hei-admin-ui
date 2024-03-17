@@ -1,4 +1,4 @@
-import {useMediaQuery, AppBar, Box, Slide, Typography} from "@mui/material";
+import {useMediaQuery, AppBar, Box, Typography} from "@mui/material";
 import {PALETTE_COLORS} from "../../constants/palette";
 import UserInfo from "./UserInfo";
 import menuLogo from "../../../assets/menu-logo.png";
@@ -11,7 +11,6 @@ const APPBAR_STYLE = {
   alignItems: "center",
   width: "100%",
   color: PALETTE_COLORS.black,
-  boxShadow: "none",
   height: "60px",
   py: 1,
   px: 2,
@@ -53,7 +52,11 @@ export const HaAppBar = () => {
         </Box>
       )}
       <Box sx={{display: "flex", alignItems: "center", gap: 2}}>
-        <img src={menuLogo} style={{width: 40, height: 27}} />
+        <img
+          alt="Your Profile"
+          src={menuLogo}
+          style={{width: 40, height: 27}}
+        />
         {!isSmall && (
           <Typography
             sx={{

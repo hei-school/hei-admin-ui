@@ -20,6 +20,7 @@ export function GeoPositionName({
   return isDefinedPosition ? (
     <a
       target="_blank"
+      rel="noreferrer"
       href={createGoogleMapLink(coordinates)}
       style={{
         color: PALETTE_COLORS.typography.grey,

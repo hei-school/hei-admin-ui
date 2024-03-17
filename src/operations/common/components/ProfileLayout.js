@@ -98,7 +98,7 @@ const renderStatus = ({status}) => {
 };
 
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
-  const [isOpen, _set, toggle] = useToggle();
+  const [isOpen, , toggle] = useToggle();
   const user = useRecordContext();
   const id = user.id;
 
@@ -194,7 +194,7 @@ const ProfileCardAvatar = ({role}) => {
                 imgRef.current.src = defaultProfilePicture;
               }
             }}
-            alt="profile picture"
+            alt="Profile"
             style={{
               objectFit: "cover",
               height: 175,

@@ -41,6 +41,7 @@ export function CommentItem({comment}) {
       >
         <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
           <img
+            alt="Observer"
             src={profilePicture}
             style={{width: "35px", height: "35px", borderRadius: "50%"}}
           />

@@ -110,7 +110,7 @@ function UserInfo() {
         .catch(() => {});
     };
     doEffect();
-  }, []);
+  }, [dataProvider, id]);
 
   const {first_name = "", profile_picture = defaultProfilePicture} = user;
 
@@ -138,7 +138,7 @@ function UserInfo() {
           imgRef.current.src = defaultProfilePicture;
         }
       }}
-      alt="profile picture"
+      alt="Profile"
       style={{
         objectFit: "cover",
         height: 40,
@@ -183,7 +183,7 @@ function UserInfo() {
               {getUserRoleInFr(role)}
             </Typography>
           </Box>
-          <a href={HEI_CALENDAR_URL} target="_blank">
+          <a rel="noreferrer" href={HEI_CALENDAR_URL} target="_blank">
             <CalendarMonth
               sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
             />

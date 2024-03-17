@@ -72,7 +72,11 @@ export function HaMenuBase({sx = {}}) {
                 gap: 2,
               }}
             >
-              <img src={menuLogo} style={{width: 40, height: 27}} />
+              <img
+                alt="HEI Logo"
+                src={menuLogo}
+                style={{width: 40, height: 27}}
+              />
               <Typography
                 variant="h1"
                 sx={{

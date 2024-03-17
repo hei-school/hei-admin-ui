@@ -15,7 +15,7 @@ import {FEESTEMPLATES_CHOICES} from "../feesTemplatesChoices";
 import {useFormContext} from "react-hook-form";
 
 export function FeeFields() {
-  const {reset, setValue} = useFormContext();
+  const {reset} = useFormContext();
   const [feeConfig, setFeeConfig] = useState({
     isPredefinedFee: true,
     isPredefinedDate: true,

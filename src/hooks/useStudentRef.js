@@ -24,7 +24,7 @@ export const useStudentRef = (source) => {
     if (studentId) {
       fetchRef();
     }
-  }, [studentId]);
+  }, [studentId, notify, dataProvider]);
 
   return {studentRef, studentId};
 };

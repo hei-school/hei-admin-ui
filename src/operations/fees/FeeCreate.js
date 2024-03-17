@@ -1,10 +1,4 @@
-import {
-  Create,
-  DeleteButton,
-  SaveButton,
-  SimpleForm,
-  Toolbar,
-} from "react-admin";
+import {Create, SaveButton, SimpleForm, Toolbar} from "react-admin";
 import {useNotify, useStudentRef} from "../../hooks";
 import {FeeFields} from "./components";
 import {createFeesApi} from "./utils/feeFactory";
