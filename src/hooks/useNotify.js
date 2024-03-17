@@ -1,7 +1,7 @@
-import {useNotify as _useNotify} from "react-admin";
+import {useNotify as useRaNotify} from "react-admin";
 
 export const useNotify = () => {
-  const notify = _useNotify();
+  const notify = useRaNotify();
   return (message, config = {}) =>
     notify(message, {autoHideDuration: 5000, ...config});
 };
