@@ -1,7 +1,6 @@
 import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
-import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
+import {CreateGeoLocalisation, Create} from "../common/components";
 import {SexRadioButton, turnStringIntoDate} from "../utils";
-import {CustomCreate} from "../utils/CustomCreate";
 
 const transformTeacher = (record) => {
   let {entrance_datetime, longitude, latitude, ...teacher} = record;
@@ -11,7 +10,7 @@ const transformTeacher = (record) => {
 };
 
 const TeacherCreate = () => (
-  <CustomCreate title="Enseignants" transform={transformTeacher}>
+  <Create title="Enseignants" transform={transformTeacher}>
     <SimpleForm>
       <TextInput source="ref" label="Référence" fullWidth required />
       <TextInput source="first_name" label="Prénoms" fullWidth required />
@@ -39,6 +38,6 @@ const TeacherCreate = () => (
         required
       />
     </SimpleForm>
-  </CustomCreate>
+  </Create>
 );
 export default TeacherCreate;

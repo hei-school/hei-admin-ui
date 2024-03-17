@@ -12,7 +12,7 @@ import {SelectSpecialization} from "./components";
 import {createStudentApi} from "./utils/studentFactory";
 
 import {SexRadioButton} from "../utils";
-import {CustomCreate} from "../utils/CustomCreate";
+import {Create} from "../common/components";
 import {FeeFields} from "../fees/components";
 import {useToggle} from "../../hooks";
 import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
@@ -20,7 +20,7 @@ import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
 const StudentCreate = () => {
   const [canCreateFees, , toggleCanCreateFees] = useToggle(false);
   return (
-    <CustomCreate
+    <Create
       title="Étudiants"
       resource="students"
       transform={createStudentApi}
@@ -73,7 +73,7 @@ const StudentCreate = () => {
         />
         {canCreateFees && <FeeFields />}
       </SimpleForm>
-    </CustomCreate>
+    </Create>
   );
 };
 export default StudentCreate;
