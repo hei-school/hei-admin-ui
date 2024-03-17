@@ -21,8 +21,9 @@ import App from "../App";
 import {manager1} from "./credentials";
 import {assertFeeMatchesTemplate} from "./utils";
 
-import {prettyPrintMoney, statusRenderer} from "../operations/utils";
+import {statusRenderer} from "../operations/utils";
 import {getEndOfMonth} from "../utils/date";
+import {renderMoney} from "../operations/common/utils/money";
 
 // /!\ TODO: create custom cypress command "getByTestid"
 describe(specTitle("Manager.Fee"), () => {
@@ -105,10 +106,10 @@ describe(specTitle("Manager.Fee"), () => {
       createPaymentMock(interceptedFeeMock)
     ).as("getPaymentsOfOneFee");
     cy.get('[aria-label="fees"]').click();
-    cy.contains(prettyPrintMoney(interceptedFeeMock.remaining_amount)).click();
+    cy.contains(renderMoney(interceptedFeeMock.remaining_amount)).click();
     cy.get("#main-content")
-      .should("contain", prettyPrintMoney(interceptedFeeMock.remaining_amount))
-      .and("contain", prettyPrintMoney(interceptedFeeMock.total_amount))
+      .should("contain", renderMoney(interceptedFeeMock.remaining_amount))
+      .and("contain", renderMoney(interceptedFeeMock.total_amount))
       .and("contain", interceptedFeeMock.comment)
       .and("contain", statusRenderer(interceptedFeeMock.status))
       .and("contain", "Paiements");

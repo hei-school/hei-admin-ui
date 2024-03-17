@@ -1,5 +1,4 @@
 export * from "./EditToolBar";
-export * from "./money";
 export * from "./PrevNextPagination";
 export * from "./SexRadioButton";
 export * from "./typography";
