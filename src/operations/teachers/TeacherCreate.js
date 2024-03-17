@@ -1,10 +1,11 @@
 import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
 import {CreateGeoLocalisation, Create} from "../common/components";
-import {SexRadioButton, turnStringIntoDate} from "../utils";
+import {SexRadioButton} from "../utils";
+import {toISO} from "../../utils/date";
 
 const transformTeacher = (record) => {
   let {entrance_datetime, longitude, latitude, ...teacher} = record;
-  entrance_datetime = turnStringIntoDate(entrance_datetime);
+  entrance_datetime = toISO(entrance_datetime);
   const coordinates = {longitude: +longitude, latitude: +latitude};
   return {...teacher, entrance_datetime, coordinates};
 };

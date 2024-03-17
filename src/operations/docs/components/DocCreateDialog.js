@@ -59,17 +59,17 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
         Ajouter un {getTitle(owner, type)}
       </DialogTitle>
       <Create>
-        title=" "
-        redirect={false}
-        resource="docs"
-        transform={(doc) => transformDoc(doc, type, owner, studentId)}
-        mutationOptions={{
+        title=" " redirect={false}
+        resource="docs" transform=
+        {(doc) => transformDoc(doc, type, owner, studentId)}
+        mutationOptions=
+        {{
           onSuccess: () => {
             toggle();
             refresh();
           },
         }}
-      >
+        >
         <SimpleForm>
           <TextInput
             source="name"

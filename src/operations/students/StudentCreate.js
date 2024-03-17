@@ -20,11 +20,7 @@ import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
 const StudentCreate = () => {
   const [canCreateFees, , toggleCanCreateFees] = useToggle(false);
   return (
-    <Create
-      title="Étudiants"
-      resource="students"
-      transform={createStudentApi}
-    >
+    <Create title="Étudiants" resource="students" transform={createStudentApi}>
       <SimpleForm
         toolbar={
           <Toolbar>

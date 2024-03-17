@@ -46,7 +46,7 @@ import {DateField, BirthDateField} from "./fields";
 import {GeoPositionName} from "./GeoLocalisation";
 import {useToggle} from "../../../hooks";
 import {useRole} from "../../../security/hooks";
-import {Create} from "./Create"
+import {Create} from "./Create";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
 import {NOOP_FN} from "../../../utils/noop";
