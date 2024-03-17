@@ -1,5 +1,6 @@
 import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
-import {EditToolBar, SexRadioButton, toUTC} from "../utils";
+import {EditToolBar, SexRadioButton} from "../utils";
+import {toUTC} from "../../utils/date";
 import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 import {CustomEdit} from "../utils/CustomEdit";
 import {SelectSpecialization} from "../students/components";

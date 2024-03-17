@@ -2,7 +2,7 @@ import {FileField, FileInput, SimpleForm, TextInput, regex} from "react-admin";
 import {Dialog, DialogTitle} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {FileType} from "@haapi/typescript-client";
-import {CustomCreate} from "../../utils/CustomCreate";
+import {Create} from "../../common/components";
 import {useRole} from "../../../security/hooks/useRole";
 import {removeExtension} from "../../../utils/files";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
@@ -58,18 +58,18 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
       >
         Ajouter un {getTitle(owner, type)}
       </DialogTitle>
-      <CustomCreate
-        title=" "
-        redirect={false}
-        resource="docs"
-        transform={(doc) => transformDoc(doc, type, owner, studentId)}
-        mutationOptions={{
+      <Create>
+        title=" " redirect={false}
+        resource="docs" transform=
+        {(doc) => transformDoc(doc, type, owner, studentId)}
+        mutationOptions=
+        {{
           onSuccess: () => {
             toggle();
             refresh();
           },
         }}
-      >
+        >
         <SimpleForm>
           <TextInput
             source="name"
@@ -93,7 +93,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             <FileField source="src" title="title" />
           </FileInput>
         </SimpleForm>
-      </CustomCreate>
+      </Create>
     </Dialog>
   );
 };

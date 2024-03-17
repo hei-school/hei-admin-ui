@@ -14,18 +14,18 @@ import {
   prettyPrintMoney,
   statusRenderer,
   withRedWarning,
-  CustomDateField,
   commentFunctionRenderer,
 } from "../utils";
 import PaymentList from "../payments/PaymentList";
 import {studentIdFromRaId} from "../../providers/feeProvider";
 import {DeleteWithConfirm} from "../common/components";
+import {DateField} from "../common/components/fields";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
-    <CustomDateField source="creation_datetime" showTime />
+    <DateField source="creation_datetime" showTime />
   ) : (
-    <CustomDateField
+    <DateField
       source="updated_at"
       label="Date et heure de dernière modification"
       showTime
@@ -36,12 +36,12 @@ const dateTimeRenderer = (data) => {
 export const FeeLayout = ({feeId}) => {
   return (
     <SimpleShowLayout>
-      <CustomDateField
+      <DateField
         label="Date de création"
         source="creation_datetime"
         showTime={false}
       />
-      <CustomDateField
+      <DateField
         label="Date limite de paiement"
         source="due_datetime"
         showTime={false}

@@ -6,9 +6,10 @@ import {
   TopToolbar,
   CreateButton,
 } from "react-admin";
-import {prettyPrintMoney, paymentTypeRenderer, CustomDateField} from "../utils";
+import {prettyPrintMoney, paymentTypeRenderer} from "../utils";
 import {useRole} from "../../security/hooks";
 import {DeleteWithConfirm} from "../common/components";
+import {DateField} from "../common/components/fields";
 
 const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>
@@ -29,7 +30,7 @@ const PaymentList = ({feeId}) => {
       pagination={false}
     >
       <Datagrid bulkActionButtons={false}>
-        <CustomDateField
+        <DateField
           source="creation_datetime"
           label="Date de création"
           showTime={false}

@@ -5,7 +5,6 @@ export * from "./SexRadioButton";
 export * from "./typography";
 export * from "./commentRenderer";
 export * from "./CustomCommentTextField";
-export * from "./DateHandling";
 export * from "./paymentTypeRenderer";
 export * from "./exporter";
 export * from "./importer";

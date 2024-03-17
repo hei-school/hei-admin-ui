@@ -10,7 +10,7 @@ import {AddOutlined} from "@mui/icons-material";
 import {DocCreateDialog} from "./DocCreateDialog";
 import {HaList} from "../../../ui/haList";
 import {ButtonBase} from "../../../ui/haToolbar";
-import {CustomDateField} from "../../utils";
+import {DateField} from "../../common/components/fields";
 import {useToggle} from "../../../hooks";
 import {useRole} from "../../../security/hooks";
 import {OwnerType} from "../types";
@@ -88,7 +88,7 @@ export const DocList = ({
       }
     >
       <TextField source="name" label="Nom du fichier" />
-      <CustomDateField source="creation_datetime" label="Date de création" />
+      <DateField source="creation_datetime" label="Date de création" />
       <ShowButton />
     </HaList>
   );
