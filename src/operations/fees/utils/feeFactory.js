@@ -1,4 +1,4 @@
-import {getEndOfMonth} from "../../utils";
+import {getEndOfMonth} from "../../../utils/date";
 
 function createComment(baseComment, monthIndex, numberOfPayemnts) {
   // add the suffix M(monthValue + 1) when numberOfPayemnts is 9

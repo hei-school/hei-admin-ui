@@ -24,8 +24,8 @@ import {assertFeeMatchesTemplate} from "./utils";
 import {
   prettyPrintMoney,
   statusRenderer,
-  getEndOfMonth,
 } from "../operations/utils";
+import {getEndOfMonth} from "../utils/date";
 
 // /!\ TODO: create custom cypress command "getByTestid"
 describe(specTitle("Manager.Fee"), () => {
