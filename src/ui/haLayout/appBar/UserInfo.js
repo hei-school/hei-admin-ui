@@ -16,7 +16,7 @@ import {useDataProvider} from "react-admin";
 import {PALETTE_COLORS} from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-import { getUserRoleInFr } from "../../../operations/common/utils/typo_util";
+import {getUserRoleInFr} from "../../../operations/common/utils/typo_util";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
 const StyledUserInfo = styled("div")({
@@ -180,7 +180,7 @@ function UserInfo() {
                 lineHeight: 1.2,
               }}
             >
-              {getUserRoleInFr()}
+              {getUserRoleInFr(role)}
             </Typography>
           </Box>
           <a href={HEI_CALENDAR_URL} target="_blank">

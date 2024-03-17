@@ -1,6 +1,6 @@
 import {MenuItem, IconButton} from "@mui/material";
 import {Cancel} from "@mui/icons-material";
-import { getObjValue } from "../../../utils";
+import {getObjValue} from "../../../utils";
 
 export function Items({options, labelKey, valueKey, onClick, checked}) {
   return options.map((el, index) => {

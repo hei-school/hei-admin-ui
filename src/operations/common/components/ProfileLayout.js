@@ -42,9 +42,9 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
+import {DateField, BirthDateField} from "./fields";
 import {GeoPositionName} from "./GeoLocalisation";
 import {useToggle} from "../../../hooks";
-import {BirthDatePlace, CustomDateField} from "../../utils";
 import {useRole} from "../../../security/hooks";
 import {CustomCreate} from "../../utils/CustomCreate";
 import {SPECIALIZATION_VALUE} from "../../students/components";
@@ -373,7 +373,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
                 render={renderStatus}
                 {...COMMON_FIELD_ATTRIBUTES}
               />
-              <CustomDateField
+              <DateField
                 source="entrance_datetime"
                 label={
                   <FieldLabel icon={<CalendarIcon />}>
@@ -418,7 +418,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
                 </FieldLabel>
               }
               render={(user) => (
-                <BirthDatePlace
+                <BirthDateField
                   birthdate={user.birth_date}
                   birthplace={user.birth_place}
                   emptyText={EMPTY_TEXT}
