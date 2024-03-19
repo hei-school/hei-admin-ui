@@ -1,4 +1,4 @@
-import {DeleteWithConfirmButton, FunctionField, ShowButton} from "react-admin";
+import {FunctionField, ShowButton} from "react-admin";
 import {WarningOutlined} from "@mui/icons-material";
 import {rowStyle} from "./utils";
 import {HaList} from "../../ui/haList/HaList";
@@ -6,11 +6,7 @@ import feeProvider from "../../providers/feeProvider";
 import {useRole} from "../../security/hooks/useRole";
 import {useStudentRef} from "../../hooks/useStudentRef";
 import {CreateButton, ImportButton} from "../../ui/haToolbar";
-import {
-  commentFunctionRenderer,
-  CustomDateField,
-  prettyPrintMoney,
-} from "../utils";
+import {commentFunctionRenderer} from "../utils";
 import {
   minimalFeesHeaders,
   optionalFeesHeaders,
@@ -18,6 +14,8 @@ import {
   valideFeesData,
 } from "./importConf";
 import {DeleteWithConfirm} from "../common/components";
+import {DateField} from "../common/components/fields";
+import {renderMoney} from "../common/utils/money";
 
 const FeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
@@ -38,11 +36,7 @@ const FeeList = () => {
         rowStyle,
       }}
     >
-      <CustomDateField
-        source="due_datetime"
-        label="Date limite"
-        showTime={false}
-      />
+      <DateField source="due_datetime" label="Date limite" showTime={false} />
       <FunctionField
         source="comment"
         render={commentFunctionRenderer}
@@ -50,10 +44,10 @@ const FeeList = () => {
       />
       <FunctionField
         label="Reste à payer"
-        render={(record) => prettyPrintMoney(record.remaining_amount)}
+        render={(record) => renderMoney(record.remaining_amount)}
         textAlign="right"
       />
-      <CustomDateField
+      <DateField
         source="creation_datetime"
         label="Date de création"
         showTime={false}

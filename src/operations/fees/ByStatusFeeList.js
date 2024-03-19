@@ -1,14 +1,12 @@
 import {FunctionField, ShowButton, useListContext} from "react-admin";
 import {rowStyle} from "./utils";
 import {AttachMoney} from "@mui/icons-material";
-import {
-  prettyPrintMoney,
-  CustomDateField,
-  commentFunctionRenderer,
-} from "../utils";
+import {commentFunctionRenderer} from "../utils";
 import {HaList} from "../../ui/haList/HaList";
 import {FeesFilter} from ".";
+import {DateField} from "../common/components/fields";
 import {FeeStatusEnum} from "@haapi/typescript-client";
+import {renderMoney} from "../common/utils/money";
 
 const FEES_STATUS_VALUE = {
   LATE: "en retard",
@@ -17,7 +15,7 @@ const FEES_STATUS_VALUE = {
 };
 
 const ListTitle = () => {
-  const {filterValues, filter} = useListContext();
+  const {filterValues} = useListContext();
   return (
     <p>
       Liste de tous les frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}
@@ -41,11 +39,7 @@ const ByStatusFeeList = (props) => (
     }}
     actions={<FeesFilter />}
   >
-    <CustomDateField
-      source="due_datetime"
-      label="Date limite"
-      showTime={false}
-    />
+    <DateField source="due_datetime" label="Date limite" showTime={false} />
     <FunctionField
       source="comment"
       render={commentFunctionRenderer}
@@ -53,10 +47,10 @@ const ByStatusFeeList = (props) => (
     />
     <FunctionField
       label="Reste à payer"
-      render={(fee) => prettyPrintMoney(fee.remaining_amount)}
+      render={(fee) => renderMoney(fee.remaining_amount)}
       textAlign="right"
     />
-    <CustomDateField
+    <DateField
       source="creation_datetime"
       label="Date de création"
       showTime={false}

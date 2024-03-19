@@ -11,21 +11,21 @@ import {useParams} from "react-router-dom";
 import {Divider, Typography} from "@mui/material";
 import {useRole} from "../../security/hooks";
 import {
-  prettyPrintMoney,
   statusRenderer,
   withRedWarning,
-  CustomDateField,
   commentFunctionRenderer,
 } from "../utils";
 import PaymentList from "../payments/PaymentList";
 import {studentIdFromRaId} from "../../providers/feeProvider";
 import {DeleteWithConfirm} from "../common/components";
+import {DateField} from "../common/components/fields";
+import {renderMoney} from "../common/utils/money";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
-    <CustomDateField source="creation_datetime" showTime />
+    <DateField source="creation_datetime" showTime />
   ) : (
-    <CustomDateField
+    <DateField
       source="updated_at"
       label="Date et heure de dernière modification"
       showTime
@@ -36,12 +36,12 @@ const dateTimeRenderer = (data) => {
 export const FeeLayout = ({feeId}) => {
   return (
     <SimpleShowLayout>
-      <CustomDateField
+      <DateField
         label="Date de création"
         source="creation_datetime"
         showTime={false}
       />
-      <CustomDateField
+      <DateField
         label="Date limite de paiement"
         source="due_datetime"
         showTime={false}
@@ -53,12 +53,12 @@ export const FeeLayout = ({feeId}) => {
       />
       <FunctionField
         label="Total à payer"
-        render={(record) => prettyPrintMoney(record.total_amount)}
+        render={(record) => renderMoney(record.total_amount)}
         textAlign="right"
       />
       <FunctionField
         label="Reste à payer"
-        render={(record) => prettyPrintMoney(record.remaining_amount)}
+        render={(record) => renderMoney(record.remaining_amount)}
         textAlign="right"
       />
       <FunctionField

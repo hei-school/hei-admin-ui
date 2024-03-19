@@ -42,11 +42,11 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
+import {DateField, BirthDateField} from "./fields";
 import {GeoPositionName} from "./GeoLocalisation";
 import {useToggle} from "../../../hooks";
-import {BirthDatePlace, CustomDateField} from "../../utils";
 import {useRole} from "../../../security/hooks";
-import {CustomCreate} from "../../utils/CustomCreate";
+import {Create} from "./Create";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
 import {NOOP_FN} from "../../../utils/noop";
@@ -123,7 +123,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
         <DialogTitle color={PALETTE_COLORS.yellow} fontWeight="bold">
           Modifier la photo de profil
         </DialogTitle>
-        <CustomCreate
+        <Create
           title=" "
           redirect={false}
           resource="profile-picture"
@@ -148,7 +148,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
               <ImageField source="src" title="title" />
             </ImageInput>
           </SimpleForm>
-        </CustomCreate>
+        </Create>
       </Dialog>
     </div>
   );
@@ -373,7 +373,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
                 render={renderStatus}
                 {...COMMON_FIELD_ATTRIBUTES}
               />
-              <CustomDateField
+              <DateField
                 source="entrance_datetime"
                 label={
                   <FieldLabel icon={<CalendarIcon />}>
@@ -418,7 +418,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
                 </FieldLabel>
               }
               render={(user) => (
-                <BirthDatePlace
+                <BirthDateField
                   birthdate={user.birth_date}
                   birthplace={user.birth_place}
                   emptyText={EMPTY_TEXT}

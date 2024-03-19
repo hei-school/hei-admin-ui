@@ -2,9 +2,8 @@ import {mount, unmount} from "@cypress/react";
 import App from "../App";
 import {manager1} from "./credentials";
 import {editedManager2, manager2, whoamiManagerMock} from "./mocks/responses";
-import {toUTC} from "../operations/utils";
+import {toUTC} from "../utils/date";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
 
 describe(specTitle("Profile test"), () => {
   beforeEach(() => {

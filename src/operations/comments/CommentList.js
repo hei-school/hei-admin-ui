@@ -5,9 +5,9 @@ import {useGetList} from "react-admin";
 import {CommentCreate} from "./CommentCreate";
 import {useNotify} from "../../hooks";
 import {PALETTE_COLORS} from "../../ui/constants/palette";
-import {ROLE_RENDERER} from "../../ui/utils/utils";
+import {getUserRoleInFr} from "../common/utils/typo_util";
 import {Separator} from "./utils";
-import {DATE_OPTIONS, TIME_OPTIONS} from "../utils";
+import {DATE_OPTIONS, TIME_OPTIONS} from "../../utils/date";
 import {useRole} from "../../security/hooks";
 
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
@@ -63,7 +63,7 @@ export function CommentItem({comment}) {
               color={PALETTE_COLORS.black}
               sx={{fontSize: "14px", opacity: 0.9}}
             >
-              {ROLE_RENDERER[observer.role] || "Non défini.e"}
+              {getUserRoleInFr(observer.role)}
             </Typography>
           </div>
         </Box>

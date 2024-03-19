@@ -2,7 +2,7 @@ import {mount, unmount} from "@cypress/react";
 import App from "../App";
 import {manager1} from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
-import {prettyPrintMoney} from "../operations/utils";
+import {renderMoney} from "../operations/common/utils/money";
 import {
   createPaymentWithAmountMock,
   feesMock,
@@ -97,9 +97,10 @@ describe(specTitle("Manager.Payment"), () => {
     cy.get("#comment").click().type(createPayment.comment);
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(
-      `.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`
-    ).should("have.length", 1);
+    cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
+      "have.length",
+      1
+    );
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     unmount();
   });
@@ -109,9 +110,10 @@ describe(specTitle("Manager.Payment"), () => {
     cy.get("#comment").click().type(createPayment.comment);
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(
-      `.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`
-    ).should("have.length", 1);
+    cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
+      "have.length",
+      1
+    );
     unmount();
   });
   it("can't add mobile money payment to a fee without comment", () => {
@@ -130,9 +132,10 @@ describe(specTitle("Manager.Payment"), () => {
     cy.get("#creation_datetime").click().type("2023-11-24");
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(
-      `.MuiTableCell-alignRight:contains(${prettyPrintMoney(amount)})`
-    ).should("have.length", 1);
+    cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
+      "have.length",
+      1
+    );
     unmount();
   });
 });
