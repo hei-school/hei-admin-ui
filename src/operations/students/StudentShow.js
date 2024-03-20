@@ -47,6 +47,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
       )}
       {showComments && (
         <StudentComments
+          title="Liste des commentaires"
           studentId={student.id}
           open={showComments}
           onClose={toogleShowComments}

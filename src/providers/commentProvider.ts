@@ -4,9 +4,15 @@ import {HaDataProviderType} from "./HaDataProviderType";
 const commentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     const {studentId} = filter;
-    return commentApi()
-      .getComments(studentId, undefined, page, perPage)
-      .then((response) => response.data);
+    if (studentId) {
+      return commentApi()
+        .getStudentComments(studentId, undefined, page, perPage)
+        .then((response) => response.data);
+    } else {
+      return commentApi()
+        .getComments(page, perPage)
+        .then((response) => response.data);
+    }
   },
   async getOne(id: string) {
     throw new Error("Not implemented");
