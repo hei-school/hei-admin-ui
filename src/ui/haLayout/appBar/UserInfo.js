@@ -7,23 +7,49 @@ import {
   Popover,
   IconButton,
   Divider,
+  Badge,
 } from "@mui/material";
-import {CalendarMonth, Feedback} from "@mui/icons-material";
+import {CalendarMonth, Comment, Feedback} from "@mui/icons-material";
 import {styled} from "@mui/styles";
 import {useDataProvider} from "react-admin";
 
 // /!\ TODO: refactor with path alias
+import {StudentComments} from "../../../operations/comments";
+import {getUserRoleInFr} from "../../../operations/common/utils/typo_util";
+import {useToggle} from "../../../hooks";
+import {useRole} from "../../../security/hooks";
 import {PALETTE_COLORS} from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-import {getUserRoleInFr} from "../../../operations/common/utils/typo_util";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
+
 const StyledUserInfo = styled("div")({
   display: "flex",
   alignItems: "center",
   gap: 20,
 });
+
+const LastComments = () => {
+  const [showComments, , toggleShowComments] = useToggle(false);
+
+  return (
+    <>
+      <IconButton onClick={toggleShowComments}>
+        <Badge color="error" variant="dot">
+          <Comment
+            sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
+          />
+        </Badge>
+      </IconButton>
+      <StudentComments
+        title="Liste des derniers commentaires sur les étudiants"
+        onClose={toggleShowComments}
+        open={showComments}
+      />
+    </>
+  );
+};
 
 const FeedbackInfos = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -92,6 +118,7 @@ const FeedbackInfos = () => {
 function UserInfo() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
+  const {isStudent} = useRole();
   const imgRef = useRef(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
@@ -188,6 +215,7 @@ function UserInfo() {
               sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
             />
           </a>
+          {!isStudent() && <LastComments />}
           <FeedbackInfos />
         </>
       )}

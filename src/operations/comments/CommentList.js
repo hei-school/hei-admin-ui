@@ -1,6 +1,6 @@
 import {Box, Typography, CircularProgress} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
-import {useGetList} from "react-admin";
+import {Link, useGetList} from "react-admin";
 
 import {CommentCreate} from "./CommentCreate";
 import {useNotify} from "../../hooks";
@@ -15,15 +15,18 @@ import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 const ITEMS_PER_PAGE = 10;
 
 const COMMENT_ITEM_STYLE = {
-  mb: 1,
-  bgcolor: "white",
-  p: 1,
-  boxShadow: "1px 1px 5px rgba(0,0,0,.3)",
-  borderRadius: "5px",
+  "mb": 1,
+  "bgcolor": "white",
+  "p": 1,
+  "boxShadow": "1px 1px 5px rgba(0,0,0,.3)",
+  "borderRadius": "5px",
+  "&:hover": {
+    background: PALETTE_COLORS.lightgrey,
+  },
 };
 
-export function CommentItem({comment}) {
-  const {observer} = comment;
+export function CommentItem({comment, studentId, close}) {
+  const {observer, subject} = comment;
   const profilePicture = observer?.profile_picture || defaultProfilePicture;
   const creationDatetime = new Date(comment.creation_datetime).toLocaleString(
     "fr-FR",
@@ -31,64 +34,80 @@ export function CommentItem({comment}) {
   );
 
   return (
-    <Box sx={COMMENT_ITEM_STYLE}>
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "start",
-          justifyContent: "space-between",
-        }}
-      >
-        <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
-          <img
-            src={profilePicture}
-            style={{width: "35px", height: "35px", borderRadius: "50%"}}
-          />
-          <div>
-            <Typography
-              variant="h5"
-              color={PALETTE_COLORS.black}
-              sx={{
-                fontSize: "14px",
-                fontWeight: "bold",
-                opacity: 0.9,
-                display: "inline-flex",
-                gap: 1,
-              }}
-            >
-              <span>{observer.last_name && observer.last_name}</span>
-              <span>{observer.first_name && observer.first_name}</span>
-            </Typography>
-            <Typography
-              color={PALETTE_COLORS.black}
-              sx={{fontSize: "14px", opacity: 0.9}}
-            >
-              {getUserRoleInFr(observer.role)}
-            </Typography>
-          </div>
-        </Box>
-        <Typography
+    <Link
+      to={studentId ? "#" : `/students/${subject.id}/show`}
+      onClick={() => {
+        !studentId && close();
+      }}
+    >
+      <Box sx={COMMENT_ITEM_STYLE}>
+        <Box
           sx={{
-            fontSize: "13px",
-            color: PALETTE_COLORS.black,
-            opacity: 0.7,
-            fontWeight: "bold",
+            display: "flex",
+            alignItems: "start",
+            justifyContent: "space-between",
           }}
         >
-          {creationDatetime}
+          <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
+            <img
+              src={profilePicture}
+              style={{width: "35px", height: "35px", borderRadius: "50%"}}
+            />
+            <div>
+              <Typography
+                variant="h5"
+                color={PALETTE_COLORS.black}
+                sx={{
+                  fontSize: "14px",
+                  fontWeight: "bold",
+                  opacity: 0.9,
+                  display: "inline-flex",
+                  gap: 1,
+                }}
+              >
+                <span>{observer.last_name && observer.last_name}</span>
+                <span>{observer.first_name && observer.first_name}</span>
+              </Typography>
+              <Typography
+                color={PALETTE_COLORS.black}
+                sx={{fontSize: "14px", opacity: 0.9}}
+              >
+                {getUserRoleInFr(observer.role)}
+              </Typography>
+            </div>
+          </Box>
+          <Typography
+            sx={{
+              fontSize: "13px",
+              color: PALETTE_COLORS.black,
+              opacity: 0.7,
+              fontWeight: "bold",
+            }}
+          >
+            {creationDatetime}
+          </Typography>
+        </Box>
+        <Separator style={{margin: "5px 0", opacity: 0.5}} />
+        <Typography
+          sx={{fontSize: "14px", color: PALETTE_COLORS.black, opacity: 0.8}}
+        >
+          <Typography
+            variant="body2"
+            color={PALETTE_COLORS.primary}
+            fontWeight="bolder"
+          >
+            {studentId
+              ? ""
+              : `#${comment.subject.ref ?? "Référence non-définie"} : `}
+          </Typography>
+          {comment.content}
         </Typography>
       </Box>
-      <Separator style={{margin: "5px 0", opacity: 0.5}} />
-      <Typography
-        sx={{fontSize: "14px", color: PALETTE_COLORS.black, opacity: 0.8}}
-      >
-        {comment.content}
-      </Typography>
-    </Box>
+    </Link>
   );
 }
 
-export function CommentList({studentId}) {
+export function CommentList({studentId, close}) {
   const listContainerRef = useRef(null);
   const [page, setPage] = useState(1);
   const [shownComments, setShowComments] = useState([]);
@@ -139,7 +158,12 @@ export function CommentList({studentId}) {
         }}
       >
         {shownComments.map((comment, index) => (
-          <CommentItem key={index} comment={comment} />
+          <CommentItem
+            key={index}
+            comment={comment}
+            studentId={studentId}
+            close={close}
+          />
         ))}
         {isDataAvalaible && shownComments.length < 1 && (
           <Typography
@@ -167,7 +191,7 @@ export function CommentList({studentId}) {
           </Box>
         )}
       </Box>
-      {!role.isStudent() && (
+      {!role.isStudent() && studentId && (
         <CommentCreate refetchList={refetchList} studentId={studentId} />
       )}
     </>

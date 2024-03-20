@@ -27,7 +27,7 @@ const DIALOG_STYLES = {
   },
 };
 
-export function StudentComments({studentId, open, onClose}) {
+export function StudentComments({title, studentId, open, onClose}) {
   return (
     <Dialog open={open} onClose={onClose} sx={DIALOG_STYLES}>
       <CommentWrapper>
@@ -50,14 +50,14 @@ export function StudentComments({studentId, open, onClose}) {
             }}
           >
             <CommentIcon />
-            Liste de commentaires
+            {title}
           </Typography>
           <IconButton onClick={onClose}>
             <CloseIcon sx={{color: PALETTE_COLORS.primary}} />
           </IconButton>
         </Box>
         <Separator />
-        <CommentList studentId={studentId} />
+        <CommentList studentId={studentId} close={onClose} />
       </CommentWrapper>
     </Dialog>
   );
