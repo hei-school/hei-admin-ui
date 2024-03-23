@@ -49,7 +49,7 @@ import {useToggle} from "../../../hooks";
 import {useRole} from "../../../security/hooks";
 import {Create} from "./Create";
 import {SPECIALIZATION_VALUE} from "../../students/components";
-import {PALETTE_COLORS} from "../../../ui/constants/palette";
+import {PALETTE_COLORS} from "../../../ui/constants";
 import {NOOP_FN} from "../../../utils/noop";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
@@ -257,6 +257,8 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
     borderRadius: "10px",
     boxShadow: "none",
     p: 1.5,
+    border: "1px solid",
+    borderColor: PALETTE_COLORS.grey,
   };
 
   return (
@@ -271,7 +273,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
         columns={{xs: 6, sm: 4, md: 4}}
         {...COMMON_GRID_ATTRIBUTES}
       >
-        <Card sx={{...cardStyle, position: "relative"}}>
+        <Card sx={{...cardStyle, position: "relative", border: "1px solid"}}>
           {isStudent && viewerRole.isManager() && (
             <IconButton
               aria-label="Éditer"
@@ -355,11 +357,9 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
         <Card
           sx={{
             ...cardStyle,
-            border: "1px solid",
-            borderColor: PALETTE_COLORS.grey,
           }}
         >
-          <Box minHeight={275}>
+          <Box minHeight={340}>
             <Title>Informations personnelles</Title>
             <SimpleShowLayout>
               <FunctionField
