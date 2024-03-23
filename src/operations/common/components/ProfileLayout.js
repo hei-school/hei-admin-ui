@@ -17,6 +17,7 @@ import {
   Edit as EditIcon,
   MailOutlined as MailIcon,
   PhoneOutlined as PhoneIcon,
+  School as SchoolIcon,
   LocationOnOutlined as AdressIcon,
   CakeOutlined as BirthDateIcon,
   CalendarTodayOutlined as CalendarIcon,
@@ -287,7 +288,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           )}
           <SimpleShowLayout
             sx={{
-              minHeight: "275px",
+              minHeight: "340px",
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
@@ -438,6 +439,18 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
                 />
               )}
             />
+            {isStudentProfile && (
+              <TextField
+                source="high_school_origin"
+                emptyText={EMPTY_TEXT}
+                label={
+                  <FieldLabel icon={<SchoolIcon />}>
+                    Lycée de provenance
+                  </FieldLabel>
+                }
+                {...COMMON_FIELD_ATTRIBUTES}
+              />
+            )}
           </SimpleShowLayout>
         </Card>
       </Grid>
