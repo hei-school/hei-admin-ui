@@ -30,6 +30,14 @@ const StyledUserInfo = styled("div")({
   gap: 20,
 });
 
+const MAIL_REPORT_DESTINATIONS = [
+  "hei.mayah.3@gmail.com",
+  "hei.ricka.3@gmail.com",
+  "hei.adriano.4@gmail.com",
+  "hei.jean.3@gmail.com",
+  "hei.iloniavo@gmail.com",
+];
+
 const LastComments = () => {
   const [showComments, , toggleShowComments] = useToggle(false);
 
@@ -92,21 +100,11 @@ const FeedbackInfos = () => {
             <br />
             <strong>[HEI-ADMIN]: FEEDBACK UTILISATEUR</strong> :
             <ul>
-              <li>
-                <a href="hei.mayah.3@gmail.com">hei.mayah.3@gmail.com</a>
-              </li>
-              <li>
-                <a href="hei.ricka.3@gmail.com">hei.ricka.3@gmail.com</a>
-              </li>
-              <li>
-                <a href="hei.adriano.4@gmail.com">hei.adriano.4@gmail.com</a>
-              </li>
-              <li>
-                <a href="hei.jean.3@gmail.com">hei.jean.3@gmail.com</a>
-              </li>
-              <li>
-                <a href="hei.iloniavo@gmail.com">hei.iloniavo@gmail.com</a>
-              </li>
+              {MAIL_REPORT_DESTINATIONS.map((mail, index) => (
+                <li key={index}>
+                  <a href={`mailto:${mail}`}>{mail}</a>
+                </li>
+              ))}
             </ul>
           </Typography>
         </Box>
@@ -207,7 +205,7 @@ function UserInfo() {
                 lineHeight: 1.2,
               }}
             >
-              {getUserRoleInFr(role)}
+              {user.sex && getUserRoleInFr(role, user.sex)}
             </Typography>
           </Box>
           <a href={HEI_CALENDAR_URL} target="_blank">
