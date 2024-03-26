@@ -3,13 +3,13 @@ import {
   ImageField,
   ImageInput,
   SimpleForm,
-  useRecordContext,
   EmailField,
   FunctionField,
   SimpleShowLayout,
   TextField,
   Link,
   useRedirect,
+  useRecordContext,
 } from "react-admin";
 
 import {
@@ -53,6 +53,7 @@ import {PALETTE_COLORS} from "../../../ui/constants";
 import {NOOP_FN} from "../../../utils/noop";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
+import {getUserStatusInFr} from "../utils/typo_util";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -84,19 +85,6 @@ const renderSex = ({sex}) => {
 
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
-
-const renderStatus = ({status}) => {
-  switch (status) {
-    case EnableStatus.ENABLED:
-      return "Actif.ve";
-    case EnableStatus.SUSPENDED:
-      return "Suspendu·e";
-    case EnableStatus.DISABLED:
-      return "Quitté.e";
-    default:
-      console.error("Le statut ne peut pas être affiché");
-  }
-};
 
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, _set, toggle] = useToggle();
@@ -371,7 +359,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
               />
               <FunctionField
                 label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
-                render={renderStatus}
+                render={(user) => getUserStatusInFr(user.status, user.sex)}
                 {...COMMON_FIELD_ATTRIBUTES}
               />
               <DateField
