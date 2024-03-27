@@ -3,13 +3,13 @@ import {
   ImageField,
   ImageInput,
   SimpleForm,
+  useRecordContext,
   EmailField,
   FunctionField,
   SimpleShowLayout,
   TextField,
   Link,
   useRedirect,
-  useRecordContext,
 } from "react-admin";
 
 import {
@@ -53,7 +53,6 @@ import {PALETTE_COLORS} from "../../../ui/constants";
 import {NOOP_FN} from "../../../utils/noop";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-import {getUserStatusInFr} from "../utils/typo_util";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -86,8 +85,21 @@ const renderSex = ({sex}) => {
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
 
+const renderStatus = ({status}) => {
+  switch (status) {
+    case EnableStatus.ENABLED:
+      return "Actif.ve";
+    case EnableStatus.SUSPENDED:
+      return "Suspendu·e";
+    case EnableStatus.DISABLED:
+      return "Quitté.e";
+    default:
+      console.error("Le statut ne peut pas être affiché");
+  }
+};
+
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
-  const [isOpen, _set, toggle] = useToggle();
+  const [isOpen, , toggle] = useToggle();
   const user = useRecordContext();
   const id = user.id;
 
@@ -234,6 +246,173 @@ const FieldLabel = ({children: label, icon}) => (
   </Typography>
 );
 
+const Contact = () => {
+  return (
+    <Box>
+      <Title>Coordonnées</Title>
+      <SimpleShowLayout
+        sx={{
+          overflowX: "auto",
+        }}
+      >
+        <EmailField
+          source="email"
+          label={<FieldLabel icon={<MailIcon />}>Email</FieldLabel>}
+          {...COMMON_FIELD_ATTRIBUTES}
+        />
+        <FunctionField
+          label={<FieldLabel icon={<PhoneIcon />}>Téléphone</FieldLabel>}
+          variant={COMMON_FIELD_ATTRIBUTES.variant}
+          render={(user) =>
+            !user.phone ? (
+              <span>{EMPTY_TEXT}</span>
+            ) : (
+              <Link
+                href={`tel:${user.phone}`}
+                color={PALETTE_COLORS.typography.grey}
+              >
+                {user.phone}
+              </Link>
+            )
+          }
+        />
+        <TextField
+          source="address"
+          label={<FieldLabel icon={<AdressIcon />}>Adresse</FieldLabel>}
+          component="pre"
+          emptyText={EMPTY_TEXT}
+          {...COMMON_FIELD_ATTRIBUTES}
+        />
+      </SimpleShowLayout>
+    </Box>
+  );
+};
+
+const PersonalInfos = ({isStudentProfile}) => {
+  return (
+    <Box minHeight={300}>
+      <Title>Informations personnelles</Title>
+      <SimpleShowLayout>
+        <FunctionField
+          label={<FieldLabel icon={<PersonIcon />}>Nom</FieldLabel>}
+          render={({first_name, last_name}) => `${first_name} ${last_name}`}
+          {...COMMON_FIELD_ATTRIBUTES}
+        />
+        <FunctionField
+          label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
+          render={renderStatus}
+          {...COMMON_FIELD_ATTRIBUTES}
+        />
+        <DateField
+          source="entrance_datetime"
+          label={
+            <FieldLabel icon={<CalendarIcon />}>
+              Date d'entrée chez HEI
+            </FieldLabel>
+          }
+          showTime={false}
+          {...COMMON_FIELD_ATTRIBUTES}
+        />
+        {isStudentProfile && (
+          <FunctionField
+            label={
+              <FieldLabel icon={<SpecializationIcon />}>
+                Parcours de Spécialisation
+              </FieldLabel>
+            }
+            render={(user) => renderSpecialization(user.specialization_field)}
+            {...COMMON_FIELD_ATTRIBUTES}
+          />
+        )}
+      </SimpleShowLayout>
+    </Box>
+  );
+};
+
+const PersonalDetails = ({isStudentProfile}) => {
+  return (
+    <Box minHeight={350}>
+      <Title>Détails personnels</Title>
+      <SimpleShowLayout>
+        <FunctionField
+          label={<FieldLabel icon={<GenderIcon />}>Sexe</FieldLabel>}
+          render={renderSex}
+          {...COMMON_FIELD_ATTRIBUTES}
+        />
+        <TextField
+          source="nic"
+          label={<FieldLabel icon={<NicIcon />}> Numéro CIN</FieldLabel>}
+          emptyText={EMPTY_TEXT}
+          {...COMMON_FIELD_ATTRIBUTES}
+        />
+        <FunctionField
+          label={
+            <FieldLabel icon={<BirthDateIcon />}>
+              Date et lieu de naissance
+            </FieldLabel>
+          }
+          render={(user) => (
+            <BirthDateField
+              birthdate={user.birth_date}
+              birthplace={user.birth_place}
+              emptyText={EMPTY_TEXT}
+              sx={{fontSize: "12px"}}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+          )}
+        />
+        <FunctionField
+          label={<FieldLabel icon={<GeoIcon />}>Géolocalisation</FieldLabel>}
+          render={(user) => (
+            <GeoPositionName
+              coordinates={user.coordinates}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+          )}
+        />
+        {isStudentProfile && (
+          <TextField
+            source="high_school_origin"
+            emptyText={EMPTY_TEXT}
+            label={
+              <FieldLabel icon={<SchoolIcon />}>Lycée de provenance</FieldLabel>
+            }
+            {...COMMON_FIELD_ATTRIBUTES}
+          />
+        )}
+      </SimpleShowLayout>
+    </Box>
+  );
+};
+
+const AvatarPart = ({role}) => {
+  return (
+    <Box
+      minHeight={300}
+      display="flex"
+      justifyContent="center"
+      alignItems="center"
+    >
+      <SimpleShowLayout
+        sx={{
+          textAlign: "center",
+          boxShadow: "none",
+        }}
+      >
+        <ProfileCardAvatar role={role} />
+        <FunctionField
+          label=" "
+          render={(user) => (
+            <Typography m="auto" variant="h6">
+              {user.ref}
+            </Typography>
+          )}
+        />
+      </SimpleShowLayout>
+    </Box>
+  );
+};
+
 export const ProfileLayout = ({role, actions, isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
   const viewerRole = useRole();
@@ -276,69 +455,23 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
               <EditIcon color={PALETTE_COLORS.primary} />
             </IconButton>
           )}
-          <SimpleShowLayout
-            sx={{
-              minHeight: "340px",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              textAlign: "center",
-              boxShadow: "none",
-            }}
+          <AvatarPart role={role} />
+          <Box
+            minHeight={350}
+            display="flex"
+            flexDirection="column"
+            justifyContent="space-between"
           >
-            <ProfileCardAvatar role={role} />
-            <FunctionField
-              label=" "
-              render={(user) => (
-                <Typography m="auto" variant="h6">
-                  {user.ref}
-                </Typography>
-              )}
-            />
-          </SimpleShowLayout>
-          <Title>Coordonnées</Title>
-          <SimpleShowLayout
-            sx={{
-              overflowX: "auto",
-            }}
-          >
-            <EmailField
-              source="email"
-              label={<FieldLabel icon={<MailIcon />}>Email</FieldLabel>}
-              {...COMMON_FIELD_ATTRIBUTES}
-            />
-            <FunctionField
-              label={<FieldLabel icon={<PhoneIcon />}>Téléphone</FieldLabel>}
-              variant={COMMON_FIELD_ATTRIBUTES.variant}
-              render={(user) =>
-                !user.phone ? (
-                  <span>{EMPTY_TEXT}</span>
-                ) : (
-                  <Link
-                    href={`tel:${user.phone}`}
-                    color={PALETTE_COLORS.typography.grey}
-                  >
-                    {user.phone}
-                  </Link>
-                )
-              }
-            />
-            <TextField
-              source="address"
-              label={<FieldLabel icon={<AdressIcon />}>Adresse</FieldLabel>}
-              component="pre"
-              emptyText={EMPTY_TEXT}
-              {...COMMON_FIELD_ATTRIBUTES}
-            />
-          </SimpleShowLayout>
-          <CardActions
-            sx={{
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            {actions}
-          </CardActions>
+            <Contact />
+            <CardActions
+              sx={{
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              {actions}
+            </CardActions>
+          </Box>
         </Card>
       </Grid>
       <Grid xs={isSmall ? 10 : 6} {...COMMON_GRID_ATTRIBUTES}>
@@ -347,99 +480,8 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
             ...cardStyle,
           }}
         >
-          <Box minHeight={340}>
-            <Title>Informations personnelles</Title>
-            <SimpleShowLayout>
-              <FunctionField
-                label={<FieldLabel icon={<PersonIcon />}>Nom</FieldLabel>}
-                render={({first_name, last_name}) =>
-                  `${first_name} ${last_name}`
-                }
-                {...COMMON_FIELD_ATTRIBUTES}
-              />
-              <FunctionField
-                label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
-                render={(user) => getUserStatusInFr(user.status, user.sex)}
-                {...COMMON_FIELD_ATTRIBUTES}
-              />
-              <DateField
-                source="entrance_datetime"
-                label={
-                  <FieldLabel icon={<CalendarIcon />}>
-                    Date d'entrée chez HEI
-                  </FieldLabel>
-                }
-                showTime={false}
-                {...COMMON_FIELD_ATTRIBUTES}
-              />
-              {isStudentProfile && (
-                <FunctionField
-                  label={
-                    <FieldLabel icon={<SpecializationIcon />}>
-                      Parcours de Spécialisation
-                    </FieldLabel>
-                  }
-                  render={(user) =>
-                    renderSpecialization(user.specialization_field)
-                  }
-                  {...COMMON_FIELD_ATTRIBUTES}
-                />
-              )}
-            </SimpleShowLayout>
-          </Box>
-          <Title>Détails personnels</Title>
-          <SimpleShowLayout>
-            <FunctionField
-              label={<FieldLabel icon={<GenderIcon />}>Sexe</FieldLabel>}
-              render={renderSex}
-              {...COMMON_FIELD_ATTRIBUTES}
-            />
-            <TextField
-              source="nic"
-              label={<FieldLabel icon={<NicIcon />}> Numéro CIN</FieldLabel>}
-              emptyText={EMPTY_TEXT}
-              {...COMMON_FIELD_ATTRIBUTES}
-            />
-            <FunctionField
-              label={
-                <FieldLabel icon={<BirthDateIcon />}>
-                  Date et lieu de naissance
-                </FieldLabel>
-              }
-              render={(user) => (
-                <BirthDateField
-                  birthdate={user.birth_date}
-                  birthplace={user.birth_place}
-                  emptyText={EMPTY_TEXT}
-                  sx={{fontSize: "12px"}}
-                  {...COMMON_FIELD_ATTRIBUTES}
-                />
-              )}
-            />
-            <FunctionField
-              label={
-                <FieldLabel icon={<GeoIcon />}>Géolocalisation</FieldLabel>
-              }
-              render={(user) => (
-                <GeoPositionName
-                  coordinates={user.coordinates}
-                  {...COMMON_FIELD_ATTRIBUTES}
-                />
-              )}
-            />
-            {isStudentProfile && (
-              <TextField
-                source="high_school_origin"
-                emptyText={EMPTY_TEXT}
-                label={
-                  <FieldLabel icon={<SchoolIcon />}>
-                    Lycée de provenance
-                  </FieldLabel>
-                }
-                {...COMMON_FIELD_ATTRIBUTES}
-              />
-            )}
-          </SimpleShowLayout>
+          <PersonalInfos />
+          <PersonalDetails isStudentProfile={isStudentProfile} />
         </Card>
       </Grid>
     </Grid>
