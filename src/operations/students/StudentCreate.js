@@ -60,6 +60,11 @@ const StudentCreate = () => {
           fullWidth
           required
         />
+        <TextInput
+          source="high_school_origin"
+          label="Lycée de provenance"
+          fullWidth
+        />
         <BooleanInput
           label="Activer la création des frais"
           name="canCreateFees"

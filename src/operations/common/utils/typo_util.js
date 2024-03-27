@@ -19,14 +19,15 @@ export function getGenderInFr(sex) {
   }
 }
 
-export const getUserStatusInFr = (status) => {
+export const getUserStatusInFr = (status, sex) => {
+  const isWoman = sex == Sex.F;
   switch (status) {
     case EnableStatus.ENABLED:
-      return "Actif.ve";
+      return isWoman ? "Active" : "Actif";
     case EnableStatus.SUSPENDED:
-      return "Suspendu·e";
+      return isWoman ? "Suspendue" : "Suspendu";
     case EnableStatus.DISABLED:
-      return "Quitté.e";
+      return isWoman ? "Quittée" : "Quitté";
     default:
       throw new Error("Unknown user status");
   }
@@ -45,14 +46,15 @@ export function getFeesStatusInFr(status) {
   }
 }
 
-export function getUserRoleInFr(userRole) {
+export function getUserRoleInFr(userRole, sex) {
+  const isWoman = sex == Sex.F;
   switch (userRole) {
     case WhoamiRoleEnum.MANAGER:
       return "Admin";
     case WhoamiRoleEnum.TEACHER:
-      return "Enseignant(e)";
+      return isWoman ? "Enseignante" : "Enseignant";
     case WhoamiRoleEnum.STUDENT:
-      return "Étudiant(e)";
+      return isWoman ? "Étudiante" : "Étudiant";
     default:
       throw new Error("Unknown user role");
   }

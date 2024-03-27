@@ -30,6 +30,12 @@ export const optionalStudentHeaders = [
     value: "phone",
     disabled: false,
   },
+  {
+    id: 11,
+    label: "Lycée de provenance (high_school_origin)",
+    value: "high_school_origin",
+    disabled: false,
+  },
 ];
 
 export const valideStudentData = (data) => {
