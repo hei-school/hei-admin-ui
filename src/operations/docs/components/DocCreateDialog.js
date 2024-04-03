@@ -1,13 +1,22 @@
-import {FileField, FileInput, SimpleForm, TextInput, regex} from "react-admin";
-import {Dialog, DialogTitle} from "@mui/material";
+import {
+  DateInput,
+  FileField,
+  FileInput,
+  SelectInput,
+  SimpleForm,
+  TextInput,
+  regex,
+} from "react-admin";
+import {Dialog, DialogTitle, Box} from "@mui/material";
 import {useParams} from "react-router-dom";
-import {FileType} from "@haapi/typescript-client";
+import {FileType, WorkStudyStatus} from "@haapi/typescript-client";
 import {Create} from "../../common/components";
 import {useRole} from "../../../security/hooks/useRole";
 import {removeExtension} from "../../../utils/files";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
 import {OwnerType} from "../types";
 import authProvider from "../../../providers/authProvider";
+import {SelectWorkStatus} from "./SelectWorkStatus";
 
 const DOCUMENT_FILENAME_PATTERN = /^[^.]*$/;
 
@@ -21,6 +30,8 @@ const getTitle = (owner, type) => {
         return "bulletin";
       case FileType.OTHER:
         return "document étudiant";
+      case "WORK_DOCUMENT":
+        return "document d'autorisation en alternance";
       default:
         return "document";
     }
@@ -31,6 +42,7 @@ const getTitle = (owner, type) => {
 const transformDoc = (doc, type, owner, studentId) => {
   if (!doc) return null;
 
+  console.log(doc, type, owner, studentId);
   doc.title = doc.name || removeExtension(doc.raw?.title);
 
   return {
@@ -52,8 +64,8 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
   return (
     <Dialog open={isOpen} onClose={toggle}>
       <DialogTitle
-        color={PALETTE_COLORS.yellow}
-        sx={{bgcolor: PALETTE_COLORS.grey}}
+        color={PALETTE_COLORS.white}
+        sx={{bgcolor: PALETTE_COLORS.primary}}
         fontWeight="bold"
       >
         Ajouter un {getTitle(owner, type)}
@@ -82,6 +94,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             ]}
             fullWidth
           />
+          {type == "WORK_DOCUMENT" && <SelectWorkStatus />}
           <FileInput
             source="raw"
             label=" "
