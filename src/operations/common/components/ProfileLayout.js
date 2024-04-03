@@ -14,6 +14,7 @@ import {
 
 import {
   PhotoCamera,
+  CardTravel as WorkStatusIcon,
   Edit as EditIcon,
   MailOutlined as MailIcon,
   PhoneOutlined as PhoneIcon,
@@ -50,6 +51,7 @@ import {useRole} from "../../../security/hooks";
 import {Create} from "./Create";
 import {SPECIALIZATION_VALUE} from "../../students/components";
 import {PALETTE_COLORS} from "../../../ui/constants";
+import {WORK_STATUS_VALUE} from "../../docs/components/SelectWorkStatus";
 import {NOOP_FN} from "../../../utils/noop";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
@@ -84,6 +86,9 @@ const renderSex = ({sex}) => {
 
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
+
+const renderWorkStatus = (workStatus) =>
+  WORK_STATUS_VALUE[workStatus] || EMPTY_TEXT;
 
 const renderStatus = ({status}) => {
   switch (status) {
@@ -290,7 +295,7 @@ const Contact = () => {
 
 const PersonalInfos = ({isStudentProfile}) => {
   return (
-    <Box minHeight={300}>
+    <Box minHeight={350}>
       <Title>Informations personnelles</Title>
       <SimpleShowLayout>
         <FunctionField
@@ -321,6 +326,17 @@ const PersonalInfos = ({isStudentProfile}) => {
               </FieldLabel>
             }
             render={(user) => renderSpecialization(user.specialization_field)}
+            {...COMMON_FIELD_ATTRIBUTES}
+          />
+        )}
+        {isStudentProfile && (
+          <FunctionField
+            label={
+              <FieldLabel icon={<WorkStatusIcon />}>
+                Statut en alternance
+              </FieldLabel>
+            }
+            render={(user) => renderWorkStatus(user.work_study_status)}
             {...COMMON_FIELD_ATTRIBUTES}
           />
         )}
@@ -388,7 +404,7 @@ const PersonalDetails = ({isStudentProfile}) => {
 const AvatarPart = ({role}) => {
   return (
     <Box
-      minHeight={300}
+      minHeight={350}
       display="flex"
       justifyContent="center"
       alignItems="center"
@@ -480,7 +496,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
             ...cardStyle,
           }}
         >
-          <PersonalInfos />
+          <PersonalInfos isStudentProfile={isStudentProfile} />
           <PersonalDetails isStudentProfile={isStudentProfile} />
         </Card>
       </Grid>
