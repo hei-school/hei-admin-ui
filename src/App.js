@@ -84,10 +84,20 @@ function AppBase() {
           path="/docs/students/OTHER"
           element={<studentDocs.list />}
         />
+        <Route
+          exact
+          path="/docs/students/WORK_DOCUMENT"
+          element={<studentDocs.list />}
+        />
 
         <Route
           exact
           path="/students/:studentId/docs/students/OTHER"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/students/:studentId/docs/students/WORK_DOCUMENT"
           element={<studentDocs.list />}
         />
         <Route
@@ -103,6 +113,11 @@ function AppBase() {
         <Route
           exact
           path="/students/:studentId/docs/students/OTHER/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/students/:studentId/docs/students/WORK_DOCUMENT/:id"
           element={<studentDocs.show />}
         />
       </CustomRoutes>
