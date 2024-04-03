@@ -14,6 +14,11 @@ const docsProvider: HaDataProviderType = {
           .getSchoolRegulations(page, perPage)
           .then((result) => result.data);
       case OwnerType.STUDENT:
+        if (meta.type == "WORK_DOCUMENT") {
+          return filesApi()
+            .getStudentWorkDocuments(meta.studentId, page, perPage)
+            .then((result) => result.data);
+        }
         if (meta.type in FileType) {
           return filesApi()
             .getStudentFiles(meta?.studentId, page, perPage, meta.type)
@@ -32,6 +37,11 @@ const docsProvider: HaDataProviderType = {
           .getSchoolRegulationById(id)
           .then((result) => result.data);
       case OwnerType.STUDENT:
+        if (meta.type == "WORK_DOCUMENT") {
+          return filesApi()
+            .getStudentWorkDocumentsById(meta.studentId, id)
+            .then((result) => result.data);
+        }
         return filesApi()
           .getStudentFilesById(meta.studentId, id)
           .then((result) => result.data);
@@ -52,6 +62,20 @@ const docsProvider: HaDataProviderType = {
           })
           .then((result) => [result.data]);
       case OwnerType.STUDENT:
+        if (doc.type == "WORK_DOCUMENT") {
+          return filesApi()
+            .uploadStudentWorkFile(
+              doc.studentId,
+              doc.title,
+              doc.work_study_status,
+              undefined,
+              undefined,
+              new Date(),
+              raw.rawFile,
+              {headers: MULTIPART_HEADERS}
+            )
+            .then((result) => [result.data]);
+        }
         if (doc.type in FileType) {
           return filesApi()
             .uploadStudentFile(

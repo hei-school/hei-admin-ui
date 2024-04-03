@@ -14,6 +14,7 @@ import {
   Inventory,
   KeyboardArrowDown,
   CollectionsBookmark,
+  LibraryAddCheck,
   Work,
 } from "@mui/icons-material";
 import {GetCertificate} from "./GetCertificate";
@@ -111,6 +112,13 @@ export const DocMenu = ({studentId}) => {
         >
           <CollectionsBookmark />
           Bulletins
+        </MenuItem>
+        <MenuItem
+          to={`${path}/docs/students/WORK_DOCUMENT`}
+          handleClose={handleClose}
+        >
+          <LibraryAddCheck />
+          Autorisation d'alternance
         </MenuItem>
         <MenuItem to={`${path}/docs/students/OTHER`} handleClose={handleClose}>
           <Work />

@@ -1,6 +1,6 @@
 import ProfileShow from "./ProfileShow";
 import {FilterForm, SelectInputFilter, TextFilter} from "../../ui/haToolbar";
-import {EnableStatus, Sex} from "@haapi/typescript-client";
+import {EnableStatus, Sex, WorkStudyStatus} from "@haapi/typescript-client";
 import ProfileEdit from "./ProfileEdit";
 
 const profile = {
@@ -47,6 +47,17 @@ export function ProfileFilters() {
         choices={[
           {id: Sex.M, name: "Homme"},
           {id: Sex.F, name: "Femme"},
+          {id: null, name: "Aucune valeur"},
+        ]}
+      />
+      <SelectInputFilter
+        data-testid="filter-profile-work-status"
+        label="Statut en alternance"
+        source="work_study_status"
+        choices={[
+          {id: WorkStudyStatus.HAVE_BEEN_WORKING, name: "A été en alternance"},
+          {id: WorkStudyStatus.WILL_BE_WORKING, name: "Sera en alternance"},
+          {id: WorkStudyStatus.WORKING, name: "Est en alternance"},
           {id: null, name: "Aucune valeur"},
         ]}
       />
