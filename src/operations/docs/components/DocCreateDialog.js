@@ -42,7 +42,6 @@ const getTitle = (owner, type) => {
 const transformDoc = (doc, type, owner, studentId) => {
   if (!doc) return null;
 
-  console.log(doc, type, owner, studentId);
   doc.title = doc.name || removeExtension(doc.raw?.title);
 
   return {
