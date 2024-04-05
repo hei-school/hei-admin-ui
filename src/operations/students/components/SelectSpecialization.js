@@ -1,4 +1,3 @@
-import {SpecializationField} from "@haapi/typescript-client";
 import {SelectInput, required} from "react-admin";
 
 export const SPECIALIZATION_VALUE = {

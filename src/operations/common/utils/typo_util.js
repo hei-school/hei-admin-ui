@@ -20,7 +20,7 @@ export function getGenderInFr(sex) {
 }
 
 export const getUserStatusInFr = (status, sex) => {
-  const isWoman = sex == Sex.F;
+  const isWoman = sex === Sex.F;
   switch (status) {
     case EnableStatus.ENABLED:
       return isWoman ? "Active" : "Actif";
@@ -47,7 +47,7 @@ export function getFeesStatusInFr(status) {
 }
 
 export function getUserRoleInFr(userRole, sex) {
-  const isWoman = sex == Sex.F;
+  const isWoman = sex === Sex.F;
   switch (userRole) {
     case WhoamiRoleEnum.MANAGER:
       return "Admin";
