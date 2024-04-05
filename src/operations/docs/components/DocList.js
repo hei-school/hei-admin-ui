@@ -35,7 +35,7 @@ const getTitle = (owner, type) => {
 };
 
 const ListAction = ({type, owner, refresh}) => {
-  const [isOpen, _set, toggle] = useToggle();
+  const [isOpen, , toggle] = useToggle();
 
   return (
     <>

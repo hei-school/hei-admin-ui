@@ -85,13 +85,13 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             ]}
             fullWidth
           />
-          {type == "WORK_DOCUMENT" && <SelectWorkStatus />}
+          {type === "WORK_DOCUMENT" && <SelectWorkStatus />}
           <FileInput
+            isRequired
             source="raw"
             label=" "
             multiple={false}
             accept="application/pdf,image/jpeg,image/png,image/webp"
-            isRequired
             sx={{border: `1px solid ${PALETTE_COLORS.grey}`}}
           >
             <FileField source="src" title="title" />
