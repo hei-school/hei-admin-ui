@@ -1,15 +1,7 @@
-import {
-  DateInput,
-  FileField,
-  FileInput,
-  SelectInput,
-  SimpleForm,
-  TextInput,
-  regex,
-} from "react-admin";
-import {Dialog, DialogTitle, Box} from "@mui/material";
+import {FileField, FileInput, SimpleForm, TextInput, regex} from "react-admin";
+import {Dialog, DialogTitle} from "@mui/material";
 import {useParams} from "react-router-dom";
-import {FileType, WorkStudyStatus} from "@haapi/typescript-client";
+import {FileType} from "@haapi/typescript-client";
 import {Create} from "../../common/components";
 import {useRole} from "../../../security/hooks/useRole";
 import {removeExtension} from "../../../utils/files";

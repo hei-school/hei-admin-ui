@@ -11,9 +11,7 @@ import {
   teacher1Mock,
   teachersMock,
   whoamiManagerMock,
-  createFeeWithManualDataMock,
   createStudent,
-  createdFeesForNewStudent,
 } from "./mocks/responses";
 import {updatedInfo} from "./utils";
 

@@ -155,6 +155,7 @@ function UserInfo() {
 
   const ProfilePicture = () => (
     <img
+      alt="profile"
       data-testid="appbar-profile-pic"
       ref={imgRef}
       src={profile_picture}
@@ -163,7 +164,6 @@ function UserInfo() {
           imgRef.current.src = defaultProfilePicture;
         }
       }}
-      alt="profile picture"
       style={{
         objectFit: "cover",
         height: 40,
@@ -208,7 +208,7 @@ function UserInfo() {
               {user.sex && getUserRoleInFr(role, user.sex)}
             </Typography>
           </Box>
-          <a href={HEI_CALENDAR_URL} target="_blank">
+          <a href={HEI_CALENDAR_URL} rel="noreferrer" target="_blank">
             <CalendarMonth
               sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
             />

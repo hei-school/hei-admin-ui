@@ -19,6 +19,7 @@ export function GeoPositionName({
 
   return isDefinedPosition ? (
     <a
+      rel="noreferrer"
       target="_blank"
       href={createGoogleMapLink(coordinates)}
       style={{
