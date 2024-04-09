@@ -20,7 +20,7 @@ function ManagerMenu() {
           to="/students"
         />
         <ListMenuItem
-          label="Liste de tous les frais"
+          label="Frais en retard"
           icon={<AttachMoney />}
           to="/fees"
         />
