@@ -57,19 +57,12 @@ import {COMMON_FIELD_ATTRIBUTES} from "../../../ui/constants/common_styles";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 
-const EMPTY_TEXT = "Non défini.e";
-
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
   direction: "column",
   item: true,
   backgroundColor: "transparent",
   mx: 2,
-};
-
-const COMMON_FIELD_ATTRIBUTES = {
-  variant: "caption",
-  color: PALETTE_COLORS.typography.grey,
 };
 
 const renderSpecialization = (specialization_field) =>

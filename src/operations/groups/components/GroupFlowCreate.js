@@ -84,6 +84,7 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
   });
 
   const onSubmit = async (data) => {
+    console.log(data);
     if (!data) return null;
 
     const payload = [

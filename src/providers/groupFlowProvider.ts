@@ -9,11 +9,9 @@ const groupFlowProvider: HaDataProviderType = {
     throw new Error("Function not implemented.");
   },
   async saveOrUpdate(payload: any) {
-    if (!payload) return null;
-
     return await teachingApi()
-      .moveOrDeleteStudentInGroup(payload.studentId, payload)
-      .then((result) => result.data);
+      .moveOrDeleteStudentInGroup(payload[0].studentId, payload)
+      .then((result) => [result.data]);
   },
   async delete(id: string) {
     throw new Error("Not implemented");
