@@ -1,5 +1,5 @@
 import {SelectArrayInput, SimpleForm, TextInput} from "react-admin";
-import {EditToolBar} from "../utils";
+import {EditToolBar} from "../../utils";
 
 const GroupForm = ({students, create}) => (
   <SimpleForm toolbar={<EditToolBar />}>

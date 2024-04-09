@@ -1,5 +1,5 @@
 import {Create, useGetList} from "react-admin";
-import GroupForm from "./GroupForm";
+import GroupForm from "./components/GroupForm";
 
 const GroupCreate = () => {
   const queryStudents = useGetList("students");

@@ -43,18 +43,19 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {DateField, BirthDateField} from "./fields";
+import {DateField, BirthDateField, FieldLabel} from "./fields";
 import {GeoPositionName} from "./GeoLocalisation";
 import {Create} from "./Create";
 import {useToggle} from "../../../hooks";
 import {useRole} from "../../../security/hooks";
+import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
 import {SPECIALIZATION_VALUE} from "../../students/components";
-import {PALETTE_COLORS} from "../../../ui/constants";
+import {EMPTY_TEXT, PALETTE_COLORS} from "../../../ui/constants";
 import {WORK_STATUS_VALUE} from "../../docs/components/SelectWorkStatus";
 import {NOOP_FN} from "../../../utils/noop";
+import {COMMON_FIELD_ATTRIBUTES} from "../../../ui/constants/common_styles";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -203,26 +204,6 @@ const Title = ({children: label}) => (
       {label}
     </Typography>
   </Box>
-);
-
-const FieldLabel = ({children: label, icon}) => (
-  <Typography
-    color={PALETTE_COLORS.typography.black}
-    fontWeight="bold"
-    variant="body2"
-    sx={{
-      "display": "inline-flex",
-      "alignItems": "center",
-      "gap": 1,
-      "& .MuiSvgIcon-root": {
-        fontSize: "15px",
-        mt: "1px",
-      },
-    }}
-  >
-    {icon}
-    {label}
-  </Typography>
 );
 
 const Contact = () => {
