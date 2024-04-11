@@ -68,7 +68,7 @@ jobs:
           export REACT_APP_USERPOOL_ID=${{ vars.PREPROD_USERPOOL_ID }}
           export REACT_APP_WEBCLIENT_ID=${{ vars.PREPROD_WEBCLIENT_ID }}
           export REACT_APP_OAUTH_DOMAIN=${{ vars.PREPROD_OAUTH_DOMAIN }}
-          npx cypress run --record --browser chrome 2>&1 | tee cypress_output.txt
+          npx cypress run --browser chrome 2>&1 | tee cypress_output.txt
       - name: Upload test results
         uses: actions/upload-artifact@v3
         with:
