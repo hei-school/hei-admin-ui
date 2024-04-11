@@ -26,7 +26,7 @@ const getTitle = (owner, type) => {
       case FileType.OTHER:
         return "Liste des autres documents étudiant";
       case "WORK_DOCUMENT":
-        return "LIste des autorisations d'alternance";
+        return "Liste des autorisations d'alternance";
       default:
         return "Liste des documents";
     }

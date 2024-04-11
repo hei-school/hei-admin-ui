@@ -18,7 +18,7 @@ const ListTitle = () => {
   const {filterValues} = useListContext();
   return (
     <p>
-      Liste de tous les frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}
+      Frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}
     </p>
   );
 };

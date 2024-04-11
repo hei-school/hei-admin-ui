@@ -24,11 +24,7 @@ function ManagerMenu() {
           icon={<StudentListIcon />}
           to="/students"
         />
-        <ListMenuItem
-          label="Liste de tous les frais"
-          icon={<FeesIcon />}
-          to="/fees"
-        />
+        <ListMenuItem label="Frais en retard" icon={<FeesIcon />} to="/fees" />
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <ListMenuItem
