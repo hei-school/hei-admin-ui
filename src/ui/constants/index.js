@@ -1,2 +1,2 @@
 export * from "./palette";
-export * from "./empty_text";
+export * from "./typography";

@@ -44,8 +44,8 @@ import {
 } from "@mui/material";
 
 import {DateField, BirthDateField, FieldLabel} from "./fields";
-import {GeoPositionName} from "./GeoLocalisation";
 import {Create} from "./Create";
+import {GeoPositionName} from "./GeoLocalisation";
 import {useToggle} from "../../../hooks";
 import {useRole} from "../../../security/hooks";
 import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";

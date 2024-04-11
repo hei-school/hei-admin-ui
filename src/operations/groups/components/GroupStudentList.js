@@ -2,16 +2,12 @@ import {Box} from "@mui/material";
 import {School as StudentIcon} from "@mui/icons-material";
 import {TextField} from "react-admin";
 import {useParams} from "react-router-dom";
-import {exporter, exportHeaders} from "../../utils";
-import {
-  InsertStudentButton,
-  MoveStudentButton,
-  RemoveStudentButton,
-} from "./MoveButton";
+import {exportData, exportHeaders} from "../../utils";
 import {HaList} from "../../../ui/haList";
 import {useRole} from "../../../security/hooks";
 import {ExportButton} from "../../../ui/haToolbar";
-import {ProfileFilters} from "../../profile";
+import {ProfileFilters} from "../../profile/components/ProfileFilters";
+import {InsertStudent, MoveStudent, RemoveStudent} from "./MIgrateStudent";
 
 const GroupStudentList = () => {
   const params = useParams();
@@ -21,11 +17,9 @@ const GroupStudentList = () => {
 
   const ListActions = () => (
     <Box>
-      {isManager() && <InsertStudentButton />}
+      {isManager() && <InsertStudent />}
       <ExportButton
-        exportHandler={(list) =>
-          exporter(list, exportHeaders, "group-students")
-        }
+        onExport={(list) => exportData(list, exportHeaders, "group-students")}
       />
       <ProfileFilters />
     </Box>
@@ -43,10 +37,10 @@ const GroupStudentList = () => {
       <TextField source="ref" label="Référence" />
       <TextField source="first_name" label="Prénom·s" />
       <TextField source="last_name" label="Nom·s" />
-      {isManager && (
+      {isManager() && (
         <div style={{display: "flex", justifyContent: "space-around"}}>
-          <MoveStudentButton />
-          <RemoveStudentButton />
+          <MoveStudent />
+          <RemoveStudent />
         </div>
       )}
     </HaList>

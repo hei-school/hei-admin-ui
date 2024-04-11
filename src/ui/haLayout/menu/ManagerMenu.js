@@ -4,7 +4,7 @@ import {
   School as StudentIcon,
   People as StudentListIcon,
   AttachMoney as FeesIcon,
-  Inventory as DocIcon,
+  Inventory as DocsIcon,
   Group as GroupIcon,
   Home as HeiDocsIcon,
 } from "@mui/icons-material";
@@ -30,7 +30,7 @@ function ManagerMenu() {
           to="/fees"
         />
       </ListMenu>
-      <ListMenu data-testid="docs" label="Documents" icon={<DocIcon />}>
+      <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <ListMenuItem
           to="/docs/school"
           data-testid="hei-docs"

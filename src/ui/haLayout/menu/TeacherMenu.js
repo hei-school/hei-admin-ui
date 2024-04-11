@@ -1,7 +1,7 @@
 import {Box} from "@mui/material";
 import {
   School as StudentIcon,
-  Inventory as DocIcon,
+  Inventory as DocsIcon,
   Group as GroupIcon,
   Home as HeiDocsIcon,
 } from "@mui/icons-material";
@@ -11,7 +11,7 @@ function TeacherMenu() {
   return (
     <Box>
       <SingleMenu to="/students" label="Étudiants" icon={<StudentIcon />} />
-      <ListMenu data-testid="docs" label="Documents" icon={<DocIcon />}>
+      <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <ListMenuItem
           to="/docs/school"
           data-testid="hei-docs"

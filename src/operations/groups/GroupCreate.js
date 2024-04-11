@@ -2,8 +2,7 @@ import {Create, useGetList} from "react-admin";
 import GroupForm from "./components/GroupForm";
 
 const GroupCreate = () => {
-  const queryStudents = useGetList("students");
-  const students = queryStudents.data;
+  const {data: students = []} = useGetList("students");
 
   return (
     <Create resource="groups" title="Création de groupe">

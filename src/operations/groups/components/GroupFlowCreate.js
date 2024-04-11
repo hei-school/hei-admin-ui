@@ -6,7 +6,12 @@ import {
   DialogContent,
   Typography,
 } from "@mui/material";
-import {useGetList, useListContext, useRecordContext} from "react-admin";
+import {
+  Confirm,
+  useGetList,
+  useListContext,
+  useRecordContext,
+} from "react-admin";
 import {GroupFlowMoveTypeEnum} from "@haapi/typescript-client";
 import {useForm} from "react-hook-form";
 import {useParams} from "react-router-dom";
@@ -45,37 +50,43 @@ const DIALOG_TITLE_PROPS = {
   fontWeight: "bold",
 };
 
-const moveStudent = async (messageOnSuccess, payload, notify, toggle) => {
-  return await groupFlowProvider
-    .saveOrUpdate(payload)
-    .then(() =>
-      notify(messageOnSuccess, {
-        type: "success",
-      })
-    )
-    .catch(() =>
-      notify("Une erreur s'est produite.", {
-        type: "error",
-      })
-    )
-    .finally(() => toggle());
+const useMoveStudent = () => {
+  const notify = useNotify();
+
+  const moveStudent = async (messageOnSuccess, payload, toggle) => {
+    return await groupFlowProvider
+      .saveOrUpdate(payload)
+      .then(() =>
+        notify(messageOnSuccess, {
+          type: "success",
+        })
+      )
+      .catch(() =>
+        notify("Une erreur s'est produite.", {
+          type: "error",
+        })
+      )
+      .finally(() => toggle());
+  };
+  return {moveStudent};
 };
 
 export const JoinGroupDialog = ({isOpen, toggle}) => {
-  const listContext = useListContext();
-  const queryStudents = useGetList("students");
-  const params = useParams();
-  const notify = useNotify();
+  const {id: groupId} = useParams();
 
-  const groupId = params?.id;
-  const totalStudents = queryStudents.data ?? [];
+  const listContext = useListContext();
+
+  const {data: students = []} = useGetList("students");
+
+  const {moveStudent} = useMoveStudent();
 
   const groupStudentsIds = listContext.data.map(
     (groupStudent) => groupStudent?.id
   );
-  const students = totalStudents.filter(
-    (student) => !groupStudentsIds.includes(student?.id)
-  );
+
+  const filteredStudents = students
+    .filter((student) => !groupStudentsIds.includes(student?.id))
+    .map((student) => ({id: student?.id, ref: student?.ref}));
 
   const {control, handleSubmit} = useForm({
     defaultValues: {
@@ -84,8 +95,7 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
   });
 
   const onSubmit = async (data) => {
-    console.log(data);
-    if (!data) return null;
+    if (!data) return;
 
     const payload = [
       {
@@ -95,7 +105,7 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
       },
     ];
 
-    moveStudent(`L'étudiant a été inséré avec succès`, payload, notify, toggle);
+    moveStudent(`L'étudiant a été inséré avec succès`, payload, toggle);
   };
 
   return (
@@ -112,7 +122,7 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
           <CustomAutoComplete
             control={control}
             name="student"
-            data={students ?? []}
+            data={filteredStudents ?? []}
             label="Référence de l'étudiant"
             data-testid="students-autocomplete"
             fullWidth
@@ -125,15 +135,14 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
 };
 
 export const MoveStudentDialog = ({toggle, isOpen}) => {
-  const queryGroups = useGetList("groups");
-  const queryStudents = useGetList("students");
-  const params = useParams();
-  const notify = useNotify();
-  const record = useRecordContext();
+  const {id: fromGroupId} = useParams();
 
-  const leftGroupId = params?.id;
-  const groups = queryGroups.data?.filter((group) => group.id != leftGroupId);
-  const students = queryStudents.data;
+  const {data: groups = []} = useGetList("groups");
+
+  const {data: students = []} = useGetList("students");
+
+  const {moveStudent} = useMoveStudent();
+  const record = useRecordContext();
 
   const {control, handleSubmit} = useForm({
     defaultValues: {
@@ -147,13 +156,13 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
       : "";
 
   const onSubmit = async (data) => {
-    if (!data || !record) return null;
+    if (!data || !record) return;
 
     const payload = [
       {
         MoveType: GroupFlowMoveTypeEnum.LEAVE,
         studentId: record.id,
-        groupId: leftGroupId,
+        groupId: fromGroupId,
       },
       {
         MoveType: GroupFlowMoveTypeEnum.JOIN,
@@ -165,7 +174,6 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
     moveStudent(
       `L'étudiant ${studentRef} a été migré avec succès`,
       payload,
-      notify,
       toggle
     );
   };
@@ -184,7 +192,7 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
           <CustomAutoComplete
             control={control}
             name="group"
-            data={groups ?? []}
+            data={groups.filter((group) => group.id != fromGroupId) ?? []}
             label="Référence du groupe"
             data-testid="groups-autocomplete"
             fullWidth
@@ -197,14 +205,11 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
 };
 
 export const LeaveGroupDialog = ({toggle, isOpen}) => {
-  const params = useParams();
-  const queryStudents = useGetList("students");
+  const {id: fromGroupId} = useParams();
+  const {data: students = []} = useGetList("students");
 
-  const notify = useNotify();
   const record = useRecordContext();
-
-  const leftGroupId = params?.id;
-  const students = queryStudents.data;
+  const {moveStudent} = useMoveStudent();
 
   const studentRef =
     record && students
@@ -212,66 +217,40 @@ export const LeaveGroupDialog = ({toggle, isOpen}) => {
       : "";
 
   const onSubmit = async () => {
-    if (!record) return null;
+    if (!record) return;
 
     const payload = [
       {
         MoveType: GroupFlowMoveTypeEnum.LEAVE,
         studentId: record.id,
-        groupId: leftGroupId,
+        groupId: fromGroupId,
       },
     ];
 
     moveStudent(
       `L'étudiant ${studentRef} a été supprimé avec succès`,
       payload,
-      notify,
       toggle
     );
   };
 
   return (
-    <Dialog open={isOpen} onClose={toggle}>
-      <DialogTitle sx={{bgcolor: "red"}} {...DIALOG_TITLE_PROPS}>
-        Supprimer un étudiant
-      </DialogTitle>
-      <DialogContent sx={DIALOG_CONTENT_STYLE}>
-        <Typography>
-          Êtes-vous sûr de vouloir supprimer l'étudiant {studentRef} de ce
-          groupe ?
-        </Typography>
-        <Typography variant="caption" color="red">
-          * Cette action est irréversible.
-        </Typography>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          sx={{
-            "width": 100,
-            "bgcolor": "red",
-            "color": PALETTE_COLORS.white,
-            "&:hover": {
-              color: "red",
-            },
-          }}
-          onClick={onSubmit}
-        >
-          Oui
-        </Button>
-        <Button
-          sx={{
-            "width": 100,
-            "bgcolor": PALETTE_COLORS.primary,
-            "color": PALETTE_COLORS.white,
-            "&:hover": {
-              color: PALETTE_COLORS.primary,
-            },
-          }}
-          onClick={toggle}
-        >
-          Non
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <Confirm
+      isOpen={isOpen}
+      onClose={toggle}
+      title="Supprimer un étudiant"
+      content={
+        <div>
+          <Typography>
+            Êtes-vous sûr de vouloir supprimer l'étudiant {studentRef} de ce
+            groupe ?
+          </Typography>
+          <Typography variant="caption" color="red">
+            * Cette action est irréversible.
+          </Typography>
+        </div>
+      }
+      onConfirm={onSubmit}
+    />
   );
 };

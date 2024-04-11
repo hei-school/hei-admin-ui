@@ -3,8 +3,7 @@ import {Edit} from "../common/components";
 import GroupForm from "./components/GroupForm";
 
 const GroupEdit = () => {
-  const queryStudents = useGetList("students");
-  const students = queryStudents.data;
+  const {data: students = []} = useGetList("students");
 
   return (
     <Edit resource="groups" title="Groupe">

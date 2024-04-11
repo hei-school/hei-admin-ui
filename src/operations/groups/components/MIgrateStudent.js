@@ -4,15 +4,15 @@ import {
   PersonRemove as MoveIcon,
   Delete as RemoveIcon,
 } from "@mui/icons-material";
+import {HaActionWrapper} from "../../../ui/haToolbar";
+import {useToggle} from "../../../hooks/useToggle";
 import {
   JoinGroupDialog,
   LeaveGroupDialog,
   MoveStudentDialog,
 } from "./GroupFlowCreate";
-import {HaActionWrapper} from "../../../ui/haToolbar";
-import {useToggle} from "../../../hooks/useToggle";
 
-export const InsertStudentButton = () => {
+export const InsertStudent = () => {
   const [isOpen, , toggle] = useToggle();
 
   return (
@@ -30,7 +30,7 @@ export const InsertStudentButton = () => {
   );
 };
 
-export const MoveStudentButton = () => {
+export const MoveStudent = () => {
   const [isOpen, , toggle] = useToggle();
 
   return (
@@ -41,7 +41,7 @@ export const MoveStudentButton = () => {
   );
 };
 
-export const RemoveStudentButton = () => {
+export const RemoveStudent = () => {
   const [isOpen, , toggle] = useToggle();
 
   return (

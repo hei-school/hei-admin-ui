@@ -24,7 +24,7 @@ import {
   WizardForm,
   WizardFormStep,
 } from "@react-admin/ra-form-layout";
-import {exporter} from "../../../operations/utils";
+import {exportData} from "../../../operations/utils";
 import {ImportInputFile} from "./ImportInputFile";
 import useHaListContext from "../../haList/useHaListContext";
 
@@ -79,7 +79,7 @@ export function ImportDialog({
   });
 
   const downloadFile = (data) => {
-    exporter([], [...headers, ...data?.importHeaders], data.fileName);
+    exportData([], [...headers, ...data?.importHeaders], data.fileName);
   };
 
   const doImport = async (data) => {

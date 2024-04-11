@@ -1,11 +1,4 @@
 import {Groups} from "@mui/icons-material";
-import {Box} from "@mui/material";
-import {
-  CreateButton,
-  ExportButton,
-  FilterForm,
-  TextFilter,
-} from "../../ui/haToolbar";
 
 import GroupList from "./GroupList";
 import GroupShow from "./GroupShow";
@@ -20,27 +13,5 @@ const groups = {
   icon: Groups,
   options: {label: "Groupes"},
 };
-
-export function GroupFilters({isManager}) {
-  return (
-    <Box>
-      {isManager() && <CreateButton />}
-      <ExportButton />
-      <FilterForm>
-        <TextFilter data-testid="filter-group-name" source="name" label="Nom" />
-        <TextFilter
-          data-testid="filter-group-ref"
-          source="ref"
-          label="Référence"
-        />
-        <TextFilter
-          data-testid="filter-group-create_datetime"
-          source="creation_datetime"
-          label="Date ou année de création"
-        />
-      </FilterForm>
-    </Box>
-  );
-}
 
 export default groups;
