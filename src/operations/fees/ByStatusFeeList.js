@@ -16,11 +16,7 @@ const FEES_STATUS_VALUE = {
 
 const ListTitle = () => {
   const {filterValues} = useListContext();
-  return (
-    <p>
-      Frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}
-    </p>
-  );
+  return <p>Frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}</p>;
 };
 
 const ByStatusFeeList = (props) => (
