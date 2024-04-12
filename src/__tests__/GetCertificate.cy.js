@@ -1,6 +1,6 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
-import {manager1, student1} from "./credentials";
+import { manager1, student1 } from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import {
   student1Mock,
@@ -26,12 +26,12 @@ describe(specTitle("Student Ceritificate"), () => {
     mount(<App />);
 
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
-      "getStudent1"
+      "getStudent1",
     );
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/scholarship_certificate/raw`,
-      {fixture: "students/certificate.pdf"}
+      { fixture: "students/certificate.pdf" },
     ).as("downloadCertificate");
   });
 
@@ -43,7 +43,7 @@ describe(specTitle("Student Ceritificate"), () => {
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/scholarship_certificate/raw`,
-      new Blob()
+      new Blob(),
     ).as("downloadCertificate");
 
     cy.get('[data-testid="get-certificate-btn"]').click();
@@ -72,17 +72,17 @@ describe(specTitle("Student Ceritificate"), () => {
 
     cy.intercept("GET", `/managers/${manager2.id}`, manager2).as("getManager2");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudents"
+      "getStudents",
     );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10?first_name=${student1Mock.first_name}`,
-      [student1Mock]
+      [student1Mock],
     ).as("getFilteredStudent");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/scholarship_certificate/raw`,
-      {fixture: "students/certificate.pdf"}
+      { fixture: "students/certificate.pdf" },
     ).as("downloadCertificate");
 
     cy.wait("@getManager2");

@@ -4,7 +4,7 @@ import {
   FeeTypeEnum,
   Payment,
 } from "@haapi/typescript-client";
-import {student1Mock} from "./student-api";
+import { student1Mock } from "./student-api";
 
 export const fee1Mock: Fee = {
   id: "fee1_id",
@@ -141,7 +141,7 @@ feesMock.forEach((e) => {
 
 export const UpdateFeeWithPaymentMock: (fee: Fee, payment: Payment) => Fee = (
   fee,
-  payment
+  payment,
 ) => {
   let newFee = fee;
   newFee.remaining_amount = newFee.remaining_amount
@@ -153,7 +153,7 @@ export const UpdateFeeWithPaymentMock: (fee: Fee, payment: Payment) => Fee = (
 };
 
 export const createFeeWithPredefinedDataMock: (feeDate: string) => Fee[] = (
-  feeDate
+  feeDate,
 ) => {
   return [
     {
@@ -173,7 +173,7 @@ export const createFeeWithManualDataMock: (
   date: string,
   amount: number,
   comment: string,
-  monthsNumber: number
+  monthsNumber: number,
 ) => Fee[] = (date, amount, comment, monthsNumber) => {
   let fees: Fee[] = [];
   for (let i = 0; i < monthsNumber; i++) {
@@ -204,7 +204,7 @@ export const createdFeesForNewStudent: Fee = {
 };
 export const addFeeMock: (fees: Fee[], fee: Fee[]) => Fee[] = (
   fees,
-  feesAaded
+  feesAaded,
 ) => [...feesAaded, ...fees].slice(0, 10);
 
 export const lateFeesMock = newLateFeesMock;

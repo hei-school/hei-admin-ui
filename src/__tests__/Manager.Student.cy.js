@@ -1,6 +1,6 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
-import {manager1} from "./credentials";
+import { manager1 } from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import {
   manager2,
@@ -23,7 +23,7 @@ import {
   studentRequestBodyVerification,
   assertFeeMatchesTemplate,
 } from "./utils";
-import {FeeTypeEnum} from "@haapi/typescript-client";
+import { FeeTypeEnum } from "@haapi/typescript-client";
 
 const newFirstName = "Aina herilala";
 let createdStudent = {
@@ -33,7 +33,7 @@ let createdStudent = {
 let updatedStudent = {
   ...student1Mock,
   first_name: newFirstName,
-  coordinates: {latitude: 500000, longitude: 600000},
+  coordinates: { latitude: 500000, longitude: 600000 },
 };
 
 const fillEditInputs = () => {
@@ -42,10 +42,10 @@ const fillEditInputs = () => {
   cy.get("#birth_date").click().type(createStudent.birth_date);
   cy.get("[data-testid='addressInput']").type(createStudent.address);
   cy.get("[data-testid='longitude-input']").type(
-    createStudent.coordinates.longitude
+    createStudent.coordinates.longitude,
   );
   cy.get("[data-testid='latitude-input']").type(
-    createStudent.coordinates.latitude
+    createStudent.coordinates.latitude,
   );
 };
 
@@ -64,33 +64,33 @@ describe(specTitle("Manager edit students"), () => {
       });
     }).as("getManager1");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudentsPage1"
+      "getStudentsPage1",
     );
     cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
-      "getStudentsPage2"
+      "getStudentsPage2",
     );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`,
-      [student1Mock]
+      [student1Mock],
     ).as("getStudentsByName");
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
-      "getTeachersPage1"
+      "getTeachersPage1",
     );
     cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
-      "getTeachersPage2"
+      "getTeachersPage2",
     );
     cy.intercept(
       "GET",
       `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
-      [teacher1Mock]
+      [teacher1Mock],
     ).as("getTeacherByName");
   });
 
   it("can edit students", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
     cy.intercept("PUT", `/students/${student1Mock.id}`, updatedStudent).as(
-      "modifyStudent"
+      "modifyStudent",
     );
     cy.contains("Étudiants");
     cy.wait("@getWhoami");
@@ -108,7 +108,7 @@ describe(specTitle("Manager edit students"), () => {
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="add-filter"]').click();
     cy.get('[data-testid="filter-profile-last_name"]').type(
-      studentNameToBeCheckedMock
+      studentNameToBeCheckedMock,
     );
     cy.get('[data-testid="apply-filter"]').click();
     cy.contains("Page : 1");
@@ -118,13 +118,13 @@ describe(specTitle("Manager edit students"), () => {
     cy.get("#first_name").click().clear().type(newFirstName);
     cy.getByTestid("latitude-input").type(updatedStudent.coordinates.latitude);
     cy.getByTestid("longitude-input").type(
-      updatedStudent.coordinates.longitude
+      updatedStudent.coordinates.longitude,
     );
 
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`,
-      [updatedStudent]
+      [updatedStudent],
     ).as("getUpdatedStudent");
     cy.contains("Enregistrer").click();
     cy.wait("@modifyStudent").then((requestIntersection) => {
@@ -132,11 +132,11 @@ describe(specTitle("Manager edit students"), () => {
       modifyStudentWithoutFeesBodyMock.first_name = newFirstName;
 
       expect(requestIntersection.request.body).to.deep.equal(
-        modifyStudentWithoutFeesBodyMock
+        modifyStudentWithoutFeesBodyMock,
       );
 
       expect(modifyStudentWithoutFeesBodyMock.coordinates).to.deep.equal(
-        updatedStudent.coordinates
+        updatedStudent.coordinates,
       );
     });
     cy.wait("@getUpdatedStudent");
@@ -160,34 +160,34 @@ describe(specTitle("Manager creates students"), () => {
       });
     }).as("getManager1");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudentsPage1"
+      "getStudentsPage1",
     );
     cy.intercept(
       "GET",
       `/fees/templates?page=1&page_size=25`,
-      feesTemplatesApi
+      feesTemplatesApi,
     ).as("getFeesTemplates");
     cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
-      "getStudentsPage2"
+      "getStudentsPage2",
     );
     cy.intercept("GET", `students/${createdStudent.id}`, createdStudent).as(
-      "getStudent"
+      "getStudent",
     );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`,
-      [student1Mock]
+      [student1Mock],
     ).as("getStudentsByName");
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
-      "getTeachersPage1"
+      "getTeachersPage1",
     );
     cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
-      "getTeachersPage2"
+      "getTeachersPage2",
     );
     cy.intercept(
       "GET",
       `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
-      [teacher1Mock]
+      [teacher1Mock],
     ).as("getTeacherByName");
 
     cy.contains("Enseignants");
@@ -221,14 +221,14 @@ describe(specTitle("Manager creates students"), () => {
     cy.intercept(
       "GET",
       "/students?page=1&page_size=10",
-      [createdStudent, ...studentsMock].slice(0, 10)
+      [createdStudent, ...studentsMock].slice(0, 10),
     ).as("getStudents");
     fillEditInputs();
     cy.contains("Enregistrer").click();
     cy.wait("@createStudent").then((requestInterseption) =>
       studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
-      })
+      }),
     );
     cy.contains("Élément créé");
   });
@@ -237,14 +237,14 @@ describe(specTitle("Manager creates students"), () => {
     cy.intercept(
       "GET",
       "/students?page=1&page_size=10",
-      [createdStudent, ...studentsMock].slice(0, 10)
+      [createdStudent, ...studentsMock].slice(0, 10),
     ).as("getStudents");
     cy.contains("Enregistrer").click();
     cy.wait("@createStudent").then((requestInterception) =>
       studentRequestBodyVerification(requestInterception.request.body, {
         ...liteCreatedStudent,
-        coordinates: {longitude: 0, latitude: 0},
-      })
+        coordinates: { longitude: 0, latitude: 0 },
+      }),
     );
     cy.contains("Élément créé");
   });
@@ -252,12 +252,12 @@ describe(specTitle("Manager creates students"), () => {
   it("can create student with his/her fees using predefined fees", () => {
     fillEditInputs();
     cy.get(
-      ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
+      ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input",
     ).click();
     cy.intercept(
       "GET",
       "/students?page=1&page_size=10",
-      [...studentsMock, createdStudent].slice(0, 10)
+      [...studentsMock, createdStudent].slice(0, 10),
     ).as("getStudents");
     cy.get('[data-testid="predefinedType"]').click();
     cy.get(`[data-value="${annual1xTemplate.id}"]`).click();
@@ -267,7 +267,7 @@ describe(specTitle("Manager creates students"), () => {
     cy.wait("@createStudent").then((requestInterseption) =>
       studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
-      })
+      }),
     );
 
     cy.wait("@createFees").then((intersection) => {
@@ -283,7 +283,7 @@ describe(specTitle("Manager creates students"), () => {
   it("can create student with his/her 9 months fees", () => {
     fillEditInputs();
     cy.get(
-      ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
+      ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input",
     ).click();
     cy.get('[data-testid="predefinedType"]').click();
     cy.get(`[data-value="${annual9xTemplate.id}"]`).click();
@@ -291,7 +291,7 @@ describe(specTitle("Manager creates students"), () => {
     cy.intercept(
       "GET",
       "/students?page=1&page_size=10",
-      [...studentsMock, createdStudent].slice(0, 10)
+      [...studentsMock, createdStudent].slice(0, 10),
     ).as("getStudents");
     cy.intercept("POST", `students/${createdStudent.id}/fees`, [
       createdFeesForNewStudent,
@@ -302,7 +302,7 @@ describe(specTitle("Manager creates students"), () => {
     cy.wait("@createStudent").then((requestInterseption) =>
       studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
-      })
+      }),
     );
 
     cy.wait("@createFees").then((intersection) => {
@@ -313,7 +313,7 @@ describe(specTitle("Manager creates students"), () => {
       requestBody.forEach((feesToCreate, index) => {
         assertFeeMatchesTemplate(feesToCreate, annual9xTemplate);
         expect(feesToCreate.comment).to.equal(
-          `${annual9xTemplate.name} (M${index + 1})`
+          `${annual9xTemplate.name} (M${index + 1})`,
         );
       });
     });
@@ -329,7 +329,7 @@ describe(specTitle("Manager creates students"), () => {
 
     fillEditInputs();
     cy.get(
-      ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input"
+      ".MuiSwitch-root > .MuiButtonBase-root > .PrivateSwitchBase-input",
     ).click();
 
     cy.get('[data-testid="isPredefinedFee"]').click();
@@ -348,12 +348,12 @@ describe(specTitle("Manager creates students"), () => {
     cy.wait("@createStudent").then((requestInterseption) =>
       studentRequestBodyVerification(requestInterseption.request.body, {
         ...createStudent,
-      })
+      }),
     );
 
     cy.wait("@createFees").then((requestIntersection) => {
       expect(requestIntersection.request.body.length).to.equal(
-        NUMBER_OF_PAYEMENTS
+        NUMBER_OF_PAYEMENTS,
       );
     });
 

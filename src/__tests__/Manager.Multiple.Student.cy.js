@@ -1,6 +1,6 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
-import {manager1} from "./credentials";
+import { manager1 } from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import {
   createdStudents,
@@ -11,7 +11,7 @@ import {
   studentsMock,
   whoamiManagerMock,
 } from "./mocks/responses";
-import {importFile} from "./utils";
+import { importFile } from "./utils";
 const _path = "cypress/fixtures/students_import";
 describe(specTitle("Manager create multiple students"), () => {
   beforeEach(() => {
@@ -28,19 +28,19 @@ describe(specTitle("Manager create multiple students"), () => {
       });
     }).as("getManager1");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudentsPage1"
+      "getStudentsPage1",
     );
     cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
-      "getStudentsPage2"
+      "getStudentsPage2",
     );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`,
-      [student1Mock]
+      [student1Mock],
     ).as("getStudentsByName");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami", { timeout: 10000 });
     cy.get('[data-testid="students-menu"]').click();
     cy.get('[href="#/students"]').click();
   });
@@ -49,7 +49,7 @@ describe(specTitle("Manager create multiple students"), () => {
     importFile(
       "0_student_template.xlsx",
       "Il n'y a pas d'élément à insérer",
-      _path
+      _path,
     );
     unmount();
   });
@@ -58,7 +58,7 @@ describe(specTitle("Manager create multiple students"), () => {
     importFile(
       "13_template.xlsx",
       "Vous ne pouvez importer que 10 éléments à la fois.",
-      _path
+      _path,
     );
   });
 
@@ -66,7 +66,7 @@ describe(specTitle("Manager create multiple students"), () => {
     importFile(
       "wrong_heads_students_template.xlsx",
       "Veuillez re-vérifier les en-têtes de votre fichier",
-      _path
+      _path,
     );
   });
 
@@ -75,18 +75,18 @@ describe(specTitle("Manager create multiple students"), () => {
     importFile(
       "correct_students_template.xlsx",
       "Importation effectuée avec succès",
-      _path
+      _path,
     );
   });
 
   it("can create multiple students with the correct file and minimum infos", () => {
     cy.intercept("PUT", "/students", [liteCreatedStudents]).as(
-      "createStudents"
+      "createStudents",
     );
     importFile(
       "lite_correct_students_template.xlsx",
       "Importation effectuée avec succès",
-      _path
+      _path,
     );
   });
 
@@ -100,7 +100,7 @@ describe(specTitle("Manager create multiple students"), () => {
     importFile(
       "correct_students_template.xlsx",
       "L'importation n'a pas pu être effectuée",
-      _path
+      _path,
     );
   });
   afterEach(() => {

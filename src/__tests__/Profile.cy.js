@@ -1,8 +1,8 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
-import {manager1} from "./credentials";
-import {editedManager2, manager2, whoamiManagerMock} from "./mocks/responses";
-import {toUTC} from "../utils/date";
+import { manager1 } from "./credentials";
+import { editedManager2, manager2, whoamiManagerMock } from "./mocks/responses";
+import { toUTC } from "../utils/date";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 
 describe(specTitle("Profile test"), () => {
@@ -14,7 +14,7 @@ describe(specTitle("Profile test"), () => {
 
     cy.intercept("GET", `/whoami`, whoamiManagerMock).as("getWhoami");
     cy.intercept("GET", `/managers/${manager2.id}`, manager2).as("getManager1");
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami", { timeout: 10000 });
   });
 
   it("can edit profile", () => {
@@ -30,7 +30,7 @@ describe(specTitle("Profile test"), () => {
       .type(editedManager2.coordinates.latitude);
 
     cy.intercept("PUT", `/managers/${manager2.id}`, editedManager2).as(
-      "modifyProfile"
+      "modifyProfile",
     );
 
     cy.contains("Enregistrer").click();
@@ -46,16 +46,16 @@ describe(specTitle("Profile test"), () => {
           }, {});
       };
       reqBody.entrance_datetime = toUTC(
-        new Date(reqBody.entrance_datetime)
+        new Date(reqBody.entrance_datetime),
       ).toISOString();
       editedManager2.entrance_datetime = toUTC(
-        new Date(editedManager2.entrance_datetime)
+        new Date(editedManager2.entrance_datetime),
       ).toISOString();
       editedManager2.birth_date = toUTC(
-        new Date(editedManager2.birth_date)
+        new Date(editedManager2.birth_date),
       ).toISOString();
       expect(JSON.stringify(sortObject(reqBody))).to.equal(
-        JSON.stringify(sortObject(editedManager2))
+        JSON.stringify(sortObject(editedManager2)),
       );
     });
 

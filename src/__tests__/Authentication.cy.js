@@ -1,6 +1,6 @@
-import {mount} from "@cypress/react";
+import { mount } from "@cypress/react";
 import App from "../App";
-import {student1} from "./credentials";
+import { student1 } from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 
 describe(specTitle("Authentication"), () => {
@@ -28,7 +28,7 @@ describe(specTitle("Authentication"), () => {
             Destination: student1.username,
           },
         });
-      }
+      },
     ).as("awsrequest");
     cy.contains("Mot de passe oublié?").click();
     cy.get('[data-testid="mail_input"]').type(student1.username);
@@ -36,10 +36,10 @@ describe(specTitle("Authentication"), () => {
     cy.wait("@awsrequest");
     cy.get('[data-testid="code_input"]').type(12345678);
     cy.get('[data-testid="password_input"]').type(
-      student1?.password?.concat("&")
+      student1?.password?.concat("&"),
     );
     cy.get('[data-testid="confirm_password_input"]').type(
-      student1?.password?.concat("&")
+      student1?.password?.concat("&"),
     );
     cy.contains("RÉINITIALISER").click();
   });

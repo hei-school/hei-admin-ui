@@ -38,7 +38,7 @@ export const editedManager2: Manager = {
   email: "test+manager1@hei.school",
   entrance_datetime: new Date("2021-09-08T08:25:29Z"),
   status: EnableStatus.ENABLED,
-  coordinates: {latitude: 0, longitude: 0},
+  coordinates: { latitude: 0, longitude: 0 },
 };
 export const whoamiManagerMock: Whoami = {
   id: manager2.id,

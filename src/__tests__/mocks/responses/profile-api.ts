@@ -1,5 +1,5 @@
-import {Manager} from "@haapi/typescript-client";
-import {manager2} from "./manager-api";
+import { Manager } from "@haapi/typescript-client";
+import { manager2 } from "./manager-api";
 
 export const noPicManager = (): Manager => manager2;
 

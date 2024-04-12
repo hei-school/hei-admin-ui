@@ -1,5 +1,5 @@
-import {usersApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import { usersApi } from "./api";
+import { HaDataProviderType } from "./HaDataProviderType";
 
 const teacherProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
@@ -10,7 +10,7 @@ const teacherProvider: HaDataProviderType = {
       filter.first_name,
       filter.last_name,
       filter.status,
-      filter.sex
+      filter.sex,
     );
     return result.data;
   },

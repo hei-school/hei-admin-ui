@@ -1,6 +1,6 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
-import {teacher1} from "./credentials";
+import { teacher1 } from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import {
   teacher1Mock,
@@ -14,7 +14,7 @@ describe(specTitle("Teacher"), () => {
     mount(<App />);
     cy.intercept("GET", `/whoami`, whoamiTeacherMock).as("getWhoami");
     cy.intercept("GET", `/teachers/${teacher1Mock.id}`, teacher1Mock).as(
-      "getTeacher1"
+      "getTeacher1",
     );
     cy.get("#username").type(teacher1.username);
     cy.get("#password").type(teacher1.password);
@@ -25,7 +25,7 @@ describe(specTitle("Teacher"), () => {
 
   it("lands on profile page if succeeds", () => {
     cy.get("#ha-menu")
-      .should("not.contain", "Enseignants", {timeout: 50})
+      .should("not.contain", "Enseignants", { timeout: 50 })
       .and("contain", "Étudiants");
     cy.get("#main-content")
       .should("contain", teacher1Mock.ref)
@@ -39,10 +39,10 @@ describe(specTitle("Teacher"), () => {
 
   it("can check one student", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudents"
+      "getStudents",
     );
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
-      "getStudent1"
+      "getStudent1",
     );
     cy.get('a[href="#/students"]').click(); // Étudiants menu
     cy.wait("@getStudents");
@@ -63,15 +63,15 @@ describe(specTitle("Teacher"), () => {
 
   it("can list and filter students", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudentsPage1"
+      "getStudentsPage1",
     );
     cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
-      "getStudentsPage2"
+      "getStudentsPage2",
     );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&last_name=${student1Mock.first_name}`,
-      [student1Mock]
+      [student1Mock],
     ).as("getStudentByName");
     // note(listAndFilterStudents)
     cy.get('a[href="#/students"]').click(); // Étudiants menu
@@ -79,9 +79,9 @@ describe(specTitle("Teacher"), () => {
     cy.get("body").click(200, 0); //note(uncover-menu)
     cy.contains("Page : 1");
     cy.contains(`Taille : ${studentsMock.length}`);
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
-    cy.get("td a").should("not.contain", "ÉDITER", {timeout: 50});
-    cy.get(".RaList-main>").should("not.contain", "CRÉER", {timeout: 50});
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should("not.exist");
+    cy.get("td a").should("not.contain", "ÉDITER", { timeout: 50 });
+    cy.get(".RaList-main>").should("not.contain", "CRÉER", { timeout: 50 });
 
     cy.get("button").contains("Suivant").click();
     cy.wait("@getStudentsPage2");
@@ -90,7 +90,7 @@ describe(specTitle("Teacher"), () => {
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="add-filter"]').click();
     cy.get('[data-testid="filter-profile-last_name"]').type(
-      student1Mock.first_name
+      student1Mock.first_name,
     );
     cy.get('[data-testid="apply-filter"]').click();
     cy.contains("Page : 1");

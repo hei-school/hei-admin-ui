@@ -1,9 +1,13 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
-import {teacher1Mock, teachersMock, whoamiManagerMock} from "./mocks/responses";
-import {manager1} from "./credentials";
-import {updatedInfo} from "./utils";
+import {
+  teacher1Mock,
+  teachersMock,
+  whoamiManagerMock,
+} from "./mocks/responses";
+import { manager1 } from "./credentials";
+import { updatedInfo } from "./utils";
 
 describe(specTitle("Manager.Teachers"), () => {
   beforeEach(() => {
@@ -14,24 +18,24 @@ describe(specTitle("Manager.Teachers"), () => {
     cy.intercept("GET", "/whoami", whoamiManagerMock).as("getWhoami");
     cy.intercept("GET", `/managers/${manager1.id}`, manager1).as("getManager");
     cy.intercept("GET", "/teachers?page=1&page_size=10", teachersMock).as(
-      "getTeachers"
+      "getTeachers",
     );
     cy.intercept(
       "GET",
       /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/,
-      [teacher1Mock]
+      [teacher1Mock],
     ).as("getFilters");
     cy.intercept("GET", `/teachers/${teachersMock[0].id}`, teachersMock[0]).as(
-      "getTeachers1"
+      "getTeachers1",
     );
     cy.intercept("PUT", `/teachers/${teachersMock[0].id}`, updatedInfo).as(
-      "putUpdate"
+      "putUpdate",
     );
 
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami", { timeout: 10000 });
     cy.get('[href="#/teachers"]').click();
     cy.get(":nth-child(1) > .column-undefined > .MuiButtonBase-root").as(
-      "editButton"
+      "editButton",
     );
   });
 
@@ -60,7 +64,7 @@ describe(specTitle("Manager.Teachers"), () => {
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="add-filter"]').click();
     cy.get('[data-testid="filter-profile-last_name"]').type(
-      teacher1Mock.last_name
+      teacher1Mock.last_name,
     );
     cy.get('[data-testid="apply-filter"]').click();
     cy.wait("@getFilters");
@@ -91,7 +95,7 @@ describe(specTitle("Manager.Teachers"), () => {
     cy.get("#last_name").clear().type(updatedInfo.last_name);
     cy.get('[data-testid="SaveIcon"]').click();
     cy.intercept("GET", `/teachers/${teachersMock[0].id}`, updatedInfo).as(
-      "getTeachers1"
+      "getTeachers1",
     );
     cy.wait("@putUpdate");
     cy.get("@editButton").click();

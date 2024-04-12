@@ -1,12 +1,12 @@
-import {createStudent, teachersMock} from "./mocks/responses";
-import {toISO} from "../utils/date";
+import { createStudent, teachersMock } from "./mocks/responses";
+import { toISO } from "../utils/date";
 
 export const studentRequestBodyVerification = (
   requestBody,
-  createStudentNoFees
+  createStudentNoFees,
 ) => {
   createStudentNoFees.entrance_datetime = toISO(
-    createStudent.entrance_datetime
+    createStudent.entrance_datetime,
   );
   expect(requestBody[0]).to.deep.equal(createStudentNoFees);
   expect(requestBody.length).to.equal(1);
@@ -21,8 +21,8 @@ export const importFile = (file, message, _path) => {
 
   cy.get('[data-testid="menu-list-action"]').click();
   cy.get("#import-button").click();
-  cy.get("[data-testid='inputFile']").selectFile(_mockFile, {force: true});
-  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, {force: true});
+  cy.get("[data-testid='inputFile']").selectFile(_mockFile, { force: true });
+  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true });
 
   cy.contains("Confirmer").click();
 
@@ -34,6 +34,6 @@ export const assertFeeMatchesTemplate = (feeToCreate, template) => {
   expect(feeToCreate.total_amount).to.equal(template.amount);
   expect(feeToCreate.type).to.equal(template.type);
   expect(new Date(feeToCreate.creation_datetime).toDateString()).to.equal(
-    currentDateString
+    currentDateString,
   );
 };

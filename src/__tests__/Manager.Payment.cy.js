@@ -1,8 +1,8 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
-import {manager1} from "./credentials";
+import { manager1 } from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
-import {renderMoney} from "../operations/common/utils/money";
+import { renderMoney } from "../operations/common/utils/money";
 import {
   createPaymentWithAmountMock,
   feesMock,
@@ -32,38 +32,38 @@ describe(specTitle("Manager.Payment"), () => {
       });
     }).as("getManager1");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudentsPage1"
+      "getStudentsPage1",
     );
     cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
-      "getStudentsPage2"
+      "getStudentsPage2",
     );
     cy.intercept(
       "GET",
       `students?page=1&page_size=10&ref=${student1Mock.ref}`,
-      [student1Mock]
+      [student1Mock],
     ).as("getStudents");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
-      "getStudent1"
+      "getStudent1",
     );
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
-      feesMock
+      feesMock,
     ).as("getfees");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
-      unpaidFeeMock
+      unpaidFeeMock,
     ).as("getUnpaidFee");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`,
-      []
+      [],
     ).as("getPaymentOfUnpaidFee");
     cy.intercept(
       "POST",
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments`,
-      [payment1Mock]
+      [payment1Mock],
     ).as("addPayments");
     cy.wait("@getWhoami");
     cy.get('[data-testid="students-menu"]').click(); // Étudiants category
@@ -82,12 +82,12 @@ describe(specTitle("Manager.Payment"), () => {
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`,
-      [createPayment]
+      [createPayment],
     ).as("getPayment");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
-      UpdateFeeWithPaymentMock(unpaidFeeMock, createPayment)
+      UpdateFeeWithPaymentMock(unpaidFeeMock, createPayment),
     ).as("getFee");
   });
 
@@ -99,9 +99,9 @@ describe(specTitle("Manager.Payment"), () => {
     cy.contains("Élément créé");
     cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
       "have.length",
-      1
+      1,
     );
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should("not.exist");
     unmount();
   });
   it("can add mobile money payment to a fee", () => {
@@ -112,7 +112,7 @@ describe(specTitle("Manager.Payment"), () => {
     cy.contains("Élément créé");
     cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
       "have.length",
-      1
+      1,
     );
     unmount();
   });
@@ -134,7 +134,7 @@ describe(specTitle("Manager.Payment"), () => {
     cy.contains("Élément créé");
     cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
       "have.length",
-      1
+      1,
     );
     unmount();
   });

@@ -1,13 +1,19 @@
-import {getPermissions} from "../security/permissions";
+import { getPermissions } from "../security/permissions";
 
-import {ClientMetaData} from "@aws-amplify/auth/lib-esm/types";
-import {Amplify} from "aws-amplify";
-import {Auth} from "@aws-amplify/auth";
-import {awsConfig} from "./aws-config";
+import { Amplify } from "aws-amplify";
+import {
+  fetchAuthSession,
+  updatePassword,
+  resetPassword,
+  confirmResetPassword,
+  signIn,
+  signOut,
+} from "@aws-amplify/auth";
+import { awsConfig } from "./aws-config";
 
-import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
+import { Configuration, SecurityApi, Whoami } from "@haapi/typescript-client";
 
-import {AxiosResponse} from "axios";
+import { AxiosResponse } from "axios";
 
 Amplify.configure(awsConfig);
 
@@ -20,17 +26,14 @@ const paramTemporaryPassword = "p";
 const paramLocalAmplifyBoolean = "amplify-signin-with-hostedUI";
 
 const whoami = async (): Promise<Whoami> => {
-  const session = await Auth.currentSession();
   const conf = new Configuration();
-  conf.accessToken = session.getIdToken().getJwtToken();
+  const session = (await fetchAuthSession()) || {};
+  conf.accessToken = session.tokens?.idToken?.toString();
   const securityApi = new SecurityApi(conf);
   return securityApi
     .whoami()
     .then((response: AxiosResponse<Whoami>) => response.data)
-    .catch((error) => {
-      console.error(error);
-      return {};
-    });
+    .catch(() => ({}));
 };
 
 const toBase64 = (param: string) => Buffer.from(param).toString("base64");
@@ -67,16 +70,21 @@ const authProvider = {
     password,
     clientMetadata,
   }: Record<string, unknown>): Promise<void> => {
-    const user = await Auth.signIn(
-      username as string,
-      password as string,
-      clientMetadata as ClientMetaData
-    );
-    if (user.challengeName === "NEW_PASSWORD_REQUIRED") {
+    const user = await signIn({
+      username: username as string,
+      password: password as string,
+      options: {
+        clientMetadata: clientMetadata as any,
+      },
+    });
+
+    if (
+      user.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
+    ) {
       const encodedUsername = encodeURIComponent(toBase64(username as string));
       const encodedPassword = encodeURIComponent(toBase64(password as string));
       window.location.replace(
-        `/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
+        `/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`,
       );
       return;
     }
@@ -86,15 +94,15 @@ const authProvider = {
   logout: async (): Promise<void> => {
     localStorage.clear(); // Amplify stores data in localStorage
     sessionStorage.clear();
-    await Auth.signOut();
+    await signOut();
   },
 
   checkAuth: async (): Promise<void> => {
     await whoami()
       .then(async (whoami) => {
         if (
-          !sessionStorage.getItem(bearerItem) &&
-          localStorage.getItem(paramLocalAmplifyBoolean)
+          !sessionStorage.getItem(bearerItem) ||
+          !localStorage.getItem(paramLocalAmplifyBoolean)
         ) {
           cacheWhoami(whoami);
         }
@@ -120,28 +128,30 @@ const authProvider = {
   },
 
   forgotPassword: async (username: string): Promise<void> => {
-    await Auth.forgotPassword(username, {
-      clientId: process?.env?.REACT_APP_USER_CLIENT_ID!,
-    });
+    await resetPassword({ username });
   },
   forgotPasswordSubmit: async (
     username: string,
     code: string,
-    newPassword: string
+    newPassword: string,
   ): Promise<void> => {
-    await Auth.forgotPasswordSubmit(username, code, newPassword);
+    await confirmResetPassword({
+      username,
+      confirmationCode: code,
+      newPassword,
+    });
   },
   setNewPassword: async (newPassword: string): Promise<void> => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const username = fromBase64(
-      decodeURIComponent(urlParams.get(paramUsername) as string)
+      decodeURIComponent(urlParams.get(paramUsername) as string),
     ) as string;
     const temporaryPassword = fromBase64(
-      decodeURIComponent(urlParams.get(paramTemporaryPassword) as string)
+      decodeURIComponent(urlParams.get(paramTemporaryPassword) as string),
     ) as string;
-    const user = await Auth.signIn(username, temporaryPassword);
-    await Auth.completeNewPassword(user, newPassword);
+    await signIn({ username, password: temporaryPassword });
+    await updatePassword({ oldPassword: temporaryPassword, newPassword });
     window.location.replace("/");
   },
 

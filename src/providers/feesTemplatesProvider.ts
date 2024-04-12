@@ -1,5 +1,5 @@
-import {payingApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import { payingApi } from "./api";
+import { HaDataProviderType } from "./HaDataProviderType";
 
 const feesTemplatesProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
@@ -9,7 +9,7 @@ const feesTemplatesProvider: HaDataProviderType = {
         filter.amount,
         filter.numberOfPayments,
         page,
-        perPage
+        perPage,
       )
       .then((response) => response.data);
   },

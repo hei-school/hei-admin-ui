@@ -1,6 +1,6 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
-import {manager1} from "./credentials";
+import { manager1 } from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import {
   feesMock,
@@ -15,8 +15,8 @@ const importFile = (file, message, middleware) => {
 
   cy.get('[data-testid="menu-list-action"]').click();
   cy.get("#import-button").click();
-  cy.get("[data-testid='inputFile']").selectFile(_mockFile, {force: true});
-  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, {force: true});
+  cy.get("[data-testid='inputFile']").selectFile(_mockFile, { force: true });
+  cy.get('[data-testid="inputFile"]').selectFile(_mockFile, { force: true });
 
   cy.contains("Confirmer").click();
   middleware && middleware();
@@ -33,23 +33,23 @@ describe(specTitle("Manager import fees for one students"), () => {
     cy.intercept("GET", `/whoami`, whoamiManagerMock).as("getWhoami");
     cy.intercept("GET", `/managers/${manager1.id}`, manager1).as("getManager1");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudentsPage1"
+      "getStudentsPage1",
     );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
-      [student1Mock]
+      [student1Mock],
     ).as("getStudentsByFirstName");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
-      "getStudent1"
+      "getStudent1",
     );
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
-      feesMock
+      feesMock,
     ).as("getStudent1Fees");
 
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami", { timeout: 10000 });
     cy.intercept("GET", `/manager/${manager1.id}`, manager1).as("getManager1");
     cy.get('[data-testid="students-menu"]').click();
     cy.get('[href="#/students"]').click();
@@ -68,34 +68,34 @@ describe(specTitle("Manager import fees for one students"), () => {
   it("cannot create fees if there is too much students to create", () => {
     importFile(
       "13_fees_template.xlsx",
-      "Vous ne pouvez importer que 10 éléments à la fois."
+      "Vous ne pouvez importer que 10 éléments à la fois.",
     );
   });
 
   it("cannot create fees if the headers are not corrects", () => {
     importFile(
       "nv_heads_fees_template.xlsx",
-      "Veuillez re-vérifier les en-têtes de votre fichier"
+      "Veuillez re-vérifier les en-têtes de votre fichier",
     );
   });
 
   it("cannot create fees if the minimal headers are missing", () => {
     importFile(
       "missing_header_fees_template.xlsx",
-      "Quelques en-têtes obligatoire sont manquantes"
+      "Quelques en-têtes obligatoire sont manquantes",
     );
   });
 
   it("cannot create fees if some data are not correct", () => {
     importFile(
       "nv_fees_template.xlsx",
-      "Tous les montants totaux doivent être des nombres"
+      "Tous les montants totaux doivent être des nombres",
     );
   });
 
   it("notifies if the multiple students creation failed", () => {
     cy.intercept("POST", `/students/${student1Mock.id}/fees`, [feesMock]).as(
-      "createFees"
+      "createFees",
     );
     importFile(
       "v_fees_template.xlsx",
@@ -116,7 +116,7 @@ describe(specTitle("Manager import fees for one students"), () => {
           expect(feesRequest).to.deep.equal(feesExpected);
           expect(requestIntersection.request.body.length).to.equal(DATA_LENGTH);
         });
-      }
+      },
     );
   });
 

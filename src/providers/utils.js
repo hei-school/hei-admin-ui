@@ -1,7 +1,7 @@
 // the data given by the api shouldn't respect camelCase, so we use this
 const stringToCamelCase = (str) => {
   return str.replace(/([-_][a-z])/g, (group) =>
-    group.toUpperCase().replace("-", "").replace("_", "")
+    group.toUpperCase().replace("-", "").replace("_", ""),
   );
 };
 

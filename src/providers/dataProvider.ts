@@ -1,5 +1,5 @@
-import {HaDataProviderType} from "./HaDataProviderType";
-import {RaDataProviderType} from "./RaDataProviderType";
+import { HaDataProviderType } from "./HaDataProviderType";
+import { RaDataProviderType } from "./RaDataProviderType";
 import profileProvider from "./profileProvider";
 import studentProvider from "./studentProvider";
 import feeProvider from "./feeProvider";
@@ -40,7 +40,7 @@ const dataProvider: RaDataProviderType = {
     let perPage = pagination.perPage;
     if (perPage > maxPageSize) {
       console.warn(
-        `Page size is too big, truncating to maxPageSize=${maxPageSize}: resourceType=${resourceType}, requested pageSize=${perPage}`
+        `Page size is too big, truncating to maxPageSize=${maxPageSize}: resourceType=${resourceType}, requested pageSize=${perPage}`,
       );
       perPage = maxPageSize;
     }
@@ -49,34 +49,34 @@ const dataProvider: RaDataProviderType = {
       page,
       perPage,
       filter,
-      meta
+      meta,
     );
-    return {data: result, total: Number.MAX_SAFE_INTEGER};
+    return { data: result, total: Number.MAX_SAFE_INTEGER };
   },
   async getOne(resourceType: string, params: any) {
     const result = await getProvider(resourceType).getOne(
       params.id,
-      params.meta
+      params.meta,
     );
-    return {data: result};
+    return { data: result };
   },
   async update(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate([params.data], {
       isUpdate: true,
     });
-    return {data: result[0]};
+    return { data: result[0] };
   },
   async create(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate(
       resourceType === "students" || resourceType === "teachers"
         ? toEnabledUsers([params.data])
-        : [params.data]
+        : [params.data],
     );
-    return {data: result[0]};
+    return { data: result[0] };
   },
   async delete(resourceType: string, params: any) {
     const result = await getProvider(resourceType).delete(params.id);
-    return {data: result};
+    return { data: result };
   },
 };
 

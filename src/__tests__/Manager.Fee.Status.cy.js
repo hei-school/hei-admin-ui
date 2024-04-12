@@ -1,8 +1,8 @@
-import {mount} from "@cypress/react";
-import {FeeStatusEnum} from "@haapi/typescript-client";
+import { mount } from "@cypress/react";
+import { FeeStatusEnum } from "@haapi/typescript-client";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import App from "../App";
-import {manager1} from "./credentials";
+import { manager1 } from "./credentials";
 import {
   fee1Mock,
   lateFeesMock,
@@ -44,20 +44,20 @@ describe(specTitle("Manager.Fee.Late"), () => {
     cy.intercept(
       "GET",
       `/fees?status=LATE&page=1&page_size=10`,
-      lateFeesMock
+      lateFeesMock,
     ).as("getLateFees");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
-      "getStudent1"
+      "getStudent1",
     );
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`,
-      [payment1Mock]
+      [payment1Mock],
     ).as("getfees");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
-      fee1Mock
+      fee1Mock,
     ).as("getFee1");
     cy.get("#username").type(manager1.username);
     cy.get("#password").type(manager1.password);

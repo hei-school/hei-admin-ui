@@ -26,7 +26,7 @@ export const toISO = (stringDate) => {
 
 export const toUTC = (date) => {
   return new Date(
-    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())
+    Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()),
   );
 };
 

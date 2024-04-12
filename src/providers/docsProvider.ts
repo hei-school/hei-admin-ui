@@ -1,8 +1,8 @@
-import {FileType} from "@haapi/typescript-client";
-import {OwnerType} from "src/operations/docs/types";
-import {HaDataProviderType} from "./HaDataProviderType";
-import {MULTIPART_HEADERS} from "./constants";
-import {filesApi} from "./api";
+import { FileType } from "@haapi/typescript-client";
+import { OwnerType } from "../operations/docs/types";
+import { HaDataProviderType } from "./HaDataProviderType";
+import { MULTIPART_HEADERS } from "./constants";
+import { filesApi } from "./api";
 
 const docsProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any, meta: any) {
@@ -49,7 +49,7 @@ const docsProvider: HaDataProviderType = {
     }
   },
   async saveOrUpdate(payload: any) {
-    const {raw, ...doc} = payload[0];
+    const { raw, ...doc } = payload[0];
 
     if (!doc || !raw) return [];
 
@@ -71,7 +71,7 @@ const docsProvider: HaDataProviderType = {
               undefined,
               new Date(),
               raw.rawFile,
-              {headers: MULTIPART_HEADERS}
+              { headers: MULTIPART_HEADERS },
             )
             .then((result) => [result.data]);
         }
@@ -82,7 +82,7 @@ const docsProvider: HaDataProviderType = {
               doc.type,
               doc.title,
               raw.rawFile,
-              {headers: MULTIPART_HEADERS}
+              { headers: MULTIPART_HEADERS },
             )
             .then((result) => [result.data]);
         }

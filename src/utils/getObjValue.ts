@@ -10,6 +10,6 @@ export function getObjValue(obj: Record<string, any>, path: string): unknown {
     .split(".")
     .reduce(
       (acc, key) => (acc && acc[key] !== undefined ? acc[key] : undefined),
-      {...obj}
+      { ...obj },
     );
 }

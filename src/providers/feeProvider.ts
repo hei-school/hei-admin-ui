@@ -1,5 +1,5 @@
-import {payingApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import { payingApi } from "./api";
+import { HaDataProviderType } from "./HaDataProviderType";
 
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
@@ -7,7 +7,7 @@ const toRaId = (studentId: string, feeId: string): string =>
 
 export const toApiIds = (raId: string = "") => {
   const ids = raId.split(raSeparator);
-  return {studentId: ids[0], feeId: ids[1]};
+  return { studentId: ids[0], feeId: ids[1] };
 };
 
 export const studentIdFromRaId = (raId: string): string =>
@@ -24,9 +24,9 @@ const feeProvider: HaDataProviderType = {
     }));
   },
   async getOne(raId: string) {
-    const {studentId, feeId} = toApiIds(raId);
+    const { studentId, feeId } = toApiIds(raId);
     const result = await payingApi().getStudentFeeById(studentId, feeId);
-    return {...result.data, id: raId};
+    return { ...result.data, id: raId };
   },
   async saveOrUpdate(resources: Array<any>) {
     const fees = resources[0];
@@ -38,10 +38,10 @@ const feeProvider: HaDataProviderType = {
     });
 
     const result = await payingApi().createStudentFees(studentId, fees);
-    return {...result.data};
+    return { ...result.data };
   },
   async delete(raId: string) {
-    const {studentId, feeId} = toApiIds(raId);
+    const { studentId, feeId } = toApiIds(raId);
     return await payingApi()
       .deleteStudentFeeById(feeId, studentId)
       .then((response) => response.data);

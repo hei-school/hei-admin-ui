@@ -1,5 +1,5 @@
-import {FeeTypeEnum} from "@haapi/typescript-client";
-import {excelDateToJsDate, validateData} from "../../ui/haToolbar";
+import { FeeTypeEnum } from "@haapi/typescript-client";
+import { excelDateToJsDate, validateData } from "../../ui/haToolbar";
 
 export const minimalFeesHeaders = [
   {
@@ -23,14 +23,14 @@ export const minimalFeesHeaders = [
 ];
 
 export const optionalFeesHeaders = [
-  {id: 4, label: "Commentaire (comment)", value: "comment", disabled: false},
+  { id: 4, label: "Commentaire (comment)", value: "comment", disabled: false },
 ];
 
 export const valideFeesData = (data) => {
   const response = validateData(
     data,
     minimalFeesHeaders.map((el) => el.value),
-    optionalFeesHeaders.map((el) => el.value)
+    optionalFeesHeaders.map((el) => el.value),
   );
   if (response.isValid) {
     response.isValid = false;
@@ -41,7 +41,7 @@ export const valideFeesData = (data) => {
       response.message = "Tous les montants totaux doivent être des nombres";
     else if (
       data.some((el) =>
-        !el.type ? false : !FeeTypeImport[el.type.toLowerCase()]
+        !el.type ? false : !FeeTypeImport[el.type.toLowerCase()],
       )
     )
       response.message =

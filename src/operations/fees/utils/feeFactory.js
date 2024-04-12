@@ -1,4 +1,4 @@
-import {getEndOfMonth} from "../../../utils/date";
+import { getEndOfMonth } from "../../../utils/date";
 
 function createComment(baseComment, monthIndex, numberOfPayemnts) {
   // add the suffix M(monthValue + 1) when numberOfPayemnts is 9
@@ -12,7 +12,7 @@ function getNextDate(currentDate, index) {
   return new Date(
     currentDate.getFullYear(),
     currentDate.getMonth() + index,
-    currentDate.getDate()
+    currentDate.getDate(),
   );
 }
 
@@ -36,7 +36,7 @@ export function createFeesApi(fees, studentId) {
       ? getEndOfMonth(+predefinedYear, predefinedMonth + i)
       : getNextDate(
           new Date(firstDueDatetime),
-          i /*to get the next date after $i*/
+          i /*to get the next date after $i*/,
         );
 
     feesToCreate.push({
@@ -44,7 +44,7 @@ export function createFeesApi(fees, studentId) {
       comment: createComment(
         comment,
         i /* to create the comment suffixed by monthIndex */,
-        number_of_payments
+        number_of_payments,
       ),
       total_amount: +amount,
       student_id: studentId,

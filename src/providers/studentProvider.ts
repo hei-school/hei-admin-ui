@@ -1,6 +1,6 @@
-import {usersApi, payingApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
-import {EnableStatus} from "@haapi/typescript-client";
+import { usersApi, payingApi } from "./api";
+import { HaDataProviderType } from "./HaDataProviderType";
+import { EnableStatus } from "@haapi/typescript-client";
 
 const studentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
@@ -13,7 +13,7 @@ const studentProvider: HaDataProviderType = {
       filter.course_id,
       filter.status,
       filter.sex,
-      filter.work_study_status
+      filter.work_study_status,
     );
     return result.data;
   },

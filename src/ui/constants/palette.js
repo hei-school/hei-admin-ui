@@ -1,4 +1,4 @@
-import {indigo, grey} from "@mui/material/colors";
+import { indigo, grey } from "@mui/material/colors";
 
 // TODO: move this to haTheme
 export const PALETTE_COLORS = {

@@ -1,4 +1,4 @@
-import {mainTheme} from "../../../haTheme";
+import { mainTheme } from "../../../haTheme";
 
 // /!\ TODO: TO function name
 export const rowStyle = (record, _index) => {

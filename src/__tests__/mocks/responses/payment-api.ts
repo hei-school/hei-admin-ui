@@ -1,5 +1,5 @@
-import {Fee, Payment, PaymentTypeEnum} from "@haapi/typescript-client";
-import {fee1Mock} from "./fees-api";
+import { Fee, Payment, PaymentTypeEnum } from "@haapi/typescript-client";
+import { fee1Mock } from "./fees-api";
 
 export const payment1Mock: Payment = {
   id: "payment1_id",
@@ -11,7 +11,7 @@ export const payment1Mock: Payment = {
 };
 
 export const createPaymentWithAmountMock: (amount: number) => Payment = (
-  amount
+  amount,
 ) => {
   return {
     id: "payment3_id",
@@ -25,7 +25,7 @@ export const createPaymentWithAmountMock: (amount: number) => Payment = (
 
 export const addPaymentMock: (
   payments: Payment[],
-  payment: Payment
+  payment: Payment,
 ) => Payment[] = (payments, payment) => {
   let newPayments = payments;
   newPayments.push(payment);

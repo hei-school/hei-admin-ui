@@ -1,4 +1,4 @@
-import {FeeTypeEnum} from "@haapi/typescript-client";
+import { FeeTypeEnum } from "@haapi/typescript-client";
 
 export const feesTemplatesApi = [
   {

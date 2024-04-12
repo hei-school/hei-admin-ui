@@ -1,6 +1,6 @@
-import {HaDataProviderType} from "./HaDataProviderType";
-import {GroupFlowMoveTypeEnum} from "@haapi/typescript-client";
-import {teachingApi} from "./api";
+import { HaDataProviderType } from "./HaDataProviderType";
+import { GroupFlowMoveTypeEnum } from "@haapi/typescript-client";
+import { teachingApi } from "./api";
 
 const groupFlowProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {

@@ -1,4 +1,4 @@
-import {studentsMock} from "./student-api";
+import { studentsMock } from "./student-api";
 
 export const groups = [
   {

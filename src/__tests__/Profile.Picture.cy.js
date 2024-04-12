@@ -1,5 +1,5 @@
-import {mount} from "@cypress/react";
-import {manager1} from "./credentials";
+import { mount } from "@cypress/react";
+import { manager1 } from "./credentials";
 import {
   badPicManager,
   noPicManager,
@@ -24,7 +24,7 @@ describe(specTitle("Profile picture test"), () => {
 
   it("should fallback to default source when profile_pic is falsy", () => {
     cy.intercept("GET", `/managers/${noPicManager().id}`, noPicManager()).as(
-      "getManager"
+      "getManager",
     );
     cy.wait("@getManager");
 
@@ -37,7 +37,7 @@ describe(specTitle("Profile picture test"), () => {
     cy.intercept(
       "GET",
       `/managers/${withPicManager().id}`,
-      withPicManager()
+      withPicManager(),
     ).as("getManager");
     cy.wait("@getManager");
 
@@ -48,7 +48,7 @@ describe(specTitle("Profile picture test"), () => {
 
   it("should fallback to default source when profile_pic cannot be fetched", () => {
     cy.intercept("GET", `/managers/${badPicManager().id}`, badPicManager()).as(
-      "getManager"
+      "getManager",
     );
     cy.wait("@getManager");
 
@@ -61,25 +61,25 @@ describe(specTitle("Profile picture test"), () => {
     cy.intercept(
       "GET",
       `/managers/${withPicManager().id}`,
-      withPicManager()
+      withPicManager(),
     ).as("getManager");
     cy.wait("@getManager");
 
     cy.getByTestid("upload-picture-button").click();
     cy.getByTestid("dropzone").selectFile(
       "cypress/fixtures/profile_picture/profile-picture.png",
-      {action: "drag-drop"}
+      { action: "drag-drop" },
     );
 
     cy.intercept(
       "POST",
       `/managers/${updatedManager().id}/picture/raw`,
-      updatedManager()
+      updatedManager(),
     ).as("getManager");
     cy.intercept(
       "GET",
       `/managers/${updatedManager().id}`,
-      updatedManager()
+      updatedManager(),
     ).as("getManager");
 
     cy.contains("Enregistrer").click();

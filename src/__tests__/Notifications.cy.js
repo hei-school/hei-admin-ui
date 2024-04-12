@@ -1,6 +1,6 @@
-import {mount, unmount} from "@cypress/react";
+import { mount, unmount } from "@cypress/react";
 import App from "../App";
-import {manager1} from "./credentials";
+import { manager1 } from "./credentials";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 import {
   manager2,
@@ -13,7 +13,7 @@ import {
   whoamiManagerMock,
   createStudent,
 } from "./mocks/responses";
-import {updatedInfo} from "./utils";
+import { updatedInfo } from "./utils";
 
 let createdStudent = {
   ...createStudent,
@@ -36,29 +36,29 @@ describe(
         });
       }).as("getManager1");
       cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-        "getStudentsPage1"
+        "getStudentsPage1",
       );
       cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
-        "getStudentsPage2"
+        "getStudentsPage2",
       );
       cy.intercept("GET", `students/${createdStudent.id}`, createdStudent).as(
-        "getStudent"
+        "getStudent",
       );
       cy.intercept(
         "GET",
         `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`,
-        [student1Mock]
+        [student1Mock],
       ).as("getStudentsByName");
       cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
-        "getTeachersPage1"
+        "getTeachersPage1",
       );
       cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
-        "getTeachersPage2"
+        "getTeachersPage2",
       );
       cy.intercept(
         "GET",
         `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
-        [teacher1Mock]
+        [teacher1Mock],
       ).as("getTeacherByName");
 
       cy.contains("Enseignants");
@@ -79,7 +79,7 @@ describe(
       cy.get("#phone").type(createStudent.phone);
       cy.get("#birth_date").click().type(createStudent.birth_date);
       cy.get(".ra-input-address > .MuiInputBase-root").type(
-        createStudent.address
+        createStudent.address,
       );
       cy.get("#email").type(createStudent.email);
       cy.get("#entrance_datetime")
@@ -95,7 +95,7 @@ describe(
       cy.contains("Une erreur s'est produite");
       unmount();
     });
-  }
+  },
 );
 describe(
   specTitle("Notifications on error when edit, e.g: TeacherEdit"),
@@ -107,26 +107,26 @@ describe(
       cy.get("button").contains("Connexion").click();
       cy.intercept("GET", "/whoami", whoamiManagerMock).as("getWhoami");
       cy.intercept("GET", `/managers/${manager2.id}`, manager2).as(
-        "getManager"
+        "getManager",
       );
       cy.intercept("GET", "/teachers?page=1&page_size=10", teachersMock).as(
-        "getTeachers"
+        "getTeachers",
       );
       cy.intercept(
         "GET",
         /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/,
-        [teacher1Mock]
+        [teacher1Mock],
       ).as("getFilters");
       cy.intercept(
         "GET",
         `/teachers/${teachersMock[0].id}`,
-        teachersMock[0]
+        teachersMock[0],
       ).as("getTeachers1");
 
       cy.wait("@getWhoami");
       cy.get('[href="#/teachers"]').click();
       cy.get(":nth-child(1) > .column-undefined > .MuiButtonBase-root").as(
-        "editButton"
+        "editButton",
       );
       cy.get("@editButton").click();
       cy.wait("@getTeachers1");
@@ -141,5 +141,5 @@ describe(
       cy.contains("Une erreur s'est produite");
       unmount();
     });
-  }
+  },
 );

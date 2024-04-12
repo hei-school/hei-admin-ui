@@ -1,5 +1,5 @@
-import {mount, unmount} from "@cypress/react";
-import {FeeTypeEnum} from "@haapi/typescript-client";
+import { mount, unmount } from "@cypress/react";
+import { FeeTypeEnum } from "@haapi/typescript-client";
 import specTitle from "cypress-sonarqube-reporter/specTitle";
 
 import {
@@ -18,12 +18,12 @@ import {
 
 import App from "../App";
 
-import {manager1} from "./credentials";
-import {assertFeeMatchesTemplate} from "./utils";
+import { manager1 } from "./credentials";
+import { assertFeeMatchesTemplate } from "./utils";
 
-import {statusRenderer} from "../operations/utils";
-import {getEndOfMonth} from "../utils/date";
-import {renderMoney} from "../operations/common/utils/money";
+import { statusRenderer } from "../operations/utils";
+import { getEndOfMonth } from "../utils/date";
+import { renderMoney } from "../operations/common/utils/money";
 
 // /!\ TODO: create custom cypress command "getByTestid"
 describe(specTitle("Manager.Fee"), () => {
@@ -39,50 +39,50 @@ describe(specTitle("Manager.Fee"), () => {
     cy.intercept(
       "GET",
       `/fees/templates?page=1&page_size=25`,
-      feesTemplatesApi
+      feesTemplatesApi,
     ).as("getFeesTemplates");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
-      "getStudents"
+      "getStudents",
     );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&last_name=${studentNameToBeCheckedMock}`,
-      [student1Mock]
+      [student1Mock],
     ).as("getStudentsByName");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`,
-      []
+      [],
     ).as("getPayments");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
-      feesMock
+      feesMock,
     ).as("getFees");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
-      fee1Mock
+      fee1Mock,
     ).as("getFee1");
     cy.intercept("POST", `/students/${student1Mock.id}/fees`, feesMock).as(
-      "createFees"
+      "createFees",
     );
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
     cy.get("#username").type(manager1.username);
     cy.get("#password").type(manager1.password);
     cy.get("button").contains("Connexion").click();
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami", { timeout: 10000 });
     cy.get('[data-testid="students-menu"]').click();
     cy.get('a[href="#/students"]').click();
     cy.get("body").click(200, 0);
     cy.contains("Page : 1");
     cy.contains(`Taille : ${feesMock.length}`);
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
+    cy.get('td input[type="checkbox"]', { timeout: 50 }).should("not.exist");
     cy.get('[data-testid="menu-list-action"]').click();
     cy.get('[data-testid="add-filter"]').click();
     cy.get('[data-testid="filter-profile-last_name"]').type(
-      studentNameToBeCheckedMock
+      studentNameToBeCheckedMock,
     );
     cy.get('[data-testid="apply-filter"]').click();
     cy.wait("@getStudentsByName");
@@ -93,17 +93,17 @@ describe(specTitle("Manager.Fee"), () => {
 
   it("can detail waiting fee", () => {
     const interceptedFeeMock = feesMock.find(
-      (fee) => fee.remaining_amount === fee1Mock.remaining_amount
+      (fee) => fee.remaining_amount === fee1Mock.remaining_amount,
     );
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}`,
-      interceptedFeeMock
+      interceptedFeeMock,
     ).as("getFee1");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${interceptedFeeMock.id}/payments?page=1&page_size=10`,
-      createPaymentMock(interceptedFeeMock)
+      createPaymentMock(interceptedFeeMock),
     ).as("getPaymentsOfOneFee");
     cy.get('[aria-label="fees"]').click();
     cy.contains(renderMoney(interceptedFeeMock.remaining_amount)).click();
@@ -147,7 +147,7 @@ describe(specTitle("Manager.Fee"), () => {
       const currentDate = new Date();
       const currentEndOfMonth = getEndOfMonth(
         currentDate.getFullYear(),
-        currentDate.getMonth()
+        currentDate.getMonth(),
       );
 
       assertFeeMatchesTemplate(feeToCreate, annual1xTemplate);
@@ -191,7 +191,7 @@ describe(specTitle("Manager.Fee"), () => {
         assertFeeMatchesTemplate(feeToCreate, annual9xTemplate);
         expect(feeToCreate.due_datetime, currentEndOfMonth.toISOString());
         expect(feeToCreate.comment).to.equal(
-          `${annual9xTemplate.name} (M${index + 1})`
+          `${annual9xTemplate.name} (M${index + 1})`,
         );
       });
     });
