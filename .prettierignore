@@ -1,0 +1,5 @@
+src/aws-exports.js
+
+node_modules
+dist
+build
