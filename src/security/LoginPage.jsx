@@ -1,4 +1,4 @@
-import { Login } from "react-admin";
+import {Login} from "react-admin";
 import {
   Card,
   CardContent,
@@ -9,10 +9,10 @@ import {
   Box,
   Link,
 } from "@mui/material";
-import { mainTheme } from "../haTheme";
+import {mainTheme} from "../haTheme";
 import CompletePasswordPage from "./CompletePasswordPage";
 import authProvider from "../providers/authProvider";
-import { useState } from "react";
+import {useState} from "react";
 import ForgotPassword from "./ForgotPassword";
 import ConfirmForgotPassword from "./ConfirmForgotPassword";
 
@@ -20,7 +20,7 @@ const aCard = (title, subtitle, description1, description2, course) => {
   const syllabus =
     "https://drive.google.com/file/d/12Lc4o3jfQOFHIzazPToO2hnGZc8epU3I/view";
   return (
-    <Card style={{ backgroundColor: "#ffffff", opacity: 0.9 }}>
+    <Card style={{backgroundColor: "#ffffff", opacity: 0.9}}>
       <CardContent>
         <Typography variant="h3" color="primary">
           {title}
@@ -36,7 +36,7 @@ const aCard = (title, subtitle, description1, description2, course) => {
         <Typography variant="h8" color="initial">
           <p>
             Cours :{" "}
-            <a href={syllabus} style={{ color: "#000000" }}>
+            <a href={syllabus} style={{color: "#000000"}}>
               {course}
             </a>
           </p>
@@ -52,7 +52,7 @@ const HaLoginPage = () => {
   const [confirm, setConfirm] = useState(true);
 
   const displayFull = useMediaQuery(
-    "(min-width:1024px) and (min-height:768px)",
+    "(min-width:1024px) and (min-height:768px)"
   );
   const style = {
     position: "absolute",
@@ -83,7 +83,7 @@ const HaLoginPage = () => {
         >
           <Login
             backgroundImage={null}
-            style={{ backgroundImage: "inherit", position: "relative" }}
+            style={{backgroundImage: "inherit", position: "relative"}}
           />
         </Grid>
         <Grid
@@ -109,7 +109,7 @@ const HaLoginPage = () => {
     );
   };
   const ResponsiveCompletePassword = () => (
-    <CompletePasswordPage style={{ backgroundImage: "inherit" }} />
+    <CompletePasswordPage style={{backgroundImage: "inherit"}} />
   );
   const PasswordChangeableLogin = () =>
     authProvider.isTemporaryPassword() ? (
@@ -147,15 +147,15 @@ const HaLoginPage = () => {
         <Grid
           container
           spacing={2}
-          style={{ paddingTop: "10%" }}
+          style={{paddingTop: "10%"}}
           theme={mainTheme}
         >
           <Grid item xs={4}>
             <Typography variant="h3" align="center">
-              <div style={{ color: "#ffc107" }}>HEI</div>
+              <div style={{color: "#ffc107"}}>HEI</div>
             </Typography>
             <Typography variant="h7" align="center">
-              <div style={{ color: "#ffffff" }}>
+              <div style={{color: "#ffffff"}}>
                 Une scolarité qui passe à l'échelle
               </div>
             </Typography>{" "}
@@ -170,7 +170,7 @@ const HaLoginPage = () => {
                   "Coût à l'arrêt",
                   "Personne ne se connecte ?",
                   "Alors personne ne paie.",
-                  "SYS-2",
+                  "SYS-2"
                 )}
               </Grid>
               <Grid item xs={4}>
@@ -179,7 +179,7 @@ const HaLoginPage = () => {
                   "Vulnérabilité",
                   "Crashtest nous scanne,",
                   "mais ne trouve rien !",
-                  "WEB-2",
+                  "WEB-2"
                 )}
               </Grid>
               <Grid item xs={2} />
@@ -191,7 +191,7 @@ const HaLoginPage = () => {
                   "Utilisateurs",
                   "Onboarder tout Madagascar ?",
                   "Dix fois sans problème.",
-                  "DONNEES-2",
+                  "DONNEES-2"
                 )}
               </Grid>
               <Grid item xs={4}>
@@ -200,7 +200,7 @@ const HaLoginPage = () => {
                   "Seconde",
                   "Pire réponse de notre API",
                   "au percentile 97.",
-                  "PROG-2",
+                  "PROG-2"
                 )}
               </Grid>
             </Grid>

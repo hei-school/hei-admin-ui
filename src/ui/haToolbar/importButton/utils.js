@@ -2,14 +2,14 @@ export const excelType =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel";
 
 export const validateData = (data, minimalHeaders, optionalHeaders) => {
-  const result = { isValid: false, message: "" };
+  const result = {isValid: false, message: ""};
 
   const isAllValid = (data1) => {
     const areValidHeader = data1.every((el) =>
-      [...minimalHeaders, ...optionalHeaders].includes(el),
+      [...minimalHeaders, ...optionalHeaders].includes(el)
     );
     const includeMinimal = minimalHeaders.every((el) => data1.includes(el));
-    return { areValidHeader, includeMinimal };
+    return {areValidHeader, includeMinimal};
   };
   if (data.length === 0) {
     result.message = "Il n'y a pas d'élément à insérer";

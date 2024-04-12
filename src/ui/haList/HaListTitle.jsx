@@ -1,8 +1,8 @@
-import { MoreVert, SearchOutlined } from "@mui/icons-material";
-import { Box, Typography, IconButton, Popover, styled } from "@mui/material";
-import { useListFilterContext } from "ra-core";
-import { useState, createContext } from "react";
-import { HaMainSearch } from "./HaMainSearch";
+import {MoreVert, SearchOutlined} from "@mui/icons-material";
+import {Box, Typography, IconButton, Popover, styled} from "@mui/material";
+import {useListFilterContext} from "ra-core";
+import {useState, createContext} from "react";
+import {HaMainSearch} from "./HaMainSearch";
 
 const TitleContainer = styled("div")({
   display: "flex",
@@ -33,13 +33,13 @@ export function HaListTitle({
   filterIndicator,
 }) {
   const [showAction, setShowAction] = useState(null);
-  const { filterValues } = useListFilterContext();
+  const {filterValues} = useListFilterContext();
   const closeAction = () => setShowAction(null);
   const isFilterApplied = Object.keys(filterValues).length;
 
   const showIndication = {
-    position: "relative",
-    display: "block !important",
+    "position": "relative",
+    "display": "block !important",
     "::after": {
       content: '""',
       display: "block",
@@ -55,19 +55,19 @@ export function HaListTitle({
 
   return (
     <TitleContainer>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2.5 }}>
+      <Box sx={{display: "flex", alignItems: "center", gap: 2.5}}>
         {icon}
-        <Typography variant="h3" sx={{ fontSize: "1.07em", fontWeight: 500 }}>
+        <Typography variant="h3" sx={{fontSize: "1.07em", fontWeight: 500}}>
           {title}
         </Typography>
       </Box>
-      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
+      <Box sx={{display: "flex", alignItems: "center", gap: 1.5}}>
         {mainSearch.source !== "" && (
           <MainSearchContainer>
             <HaMainSearch source={mainSearch.source} label={mainSearch.label} />
             <label htmlFor="main-search">
               <SearchOutlined
-                sx={{ p: 0, transform: "translateY(4px)", cursor: "pointer" }}
+                sx={{p: 0, transform: "translateY(4px)", cursor: "pointer"}}
               />
             </label>
           </MainSearchContainer>
@@ -83,15 +83,15 @@ export function HaListTitle({
           </Box>
         )}
       </Box>
-      <HaListContext.Provider value={{ closeAction }}>
+      <HaListContext.Provider value={{closeAction}}>
         <Popover
           open={showAction !== null}
           anchorEl={showAction}
           onClose={closeAction}
-          anchorOrigin={{ vertical: "top", horizontal: "right" }}
-          transformOrigin={{ vertical: "top", horizontal: "right" }}
+          anchorOrigin={{vertical: "top", horizontal: "right"}}
+          transformOrigin={{vertical: "top", horizontal: "right"}}
         >
-          <Box sx={{ width: "150px" }}>{actions}</Box>
+          <Box sx={{width: "150px"}}>{actions}</Box>
         </Popover>
       </HaListContext.Provider>
     </TitleContainer>

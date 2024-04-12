@@ -1,24 +1,24 @@
-import { FunctionField, ShowButton } from "react-admin";
-import { WarningOutlined } from "@mui/icons-material";
-import { rowStyle } from "./utils";
-import { HaList } from "../../ui/haList/HaList";
+import {FunctionField, ShowButton} from "react-admin";
+import {WarningOutlined} from "@mui/icons-material";
+import {rowStyle} from "./utils";
+import {HaList} from "../../ui/haList/HaList";
 import feeProvider from "../../providers/feeProvider";
-import { useRole } from "../../security/hooks/useRole";
-import { useStudentRef } from "../../hooks/useStudentRef";
-import { CreateButton, ImportButton } from "../../ui/haToolbar";
-import { commentFunctionRenderer } from "../utils";
+import {useRole} from "../../security/hooks/useRole";
+import {useStudentRef} from "../../hooks/useStudentRef";
+import {CreateButton, ImportButton} from "../../ui/haToolbar";
+import {commentFunctionRenderer} from "../utils";
 import {
   minimalFeesHeaders,
   optionalFeesHeaders,
   transformFeesData,
   valideFeesData,
 } from "./importConf";
-import { DeleteWithConfirm } from "../common/components";
-import { DateField } from "../common/components/fields";
-import { renderMoney } from "../common/utils/money";
+import {DeleteWithConfirm} from "../common/components";
+import {DateField} from "../common/components/fields";
+import {renderMoney} from "../common/utils/money";
 
 const FeeList = () => {
-  const { studentRef, studentId } = useStudentRef("studentId");
+  const {studentRef, studentId} = useStudentRef("studentId");
   const role = useRole();
 
   return (
@@ -29,7 +29,7 @@ const FeeList = () => {
       actions={role.isManager() && <FeesActions studentId={studentId} />}
       filterIndicator={false}
       listProps={{
-        filterDefaultValues: { studentId },
+        filterDefaultValues: {studentId},
       }}
       datagridProps={{
         rowClick: (id) => `/fees/${id}/show`,
@@ -68,7 +68,7 @@ const FeeList = () => {
 
 export default FeeList;
 
-function FeesActions({ studentId }) {
+function FeesActions({studentId}) {
   return (
     <>
       <CreateButton resource={`students/${studentId}/fees`} />

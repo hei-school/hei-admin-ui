@@ -1,10 +1,10 @@
-import { Create, SimpleForm, TextInput } from "react-admin";
-import { Box, Button, Dialog } from "@mui/material";
-import { Add as AddIcon } from "@mui/icons-material";
-import { v4 as uuid } from "uuid";
+import {Create, SimpleForm, TextInput} from "react-admin";
+import {Box, Button, Dialog} from "@mui/material";
+import {Add as AddIcon} from "@mui/icons-material";
+import {v4 as uuid} from "uuid";
 
 import authProvider from "../../providers/authProvider";
-import { useToggle } from "../../hooks";
+import {useToggle} from "../../hooks";
 
 const CREATE_WRAPPER_STYLE = {
   display: "flex",
@@ -13,7 +13,7 @@ const CREATE_WRAPPER_STYLE = {
   width: "100%",
 };
 
-export function CommentCreate({ studentId, refetchList }) {
+export function CommentCreate({studentId, refetchList}) {
   const [showCreate, , toggleShowCreate] = useToggle(false);
   const observerId = authProvider.getCachedWhoami().id;
 
@@ -25,7 +25,7 @@ export function CommentCreate({ studentId, refetchList }) {
   return (
     <Box sx={CREATE_WRAPPER_STYLE}>
       <Button
-        sx={{ mt: 1, fontWeight: "bold" }}
+        sx={{mt: 1, fontWeight: "bold"}}
         startIcon={<AddIcon />}
         onClick={toggleShowCreate}
       >
@@ -35,7 +35,7 @@ export function CommentCreate({ studentId, refetchList }) {
         open={showCreate}
         onClose={toggleShowCreate}
         sx={{
-          zIndex: 99999,
+          "zIndex": 99999,
           "& .MuiDialog-paper": {
             overflowX: "hidden",
           },
@@ -45,7 +45,7 @@ export function CommentCreate({ studentId, refetchList }) {
           resource="comments"
           title=" "
           redirect=""
-          mutationOptions={{ onSuccess: resetCreate }}
+          mutationOptions={{onSuccess: resetCreate}}
           transform={(comment) => ({
             id: uuid(),
             student_id: studentId,
@@ -67,7 +67,7 @@ export function CommentCreate({ studentId, refetchList }) {
               label="Commentaire"
               source="content"
               size="small"
-              sx={{ width: "74%" }}
+              sx={{width: "74%"}}
             />
           </SimpleForm>
         </Create>

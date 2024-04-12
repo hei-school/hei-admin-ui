@@ -1,21 +1,21 @@
-import { FilterList } from "@mui/icons-material";
-import { createContext, useState } from "react";
-import { useListFilterContext } from "react-admin";
-import { FilterContentResponsive } from "./FilterFormContent";
-import { ButtonBase } from "../haToolbar";
+import {FilterList} from "@mui/icons-material";
+import {createContext, useState} from "react";
+import {useListFilterContext} from "react-admin";
+import {FilterContentResponsive} from "./FilterFormContent";
+import {ButtonBase} from "../haToolbar";
 import useHaListContext from "../haList/useHaListContext";
 
 export const HaToolbarContext = createContext();
 
-export function FilterForm({ children }) {
-  const { filterValues, setFilters } = useListFilterContext();
+export function FilterForm({children}) {
+  const {filterValues, setFilters} = useListFilterContext();
   const [anchorEl, setAnchorEl] = useState(null);
-  const { closeAction } = useHaListContext();
+  const {closeAction} = useHaListContext();
   const [currentFilter, setCurrentFilter] = useState(filterValues);
 
   const submitChange = () => setFilters(currentFilter);
   const setOneFilter = (source, values) =>
-    setCurrentFilter((prev) => ({ ...prev, [source]: values }));
+    setCurrentFilter((prev) => ({...prev, [source]: values}));
   const isFilterApplied = Object.keys(filterValues || {}).length > 0;
 
   const handleCloseFilter = (hasChanged) => {
@@ -27,7 +27,7 @@ export function FilterForm({ children }) {
   };
 
   const indicator = {
-    position: "relative",
+    "position": "relative",
     "::after": {
       content: '""',
       display: "block",
@@ -43,7 +43,7 @@ export function FilterForm({ children }) {
 
   return (
     <HaToolbarContext.Provider
-      value={{ setCurrentFilter, currentFilter, setOneFilter }}
+      value={{setCurrentFilter, currentFilter, setOneFilter}}
     >
       <ButtonBase
         label="Filtres"

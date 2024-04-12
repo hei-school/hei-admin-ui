@@ -1,10 +1,10 @@
-import { forwardRef, useState } from "react";
-import { Confirm, useNotify } from "react-admin";
-import { read, utils } from "xlsx";
-import { excelType } from ".";
-import { useToggle } from "../../../hooks/useToggle";
+import {forwardRef, useState} from "react";
+import {Confirm, useNotify} from "react-admin";
+import {read, utils} from "xlsx";
+import {excelType} from ".";
+import {useToggle} from "../../../hooks/useToggle";
 
-const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
+const FileInput = forwardRef(function Input({setIsSubmitted, setData}, ref) {
   const notify = useNotify();
 
   const processFile = async (e) => {
@@ -17,7 +17,7 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
         const data = await file.arrayBuffer();
         const workbook = read(data);
         const jsonData = utils.sheet_to_json(
-          workbook.Sheets[workbook.SheetNames[0]],
+          workbook.Sheets[workbook.SheetNames[0]]
         );
         setData(jsonData);
       } catch (e) {
@@ -33,7 +33,7 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
       data-testid="inputFile"
       type="file"
       ref={ref}
-      style={{ display: "none" }}
+      style={{display: "none"}}
       onChange={processFile}
       accept={excelType}
     />
@@ -41,8 +41,8 @@ const FileInput = forwardRef(function Input({ setIsSubmitted, setData }, ref) {
 });
 
 export const ImportInputFile = forwardRef(function ImportInput(
-  { mutationRequest },
-  ref,
+  {mutationRequest},
+  ref
 ) {
   const [data, setData] = useState([]);
   const [open, setOpen] = useToggle();

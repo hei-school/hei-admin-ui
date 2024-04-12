@@ -1,20 +1,14 @@
-import {
-  FileField,
-  FileInput,
-  SimpleForm,
-  TextInput,
-  regex,
-} from "react-admin";
-import { Dialog, DialogTitle } from "@mui/material";
-import { useParams } from "react-router-dom";
-import { FileType } from "@haapi/typescript-client";
-import { Create } from "../../common/components";
-import { useRole } from "../../../security/hooks/useRole";
-import { removeExtension } from "../../../utils/files";
-import { PALETTE_COLORS } from "../../../ui/constants/palette";
-import { OwnerType } from "../types";
+import {FileField, FileInput, SimpleForm, TextInput, regex} from "react-admin";
+import {Dialog, DialogTitle} from "@mui/material";
+import {useParams} from "react-router-dom";
+import {FileType} from "@haapi/typescript-client";
+import {Create} from "../../common/components";
+import {useRole} from "../../../security/hooks/useRole";
+import {removeExtension} from "../../../utils/files";
+import {PALETTE_COLORS} from "../../../ui/constants/palette";
+import {OwnerType} from "../types";
 import authProvider from "../../../providers/authProvider";
-import { SelectWorkStatus } from "./SelectWorkStatus";
+import {SelectWorkStatus} from "./SelectWorkStatus";
 
 const DOCUMENT_FILENAME_PATTERN = /^[^.]*$/;
 
@@ -50,9 +44,9 @@ const transformDoc = (doc, type, owner, studentId) => {
   };
 };
 
-export const DocCreateDialog = ({ type, owner, isOpen, toggle, refresh }) => {
+export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
   const params = useParams();
-  const { isStudent } = useRole();
+  const {isStudent} = useRole();
 
   const studentId = isStudent()
     ? authProvider.getCachedWhoami().id
@@ -62,7 +56,7 @@ export const DocCreateDialog = ({ type, owner, isOpen, toggle, refresh }) => {
     <Dialog open={isOpen} onClose={toggle}>
       <DialogTitle
         color={PALETTE_COLORS.white}
-        sx={{ bgcolor: PALETTE_COLORS.primary }}
+        sx={{bgcolor: PALETTE_COLORS.primary}}
         fontWeight="bold"
       >
         Ajouter un {getTitle(owner, type)}
@@ -86,7 +80,7 @@ export const DocCreateDialog = ({ type, owner, isOpen, toggle, refresh }) => {
             validate={[
               regex(
                 DOCUMENT_FILENAME_PATTERN,
-                "Le nom du fichier ne doit pas contenir de point.",
+                "Le nom du fichier ne doit pas contenir de point."
               ),
             ]}
             fullWidth
@@ -98,7 +92,7 @@ export const DocCreateDialog = ({ type, owner, isOpen, toggle, refresh }) => {
             label=" "
             multiple={false}
             accept="application/pdf,image/jpeg,image/png,image/webp"
-            sx={{ border: `1px solid ${PALETTE_COLORS.grey}` }}
+            sx={{border: `1px solid ${PALETTE_COLORS.grey}`}}
           >
             <FileField source="src" title="title" />
           </FileInput>

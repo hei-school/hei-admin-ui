@@ -1,4 +1,4 @@
-import { Delete } from "@mui/icons-material";
+import {Delete} from "@mui/icons-material";
 import {
   Button,
   Confirm,
@@ -10,18 +10,15 @@ import {
   useNotify,
   useRecordContext,
 } from "react-admin";
-import { useParams } from "react-router-dom";
-import {
-  GroupFlowMoveTypeEnum,
-  WhoamiRoleEnum,
-} from "@haapi/typescript-client";
-import { useToggle } from "../../hooks/useToggle";
-import { pageSize, PrevNextPagination } from "../utils";
+import {useParams} from "react-router-dom";
+import {GroupFlowMoveTypeEnum, WhoamiRoleEnum} from "@haapi/typescript-client";
+import {useToggle} from "../../hooks/useToggle";
+import {pageSize, PrevNextPagination} from "../utils";
 import authProvider from "../../providers/authProvider";
 import groupFlowProvider from "../../providers/groupFlowProvider";
 import MoveButton from "../groupFlow/MoveButton";
 
-const DeleteGroupStudent = ({ groupId }) => {
+const DeleteGroupStudent = ({groupId}) => {
   const notify = useNotify();
   const student = useRecordContext();
   const [isOpen, , toggle] = useToggle();
@@ -34,7 +31,7 @@ const DeleteGroupStudent = ({ groupId }) => {
 
   // TODO: use custom hooks
   const notification = (message, type) =>
-    notify(message, { type: type, autoHideDuration: 1000 });
+    notify(message, {type: type, autoHideDuration: 1000});
 
   const addGroupFlow = async () => {
     toggle();
@@ -43,14 +40,14 @@ const DeleteGroupStudent = ({ groupId }) => {
       .then(() =>
         notification(
           `Etudiant ${student.ref} supprimé de ce groupe avec succès`,
-          "success",
-        ),
+          "success"
+        )
       )
       .catch(() =>
         notification(
           `Etudiant ${student.ref} n'a pas pu être supprimé de ce groupe`,
-          "error",
-        ),
+          "error"
+        )
       );
   };
   return (
@@ -98,14 +95,14 @@ const GroupStudentList = () => {
       perPage={pageSize}
       pagination={<PrevNextPagination />}
       resource="group-students"
-      queryOptions={{ meta: { groupId } }}
+      queryOptions={{meta: {groupId}}}
     >
       <Datagrid bulkActionButtons={false}>
         <TextField source="ref" label="Référence" />
         <TextField source="first_name" label="Prénom·s" />
         <TextField source="last_name" label="Nom·s" />
         {isManager && (
-          <div style={{ display: "flex", justifyContent: "space-around" }}>
+          <div style={{display: "flex", justifyContent: "space-around"}}>
             <MoveButton
               moveType={GroupFlowMoveTypeEnum.LEAVE}
               canCreate={false}

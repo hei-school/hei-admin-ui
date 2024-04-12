@@ -1,13 +1,13 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import {useCallback, useEffect, useRef, useState} from "react";
 
-import { useTheme } from "@mui/material";
+import {useTheme} from "@mui/material";
 import {
   DownloadForOffline,
   Error,
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
-import { Document as Pdf, Page as PdfPage } from "react-pdf";
+import {Document as Pdf, Page as PdfPage} from "react-pdf";
 import {
   Box,
   Typography,
@@ -19,10 +19,10 @@ import {
   LinearProgress,
   Stack,
 } from "@mui/material";
-import { PALETTE_COLORS } from "../../../ui/constants/palette";
+import {PALETTE_COLORS} from "../../../ui/constants/palette";
 
-const TooltipButton = ({ icon, disabled, onClick, ...others }) => (
-  <Tooltip {...others} sx={{ margin: "0 6px" }}>
+const TooltipButton = ({icon, disabled, onClick, ...others}) => (
+  <Tooltip {...others} sx={{margin: "0 6px"}}>
     <IconButton onClick={onClick} disabled={disabled}>
       {icon}
     </IconButton>
@@ -57,7 +57,7 @@ export const HorizontalPagination = ({
   };
 
   return (
-    <Box sx={{ ...STYLE, ...boxSx }}>
+    <Box sx={{...STYLE, ...boxSx}}>
       <IconButton
         size="small"
         onClick={handleBack}
@@ -91,30 +91,30 @@ export const HorizontalPagination = ({
   );
 };
 
-export const ErrorHandling = ({ errorMessage }) => (
-  <Box sx={{ display: "flex", alignItems: "center" }}>
-    <Error style={{ fontSize: 40 }} />
+export const ErrorHandling = ({errorMessage}) => (
+  <Box sx={{display: "flex", alignItems: "center"}}>
+    <Error style={{fontSize: 40}} />
     <Typography variant="body2">{errorMessage}</Typography>
   </Box>
 );
 
 const PdfViewer = (props) => {
-  const { url, filename, isPending, noData, onLoadError, children, ...others } =
+  const {url, filename, isPending, noData, onLoadError, children, ...others} =
     props;
   const loadErrorMessage = "Échec de chargement du document";
-  const [pages, setPages] = useState({ current: 1, last: null });
+  const [pages, setPages] = useState({current: 1, last: null});
   const [isLoading, setLoading] = useState(true);
   const pdfRef = useRef(null);
 
   const stopLoading = () => setLoading(false);
   const startLoading = useCallback(() => setLoading(true), [setLoading]);
 
-  const setLastPage = ({ numPages }) => {
-    setPages((e) => ({ ...e, last: numPages }));
+  const setLastPage = ({numPages}) => {
+    setPages((e) => ({...e, last: numPages}));
   };
 
   const setPage = (callback) => {
-    setPages((e) => ({ ...e, current: callback(e.current) }));
+    setPages((e) => ({...e, current: callback(e.current)}));
   };
 
   useEffect(() => {
@@ -127,12 +127,12 @@ const PdfViewer = (props) => {
         <Box
           display="flex"
           justifyContent="space-between"
-          style={{ backgroundColor: PALETTE_COLORS.yellow }}
+          style={{backgroundColor: PALETTE_COLORS.yellow}}
         >
           <CardHeader title={`Document : ${filename}`} />
           <Stack
             flexDirection="row"
-            sx={{ alignItems: "center", padding: "0.2rem 0.2rem 0 0" }}
+            sx={{alignItems: "center", padding: "0.2rem 0.2rem 0 0"}}
           >
             {url && !isLoading && (
               <HorizontalPagination
@@ -165,7 +165,7 @@ const PdfViewer = (props) => {
         </Box>
         <CardContent
           sx={{
-            ...(url && !isLoading && { paddingInline: 0 }),
+            ...(url && !isLoading && {paddingInline: 0}),
             justifyContent: "center",
             display: "flex",
             alignItems: "center",

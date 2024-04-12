@@ -1,12 +1,12 @@
-import { FunctionField, ShowButton, useListContext } from "react-admin";
-import { rowStyle } from "./utils";
-import { AttachMoney } from "@mui/icons-material";
-import { commentFunctionRenderer } from "../utils";
-import { HaList } from "../../ui/haList/HaList";
-import { FeesFilter } from ".";
-import { DateField } from "../common/components/fields";
-import { FeeStatusEnum } from "@haapi/typescript-client";
-import { renderMoney } from "../common/utils/money";
+import {FunctionField, ShowButton, useListContext} from "react-admin";
+import {rowStyle} from "./utils";
+import {AttachMoney} from "@mui/icons-material";
+import {commentFunctionRenderer} from "../utils";
+import {HaList} from "../../ui/haList/HaList";
+import {FeesFilter} from ".";
+import {DateField} from "../common/components/fields";
+import {FeeStatusEnum} from "@haapi/typescript-client";
+import {renderMoney} from "../common/utils/money";
 
 const FEES_STATUS_VALUE = {
   LATE: "en retard",
@@ -15,7 +15,7 @@ const FEES_STATUS_VALUE = {
 };
 
 const ListTitle = () => {
-  const { filterValues } = useListContext();
+  const {filterValues} = useListContext();
   return (
     <p>
       Liste de tous les frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}
@@ -30,7 +30,7 @@ const ByStatusFeeList = (props) => (
     title={<ListTitle />}
     resource="fees"
     listProps={{
-      filterDefaultValues: { status: FeeStatusEnum.LATE },
+      filterDefaultValues: {status: FeeStatusEnum.LATE},
     }}
     filterIndicator={false}
     datagridProps={{

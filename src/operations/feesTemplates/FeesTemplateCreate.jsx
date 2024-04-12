@@ -8,16 +8,16 @@ import {
   TextInput,
   RadioButtonGroupInput,
 } from "react-admin";
-import { v4 as uuid } from "uuid";
+import {v4 as uuid} from "uuid";
 
-import { FEESTEMPLATES_CHOICES } from "../fees/feesTemplatesChoices";
+import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
 
 function FeesTemplatesCreate() {
   return (
     <Create
       title={"Créer un frais prédéfini"}
       redirect={() => "fees-templates"}
-      transform={(feesTemplates) => ({ ...feesTemplates, id: uuid() })}
+      transform={(feesTemplates) => ({...feesTemplates, id: uuid()})}
     >
       <SimpleForm>
         <TextInput

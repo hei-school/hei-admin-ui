@@ -4,16 +4,16 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import { useLocation } from "react-router-dom";
-import { FileType } from "@haapi/typescript-client";
-import { AddOutlined } from "@mui/icons-material";
-import { DocCreateDialog } from "./DocCreateDialog";
-import { HaList } from "../../../ui/haList";
-import { ButtonBase } from "../../../ui/haToolbar";
-import { DateField } from "../../common/components/fields";
-import { useToggle } from "../../../hooks";
-import { useRole } from "../../../security/hooks";
-import { OwnerType } from "../types";
+import {useLocation} from "react-router-dom";
+import {FileType} from "@haapi/typescript-client";
+import {AddOutlined} from "@mui/icons-material";
+import {DocCreateDialog} from "./DocCreateDialog";
+import {HaList} from "../../../ui/haList";
+import {ButtonBase} from "../../../ui/haToolbar";
+import {DateField} from "../../common/components/fields";
+import {useToggle} from "../../../hooks";
+import {useRole} from "../../../security/hooks";
+import {OwnerType} from "../types";
 
 const getTitle = (owner, type) => {
   if (owner === OwnerType.SCHOOL) {
@@ -34,7 +34,7 @@ const getTitle = (owner, type) => {
   return "Liste des documents";
 };
 
-const ListAction = ({ type, owner, refresh }) => {
+const ListAction = ({type, owner, refresh}) => {
   const [isOpen, , toggle] = useToggle();
 
   return (
@@ -72,7 +72,7 @@ export const DocList = ({
   datagridProps,
   studentRef,
 }) => {
-  const { isManager } = useRole();
+  const {isManager} = useRole();
   const refresh = useRefresh();
   const title =
     getTitle(owner, type, studentRef) + (studentRef ? ` de ${studentRef}` : "");
@@ -81,7 +81,7 @@ export const DocList = ({
     <HaList
       title={title}
       resource="docs"
-      listProps={{ queryOptions: { meta: { owner, type, studentId } } }}
+      listProps={{queryOptions: {meta: {owner, type, studentId}}}}
       datagridProps={datagridProps}
       actions={
         isManager() && (

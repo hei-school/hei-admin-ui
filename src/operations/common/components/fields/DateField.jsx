@@ -1,7 +1,7 @@
-import { DateField as RaDateField } from "react-admin";
-import { DATETIME_OPTIONS, DATE_OPTIONS } from "../../../../utils/date";
+import {DateField as RaDateField} from "react-admin";
+import {DATETIME_OPTIONS, DATE_OPTIONS} from "../../../../utils/date";
 
-export function DateField({ source, label, showTime = false, ...fieldProps }) {
+export function DateField({source, label, showTime = false, ...fieldProps}) {
   return (
     <RaDateField
       source={source}

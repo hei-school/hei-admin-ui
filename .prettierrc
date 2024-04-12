@@ -6,5 +6,5 @@
   "semi": true,
   "proseWrap": "preserve",
   "quoteProps": "consistent",
-  "bracketSpacing": false,
+  "bracketSpacing": false
 }

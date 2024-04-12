@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import {useRef} from "react";
 import {
   ImageField,
   ImageInput,
@@ -43,18 +43,18 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import { DateField, BirthDateField } from "./fields";
-import { GeoPositionName } from "./GeoLocalisation";
-import { Create } from "./Create";
-import { useToggle } from "../../../hooks";
-import { useRole } from "../../../security/hooks";
-import { SPECIALIZATION_VALUE } from "../../students/components";
-import { PALETTE_COLORS } from "../../../ui/constants";
-import { WORK_STATUS_VALUE } from "../../docs/components/SelectWorkStatus";
-import { NOOP_FN } from "../../../utils/noop";
+import {DateField, BirthDateField} from "./fields";
+import {GeoPositionName} from "./GeoLocalisation";
+import {Create} from "./Create";
+import {useToggle} from "../../../hooks";
+import {useRole} from "../../../security/hooks";
+import {SPECIALIZATION_VALUE} from "../../students/components";
+import {PALETTE_COLORS} from "../../../ui/constants";
+import {WORK_STATUS_VALUE} from "../../docs/components/SelectWorkStatus";
+import {NOOP_FN} from "../../../utils/noop";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-import { getGenderInFr, getUserStatusInFr } from "../utils/typo_util";
+import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
 
 const EMPTY_TEXT = "Non défini.e";
 
@@ -77,7 +77,7 @@ const renderSpecialization = (specialization_field) =>
 const renderWorkStatus = (workStatus) =>
   WORK_STATUS_VALUE[workStatus] || EMPTY_TEXT;
 
-const UploadPictureButton = ({ role, onUpload = NOOP_FN }) => {
+const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
   const user = useRecordContext();
   const id = user.id;
@@ -96,7 +96,7 @@ const UploadPictureButton = ({ role, onUpload = NOOP_FN }) => {
         }}
       >
         <PhotoCamera
-          sx={{ height: 20, width: 20, color: PALETTE_COLORS.yellow }}
+          sx={{height: 20, width: 20, color: PALETTE_COLORS.yellow}}
         />
       </IconButton>
       <Dialog open={isOpen} onClose={toggle}>
@@ -134,8 +134,8 @@ const UploadPictureButton = ({ role, onUpload = NOOP_FN }) => {
   );
 };
 
-const ProfileCardAvatar = ({ role }) => {
-  const { isStudent } = useRole();
+const ProfileCardAvatar = ({role}) => {
+  const {isStudent} = useRole();
   const user = useRecordContext();
   const imgRef = useRef(null);
 
@@ -156,7 +156,7 @@ const ProfileCardAvatar = ({ role }) => {
           />
         )
       }
-      sx={{ bgcolor: "transparent" }}
+      sx={{bgcolor: "transparent"}}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "right",
@@ -189,7 +189,7 @@ const ProfileCardAvatar = ({ role }) => {
   );
 };
 
-const Title = ({ children: label }) => (
+const Title = ({children: label}) => (
   <Box
     padding="5px"
     border="1px solid"
@@ -205,15 +205,15 @@ const Title = ({ children: label }) => (
   </Box>
 );
 
-const FieldLabel = ({ children: label, icon }) => (
+const FieldLabel = ({children: label, icon}) => (
   <Typography
     color={PALETTE_COLORS.typography.black}
     fontWeight="bold"
     variant="body2"
     sx={{
-      display: "inline-flex",
-      alignItems: "center",
-      gap: 1,
+      "display": "inline-flex",
+      "alignItems": "center",
+      "gap": 1,
       "& .MuiSvgIcon-root": {
         fontSize: "15px",
         mt: "1px",
@@ -267,14 +267,14 @@ const Contact = () => {
   );
 };
 
-const PersonalInfos = ({ isStudentProfile }) => {
+const PersonalInfos = ({isStudentProfile}) => {
   return (
     <Box minHeight={350}>
       <Title>Informations personnelles</Title>
       <SimpleShowLayout>
         <FunctionField
           label={<FieldLabel icon={<PersonIcon />}>Nom</FieldLabel>}
-          render={({ first_name, last_name }) => `${first_name} ${last_name}`}
+          render={({first_name, last_name}) => `${first_name} ${last_name}`}
           {...COMMON_FIELD_ATTRIBUTES}
         />
         <FunctionField
@@ -319,7 +319,7 @@ const PersonalInfos = ({ isStudentProfile }) => {
   );
 };
 
-const PersonalDetails = ({ isStudentProfile }) => {
+const PersonalDetails = ({isStudentProfile}) => {
   return (
     <Box minHeight={350}>
       <Title>Détails personnels</Title>
@@ -346,7 +346,7 @@ const PersonalDetails = ({ isStudentProfile }) => {
               birthdate={user.birth_date}
               birthplace={user.birth_place}
               emptyText={EMPTY_TEXT}
-              sx={{ fontSize: "12px" }}
+              sx={{fontSize: "12px"}}
               {...COMMON_FIELD_ATTRIBUTES}
             />
           )}
@@ -375,7 +375,7 @@ const PersonalDetails = ({ isStudentProfile }) => {
   );
 };
 
-const AvatarPart = ({ role }) => {
+const AvatarPart = ({role}) => {
   return (
     <Box
       minHeight={350}
@@ -403,7 +403,7 @@ const AvatarPart = ({ role }) => {
   );
 };
 
-export const ProfileLayout = ({ role, actions, isStudent = false }) => {
+export const ProfileLayout = ({role, actions, isStudent = false}) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
   const viewerRole = useRole();
   const profile = useRecordContext();
@@ -421,16 +421,16 @@ export const ProfileLayout = ({ role, actions, isStudent = false }) => {
   return (
     <Grid
       container
-      columns={{ xs: 6, sm: 8, md: 12 }}
+      columns={{xs: 6, sm: 8, md: 12}}
       gridTemplateRows="repeat(2, 1fr)"
       justifyContent="center"
     >
       <Grid
         xs={isSmall ? 10 : 5}
-        columns={{ xs: 6, sm: 4, md: 4 }}
+        columns={{xs: 6, sm: 4, md: 4}}
         {...COMMON_GRID_ATTRIBUTES}
       >
-        <Card sx={{ ...cardStyle, position: "relative", border: "1px solid" }}>
+        <Card sx={{...cardStyle, position: "relative", border: "1px solid"}}>
           {isStudent && viewerRole.isManager() && (
             <IconButton
               aria-label="Éditer"

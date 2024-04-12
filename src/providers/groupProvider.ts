@@ -1,5 +1,5 @@
-import { HaDataProviderType } from "./HaDataProviderType";
-import { teachingApi } from "./api";
+import {HaDataProviderType} from "./HaDataProviderType";
+import {teachingApi} from "./api";
 
 const groupProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {

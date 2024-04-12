@@ -1,5 +1,5 @@
-import { utils, writeFile } from "xlsx";
-import { importHeaders } from "./importer";
+import {utils, writeFile} from "xlsx";
+import {importHeaders} from "./importer";
 
 export const exportHeaders = ["id", ...importHeaders, "status"];
 
@@ -9,7 +9,7 @@ export const exporter = (data, headers, fileName) => {
   const workbook = utils.book_new();
 
   utils.book_append_sheet(workbook, worksheet, "Sheet1");
-  utils.sheet_add_aoa(worksheet, [headers], { origin: "A1" });
+  utils.sheet_add_aoa(worksheet, [headers], {origin: "A1"});
 
-  writeFile(workbook, `${fileName}.xlsx`, { compression: true });
+  writeFile(workbook, `${fileName}.xlsx`, {compression: true});
 };

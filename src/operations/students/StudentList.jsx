@@ -1,20 +1,20 @@
-import { EditButton, ShowButton, TextField } from "react-admin";
-import { SchoolOutlined, UploadFile } from "@mui/icons-material";
-import { CreateButton, ExportButton, ImportButton } from "../../ui/haToolbar";
-import { HaList } from "../../ui/haList";
-import { WhoamiRoleEnum } from "@haapi/typescript-client";
+import {EditButton, ShowButton, TextField} from "react-admin";
+import {SchoolOutlined, UploadFile} from "@mui/icons-material";
+import {CreateButton, ExportButton, ImportButton} from "../../ui/haToolbar";
+import {HaList} from "../../ui/haList";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import authProvider from "../../providers/authProvider";
 import studentProvider from "../../providers/studentProvider";
-import { exporter, exportHeaders, importHeaders } from "../utils";
-import { ProfileFilters } from "../profile";
+import {exporter, exportHeaders, importHeaders} from "../utils";
+import {ProfileFilters} from "../profile";
 import {
   minimalUserHeaders,
   optionalUserHeaders,
   validateUserData,
 } from "../utils/userImportConf";
-import { transformStudentData } from "./importConf";
+import {transformStudentData} from "./importConf";
 
-const ListActions = ({ isManager }) => {
+const ListActions = ({isManager}) => {
   return (
     <>
       {isManager && (
@@ -53,7 +53,7 @@ function StudentList() {
     <HaList
       icon={<SchoolOutlined />}
       title={"Liste des étudiants"}
-      mainSearch={{ label: "Prénom·s", source: "first_name" }}
+      mainSearch={{label: "Prénom·s", source: "first_name"}}
       actions={<ListActions isManager={isManager} />}
     >
       <TextField source="ref" label="Référence" />

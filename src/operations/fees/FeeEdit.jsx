@@ -1,4 +1,4 @@
-import { useState } from "react";
+import {useState} from "react";
 import {
   Button,
   DateInput,
@@ -12,38 +12,38 @@ import {
   useNotify,
   useRedirect,
 } from "react-admin";
-import { Box, CircularProgress } from "@mui/material";
-import { Save } from "@mui/icons-material";
-import { useFormContext } from "react-hook-form";
+import {Box, CircularProgress} from "@mui/material";
+import {Save} from "@mui/icons-material";
+import {useFormContext} from "react-hook-form";
 
-import { Edit } from "../common/components";
-import { useStudentRef } from "../../hooks/useStudentRef";
-import { toApiIds } from "../../providers/feeProvider";
-import { payingApi } from "../../providers/api";
-import { statusRenderer } from "../utils";
+import {Edit} from "../common/components";
+import {useStudentRef} from "../../hooks/useStudentRef";
+import {toApiIds} from "../../providers/feeProvider";
+import {payingApi} from "../../providers/api";
+import {statusRenderer} from "../utils";
 
 function EditToolbar() {
   const notify = useNotify();
   const redirect = useRedirect();
   const [pending, setPending] = useState(false);
-  const { getValues } = useFormContext();
+  const {getValues} = useFormContext();
   const record = getValues();
 
   const updateFee = async () => {
-    const { feeId } = toApiIds(record.id);
+    const {feeId} = toApiIds(record.id);
     const updated_at = new Date().toISOString();
     const due_datetime = new Date(record.due_datetime).toISOString();
     setPending(true);
 
     await payingApi()
       .updateStudentFees(record.student_id, [
-        { ...record, updated_at, id: feeId, due_datetime },
+        {...record, updated_at, id: feeId, due_datetime},
       ])
       .then(() => {
         notify("Frais mis à jour");
         redirect(`/fees/${record.id}/show`);
       })
-      .catch(() => notify("Une erreur c'est produite", { type: "error" }))
+      .catch(() => notify("Une erreur c'est produite", {type: "error"}))
       .finally(() => setPending(false));
   };
 
@@ -56,9 +56,9 @@ function EditToolbar() {
         onClick={updateFee}
       >
         {pending ? (
-          <CircularProgress size={20} sx={{ mt: 0.3, mr: 1.5 }} />
+          <CircularProgress size={20} sx={{mt: 0.3, mr: 1.5}} />
         ) : (
-          <Save sx={{ mr: 1, mt: 0.3 }} />
+          <Save sx={{mr: 1, mt: 0.3}} />
         )}
         Enregistrer
       </Button>
@@ -67,9 +67,9 @@ function EditToolbar() {
 }
 
 function DisabledInfo() {
-  const { record } = useEditController();
-  let dateInfo = { label: "Date de création", source: "creation_datetime" };
-  const props = { disabled: true, fullWidth: true };
+  const {record} = useEditController();
+  let dateInfo = {label: "Date de création", source: "creation_datetime"};
+  const props = {disabled: true, fullWidth: true};
 
   if (record.udpated_at) {
     dateInfo = {
@@ -81,25 +81,25 @@ function DisabledInfo() {
   return (
     <>
       <DateTimeInput {...dateInfo} {...props} />
-      <Box sx={{ display: "flex", width: "100%", gap: 1 }}>
+      <Box sx={{display: "flex", width: "100%", gap: 1}}>
         <TextInput
           source="total_amount"
-          sx={{ flex: 1 }}
+          sx={{flex: 1}}
           disabled
           label="Total à payer"
         />
         <TextInput
           source="remaining_amount"
-          sx={{ flex: 1 }}
+          sx={{flex: 1}}
           disabled
           label="Reste à payer"
         />
         <SelectInput
           label="Statut"
           source="status"
-          choices={[{ id: record.status, name: statusRenderer(record.status) }]}
+          choices={[{id: record.status, name: statusRenderer(record.status)}]}
           {...props}
-          sx={{ flex: 1 }}
+          sx={{flex: 1}}
         />
       </Box>
     </>
@@ -107,7 +107,7 @@ function DisabledInfo() {
 }
 
 function FeeEdit() {
-  const { studentRef } = useStudentRef("id");
+  const {studentRef} = useStudentRef("id");
 
   return (
     <Edit title={`Frais de ${studentRef}`}>

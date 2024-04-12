@@ -1,15 +1,9 @@
-import { Box } from "@mui/material";
-import {
-  SelectInput,
-  TextInput,
-  minValue,
-  required,
-  number,
-} from "react-admin";
+import {Box} from "@mui/material";
+import {SelectInput, TextInput, minValue, required, number} from "react-admin";
 
-const DATETIME_FORMAT = new Intl.DateTimeFormat("fr-FR", { month: "long" });
+const DATETIME_FORMAT = new Intl.DateTimeFormat("fr-FR", {month: "long"});
 
-const MONTHS_LISTS = Array.from({ length: 12 }, (_, month) => {
+const MONTHS_LISTS = Array.from({length: 12}, (_, month) => {
   return DATETIME_FORMAT.format(new Date(2023, month, 1));
 });
 
@@ -24,7 +18,7 @@ export function SelectDueDatetime() {
   const currentDate = new Date();
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+    <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
       <SelectInput
         label="Premier mois"
         name="predefinedMonth"
@@ -35,7 +29,7 @@ export function SelectDueDatetime() {
         choices={MONTHS_CHOICES}
         defaultValue={currentDate.getMonth()}
         validate={required()}
-        sx={{ flex: 2 }}
+        sx={{flex: 2}}
       />
       <TextInput
         label="Année"
@@ -44,7 +38,7 @@ export function SelectDueDatetime() {
         name="predefinedYear"
         validate={[required(), number(), minValue(2021)]}
         defaultValue={currentDate.getFullYear()}
-        sx={{ flex: 1 }}
+        sx={{flex: 1}}
       />
     </Box>
   );

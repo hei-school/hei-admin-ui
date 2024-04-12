@@ -1,8 +1,8 @@
-import { Confirm, useDelete, useRecordContext, useRedirect } from "react-admin";
-import { Button } from "@mui/material";
-import { Delete as DeleteIcon } from "@mui/icons-material";
+import {Confirm, useDelete, useRecordContext, useRedirect} from "react-admin";
+import {Button} from "@mui/material";
+import {Delete as DeleteIcon} from "@mui/icons-material";
 
-import { useToggle, useNotify } from "../../../hooks";
+import {useToggle, useNotify} from "../../../hooks";
 
 export function DeleteWithConfirm({
   resourceType,
@@ -15,7 +15,7 @@ export function DeleteWithConfirm({
   const record = useRecordContext();
   const doRedirect = useRedirect();
   const notify = useNotify();
-  const [deleteOne, { isLoading, error }] = useDelete(resourceType, {
+  const [deleteOne, {isLoading, error}] = useDelete(resourceType, {
     id: record?.id || "",
     previousData: record,
   });
@@ -53,7 +53,7 @@ export function DeleteWithConfirm({
       </Button>
       <Confirm
         fullWidth
-        sx={{ zIndex: 99999 }}
+        sx={{zIndex: 99999}}
         isOpen={showConfirm}
         title={
           confirmTitle || "Confirmez-vous la suppression de la ressource ?"

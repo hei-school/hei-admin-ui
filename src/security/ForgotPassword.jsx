@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { checkPassword, CustomTextField, CustomSubmitButton } from "./utils";
+import React, {useState} from "react";
+import {checkPassword, CustomTextField, CustomSubmitButton} from "./utils";
 import authProvider from "../providers/authProvider";
-import { useNotify } from "react-admin";
+import {useNotify} from "react-admin";
 
-const ForgotPassword = ({ username, setOpenModal }) => {
+const ForgotPassword = ({username, setOpenModal}) => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [code, setCode] = useState("");
@@ -24,7 +24,7 @@ const ForgotPassword = ({ username, setOpenModal }) => {
         notify(`Une erreur s'est produite`, {
           type: "error",
           autoHideDuration: "2000",
-        }),
+        })
       );
   };
 

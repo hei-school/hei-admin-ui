@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { TextField, Autocomplete } from "@mui/material";
+import {useEffect, useState} from "react";
+import {TextField, Autocomplete} from "@mui/material";
 import useHaToolbarContext from "./useHaToolbarContext";
-import { getObjValue } from "../../utils";
+import {getObjValue} from "../../utils";
 
 export function AutocompleteFilter({
   source,
@@ -12,7 +12,7 @@ export function AutocompleteFilter({
   defaultKey,
   ...rest
 }) {
-  const { currentFilter, setOneFilter } = useHaToolbarContext();
+  const {currentFilter, setOneFilter} = useHaToolbarContext();
   const [data, setData] = useState({
     options: [],
     pending: false,
@@ -22,18 +22,18 @@ export function AutocompleteFilter({
   useEffect(() => fetchOptions(""), []);
 
   const fetchOptions = (inputValue) => {
-    setData({ ...data, pending: true, inputValue });
+    setData({...data, pending: true, inputValue});
     fetcher(inputValue === "" ? undefined : inputValue)
       .then((response) => {
         const newOptions = response.data.map((el) => {
           const label =
             getObjValue(el, labelKey) || getObjValue(el, defaultKey);
           const value = getObjValue(el, valueKey);
-          return { label, value };
+          return {label, value};
         });
-        setData((prev) => ({ ...prev, options: newOptions, pending: false }));
+        setData((prev) => ({...prev, options: newOptions, pending: false}));
       })
-      .catch(() => setData((prev) => ({ ...prev, pending: false })));
+      .catch(() => setData((prev) => ({...prev, pending: false})));
   };
 
   const onInputChange = (event, value) => {
@@ -43,14 +43,14 @@ export function AutocompleteFilter({
 
   const onSelectChange = (event, value) => {
     setOneFilter(source, value);
-    setData((prev) => ({ ...prev, inputValue: "" }));
+    setData((prev) => ({...prev, inputValue: ""}));
   };
 
   return (
     <Autocomplete
       loadingText="Chargement..."
       multiple
-      sx={{ width: "100%" }}
+      sx={{width: "100%"}}
       loading={data.pending}
       options={data.options}
       inputValue={data.inputValue}

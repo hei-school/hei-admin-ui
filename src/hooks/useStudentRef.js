@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { useDataProvider } from "react-admin";
-import { useParams } from "react-router-dom";
-import { studentIdFromRaId } from "../providers/feeProvider";
-import { useNotify } from "./useNotify";
+import {useEffect, useState} from "react";
+import {useDataProvider} from "react-admin";
+import {useParams} from "react-router-dom";
+import {studentIdFromRaId} from "../providers/feeProvider";
+import {useNotify} from "./useNotify";
 
 export const useStudentRef = (source) => {
   const notify = useNotify();
@@ -28,5 +28,5 @@ export const useStudentRef = (source) => {
     }
   }, [studentId]);
 
-  return { studentRef, studentId };
+  return {studentRef, studentId};
 };

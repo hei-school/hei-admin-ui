@@ -8,9 +8,9 @@ import {
   RadioButtonGroupInput,
 } from "react-admin";
 
-import { Edit } from "../common/components";
-import { EditToolBar } from "../utils";
-import { FEESTEMPLATES_CHOICES } from "../fees/feesTemplatesChoices";
+import {Edit} from "../common/components";
+import {EditToolBar} from "../utils";
+import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
 
 function FeesTemplatesEdit() {
   return (

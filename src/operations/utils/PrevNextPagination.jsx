@@ -1,14 +1,14 @@
-import { useState } from "react";
-import { useListContext } from "react-admin";
+import {useState} from "react";
+import {useListContext} from "react-admin";
 
-import { Button, Toolbar, Typography } from "@mui/material";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import {Button, Toolbar, Typography} from "@mui/material";
+import {ChevronLeft, ChevronRight} from "@mui/icons-material";
 
 export const pageSize = 10;
 
 export const PrevNextPagination = () => {
   const [lastPage, setLastPage] = useState(0);
-  const { page, data, isLoading, setPage } = useListContext();
+  const {page, data, isLoading, setPage} = useListContext();
   const resourcesCount = data ? Object.keys(data).length : 0;
   if (
     !lastPage &&
@@ -44,7 +44,7 @@ export const PrevNextPagination = () => {
           <ChevronRight />
         </Button>
       )}
-      <div style={{ marginLeft: "auto" }}>
+      <div style={{marginLeft: "auto"}}>
         <Typography variant="body2">
           Page : {page} &nbsp;&nbsp;Taille : {resourcesCount}
         </Typography>

@@ -1,8 +1,8 @@
-import { AppLocationContext } from "@react-admin/ra-navigation";
-import { Box, useMediaQuery, styled, ThemeProvider } from "@mui/material";
-import { HaMenu } from "./menu/utils/";
-import { HaAppBar } from "./appBar";
-import { mainTheme } from "../../haTheme";
+import {AppLocationContext} from "@react-admin/ra-navigation";
+import {Box, useMediaQuery, styled, ThemeProvider} from "@mui/material";
+import {HaMenu} from "./menu/utils/";
+import {HaAppBar} from "./appBar";
+import {mainTheme} from "../../haTheme";
 
 const HaLayoutStyled = styled("div")({
   minHeight: "100vh",
@@ -11,7 +11,7 @@ const HaLayoutStyled = styled("div")({
   width: "100%",
 });
 
-export function HaLayout({ children }) {
+export function HaLayout({children}) {
   const isSmall = useMediaQuery("(max-width:900px)");
 
   return (

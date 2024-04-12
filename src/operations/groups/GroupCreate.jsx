@@ -1,4 +1,4 @@
-import { Create, useGetList } from "react-admin";
+import {Create, useGetList} from "react-admin";
 import GroupForm from "./GroupForm";
 
 const GroupCreate = () => {

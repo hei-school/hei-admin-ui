@@ -1,10 +1,10 @@
-import { useState } from "react";
+import {useState} from "react";
 import authProvider from "../providers/authProvider";
-import { Typography } from "@mui/material";
-import { CustomTextField, CustomSubmitButton } from "./utils";
-import { useNotify } from "react-admin";
+import {Typography} from "@mui/material";
+import {CustomTextField, CustomSubmitButton} from "./utils";
+import {useNotify} from "react-admin";
 
-const ConfirmForgotPassword = ({ setUsername, setConfirm }) => {
+const ConfirmForgotPassword = ({setUsername, setConfirm}) => {
   const [email, setEmail] = useState("");
   const handleEmailChange = (e) => setEmail(e.target.value);
   const notify = useNotify();
@@ -14,7 +14,7 @@ const ConfirmForgotPassword = ({ setUsername, setConfirm }) => {
     authProvider
       .forgotPassword(email)
       .then(() => setConfirm(false))
-      .catch(() => notify(`Une erreur s'est produite`, { type: "error" }));
+      .catch(() => notify(`Une erreur s'est produite`, {type: "error"}));
   };
   return (
     <div>

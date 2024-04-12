@@ -1,17 +1,17 @@
-import { Create, SaveButton, SimpleForm, Toolbar } from "react-admin";
-import { useNotify, useStudentRef } from "../../hooks";
-import { FeeFields } from "./components";
-import { createFeesApi } from "./utils/feeFactory";
+import {Create, SaveButton, SimpleForm, Toolbar} from "react-admin";
+import {useNotify, useStudentRef} from "../../hooks";
+import {FeeFields} from "./components";
+import {createFeesApi} from "./utils/feeFactory";
 
 export default function FeeCreate(props) {
   const notify = useNotify();
-  const { studentId, studentRef } = useStudentRef("studentId");
+  const {studentId, studentRef} = useStudentRef("studentId");
 
   return (
     <Create
       mutationOptions={{
         onError: () => {
-          notify("Une erreur s'est produite", { type: "error" });
+          notify("Une erreur s'est produite", {type: "error"});
         },
       }}
       {...props}

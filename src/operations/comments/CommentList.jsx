@@ -1,36 +1,36 @@
-import { Box, Typography, CircularProgress } from "@mui/material";
-import { useEffect, useRef, useState } from "react";
-import { Link, useGetList } from "react-admin";
+import {Box, Typography, CircularProgress} from "@mui/material";
+import {useEffect, useRef, useState} from "react";
+import {Link, useGetList} from "react-admin";
 
-import { CommentCreate } from "./CommentCreate";
-import { useNotify } from "../../hooks";
-import { PALETTE_COLORS } from "../../ui/constants/palette";
-import { getUserRoleInFr } from "../common/utils/typo_util";
-import { Separator } from "./utils";
-import { DATE_OPTIONS, TIME_OPTIONS } from "../../utils/date";
-import { useRole } from "../../security/hooks";
+import {CommentCreate} from "./CommentCreate";
+import {useNotify} from "../../hooks";
+import {PALETTE_COLORS} from "../../ui/constants/palette";
+import {getUserRoleInFr} from "../common/utils/typo_util";
+import {Separator} from "./utils";
+import {DATE_OPTIONS, TIME_OPTIONS} from "../../utils/date";
+import {useRole} from "../../security/hooks";
 
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 
 const ITEMS_PER_PAGE = 10;
 
 const COMMENT_ITEM_STYLE = {
-  mb: 1,
-  bgcolor: "white",
-  p: 1,
-  boxShadow: "1px 1px 5px rgba(0,0,0,.3)",
-  borderRadius: "5px",
+  "mb": 1,
+  "bgcolor": "white",
+  "p": 1,
+  "boxShadow": "1px 1px 5px rgba(0,0,0,.3)",
+  "borderRadius": "5px",
   "&:hover": {
     background: PALETTE_COLORS.lightgrey,
   },
 };
 
-export function CommentItem({ comment, studentId, close }) {
-  const { observer, subject } = comment;
+export function CommentItem({comment, studentId, close}) {
+  const {observer, subject} = comment;
   const profilePicture = observer?.profile_picture || defaultProfilePicture;
   const creationDatetime = new Date(comment.creation_datetime).toLocaleString(
     "fr-FR",
-    { ...DATE_OPTIONS, ...TIME_OPTIONS },
+    {...DATE_OPTIONS, ...TIME_OPTIONS}
   );
 
   return (
@@ -48,10 +48,10 @@ export function CommentItem({ comment, studentId, close }) {
             justifyContent: "space-between",
           }}
         >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+          <Box sx={{display: "flex", alignItems: "center", gap: 1}}>
             <img
               src={profilePicture}
-              style={{ width: "35px", height: "35px", borderRadius: "50%" }}
+              style={{width: "35px", height: "35px", borderRadius: "50%"}}
               alt="student"
             />
             <div>
@@ -71,7 +71,7 @@ export function CommentItem({ comment, studentId, close }) {
               </Typography>
               <Typography
                 color={PALETTE_COLORS.black}
-                sx={{ fontSize: "14px", opacity: 0.9 }}
+                sx={{fontSize: "14px", opacity: 0.9}}
               >
                 {getUserRoleInFr(observer.role)}
               </Typography>
@@ -88,9 +88,9 @@ export function CommentItem({ comment, studentId, close }) {
             {creationDatetime}
           </Typography>
         </Box>
-        <Separator style={{ margin: "5px 0", opacity: 0.5 }} />
+        <Separator style={{margin: "5px 0", opacity: 0.5}} />
         <Typography
-          sx={{ fontSize: "14px", color: PALETTE_COLORS.black, opacity: 0.8 }}
+          sx={{fontSize: "14px", color: PALETTE_COLORS.black, opacity: 0.8}}
         >
           <Typography
             variant="body2"
@@ -108,7 +108,7 @@ export function CommentItem({ comment, studentId, close }) {
   );
 }
 
-export function CommentList({ studentId, close }) {
+export function CommentList({studentId, close}) {
   const listContainerRef = useRef(null);
   const [page, setPage] = useState(1);
   const [shownComments, setShowComments] = useState([]);
@@ -121,8 +121,8 @@ export function CommentList({ studentId, close }) {
     error,
     refetch: refetchList,
   } = useGetList("comments", {
-    pagination: { page, perPage: ITEMS_PER_PAGE },
-    filter: { studentId },
+    pagination: {page, perPage: ITEMS_PER_PAGE},
+    filter: {studentId},
   });
   const isDataAvalaible = !isLoading && comments;
   const isEndOfPage = isDataAvalaible && comments.length < ITEMS_PER_PAGE;
@@ -132,7 +132,7 @@ export function CommentList({ studentId, close }) {
     setShowComments((prev) => (page === 1 ? comments : [...prev, ...comments]));
   }, [page, comments]);
 
-  if (error) notify("Une erreur s'est produite", { type: "error" });
+  if (error) notify("Une erreur s'est produite", {type: "error"});
 
   const showNextComments = () => {
     if (isEndOfPage) return;
@@ -188,7 +188,7 @@ export function CommentList({ studentId, close }) {
               justifyContent: "center",
             }}
           >
-            <CircularProgress size={30} sx={{ my: 1 }} />
+            <CircularProgress size={30} sx={{my: 1}} />
           </Box>
         )}
       </Box>

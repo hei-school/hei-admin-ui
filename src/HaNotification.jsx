@@ -1,4 +1,4 @@
-import { Notification } from "react-admin";
+import {Notification} from "react-admin";
 
 const HaNotification = (props) => (
   <Notification {...props} autoHideDuration={10000} />

@@ -1,6 +1,6 @@
-import { useState } from "react";
-import { Button } from "react-admin";
-import { Link as RouterLink, useLocation } from "react-router-dom";
+import {useState} from "react";
+import {Button} from "react-admin";
+import {Link as RouterLink, useLocation} from "react-router-dom";
 import {
   MenuItem as MuiMenuItem,
   Menu,
@@ -17,9 +17,9 @@ import {
   LibraryAddCheck,
   Work,
 } from "@mui/icons-material";
-import { GetCertificate } from "./GetCertificate";
-import { COMMON_BUTTON_PROPS } from "../../../ui/constants/common_styles";
-import { PALETTE_COLORS } from "../../../ui/constants/palette";
+import {GetCertificate} from "./GetCertificate";
+import {COMMON_BUTTON_PROPS} from "../../../ui/constants/common_styles";
+import {PALETTE_COLORS} from "../../../ui/constants/palette";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -34,11 +34,11 @@ const StyledMenu = styled((props) => (
     }}
     {...props}
   />
-))(({ theme }) => ({
+))(({theme}) => ({
   "& .MuiPaper-root": {
-    borderRadius: 6,
-    marginTop: theme.spacing(1),
-    minWidth: 180,
+    "borderRadius": 6,
+    "marginTop": theme.spacing(1),
+    "minWidth": 180,
     "& .MuiMenu-list": {
       padding: "4px 0",
     },
@@ -50,7 +50,7 @@ const StyledMenu = styled((props) => (
   },
 }));
 
-const MenuItem = ({ children, to, handleClose }) => {
+const MenuItem = ({children, to, handleClose}) => {
   return (
     <Link
       to={to}
@@ -65,7 +65,7 @@ const MenuItem = ({ children, to, handleClose }) => {
   );
 };
 
-export const DocMenu = ({ studentId }) => {
+export const DocMenu = ({studentId}) => {
   const [anchorEl, setAnchorEl] = useState(null);
   const location = useLocation();
 
@@ -124,7 +124,7 @@ export const DocMenu = ({ studentId }) => {
           <Work />
           Autres
         </MenuItem>
-        <Divider sx={{ my: 0.5 }} />
+        <Divider sx={{my: 0.5}} />
         <MenuItem to="" handleClose={handleClose}>
           <Download />
           <GetCertificate studentId={studentId} />

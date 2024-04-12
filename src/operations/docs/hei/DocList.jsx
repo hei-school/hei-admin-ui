@@ -1,5 +1,5 @@
-import { DocList as CommonDocList } from "../components/DocList";
-import { OwnerType } from "../types";
+import {DocList as CommonDocList} from "../components/DocList";
+import {OwnerType} from "../types";
 
 export const DocList = () => {
   return (

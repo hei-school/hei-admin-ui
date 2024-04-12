@@ -1,4 +1,4 @@
-import { SelectInput, required } from "react-admin";
+import {SelectInput, required} from "react-admin";
 
 export const SPECIALIZATION_VALUE = {
   EL: "Écosystème Logiciel (EL)",
@@ -7,7 +7,7 @@ export const SPECIALIZATION_VALUE = {
 };
 
 const SPECIALIZATION_CHOICES = Object.entries(SPECIALIZATION_VALUE).map(
-  ([value, label]) => ({ value, label }),
+  ([value, label]) => ({value, label})
 );
 
 const DEFAULT_CHOICE = SPECIALIZATION_CHOICES[2];

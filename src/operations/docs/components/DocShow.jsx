@@ -1,11 +1,11 @@
-import { useEffect, useState } from "react";
-import { useDataProvider } from "react-admin";
-import { useParams } from "react-router-dom";
-import { Container } from "@mui/material";
-import { useViewType } from "../hooks/useViewType";
+import {useEffect, useState} from "react";
+import {useDataProvider} from "react-admin";
+import {useParams} from "react-router-dom";
+import {Container} from "@mui/material";
+import {useViewType} from "../hooks/useViewType";
 import PdfViewer from "../../common/components/PdfViewer";
 
-export const DocShow = ({ owner, studentId }) => {
+export const DocShow = ({owner, studentId}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [doc, setDoc] = useState({});
   const dataProvider = useDataProvider();
@@ -18,7 +18,7 @@ export const DocShow = ({ owner, studentId }) => {
     const doEffect = async () => {
       setIsLoading(true);
       await dataProvider
-        .getOne("docs", { id, meta: { owner, studentId, type } })
+        .getOne("docs", {id, meta: {owner, studentId, type}})
         .then((result) => {
           setDoc(result.data);
           setIsLoading(false);

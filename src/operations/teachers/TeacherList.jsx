@@ -1,8 +1,8 @@
-import { EditButton, TextField } from "react-admin";
-import { CreateButton, ExportButton, ImportButton } from "../../ui/haToolbar";
-import { HaList } from "../../ui/haList";
-import { WorkOutlined } from "@mui/icons-material";
-import { ProfileFilters } from "../profile";
+import {EditButton, TextField} from "react-admin";
+import {CreateButton, ExportButton, ImportButton} from "../../ui/haToolbar";
+import {HaList} from "../../ui/haList";
+import {WorkOutlined} from "@mui/icons-material";
+import {ProfileFilters} from "../profile";
 import {
   minimalUserHeaders,
   optionalUserHeaders,
@@ -16,7 +16,7 @@ function TeacherList() {
     <HaList
       icon={<WorkOutlined />}
       title="Liste des enseignants"
-      mainSearch={{ label: "Prénom·s", source: "first_name" }}
+      mainSearch={{label: "Prénom·s", source: "first_name"}}
       actions={
         <>
           <CreateButton />

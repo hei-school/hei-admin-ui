@@ -1,6 +1,6 @@
-import { Show as RaShow } from "react-admin";
+import {Show as RaShow} from "react-admin";
 
-export const Show = ({ children, sx, ...props }) => {
+export const Show = ({children, sx, ...props}) => {
   return (
     <RaShow
       sx={{

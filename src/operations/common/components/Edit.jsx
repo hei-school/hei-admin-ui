@@ -1,7 +1,7 @@
-import { Edit as RaEdit } from "react-admin";
-import { useNotify } from "../../../hooks";
+import {Edit as RaEdit} from "react-admin";
+import {useNotify} from "../../../hooks";
 
-export function Edit({ children, ...editProps }) {
+export function Edit({children, ...editProps}) {
   const notify = useNotify();
   return (
     <RaEdit

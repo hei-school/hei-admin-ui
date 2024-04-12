@@ -1,12 +1,12 @@
-import { Link, useListContext } from "react-admin";
-import { Button } from "@mui/material";
-import { AddOutlined, Download } from "@mui/icons-material";
-import { exporter } from "../../operations/utils";
+import {Link, useListContext} from "react-admin";
+import {Button} from "@mui/material";
+import {AddOutlined, Download} from "@mui/icons-material";
+import {exporter} from "../../operations/utils";
 import styled from "@emotion/styled";
 import useHaListContext from "../haList/useHaListContext";
 
 export const HaActionWrapper = styled("div")({
-  width: "100%",
+  "width": "100%",
   "& .MuiButton-root": {
     width: "100%",
     justifyContent: "start",
@@ -47,17 +47,17 @@ export function ButtonBase({
   );
 }
 
-export function LinkButton({ to, icon, label, ...rest }) {
+export function LinkButton({to, icon, label, ...rest}) {
   return (
     <HaActionWrapper>
-      <Link to={to} sx={{ w: "100%" }}>
+      <Link to={to} sx={{w: "100%"}}>
         <ButtonBase icon={icon} label={label} {...rest} />
       </Link>
     </HaActionWrapper>
   );
 }
 
-export function CreateButton({ resource }) {
+export function CreateButton({resource}) {
   const list = useListContext();
   return (
     <LinkButton
@@ -69,7 +69,7 @@ export function CreateButton({ resource }) {
   );
 }
 
-export function ExportButton({ exportHandler, icon, ...rest }) {
+export function ExportButton({exportHandler, icon, ...rest}) {
   const list = useListContext();
   const doExport = () =>
     exportHandler

@@ -1,7 +1,7 @@
 import React from "react";
-import { TextField } from "@mui/material";
-import { Button } from "react-admin";
-import { indigo } from "@mui/material/colors";
+import {TextField} from "@mui/material";
+import {Button} from "react-admin";
+import {indigo} from "@mui/material/colors";
 
 const matchCognitoPassword = (password) => {
   var format = /[!@#$%^&*()_+\-=]/;
@@ -30,7 +30,7 @@ export const checkPassword = (password, confirmPassword) => {
 };
 
 export const CustomTextField = (props) => {
-  const { placeholder, onChange, type, label, validator, ...rest } = props;
+  const {placeholder, onChange, type, label, validator, ...rest} = props;
   return (
     <TextField
       {...rest}
@@ -50,7 +50,7 @@ export const CustomTextField = (props) => {
   );
 };
 
-export const CustomSubmitButton = ({ text, onClick }) => {
+export const CustomSubmitButton = ({text, onClick}) => {
   return (
     <Button
       onClick={onClick}

@@ -1,5 +1,5 @@
-import { Typography } from "@mui/material";
-import { formatDate } from "../../../../utils/date";
+import {Typography} from "@mui/material";
+import {formatDate} from "../../../../utils/date";
 
 export function BirthDateField({
   birthdate,

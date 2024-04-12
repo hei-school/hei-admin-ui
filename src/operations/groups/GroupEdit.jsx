@@ -1,6 +1,6 @@
-import { useGetList } from "react-admin";
+import {useGetList} from "react-admin";
 import GroupForm from "./GroupForm";
-import { Edit } from "../common/components";
+import {Edit} from "../common/components";
 
 const GroupEdit = () => {
   const queryStudents = useGetList("students");

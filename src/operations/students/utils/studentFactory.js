@@ -1,4 +1,4 @@
-import { createFeesApi } from "../../fees/utils/feeFactory";
+import {createFeesApi} from "../../fees/utils/feeFactory";
 
 export function createStudentApi(payload) {
   const {
@@ -33,9 +33,9 @@ export function createStudentApi(payload) {
   }
 
   //map student
-  let { entrance_datetime, longitude, latitude, ...studentRest } = student;
+  let {entrance_datetime, longitude, latitude, ...studentRest} = student;
   entrance_datetime = new Date(entrance_datetime).toISOString();
-  const coordinates = { longitude: +longitude, latitude: +latitude };
+  const coordinates = {longitude: +longitude, latitude: +latitude};
 
-  return [fees, [{ ...studentRest, entrance_datetime, coordinates }]];
+  return [fees, [{...studentRest, entrance_datetime, coordinates}]];
 }

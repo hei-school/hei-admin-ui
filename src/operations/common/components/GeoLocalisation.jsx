@@ -1,20 +1,20 @@
-import { TextInput, useEditContext, number } from "react-admin";
-import { Typography, Box } from "@mui/material";
+import {TextInput, useEditContext, number} from "react-admin";
+import {Typography, Box} from "@mui/material";
 
-import { PALETTE_COLORS } from "../../../ui/constants/palette";
+import {PALETTE_COLORS} from "../../../ui/constants/palette";
 
 const NOT_DEFINED_POSITION = "Non défini.e";
 
 export function createGoogleMapLink(coordinates) {
-  const { longitude, latitude } = coordinates;
+  const {longitude, latitude} = coordinates;
   return `https://www.google.com/maps/search/${latitude},${longitude}?entry=tts`;
 }
 
 export function GeoPositionName({
-  coordinates = { longitude: 50000, latitude: 50000 },
+  coordinates = {longitude: 50000, latitude: 50000},
   ...rest
 }) {
-  const { longitude, latitude } = coordinates;
+  const {longitude, latitude} = coordinates;
   const isDefinedPosition = longitude && latitude;
 
   return isDefinedPosition ? (
@@ -38,19 +38,16 @@ export function GeoPositionName({
   );
 }
 
-function GeoInput({
-  coordinates = { longitude: null, latitude: null },
-  ...props
-}) {
+function GeoInput({coordinates = {longitude: null, latitude: null}, ...props}) {
   return (
-    <Box sx={{ display: "flex", width: "100%", alignItems: "center", gap: 3 }}>
+    <Box sx={{display: "flex", width: "100%", alignItems: "center", gap: 3}}>
       <TextInput
         source="latitude"
         label="Latitude"
         defaultValue={coordinates.latitude}
         validate={number()}
         data-testid="latitude-input"
-        sx={{ flex: 1 }}
+        sx={{flex: 1}}
         {...props}
       />
       <TextInput
@@ -59,7 +56,7 @@ function GeoInput({
         data-testid="longitude-input"
         defaultValue={coordinates.longitude}
         validate={number()}
-        sx={{ flex: 1 }}
+        sx={{flex: 1}}
         {...props}
       />
     </Box>
@@ -67,8 +64,8 @@ function GeoInput({
 }
 
 export function EditGeoLocalisation(props) {
-  const { record } = useEditContext();
-  let coordinates = { longitude: undefined, latitude: undefined };
+  const {record} = useEditContext();
+  let coordinates = {longitude: undefined, latitude: undefined};
 
   if (record) coordinates = record.coordinates;
   return <GeoInput coordinates={coordinates} {...props} />;

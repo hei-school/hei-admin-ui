@@ -1,7 +1,7 @@
-import { Create as RaCreate } from "react-admin";
-import { useNotify } from "../../../hooks";
+import {Create as RaCreate} from "react-admin";
+import {useNotify} from "../../../hooks";
 
-export const Create = ({ children, mutationOptions = {}, ...createProps }) => {
+export const Create = ({children, mutationOptions = {}, ...createProps}) => {
   const notify = useNotify();
   return (
     <RaCreate

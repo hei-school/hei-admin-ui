@@ -1,4 +1,4 @@
-import { List } from "@react-admin/ra-rbac";
+import {List} from "@react-admin/ra-rbac";
 import {
   Datagrid,
   TextField,
@@ -6,19 +6,19 @@ import {
   TopToolbar,
   CreateButton,
 } from "react-admin";
-import { paymentTypeRenderer } from "../utils";
-import { useRole } from "../../security/hooks";
-import { DeleteWithConfirm } from "../common/components";
-import { DateField } from "../common/components/fields";
-import { renderMoney } from "../common/utils/money";
+import {paymentTypeRenderer} from "../utils";
+import {useRole} from "../../security/hooks";
+import {DeleteWithConfirm} from "../common/components";
+import {DateField} from "../common/components/fields";
+import {renderMoney} from "../common/utils/money";
 
-const Actions = ({ basePath, resource }) => (
+const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>
     <CreateButton to={basePath + "/create"} resource={resource} />
   </TopToolbar>
 );
 
-const PaymentList = ({ feeId }) => {
+const PaymentList = ({feeId}) => {
   const role = useRole();
   return (
     <List
@@ -27,7 +27,7 @@ const PaymentList = ({ feeId }) => {
       actions={
         role.isManager() && <Actions basePath={`/fees/${feeId}/payments`} />
       }
-      filterDefaultValues={{ feeId: feeId }}
+      filterDefaultValues={{feeId: feeId}}
       pagination={false}
     >
       <Datagrid bulkActionButtons={false}>

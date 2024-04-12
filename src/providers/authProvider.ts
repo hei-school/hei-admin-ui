@@ -1,6 +1,6 @@
-import { getPermissions } from "../security/permissions";
+import {getPermissions} from "../security/permissions";
 
-import { Amplify } from "aws-amplify";
+import {Amplify} from "aws-amplify";
 import {
   fetchAuthSession,
   updatePassword,
@@ -9,11 +9,11 @@ import {
   signIn,
   signOut,
 } from "@aws-amplify/auth";
-import { awsConfig } from "./aws-config";
+import {awsConfig} from "./aws-config";
 
-import { Configuration, SecurityApi, Whoami } from "@haapi/typescript-client";
+import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 
-import { AxiosResponse } from "axios";
+import {AxiosResponse} from "axios";
 
 Amplify.configure(awsConfig);
 
@@ -84,7 +84,7 @@ const authProvider = {
       const encodedUsername = encodeURIComponent(toBase64(username as string));
       const encodedPassword = encodeURIComponent(toBase64(password as string));
       window.location.replace(
-        `/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`,
+        `/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
       );
       return;
     }
@@ -128,12 +128,12 @@ const authProvider = {
   },
 
   forgotPassword: async (username: string): Promise<void> => {
-    await resetPassword({ username });
+    await resetPassword({username});
   },
   forgotPasswordSubmit: async (
     username: string,
     code: string,
-    newPassword: string,
+    newPassword: string
   ): Promise<void> => {
     await confirmResetPassword({
       username,
@@ -145,13 +145,13 @@ const authProvider = {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
     const username = fromBase64(
-      decodeURIComponent(urlParams.get(paramUsername) as string),
+      decodeURIComponent(urlParams.get(paramUsername) as string)
     ) as string;
     const temporaryPassword = fromBase64(
-      decodeURIComponent(urlParams.get(paramTemporaryPassword) as string),
+      decodeURIComponent(urlParams.get(paramTemporaryPassword) as string)
     ) as string;
-    await signIn({ username, password: temporaryPassword });
-    await updatePassword({ oldPassword: temporaryPassword, newPassword });
+    await signIn({username, password: temporaryPassword});
+    await updatePassword({oldPassword: temporaryPassword, newPassword});
     window.location.replace("/");
   },
 

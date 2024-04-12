@@ -1,11 +1,11 @@
-import { LoadingPage } from "ra-ui-materialui";
-import React, { useState, useEffect } from "react";
-import { healthApi } from "../../providers/api";
+import {LoadingPage} from "ra-ui-materialui";
+import React, {useState, useEffect} from "react";
+import {healthApi} from "../../providers/api";
 
 const MAX_ATTEMP = 10;
 
 // TODO: create error page
-export function WaitUntilHot({ children }) {
+export function WaitUntilHot({children}) {
   const [retryStatus, setRetryStatus] = useState({
     loading: true,
     error: null,

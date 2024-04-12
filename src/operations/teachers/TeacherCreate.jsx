@@ -1,13 +1,13 @@
-import { DateInput, maxLength, SimpleForm, TextInput } from "react-admin";
-import { CreateGeoLocalisation, Create } from "../common/components";
-import { SexRadioButton } from "../utils";
-import { toISO } from "../../utils/date";
+import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
+import {CreateGeoLocalisation, Create} from "../common/components";
+import {SexRadioButton} from "../utils";
+import {toISO} from "../../utils/date";
 
 const transformTeacher = (record) => {
-  let { entrance_datetime, longitude, latitude, ...teacher } = record;
+  let {entrance_datetime, longitude, latitude, ...teacher} = record;
   entrance_datetime = toISO(entrance_datetime);
-  const coordinates = { longitude: +longitude, latitude: +latitude };
-  return { ...teacher, entrance_datetime, coordinates };
+  const coordinates = {longitude: +longitude, latitude: +latitude};
+  return {...teacher, entrance_datetime, coordinates};
 };
 
 const TeacherCreate = () => (
@@ -24,7 +24,7 @@ const TeacherCreate = () => (
         fullWidth
         validate={maxLength(
           12,
-          "Le numéro CIN ne doit pas dépasser 12 caractères.",
+          "Le numéro CIN ne doit pas dépasser 12 caractères."
         )}
       />
       <CreateGeoLocalisation />

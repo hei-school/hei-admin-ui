@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import {Box} from "@mui/material";
 import {
   Work,
   School,
@@ -7,7 +7,7 @@ import {
   Inventory,
   Home,
 } from "@mui/icons-material";
-import { ListMenu, ListMenuItem, SingleMenu } from "./utils";
+import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function ManagerMenu() {
   return (

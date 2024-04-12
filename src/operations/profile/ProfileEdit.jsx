@@ -1,10 +1,10 @@
-import { DateInput, maxLength, SimpleForm, TextInput } from "react-admin";
-import { EditToolBar, SexRadioButton } from "../utils";
-import { toUTC } from "../../utils/date";
-import { StatusRadioButton } from "../utils/UserStatusRadioButton";
-import { SelectSpecialization } from "../students/components";
-import { useRole } from "../../security/hooks";
-import { EditGeoLocalisation, Edit } from "../common/components";
+import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
+import {EditToolBar, SexRadioButton} from "../utils";
+import {toUTC} from "../../utils/date";
+import {StatusRadioButton} from "../utils/UserStatusRadioButton";
+import {SelectSpecialization} from "../students/components";
+import {useRole} from "../../security/hooks";
+import {EditGeoLocalisation, Edit} from "../common/components";
 
 const userToUserApi = ({
   birth_date,
@@ -16,10 +16,10 @@ const userToUserApi = ({
   ...data,
   birth_date: toUTC(new Date(birth_date)).toISOString(),
   entrance_datetime: toUTC(new Date(entrance_datetime)).toISOString(),
-  coordinates: { latitude: +latitude, longitude: +longitude },
+  coordinates: {latitude: +latitude, longitude: +longitude},
 });
 
-const ProfileEdit = ({ isOwnProfile, isStudent }) => {
+const ProfileEdit = ({isOwnProfile, isStudent}) => {
   const role = useRole();
   const isStudentProfile = isStudent || role.isStudent();
 
@@ -27,7 +27,7 @@ const ProfileEdit = ({ isOwnProfile, isStudent }) => {
     <Edit
       title="Modifier le profil"
       transform={userToUserApi}
-      queryOptions={{ meta: { isUpdate: true } }}
+      queryOptions={{meta: {isUpdate: true}}}
     >
       <SimpleForm toolbar={<EditToolBar />}>
         <TextInput source="ref" label="Référence" fullWidth disabled={true} />
@@ -45,7 +45,7 @@ const ProfileEdit = ({ isOwnProfile, isStudent }) => {
           fullWidth
           validate={maxLength(
             12,
-            "Le numéro CIN ne doit pas dépasser 12 caractères.",
+            "Le numéro CIN ne doit pas dépasser 12 caractères."
           )}
         />
         <TextInput source="birth_place" label="Lieu de naissance" fullWidth />

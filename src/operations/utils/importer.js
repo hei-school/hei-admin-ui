@@ -41,5 +41,5 @@ export const validateData = (data, headers) => {
     isValid = true;
   }
 
-  return { isValid: isValid, message };
+  return {isValid: isValid, message};
 };

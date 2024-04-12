@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import {Box} from "@mui/material";
 import {
   AttachMoney as FeesIcon,
   Home as SchoolDocIcon,
@@ -7,7 +7,7 @@ import {
   LibraryAddCheck as WorkStudyDocsIcon,
   Work as OtherDocsIcon,
 } from "@mui/icons-material";
-import { ListMenu, ListMenuItem, SingleMenu } from "./utils";
+import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 import authProvider from "../../../providers/authProvider";
 
 function StudentMenu() {

@@ -1,4 +1,4 @@
-import { PALETTE_COLORS } from "./palette";
+import {PALETTE_COLORS} from "./palette";
 
 export const COMMON_BUTTON_PROPS = {
   size: "small",

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import {useState, useEffect} from "react";
 
 import {
   Create,
@@ -13,11 +13,11 @@ import {
   DateInput,
   BooleanInput,
 } from "react-admin";
-import { useParams } from "react-router-dom";
-import { paymentTypes } from "../../conf";
-import { useToggle } from "../../hooks/useToggle";
-import { studentIdFromRaId } from "../../providers/feeProvider";
-import { PaymentTypeEnum } from "@haapi/typescript-client";
+import {useParams} from "react-router-dom";
+import {paymentTypes} from "../../conf";
+import {useToggle} from "../../hooks/useToggle";
+import {studentIdFromRaId} from "../../providers/feeProvider";
+import {PaymentTypeEnum} from "@haapi/typescript-client";
 
 const PaymentCreate = (props) => {
   const params = useParams();
@@ -25,7 +25,7 @@ const PaymentCreate = (props) => {
   const dataProvider = useDataProvider();
   const [studentRef, setStudentRef] = useState("...");
   const [paymentChoice, setPaymentChoice] = useState(
-    PaymentTypeEnum.BANK_TRANSFER,
+    PaymentTypeEnum.BANK_TRANSFER
   );
   const [notSpecifiedDate, setSpecifyDate] = useToggle(true);
 
@@ -37,7 +37,7 @@ const PaymentCreate = (props) => {
 
   useEffect(() => {
     const doEffect = async () => {
-      const student = await dataProvider.getOne("students", { id: studentId });
+      const student = await dataProvider.getOne("students", {id: studentId});
       setStudentRef(student.data.ref);
     };
     doEffect();
@@ -50,7 +50,7 @@ const PaymentCreate = (props) => {
         message = "Le paiement dépasse le montant restant du frais";
       else message = "Paiement pour date future non autorisé";
     }
-    notify(message, { type: "error", autoHideDuration: 2500 });
+    notify(message, {type: "error", autoHideDuration: 2500});
   };
   const paymentConfToPaymentApi = ({
     ref,
@@ -81,7 +81,7 @@ const PaymentCreate = (props) => {
 
   return (
     <Create
-      mutationOptions={{ onError: notifyError }}
+      mutationOptions={{onError: notifyError}}
       title={`Paiement de ${studentRef}`}
       resource="payments"
       redirect={(_basePath, _id, _data) => `fees/${feeId}/show`}
@@ -123,7 +123,7 @@ const PaymentCreate = (props) => {
           label={"Date de paiement aujourd'hui"}
           name="create"
           defaultValue={notSpecifiedDate}
-          onChange={({ target: { checked } }) => setSpecifyDate(checked)}
+          onChange={({target: {checked}}) => setSpecifyDate(checked)}
         />
         {!notSpecifiedDate && (
           <DateInput

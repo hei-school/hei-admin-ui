@@ -1,14 +1,14 @@
-import { useEffect, useState } from "react";
-import { useListContext } from "react-admin";
+import {useEffect, useState} from "react";
+import {useListContext} from "react-admin";
 
-import { Button, Toolbar, Typography } from "@mui/material";
-import { ChevronLeft, ChevronRight } from "@mui/icons-material";
+import {Button, Toolbar, Typography} from "@mui/material";
+import {ChevronLeft, ChevronRight} from "@mui/icons-material";
 
 export const pageSize = 10;
 
 export const PrevNextPagination = () => {
   const [lastPage, setLastPage] = useState(0);
-  const { page, data, isLoading, setPage } = useListContext();
+  const {page, data, isLoading, setPage} = useListContext();
   const resourcesCount = data ? Object.keys(data).length : 0;
 
   //unmount
@@ -16,7 +16,7 @@ export const PrevNextPagination = () => {
     () => () => {
       localStorage.setItem("RaStore.fees.listParams", "");
     },
-    [],
+    []
   );
 
   if (
@@ -37,10 +37,10 @@ export const PrevNextPagination = () => {
     setLastPage(null);
   };
   return (
-    <Toolbar sx={{ bgcolor: "white" }}>
+    <Toolbar sx={{bgcolor: "white"}}>
       {page > 1 && (
         <Button
-          sx={{ color: "#575757", textTransform: "none" }}
+          sx={{color: "#575757", textTransform: "none"}}
           color="primary"
           key="prev"
           onClick={onPrevClick}
@@ -51,7 +51,7 @@ export const PrevNextPagination = () => {
       )}
       {(!lastPage || page < lastPage) && (
         <Button
-          sx={{ color: "#575757", textTransform: "none" }}
+          sx={{color: "#575757", textTransform: "none"}}
           key="next"
           onClick={() => setPage(page + 1)}
         >
@@ -59,8 +59,8 @@ export const PrevNextPagination = () => {
           <ChevronRight />
         </Button>
       )}
-      <div style={{ marginLeft: "auto" }}>
-        <Typography variant="body2" sx={{ color: "#575757" }}>
+      <div style={{marginLeft: "auto"}}>
+        <Typography variant="body2" sx={{color: "#575757"}}>
           Page : {page} &nbsp;&nbsp;Taille : {resourcesCount}
         </Typography>
       </div>

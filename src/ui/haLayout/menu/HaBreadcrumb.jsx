@@ -1,14 +1,14 @@
-import { Breadcrumb, BreadcrumbItem } from "@react-admin/ra-navigation";
-import { useState } from "react";
+import {Breadcrumb, BreadcrumbItem} from "@react-admin/ra-navigation";
+import {useState} from "react";
 import dataProvider from "../../../providers/dataProvider";
 
 export const HaBreadCrumb = () => {
   const [studentRef, setStudentRef] = useState("...");
 
-  const getRef = ({ record }) => {
+  const getRef = ({record}) => {
     if (record && record.student_id && !record.ref) {
       const student = async () =>
-        dataProvider.getOne("students", { id: record.student_id });
+        dataProvider.getOne("students", {id: record.student_id});
       setStudentRef(student.data.ref);
     }
     return <span>{record?.ref || studentRef}</span>;
@@ -22,17 +22,17 @@ export const HaBreadCrumb = () => {
     {
       name: "students",
       label: "Étudiants",
-      childBreadCrumb: { ...typicalBreadCrumb },
+      childBreadCrumb: {...typicalBreadCrumb},
     },
     {
       name: "teachers",
       label: "Enseignants",
-      childBreadCrumb: { ...typicalBreadCrumb },
+      childBreadCrumb: {...typicalBreadCrumb},
     },
     {
       name: "fees",
       label: "Frais",
-      childBreadCrumb: { ...typicalBreadCrumb },
+      childBreadCrumb: {...typicalBreadCrumb},
     },
     {
       name: "profile",
@@ -42,17 +42,17 @@ export const HaBreadCrumb = () => {
     {
       name: "groups",
       label: "Groupes",
-      childBreadCrumb: { ...typicalBreadCrumb },
+      childBreadCrumb: {...typicalBreadCrumb},
     },
     {
       name: "payments",
       label: "Paiement",
-      childBreadCrumb: { create: "Créer" },
+      childBreadCrumb: {create: "Créer"},
     },
   ];
   return (
     <Breadcrumb>
-      {breadCrumbs.map(({ name, label, childBreadCrumb }) => (
+      {breadCrumbs.map(({name, label, childBreadCrumb}) => (
         <BreadcrumbItem key={name} name={name} label={label}>
           {Object.entries(childBreadCrumb).map(([name, label]) => (
             <BreadcrumbItem key={name} name={name} label={label} />

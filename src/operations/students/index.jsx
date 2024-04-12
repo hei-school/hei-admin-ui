@@ -1,4 +1,4 @@
-import { School } from "@mui/icons-material";
+import {School} from "@mui/icons-material";
 import ProfileEdit from "../profile/ProfileEdit";
 import StudentShow from "./StudentShow";
 import StudentList from "./StudentList";
@@ -11,7 +11,7 @@ const students = {
   show: StudentShow,
   create: StudentCreate,
   icon: School,
-  options: { label: "Étudiants" },
+  options: {label: "Étudiants"},
 };
 
 export default students;

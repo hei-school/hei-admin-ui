@@ -1,4 +1,4 @@
-export function Separator({ style }) {
+export function Separator({style}) {
   return (
     <div
       style={{

@@ -1,14 +1,9 @@
-import {
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogTitle,
-} from "@mui/material";
-import { Button, useGetList, useNotify, useRecordContext } from "react-admin";
-import { useForm } from "react-hook-form";
-import { useParams } from "react-router-dom";
-import { GroupFlowMoveTypeEnum } from "@haapi/typescript-client";
-import { CustomAutoComplete } from "../utils/CustomAutoComplete";
+import {Dialog, DialogActions, DialogContent, DialogTitle} from "@mui/material";
+import {Button, useGetList, useNotify, useRecordContext} from "react-admin";
+import {useForm} from "react-hook-form";
+import {useParams} from "react-router-dom";
+import {GroupFlowMoveTypeEnum} from "@haapi/typescript-client";
+import {CustomAutoComplete} from "../utils/CustomAutoComplete";
 import groupFlowProvider from "../../providers/groupFlowProvider";
 
 const GroupFlowCreate = ({
@@ -23,10 +18,10 @@ const GroupFlowCreate = ({
   const queryStudents = useGetList("students");
   const record = useRecordContext();
   const queryGroups = useGetList("groups");
-  const { control, handleSubmit } = useForm({
+  const {control, handleSubmit} = useForm({
     defaultValues: {
-      student: { id: "", ref: "" },
-      group: { id: "", ref: "" },
+      student: {id: "", ref: ""},
+      group: {id: "", ref: ""},
     },
   });
 
@@ -40,12 +35,12 @@ const GroupFlowCreate = ({
     !canCreate &&
       (students = students.filter((student) => student.id === studentId));
     groups = groups.filter((group) =>
-      canCreate ? group.id === actualGroupId : group.id !== actualGroupId,
+      canCreate ? group.id === actualGroupId : group.id !== actualGroupId
     );
   }
   // TODO: use custom hooks
   const notification = (message, type) =>
-    notify(message, { type: type, autoHideDuration: 1000 });
+    notify(message, {type: type, autoHideDuration: 1000});
 
   const onSubmit = async (data) => {
     const payload = {
@@ -65,8 +60,8 @@ const GroupFlowCreate = ({
       .then(() =>
         notification(
           `L'étudiant ${studentRef} a été migré avec succès`,
-          "success",
-        ),
+          "success"
+        )
       )
       .catch(() => notification("Une erreur s'est produite.", "error"))
       .finally(() => setIsOpen(false));
@@ -105,7 +100,7 @@ const GroupFlowCreate = ({
         <DialogActions>
           <Button
             type="submit"
-            sx={{ margin: "auto" }}
+            sx={{margin: "auto"}}
             size="medium"
             variant="contained"
             color="primary"

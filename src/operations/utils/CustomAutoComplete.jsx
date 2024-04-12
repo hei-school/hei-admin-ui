@@ -1,18 +1,12 @@
-import { Autocomplete, TextField } from "@mui/material";
-import { Controller } from "react-hook-form";
+import {Autocomplete, TextField} from "@mui/material";
+import {Controller} from "react-hook-form";
 
-export const CustomAutoComplete = ({
-  data,
-  control,
-  name,
-  label,
-  ...props
-}) => {
+export const CustomAutoComplete = ({data, control, name, label, ...props}) => {
   return (
     <Controller
       control={control}
       name={name}
-      render={({ field: { onChange, value } }) => (
+      render={({field: {onChange, value}}) => (
         <Autocomplete
           {...props}
           options={data}

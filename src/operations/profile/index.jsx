@@ -1,12 +1,12 @@
 import ProfileShow from "./ProfileShow";
-import { FilterForm, SelectInputFilter, TextFilter } from "../../ui/haToolbar";
-import { EnableStatus, Sex, WorkStudyStatus } from "@haapi/typescript-client";
+import {FilterForm, SelectInputFilter, TextFilter} from "../../ui/haToolbar";
+import {EnableStatus, Sex, WorkStudyStatus} from "@haapi/typescript-client";
 import ProfileEdit from "./ProfileEdit";
 
 const profile = {
   show: ProfileShow,
   edit: <ProfileEdit isOwnProfile />,
-  options: { label: "Profil" },
+  options: {label: "Profil"},
 };
 
 export default profile;
@@ -34,10 +34,10 @@ export function ProfileFilters() {
         label="Statut"
         source="status"
         choices={[
-          { id: EnableStatus.ENABLED, name: "Actif.ve" },
-          { id: EnableStatus.SUSPENDED, name: "Suspendu.e" },
-          { id: EnableStatus.DISABLED, name: "Quitté.e" },
-          { id: null, name: "Aucune valeur" },
+          {id: EnableStatus.ENABLED, name: "Actif.ve"},
+          {id: EnableStatus.SUSPENDED, name: "Suspendu.e"},
+          {id: EnableStatus.DISABLED, name: "Quitté.e"},
+          {id: null, name: "Aucune valeur"},
         ]}
       />
       <SelectInputFilter
@@ -45,9 +45,9 @@ export function ProfileFilters() {
         label="Sexe"
         source="sex"
         choices={[
-          { id: Sex.M, name: "Homme" },
-          { id: Sex.F, name: "Femme" },
-          { id: null, name: "Aucune valeur" },
+          {id: Sex.M, name: "Homme"},
+          {id: Sex.F, name: "Femme"},
+          {id: null, name: "Aucune valeur"},
         ]}
       />
       <SelectInputFilter
@@ -59,9 +59,9 @@ export function ProfileFilters() {
             id: WorkStudyStatus.HAVE_BEEN_WORKING,
             name: "A été en alternance",
           },
-          { id: WorkStudyStatus.WILL_BE_WORKING, name: "Sera en alternance" },
-          { id: WorkStudyStatus.WORKING, name: "Est en alternance" },
-          { id: null, name: "Aucune valeur" },
+          {id: WorkStudyStatus.WILL_BE_WORKING, name: "Sera en alternance"},
+          {id: WorkStudyStatus.WORKING, name: "Est en alternance"},
+          {id: null, name: "Aucune valeur"},
         ]}
       />
     </FilterForm>

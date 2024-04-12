@@ -1,6 +1,6 @@
-import { Box } from "@mui/material";
-import { School, Home, Inventory } from "@mui/icons-material";
-import { ListMenu, ListMenuItem, SingleMenu } from "./utils";
+import {Box} from "@mui/material";
+import {School, Home, Inventory} from "@mui/icons-material";
+import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function TeacherMenu() {
   return (

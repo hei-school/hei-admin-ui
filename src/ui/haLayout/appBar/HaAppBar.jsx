@@ -1,8 +1,8 @@
-import { useMediaQuery, AppBar, Box, Typography } from "@mui/material";
-import { PALETTE_COLORS } from "../../constants/palette";
+import {useMediaQuery, AppBar, Box, Typography} from "@mui/material";
+import {PALETTE_COLORS} from "../../constants/palette";
 import UserInfo from "./UserInfo";
 import menuLogo from "../../../assets/menu-logo.png";
-import { SidebarToggleButton } from "react-admin";
+import {SidebarToggleButton} from "react-admin";
 
 const APPBAR_STYLE = {
   display: "flex",
@@ -50,8 +50,8 @@ export const HaAppBar = () => {
           </h2>
         </Box>
       )}
-      <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-        <img alt="hei" src={menuLogo} style={{ width: 40, height: 27 }} />
+      <Box sx={{display: "flex", alignItems: "center", gap: 2}}>
+        <img alt="hei" src={menuLogo} style={{width: 40, height: 27}} />
         {!isSmall && (
           <Typography
             sx={{

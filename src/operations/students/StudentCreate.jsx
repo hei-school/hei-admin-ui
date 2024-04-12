@@ -8,14 +8,14 @@ import {
   Toolbar,
 } from "react-admin";
 
-import { SelectSpecialization } from "./components";
-import { createStudentApi } from "./utils/studentFactory";
+import {SelectSpecialization} from "./components";
+import {createStudentApi} from "./utils/studentFactory";
 
-import { SexRadioButton } from "../utils";
-import { Create } from "../common/components";
-import { FeeFields } from "../fees/components";
-import { useToggle } from "../../hooks";
-import { CreateGeoLocalisation } from "../common/components/GeoLocalisation";
+import {SexRadioButton} from "../utils";
+import {Create} from "../common/components";
+import {FeeFields} from "../fees/components";
+import {useToggle} from "../../hooks";
+import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
 
 const StudentCreate = () => {
   const [canCreateFees, , toggleCanCreateFees] = useToggle(false);
@@ -41,7 +41,7 @@ const StudentCreate = () => {
           fullWidth
           validate={maxLength(
             12,
-            "Le numéro CIN ne doit pas dépasser 12 caractères.",
+            "Le numéro CIN ne doit pas dépasser 12 caractères."
           )}
         />
         <TextInput source="birth_place" label="Lieu de naissance" fullWidth />

@@ -1,4 +1,4 @@
-import { Groups } from "@mui/icons-material";
+import {Groups} from "@mui/icons-material";
 import GroupList from "./GroupList";
 import GroupShow from "./GroupShow";
 import GroupCreate from "./GroupCreate";
@@ -16,10 +16,10 @@ const groups = {
   create: GroupCreate,
   edit: GroupEdit,
   icon: Groups,
-  options: { label: "Groupes" },
+  options: {label: "Groupes"},
 };
 
-export function GroupFilters({ isManager }) {
+export function GroupFilters({isManager}) {
   return (
     <>
       {isManager && <CreateButton />}

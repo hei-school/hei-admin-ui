@@ -1,4 +1,4 @@
-import { Button, Typography, Box, Dialog, styled } from "@mui/material";
+import {Button, Typography, Box, Dialog, styled} from "@mui/material";
 import useHaToolbarContext from "./useHaToolbarContext";
 
 const FilterContainer = styled("div")({
@@ -18,18 +18,18 @@ export function FilterContentResponsive({
 }) {
   return (
     <Dialog open={Boolean(anchorEl)} onClose={() => onClose(false)}>
-      <FilterContent {...{ onClose, onSubmit }}>{children}</FilterContent>
+      <FilterContent {...{onClose, onSubmit}}>{children}</FilterContent>
     </Dialog>
   );
 }
 
-function FilterContent({ onClose, onSubmit, children }) {
-  const { setCurrentFilter } = useHaToolbarContext();
+function FilterContent({onClose, onSubmit, children}) {
+  const {setCurrentFilter} = useHaToolbarContext();
 
   return (
     <FilterContainer>
       <Typography
-        sx={{ color: "#696b6e", fonSize: "15px", mb: 1, fontWeight: 600 }}
+        sx={{color: "#696b6e", fonSize: "15px", mb: 1, fontWeight: 600}}
       >
         Ajouter des filtres
       </Typography>
@@ -57,7 +57,7 @@ function FilterContent({ onClose, onSubmit, children }) {
             size="small"
             data-testid="clear-filter"
             onClick={() => setCurrentFilter({})}
-            sx={{ mr: 1 }}
+            sx={{mr: 1}}
           >
             Effacer
           </Button>

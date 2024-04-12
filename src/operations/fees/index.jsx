@@ -1,11 +1,11 @@
-import { AttachMoney } from "@mui/icons-material";
+import {AttachMoney} from "@mui/icons-material";
 import FeeList from "./FeeList";
 import ByStatusFeeList from "./ByStatusFeeList";
 import FeeShow from "./FeeShow";
 import FeeCreate from "./FeeCreate";
 import FeeEdit from "./FeeEdit";
-import { FilterForm, SelectInputFilter } from "../../ui/haToolbar";
-import { FeeStatusEnum } from "@haapi/typescript-client";
+import {FilterForm, SelectInputFilter} from "../../ui/haToolbar";
+import {FeeStatusEnum} from "@haapi/typescript-client";
 
 const fees = {
   list: FeeList,
@@ -14,7 +14,7 @@ const fees = {
   create: FeeCreate,
   edit: FeeEdit,
   icon: AttachMoney,
-  options: { label: "Frais" },
+  options: {label: "Frais"},
 };
 
 export const FeesFilter = () => (
@@ -24,9 +24,9 @@ export const FeesFilter = () => (
       label="Statut"
       source="status"
       choices={[
-        { id: FeeStatusEnum.LATE, name: "En retard" },
-        { id: FeeStatusEnum.PAID, name: "Payés" },
-        { id: FeeStatusEnum.UNPAID, name: "En attente" },
+        {id: FeeStatusEnum.LATE, name: "En retard"},
+        {id: FeeStatusEnum.PAID, name: "Payés"},
+        {id: FeeStatusEnum.UNPAID, name: "En attente"},
       ]}
     />
   </FilterForm>

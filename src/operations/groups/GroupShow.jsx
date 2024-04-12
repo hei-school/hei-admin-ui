@@ -1,4 +1,4 @@
-import { Divider, Typography } from "@mui/material";
+import {Divider, Typography} from "@mui/material";
 import {
   EditButton,
   Show,
@@ -6,10 +6,10 @@ import {
   TextField,
   TopToolbar,
 } from "react-admin";
-import { WhoamiRoleEnum } from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import authProvider from "../../providers/authProvider";
 import GroupStudentList from "./GroupStudentList";
-import { DateField } from "../common/components/fields";
+import {DateField} from "../common/components/fields";
 
 export const GroupLayout = () => {
   return (

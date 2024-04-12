@@ -1,8 +1,8 @@
-import { MenuItem, IconButton } from "@mui/material";
-import { Cancel } from "@mui/icons-material";
-import { getObjValue } from "../../../utils";
+import {MenuItem, IconButton} from "@mui/material";
+import {Cancel} from "@mui/icons-material";
+import {getObjValue} from "../../../utils";
 
-export function Items({ options, labelKey, valueKey, onClick, checked }) {
+export function Items({options, labelKey, valueKey, onClick, checked}) {
   return options.map((el, index) => {
     const currentItem = {
       label: getObjValue(el, labelKey),
@@ -22,7 +22,7 @@ export function Items({ options, labelKey, valueKey, onClick, checked }) {
       >
         {currentItem.label}
         {checked(currentItem) && (
-          <IconButton sx={{ p: 0 }} size="small">
+          <IconButton sx={{p: 0}} size="small">
             <Cancel />
           </IconButton>
         )}

@@ -1,11 +1,11 @@
-import { useRef, useState } from "react";
-import { MenuItem, Popover, Typography } from "@mui/material";
-import { Upload } from "@mui/icons-material";
-import { useNotify } from "react-admin";
-import { useToggle } from "../../../hooks/useToggle";
-import { ImportDialog } from "./ImportDialog";
-import { ImportInputFile } from "./ImportInputFile";
-import { ButtonBase } from "../Button";
+import {useRef, useState} from "react";
+import {MenuItem, Popover, Typography} from "@mui/material";
+import {Upload} from "@mui/icons-material";
+import {useNotify} from "react-admin";
+import {useToggle} from "../../../hooks/useToggle";
+import {ImportDialog} from "./ImportDialog";
+import {ImportInputFile} from "./ImportInputFile";
+import {ButtonBase} from "../Button";
 
 export function ImportButton({
   provider,
@@ -39,10 +39,10 @@ export function ImportButton({
         notify(`Importation effectuée avec succès`, {
           type: "success",
           autoHideDuration: 1500,
-        }),
+        })
       );
     } else {
-      notify(importValidate.message, { type: "error", autoHideDuration: 4000 });
+      notify(importValidate.message, {type: "error", autoHideDuration: 4000});
     }
   };
 
@@ -84,7 +84,7 @@ export function ImportButton({
         </Typography>
         <MenuItem
           data-testid="existantTemplate"
-          sx={{ color: "#4a4a48" }}
+          sx={{color: "#4a4a48"}}
           onClick={() => {
             buttonRef.current.click();
           }}
@@ -92,7 +92,7 @@ export function ImportButton({
           A partir d'un template existant{" "}
           <ImportInputFile mutationRequest={doImport} ref={buttonRef} />
         </MenuItem>
-        <MenuItem onClick={toggle} sx={{ color: "#4a4a48" }}>
+        <MenuItem onClick={toggle} sx={{color: "#4a4a48"}}>
           A partir d'un nouveau template
         </MenuItem>
       </Popover>

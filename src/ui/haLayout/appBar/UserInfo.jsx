@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 import {
   Typography,
   Box,
@@ -10,15 +10,15 @@ import {
   Badge,
   styled,
 } from "@mui/material";
-import { CalendarMonth, Comment, Feedback } from "@mui/icons-material";
-import { useDataProvider } from "react-admin";
+import {CalendarMonth, Comment, Feedback} from "@mui/icons-material";
+import {useDataProvider} from "react-admin";
 
 // /!\ TODO: refactor with path alias
-import { StudentComments } from "../../../operations/comments";
-import { getUserRoleInFr } from "../../../operations/common/utils/typo_util";
-import { useToggle } from "../../../hooks";
-import { useRole } from "../../../security/hooks";
-import { PALETTE_COLORS } from "../../constants/palette";
+import {StudentComments} from "../../../operations/comments";
+import {getUserRoleInFr} from "../../../operations/common/utils/typo_util";
+import {useToggle} from "../../../hooks";
+import {useRole} from "../../../security/hooks";
+import {PALETTE_COLORS} from "../../constants/palette";
 import authProvider from "../../../providers/authProvider";
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
 
@@ -46,7 +46,7 @@ const LastComments = () => {
       <IconButton onClick={toggleShowComments}>
         <Badge color="error" variant="dot">
           <Comment
-            sx={{ color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5 }}
+            sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
           />
         </Badge>
       </IconButton>
@@ -77,7 +77,7 @@ const FeedbackInfos = () => {
     <div>
       <IconButton aria-describedby={id} onClick={handleClick}>
         <Feedback
-          sx={{ color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5 }}
+          sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
         />
       </IconButton>
       <Popover
@@ -90,11 +90,11 @@ const FeedbackInfos = () => {
           horizontal: "left",
         }}
       >
-        <Box sx={{ padding: 2 }}>
-          <Typography fontWeight="bold" sx={{ color: PALETTE_COLORS.yellow }}>
+        <Box sx={{padding: 2}}>
+          <Typography fontWeight="bold" sx={{color: PALETTE_COLORS.yellow}}>
             Voulez-vous donner un feedback?{" "}
           </Typography>
-          <Divider sx={{ my: 0.5, bgcolor: PALETTE_COLORS.yellow }} />
+          <Divider sx={{my: 0.5, bgcolor: PALETTE_COLORS.yellow}} />
           <Typography variant="body2">
             Veuillez envoyer un mail à ces adresses avec comme objet
             <br />
@@ -116,7 +116,7 @@ const FeedbackInfos = () => {
 function UserInfo() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
-  const { isStudent } = useRole();
+  const {isStudent} = useRole();
   const imgRef = useRef(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
@@ -127,7 +127,7 @@ function UserInfo() {
     const doEffect = async () => {
       setIsLoading(true);
       await dataProvider
-        .getOne("profile", { id })
+        .getOne("profile", {id})
         .then((result) => {
           setUser(result.data);
           setIsLoading(false);
@@ -137,13 +137,13 @@ function UserInfo() {
     doEffect();
   }, []);
 
-  const { first_name = "", profile_picture = defaultProfilePicture } = user;
+  const {first_name = "", profile_picture = defaultProfilePicture} = user;
 
   if (isLoading) {
     return (
       <CircularProgress
         size={40}
-        style={{ margin: "7px" }}
+        style={{margin: "7px"}}
         sx={{
           ".MuiCircularProgress-circle": {
             color: PALETTE_COLORS.yellow,
@@ -210,7 +210,7 @@ function UserInfo() {
           </Box>
           <a href={HEI_CALENDAR_URL} rel="noreferrer" target="_blank">
             <CalendarMonth
-              sx={{ color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5 }}
+              sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
             />
           </a>
           {!isStudent() && <LastComments />}

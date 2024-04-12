@@ -1,6 +1,6 @@
-import { useRef } from "react";
-import { useNotify } from "react-admin";
-import { useForm } from "react-hook-form";
+import {useRef} from "react";
+import {useNotify} from "react-admin";
+import {useForm} from "react-hook-form";
 import {
   Button,
   Checkbox,
@@ -24,20 +24,20 @@ import {
   WizardForm,
   WizardFormStep,
 } from "@react-admin/ra-form-layout";
-import { exporter } from "../../../operations/utils";
-import { ImportInputFile } from "./ImportInputFile";
+import {exporter} from "../../../operations/utils";
+import {ImportInputFile} from "./ImportInputFile";
 import useHaListContext from "../../haList/useHaListContext";
 
 const WizardToolbar = () => {
-  const { hasNextStep, hasPreviousStep, goToNextStep, goToPreviousStep } =
+  const {hasNextStep, hasPreviousStep, goToNextStep, goToPreviousStep} =
     useWizardFormContext();
   return (
-    <div style={{ display: "flex", justifyContent: "space-around" }}>
+    <div style={{display: "flex", justifyContent: "space-around"}}>
       {hasPreviousStep && (
         <Button
           onClick={() => goToPreviousStep()}
           startIcon={<ArrowBackIos />}
-          style={{ display: "flex", justifySelf: "start" }}
+          style={{display: "flex", justifySelf: "start"}}
           variant="contained"
           size="small"
         >
@@ -48,7 +48,7 @@ const WizardToolbar = () => {
         <Button
           onClick={() => goToNextStep()}
           endIcon={<ArrowForwardIos />}
-          style={{ display: "flex", justifySelf: "end" }}
+          style={{display: "flex", justifySelf: "end"}}
           variant="contained"
           size="small"
         >
@@ -69,11 +69,11 @@ export function ImportDialog({
   toggle,
   resource,
 }) {
-  const { closeAction } = useHaListContext();
+  const {closeAction} = useHaListContext();
   const notify = useNotify();
   const inputRef = useRef(null);
   const headers = minimalHeaders.map((header) => header.value);
-  const { register, handleSubmit } = useForm({
+  const {register, handleSubmit} = useForm({
     fileName: "template",
     importHeaders: headers,
   });
@@ -90,10 +90,10 @@ export function ImportDialog({
         notify(`Importation effectuée avec succès`, {
           type: "success",
           autoHideDuration: 1000,
-        }),
+        })
       );
     } else {
-      notify(importValidate.message, { type: "error", autoHideDuration: 3000 });
+      notify(importValidate.message, {type: "error", autoHideDuration: 3000});
     }
   };
 

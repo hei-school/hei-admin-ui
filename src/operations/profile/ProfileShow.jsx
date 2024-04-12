@@ -1,18 +1,18 @@
-import { EditButton, Button } from "react-admin";
-import { Download, Comment as CommentIcon } from "@mui/icons-material";
+import {EditButton, Button} from "react-admin";
+import {Download, Comment as CommentIcon} from "@mui/icons-material";
 
-import { useRole } from "../../security/hooks";
-import { Show } from "../common/components/Show";
-import { GetCertificate } from "../students/components";
-import { COMMON_BUTTON_PROPS } from "../../ui/constants/common_styles";
-import { ProfileLayout } from "../common/components/ProfileLayout";
-import { useToggle } from "../../hooks";
-import { StudentComments } from "../comments";
+import {useRole} from "../../security/hooks";
+import {Show} from "../common/components/Show";
+import {GetCertificate} from "../students/components";
+import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
+import {ProfileLayout} from "../common/components/ProfileLayout";
+import {useToggle} from "../../hooks";
+import {StudentComments} from "../comments";
 import authProvider from "../../providers/authProvider";
 
 const ProfileShow = () => {
-  const { isStudent, role } = useRole();
-  const { id } = authProvider.getCachedWhoami();
+  const {isStudent, role} = useRole();
+  const {id} = authProvider.getCachedWhoami();
   const [showComments, , toogleShowComments] = useToggle(false);
 
   return (

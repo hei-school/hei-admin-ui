@@ -1,4 +1,4 @@
-import { Work } from "@mui/icons-material";
+import {Work} from "@mui/icons-material";
 import ProfileEdit from "../profile/ProfileEdit";
 import TeacherShow from "./TeacherShow";
 import TeacherList from "./TeacherList";
@@ -10,7 +10,7 @@ const teachers = {
   show: TeacherShow,
   create: TeacherCreate,
   icon: Work,
-  options: { label: "Enseignants" },
+  options: {label: "Enseignants"},
 };
 
 export default teachers;

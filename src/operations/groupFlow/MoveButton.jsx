@@ -1,11 +1,11 @@
-import { Add } from "@mui/icons-material";
-import { Button } from "@mui/material";
-import { useRecordContext } from "react-admin";
-import { GroupFlowMoveTypeEnum } from "@haapi/typescript-client";
-import { useToggle } from "../../hooks/useToggle";
+import {Add} from "@mui/icons-material";
+import {Button} from "@mui/material";
+import {useRecordContext} from "react-admin";
+import {GroupFlowMoveTypeEnum} from "@haapi/typescript-client";
+import {useToggle} from "../../hooks/useToggle";
 import GroupFlowCreate from "./GroupFlowCreate";
 
-const MoveButton = ({ moveType, canCreate }) => {
+const MoveButton = ({moveType, canCreate}) => {
   const [isOpen, setIsOpen, toggle] = useToggle();
   const record = useRecordContext();
 

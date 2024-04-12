@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import authProvider from "../providers/authProvider";
 
 const classes = {
@@ -44,7 +44,7 @@ const classes = {
 };
 
 const CustomLabel = (text) => {
-  return <label style={{ textAlign: "left", color: "#BDBDBD" }}>{text}</label>;
+  return <label style={{textAlign: "left", color: "#BDBDBD"}}>{text}</label>;
 };
 
 const CompletePasswordForm = () => {
@@ -73,7 +73,7 @@ const CompletePasswordForm = () => {
       alert("Les mots de passe ne correspondent pas !");
     } else if (!matchCognitoPassword(passwordValue)) {
       alert(
-        "Le mot de passe doit : \n - avoir au moins 8 caractères \n - avoir au moins une majuscule \n - avoir au moins un caractère spécial !@#$%^&*()_+-= \n - avoir au moins un chiffre",
+        "Le mot de passe doit : \n - avoir au moins 8 caractères \n - avoir au moins une majuscule \n - avoir au moins un caractère spécial !@#$%^&*()_+-= \n - avoir au moins un chiffre"
       );
     } else {
       authProvider.setNewPassword(password);
@@ -123,7 +123,7 @@ const CompletePasswordForm = () => {
 };
 const CompletePasswordPage = () => {
   return (
-    <center style={{ paddingTop: "10%" }}>
+    <center style={{paddingTop: "10%"}}>
       <CompletePasswordForm />
     </center>
   );
