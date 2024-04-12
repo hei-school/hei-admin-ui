@@ -59,6 +59,8 @@ jobs:
         # From: https://docs.cypress.io/guides/getting-started/installing-cypress#System-requirements, Ubuntu section
         run: |
           sudo apt-get install libgtk2.0-0 libgtk-3-0 libgbm-dev libnotify-dev libgconf-2-4 libnss3 libxss1 libasound2 libxtst6 xauth xvfb
+          sudo apt install snapd
+          sudo snap install tiv --edge
       - name: Test
         run: |
           export REACT_APP_TEST_STUDENT1_PASSWORD=${{ secrets.TEST_STUDENT1_PASSWORD }}
@@ -69,6 +71,7 @@ jobs:
           export REACT_APP_WEBCLIENT_ID=${{ vars.PREPROD_WEBCLIENT_ID }}
           export REACT_APP_OAUTH_DOMAIN=${{ vars.PREPROD_OAUTH_DOMAIN }}
           npm run test
+          tiv -w 128 -h 64 ~/Documents/hei-admin-ui/cypress/screenshots/__tests__/Authentication.cy.js/Authentication\ \[@spec\ \{name__tests__Authentication.cy.js\,relativesrc__tests__Authentication.cy.js\,absolutehomemayahDocumentshei-admin-uisrc__tests__Authentication.cy.js\}\]\ --\ remains\ on\ login\ page\ if\ fails\ \(failed\).png
 
   style:
     runs-on: ubuntu-latest
