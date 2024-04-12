@@ -33,7 +33,18 @@ function FilterContent({onClose, onSubmit, children}) {
       >
         Ajouter des filtres
       </Typography>
-      {children}
+      <Box
+        sx={{
+          width: "100%",
+          display: "flex",
+          alignItems: "center",
+          flexDirection: "column",
+          gap: 1,
+          mt: 3,
+        }}
+      >
+        {children}
+      </Box>
       <Box
         sx={{
           display: "flex",
