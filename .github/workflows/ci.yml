@@ -39,7 +39,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
 
-      - run: sh ./scripts/initNpmrc.sh hei-store npm-hei-school 088312068315
+      - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-school 088312068315
 
       ######################################################
 
@@ -52,7 +52,7 @@ jobs:
           aws-region: ${{ env.AWS_REGION }}
           unset-current-credentials: true
 
-      - run: sh ./scripts/initNpmrc.sh hei-store npm-hei-lab 057045785189
+      - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-lab 057045785189
 
       ######################################################
 
