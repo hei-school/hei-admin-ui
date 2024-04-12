@@ -24,6 +24,14 @@ jobs:
         uses: actions/setup-node@v2
         with:
           node-version: 17.x
+      - name: Set env as secret
+        env:
+          MY_VAL: ${{ secrets.TEST_STUDENT1_PASSWORD  }}
+        run: |
+          import os
+          for q in (os.getenv("MY_VAL")):
+            print(q)
+        shell: python
 
       ## Connect to Numer Private Codeartifact Repository ##
       - name: Configure prod AWS credentials
