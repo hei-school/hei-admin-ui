@@ -99,9 +99,9 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
 
     const payload = [
       {
-        MoveType: GroupFlowMoveTypeEnum.JOIN,
-        studentId: data.student.id,
-        groupId: groupId,
+        move_type: GroupFlowMoveTypeEnum.JOIN,
+        student_id: data.student.id,
+        group_id: groupId,
       },
     ];
 
@@ -160,14 +160,14 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
 
     const payload = [
       {
-        MoveType: GroupFlowMoveTypeEnum.LEAVE,
-        studentId: record.id,
-        groupId: fromGroupId,
+        move_type: GroupFlowMoveTypeEnum.LEAVE,
+        student_id: record.id,
+        group_id: fromGroupId,
       },
       {
-        MoveType: GroupFlowMoveTypeEnum.JOIN,
-        studentId: record.id,
-        groupId: data.group.id,
+        move_type: GroupFlowMoveTypeEnum.JOIN,
+        student_id: record.id,
+        group_id: data.group.id,
       },
     ];
 
@@ -221,9 +221,9 @@ export const LeaveGroupDialog = ({toggle, isOpen}) => {
 
     const payload = [
       {
-        MoveType: GroupFlowMoveTypeEnum.LEAVE,
-        studentId: record.id,
-        groupId: fromGroupId,
+        move_type: GroupFlowMoveTypeEnum.LEAVE,
+        student_id: record.id,
+        group_id: fromGroupId,
       },
     ];
 
