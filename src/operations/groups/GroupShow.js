@@ -1,4 +1,4 @@
-import {Divider, Typography} from "@mui/material";
+import {Typography, Box} from "@mui/material";
 import {
   EditButton,
   Show,
@@ -6,27 +6,54 @@ import {
   TextField,
   TopToolbar,
 } from "react-admin";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import authProvider from "../../providers/authProvider";
-import GroupStudentList from "./GroupStudentList";
-import {DateField} from "../common/components/fields";
+import {
+  Fingerprint as ReferenceIcon,
+  PermIdentity as NameIcon,
+  CalendarMonth as CreationDateIcon,
+} from "@mui/icons-material";
+import {DateField, FieldLabel} from "../common/components/fields";
+import {useRole} from "../../security/hooks";
+import {EMPTY_TEXT} from "../../ui/constants";
+import {COMMON_FIELD_ATTRIBUTES} from "../../ui/constants/common_styles";
+import GroupStudentList from "./components/GroupStudentList";
+
+const FIELD_PROPS = {
+  component: "pre",
+  emptyText: EMPTY_TEXT,
+  ...COMMON_FIELD_ATTRIBUTES,
+};
 
 export const GroupLayout = () => {
   return (
-    <SimpleShowLayout>
-      <TextField source="ref" label="Référence" />
-      <TextField source="name" label="Nom" />
-      <DateField source="creation_datetime" label="Date de création" />
-      <Divider />
-      <Typography>Les étudiants dans ce groupe</Typography>
-      <GroupStudentList />
-    </SimpleShowLayout>
+    <Box>
+      <SimpleShowLayout>
+        <Typography>Détails sur ce groupe</Typography>
+        <TextField
+          source="ref"
+          label={<FieldLabel icon={<ReferenceIcon />}>Référence</FieldLabel>}
+          {...FIELD_PROPS}
+        />
+        <TextField
+          source="name"
+          label={<FieldLabel icon={<NameIcon />}>Nom</FieldLabel>}
+          {...FIELD_PROPS}
+        />
+        <DateField
+          source="creation_datetime"
+          label={
+            <FieldLabel icon={<CreationDateIcon />}>
+              Date de création
+            </FieldLabel>
+          }
+          {...FIELD_PROPS}
+        />
+      </SimpleShowLayout>
+    </Box>
   );
 };
 
 const GroupShow = () => {
-  const role = authProvider.getCachedRole();
-  const isManager = role === WhoamiRoleEnum.MANAGER;
+  const {isManager} = useRole();
 
   const Actions = () => (
     <TopToolbar>
@@ -34,9 +61,12 @@ const GroupShow = () => {
     </TopToolbar>
   );
   return (
-    <Show actions={isManager && <Actions />} title="Groupe">
-      <GroupLayout />
-    </Show>
+    <Box>
+      <Show actions={isManager() && <Actions />} title="Groupe">
+        <GroupLayout />
+      </Show>
+      <GroupStudentList />
+    </Box>
   );
 };
 

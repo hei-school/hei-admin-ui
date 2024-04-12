@@ -10,3 +10,8 @@ export const COMMON_BUTTON_PROPS = {
     marginLeft: "5px",
   },
 };
+
+export const COMMON_FIELD_ATTRIBUTES = {
+  variant: "caption",
+  color: PALETTE_COLORS.typography.grey,
+};
