@@ -10,7 +10,7 @@ const groupFlowProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload: any) {
     return await teachingApi()
-      .moveOrDeleteStudentInGroup(payload[0].studentId, payload)
+      .moveOrDeleteStudentInGroup(payload[0].student_id, payload)
       .then((result) => [result.data]);
   },
   async delete(id: string) {

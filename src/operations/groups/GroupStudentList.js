@@ -25,7 +25,7 @@ const DeleteGroupStudent = ({groupId}) => {
   const payload = {
     studentId: student.id,
     groupId: groupId,
-    MoveType: GroupFlowMoveTypeEnum.LEAVE,
+    move_type: GroupFlowMoveTypeEnum.LEAVE,
     migrate: false,
   };
 
