@@ -24,7 +24,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -37,10 +36,7 @@ jobs:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
-
       - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-school 088312068315
-
-      ######################################################
 
       ## Connect to Numer Private Codeartifact Repository ##
       - name: Configure preprod AWS credentials
@@ -50,12 +46,50 @@ jobs:
           aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.AWS_REGION }}
           unset-current-credentials: true
-
       - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-lab 057045785189
 
-      ######################################################
+      ## Install npm dependencies ##
+      - name: Install npm dependencies
+        run: npm ci
 
-      - run: npm ci
-
+      ## Run prettier to check code style ##
       - name: Check style
         run: npm run format:check
+  test-e2e:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    container:
+      image: cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
+      options: --user 1001
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.19.0
+
+      ## Connect to Numer Private Codeartifact Repository ##
+      - name: Configure prod AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-school 088312068315
+
+      ## Connect to Numer Private Codeartifact Repository ##
+      - name: Configure preprod AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          aws-access-key-id: ${{ secrets.PREPROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+          unset-current-credentials: true
+      - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-lab 057045785189
+
+      ## Run Cypress e2e tests ##
+      - name: Run e2e tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run dev

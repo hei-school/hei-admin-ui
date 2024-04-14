@@ -1,5 +1,5 @@
-import {LoadingPage} from "ra-ui-materialui";
 import React, {useState, useEffect} from "react";
+import {LoadingPage} from "ra-ui-materialui";
 import {healthApi} from "../../providers/api";
 
 const MAX_ATTEMP = 10;
@@ -7,9 +7,10 @@ const MAX_ATTEMP = 10;
 // TODO: create error page
 export function WaitUntilHot({children}) {
   const [retryStatus, setRetryStatus] = useState({
-    loading: true,
+    loading: false,
     error: null,
     attempt: 0,
+    resolve: false,
   });
 
   useEffect(() => {
@@ -19,10 +20,12 @@ export function WaitUntilHot({children}) {
         setRetryStatus((prev) => ({
           ...prev,
           loading: false,
+          resolve: true,
         }));
       } catch (err) {
         setRetryStatus((prev) => ({
           ...prev,
+          loading: false,
           attempt: prev.attempt + 1,
           error: err,
         }));
@@ -30,10 +33,15 @@ export function WaitUntilHot({children}) {
       }
     };
 
-    if (retryStatus.attempt < MAX_ATTEMP && retryStatus.loading) {
+    if (
+      retryStatus.attempt < MAX_ATTEMP &&
+      !retryStatus.loading &&
+      !retryStatus.resolve
+    ) {
+      setRetryStatus((prev) => ({...prev, loading: true}));
       retryOnFailure();
     }
-  }, [retryStatus.attempt, retryStatus.loading]);
+  }, [retryStatus.attempt, retryStatus.loading, retryStatus.resolve]);
 
   return (
     <>
