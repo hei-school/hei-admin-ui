@@ -14,7 +14,9 @@ export const useStudentRef = (source) => {
   useEffect(() => {
     const fetchRef = async () => {
       try {
-        const student = await dataProvider.getOne("students", {id: studentId});
+        const student = await dataProvider.getOne("students", {
+          id: studentId,
+        });
         setStudentRef(student.data.ref);
       } catch (error) {
         notify("Erreur de chargement. Merci de rafraîchir la page.");

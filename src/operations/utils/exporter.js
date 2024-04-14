@@ -3,7 +3,7 @@ import {importHeaders} from "./importer";
 
 export const exportHeaders = ["id", ...importHeaders, "status"];
 
-export const exportData = (data, headers, fileName) => {
+export const exporter = (data, headers, fileName) => {
   const worksheet = utils.json_to_sheet(data);
 
   const workbook = utils.book_new();
