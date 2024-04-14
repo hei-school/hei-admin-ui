@@ -10,13 +10,13 @@ on:
   workflow_dispatch:
 
 env:
-  AWS_REGION: eu-west-3
   TEST_STUDENT1_PASSWORD: ${{ secrets.TEST_STUDENT1_PASSWORD }}
   TEST_TEACHER1_PASSWORD: ${{ secrets.TEST_TEACHER1_PASSWORD }}
   TEST_MANAGER1_PASSWORD: ${{ secrets.TEST_MANAGER1_PASSWORD }}
-  USERPOOL_ID: ${{ vars.PREPROD_USERPOOL_ID }}
-  WEBCLIENT_ID: ${{ vars.PREPROD_WEBCLIENT_ID }}
-  OAUTH_DOMAIN: ${{ vars.PREPROD_OAUTH_DOMAIN }}
+  REACT_APP_AWS_REGION: eu-west-3
+  REACT_APP_USERPOOL_ID: ${{ vars.PREPROD_USERPOOL_ID }}
+  REACT_APP_WEBCLIENT_ID: ${{ vars.PREPROD_WEBCLIENT_ID }}
+  REACT_APP_OAUTH_DOMAIN: ${{ vars.PREPROD_OAUTH_DOMAIN }}
 
 jobs:
   style:
@@ -35,7 +35,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
       - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-school 088312068315
 
       ## Connect to Numer Private Codeartifact Repository ##
@@ -44,7 +44,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.PREPROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
           unset-current-credentials: true
       - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-lab 057045785189
 
@@ -56,11 +56,8 @@ jobs:
       - name: Check style
         run: npm run format:check
   test-e2e:
-    timeout-minutes: 15
+    timeout-minutes: 20
     runs-on: ubuntu-latest
-    container:
-      image: cypress/browsers:node-20.9.0-chrome-118.0.5993.88-1-ff-118.0.2-edge-118.0.2088.46-1
-      options: --user 1001
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -75,7 +72,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
       - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-school 088312068315
 
       ## Connect to Numer Private Codeartifact Repository ##
@@ -84,7 +81,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.PREPROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.AWS_REGION }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
           unset-current-credentials: true
       - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-lab 057045785189
 
