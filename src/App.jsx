@@ -5,9 +5,9 @@ import {Admin} from "@react-admin/ra-enterprise";
 import {CustomRoutes, Resource} from "react-admin";
 import {Route} from "react-router-dom";
 
-import HaLoginPage from "./security/LoginPage";
 import {HaLayout} from "./ui/haLayout";
 import {mainTheme} from "./haTheme.js";
+import {WaitUntilHot} from "./utils/retryer";
 
 import dataProvider from "./providers/dataProvider";
 import authProvider from "./providers/authProvider.ts";
@@ -21,7 +21,7 @@ import feesTemplates from "./operations/feesTemplates";
 import payments from "./operations/payments";
 import heiDocs from "./operations/docs/hei";
 import studentDocs from "./operations/docs/students";
-import {WaitUntilHot} from "./utils/retryer";
+import HaLoginPage from "./security/LoginPage";
 
 function AppBase() {
   return (
@@ -132,5 +132,4 @@ function App() {
     </WaitUntilHot>
   );
 }
-
 export default App;

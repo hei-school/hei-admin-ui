@@ -27,11 +27,7 @@ const ProfileShow = () => {
         role={role}
         actions={
           <div
-            style={{
-              display: "flex",
-              width: "100%",
-              justifyContent: "flex-end",
-            }}
+            style={{display: "flex", width: "100%", justifyContent: "flex-end"}}
           >
             {isStudent() ? (
               <>

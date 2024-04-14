@@ -1,8 +1,8 @@
 import {EditButton, TextField} from "react-admin";
 import {CreateButton, ExportButton, ImportButton} from "../../ui/haToolbar";
-import {HaList} from "../../ui/haList";
 import {WorkOutlined} from "@mui/icons-material";
-import {ProfileFilters} from "../profile";
+import {HaList} from "../../ui/haList";
+import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {
   minimalUserHeaders,
   optionalUserHeaders,

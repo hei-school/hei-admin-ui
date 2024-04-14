@@ -36,9 +36,7 @@ export function GetCertificate({studentId}) {
         setIsLoading(false);
       })
       .catch(() => {
-        notify("Échec de téléchargement. Veuillez réessayer", {
-          type: "error",
-        });
+        notify("Échec de téléchargement. Veuillez réessayer", {type: "error"});
         setIsLoading(false);
       });
   };

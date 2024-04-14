@@ -3,7 +3,7 @@ import {rowStyle} from "./utils";
 import {AttachMoney} from "@mui/icons-material";
 import {commentFunctionRenderer} from "../utils";
 import {HaList} from "../../ui/haList/HaList";
-import {FeesFilter} from ".";
+import {FeesFilter} from "./components/FeesFilter";
 import {DateField} from "../common/components/fields";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {renderMoney} from "../common/utils/money";

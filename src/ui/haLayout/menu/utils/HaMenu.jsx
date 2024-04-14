@@ -1,4 +1,4 @@
-import {Box, Drawer, Typography, useMediaQuery, styled} from "@mui/material";
+import {Box, Drawer, Typography, styled, useMediaQuery} from "@mui/material";
 import {
   AccountCircle,
   Logout,

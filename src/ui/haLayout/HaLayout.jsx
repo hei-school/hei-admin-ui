@@ -1,5 +1,5 @@
 import {AppLocationContext} from "@react-admin/ra-navigation";
-import {Box, useMediaQuery, styled, ThemeProvider} from "@mui/material";
+import {Box, styled, ThemeProvider, useMediaQuery} from "@mui/material";
 import {HaMenu} from "./menu/utils/";
 import {HaAppBar} from "./appBar";
 import {mainTheme} from "../../haTheme";

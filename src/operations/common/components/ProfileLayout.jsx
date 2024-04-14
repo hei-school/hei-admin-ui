@@ -43,20 +43,19 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {DateField, BirthDateField} from "./fields";
-import {GeoPositionName} from "./GeoLocalisation";
+import {DateField, BirthDateField, FieldLabel} from "./fields";
 import {Create} from "./Create";
+import {GeoPositionName} from "./GeoLocalisation";
 import {useToggle} from "../../../hooks";
 import {useRole} from "../../../security/hooks";
+import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
 import {SPECIALIZATION_VALUE} from "../../students/components";
-import {PALETTE_COLORS} from "../../../ui/constants";
+import {EMPTY_TEXT, PALETTE_COLORS} from "../../../ui/constants";
 import {WORK_STATUS_VALUE} from "../../docs/components/SelectWorkStatus";
 import {NOOP_FN} from "../../../utils/noop";
+import {COMMON_FIELD_ATTRIBUTES} from "../../../ui/constants/common_styles";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
-
-const EMPTY_TEXT = "Non défini.e";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -64,11 +63,6 @@ const COMMON_GRID_ATTRIBUTES = {
   item: true,
   backgroundColor: "transparent",
   mx: 2,
-};
-
-const COMMON_FIELD_ATTRIBUTES = {
-  variant: "caption",
-  color: PALETTE_COLORS.typography.grey,
 };
 
 const renderSpecialization = (specialization_field) =>
@@ -203,26 +197,6 @@ const Title = ({children: label}) => (
       {label}
     </Typography>
   </Box>
-);
-
-const FieldLabel = ({children: label, icon}) => (
-  <Typography
-    color={PALETTE_COLORS.typography.black}
-    fontWeight="bold"
-    variant="body2"
-    sx={{
-      "display": "inline-flex",
-      "alignItems": "center",
-      "gap": 1,
-      "& .MuiSvgIcon-root": {
-        fontSize: "15px",
-        mt: "1px",
-      },
-    }}
-  >
-    {icon}
-    {label}
-  </Typography>
 );
 
 const Contact = () => {

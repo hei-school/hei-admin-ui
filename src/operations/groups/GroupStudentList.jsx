@@ -11,10 +11,10 @@ import {
   useRecordContext,
 } from "react-admin";
 import {useParams} from "react-router-dom";
-import {GroupFlowMoveTypeEnum, WhoamiRoleEnum} from "@haapi/typescript-client";
+import {GroupFlowMoveTypeEnum} from "@haapi/typescript-client";
 import {useToggle} from "../../hooks/useToggle";
 import {pageSize, PrevNextPagination} from "../utils";
-import authProvider from "../../providers/authProvider";
+import {useRole} from "../../security/hooks";
 import groupFlowProvider from "../../providers/groupFlowProvider";
 import MoveButton from "../groupFlow/MoveButton";
 
@@ -25,7 +25,7 @@ const DeleteGroupStudent = ({groupId}) => {
   const payload = {
     studentId: student.id,
     groupId: groupId,
-    MoveType: GroupFlowMoveTypeEnum.LEAVE,
+    move_type: GroupFlowMoveTypeEnum.LEAVE,
     migrate: false,
   };
 
@@ -71,14 +71,13 @@ const DeleteGroupStudent = ({groupId}) => {
 
 const GroupStudentList = () => {
   const params = useParams();
-  const role = authProvider.getCachedRole();
+  const {isManager} = useRole();
 
-  const isManager = role === WhoamiRoleEnum.MANAGER;
   const groupId = params.id;
 
   const ListActions = () => (
     <TopToolbar>
-      {isManager && (
+      {isManager() && (
         <MoveButton moveType={GroupFlowMoveTypeEnum.JOIN} canCreate />
       )}
       <ExportButton />
@@ -101,7 +100,7 @@ const GroupStudentList = () => {
         <TextField source="ref" label="Référence" />
         <TextField source="first_name" label="Prénom·s" />
         <TextField source="last_name" label="Nom·s" />
-        {isManager && (
+        {isManager() && (
           <div style={{display: "flex", justifyContent: "space-around"}}>
             <MoveButton
               moveType={GroupFlowMoveTypeEnum.LEAVE}

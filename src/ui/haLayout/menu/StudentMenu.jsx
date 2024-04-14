@@ -1,7 +1,7 @@
 import {Box} from "@mui/material";
 import {
   AttachMoney as FeesIcon,
-  Home as SchoolDocIcon,
+  Home as SchoolDocsIcon,
   CollectionsBookmark as TranscriptIcon,
   Inventory as DocsIcon,
   LibraryAddCheck as WorkStudyDocsIcon,
@@ -27,7 +27,7 @@ function StudentMenu() {
           to="/docs/school"
           data-testid="hei-docs"
           label="HEI"
-          icon={<SchoolDocIcon />}
+          icon={<SchoolDocsIcon />}
         />
         <ListMenuItem
           to="/docs/students/TRANSCRIPT"
