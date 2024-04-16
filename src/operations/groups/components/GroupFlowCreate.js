@@ -8,9 +8,11 @@ import {
 } from "@mui/material";
 import {
   Confirm,
+  RefreshButton,
   useGetList,
   useListContext,
   useRecordContext,
+  useRefresh,
 } from "react-admin";
 import {GroupFlowMoveTypeEnum} from "@haapi/typescript-client";
 import {useForm} from "react-hook-form";
@@ -52,6 +54,7 @@ const DIALOG_TITLE_PROPS = {
 
 const useMoveStudent = () => {
   const notify = useNotify();
+  const refresh = useRefresh();
 
   const moveStudent = async (messageOnSuccess, payload, toggle) => {
     return await groupFlowProvider
@@ -66,7 +69,10 @@ const useMoveStudent = () => {
           type: "error",
         })
       )
-      .finally(() => toggle());
+      .finally(() => {
+        toggle();
+        refresh();
+      });
   };
   return {moveStudent};
 };
@@ -206,9 +212,11 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
 
 export const LeaveGroupDialog = ({toggle, isOpen}) => {
   const {id: fromGroupId} = useParams();
+
   const {data: students = []} = useGetList("students");
 
   const record = useRecordContext();
+
   const {moveStudent} = useMoveStudent();
 
   const studentRef =
