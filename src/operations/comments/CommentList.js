@@ -52,6 +52,7 @@ export function CommentItem({comment, studentId, close}) {
             <img
               src={profilePicture}
               style={{width: "35px", height: "35px", borderRadius: "50%"}}
+              alt="student"
             />
             <div>
               <Typography

@@ -30,7 +30,6 @@ import {
   AssignmentOutlined as SpecializationIcon,
 } from "@mui/icons-material";
 
-import {EnableStatus, Sex} from "@haapi/typescript-client";
 import {
   Box,
   Card,
@@ -44,19 +43,19 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {DateField, BirthDateField} from "./fields";
+import {DateField, BirthDateField, FieldLabel} from "./fields";
+import {Create} from "./Create";
 import {GeoPositionName} from "./GeoLocalisation";
 import {useToggle} from "../../../hooks";
 import {useRole} from "../../../security/hooks";
-import {Create} from "./Create";
+import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
 import {SPECIALIZATION_VALUE} from "../../students/components";
-import {PALETTE_COLORS} from "../../../ui/constants";
+import {EMPTY_TEXT, PALETTE_COLORS} from "../../../ui/constants";
 import {WORK_STATUS_VALUE} from "../../docs/components/SelectWorkStatus";
 import {NOOP_FN} from "../../../utils/noop";
+import {COMMON_FIELD_ATTRIBUTES} from "../../../ui/constants/common_styles";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
-
-const EMPTY_TEXT = "Non défini.e";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -66,42 +65,11 @@ const COMMON_GRID_ATTRIBUTES = {
   mx: 2,
 };
 
-const COMMON_FIELD_ATTRIBUTES = {
-  variant: "caption",
-  color: PALETTE_COLORS.typography.grey,
-};
-
-const renderSex = ({sex}) => {
-  switch (sex) {
-    case Sex.M:
-      return "Homme";
-    case Sex.F:
-      return "Femme";
-    case null: // display empty_text if sex is null
-      return EMPTY_TEXT;
-    default:
-      console.error("Le sexe ne peut pas être affiché");
-  }
-};
-
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
 
 const renderWorkStatus = (workStatus) =>
   WORK_STATUS_VALUE[workStatus] || EMPTY_TEXT;
-
-const renderStatus = ({status}) => {
-  switch (status) {
-    case EnableStatus.ENABLED:
-      return "Actif.ve";
-    case EnableStatus.SUSPENDED:
-      return "Suspendu·e";
-    case EnableStatus.DISABLED:
-      return "Quitté.e";
-    default:
-      console.error("Le statut ne peut pas être affiché");
-  }
-};
 
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
@@ -192,6 +160,7 @@ const ProfileCardAvatar = ({role}) => {
         label=" "
         render={() => (
           <img
+            alt="profile"
             data-testid="profile-pic"
             ref={imgRef}
             src={user?.profile_picture || defaultProfilePicture}
@@ -200,7 +169,6 @@ const ProfileCardAvatar = ({role}) => {
                 imgRef.current.src = defaultProfilePicture;
               }
             }}
-            alt="profile picture"
             style={{
               objectFit: "cover",
               height: 175,
@@ -229,26 +197,6 @@ const Title = ({children: label}) => (
       {label}
     </Typography>
   </Box>
-);
-
-const FieldLabel = ({children: label, icon}) => (
-  <Typography
-    color={PALETTE_COLORS.typography.black}
-    fontWeight="bold"
-    variant="body2"
-    sx={{
-      "display": "inline-flex",
-      "alignItems": "center",
-      "gap": 1,
-      "& .MuiSvgIcon-root": {
-        fontSize: "15px",
-        mt: "1px",
-      },
-    }}
-  >
-    {icon}
-    {label}
-  </Typography>
 );
 
 const Contact = () => {
@@ -305,7 +253,7 @@ const PersonalInfos = ({isStudentProfile}) => {
         />
         <FunctionField
           label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
-          render={renderStatus}
+          render={(user) => getUserStatusInFr(user.status, user.sex)}
           {...COMMON_FIELD_ATTRIBUTES}
         />
         <DateField
@@ -352,7 +300,7 @@ const PersonalDetails = ({isStudentProfile}) => {
       <SimpleShowLayout>
         <FunctionField
           label={<FieldLabel icon={<GenderIcon />}>Sexe</FieldLabel>}
-          render={renderSex}
+          render={(user) => getGenderInFr(user.sex)}
           {...COMMON_FIELD_ATTRIBUTES}
         />
         <TextField

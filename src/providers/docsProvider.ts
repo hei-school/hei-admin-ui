@@ -1,6 +1,5 @@
 import {FileType} from "@haapi/typescript-client";
 import {OwnerType} from "src/operations/docs/types";
-import {removeExtension} from "../utils/files";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {MULTIPART_HEADERS} from "./constants";
 import {filesApi} from "./api";
@@ -14,7 +13,7 @@ const docsProvider: HaDataProviderType = {
           .getSchoolRegulations(page, perPage)
           .then((result) => result.data);
       case OwnerType.STUDENT:
-        if (meta.type == "WORK_DOCUMENT") {
+        if (meta.type === "WORK_DOCUMENT") {
           return filesApi()
             .getStudentWorkDocuments(meta.studentId, page, perPage)
             .then((result) => result.data);
@@ -37,7 +36,7 @@ const docsProvider: HaDataProviderType = {
           .getSchoolRegulationById(id)
           .then((result) => result.data);
       case OwnerType.STUDENT:
-        if (meta.type == "WORK_DOCUMENT") {
+        if (meta.type === "WORK_DOCUMENT") {
           return filesApi()
             .getStudentWorkDocumentsById(meta.studentId, id)
             .then((result) => result.data);
@@ -62,7 +61,7 @@ const docsProvider: HaDataProviderType = {
           })
           .then((result) => [result.data]);
       case OwnerType.STUDENT:
-        if (doc.type == "WORK_DOCUMENT") {
+        if (doc.type === "WORK_DOCUMENT") {
           return filesApi()
             .uploadStudentWorkFile(
               doc.studentId,

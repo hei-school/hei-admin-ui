@@ -16,17 +16,17 @@ import {useRole} from "../../../security/hooks";
 import {OwnerType} from "../types";
 
 const getTitle = (owner, type) => {
-  if (owner == OwnerType.SCHOOL) {
+  if (owner === OwnerType.SCHOOL) {
     return "Liste des documents chez HEI";
   }
-  if (owner == OwnerType.STUDENT) {
+  if (owner === OwnerType.STUDENT) {
     switch (type) {
       case FileType.TRANSCRIPT:
         return "Liste des bulletins";
       case FileType.OTHER:
         return "Liste des autres documents étudiant";
       case "WORK_DOCUMENT":
-        return "LIste des autorisations d'alternance";
+        return "Liste des autorisations d'alternance";
       default:
         return "Liste des documents";
     }
@@ -35,7 +35,7 @@ const getTitle = (owner, type) => {
 };
 
 const ListAction = ({type, owner, refresh}) => {
-  const [isOpen, _set, toggle] = useToggle();
+  const [isOpen, , toggle] = useToggle();
 
   return (
     <>

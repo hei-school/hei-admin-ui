@@ -1,15 +1,7 @@
-import {
-  DateInput,
-  FileField,
-  FileInput,
-  SelectInput,
-  SimpleForm,
-  TextInput,
-  regex,
-} from "react-admin";
-import {Dialog, DialogTitle, Box} from "@mui/material";
+import {FileField, FileInput, SimpleForm, TextInput, regex} from "react-admin";
+import {Dialog, DialogTitle} from "@mui/material";
 import {useParams} from "react-router-dom";
-import {FileType, WorkStudyStatus} from "@haapi/typescript-client";
+import {FileType} from "@haapi/typescript-client";
 import {Create} from "../../common/components";
 import {useRole} from "../../../security/hooks/useRole";
 import {removeExtension} from "../../../utils/files";
@@ -93,13 +85,13 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             ]}
             fullWidth
           />
-          {type == "WORK_DOCUMENT" && <SelectWorkStatus />}
+          {type === "WORK_DOCUMENT" && <SelectWorkStatus />}
           <FileInput
+            isRequired
             source="raw"
             label=" "
             multiple={false}
             accept="application/pdf,image/jpeg,image/png,image/webp"
-            isRequired
             sx={{border: `1px solid ${PALETTE_COLORS.grey}`}}
           >
             <FileField source="src" title="title" />

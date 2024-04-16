@@ -1,7 +1,7 @@
 import {Link, useListContext} from "react-admin";
 import {Button} from "@mui/material";
 import {AddOutlined, Download} from "@mui/icons-material";
-import {exporter} from "../../operations/utils";
+import {exportData} from "../../operations/utils";
 import styled from "@emotion/styled";
 import useHaListContext from "../haList/useHaListContext";
 
@@ -69,12 +69,10 @@ export function CreateButton({resource}) {
   );
 }
 
-export function ExportButton({exportHandler, icon, ...rest}) {
+export function ExportButton({onExport, icon, ...rest}) {
   const list = useListContext();
   const doExport = () =>
-    exportHandler
-      ? exportHandler(list.data)
-      : exporter(list.data, [], list.resource);
+    onExport ? onExport(list.data) : exportData(list.data, [], list.resource);
 
   return (
     <ButtonBase

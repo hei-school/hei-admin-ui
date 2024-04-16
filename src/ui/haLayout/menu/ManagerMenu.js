@@ -1,38 +1,40 @@
 import {Box} from "@mui/material";
 import {
-  Work,
-  School,
-  People,
-  AttachMoney,
-  Inventory,
-  Home,
+  Work as TeachersIcon,
+  School as StudentIcon,
+  People as StudentListIcon,
+  AttachMoney as FeesIcon,
+  Inventory as DocsIcon,
+  Group as GroupIcon,
+  Home as HeiDocsIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function ManagerMenu() {
   return (
     <Box>
-      <SingleMenu to="/teachers" label="Enseignants" icon={<Work />} />
-      <ListMenu label="Étudiants" icon={<School />} data-testid="students-menu">
+      <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />
+      <ListMenu
+        label="Étudiants"
+        icon={<StudentIcon />}
+        data-testid="students-menu"
+      >
         <ListMenuItem
           label="Liste des étudiants"
-          icon={<People />}
+          icon={<StudentListIcon />}
           to="/students"
         />
-        <ListMenuItem
-          label="Liste de tous les frais"
-          icon={<AttachMoney />}
-          to="/fees"
-        />
+        <ListMenuItem label="Frais en retard" icon={<FeesIcon />} to="/fees" />
       </ListMenu>
-      <ListMenu data-testid="docs" label="Documents" icon={<Inventory />}>
+      <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <ListMenuItem
           to="/docs/school"
           data-testid="hei-docs"
           label="HEI"
-          icon={<Home />}
+          icon={<HeiDocsIcon />}
         />
       </ListMenu>
+      <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
     </Box>
   );
 }
