@@ -17,7 +17,14 @@ function FeesTemplatesCreate() {
     <Create
       title={"Créer un frais prédéfini"}
       redirect={() => "fees-templates"}
-      transform={(feesTemplates) => ({...feesTemplates, id: uuid()})}
+      transform={(feesTemplate) => {
+        return {
+          ...feesTemplate,
+          id: uuid(),
+          amount: +feesTemplate.amount,
+          number_of_payments: +feesTemplate.number_of_payments,
+        };
+      }}
     >
       <SimpleForm>
         <TextInput

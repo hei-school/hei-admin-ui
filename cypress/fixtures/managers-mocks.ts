@@ -1,6 +1,6 @@
 import {EnableStatus, Manager, Sex} from "@haapi/typescript-client";
 
-export const managersMock = [
+export const managersMock: Manager[] = [
   {
     id: "manager1_id",
     ref: "MGR21001",

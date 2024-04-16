@@ -17,10 +17,9 @@ Cypress.Commands.add("routePathnameEq", (to) => {
 });
 
 Cypress.Commands.add("login", (options: LoginConfig) => {
-  const {role} = options;
+  const {role, success: isSuccess = true} = options;
   const defaultUserConnected = getUserConnected(role);
   const user = options.user || defaultUserConnected.user;
-  const isSuccess = options.success !== false;
 
   const whoami: Whoami = {
     id: user.id,
@@ -28,17 +27,11 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     role,
   };
 
-  cy.intercept("**/whoami", (req) => {
-    req.reply({
-      statusCode: 403,
-      body: "Forbidden",
-      headers: {
-        "Content-Type": "text/plain",
-      },
-    });
-  }).as("getWhoAmi");
   cy.intercept(`**/${role.toLowerCase()}s/${user.id}`, user).as("getProfile");
   cy.intercept("**/health/db", "OK").as("getHealthDb");
+  cy.intercept("POST", "https://cognito-idp.eu-west-3.amazonaws.com").as(
+    "postCognito"
+  );
   cy.visit("/login");
 
   // have to click 'cause of MUI input style
@@ -50,10 +43,12 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     .type(options.password || defaultUserConnected.password);
   cy.get("button").contains("Connexion").click();
 
-  if (isSuccess) {
-    cy.intercept("**/whoami", whoami).as("getWhoAmi");
-    cy.wait("@getWhoAmi");
-  }
+  cy.wait("@postCognito");
+  cy.wait("@postCognito");
 
-  isSuccess && options.redirect && cy.visit(options.redirect);
+  if (isSuccess) {
+    cy.intercept("**/whoami", whoami).as("getWhoami");
+    cy.wait("@getWhoami");
+    cy.wait("@getProfile");
+  }
 });

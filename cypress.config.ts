@@ -3,6 +3,8 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
+const REQUEST_TIMEOUT = 10000;
+
 export default defineConfig({
   component: {
     devServer: {
@@ -16,6 +18,7 @@ export default defineConfig({
       // implement node event listeners here
     },
     baseUrl: "http://localhost:5173/#",
+    requestTimeout: REQUEST_TIMEOUT,
   },
   env: {
     REACT_APP_TEST_STUDENT1_PASSWORD:

@@ -17,6 +17,13 @@ function FeesTemplatesEdit() {
     <Edit
       title={"Modifier un frais prédéfini"}
       redirect={() => "fees-templates"}
+      transform={(template) => {
+        return {
+          ...template,
+          amount: +template.amount,
+          number_of_payments: +template.number_of_payments,
+        };
+      }}
     >
       <SimpleForm toolbar={<EditToolBar />}>
         <TextInput fullWidth source="name" label="Nom" validate={required()} />

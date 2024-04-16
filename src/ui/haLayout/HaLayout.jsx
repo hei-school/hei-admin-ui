@@ -31,6 +31,7 @@ export function HaLayout({children}) {
             }}
             component="div"
             id="main-content"
+            data-testid="main-content"
           >
             {children}
           </Box>
