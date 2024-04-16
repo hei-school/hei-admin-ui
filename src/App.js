@@ -7,7 +7,6 @@ import {Route} from "react-router-dom";
 
 import {HaLayout} from "./ui/haLayout";
 import {mainTheme} from "./haTheme.js";
-import {WaitUntilHot} from "./utils/retryer";
 
 import dataProvider from "./providers/dataProvider";
 import authProvider from "./providers/authProvider.ts";
@@ -126,10 +125,6 @@ function AppBase() {
 }
 
 function App() {
-  return (
-    <WaitUntilHot>
-      <AppBase />
-    </WaitUntilHot>
-  );
+  return <AppBase />;
 }
 export default App;
