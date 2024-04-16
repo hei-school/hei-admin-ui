@@ -45,7 +45,6 @@ const FeeList = () => {
       <FunctionField
         label="Reste à payer"
         render={(record) => renderMoney(record.remaining_amount)}
-        textAlign="right"
       />
       <DateField
         source="creation_datetime"
