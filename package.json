@@ -10,11 +10,11 @@
     "preview": "vite preview",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "test:open": "concurrently \"npm run dev\" \"npx cypress open\"",
     "test:e2e": "cypress run --spec cypress/e2e/**/*",
     "test:unit": "cypress run --component",
-    "test:open": "cypress open",
     "test:e2e:ci": "concurrently \"npm run dev\" \"npm run test:e2e\"",
-    "test:ci": "npm run test:unit && npm run test:e2e:ci"
+    "test:unit:ci": "npm run test:unit && npm run test:unit"
   },
   "dependencies": {
     "@haapi/typescript-client": "^1.18.0",

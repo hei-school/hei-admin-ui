@@ -1,6 +1,6 @@
-import {getPermissions} from "../security/permissions";
-
 import {Amplify} from "aws-amplify";
+import {AxiosResponse} from "axios";
+import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 import {
   fetchAuthSession,
   updatePassword,
@@ -10,10 +10,7 @@ import {
   signOut,
 } from "@aws-amplify/auth";
 import {awsConfig} from "./aws-config";
-
-import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
-
-import {AxiosResponse} from "axios";
+import {getPermissions} from "../security/permissions";
 
 Amplify.configure(awsConfig);
 
@@ -32,8 +29,7 @@ const whoami = async (): Promise<Whoami> => {
   const securityApi = new SecurityApi(conf);
   return securityApi
     .whoami()
-    .then((response: AxiosResponse<Whoami>) => response.data)
-    .catch(() => ({}));
+    .then((response: AxiosResponse<Whoami>) => response.data);
 };
 
 const toBase64 = (param: string) => Buffer.from(param).toString("base64");
