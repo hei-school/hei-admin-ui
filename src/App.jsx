@@ -126,10 +126,7 @@ function AppBase() {
 }
 
 function App() {
-  return (
-    <WaitUntilHot>
-      <AppBase />
-    </WaitUntilHot>
-  );
+  return <AppBase />;
 }
+
 export default App;

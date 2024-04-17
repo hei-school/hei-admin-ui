@@ -1,12 +1,12 @@
 import {FunctionField, ShowButton, useListContext} from "react-admin";
-import {rowStyle} from "./utils";
 import {AttachMoney} from "@mui/icons-material";
-import {commentFunctionRenderer} from "../utils";
+import {FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "../../ui/haList/HaList";
 import {FeesFilter} from "./components/FeesFilter";
 import {DateField} from "../common/components/fields";
-import {FeeStatusEnum} from "@haapi/typescript-client";
+import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
+import {rowStyle} from "./utils";
 
 const FEES_STATUS_VALUE = {
   LATE: "en retard",
@@ -16,11 +16,7 @@ const FEES_STATUS_VALUE = {
 
 const ListTitle = () => {
   const {filterValues} = useListContext();
-  return (
-    <p>
-      Liste de tous les frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}
-    </p>
-  );
+  return <p>Frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}</p>;
 };
 
 const ByStatusFeeList = (props) => (
