@@ -12,27 +12,26 @@ const feesTemplate1Updated: Required<FeeTemplate> = {
 };
 
 describe("Manager.feesTemplates", () => {
-  before(() => {
+  beforeEach(() => {
     cy.login({role: "MANAGER"});
     cy.intercept(
       "GET",
       "**fees/templates?page=1&page_size=10",
       feesTemplatesMocks
     ).as("getFeesTemplates");
+    cy.intercept("PUT", `**fees/templates/**`, feesTemplate1Updated).as(
+      "putFeeTemplate1"
+    );
     cy.intercept(
       "GET",
       `**fees/templates/${feesTemplates1Mock.id}`,
       feesTemplates1Mock
     ).as("getFeesTemplate1");
+
     cy.get('a[href="#/fees-templates"]').click();
   });
 
   it("can edit feesTemplates", () => {
-    cy.intercept(
-      "PUT",
-      `**fees/templates/${feesTemplates1Mock.id}`,
-      feesTemplate1Updated
-    ).as("updateFeesTemplate1");
     cy.wait("@getFeesTemplates");
     cy.get("tbody tr").should("have.length", feesTemplatesMocks.length);
     cy.contains(feesTemplates1Mock.name).click();
@@ -42,11 +41,34 @@ describe("Manager.feesTemplates", () => {
     cy.get("#amount").clear().type(feesTemplate1Updated.amount.toString());
     cy.getByTestid("SaveIcon").click();
 
-    cy.wait("@updateFeesTemplate1").then((interception) => {
+    cy.wait("@putFeeTemplate1").then((interception) => {
       const {body} = interception.request;
       expect(body).to.deep.equal({
         ...feesTemplate1Updated,
         creation_datetime: body.creation_datetime,
+      });
+    });
+  });
+
+  it("can create feesTemplates", () => {
+    cy.wait("@getFeesTemplates");
+    cy.get("tbody tr").should("have.length", feesTemplatesMocks.length);
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("create-button").click();
+    cy.get("#type_TUITION").click();
+    cy.get("#name").clear().type(feesTemplate1Updated.name);
+    cy.get("#amount").clear().type(feesTemplate1Updated.amount.toString());
+    cy.get("#number_of_payments")
+      .clear()
+      .type(feesTemplate1Updated.number_of_payments.toString());
+    cy.getByTestid("SaveIcon").click();
+
+    cy.wait("@putFeeTemplate1").then((interception) => {
+      const {body} = interception.request;
+      body.creation_datetime = feesTemplate1Updated.creation_datetime;
+      expect(body).to.deep.equal({
+        ...feesTemplate1Updated,
+        id: body.id,
       });
     });
   });
