@@ -7,9 +7,9 @@
     "framework": "react",
     "config": {
       "SourceDir": "src",
-      "DistributionDir": "build",
-      "BuildCommand": "npm run-script build",
-      "StartCommand": "npm run-script start"
+      "DistributionDir": "dist",
+      "BuildCommand": "npm run build",
+      "StartCommand": "npm run preview"
     }
   }
 }
