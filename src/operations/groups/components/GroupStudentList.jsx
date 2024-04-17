@@ -1,16 +1,18 @@
 import {Box} from "@mui/material";
 import {School as StudentIcon} from "@mui/icons-material";
-import {TextField} from "react-admin";
+import {TextField, useRefresh} from "react-admin";
 import {useParams} from "react-router-dom";
 import {exportData, exportHeaders} from "../../utils";
 import {HaList} from "../../../ui/haList";
 import {useRole} from "../../../security/hooks";
 import {ExportButton} from "../../../ui/haToolbar";
 import {ProfileFilters} from "../../profile/components/ProfileFilters";
-import {InsertStudent, MoveStudent, RemoveStudent} from "./MIgrateStudent";
+import {InsertStudent, MoveStudent, RemoveStudent} from "./MigrateStudent";
 
 const GroupStudentList = () => {
   const params = useParams();
+
+  const refresh = useRefresh();
   const {isManager} = useRole();
 
   const groupId = params.id;
