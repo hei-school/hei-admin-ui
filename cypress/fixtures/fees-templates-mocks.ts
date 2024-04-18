@@ -53,3 +53,5 @@ export const feesTemplatesMocks: FeeTemplate[] = [
 
 export const feesTemplates1Mock =
   feesTemplatesMocks[0] as Required<FeeTemplate>;
+export const annual1xTemplate = feesTemplatesMocks[1] as Required<FeeTemplate>;
+export const annual9xTemplate = feesTemplatesMocks[2] as Required<FeeTemplate>;

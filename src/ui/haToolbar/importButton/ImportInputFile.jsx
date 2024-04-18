@@ -54,7 +54,6 @@ export const ImportInputFile = forwardRef(function ImportInput(
 
   const makeRequest = () => {
     mutationRequest(data).catch((error) => {
-      console.log(error);
       notify(`L'importation n'a pas pu être effectuée`, {
         type: "error",
         autoHideDuration: 3000,

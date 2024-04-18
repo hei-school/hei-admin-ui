@@ -30,11 +30,11 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
       queryOptions={{meta: {isUpdate: true}}}
     >
       <SimpleForm toolbar={<EditToolBar />}>
-        <TextInput source="ref" label="Référence" fullWidth disabled={true} />
+        <TextInput source="ref" label="Référence" fullWidth readOnly />
         <TextInput source="first_name" label="Prénom·s" fullWidth />
         <TextInput source="last_name" label="Nom·s" fullWidth />
-        {isStudentProfile && <SelectSpecialization disabled={isOwnProfile} />}
-        <TextInput source="email" fullWidth disabled={isOwnProfile} />
+        {isStudentProfile && <SelectSpecialization readOnly={isOwnProfile} />}
+        <TextInput source="email" fullWidth readOnly={isOwnProfile} />
         <TextInput multiline source="address" label="Adresse" fullWidth />
         <EditGeoLocalisation />
         <SexRadioButton />
@@ -54,9 +54,9 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
           source="entrance_datetime"
           label="Date d'entrée chez HEI"
           fullWidth
-          disabled={isOwnProfile}
+          readOnly={isOwnProfile}
         />
-        <StatusRadioButton disabled={isOwnProfile} />
+        <StatusRadioButton readOnly={isOwnProfile} />
       </SimpleForm>
     </Edit>
   );

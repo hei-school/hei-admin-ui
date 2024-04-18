@@ -3,19 +3,19 @@ import {
   BooleanInput,
   RadioButtonGroupInput,
   TextInput,
+  DateInput,
   maxValue,
   minValue,
   number,
   required,
-  DateInput,
 } from "react-admin";
+import {useFormContext} from "react-hook-form";
 import {SelectDueDatetime} from "./SelectDueDatetime";
 import {SelectPredefinedType} from "./SelectPredefinedType";
 import {FEESTEMPLATES_CHOICES} from "../feesTemplatesChoices";
-import {useFormContext} from "react-hook-form";
 
 export function FeeFields() {
-  const {reset} = useFormContext();
+  const {reset, getValues} = useFormContext();
   const [feeConfig, setFeeConfig] = useState({
     isPredefinedFee: true,
     isPredefinedDate: true,
@@ -26,16 +26,15 @@ export function FeeFields() {
   const updateFeeConfig = (event, shouldResetField = false) => {
     const {name, checked} = event.target;
     setFeeConfig({...feeConfig, [name]: checked});
-
     if (shouldResetField) {
-      reset((prev) => ({
-        ...prev,
+      reset({
+        ...getValues(),
         [name]: checked,
         predefinedType: "",
         amount: "",
         comment: "",
         number_of_payments: "",
-      }));
+      });
     }
   };
 
@@ -59,7 +58,7 @@ export function FeeFields() {
           optionText="label"
           optionValue="value"
           choices={FEESTEMPLATES_CHOICES}
-          disabled={isPredefinedFee}
+          readOnly={isPredefinedFee}
           validate={required()}
         />
       ) : (
@@ -71,9 +70,11 @@ export function FeeFields() {
           source="amount"
           id="amount"
           name="amount"
-          data-testid="amount"
+          inputProps={{
+            "data-testid": "amount",
+          }}
           label="Montant de la mensualité"
-          disabled={isPredefinedFee}
+          readOnly={isPredefinedFee}
           validate={[required(), number(), minValue(1)]}
         />
         <TextInput
@@ -81,9 +82,11 @@ export function FeeFields() {
           source="number_of_payments"
           id="number_of_payments"
           name="number_of_payments"
-          data-testid="number_of_payments"
+          inputProps={{
+            "data-testid": "number_of_payments",
+          }}
           label="Nombre de mensualités"
-          disabled={isPredefinedFee}
+          readOnly={isPredefinedFee}
           validate={[required(), number(), minValue(1), maxValue(12)]}
         />
         <TextInput
@@ -91,9 +94,11 @@ export function FeeFields() {
           source="comment"
           name="comment"
           id="comment"
-          data-testid="comment"
           label="Commentaire"
-          disabled={isPredefinedFee}
+          readOnly={isPredefinedFee}
+          inputProps={{
+            "data-testid": "comment",
+          }}
         />
         <BooleanInput
           label="Date limite à chaque fin du mois ?"

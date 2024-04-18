@@ -140,7 +140,7 @@ export function ImportDialog({
                       control={
                         <Checkbox
                           size="small"
-                          disabled={head.disabled}
+                          readOnly={head.disabled}
                           checked
                           {...register("importHeaders", {})}
                         />

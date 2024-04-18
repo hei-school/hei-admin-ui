@@ -69,7 +69,7 @@ function EditToolbar() {
 function DisabledInfo() {
   const {record} = useEditController();
   let dateInfo = {label: "Date de création", source: "creation_datetime"};
-  const props = {disabled: true, fullWidth: true};
+  const props = {readOnly: true, fullWidth: true};
 
   if (record.udpated_at) {
     dateInfo = {
@@ -85,13 +85,13 @@ function DisabledInfo() {
         <TextInput
           source="total_amount"
           sx={{flex: 1}}
-          disabled
           label="Total à payer"
+          readOnly
         />
         <TextInput
           source="remaining_amount"
           sx={{flex: 1}}
-          disabled
+          readOnly
           label="Reste à payer"
         />
         <SelectInput

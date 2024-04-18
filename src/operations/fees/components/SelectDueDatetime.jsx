@@ -33,7 +33,9 @@ export function SelectDueDatetime() {
       />
       <TextInput
         label="Année"
-        data-testid="predefinedYear"
+        inputProps={{
+          "data-testid": "predefinedYear",
+        }}
         source="predefinedYear"
         name="predefinedYear"
         validate={[required(), number(), minValue(2021)]}
