@@ -12,11 +12,13 @@ import profilePicProvider from "./profilePicProvider";
 import feesTemplatesProvider from "./feesTemplatesProvider";
 import docsProvider from "./docsProvider";
 import commentProvider from "./commentProvider";
+import annoucementrovider from "./announcementProvider";
 
 export const maxPageSize = 500;
 
 const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "profile") return profileProvider;
+  if (resourceType === "announcements") return annoucementrovider;
   if (resourceType === "students") return studentProvider;
   if (resourceType === "fees") return feeProvider;
   if (resourceType === "payments") return paymentProvider;

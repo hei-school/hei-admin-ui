@@ -16,6 +16,7 @@ import groups from "./operations/groups";
 import profile from "./operations/profile";
 import students from "./operations/students";
 import teachers from "./operations/teachers";
+import announcements from "./operations/announcements";
 import fees from "./operations/fees";
 import feesTemplates from "./operations/feesTemplates";
 import payments from "./operations/payments";
@@ -45,6 +46,7 @@ function AppBase() {
       <Resource name="payments" {...payments} />
       <Resource name="docs" options={{label: "Documents"}} />
       <Resource name="comments" />
+      <Resource name="annoucements" {...announcements} />
 
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
