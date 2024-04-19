@@ -1,8 +1,4 @@
 import {List, Datagrid} from "react-admin";
-import {
-  EditableDatagrid,
-  EditRowButton,
-} from "@react-admin/ra-editable-datagrid";
 import {styled} from "@mui/styles";
 import {Box} from "@mui/material";
 import {PrevNextPagination} from "./PrevNextPagination";
@@ -38,16 +34,13 @@ const DatagridWrapper = styled("div")({
 export function HaList({
   title,
   actions,
-  datagridActions,
   resource,
   children,
   icon,
-  editForm,
   listProps = {},
   datagridProps = {},
   mainSearch = {source: "", label: ""},
   filterIndicator = true,
-  editable = false,
 }) {
   return (
     <ListWrapper>
@@ -67,25 +60,13 @@ export function HaList({
             mainSearch={mainSearch}
           />
           <DatagridWrapper>
-            {editable ? (
-              <EditableDatagrid
-                editForm={editForm}
-                bulkActionButtons={false}
-                noDelete
-                actions={datagridActions}
-                {...datagridProps}
-              >
-                {children}
-              </EditableDatagrid>
-            ) : (
-              <Datagrid
-                bulkActionButtons={false}
-                rowClick="show"
-                {...datagridProps}
-              >
-                {children}
-              </Datagrid>
-            )}
+            <Datagrid
+              bulkActionButtons={false}
+              rowClick="show"
+              {...datagridProps}
+            >
+              {children}
+            </Datagrid>
           </DatagridWrapper>
         </Box>
       </List>
