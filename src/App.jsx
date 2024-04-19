@@ -49,7 +49,7 @@ function AppBase() {
       <Resource name="comments" />
       <Resource name="promotions-groups" />
       <Resource name="promotions" {...promotions} />
-      <Resource name="annoucements" {...announcements} />
+      <Resource name="announcements" {...announcements} />
 
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />

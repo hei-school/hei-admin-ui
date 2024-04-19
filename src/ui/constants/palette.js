@@ -11,4 +11,5 @@ export const PALETTE_COLORS = {
     grey: grey[700],
     black: "#323333",
   },
+  red: "#D32F2F"
 };
