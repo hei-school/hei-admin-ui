@@ -1,8 +1,25 @@
 import {HaDataProviderType} from "./HaDataProviderType";
+import { announcementsApi } from "./api";
 
-const annoucementrovider: HaDataProviderType = {
+const announcementrovider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    throw new Error("Function not implemented.");
+    return [
+      {
+        "id": "string",
+        "title": "string",
+        "content": "string",
+        "author": {
+          "id": "string",
+          "first_name": "string",
+          "last_name": "string",
+          "email": "string",
+          "profile_picture": "string"
+        },
+        "creation_datetime": "2024-04-19T10:18:05.774Z",
+        "scope": "GLOBAL"
+      }
+    ]
+    return announcementsApi().getAnnouncements(page, perPage, filter.from, filter.to, filter.authorRef).then((result) => result.data);
   },
   async getOne(id: string) {
     throw new Error("Function not implemented.");
@@ -15,4 +32,4 @@ const annoucementrovider: HaDataProviderType = {
   },
 };
 
-export default annoucementrovider;
+export default announcementrovider;

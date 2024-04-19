@@ -46,7 +46,7 @@ function AppBase() {
       <Resource name="payments" {...payments} />
       <Resource name="docs" options={{label: "Documents"}} />
       <Resource name="comments" />
-      <Resource name="annoucements" {...announcements} />
+      <Resource name="announcements" {...announcements} />
 
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />

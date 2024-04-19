@@ -5,7 +5,8 @@ import {AnnouncementCreate} from "./AnnouncementCreate";
 const announcements = {
     list: AnnouncementList,
     show: AnnouncementShow,
-    create: AnnouncementCreate
+    create: AnnouncementCreate,
+    options: {label: "Annonces"},
 };
   
 export default announcements;
