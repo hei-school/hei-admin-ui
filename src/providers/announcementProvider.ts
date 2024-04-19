@@ -1,35 +1,55 @@
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
-import { announcementsApi } from "./api";
+import {announcementsApi} from "./api";
+import authProvider from "./authProvider";
 
-const announcementrovider: HaDataProviderType = {
+const announcementProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    return [
-      {
-        "id": "string",
-        "title": "string",
-        "content": "string",
-        "author": {
-          "id": "string",
-          "first_name": "string",
-          "last_name": "string",
-          "email": "string",
-          "profile_picture": "string"
-        },
-        "creation_datetime": "2024-04-19T10:18:05.774Z",
-        "scope": "GLOBAL"
-      }
-    ]
-    return announcementsApi().getAnnouncements(page, perPage, filter.from, filter.to, filter.authorRef).then((result) => result.data);
+    const role = authProvider.getCachedRole();
+    switch (role) {
+      case WhoamiRoleEnum.MANAGER:
+        return announcementsApi()
+          .getAnnouncements(
+            page,
+            perPage,
+            filter.from,
+            filter.to,
+            filter.authorRef
+          )
+          .then((result) => result.data);
+      case WhoamiRoleEnum.STUDENT:
+        return announcementsApi()
+          .getStudentsAnnouncements(
+            page,
+            perPage,
+            filter.from,
+            filter.to,
+            filter.authorRef
+          )
+          .then((result) => result.data);
+      case WhoamiRoleEnum.TEACHER:
+        return announcementsApi()
+          .getTeachersAnnouncements(
+            page,
+            perPage,
+            filter.from,
+            filter.to,
+            filter.authorRef
+          )
+          .then((result) => result.data);
+      default:
+        throw new Error("Role not known.");
+    }
   },
   async getOne(id: string) {
     throw new Error("Function not implemented.");
   },
   async saveOrUpdate(payload: any) {
-    throw new Error("Function not implemented.");
+    return announcementsApi().createAnnouncement(payload[0]);
   },
   async delete(id: string) {
     throw new Error("Not implemented");
   },
 };
 
-export default announcementrovider;
+export default announcementProvider;
