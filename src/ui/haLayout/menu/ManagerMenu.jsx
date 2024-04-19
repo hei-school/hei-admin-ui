@@ -7,6 +7,7 @@ import {
   Inventory as DocsIcon,
   Group as GroupIcon,
   Home as HeiDocsIcon,
+  Newspaper as AnnouncementIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
@@ -35,6 +36,11 @@ function ManagerMenu() {
         />
       </ListMenu>
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
+      <SingleMenu
+        to="/announcements"
+        label="Annonces"
+        icon={<AnnouncementIcon />}
+      />
     </Box>
   );
 }
