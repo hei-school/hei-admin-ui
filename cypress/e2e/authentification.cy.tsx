@@ -1,5 +1,5 @@
 import {getStudent1Connected} from "../fixtures/api_mocks/authentification-mocks";
-import {manager1Mock} from "../fixtures/api_mocks/managers-mocks";
+import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Authentification", () => {
   it("user should remains on login page if fails", () => {
@@ -12,13 +12,13 @@ describe("Authentification", () => {
   });
 
   it("should lands on profile page if succeeds", () => {
-    cy.login({role: "MANAGER"});
+    cy.login({role: "STUDENT"});
     cy.getByTestid("main-content")
-      .should("contain", manager1Mock.ref)
-      .and("contain", manager1Mock.last_name)
-      .and("contain", manager1Mock.address)
-      .and("contain", manager1Mock.email)
-      .and("contain", manager1Mock.phone);
+      .should("contain", student1Mock.ref)
+      .and("contain", student1Mock.last_name)
+      .and("contain", student1Mock.address)
+      .and("contain", student1Mock.email)
+      .and("contain", student1Mock.phone);
   });
 
   it("permits user to renew password when it is forgotten", () => {
