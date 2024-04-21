@@ -55,6 +55,7 @@ jobs:
       ## Run prettier to check code style ##
       - name: Check style
         run: npm run format:check
+
   test-e2e:
     timeout-minutes: 20
     runs-on: ubuntu-latest

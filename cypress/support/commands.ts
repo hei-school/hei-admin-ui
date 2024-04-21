@@ -2,7 +2,7 @@
 
 import {Whoami} from "@haapi/typescript-client";
 import {LoginConfig} from "./global";
-import {getUserConnected} from "../fixtures/authentification-mocks";
+import {getUserConnected} from "../fixtures/api_mocks/authentification-mocks";
 
 Cypress.Commands.add("getByTestid", <Subject = any>(id: string) => {
   return cy.get<Subject>(`[data-testid='${id}']`);

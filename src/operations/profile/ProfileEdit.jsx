@@ -1,10 +1,10 @@
-import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
+import {DateInput, SimpleForm, TextInput, maxLength} from "react-admin";
 import {EditToolBar, SexRadioButton} from "../utils";
-import {toUTC} from "../../utils/date";
 import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 import {SelectSpecialization} from "../students/components";
-import {useRole} from "../../security/hooks";
 import {EditGeoLocalisation, Edit} from "../common/components";
+import {useRole} from "../../security/hooks";
+import {toUTC} from "../../utils/date";
 
 const userToUserApi = ({
   birth_date,

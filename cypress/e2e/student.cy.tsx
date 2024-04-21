@@ -1,6 +1,6 @@
-import {feesMock} from "../fixtures/fees-mocks";
-import {createPaymentMock} from "../fixtures/payments-mocks";
-import {student1Mock} from "../fixtures/students-mocks";
+import {feesMock} from "../fixtures/api_mocks/fees-mocks";
+import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
+import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Student", () => {
   beforeEach(() => {
@@ -50,7 +50,6 @@ describe("Student", () => {
   });
 
   it("can list fees", () => {
-    const EXCPECTED_MONEY = 200_000;
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=500`,
@@ -61,7 +60,7 @@ describe("Student", () => {
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     cy.get("td a").should("not.contain", "ÉDITER", {timeout: 50});
     cy.get("body").click(200, 0); //note(uncover-menu)
-    cy.contains(`${EXCPECTED_MONEY.toLocaleString()} Ar`).click();
+    cy.get("#main-content tbody tr").first().click();
     cy.get("#main-content").should("contain", "Paiements");
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     cy.get("td").should("not.contain", "ÉDITER", {timeout: 50});

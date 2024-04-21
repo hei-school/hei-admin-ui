@@ -161,7 +161,7 @@ export const studentsMock: Student[] = [
 
 export const student1Mock = studentsMock[0] as Required<Student>;
 
-export const createStudent: Student = {
+export const createStudent = {
   ref: "STD000001",
   first_name: "string",
   last_name: "string",
@@ -176,7 +176,7 @@ export const createStudent: Student = {
   nic: "123456789012",
   birth_place: "Antananarivo",
   coordinates: {longitude: 1500, latitude: 1500},
-};
+} as Required<Student>;
 
 export const liteCreatedStudent: Student = {
   ref: "STD000001",

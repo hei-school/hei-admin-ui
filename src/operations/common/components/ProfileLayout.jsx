@@ -3,12 +3,12 @@ import {
   ImageField,
   ImageInput,
   SimpleForm,
-  useRecordContext,
   EmailField,
   FunctionField,
   SimpleShowLayout,
   TextField,
   Link,
+  useRecordContext,
   useRedirect,
 } from "react-admin";
 

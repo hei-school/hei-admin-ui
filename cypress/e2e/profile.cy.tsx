@@ -1,6 +1,6 @@
 import {Manager} from "@haapi/typescript-client";
 import {toUTC} from "../../src/utils/date";
-import {manager1Mock} from "../fixtures/managers-mocks";
+import {manager1Mock} from "../fixtures/api_mocks/managers-mocks";
 
 const editedManager1: Required<Manager> = {
   ...manager1Mock,

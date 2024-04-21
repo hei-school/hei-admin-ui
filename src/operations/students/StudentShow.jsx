@@ -37,6 +37,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
             aria-label="fees"
             component={Link}
             to={`/students/${student.id}/fees`}
+            data-testid="student-fees-list"
             label="Frais"
             {...COMMON_BUTTON_PROPS}
           >

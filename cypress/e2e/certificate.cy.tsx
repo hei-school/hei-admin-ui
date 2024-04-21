@@ -1,13 +1,12 @@
-import {student1Mock, studentsMock} from "../fixtures/students-mocks";
+import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 const MESSAGE_ERROR = "Échec de téléchargement. Veuillez réessayer";
 
-// TODO: maybe should use something like the following function for all tests
 describe("Student Ceritificate", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/scholarship_certificate/raw`,
-      {fixture: "/files/student_certificate.pdf"}
+      {fixture: "/students/certificate.pdf"}
     ).as("downloadCertificate");
   });
 
@@ -53,7 +52,7 @@ describe("Student Ceritificate", () => {
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/scholarship_certificate/raw`,
-      {fixture: "files/student_certificate.pdf"}
+      {fixture: "/students/certificate.pdf"}
     ).as("downloadCertificate");
 
     cy.getByTestid("students-menu").click();

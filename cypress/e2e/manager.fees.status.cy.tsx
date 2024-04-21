@@ -1,7 +1,7 @@
 import {FeeStatusEnum} from "@haapi/typescript-client";
-import {student1Mock} from "../fixtures/students-mocks";
-import {fee1Mock, lateFeesMock} from "../fixtures/fees-mocks";
-import {payment1Mock} from "../fixtures/payments-mocks";
+import {student1Mock} from "../fixtures/api_mocks/students-mocks";
+import {fee1Mock, lateFeesMock} from "../fixtures/api_mocks/fees-mocks";
+import {payment1Mock} from "../fixtures/api_mocks/payments-mocks";
 
 const applyFilter = (status: FeeStatusEnum) => {
   cy.getByTestid("students-menu").click();

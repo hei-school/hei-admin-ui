@@ -2,7 +2,7 @@ import {FeeTemplate} from "@haapi/typescript-client";
 import {
   feesTemplates1Mock,
   feesTemplatesMocks,
-} from "../fixtures/fees-templates-mocks";
+} from "../fixtures/api_mocks/fees-templates-mocks";
 
 const feesTemplate1Updated: Required<FeeTemplate> = {
   ...feesTemplates1Mock,

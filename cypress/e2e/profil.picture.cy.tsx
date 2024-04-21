@@ -2,7 +2,7 @@ import {
   badPicManager,
   updatedManager,
   withPicManager,
-} from "../fixtures/profil-mocks";
+} from "../fixtures/api_mocks/profil-mocks";
 
 describe("Profile picture test", () => {
   it("should fallback to default source when profile_pic is falsy", () => {
@@ -30,7 +30,7 @@ describe("Profile picture test", () => {
     cy.login({role: "MANAGER", user: withPicManager()});
     cy.getByTestid("upload-picture-button").click();
     cy.getByTestid("dropzone").selectFile(
-      "cypress/fixtures/files/profile-picture.png",
+      "cypress/fixtures/profile_picture/profile-picture.png",
       {action: "drag-drop"}
     );
     cy.intercept(

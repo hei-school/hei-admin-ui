@@ -5,10 +5,10 @@ import {
   annual1xTemplate,
   annual9xTemplate,
   feesTemplatesMocks,
-} from "../fixtures/fees-templates-mocks";
-import {student1Mock, studentsMock} from "../fixtures/students-mocks";
-import {fee1Mock, feesMock} from "../fixtures/fees-mocks";
-import {createPaymentMock} from "../fixtures/payments-mocks";
+} from "../fixtures/api_mocks/fees-templates-mocks";
+import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
+import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
+import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
 
 import {renderMoney} from "../../src/operations/common/utils/money";
 import {getFeesStatusInFr} from "../../src/operations/common/utils/typo_util";
@@ -81,7 +81,9 @@ describe("Manager.Fee", () => {
       createPaymentMock(interceptedFeeMock!)
     ).as("getPaymentsOfOneFee");
     cy.get('[aria-label="fees"]').click();
-    cy.contains(renderMoney(interceptedFeeMock!.remaining_amount!)).click();
+    cy.wait("@getFees");
+    cy.get("#main-content tbody tr").first().click();
+    cy.wait("@getFee1");
     cy.get("#main-content")
       .should("contain", renderMoney(interceptedFeeMock!.remaining_amount!))
       .and("contain", renderMoney(interceptedFeeMock!.total_amount!))

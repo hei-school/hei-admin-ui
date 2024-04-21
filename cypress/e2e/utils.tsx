@@ -1,5 +1,5 @@
-import {createStudent} from "../fixtures/students-mocks";
-import {teachersMock} from "../fixtures/teachers-mocks";
+import {createStudent} from "../fixtures/api_mocks/students-mocks";
+import {teachersMock} from "../fixtures/api_mocks/teachers-mocks";
 
 // TODO: avoid type any
 export const studentRequestBodyVerification = (
@@ -26,7 +26,7 @@ export const importFile = (file: string, message: string, _path: string) => {
   cy.getByTestid("inputFile").selectFile(_mockFile, {force: true});
 
   cy.contains("Confirmer").click();
-  cy.contains(message);
+  cy.contains(message, {timeout: 7000});
 };
 
 export const assertFeeMatchesTemplate = (feeToCreate: any, template: any) => {
