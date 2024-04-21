@@ -2,7 +2,7 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {teachingApi} from "./api";
 
 const groupProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+  async getList(page: number, perPage: number, _filter: any) {
     return await teachingApi()
       .getGroups(page, perPage)
       .then((result) => result.data);
@@ -17,7 +17,7 @@ const groupProvider: HaDataProviderType = {
       .createOrUpdateGroups(payload)
       .then((result) => result.data);
   },
-  async delete(id: string) {
+  async delete(_id: string) {
     throw new Error("Not implemented");
   },
 };

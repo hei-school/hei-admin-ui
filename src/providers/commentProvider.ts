@@ -14,7 +14,7 @@ const commentProvider: HaDataProviderType = {
         .then((response) => response.data);
     }
   },
-  async getOne(id: string) {
+  async getOne(_id: string) {
     throw new Error("Not implemented");
   },
   async saveOrUpdate(payload: any) {
@@ -23,7 +23,7 @@ const commentProvider: HaDataProviderType = {
       .postComment(student_id, observer_id, payload[0])
       .then((response) => [response.data]);
   },
-  async delete(id: string) {
+  async delete(_id: string) {
     throw new Error("Not implemented");
   },
 };

@@ -36,7 +36,7 @@ jobs:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REACT_APP_AWS_REGION }}
-      - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-school 088312068315
+      - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
 
       ## Connect to Numer Private Codeartifact Repository ##
       - name: Configure preprod AWS credentials
@@ -46,7 +46,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REACT_APP_AWS_REGION }}
           unset-current-credentials: true
-      - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-lab 057045785189
+      - run: sh ./initNpmrc.sh hei-store npm-hei-lab 057045785189
 
       ## Install npm dependencies ##
       - name: Install npm dependencies
@@ -74,7 +74,7 @@ jobs:
           aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REACT_APP_AWS_REGION }}
-      - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-school 088312068315
+      - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
 
       ## Connect to Numer Private Codeartifact Repository ##
       - name: Configure preprod AWS credentials
@@ -84,7 +84,7 @@ jobs:
           aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
           aws-region: ${{ env.REACT_APP_AWS_REGION }}
           unset-current-credentials: true
-      - run: sh ./scripts/init_npmrc.sh hei-store npm-hei-lab 057045785189
+      - run: sh ./initNpmrc.sh hei-store npm-hei-lab 057045785189
 
       ## Run Cypress e2e tests ##
       - name: Run e2e tests

@@ -24,7 +24,7 @@ const feesTemplatesProvider: HaDataProviderType = {
       .crupdateFeeTemplate(payload.id, payload)
       .then((response) => [response.data]);
   },
-  async delete(id: string) {
+  async delete(_id: string) {
     throw new Error("Not implemented");
   },
 };
