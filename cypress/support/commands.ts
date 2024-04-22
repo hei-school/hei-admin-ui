@@ -42,7 +42,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   cy.get("#password")
     .click()
     .type(options.password || defaultUserConnected.password);
-  cy.get("button").contains("Connexion").click();
+  cy.get("button").contains("Connexion", {timeout: 10000}).click();
 
   cy.wait("@postCognito");
   cy.wait("@postCognito");
