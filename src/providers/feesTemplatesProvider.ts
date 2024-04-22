@@ -18,12 +18,13 @@ const feesTemplatesProvider: HaDataProviderType = {
       .getFeeTemplateById(id)
       .then((response) => response.data);
   },
-  async saveOrUpdate(payload: any) {
+  async saveOrUpdate(payloads: any) {
+    const payload = payloads[0];
     return payingApi()
-      .crupdateFeeTemplate(payload, payload[0])
+      .crupdateFeeTemplate(payload.id, payload)
       .then((response) => [response.data]);
   },
-  async delete(id: string) {
+  async delete(_id: string) {
     throw new Error("Not implemented");
   },
 };

@@ -1,6 +1,3 @@
-import dotenv from "dotenv";
-dotenv.config();
-
 export const awsConfig = {
   aws_project_region: process.env.REACT_APP_AWS_REGION,
   aws_cognito_region: process.env.REACT_APP_AWS_REGION,

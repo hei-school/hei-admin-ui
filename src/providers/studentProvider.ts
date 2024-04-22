@@ -41,7 +41,7 @@ const studentProvider: HaDataProviderType = {
     }
     return studentResponse;
   },
-  async delete(id: string) {
+  async delete(_id: string) {
     throw new Error("Not implemented");
   },
 };
