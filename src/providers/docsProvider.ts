@@ -1,11 +1,11 @@
 import {FileType} from "@haapi/typescript-client";
-import {OwnerType} from "src/operations/docs/types";
+import {OwnerType} from "../operations/docs/types";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {MULTIPART_HEADERS} from "./constants";
 import {filesApi} from "./api";
 
 const docsProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any, meta: any) {
+  async getList(page: number, perPage: number, _filter: any, meta: any) {
     if (!meta) return [];
     switch (meta.owner) {
       case OwnerType.SCHOOL:
@@ -91,7 +91,7 @@ const docsProvider: HaDataProviderType = {
         return [];
     }
   },
-  async delete(id: string) {
+  async delete(_id: string) {
     throw new Error("Not implemented.");
   },
 };

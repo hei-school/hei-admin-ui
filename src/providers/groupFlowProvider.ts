@@ -2,10 +2,10 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {teachingApi} from "./api";
 
 const groupFlowProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+  async getList(_page: number, _perPage: number, _filter: any) {
     throw new Error("Function not implemented.");
   },
-  async getOne(id: string) {
+  async getOne(_id: string) {
     throw new Error("Function not implemented.");
   },
   async saveOrUpdate(payload: any) {
@@ -13,7 +13,7 @@ const groupFlowProvider: HaDataProviderType = {
       .moveOrDeleteStudentInGroup(payload[0].student_id, payload)
       .then((result) => [result.data]);
   },
-  async delete(id: string) {
+  async delete(_id: string) {
     throw new Error("Not implemented");
   },
 };

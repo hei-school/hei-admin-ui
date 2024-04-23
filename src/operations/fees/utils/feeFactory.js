@@ -1,4 +1,4 @@
-import {getEndOfMonth} from "../../../utils/date";
+import {getEndOfMonth, toUTC} from "../../../utils/date";
 
 function createComment(baseComment, monthIndex, numberOfPayemnts) {
   // add the suffix M(monthValue + 1) when numberOfPayemnts is 9
@@ -48,7 +48,7 @@ export function createFeesApi(fees, studentId) {
       ),
       total_amount: +amount,
       student_id: studentId,
-      due_datetime: dueDatetime.toISOString(),
+      due_datetime: toUTC(dueDatetime).toISOString(),
       creation_datetime: currentDate,
     });
   }
