@@ -1,4 +1,4 @@
-import {getEndOfMonth} from "../../../utils/date";
+import {getEndOfMonth, toUTC} from "../../../utils/date";
 
 function createComment(baseComment, monthIndex, numberOfPayemnts) {
   // add the suffix M(monthValue + 1) when numberOfPayemnts is 9
@@ -9,10 +9,12 @@ function createComment(baseComment, monthIndex, numberOfPayemnts) {
 }
 
 function getNextDate(currentDate, index) {
-  return new Date(
-    currentDate.getFullYear(),
-    currentDate.getMonth() + index,
-    currentDate.getDate()
+  return toUTC(
+    new Date(
+      (currentDate.getFullYear(),
+      currentDate.getMonth() + index,
+      currentDate.getDate())
+    )
   );
 }
 
