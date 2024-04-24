@@ -47,6 +47,7 @@ export function HaList({
         actions={false}
         pagination={<PrevNextPagination />}
         resource={resource}
+        empty={false}
         sx={{
           "& .MuiPaper-root": {boxShadow: "none"},
           "& td": {border: "none"},
