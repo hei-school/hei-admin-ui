@@ -1,5 +1,4 @@
 import {useCallback, useEffect, useRef, useState} from "react";
-
 import {useTheme} from "@mui/material";
 import {
   DownloadForOffline,
@@ -7,7 +6,7 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
-import {Document as Pdf, Page as PdfPage} from "react-pdf";
+import {Document as Pdf, Page as PdfPage, pdfjs} from "react-pdf";
 import {
   Box,
   Typography,
@@ -20,6 +19,11 @@ import {
   Stack,
 } from "@mui/material";
 import {PALETTE_COLORS} from "../../../ui/constants/palette";
+
+pdfjs.GlobalWorkerOptions.workerSrc = new URL(
+  "pdfjs-dist/build/pdf.worker.min.js",
+  import.meta.url
+).toString();
 
 const TooltipButton = ({icon, disabled, onClick, ...others}) => (
   <Tooltip {...others} sx={{margin: "0 6px"}}>
