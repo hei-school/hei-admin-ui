@@ -1,4 +1,4 @@
-import {AnnouncementShow} from "./AnnoucementShow";
+import {AnnouncementShow} from "./AnnouncementShow";
 import {AnnouncementList} from "./AnnouncementList";
 import {AnnouncementCreate} from "./AnnouncementCreate";
 

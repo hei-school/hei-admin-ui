@@ -3,10 +3,10 @@ import {EmailField, FunctionField, TextField} from "react-admin";
 import {Announcement, Scope} from "@haapi/typescript-client";
 import {Newspaper as AnnoucementIcon} from "@mui/icons-material";
 import {Chip} from "@mui/material";
-import {HaList} from "../../ui/haList";
+import {HaList} from "@/ui/haList";
 import {DateField} from "../common/components/fields";
 import {AnnouncementFilter} from "./components/AnnouncementsFilter";
-import {PALETTE_COLORS} from "src/ui/constants";
+import {PALETTE_COLORS} from "@/ui/constants";
 
 export const ANNOUNCEMENT_SCOPE: any = {
   GLOBAL: "Tout le monde",

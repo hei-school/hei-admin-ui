@@ -45,7 +45,7 @@ const announcementProvider: HaDataProviderType = {
     throw new Error("Function not implemented.");
   },
   async saveOrUpdate(payload: any) {
-    return announcementsApi().createAnnouncement(payload[0]);
+    return announcementsApi().createAnnouncement(payload[0]).then((result) => [result.data]);
   },
   async delete(id: string) {
     throw new Error("Not implemented");
