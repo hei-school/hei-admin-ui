@@ -1,4 +1,4 @@
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 import {
   Work as TeachersIcon,
   School as StudentIcon,
@@ -7,13 +7,15 @@ import {
   Inventory as DocsIcon,
   Group as GroupIcon,
   Home as HeiDocsIcon,
+  Bookmark as PromotionIcon
 } from "@mui/icons-material";
-import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
+import { ListMenu, ListMenuItem, SingleMenu } from "./utils";
 
 function ManagerMenu() {
   return (
     <Box>
       <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />
+      <SingleMenu to="/promotions" label="Promotions" icon={<PromotionIcon />} />
       <ListMenu
         label="Étudiants"
         icon={<StudentIcon />}

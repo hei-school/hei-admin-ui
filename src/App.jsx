@@ -1,13 +1,13 @@
 import React from "react";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
-import {Admin} from "@react-admin/ra-enterprise";
-import {CustomRoutes, Resource} from "react-admin";
-import {Route} from "react-router-dom";
+import { Admin } from "@react-admin/ra-enterprise";
+import { CustomRoutes, Resource } from "react-admin";
+import { Route } from "react-router-dom";
 
-import {HaLayout} from "./ui/haLayout";
-import {mainTheme} from "./haTheme.js";
-import {WaitUntilHot} from "./utils/retryer";
+import { HaLayout } from "./ui/haLayout";
+import { mainTheme } from "./haTheme.js";
+import { WaitUntilHot } from "./utils/retryer";
 
 import dataProvider from "./providers/dataProvider";
 import authProvider from "./providers/authProvider.ts";
@@ -22,6 +22,7 @@ import payments from "./operations/payments";
 import heiDocs from "./operations/docs/hei";
 import studentDocs from "./operations/docs/students";
 import HaLoginPage from "./security/LoginPage";
+import promotions from "./operations/promotions/index.tsx";
 
 function AppBase() {
   return (
@@ -43,8 +44,10 @@ function AppBase() {
       <Resource name="fees" {...fees} />
       <Resource name="fees-templates" {...feesTemplates} />
       <Resource name="payments" {...payments} />
-      <Resource name="docs" options={{label: "Documents"}} />
+      <Resource name="docs" options={{ label: "Documents" }} />
       <Resource name="comments" />
+      <Resource name="promotions-groups" />
+      <Resource name="promotions" {...promotions} />
 
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />

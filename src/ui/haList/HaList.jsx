@@ -1,7 +1,7 @@
-import {List, Datagrid} from "react-admin";
-import {Box, styled} from "@mui/material";
-import {PrevNextPagination} from "./PrevNextPagination";
-import {HaListTitle} from "./HaListTitle";
+import { List, Datagrid } from "react-admin";
+import { Box, styled } from "@mui/material";
+import { PrevNextPagination } from "./PrevNextPagination";
+import { HaListTitle } from "./HaListTitle";
 
 const ListWrapper = styled("div")({
   width: "100%",
@@ -26,7 +26,7 @@ const DatagridWrapper = styled("div")({
     color: "#807d7a",
   },
   "& tbody .MuiTableRow-root": {
-    "&:hover": {backgroundColor: "#edf1fa"},
+    "&:hover": { backgroundColor: "#edf1fa" },
   },
 });
 
@@ -38,7 +38,7 @@ export function HaList({
   icon,
   listProps = {},
   datagridProps = {},
-  mainSearch = {source: "", label: ""},
+  mainSearch = { source: "", label: "" },
   filterIndicator = true,
 }) {
   return (
@@ -49,8 +49,8 @@ export function HaList({
         resource={resource}
         empty={false}
         sx={{
-          "& .MuiPaper-root": {boxShadow: "none"},
-          "& td": {border: "none"},
+          "& .MuiPaper-root": { boxShadow: "none" },
+          "& td": { border: "none" },
         }}
         {...listProps}
       >
@@ -62,7 +62,7 @@ export function HaList({
             icon={icon}
             mainSearch={mainSearch}
           />
-          <DatagridWrapper>
+          <DatagridWrapper >
             <Datagrid
               bulkActionButtons={false}
               rowClick="show"

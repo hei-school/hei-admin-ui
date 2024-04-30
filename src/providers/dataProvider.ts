@@ -1,5 +1,5 @@
-import {HaDataProviderType} from "./HaDataProviderType";
-import {RaDataProviderType} from "./RaDataProviderType";
+import { HaDataProviderType } from "./HaDataProviderType";
+import { RaDataProviderType } from "./RaDataProviderType";
 import profileProvider from "./profileProvider";
 import studentProvider from "./studentProvider";
 import feeProvider from "./feeProvider";
@@ -12,8 +12,10 @@ import profilePicProvider from "./profilePicProvider";
 import feesTemplatesProvider from "./feesTemplatesProvider";
 import docsProvider from "./docsProvider";
 import commentProvider from "./commentProvider";
+import promotionProvider from "./promotionProvider";
+import promotionGroupsProvider from "./promotionGroupsProvider";
 
-export const maxPageSize = 500;
+export const MAX_ITEM_PER_PAGE = 500;
 
 const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "profile") return profileProvider;
@@ -28,6 +30,8 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "profile-picture") return profilePicProvider;
   if (resourceType === "fees-templates") return feesTemplatesProvider;
   if (resourceType === "comments") return commentProvider;
+  if (resourceType === "promotions") return promotionProvider;
+  if (resourceType === "promotions-groups") return promotionGroupsProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
@@ -38,11 +42,11 @@ const dataProvider: RaDataProviderType = {
     const page =
       pagination.page === 0 ? 1 /* TODO(empty-pages) */ : pagination.page;
     let perPage = pagination.perPage;
-    if (perPage > maxPageSize) {
+    if (perPage > MAX_ITEM_PER_PAGE) {
       console.warn(
-        `Page size is too big, truncating to maxPageSize=${maxPageSize}: resourceType=${resourceType}, requested pageSize=${perPage}`
+        `Page size is too big, truncating to MAX_ITEM_PER_PAGE=${MAX_ITEM_PER_PAGE}: resourceType=${resourceType}, requested pageSize=${perPage}`
       );
-      perPage = maxPageSize;
+      perPage = MAX_ITEM_PER_PAGE;
     }
     const filter = params.filter;
     const result = await getProvider(resourceType).getList(
@@ -51,20 +55,20 @@ const dataProvider: RaDataProviderType = {
       filter,
       meta
     );
-    return {data: result, total: Number.MAX_SAFE_INTEGER};
+    return { data: result, total: Number.MAX_SAFE_INTEGER };
   },
   async getOne(resourceType: string, params: any) {
     const result = await getProvider(resourceType).getOne(
       params.id,
       params.meta
     );
-    return {data: result};
+    return { data: result };
   },
   async update(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate([params.data], {
       isUpdate: true,
     });
-    return {data: result[0]};
+    return { data: result[0] };
   },
   async create(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate(
@@ -72,11 +76,11 @@ const dataProvider: RaDataProviderType = {
         ? toEnabledUsers([params.data])
         : [params.data]
     );
-    return {data: result[0]};
+    return { data: result[0] };
   },
   async delete(resourceType: string, params: any) {
     const result = await getProvider(resourceType).delete(params.id);
-    return {data: result};
+    return { data: result };
   },
 };
 

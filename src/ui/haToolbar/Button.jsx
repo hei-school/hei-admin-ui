@@ -23,7 +23,7 @@ export const HaActionWrapper = styled("div")({
 });
 
 export function ButtonBase({
-  label,
+  label = "",
   icon,
   onClick,
   closeAction = true,
