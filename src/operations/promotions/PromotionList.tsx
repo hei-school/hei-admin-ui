@@ -3,7 +3,7 @@ import {MenuBook as PromotionIcon, Add} from "@mui/icons-material";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {DateField} from "../common/components/fields";
-import {PromotionDialog} from "./components";
+import {PromotionDialog, PromotionListFilter} from "./components";
 import {PromotionCreate} from "./PromotionCreate";
 import {useToggle} from "@/hooks";
 
@@ -16,11 +16,16 @@ export default function PromotionList() {
         title="Promotions"
         resource="promotions"
         icon={<PromotionIcon />}
+        mainSearch={{
+          source: "name",
+          label: "Nom",
+        }}
         actions={
           <HaActionWrapper>
             <ButtonBase icon={<Add />} onClick={toggleShowCreate} closeAction>
               Créer
             </ButtonBase>
+            <PromotionListFilter />
           </HaActionWrapper>
         }
       >
