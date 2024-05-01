@@ -1,94 +1,109 @@
-import {Button, useGetList} from "react-admin";
-import {Add as InsertIcon} from "@mui/icons-material";
-import {useForm} from "react-hook-form";
+import {Button, useGetList, useGetOne, useRecordContext} from "react-admin";
+import {PersonRemove as MigrateIcon} from "@mui/icons-material";
 import {
+  LabelFn,
   ResourceFlowsArgsType,
   ResourceIdentifier,
 } from "./ResourceFlowsContext";
-import {HaActionWrapper} from "@/ui/haToolbar";
-import {MultipleAutocomplete} from "@/ui/components/inputs";
+import {Autocomplete} from "@/ui/components/inputs";
 import {DialogActions} from "./components/DialogActions";
 import {FlowsDialog, FlowsDialogProps} from "./components/FlowsDialog";
-import {useResourceFlowsContext} from "./useResourceFlowsContext";
+import {useForm} from "react-hook-form";
 import {useToggle} from "@/hooks";
+import {useResourceFlowsContext} from "./useResourceFlowsContext";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 
-export type InsertDialogProps<T> = FlowsDialogProps & {
+export type MigrateDialogProps<Child, Parent> = Omit<
+  FlowsDialogProps,
+  "title"
+> & {
+  title: LabelFn<Child>;
   onClose: () => void;
   autoCompleteLabel: string;
-  showField: keyof T;
-  excludes?: string[];
+  showField: keyof Parent;
 };
 
-export type InsertButtonProps<T> = {
+export type MigrateButtonProps<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier,
+> = {
   label?: string;
   icon?: React.ReactElement;
-  excludes: InsertDialogProps<T>["excludes"];
-  dialogProps: Omit<InsertDialogProps<T>, "open" | "onClose" | "excludes">;
+  dialogProps: Omit<
+    MigrateDialogProps<Child, Parent>,
+    "open" | "onClose" | "excludes"
+  >;
 };
 
-type FormType = {
-  resources: [{id: string; label: string}];
+export type FormType = {
+  resource: {id: string; label: string};
 };
 
-export function InsertDialog<T extends ResourceIdentifier>({
+export function MigrateDialog<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier,
+>({
   autoCompleteLabel,
+  title,
   showField,
-  excludes = [],
   ...dialogProps
-}: InsertDialogProps<T>) {
+}: MigrateDialogProps<Child, Parent>) {
   const {
     submit,
+    parentResource,
     childResource,
-    childGetListsOptions = {},
+    childGetOneOptions,
+    parentGetListsOptions = {},
+    parentId,
   } = useResourceFlowsContext();
-  const {data: childs = [], isLoading: optionLoading} = useGetList<T>(
-    childResource,
+  const {id: childId} = useRecordContext();
+  const {data: child} = useGetOne<Child>(childResource, {
+    id: childId,
+    ...childGetOneOptions,
+  });
+  const {data: parents = [], isLoading: optionLoading} = useGetList<Parent>(
+    parentResource,
     {
       pagination: {page: 1, perPage: MAX_ITEM_PER_PAGE - 1},
-      ...childGetListsOptions,
+      ...parentGetListsOptions,
     }
   );
 
   const {control, handleSubmit} = useForm<FormType>({
     defaultValues: {
-      resources: [],
+      resource: {id: "", label: ""},
     },
   });
 
-  const childOptions = childs
-    .filter((el) => !excludes.includes(el.id as string))
+  const parentOptions = parents
+    .filter((el) => (el.id as string) !== parentId)
     .map((el) => ({
       id: el.id,
       label: el[showField] as string,
-    })) as FormType["resources"];
+    })) as FormType["resource"][];
 
-  const onSubmit = async ({resources: givenResources}: FormType) => {
-    if (!givenResources || givenResources.length <= 0) {
-      return;
-    }
-    const args: ResourceFlowsArgsType<T> = {
-      type: "INSERT",
-      resources: childs.filter((res) =>
-        givenResources.map((el) => el.id).includes(res.id as string)
-      ),
+  const onSubmit = async ({resource: givenResources}: FormType) => {
+    const args: ResourceFlowsArgsType<Child, Parent> = {
+      type: "MIGRATE",
+      resources: [child!],
+      parent: parents.find((par) => par.id === givenResources!.id)!,
     };
     await submit({args, onSuccess: () => dialogProps.onClose()});
   };
 
   return (
-    <FlowsDialog {...dialogProps}>
+    <FlowsDialog title={title(child!)} {...dialogProps}>
       <form
         style={{width: "100%", marginTop: "30px"}}
         onSubmit={handleSubmit(onSubmit)}
       >
-        <MultipleAutocomplete
+        <Autocomplete
           autoFocus
           filterSelectedOptions
-          name="resources"
+          name="resource"
           control={control}
           loading={optionLoading}
-          options={childOptions}
+          options={parentOptions}
           inputLabel={autoCompleteLabel}
         />
         <DialogActions />
@@ -97,28 +112,25 @@ export function InsertDialog<T extends ResourceIdentifier>({
   );
 }
 
-export function InsertButton<T extends ResourceIdentifier>({
-  label,
-  icon,
-  excludes = [],
-  dialogProps,
-}: InsertButtonProps<T>) {
+export function MigrateButton<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier,
+>({label, icon, dialogProps}: MigrateButtonProps<Child, Parent>) {
   const [isOpen, _set, toggle] = useToggle();
   return (
     <div>
-      <HaActionWrapper>
-        <Button
-          size="large"
-          startIcon={icon || <InsertIcon />}
-          onClick={toggle}
-          label={label || "Insérer"}
-        />
-      </HaActionWrapper>
-      <InsertDialog<T>
+      <Button
+        startIcon={icon || <MigrateIcon />}
+        label={label || "Migrer"}
+        onClick={(event) => {
+          event.stopPropagation();
+          toggle();
+        }}
+      />
+      <MigrateDialog<Child, Parent>
         {...dialogProps}
         open={isOpen}
         onClose={toggle}
-        excludes={excludes}
       />
     </div>
   );

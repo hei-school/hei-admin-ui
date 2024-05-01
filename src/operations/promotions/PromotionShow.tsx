@@ -4,10 +4,12 @@ import {
   PermIdentity as NameIcon,
   CalendarMonth as CreationDateIcon,
 } from "@mui/icons-material";
-import {Group, UpdatePromotionSGroupTypeEnum} from "@haapi/typescript-client";
+import {
+  Group,
+  Promotion,
+  UpdatePromotionSGroupTypeEnum,
+} from "@haapi/typescript-client";
 import {Box} from "@mui/material";
-import {useParams} from "react-router-dom";
-
 import {DateField, FieldLabel} from "../common/components/fields";
 import {PromotionEditButton} from "./PromotionEditButton";
 import {PromotionGroupList} from "./components";
@@ -16,12 +18,16 @@ import {
   ResourceFlowsContext,
   ResourceMigrateType,
 } from "../common/components/resource-flows/ResourceFlowsContext";
+import {useParams} from "react-router-dom";
 import {useNotify} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import promotionFlowsProvider from "@/providers/promotionFlowProvider";
 
-function getSuccessMessage(type: ResourceMigrateType, groups: Group[]) {
+function getSuccessMessage({
+  type,
+  resources: groups,
+}: ResourceFlowsArgsType<Required<Group>, Required<Promotion>>) {
   switch (type) {
     case "MIGRATE":
       return `Le groupe ${groups[0].ref} a été migré avec succès`;
@@ -47,7 +53,8 @@ function migratePromotionGroup({
   id,
   type,
   resources,
-}: {id: string} & ResourceFlowsArgsType<Required<Group>>) {
+  parent,
+}: {id: string} & ResourceFlowsArgsType<Required<Group>, Required<Promotion>>) {
   const promotionFlowType: UpdatePromotionSGroupTypeEnum =
     type !== "LEAVE"
       ? UpdatePromotionSGroupTypeEnum.ADD
@@ -59,7 +66,7 @@ function migratePromotionGroup({
         group_ids: resources.map((group) => group.id),
       },
     ],
-    {promotionId: id}
+    {promotionId: type == "MIGRATE" ? parent.id : id}
   );
 }
 
@@ -104,13 +111,13 @@ export default function PromotionShow() {
           />
         </SimpleShowLayout>
       </Show>
-      <ResourceFlowsContext<Required<Group>>
+      <ResourceFlowsContext<Required<Group>, Required<Promotion>>
         childResource="groups"
         parentResource="promotions"
         parentId={id!}
         provider={(args) => migratePromotionGroup({id: id!, ...args})}
-        onSuccess={({type, resources}) => {
-          notify(getSuccessMessage(type, resources), {type: "success"});
+        onSuccess={(args) => {
+          notify(getSuccessMessage(args), {type: "success"});
         }}
         onError={({type, resources}) => {
           notify(getErrorMessage(type, resources), {type: "error"});

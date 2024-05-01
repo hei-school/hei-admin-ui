@@ -1,13 +1,13 @@
 import {SimpleForm, TextInput, required} from "react-admin";
-import {v4 as uuid} from "uuid";
 import {CrupdatePromotion} from "@haapi/typescript-client";
+import {v4 as uuid} from "uuid";
 import {Create} from "../common/components";
 
 export function PromotionCreate() {
   return (
     <Create
       title=" "
-      transform={(promotion: Omit<CrupdatePromotion, "id">) => ({
+      transform={(promotion: CrupdatePromotion) => ({
         ...promotion,
         id: uuid(),
       })}

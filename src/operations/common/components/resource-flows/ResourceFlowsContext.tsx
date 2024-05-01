@@ -12,12 +12,24 @@ export type ResourceMigrateType = "MIGRATE" | "LEAVE" | "INSERT";
 export type ResourceIdentifier = {id: string | Identifier | number};
 export type LabelFn<T> = (record: T) => string;
 
-export type ResourceFlowsArgsType<T extends ResourceIdentifier> = {
-  resources: T[];
-  type: ResourceMigrateType;
-};
+export type ResourceFlowsArgsType<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier,
+> = {resources: Child[]} & (
+  | {
+      type: "MIGRATE";
+      parent: Parent;
+    }
+  | {
+      type: "LEAVE" | "INSERT";
+      parent?: never;
+    }
+);
 
-export type ResourceFlowsContextType<T extends ResourceIdentifier> = {
+export type ResourceFlowsContextType<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier,
+> = {
   isLoading: boolean;
   parentId: string;
   parentResource: string;
@@ -27,25 +39,30 @@ export type ResourceFlowsContextType<T extends ResourceIdentifier> = {
   parentGetListsOptions?: GetListParams;
   parentGetOneOptions?: GetOneParams;
   submit: (state: {
-    args: ResourceFlowsArgsType<T>;
+    args: ResourceFlowsArgsType<Child, Parent>;
     onSuccess: () => void;
   }) => Promise<void>;
   setIsLoading: (state: boolean) => void;
-  provider: (args: ResourceFlowsArgsType<T>) => Promise<T>;
-  onSuccess: (args: ResourceFlowsArgsType<T>) => void;
+  provider: (args: ResourceFlowsArgsType<Child, Parent>) => Promise<unknown>;
+  onSuccess: (args: ResourceFlowsArgsType<Child, Parent>) => void;
   onError: (
-    args: ResourceFlowsArgsType<T> & {error: AxiosError<unknown>}
+    args: ResourceFlowsArgsType<Child, Parent> & {error: AxiosError<unknown>}
   ) => void;
 };
 
-export const RESOURCE_FLOWS_CONTEXT =
-  createContext<ResourceFlowsContextType<any> | null>(null);
+export const RESOURCE_FLOWS_CONTEXT = createContext<ResourceFlowsContextType<
+  any,
+  any
+> | null>(null);
 
-export function ResourceFlowsContext<T extends ResourceIdentifier>({
+export function ResourceFlowsContext<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier,
+>({
   children,
   ...contextProps
 }: Omit<
-  ResourceFlowsContextType<T>,
+  ResourceFlowsContextType<Child, Parent>,
   "submit" | "setIsLoading" | "isLoading"
 > & {children: React.ReactNode}) {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,7 +74,7 @@ export function ResourceFlowsContext<T extends ResourceIdentifier>({
     args,
   }: {
     onSuccess?: () => void;
-    args: ResourceFlowsArgsType<T>;
+    args: ResourceFlowsArgsType<Child, Parent>;
   }) => {
     try {
       setIsLoading(true);
@@ -80,7 +97,7 @@ export function ResourceFlowsContext<T extends ResourceIdentifier>({
           isLoading,
           setIsLoading,
           submit,
-        } as ResourceFlowsContextType<any>
+        } as ResourceFlowsContextType<any, any>
       }
     >
       {children}

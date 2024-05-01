@@ -1,11 +1,12 @@
-import {HaList} from "@/ui/haList";
-import {Group} from "@haapi/typescript-client";
-import {TextField, useListContext} from "react-admin";
 import {useParams} from "react-router-dom";
+import {HaList} from "@/ui/haList";
+import {Group, Promotion} from "@haapi/typescript-client";
+import {TextField, useListContext} from "react-admin";
 import {GroupsOutlined} from "@mui/icons-material";
 import {
   InsertButton,
   LeaveButton,
+  MigrateButton,
 } from "@/operations/common/components/resource-flows";
 
 function InsertPromotionGroup() {
@@ -35,8 +36,15 @@ export function PromotionGroupList() {
       listProps={{title: " ", queryOptions: {meta: {promotionId: id}}}}
       actions={<InsertPromotionGroup />}
     >
-      <TextField source="ref" label="Référence" />
       <TextField source="name" label="Nom" />
+      <TextField source="ref" label="Référence" />
+      <MigrateButton<Required<Group>, Required<Promotion>>
+        dialogProps={{
+          title: () => "Sélectionner la promotion de destination",
+          showField: "ref",
+          autoCompleteLabel: "Référence de la promotion",
+        }}
+      />
       <LeaveButton<Required<Group>>
         dialogProps={{
           title: () =>

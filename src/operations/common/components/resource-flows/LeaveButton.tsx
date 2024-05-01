@@ -26,22 +26,25 @@ export type LeaveButtonProps<T> = {
   icon?: React.ReactElement;
 };
 
-function LeaveDialog<T extends ResourceIdentifier>({
-  title,
-  ...confirmProps
-}: LeaveDialogProps<T>) {
+function LeaveDialog<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier,
+>({title, ...confirmProps}: LeaveDialogProps<Child>) {
   const {
     submit,
     isLoading,
     childResource,
     childGetOneOptions = {},
-  } = useResourceFlowsContext<T>();
+  } = useResourceFlowsContext<Child, Parent>();
   const {id: childId} = useRecordContext();
   const {data: child} = useGetOne(childResource, {
     id: childId,
     ...childGetOneOptions,
   });
-  const args: ResourceFlowsArgsType<T> = {type: "LEAVE", resources: [child]};
+  const args: ResourceFlowsArgsType<Child, Parent> = {
+    type: "LEAVE",
+    resources: [child],
+  };
 
   const deleteResource = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -66,11 +69,10 @@ function LeaveDialog<T extends ResourceIdentifier>({
   );
 }
 
-export function LeaveButton<T extends ResourceIdentifier>({
-  label,
-  icon,
-  dialogProps,
-}: LeaveButtonProps<T>) {
+export function LeaveButton<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier = any,
+>({label, icon, dialogProps}: LeaveButtonProps<Child>) {
   const [isOpen, _set, toggle] = useToggle();
 
   return (
@@ -86,7 +88,11 @@ export function LeaveButton<T extends ResourceIdentifier>({
           color: "red",
         }}
       />
-      <LeaveDialog<T> {...dialogProps} onClose={toggle} isOpen={isOpen} />
+      <LeaveDialog<Child, Parent>
+        {...dialogProps}
+        onClose={toggle}
+        isOpen={isOpen}
+      />
     </div>
   );
 }

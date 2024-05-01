@@ -12,6 +12,7 @@ import {FlowsDialog, FlowsDialogProps} from "./components/FlowsDialog";
 import {useResourceFlowsContext} from "./useResourceFlowsContext";
 import {useToggle} from "@/hooks";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import useHaListContext from "@/ui/haList/useHaListContext";
 
 export type InsertDialogProps<T> = FlowsDialogProps & {
   onClose: () => void;
@@ -31,18 +32,21 @@ type FormType = {
   resources: [{id: string; label: string}];
 };
 
-export function InsertDialog<T extends ResourceIdentifier>({
+export function InsertDialog<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier,
+>({
   autoCompleteLabel,
   showField,
   excludes = [],
   ...dialogProps
-}: InsertDialogProps<T>) {
+}: InsertDialogProps<Child>) {
   const {
     submit,
     childResource,
     childGetListsOptions = {},
-  } = useResourceFlowsContext();
-  const {data: childs = [], isLoading: optionLoading} = useGetList<T>(
+  } = useResourceFlowsContext<Child, Parent>();
+  const {data: childs = [], isLoading: optionLoading} = useGetList<Child>(
     childResource,
     {
       pagination: {page: 1, perPage: MAX_ITEM_PER_PAGE - 1},
@@ -67,7 +71,7 @@ export function InsertDialog<T extends ResourceIdentifier>({
     if (!givenResources || givenResources.length <= 0) {
       return;
     }
-    const args: ResourceFlowsArgsType<T> = {
+    const args: ResourceFlowsArgsType<Child, Parent> = {
       type: "INSERT",
       resources: childs.filter((res) =>
         givenResources.map((el) => el.id).includes(res.id as string)
@@ -97,13 +101,13 @@ export function InsertDialog<T extends ResourceIdentifier>({
   );
 }
 
-export function InsertButton<T extends ResourceIdentifier>({
-  label,
-  icon,
-  excludes = [],
-  dialogProps,
-}: InsertButtonProps<T>) {
+export function InsertButton<
+  Child extends ResourceIdentifier,
+  Parent extends ResourceIdentifier = any,
+>({label, icon, excludes = [], dialogProps}: InsertButtonProps<Child>) {
   const [isOpen, _set, toggle] = useToggle();
+  const {closeAction: closeListPopover} = useHaListContext();
+
   return (
     <div>
       <HaActionWrapper>
@@ -114,11 +118,14 @@ export function InsertButton<T extends ResourceIdentifier>({
           label={label || "Insérer"}
         />
       </HaActionWrapper>
-      <InsertDialog<T>
+      <InsertDialog<Child, Parent>
         {...dialogProps}
         open={isOpen}
-        onClose={toggle}
         excludes={excludes}
+        onClose={() => {
+          toggle();
+          closeListPopover();
+        }}
       />
     </div>
   );
