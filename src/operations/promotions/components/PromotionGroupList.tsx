@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {HaList} from "@/ui/haList";
 import {Group, Promotion} from "@haapi/typescript-client";
-import {TextField, useListContext} from "react-admin";
+import {ShowButton, TextField, useListContext} from "react-admin";
 import {GroupsOutlined} from "@mui/icons-material";
 import {
   InsertButton,
@@ -31,13 +31,14 @@ export function PromotionGroupList() {
       title="Liste des groupes"
       icon={<GroupsOutlined />}
       datagridProps={{
-        rowClick: (groupId: string) => `/groups/${groupId}/show`,
+        rowClick: false 
       }}
       listProps={{title: " ", queryOptions: {meta: {promotionId: id}}}}
       actions={<InsertPromotionGroup />}
     >
       <TextField source="name" label="Nom" />
       <TextField source="ref" label="Référence" />
+      <ShowButton resource="groups"/>
       <MigrateButton<Required<Group>, Required<Promotion>>
         dialogProps={{
           title: () => "Sélectionner la promotion de destination",
