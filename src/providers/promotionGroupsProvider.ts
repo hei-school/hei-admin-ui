@@ -12,7 +12,9 @@ const promotionGroupsProvider: HaDataProviderType = {
       });
   },
   async getOne(groupId: string) {
-    throw new Error("Not implemented");
+    return teachingApi()
+      .getGroupById(groupId)
+      .then((response) => response.data);
   },
   async saveOrUpdate(_payload: CrupdatePromotion[]) {
     throw new Error("Not implemented");

@@ -1,9 +1,14 @@
 import {AxiosError} from "axios";
-import {Identifier, useListContext} from "react-admin";
+import {
+  GetListParams,
+  GetOneParams,
+  Identifier,
+  useListContext,
+} from "react-admin";
 import {useQueryClient} from "react-query";
 import {createContext, useState} from "react";
 
-export type ResourceMigrateType = "JOIN" | "LEAVE" | "INSERT";
+export type ResourceMigrateType = "MIGRATE" | "LEAVE" | "INSERT";
 export type ResourceIdentifier = {id: string | Identifier | number};
 export type LabelFn<T> = (record: T) => string;
 
@@ -13,8 +18,14 @@ export type ResourceFlowsArgsType<T extends ResourceIdentifier> = {
 };
 
 export type ResourceFlowsContextType<T extends ResourceIdentifier> = {
-  resource: string;
   isLoading: boolean;
+  parentId: string;
+  parentResource: string;
+  childResource: string;
+  childGetListsOptions?: GetListParams;
+  childGetOneOptions?: GetOneParams;
+  parentGetListsOptions?: GetListParams;
+  parentGetOneOptions?: GetOneParams;
   submit: (state: {
     args: ResourceFlowsArgsType<T>;
     onSuccess: () => void;
@@ -56,7 +67,6 @@ export function ResourceFlowsContext<T extends ResourceIdentifier>({
       onSuccess && onSuccess();
     } catch (error) {
       contextProps.onError({...args, error: error as AxiosError<unknown>});
-      console.log(error);
     } finally {
       setIsLoading(false);
     }

@@ -12,6 +12,7 @@ import {DateField, FieldLabel} from "../common/components/fields";
 import {PromotionEditButton} from "./PromotionEditButton";
 import {PromotionGroupList} from "./components";
 import {
+  ResourceFlowsArgsType,
   ResourceFlowsContext,
   ResourceMigrateType,
 } from "../common/components/resource-flows/ResourceFlowsContext";
@@ -22,7 +23,7 @@ import promotionFlowsProvider from "@/providers/promotionFlowProvider";
 
 function getSuccessMessage(type: ResourceMigrateType, groups: Group[]) {
   switch (type) {
-    case "JOIN":
+    case "MIGRATE":
       return `Le groupe ${groups[0].ref} a été migré avec succès`;
     case "LEAVE":
       return `Le groupe ${groups[0].ref} a été retiré avec succès`;
@@ -33,13 +34,33 @@ function getSuccessMessage(type: ResourceMigrateType, groups: Group[]) {
 
 function getErrorMessage(type: ResourceMigrateType, groups: Group[]) {
   switch (type) {
-    case "JOIN":
+    case "MIGRATE":
       return `Erreur lors de la migration du groupe ${groups[0].ref}`;
     case "LEAVE":
       return `Erreur lors du retrait du groupe ${groups[0].ref}`;
     default:
       return `Erreur lors de l'opération sur les groupes.`;
   }
+}
+
+function migratePromotionGroup({
+  id,
+  type,
+  resources,
+}: {id: string} & ResourceFlowsArgsType<Required<Group>>) {
+  const promotionFlowType: UpdatePromotionSGroupTypeEnum =
+    type !== "LEAVE"
+      ? UpdatePromotionSGroupTypeEnum.ADD
+      : UpdatePromotionSGroupTypeEnum.REMOVE;
+  return promotionFlowsProvider.saveOrUpdate(
+    [
+      {
+        type: promotionFlowType,
+        group_ids: resources.map((group) => group.id),
+      },
+    ],
+    {promotionId: id}
+  );
 }
 
 export default function PromotionShow() {
@@ -84,30 +105,18 @@ export default function PromotionShow() {
         </SimpleShowLayout>
       </Show>
       <ResourceFlowsContext<Required<Group>>
-        resource="groups"
+        childResource="groups"
+        parentResource="promotions"
+        parentId={id!}
+        provider={(args) => migratePromotionGroup({id: id!, ...args})}
         onSuccess={({type, resources}) => {
           notify(getSuccessMessage(type, resources), {type: "success"});
         }}
         onError={({type, resources}) => {
           notify(getErrorMessage(type, resources), {type: "error"});
         }}
-        provider={async ({resources, type}) => {
-          const promotionFlowType: UpdatePromotionSGroupTypeEnum =
-            type !== "LEAVE"
-              ? UpdatePromotionSGroupTypeEnum.ADD
-              : UpdatePromotionSGroupTypeEnum.REMOVE;
-          return promotionFlowsProvider.saveOrUpdate(
-            [
-              {
-                type: promotionFlowType,
-                group_ids: resources.map((group) => group.id),
-              },
-            ],
-            {promotionId: id}
-          );
-        }}
       >
-        <PromotionGroupList promotionId={id!} />
+        <PromotionGroupList />
       </ResourceFlowsContext>
     </Box>
   );

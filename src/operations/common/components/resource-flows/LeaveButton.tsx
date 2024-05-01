@@ -7,7 +7,6 @@ import {
 } from "react-admin";
 import {Delete as RemoveIcon} from "@mui/icons-material";
 import {Typography} from "@mui/material";
-
 import {
   LabelFn,
   ResourceFlowsArgsType,
@@ -20,6 +19,7 @@ export type LeaveDialogProps<T> = Partial<Omit<ConfirmProps, "title">> & {
   onClose: () => void;
   title: LabelFn<T>;
 };
+
 export type LeaveButtonProps<T> = {
   dialogProps: Omit<LeaveDialogProps<T>, "onClose">;
   label?: string;
@@ -30,10 +30,18 @@ function LeaveDialog<T extends ResourceIdentifier>({
   title,
   ...confirmProps
 }: LeaveDialogProps<T>) {
-  const {submit, resource: resourceName} = useResourceFlowsContext<T>();
-  const {id: resourceId} = useRecordContext();
-  const {data: resource} = useGetOne(resourceName, {id: resourceId});
-  const args: ResourceFlowsArgsType<T> = {type: "LEAVE", resources: [resource]};
+  const {
+    submit,
+    isLoading,
+    childResource,
+    childGetOneOptions = {},
+  } = useResourceFlowsContext<T>();
+  const {id: childId} = useRecordContext();
+  const {data: child} = useGetOne(childResource, {
+    id: childId,
+    ...childGetOneOptions,
+  });
+  const args: ResourceFlowsArgsType<T> = {type: "LEAVE", resources: [child]};
 
   const deleteResource = async (
     event: React.MouseEvent<HTMLButtonElement, MouseEvent>
@@ -44,13 +52,14 @@ function LeaveDialog<T extends ResourceIdentifier>({
   return (
     <Confirm
       {...confirmProps}
-      title={<Typography>{title(resource)}</Typography>}
+      title={<Typography>{title(child)}</Typography>}
       content={
         <Typography variant="caption" color="red">
           * Cette action est irréversible.
         </Typography>
       }
       fullWidth
+      loading={isLoading}
       maxWidth="sm"
       onConfirm={deleteResource}
     />
@@ -77,7 +86,7 @@ export function LeaveButton<T extends ResourceIdentifier>({
           color: "red",
         }}
       />
-      <LeaveDialog<T> {...{...dialogProps, onClose: toggle, isOpen}} />
+      <LeaveDialog<T> {...dialogProps} onClose={toggle} isOpen={isOpen} />
     </div>
   );
 }
