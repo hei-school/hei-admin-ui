@@ -1,5 +1,5 @@
-import { HaDataProviderType } from "./HaDataProviderType";
-import { RaDataProviderType } from "./RaDataProviderType";
+import {HaDataProviderType} from "./HaDataProviderType";
+import {RaDataProviderType} from "./RaDataProviderType";
 import profileProvider from "./profileProvider";
 import studentProvider from "./studentProvider";
 import feeProvider from "./feeProvider";
@@ -55,20 +55,20 @@ const dataProvider: RaDataProviderType = {
       filter,
       meta
     );
-    return { data: result, total: Number.MAX_SAFE_INTEGER };
+    return {data: result, total: Number.MAX_SAFE_INTEGER};
   },
   async getOne(resourceType: string, params: any) {
     const result = await getProvider(resourceType).getOne(
       params.id,
       params.meta
     );
-    return { data: result };
+    return {data: result};
   },
   async update(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate([params.data], {
       isUpdate: true,
     });
-    return { data: result[0] };
+    return {data: result[0]};
   },
   async create(resourceType: string, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate(
@@ -76,11 +76,11 @@ const dataProvider: RaDataProviderType = {
         ? toEnabledUsers([params.data])
         : [params.data]
     );
-    return { data: result[0] };
+    return {data: result[0]};
   },
   async delete(resourceType: string, params: any) {
     const result = await getProvider(resourceType).delete(params.id);
-    return { data: result };
+    return {data: result};
   },
 };
 

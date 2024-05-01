@@ -1,5 +1,9 @@
-import { useContext } from "react";
-import { RESOURCE_FLOWS_CONTEXT, ResourceFlowsContextType, ResourceIdentifier } from "./ResourceFlowsContext";
+import {useContext} from "react";
+import {
+  RESOURCE_FLOWS_CONTEXT,
+  ResourceFlowsContextType,
+  ResourceIdentifier,
+} from "./ResourceFlowsContext";
 
 export function useResourceFlowsContext<T extends ResourceIdentifier>() {
   const value = useContext(RESOURCE_FLOWS_CONTEXT);

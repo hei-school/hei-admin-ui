@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import {Box} from "@mui/material";
 import {
   Work as TeachersIcon,
   School as StudentIcon,
@@ -9,7 +9,7 @@ import {
   Home as HeiDocsIcon,
   MenuBook as PromotionIcon,
 } from "@mui/icons-material";
-import { ListMenu, ListMenuItem, SingleMenu } from "./utils";
+import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function ManagerMenu() {
   return (
@@ -35,7 +35,11 @@ function ManagerMenu() {
           icon={<HeiDocsIcon />}
         />
       </ListMenu>
-      <SingleMenu to="/promotions" label="Promotions" icon={<PromotionIcon />} />
+      <SingleMenu
+        to="/promotions"
+        label="Promotions"
+        icon={<PromotionIcon />}
+      />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
     </Box>
   );

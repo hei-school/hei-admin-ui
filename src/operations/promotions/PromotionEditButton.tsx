@@ -1,11 +1,18 @@
-import { Button, SaveButton, SimpleForm, TextInput, Toolbar, required } from "react-admin";
-import { Create as EditIcon } from "@mui/icons-material"
-import { CrupdatePromotion, Promotion } from "@haapi/typescript-client";
-import { Edit } from "../common/components"
-import { PromotionDialog } from "./components";
-import { useToggle, useNotify } from "@/hooks";
+import {
+  Button,
+  SaveButton,
+  SimpleForm,
+  TextInput,
+  Toolbar,
+  required,
+} from "react-admin";
+import {Create as EditIcon} from "@mui/icons-material";
+import {CrupdatePromotion, Promotion} from "@haapi/typescript-client";
+import {Edit} from "../common/components";
+import {PromotionDialog} from "./components";
+import {useToggle, useNotify} from "@/hooks";
 
-export function PromotionEditButton({ id }: { id: string }) {
+export function PromotionEditButton({id}: {id: string}) {
   const [showEdit, _set, toggleEdit] = useToggle();
   const notify = useNotify();
 
@@ -30,20 +37,36 @@ export function PromotionEditButton({ id }: { id: string }) {
           redirect={false}
           mutationOptions={{
             onSuccess: () => {
-              notify("Promotion mise à jour")
+              notify("Promotion mise à jour");
               toggleEdit();
-            }
+            },
           }}
           transform={(promotion: Promotion): CrupdatePromotion => {
-            return { name: promotion.name, ref: promotion.ref, id: promotion.id };
+            return {name: promotion.name, ref: promotion.ref, id: promotion.id};
           }}
         >
-          <SimpleForm toolbar={<Toolbar><SaveButton /></Toolbar>}>
-            <TextInput source="name" label="Nom" validate={required()} fullWidth />
-            <TextInput source="ref" label="Référence" validate={required()} fullWidth />
+          <SimpleForm
+            toolbar={
+              <Toolbar>
+                <SaveButton />
+              </Toolbar>
+            }
+          >
+            <TextInput
+              source="name"
+              label="Nom"
+              validate={required()}
+              fullWidth
+            />
+            <TextInput
+              source="ref"
+              label="Référence"
+              validate={required()}
+              fullWidth
+            />
           </SimpleForm>
         </Edit>
       </PromotionDialog>
     </>
-  )
+  );
 }

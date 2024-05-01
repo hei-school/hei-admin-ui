@@ -1,8 +1,15 @@
-import { Controller, ControllerProps, Control } from "react-hook-form";
-import { Autocomplete as MuiAutocomplete, AutocompleteProps, Chip, TextField, TextFieldProps } from "@mui/material"
+import {Controller, ControllerProps, Control} from "react-hook-form";
+import {
+  Autocomplete as MuiAutocomplete,
+  AutocompleteProps,
+  Chip,
+  TextField,
+  TextFieldProps,
+} from "@mui/material";
 
 export type MultipleAutocompleteOption = {
-  id: string, label: string
+  id: string;
+  label: string;
 };
 
 export type MultipleAutocompleteProps = {
@@ -12,14 +19,32 @@ export type MultipleAutocompleteProps = {
   inputLabel: string;
   controllerProps?: Partial<ControllerProps>;
   inputProps?: Partial<TextFieldProps>;
-} & Partial<AutocompleteProps<MultipleAutocompleteOption, true, undefined, undefined, typeof Chip>>;
+} & Partial<
+  AutocompleteProps<
+    MultipleAutocompleteOption,
+    true,
+    undefined,
+    undefined,
+    typeof Chip
+  >
+>;
 
-export function MultipleAutocomplete({ getOptionKey, getOptionLabel, name, control, options, inputLabel, controllerProps, inputProps, ...autcompleteProps }: MultipleAutocompleteProps) {
+export function MultipleAutocomplete({
+  getOptionKey,
+  getOptionLabel,
+  name,
+  control,
+  options,
+  inputLabel,
+  controllerProps,
+  inputProps,
+  ...autcompleteProps
+}: MultipleAutocompleteProps) {
   return (
     <Controller
       name={name}
       control={control}
-      render={({ field: { onChange, value } }) => (
+      render={({field: {onChange, value}}) => (
         <MuiAutocomplete
           multiple
           fullWidth
@@ -39,13 +64,20 @@ export function MultipleAutocomplete({ getOptionKey, getOptionLabel, name, contr
             </li>
           )}
           renderInput={(params) => (
-            <TextField {...params} label={inputLabel} size="small" sx={{ mb: 2 }} variant="outlined" {...inputProps} />
+            <TextField
+              {...params}
+              label={inputLabel}
+              size="small"
+              sx={{mb: 2}}
+              variant="outlined"
+              {...inputProps}
+            />
           )}
-          sx={{ "& select": { zIndex: 99999, bgcolor: "red" } }}
+          sx={{"& select": {zIndex: 99999, bgcolor: "red"}}}
           {...autcompleteProps}
         />
       )}
       {...controllerProps}
     />
-  )
+  );
 }

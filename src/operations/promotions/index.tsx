@@ -3,7 +3,7 @@ import PromotionShow from "./PromotionShow";
 
 const promotions = {
   list: PromotionList,
-  show: PromotionShow
+  show: PromotionShow,
 };
 
 export default promotions;

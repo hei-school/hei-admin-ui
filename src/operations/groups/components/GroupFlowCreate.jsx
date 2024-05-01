@@ -89,7 +89,7 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
   const groupStudentsIds = listContext.data.map(
     (groupStudent) => groupStudent?.id
   );
-  
+
   const filteredStudents = students
     .filter((student) => !groupStudentsIds.includes(student?.id))
     .map((student) => ({id: student?.id, ref: student?.ref}));

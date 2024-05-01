@@ -1,12 +1,12 @@
-import { ShowButton, TextField } from "react-admin";
-import { MenuBook as PromotionIcon, Add } from "@mui/icons-material"
+import {ShowButton, TextField} from "react-admin";
+import {MenuBook as PromotionIcon, Add} from "@mui/icons-material";
 
-import { HaList } from "@/ui/haList";
-import { DateField } from "../common/components/fields";
-import { ButtonBase, HaActionWrapper } from "@/ui/haToolbar";
-import { PromotionDialog } from "./components";
-import { PromotionCreate } from "./PromotionCreate";
-import { useToggle } from "@/hooks";
+import {HaList} from "@/ui/haList";
+import {DateField} from "../common/components/fields";
+import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {PromotionDialog} from "./components";
+import {PromotionCreate} from "./PromotionCreate";
+import {useToggle} from "@/hooks";
 
 export default function PromotionList() {
   const [showCreate, _set, toggleShowCreate] = useToggle();
@@ -38,5 +38,5 @@ export default function PromotionList() {
         <PromotionCreate />
       </PromotionDialog>
     </>
-  )
+  );
 }

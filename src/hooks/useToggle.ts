@@ -1,10 +1,6 @@
-import { useState } from "react";
+import {useState} from "react";
 
-type ToggleReturnType = [
-  boolean,
-  (newValue: boolean) => void,
-  () => void
-]
+type ToggleReturnType = [boolean, (newValue: boolean) => void, () => void];
 
 export const useToggle = (initialState = false): ToggleReturnType => {
   const [visible, setVisibility] = useState(initialState);

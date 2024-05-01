@@ -1,1 +1,1 @@
-export * from "./MultipleAutocomplete.tsx"
+export * from "./MultipleAutocomplete.tsx";
