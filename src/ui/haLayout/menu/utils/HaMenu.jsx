@@ -18,7 +18,7 @@ const MENU_STYLE = {
   width: "250px",
   boxSizing: "border-box",
   paddingLeft: "20px",
-  zIndex: 9999,
+  zIndex: 9,
   transition: "all .3s linear",
   overflowX: "hidden",
   bgcolor: "#001948",

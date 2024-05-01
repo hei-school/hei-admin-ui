@@ -1,15 +1,49 @@
 import { TopToolbar, Show, SimpleShowLayout, TextField } from "react-admin";
+import {
+  Fingerprint as ReferenceIcon,
+  PermIdentity as NameIcon,
+  CalendarMonth as CreationDateIcon,
+} from "@mui/icons-material";
+import { Group, UpdatePromotionSGroupTypeEnum } from "@haapi/typescript-client";
 import { Box } from "@mui/material"
 import { useParams } from "react-router-dom"
 
-import { DateField } from "../common/components/fields";
+import { DateField, FieldLabel } from "../common/components/fields";
 import { PromotionEditButton } from "./PromotionEditButton";
 import { PromotionGroupList } from "./components";
+import { ResourceFlowsContext, ResourceMigrateType } from "../common/components/resource-flows/ResourceFlowsContext";
+import { useNotify } from "@/hooks";
 import { useRole } from "@/security/hooks";
+import { EMPTY_TEXT } from "@/ui/constants";
+import promotionFlowsProvider from "@/providers/promotionFlowProvider";
+
+function getSuccessMessage(type: ResourceMigrateType, groups: Group[]) {
+  switch (type) {
+    case "JOIN":
+      return `Le groupe ${groups[0].ref} a été migré avec succès`;
+    case "LEAVE":
+      return `Le groupe ${groups[0].ref} a été retiré avec succès`;
+    default:
+      return "Tous les groupes ont été insérés avec succès!";
+  }
+}
+
+function getErrorMessage(type: ResourceMigrateType, groups: Group[]) {
+  switch (type) {
+    case "JOIN":
+      return `Erreur lors de la migration du groupe ${groups[0].ref}`;
+    case "LEAVE":
+      return `Erreur lors du retrait du groupe ${groups[0].ref}`;
+    default:
+      return `Erreur lors de l'opération sur les groupes.`;
+  }
+}
 
 export default function PromotionShow() {
   const role = useRole();
   const { id } = useParams();
+  const notify = useNotify()
+
   return (
     <Box>
       <Show
@@ -23,12 +57,29 @@ export default function PromotionShow() {
         )}
       >
         <SimpleShowLayout>
-          <TextField source="name" label="Nom" />
-          <TextField source="ref" label="Référence" />
-          <DateField showTime source="creation_datetime" label="Date de création" />
+          <TextField source="name" label={<FieldLabel icon={<NameIcon />}>Nom</FieldLabel>} emptyText={EMPTY_TEXT} />
+          <TextField source="ref" label={<FieldLabel icon={<ReferenceIcon />}>Référence</FieldLabel>} emptyText={EMPTY_TEXT} />
+          <DateField source="creation_datetime" label={<FieldLabel icon={<CreationDateIcon />}>Date de création</FieldLabel>} emptyText={EMPTY_TEXT} />
         </SimpleShowLayout>
       </Show>
-      <PromotionGroupList promotionId={id!} />
+      <ResourceFlowsContext<Required<Group>>
+        resource="groups"
+        onSuccess={({ type, resources }) => {
+          notify(getSuccessMessage(type, resources), { type: "success" });
+        }}
+        onError={({ type, resources }) => {
+          notify(getErrorMessage(type, resources), { type: "error" });
+        }}
+        provider={async ({ resources, type }) => {
+          const promotionFlowType: UpdatePromotionSGroupTypeEnum = type !== "LEAVE" ? UpdatePromotionSGroupTypeEnum.ADD : UpdatePromotionSGroupTypeEnum.REMOVE;
+          return promotionFlowsProvider.saveOrUpdate({
+            type: promotionFlowType,
+            groups: resources.map(group => group.id)
+          }, { promotionId: id });
+        }}
+      >
+        <PromotionGroupList promotionId={id!} />
+      </ResourceFlowsContext>
     </Box>
   )
 }

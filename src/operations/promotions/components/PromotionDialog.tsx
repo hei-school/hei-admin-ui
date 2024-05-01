@@ -1,3 +1,4 @@
+import { PALETTE_COLORS } from "@/ui/constants";
 import { Dialog, DialogTitle, DialogContent } from "@mui/material"
 
 type PromotionDialogProps = {
@@ -6,8 +7,8 @@ type PromotionDialogProps = {
   title: string,
   onClose: () => void,
 }
-export function PromotionDialog({ children, open, title, onClose }: PromotionDialogProps) {
 
+export function PromotionDialog({ children, open, title, onClose }: PromotionDialogProps) {
   return (
     <Dialog
       open={open}
@@ -19,10 +20,16 @@ export function PromotionDialog({ children, open, title, onClose }: PromotionDia
       fullWidth
       maxWidth="sm"
     >
-      <DialogTitle variant="h2" sx={{ fontSize: "18px", fontWeight: "bold", opacity: .9 }}>
+      <DialogTitle
+        variant="h2" sx={{
+          bgcolor: PALETTE_COLORS.primary,
+          fontSize: "18px",
+          color: "white",
+          opacity: .9
+        }}>
         {open && title}
       </DialogTitle>
-      <DialogContent>
+      <DialogContent sx={{p: 0}}>
         {open && children}
       </DialogContent>
     </Dialog>

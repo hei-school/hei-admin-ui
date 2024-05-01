@@ -1,5 +1,5 @@
 import { ShowButton, TextField } from "react-admin";
-import { Bookmark, Add } from "@mui/icons-material"
+import { MenuBook as PromotionIcon, Add } from "@mui/icons-material"
 
 import { HaList } from "@/ui/haList";
 import { DateField } from "../common/components/fields";
@@ -16,11 +16,11 @@ export default function PromotionList() {
       <HaList
         title="Promotions"
         resource="promotions"
-        icon={<Bookmark />}
+        icon={<PromotionIcon />}
         actions={
           <HaActionWrapper>
             <ButtonBase icon={<Add />} onClick={toggleShowCreate} closeAction>
-              Create
+              Créer
             </ButtonBase>
           </HaActionWrapper>
         }

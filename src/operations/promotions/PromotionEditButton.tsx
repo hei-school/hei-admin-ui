@@ -15,6 +15,8 @@ export function PromotionEditButton({ id }: { id: string }) {
         onClick={toggleEdit}
         startIcon={<EditIcon />}
         label="EDITER"
+        variant="contained"
+        sx={{py: "5px", mt: 2}}
       />
       <PromotionDialog
         title="Modification d'une promotion"
