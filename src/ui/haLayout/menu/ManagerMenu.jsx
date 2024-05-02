@@ -7,6 +7,7 @@ import {
   Inventory as DocsIcon,
   Group as GroupIcon,
   Home as HeiDocsIcon,
+  MenuBook as PromotionIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
@@ -34,6 +35,12 @@ function ManagerMenu() {
           icon={<HeiDocsIcon />}
         />
       </ListMenu>
+      <SingleMenu
+        to="/promotions"
+        label="Promotions"
+        data-testid="promotions-menu"
+        icon={<PromotionIcon />}
+      />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
     </Box>
   );

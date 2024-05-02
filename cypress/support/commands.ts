@@ -16,6 +16,15 @@ Cypress.Commands.add("routePathnameEq", (to) => {
     });
 });
 
+Cypress.Commands.add(
+  "inteceptMockByOne",
+  <T extends {id: string}>(resource: string, mocks: T[]) => {
+    mocks.forEach((mock) => {
+      cy.intercept(`${resource}/${mock.id}`, mock).as(`getOne_${resource}`);
+    });
+  }
+);
+
 Cypress.Commands.add("login", (options: LoginConfig) => {
   const {role, success: isSuccess = true} = options;
   const defaultUserConnected = getUserConnected(role);

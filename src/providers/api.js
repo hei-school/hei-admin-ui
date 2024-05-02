@@ -5,6 +5,7 @@ import {
   FilesApi,
   CommentsApi,
   HealthApi,
+  PromotionsApi,
 } from "@haapi/typescript-client";
 import authProvider from "./authProvider";
 
@@ -16,3 +17,5 @@ export const teachingApi = () =>
   new TeachingApi(authProvider.getCachedAuthConf());
 export const filesApi = () => new FilesApi(authProvider.getCachedAuthConf());
 export const healthApi = () => new HealthApi(authProvider.getCachedAuthConf());
+export const promotionApi = () =>
+  new PromotionsApi(authProvider.getCachedAuthConf());

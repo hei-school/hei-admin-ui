@@ -1,7 +1,7 @@
 import {Edit as RaEdit} from "react-admin";
 import {useNotify} from "../../../hooks";
 
-export function Edit({children, ...editProps}) {
+export function Edit({children, mutationOptions = {}, ...editProps}) {
   const notify = useNotify();
   return (
     <RaEdit
@@ -12,6 +12,7 @@ export function Edit({children, ...editProps}) {
             type: "error",
           });
         },
+        ...mutationOptions,
       }}
       {...editProps}
     >

@@ -22,6 +22,7 @@ import payments from "./operations/payments";
 import heiDocs from "./operations/docs/hei";
 import studentDocs from "./operations/docs/students";
 import HaLoginPage from "./security/LoginPage";
+import promotions from "./operations/promotions/index.tsx";
 
 function AppBase() {
   return (
@@ -45,6 +46,8 @@ function AppBase() {
       <Resource name="payments" {...payments} />
       <Resource name="docs" options={{label: "Documents"}} />
       <Resource name="comments" />
+      <Resource name="promotions-groups" />
+      <Resource name="promotions" {...promotions} />
 
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
