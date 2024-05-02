@@ -9,21 +9,23 @@ import {SelectScope} from "./components/SelectScope";
 import {SelectGroup} from "./components/SelectGroup";
 import authProvider from "@/providers/authProvider";
 
-const transformAnnouncement = ({target_group_list, ...announcement} : any) => {
+const transformAnnouncement = ({target_group_list, ...announcement}: any) => {
   const {id} = authProvider.getCachedWhoami();
-  
-  const targetGroups = target_group_list ? target_group_list.map((id: string) => ({id})) : [];
 
-  return ({
+  const targetGroups = target_group_list
+    ? target_group_list.map((id: string) => ({id}))
+    : [];
+
+  return {
     ...announcement,
     author_id: id,
-    target_group_list : targetGroups
-  });
-}
+    target_group_list: targetGroups,
+  };
+};
 
 export const AnnouncementCreate = () => {
   const [scope, setScope] = useState("");
-  
+
   return (
     <Create title="Annonces" transform={transformAnnouncement}>
       <SimpleForm>

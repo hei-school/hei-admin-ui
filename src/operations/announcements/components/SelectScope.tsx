@@ -1,7 +1,7 @@
 import React from "react";
 
 import {SelectInput} from "react-admin";
-import { ANNOUNCEMENT_SCOPE } from "../utils/constants/announcementsScopes";
+import {ANNOUNCEMENT_SCOPE} from "../utils/constants/announcementsScopes";
 import {useRole} from "../../../security/hooks";
 
 export const SCOPE_CHOICES = Object.entries(ANNOUNCEMENT_SCOPE).map(

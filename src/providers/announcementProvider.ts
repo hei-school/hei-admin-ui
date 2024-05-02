@@ -1,6 +1,6 @@
-import { WhoamiRoleEnum } from "@haapi/typescript-client";
-import { HaDataProviderType } from "./HaDataProviderType";
-import { announcementsApi } from "./api";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {HaDataProviderType} from "./HaDataProviderType";
+import {announcementsApi} from "./api";
 import authProvider from "./authProvider";
 
 const role = authProvider.getCachedRole();
@@ -62,10 +62,11 @@ const announcementProvider: HaDataProviderType = {
       default:
         throw new Error("Role not known.");
     }
-
   },
   async saveOrUpdate(payload: any) {
-    return announcementsApi().createAnnouncement(payload[0]).then((result) => [result.data]);
+    return announcementsApi()
+      .createAnnouncement(payload[0])
+      .then((result) => [result.data]);
   },
   async delete(id: string) {
     throw new Error("Not implemented");

@@ -1,10 +1,9 @@
-import { Scope } from "@haapi/typescript-client";
-import { PALETTE_COLORS } from "@/ui/constants";
+import {Scope} from "@haapi/typescript-client";
+import {PALETTE_COLORS} from "@/ui/constants";
 import globalBg from "@/assets/announcements_bg.jpg";
 import studentBg from "@/assets/student_announcement_bg.jpg";
 import teacherBg from "@/assets/teachers_announcement_bg.jpg";
 import managerBg from "@/assets/manager_announcement_bg.jpg";
-
 
 export const getBgImg = (scope: string) => {
   switch (scope) {
