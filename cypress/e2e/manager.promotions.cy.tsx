@@ -30,7 +30,7 @@ const LEAVE_API: UpdatePromotionSGroup = {
   group_ids: [promotion1Mock.groups[0].id!],
 };
 
-describe("Manager.Payment", () => {
+describe("Manager.Promotions", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
     cy.intercept("GET", `/groups?*`, groupsMock).as("getGroups");
@@ -153,7 +153,7 @@ describe("Manager.Payment", () => {
     );
   });
 
-  it("can insert new groups to th promotion", () => {
+  it("can insert new groups to the promotion", () => {
     cy.get("tbody tr")
       .should("have.length", promotionsMock.length)
       .first()
