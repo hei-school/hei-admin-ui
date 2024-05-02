@@ -3,10 +3,10 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {announcementsApi} from "./api";
 import authProvider from "./authProvider";
 
-const role = authProvider.getCachedRole();
-
 const announcementProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
+    const role = authProvider.getCachedRole();
+
     switch (role) {
       case WhoamiRoleEnum.MANAGER:
         return announcementsApi()
@@ -46,6 +46,8 @@ const announcementProvider: HaDataProviderType = {
     }
   },
   async getOne(id: string) {
+    const role = authProvider.getCachedRole();
+
     switch (role) {
       case WhoamiRoleEnum.MANAGER:
         return announcementsApi()
