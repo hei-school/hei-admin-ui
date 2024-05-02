@@ -101,6 +101,7 @@ export function MigrateDialog<
           autoFocus
           filterSelectedOptions
           name="resource"
+          data-testid="migrate-autocomplete"
           control={control}
           loading={optionLoading}
           options={parentOptions}
@@ -122,6 +123,7 @@ export function MigrateButton<
       <Button
         startIcon={icon || <MigrateIcon />}
         label={label || "Migrer"}
+        data-testid="migrate-button"
         onClick={(event) => {
           event.stopPropagation();
           toggle();

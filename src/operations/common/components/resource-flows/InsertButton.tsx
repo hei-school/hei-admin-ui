@@ -90,6 +90,7 @@ export function InsertDialog<
           autoFocus
           filterSelectedOptions
           name="resources"
+          data-testid="insert-autocomplete"
           control={control}
           loading={optionLoading}
           options={childOptions}
@@ -115,6 +116,7 @@ export function InsertButton<
           size="large"
           startIcon={icon || <InsertIcon />}
           onClick={toggle}
+          data-testid="insert-button"
           label={label || "Insérer"}
         />
       </HaActionWrapper>

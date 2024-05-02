@@ -12,6 +12,10 @@ export declare global {
       login(options: LoginConfig): Chainable;
       getByTestid<Subject>(testid: string): Chainable<Subject>;
       routePathnameEq(to: string): Chainable;
+      inteceptMockByOne<T extends {id: string}>(
+        resource: string,
+        mocks: T[]
+      ): void;
     }
   }
 }

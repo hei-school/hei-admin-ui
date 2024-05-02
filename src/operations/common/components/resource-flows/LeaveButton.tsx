@@ -80,6 +80,7 @@ export function LeaveButton<
       <Button
         label={label || "Retirer"}
         startIcon={icon || <RemoveIcon />}
+        data-testid="leave-button"
         onClick={(event) => {
           event.stopPropagation();
           toggle();

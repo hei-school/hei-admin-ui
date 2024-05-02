@@ -22,7 +22,12 @@ export default function PromotionList() {
         }}
         actions={
           <HaActionWrapper>
-            <ButtonBase icon={<Add />} onClick={toggleShowCreate} closeAction>
+            <ButtonBase
+              data-testid="create-button"
+              icon={<Add />}
+              onClick={toggleShowCreate}
+              closeAction
+            >
               Créer
             </ButtonBase>
             <PromotionListFilter />

@@ -22,6 +22,7 @@ export function PromotionEditButton({id}: {id: string}) {
         onClick={toggleEdit}
         startIcon={<EditIcon />}
         label="EDITER"
+        data-testid="edit-button"
         variant="contained"
         sx={{py: "5px", mt: 2}}
       />
@@ -48,7 +49,7 @@ export function PromotionEditButton({id}: {id: string}) {
           <SimpleForm
             toolbar={
               <Toolbar>
-                <SaveButton />
+                <SaveButton data-testid="edit-button" />
               </Toolbar>
             }
           >

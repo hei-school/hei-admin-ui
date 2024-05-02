@@ -25,6 +25,7 @@ export function DialogActions() {
           },
         }}
         disabled={isLoading}
+        data-testid="save-flows-button"
       >
         {isLoading ? <CircularProgress size={25} /> : "Envoyer"}
       </MuiButton>

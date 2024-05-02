@@ -38,6 +38,7 @@ function ManagerMenu() {
       <SingleMenu
         to="/promotions"
         label="Promotions"
+        data-testid="promotions-menu"
         icon={<PromotionIcon />}
       />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
