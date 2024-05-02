@@ -1,8 +1,8 @@
 import React from "react";
+
 import {SelectInput} from "react-admin";
-import {ANNOUNCEMENT_SCOPE} from "../AnnouncementList";
+import { ANNOUNCEMENT_SCOPE } from "../constants/announcementsScopes";
 import {useRole} from "../../../security/hooks";
-import {Scope} from "@haapi/typescript-client";
 
 export const SCOPE_CHOICES = Object.entries(ANNOUNCEMENT_SCOPE).map(
   ([value, label]) => ({value, label})

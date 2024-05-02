@@ -1,5 +1,6 @@
 import React, {useState} from "react";
-import {Announcement, Scope} from "@haapi/typescript-client";
+
+import {Scope} from "@haapi/typescript-client";
 import {SimpleForm, TextInput} from "react-admin";
 import {MarkdownInput} from "@react-admin/ra-markdown";
 import {Box, Typography} from "@mui/material";
@@ -8,21 +9,21 @@ import {SelectScope} from "./components/SelectScope";
 import {SelectGroup} from "./components/SelectGroup";
 import authProvider from "@/providers/authProvider";
 
+const transformAnnouncement = ({target_group_list, ...announcement} : any) => {
+  const {id} = authProvider.getCachedWhoami();
+  
+  const targetGroups = target_group_list ? target_group_list.map((id: string) => ({id})) : [];
+
+  return ({
+    ...announcement,
+    author_id: id,
+    target_group_list : targetGroups
+  });
+}
+
 export const AnnouncementCreate = () => {
   const [scope, setScope] = useState("");
-
-  const transformAnnouncement = ({target_group_list, ...announcement} : any) => {
-    const {id} = authProvider.getCachedWhoami();
-    
-    const targetGroups = target_group_list ? target_group_list.map((id: string) => ({id})) : [];
-
-    return ({
-      ...announcement,
-      author_id: id,
-      target_group_list : targetGroups
-    });
-  }
-
+  
   return (
     <Create title="Annonces" transform={transformAnnouncement}>
       <SimpleForm>

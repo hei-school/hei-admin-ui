@@ -1,23 +1,37 @@
-import React, {FC} from "react";
-import {EmailField, FunctionField, TextField} from "react-admin";
-import {Announcement, Scope} from "@haapi/typescript-client";
-import {Newspaper as AnnoucementIcon} from "@mui/icons-material";
-import {Chip} from "@mui/material";
-import {HaList} from "@/ui/haList";
-import {DateField} from "../common/components/fields";
-import {AnnouncementFilter} from "./components/AnnouncementsFilter";
+import React, { FC } from "react";
+import { List, ListProps, useListContext } from "react-admin";
+import { Announcement, Scope } from "@haapi/typescript-client";
+import { Card, CardContent, CardHeader, Avatar, Chip, CardMedia, Typography, Box } from "@mui/material"
+import {Newspaper as AnnouncementIcon} from "@mui/icons-material";
+import {Link} from "react-router-dom"
 import {PALETTE_COLORS} from "@/ui/constants";
+import {HaListTitle} from "@/ui/haList";
+import {CreateButton} from "@/ui/haToolbar";
+import {AnnouncementFilter} from "./components";
+import {ANNOUNCEMENT_SCOPE} from "./constants/announcementsScopes";
+import {PrevNextPagination} from "../utils";
+import globalBg from "@/assets/announcements_bg.jpg"
+import studentBg from "@/assets/student_announcement_bg.jpg"
+import teacherBg from "@/assets/teachers_announcement_bg.jpg"
+import managerBg from "@/assets/manager_announcement_bg.jpg"
 
-export const ANNOUNCEMENT_SCOPE: any = {
-  GLOBAL: "Tout le monde",
-  MANAGER: "Managers uniquement",
-  STUDENT: "Étudiants uniquement",
-  TEACHER: "Enseignants uniquement",
+const cardStyle: React.CSSProperties = {
+  width: 300,
+  minHeight: 300,
+  margin: '0.5em',
+  display: 'inline-block',
+  verticalAlign: 'top',
+  borderRadius: "7px 7px 0px 0px",
+  boxShadow: "rgba(0, 0, 0, 0.24) 0px 3px 8pxrgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset",
 };
 
-interface ScopeFieldProps {
-  scope: string;
-}
+const EmailField = ({ value }: any) => (
+  <Link
+    to={`mailto:${value}`}
+  >
+    {value}
+  </Link>
+)
 
 const getChipColor = (scope: string) => {
   switch (scope) {
@@ -34,30 +48,87 @@ const getChipColor = (scope: string) => {
   }
 };
 
-const ScopeField: FC<ScopeFieldProps> = ({scope}: ScopeFieldProps) => {
-  return (
-    <Chip
-      label={ANNOUNCEMENT_SCOPE[scope]}
-      sx={{backgroundColor: getChipColor(scope), color: PALETTE_COLORS.white}}
-    />
-  );
-};
+const getBgImg = (scope: string) => {
+  switch (scope) {
+    case Scope.GLOBAL:
+      return globalBg;
+    case Scope.STUDENT:
+      return studentBg;
+    case Scope.TEACHER:
+      return teacherBg;
+    case Scope.MANAGER:
+      return managerBg;
+    default:
+      return PALETTE_COLORS.black;
+  }
+}
 
-export const AnnouncementList = () => {
+const AnnouncementsGrid = () => {
+  const { data: announcements = [] } = useListContext();
+
   return (
-    <HaList
-      title="Liste des annonces"
-      resource="announcements"
-      actions={<AnnouncementFilter />}
-      icon={<AnnoucementIcon />}
-    >
-      <TextField source="title" label="Titre" />
-      <DateField source="creation_datetime" label="Date de création" showTime />
-      <FunctionField
-        label="Portée de l'annonce"
-        render={(record: Announcement) => <ScopeField scope={record?.scope!} />}
-      />
-      <EmailField source="author.email" label="Auteur" />
-    </HaList>
+    <Box style={{ margin: '1em', overflowY: "auto", maxHeight: "80vh" }}>
+      {
+        announcements.map((announcement: Announcement) =>
+          <Card key={announcement.id} style={cardStyle} >
+            <CardMedia
+              component="img"
+              height="150"
+              image={getBgImg(announcement?.scope!)}
+              alt="Announcement Background"
+              sx={{ borderRadius: "7px 7px 0px 0px" }}
+            />
+            <CardHeader
+              avatar={<Avatar src={announcement.author?.profile_picture} />}
+              title={<EmailField value={announcement.author?.email} />}
+              subheader={new Date(announcement?.creation_datetime!).toLocaleString()} />
+            <CardContent>
+              <Typography variant="h6" fontWeight="bold">{announcement.title}</Typography>
+              <Typography variant="body2">
+                Cliquez sur la carte pour accéder à l'annonce complète et découvrir tous les détails pertinents.
+              </Typography>
+            </CardContent>
+            <CardContent
+              sx={{
+                padding: "5px 10px"
+              }}>
+              <Chip
+                label={ANNOUNCEMENT_SCOPE[announcement?.scope!]}
+                sx={{ backgroundColor: getChipColor(announcement?.scope!), color: PALETTE_COLORS.white }} />
+            </CardContent>
+          </Card>)
+      }
+    </Box >
   );
-};
+}
+const AnnouncementActions = () => {
+  return (
+    <Box>
+      <CreateButton resource="announcements" />
+      <AnnouncementFilter />
+    </Box>
+  );
+}
+export const AnnouncementList: FC<ListProps> = (props) => {
+  return (
+    <List sx={{
+      '& .RaList-content': {
+        backgroundColor: "none",
+        boxShadow: "none",
+      },
+    }}
+      actions={false}
+      pagination={<PrevNextPagination />}
+      resource="announcements"
+      {...props}>
+      <HaListTitle
+        actions={<AnnouncementActions />}
+        filterIndicator={true}
+        title="Liste des annonces"
+        icon={<AnnouncementIcon />}
+        mainSearch={{ source: "", label: "" }}
+      />
+      <AnnouncementsGrid />
+    </List>
+  );
+}
