@@ -93,6 +93,7 @@ export const AnnouncementShow = () => {
               <MarkdownField
                 source="content"
                 label=" "
+                data-testid="markdown-field"
                 sx={{padding: "auto", fontSize: "1rem"}}
               />
             </SimpleShowLayout>
