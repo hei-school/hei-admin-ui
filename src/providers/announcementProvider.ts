@@ -70,7 +70,7 @@ const announcementProvider: HaDataProviderType = {
       .createAnnouncement(payload[0])
       .then((result) => [result.data]);
   },
-  async delete(id: string) {
+  async delete() {
     throw new Error("Not implemented");
   },
 };

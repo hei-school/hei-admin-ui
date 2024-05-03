@@ -1,4 +1,4 @@
-import React, {Dispatch, FC, SetStateAction} from "react";
+import {Dispatch, FC, SetStateAction} from "react";
 
 import {SelectInput} from "react-admin";
 import {ANNOUNCEMENT_SCOPE} from "../utils/constants/announcementsScopes";
