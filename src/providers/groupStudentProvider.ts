@@ -2,9 +2,9 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {teachingApi} from "./api";
 
 const groupStudentProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, _filter: any, meta: any) {
+  async getList(page: number, perPage: number, _filter: any, meta: any) {
     return await teachingApi()
-      .getStudentsByGroupId(meta.groupId)
+      .getStudentsByGroupId(meta.groupId, page, perPage)
       .then((result) => {
         return result.data;
       });
