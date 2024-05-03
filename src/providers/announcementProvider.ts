@@ -42,7 +42,7 @@ const announcementProvider: HaDataProviderType = {
           )
           .then((result) => result.data);
       default:
-        throw new Error("Role not known.");
+        throw new Error("Unexpected role");
     }
   },
   async getOne(id: string) {
@@ -62,7 +62,7 @@ const announcementProvider: HaDataProviderType = {
           .getTeacherAnnouncementById(id)
           .then((result) => result.data);
       default:
-        throw new Error("Role not known.");
+        throw new Error("Unexpected role");
     }
   },
   async saveOrUpdate(payload: any) {
@@ -70,7 +70,7 @@ const announcementProvider: HaDataProviderType = {
       .createAnnouncement(payload[0])
       .then((result) => [result.data]);
   },
-  async delete(id: string) {
+  async delete() {
     throw new Error("Not implemented");
   },
 };
