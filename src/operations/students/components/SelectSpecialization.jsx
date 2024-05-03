@@ -1,3 +1,4 @@
+import {mapToChoices} from "@/utils";
 import {SelectInput, required} from "react-admin";
 
 export const SPECIALIZATION_VALUE = {
@@ -6,9 +7,7 @@ export const SPECIALIZATION_VALUE = {
   COMMON_CORE: "Tronc commun",
 };
 
-const SPECIALIZATION_CHOICES = Object.entries(SPECIALIZATION_VALUE).map(
-  ([value, label]) => ({value, label})
-);
+const SPECIALIZATION_CHOICES = mapToChoices(SPECIALIZATION_VALUE);
 
 const DEFAULT_CHOICE = SPECIALIZATION_CHOICES[2];
 

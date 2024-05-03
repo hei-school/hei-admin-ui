@@ -1,3 +1,4 @@
+import {mapToChoices} from "@/utils";
 import {SelectInput, required} from "react-admin";
 
 export const WORK_STATUS_VALUE = {
@@ -6,9 +7,7 @@ export const WORK_STATUS_VALUE = {
   WORKING: "Est en alternance",
 };
 
-const WORK_STATUS_CHOICES = Object.entries(WORK_STATUS_VALUE).map(
-  ([value, label]) => ({value, label})
-);
+const WORK_STATUS_CHOICES = mapToChoices(WORK_STATUS_VALUE);
 
 const DEFAULT_CHOICE = WORK_STATUS_CHOICES[2];
 

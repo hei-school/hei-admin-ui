@@ -14,11 +14,13 @@ import docsProvider from "./docsProvider";
 import commentProvider from "./commentProvider";
 import promotionProvider from "./promotionProvider";
 import promotionGroupsProvider from "./promotionGroupsProvider";
+import announcementProvider from "./announcementProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
 const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "profile") return profileProvider;
+  if (resourceType === "announcements") return announcementProvider;
   if (resourceType === "students") return studentProvider;
   if (resourceType === "fees") return feeProvider;
   if (resourceType === "payments") return paymentProvider;
