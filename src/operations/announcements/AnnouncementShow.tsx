@@ -8,7 +8,7 @@ import {
   CardMedia,
   CardContent,
 } from "@mui/material";
-import {Show, SimpleShowLayout, useGetOne} from "react-admin";
+import {Show, SimpleShowLayout, useGetOne, useRedirect} from "react-admin";
 import {MarkdownField} from "@react-admin/ra-markdown";
 import {useParams} from "react-router-dom";
 import {AnnouncementAuthor} from "@haapi/typescript-client";
@@ -43,8 +43,13 @@ const AnnouncementAuthorShow: FC<AuthorProps> = ({author}) => {
 
 export const AnnouncementShow = () => {
   const {id} = useParams();
-  const {data: announcement = []} = useGetOne("announcements", {id});
-  if (!announcement) return;
+  const redirect = useRedirect();
+  const {data: announcement = [], isFetching} = useGetOne("announcements", {
+    id,
+  });
+
+  if (!announcement && !isFetching) redirect("/announcements");
+
   return (
     <Box width="65vw" margin="auto">
       <Box

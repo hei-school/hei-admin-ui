@@ -1,6 +1,6 @@
 import React, {FC} from "react";
 
-import {List, ListProps, useListContext} from "react-admin";
+import {List, useListContext} from "react-admin";
 import {Announcement, Scope} from "@haapi/typescript-client";
 import {
   Card,
@@ -77,7 +77,12 @@ const AnnouncementsGrid = () => {
             style={{textDecoration: "none", color: "inherit"}}
           >
             <CardContent>
-              <Typography variant="h6" fontWeight="bold">
+              <Typography
+                variant="h6"
+                fontWeight="bold"
+                noWrap
+                textOverflow="ellipsis"
+              >
                 {announcement.title}
               </Typography>
               <Typography variant="body2">

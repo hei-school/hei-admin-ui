@@ -1,14 +1,17 @@
-import React from "react";
+import React, {Dispatch, FC, SetStateAction} from "react";
 
 import {SelectInput} from "react-admin";
 import {ANNOUNCEMENT_SCOPE} from "../utils/constants/announcementsScopes";
-import {useRole} from "../../../security/hooks";
+import {useRole} from "@/security/hooks";
+import {mapToChoices} from "@/utils";
 
-export const SCOPE_CHOICES = Object.entries(ANNOUNCEMENT_SCOPE).map(
-  ([value, label]) => ({value, label})
-);
+export const SCOPE_CHOICES = mapToChoices(ANNOUNCEMENT_SCOPE);
 
-export const SelectScope = ({setScope}: any) => {
+interface SelectScopeProps {
+  setScope: Dispatch<SetStateAction<string>>;
+}
+
+export const SelectScope: FC<SelectScopeProps> = ({setScope}) => {
   const {isTeacher} = useRole();
   return (
     <SelectInput
