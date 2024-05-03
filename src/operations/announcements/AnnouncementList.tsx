@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import React from "react";
 
 import {List, useListContext} from "react-admin";
 import {Announcement, Scope} from "@haapi/typescript-client";

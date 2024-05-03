@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import {useState} from "react";
 
 import {Scope} from "@haapi/typescript-client";
 import {SimpleForm, TextInput} from "react-admin";

@@ -1,5 +1,3 @@
-import React from "react";
-
 import {Box, Divider, Typography} from "@mui/material";
 import {DateTimeFilter, FilterForm, SelectInputFilter} from "@/ui/haToolbar";
 import {mapToChoices} from "@/utils";
