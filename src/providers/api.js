@@ -20,4 +20,5 @@ export const filesApi = () => new FilesApi(authProvider.getCachedAuthConf());
 export const healthApi = () => new HealthApi(authProvider.getCachedAuthConf());
 export const promotionApi = () =>
   new PromotionsApi(authProvider.getCachedAuthConf());
-export const announcementsApi = () => new AnnouncementsApi(authProvider.getCachedAuthConf());
+export const announcementsApi = () =>
+  new AnnouncementsApi(authProvider.getCachedAuthConf());
