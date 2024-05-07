@@ -29,7 +29,7 @@ function TeacherList() {
             transformData={transformUserData}
             validateData={validateUserData}
           />
-          <ProfileFilters />
+          <ProfileFilters resource="teachers" />
         </>
       }
     >
