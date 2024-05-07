@@ -1,4 +1,9 @@
-import {FilterForm, SelectInputFilter, TextFilter} from "../../../ui/haToolbar";
+import {
+  FilterForm,
+  SelectInputFilter,
+  TextFilter,
+  DateTimeFilter,
+} from "../../../ui/haToolbar";
 import {EnableStatus, Sex, WorkStudyStatus} from "@haapi/typescript-client";
 
 export function ProfileFilters() {
@@ -50,6 +55,10 @@ export function ProfileFilters() {
           {id: WorkStudyStatus.WORKING, name: "Est en alternance"},
           {id: null, name: "Aucune valeur"},
         ]}
+      />
+      <DateTimeFilter
+        label="Date de début d'alternance"
+        source="commitment_begin_date"
       />
     </FilterForm>
   );
