@@ -1,5 +1,12 @@
-import {FileField, FileInput, SimpleForm, TextInput, regex} from "react-admin";
-import {Dialog, DialogTitle} from "@mui/material";
+import {
+  DateInput,
+  FileField,
+  FileInput,
+  SimpleForm,
+  TextInput,
+  regex,
+} from "react-admin";
+import {Dialog, DialogTitle, Box} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {FileType} from "@haapi/typescript-client";
 import {Create} from "../../common/components";
@@ -35,6 +42,8 @@ const transformDoc = (doc, type, owner, studentId) => {
   if (!doc) return null;
 
   doc.title = doc.name || removeExtension(doc.raw?.title);
+
+  doc.commitment_begin_date = new Date(doc.commitment_begin_date).toISOString();
 
   return {
     type,
@@ -85,7 +94,17 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             ]}
             fullWidth
           />
-          {type === "WORK_DOCUMENT" && <SelectWorkStatus />}
+          {type === "WORK_DOCUMENT" && (
+            <Box>
+              <SelectWorkStatus />
+              <DateInput
+                source="commitment_begin_date"
+                label="Date du début de l'alternance"
+                required
+                fullWidth
+              />
+            </Box>
+          )}
           <FileInput
             isRequired
             source="raw"

@@ -10,6 +10,7 @@ import {
   Link,
   useRecordContext,
   useRedirect,
+  useGetOne,
 } from "react-admin";
 
 import {
@@ -56,6 +57,7 @@ import {NOOP_FN} from "../../../utils/noop";
 import {COMMON_FIELD_ATTRIBUTES} from "../../../ui/constants/common_styles";
 
 import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
+import {DATE_OPTIONS} from "@/utils/date";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -70,6 +72,16 @@ const renderSpecialization = (specialization_field) =>
 
 const renderWorkStatus = (workStatus) =>
   WORK_STATUS_VALUE[workStatus] || EMPTY_TEXT;
+
+const HaDateField = ({value, ...props}) => {
+  return (
+    <Typography {...props}>
+      {value
+        ? new Date(value).toLocaleString("fr-FR", DATE_OPTIONS)
+        : "Non-défini.e"}
+    </Typography>
+  );
+};
 
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
@@ -267,24 +279,14 @@ const PersonalInfos = ({isStudentProfile}) => {
           {...COMMON_FIELD_ATTRIBUTES}
         />
         {isStudentProfile && (
-          <FunctionField
+          <DateField
+            source="commitment_begin_date"
             label={
-              <FieldLabel icon={<SpecializationIcon />}>
-                Parcours de Spécialisation
+              <FieldLabel icon={<CalendarIcon />}>
+                Date de début d'alternance
               </FieldLabel>
             }
-            render={(user) => renderSpecialization(user.specialization_field)}
-            {...COMMON_FIELD_ATTRIBUTES}
-          />
-        )}
-        {isStudentProfile && (
-          <FunctionField
-            label={
-              <FieldLabel icon={<WorkStatusIcon />}>
-                Statut en alternance
-              </FieldLabel>
-            }
-            render={(user) => renderWorkStatus(user.work_study_status)}
+            showTime={false}
             {...COMMON_FIELD_ATTRIBUTES}
           />
         )}
