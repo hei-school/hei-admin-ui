@@ -39,7 +39,7 @@ const ListActions = () => {
       <ExportButton
         onExport={(list) => exportData(list, exportHeaders, "students")}
       />
-      <ProfileFilters />
+      <ProfileFilters resource="students" />
     </>
   );
 };
