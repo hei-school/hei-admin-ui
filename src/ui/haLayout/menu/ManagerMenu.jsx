@@ -4,6 +4,7 @@ import {
   School as StudentIcon,
   People as StudentListIcon,
   AttachMoney as FeesIcon,
+  Book as CourseIcon,
   Inventory as DocsIcon,
   Group as GroupIcon,
   Home as HeiDocsIcon,
@@ -43,6 +44,12 @@ function ManagerMenu() {
         icon={<PromotionIcon />}
       />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
+      <SingleMenu
+        data-testid="course-menu"
+        to="/course"
+        label="Cours"
+        icon={<CourseIcon />}
+      />
       <SingleMenu
         to="/announcements"
         label="Annonces"
