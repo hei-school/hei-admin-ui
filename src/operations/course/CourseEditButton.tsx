@@ -4,15 +4,19 @@ import {
   SimpleForm,
   TextInput,
   Toolbar,
+  minValue,
+  number,
   required,
+  useRecordContext,
 } from "react-admin";
 import {Create as EditIcon} from "@mui/icons-material";
-import {CrupdatePromotion, Promotion} from "@haapi/typescript-client";
 import {Dialog} from "@/ui/components";
 import {Edit} from "../common/components";
 import {useToggle, useNotify} from "@/hooks";
+import {Course} from "@haapi/typescript-client";
 
-export function PromotionEditButton({id}: {id: string}) {
+export function CourseEditButton() {
+  const {id} = useRecordContext();
   const [showEdit, _set, toggleEdit] = useToggle();
   const notify = useNotify();
 
@@ -23,11 +27,11 @@ export function PromotionEditButton({id}: {id: string}) {
         startIcon={<EditIcon />}
         label="EDITER"
         data-testid="edit-button"
-        variant="contained"
-        sx={{py: "5px", mt: 2}}
+        variant="text"
+        sx={{py: "5px"}}
       />
       <Dialog
-        title="Modification d'une promotion"
+        title="Modification d'un cours"
         open={showEdit}
         onClose={toggleEdit}
       >
@@ -36,14 +40,17 @@ export function PromotionEditButton({id}: {id: string}) {
           title=" "
           actions={false}
           redirect={false}
+          resource="course"
+          transform={(course: Course): Course => ({
+            ...course,
+            total_hours: +course.total_hours!,
+            credits: +course.credits!,
+          })}
           mutationOptions={{
             onSuccess: () => {
-              notify("Promotion mise à jour");
+              notify("Cours mis à jour");
               toggleEdit();
             },
-          }}
-          transform={(promotion: Promotion): CrupdatePromotion => {
-            return {name: promotion.name, ref: promotion.ref, id: promotion.id};
           }}
         >
           <SimpleForm
@@ -54,15 +61,27 @@ export function PromotionEditButton({id}: {id: string}) {
             }
           >
             <TextInput
+              source="code"
+              label="Code"
+              validate={required()}
+              fullWidth
+            />
+            <TextInput
               source="name"
               label="Nom"
               validate={required()}
               fullWidth
             />
             <TextInput
-              source="ref"
-              label="Référence"
-              validate={required()}
+              source="credits"
+              label="Crédits"
+              validate={[required(), number(), minValue(1)]}
+              fullWidth
+            />
+            <TextInput
+              source="total_hours"
+              label="Heure total"
+              validate={[required(), number(), minValue(1)]}
               fullWidth
             />
           </SimpleForm>

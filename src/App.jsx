@@ -24,6 +24,7 @@ import heiDocs from "./operations/docs/hei";
 import studentDocs from "./operations/docs/students";
 import HaLoginPage from "./security/LoginPage";
 import promotions from "./operations/promotions/index.tsx";
+import course from "./operations/course/index.tsx";
 
 function AppBase() {
   return (
@@ -50,6 +51,7 @@ function AppBase() {
       <Resource name="promotions-groups" />
       <Resource name="promotions" {...promotions} />
       <Resource name="announcements" {...announcements} />
+      <Resource name="course" {...course} />
 
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
