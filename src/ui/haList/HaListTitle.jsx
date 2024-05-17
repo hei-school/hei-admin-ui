@@ -57,7 +57,7 @@ export function HaListTitle({
     <TitleContainer>
       <Box sx={{display: "flex", alignItems: "center", gap: 2.5}}>
         {icon}
-        <Typography variant="h3" sx={{fontSize: "1.07em", fontWeight: 500}}>
+        <Typography sx={{fontSize: "1.15em", fontWeight: 500}}>
           {title}
         </Typography>
       </Box>
