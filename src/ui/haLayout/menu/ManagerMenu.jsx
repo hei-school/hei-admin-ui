@@ -5,6 +5,7 @@ import {
   People as StudentListIcon,
   AttachMoney as FeesIcon,
   Book as CourseIcon,
+  Event as EventIcon,
   Inventory as DocsIcon,
   Group as GroupIcon,
   Home as HeiDocsIcon,
@@ -54,6 +55,11 @@ function ManagerMenu() {
         to="/announcements"
         label="Annonces"
         icon={<AnnouncementIcon />}
+      />
+      <SingleMenu
+        to="/events"
+        label="Événements"
+        icon={<EventIcon />}
       />
     </Box>
   );

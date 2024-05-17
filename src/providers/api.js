@@ -7,6 +7,7 @@ import {
   HealthApi,
   PromotionsApi,
   AnnouncementsApi,
+  EventsApi,
 } from "@haapi/typescript-client";
 import authProvider from "./authProvider";
 
@@ -22,3 +23,4 @@ export const promotionApi = () =>
   new PromotionsApi(authProvider.getCachedAuthConf());
 export const announcementsApi = () =>
   new AnnouncementsApi(authProvider.getCachedAuthConf());
+export const eventsApi= () => new EventsApi(authProvider.getCachedAuthConf());
