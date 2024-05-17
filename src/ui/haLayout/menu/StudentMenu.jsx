@@ -6,7 +6,6 @@ import {
   Inventory as DocsIcon,
   LibraryAddCheck as WorkStudyDocsIcon,
   Work as OtherDocsIcon,
-  Newspaper as AnnouncementIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 import authProvider from "../../../providers/authProvider";
@@ -48,11 +47,6 @@ function StudentMenu() {
           icon={<OtherDocsIcon />}
         />
       </ListMenu>
-      <SingleMenu
-        to="/announcements"
-        label="Annonces"
-        icon={<AnnouncementIcon />}
-      />
     </Box>
   );
 }
