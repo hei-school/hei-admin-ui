@@ -1,5 +1,5 @@
 import {Dialog, DialogTitle, DialogContent, DialogProps} from "@mui/material";
-import {PALETTE_COLORS} from "@/ui/constants";
+import {PALETTE_COLORS} from "@/haTheme";
 
 export type FlowsDialogProps = DialogProps & {
   title: string;

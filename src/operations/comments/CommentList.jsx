@@ -4,7 +4,7 @@ import {Link, useGetList} from "react-admin";
 
 import {CommentCreate} from "./CommentCreate";
 import {useNotify} from "../../hooks";
-import {PALETTE_COLORS} from "../../ui/constants/palette";
+import {PALETTE_COLORS} from "@/haTheme";
 import {getUserRoleInFr} from "../common/utils/typo_util";
 import {Separator} from "./utils";
 import {DATE_OPTIONS, TIME_OPTIONS} from "../../utils/date";

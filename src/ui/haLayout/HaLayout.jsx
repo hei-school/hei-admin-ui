@@ -2,12 +2,12 @@ import {AppLocationContext} from "@react-admin/ra-navigation";
 import {Box, styled, ThemeProvider, useMediaQuery} from "@mui/material";
 import {HaMenu} from "./menu/utils/";
 import {HaAppBar} from "./appBar";
-import {mainTheme} from "../../haTheme";
+import {mainTheme, PALETTE_COLORS} from "../../haTheme";
 
 const HaLayoutStyled = styled("div")({
   minHeight: "100vh",
   position: "relative",
-  backgroundColor: "#f0f0f0",
+  backgroundColor: PALETTE_COLORS.bgGrey,
   width: "100%",
 });
 

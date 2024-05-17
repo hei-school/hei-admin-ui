@@ -1,6 +1,7 @@
 import {MoreVert, SearchOutlined} from "@mui/icons-material";
 import {Box, Typography, IconButton, Popover, styled} from "@mui/material";
 import {useListFilterContext} from "ra-core";
+import {PALETTE_COLORS} from "@/haTheme";
 import {useState, createContext} from "react";
 import {HaMainSearch} from "./HaMainSearch";
 
@@ -9,18 +10,17 @@ const TitleContainer = styled("div")({
   alignItems: "center",
   justifyContent: "space-between",
   color: "#575757",
-  marginBottom: 15,
+  marginBottom: 5,
   padding: "15px 20px",
-  borderBottom: "1px solid #e8e9eb",
 });
 
 const MainSearchContainer = styled("div")({
   display: "flex",
   alignItems: "center",
-  gap: 5,
   boxShadow: "0px 0px 2px rgba(0,0,0,.3)",
   padding: "0px 15px",
-  borderRadius: "15px",
+  borderRadius: "5px",
+  backgroundColor: PALETTE_COLORS.bgGrey,
 });
 
 export const HaListContext = createContext();
@@ -64,12 +64,17 @@ export function HaListTitle({
       <Box sx={{display: "flex", alignItems: "center", gap: 1.5}}>
         {mainSearch.source !== "" && (
           <MainSearchContainer>
-            <HaMainSearch source={mainSearch.source} label={mainSearch.label} />
             <label htmlFor="main-search">
               <SearchOutlined
-                sx={{p: 0, transform: "translateY(4px)", cursor: "pointer"}}
+                sx={{
+                  p: 0,
+                  transform: "translateY(4px)",
+                  cursor: "pointer",
+                  color: PALETTE_COLORS.primary,
+                }}
               />
             </label>
+            <HaMainSearch source={mainSearch.source} label={mainSearch.label} />
           </MainSearchContainer>
         )}
         {actions && (
@@ -78,7 +83,7 @@ export function HaListTitle({
             sx={isFilterApplied && filterIndicator ? showIndication : undefined}
           >
             <IconButton onClick={(event) => setShowAction(event.currentTarget)}>
-              <MoreVert />
+              <MoreVert sx={{color: PALETTE_COLORS.primary}} />
             </IconButton>
           </Box>
         )}

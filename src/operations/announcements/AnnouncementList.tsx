@@ -14,7 +14,7 @@ import {
 } from "@mui/material";
 import {Newspaper as AnnouncementIcon} from "@mui/icons-material";
 import {Link} from "react-router-dom";
-import {PALETTE_COLORS} from "@/ui/constants";
+import {PALETTE_COLORS} from "@/haTheme";
 import {HaListTitle} from "@/ui/haList";
 import {CreateButton} from "@/ui/haToolbar";
 import {AnnouncementFilter} from "./components";

@@ -1,7 +1,7 @@
 import {Popover, Badge, IconButton, Tooltip} from "@mui/material";
 import {useState} from "react";
 import {Notifications} from "@mui/icons-material";
-import {PALETTE_COLORS} from "../constants/palette";
+import {PALETTE_COLORS} from "@/haTheme";
 import NotificationContent from "./NotificationContent";
 
 function NotificationMenu() {

@@ -12,7 +12,7 @@ import {FileType} from "@haapi/typescript-client";
 import {Create} from "../../common/components";
 import {useRole} from "../../../security/hooks/useRole";
 import {removeExtension} from "../../../utils/files";
-import {PALETTE_COLORS} from "../../../ui/constants/palette";
+import {PALETTE_COLORS} from "@/haTheme";
 import {OwnerType} from "../types";
 import authProvider from "../../../providers/authProvider";
 import {SelectWorkStatus} from "./SelectWorkStatus";

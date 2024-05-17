@@ -4,7 +4,7 @@ import {
   Button as MuiButton,
 } from "@mui/material";
 import {useResourceFlowsContext} from "../useResourceFlowsContext";
-import {PALETTE_COLORS} from "@/ui/constants";
+import {PALETTE_COLORS} from "@/haTheme";
 
 export function DialogActions() {
   const {isLoading} = useResourceFlowsContext();
