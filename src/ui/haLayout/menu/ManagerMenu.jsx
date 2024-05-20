@@ -56,11 +56,7 @@ function ManagerMenu() {
         label="Annonces"
         icon={<AnnouncementIcon />}
       />
-      <SingleMenu
-        to="/events"
-        label="Événements"
-        icon={<EventIcon />}
-      />
+      <SingleMenu to="/events" label="Événements" icon={<EventIcon />} />
     </Box>
   );
 }

@@ -1,13 +1,17 @@
-import { EventType } from "@haapi/typescript-client";
-import { SelectInput,required, useGetList } from "react-admin";
+import {EventType} from "@haapi/typescript-client";
+import {SelectInput, required, useGetList} from "react-admin";
 import {useWatch} from "react-hook-form";
 
-export function SelectCourse(){
-  const {data: courses = [], isLoading}= useGetList("course");
-  const COURSE_CHOICES = courses.map(course => ({label: course.name, value: course.id}));
+export function SelectCourse() {
+  const {data: courses = [], isLoading} = useGetList("course");
   const eventType = useWatch({name: "event_type"});
 
-  return (
+  const COURSE_CHOICES = courses.map((course) => ({
+    label: course.name,
+    value: course.id,
+  }));
+
+  return eventType === EventType.COURSE ? (
     <SelectInput
       label="Cours"
       source="course_id"
@@ -19,5 +23,5 @@ export function SelectCourse(){
       validate={required()}
       fullWidth
     />
-  )
+  ) : null;
 }

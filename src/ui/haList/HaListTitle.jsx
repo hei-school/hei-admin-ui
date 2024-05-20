@@ -30,7 +30,7 @@ export function HaListTitle({
   icon,
   actions,
   mainSearch,
-  filterIndicator
+  filterIndicator,
 }) {
   const [showAction, setShowAction] = useState(null);
   const {filterValues} = useListFilterContext();

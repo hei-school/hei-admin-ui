@@ -23,4 +23,4 @@ export const promotionApi = () =>
   new PromotionsApi(authProvider.getCachedAuthConf());
 export const announcementsApi = () =>
   new AnnouncementsApi(authProvider.getCachedAuthConf());
-export const eventsApi= () => new EventsApi(authProvider.getCachedAuthConf());
+export const eventsApi = () => new EventsApi(authProvider.getCachedAuthConf());

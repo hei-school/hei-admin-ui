@@ -3,5 +3,5 @@ export const EVENT_TYPE_VALUE = {
   INTEGRATION: "Intégration",
   SEMINAR: "Séminaire",
   SUPPORT_SESSION: "Entraide",
-  OTHER: "Autre"
-}
+  OTHER: "Autre",
+};
