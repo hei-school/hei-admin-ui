@@ -1,6 +1,6 @@
-import {EventType} from "@haapi/typescript-client";
 import {SelectInput, required, useGetList} from "react-admin";
 import {useWatch} from "react-hook-form";
+import {EventType} from "@haapi/typescript-client";
 
 export function SelectCourse() {
   const {data: courses = [], isLoading} = useGetList("course");

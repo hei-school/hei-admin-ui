@@ -1,8 +1,8 @@
 import {List, useListContext} from "react-admin";
 import {Box} from "@mui/material";
 import {Event as EventIcon} from "@mui/icons-material";
-import {HaListTitle} from "@/ui/haList";
 import {Event} from "@haapi/typescript-client";
+import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {EventCard} from "./components";
 import {CreateButton} from "@/ui/haToolbar";
@@ -10,7 +10,7 @@ import {CreateButton} from "@/ui/haToolbar";
 export function EventList() {
   return (
     <List
-      title="List event"
+      title="Événements"
       resource="events"
       empty={false}
       exporter={false}
@@ -26,7 +26,7 @@ export function EventList() {
       <HaListTitle
         filterIndicator
         mainSearch={{source: ""}}
-        title="List of events"
+        title="Liste des événements"
         actions={<CreateButton resource="events" />}
         icon={<EventIcon />}
       />
@@ -37,6 +37,9 @@ export function EventList() {
 
 function EventListContent() {
   const {data: events = [], isLoading} = useListContext<Required<Event>>();
+
+  if (isLoading) return null;
+
   return (
     <Box
       sx={{
@@ -44,7 +47,7 @@ function EventListContent() {
         pb: 2,
         w: "100%",
         display: "flex",
-        alignItems: "start",
+        alignItems: "stretch",
         gap: 2,
         flexWrap: "wrap",
       }}

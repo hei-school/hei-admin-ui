@@ -1,8 +1,8 @@
 import {BooleanInput, required, useGetList} from "react-admin";
 import {Teacher} from "@haapi/typescript-client";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
-import {AutocompleteInput} from "@/ui/components/ra-inputs";
 import {useWatch} from "react-hook-form";
+import {AutocompleteInput} from "@/ui/components/ra-inputs";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import authProvider from "@/providers/authProvider";
 
 function SelectUserPlanner() {
@@ -26,7 +26,7 @@ function SelectUserPlanner() {
 
   return (
     <AutocompleteInput
-      label="Planner"
+      label="Planificateur"
       source="planner_id"
       optionText="label"
       optionValue="value"
