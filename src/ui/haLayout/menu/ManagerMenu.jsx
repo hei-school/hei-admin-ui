@@ -4,9 +4,11 @@ import {
   School as StudentIcon,
   People as StudentListIcon,
   AttachMoney as FeesIcon,
+  Book as CourseIcon,
   Inventory as DocsIcon,
   Group as GroupIcon,
   Home as HeiDocsIcon,
+  MenuBook as PromotionIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
@@ -34,7 +36,19 @@ function ManagerMenu() {
           icon={<HeiDocsIcon />}
         />
       </ListMenu>
+      <SingleMenu
+        to="/promotions"
+        label="Promotions"
+        data-testid="promotions-menu"
+        icon={<PromotionIcon />}
+      />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
+      <SingleMenu
+        data-testid="course-menu"
+        to="/course"
+        label="Cours"
+        icon={<CourseIcon />}
+      />
     </Box>
   );
 }

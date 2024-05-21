@@ -23,7 +23,7 @@ export const HaActionWrapper = styled("div")({
 });
 
 export function ButtonBase({
-  label,
+  label = "",
   icon,
   onClick,
   closeAction = true,
@@ -69,7 +69,11 @@ export function CreateButton({resource}) {
   );
 }
 
-export function ExportButton({onExport, icon, ...rest}) {
+export function ExportButton({
+  onExport = undefined,
+  icon = undefined,
+  ...rest
+}) {
   const list = useListContext();
   const doExport = () =>
     onExport ? onExport(list.data) : exportData(list.data, [], list.resource);

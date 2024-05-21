@@ -13,7 +13,8 @@ const studentProvider: HaDataProviderType = {
       filter.course_id,
       filter.status,
       filter.sex,
-      filter.work_study_status
+      filter.work_study_status,
+      filter.commitment_begin_date
     );
     return result.data;
   },
