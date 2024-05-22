@@ -1,12 +1,15 @@
 import {useListFilterContext} from "react-admin";
 import {styled} from "@mui/material";
+import {PALETTE_COLORS} from "@/haTheme";
 
 const HaMainSearchInput = styled("input")({
   "outline": "none",
   "border": "none",
   "fontSize": "14px",
-  "width": "150px",
+  "width": "200px",
   "color": "#48494a",
+  "marginLeft": "10px",
+  "backgroundColor": PALETTE_COLORS.bgGrey,
   "&::placeholder": {
     color: "#666967",
     opacity: 0.8,

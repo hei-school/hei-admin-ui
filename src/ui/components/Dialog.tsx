@@ -6,7 +6,7 @@ import {
   DialogTitle,
   DialogContent,
 } from "@mui/material";
-import {PALETTE_COLORS} from "@/ui/constants";
+import {PALETTE_COLORS} from "@/haTheme";
 
 type DialogProps = Partial<MuiDialogProps> & {
   children: React.ReactNode;

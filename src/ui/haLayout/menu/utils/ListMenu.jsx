@@ -1,7 +1,7 @@
-import {ArrowDropDown, ArrowDropUp} from "@mui/icons-material";
-import {Box, Collapse} from "@mui/material";
 import {useState} from "react";
-import {PALETTE_COLORS} from "../../../constants/palette";
+import {Box, Collapse} from "@mui/material";
+import {ArrowDropDown, ArrowDropUp} from "@mui/icons-material";
+import {PALETTE_COLORS} from "@/haTheme";
 import {SingleMenuBase} from "./SingleMenu";
 
 export function ListMenu({children, label, icon, ...rest}) {

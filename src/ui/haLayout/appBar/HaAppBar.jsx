@@ -1,5 +1,5 @@
 import {useMediaQuery, AppBar, Box, Typography} from "@mui/material";
-import {PALETTE_COLORS} from "../../constants/palette";
+import {PALETTE_COLORS} from "@/haTheme";
 import UserInfo from "./UserInfo";
 import menuLogo from "../../../assets/menu-logo.png";
 import {SidebarToggleButton} from "react-admin";

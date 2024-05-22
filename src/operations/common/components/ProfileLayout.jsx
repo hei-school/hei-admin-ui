@@ -47,17 +47,18 @@ import {
 import {DateField, BirthDateField, FieldLabel} from "./fields";
 import {Create} from "./Create";
 import {GeoPositionName} from "./GeoLocalisation";
-import {useToggle} from "../../../hooks";
-import {useRole} from "../../../security/hooks";
+import {useToggle} from "@/hooks";
+import {useRole} from "@/security/hooks";
 import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
-import {SPECIALIZATION_VALUE} from "../../students/components";
-import {EMPTY_TEXT, PALETTE_COLORS} from "../../../ui/constants";
-import {WORK_STATUS_VALUE} from "../../docs/components/SelectWorkStatus";
-import {NOOP_FN} from "../../../utils/noop";
-import {COMMON_FIELD_ATTRIBUTES} from "../../../ui/constants/common_styles";
-
-import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
+import {SPECIALIZATION_VALUE} from "@/operations/students/components";
+import {EMPTY_TEXT} from "@/ui/constants";
+import {PALETTE_COLORS} from "@/haTheme";
+import {WORK_STATUS_VALUE} from "@/operations/docs/components/SelectWorkStatus";
+import {NOOP_FN} from "@/utils/noop";
+import {COMMON_FIELD_ATTRIBUTES} from "@/ui/constants/common_styles";
 import {DATE_OPTIONS} from "@/utils/date";
+
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",

@@ -1,7 +1,6 @@
+import {PALETTE_COLORS} from "@/haTheme";
 import {Box, Typography} from "@mui/material";
-import {PALETTE_COLORS} from "../constants/palette";
 
-//TODO: wait for backend implementation
 function NotificationContent() {
   return (
     <Box sx={{p: 2, width: "250px", overflowY: "sroll", maxHeight: "300px"}}>

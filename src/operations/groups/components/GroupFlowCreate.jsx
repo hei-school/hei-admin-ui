@@ -19,8 +19,8 @@ import {useForm} from "react-hook-form";
 import {useParams} from "react-router-dom";
 import {CustomAutoComplete} from "../../utils/CustomAutoComplete";
 import {useNotify} from "../../../hooks";
-import {PALETTE_COLORS} from "../../../ui/constants";
-import groupFlowProvider from "../../../providers/groupFlowProvider";
+import {PALETTE_COLORS} from "@/haTheme";
+import groupFlowProvider from "@/providers/groupFlowProvider";
 
 const DIALOG_CONTENT_STYLE = {
   width: "450px",

@@ -1,8 +1,8 @@
 import {useRef, useState} from "react";
 import {CircularProgress} from "@mui/material";
-import {useNotify} from "../../../hooks";
-import {filesApi} from "../../../providers/api";
-import {PALETTE_COLORS} from "../../../ui/constants/palette";
+import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify} from "@/hooks";
+import {filesApi} from "@/providers/api";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
