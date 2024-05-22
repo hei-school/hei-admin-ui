@@ -7,19 +7,25 @@ import {
   ShowButton,
   TextField,
   useGetList,
+  CreateButton,
 } from "react-admin";
 import {
   Box,
   Avatar as MuiAvatar,
   AvatarGroup as MuiAvatarGroup,
 } from "@mui/material";
-import {GroupsOutlined} from "@mui/icons-material";
 import {HaList} from "@/ui/haList";
 import {DateField} from "../common/components/fields";
 import {GroupFilters} from "./components/GroupFilters";
 import {PALETTE_COLORS} from "@/haTheme";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {ListHeader} from "../common/components";
+import {
+  Group as GroupIcon,
+  Diversity2 as StudentIcon,
+  Female as FemaleIcon,
+  Male as MaleIcon,
+} from "@mui/icons-material";
 
 const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -33,6 +39,29 @@ const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   );
 };
 
+const headerCardContent = [
+  {
+    title: "Groupes",
+    icon: <GroupIcon fontSize="medium" />,
+    total: 7,
+  },
+  {
+    title: "Étudiants",
+    icon: <StudentIcon fontSize="medium" />,
+    total: 250,
+  },
+  {
+    title: "Filles",
+    icon: <FemaleIcon fontSize="medium" />,
+    total: 7,
+  },
+  {
+    title: "Garçons",
+    icon: <MaleIcon fontSize="medium" />,
+    total: 7,
+  },
+];
+
 const AvatarGroup = ({groupId = ""}) => {
   const {data: students = []} = useGetList("group-students", {meta: {groupId}});
 
@@ -44,15 +73,34 @@ const AvatarGroup = ({groupId = ""}) => {
     </MuiAvatarGroup>
   );
 };
+
 const GroupList = () => {
   return (
     <Box>
-      <ListHeader title="Liste des groupes" />
+      <ListHeader
+        title="Liste des groupes"
+        cardContents={headerCardContent}
+        action={
+          <CreateButton
+            size="medium"
+            sx={{
+              "bgcolor": PALETTE_COLORS.primary,
+              "color": PALETTE_COLORS.white,
+              "transition": "all .5s linear",
+              "opacity": 0.9,
+              "&:hover": {
+                bgcolor: PALETTE_COLORS.primary,
+                opacity: 1,
+              },
+            }}
+          />
+        }
+      />
       <HaList
         listProps={{title: "Groupes"}}
         resource="groups"
         title="Liste des groupes"
-        icon={<GroupsOutlined />}
+        icon={<GroupIcon />}
         actions={<GroupFilters />}
         mainSearch={{source: "ref", label: "Référence"}}
       >
@@ -62,8 +110,8 @@ const GroupList = () => {
           render={(group = {ref: ""}) => (
             <MuiAvatar
               sx={{
-                width: "50px",
-                height: "50px",
+                width: "3rem",
+                height: "3rem",
                 bgcolor: PALETTE_COLORS.primary,
                 color: PALETTE_COLORS.yellow,
                 fontSize: "1rem",
