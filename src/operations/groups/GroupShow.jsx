@@ -1,20 +1,15 @@
 import {Typography, Box} from "@mui/material";
-import {
-  EditButton,
-  Show,
-  SimpleShowLayout,
-  TextField,
-  TopToolbar,
-} from "react-admin";
+import {EditButton, SimpleShowLayout, TextField, TopToolbar} from "react-admin";
 import {
   Fingerprint as ReferenceIcon,
   PermIdentity as NameIcon,
   CalendarMonth as CreationDateIcon,
 } from "@mui/icons-material";
+import {useRole} from "@/security/hooks";
+import {EMPTY_TEXT} from "@/ui/constants";
+import {COMMON_FIELD_ATTRIBUTES} from "@/ui/constants/common_styles";
+import {Show} from "../common/components";
 import {DateField, FieldLabel} from "../common/components/fields";
-import {useRole} from "../../security/hooks";
-import {EMPTY_TEXT} from "../../ui/constants";
-import {COMMON_FIELD_ATTRIBUTES} from "../../ui/constants/common_styles";
 import GroupStudentList from "./components/GroupStudentList";
 
 const FIELD_PROPS = {

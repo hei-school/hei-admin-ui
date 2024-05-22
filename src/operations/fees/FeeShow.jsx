@@ -2,24 +2,23 @@ import {useState, useEffect} from "react";
 import {
   FunctionField,
   SimpleShowLayout,
-  Show,
   useDataProvider,
   EditButton,
   TopToolbar,
 } from "react-admin";
 import {useParams} from "react-router-dom";
 import {Divider, Typography} from "@mui/material";
-import {useRole} from "../../security/hooks";
+import {useRole} from "@/security/hooks";
+import {studentIdFromRaId} from "@/providers/feeProvider";
 import {
   statusRenderer,
   withRedWarning,
   commentFunctionRenderer,
 } from "../utils";
-import PaymentList from "../payments/PaymentList";
-import {studentIdFromRaId} from "../../providers/feeProvider";
-import {DeleteWithConfirm} from "../common/components";
+import {DeleteWithConfirm, Show} from "../common/components";
 import {DateField} from "../common/components/fields";
 import {renderMoney} from "../common/utils/money";
+import PaymentList from "../payments/PaymentList";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
