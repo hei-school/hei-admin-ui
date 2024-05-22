@@ -8,24 +8,27 @@ import {
   TextField,
   useGetList,
   CreateButton,
+  useListContext,
 } from "react-admin";
 import {
   Box,
   Avatar as MuiAvatar,
   AvatarGroup as MuiAvatarGroup,
 } from "@mui/material";
-import {HaList} from "@/ui/haList";
-import {DateField} from "../common/components/fields";
-import {GroupFilters} from "./components/GroupFilters";
-import {PALETTE_COLORS} from "@/haTheme";
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
-import {ListHeader} from "../common/components";
 import {
   Group as GroupIcon,
   Diversity2 as StudentIcon,
   Female as FemaleIcon,
   Male as MaleIcon,
 } from "@mui/icons-material";
+import {Sex} from "@haapi/typescript-client";
+import {HaList} from "@/ui/haList";
+import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {PALETTE_COLORS} from "@/haTheme";
+import {DateField} from "../common/components/fields";
+import {GroupFilters} from "./components/GroupFilters";
+import {ListHeader} from "../common/components";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 
 const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -39,42 +42,47 @@ const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   );
 };
 
-const headerCardContent = [
-  {
-    title: "Groupes",
-    icon: <GroupIcon fontSize="medium" />,
-    total: 7,
-  },
-  {
-    title: "Étudiants",
-    icon: <StudentIcon fontSize="medium" />,
-    total: 250,
-  },
-  {
-    title: "Filles",
-    icon: <FemaleIcon fontSize="medium" />,
-    total: 7,
-  },
-  {
-    title: "Garçons",
-    icon: <MaleIcon fontSize="medium" />,
-    total: 7,
-  },
-];
-
 const AvatarGroup = ({groupId = ""}) => {
   const {data: students = []} = useGetList("group-students", {meta: {groupId}});
 
   return (
     <MuiAvatarGroup max={4}>
       {students.map((student) => (
-        <Avatar student={student} />
+        <Avatar key={student.ref} student={student} />
       ))}
     </MuiAvatarGroup>
   );
 };
 
 const GroupList = () => {
+  const {data: groups = []} = useGetList("groups");
+  const {data: students = []} = useGetList("students");
+  const {data: girls = []} = useGetList("students", {filter: {sex: Sex.F}});
+  const {data: boys = []} = useGetList("students", {filter: {sex: Sex.M}});
+
+  const headerCardContent = [
+    {
+      title: "Groupes",
+      icon: <GroupIcon fontSize="medium" />,
+      total: groups?.length,
+    },
+    {
+      title: "Étudiants",
+      icon: <StudentIcon fontSize="medium" />,
+      total: students.length,
+    },
+    {
+      title: "Femmes",
+      icon: <FemaleIcon fontSize="medium" />,
+      total: girls.length,
+    },
+    {
+      title: "Hommes",
+      icon: <MaleIcon fontSize="medium" />,
+      total: boys.length,
+    },
+  ];
+
   return (
     <Box>
       <ListHeader
@@ -82,16 +90,10 @@ const GroupList = () => {
         cardContents={headerCardContent}
         action={
           <CreateButton
+            {...COMMON_BUTTON_PROPS}
             size="medium"
-            sx={{
-              "bgcolor": PALETTE_COLORS.primary,
-              "color": PALETTE_COLORS.white,
-              "transition": "all .5s linear",
-              "opacity": 0.9,
-              "&:hover": {
-                bgcolor: PALETTE_COLORS.primary,
-                opacity: 1,
-              },
+            SX={{
+              m: "0px",
             }}
           />
         }

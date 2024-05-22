@@ -1,30 +1,48 @@
-import {EditButton, ShowButton, TextField} from "react-admin";
-import {SchoolOutlined, UploadFile} from "@mui/icons-material";
+import {
+  CreateButton as RaCreateButton,
+  EditButton,
+  ShowButton,
+  TextField,
+  useGetList,
+} from "react-admin";
+import {
+  Group as GroupIcon,
+  Diversity2 as StudentIcon,
+  Female as FemaleIcon,
+  Male as MaleIcon,
+  School as SchoolIcon,
+  UploadFile as UploadFileIcon,
+  Work as WorkIcon,
+} from "@mui/icons-material";
+import {Sex, WorkStudyStatus} from "@haapi/typescript-client";
 import {Box} from "@mui/material";
-import {ProfileFilters} from "../profile/components/ProfileFilters";
-import {CreateButton, ExportButton, ImportButton} from "../../ui/haToolbar";
-import {HaList} from "../../ui/haList";
+import {useRole} from "@/security/hooks";
+import {CreateButton, ExportButton, ImportButton} from "@/ui/haToolbar";
+import {HaList} from "@/ui/haList";
+import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {PALETTE_COLORS} from "@/haTheme";
 import {exportData, exportHeaders, importHeaders} from "../utils";
 import {
   minimalUserHeaders,
   optionalUserHeaders,
   validateUserData,
 } from "../utils/userImportConf";
+import {ProfileFilters} from "../profile/components/ProfileFilters";
+import {ListHeader} from "../common/components";
 import {transformStudentData} from "./importConf";
-import {useRole} from "../../security/hooks";
-import studentProvider from "../../providers/studentProvider";
+import studentProvider from "@/providers/studentProvider";
 
 const ListActions = () => {
   const {isManager} = useRole();
   return (
-    <>
+    <Box>
       {isManager() && (
         <Box>
           <CreateButton />
           <ExportButton
             onExport={() => exportData([], importHeaders, "template_students")}
             label="Template"
-            icon={<UploadFile />}
+            icon={<UploadFileIcon />}
           />
           <ImportButton
             validateData={validateUserData}
@@ -40,25 +58,74 @@ const ListActions = () => {
         onExport={(list) => exportData(list, exportHeaders, "students")}
       />
       <ProfileFilters resource="students" />
-    </>
+    </Box>
   );
 };
 
 function StudentList() {
   const {isManager} = useRole();
 
+  const {data: students = []} = useGetList("students");
+  const {data: workers = []} = useGetList("students", {
+    filter: {work_study_status: WorkStudyStatus.WORKING},
+  });
+  const {data: girls = []} = useGetList("students", {filter: {sex: Sex.F}});
+  const {data: boys = []} = useGetList("students", {filter: {sex: Sex.M}});
+
+  const headerCardContent = [
+    {
+      title: "Étudiants",
+      icon: <StudentIcon fontSize="medium" />,
+      total: students?.length,
+    },
+    {
+      title: "Alternants",
+      icon: <WorkIcon fontSize="medium" />,
+      total: workers?.length,
+    },
+    {
+      title: "Femmes",
+      icon: <FemaleIcon fontSize="medium" />,
+      total: girls?.length,
+    },
+    {
+      title: "Hommes",
+      icon: <MaleIcon fontSize="medium" />,
+      total: boys?.length,
+    },
+  ];
+
   return (
-    <HaList
-      icon={<SchoolOutlined />}
-      title={"Liste des étudiants"}
-      mainSearch={{label: "Prénom·s", source: "first_name"}}
-      actions={<ListActions />}
-    >
-      <TextField source="ref" label="Référence" />
-      <TextField source="first_name" label="Prénom·s" />
-      <TextField source="last_name" label="Nom·s" />
-      {isManager() ? <EditButton /> : <ShowButton />}
-    </HaList>
+    <Box>
+      <ListHeader
+        cardContents={headerCardContent}
+        title="Liste des étudiants"
+        action={
+          <RaCreateButton
+            {...COMMON_BUTTON_PROPS}
+            size="medium"
+            SX={{
+              m: "0px",
+            }}
+          />
+        }
+      />
+      <HaList
+        icon={<SchoolIcon />}
+        title={"Liste des étudiants"}
+        mainSearch={{label: "Prénom·s", source: "first_name"}}
+        actions={<ListActions />}
+      >
+        <TextField source="ref" label="Référence" />
+        <TextField source="first_name" label="Prénom·s" />
+        <TextField source="last_name" label="Nom·s" />
+        {isManager() ? (
+          <EditButton sx={{color: PALETTE_COLORS.yellow}} />
+        ) : (
+          <ShowButton sx={{color: PALETTE_COLORS.yellow}} />
+        )}
+      </HaList>
+    </Box>
   );
 }
 
