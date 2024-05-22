@@ -22,6 +22,13 @@ const ProfileShow = () => {
       basePath="/profile"
       title="Mon profil"
       actions={false}
+      sx={{
+        "& .RaShow-card": {
+          backgroundColor: "transparent",
+          boxShadow: "none",
+          zIndex: 999,
+        },
+      }}
     >
       <ProfileLayout
         role={role}

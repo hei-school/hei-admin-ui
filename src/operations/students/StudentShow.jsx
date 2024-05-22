@@ -1,14 +1,14 @@
 import {Button, Link, useRecordContext} from "react-admin";
 import {AttachMoney, Comment as CommentIcon} from "@mui/icons-material";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {useRole} from "@/security/hooks";
+import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {useToggle} from "@/hooks";
 
 import {Show} from "../common/components/Show";
 import {ProfileLayout} from "../common/components/ProfileLayout";
-import {DocMenu} from "./components/DocMenu";
-import {useRole} from "../../security/hooks";
-import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
-import {useToggle} from "../../hooks";
 import {StudentComments} from "../comments";
+import {DocMenu} from "./components/DocMenu";
 
 export const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
@@ -59,7 +59,17 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
 };
 
 const StudentShow = () => (
-  <Show title="Étudiants" actions={false}>
+  <Show
+    title="Étudiants"
+    actions={false}
+    sx={{
+      "& .RaShow-card": {
+        backgroundColor: "transparent",
+        boxShadow: "none",
+        zIndex: 999,
+      },
+    }}
+  >
     <ProfileLayout
       role={WhoamiRoleEnum.STUDENT}
       actions={<ActionsOnShow />}

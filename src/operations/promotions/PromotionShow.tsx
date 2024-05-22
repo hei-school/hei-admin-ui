@@ -1,4 +1,4 @@
-import {TopToolbar, Show, SimpleShowLayout, TextField} from "react-admin";
+import {TopToolbar, SimpleShowLayout, TextField} from "react-admin";
 import {
   Fingerprint as ReferenceIcon,
   PermIdentity as NameIcon,
@@ -10,18 +10,19 @@ import {
   UpdatePromotionSGroupTypeEnum,
 } from "@haapi/typescript-client";
 import {Box} from "@mui/material";
+import {useParams} from "react-router-dom";
+import {useNotify} from "@/hooks";
+import {useRole} from "@/security/hooks";
+import {EMPTY_TEXT} from "@/ui/constants";
 import {DateField, FieldLabel} from "../common/components/fields";
-import {PromotionEditButton} from "./PromotionEditButton";
-import {PromotionGroupList} from "./components";
+import {Show} from "../common/components";
 import {
   ResourceFlowsArgsType,
   ResourceFlowsContext,
   ResourceMigrateType,
 } from "../common/components/resource-flows/ResourceFlowsContext";
-import {useParams} from "react-router-dom";
-import {useNotify} from "@/hooks";
-import {useRole} from "@/security/hooks";
-import {EMPTY_TEXT} from "@/ui/constants";
+import {PromotionGroupList} from "./components";
+import {PromotionEditButton} from "./PromotionEditButton";
 import promotionFlowsProvider from "@/providers/promotionFlowProvider";
 
 function getSuccessMessage({

@@ -5,11 +5,8 @@ export const Show = ({children, sx = {}, ...props}) => {
     <RaShow
       sx={{
         ...sx,
-        "& .RaShow-card": {
-          backgroundColor: "transparent",
-          boxShadow: "none",
-          zIndex: 999,
-        },
+        m: "auto",
+        width: "80%",
       }}
       {...props}
     >
