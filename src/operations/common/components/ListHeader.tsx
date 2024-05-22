@@ -1,12 +1,26 @@
+import {FC, ReactNode} from "react";
+import {Box, Typography, Avatar, useMediaQuery} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
-import {Box, Typography} from "@mui/material";
-import {FC} from "react";
-import {CreateButton} from "react-admin";
+
+export interface CardContent {
+  title: string;
+  total: number;
+  icon: string;
+}
 
 interface ListHeaderProps {
   title: string;
+  action: ReactNode;
+  cardContents: Array<CardContent>;
 }
-export const ListHeader: FC<ListHeaderProps> = ({title}) => {
+
+export const ListHeader: FC<ListHeaderProps> = ({
+  title,
+  action,
+  cardContents,
+}) => {
+  const isSmall = useMediaQuery("(max-width:1200px)");
+
   return (
     <Box
       width="80%"
@@ -25,81 +39,62 @@ export const ListHeader: FC<ListHeaderProps> = ({title}) => {
         paddingBottom={15}
       >
         <Box>
-          <Typography variant="h6" fontWeight="bolder">
+          <Typography variant="h5" fontWeight="bolder">
             {title}
           </Typography>
         </Box>
-        <Box>
-          <CreateButton
-            size="medium"
-            sx={{
-              "bgcolor": PALETTE_COLORS.primary,
-              "color": PALETTE_COLORS.white,
-              "transition": "all .5s linear",
-              "opacity": 0.9,
-              "&:hover": {
-                bgcolor: PALETTE_COLORS.primary,
-                opacity: 1,
-              },
-            }}
-          />
-        </Box>
+        <Box>{action}</Box>
       </Box>
       <Box
         display="grid"
-        gridTemplateColumns="1fr 1fr 1fr 1fr"
-        columnGap="5px"
-        mx="auto"
+        gridTemplateColumns={`repeat(${isSmall ? "auto-fill" : cardContents.length}, minmax(11.25rem, 1fr))`}
+        gridTemplateRows="auto"
         width="90%"
+        m="auto"
+        rowGap="100px"
       >
-        <div
-          style={{
-            backgroundColor: PALETTE_COLORS.primary,
-            color: PALETTE_COLORS.white,
-            maxWidth: "250px",
-            height: "175px",
-            margin: "-80px 0px 5px 5px",
-            borderRadius: "16px",
-          }}
-        >
-          statistique
-        </div>
-        <div
-          style={{
-            backgroundColor: PALETTE_COLORS.primary,
-            color: PALETTE_COLORS.white,
-            maxWidth: "250px",
-            height: "175px",
-            margin: "-80px 0px 5px 5px",
-            borderRadius: "16px",
-          }}
-        >
-          statistique
-        </div>
-        <div
-          style={{
-            backgroundColor: PALETTE_COLORS.primary,
-            color: PALETTE_COLORS.white,
-            maxWidth: "250px",
-            height: "175px",
-            margin: "-80px 0px 5px 5px",
-            borderRadius: "16px",
-          }}
-        >
-          statistique
-        </div>
-        <div
-          style={{
-            backgroundColor: PALETTE_COLORS.primary,
-            color: PALETTE_COLORS.white,
-            maxWidth: "250px",
-            height: "175px",
-            margin: "-80px 0px 5px 5px",
-            borderRadius: "16px",
-          }}
-        >
-          statistique
-        </div>
+        {cardContents.map((card) => (
+          <Box
+            key={card.title}
+            sx={{
+              backgroundColor: PALETTE_COLORS.primary,
+              color: PALETTE_COLORS.white,
+              maxWidth: "200px",
+              height: "150px",
+              m: "-80px 5px 5px 5px",
+              borderRadius: "10px",
+            }}
+          >
+            <Box
+              display="flex"
+              paddingTop={2}
+              px={3}
+              justifyContent="space-between"
+            >
+              <Typography variant="h6" fontWeight="bolder">
+                {card.title ?? ""}
+              </Typography>
+              <Avatar
+                sx={{
+                  height: "40px",
+                  width: "40px",
+                  color: PALETTE_COLORS.yellow,
+                  bgcolor: "#263B63",
+                  borderRadius: "7px",
+                }}
+                variant="square"
+              >
+                {card.icon}
+              </Avatar>
+            </Box>
+            <Box display="flex" flexDirection="column" px={3}>
+              <Typography variant="h4" fontWeight="bolder">
+                {card.total}
+              </Typography>
+              <Typography variant="h6">Au total</Typography>
+            </Box>
+          </Box>
+        ))}
       </Box>
     </Box>
   );

@@ -18,12 +18,12 @@ export const mainTheme = createTheme({
 
 export const PALETTE_COLORS = {
   black: "#323333",
-  yellow: "#edb911",
+  yellow: "#DFA408",
   white: "#fafbfc",
   lightgrey: "#f0efed",
   bgGrey: "#F0F0F0",
   grey: "#e0e0e0",
-  primary: indigo[900],
+  primary: "#001948",
   typography: {
     grey: grey[700],
     black: "#323333",
