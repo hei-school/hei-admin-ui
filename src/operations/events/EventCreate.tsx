@@ -16,10 +16,17 @@ import {mapToChoices} from "@/utils";
 import {EVENT_TYPE_VALUE} from "./utils/eventChoices";
 import {SelectPlanner} from "./components/inputs";
 import authProvider from "@/providers/authProvider";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {create} from "domain";
 
 export function EventCreate() {
   const userId = authProvider.getCachedWhoami().id;
-  const {data: groups = [], isLoading: isGroupsLoading} = useGetList("groups");
+  const {data: groups = [], isLoading: isGroupsLoading} = useGetList("groups", {
+    pagination: {
+      page: 1,
+      perPage: MAX_ITEM_PER_PAGE - 1,
+    },
+  });
 
   return (
     <Create
@@ -28,9 +35,12 @@ export function EventCreate() {
       transform={(
         event: CreateEvent & {groups: string[]; isPlannedByMe: boolean}
       ) => {
-        const {isPlannedByMe} = event;
+        const {isPlannedByMe, ...createEvent} = event;
+
+        if (event.event_type !== EventType.COURSE) delete createEvent.course_id;
+
         return {
-          ...event,
+          ...createEvent,
           id: uuid(),
           groups: event.groups.map((group) => ({id: group})),
           planner_id: isPlannedByMe ? userId : event.planner_id!,

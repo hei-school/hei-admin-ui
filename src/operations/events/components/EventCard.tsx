@@ -85,7 +85,7 @@ export function EventCard({event}: EventCardPropsType) {
 
   const PLANNER_PICTURE = planner.pic || defaultPicture;
   return (
-    <Card sx={CARD_SX}>
+    <Card sx={CARD_SX} className="event-card">
       <Box sx={{width: "100%"}}>
         <Box sx={CARD_HEADER_SX}>
           <img

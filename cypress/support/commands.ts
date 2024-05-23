@@ -61,3 +61,13 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     cy.wait("@getProfile");
   }
 });
+
+Cypress.Commands.add(
+  "assertRequestBody",
+  <T>(requestAlias: string, expectedBody: (body: any) => T) => {
+    cy.wait(requestAlias).then((intereception) => {
+      const body = intereception.request.body;
+      expect(body).to.deep.equal(expectedBody(body));
+    });
+  }
+);
