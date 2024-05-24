@@ -1,32 +1,40 @@
 import {List, Datagrid} from "react-admin";
 import {Box, styled} from "@mui/material";
+import {PALETTE_COLORS} from "@/haTheme";
 import {PrevNextPagination} from "./PrevNextPagination";
 import {HaListTitle} from "./HaListTitle";
 
 const ListWrapper = styled("div")({
-  width: "100%",
+  width: "80%",
   height: "100%",
   overflow: "hidden",
   borderRadius: 10,
-  marginTop: 10,
   boxShadow: "2px 2px 15px rgba(0,0,0,.1)",
+  margin: "auto",
+  marginTop: 50,
 });
 
 const DatagridWrapper = styled("div")({
-  "padding": "0 15px",
   "& th, & th span": {
-    fontWeight: 600,
-    backgroundColor: "transparent !important",
+    fontWeight: 550,
     color: "#bf660d",
+    backgroundColor: `${PALETTE_COLORS.bgGrey} !important`,
   },
-  "& table, & th, & td, & tr ": {
-    border: "1px solid #e8e9eb",
+  "& td span, & th span": {
+    padding: "5px 0",
+    display: "flex",
+    justifyContent: "center",
   },
   "& thead th span": {
-    color: "#807d7a",
+    color: PALETTE_COLORS.typography.black,
   },
   "& tbody .MuiTableRow-root": {
     "&:hover": {backgroundColor: "#edf1fa"},
+  },
+  "& td": {
+    borderBottom: "1px solid",
+    borderColor: PALETTE_COLORS.lightgrey,
+    padding: "10px 0px",
   },
 });
 

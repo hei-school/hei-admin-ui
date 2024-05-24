@@ -12,15 +12,13 @@ import {
 } from "@mui/material";
 import {CalendarMonth, Comment, Feedback} from "@mui/icons-material";
 import {useDataProvider} from "react-admin";
-
-// /!\ TODO: refactor with path alias
-import {StudentComments} from "../../../operations/comments";
-import {getUserRoleInFr} from "../../../operations/common/utils/typo_util";
-import {useToggle} from "../../../hooks";
-import {useRole} from "../../../security/hooks";
-import {PALETTE_COLORS} from "../../constants/palette";
-import authProvider from "../../../providers/authProvider";
-import defaultProfilePicture from "../../../assets/blank-profile-photo.png";
+import {StudentComments} from "@/operations/comments";
+import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
+import {useToggle} from "@/hooks";
+import {useRole} from "@/security/hooks";
+import {PALETTE_COLORS} from "@/haTheme";
+import authProvider from "@/providers/authProvider";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
 

@@ -6,7 +6,7 @@ import {
 
 import {CommentList} from "./CommentList";
 import {Separator} from "./utils";
-import {PALETTE_COLORS} from "../../ui/constants/palette";
+import {PALETTE_COLORS} from "@/haTheme";
 
 const CommentWrapper = styled("div")({
   width: "100%",

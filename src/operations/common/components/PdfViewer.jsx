@@ -18,7 +18,7 @@ import {
   LinearProgress,
   Stack,
 } from "@mui/material";
-import {PALETTE_COLORS} from "../../../ui/constants/palette";
+import {PALETTE_COLORS} from "@/haTheme";
 
 pdfjs.GlobalWorkerOptions.workerSrc = new URL(
   "pdfjs-dist/build/pdf.worker.min.js",
