@@ -1,11 +1,11 @@
 import {List, useListContext} from "react-admin";
-import {Box} from "@mui/material";
 import {Event as EventIcon} from "@mui/icons-material";
+import {Box} from "@mui/material";
 import {Event} from "@haapi/typescript-client";
-import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {EventCard} from "./components";
-import {CreateButton} from "@/ui/haToolbar";
+import {EventListAction} from "./components/EventListAction";
+import {HaListTitle} from "@/ui/haList";
 
 export function EventList() {
   return (
@@ -13,43 +13,35 @@ export function EventList() {
       title="Événements"
       resource="events"
       empty={false}
-      exporter={false}
       actions={false}
       pagination={<PrevNextPagination />}
-      sx={{
-        "pt": 2,
-        "& .RaList-content": {
-          boxShadow: "none",
-        },
-      }}
+      sx={{mt: 1}}
     >
       <HaListTitle
-        filterIndicator
-        mainSearch={{source: ""}}
         title="Liste des événements"
-        actions={<CreateButton resource="events" />}
         icon={<EventIcon />}
+        filterIndicator
+        actions={<EventListAction />}
+        mainSearch={{label: "Titre", source: "title"}}
       />
       <EventListContent />
     </List>
   );
 }
 
+//TODO: add loading ui
 function EventListContent() {
-  const {data: events = [], isLoading} = useListContext<Required<Event>>();
-
-  if (isLoading) return null;
-
+  const {data: events = []} = useListContext<Required<Event>>();
   return (
     <Box
       sx={{
         px: 1,
         pb: 2,
-        w: "100%",
         display: "flex",
         alignItems: "stretch",
-        gap: 2,
         flexWrap: "wrap",
+        width: "100%",
+        gap: 2,
       }}
     >
       {events.map((event) => (

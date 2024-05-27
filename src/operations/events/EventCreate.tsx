@@ -17,7 +17,6 @@ import {EVENT_TYPE_VALUE} from "./utils/eventChoices";
 import {SelectPlanner} from "./components/inputs";
 import authProvider from "@/providers/authProvider";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
-import {create} from "domain";
 
 export function EventCreate() {
   const userId = authProvider.getCachedWhoami().id;

@@ -1,4 +1,4 @@
-import {EditButton, ShowButton, TextField} from "react-admin";
+import {EditButton, ShowButton, TextField, useDataProvider} from "react-admin";
 import {SchoolOutlined, UploadFile} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {ProfileFilters} from "../profile/components/ProfileFilters";

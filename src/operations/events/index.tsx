@@ -1,3 +1,4 @@
+export * from "./EventParticipantList";
 import {EventCreate} from "./EventCreate";
 import {EventList} from "./EventList";
 

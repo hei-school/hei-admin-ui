@@ -1,3 +1,4 @@
+import {useRedirect} from "react-admin";
 import {Event, EventType} from "@haapi/typescript-client";
 import {
   Box,
@@ -82,8 +83,9 @@ const EVENT_TITLE_SX: SxProps = {
 
 export function EventCard({event}: EventCardPropsType) {
   const {planner, course} = event;
-
   const PLANNER_PICTURE = planner.pic || defaultPicture;
+  const redirect = useRedirect();
+
   return (
     <Card sx={CARD_SX} className="event-card">
       <Box sx={{width: "100%"}}>
@@ -171,7 +173,11 @@ export function EventCard({event}: EventCardPropsType) {
         >
           Editer
         </Button>
-        <Button size="small" sx={PARTICIPANT_BUTTON_SX}>
+        <Button
+          size="small"
+          sx={PARTICIPANT_BUTTON_SX}
+          onClick={() => redirect(`/events/${event.id}/participants`)}
+        >
           Présence
         </Button>
       </Box>
