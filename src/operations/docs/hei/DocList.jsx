@@ -1,4 +1,4 @@
-import { FileType } from "@haapi/typescript-client";
+import {FileType} from "@haapi/typescript-client";
 import {DocList as CommonDocList} from "../components/DocList";
 import {OwnerType} from "../types";
 

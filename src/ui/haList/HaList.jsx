@@ -5,7 +5,7 @@ import {PrevNextPagination} from "./PrevNextPagination";
 import {HaListTitle} from "./HaListTitle";
 
 const ListWrapper = styled("div")({
-  width: "80%",
+  width: "calc(100% - 20px)",
   height: "100%",
   overflow: "hidden",
   borderRadius: 10,

@@ -36,7 +36,7 @@ const getTitle = (owner, type) => {
 
 const ListAction = ({type, owner, refresh}) => {
   const [isOpen, , toggle] = useToggle();
-  
+
   return (
     <>
       <ButtonBase
