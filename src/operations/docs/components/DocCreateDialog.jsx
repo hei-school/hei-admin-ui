@@ -6,16 +6,16 @@ import {
   TextInput,
   regex,
 } from "react-admin";
-import {Dialog, DialogTitle, Box} from "@mui/material";
-import {useParams} from "react-router-dom";
-import {FileType} from "@haapi/typescript-client";
-import {Create} from "../../common/components";
-import {useRole} from "../../../security/hooks/useRole";
-import {removeExtension} from "../../../utils/files";
-import {PALETTE_COLORS} from "@/haTheme";
-import {OwnerType} from "../types";
+import { Dialog, DialogTitle, Box } from "@mui/material";
+import { useParams } from "react-router-dom";
+import { FileType } from "@haapi/typescript-client";
+import { Create } from "../../common/components";
+import { useRole } from "../../../security/hooks/useRole";
+import { removeExtension } from "../../../utils/files";
+import { PALETTE_COLORS } from "@/haTheme";
+import { OwnerType } from "../types";
 import authProvider from "../../../providers/authProvider";
-import {SelectWorkStatus} from "./SelectWorkStatus";
+import { SelectWorkStatus } from "./SelectWorkStatus";
 
 const DOCUMENT_FILENAME_PATTERN = /^[^.]*$/;
 
@@ -23,13 +23,14 @@ const getTitle = (owner, type) => {
   if (owner === OwnerType.SCHOOL) {
     return "document de HEI";
   }
+
   if (owner === OwnerType.STUDENT) {
     switch (type) {
       case FileType.TRANSCRIPT:
         return "bulletin";
       case FileType.OTHER:
         return "document étudiant";
-      case "WORK_DOCUMENT":
+      case FileType.WORK_DOCUMENT:
         return "document d'autorisation en alternance";
       default:
         return "document";
@@ -40,10 +41,11 @@ const getTitle = (owner, type) => {
 
 const transformDoc = (doc, type, owner, studentId) => {
   if (!doc) return null;
-
   doc.title = doc.name || removeExtension(doc.raw?.title);
-
-  doc.commitment_begin_date = new Date(doc.commitment_begin_date).toISOString();
+  
+  if (type === FileType.WORK_DOCUMENT){
+    doc.commitment_begin_date = new Date(doc.commitment_begin_date).toISOString();
+  }
 
   return {
     type,
@@ -53,9 +55,9 @@ const transformDoc = (doc, type, owner, studentId) => {
   };
 };
 
-export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
+export const DocCreateDialog = ({ type, owner, isOpen, toggle, refresh }) => {
   const params = useParams();
-  const {isStudent} = useRole();
+  const { isStudent } = useRole();
 
   const studentId = isStudent()
     ? authProvider.getCachedWhoami().id
@@ -65,7 +67,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
     <Dialog open={isOpen} onClose={toggle}>
       <DialogTitle
         color={PALETTE_COLORS.white}
-        sx={{bgcolor: PALETTE_COLORS.primary}}
+        sx={{ bgcolor: PALETTE_COLORS.primary }}
         fontWeight="bold"
       >
         Ajouter un {getTitle(owner, type)}
@@ -94,7 +96,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             ]}
             fullWidth
           />
-          {type === "WORK_DOCUMENT" && (
+          {type === FileType.WORK_DOCUMENT && (
             <Box>
               <SelectWorkStatus />
               <DateInput
@@ -111,7 +113,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             label=" "
             multiple={false}
             accept="application/pdf,image/jpeg,image/png,image/webp"
-            sx={{border: `1px solid ${PALETTE_COLORS.grey}`}}
+            sx={{ border: `1px solid ${PALETTE_COLORS.grey}` }}
           >
             <FileField source="src" title="title" />
           </FileInput>
