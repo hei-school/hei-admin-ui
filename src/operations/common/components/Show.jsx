@@ -6,7 +6,7 @@ export const Show = ({children, sx = {}, ...props}) => {
       sx={{
         ...sx,
         m: "auto",
-        width: "80%",
+        width: "calc(100% - 20px",
       }}
       {...props}
     >

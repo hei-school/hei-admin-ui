@@ -23,13 +23,14 @@ const getTitle = (owner, type) => {
   if (owner === OwnerType.SCHOOL) {
     return "document de HEI";
   }
+
   if (owner === OwnerType.STUDENT) {
     switch (type) {
       case FileType.TRANSCRIPT:
         return "bulletin";
       case FileType.OTHER:
         return "document étudiant";
-      case "WORK_DOCUMENT":
+      case FileType.WORK_DOCUMENT:
         return "document d'autorisation en alternance";
       default:
         return "document";
@@ -40,10 +41,13 @@ const getTitle = (owner, type) => {
 
 const transformDoc = (doc, type, owner, studentId) => {
   if (!doc) return null;
-
   doc.title = doc.name || removeExtension(doc.raw?.title);
 
-  doc.commitment_begin_date = new Date(doc.commitment_begin_date).toISOString();
+  if (type === FileType.WORK_DOCUMENT) {
+    doc.commitment_begin_date = new Date(
+      doc.commitment_begin_date
+    ).toISOString();
+  }
 
   return {
     type,
@@ -94,7 +98,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             ]}
             fullWidth
           />
-          {type === "WORK_DOCUMENT" && (
+          {type === FileType.WORK_DOCUMENT && (
             <Box>
               <SelectWorkStatus />
               <DateInput
@@ -111,7 +115,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             label=" "
             multiple={false}
             accept="application/pdf,image/jpeg,image/png,image/webp"
-            sx={{border: `1px solid ${PALETTE_COLORS.grey}`}}
+            sx={{cursor: "pointer", border: `1px solid ${PALETTE_COLORS.grey}`}}
           >
             <FileField source="src" title="title" />
           </FileInput>
