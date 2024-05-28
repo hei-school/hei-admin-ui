@@ -23,7 +23,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
 
   return (
     <Box
-      width="80%"
+      width="calc(100% - 20px)"
       mx="auto"
       marginTop={3}
       display="flex"
