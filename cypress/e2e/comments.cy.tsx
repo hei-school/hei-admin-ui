@@ -1,4 +1,7 @@
-import {student1CommentMocks} from "../fixtures/api_mocks/comment-mocks";
+import {
+  commentMocks,
+  student1CommentMocks,
+} from "../fixtures/api_mocks/comment-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
 const ITEM_PER_LIST = 10;
@@ -18,7 +21,7 @@ describe("Student.Comments", () => {
     ).as("getStudent1CommentsPage2");
   });
 
-  it.only("student can list his comments", () => {
+  it("student can list his comments", () => {
     cy.get('[aria-label="Commentaires"]').click();
     cy.wait("@getStudent1CommentsPage1");
     cy.getByTestid("comment-item").should("have.length", ITEM_PER_LIST);
@@ -28,5 +31,36 @@ describe("Student.Comments", () => {
       "have.length",
       student1CommentMocks.length
     );
+  });
+});
+
+describe("Global.Comments", () => {
+  beforeEach(() => {
+    cy.intercept(
+      "GET",
+      `/comments?page=1&page_size=10`,
+      commentMocks.slice(0, ITEM_PER_LIST)
+    ).as("getStudent1CommentsPage1");
+    cy.intercept(
+      "GET",
+      `/comments?page=2&page_size=10`,
+      commentMocks.slice(ITEM_PER_LIST)
+    ).as("getStudent1CommentsPage2");
+  });
+
+  it("manager can list global comments", () => {
+    cy.login({role: "MANAGER"});
+  });
+
+  it("teacher can list global comments", () => {
+    cy.login({role: "TEACHER"});
+  });
+
+  afterEach(() => {
+    cy.getByTestid("appbar-comments").click();
+    cy.getByTestid("comment-item").should("have.length", ITEM_PER_LIST);
+    cy.getByTestid("comment-list-wrapper").scrollTo("bottom");
+    cy.wait("@getStudent1CommentsPage2");
+    cy.getByTestid("comment-item").should("have.length", commentMocks.length);
   });
 });
