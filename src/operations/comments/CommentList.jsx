@@ -40,7 +40,7 @@ export function CommentItem({comment, studentId, close}) {
         !studentId && close();
       }}
     >
-      <Box sx={COMMENT_ITEM_STYLE}>
+      <Box data-testid="comment-item" sx={COMMENT_ITEM_STYLE}>
         <Box
           sx={{
             display: "flex",
@@ -150,6 +150,7 @@ export function CommentList({studentId, close}) {
       <Box
         ref={listContainerRef}
         onScroll={showNextComments}
+        data-testid="comment-list-wrapper"
         sx={{
           bgcolor: "#f2f1ed",
           px: 1,
