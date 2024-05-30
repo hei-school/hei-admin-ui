@@ -196,6 +196,9 @@ const PdfViewer = (props) => {
                 onLoadSuccess={stopLoading}
                 width={pdfRef.current && pdfRef.current.clientWidth - 50}
                 pageNumber={pages.current}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                customTextRenderer={false}
               />
             </Pdf>
           ) : (
