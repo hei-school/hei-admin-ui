@@ -41,7 +41,7 @@ const LastComments = () => {
 
   return (
     <>
-      <IconButton onClick={toggleShowComments}>
+      <IconButton data-testid="appbar-comments" onClick={toggleShowComments}>
         <Badge color="error" variant="dot">
           <Comment
             sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}

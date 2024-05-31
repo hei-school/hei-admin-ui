@@ -16,6 +16,10 @@ export declare global {
         resource: string,
         mocks: T[]
       ): void;
+      assertRequestBody<T>(
+        requestAlias: string,
+        expectedBody: (body: any) => T
+      ): void;
     }
   }
 }

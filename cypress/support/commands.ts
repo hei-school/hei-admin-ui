@@ -25,6 +25,16 @@ Cypress.Commands.add(
   }
 );
 
+Cypress.Commands.add(
+  "assertRequestBody",
+  <T>(requestAlias: string, expectedBody: (body: any) => T) => {
+    cy.wait(requestAlias).then((interception) => {
+      const body = interception.request.body;
+      expect(body).to.deep.equal(expectedBody(body));
+    });
+  }
+);
+
 Cypress.Commands.add("login", (options: LoginConfig) => {
   const {role, success: isSuccess = true} = options;
   const defaultUserConnected = getUserConnected(role);
