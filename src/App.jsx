@@ -119,12 +119,27 @@ function AppBase() {
         />
         <Route
           exact
+          path="/docs/students/TRANSCRIPT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
           path="/students/:studentId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
         />
         <Route
           exact
+          path="/docs/students/OTHER/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
           path="/students/:studentId/docs/students/WORK_DOCUMENT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/docs/students/WORK_DOCUMENT/:id"
           element={<studentDocs.show />}
         />
       </CustomRoutes>
