@@ -16,6 +16,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {OwnerType} from "../types";
 import authProvider from "../../../providers/authProvider";
 import {SelectWorkStatus} from "./SelectWorkStatus";
+import {useNotify} from "@/hooks";
 
 const DOCUMENT_FILENAME_PATTERN = /^[^.]*$/;
 
@@ -60,6 +61,7 @@ const transformDoc = (doc, type, owner, studentId) => {
 export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
   const params = useParams();
   const {isStudent} = useRole();
+  const notify = useNotify();
 
   const studentId = isStudent()
     ? authProvider.getCachedWhoami().id
@@ -82,6 +84,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
         mutationOptions={{
           onSuccess: () => {
             toggle();
+            notify("Document créé.", {type: "success"});
             refresh();
           },
         }}
@@ -114,7 +117,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
             source="raw"
             label=" "
             multiple={false}
-            accept="application/pdf,image/jpeg,image/png,image/webp"
+            accept="application/pdf"
             sx={{cursor: "pointer", border: `1px solid ${PALETTE_COLORS.grey}`}}
           >
             <FileField source="src" title="title" />

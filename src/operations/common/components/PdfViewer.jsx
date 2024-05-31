@@ -148,6 +148,7 @@ const PdfViewer = (props) => {
             {children}
             <a
               href={url}
+              data-testid="download-link"
               target="_blank"
               rel="noreferrer"
               download={filename + ".pdf"}
