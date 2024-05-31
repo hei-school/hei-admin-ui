@@ -21,6 +21,14 @@ describe("Hei.Docs", () => {
     cy.getByTestid("hei-docs").click();
   });
 
+  it("can detail and download a hei doc", () => {
+    cy.contains("Afficher").click();
+
+    cy.contains("Document : " + heiDoc1.name);
+
+    cy.getByTestid("download-link").and("have.attr", "href");
+  });
+
   it("can list hei docs", () => {
     cy.contains("Liste des documents chez HEI");
     cy.contains("Nom du fichier");
@@ -28,14 +36,6 @@ describe("Hei.Docs", () => {
     cy.contains("Afficher");
 
     cy.contains("Taille : " + heiDocsMocks.length);
-  });
-
-  it("can detail and download a hei doc", () => {
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + heiDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
   });
 });
 
@@ -78,15 +78,6 @@ describe("Transcript.Docs", () => {
     cy.getByTestid("docs").click();
   });
 
-  it("can list a student transcripts", () => {
-    cy.getByTestid("transcript-docs").click();
-
-    cy.contains(`Liste des bulletins`);
-    cy.contains("Nom du fichier");
-    cy.contains("Date de création");
-    cy.contains("Afficher");
-  });
-
   it("can detail and download a transcript", () => {
     cy.getByTestid("transcript-docs").click();
 
@@ -95,6 +86,15 @@ describe("Transcript.Docs", () => {
     cy.contains("Document : " + transcript1.name);
 
     cy.getByTestid("download-link").and("have.attr", "href");
+  });
+
+  it("can list a student transcripts", () => {
+    cy.getByTestid("transcript-docs").click();
+
+    cy.contains(`Liste des bulletins`);
+    cy.contains("Nom du fichier");
+    cy.contains("Date de création");
+    cy.contains("Afficher");
   });
 });
 
@@ -137,15 +137,6 @@ describe("Work.Docs", () => {
     cy.getByTestid("docs").click();
   });
 
-  it("can list student worker docs", () => {
-    cy.get('[href="#/docs/students/WORK_DOCUMENT"]').click();
-
-    cy.contains(`Liste des autorisations d'alternance`);
-    cy.contains("Nom du fichier");
-    cy.contains("Date de création");
-    cy.contains("Afficher");
-  });
-
   it("can detail and download a student worker doc", () => {
     cy.get('[href="#/docs/students/WORK_DOCUMENT"]').click();
 
@@ -154,6 +145,15 @@ describe("Work.Docs", () => {
     cy.contains("Document : " + workDoc1.name);
 
     cy.getByTestid("download-link").and("have.attr", "href");
+  });
+
+  it("can list student worker docs", () => {
+    cy.get('[href="#/docs/students/WORK_DOCUMENT"]').click();
+
+    cy.contains(`Liste des autorisations d'alternance`);
+    cy.contains("Nom du fichier");
+    cy.contains("Date de création");
+    cy.contains("Afficher");
   });
 });
 
@@ -196,15 +196,6 @@ describe("Other.Docs", () => {
     cy.getByTestid("docs").click();
   });
 
-  it("can list other student docs", () => {
-    cy.getByTestid("other-docs").click();
-
-    cy.contains(`Liste des autres documents étudiant`);
-    cy.contains("Nom du fichier");
-    cy.contains("Date de création");
-    cy.contains("Afficher");
-  });
-
   it("can detail and download an other student doc", () => {
     cy.getByTestid("other-docs").click();
 
@@ -213,5 +204,14 @@ describe("Other.Docs", () => {
     cy.contains("Document : " + otherDoc1.name);
 
     cy.getByTestid("download-link").and("have.attr", "href");
+  });
+
+  it("can list other student docs", () => {
+    cy.getByTestid("other-docs").click();
+
+    cy.contains(`Liste des autres documents étudiant`);
+    cy.contains("Nom du fichier");
+    cy.contains("Date de création");
+    cy.contains("Afficher");
   });
 });
