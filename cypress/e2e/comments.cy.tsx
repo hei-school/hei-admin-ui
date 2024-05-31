@@ -11,17 +11,17 @@ describe("Student.Comments", () => {
     cy.login({role: "STUDENT"});
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/comments?page=1&page_size=10`,
-      student1CommentMocks.slice(0, ITEM_PER_LIST)
-    ).as("getStudent1CommentsPage1");
-    cy.intercept(
-      "GET",
       `/students/${student1Mock.id}/comments?page=2&page_size=10`,
       student1CommentMocks.slice(ITEM_PER_LIST)
     ).as("getStudent1CommentsPage2");
   });
 
   it("student can list his comments", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/comments?page=1&page_size=10`,
+      student1CommentMocks.slice(0, ITEM_PER_LIST)
+    ).as("getStudent1CommentsPage1");
     cy.get('[aria-label="Commentaires"]').click();
     cy.wait("@getStudent1CommentsPage1");
     cy.getByTestid("comment-item").should("have.length", ITEM_PER_LIST);
@@ -31,6 +31,20 @@ describe("Student.Comments", () => {
       "have.length",
       student1CommentMocks.length
     );
+  });
+
+  it("student view empty list of comments", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/comments?page=1&page_size=10`,
+      []
+    ).as("getEmptyComments");
+    cy.get('[aria-label="Commentaires"]').click();
+    cy.wait("@getEmptyComments");
+    cy.get('[data-testid="comment-list-wrapper"]').contains(
+      "Pas encore de commentaires"
+    );
+    cy.getByTestid("comment-item").should("have.length", 0);
   });
 });
 

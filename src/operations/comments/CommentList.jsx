@@ -177,7 +177,7 @@ export function CommentList({studentId, close}) {
               opacity: 0.7,
             }}
           >
-            Pas encore de commentaire
+            Pas encore de commentaires
           </Typography>
         )}
         {isLoading && (
