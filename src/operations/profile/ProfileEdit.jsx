@@ -22,7 +22,6 @@ const userToUserApi = ({
 const ProfileEdit = ({isOwnProfile, isStudent}) => {
   const role = useRole();
   const isStudentProfile = isStudent || role.isStudent();
-
   return (
     <Edit
       title="Modifier le profil"
@@ -34,7 +33,7 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
         <TextInput source="first_name" label="Prénom·s" fullWidth />
         <TextInput source="last_name" label="Nom·s" fullWidth />
         {isStudentProfile && <SelectSpecialization readOnly={isOwnProfile} />}
-        <TextInput source="email" fullWidth readOnly={isOwnProfile} />
+        <TextInput source="email" fullWidth readOnly />
         <TextInput multiline source="address" label="Adresse" fullWidth />
         <EditGeoLocalisation />
         <SexRadioButton />
