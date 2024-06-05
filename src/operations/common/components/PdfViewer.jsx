@@ -6,6 +6,8 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
+import "pdfjs-dist/build/pdf.min.mjs";
+import "pdfjs-dist/build/pdf.worker.min.mjs";
 import {Document as Pdf, Page as PdfPage} from "react-pdf";
 import {
   Box,
