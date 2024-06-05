@@ -20,10 +20,7 @@ import {
 } from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url
-).toString();
+pdfjs.GlobalWorkerOptions.workerSrc = `//unpkg.com/pdfjs-dist@${pdfjs.version}/build/pdf.worker.min.js`;
 
 const TooltipButton = ({icon, disabled, onClick, ...others}) => (
   <Tooltip {...others} sx={{margin: "0 6px"}}>
