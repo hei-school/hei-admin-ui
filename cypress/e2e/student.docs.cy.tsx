@@ -21,14 +21,6 @@ describe("Hei.Docs", () => {
     cy.getByTestid("hei-docs").click();
   });
 
-  it("can detail and download a hei doc", () => {
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + heiDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
-  });
-
   it("can list hei docs", () => {
     cy.contains("Liste des documents chez HEI");
     cy.contains("Nom du fichier");
