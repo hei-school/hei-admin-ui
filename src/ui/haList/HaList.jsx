@@ -44,6 +44,7 @@ export function HaList({
   resource,
   children,
   icon,
+  hasDatagrid = true,
   listProps = {},
   datagridProps = {},
   mainSearch = {source: "", label: ""},
@@ -71,13 +72,17 @@ export function HaList({
             mainSearch={mainSearch}
           />
           <DatagridWrapper>
-            <Datagrid
-              bulkActionButtons={false}
-              rowClick="show"
-              {...datagridProps}
-            >
-              {children}
-            </Datagrid>
+            {hasDatagrid ? (
+              <Datagrid
+                bulkActionButtons={false}
+                rowClick="show"
+                {...datagridProps}
+              >
+                {children}
+              </Datagrid>
+            ) : (
+              children
+            )}
           </DatagridWrapper>
         </Box>
       </List>
