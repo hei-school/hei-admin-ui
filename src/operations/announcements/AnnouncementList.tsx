@@ -17,6 +17,7 @@ import {Link} from "react-router-dom";
 import {PALETTE_COLORS} from "@/haTheme";
 import {HaListTitle} from "@/ui/haList";
 import {CreateButton} from "@/ui/haToolbar";
+import {useRole} from "@/security/hooks";
 import {AnnouncementFilter} from "./components";
 import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
 import {PrevNextPagination} from "../utils";
@@ -120,11 +121,14 @@ const AnnouncementActions = () => {
 };
 
 export const AnnouncementList = () => {
+  const {isManager} = useRole();
+
   return (
     <List
       actions={false}
       pagination={<PrevNextPagination />}
       resource="announcements"
+      empty={false}
       sx={{
         "& .RaList-content": {
           backgroundColor: "none",
@@ -134,7 +138,7 @@ export const AnnouncementList = () => {
       }}
     >
       <HaListTitle
-        actions={<AnnouncementActions />}
+        actions={isManager() && <AnnouncementActions />}
         filterIndicator={true}
         title="Liste des annonces"
         icon={<AnnouncementIcon />}
