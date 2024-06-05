@@ -23,7 +23,6 @@ const GroupStudentList = () => {
       <ExportButton
         onExport={(list) => exportData(list, exportHeaders, "group-students")}
       />
-      <ProfileFilters />
     </Box>
   );
 
