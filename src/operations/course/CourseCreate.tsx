@@ -7,8 +7,8 @@ import {
   required,
 } from "react-admin";
 import {Course} from "@haapi/typescript-client";
-import {Create} from "../common/components";
 import {v4 as uuid} from "uuid";
+import {Create} from "../common/components";
 
 export function CourseCreate(props: Partial<CreateProps>) {
   return (

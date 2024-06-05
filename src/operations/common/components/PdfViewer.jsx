@@ -148,6 +148,7 @@ const PdfViewer = (props) => {
             {children}
             <a
               href={url}
+              data-testid="download-link"
               target="_blank"
               rel="noreferrer"
               download={filename + ".pdf"}
@@ -196,6 +197,9 @@ const PdfViewer = (props) => {
                 onLoadSuccess={stopLoading}
                 width={pdfRef.current && pdfRef.current.clientWidth - 50}
                 pageNumber={pages.current}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+                customTextRenderer={false}
               />
             </Pdf>
           ) : (

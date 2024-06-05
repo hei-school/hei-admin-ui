@@ -3,10 +3,24 @@
 import {Whoami} from "@haapi/typescript-client";
 import {LoginConfig} from "./global";
 import {getUserConnected} from "../fixtures/api_mocks/authentification-mocks";
+import "cypress-file-upload";
 
 Cypress.Commands.add("getByTestid", <Subject = any>(id: string) => {
   return cy.get<Subject>(`[data-testid='${id}']`);
 });
+
+Cypress.Commands.add(
+  "attachFileToDropZone",
+  {prevSubject: "element"},
+  (subject, filePath: string) => {
+    cy.wrap(subject).attachFile(
+      {filePath, encoding: "utf-8"},
+      {
+        subjectType: "drag-n-drop",
+      }
+    );
+  }
+);
 
 Cypress.Commands.add("routePathnameEq", (to) => {
   cy.window()
@@ -21,6 +35,16 @@ Cypress.Commands.add(
   <T extends {id: string}>(resource: string, mocks: T[]) => {
     mocks.forEach((mock) => {
       cy.intercept(`${resource}/${mock.id}`, mock).as(`getOne_${resource}`);
+    });
+  }
+);
+
+Cypress.Commands.add(
+  "assertRequestBody",
+  <T>(requestAlias: string, expectedBody: (body: any) => T) => {
+    cy.wait(requestAlias).then((interception) => {
+      const body = interception.request.body;
+      expect(body).to.deep.equal(expectedBody(body));
     });
   }
 );
