@@ -6,7 +6,9 @@ import {
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
-import {Document as Pdf, Page as PdfPage, pdfjs} from "react-pdf";
+import "pdfjs-dist/build/pdf.min.mjs";
+import "pdfjs-dist/build/pdf.worker.min.mjs";
+import {Document as Pdf, Page as PdfPage} from "react-pdf";
 import {
   Box,
   Typography,
@@ -19,11 +21,6 @@ import {
   Stack,
 } from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
-
-pdfjs.GlobalWorkerOptions.workerSrc = new URL(
-  "pdfjs-dist/build/pdf.worker.min.js",
-  import.meta.url
-).toString();
 
 const TooltipButton = ({icon, disabled, onClick, ...others}) => (
   <Tooltip {...others} sx={{margin: "0 6px"}}>
