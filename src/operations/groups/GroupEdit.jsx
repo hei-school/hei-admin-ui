@@ -1,13 +1,14 @@
-import {useGetList} from "react-admin";
+import {SimpleForm, TextInput} from "react-admin";
 import {Edit} from "../common/components";
-import GroupForm from "./components/GroupForm";
+import {EditToolBar} from "../utils";
 
 const GroupEdit = () => {
-  const {data: students = []} = useGetList("students");
-
   return (
     <Edit resource="groups" title="Groupe">
-      <GroupForm students={students} create={false} />
+      <SimpleForm toolbar={<EditToolBar />}>
+        <TextInput source="ref" label="Référence" required fullWidth />
+        <TextInput source="name" label="Nom du groupe" required fullWidth />
+      </SimpleForm>
     </Edit>
   );
 };

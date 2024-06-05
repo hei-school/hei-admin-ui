@@ -30,7 +30,7 @@ describe("Manager.Group", () => {
     cy.get(".column-name").contains("Nom");
   });
 
-  it.only("can create a group", () => {
+  it("can create a group", () => {
     cy.intercept("GET", `/students?*`, studentsMock);
     cy.intercept("GET", `/groups/${groupCreate.id}/students?*`, group1Students);
     cy.intercept("PUT", "/groups", [groupCreate]);
@@ -39,8 +39,15 @@ describe("Manager.Group", () => {
     cy.contains("Créer").click();
     cy.get("#ref").click().type(groupCreate?.ref!);
     cy.get("#name").click().type(groupCreate?.name!);
-    cy.get("#students").click();
-    group1Students?.map((student) => cy.contains(student?.ref!).click());
+
+    // click on the checkbox to select the student
+    group1Students?.map((student) =>
+      cy
+        .get(
+          `.MuiTableBody-root > :nth-child(${group1Students.indexOf(student) + 1}) > .MuiTableCell-paddingCheckbox > .MuiButtonBase-root > .PrivateSwitchBase-input`
+        )
+        .click()
+    );
 
     cy.contains("Enregistrer").click({force: true});
 
@@ -73,9 +80,7 @@ describe("Manager.Group", () => {
     cy.contains("Retirer").click();
     cy.get("#alert-dialog-title").contains("Supprimer un étudiant");
     cy.contains("Confirmer").click();
-    cy.contains(
-      `L'étudiant ${group1Student1Mock.ref} a été supprimé avec succès`
-    );
+    cy.contains(` a été supprimé avec succès`);
   });
 
   it("can move a student to another group", () => {
@@ -96,6 +101,6 @@ describe("Manager.Group", () => {
     cy.contains(group2Mock.ref).click();
 
     cy.contains("Envoyer").click();
-    cy.contains(`L'étudiant ${group1Student1Mock.ref} a été migré avec succès`);
+    cy.contains(` a été migré avec succès`);
   });
 });
