@@ -71,7 +71,8 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   cy.get("#username")
     .click()
     .type(options.username || defaultUserConnected.username);
-  cy.intercept("**/whoami", whoami).as("getWhoami");
+
+  isSuccess && cy.intercept("**/whoami", whoami).as("getWhoami");
   cy.get("#password")
     .click()
     .type(options.password || defaultUserConnected.password);
