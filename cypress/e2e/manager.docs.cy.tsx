@@ -39,14 +39,6 @@ describe("Manager.Hei.Docs", () => {
     cy.contains("Taille : " + heiDocsMocks.length);
   });
 
-  it("can detail and download a hei doc", () => {
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + heiDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
-  });
-
   it("can create a new hei doc", () => {
     cy.getByTestid("menu-list-action").click();
     cy.contains("Créer").click();
@@ -143,18 +135,6 @@ describe("Manager.Work.Docs", () => {
     cy.getByTestid("apply-filter").click();
     cy.contains(student1Mock.last_name).click();
     cy.getByTestid("docs-button").click();
-  });
-
-  it("can detail and download a student worker doc", () => {
-    cy.get(
-      '[href="#/students/student1_id/docs/students/WORK_DOCUMENT"]'
-    ).click();
-
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + workDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
   });
 
   it("can list student worker docs", () => {

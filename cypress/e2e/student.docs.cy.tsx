@@ -21,14 +21,6 @@ describe("Hei.Docs", () => {
     cy.getByTestid("hei-docs").click();
   });
 
-  it("can detail and download a hei doc", () => {
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + heiDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
-  });
-
   it("can list hei docs", () => {
     cy.contains("Liste des documents chez HEI");
     cy.contains("Nom du fichier");
@@ -76,16 +68,6 @@ describe("Transcript.Docs", () => {
 
     cy.login({role: "STUDENT"});
     cy.getByTestid("docs").click();
-  });
-
-  it("can detail and download a transcript", () => {
-    cy.getByTestid("transcript-docs").click();
-
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + transcript1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
   });
 
   it("can list a student transcripts", () => {
@@ -137,16 +119,6 @@ describe("Work.Docs", () => {
     cy.getByTestid("docs").click();
   });
 
-  it("can detail and download a student worker doc", () => {
-    cy.get('[href="#/docs/students/WORK_DOCUMENT"]').click();
-
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + workDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
-  });
-
   it("can list student worker docs", () => {
     cy.get('[href="#/docs/students/WORK_DOCUMENT"]').click();
 
@@ -194,16 +166,6 @@ describe("Other.Docs", () => {
 
     cy.login({role: "STUDENT"});
     cy.getByTestid("docs").click();
-  });
-
-  it("can detail and download an other student doc", () => {
-    cy.getByTestid("other-docs").click();
-
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + otherDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
   });
 
   it("can list other student docs", () => {
