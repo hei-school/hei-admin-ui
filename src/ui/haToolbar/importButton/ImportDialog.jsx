@@ -79,7 +79,7 @@ export function ImportDialog({
   });
 
   const downloadFile = (data) => {
-    exportData([], [...headers, ...data?.importHeaders], data.fileName);
+    exportData([], data?.importHeaders, data.fileName);
   };
 
   const doImport = async (data) => {

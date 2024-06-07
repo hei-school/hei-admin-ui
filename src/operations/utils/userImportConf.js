@@ -48,6 +48,7 @@ export const transformUserData = (data) => {
       element.birth_date &&
       (element.birth_date = excelDateToJsDate(element.birth_date));
     element["status"] = EnableStatus.ENABLED;
+    element["coordinates"] = {longitude: 0, latitude: 0};
     return element;
   });
 };
