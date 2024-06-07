@@ -130,7 +130,6 @@ const PaymentCreate = (props) => {
             source="creation_datetime"
             label="Date de paiement"
             validate={required()}
-            defaultValue={new Date().toISOString()}
           />
         )}
       </SimpleForm>
