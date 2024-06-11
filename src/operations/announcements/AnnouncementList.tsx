@@ -57,6 +57,16 @@ const AnnouncementsGrid = () => {
   const {data: announcements = []} = useListContext();
 
   const isSmall = useMediaQuery("(max-width:900px)");
+  const isDesktop = useMediaQuery("(min-width:1400px)");
+  const getJustifyContent = (isSmall: boolean, isDesktop: boolean): string => {
+    if (isSmall) {
+      return "center";
+    } else if (isDesktop) {
+      return "space-evenly";
+    } else {
+      return "flex-start";
+    }
+  };
 
   return (
     <Box
@@ -64,8 +74,9 @@ const AnnouncementsGrid = () => {
       maxHeight="80vh"
       display="flex"
       flexWrap="wrap"
-      gap="1rem"
-      justifyContent={isSmall ? "center" : "flex-start"}
+      gap="0.5rem"
+      padding="1.5rem 0.5vw"
+      justifyContent={getJustifyContent(isSmall, isDesktop)}
     >
       {announcements.map((announcement: Announcement) => (
         <Card key={announcement.id} style={cardStyle}>
