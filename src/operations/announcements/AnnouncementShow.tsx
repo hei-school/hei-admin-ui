@@ -11,6 +11,7 @@ import {
 import {Show, SimpleShowLayout, useGetOne, useRedirect} from "react-admin";
 import {MarkdownField} from "@react-admin/ra-markdown";
 import {useParams} from "react-router-dom";
+import {PALETTE_COLORS} from "@/haTheme";
 import {AnnouncementAuthor} from "@haapi/typescript-client";
 import {EmailField} from "./components/EmailField";
 import {getBgImg} from "./utils/getBgImg";
@@ -24,9 +25,17 @@ const AnnouncementAuthorShow: FC<AuthorProps> = ({author}) => {
 
   return (
     <Box display="flex">
-      <Avatar src={author.profile_picture} />
-      <Box display="flex" flexDirection="column">
-        <Typography variant="caption" fontWeight="bold" marginLeft={1}>
+      <Avatar
+        src={author.profile_picture}
+        sx={{width: 120, height: 120, borderRadius: "1rem"}}
+      />
+      <Box display="flex" flexDirection="column" justifyContent="flex-end">
+        <Typography
+          variant="caption"
+          fontWeight="bold"
+          marginLeft={1}
+          fontSize="1.2rem"
+        >
           {author.first_name} {author.last_name}
         </Typography>
         <EmailField
@@ -51,47 +60,52 @@ export const AnnouncementShow = () => {
   if (!announcement && !isFetching) redirect("/announcements");
 
   return (
-    <Box width="65vw" margin="auto">
-      <Box
-        display="flex"
-        paddingY={2}
-        paddingX={3}
-        justifyContent="space-between"
-      >
-        <Box>
-          <Typography variant="h5" fontWeight="bold">
-            {announcement.title}
-          </Typography>
-          <Typography variant="caption">
-            {new Date(announcement.creation_datetime).toLocaleString()}
-          </Typography>
-        </Box>
-        <AnnouncementAuthorShow author={announcement.author} />
-      </Box>
+    <Box
+      width="75vw"
+      margin="auto"
+      marginTop="1rem"
+      borderBottom="5px solid"
+      position="relative"
+      borderColor={PALETTE_COLORS.yellow}
+    >
       <Card>
         <CardMedia
           component="img"
-          height="250"
+          height="150"
           image={getBgImg(announcement.scope)}
           alt="Announcement Background"
         />
-        <CardContent sx={{marginTop: "-175px", bgcolor: "whitesmoke"}}>
+        <CardContent
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            alignItems: "flex-end",
+            marginTop: "-5rem",
+          }}
+        >
+          <AnnouncementAuthorShow author={announcement.author} />
+          <Typography variant="caption">
+            {new Date(announcement.creation_datetime).toLocaleString()}
+          </Typography>
+        </CardContent>
+        <CardContent>
+          <Typography variant="h5" fontWeight="bold">
+            {announcement.title}
+          </Typography>
           <Show
             resource="announcements"
             title="Annonce"
             sx={{
               "& .RaShow-card": {
-                backgroundColor: "transparent",
                 boxShadow: "none",
               },
             }}
           >
             <SimpleShowLayout
               sx={{
-                minHeight: "65vh",
                 bgcolor: "white",
-                width: "50vw",
-                margin: "auto",
+                width: "100%",
                 borderRadius: "7px 7px 0px 0px",
               }}
             >
