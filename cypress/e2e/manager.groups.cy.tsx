@@ -80,7 +80,7 @@ describe("Manager.Group", () => {
     cy.contains("Retirer").click();
     cy.get("#alert-dialog-title").contains("Supprimer un étudiant");
     cy.contains("Confirmer").click();
-    cy.contains(` a été supprimé avec succès`);
+    cy.contains(`a été supprimé avec succès`);
   });
 
   it("can move a student to another group", () => {
@@ -101,6 +101,6 @@ describe("Manager.Group", () => {
     cy.contains(group2Mock.ref).click();
 
     cy.contains("Envoyer").click();
-    cy.contains(` a été migré avec succès`);
+    cy.contains(`a été migré avec succès`);
   });
 });
