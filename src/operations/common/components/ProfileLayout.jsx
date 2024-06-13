@@ -47,7 +47,7 @@ import {
 import {DateField, BirthDateField, FieldLabel} from "./fields";
 import {Create} from "./Create";
 import {GeoPositionName} from "./GeoLocalisation";
-import {useToggle} from "@/hooks";
+import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
 import {SPECIALIZATION_VALUE} from "@/operations/students/components";
@@ -88,6 +88,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
   const user = useRecordContext();
   const id = user.id;
+  const notify = useNotify();
 
   return (
     <div>
@@ -123,6 +124,9 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
             onSuccess: (user) => {
               toggle();
               onUpload(user);
+              notify(`Photo mise à jour avec succès!`, {
+                type: "success",
+              });
             },
           }}
         >
