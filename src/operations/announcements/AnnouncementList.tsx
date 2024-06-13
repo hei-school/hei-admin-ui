@@ -58,14 +58,15 @@ const AnnouncementsGrid = () => {
 
   const isSmall = useMediaQuery("(max-width:900px)");
   const isDesktop = useMediaQuery("(min-width:1400px)");
-  const getJustifyContent = (isSmall: boolean, isDesktop: boolean): string => {
-    if (isSmall) {
-      return "center";
-    } else if (isDesktop) {
-      return "space-evenly";
-    } else {
-      return "flex-start";
-    }
+  const customStyles = {
+    justifyContent: isSmall
+      ? "center"
+      : isDesktop
+        ? "flex-start"
+        : "space-evenly",
+    gap: isDesktop ? "1.5rem" : "0.5rem",
+    padding: isDesktop ? "1.5rem 5rem" : "1.5rem 0.5vw",
+    margin: isDesktop ? "0 auto" : "0",
   };
 
   return (
@@ -74,9 +75,9 @@ const AnnouncementsGrid = () => {
       maxHeight="80vh"
       display="flex"
       flexWrap="wrap"
-      gap="0.5rem"
-      padding="1.5rem 0.5vw"
-      justifyContent={getJustifyContent(isSmall, isDesktop)}
+      padding={customStyles.padding}
+      justifyContent={customStyles.justifyContent}
+      gap={customStyles.gap}
     >
       {announcements.map((announcement: Announcement) => (
         <Card key={announcement.id} style={cardStyle}>
