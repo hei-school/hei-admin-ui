@@ -26,7 +26,7 @@ describe("Manager.Fee", () => {
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
+      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByName");
     cy.intercept(
@@ -58,12 +58,12 @@ describe("Manager.Fee", () => {
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
-    cy.getByTestid("filter-profile-last_name").type(student1Mock.last_name);
+    cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
     cy.wait("@getStudentsByName");
     cy.contains("Page : 1");
     cy.contains("Taille : 1 ");
-    cy.contains(student1Mock.last_name).click();
+    cy.contains(student1Mock.first_name).click();
   });
 
   it("can detail waiting fee", () => {

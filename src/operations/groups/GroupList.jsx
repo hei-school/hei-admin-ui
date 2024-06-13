@@ -104,7 +104,6 @@ const GroupList = () => {
         title="Liste des groupes"
         icon={<GroupIcon />}
         actions={<GroupFilters />}
-        mainSearch={{source: "ref", label: "Référence"}}
       >
         <FunctionField
           source="ref"

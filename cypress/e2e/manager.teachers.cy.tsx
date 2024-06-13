@@ -48,7 +48,7 @@ describe("Manager.Teachers", () => {
     cy.getByTestid("main-search-filter").clear();
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
-    cy.getByTestid("filter-profile-last_name").type(teacher1Mock.last_name);
+    cy.getByTestid("filter-profile-first_name").type(teacher1Mock.first_name);
     cy.getByTestid("apply-filter").click();
     cy.wait("@getFilters");
     cy.get("tbody tr")

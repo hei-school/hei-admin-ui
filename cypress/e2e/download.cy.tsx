@@ -63,9 +63,9 @@ describe("Manager.Work.Docs.Download", () => {
     cy.get("body").click(200, 0);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
-    cy.getByTestid("filter-profile-last_name").type(student1Mock.last_name);
+    cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
-    cy.contains(student1Mock.last_name).click();
+    cy.contains(student1Mock.first_name).click();
     cy.getByTestid("docs-button").click();
   });
 

@@ -50,9 +50,9 @@ describe("Teacher", () => {
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&last_name=${student1Mock.first_name}`,
+      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
-    ).as("getStudentByName");
+    ).as("getStudentByFirstName");
     // note(listAndFilterStudents)
     cy.get('a[href="#/students"]').click(); // Étudiants menu
     cy.wait("@getStudentsPage1");
@@ -69,8 +69,9 @@ describe("Teacher", () => {
 
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
-    cy.getByTestid("filter-profile-last_name").type(student1Mock.first_name);
+    cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.get('[data-testid="apply-filter"]').click();
+    cy.wait("@getStudentByFirstName");
     cy.contains("Page : 1");
   });
 });
