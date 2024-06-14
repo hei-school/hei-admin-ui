@@ -299,6 +299,15 @@ const PersonalInfos = ({isStudentProfile}) => {
           />
         )}
         {isStudentProfile && (
+          <FunctionField
+            label={
+              <FieldLabel icon={<StatusIcon />}>Statut d'alternance</FieldLabel>
+            }
+            render={(user) => WORK_STATUS_VALUE[user.work_study_status]}
+            {...COMMON_FIELD_ATTRIBUTES}
+          />
+        )}
+        {isStudentProfile && (
           <DateField
             source="commitment_begin_date"
             label={
