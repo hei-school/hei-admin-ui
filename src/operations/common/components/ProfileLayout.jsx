@@ -253,6 +253,15 @@ const Contact = () => {
           emptyText={EMPTY_TEXT}
           {...COMMON_FIELD_ATTRIBUTES}
         />
+        <FunctionField
+          label={<FieldLabel icon={<GeoIcon />}>Géolocalisation</FieldLabel>}
+          render={(user) => (
+            <GeoPositionName
+              coordinates={user.coordinates}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+          )}
+        />
       </SimpleShowLayout>
     </Box>
   );
@@ -268,11 +277,6 @@ const PersonalInfos = ({isStudentProfile}) => {
           render={({first_name, last_name}) => `${first_name} ${last_name}`}
           {...COMMON_FIELD_ATTRIBUTES}
         />
-        <FunctionField
-          label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
-          render={(user) => getUserStatusInFr(user.status, user.sex)}
-          {...COMMON_FIELD_ATTRIBUTES}
-        />
         <DateField
           source="entrance_datetime"
           label={
@@ -283,6 +287,17 @@ const PersonalInfos = ({isStudentProfile}) => {
           showTime={false}
           {...COMMON_FIELD_ATTRIBUTES}
         />
+        {isStudentProfile && (
+          <FunctionField
+            label={
+              <FieldLabel icon={<SpecializationIcon />}>
+                Parcours de Spécialisation
+              </FieldLabel>
+            }
+            render={(user) => renderSpecialization(user.specialization_field)}
+            {...COMMON_FIELD_ATTRIBUTES}
+          />
+        )}
         {isStudentProfile && (
           <DateField
             source="commitment_begin_date"
@@ -333,13 +348,9 @@ const PersonalDetails = ({isStudentProfile}) => {
           )}
         />
         <FunctionField
-          label={<FieldLabel icon={<GeoIcon />}>Géolocalisation</FieldLabel>}
-          render={(user) => (
-            <GeoPositionName
-              coordinates={user.coordinates}
-              {...COMMON_FIELD_ATTRIBUTES}
-            />
-          )}
+          label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
+          render={(user) => getUserStatusInFr(user.status, user.sex)}
+          {...COMMON_FIELD_ATTRIBUTES}
         />
         {isStudentProfile && (
           <TextField
