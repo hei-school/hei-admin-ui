@@ -16,7 +16,7 @@ const studentProvider: HaDataProviderType = {
       filter.work_study_status,
       filter.commitment_begin_date
     );
-    return result.data;
+    return result.data.students ?? [];
   },
   async getOne(id: string) {
     const result = await usersApi().getStudentById(id);
