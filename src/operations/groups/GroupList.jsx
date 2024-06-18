@@ -9,6 +9,7 @@ import {
   useGetList,
   CreateButton,
   useListContext,
+  useGetOne,
 } from "react-admin";
 import {
   Box,
@@ -29,6 +30,7 @@ import {DateField} from "../common/components/fields";
 import {GroupFilters} from "./components/GroupFilters";
 import {ListHeader} from "../common/components";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import {DEFAULT_ID} from "@/utils/constants";
 
 const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -55,31 +57,28 @@ const AvatarGroup = ({groupId = ""}) => {
 };
 
 const GroupList = () => {
-  const {data: groups = []} = useGetList("groups");
-  const {data: students = []} = useGetList("students");
-  const {data: girls = []} = useGetList("students", {filter: {sex: Sex.F}});
-  const {data: boys = []} = useGetList("students", {filter: {sex: Sex.M}});
+  const {data: stats = {}} = useGetOne("stats", {id: DEFAULT_ID});
 
   const headerCardContent = [
     {
       title: "Groupes",
       icon: <GroupIcon fontSize="medium" />,
-      total: groups?.length,
+      total: stats.total_groups ?? 0,
     },
     {
       title: "Étudiants",
       icon: <StudentIcon fontSize="medium" />,
-      total: students.length,
+      total: stats.total_students ?? 0,
     },
     {
       title: "Femmes",
       icon: <FemaleIcon fontSize="medium" />,
-      total: girls.length,
+      total: stats.women ?? 0,
     },
     {
       title: "Hommes",
       icon: <MaleIcon fontSize="medium" />,
-      total: boys.length,
+      total: stats.men ?? 0,
     },
   ];
 

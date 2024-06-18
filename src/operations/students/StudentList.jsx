@@ -4,6 +4,7 @@ import {
   ShowButton,
   TextField,
   useGetList,
+  useGetOne,
 } from "react-admin";
 import {
   Group as GroupIcon,
@@ -31,6 +32,7 @@ import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {ListHeader} from "../common/components";
 import {transformStudentData} from "./importConf";
 import studentProvider from "@/providers/studentProvider";
+import {DEFAULT_ID} from "@/utils/constants";
 
 const ListActions = () => {
   const {isManager} = useRole();
@@ -65,33 +67,28 @@ const ListActions = () => {
 function StudentList() {
   const {isManager} = useRole();
 
-  const {data: students = []} = useGetList("students");
-  const {data: workers = []} = useGetList("students", {
-    filter: {work_study_status: WorkStudyStatus.WORKING},
-  });
-  const {data: girls = []} = useGetList("students", {filter: {sex: Sex.F}});
-  const {data: boys = []} = useGetList("students", {filter: {sex: Sex.M}});
+  const {data: stats = {}} = useGetOne("stats", {id: DEFAULT_ID});
 
   const headerCardContent = [
     {
       title: "Étudiants",
       icon: <StudentIcon fontSize="medium" />,
-      total: students?.length,
+      total: stats.total_students ?? 0,
     },
     {
       title: "Alternants",
       icon: <WorkIcon fontSize="medium" />,
-      total: workers?.length,
+      total: stats.students_alternating ?? 0,
     },
     {
       title: "Femmes",
       icon: <FemaleIcon fontSize="medium" />,
-      total: girls?.length,
+      total: stats.women ?? 0,
     },
     {
       title: "Hommes",
       icon: <MaleIcon fontSize="medium" />,
-      total: boys?.length,
+      total: stats.men ?? 0,
     },
   ];
 
