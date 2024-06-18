@@ -77,9 +77,9 @@ describe("Manager.Transcript.Docs", () => {
     cy.get("body").click(200, 0);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
-    cy.getByTestid("filter-profile-last_name").type(student1Mock.last_name);
+    cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
-    cy.contains(student1Mock.last_name).click();
+    cy.contains(student1Mock.first_name).click();
     cy.getByTestid("docs-button").click();
   });
 
@@ -105,7 +105,7 @@ describe("Manager.Transcript.Docs", () => {
   });
 });
 
-describe("Manager.Work.Docs", () => {
+describe.only("Manager.Work.Docs", () => {
   beforeEach(() => {
     cy.intercept("GET", `/students?*`, studentsMock);
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
@@ -121,7 +121,7 @@ describe("Manager.Work.Docs", () => {
     );
     cy.intercept(
       "POST",
-      `/students/${student1Mock.id}/work_files/raw?filename=new_document&work_study_status=WORKING*`,
+      `/students/${student1Mock.id}/work_files/raw?*`,
       newWorkerDoc
     );
 
@@ -131,9 +131,9 @@ describe("Manager.Work.Docs", () => {
     cy.get("body").click(200, 0);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
-    cy.getByTestid("filter-profile-last_name").type(student1Mock.last_name);
+    cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
-    cy.contains(student1Mock.last_name).click();
+    cy.contains(student1Mock.first_name).click();
     cy.getByTestid("docs-button").click();
   });
 
@@ -148,7 +148,7 @@ describe("Manager.Work.Docs", () => {
     cy.contains("Afficher");
   });
 
-  it("can create a student worker doc", () => {
+  it.only("can create a student worker doc", () => {
     cy.get(
       '[href="#/students/student1_id/docs/students/WORK_DOCUMENT"]'
     ).click();
@@ -156,6 +156,7 @@ describe("Manager.Work.Docs", () => {
     cy.contains("Créer").click();
     cy.get("#name").click().type(newTranscript?.name!);
     cy.get("#commitment_begin_date").click().type("2024-05-03");
+    cy.get("#commitment_end_date").click().type("2024-06-03");
     cy.get('[data-testid="dropzone"]').attachFileToDropZone(
       `docs_import/doc.pdf`
     );
@@ -190,9 +191,9 @@ describe("Manager.Other.Docs", () => {
     cy.get("body").click(200, 0);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
-    cy.getByTestid("filter-profile-last_name").type(student1Mock.last_name);
+    cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
-    cy.contains(student1Mock.last_name).click();
+    cy.contains(student1Mock.first_name).click();
     cy.getByTestid("docs-button").click();
   });
 

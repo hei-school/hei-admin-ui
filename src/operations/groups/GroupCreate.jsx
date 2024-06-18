@@ -51,7 +51,11 @@ const GroupCreate = () => {
         <TextInput source="ref" label="Référence" required fullWidth />
         <TextInput source="name" label="Nom du groupe" required fullWidth />
         <HaList
-          listProps={{resource: "students", title: " "}}
+          listProps={{
+            resource: "students",
+            title: " ",
+            storeKey: "groupCreateStudents",
+          }}
           title={
             <Typography variant="body2" fontWeight="bolder">
               Ajouter des étudiants dans le groupe

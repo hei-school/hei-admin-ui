@@ -9,14 +9,13 @@ import {
 import {Dialog, DialogTitle, Box} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {FileType} from "@haapi/typescript-client";
-import {Create} from "../../common/components";
-import {useRole} from "../../../security/hooks/useRole";
-import {removeExtension} from "../../../utils/files";
+import {Create} from "@/operations/common/components";
+import {useRole} from "@/security/hooks/useRole";
+import {removeExtension} from "@/utils/files";
 import {PALETTE_COLORS} from "@/haTheme";
-import {OwnerType} from "../types";
-import authProvider from "../../../providers/authProvider";
-import {SelectWorkStatus} from "./SelectWorkStatus";
 import {useNotify} from "@/hooks";
+import {OwnerType} from "../types";
+import authProvider from "@/providers/authProvider";
 
 const DOCUMENT_FILENAME_PATTERN = /^[^.]*$/;
 
@@ -103,10 +102,15 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
           />
           {type === FileType.WORK_DOCUMENT && (
             <Box>
-              <SelectWorkStatus />
               <DateInput
                 source="commitment_begin_date"
                 label="Date du début de l'alternance"
+                required
+                fullWidth
+              />
+              <DateInput
+                source="commitment_end_date"
+                label="Date du fin de l'alternance"
                 required
                 fullWidth
               />

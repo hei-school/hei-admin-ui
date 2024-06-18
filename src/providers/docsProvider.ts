@@ -66,9 +66,8 @@ const docsProvider: HaDataProviderType = {
             .uploadStudentWorkFile(
               doc.studentId,
               doc.title,
-              doc.work_study_status,
               doc.commitment_begin_date,
-              undefined,
+              doc.commitment_end_date,
               new Date(),
               raw.rawFile,
               {headers: MULTIPART_HEADERS}

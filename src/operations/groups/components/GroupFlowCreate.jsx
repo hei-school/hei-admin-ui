@@ -177,11 +177,7 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
       },
     ];
 
-    moveStudent(
-      `L'étudiant ${studentRef} a été migré avec succès`,
-      payload,
-      toggle
-    );
+    moveStudent(`L'étudiant a été migré avec succès`, payload, toggle);
   };
 
   return (
@@ -235,11 +231,7 @@ export const LeaveGroupDialog = ({toggle, isOpen}) => {
       },
     ];
 
-    moveStudent(
-      `L'étudiant ${studentRef} a été supprimé avec succès`,
-      payload,
-      toggle
-    );
+    moveStudent(`L'étudiant a été supprimé avec succès`, payload, toggle);
   };
 
   return (

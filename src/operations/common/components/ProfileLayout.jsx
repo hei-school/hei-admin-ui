@@ -47,7 +47,7 @@ import {
 import {DateField, BirthDateField, FieldLabel} from "./fields";
 import {Create} from "./Create";
 import {GeoPositionName} from "./GeoLocalisation";
-import {useToggle} from "@/hooks";
+import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
 import {SPECIALIZATION_VALUE} from "@/operations/students/components";
@@ -88,6 +88,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
   const user = useRecordContext();
   const id = user.id;
+  const notify = useNotify();
 
   return (
     <div>
@@ -123,6 +124,9 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
             onSuccess: (user) => {
               toggle();
               onUpload(user);
+              notify(`Photo mise à jour avec succès!`, {
+                type: "success",
+              });
             },
           }}
         >
@@ -249,6 +253,15 @@ const Contact = () => {
           emptyText={EMPTY_TEXT}
           {...COMMON_FIELD_ATTRIBUTES}
         />
+        <FunctionField
+          label={<FieldLabel icon={<GeoIcon />}>Géolocalisation</FieldLabel>}
+          render={(user) => (
+            <GeoPositionName
+              coordinates={user.coordinates}
+              {...COMMON_FIELD_ATTRIBUTES}
+            />
+          )}
+        />
       </SimpleShowLayout>
     </Box>
   );
@@ -264,11 +277,6 @@ const PersonalInfos = ({isStudentProfile}) => {
           render={({first_name, last_name}) => `${first_name} ${last_name}`}
           {...COMMON_FIELD_ATTRIBUTES}
         />
-        <FunctionField
-          label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
-          render={(user) => getUserStatusInFr(user.status, user.sex)}
-          {...COMMON_FIELD_ATTRIBUTES}
-        />
         <DateField
           source="entrance_datetime"
           label={
@@ -279,6 +287,26 @@ const PersonalInfos = ({isStudentProfile}) => {
           showTime={false}
           {...COMMON_FIELD_ATTRIBUTES}
         />
+        {isStudentProfile && (
+          <FunctionField
+            label={
+              <FieldLabel icon={<SpecializationIcon />}>
+                Parcours de Spécialisation
+              </FieldLabel>
+            }
+            render={(user) => renderSpecialization(user.specialization_field)}
+            {...COMMON_FIELD_ATTRIBUTES}
+          />
+        )}
+        {isStudentProfile && (
+          <FunctionField
+            label={
+              <FieldLabel icon={<StatusIcon />}>Statut d'alternance</FieldLabel>
+            }
+            render={(user) => WORK_STATUS_VALUE[user.work_study_status]}
+            {...COMMON_FIELD_ATTRIBUTES}
+          />
+        )}
         {isStudentProfile && (
           <DateField
             source="commitment_begin_date"
@@ -329,13 +357,9 @@ const PersonalDetails = ({isStudentProfile}) => {
           )}
         />
         <FunctionField
-          label={<FieldLabel icon={<GeoIcon />}>Géolocalisation</FieldLabel>}
-          render={(user) => (
-            <GeoPositionName
-              coordinates={user.coordinates}
-              {...COMMON_FIELD_ATTRIBUTES}
-            />
-          )}
+          label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
+          render={(user) => getUserStatusInFr(user.status, user.sex)}
+          {...COMMON_FIELD_ATTRIBUTES}
         />
         {isStudentProfile && (
           <TextField

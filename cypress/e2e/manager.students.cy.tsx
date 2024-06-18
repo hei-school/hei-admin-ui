@@ -56,9 +56,9 @@ describe("Manager edit students", () => {
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
+      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
-    ).as("getStudentsByName");
+    ).as("getStudentsByFirstName");
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
@@ -69,7 +69,7 @@ describe("Manager edit students", () => {
       "GET",
       `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
-    ).as("getTeacherByName");
+    ).as("getTeacherByFirstName");
   });
 
   it("can edit students", () => {
@@ -89,11 +89,11 @@ describe("Manager edit students", () => {
 
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
-    cy.getByTestid("filter-profile-last_name").type(student1Mock.last_name);
+    cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
     cy.contains("Page : 1");
     cy.contains("Taille : 1");
-    cy.contains(student1Mock.last_name).click();
+    cy.contains(student1Mock.first_name).click();
     cy.get('[aria-label="Éditer"]').click(); //éditer
     cy.get("#first_name").click().clear().type(newFirstName);
     cy.getByTestid("latitude-input").type(
@@ -105,7 +105,7 @@ describe("Manager edit students", () => {
 
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
+      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [updatedStudent]
     ).as("getUpdatedStudent");
     cy.contains("Enregistrer").click();
@@ -145,9 +145,9 @@ describe("Manager creates students", () => {
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
+      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
-    ).as("getStudentsByName");
+    ).as("getStudentsByFirstName");
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
@@ -158,7 +158,7 @@ describe("Manager creates students", () => {
       "GET",
       `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
-    ).as("getTeacherByName");
+    ).as("getTeacherByFirstName");
     cy.contains("Enseignants");
     cy.contains("Étudiants");
     cy.getByTestid("students-menu").click(); // Étudiants category
