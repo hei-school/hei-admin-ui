@@ -30,7 +30,7 @@ import {DateField} from "../common/components/fields";
 import {GroupFilters} from "./components/GroupFilters";
 import {ListHeader} from "../common/components";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
-import {DEFAULT_ID} from "@/utils/constants";
+import {NOOP_ID} from "@/utils/constants";
 
 const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -57,7 +57,7 @@ const AvatarGroup = ({groupId = ""}) => {
 };
 
 const GroupList = () => {
-  const {data: stats = {}} = useGetOne("stats", {id: DEFAULT_ID});
+  const {data: stats = {}} = useGetOne("stats", {id: NOOP_ID});
 
   const headerCardContent = [
     {

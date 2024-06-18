@@ -32,7 +32,7 @@ import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {ListHeader} from "../common/components";
 import {transformStudentData} from "./importConf";
 import studentProvider from "@/providers/studentProvider";
-import {DEFAULT_ID} from "@/utils/constants";
+import {NOOP_ID} from "@/utils/constants";
 
 const ListActions = () => {
   const {isManager} = useRole();
@@ -67,7 +67,7 @@ const ListActions = () => {
 function StudentList() {
   const {isManager} = useRole();
 
-  const {data: stats = {}} = useGetOne("stats", {id: DEFAULT_ID});
+  const {data: stats = {}} = useGetOne("stats", {id: NOOP_ID});
 
   const headerCardContent = [
     {
