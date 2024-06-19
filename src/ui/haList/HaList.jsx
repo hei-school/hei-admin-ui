@@ -18,12 +18,13 @@ const DatagridWrapper = styled("div")({
   "& th, & th span": {
     fontWeight: 550,
     color: "#bf660d",
+    justifyContent: "flex-start !important",
     backgroundColor: `${PALETTE_COLORS.bgGrey} !important`,
   },
-  "& td span, & th span": {
-    padding: "5px 0",
+  "& td span": {
+    padding: "5px 1rem",
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
   },
   "& thead th span": {
     color: PALETTE_COLORS.typography.black,
