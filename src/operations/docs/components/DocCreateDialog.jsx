@@ -111,7 +111,6 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
               <DateInput
                 source="commitment_end_date"
                 label="Date du fin de l'alternance"
-                required
                 fullWidth
               />
             </Box>
