@@ -6,6 +6,10 @@ export interface CardContent {
   title: string;
   total: number;
   icon: string;
+  statDetails: Array<{
+    icon: string;
+    total: number;
+  }>;
 }
 
 interface ListHeaderProps {
@@ -57,28 +61,31 @@ export const ListHeader: FC<ListHeaderProps> = ({
           <Box
             key={card.title}
             sx={{
-              backgroundColor: PALETTE_COLORS.primary,
-              color: PALETTE_COLORS.white,
-              maxWidth: "200px",
+              backgroundColor: PALETTE_COLORS.white,
+              color: PALETTE_COLORS.primary,
+              maxWidth: "210px",
               height: "150px",
               m: "-80px 5px 5px 5px",
               borderRadius: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-evenly",
+              padding: "10px",
+              border: "3px solid",
+              borderColor: PALETTE_COLORS.primary,
             }}
           >
             <Box
               display="flex"
-              paddingTop={2}
-              px={3}
-              justifyContent="space-between"
+              alignItems="center"
+              justifyContent="space-around"
+              gap={2}
             >
-              <Typography variant="h6" fontWeight="bolder">
-                {card.title ?? ""}
-              </Typography>
               <Avatar
                 sx={{
                   height: "40px",
                   width: "40px",
-                  color: PALETTE_COLORS.yellow,
+                  color: PALETTE_COLORS,
                   bgcolor: "#263B63",
                   borderRadius: "7px",
                 }}
@@ -86,12 +93,39 @@ export const ListHeader: FC<ListHeaderProps> = ({
               >
                 {card.icon}
               </Avatar>
+              <Box
+                display="flex"
+                flexDirection="column"
+                alignItems="flex-start"
+              >
+                <Typography sx={{fontSize: "1.3rem"}}>{card.title}</Typography>
+                <Typography sx={{fontSize: "1rem"}}>{card.total}</Typography>
+              </Box>
             </Box>
-            <Box display="flex" flexDirection="column" px={3}>
-              <Typography variant="h4" fontWeight="bolder">
-                {card.total}
-              </Typography>
-              <Typography variant="h6">Au total</Typography>
+            <Box
+              display="flex"
+              justifyContent="space-evenly"
+              alignItems="center"
+              textAlign="center"
+            >
+              {/* <Box>
+                <CheckCircle color="success" />
+                <Typography>{card.total}</Typography>
+              </Box>
+              <Box>
+                <PersonRemove color="warning" />
+                <Typography>{card.total}</Typography>
+              </Box>
+              <Box>
+                <PersonOff color="error" />
+                <Typography>{card.total}</Typography>
+              </Box> */}
+              {card?.statDetails?.map(({icon, total}) => (
+                <Box>
+                  {icon}
+                  <Typography>{total}</Typography>
+                </Box>
+              ))}
             </Box>
           </Box>
         ))}
