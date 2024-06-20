@@ -5,6 +5,7 @@ export const WORK_STATUS_VALUE = {
   HAVE_BEEN_WORKING: "A été en alternance",
   WILL_BE_WORKING: "Sera en alternance",
   WORKING: "Est en alternance",
+  NOT_WORKING: "N'est pas en alternance",
 };
 
 const WORK_STATUS_CHOICES = mapToChoices(WORK_STATUS_VALUE);

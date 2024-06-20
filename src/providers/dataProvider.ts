@@ -16,6 +16,7 @@ import promotionProvider from "./promotionProvider";
 import promotionGroupsProvider from "./promotionGroupsProvider";
 import announcementProvider from "./announcementProvider";
 import courseProvider from "./courseProvider";
+import statsProvider from "./statsProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -36,6 +37,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "promotions") return promotionProvider;
   if (resourceType === "promotions-groups") return promotionGroupsProvider;
   if (resourceType === "course") return courseProvider;
+  if (resourceType === "stats") return statsProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
