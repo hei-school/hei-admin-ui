@@ -14,9 +14,6 @@ import {
   School as SchoolIcon,
   UploadFile as UploadFileIcon,
   Work as WorkIcon,
-  CheckCircle as EnabledIcon,
-  PersonOff as DisabledIcon,
-  PersonRemove as SuspendedIcon,
   WorkHistory as WillWorking,
   WorkOff as HaveBeenWorking,
 } from "@mui/icons-material";
@@ -36,8 +33,9 @@ import {
 import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {ListHeader} from "../common/components";
 import {transformStudentData} from "./importConf";
-import studentProvider from "@/providers/studentProvider";
 import {NOOP_ID} from "@/utils/constants";
+import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
+import studentProvider from "@/providers/studentProvider";
 
 const ListActions = () => {
   const {isManager} = useRole();
@@ -72,113 +70,37 @@ const ListActions = () => {
 function StudentList() {
   const {isManager} = useRole();
 
-  // const {
-  //   data: stats = {
-  //     total_groups: 0,
-  //     total_students: 0,
-  //     women: 0,
-  //     men: 0,
-  //     students_alternating: 0,
-  //   },
-  // } = useGetOne("stats", {id: NOOP_ID});
-  const stats = {
-    total_students: 0,
-    students_alternating: {
-      total: 0,
-      working: 0,
-      have_been_working: 0,
-      not_working: 0,
-      will_work: 0,
+  const {
+    data: stats = {
+      total_groups: "",
+      total_students: "",
+      women: "",
+      men: "",
+      students_alternating: "",
     },
-    men: {
-      total: 0,
-      disabled: 0,
-      enabled: 0,
-      suspended: 0,
-    },
-    women: {
-      total: 0,
-      disabled: 0,
-      enabled: 0,
-      suspended: 0,
-    },
-    total_groups: 0,
-  };
+  } = useGetOne("stats", {id: NOOP_ID});
 
   const headerCardContent = [
-    {
-      title: "Étudiants",
-      icon: <StudentIcon fontSize="medium" />,
-      total: stats.men.total + stats.women.total,
-      statDetails: [
-        {
-          icon: <EnabledIcon fontSize="medium" color="success" />,
-          total: stats.women.enabled + stats.men.enabled,
-        },
-        {
-          icon: <SuspendedIcon fontSize="medium" color="warning" />,
-          total: stats.women.suspended + stats.men.suspended,
-        },
-        {
-          icon: <DisabledIcon fontSize="medium" color="error" />,
-          total: stats.women.disabled + stats.men.disabled,
-        },
-      ],
-    },
+    ...getCommonListHeaderContent(stats),
     {
       title: "Alternants",
       icon: <WorkIcon fontSize="medium" />,
       total: stats.students_alternating.total,
       statDetails: [
         {
-          icon: <WorkIcon fontSize="medium" color="success" />,
+          icon: <WorkIcon fontSize="small" color="success" />,
           total: stats.students_alternating.working,
+          title: "En alternance",
         },
         {
-          icon: <WillWorking fontSize="medium" />,
+          icon: <WillWorking fontSize="small" />,
           total: stats.students_alternating.will_work,
+          title: "Sera en alternance",
         },
         {
-          icon: <HaveBeenWorking fontSize="medium" color="warning" />,
+          icon: <HaveBeenWorking fontSize="small" color="warning" />,
           total: stats.students_alternating.have_been_working,
-        },
-      ],
-    },
-    {
-      title: "Femmes",
-      icon: <FemaleIcon fontSize="medium" />,
-      total: stats.women.total,
-      statDetails: [
-        {
-          icon: <EnabledIcon fontSize="medium" color="success" />,
-          total: stats.women.enabled,
-        },
-        {
-          icon: <SuspendedIcon fontSize="medium" color="warning" />,
-          total: stats.women.suspended,
-        },
-        {
-          icon: <DisabledIcon fontSize="medium" color="error" />,
-          total: stats.women.disabled,
-        },
-      ],
-    },
-    {
-      title: "Hommes",
-      icon: <MaleIcon fontSize="medium" />,
-      total: stats.men.total,
-      statDetails: [
-        {
-          icon: <EnabledIcon fontSize="medium" color="success" />,
-          total: stats.men.enabled,
-        },
-        {
-          icon: <SuspendedIcon fontSize="medium" color="warning" />,
-          total: stats.men.suspended,
-        },
-        {
-          icon: <DisabledIcon fontSize="medium" color="error" />,
-          total: stats.men.disabled,
+          title: "A été en alternance",
         },
       ],
     },

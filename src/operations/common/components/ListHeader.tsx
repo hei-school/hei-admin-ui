@@ -1,15 +1,31 @@
-import {FC, ReactNode} from "react";
-import {Box, Typography, Avatar, useMediaQuery} from "@mui/material";
+import {FC, ReactElement, ReactNode, useState} from "react";
+import {
+  Box,
+  Typography,
+  Avatar,
+  useMediaQuery,
+  Tooltip,
+  IconButton,
+  Popover,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+} from "@mui/material";
+import {Info as InfoIcon} from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
+
+export interface StatDetail {
+  icon: ReactElement;
+  total: number;
+  title: string;
+}
 
 export interface CardContent {
   title: string;
   total: number;
-  icon: string;
-  statDetails: Array<{
-    icon: string;
-    total: number;
-  }>;
+  icon: ReactElement;
+  statDetails?: Array<StatDetail>;
 }
 
 interface ListHeaderProps {
@@ -18,6 +34,73 @@ interface ListHeaderProps {
   cardContents: Array<CardContent>;
 }
 
+interface CardInfosProps {
+  cardDetails: StatDetail[];
+}
+
+const CardInfos: FC<CardInfosProps> = ({cardDetails = []}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  return (
+    <div>
+      <Tooltip title="Infos">
+        <Avatar
+          sx={{
+            height: "30px",
+            width: "30px",
+            bgcolor: "#263B63",
+            borderRadius: "7px",
+          }}
+          variant="square"
+        >
+          <IconButton aria-describedby={id} onClick={handleClick}>
+            <InfoIcon
+              width="5px"
+              height="5px"
+              sx={{color: PALETTE_COLORS.yellow}}
+            />
+          </IconButton>
+        </Avatar>
+      </Tooltip>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <List dense>
+          {cardDetails.map(({icon, total, title}) => (
+            <ListItem>
+              <ListItemIcon sx={{minWidth: "30px"}}>{icon}</ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography fontSize="0.75rem" fontWeight="bold">
+                    {title} : {total}
+                  </Typography>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Popover>
+    </div>
+  );
+};
 export const ListHeader: FC<ListHeaderProps> = ({
   title,
   action,
@@ -61,31 +144,28 @@ export const ListHeader: FC<ListHeaderProps> = ({
           <Box
             key={card.title}
             sx={{
-              backgroundColor: PALETTE_COLORS.white,
-              color: PALETTE_COLORS.primary,
-              maxWidth: "210px",
+              backgroundColor: PALETTE_COLORS.primary,
+              color: PALETTE_COLORS.white,
+              maxWidth: "200px",
               height: "150px",
               m: "-80px 5px 5px 5px",
               borderRadius: "10px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "space-evenly",
-              padding: "10px",
-              border: "3px solid",
-              borderColor: PALETTE_COLORS.primary,
             }}
           >
             <Box
               display="flex"
-              alignItems="center"
-              justifyContent="space-around"
-              gap={2}
+              paddingTop={2}
+              px={3}
+              justifyContent="space-between"
             >
+              <Typography variant="h6" fontWeight="bolder">
+                {card.title ?? ""}
+              </Typography>
               <Avatar
                 sx={{
                   height: "40px",
                   width: "40px",
-                  color: PALETTE_COLORS,
+                  color: PALETTE_COLORS.yellow,
                   bgcolor: "#263B63",
                   borderRadius: "7px",
                 }}
@@ -93,39 +173,17 @@ export const ListHeader: FC<ListHeaderProps> = ({
               >
                 {card.icon}
               </Avatar>
-              <Box
-                display="flex"
-                flexDirection="column"
-                alignItems="flex-start"
-              >
-                <Typography sx={{fontSize: "1.3rem"}}>{card.title}</Typography>
-                <Typography sx={{fontSize: "1rem"}}>{card.total}</Typography>
-              </Box>
             </Box>
-            <Box
-              display="flex"
-              justifyContent="space-evenly"
-              alignItems="center"
-              textAlign="center"
-            >
-              {/* <Box>
-                <CheckCircle color="success" />
-                <Typography>{card.total}</Typography>
+            <Box display="flex" flexDirection="column" px={3}>
+              <Typography variant="h4" fontWeight="bolder">
+                {card.total}
+              </Typography>
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="h6">Au total</Typography>
+                {card.statDetails && (
+                  <CardInfos cardDetails={card?.statDetails!} />
+                )}
               </Box>
-              <Box>
-                <PersonRemove color="warning" />
-                <Typography>{card.total}</Typography>
-              </Box>
-              <Box>
-                <PersonOff color="error" />
-                <Typography>{card.total}</Typography>
-              </Box> */}
-              {card?.statDetails?.map(({icon, total}) => (
-                <Box>
-                  {icon}
-                  <Typography>{total}</Typography>
-                </Box>
-              ))}
             </Box>
           </Box>
         ))}
