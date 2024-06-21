@@ -16,12 +16,7 @@ import {
   Avatar as MuiAvatar,
   AvatarGroup as MuiAvatarGroup,
 } from "@mui/material";
-import {
-  Group as GroupIcon,
-  Diversity2 as StudentIcon,
-  Female as FemaleIcon,
-  Male as MaleIcon,
-} from "@mui/icons-material";
+import {Group as GroupIcon} from "@mui/icons-material";
 import {Sex} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList";
 import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
@@ -31,6 +26,7 @@ import {GroupFilters} from "./components/GroupFilters";
 import {ListHeader} from "../common/components";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {NOOP_ID} from "@/utils/constants";
+import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
 
 const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -59,11 +55,11 @@ const AvatarGroup = ({groupId = ""}) => {
 const GroupList = () => {
   const {
     data: stats = {
-      total_groups: 0,
-      total_students: 0,
-      women: 0,
-      men: 0,
-      students_alternating: 0,
+      total_groups: "",
+      total_students: "",
+      women: "",
+      men: "",
+      students_alternating: "",
     },
   } = useGetOne("stats", {id: NOOP_ID});
 
@@ -73,21 +69,7 @@ const GroupList = () => {
       icon: <GroupIcon fontSize="medium" />,
       total: stats.total_groups,
     },
-    {
-      title: "Étudiants",
-      icon: <StudentIcon fontSize="medium" />,
-      total: stats.total_students,
-    },
-    {
-      title: "Femmes",
-      icon: <FemaleIcon fontSize="medium" />,
-      total: stats.women,
-    },
-    {
-      title: "Hommes",
-      icon: <MaleIcon fontSize="medium" />,
-      total: stats.men,
-    },
+    ...getCommonListHeaderContent(stats),
   ];
 
   return (

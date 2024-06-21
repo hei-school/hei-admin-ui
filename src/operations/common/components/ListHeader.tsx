@@ -1,11 +1,31 @@
-import {FC, ReactNode} from "react";
-import {Box, Typography, Avatar, useMediaQuery} from "@mui/material";
+import {FC, ReactElement, ReactNode, useState} from "react";
+import {
+  Box,
+  Typography,
+  Avatar,
+  useMediaQuery,
+  Tooltip,
+  IconButton,
+  Popover,
+  List,
+  ListItem,
+  ListItemText,
+  ListItemIcon,
+} from "@mui/material";
+import {Info as InfoIcon} from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
+
+export interface StatDetail {
+  icon: ReactElement;
+  total: number;
+  title: string;
+}
 
 export interface CardContent {
   title: string;
   total: number;
-  icon: string;
+  icon: ReactElement;
+  statDetails?: Array<StatDetail>;
 }
 
 interface ListHeaderProps {
@@ -14,6 +34,73 @@ interface ListHeaderProps {
   cardContents: Array<CardContent>;
 }
 
+interface CardInfosProps {
+  cardDetails: StatDetail[];
+}
+
+const CardInfos: FC<CardInfosProps> = ({cardDetails = []}) => {
+  const [anchorEl, setAnchorEl] = useState(null);
+
+  const handleClick = (event: any) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+  const id = open ? "simple-popover" : undefined;
+
+  return (
+    <div>
+      <Tooltip title="Infos">
+        <Avatar
+          sx={{
+            height: "30px",
+            width: "30px",
+            bgcolor: "#263B63",
+            borderRadius: "7px",
+          }}
+          variant="square"
+        >
+          <IconButton aria-describedby={id} onClick={handleClick}>
+            <InfoIcon
+              width="5px"
+              height="5px"
+              sx={{color: PALETTE_COLORS.yellow}}
+            />
+          </IconButton>
+        </Avatar>
+      </Tooltip>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={handleClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+      >
+        <List dense>
+          {cardDetails.map(({icon, total, title}) => (
+            <ListItem>
+              <ListItemIcon sx={{minWidth: "30px"}}>{icon}</ListItemIcon>
+              <ListItemText
+                primary={
+                  <Typography fontSize="0.75rem" fontWeight="bold">
+                    {title} : {total}
+                  </Typography>
+                }
+              />
+            </ListItem>
+          ))}
+        </List>
+      </Popover>
+    </div>
+  );
+};
 export const ListHeader: FC<ListHeaderProps> = ({
   title,
   action,
@@ -91,7 +178,12 @@ export const ListHeader: FC<ListHeaderProps> = ({
               <Typography variant="h4" fontWeight="bolder">
                 {card.total}
               </Typography>
-              <Typography variant="h6">Au total</Typography>
+              <Box display="flex" justifyContent="space-between">
+                <Typography variant="h6">Au total</Typography>
+                {card.statDetails && (
+                  <CardInfos cardDetails={card?.statDetails!} />
+                )}
+              </Box>
             </Box>
           </Box>
         ))}
