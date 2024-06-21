@@ -14,6 +14,8 @@ import {
   School as SchoolIcon,
   UploadFile as UploadFileIcon,
   Work as WorkIcon,
+  WorkHistory as WillWorking,
+  WorkOff as HaveBeenWorking,
 } from "@mui/icons-material";
 import {Sex, WorkStudyStatus} from "@haapi/typescript-client";
 import {Box} from "@mui/material";
@@ -31,8 +33,9 @@ import {
 import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {ListHeader} from "../common/components";
 import {transformStudentData} from "./importConf";
-import studentProvider from "@/providers/studentProvider";
 import {NOOP_ID} from "@/utils/constants";
+import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
+import studentProvider from "@/providers/studentProvider";
 
 const ListActions = () => {
   const {isManager} = useRole();
@@ -69,34 +72,37 @@ function StudentList() {
 
   const {
     data: stats = {
-      total_groups: 0,
-      total_students: 0,
-      women: 0,
-      men: 0,
-      students_alternating: 0,
+      total_groups: "",
+      total_students: "",
+      women: "",
+      men: "",
+      students_alternating: "",
     },
   } = useGetOne("stats", {id: NOOP_ID});
 
   const headerCardContent = [
-    {
-      title: "Étudiants",
-      icon: <StudentIcon fontSize="medium" />,
-      total: stats.total_students,
-    },
+    ...getCommonListHeaderContent(stats),
     {
       title: "Alternants",
       icon: <WorkIcon fontSize="medium" />,
-      total: stats.students_alternating,
-    },
-    {
-      title: "Femmes",
-      icon: <FemaleIcon fontSize="medium" />,
-      total: stats.women,
-    },
-    {
-      title: "Hommes",
-      icon: <MaleIcon fontSize="medium" />,
-      total: stats.men,
+      total: stats.students_alternating.total,
+      statDetails: [
+        {
+          icon: <WorkIcon fontSize="small" color="success" />,
+          total: stats.students_alternating.working,
+          title: "En alternance",
+        },
+        {
+          icon: <WillWorking fontSize="small" />,
+          total: stats.students_alternating.will_work,
+          title: "Sera en alternance",
+        },
+        {
+          icon: <HaveBeenWorking fontSize="small" color="warning" />,
+          total: stats.students_alternating.have_been_working,
+          title: "A été en alternance",
+        },
+      ],
     },
   ];
 
