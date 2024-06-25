@@ -1,3 +1,4 @@
+import {toUTC} from "@/utils/date";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {teachingApi} from "./api";
 
@@ -13,8 +14,15 @@ const groupProvider: HaDataProviderType = {
       .then((result) => result.data);
   },
   async saveOrUpdate(payload: any) {
+    const {creation_datetime, ...group} = payload[0];
+
+    const createGroup = {
+      creation_datetime: toUTC(new Date(creation_datetime)),
+      ...group,
+    };
+
     return await teachingApi()
-      .createOrUpdateGroups(payload)
+      .createOrUpdateGroups([createGroup])
       .then((result) => result.data);
   },
   async delete(_id: string) {
