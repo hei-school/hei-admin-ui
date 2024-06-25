@@ -4,6 +4,7 @@ import {
   Confirm,
   CreateButton,
   Datagrid,
+  DateInput,
   EditButton,
   List,
   SelectArrayInput,
@@ -20,6 +21,7 @@ import {HaList} from "@/ui/haList";
 import {PALETTE_COLORS} from "@/haTheme";
 import {Create} from "../common/components";
 import {EditToolBar} from "../utils";
+import {toISO} from "@/utils/date";
 
 const ListContent = ({setStudents}) => {
   const {selectedIds} = useListContext();
@@ -50,6 +52,12 @@ const GroupCreate = () => {
       <SimpleForm toolbar={<EditToolBar />}>
         <TextInput source="ref" label="Référence" required fullWidth />
         <TextInput source="name" label="Nom du groupe" required fullWidth />
+        <DateInput
+          source="creation_datetime"
+          label="Date de création"
+          required
+          fullWidth
+        />
         <HaList
           listProps={{
             resource: "students",
