@@ -39,7 +39,7 @@ describe("Manager.Group", () => {
     cy.contains("Créer").click();
     cy.get("#ref").click().type(groupCreate?.ref!);
     cy.get("#name").click().type(groupCreate?.name!);
-
+    cy.get("#creation_datetime").click().type("2023-04-01");
     // click on the checkbox to select the student
     group1Students?.map((student) =>
       cy
