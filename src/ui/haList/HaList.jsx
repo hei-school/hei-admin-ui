@@ -3,6 +3,10 @@ import {Box, styled} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {PrevNextPagination} from "./PrevNextPagination";
 import {HaListTitle} from "./HaListTitle";
+import {
+  EditableDatagrid,
+  EditRowButton,
+} from "@react-admin/ra-editable-datagrid";
 
 const ListWrapper = styled("div")({
   width: "calc(100% - 20px)",
@@ -50,6 +54,9 @@ export function HaList({
   datagridProps = {},
   mainSearch = {source: "", label: ""},
   filterIndicator = true,
+  editable = false,
+  datagridActions,
+  editForm,
 }) {
   return (
     <ListWrapper>
@@ -74,13 +81,25 @@ export function HaList({
           />
           <DatagridWrapper>
             {hasDatagrid ? (
-              <Datagrid
-                bulkActionButtons={false}
-                rowClick="show"
-                {...datagridProps}
-              >
-                {children}
-              </Datagrid>
+              editable ? (
+                <EditableDatagrid
+                  editForm={editForm}
+                  bulkActionButtons={false}
+                  noDelete
+                  actions={datagridActions}
+                  {...datagridProps}
+                >
+                  {children}
+                </EditableDatagrid>
+              ) : (
+                <Datagrid
+                  bulkActionButtons={false}
+                  rowClick="show"
+                  {...datagridProps}
+                >
+                  {children}
+                </Datagrid>
+              )
             ) : (
               children
             )}
