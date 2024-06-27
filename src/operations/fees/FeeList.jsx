@@ -1,4 +1,4 @@
-import {MobileMoneyType} from "@haapi/typescript-client";
+import {MobileMoneyType, MpbsStatus} from "@haapi/typescript-client";
 import {
   AddCard as AddMbpsIcon,
   CheckCircle,
@@ -37,6 +37,12 @@ import {
 } from "./importConf";
 import {rowStyle, PSP_COLORS, PSP_VALUES} from "./utils";
 import {PSP_ICON} from "./components/pspIcon";
+
+const MPBS_STATUS_LABEL = {
+  SUCCESS: "Paiement avec succès",
+  FAILED: "Paiement échoué",
+  PENDING: "Vérification en cours",
+};
 
 const ListForm = () => {
   const notify = useNotify();
@@ -84,20 +90,29 @@ export const EditableDatagridActions = () => {
 
   return (
     <Box display="flex" justifyContent="space-evenly" boxSizing="border-box">
-      {record.mpbs ? ( // Change this when api is ready
-        <Tooltip title="En cours de vérification">
+      {record.mpbs ? (
+        <Tooltip
+          title={MPBS_STATUS_LABEL[record.mpbs?.status]}
+          data-testid={`pspTypeIcon-${record.id}`}
+        >
           <IconButton variant="contained" color="info">
-            {PSP_ICON["SUCCESS"]}
+            {PSP_ICON[record.mpbs?.status]}
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Payer avec Mobile Money">
+        <Tooltip
+          title="Payer avec Mobile Money"
+          data-testid={`addMobileMoney-${record.id}`}
+        >
           <IconButton onClick={open} variant="contained">
             <AddMbpsIcon />
           </IconButton>
         </Tooltip>
       )}
-      <Link to={`/fees/${record?.id}/show`}>
+      <Link
+        to={`/fees/${record?.id}/show`}
+        data-testid={`showButton-${record.id}`}
+      >
         <Tooltip title="Afficher">
           <IconButton variant="contained">
             <ShowIcon />
@@ -216,7 +231,7 @@ const ManagerFeeList = () => {
 
 function FeesActions({studentId}) {
   return (
-    <>
+    <Box>
       <CreateButton resource={`students/${studentId}/fees`} />
       <ImportButton
         resource="frais"
@@ -226,7 +241,7 @@ function FeesActions({studentId}) {
         minimalHeaders={minimalFeesHeaders}
         transformData={(data) => transformFeesData(data, studentId)}
       />
-    </>
+    </Box>
   );
 }
 

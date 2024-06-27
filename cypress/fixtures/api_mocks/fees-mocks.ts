@@ -71,6 +71,14 @@ export const feesMock: Fee[] = [
     remaining_amount: 0,
     status: FeeStatusEnum.PAID,
     type: FeeTypeEnum.TUITION,
+    mpbs: {
+      amount: 0,
+      creation_datetime: new Date("2024-04-17"),
+      student_id: "student1_id",
+      fee_id: "db6e28ce-ec77-4a7b-8d7a-498500572056",
+      psp_id: "ref.564fsd5.fsdfsd",
+      psp_type: "MVOLA",
+    },
     comment: "Comment",
     total_amount: 20000,
     creation_datetime: new Date("2021-11-10"),
@@ -83,6 +91,15 @@ export const feesMock: Fee[] = [
     status: FeeStatusEnum.LATE,
     type: FeeTypeEnum.HARDWARE,
     comment: "Comment",
+    mpbs: {
+      amount: 0,
+      creation_datetime: new Date("2024-04-17"),
+      student_id: "student1_id",
+      successfully_verified_on: new Date("2024-04-18"),
+      fee_id: "db6e28ce-ec77-4a7b-8d7a-498500572056",
+      psp_id: "ref.564fsd5.fsdfsd",
+      psp_type: "MVOLA",
+    },
     total_amount: 250000,
     creation_datetime: new Date("2021-11-10"),
     due_datetime: new Date("2021-12-10"),
@@ -123,6 +140,19 @@ export const feesMock: Fee[] = [
 ];
 
 let newLateFeesMock: Fee[] = [];
+
+export const unverifiedMpbsFee = feesMock[5];
+
+export const successMpbsFee = feesMock[6];
+
+export const fee1MockMpbs = {
+  amount: 0,
+  creation_datetime: new Date("2024-04-17"),
+  student_id: fee1Mock.student_id,
+  fee_id: fee1Mock.id,
+  psp_id: "reference orange no 1",
+  psp_type: "ORANGE",
+};
 
 feesMock.forEach((e) => {
   let newE: Fee = {
