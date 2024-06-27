@@ -44,7 +44,6 @@ const ByStatusFeeList = (props) => (
     <FunctionField
       label="Reste à payer"
       render={(fee) => renderMoney(fee.remaining_amount)}
-      textAlign="right"
     />
     <DateField
       source="creation_datetime"

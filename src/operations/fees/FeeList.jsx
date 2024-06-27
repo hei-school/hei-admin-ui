@@ -215,8 +215,22 @@ const ManagerFeeList = () => {
         showTime={false}
       />
       <TextField
-        source="psp_id"
+        source="mpbs.psp_id"
         label="Référence de la transaction"
+        emptyText={EMPTY_TEXT}
+      />
+      <FunctionField
+        render={(fee) =>
+          fee.mpbs ? (
+            <Chip
+              color={PSP_COLORS[fee.mpbs?.psp_type]}
+              label={PSP_VALUES[fee.mpbs?.psp_type]}
+            />
+          ) : (
+            EMPTY_TEXT
+          )
+        }
+        label="Type de transaction"
         emptyText={EMPTY_TEXT}
       />
       <DeleteWithConfirm

@@ -4,10 +4,12 @@ import ByStatusFeeList from "./ByStatusFeeList";
 import FeeShow from "./FeeShow";
 import FeeCreate from "./FeeCreate";
 import FeeEdit from "./FeeEdit";
+import TransactionFeeList from "./TransactionFeeList";
 
 const fees = {
   list: FeeList,
   listByStatus: ByStatusFeeList,
+  listByTransactions: TransactionFeeList,
   show: FeeShow,
   create: FeeCreate,
   edit: FeeEdit,

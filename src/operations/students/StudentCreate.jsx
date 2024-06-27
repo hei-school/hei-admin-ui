@@ -13,7 +13,7 @@ import {createStudentApi} from "./utils/studentFactory";
 
 import {SexRadioButton} from "../utils";
 import {Create} from "../common/components";
-import {FeeFields} from "../fees/components";
+import {FeeInputs} from "../fees/components";
 import {useToggle} from "../../hooks";
 import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
 
@@ -72,7 +72,7 @@ const StudentCreate = () => {
           defaultValue={false}
           onChange={toggleCanCreateFees}
         />
-        {canCreateFees && <FeeFields />}
+        {canCreateFees && <FeeInputs />}
       </SimpleForm>
     </Create>
   );

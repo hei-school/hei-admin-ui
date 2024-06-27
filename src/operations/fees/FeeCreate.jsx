@@ -1,6 +1,6 @@
 import {Create, SaveButton, SimpleForm, Toolbar} from "react-admin";
 import {useNotify, useStudentRef} from "../../hooks";
-import {FeeFields} from "./components";
+import {FeeInputs} from "./components";
 import {createFeesApi} from "./utils/feeFactory";
 
 export default function FeeCreate(props) {
@@ -27,7 +27,7 @@ export default function FeeCreate(props) {
           </Toolbar>
         }
       >
-        <FeeFields />
+        <FeeInputs />
       </SimpleForm>
     </Create>
   );
