@@ -18,6 +18,10 @@ import {
   required,
   useRecordContext,
 } from "react-admin";
+import {
+  EditableDatagrid,
+  EditRowButton,
+} from "@react-admin/ra-editable-datagrid";
 import {useNotify} from "@/hooks";
 import {useStudentRef} from "@/hooks/useStudentRef";
 import feeProvider, {toApiIds} from "@/providers/feeProvider";
@@ -131,51 +135,54 @@ const StudentFeeList = () => {
       icon={<WarningOutlined />}
       title={`Frais de ${studentRef}`}
       resource={"fees"}
-      editable={true}
-      editForm={<ListForm />}
       filterIndicator={false}
-      datagridActions={<EditableDatagridActions />}
+      hasDatagrid={false}
       listProps={{
         filterDefaultValues: {studentId},
       }}
-      datagridProps={{
-        rowStyle,
-      }}
     >
-      <DateField source="due_datetime" label="Date limite" showTime={false} />
-      <FunctionField
-        source="comment"
-        render={commentFunctionRenderer}
-        label="Commentaire"
-      />
-      <FunctionField
-        label="Reste à payer"
-        render={(record) => renderMoney(record.remaining_amount)}
-      />
-      <DateField
-        source="creation_datetime"
-        label="Date de création"
-        showTime={false}
-      />
-      <TextField
-        source="mpbs.psp_id"
-        label="Référence de la transaction"
-        emptyText={EMPTY_TEXT}
-      />
-      <FunctionField
-        render={(fee) =>
-          fee.mpbs ? (
-            <Chip
-              color={PSP_COLORS[fee.mpbs?.psp_type]}
-              label={PSP_VALUES[fee.mpbs?.psp_type]}
-            />
-          ) : (
-            EMPTY_TEXT
-          )
-        }
-        label="Type de transaction"
-        emptyText={EMPTY_TEXT}
-      />
+      <EditableDatagrid
+        editForm={<ListForm />}
+        bulkActionButtons={false}
+        noDelete
+        actions={<EditableDatagridActions />}
+        rowSx={rowStyle}
+      >
+        <DateField source="due_datetime" label="Date limite" showTime={false} />
+        <FunctionField
+          source="comment"
+          render={commentFunctionRenderer}
+          label="Commentaire"
+        />
+        <FunctionField
+          label="Reste à payer"
+          render={(record) => renderMoney(record.remaining_amount)}
+        />
+        <DateField
+          source="creation_datetime"
+          label="Date de création"
+          showTime={false}
+        />
+        <TextField
+          source="mpbs.psp_id"
+          label="Référence de la transaction"
+          emptyText={EMPTY_TEXT}
+        />
+        <FunctionField
+          render={(fee) =>
+            fee.mpbs ? (
+              <Chip
+                color={PSP_COLORS[fee.mpbs?.psp_type]}
+                label={PSP_VALUES[fee.mpbs?.psp_type]}
+              />
+            ) : (
+              EMPTY_TEXT
+            )
+          }
+          label="Type de transaction"
+          emptyText={EMPTY_TEXT}
+        />
+      </EditableDatagrid>
     </HaList>
   );
 };

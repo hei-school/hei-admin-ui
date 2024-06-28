@@ -1,4 +1,4 @@
-import {Money} from "@mui/icons-material";
+import {CurrencyExchange as Money} from "@mui/icons-material";
 import {Chip} from "@mui/material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "../../ui/haList/HaList";
@@ -13,14 +13,13 @@ import {EMPTY_TEXT} from "@/ui/constants";
 const TransactionFeeList = () => (
   <HaList
     icon={<Money />}
-    title="Liste des transactions"
+    title="Liste des transactions (Mobile Money)"
     resource="fees"
     listProps={{
-      filterDefaultValues: {mobilePayment: true},
+      filterDefaultValues: {isMpbs: true},
     }}
     datagridProps={rowStyle}
     filterIndicator={false}
-    actions={<FeesFilter />}
   >
     <DateField source="due_datetime" label="Date limite" showTime={false} />
     <TextField

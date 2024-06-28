@@ -54,9 +54,6 @@ export function HaList({
   datagridProps = {},
   mainSearch = {source: "", label: ""},
   filterIndicator = true,
-  editable = false,
-  datagridActions,
-  editForm,
 }) {
   return (
     <ListWrapper>
@@ -81,25 +78,13 @@ export function HaList({
           />
           <DatagridWrapper>
             {hasDatagrid ? (
-              editable ? (
-                <EditableDatagrid
-                  editForm={editForm}
-                  bulkActionButtons={false}
-                  noDelete
-                  actions={datagridActions}
-                  {...datagridProps}
-                >
-                  {children}
-                </EditableDatagrid>
-              ) : (
-                <Datagrid
-                  bulkActionButtons={false}
-                  rowClick="show"
-                  {...datagridProps}
-                >
-                  {children}
-                </Datagrid>
-              )
+              <Datagrid
+                bulkActionButtons={false}
+                rowClick="show"
+                {...datagridProps}
+              >
+                {children}
+              </Datagrid>
             ) : (
               children
             )}
