@@ -92,7 +92,7 @@ export const EditableDatagridActions = () => {
 
   return (
     <Box display="flex" justifyContent="space-evenly" boxSizing="border-box">
-      {record.mpbs?.status ? (
+      {record.mpbs ? (
         <StatusIcon />
       ) : (
         <Tooltip
