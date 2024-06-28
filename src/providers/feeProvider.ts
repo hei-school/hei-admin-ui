@@ -34,25 +34,27 @@ const feeProvider: HaDataProviderType = {
   },
 
   async saveOrUpdate(resources: Array<any>) {
-    const {psp_id, psp_type, ...fee} = resources[0];
+    const fees = resources[0];
 
-    const feeId = toApiIds(fee?.id).feeId;
+    if (fees?.psp_id) {
+      const fee = fees;
 
-    const createMpbs = {
-      student_id: fee?.student_id,
-      fee_id: feeId,
-      psp_id: psp_id,
-      psp_type: psp_type,
-    };
+      const feeId = toApiIds(fee?.id).feeId;
 
-    if (psp_id) {
+      const createMpbs = {
+        student_id: fee?.student_id,
+        fee_id: feeId,
+        psp_id: fee?.psp_id,
+        psp_type: fee?.psp_type,
+      };
+
       return await payingApi()
         .createMpbs(createMpbs?.student_id, createMpbs?.fee_id, createMpbs)
         .then((result) => [{...result.data, ...fee}]);
     }
 
     return await payingApi()
-      .createStudentFees(fee[0]?.student_id, [fee[0]])
+      .createStudentFees(fees[0]?.student_id, fees)
       .then((result) => result.data);
   },
   async delete(raId: string) {
