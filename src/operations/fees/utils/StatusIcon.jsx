@@ -13,7 +13,7 @@ export const StatusIcon = () => {
       data-testid={`pspTypeIcon-${record.id}`}
     >
       <IconButton variant="contained" color="info">
-        {record.mpbds?.status ? (
+        {record.mpbs?.status ? (
           PSP_ICON[record.mpbs?.status]
         ) : (
           <Question color="disabled" />

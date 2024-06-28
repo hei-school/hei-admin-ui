@@ -75,6 +75,7 @@ export const feesMock: Fee[] = [
       amount: 0,
       creation_datetime: new Date("2024-04-17"),
       student_id: "student1_id",
+      status: "FAILED",
       fee_id: "db6e28ce-ec77-4a7b-8d7a-498500572056",
       psp_id: "ref.564fsd5.fsdfsd",
       psp_type: "MVOLA",
@@ -97,6 +98,7 @@ export const feesMock: Fee[] = [
       student_id: "student1_id",
       successfully_verified_on: new Date("2024-04-18"),
       fee_id: "db6e28ce-ec77-4a7b-8d7a-498500572056",
+      status: "SUCCESS",
       psp_id: "ref.564fsd5.fsdfsd",
       psp_type: "MVOLA",
     },
@@ -152,6 +154,7 @@ export const fee1MockMpbs = {
   fee_id: fee1Mock.id,
   psp_id: "reference orange no 1",
   psp_type: "ORANGE",
+  status: "PENDING",
 };
 
 feesMock.forEach((e) => {
@@ -238,3 +241,72 @@ export const addFeeMock: (fees: Fee[], fee: Fee[]) => Fee[] = (
 ) => [...feesAaded, ...fees].slice(0, 10);
 
 export const lateFeesMock = newLateFeesMock;
+
+export const feesMpbsMock: Fee[] = [
+  {
+    id: "fee7_id",
+    student_id: student1Mock.id,
+    remaining_amount: 100000,
+    status: FeeStatusEnum.LATE,
+    type: FeeTypeEnum.HARDWARE,
+    comment: "Comment",
+    mpbs: {
+      amount: 0,
+      creation_datetime: new Date("2024-04-17"),
+      student_id: "student1_id",
+      fee_id: "db6e28ce-ec77-4a7b-8d7a-498500572056",
+      psp_id: "ref.564fsd5.fsdfsd",
+      status: "PENDING",
+      psp_type: "MVOLA",
+    },
+    total_amount: 250000,
+    creation_datetime: new Date("2021-11-10"),
+    due_datetime: new Date("2021-12-10"),
+  },
+  {
+    id: "fee7_id",
+    student_id: student1Mock.id,
+    remaining_amount: 100000,
+    status: FeeStatusEnum.LATE,
+    type: FeeTypeEnum.HARDWARE,
+    comment: "Comment",
+    mpbs: {
+      amount: 0,
+      creation_datetime: new Date("2024-04-17"),
+      student_id: "student1_id",
+      successfully_verified_on: new Date("2024-04-18"),
+      fee_id: "db6e28ce-ec77-4a7b-8d7a-498500572056",
+      status: "SUCCESS",
+      psp_id: "ref.564fsd5.fsdfsd",
+      psp_type: "MVOLA",
+    },
+    total_amount: 250000,
+    creation_datetime: new Date("2021-11-10"),
+    due_datetime: new Date("2021-12-10"),
+  },
+  {
+    id: "fee7_id",
+    student_id: student1Mock.id,
+    remaining_amount: 100000,
+    status: FeeStatusEnum.LATE,
+    type: FeeTypeEnum.HARDWARE,
+    comment: "Comment",
+    mpbs: {
+      amount: 0,
+      creation_datetime: new Date("2024-04-17"),
+      student_id: "student1_id",
+      status: "FAILED",
+      successfully_verified_on: new Date("2024-04-18"),
+      fee_id: "db6e28ce-ec77-4a7b-8d7a-498500572056",
+      psp_id: "ref.564fsd5.fsdfsd",
+      psp_type: "MVOLA",
+    },
+    total_amount: 250000,
+    creation_datetime: new Date("2021-11-10"),
+    due_datetime: new Date("2021-12-10"),
+  },
+];
+
+export const succeedMpbs1 = feesMpbsMock[1];
+export const pendingMpbs = feesMpbsMock[0];
+export const failedMpbs = feesMpbsMock[2];

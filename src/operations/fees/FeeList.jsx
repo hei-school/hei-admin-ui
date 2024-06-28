@@ -52,7 +52,6 @@ const ListForm = () => {
 
   return (
     <RowForm
-      mutationMode="pessimistic"
       mutationOptions={{
         onError: () => {
           notify("Une erreur s'est produite", {
@@ -93,7 +92,7 @@ export const EditableDatagridActions = () => {
 
   return (
     <Box display="flex" justifyContent="space-evenly" boxSizing="border-box">
-      {record.mpbs ? (
+      {record.mpbs?.status ? (
         <StatusIcon />
       ) : (
         <Tooltip

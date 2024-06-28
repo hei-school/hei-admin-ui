@@ -54,8 +54,6 @@ describe("Mobile payment by student", () => {
     cy.get("#psp_id").click().type("reference orange no 1");
     cy.get('[data-testid="SaveIcon"]').click();
 
-    cy.wait("@addMpbs");
-
     cy.contains("Élément mis à jour");
 
     cy.wait("@getMpbsFees");
