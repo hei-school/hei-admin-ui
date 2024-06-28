@@ -39,10 +39,9 @@ import {
   transformFeesData,
   valideFeesData,
 } from "./importConf";
-import {rowStyle, PSP_COLORS, PSP_VALUES} from "./utils";
-import {PSP_ICON} from "./components/pspIcon";
+import {rowStyle, PSP_COLORS, PSP_VALUES, StatusIcon} from "./utils";
 
-const MPBS_STATUS_LABEL = {
+export const MPBS_STATUS_LABEL = {
   SUCCESS: "Paiement avec succès",
   FAILED: "Paiement échoué",
   PENDING: "Vérification en cours",
@@ -95,14 +94,7 @@ export const EditableDatagridActions = () => {
   return (
     <Box display="flex" justifyContent="space-evenly" boxSizing="border-box">
       {record.mpbs ? (
-        <Tooltip
-          title={MPBS_STATUS_LABEL[record.mpbs?.status]}
-          data-testid={`pspTypeIcon-${record.id}`}
-        >
-          <IconButton variant="contained" color="info">
-            {PSP_ICON[record.mpbs?.status]}
-          </IconButton>
-        </Tooltip>
+        <StatusIcon />
       ) : (
         <Tooltip
           title="Payer avec Mobile Money"

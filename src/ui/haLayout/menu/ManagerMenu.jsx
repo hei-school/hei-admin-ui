@@ -4,7 +4,7 @@ import {
   School as StudentIcon,
   People as StudentListIcon,
   AttachMoney as FeesIcon,
-  Money as TransactionsIcon,
+  CurrencyExchange as TransactionsIcon,
   Book as CourseIcon,
   Inventory as DocsIcon,
   Group as GroupIcon,

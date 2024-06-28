@@ -7,7 +7,7 @@ import {DateField} from "../common/components/fields";
 import {FunctionField, TextField} from "react-admin";
 import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
-import {PSP_COLORS, PSP_VALUES, rowStyle} from "./utils";
+import {PSP_COLORS, PSP_VALUES, rowStyle, StatusIcon} from "./utils";
 import {EMPTY_TEXT} from "@/ui/constants";
 
 const TransactionFeeList = () => (
@@ -29,7 +29,7 @@ const TransactionFeeList = () => (
     />
     <FunctionField
       render={(fee) =>
-        fee.mpbs ? (
+        fee.mpbs?.psp_type ? (
           <Chip
             color={PSP_COLORS[fee.mpbs?.psp_type]}
             label={PSP_VALUES[fee.mpbs?.psp_type]}
@@ -55,6 +55,7 @@ const TransactionFeeList = () => (
       label="Date de création"
       showTime={false}
     />
+    <FunctionField label="Statut" render={() => <StatusIcon />} />
   </HaList>
 );
 
