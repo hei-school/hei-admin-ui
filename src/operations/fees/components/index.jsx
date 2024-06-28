@@ -1,2 +1,2 @@
-export * from "./FeeFields";
+export * from "./FeeInputs";
 export * from "./SelectPredefinedType";

@@ -4,6 +4,7 @@ import {
   School as StudentIcon,
   People as StudentListIcon,
   AttachMoney as FeesIcon,
+  CurrencyExchange as TransactionsIcon,
   Book as CourseIcon,
   Inventory as DocsIcon,
   Group as GroupIcon,
@@ -26,6 +27,11 @@ function ManagerMenu() {
           label="Liste des étudiants"
           icon={<StudentListIcon />}
           to="/students"
+        />
+        <ListMenuItem
+          label="Liste des transactions"
+          icon={<TransactionsIcon />}
+          to="/transactions"
         />
         <ListMenuItem label="Frais en retard" icon={<FeesIcon />} to="/fees" />
       </ListMenu>

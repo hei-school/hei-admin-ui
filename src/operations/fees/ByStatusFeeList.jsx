@@ -8,22 +8,11 @@ import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
 import {rowStyle} from "./utils";
 
-const FEES_STATUS_VALUE = {
-  LATE: "en retard",
-  PAID: "payés",
-  UNPAID: "en attente",
-};
-
-const ListTitle = () => {
-  const {filterValues} = useListContext();
-  return <p>Frais {FEES_STATUS_VALUE[filterValues.status ?? "LATE"]}</p>;
-};
-
 const ByStatusFeeList = (props) => (
   <HaList
     {...props}
     icon={<AttachMoney />}
-    title={<ListTitle />}
+    title="Liste des frais en retard"
     resource="fees"
     listProps={{
       filterDefaultValues: {status: FeeStatusEnum.LATE},
@@ -33,7 +22,6 @@ const ByStatusFeeList = (props) => (
       rowClick: (id) => `/fees/${id}/show`,
       rowStyle,
     }}
-    actions={<FeesFilter />}
   >
     <DateField source="due_datetime" label="Date limite" showTime={false} />
     <FunctionField
@@ -44,7 +32,6 @@ const ByStatusFeeList = (props) => (
     <FunctionField
       label="Reste à payer"
       render={(fee) => renderMoney(fee.remaining_amount)}
-      textAlign="right"
     />
     <DateField
       source="creation_datetime"

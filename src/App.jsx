@@ -1,17 +1,15 @@
 import React from "react";
-import polyglotI18nProvider from "ra-i18n-polyglot";
-import frenchMessages from "ra-language-french";
 import {Admin} from "@react-admin/ra-enterprise";
 import {CustomRoutes, Resource} from "react-admin";
 import {Route} from "react-router-dom";
+import frenchMessages from "ra-language-french";
+import polyglotI18nProvider from "ra-i18n-polyglot";
 
 import {HaLayout} from "./ui/haLayout";
 import {mainTheme} from "./haTheme.js";
 import {WaitUntilHot} from "./utils/retryer";
-
 import dataProvider from "./providers/dataProvider";
 import authProvider from "./providers/authProvider.ts";
-
 import groups from "./operations/groups";
 import profile from "./operations/profile";
 import students from "./operations/students";
@@ -70,6 +68,12 @@ function AppBase() {
           exact
           path="/fees/:feeId/payments/create"
           element={<payments.create />}
+        />
+
+        <Route
+          exact
+          path="/transactions"
+          element={<fees.listByTransactions />}
         />
 
         <Route exact path="/docs/school" element={<heiDocs.list />} />
