@@ -24,9 +24,9 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {DateField} from "../common/components/fields";
 import {GroupFilters} from "./components/GroupFilters";
 import {ListHeader} from "../common/components";
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {NOOP_ID} from "@/utils/constants";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 
 const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -40,11 +40,13 @@ const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   );
 };
 
-const AvatarGroup = ({groupId = ""}) => {
-  const {data: students = []} = useGetList("group-students", {meta: {groupId}});
+const AvatarGroup = ({group = {id: ""}}) => {
+  const {data: students = []} = useGetList("group-students", {
+    meta: {groupId: group?.id},
+  });
 
   return (
-    <MuiAvatarGroup max={4}>
+    <MuiAvatarGroup max={4} total={group?.size}>
       {students.map((student) => (
         <Avatar key={student.ref} student={student} />
       ))}
@@ -120,7 +122,7 @@ const GroupList = () => {
         />
         <FunctionField
           label="Étudiants"
-          render={(group) => <AvatarGroup groupId={group?.id} />}
+          render={(group) => <AvatarGroup group={group} />}
         />
         <Box display="flex" justifyContent="space-evenly">
           <ShowButton />
