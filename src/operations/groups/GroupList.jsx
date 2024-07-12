@@ -6,7 +6,7 @@ import {
   List,
   ShowButton,
   TextField,
-  CreateButton,
+  CreateButton as RaCreateButton,
   useListContext,
   useGetOne,
   useGetList,
@@ -21,6 +21,13 @@ import {Sex} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList";
 import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {PALETTE_COLORS} from "@/haTheme";
+import {
+  CreateButton,
+  ExportButton,
+  FilterForm,
+  TextFilter,
+} from "@/ui/haToolbar";
+import {useRole} from "@/security/hooks";
 import {DateField} from "../common/components/fields";
 import {GroupFilters} from "./components/GroupFilters";
 import {ListHeader} from "../common/components";
@@ -54,6 +61,18 @@ const AvatarGroup = ({group = {id: ""}}) => {
   );
 };
 
+const Actions = () => {
+  const {isManager} = useRole();
+
+  return (
+    <Box>
+      {isManager() && <CreateButton />}
+      <ExportButton />
+      <GroupFilters />
+    </Box>
+  );
+};
+
 const GroupList = () => {
   const {
     data: stats = {
@@ -80,7 +99,7 @@ const GroupList = () => {
         title="Liste des groupes"
         cardContents={headerCardContent}
         action={
-          <CreateButton
+          <RaCreateButton
             {...COMMON_BUTTON_PROPS}
             size="medium"
             SX={{
@@ -93,8 +112,9 @@ const GroupList = () => {
         listProps={{title: "Groupes"}}
         resource="groups"
         title="Liste des groupes"
+        mainSearch={{label: "Référence d'un étudiant", source: "student_ref"}}
         icon={<GroupIcon />}
-        actions={<GroupFilters />}
+        actions={<Actions />}
       >
         <FunctionField
           source="ref"
