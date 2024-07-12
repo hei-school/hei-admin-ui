@@ -14,7 +14,7 @@ import {SelectDueDatetime} from "./SelectDueDatetime";
 import {SelectPredefinedType} from "./SelectPredefinedType";
 import {FEESTEMPLATES_CHOICES} from "../feesTemplatesChoices";
 
-export function FeeFields() {
+export function FeeInputs() {
   const {reset, getValues} = useFormContext();
   const [feeConfig, setFeeConfig] = useState({
     isPredefinedFee: true,

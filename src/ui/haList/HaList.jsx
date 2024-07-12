@@ -3,6 +3,10 @@ import {Box, styled} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {PrevNextPagination} from "./PrevNextPagination";
 import {HaListTitle} from "./HaListTitle";
+import {
+  EditableDatagrid,
+  EditRowButton,
+} from "@react-admin/ra-editable-datagrid";
 
 const ListWrapper = styled("div")({
   width: "calc(100% - 20px)",

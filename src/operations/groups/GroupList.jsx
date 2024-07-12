@@ -6,7 +6,7 @@ import {
   List,
   ShowButton,
   TextField,
-  CreateButton,
+  CreateButton as RaCreateButton,
   useListContext,
   useGetOne,
   useGetList,
@@ -21,12 +21,19 @@ import {Sex} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList";
 import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {PALETTE_COLORS} from "@/haTheme";
+import {
+  CreateButton,
+  ExportButton,
+  FilterForm,
+  TextFilter,
+} from "@/ui/haToolbar";
+import {useRole} from "@/security/hooks";
 import {DateField} from "../common/components/fields";
 import {GroupFilters} from "./components/GroupFilters";
 import {ListHeader} from "../common/components";
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {NOOP_ID} from "@/utils/constants";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 
 const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   const [isLoaded, setLoaded] = useState(false);
@@ -40,15 +47,29 @@ const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   );
 };
 
-const AvatarGroup = ({groupId = ""}) => {
-  const {data: students = []} = useGetList("group-students", {meta: {groupId}});
+const AvatarGroup = ({group = {id: ""}}) => {
+  const {data: students = []} = useGetList("group-students", {
+    meta: {groupId: group?.id},
+  });
 
   return (
-    <MuiAvatarGroup max={4}>
+    <MuiAvatarGroup max={4} total={group?.size}>
       {students.map((student) => (
         <Avatar key={student.ref} student={student} />
       ))}
     </MuiAvatarGroup>
+  );
+};
+
+const Actions = () => {
+  const {isManager} = useRole();
+
+  return (
+    <Box>
+      {isManager() && <CreateButton />}
+      <ExportButton />
+      <GroupFilters />
+    </Box>
   );
 };
 
@@ -78,7 +99,7 @@ const GroupList = () => {
         title="Liste des groupes"
         cardContents={headerCardContent}
         action={
-          <CreateButton
+          <RaCreateButton
             {...COMMON_BUTTON_PROPS}
             size="medium"
             SX={{
@@ -91,8 +112,9 @@ const GroupList = () => {
         listProps={{title: "Groupes"}}
         resource="groups"
         title="Liste des groupes"
+        mainSearch={{label: "Référence d'un étudiant", source: "student_ref"}}
         icon={<GroupIcon />}
-        actions={<GroupFilters />}
+        actions={<Actions />}
       >
         <FunctionField
           source="ref"
@@ -120,7 +142,7 @@ const GroupList = () => {
         />
         <FunctionField
           label="Étudiants"
-          render={(group) => <AvatarGroup groupId={group?.id} />}
+          render={(group) => <AvatarGroup group={group} />}
         />
         <Box display="flex" justifyContent="space-evenly">
           <ShowButton />

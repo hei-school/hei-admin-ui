@@ -1,19 +1,23 @@
-import {Box} from "@mui/material";
 import {
-  CreateButton,
-  ExportButton,
   FilterForm,
+  SelectInputFilter,
   TextFilter,
-} from "../../../ui/haToolbar";
-import {useRole} from "../../../security/hooks";
+  DateTimeFilter,
+} from "@/ui/haToolbar";
 
 export function GroupFilters() {
-  const {isManager} = useRole();
-
   return (
-    <Box>
-      {isManager() && <CreateButton />}
-      <ExportButton />
-    </Box>
+    <FilterForm>
+      <TextFilter
+        data-testid="filter-group-student-ref"
+        label="Référence d'un étudiant"
+        source="student_ref"
+      />
+      <TextFilter
+        data-testid="filter-group-ref"
+        label="Référence d'un groupe"
+        source="ref"
+      />
+    </FilterForm>
   );
 }
