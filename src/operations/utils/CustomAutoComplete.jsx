@@ -1,7 +1,17 @@
+import {useState} from "react";
 import {Autocomplete, TextField} from "@mui/material";
 import {Controller} from "react-hook-form";
 
-export const CustomAutoComplete = ({data, control, name, label, ...props}) => {
+export const CustomAutoComplete = ({
+  data,
+  control,
+  name,
+  label,
+  onInputChange,
+  ...props
+}) => {
+  const [inputValue, setInputValue] = useState("");
+
   return (
     <Controller
       control={control}
@@ -15,6 +25,11 @@ export const CustomAutoComplete = ({data, control, name, label, ...props}) => {
           isOptionEqualToValue={(option, value) => option.id === value.id}
           onChange={(event, newValue) => onChange(newValue)}
           value={value}
+          inputValue={inputValue}
+          onInputChange={(event, newInputValue) => {
+            setInputValue(newInputValue);
+            onInputChange(newInputValue);
+          }}
           renderInput={(params) => <TextField {...params} label={label} />}
         />
       )}

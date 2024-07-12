@@ -21,6 +21,8 @@ import {CustomAutoComplete} from "../../utils/CustomAutoComplete";
 import {useNotify} from "../../../hooks";
 import {PALETTE_COLORS} from "@/haTheme";
 import groupFlowProvider from "@/providers/groupFlowProvider";
+import {useEffect, useState} from "react";
+import dataProvider from "@/providers/dataProvider";
 
 const DIALOG_CONTENT_STYLE = {
   width: "450px",
@@ -143,7 +145,14 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
 export const MoveStudentDialog = ({toggle, isOpen}) => {
   const {id: fromGroupId} = useParams();
 
-  const {data: groups = []} = useGetList("groups");
+  const [ref, setRef] = useState("");
+  const [groups, setGroups] = useState([]);
+
+  useEffect(() => {
+    dataProvider
+      .getList("groups", {filter: {ref}, pagination: {page: 1, perPage: 10}})
+      .then((result) => setGroups(result?.data));
+  }, [ref]);
 
   const {data: students = []} = useGetList("students");
 
@@ -194,6 +203,7 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
           <CustomAutoComplete
             control={control}
             name="group"
+            onInputChange={setRef}
             data={groups.filter((group) => group.id != fromGroupId) ?? []}
             label="Référence du groupe"
             data-testid="groups-autocomplete"
