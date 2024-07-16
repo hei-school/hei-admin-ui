@@ -47,6 +47,7 @@ const transformDoc = (doc, type, owner, studentId) => {
     doc.commitment_begin_date = new Date(
       doc.commitment_begin_date
     ).toISOString();
+    doc.commitment_end_date = new Date(doc.commitment_end_date).toISOString();
   }
 
   return {
