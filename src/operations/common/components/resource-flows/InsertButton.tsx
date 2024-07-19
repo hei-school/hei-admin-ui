@@ -6,7 +6,7 @@ import {
   ResourceIdentifier,
 } from "./ResourceFlowsContext";
 import {HaActionWrapper} from "@/ui/haToolbar";
-import {MultipleAutocomplete} from "@/ui/components/inputs";
+import {MultipleAutocomplete} from "@/ui/components/ra-inputs";
 import {DialogActions} from "./components/DialogActions";
 import {FlowsDialog, FlowsDialogProps} from "./components/FlowsDialog";
 import {useResourceFlowsContext} from "./useResourceFlowsContext";

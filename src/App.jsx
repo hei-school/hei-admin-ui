@@ -23,6 +23,7 @@ import studentDocs from "./operations/docs/students";
 import HaLoginPage from "./security/LoginPage";
 import promotions from "./operations/promotions/index.tsx";
 import course from "./operations/course/index.tsx";
+import events, {EventParticipantList} from "./operations/events/index.tsx";
 
 function AppBase() {
   return (
@@ -40,6 +41,7 @@ function AppBase() {
       <Resource name="students" {...students} />
       <Resource name="teachers" {...teachers} />
       <Resource name="groups" {...groups} />
+      <Resource name="events" {...events} />
 
       <Resource name="fees" {...fees} />
       <Resource name="fees-templates" {...feesTemplates} />
@@ -145,6 +147,11 @@ function AppBase() {
           exact
           path="/docs/students/WORK_DOCUMENT/:id"
           element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/events/:eventId/participants"
+          element={<EventParticipantList />}
         />
       </CustomRoutes>
     </Admin>

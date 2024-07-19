@@ -5,6 +5,7 @@ import {
   TextField,
   useGetList,
   useGetOne,
+  useDataProvider,
 } from "react-admin";
 import {
   Group as GroupIcon,

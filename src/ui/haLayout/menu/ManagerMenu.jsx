@@ -11,6 +11,7 @@ import {
   Home as HeiDocsIcon,
   MenuBook as PromotionIcon,
   Newspaper as AnnouncementIcon,
+  Event as EventIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
@@ -43,6 +44,7 @@ function ManagerMenu() {
           icon={<HeiDocsIcon />}
         />
       </ListMenu>
+      <SingleMenu to="/events" label="Événements" icon={<EventIcon />} />
       <SingleMenu
         to="/promotions"
         label="Promotions"
