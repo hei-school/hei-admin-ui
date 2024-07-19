@@ -37,3 +37,8 @@ export const assertFeeMatchesTemplate = (feeToCreate: any, template: any) => {
     currentDateString
   );
 };
+
+export const getDateTimeString = (date: Date) => {
+  const DATE_TIME_LENGTH = 16; // ISO string length to include date and hour without seconds
+  return date.toISOString().slice(0, DATE_TIME_LENGTH);
+};
