@@ -82,19 +82,19 @@ const useMoveStudent = () => {
 export const JoinGroupDialog = ({isOpen, toggle}) => {
   const {id: groupId} = useParams();
 
-  const listContext = useListContext();
+  const [ref, setRef] = useState("");
+  const [students, setStudents] = useState([]);
 
-  const {data: students = []} = useGetList("students");
+  useEffect(() => {
+    dataProvider
+      .getList("students", {
+        filter: {exclude_groups: [groupId], ref},
+        pagination: {page: 1, perPage: 10},
+      })
+      .then((result) => setStudents(result?.data));
+  }, [ref]);
 
   const {moveStudent} = useMoveStudent();
-
-  const groupStudentsIds = listContext.data.map(
-    (groupStudent) => groupStudent?.id
-  );
-
-  const filteredStudents = students
-    .filter((student) => !groupStudentsIds.includes(student?.id))
-    .map((student) => ({id: student?.id, ref: student?.ref}));
 
   const {control, handleSubmit} = useForm({
     defaultValues: {
@@ -130,7 +130,8 @@ export const JoinGroupDialog = ({isOpen, toggle}) => {
           <CustomAutoComplete
             control={control}
             name="student"
-            data={filteredStudents ?? []}
+            onInputChange={setRef}
+            data={students ?? []}
             label="Référence de l'étudiant"
             data-testid="students-autocomplete"
             fullWidth

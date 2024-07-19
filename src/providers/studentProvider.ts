@@ -4,6 +4,8 @@ import {EnableStatus} from "@haapi/typescript-client";
 
 const studentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
+    console.log(filter);
+
     const result = await usersApi().getStudents(
       page,
       perPage,
@@ -14,7 +16,8 @@ const studentProvider: HaDataProviderType = {
       filter.status,
       filter.sex,
       filter.work_study_status,
-      filter.commitment_begin_date
+      filter.commitment_begin_date,
+      filter.exclude_groups
     );
     return result.data;
   },
