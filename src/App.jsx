@@ -76,10 +76,6 @@ function AppBase() {
           element={<fees.listByTransactions />}
         />
 
-        <Route exact path="/docs/school" element={<heiDocs.list />} />
-        <Route exact path="/docs/school/:id" element={heiDocs.show} />
-        <Route exact path="/docs/school/create" element={<heiDocs.create />} />
-
         <Route
           exact
           path="/docs/students/TRANSCRIPT"
@@ -146,6 +142,7 @@ function AppBase() {
           path="/docs/students/WORK_DOCUMENT/:id"
           element={<studentDocs.show />}
         />
+        <Route exact path="/docs/HEI_DOCUMENT" element={<heiDocs.show />} />
       </CustomRoutes>
     </Admin>
   );
