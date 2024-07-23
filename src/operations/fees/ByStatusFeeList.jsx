@@ -1,4 +1,9 @@
-import {FunctionField, ShowButton, useListContext} from "react-admin";
+import {
+  FunctionField,
+  ShowButton,
+  TextField,
+  useListContext,
+} from "react-admin";
 import {AttachMoney} from "@mui/icons-material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "../../ui/haList/HaList";
@@ -23,6 +28,7 @@ const ByStatusFeeList = (props) => (
       rowStyle,
     }}
   >
+    <TextField source="student_ref" label="Référence de l'étudiant" />
     <DateField source="due_datetime" label="Date limite" showTime={false} />
     <FunctionField
       source="comment"
