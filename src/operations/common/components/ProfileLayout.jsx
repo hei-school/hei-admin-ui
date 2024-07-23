@@ -1,4 +1,4 @@
-import {useRef} from "react";
+import {useRef, useState} from "react";
 import {
   ImageField,
   ImageInput,
@@ -11,6 +11,12 @@ import {
   useRecordContext,
   useRedirect,
   useGetOne,
+  Button,
+  Show,
+  TabbedShowLayout,
+  TabbedShowLayoutTabs,
+  EditButton,
+  useShowContext,
 } from "react-admin";
 
 import {
@@ -61,6 +67,8 @@ import {COMMON_FIELD_ATTRIBUTES} from "@/ui/constants/common_styles";
 import {DATE_OPTIONS} from "@/utils/date";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import defaultCoverPicture from "@/assets/banner.jpg";
+import ProfilField from "./fields/ProfilField";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -91,8 +99,9 @@ const renderExperienceDuration = ({
 };
 
 const HaDateField = ({value, ...props}) => {
+  const isLarge = useMediaQuery("(min-width:1700px)");
   return (
-    <Typography {...props}>
+    <Typography {...props} variant={isLarge ? "h6" : "caption"}>
       {value
         ? new Date(value).toLocaleString("fr-FR", DATE_OPTIONS)
         : "Non-défini.e"}
@@ -103,7 +112,7 @@ const HaDateField = ({value, ...props}) => {
 const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
   const user = useRecordContext();
-  const id = user.id;
+  const id = user?.id;
   const notify = useNotify();
 
   return (
@@ -165,7 +174,7 @@ const ProfileCardAvatar = ({role}) => {
   const {isStudent} = useRole();
   const user = useRecordContext();
   const imgRef = useRef(null);
-
+  const isLarge = useMediaQuery("(min-width:1700px)");
   const updateImage = (newImage) => {
     imgRef.current.src = newImage;
   };
@@ -183,7 +192,7 @@ const ProfileCardAvatar = ({role}) => {
           />
         )
       }
-      sx={{bgcolor: "transparent"}}
+      sx={{bgcolor: "transparent", bottom: "5vh"}}
       anchorOrigin={{
         vertical: "bottom",
         horizontal: "right",
@@ -204,8 +213,8 @@ const ProfileCardAvatar = ({role}) => {
             }}
             style={{
               objectFit: "cover",
-              height: 175,
-              width: 175,
+              height: isLarge ? 230 : 175,
+              width: isLarge ? 230 : 175,
               border: `1px solid ${PALETTE_COLORS.grey}`,
               borderRadius: "50%",
             }}
@@ -216,298 +225,288 @@ const ProfileCardAvatar = ({role}) => {
   );
 };
 
-const Title = ({children: label}) => (
-  <Box
-    padding="5px"
-    border="1px solid"
-    borderColor={PALETTE_COLORS.yellow}
-    display="flex"
-    alignItems="center"
-    justifyContent="center"
-    borderRadius="10px"
-  >
-    <Typography color={PALETTE_COLORS.yellow} fontWeight="bold" variant="body2">
+const Title = ({children: label}) => {
+  const isLarge = useMediaQuery("(min-width:1700px)");
+  return (
+    <Typography
+      variant={isLarge ? "h4" : "h6"}
+      color={PALETTE_COLORS.yellow}
+      fontWeight="bold"
+      width="100%"
+      borderBottom={`1px solid ${PALETTE_COLORS.grey}`}
+    >
       {label}
     </Typography>
-  </Box>
-);
+  );
+};
+
+const DetailsIformation = ({isStudentProfile}) => {
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
+        width: isSmall ? "100%" : "50%",
+        minHeigh: "100%",
+        padding: "1rem",
+        borderRadius: "10px",
+      }}
+    >
+      <Title>Informations personnelles</Title>
+      <Box
+        display="flex"
+        flexDirection="column"
+        gap={isLarge ? "1rem" : "0.8rem"}
+      >
+        <ProfilField
+          label="Date d'entrée chez HEI"
+          icon={<CalendarIcon />}
+          render={(user) => <HaDateField value={user.entrance_datetime} />}
+        />
+        {isStudentProfile && (
+          <>
+            <ProfilField
+              label="Parcours de Spécialisation"
+              render={(user) => renderSpecialization(user.specialization_field)}
+              icon={<SpecializationIcon />}
+            />
+            <ProfilField
+              label="Statut d'alternance  "
+              icon={<StatusIcon />}
+              render={(user) => renderWorkStatus(user.work_study_status)}
+            />
+            <ProfilField
+              label="Date de début d'alternance"
+              icon={<CalendarIcon />}
+              render={(user) => (
+                <HaDateField value={user.commitment_begin_date} />
+              )}
+            />
+            <ProfilField
+              label="Lycée de provenance"
+              icon={<SchoolIcon />}
+              source="high_school_origin"
+            />
+          </>
+        )}
+      </Box>
+    </Box>
+  );
+};
 
 const Contact = () => {
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        flexDirection: "row",
+        gap: "0.5rem",
+        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
+        width: "100%",
+        padding: "1rem",
+      }}
+    >
       <Title>Coordonnées</Title>
-      <SimpleShowLayout
-        sx={{
-          overflowX: "auto",
-        }}
-      >
-        <FunctionField
-          label={<FieldLabel icon={<PersonIcon />}>Nom</FieldLabel>}
-          render={({first_name, last_name}) => `${first_name} ${last_name}`}
-          {...COMMON_FIELD_ATTRIBUTES}
-        />
-        <EmailField
-          source="email"
-          label={<FieldLabel icon={<MailIcon />}>Email</FieldLabel>}
-          {...COMMON_FIELD_ATTRIBUTES}
-        />
-        <FunctionField
-          label={<FieldLabel icon={<PhoneIcon />}>Téléphone</FieldLabel>}
-          variant={COMMON_FIELD_ATTRIBUTES.variant}
-          render={(user) =>
-            !user.phone ? (
-              <span>{EMPTY_TEXT}</span>
-            ) : (
-              <Link
-                href={`tel:${user.phone}`}
-                color={PALETTE_COLORS.typography.grey}
-              >
-                {user.phone}
-              </Link>
-            )
-          }
-        />
-        <TextField
-          source="address"
-          label={<FieldLabel icon={<AdressIcon />}>Adresse</FieldLabel>}
-          component="pre"
-          emptyText={EMPTY_TEXT}
-          {...COMMON_FIELD_ATTRIBUTES}
-        />
-        <FunctionField
-          label={<FieldLabel icon={<GeoIcon />}>Géolocalisation</FieldLabel>}
+      <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem"}}>
+        <ProfilField
+          label="Email"
+          icon={<MailIcon />}
           render={(user) => (
-            <GeoPositionName
-              coordinates={user.coordinates}
-              {...COMMON_FIELD_ATTRIBUTES}
-            />
+            <a
+              href={`mailto:${user.email}`}
+              target="_blank"
+              style={{color: "inherit"}}
+            >
+              {user.email}
+            </a>
           )}
         />
-      </SimpleShowLayout>
-    </Box>
-  );
-};
-
-const PersonalInfos = ({isStudentProfile}) => {
-  return (
-    <Box minHeight={350}>
-      <Title>Informations personnelles</Title>
-      <SimpleShowLayout>
-        <DateField
-          source="entrance_datetime"
-          label={
-            <FieldLabel icon={<CalendarIcon />}>
-              Date d'entrée chez HEI
-            </FieldLabel>
-          }
-          showTime={false}
-          {...COMMON_FIELD_ATTRIBUTES}
+        <ProfilField label="Téléphone" source="phone" icon={<PhoneIcon />} />
+        <ProfilField label="Adresse" source="address" icon={<AdressIcon />} />
+        <ProfilField
+          label="Géolocalisation"
+          icon={<GeoIcon />}
+          render={(user) => <GeoPositionName coordinates={user.coordinates} />}
         />
-        {isStudentProfile && (
-          <FunctionField
-            label={
-              <FieldLabel icon={<SpecializationIcon />}>
-                Parcours de Spécialisation
-              </FieldLabel>
-            }
-            render={(user) => renderSpecialization(user.specialization_field)}
-            {...COMMON_FIELD_ATTRIBUTES}
-          />
-        )}
-        {isStudentProfile && (
-          <FunctionField
-            label={
-              <FieldLabel icon={<WorkStatusIcon />}>
-                Type d'expérience professionnelle
-              </FieldLabel>
-            }
-            render={(user) =>
-              WORK_TYPE_VALUE[user.professional_experience] ??
-              "Pas d'expérience professionnelle"
-            }
-            {...COMMON_FIELD_ATTRIBUTES}
-          />
-        )}
-        {isStudentProfile && (
-          <FunctionField
-            label={
-              <FieldLabel icon={<StatusIcon />}>
-                Statut professionnel
-              </FieldLabel>
-            }
-            render={(user) => WORK_STATUS_VALUE[user.work_study_status]}
-            {...COMMON_FIELD_ATTRIBUTES}
-          />
-        )}
-        {isStudentProfile && (
-          <FunctionField
-            source="commitment_begin_date"
-            label={
-              <FieldLabel icon={<CalendarIcon />}>
-                Période de l'expérience professionnelle
-              </FieldLabel>
-            }
-            render={renderExperienceDuration}
-            showTime={false}
-            {...COMMON_FIELD_ATTRIBUTES}
-          />
-        )}
-      </SimpleShowLayout>
+      </Box>
     </Box>
   );
 };
 
-const PersonalDetails = ({isStudentProfile}) => {
+const PersonalDetails = () => {
   return (
-    <Box minHeight={380}>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "0.5rem",
+        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
+        width: "100%",
+        padding: "1rem",
+      }}
+    >
       <Title>Détails personnels</Title>
-      <SimpleShowLayout>
-        <FunctionField
-          label={<FieldLabel icon={<GenderIcon />}>Sexe</FieldLabel>}
+      <Box
+        sx={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem"}}
+      >
+        <ProfilField
+          label="Sexe"
           render={(user) => getGenderInFr(user.sex)}
-          {...COMMON_FIELD_ATTRIBUTES}
+          icon={<GenderIcon />}
         />
-        <TextField
-          source="nic"
-          label={<FieldLabel icon={<NicIcon />}> Numéro CIN</FieldLabel>}
-          emptyText={EMPTY_TEXT}
-          {...COMMON_FIELD_ATTRIBUTES}
-        />
-        <FunctionField
-          label={
-            <FieldLabel icon={<BirthDateIcon />}>
-              Date et lieu de naissance
-            </FieldLabel>
-          }
+        <ProfilField label="Numéro CIN" source="nic" icon={<NicIcon />} />
+        <ProfilField
+          label="Date et lieu de naissance"
           render={(user) => (
             <BirthDateField
               birthdate={user.birth_date}
               birthplace={user.birth_place}
-              emptyText={EMPTY_TEXT}
-              sx={{fontSize: "12px"}}
-              {...COMMON_FIELD_ATTRIBUTES}
+              emptyText="Non défini.e"
             />
           )}
+          icon={<BirthDateIcon />}
         />
-        <FunctionField
-          label={<FieldLabel icon={<StatusIcon />}>Statut</FieldLabel>}
+        <ProfilField
+          label="Statut"
           render={(user) => getUserStatusInFr(user.status, user.sex)}
-          {...COMMON_FIELD_ATTRIBUTES}
+          icon={<StatusIcon />}
         />
-        {isStudentProfile && (
-          <TextField
-            source="high_school_origin"
-            emptyText={EMPTY_TEXT}
-            label={
-              <FieldLabel icon={<SchoolIcon />}>Lycée de provenance</FieldLabel>
-            }
-            {...COMMON_FIELD_ATTRIBUTES}
-          />
-        )}
-      </SimpleShowLayout>
-    </Box>
-  );
-};
-
-const AvatarPart = ({role}) => {
-  return (
-    <Box
-      minHeight={350}
-      display="flex"
-      justifyContent="center"
-      alignItems="center"
-    >
-      <SimpleShowLayout
-        sx={{
-          textAlign: "center",
-          boxShadow: "none",
-        }}
-      >
-        <ProfileCardAvatar role={role} />
-        <FunctionField
-          label=" "
-          render={(user) => (
-            <Typography m="auto" variant="h6">
-              {user.ref}
-            </Typography>
-          )}
-        />
-      </SimpleShowLayout>
+      </Box>
     </Box>
   );
 };
 
 export const ProfileLayout = ({role, actions, isStudent = false}) => {
-  const isSmall = useMediaQuery("(max-width:1200px)");
   const viewerRole = useRole();
-  const profile = useRecordContext();
+  const {record: profile = {}} = useShowContext();
   const redirect = useRedirect();
   const isStudentProfile = isStudent || viewerRole.isStudent();
-
-  const cardStyle = {
-    borderRadius: "10px",
-    boxShadow: "none",
-    p: 1.5,
-    border: "1px solid",
-    borderColor: PALETTE_COLORS.grey,
-  };
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
+  const {groups = []} = profile;
 
   return (
-    <Grid
-      container
-      columns={{xs: 6, sm: 8, md: 12}}
-      gridTemplateRows="repeat(2, 1fr)"
-      justifyContent="center"
+    <Box
+      border={`1px solid ${PALETTE_COLORS.grey}`}
+      borderRadius="10px"
+      position="relative"
     >
-      <Grid
-        xs={isSmall ? 10 : 5}
-        columns={{xs: 6, sm: 4, md: 4}}
-        {...COMMON_GRID_ATTRIBUTES}
+      <Box
+        height={isLarge ? "15rem" : "10rem"}
+        width="100%"
+        borderRadius="10px 10px 0 0"
+        sx={{
+          backgroundImage: `url(${defaultCoverPicture})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
+      ></Box>
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="space-between"
+        paddingInline="2vw"
+        height="7rem"
+        position="relative"
       >
-        <Card sx={{...cardStyle, position: "relative", border: "1px solid"}}>
-          {isStudent && viewerRole.isManager() && (
-            <IconButton
-              aria-label="Éditer"
-              sx={{
-                position: "absolute",
-                top: 8,
-                right: 12,
-                color: PALETTE_COLORS.primary,
-              }}
-              onClick={() => redirect(`/students/${profile.id}/edit`)}
+        <Box
+          display="flex"
+          alignItems="center"
+          gap={2}
+          position="relative"
+          height="100%"
+        >
+          <ProfileCardAvatar role={role} />
+          <Box>
+            <Typography
+              fontWeight="600"
+              variant={isLarge ? "h4" : isSmall ? "subtitle1" : "h5"}
             >
-              <EditIcon color={PALETTE_COLORS.primary} />
-            </IconButton>
-          )}
-          <AvatarPart role={role} />
+              {profile?.first_name} {profile?.last_name}
+            </Typography>
+            <Typography
+              variant={isLarge ? "h6" : isSmall ? "subtitle2" : "subtitle1"}
+            >
+              {profile?.ref}
+            </Typography>
+            {isStudentProfile && (
+              <Typography
+                variant={
+                  isLarge ? "subtitle1" : isSmall ? "body2" : "subtitle2"
+                }
+              >
+                {groups.map((group) => group.name).join(", ")}
+              </Typography>
+            )}
+          </Box>
+        </Box>
+        <Box>{actions}</Box>
+      </Box>
+      <Informations isStudentProfile={isStudentProfile} />
+    </Box>
+  );
+};
+
+export const Informations = ({isStudentProfile}) => {
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
+  const profile = useRecordContext();
+  const {isManager} = useRole();
+
+  const id = profile?.id;
+  return (
+    <TabbedShowLayout>
+      <TabbedShowLayout.Tab label="Détails du Profil">
+        <Box
+          display="flex"
+          gap={2}
+          width="100%"
+          height="100%"
+          flexDirection={isSmall ? "column" : "row"}
+          justifyContent="space-between"
+          padding={isLarge ? "1rem" : "0"}
+        >
+          <DetailsIformation isStudentProfile={isStudentProfile} />
           <Box
-            minHeight={350}
             display="flex"
+            gap={2}
+            width={isSmall ? "100%" : "50%"}
             flexDirection="column"
-            justifyContent="space-between"
           >
             <Contact />
-            <CardActions
-              sx={{
-                display: "flex",
-                justifyContent: "flex-end",
+            <PersonalDetails />
+          </Box>
+        </Box>
+      </TabbedShowLayout.Tab>
+      {/* todo: show fees list in a tab not link */}
+      {isStudentProfile && isManager() && (
+        <TabbedShowLayout.Tab
+          label={
+            <Button
+              component={Link}
+              to={`/students/${id}/fees`}
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+                height: "100%",
+                fontSize: "0.9rem",
               }}
             >
-              {actions}
-            </CardActions>
-          </Box>
-        </Card>
-      </Grid>
-      <Grid xs={isSmall ? 10 : 6} {...COMMON_GRID_ATTRIBUTES}>
-        <Card
+              Listes des Frais
+            </Button>
+          }
           sx={{
-            ...cardStyle,
+            padding: "0 !important",
+            margin: "0 !important",
           }}
-        >
-          <PersonalInfos isStudentProfile={isStudentProfile} />
-          <PersonalDetails isStudentProfile={isStudentProfile} />
-        </Card>
-      </Grid>
-    </Grid>
+        />
+      )}
+      {/* todo: change comment button to tab */}
+    </TabbedShowLayout>
   );
 };

@@ -19,7 +19,7 @@ import {
 } from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {GetCertificate} from "./GetCertificate";
-import {COMMON_BUTTON_PROPS} from "../../../ui/constants/common_styles";
+import {COMMON_BUTTON_PROPS_OUTLINED} from "../../../ui/constants/common_styles";
 
 const StyledMenu = styled((props) => (
   <Menu
@@ -93,7 +93,7 @@ export const DocMenu = ({studentId}) => {
         }}
         size="medium"
         endIcon={<KeyboardArrowDown />}
-        {...COMMON_BUTTON_PROPS}
+        {...COMMON_BUTTON_PROPS_OUTLINED}
       >
         <Inventory />
       </Button>

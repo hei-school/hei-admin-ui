@@ -15,7 +15,6 @@ export function GeoPositionName({
 }) {
   const {longitude, latitude} = coordinates;
   const isDefinedPosition = longitude && latitude;
-
   return isDefinedPosition ? (
     <a
       rel="noreferrer"
@@ -24,16 +23,18 @@ export function GeoPositionName({
       style={{
         color: PALETTE_COLORS.typography.grey,
         display: "flex",
-        gap: "2px",
+        flexDirection: "column",
         alignItems: "center",
-        fontSize: "14px",
+        fontSize: "9px",
         textDecoration: "underline",
       }}
     >
       {`${longitude}, ${latitude}`}
     </a>
   ) : (
-    <Typography {...rest}>{NOT_DEFINED_POSITION}</Typography>
+    <Typography {...rest} variant="caption">
+      {NOT_DEFINED_POSITION}
+    </Typography>
   );
 }
 

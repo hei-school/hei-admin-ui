@@ -1,7 +1,7 @@
 import {EditButton} from "react-admin";
 
 import {Show} from "../common/components/Show";
-import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
+import {COMMON_BUTTON_PROPS_OUTLINED} from "../../ui/constants/common_styles";
 import {ProfileLayout} from "../common/components/ProfileLayout";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 
@@ -11,7 +11,7 @@ const ActionsOnShow = ({basePath, data, resource}) => {
       basePath={basePath}
       resource={resource}
       record={data}
-      {...COMMON_BUTTON_PROPS}
+      {...COMMON_BUTTON_PROPS_OUTLINED}
     />
   );
 };

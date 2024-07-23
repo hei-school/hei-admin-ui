@@ -7,7 +7,7 @@ import {ProfileLayout} from "../common/components/ProfileLayout";
 import {StudentComments} from "../comments";
 import {useRole} from "../../security/hooks";
 import {useToggle} from "../../hooks";
-import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
+import {COMMON_BUTTON_PROPS_OUTLINED} from "../../ui/constants/common_styles";
 import authProvider from "../../providers/authProvider";
 
 const ProfileShow = () => {
@@ -34,7 +34,11 @@ const ProfileShow = () => {
         role={role}
         actions={
           <div
-            style={{display: "flex", width: "100%", justifyContent: "flex-end"}}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "0.5rem",
+            }}
           >
             {isStudent() ? (
               <>
@@ -42,14 +46,14 @@ const ProfileShow = () => {
                   label="Commentaires"
                   studentId={id}
                   onClick={toogleShowComments}
-                  {...COMMON_BUTTON_PROPS}
+                  {...COMMON_BUTTON_PROPS_OUTLINED}
                 >
                   <CommentIcon />
                 </Button>
                 <Button
                   label={<GetCertificate studentId={id} />}
                   data-testid="get-certificate-btn"
-                  {...COMMON_BUTTON_PROPS}
+                  {...COMMON_BUTTON_PROPS_OUTLINED}
                 >
                   <Download />
                 </Button>
@@ -58,7 +62,7 @@ const ProfileShow = () => {
               <EditButton
                 to={`/profile/${id}/edit`}
                 data-testid="profile-edit-button"
-                {...COMMON_BUTTON_PROPS}
+                {...COMMON_BUTTON_PROPS_OUTLINED}
               />
             )}
             {showComments && (
