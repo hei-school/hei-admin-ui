@@ -24,6 +24,10 @@ export declare global {
         requestAlias: string,
         expectedBody: (body: any) => T
       ): void;
+      assertRequestBody<T>(
+        requestAlias: string,
+        expectedBody: (body: any) => T
+      ): void;
     }
   }
 }

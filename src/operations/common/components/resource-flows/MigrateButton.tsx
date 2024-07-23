@@ -5,7 +5,7 @@ import {
   ResourceFlowsArgsType,
   ResourceIdentifier,
 } from "./ResourceFlowsContext";
-import {Autocomplete} from "@/ui/components/inputs";
+import {Autocomplete} from "@/ui/components/ra-inputs";
 import {DialogActions} from "./components/DialogActions";
 import {FlowsDialog, FlowsDialogProps} from "./components/FlowsDialog";
 import {useForm} from "react-hook-form";

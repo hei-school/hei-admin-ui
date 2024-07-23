@@ -42,7 +42,7 @@ export const HaAppBar = () => {
               fontSize: "16px",
               padding: 0,
               margin: 0,
-              fontWeight: "600",
+              fontWeight: "normal",
               color: PALETTE_COLORS.black,
             }}
           >
