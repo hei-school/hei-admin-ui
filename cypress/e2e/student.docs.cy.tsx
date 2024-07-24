@@ -1,4 +1,6 @@
 import {
+  heiDoc1,
+  heiDocsMocks,
   otherDoc1,
   otherDocsMocks,
   transcript1,
@@ -7,6 +9,27 @@ import {
   workDocsMocks,
 } from "../fixtures/api_mocks/docs-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
+
+describe("Hei.Docs", () => {
+  beforeEach(() => {
+    cy.intercept("GET", "/school/files?*", heiDocsMocks);
+    cy.intercept("GET", `/school/files/${heiDoc1.id}`, heiDoc1);
+
+    cy.login({role: "STUDENT"});
+
+    cy.get('[data-testid="docs"]').click();
+    cy.getByTestid("hei-docs").click();
+  });
+
+  it("can list hei docs", () => {
+    cy.contains("Liste des documents chez HEI");
+    cy.contains("Nom du fichier");
+    cy.contains("Date de création");
+    cy.contains("Afficher");
+
+    cy.contains("Taille : " + heiDocsMocks.length);
+  });
+});
 
 describe("Transcript.Docs", () => {
   beforeEach(() => {
