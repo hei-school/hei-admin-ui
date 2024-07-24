@@ -8,6 +8,7 @@ import {ExportButton} from "@/ui/haToolbar";
 import {exportData, exportHeaders} from "../../utils";
 import {ProfileFilters} from "../../profile/components/ProfileFilters";
 import {InsertStudent, MoveStudent, RemoveStudent} from "./MigrateStudent";
+import {GroupStudentsFilters} from "./GroupStudentFilters";
 
 const GroupStudentList = () => {
   const params = useParams();
@@ -23,6 +24,7 @@ const GroupStudentList = () => {
       <ExportButton
         onExport={(list) => exportData(list, exportHeaders, "group-students")}
       />
+      <GroupStudentsFilters />
     </Box>
   );
 
