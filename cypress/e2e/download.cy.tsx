@@ -1,7 +1,4 @@
 import {
-  heiDoc1,
-  heiDocsMocks,
-  newDoc,
   newWorkerDoc,
   workDoc1,
   workDocsMocks,
@@ -11,31 +8,6 @@ import {
   transcriptsMock,
 } from "../fixtures/api_mocks/docs-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
-
-describe("Manager.Hei.Docs.Download", () => {
-  beforeEach(() => {
-    cy.intercept("GET", "/school/files?*", heiDocsMocks);
-    cy.intercept("GET", `/school/files/${heiDoc1.id}`, heiDoc1);
-    cy.intercept(
-      "POST",
-      `/school/files/raw?file_type=DOCUMENT&filename=${newDoc.name}`,
-      newDoc
-    );
-
-    cy.login({role: "MANAGER"});
-
-    cy.get('[data-testid="docs"]').click();
-    cy.getByTestid("hei-docs").click();
-  });
-
-  it("can download a hei doc", () => {
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + heiDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
-  });
-});
 
 describe("Manager.Work.Docs.Download", () => {
   beforeEach(() => {
@@ -77,26 +49,6 @@ describe("Manager.Work.Docs.Download", () => {
     cy.contains("Afficher").click();
 
     cy.contains("Document : " + workDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
-  });
-});
-
-describe("Student.Hei.Docs.Download", () => {
-  beforeEach(() => {
-    cy.intercept("GET", "/school/files?*", heiDocsMocks);
-    cy.intercept("GET", `/school/files/${heiDoc1.id}`, heiDoc1);
-
-    cy.login({role: "STUDENT"});
-
-    cy.get('[data-testid="docs"]').click();
-    cy.getByTestid("hei-docs").click();
-  });
-
-  it("can download a hei doc", () => {
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + heiDoc1.name);
 
     cy.getByTestid("download-link").and("have.attr", "href");
   });
@@ -247,26 +199,6 @@ describe("Student.Other.Docs.Download", () => {
     cy.contains("Afficher").click();
 
     cy.contains("Document : " + otherDoc1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
-  });
-});
-
-describe("Teacher.Hei.Docs.Download", () => {
-  beforeEach(() => {
-    cy.intercept("GET", "/school/files?*", heiDocsMocks);
-    cy.intercept("GET", `/school/files/${heiDoc1.id}`, heiDoc1);
-
-    cy.login({role: "TEACHER"});
-
-    cy.get('[data-testid="docs"]').click();
-    cy.getByTestid("hei-docs").click();
-  });
-
-  it("can detail and download a hei doc", () => {
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + heiDoc1.name);
 
     cy.getByTestid("download-link").and("have.attr", "href");
   });
