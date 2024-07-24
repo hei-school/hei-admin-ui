@@ -1,6 +1,6 @@
 import {List, useListContext} from "react-admin";
 import {Event as EventIcon} from "@mui/icons-material";
-import {Box} from "@mui/material";
+import {Box, CircularProgress} from "@mui/material";
 import {Event} from "@haapi/typescript-client";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {EventCard} from "./components";
@@ -29,10 +29,11 @@ export function EventList() {
   );
 }
 
-//TODO: add loading ui
 function EventListContent() {
-  const {data: events = []} = useListContext<Required<Event>>();
-  return (
+  const {data: events = [], isLoading} = useListContext<Required<Event>>();
+  return isLoading ? (
+    <CircularProgress size={30} sx={{m: 5}} />
+  ) : (
     <Box
       sx={{
         px: 1,

@@ -2,9 +2,8 @@ import {useEffect, useState} from "react";
 import {BooleanInput, required} from "react-admin";
 import {useWatch} from "react-hook-form";
 import {Teacher} from "@haapi/typescript-client";
-import {Box} from "@mui/material"
+import {Box} from "@mui/material";
 import {AutocompleteInput} from "@/ui/components/ra-inputs";
-import {NOOP_FN} from "@/utils/noop";
 import dataProvider from "@/providers/dataProvider";
 import authProvider from "@/providers/authProvider";
 
@@ -18,19 +17,22 @@ function SelectUserPlanner() {
     const doEffect = async () => {
       setIsLoading(true);
       await dataProvider
-        .getList("teachers", {filter: {ref }, pagination: {perPage: 10, page: 1 } })
-        .then(({data }) => {
+        .getList("teachers", {
+          filter: {ref},
+          pagination: {perPage: 10, page: 1},
+        })
+        .then(({data}) => {
           setTeachers(data);
           setIsLoading(false);
         })
-        .catch(NOOP_FN);
+        .catch((error) => console.log(error));
     };
     doEffect();
-  }, [ref])
+  }, [ref]);
 
   const getRef = (_value: string, record: any) => {
-    setRef(record.ref)
-  }
+    setRef(record.ref);
+  };
 
   const PLANNER_CHOICES = [...teachers]
     .filter((user) => user.id !== userId!)
@@ -55,12 +57,9 @@ function SelectUserPlanner() {
   );
 }
 
-function SelectUserPlannerWrapper() {
-  const isPlannedByMe = useWatch({name: "isPlannedByMe" });
-  return isPlannedByMe ? null : <SelectUserPlanner />;
-}
-
 export function SelectPlanner() {
+  const isPlannedByMe = useWatch({name: "isPlannedByMe"});
+
   return (
     <Box width="100%">
       <BooleanInput
@@ -68,7 +67,7 @@ export function SelectPlanner() {
         source="isPlannedByMe"
         label="Planifié par moi"
       />
-      <SelectUserPlannerWrapper />
+      {isPlannedByMe ? null : <SelectUserPlanner />}
     </Box>
   );
 }

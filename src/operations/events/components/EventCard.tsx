@@ -141,19 +141,19 @@ export function EventCard({event}: EventCardPropsType) {
               {EVENT_TYPE_VALUE[event.type]}
             </Typography>
           </Box>
-          {event.description && (
-            <Typography
-              sx={{
-                fontSize: "14px",
-                minHeight: "45px",
-                px: 2,
-                my: 1,
-                opacity: 0.9,
-              }}
-            >
-              {event.description}
-            </Typography>
-          )}
+          <Typography
+            noWrap
+            textOverflow="ellipsis"
+            sx={{
+              fontSize: "14px",
+              minHeight: "45px",
+              px: 2,
+              my: 1,
+              opacity: 0.9,
+            }}
+          >
+            {event.description ?? "Pas de description"}
+          </Typography>
         </CardContent>
       </Box>
       <Box
@@ -169,7 +169,6 @@ export function EventCard({event}: EventCardPropsType) {
           size="small"
           variant="contained"
           sx={EDIT_BUTTON_SX}
-          // TODO: THIS DOESN'T WORK CORRECTLY
           href={`#/events/${event.id}/edit`}
         >
           Editer
