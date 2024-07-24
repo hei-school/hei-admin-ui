@@ -6,7 +6,7 @@ import {
 } from "react-admin";
 import {AttachMoney} from "@mui/icons-material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
-import {HaList} from "../../ui/haList/HaList";
+import {HaList} from "@/ui/haList/HaList";
 import {FeesFilter} from "./components/FeesFilter";
 import {DateField} from "../common/components/fields";
 import {commentFunctionRenderer} from "../utils";
@@ -21,7 +21,10 @@ const ByStatusFeeList = (props) => (
     resource="fees"
     listProps={{
       filterDefaultValues: {status: FeeStatusEnum.LATE},
+      storeKey: "latefees",
     }}
+    actions={<FeesFilter />}
+    mainSearch={{label: "Référence étudiant", source: "student_ref"}}
     filterIndicator={false}
     datagridProps={{
       rowClick: (id) => `/fees/${id}/show`,

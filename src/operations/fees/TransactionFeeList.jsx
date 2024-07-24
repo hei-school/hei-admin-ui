@@ -17,7 +17,10 @@ const TransactionFeeList = () => (
     resource="fees"
     listProps={{
       filterDefaultValues: {isMpbs: true},
+      storeKey: "transactionsfees",
     }}
+    actions={<FeesFilter />}
+    mainSearch={{label: "Référence étudiant", source: "student_ref"}}
     datagridProps={rowStyle}
     filterIndicator={false}
   >
