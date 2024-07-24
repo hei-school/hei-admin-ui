@@ -8,7 +8,7 @@ import {
   CardContent,
   SxProps,
 } from "@mui/material";
-import {HEI_PALETTE_COLORS} from "@/ui/constants";
+import {GRADIENT_PALETTE_COLORS} from "@/haTheme";
 import {EVENT_TYPE_VALUE} from "../utils/eventChoices";
 import {formatDate} from "@/utils/date";
 import defaultPicture from "@/assets/blank-profile-photo.png";
@@ -25,26 +25,26 @@ const EDIT_BUTTON_SX: SxProps = {
   "opacity": 0.95,
   "&:hover": {
     opacity: 1,
-    bgcolor: HEI_PALETTE_COLORS.yellow["2"],
+    bgcolor: GRADIENT_PALETTE_COLORS.yellow["2"],
   },
-  "color": HEI_PALETTE_COLORS.blue["1"],
-  "bgcolor": HEI_PALETTE_COLORS.yellow["2"],
+  "color": GRADIENT_PALETTE_COLORS.blue["1"],
+  "bgcolor": GRADIENT_PALETTE_COLORS.yellow["2"],
   "pt": 0.7,
   "px": 2,
 };
 
 const PARTICIPANT_BUTTON_SX: SxProps = {
   ...EDIT_BUTTON_SX,
-  "bgcolor": HEI_PALETTE_COLORS.blue["2"],
+  "bgcolor": GRADIENT_PALETTE_COLORS.blue["2"],
   "color": "white",
   "&:hover": {
     opacity: 1,
-    bgcolor: HEI_PALETTE_COLORS.blue["2"],
+    bgcolor: GRADIENT_PALETTE_COLORS.blue["2"],
   },
 };
 
 const EVENT_TYPE_SX: SxProps = {
-  bgcolor: HEI_PALETTE_COLORS.blue["3"],
+  bgcolor: GRADIENT_PALETTE_COLORS.blue["3"],
   color: "white",
   px: 1.2,
   py: 0.4,
@@ -57,7 +57,7 @@ const CARD_HEADER_SX: SxProps = {
   px: 1,
   width: "95%",
   mx: "auto",
-  bgcolor: HEI_PALETTE_COLORS.yellow["2"],
+  bgcolor: GRADIENT_PALETTE_COLORS.yellow["2"],
   borderRadius: "5px",
   py: 1,
 };
@@ -77,7 +77,7 @@ const EVENT_TITLE_SX: SxProps = {
   px: 2,
   fontWeight: "bold",
   fontSize: "16px",
-  color: HEI_PALETTE_COLORS.blue["2"],
+  color: GRADIENT_PALETTE_COLORS.blue["2"],
   mb: 0.5,
 };
 
@@ -99,7 +99,7 @@ export function EventCard({event}: EventCardPropsType) {
               sx={{
                 fontWeight: "bold",
                 fontSize: "15p  px: 2,x",
-                color: HEI_PALETTE_COLORS.blue["2"],
+                color: GRADIENT_PALETTE_COLORS.blue["2"],
               }}
             >
               {planner.first_name + " " + planner.last_name || ""}
@@ -107,7 +107,7 @@ export function EventCard({event}: EventCardPropsType) {
             <Typography
               sx={{
                 lineHeight: 1.2,
-                color: HEI_PALETTE_COLORS.blue["3"],
+                color: GRADIENT_PALETTE_COLORS.blue["3"],
                 fontSize: "13px",
               }}
             >

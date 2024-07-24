@@ -3,18 +3,18 @@ import {
   FilterForm,
   SelectInputFilter,
   DateTimeFilter,
+  TextFilter,
 } from "@/ui/haToolbar";
-import {Typography} from "@mui/material";
+import {Box, Typography} from "@mui/material";
 import {mapToChoices} from "@/utils";
 import {EVENT_TYPE_VALUE} from "../utils/eventChoices";
 
 export function EventListAction() {
   return (
-    <>
+    <Box>
       <CreateButton resource="events" />
       <FilterForm>
-        {/* //FIXME: Add title filter  */}
-        {/* <TextFilter label="Titre" source="title" /> */}
+        <TextFilter label="Titre" source="title" />
         <SelectInputFilter
           choices={mapToChoices(EVENT_TYPE_VALUE, "id", "name")}
           label="Types"
@@ -31,6 +31,6 @@ export function EventListAction() {
         <DateTimeFilter source="from" label="De" />
         <DateTimeFilter source="to" label="À" />
       </FilterForm>
-    </>
+    </Box>
   );
 }
