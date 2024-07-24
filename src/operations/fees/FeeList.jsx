@@ -188,6 +188,7 @@ const ManagerFeeList = () => {
       title={`Frais de ${studentRef}`}
       resource={"fees"}
       filterIndicator={false}
+      actions={<FeesActions studentId={studentId} />}
       listProps={{
         filterDefaultValues: {studentId},
         storeKey: "fees",
