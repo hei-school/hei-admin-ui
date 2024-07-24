@@ -1,26 +1,42 @@
-import {BooleanInput, required, useGetList} from "react-admin";
-import {Teacher} from "@haapi/typescript-client";
+import {useEffect, useState} from "react";
+import {BooleanInput, required} from "react-admin";
 import {useWatch} from "react-hook-form";
+import {Teacher} from "@haapi/typescript-client";
+import {Box} from "@mui/material"
 import {AutocompleteInput} from "@/ui/components/ra-inputs";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {NOOP_FN} from "@/utils/noop";
+import dataProvider from "@/providers/dataProvider";
 import authProvider from "@/providers/authProvider";
 
 function SelectUserPlanner() {
   const userId = authProvider.getCachedWhoami().id;
-  const {data: teachers = [], isLoading} = useGetList<Required<Teacher>>(
-    "teachers",
-    {
-      pagination: {
-        page: 1,
-        perPage: MAX_ITEM_PER_PAGE - 1,
-      },
-    }
-  );
+  const [ref, setRef] = useState("");
+  const [teachers, setTeachers] = useState<Teacher[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    const doEffect = async () => {
+      setIsLoading(true);
+      await dataProvider
+        .getList("teachers", {filter: {ref }, pagination: {perPage: 10, page: 1 } })
+        .then(({data }) => {
+          setTeachers(data);
+          setIsLoading(false);
+        })
+        .catch(NOOP_FN);
+    };
+    doEffect();
+  }, [ref])
+
+  const getRef = (_value: string, record: any) => {
+    setRef(record.ref)
+  }
 
   const PLANNER_CHOICES = [...teachers]
     .filter((user) => user.id !== userId!)
     .map((user) => ({
       label: `${user.ref}: ${user.first_name || user.last_name}`,
+      ref: user.ref,
       value: user.id,
     }));
 
@@ -33,25 +49,26 @@ function SelectUserPlanner() {
       choices={PLANNER_CHOICES}
       isLoading={isLoading}
       validate={required()}
+      onChange={getRef}
       fullWidth
     />
   );
 }
 
 function SelectUserPlannerWrapper() {
-  const isPlannedByMe = useWatch({name: "isPlannedByMe"});
+  const isPlannedByMe = useWatch({name: "isPlannedByMe" });
   return isPlannedByMe ? null : <SelectUserPlanner />;
 }
 
 export function SelectPlanner() {
   return (
-    <>
+    <Box width="100%">
       <BooleanInput
         defaultValue={true}
         source="isPlannedByMe"
         label="Planifié par moi"
       />
       <SelectUserPlannerWrapper />
-    </>
+    </Box>
   );
 }
