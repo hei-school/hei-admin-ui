@@ -118,7 +118,7 @@ export const DocMenu = ({studentId}) => {
           handleClose={handleClose}
         >
           <LibraryAddCheck />
-          Autorisation d'alternance
+          Validations d'expériences professionnelles
         </MenuItem>
         <MenuItem to={`${path}/docs/students/OTHER`} handleClose={handleClose}>
           <Work />
