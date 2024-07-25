@@ -65,9 +65,9 @@ const docsProvider: HaDataProviderType = {
           return filesApi()
             .uploadStudentWorkFile(
               doc.studentId,
-              doc.experience_type,
               doc.title,
               doc.commitment_begin_date,
+              doc.experience_type,
               doc.commitment_end_date,
               new Date(),
               raw.rawFile,
