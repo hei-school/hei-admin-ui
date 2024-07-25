@@ -16,7 +16,7 @@ export function SelectWorkType(props) {
   return (
     <SelectInput
       label="Type d'expérience professionnel"
-      source="work_study_status"
+      source="experience_type"
       choices={WORK_TYPE_CHOICES}
       optionText="label"
       optionValue="value"
