@@ -30,7 +30,6 @@ const StyledUserInfo = styled("div")({
 
 const MAIL_REPORT_DESTINATIONS = [
   "hei.mayah.3@gmail.com",
-  "hei.ricka.3@gmail.com",
   "hei.adriano.4@gmail.com",
   "hei.jean.3@gmail.com",
   "hei.iloniavo@gmail.com",
