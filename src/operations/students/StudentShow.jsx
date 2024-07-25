@@ -44,7 +44,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
       {role.isManager() && student && (
         <div style={{display: "flex", flexDirection: "column", gap: "0.2rem"}}>
           <EditButton
-            to={`/profile/${id}/edit`}
+            to={`/students/${id}/edit`}
             data-testid="profile-edit-button"
             startIcon={<EditIcon />}
             variant="outlined"
