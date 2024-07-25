@@ -52,7 +52,7 @@ describe("Manager import fees for one students", () => {
     cy.wait("@getStudentsByFirstName");
     cy.contains(student1Mock.first_name).click();
     cy.wait("@getStudent1");
-    cy.getByTestid("student-fees-list").click();
+    cy.getByTestid("fees-list-tab").click();
     cy.wait("@getStudent1Fees");
   });
 

@@ -473,6 +473,7 @@ export const Informations = ({isStudentProfile}) => {
             <Button
               component={Link}
               to={`/students/${id}/fees`}
+              data-testid="fees-list-tab"
               style={{
                 textDecoration: "none",
                 color: "inherit",
