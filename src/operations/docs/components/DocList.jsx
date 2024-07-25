@@ -8,11 +8,11 @@ import {useLocation} from "react-router-dom";
 import {FileType} from "@haapi/typescript-client";
 import {AddOutlined} from "@mui/icons-material";
 import {DocCreateDialog} from "./DocCreateDialog";
-import {HaList} from "../../../ui/haList";
-import {ButtonBase} from "../../../ui/haToolbar";
+import {HaList} from "@/ui/haList";
+import {ButtonBase} from "@/ui/haToolbar";
+import {useToggle} from "@/hooks";
+import {useRole} from "@/security/hooks";
 import {DateField} from "../../common/components/fields";
-import {useToggle} from "../../../hooks";
-import {useRole} from "../../../security/hooks";
 import {OwnerType} from "../types";
 
 const getTitle = (owner, type) => {
@@ -25,8 +25,8 @@ const getTitle = (owner, type) => {
         return "Liste des bulletins";
       case FileType.OTHER:
         return "Liste des autres documents étudiant";
-      case "WORK_DOCUMENT":
-        return "Liste des autorisations d'alternance";
+      case FileType.WORK_DOCUMENT:
+        return "Liste des validations d'expériences professionnelles";
       default:
         return "Liste des documents";
     }
