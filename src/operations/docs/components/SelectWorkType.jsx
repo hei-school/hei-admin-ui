@@ -15,7 +15,7 @@ const DEFAULT_CHOICE = WORK_TYPE_CHOICES[0];
 export function SelectWorkType(props) {
   return (
     <SelectInput
-      label="Type d'expérience professionnel"
+      label="Type d'expérience professionnelle"
       source="experience_type"
       choices={WORK_TYPE_CHOICES}
       optionText="label"
