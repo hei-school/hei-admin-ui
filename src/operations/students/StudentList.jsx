@@ -83,24 +83,24 @@ function StudentList() {
   const headerCardContent = [
     ...getCommonListHeaderContent(stats),
     {
-      title: "Alternants",
+      title: "Collaborateurs",
       icon: <WorkIcon fontSize="medium" />,
       total: stats.students_alternating.total,
       statDetails: [
         {
           icon: <WorkIcon fontSize="small" color="success" />,
           total: stats.students_alternating.working,
-          title: "En alternance",
+          title: "A une expérience professionnelle",
         },
         {
           icon: <WillWorking fontSize="small" />,
           total: stats.students_alternating.will_work,
-          title: "Sera en alternance",
+          title: "Aura une expérience professionnelle",
         },
         {
           icon: <HaveBeenWorking fontSize="small" color="warning" />,
           total: stats.students_alternating.have_been_working,
-          title: "A été en alternance",
+          title: "A eu une expérience professionnelle",
         },
       ],
     },

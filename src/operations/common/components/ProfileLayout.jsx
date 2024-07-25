@@ -50,10 +50,12 @@ import {GeoPositionName} from "./GeoLocalisation";
 import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
+import {formatDate} from "@/utils/date";
 import {SPECIALIZATION_VALUE} from "@/operations/students/components";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {PALETTE_COLORS} from "@/haTheme";
 import {WORK_STATUS_VALUE} from "@/operations/docs/components/SelectWorkStatus";
+import {WORK_TYPE_VALUE} from "@/operations/docs/components/SelectWorkType";
 import {NOOP_FN} from "@/utils/noop";
 import {COMMON_FIELD_ATTRIBUTES} from "@/ui/constants/common_styles";
 import {DATE_OPTIONS} from "@/utils/date";
@@ -73,6 +75,20 @@ const renderSpecialization = (specialization_field) =>
 
 const renderWorkStatus = (workStatus) =>
   WORK_STATUS_VALUE[workStatus] || EMPTY_TEXT;
+
+const renderExperienceDuration = ({
+  commitment_begin_date,
+  commitment_end_date,
+}) => {
+  if (!commitment_begin_date) return EMPTY_TEXT;
+
+  const beginDate = formatDate(commitment_begin_date, false);
+  const endDate = commitment_end_date
+    ? `au ${formatDate(commitment_end_date, false)}`
+    : `jusqu'à maintenant`;
+
+  return `Du ${beginDate} ${endDate}`;
+};
 
 const HaDateField = ({value, ...props}) => {
   return (
@@ -225,6 +241,11 @@ const Contact = () => {
           overflowX: "auto",
         }}
       >
+        <FunctionField
+          label={<FieldLabel icon={<PersonIcon />}>Nom</FieldLabel>}
+          render={({first_name, last_name}) => `${first_name} ${last_name}`}
+          {...COMMON_FIELD_ATTRIBUTES}
+        />
         <EmailField
           source="email"
           label={<FieldLabel icon={<MailIcon />}>Email</FieldLabel>}
@@ -272,11 +293,6 @@ const PersonalInfos = ({isStudentProfile}) => {
     <Box minHeight={350}>
       <Title>Informations personnelles</Title>
       <SimpleShowLayout>
-        <FunctionField
-          label={<FieldLabel icon={<PersonIcon />}>Nom</FieldLabel>}
-          render={({first_name, last_name}) => `${first_name} ${last_name}`}
-          {...COMMON_FIELD_ATTRIBUTES}
-        />
         <DateField
           source="entrance_datetime"
           label={
@@ -301,20 +317,37 @@ const PersonalInfos = ({isStudentProfile}) => {
         {isStudentProfile && (
           <FunctionField
             label={
-              <FieldLabel icon={<StatusIcon />}>Statut d'alternance</FieldLabel>
+              <FieldLabel icon={<WorkStatusIcon />}>
+                Type d'expérience professionnelle
+              </FieldLabel>
+            }
+            render={(user) =>
+              WORK_TYPE_VALUE[user.professional_experience] ??
+              "Pas d'expérience professionnelle"
+            }
+            {...COMMON_FIELD_ATTRIBUTES}
+          />
+        )}
+        {isStudentProfile && (
+          <FunctionField
+            label={
+              <FieldLabel icon={<StatusIcon />}>
+                Statut professionnel
+              </FieldLabel>
             }
             render={(user) => WORK_STATUS_VALUE[user.work_study_status]}
             {...COMMON_FIELD_ATTRIBUTES}
           />
         )}
         {isStudentProfile && (
-          <DateField
+          <FunctionField
             source="commitment_begin_date"
             label={
               <FieldLabel icon={<CalendarIcon />}>
-                Date de début d'alternance
+                Période de l'expérience professionnelle
               </FieldLabel>
             }
+            render={renderExperienceDuration}
             showTime={false}
             {...COMMON_FIELD_ATTRIBUTES}
           />
@@ -326,7 +359,7 @@ const PersonalInfos = ({isStudentProfile}) => {
 
 const PersonalDetails = ({isStudentProfile}) => {
   return (
-    <Box minHeight={350}>
+    <Box minHeight={380}>
       <Title>Détails personnels</Title>
       <SimpleShowLayout>
         <FunctionField

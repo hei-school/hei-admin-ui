@@ -146,7 +146,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
             sx={{
               backgroundColor: PALETTE_COLORS.primary,
               color: PALETTE_COLORS.white,
-              maxWidth: "200px",
+              maxWidth: "225px",
               height: "150px",
               m: "-80px 5px 5px 5px",
               borderRadius: "10px",
@@ -155,7 +155,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
             <Box
               display="flex"
               paddingTop={2}
-              px={3}
+              px={2}
               justifyContent="space-between"
             >
               <Typography variant="h6" fontWeight="bolder">
@@ -163,8 +163,8 @@ export const ListHeader: FC<ListHeaderProps> = ({
               </Typography>
               <Avatar
                 sx={{
-                  height: "40px",
-                  width: "40px",
+                  height: "35px",
+                  width: "35px",
                   color: PALETTE_COLORS.yellow,
                   bgcolor: "#263B63",
                   borderRadius: "7px",
