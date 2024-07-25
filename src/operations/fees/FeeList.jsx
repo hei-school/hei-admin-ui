@@ -40,6 +40,7 @@ import {
   valideFeesData,
 } from "./importConf";
 import {rowStyle, PSP_COLORS, PSP_VALUES, StatusIcon} from "./utils";
+import {FeesFilter} from "./components/FeesFilter";
 
 export const MPBS_STATUS_LABEL = {
   SUCCESS: "Paiement avec succès",
@@ -186,10 +187,11 @@ const ManagerFeeList = () => {
       icon={<WarningOutlined />}
       title={`Frais de ${studentRef}`}
       resource={"fees"}
-      actions={<FeesActions studentId={studentId} />}
       filterIndicator={false}
+      actions={<FeesActions studentId={studentId} />}
       listProps={{
         filterDefaultValues: {studentId},
+        storeKey: "fees",
       }}
       datagridProps={{
         rowClick: (id) => `/fees/${id}/show`,
@@ -253,6 +255,7 @@ function FeesActions({studentId}) {
         minimalHeaders={minimalFeesHeaders}
         transformData={(data) => transformFeesData(data, studentId)}
       />
+      <FeesFilter />
     </Box>
   );
 }
