@@ -45,20 +45,26 @@ export function ProfileFilters({resource}) {
         <Box>
           <SelectInputFilter
             data-testid="filter-profile-work-status"
-            label="Statut en alternance"
+            label="Statut professionnel"
             source="work_study_status"
             choices={[
               {
                 id: WorkStudyStatus.HAVE_BEEN_WORKING,
-                name: "A été en alternance",
+                name: "A eu une expérience professionnelle",
               },
-              {id: WorkStudyStatus.WILL_BE_WORKING, name: "Sera en alternance"},
-              {id: WorkStudyStatus.WORKING, name: "Est en alternance"},
+              {
+                id: WorkStudyStatus.WILL_BE_WORKING,
+                name: "Aura une expérience professionnelle",
+              },
+              {
+                id: WorkStudyStatus.WORKING,
+                name: "A une expérience professionnelle",
+              },
               {id: null, name: "Aucune valeur"},
             ]}
           />
           <DateTimeFilter
-            label="Date de début d'alternance"
+            label="Date de début de l'expérience professionnelle"
             source="commitment_begin_date"
             style={{margin: "1rem 0"}}
           />
