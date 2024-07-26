@@ -273,16 +273,22 @@ const PersonalInfos = ({isStudentProfile}) => {
               icon={<SpecializationIcon />}
             />
             <HaField
-              label="Statut d'alternance  "
+              label="Statut professionnel"
               icon={<StatusIcon />}
               render={(user) => renderWorkStatus(user.work_study_status)}
             />
             <HaField
-              label="Date de début d'alternance"
+              label="Type d'expérience professionnelle"
+              render={(user) =>
+                WORK_TYPE_VALUE[user.professional_experience] ??
+                "Pas d'expérience professionnelle"
+              }
+              icon={<WorkStatusIcon />}
+            />
+            <HaField
+              label="Période de l'expérience professionnelle"
               icon={<CalendarIcon />}
-              render={(user) => (
-                <HaDateField value={user.commitment_begin_date} />
-              )}
+              render={renderExperienceDuration}
             />
             <HaField
               label="Lycée de provenance"
