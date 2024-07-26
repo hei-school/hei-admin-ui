@@ -5,7 +5,7 @@ export const WORK_TYPE_VALUE = {
   WORKER_STUDENT: "Alternance",
   BUSINESS_OWNER: "Création d'entreprise",
   INTERN_STUDENT: "Stage à temps plein",
-  INTER_PROJECT: "Projet d'école",
+  INTERN_PROJECT: "Projet d'école",
 };
 
 const WORK_TYPE_CHOICES = mapToChoices(WORK_TYPE_VALUE);
