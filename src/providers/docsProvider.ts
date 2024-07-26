@@ -67,6 +67,7 @@ const docsProvider: HaDataProviderType = {
               doc.studentId,
               doc.title,
               doc.commitment_begin_date,
+              doc.experience_type,
               doc.commitment_end_date,
               new Date(),
               raw.rawFile,

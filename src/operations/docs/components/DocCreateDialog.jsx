@@ -2,6 +2,7 @@ import {
   DateInput,
   FileField,
   FileInput,
+  SelectInput,
   SimpleForm,
   TextInput,
   regex,
@@ -16,6 +17,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify} from "@/hooks";
 import {OwnerType} from "../types";
 import authProvider from "@/providers/authProvider";
+import {SelectWorkType} from "./SelectWorkType";
 
 const DOCUMENT_FILENAME_PATTERN = /^[^.]*$/;
 
@@ -47,7 +49,10 @@ const transformDoc = (doc, type, owner, studentId) => {
     doc.commitment_begin_date = new Date(
       doc.commitment_begin_date
     ).toISOString();
-    doc.commitment_end_date = new Date(doc.commitment_end_date).toISOString();
+    doc.commitment_end_date &&
+      (doc.commitment_end_date = new Date(
+        doc.commitment_end_date
+      ).toISOString());
   }
 
   return {
@@ -103,15 +108,16 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
           />
           {type === FileType.WORK_DOCUMENT && (
             <Box>
+              <SelectWorkType />
               <DateInput
                 source="commitment_begin_date"
-                label="Date du début de l'alternance"
+                label="Date du début de l'expérience professionnelle"
                 required
                 fullWidth
               />
               <DateInput
                 source="commitment_end_date"
-                label="Date du fin de l'alternance"
+                label="Date du fin de l'expérience professionnelle"
                 fullWidth
               />
             </Box>

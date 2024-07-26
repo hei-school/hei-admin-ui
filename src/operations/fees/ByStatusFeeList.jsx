@@ -1,7 +1,12 @@
-import {FunctionField, ShowButton, useListContext} from "react-admin";
+import {
+  FunctionField,
+  ShowButton,
+  TextField,
+  useListContext,
+} from "react-admin";
 import {AttachMoney} from "@mui/icons-material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
-import {HaList} from "../../ui/haList/HaList";
+import {HaList} from "@/ui/haList/HaList";
 import {FeesFilter} from "./components/FeesFilter";
 import {DateField} from "../common/components/fields";
 import {commentFunctionRenderer} from "../utils";
@@ -16,13 +21,17 @@ const ByStatusFeeList = (props) => (
     resource="fees"
     listProps={{
       filterDefaultValues: {status: FeeStatusEnum.LATE},
+      storeKey: "latefees",
     }}
+    actions={<FeesFilter />}
+    mainSearch={{label: "Référence étudiant", source: "student_ref"}}
     filterIndicator={false}
     datagridProps={{
       rowClick: (id) => `/fees/${id}/show`,
       rowStyle,
     }}
   >
+    <TextField source="student_ref" label="Référence de l'étudiant" />
     <DateField source="due_datetime" label="Date limite" showTime={false} />
     <FunctionField
       source="comment"

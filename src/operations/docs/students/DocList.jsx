@@ -1,9 +1,9 @@
 import {useParams, useLocation} from "react-router-dom";
-import {useStudentRef} from "../../../hooks";
-import {useRole} from "../../../security/hooks";
+import {useStudentRef} from "@/hooks";
+import {useRole} from "@/security/hooks";
 import {DocList as CommonDocList} from "../components/DocList";
 import {useViewType} from "../hooks/useViewType";
-import authProvider from "../../../providers/authProvider";
+import authProvider from "@/providers/authProvider";
 
 export const DocList = () => {
   const params = useParams();
@@ -27,7 +27,6 @@ export const DocList = () => {
       type={type}
       studentId={studentId}
       studentRef={isManager() && studentRef}
-      actions={<p>Hello</p>}
       datagridProps={{
         rowClick: (id) => `${location.pathname}/${id}`,
       }}

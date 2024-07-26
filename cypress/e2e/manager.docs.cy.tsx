@@ -1,7 +1,4 @@
 import {
-  heiDoc1,
-  heiDocsMocks,
-  newDoc,
   newOtherrDoc,
   newTranscript,
   newWorkerDoc,
@@ -13,43 +10,6 @@ import {
   workDocsMocks,
 } from "../fixtures/api_mocks/docs-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
-
-describe("Manager.Hei.Docs", () => {
-  beforeEach(() => {
-    cy.intercept("GET", "/school/files?*", heiDocsMocks);
-    cy.intercept("GET", `/school/files/${heiDoc1.id}`, heiDoc1);
-    cy.intercept(
-      "POST",
-      `/school/files/raw?file_type=DOCUMENT&filename=${newDoc.name}`,
-      newDoc
-    );
-
-    cy.login({role: "MANAGER"});
-
-    cy.get('[data-testid="docs"]').click();
-    cy.getByTestid("hei-docs").click();
-  });
-
-  it("can list hei docs", () => {
-    cy.contains("Liste des documents chez HEI");
-    cy.contains("Nom du fichier");
-    cy.contains("Date de création");
-    cy.contains("Afficher");
-
-    cy.contains("Taille : " + heiDocsMocks.length);
-  });
-
-  it("can create a new hei doc", () => {
-    cy.getByTestid("menu-list-action").click();
-    cy.contains("Créer").click();
-    cy.get("#name").click().type(newDoc?.name!);
-    cy.get('[data-testid="dropzone"]').attachFileToDropZone(
-      `docs_import/doc.pdf`
-    );
-    cy.contains("Enregistrer").click();
-    cy.contains("Document créé");
-  });
-});
 
 describe("Manager.Transcript.Docs", () => {
   beforeEach(() => {

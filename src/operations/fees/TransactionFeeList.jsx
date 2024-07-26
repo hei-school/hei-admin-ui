@@ -17,10 +17,14 @@ const TransactionFeeList = () => (
     resource="fees"
     listProps={{
       filterDefaultValues: {isMpbs: true},
+      storeKey: "transactionsfees",
     }}
+    actions={<FeesFilter />}
+    mainSearch={{label: "Référence étudiant", source: "student_ref"}}
     datagridProps={rowStyle}
     filterIndicator={false}
   >
+    <TextField source="student_ref" label="Référence de l'étudiant" />
     <DateField source="due_datetime" label="Date limite" showTime={false} />
     <TextField
       source="mpbs.psp_id"
