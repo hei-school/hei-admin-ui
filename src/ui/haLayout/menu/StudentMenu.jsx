@@ -38,7 +38,7 @@ function StudentMenu() {
         />
         <ListMenuItem
           to="/docs/students/WORK_DOCUMENT"
-          label="Validation d'expérience professionnelle"
+          label="Validations d'expériences professionnelles"
           icon={<WorkStudyDocsIcon />}
         />
         <ListMenuItem
