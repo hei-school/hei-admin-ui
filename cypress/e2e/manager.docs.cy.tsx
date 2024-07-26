@@ -65,7 +65,7 @@ describe("Manager.Transcript.Docs", () => {
   });
 });
 
-describe.only("Manager.Work.Docs", () => {
+describe("Manager.Work.Docs", () => {
   beforeEach(() => {
     cy.intercept("GET", `/students?*`, studentsMock);
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
@@ -102,7 +102,9 @@ describe.only("Manager.Work.Docs", () => {
       '[href="#/students/student1_id/docs/students/WORK_DOCUMENT"]'
     ).click();
 
-    cy.contains(`Liste des autorisations d'alternance de ${student1Mock.ref}`);
+    cy.contains(
+      `Liste des validations d'expériences professionnelles de ${student1Mock.ref}`
+    );
     cy.contains("Nom du fichier");
     cy.contains("Date de création");
     cy.contains("Afficher");
