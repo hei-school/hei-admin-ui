@@ -33,7 +33,7 @@ const getTitle = (owner, type) => {
       case FileType.OTHER:
         return "document étudiant";
       case FileType.WORK_DOCUMENT:
-        return "document d'autorisation en alternance";
+        return "document de validations d'expériences professionnelles";
       default:
         return "document";
     }
