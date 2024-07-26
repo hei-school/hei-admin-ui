@@ -9,7 +9,7 @@ import {
   Newspaper as AnnouncementIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
-import authProvider from "../../../providers/authProvider";
+import authProvider from "@/providers/authProvider";
 
 function StudentMenu() {
   const whoamiId = authProvider.getCachedWhoami().id;
@@ -38,7 +38,7 @@ function StudentMenu() {
         />
         <ListMenuItem
           to="/docs/students/WORK_DOCUMENT"
-          label="Autorisations d'alternance"
+          label="Validation d'expérience professionnelle"
           icon={<WorkStudyDocsIcon />}
         />
         <ListMenuItem
