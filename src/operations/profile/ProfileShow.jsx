@@ -1,14 +1,14 @@
 import {EditButton, Button} from "react-admin";
 import {Download, Comment as CommentIcon} from "@mui/icons-material";
 
-import {Show} from "../common/components/Show";
-import {GetCertificate} from "../students/components";
-import {ProfileLayout} from "../common/components/ProfileLayout";
-import {StudentComments} from "../comments";
-import {useRole} from "../../security/hooks";
-import {useToggle} from "../../hooks";
-import {COMMON_BUTTON_PROPS_OUTLINED} from "../../ui/constants/common_styles";
-import authProvider from "../../providers/authProvider";
+import {Show} from "@/operations/common/components/Show";
+import {GetCertificate} from "@/operations/students/components";
+import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
+import {StudentComments} from "@/operations/comments";
+import {useRole} from "@/security/hooks";
+import {useToggle} from "@/hooks";
+import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import authProvider from "@/providers/authProvider";
 
 const ProfileShow = () => {
   const {isStudent, role} = useRole();
@@ -46,14 +46,14 @@ const ProfileShow = () => {
                   label="Commentaires"
                   studentId={id}
                   onClick={toogleShowComments}
-                  {...COMMON_BUTTON_PROPS_OUTLINED}
+                  {...COMMON_OUTLINED_BUTTON_PROPS}
                 >
                   <CommentIcon />
                 </Button>
                 <Button
                   label={<GetCertificate studentId={id} />}
                   data-testid="get-certificate-btn"
-                  {...COMMON_BUTTON_PROPS_OUTLINED}
+                  {...COMMON_OUTLINED_BUTTON_PROPS}
                 >
                   <Download />
                 </Button>
@@ -62,7 +62,7 @@ const ProfileShow = () => {
               <EditButton
                 to={`/profile/${id}/edit`}
                 data-testid="profile-edit-button"
-                {...COMMON_BUTTON_PROPS_OUTLINED}
+                {...COMMON_OUTLINED_BUTTON_PROPS}
               />
             )}
             {showComments && (

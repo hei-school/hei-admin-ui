@@ -1,13 +1,20 @@
+import React from "react";
 import {FunctionField} from "react-admin";
 import {Box, Typography, useMediaQuery} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
-import React from "react";
-export default function ProfilField({source, label, icon, render}) {
+
+export default function HaField({source, label, icon, render}) {
   const isLarge = useMediaQuery("(min-width:1700px)");
+
+  const getValue = (record) => {
+    const value = render ? render(record) : record[source];
+    return value && typeof value === "object" && !React.isValidElement(value)
+      ? JSON.stringify(value)
+      : value || "Non défini.e";
+  };
   return (
     <FunctionField
       render={(record) => {
-        const value = render ? render(record) : record[source];
         return (
           <Box
             display="flex"
@@ -42,11 +49,7 @@ export default function ProfilField({source, label, icon, render}) {
                 {label}
               </Typography>
               <Typography variant={isLarge ? "h6" : "caption"}>
-                {value &&
-                typeof value === "object" &&
-                !React.isValidElement(value)
-                  ? JSON.stringify(value)
-                  : value || "Non défini.e"}
+                {getValue(record)}
               </Typography>
             </Box>
           </Box>

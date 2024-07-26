@@ -6,7 +6,7 @@ import {
 } from "@mui/icons-material";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {useRole} from "@/security/hooks";
-import {COMMON_BUTTON_PROPS_OUTLINED} from "@/ui/constants/common_styles";
+import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {useToggle} from "@/hooks";
 
 import {Show} from "../common/components/Show";
@@ -37,7 +37,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
       <Button
         label="Commentaires"
         onClick={toogleShowComments}
-        {...COMMON_BUTTON_PROPS_OUTLINED}
+        {...COMMON_OUTLINED_BUTTON_PROPS}
       >
         <CommentIcon />
       </Button>
@@ -48,7 +48,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
             data-testid="profile-edit-button"
             startIcon={<EditIcon />}
             variant="outlined"
-            {...COMMON_BUTTON_PROPS_OUTLINED}
+            {...COMMON_OUTLINED_BUTTON_PROPS}
           />
           <DocMenu studentId={student.id} />
         </div>

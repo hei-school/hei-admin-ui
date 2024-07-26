@@ -1,4 +1,5 @@
 import {useRef, useState} from "react";
+
 import {
   ImageField,
   ImageInput,
@@ -68,7 +69,7 @@ import {DATE_OPTIONS} from "@/utils/date";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import defaultCoverPicture from "@/assets/banner.jpg";
-import ProfilField from "./fields/ProfilField";
+import HaField from "./fields/HaField";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -175,6 +176,7 @@ const ProfileCardAvatar = ({role}) => {
   const user = useRecordContext();
   const imgRef = useRef(null);
   const isLarge = useMediaQuery("(min-width:1700px)");
+
   const updateImage = (newImage) => {
     imgRef.current.src = newImage;
   };
@@ -240,7 +242,7 @@ const Title = ({children: label}) => {
   );
 };
 
-const DetailsIformation = ({isStudentProfile}) => {
+const PersonalInfos = ({isStudentProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   return (
@@ -257,41 +259,37 @@ const DetailsIformation = ({isStudentProfile}) => {
       }}
     >
       <Title>Informations personnelles</Title>
-      <Box
-        display="flex"
-        flexDirection="column"
-        gap={isLarge ? "1rem" : "0.8rem"}
-      >
-        <ProfilField
+      <Box display="flex" flexDirection="column">
+        <HaField
           label="Date d'entrée chez HEI"
           icon={<CalendarIcon />}
           render={(user) => <HaDateField value={user.entrance_datetime} />}
         />
         {isStudentProfile && (
-          <>
-            <ProfilField
+          <Box>
+            <HaField
               label="Parcours de Spécialisation"
               render={(user) => renderSpecialization(user.specialization_field)}
               icon={<SpecializationIcon />}
             />
-            <ProfilField
+            <HaField
               label="Statut d'alternance  "
               icon={<StatusIcon />}
               render={(user) => renderWorkStatus(user.work_study_status)}
             />
-            <ProfilField
+            <HaField
               label="Date de début d'alternance"
               icon={<CalendarIcon />}
               render={(user) => (
                 <HaDateField value={user.commitment_begin_date} />
               )}
             />
-            <ProfilField
+            <HaField
               label="Lycée de provenance"
               icon={<SchoolIcon />}
               source="high_school_origin"
             />
-          </>
+          </Box>
         )}
       </Box>
     </Box>
@@ -313,7 +311,7 @@ const Contact = () => {
     >
       <Title>Coordonnées</Title>
       <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem"}}>
-        <ProfilField
+        <HaField
           label="Email"
           icon={<MailIcon />}
           render={(user) => (
@@ -326,9 +324,9 @@ const Contact = () => {
             </a>
           )}
         />
-        <ProfilField label="Téléphone" source="phone" icon={<PhoneIcon />} />
-        <ProfilField label="Adresse" source="address" icon={<AdressIcon />} />
-        <ProfilField
+        <HaField label="Téléphone" source="phone" icon={<PhoneIcon />} />
+        <HaField label="Adresse" source="address" icon={<AdressIcon />} />
+        <HaField
           label="Géolocalisation"
           icon={<GeoIcon />}
           render={(user) => <GeoPositionName coordinates={user.coordinates} />}
@@ -354,13 +352,13 @@ const PersonalDetails = () => {
       <Box
         sx={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem"}}
       >
-        <ProfilField
+        <HaField
           label="Sexe"
           render={(user) => getGenderInFr(user.sex)}
           icon={<GenderIcon />}
         />
-        <ProfilField label="Numéro CIN" source="nic" icon={<NicIcon />} />
-        <ProfilField
+        <HaField label="Numéro CIN" source="nic" icon={<NicIcon />} />
+        <HaField
           label="Date et lieu de naissance"
           render={(user) => (
             <BirthDateField
@@ -371,7 +369,7 @@ const PersonalDetails = () => {
           )}
           icon={<BirthDateIcon />}
         />
-        <ProfilField
+        <HaField
           label="Statut"
           render={(user) => getUserStatusInFr(user.status, user.sex)}
           icon={<StatusIcon />}
@@ -427,12 +425,12 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
               fontWeight="600"
               variant={isLarge ? "h4" : isSmall ? "subtitle1" : "h5"}
             >
-              {profile?.first_name} {profile?.last_name}
+              {profile.first_name} {profile.last_name}
             </Typography>
             <Typography
               variant={isLarge ? "h6" : isSmall ? "subtitle2" : "subtitle1"}
             >
-              {profile?.ref}
+              {profile.ref}
             </Typography>
             {isStudentProfile && (
               <Typography
@@ -457,7 +455,6 @@ export const Informations = ({isStudentProfile}) => {
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
   const {isManager} = useRole();
-
   const id = profile?.id;
   return (
     <TabbedShowLayout>
@@ -471,7 +468,7 @@ export const Informations = ({isStudentProfile}) => {
           justifyContent="space-between"
           padding={isLarge ? "1rem" : "0"}
         >
-          <DetailsIformation isStudentProfile={isStudentProfile} />
+          <PersonalInfos isStudentProfile={isStudentProfile} />
           <Box
             display="flex"
             gap={2}

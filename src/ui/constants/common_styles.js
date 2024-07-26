@@ -11,7 +11,7 @@ export const COMMON_BUTTON_PROPS = {
   },
 };
 
-export const COMMON_BUTTON_PROPS_OUTLINED = {
+export const COMMON_OUTLINED_BUTTON_PROPS = {
   size: "medium",
   variant: "outlined",
   style: {
@@ -22,6 +22,7 @@ export const COMMON_BUTTON_PROPS_OUTLINED = {
     width: "100%",
   },
 };
+
 export const COMMON_FIELD_ATTRIBUTES = {
   variant: "caption",
   color: PALETTE_COLORS.typography.grey,
