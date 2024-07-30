@@ -1,9 +1,9 @@
 import {EditButton} from "react-admin";
 
-import {Show} from "../common/components/Show";
-import {COMMON_BUTTON_PROPS} from "../../ui/constants/common_styles";
-import {ProfileLayout} from "../common/components/ProfileLayout";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {Show} from "@/operations/common/components/Show";
+import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
 
 const ActionsOnShow = ({basePath, data, resource}) => {
   return (
@@ -11,7 +11,7 @@ const ActionsOnShow = ({basePath, data, resource}) => {
       basePath={basePath}
       resource={resource}
       record={data}
-      {...COMMON_BUTTON_PROPS}
+      {...COMMON_OUTLINED_BUTTON_PROPS}
     />
   );
 };

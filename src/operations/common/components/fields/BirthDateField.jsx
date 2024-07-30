@@ -1,5 +1,5 @@
-import {Typography} from "@mui/material";
-import {formatDate} from "../../../../utils/date";
+import {Typography, useMediaQuery} from "@mui/material";
+import {formatDate} from "@/utils/date";
 
 export function BirthDateField({
   birthdate,
@@ -7,12 +7,13 @@ export function BirthDateField({
   emptyText,
   ...typographyProps
 }) {
+  const isLarge = useMediaQuery("(min-width:1700px)");
   if (!birthdate) return emptyText;
 
   const localBirthplace = formatDate(birthdate, false);
 
   return (
-    <Typography {...typographyProps}>
+    <Typography {...typographyProps} variant={isLarge ? "h6" : "caption"}>
       {localBirthplace}
       {birthplace && ` à ${birthplace}`}
     </Typography>
