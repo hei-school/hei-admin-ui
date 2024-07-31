@@ -21,6 +21,7 @@ export function SingleMenuBase({
 }) {
   const location = useLocation();
   const isSmall = useMediaQuery("(max-width:900px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
   const [open, setOpen] = useSidebarState();
   const color =
     to && location.pathname.startsWith(to) ? PALETTE_COLORS.yellow : "inherit";
@@ -47,7 +48,10 @@ export function SingleMenuBase({
       {...rest}
     >
       {icon}
-      <Typography variant="h6" sx={{fontSize: ".9em", color: "inherit"}}>
+      <Typography
+        variant="h6"
+        sx={{fontSize: isLarge ? "1.3em" : ".9em", color: "inherit"}}
+      >
         {label}
       </Typography>
     </Box>

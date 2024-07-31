@@ -22,8 +22,8 @@ export function HaLayout({children}) {
           <HaMenu />
           <Box
             sx={{
-              ml: isSmall ? 0 : "250px",
-              width: isSmall ? "100%" : "calc(100% - 250px)",
+              ml: isSmall ? 0 : "18vw",
+              width: isSmall ? "100%" : "calc(100% - 18vw)",
               boxSizing: "border-box",
               transition: "all .3s linear",
               px: 1,
