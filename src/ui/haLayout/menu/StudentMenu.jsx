@@ -9,10 +9,13 @@ import {
   Newspaper as AnnouncementIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
+import {DocShow} from "@/operations/docs/hei/DocShow";
+import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
 
 function StudentMenu() {
   const whoamiId = authProvider.getCachedWhoami().id;
+  const [isOpen, _set, toggle] = useToggle();
 
   return (
     <Box>
@@ -25,11 +28,13 @@ function StudentMenu() {
       />
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <ListMenuItem
-          to="/docs/school"
+          to="#"
           data-testid="hei-docs"
           label="HEI"
           icon={<SchoolDocsIcon />}
+          onClick={toggle}
         />
+        <DocShow open={isOpen} onClose={toggle} />
         <ListMenuItem
           to="/docs/students/TRANSCRIPT"
           data-testid="transcript-docs"
