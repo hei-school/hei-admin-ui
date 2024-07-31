@@ -26,8 +26,8 @@ export default function HaField({source, label, icon, render}) {
             <Box
               border="0.1px solid"
               borderColor={PALETTE_COLORS.yellow}
-              width={isLarge ? "4rem" : "2.5rem"}
-              height={isLarge ? "4rem" : "2.5rem"}
+              width={isLarge ? "3rem" : "2.5rem"}
+              height={isLarge ? "3rem" : "2.5rem"}
               display="flex"
               alignItems="center"
               justifyContent="center"
@@ -42,13 +42,13 @@ export default function HaField({source, label, icon, render}) {
                 variant="subtitle2"
                 sx={{
                   fontWeight: 600,
-                  fontSize: isLarge ? "1.5rem" : "0.9rem",
+                  fontSize: isLarge ? "1.09rem" : "0.9rem",
                   color: PALETTE_COLORS.primary,
                 }}
               >
                 {label}
               </Typography>
-              <Typography variant={isLarge ? "h6" : "caption"}>
+              <Typography variant={isLarge ? "body2" : "caption"}>
                 {getValue(record)}
               </Typography>
             </Box>

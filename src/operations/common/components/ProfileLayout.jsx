@@ -102,7 +102,7 @@ const renderExperienceDuration = ({
 const HaDateField = ({value, ...props}) => {
   const isLarge = useMediaQuery("(min-width:1700px)");
   return (
-    <Typography {...props} variant={isLarge ? "h6" : "caption"}>
+    <Typography {...props} variant={isLarge ? "body2" : "caption"}>
       {value
         ? new Date(value).toLocaleString("fr-FR", DATE_OPTIONS)
         : "Non-défini.e"}
@@ -215,8 +215,8 @@ const ProfileCardAvatar = ({role}) => {
             }}
             style={{
               objectFit: "cover",
-              height: isLarge ? 230 : 175,
-              width: isLarge ? 230 : 175,
+              height: isLarge ? 200 : 175,
+              width: isLarge ? 200 : 175,
               border: `1px solid ${PALETTE_COLORS.grey}`,
               borderRadius: "50%",
             }}
@@ -231,7 +231,7 @@ const Title = ({children: label}) => {
   const isLarge = useMediaQuery("(min-width:1700px)");
   return (
     <Typography
-      variant={isLarge ? "h4" : "h6"}
+      variant="h6"
       color={PALETTE_COLORS.yellow}
       fontWeight="bold"
       width="100%"
@@ -429,7 +429,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           <Box>
             <Typography
               fontWeight="600"
-              variant={isLarge ? "h4" : isSmall ? "subtitle1" : "h5"}
+              variant={isLarge ? "h5" : isSmall ? "subtitle1" : "h6"}
             >
               {profile.first_name} {profile.last_name}
             </Typography>
@@ -472,7 +472,6 @@ export const Informations = ({isStudentProfile}) => {
           height="100%"
           flexDirection={isSmall ? "column" : "row"}
           justifyContent="space-between"
-          padding={isLarge ? "1rem" : "0"}
         >
           <PersonalInfos isStudentProfile={isStudentProfile} />
           <Box
@@ -501,7 +500,7 @@ export const Informations = ({isStudentProfile}) => {
                 fontSize: "0.9rem",
               }}
             >
-              Listes des Frais
+              Liste des Frais
             </Button>
           }
           sx={{
