@@ -13,7 +13,7 @@ export function BirthDateField({
   const localBirthplace = formatDate(birthdate, false);
 
   return (
-    <Typography {...typographyProps} variant={isLarge ? "h6" : "caption"}>
+    <Typography {...typographyProps} variant={isLarge ? "body2" : "caption"}>
       {localBirthplace}
       {birthplace && ` à ${birthplace}`}
     </Typography>
