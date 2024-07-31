@@ -1,8 +1,12 @@
-import {Button, Link, useRecordContext} from "react-admin";
-import {AttachMoney, Comment as CommentIcon} from "@mui/icons-material";
+import {Button, EditButton, useRecordContext} from "react-admin";
+import {
+  AttachMoney,
+  Comment as CommentIcon,
+  Edit as EditIcon,
+} from "@mui/icons-material";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {useRole} from "@/security/hooks";
-import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {useToggle} from "@/hooks";
 
 import {Show} from "../common/components/Show";
@@ -12,6 +16,7 @@ import {DocMenu} from "./components/DocMenu";
 
 export const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
+  const id = student?.id;
   const role = useRole();
   const [showComments, , toogleShowComments] = useToggle(false);
 
@@ -19,30 +24,32 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
     <div
       style={{
         display: "flex",
+        flexDirection: "column",
         alignItems: "center",
         justifyContent: "end",
-        gap: 4,
+        gap: "0.2rem",
+        position: "absolute",
+        top: 15,
+        right: 8,
+        zIndex: 1,
       }}
     >
       <Button
         label="Commentaires"
         onClick={toogleShowComments}
-        {...COMMON_BUTTON_PROPS}
+        {...COMMON_OUTLINED_BUTTON_PROPS}
       >
         <CommentIcon />
       </Button>
       {role.isManager() && student && (
-        <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: 4}}>
-          <Button
-            aria-label="fees"
-            component={Link}
-            to={`/students/${student.id}/fees`}
-            data-testid="student-fees-list"
-            label="Frais"
-            {...COMMON_BUTTON_PROPS}
-          >
-            <AttachMoney />
-          </Button>
+        <div style={{display: "flex", flexDirection: "column", gap: "0.2rem"}}>
+          <EditButton
+            to={`/students/${id}/edit`}
+            data-testid="profile-edit-button"
+            startIcon={<EditIcon />}
+            variant="outlined"
+            {...COMMON_OUTLINED_BUTTON_PROPS}
+          />
           <DocMenu studentId={student.id} />
         </div>
       )}

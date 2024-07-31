@@ -80,7 +80,7 @@ describe("Manager.Fee", () => {
       `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
       createPaymentMock(interceptedFeeMock!)
     ).as("getPaymentsOfOneFee");
-    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="fees-list-tab"]').click();
     cy.wait("@getFees");
     cy.get("#main-content tbody tr").first().click();
     cy.wait("@getFee1");
@@ -93,7 +93,7 @@ describe("Manager.Fee", () => {
   });
 
   it("cannot create fees when fields are missing", () => {
-    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="fees-list-tab"]').click();
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.wait("@getFeesTemplates");
@@ -106,7 +106,7 @@ describe("Manager.Fee", () => {
   });
 
   it("can create fees with predefined fields equals to 1 month", () => {
-    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="fees-list-tab"]').click();
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.wait("@getFeesTemplates");
@@ -139,7 +139,7 @@ describe("Manager.Fee", () => {
     const FIRST_MONTH = 10,
       FIRST_YEAR = 2025;
 
-    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="fees-list-tab"]').click();
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.wait("@getFeesTemplates");
@@ -187,7 +187,7 @@ describe("Manager.Fee", () => {
       due_datetime: new Date(FIRST_DUE_DATETIME),
     };
 
-    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="fees-list-tab"]').click();
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("isPredefinedFee").click();
@@ -232,7 +232,7 @@ describe("Manager.Fee", () => {
       type: FeeTypeEnum.HARDWARE,
     };
 
-    cy.get('[aria-label="fees"]').click();
+    cy.get('[data-testid="fees-list-tab"]').click();
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("isPredefinedFee").click();
