@@ -73,8 +73,18 @@ const ListForm = () => {
       />
       <DateField
         source="creation_datetime"
-        label="Date de création"
+        label="Date de création du frais"
         showTime={false}
+      />
+      <DateField
+        source="mpbs.creation_datetime"
+        label="Date d'ajout de la référence de la transaction"
+        showTime
+      />
+      <DateField
+        source="mpbs.successfully_verified_on"
+        label="Date de vérification de la transaction"
+        showTime
       />
       <TextInput source="psp_id" label="Référence de la transaction" />
       <SelectInput
@@ -152,8 +162,18 @@ const StudentFeeList = () => {
         />
         <DateField
           source="creation_datetime"
-          label="Date de création"
+          label="Date de création du frais"
           showTime={false}
+        />
+        <DateField
+          source="mpbs.creation_datetime"
+          label="Date d'ajout de la référence de la transaction"
+          showTime
+        />
+        <DateField
+          source="mpbs.last_datetime_verification"
+          label="Date de dernière vérification de la transaction"
+          showTime
         />
         <TextField
           source="mpbs.psp_id"
