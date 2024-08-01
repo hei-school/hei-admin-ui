@@ -1,5 +1,5 @@
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import authProvider from "../../../providers/authProvider";
+import authProvider from "@/providers/authProvider";
 import ManagerMenu from "./ManagerMenu";
 import StudentMenu from "./StudentMenu";
 import TeacherMenu from "./TeacherMenu";
