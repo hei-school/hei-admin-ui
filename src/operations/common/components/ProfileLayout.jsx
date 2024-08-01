@@ -51,9 +51,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {DateField, BirthDateField, FieldLabel} from "./fields";
-import {Create} from "./Create";
-import {GeoPositionName} from "./GeoLocalisation";
+import {
+  DateField,
+  BirthDateField,
+  FieldLabel,
+} from "@/operations/common/components/fields";
+import {Create} from "@/operations/common/components/Create";
+import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
 import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
@@ -69,7 +73,7 @@ import {DATE_OPTIONS} from "@/utils/date";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import defaultCoverPicture from "@/assets/banner.jpg";
-import HaField from "./fields/HaField";
+import HaField from "@/operations/common/components/fields/HaField";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -127,7 +131,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
             ? "translate(-35px, -35px)"
             : "translate(-30px, -25px)",
           bgcolor: PALETTE_COLORS.grey,
-          height: isLarge ? 30 : 20,
+          height: 30,
           width: 30,
         }}
       >
@@ -308,8 +312,7 @@ const Contact = () => {
     <Box
       sx={{
         display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "row",
+        flexDirection: "column",
         gap: "0.5rem",
         boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
         width: "100%",
@@ -430,22 +433,38 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           <Box>
             <Typography
               fontWeight="600"
-              variant={isLarge ? "h5" : isSmall ? "subtitle1" : "h6"}
+              fontSize={{
+                xs: "1rem",
+                sm: "1.2rem",
+                md: "1.4rem",
+                lg: "1.6rem",
+                xl: "1.8rem",
+              }}
             >
               {profile.first_name} {profile.last_name}
             </Typography>
             <Typography
-              variant={isLarge ? "h6" : isSmall ? "subtitle2" : "subtitle1"}
+              fontSize={{
+                xs: "0.8rem",
+                sm: "0.9rem",
+                md: "1rem",
+                lg: "1rem",
+                xl: "1.2rem",
+              }}
             >
               {profile.ref}
             </Typography>
             {isStudentProfile && (
               <Typography
-                variant={
-                  isLarge ? "subtitle1" : isSmall ? "body2" : "subtitle2"
-                }
+                fontSize={{
+                  xs: "0.4rem",
+                  sm: "0.6rem",
+                  md: "0.8rem",
+                  lg: "0.9rem",
+                  xl: "1rem",
+                }}
               >
-                {groups.map((group) => group.name).join(", ")}
+                {groups.map((group) => group.ref).join(", ")}
               </Typography>
             )}
           </Box>

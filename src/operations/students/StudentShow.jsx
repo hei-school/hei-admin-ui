@@ -49,6 +49,11 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
             startIcon={<EditIcon />}
             variant="outlined"
             {...COMMON_OUTLINED_BUTTON_PROPS}
+            sx={{
+              display: "flex",
+              justifyContent: "flex-start",
+              gap: "0.2rem",
+            }}
           />
           <DocMenu studentId={student.id} />
         </div>
