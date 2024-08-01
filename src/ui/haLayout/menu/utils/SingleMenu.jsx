@@ -50,7 +50,7 @@ export function SingleMenuBase({
       {icon}
       <Typography
         variant="h6"
-        sx={{fontSize: isLarge ? "1.3em" : ".9em", color: "inherit"}}
+        sx={{fontSize: isLarge ? "1.2em" : ".9em", color: "inherit"}}
       >
         {label}
       </Typography>
