@@ -81,6 +81,11 @@ const ListForm = () => {
         label="Date d'ajout de la référence de la transaction"
         showTime
       />
+      <DateField
+        source="mpbs.successfully_verified_on"
+        label="Date de vérification de la transaction"
+        showTime
+      />
       <TextInput source="psp_id" label="Référence de la transaction" />
       <SelectInput
         source="psp_type"
@@ -163,6 +168,11 @@ const StudentFeeList = () => {
         <DateField
           source="mpbs.creation_datetime"
           label="Date d'ajout de la référence de la transaction"
+          showTime
+        />
+        <DateField
+          source="mpbs.last_datetime_verification"
+          label="Date de dernière vérification de la transaction"
           showTime
         />
         <TextField

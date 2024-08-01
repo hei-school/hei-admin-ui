@@ -63,6 +63,11 @@ const TransactionFeeList = () => (
       label="Date d'ajout de la référence de transaction"
       showTime
     />
+    <DateField
+      source="mpbs.last_datetime_verification"
+      label="Date de dernière vérification de la transaction"
+      showTime
+    />
     <FunctionField label="Statut" render={() => <StatusIcon />} />
   </HaList>
 );
