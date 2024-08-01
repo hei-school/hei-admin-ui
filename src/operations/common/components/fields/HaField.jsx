@@ -40,7 +40,7 @@ export default function HaField({source, label, icon, render}) {
               variant="subtitle2"
               sx={{
                 fontWeight: 600,
-                fontSize: isLarge ? "1.3rem" : "0.9rem",
+                fontSize: isLarge ? "1.2rem" : "0.9rem",
                 color: PALETTE_COLORS.primary,
               }}
             >
@@ -50,7 +50,7 @@ export default function HaField({source, label, icon, render}) {
           emptyText="Non défini.e"
           render={(record) => {
             return (
-              <Typography variant={isLarge ? "h6" : "caption"}>
+              <Typography variant={isLarge ? "subtitle1" : "caption"}>
                 {getValue(record) || "Non défini.e"}
               </Typography>
             );
