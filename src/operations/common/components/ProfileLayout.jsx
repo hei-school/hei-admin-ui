@@ -51,9 +51,13 @@ import {
   useMediaQuery,
 } from "@mui/material";
 
-import {DateField, BirthDateField, FieldLabel} from "./fields";
-import {Create} from "./Create";
-import {GeoPositionName} from "./GeoLocalisation";
+import {
+  DateField,
+  BirthDateField,
+  FieldLabel,
+} from "@/operations/common/components/fields";
+import {Create} from "@/operations/common/components/Create";
+import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
 import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
@@ -69,7 +73,7 @@ import {DATE_OPTIONS} from "@/utils/date";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import defaultCoverPicture from "@/assets/banner.jpg";
-import HaField from "./fields/HaField";
+import HaField from "@/operations/common/components/fields/HaField";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -115,7 +119,7 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const user = useRecordContext();
   const id = user?.id;
   const notify = useNotify();
-
+  const isLarge = useMediaQuery("(min-width:1700px)");
   return (
     <div>
       <IconButton
@@ -123,7 +127,9 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
         onClick={toggle}
         sx={{
           borderRadius: "50%",
-          transform: "translate(-30px, -25px)",
+          transform: isLarge
+            ? "translate(-35px, -35px)"
+            : "translate(-30px, -25px)",
           bgcolor: PALETTE_COLORS.grey,
           height: 30,
           width: 30,
@@ -215,8 +221,8 @@ const ProfileCardAvatar = ({role}) => {
             }}
             style={{
               objectFit: "cover",
-              height: isLarge ? 200 : 175,
-              width: isLarge ? 200 : 175,
+              height: isLarge ? 210 : 175,
+              width: isLarge ? 210 : 175,
               border: `1px solid ${PALETTE_COLORS.grey}`,
               borderRadius: "50%",
             }}
@@ -231,11 +237,11 @@ const Title = ({children: label}) => {
   const isLarge = useMediaQuery("(min-width:1700px)");
   return (
     <Typography
-      variant="h6"
       color={PALETTE_COLORS.yellow}
       fontWeight="bold"
       width="100%"
       borderBottom={`1px solid ${PALETTE_COLORS.grey}`}
+      fontSize={isLarge ? "1.5rem" : "0.9rem"}
     >
       {label}
     </Typography>
@@ -259,14 +265,14 @@ const PersonalInfos = ({isStudentProfile}) => {
       }}
     >
       <Title>Informations personnelles</Title>
-      <Box display="flex" flexDirection="column">
+      <Box display="flex" flexDirection="column" gap={1}>
         <HaField
           label="Date d'entrée chez HEI"
           icon={<CalendarIcon />}
           render={(user) => <HaDateField value={user.entrance_datetime} />}
         />
         {isStudentProfile && (
-          <Box>
+          <Box display="flex" flexDirection="column" gap={1}>
             <HaField
               label="Parcours de Spécialisation"
               render={(user) => renderSpecialization(user.specialization_field)}
@@ -307,8 +313,7 @@ const Contact = () => {
     <Box
       sx={{
         display: "flex",
-        flexWrap: "wrap",
-        flexDirection: "row",
+        flexDirection: "column",
         gap: "0.5rem",
         boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
         width: "100%",
@@ -429,22 +434,38 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
           <Box>
             <Typography
               fontWeight="600"
-              variant={isLarge ? "h5" : isSmall ? "subtitle1" : "h6"}
+              fontSize={{
+                xs: "1rem",
+                sm: "1.2rem",
+                md: "1.4rem",
+                lg: "1.6rem",
+                xl: "1.8rem",
+              }}
             >
               {profile.first_name} {profile.last_name}
             </Typography>
             <Typography
-              variant={isLarge ? "h6" : isSmall ? "subtitle2" : "subtitle1"}
+              fontSize={{
+                xs: "0.8rem",
+                sm: "0.9rem",
+                md: "1rem",
+                lg: "1rem",
+                xl: "1.2rem",
+              }}
             >
               {profile.ref}
             </Typography>
             {isStudentProfile && (
               <Typography
-                variant={
-                  isLarge ? "subtitle1" : isSmall ? "body2" : "subtitle2"
-                }
+                fontSize={{
+                  xs: "0.4rem",
+                  sm: "0.6rem",
+                  md: "0.8rem",
+                  lg: "0.9rem",
+                  xl: "1rem",
+                }}
               >
-                {groups.map((group) => group.name).join(", ")}
+                {groups.map((group) => group.ref).join(", ")}
               </Typography>
             )}
           </Box>
@@ -464,7 +485,10 @@ export const Informations = ({isStudentProfile}) => {
   const id = profile?.id;
   return (
     <TabbedShowLayout>
-      <TabbedShowLayout.Tab label="Détails du Profil">
+      <TabbedShowLayout.Tab
+        label="Détails du Profil"
+        style={{fontSize: "0.8rem"}}
+      >
         <Box
           display="flex"
           gap={2}
@@ -473,16 +497,17 @@ export const Informations = ({isStudentProfile}) => {
           flexDirection={isSmall ? "column" : "row"}
           justifyContent="space-between"
         >
-          <PersonalInfos isStudentProfile={isStudentProfile} />
           <Box
             display="flex"
             gap={2}
             width={isSmall ? "100%" : "50%"}
             flexDirection="column"
+            height="100%"
           >
             <Contact />
             <PersonalDetails />
           </Box>
+          <PersonalInfos isStudentProfile={isStudentProfile} />
         </Box>
       </TabbedShowLayout.Tab>
       {/* todo: show fees list in a tab not link */}

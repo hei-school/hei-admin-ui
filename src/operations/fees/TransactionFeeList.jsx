@@ -1,14 +1,14 @@
 import {CurrencyExchange as Money} from "@mui/icons-material";
 import {Chip} from "@mui/material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
-import {HaList} from "../../ui/haList/HaList";
+import {HaList} from "@/ui/haList/HaList";
+import {EMPTY_TEXT} from "@/ui/constants";
 import {FeesFilter} from "./components/FeesFilter";
 import {DateField} from "../common/components/fields";
 import {FunctionField, TextField} from "react-admin";
 import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
 import {PSP_COLORS, PSP_VALUES, rowStyle, StatusIcon} from "./utils";
-import {EMPTY_TEXT} from "@/ui/constants";
 
 const TransactionFeeList = () => (
   <HaList
@@ -25,7 +25,11 @@ const TransactionFeeList = () => (
     filterIndicator={false}
   >
     <TextField source="student_ref" label="Référence de l'étudiant" />
-    <DateField source="due_datetime" label="Date limite" showTime={false} />
+    <DateField
+      source="due_datetime"
+      label="Date limite de paiement du frais"
+      showTime={false}
+    />
     <TextField
       source="mpbs.psp_id"
       label="Référence de la transaction"
@@ -55,9 +59,14 @@ const TransactionFeeList = () => (
       render={(fee) => renderMoney(fee.remaining_amount)}
     />
     <DateField
-      source="creation_datetime"
-      label="Date de création"
-      showTime={false}
+      source="mpbs.creation_datetime"
+      label="Date d'ajout de la référence de transaction"
+      showTime
+    />
+    <DateField
+      source="mpbs.last_datetime_verification"
+      label="Date de dernière vérification de la transaction"
+      showTime
     />
     <FunctionField label="Statut" render={() => <StatusIcon />} />
   </HaList>

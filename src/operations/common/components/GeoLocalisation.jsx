@@ -25,7 +25,7 @@ export function GeoPositionName({
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        fontSize: "9px",
+        fontSize: "1rem",
         textDecoration: "underline",
       }}
     >

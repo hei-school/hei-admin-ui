@@ -7,15 +7,15 @@ import {
 import {useSidebarState} from "react-admin";
 import {useRole} from "@/security/hooks";
 import {PALETTE_COLORS} from "@/haTheme";
-import {HaMenuContent} from "../HaMenuContent";
-import {SingleMenu} from "./SingleMenu";
+import {HaMenuContent} from "@/ui/haLayout/menu/HaMenuContent";
+import {SingleMenu} from "@/ui/haLayout/menu/utils/SingleMenu";
 import menuLogo from "@/assets/menu-logo.png";
 import authProvider from "@/providers/authProvider";
 
 //TODO: create hook useIsSmall
 
 const MENU_STYLE = {
-  width: "250px",
+  width: "18vw",
   boxSizing: "border-box",
   paddingLeft: "20px",
   zIndex: 9,
@@ -52,7 +52,7 @@ export function HaMenuBase({sx = {}}) {
     <Box
       sx={{
         ...MENU_STYLE,
-        left: isShown ? 0 : "-250px",
+        left: isShown ? 0 : "18vw",
         height: isSmall ? "100%" : "calc(100% - 60px)",
         ...sx,
       }}
