@@ -32,7 +32,7 @@ function ManagerMenu() {
           to="/students"
         />
         <ListMenuItem
-          label="Liste des transactions"
+          label="Transactions (Mobile Money)"
           icon={<TransactionsIcon />}
           to="/transactions"
         />
