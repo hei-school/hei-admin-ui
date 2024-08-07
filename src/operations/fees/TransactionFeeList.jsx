@@ -13,7 +13,7 @@ import {PSP_COLORS, PSP_VALUES, rowStyle, StatusIcon} from "./utils";
 const TransactionFeeList = () => (
   <HaList
     icon={<Money />}
-    title="Liste des transactions (Mobile Money)"
+    title="Transactions (Mobile Money)"
     resource="fees"
     listProps={{
       filterDefaultValues: {isMpbs: true},

@@ -20,7 +20,7 @@ describe("Mobile payment by student", () => {
 
     cy.get(`[href="#/transactions"]`).click();
 
-    cy.contains("Liste des transactions (Mobile Money)");
+    cy.contains("Transactions (Mobile Money)");
     cy.contains("Référence de la transaction");
     cy.contains("Type de transaction");
     cy.contains("Statut");
