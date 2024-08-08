@@ -21,22 +21,22 @@ const MENU_STYLE = {
   zIndex: 9,
   transition: "all .3s linear",
   overflowX: "hidden",
-  overflowY: "auto", 
+  overflowY: "auto",
   bgcolor: "#001948",
   color: PALETTE_COLORS.white,
   top: 60,
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "column",
-  position: "fixed", 
+  position: "fixed",
 };
 
 const Separator = styled("div")({
   backgroundColor: "rgba(255,255,255,.2)",
   height: 1,
   display: "block",
-  width: "100%", 
-  transform: "translateX(0)", 
+  width: "100%",
+  transform: "translateX(0)",
 });
 
 export function HaMenuBase({sx = {}}) {
@@ -119,7 +119,7 @@ export function HaMenu() {
       anchor="left"
       open={open}
       onClose={() => setOpen(false)}
-      sx={{ width: '250px' }}
+      sx={{width: "250px"}}
     >
       <HaMenuBase />
     </Drawer>
