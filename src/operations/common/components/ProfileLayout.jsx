@@ -251,6 +251,7 @@ const Title = ({children: label}) => {
 const PersonalInfos = ({isStudentProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
+
   return (
     <Box
       sx={{
@@ -273,6 +274,11 @@ const PersonalInfos = ({isStudentProfile}) => {
         />
         {isStudentProfile && (
           <Box display="flex" flexDirection="column" gap={1}>
+            <HaField
+              label="Redoublant"
+              render={(user) => (user.is_repeating_year ? "Oui" : "Non")}
+              icon={<PersonIcon />}
+            />
             <HaField
               label="Parcours de Spécialisation"
               render={(user) => renderSpecialization(user.specialization_field)}
