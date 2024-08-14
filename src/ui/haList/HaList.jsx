@@ -1,10 +1,13 @@
 import React from "react";
-import { List, Datagrid } from "react-admin";
-import { Box, styled } from "@mui/material";
-import { PALETTE_COLORS } from "@/haTheme";
-import { PrevNextPagination } from "./PrevNextPagination";
-import { HaListTitle } from "./HaListTitle";
-import { EditableDatagrid, EditRowButton } from "@react-admin/ra-editable-datagrid";
+import {List, Datagrid} from "react-admin";
+import {Box, styled} from "@mui/material";
+import {PALETTE_COLORS} from "@/haTheme";
+import {PrevNextPagination} from "./PrevNextPagination";
+import {HaListTitle} from "./HaListTitle";
+import {
+  EditableDatagrid,
+  EditRowButton,
+} from "@react-admin/ra-editable-datagrid";
 
 const ListWrapper = styled("div")({
   width: "100%",
@@ -17,13 +20,13 @@ const ListWrapper = styled("div")({
 });
 
 const DatagridWrapper = styled("div")({
-  width: "100%",
-  overflowX: "auto",
+  "width": "100%",
+  "overflowX": "auto",
   "& table": {
     width: "100%",
   },
   "& th, & td": {
-    minWidth: "150px", 
+    minWidth: "150px",
   },
   "& th, & th span": {
     fontWeight: 550,
@@ -58,7 +61,7 @@ export function HaList({
   hasDatagrid = true,
   listProps = {},
   datagridProps = {},
-  mainSearch = { source: "", label: "" },
+  mainSearch = {source: "", label: ""},
   filterIndicator = true,
 }) {
   return (
@@ -69,8 +72,8 @@ export function HaList({
         resource={resource}
         empty={false}
         sx={{
-          "& .MuiPaper-root": { boxShadow: "none" },
-          "& td": { border: "none" },
+          "& .MuiPaper-root": {boxShadow: "none"},
+          "& td": {border: "none"},
         }}
         {...listProps}
       >
@@ -84,7 +87,11 @@ export function HaList({
           />
           <DatagridWrapper>
             {hasDatagrid ? (
-              <Datagrid bulkActionButtons={false} rowClick="show" {...datagridProps}>
+              <Datagrid
+                bulkActionButtons={false}
+                rowClick="show"
+                {...datagridProps}
+              >
                 {children}
               </Datagrid>
             ) : (
