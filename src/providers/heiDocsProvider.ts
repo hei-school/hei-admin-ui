@@ -8,7 +8,7 @@ const heiDocsProvider: HaDataProviderType = {
   },
   async getOne(_id: string, meta: any) {
     return filesApi()
-      .getSchoolFilesShareLink("/HEI_DOCUMENTS", meta.password)
+      .getSchoolFilesShareLink("/HEI_DOCUMENTS", "")
       .then(({data}) => data);
   },
   async saveOrUpdate(_payload: Course[]) {

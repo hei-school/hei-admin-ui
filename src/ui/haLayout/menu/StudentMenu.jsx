@@ -1,7 +1,6 @@
 import {Box} from "@mui/material";
 import {
   AttachMoney as FeesIcon,
-  Home as SchoolDocsIcon,
   CollectionsBookmark as TranscriptIcon,
   Inventory as DocsIcon,
   LibraryAddCheck as WorkStudyDocsIcon,
@@ -9,13 +8,11 @@ import {
   Newspaper as AnnouncementIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
-import {DocShow} from "@/operations/docs/hei/DocShow";
-import {useToggle} from "@/hooks";
+import {HeiListMenuItem} from "./common";
 import authProvider from "@/providers/authProvider";
 
 function StudentMenu() {
   const whoamiId = authProvider.getCachedWhoami().id;
-  const [isOpen, _set, toggle] = useToggle();
 
   return (
     <Box>
@@ -27,14 +24,7 @@ function StudentMenu() {
         icon={<FeesIcon />}
       />
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-        <ListMenuItem
-          to="#"
-          data-testid="hei-docs"
-          label="HEI"
-          icon={<SchoolDocsIcon />}
-          onClick={toggle}
-        />
-        <DocShow open={isOpen} onClose={toggle} />
+        <HeiListMenuItem />
         <ListMenuItem
           to="/docs/students/TRANSCRIPT"
           data-testid="transcript-docs"
