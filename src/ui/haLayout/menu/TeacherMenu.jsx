@@ -3,27 +3,17 @@ import {
   School as StudentIcon,
   Inventory as DocsIcon,
   Group as GroupIcon,
-  Home as HeiDocsIcon,
   Newspaper as AnnouncementIcon,
 } from "@mui/icons-material";
-import {useToggle} from "@/hooks";
-import {DocShow} from "@/operations/docs/hei/DocShow";
-import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
+import {ListMenu, SingleMenu} from "./utils";
+import {HeiListMenuItem} from "./common";
 
 function TeacherMenu() {
-  const [isOpen, _set, toggle] = useToggle();
   return (
     <Box>
       <SingleMenu to="/students" label="Étudiants" icon={<StudentIcon />} />
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-        <ListMenuItem
-          to="#"
-          data-testid="hei-docs"
-          label="HEI"
-          icon={<HeiDocsIcon />}
-          onClick={toggle}
-        />
-        <DocShow open={isOpen} onClose={toggle} />
+        <HeiListMenuItem />
       </ListMenu>
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu

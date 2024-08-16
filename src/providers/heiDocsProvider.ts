@@ -6,9 +6,9 @@ const heiDocsProvider: HaDataProviderType = {
   async getList(_page: number, _perPage: number, _filter: any) {
     throw new Error("Not implemented");
   },
-  async getOne(_id: string, meta: any) {
+  async getOne(_id: string, _meta: any) {
     return filesApi()
-      .getSchoolFilesShareLink("/HEI_DOCUMENTS", meta.password)
+      .getSchoolFilesShareLink("/HEI_DOCUMENTS", "")
       .then(({data}) => data);
   },
   async saveOrUpdate(_payload: Course[]) {
