@@ -3,9 +3,9 @@ import {AxiosResponse} from "axios";
 import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 import {
   fetchAuthSession,
-  updatePassword,
   resetPassword,
   confirmResetPassword,
+  confirmSignIn,
   signIn,
   signOut,
 } from "@aws-amplify/auth";
@@ -31,11 +31,6 @@ const whoami = async (): Promise<Whoami> => {
     .whoami()
     .then((response: AxiosResponse<Whoami>) => response.data);
 };
-
-const toBase64 = (param: string) => Buffer.from(param).toString("base64");
-
-const fromBase64 = (param: string) =>
-  Buffer.from(param, "base64").toString("ascii");
 
 const cacheWhoami = (whoami: Whoami): void => {
   sessionStorage.setItem(idItem, whoami.id as string);
@@ -77,11 +72,12 @@ const authProvider = {
     if (
       user.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
     ) {
-      const encodedUsername = encodeURIComponent(toBase64(username as string));
-      const encodedPassword = encodeURIComponent(toBase64(password as string));
+      const encodedUsername = encodeURIComponent(btoa(username as string));
+      const encodedPassword = encodeURIComponent(btoa(password as string));
       window.location.replace(
         `/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
       );
+
       return;
     }
     await whoami().then((whoami) => cacheWhoami(whoami));
@@ -140,15 +136,27 @@ const authProvider = {
   setNewPassword: async (newPassword: string): Promise<void> => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const username = fromBase64(
+
+    const username = atob(
       decodeURIComponent(urlParams.get(paramUsername) as string)
-    ) as string;
-    const temporaryPassword = fromBase64(
+    );
+    const temporaryPassword = atob(
       decodeURIComponent(urlParams.get(paramTemporaryPassword) as string)
-    ) as string;
-    await signIn({username, password: temporaryPassword});
-    await updatePassword({oldPassword: temporaryPassword, newPassword});
-    window.location.replace("/");
+    );
+
+    const signInResponse = await signIn({
+      username,
+      password: temporaryPassword,
+    });
+    if (
+      signInResponse.nextStep?.signInStep ===
+      "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
+    ) {
+      await confirmSignIn({
+        challengeResponse: newPassword,
+      });
+      window.location.replace("/");
+    }
   },
 
   whoami: whoami,
