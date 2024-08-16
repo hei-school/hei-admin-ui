@@ -9,7 +9,7 @@ import {
   Promotion,
   UpdatePromotionSGroupTypeEnum,
 } from "@haapi/typescript-client";
-import {Box} from "@mui/material";
+import {Box, useMediaQuery} from "@mui/material";
 import {useParams} from "react-router-dom";
 import {useNotify} from "@/hooks";
 import {useRole} from "@/security/hooks";
@@ -24,6 +24,7 @@ import {
 import {PromotionGroupList} from "./components";
 import {PromotionEditButton} from "./PromotionEditButton";
 import promotionFlowsProvider from "@/providers/promotionFlowProvider";
+import {PALETTE_COLORS} from "@/haTheme";
 
 function getSuccessMessage({
   type,
@@ -75,6 +76,7 @@ export default function PromotionShow() {
   const role = useRole();
   const {id} = useParams();
   const notify = useNotify();
+  const isSmall = useMediaQuery("(max-width:900px)");
 
   return (
     <Box>
@@ -90,18 +92,51 @@ export default function PromotionShow() {
           )
         }
       >
-        <SimpleShowLayout>
+        <SimpleShowLayout
+          sx={{
+            "& .css-jfdv4h-MuiStack-root > *": {
+              marginTop: "0px !important",
+            },
+            "margin": "1em",
+            "& .RaSimpleShowLayout-row": {
+              "marginBottom": "1em",
+              "borderColor": PALETTE_COLORS.grey,
+              "padding": "1.5em",
+              "borderRadius": "25px",
+              "background-color": PALETTE_COLORS.primary,
+              "color": "white",
+              "flexBasis": isSmall ? "100%" : "32%",
+            },
+            "& .RaSimpleShowLayout-stack": {
+              display: "flex",
+              flexDirection: "row",
+              justifyContent: "space-between",
+              flexWrap: "wrap",
+            },
+          }}
+        >
           <TextField
+            style={{marginTop: "0px"}}
+            fontFamily="Arial"
             source="name"
             label={<FieldLabel icon={<NameIcon />}>Nom</FieldLabel>}
             emptyText={EMPTY_TEXT}
           />
           <TextField
+            style={{marginTop: "0px !important"}}
+            fontFamily="Arial"
             source="ref"
+            sx={{
+              "&. .css-jfdv4h-MuiStack-root": {
+                marginTop: "0",
+              },
+            }}
             label={<FieldLabel icon={<ReferenceIcon />}>Référence</FieldLabel>}
             emptyText={EMPTY_TEXT}
           />
           <DateField
+            style={{marginTop: "0px"}}
+            fontFamily="Arial"
             source="creation_datetime"
             label={
               <FieldLabel icon={<CreationDateIcon />}>

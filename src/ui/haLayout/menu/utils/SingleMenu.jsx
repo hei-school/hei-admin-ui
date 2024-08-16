@@ -1,5 +1,4 @@
-import {Box, Typography} from "@mui/material";
-import {useMediaQuery} from "@mui/material";
+import {Box, Typography, useMediaQuery} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {Link, useSidebarState} from "react-admin";
 import {useLocation} from "react-router-dom";
@@ -58,9 +57,9 @@ export function SingleMenuBase({
   );
 }
 
-export const SingleMenu = ({label, icon, to, menu, ...rest}) =>
+export const SingleMenu = ({label, icon, to, menu, target, ...rest}) =>
   to ? (
-    <Link to={to} sx={{color: "inherit"}}>
+    <Link to={to} target={target} sx={{color: "inherit"}}>
       <SingleMenuBase {...{label, icon, to, menu, ...rest}} />
     </Link>
   ) : (

@@ -1,131 +1,103 @@
-import React, {useState} from "react";
+import React from "react";
+import {useForm} from "react-hook-form";
+import {TextField, Button, Typography, Box, Divider} from "@mui/material";
+import {useNotify} from "@/hooks";
 import authProvider from "../providers/authProvider";
 
-const classes = {
-  textInput: {
-    width: "100%",
-    backgroundColor: "#E8F0FE",
-    padding: "10px  0px 10px 0px",
-    marginTop: "5px",
-    marginBottom: "5px",
-    border: "0",
-    outline: "0",
-    borderBottom: "1px solid #000000",
-  },
-  submitInput: {
-    color: "#ffffff",
-    textAlign: "center",
-    fontSize: "1.4em",
-    fontFamily: "Roboto,Helvetica, sans-serif",
-    textTransform: "uppercase",
-    padding: "10px",
-    width: "100%",
-    cursor: "pointer",
-    backgroundColor: "#3f51b5",
-    border: "0",
-    borderRadius: "4px",
-  },
-  formWrapper: {
-    opacity: "0.9",
-    height: "245px",
-    padding: "15px",
-    backgroundColor: "#ffffff",
-    borderRadius: "4px",
-    width: "300px",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    justifyItems: "center",
-    textAlign: "left",
-  },
-  formGroup: {
-    width: "100%",
-  },
-};
+const matchCognitoPassword = (password) => {
+  const format = /[!@#$%^&*()_+\-=]/;
 
-const CustomLabel = (text) => {
-  return <label style={{textAlign: "left", color: "#BDBDBD"}}>{text}</label>;
+  return (
+    password.length >= 8 &&
+    format.test(password) &&
+    /\d/.test(password) &&
+    /[A-Z]/.test(password)
+  );
 };
 
 const CompletePasswordForm = () => {
-  const [password, setPassword] = useState();
-  const matchCognitoPassword = (password) => {
-    var format = /[!@#$%^&*()_+\-=]/;
-    if (password.length < 8) {
-      return false;
-    } else if (!format.test(password)) {
-      return false;
-    } else if (!/\d/.test(password)) {
-      return false;
-    } else if (!/[A-Z]/.test(password)) {
-      return false;
-    }
-    return true;
-  };
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    var passwordValue = document.getElementById("password").value;
-    if (passwordValue === "") {
-      alert("Le mot de passe ne peut pas être vide.");
-    } else if (
-      passwordValue !== document.getElementById("confirm-password").value
-    ) {
-      alert("Les mots de passe ne correspondent pas !");
-    } else if (!matchCognitoPassword(passwordValue)) {
-      alert(
-        "Le mot de passe doit : \n - avoir au moins 8 caractères \n - avoir au moins une majuscule \n - avoir au moins un caractère spécial !@#$%^&*()_+-= \n - avoir au moins un chiffre"
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: {errors},
+  } = useForm();
+  const password = watch("password");
+  const notify = useNotify();
+
+  const onSubmit = (data) => {
+    if (!matchCognitoPassword(data.password)) {
+      return notify(
+        "Le mot de passe doit avoir au moins : 8 caractères, une majuscule, un caractère spécial !@#$%^&*()_+-= et un chiffre",
+        {type: "error", autoHideDuration: 10000}
       );
-    } else {
-      authProvider.setNewPassword(password);
     }
+
+    authProvider.setNewPassword(data.password);
   };
+
   return (
-    <form onSubmit={handleSubmit}>
-      <div className={classes.formWrapper}>
-        <div
-          style={{
-            color: "#000000",
-            textAlign: "center",
-            fontWeight: "bold",
-            fontSize: "1.4em",
-          }}
-        >
-          Première connexion ?
-        </div>
-        <hr />
-        <div className={classes.formGroup}>
-          {CustomLabel("Entrez votre nouveau mot de passe")}
-          <input
-            className={classes.textInput}
-            type="password"
-            onChange={(e) => setPassword(e.target.value)}
-            id="password"
-          />
-        </div>
-        <div className={classes.formGroup}>
-          {CustomLabel("Confirmez votre nouveau mot de passe")}
-          <input
-            className={classes.textInput}
-            type="password"
-            id="confirm-password"
-          />
-        </div>
-        <div className={classes.formGroup}>
-          <input
-            value="Enregistrer"
-            type="submit"
-            className={classes.submitInput}
-          />
-        </div>
-      </div>
-    </form>
+    <Box
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      sx={{
+        width: 300,
+        padding: 3,
+        backgroundColor: "#ffffff",
+        borderRadius: 2,
+        boxShadow: 3,
+        textAlign: "center",
+      }}
+    >
+      <Typography variant="h6" fontWeight="bold" gutterBottom>
+        Première connexion ?
+      </Typography>
+      <Divider sx={{marginBottom: 2}} />
+
+      <TextField
+        fullWidth
+        type="password"
+        label="Entrez votre nouveau mot de passe"
+        variant="outlined"
+        margin="normal"
+        {...register("password", {required: "Mot de passe requis"})}
+        error={!!errors.password}
+        helperText={errors.password?.message}
+      />
+
+      <TextField
+        fullWidth
+        type="password"
+        label="Confirmez votre nouveau mot de passe"
+        variant="outlined"
+        margin="normal"
+        {...register("confirmPassword", {
+          validate: (value) =>
+            value === password || "Les mots de passe ne correspondent pas",
+        })}
+        error={!!errors.confirmPassword}
+        helperText={errors.confirmPassword?.message}
+      />
+
+      <Button
+        type="submit"
+        variant="contained"
+        color="primary"
+        fullWidth
+        sx={{marginTop: 2}}
+      >
+        Enregistrer
+      </Button>
+    </Box>
   );
 };
+
 const CompletePasswordPage = () => {
   return (
-    <center style={{paddingTop: "10%"}}>
+    <Box sx={{display: "flex", justifyContent: "center", paddingTop: "10%"}}>
       <CompletePasswordForm />
-    </center>
+    </Box>
   );
 };
+
 export default CompletePasswordPage;
