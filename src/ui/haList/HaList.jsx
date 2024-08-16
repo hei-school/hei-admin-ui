@@ -1,3 +1,4 @@
+import React from "react";
 import {List, Datagrid} from "react-admin";
 import {Box, styled} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
@@ -9,9 +10,9 @@ import {
 } from "@react-admin/ra-editable-datagrid";
 
 const ListWrapper = styled("div")({
-  width: "calc(100% - 20px)",
+  width: "100%",
   height: "100%",
-  overflow: "hidden",
+  overflow: "auto",
   borderRadius: 10,
   boxShadow: "2px 2px 15px rgba(0,0,0,.1)",
   margin: "auto",
@@ -19,6 +20,14 @@ const ListWrapper = styled("div")({
 });
 
 const DatagridWrapper = styled("div")({
+  "width": "100%",
+  "overflowX": "auto",
+  "& table": {
+    width: "100%",
+  },
+  "& th, & td": {
+    minWidth: "150px",
+  },
   "& th, & th span": {
     fontWeight: 550,
     color: "#bf660d",
@@ -33,8 +42,8 @@ const DatagridWrapper = styled("div")({
   "& thead th span": {
     color: PALETTE_COLORS.typography.black,
   },
-  "& tbody .MuiTableRow-root": {
-    "&:hover": {backgroundColor: "#edf1fa"},
+  "& tbody .MuiTableRow-root:hover": {
+    backgroundColor: "#edf1fa",
   },
   "& td": {
     borderBottom: "1px solid",
