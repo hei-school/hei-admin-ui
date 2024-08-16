@@ -94,6 +94,9 @@ export default function PromotionShow() {
       >
         <SimpleShowLayout
           sx={{
+            "& .css-jfdv4h-MuiStack-root > *": {
+              marginTop: "0px !important",
+            },
             "margin": "1em",
             "& .RaSimpleShowLayout-row": {
               "marginBottom": "1em",
@@ -113,18 +116,26 @@ export default function PromotionShow() {
           }}
         >
           <TextField
+            style={{marginTop: "0px"}}
             fontFamily="Arial"
             source="name"
             label={<FieldLabel icon={<NameIcon />}>Nom</FieldLabel>}
             emptyText={EMPTY_TEXT}
           />
           <TextField
+            style={{marginTop: "0px !important"}}
             fontFamily="Arial"
             source="ref"
+            sx={{
+              "&. .css-jfdv4h-MuiStack-root": {
+                marginTop: "0",
+              },
+            }}
             label={<FieldLabel icon={<ReferenceIcon />}>Référence</FieldLabel>}
             emptyText={EMPTY_TEXT}
           />
           <DateField
+            style={{marginTop: "0px"}}
             fontFamily="Arial"
             source="creation_datetime"
             label={
