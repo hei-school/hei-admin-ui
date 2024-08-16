@@ -3,20 +3,30 @@ import {PALETTE_COLORS} from "@/haTheme";
 
 export const FieldLabel = ({children: label, icon}) => (
   <Typography
-    color={PALETTE_COLORS.typography.black}
+    color={PALETTE_COLORS.white}
     fontWeight="bold"
     variant="body2"
     sx={{
       "display": "inline-flex",
       "alignItems": "center",
+      "fontSize": "1.5em",
       "gap": 1,
+      "lineHeight": "1",
       "& .MuiSvgIcon-root": {
-        fontSize: "15px",
-        mt: "1px",
+        fontSize: "30px",
       },
     }}
   >
-    {icon}
+    <span
+      style={{
+        "color": PALETTE_COLORS.yellow,
+        "border-radius": "10px",
+        "padding": "0.60rem",
+        "background-color": "#263B63",
+      }}
+    >
+      {icon}
+    </span>
     {label}
   </Typography>
 );
