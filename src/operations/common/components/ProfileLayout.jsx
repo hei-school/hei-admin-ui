@@ -259,7 +259,7 @@ const PersonalInfos = ({isStudentProfile}) => {
         gap: "0.5rem",
         boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
         width: isSmall ? "100%" : "50%",
-        minHeigh: "100%",
+        minHeight: "100%",
         padding: "1rem",
         borderRadius: "10px",
       }}
@@ -309,6 +309,8 @@ const PersonalInfos = ({isStudentProfile}) => {
 };
 
 const Contact = () => {
+  const isSmall = useMediaQuery("(max-width:900px)");
+
   return (
     <Box
       sx={{
@@ -321,7 +323,13 @@ const Contact = () => {
       }}
     >
       <Title>Coordonnées</Title>
-      <Box sx={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1rem"}}>
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr",
+          gap: "1rem",
+        }}
+      >
         <HaField
           label="Email"
           icon={<MailIcon />}
@@ -348,6 +356,8 @@ const Contact = () => {
 };
 
 const PersonalDetails = () => {
+  const isSmall = useMediaQuery("(max-width:900px)");
+
   return (
     <Box
       sx={{
@@ -361,7 +371,11 @@ const PersonalDetails = () => {
     >
       <Title>Détails personnels</Title>
       <Box
-        sx={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.5rem"}}
+        sx={{
+          display: "grid",
+          gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr",
+          gap: "1rem",
+        }}
       >
         <HaField
           label="Sexe"

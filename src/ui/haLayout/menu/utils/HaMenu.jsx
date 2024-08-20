@@ -15,26 +15,28 @@ import authProvider from "@/providers/authProvider";
 //TODO: create hook useIsSmall
 
 const MENU_STYLE = {
-  width: "18vw",
+  width: "250px",
   boxSizing: "border-box",
   paddingLeft: "20px",
   zIndex: 9,
   transition: "all .3s linear",
   overflowX: "hidden",
+  overflowY: "auto",
   bgcolor: "#001948",
   color: PALETTE_COLORS.white,
   top: 60,
   display: "flex",
   justifyContent: "space-between",
   flexDirection: "column",
+  position: "fixed",
 };
 
 const Separator = styled("div")({
   backgroundColor: "rgba(255,255,255,.2)",
   height: 1,
   display: "block",
-  width: "300%",
-  transform: "translateX(-50%)",
+  width: "100%",
+  transform: "translateX(0)",
 });
 
 export function HaMenuBase({sx = {}}) {
@@ -113,10 +115,15 @@ export function HaMenu() {
   const [open, setOpen] = useSidebarState();
 
   return isSmall ? (
-    <Drawer anchor="left" open={open} onClose={() => setOpen(false)}>
+    <Drawer
+      anchor="left"
+      open={open}
+      onClose={() => setOpen(false)}
+      sx={{width: "250px"}}
+    >
       <HaMenuBase />
     </Drawer>
   ) : (
-    <HaMenuBase sx={{position: "fixed"}} />
+    <HaMenuBase />
   );
 }
