@@ -15,7 +15,6 @@ import authProvider from "@/providers/authProvider";
 //TODO: create hook useIsSmall
 
 const MENU_STYLE = {
-  width: "250px",
   boxSizing: "border-box",
   paddingLeft: "20px",
   zIndex: 9,
@@ -35,8 +34,8 @@ const Separator = styled("div")({
   backgroundColor: "rgba(255,255,255,.2)",
   height: 1,
   display: "block",
-  width: "100%",
-  transform: "translateX(0)",
+  width: "300%",
+  transform: "translateX(-50%)",
 });
 
 export function HaMenuBase({sx = {}}) {
@@ -57,6 +56,7 @@ export function HaMenuBase({sx = {}}) {
         left: isShown ? 0 : "18vw",
         height: isSmall ? "100%" : "calc(100% - 60px)",
         ...sx,
+        width: isSmall ? "250px" : "18vw",
       }}
       component="div"
       id="ha-menu"
