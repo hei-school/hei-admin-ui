@@ -1,6 +1,6 @@
 import React from "react";
 import {List, Datagrid} from "react-admin";
-import {Box, styled} from "@mui/material";
+import {Box, styled, useMediaQuery} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {PrevNextPagination} from "./PrevNextPagination";
 import {HaListTitle} from "./HaListTitle";
@@ -10,7 +10,7 @@ import {
 } from "@react-admin/ra-editable-datagrid";
 
 const ListWrapper = styled("div")({
-  width: "100%",
+  width: "calc(100% - 20px)",
   height: "100%",
   overflow: "auto",
   borderRadius: 10,
@@ -20,14 +20,6 @@ const ListWrapper = styled("div")({
 });
 
 const DatagridWrapper = styled("div")({
-  "width": "100%",
-  "overflowX": "auto",
-  "& table": {
-    width: "100%",
-  },
-  "& th, & td": {
-    minWidth: "150px",
-  },
   "& th, & th span": {
     fontWeight: 550,
     color: "#bf660d",
