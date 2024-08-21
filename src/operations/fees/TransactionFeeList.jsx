@@ -27,7 +27,7 @@ const TransactionFeeList = () => (
     <TextField source="student_ref" label="Référence de l'étudiant" />
     <DateField
       source="due_datetime"
-      label="Date limite de paiement du frais"
+      label="Limite de paiement du frais"
       showTime={false}
     />
     <TextField
@@ -60,12 +60,22 @@ const TransactionFeeList = () => (
     />
     <DateField
       source="mpbs.creation_datetime"
-      label="Date d'ajout de la référence de transaction"
+      label="Ajout de la référence de transaction"
       showTime
     />
     <DateField
       source="mpbs.last_datetime_verification"
-      label="Date de dernière vérification de la transaction"
+      label="Dernière vérification par HEI"
+      showTime
+    />
+    <DateField
+      source="mpbs.psp_own_datetime_verification"
+      label="Vérification par Orange"
+      showTime
+    />
+    <DateField
+      source="mpbs.successfully_verified_on"
+      label="Vérification réussie"
       showTime
     />
     <FunctionField label="Statut" render={() => <StatusIcon />} />
