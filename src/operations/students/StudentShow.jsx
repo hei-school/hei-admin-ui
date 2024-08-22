@@ -1,24 +1,16 @@
-import {Button, EditButton, useRecordContext} from "react-admin";
-import {
-  AttachMoney,
-  Comment as CommentIcon,
-  Edit as EditIcon,
-} from "@mui/icons-material";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {EditButton, useRecordContext} from "react-admin";
+import {Edit as EditIcon} from "@mui/icons-material";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
-import {useToggle} from "@/hooks";
-
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {Show} from "../common/components/Show";
 import {ProfileLayout} from "../common/components/ProfileLayout";
-import {StudentComments} from "../comments";
 import {DocMenu} from "./components/DocMenu";
 
 export const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
   const id = student?.id;
   const role = useRole();
-  const [showComments, , toogleShowComments] = useToggle(false);
 
   return (
     <div
@@ -34,13 +26,6 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
         zIndex: 1,
       }}
     >
-      <Button
-        label="Commentaires"
-        onClick={toogleShowComments}
-        {...COMMON_OUTLINED_BUTTON_PROPS}
-      >
-        <CommentIcon />
-      </Button>
       {role.isManager() && student && (
         <div style={{display: "flex", flexDirection: "column", gap: "0.2rem"}}>
           <EditButton
@@ -57,14 +42,6 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
           />
           <DocMenu studentId={student.id} />
         </div>
-      )}
-      {showComments && (
-        <StudentComments
-          title="Liste des commentaires"
-          studentId={student.id}
-          open={showComments}
-          onClose={toogleShowComments}
-        />
       )}
     </div>
   );
