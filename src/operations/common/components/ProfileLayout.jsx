@@ -49,6 +49,7 @@ import {
   IconButton,
   Typography,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 
 import {
@@ -505,10 +506,30 @@ export const Informations = ({isStudentProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
-  const {isManager} = useRole();
-  const id = profile?.id;
+  const {isStudent, isTeacher, isManager} = useRole();
+  const student = profile;
+
+  if (!student) {
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="100vh"
+        width="100%"
+        flexDirection="column"
+        gap={2}
+      >
+        <CircularProgress color="primary" />
+        <Typography variant="h6" color="textSecondary">
+          Chargement en cours...
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
-    <TabbedShowLayout>
+    <TabbedShowLayout syncWithLocation={false}>
       <TabbedShowLayout.Tab
         label="Détails du Profil"
         style={{fontSize: "0.8rem"}}
@@ -534,7 +555,15 @@ export const Informations = ({isStudentProfile}) => {
           <PersonalInfos isStudentProfile={isStudentProfile} />
         </Box>
       </TabbedShowLayout.Tab>
-      {/* todo: show fees list in a tab not link */}
+
+      {/* Commentaire tab */}
+      {isStudentProfile && (isManager() || isTeacher() || isStudent()) && (
+        <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
+          <CommentList studentId={student.id} />
+        </TabbedShowLayout.Tab>
+      )}
+
+      {/* Liste des Frais tab */}
       {isStudentProfile && isManager() && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
