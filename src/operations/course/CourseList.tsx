@@ -7,9 +7,13 @@ import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Dialog} from "@/ui/components";
 import {CourseCreate} from "./CourseCreate";
 import {useToggle} from "@/hooks";
+import {CourseShowDialog} from "./CourseShow";
+import {useState} from "react";
 
 export function CourseList() {
   const [showCreate, _set, toggleShowCreate] = useToggle();
+  const [showDetails, toggleShowDetails] = useToggle();
+  const [selectedCourseId, setSelectedCourseId] = useState(null);
   const notify = useNotify();
 
   return (
@@ -20,7 +24,10 @@ export function CourseList() {
         title="Liste de cours"
         mainSearch={{label: "Code", source: "code"}}
         datagridProps={{
-          rowClick: false,
+          rowClick: (id: any) => {
+            setSelectedCourseId(id);
+            toggleShowDetails(true);
+          },
         }}
         actions={
           <>
@@ -58,6 +65,12 @@ export function CourseList() {
           }}
         />
       </Dialog>
+
+      <CourseShowDialog
+        open={showDetails}
+        onClose={toggleShowDetails}
+        courseId={selectedCourseId}
+      />
     </>
   );
 }
