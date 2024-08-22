@@ -43,14 +43,6 @@ const ProfileShow = () => {
             {isStudent() ? (
               <>
                 <Button
-                  label="Commentaires"
-                  studentId={id}
-                  onClick={toogleShowComments}
-                  {...COMMON_OUTLINED_BUTTON_PROPS}
-                >
-                  <CommentIcon />
-                </Button>
-                <Button
                   label={<GetCertificate studentId={id} />}
                   data-testid="get-certificate-btn"
                   {...COMMON_OUTLINED_BUTTON_PROPS}
