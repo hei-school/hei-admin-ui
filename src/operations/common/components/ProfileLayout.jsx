@@ -563,7 +563,7 @@ export const Informations = ({isStudentProfile}) => {
         </TabbedShowLayout.Tab>
       )}
 
-      {/* Liste des Frais tab */}
+      {/* todo: show fees list in a tab not link */}
       {isStudentProfile && isManager() && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
@@ -573,6 +573,7 @@ export const Informations = ({isStudentProfile}) => {
           <FeeList studentId={id} />
         </TabbedShowLayout.Tab>
       )}
+      {/* todo: change comment button to tab */}
     </TabbedShowLayout>
   );
 };
