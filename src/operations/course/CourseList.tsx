@@ -1,19 +1,19 @@
+import {useState} from "react";
 import {TextField, useNotify} from "react-admin";
 import {Book, Add as AddIcon} from "@mui/icons-material";
 import {HaList} from "@/ui/haList";
-import {CourseListFilter} from "./components";
-import {CourseEditButton} from "./CourseEditButton";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Dialog} from "@/ui/components";
-import {CourseCreate} from "./CourseCreate";
+import {CourseCreate} from "@/operations/course/CourseCreate";
 import {useToggle} from "@/hooks";
-import {CourseShowDialog} from "./CourseShow";
-import {useState} from "react";
+import {CourseShowDialog} from "@/operations/course/CourseShow";
+import {CourseListFilter} from "@/operations/course/components";
+import {CourseEditButton} from "@/operations/course/CourseEditButton";
 
 export function CourseList() {
   const [showCreate, _set, toggleShowCreate] = useToggle();
-  const [showDetails, toggleShowDetails] = useToggle();
   const [selectedCourseId, setSelectedCourseId] = useState(null);
+
   const notify = useNotify();
 
   return (
@@ -26,7 +26,6 @@ export function CourseList() {
         datagridProps={{
           rowClick: (id: any) => {
             setSelectedCourseId(id);
-            toggleShowDetails(true);
           },
         }}
         actions={
@@ -49,6 +48,7 @@ export function CourseList() {
         <TextField source="credits" label="Credits" />
         <TextField source="total_hours" label="Heure total" />
         <CourseEditButton />
+        <CourseShowDialog courseId={selectedCourseId} />
       </HaList>
       <Dialog
         title="Création d'un cours"
@@ -65,12 +65,6 @@ export function CourseList() {
           }}
         />
       </Dialog>
-
-      <CourseShowDialog
-        open={showDetails}
-        onClose={toggleShowDetails}
-        courseId={selectedCourseId}
-      />
     </>
   );
 }

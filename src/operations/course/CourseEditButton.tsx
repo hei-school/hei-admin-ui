@@ -11,7 +11,7 @@ import {
 } from "react-admin";
 import {Create as EditIcon} from "@mui/icons-material";
 import {Dialog} from "@/ui/components";
-import {Edit} from "../common/components";
+import {Edit} from "@/operations/common/components";
 import {useToggle, useNotify} from "@/hooks";
 import {Course} from "@haapi/typescript-client";
 

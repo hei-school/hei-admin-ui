@@ -1,13 +1,23 @@
-import {SimpleShowLayout, TextField} from "react-admin";
-import {Show} from "../common/components/Show";
+import {Button, SimpleShowLayout, TextField} from "react-admin";
 import {Dialog, DialogTitle, DialogContent, IconButton} from "@mui/material";
 import {Close as CloseIcon} from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
+import {Create as EditIcon} from "@mui/icons-material";
+import {Show} from "@/operations/common/components";
+import {useToggle} from "@/hooks";
 
-export const CourseShowDialog = ({open, onClose, courseId}) => {
+export const CourseShowDialog = ({courseId}) => {
+  const [showDetails, toggleShowDetails] = useToggle();
   return (
     <>
-      <Dialog open={open} onClose={onClose}>
+      <Button
+        onClick={toggleShowDetails}
+        startIcon={<EditIcon />}
+        label="AFFICHER"
+        variant="text"
+        sx={{py: "5px"}}
+      />
+      <Dialog open={showDetails} onClose={toggleShowDetails}>
         <DialogTitle
           variant="h2"
           sx={{
@@ -24,7 +34,7 @@ export const CourseShowDialog = ({open, onClose, courseId}) => {
               ml: 6,
               borderRadius: "50%",
             }}
-            onClick={() => onClose()}
+            onClick={() => toggleShowDetails()}
           >
             <CloseIcon />
           </IconButton>
