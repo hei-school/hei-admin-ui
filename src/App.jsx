@@ -18,7 +18,6 @@ import announcements from "./operations/announcements";
 import fees from "./operations/fees";
 import feesTemplates from "./operations/feesTemplates";
 import payments from "./operations/payments";
-import heiDocs from "./operations/docs/hei";
 import studentDocs from "./operations/docs/students";
 import HaLoginPage from "./security/LoginPage";
 import promotions from "./operations/promotions/index.tsx";
@@ -142,7 +141,6 @@ function AppBase() {
           path="/docs/students/WORK_DOCUMENT/:id"
           element={<studentDocs.show />}
         />
-        <Route exact path="/docs/HEI_DOCUMENT" element={<heiDocs.show />} />
       </CustomRoutes>
     </Admin>
   );

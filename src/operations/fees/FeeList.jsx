@@ -61,29 +61,38 @@ const ListForm = () => {
         },
       }}
     >
-      <DateField source="due_datetime" label="Date limite" showTime={false} />
-      <FunctionField
-        source="comment"
-        render={commentFunctionRenderer}
-        label="Commentaire"
+      <DateField
+        source="due_datetime"
+        label="Limite de paiement du frais"
+        showTime={false}
       />
       <FunctionField
         label="Reste à payer"
         render={(record) => renderMoney(record.remaining_amount)}
       />
-      <DateField
-        source="creation_datetime"
-        label="Date de création du frais"
-        showTime={false}
+      <FunctionField
+        source="comment"
+        render={commentFunctionRenderer}
+        label="Commentaire"
       />
       <DateField
         source="mpbs.creation_datetime"
-        label="Date d'ajout de la référence de la transaction"
+        label="Ajout de la référence de transaction"
+        showTime
+      />
+      <DateField
+        source="mpbs.last_datetime_verification"
+        label="Dernière vérification par HEI"
+        showTime
+      />
+      <DateField
+        source="mpbs.psp_own_datetime_verification"
+        label="Vérification par Orange"
         showTime
       />
       <DateField
         source="mpbs.successfully_verified_on"
-        label="Date de vérification de la transaction"
+        label="Vérification réussie"
         showTime
       />
       <TextInput source="psp_id" label="Référence de la transaction" />
@@ -150,29 +159,38 @@ const StudentFeeList = () => {
         actions={<EditableDatagridActions />}
         rowSx={rowStyle}
       >
-        <DateField source="due_datetime" label="Date limite" showTime={false} />
-        <FunctionField
-          source="comment"
-          render={commentFunctionRenderer}
-          label="Commentaire"
+        <DateField
+          source="due_datetime"
+          label="Limite de paiement du frais"
+          showTime={false}
         />
         <FunctionField
           label="Reste à payer"
           render={(record) => renderMoney(record.remaining_amount)}
         />
-        <DateField
-          source="creation_datetime"
-          label="Date de création du frais"
-          showTime={false}
+        <FunctionField
+          source="comment"
+          render={commentFunctionRenderer}
+          label="Commentaire"
         />
         <DateField
           source="mpbs.creation_datetime"
-          label="Date d'ajout de la référence de la transaction"
+          label="Ajout de la référence de transaction"
           showTime
         />
         <DateField
           source="mpbs.last_datetime_verification"
-          label="Date de dernière vérification de la transaction"
+          label="Dernière vérification par HEI"
+          showTime
+        />
+        <DateField
+          source="mpbs.psp_own_datetime_verification"
+          label="Vérification par Orange"
+          showTime
+        />
+        <DateField
+          source="mpbs.successfully_verified_on"
+          label="Vérification réussie"
           showTime
         />
         <TextField
@@ -219,7 +237,11 @@ const ManagerFeeList = () => {
       }}
       editable={false}
     >
-      <DateField source="due_datetime" label="Date limite" showTime={false} />
+      <DateField
+        source="due_datetime"
+        label="Limite de paiement du frais"
+        showTime={false}
+      />
       <FunctionField
         source="comment"
         render={commentFunctionRenderer}
@@ -228,11 +250,6 @@ const ManagerFeeList = () => {
       <FunctionField
         label="Reste à payer"
         render={(record) => renderMoney(record.remaining_amount)}
-      />
-      <DateField
-        source="creation_datetime"
-        label="Date de création"
-        showTime={false}
       />
       <TextField
         source="mpbs.psp_id"
@@ -252,6 +269,26 @@ const ManagerFeeList = () => {
         }
         label="Type de transaction"
         emptyText={EMPTY_TEXT}
+      />
+      <DateField
+        source="mpbs.creation_datetime"
+        label="Ajout de la référence de transaction"
+        showTime
+      />
+      <DateField
+        source="mpbs.last_datetime_verification"
+        label="Dernière vérification par HEI"
+        showTime
+      />
+      <DateField
+        source="mpbs.psp_own_datetime_verification"
+        label="Vérification par Orange"
+        showTime
+      />
+      <DateField
+        source="mpbs.successfully_verified_on"
+        label="Vérification réussie"
+        showTime
       />
       <DeleteWithConfirm
         resourceType="fees"
