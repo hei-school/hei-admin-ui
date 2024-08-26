@@ -26,6 +26,28 @@ import {PromotionEditButton} from "./PromotionEditButton";
 import promotionFlowsProvider from "@/providers/promotionFlowProvider";
 import {PALETTE_COLORS} from "@/haTheme";
 
+const SyleSx = (isSmall: boolean) => ({
+  "& .css-jfdv4h-MuiStack-root > *": {
+    marginTop: "0px",
+  },
+  "margin": "1em",
+  "& .RaSimpleShowLayout-row": {
+    marginBottom: "1em",
+    borderColor: PALETTE_COLORS.grey,
+    padding: "1.5em",
+    borderRadius: "25px",
+    backgroundColor: PALETTE_COLORS.primary,
+    color: "white",
+    flexBasis: isSmall ? "100%" : "32%",
+  },
+  "& .RaSimpleShowLayout-stack": {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
+  },
+});
+
 function getSuccessMessage({
   type,
   resources: groups,
@@ -92,29 +114,7 @@ export default function PromotionShow() {
           )
         }
       >
-        <SimpleShowLayout
-          sx={{
-            "& .css-jfdv4h-MuiStack-root > *": {
-              marginTop: "0px !important",
-            },
-            "margin": "1em",
-            "& .RaSimpleShowLayout-row": {
-              "marginBottom": "1em",
-              "borderColor": PALETTE_COLORS.grey,
-              "padding": "1.5em",
-              "borderRadius": "25px",
-              "background-color": PALETTE_COLORS.primary,
-              "color": "white",
-              "flexBasis": isSmall ? "100%" : "32%",
-            },
-            "& .RaSimpleShowLayout-stack": {
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "space-between",
-              flexWrap: "wrap",
-            },
-          }}
-        >
+        <SimpleShowLayout sx={{...SyleSx(isSmall)}}>
           <TextField
             style={{marginTop: "0px"}}
             fontFamily="Arial"
