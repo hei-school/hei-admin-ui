@@ -5,7 +5,7 @@ import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {Show} from "@/operations/common/components/Show";
 import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
-import { DocMenu } from "@/operations/students/components/DocMenu";
+import {DocMenu} from "@/operations/students/components/DocMenu";
 
 export const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
