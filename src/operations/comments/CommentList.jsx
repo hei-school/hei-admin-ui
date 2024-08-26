@@ -159,7 +159,7 @@ export function CommentList({studentId, close}) {
           px: 1,
           py: 2,
           overflowY: "auto",
-          maxHeight: "300px",
+          maxHeight: "600px",
         }}
       >
         {shownComments.map((comment, index) => (
