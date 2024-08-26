@@ -41,7 +41,7 @@ const ProfileShow = () => {
             }}
           >
             {isStudent() ? (
-              <>
+              <Box>
                 <Button
                   label={<GetCertificate studentId={id} />}
                   data-testid="get-certificate-btn"
@@ -49,7 +49,7 @@ const ProfileShow = () => {
                 >
                   <Download />
                 </Button>
-              </>
+              </Box>
             ) : (
               <EditButton
                 to={`/profile/${id}/edit`}

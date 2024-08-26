@@ -555,9 +555,7 @@ export const Informations = ({isStudentProfile}) => {
           <PersonalInfos isStudentProfile={isStudentProfile} />
         </Box>
       </TabbedShowLayout.Tab>
-
-      {/* Commentaire tab */}
-      {isStudentProfile && (isManager() || isTeacher() || isStudent()) && (
+      {isStudentProfile && (
         <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
           <CommentList studentId={student.id} />
         </TabbedShowLayout.Tab>
