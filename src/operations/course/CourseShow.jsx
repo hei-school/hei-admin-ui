@@ -1,15 +1,14 @@
 import {Button, SimpleShowLayout, TextField} from "react-admin";
-import {Dialog, DialogTitle, DialogContent, IconButton} from "@mui/material";
-import {Close as CloseIcon} from "@mui/icons-material";
+import {Dialog, DialogTitle, DialogContent, IconButton, Box} from "@mui/material";
+import {Close as CloseIcon, Create as EditIcon} from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
-import {Create as EditIcon} from "@mui/icons-material";
 import {Show} from "@/operations/common/components";
 import {useToggle} from "@/hooks";
 
 export const CourseShowDialog = ({courseId}) => {
   const [showDetails, toggleShowDetails] = useToggle();
   return (
-    <>
+    <Box>
       <Button
         onClick={toggleShowDetails}
         startIcon={<EditIcon />}
@@ -44,14 +43,14 @@ export const CourseShowDialog = ({courseId}) => {
             "& .RaShow-card": {
               border: "solid 1px",
               borderColor: PALETTE_COLORS.grey,
-              boxShadow: "0",
+              boxShadow: "initial",
             },
           }}
         >
           <CourseShow id={courseId} />
         </DialogContent>
       </Dialog>
-    </>
+    </Box>
   );
 };
 

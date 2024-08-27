@@ -1,5 +1,6 @@
 import {useState} from "react";
 import {TextField, useNotify} from "react-admin";
+import {Box} from "@mui/material";
 import {Book, Add as AddIcon} from "@mui/icons-material";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
@@ -17,7 +18,7 @@ export function CourseList() {
   const notify = useNotify();
 
   return (
-    <>
+    <Box>
       <HaList
         icon={<Book />}
         resource="course"
@@ -29,7 +30,7 @@ export function CourseList() {
           },
         }}
         actions={
-          <>
+          <Box>
             <HaActionWrapper>
               <ButtonBase
                 data-testid="create-button"
@@ -40,7 +41,7 @@ export function CourseList() {
               </ButtonBase>
             </HaActionWrapper>
             <CourseListFilter />
-          </>
+          </Box>
         }
       >
         <TextField source="code" label="Code" />
@@ -65,6 +66,6 @@ export function CourseList() {
           }}
         />
       </Dialog>
-    </>
+    </Box>
   );
 }
