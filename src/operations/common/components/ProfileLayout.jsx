@@ -60,7 +60,10 @@ import {Create} from "@/operations/common/components/Create";
 import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
 import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
-import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
+import {
+  getGenderInFr,
+  getUserStatusInFr,
+} from "@/operations/common/utils/typo_util";
 import {formatDate} from "@/utils/date";
 import {SPECIALIZATION_VALUE} from "@/operations/students/components";
 import {EMPTY_TEXT} from "@/ui/constants";
@@ -74,6 +77,7 @@ import {DATE_OPTIONS} from "@/utils/date";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import defaultCoverPicture from "@/assets/banner.jpg";
 import HaField from "@/operations/common/components/fields/HaField";
+import FeeList from "@/operations/fees/FeeList";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -533,28 +537,13 @@ export const Informations = ({isStudentProfile}) => {
       {/* todo: show fees list in a tab not link */}
       {isStudentProfile && isManager() && (
         <TabbedShowLayout.Tab
-          label={
-            <Button
-              component={Link}
-              to={`/students/${id}/fees`}
-              data-testid="fees-list-tab"
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-                height: "100%",
-                fontSize: "0.9rem",
-              }}
-            >
-              Liste des Frais
-            </Button>
-          }
-          sx={{
-            padding: "0 !important",
-            margin: "0 !important",
-          }}
-        />
+          label="Liste des Frais"
+          data-testid="fees-list-tab"
+          style={{fontSize: "0.8rem"}}
+        >
+          <FeeList studentId={id} />
+        </TabbedShowLayout.Tab>
       )}
-      {/* todo: change comment button to tab */}
     </TabbedShowLayout>
   );
 };

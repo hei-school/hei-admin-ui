@@ -29,18 +29,23 @@ import {useRole} from "@/security/hooks/useRole";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {CreateButton, ImportButton} from "@/ui/haToolbar";
-import {DeleteWithConfirm} from "../common/components";
-import {DateField} from "../common/components/fields";
-import {renderMoney} from "../common/utils/money";
-import {commentFunctionRenderer} from "../utils";
+import {DeleteWithConfirm} from "@/operations/common/components";
+import {DateField} from "@/operations/common/components/fields";
+import {renderMoney} from "@/operations/common/utils/money";
+import {commentFunctionRenderer} from "@/operations/utils";
 import {
   minimalFeesHeaders,
   optionalFeesHeaders,
   transformFeesData,
   valideFeesData,
-} from "./importConf";
-import {rowStyle, PSP_COLORS, PSP_VALUES, StatusIcon} from "./utils";
-import {FeesFilter} from "./components/FeesFilter";
+} from "@/operations/fees/importConf";
+import {
+  rowStyle,
+  PSP_COLORS,
+  PSP_VALUES,
+  StatusIcon,
+} from "@/operations/fees/utils";
+import {FeesFilter} from "@/operations/fees/components/FeesFilter";
 
 export const MPBS_STATUS_LABEL = {
   SUCCESS: "Paiement avec succès",
@@ -124,6 +129,7 @@ export const EditableDatagridActions = () => {
           </IconButton>
         </Tooltip>
       )}
+
       <Link
         to={`/fees/${record?.id}/show`}
         data-testid={`showButton-${record.id}`}
@@ -217,8 +223,8 @@ const StudentFeeList = () => {
   );
 };
 
-const ManagerFeeList = () => {
-  const {studentRef, studentId} = useStudentRef("studentId");
+const ManagerFeeList = ({studentId}) => {
+  const {studentRef} = useStudentRef(studentId);
 
   return (
     <HaList
@@ -317,10 +323,13 @@ function FeesActions({studentId}) {
   );
 }
 
-const FeeList = () => {
+const FeeList = ({studentId}) => {
   const {isStudent} = useRole();
-
-  return isStudent() ? <StudentFeeList /> : <ManagerFeeList />;
+  return isStudent() ? (
+    <StudentFeeList studentId={studentId} />
+  ) : (
+    <ManagerFeeList studentId={studentId} />
+  );
 };
 
 export default FeeList;
