@@ -59,6 +59,10 @@ import {
 } from "@/operations/common/components/fields";
 import {Create} from "@/operations/common/components/Create";
 import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
+import {CommentList} from "@/operations/comments/CommentList";
+import HaField from "@/operations/common/components/fields/HaField";
+import FeeList from "@/operations/fees/FeeList";
+
 import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {
@@ -75,10 +79,8 @@ import {NOOP_FN} from "@/utils/noop";
 import {COMMON_FIELD_ATTRIBUTES} from "@/ui/constants/common_styles";
 import {DATE_OPTIONS} from "@/utils/date";
 
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import defaultCoverPicture from "@/assets/banner.jpg";
-import HaField from "@/operations/common/components/fields/HaField";
-import FeeList from "@/operations/fees/FeeList";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -507,9 +509,8 @@ export const Informations = ({isStudentProfile}) => {
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
   const {isStudent, isTeacher, isManager} = useRole();
-  const student = profile;
 
-  if (!student) {
+  if (!profile) {
     return (
       <Box
         display="flex"
@@ -557,21 +558,19 @@ export const Informations = ({isStudentProfile}) => {
       </TabbedShowLayout.Tab>
       {isStudentProfile && (
         <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
-          <CommentList studentId={student.id} />
+          <CommentList studentId={profile.id} />
         </TabbedShowLayout.Tab>
       )}
 
-      {/* todo: show fees list in a tab not link */}
       {isStudentProfile && isManager() && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
           data-testid="fees-list-tab"
           style={{fontSize: "0.8rem"}}
         >
-          <FeeList studentId={id} />
+          <FeeList studentId={profile.id} />
         </TabbedShowLayout.Tab>
       )}
-      {/* todo: change comment button to tab */}
     </TabbedShowLayout>
   );
 };
