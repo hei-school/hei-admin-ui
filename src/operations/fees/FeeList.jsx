@@ -82,12 +82,12 @@ const ListForm = () => {
       />
       <DateField
         source="mpbs.last_datetime_verification"
-        label="Dernière vérification par HEI"
+        label="Dernière vérification par le PSP"
         showTime
       />
       <DateField
         source="mpbs.psp_own_datetime_verification"
-        label="Vérification par Orange"
+        label="Vérification par PSP"
         showTime
       />
       <DateField
@@ -98,7 +98,7 @@ const ListForm = () => {
       <TextInput source="psp_id" label="Référence de la transaction" />
       <SelectInput
         source="psp_type"
-        label="Type de transaction"
+        label="Type de PSP"
         choices={[{id: MobileMoneyType.ORANGE_MONEY, name: "Orange"}]}
         defaultValue={MobileMoneyType.ORANGE_MONEY}
       />
@@ -180,12 +180,12 @@ const StudentFeeList = () => {
         />
         <DateField
           source="mpbs.last_datetime_verification"
-          label="Dernière vérification par HEI"
+          label="Dernière vérification par le PSP"
           showTime
         />
         <DateField
           source="mpbs.psp_own_datetime_verification"
-          label="Vérification par Orange"
+          label="Vérification par PSP"
           showTime
         />
         <DateField
@@ -209,7 +209,7 @@ const StudentFeeList = () => {
               EMPTY_TEXT
             )
           }
-          label="Type de transaction"
+          label="Type de PSP"
           emptyText={EMPTY_TEXT}
         />
       </EditableDatagrid>
@@ -267,7 +267,7 @@ const ManagerFeeList = () => {
             EMPTY_TEXT
           )
         }
-        label="Type de transaction"
+        label="Type de PSP"
         emptyText={EMPTY_TEXT}
       />
       <DateField
@@ -277,12 +277,12 @@ const ManagerFeeList = () => {
       />
       <DateField
         source="mpbs.last_datetime_verification"
-        label="Dernière vérification par HEI"
+        label="Dernière vérification par le PSP"
         showTime
       />
       <DateField
         source="mpbs.psp_own_datetime_verification"
-        label="Vérification par Orange"
+        label="Vérification par PSP"
         showTime
       />
       <DateField
