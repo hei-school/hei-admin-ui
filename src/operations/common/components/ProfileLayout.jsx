@@ -568,7 +568,7 @@ export const Informations = ({isStudentProfile}) => {
           data-testid="fees-list-tab"
           style={{fontSize: "0.8rem"}}
         >
-          <FeeList studentId={profile.id} />
+          <FeeList studentId={profile.id} studentRef={profile.ref} />
         </TabbedShowLayout.Tab>
       )}
     </TabbedShowLayout>

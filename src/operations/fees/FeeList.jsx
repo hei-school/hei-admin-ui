@@ -223,9 +223,7 @@ const StudentFeeList = () => {
   );
 };
 
-const ManagerFeeList = ({studentId}) => {
-  const {studentRef} = useStudentRef(studentId);
-
+const ManagerFeeList = ({studentId, studentRef}) => {
   return (
     <HaList
       icon={<WarningOutlined />}
@@ -323,12 +321,12 @@ function FeesActions({studentId}) {
   );
 }
 
-const FeeList = ({studentId}) => {
+const FeeList = ({studentId, studentRef}) => {
   const {isStudent} = useRole();
   return isStudent() ? (
-    <StudentFeeList studentId={studentId} />
+    <StudentFeeList studentId={studentId} studentRef={studentRef} />
   ) : (
-    <ManagerFeeList studentId={studentId} />
+    <ManagerFeeList studentId={studentId} studentRef={studentRef} />
   );
 };
 
