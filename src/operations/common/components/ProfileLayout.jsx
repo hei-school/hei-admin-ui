@@ -49,6 +49,7 @@ import {
   IconButton,
   Typography,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 
 import {
@@ -58,6 +59,10 @@ import {
 } from "@/operations/common/components/fields";
 import {Create} from "@/operations/common/components/Create";
 import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
+import {CommentList} from "@/operations/comments/CommentList";
+import HaField from "@/operations/common/components/fields/HaField";
+import FeeList from "@/operations/fees/FeeList";
+
 import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {
@@ -74,10 +79,8 @@ import {NOOP_FN} from "@/utils/noop";
 import {COMMON_FIELD_ATTRIBUTES} from "@/ui/constants/common_styles";
 import {DATE_OPTIONS} from "@/utils/date";
 
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import defaultCoverPicture from "@/assets/banner.jpg";
-import HaField from "@/operations/common/components/fields/HaField";
-import FeeList from "@/operations/fees/FeeList";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -505,10 +508,29 @@ export const Informations = ({isStudentProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
-  const {isManager} = useRole();
-  const id = profile?.id;
+  const {isStudent, isTeacher, isManager} = useRole();
+
+  if (!profile) {
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="100vh"
+        width="100%"
+        flexDirection="column"
+        gap={2}
+      >
+        <CircularProgress color="primary" />
+        <Typography variant="h6" color="textSecondary">
+          Chargement en cours...
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
-    <TabbedShowLayout>
+    <TabbedShowLayout syncWithLocation={false}>
       <TabbedShowLayout.Tab
         label="Détails du Profil"
         style={{fontSize: "0.8rem"}}
@@ -534,14 +556,19 @@ export const Informations = ({isStudentProfile}) => {
           <PersonalInfos isStudentProfile={isStudentProfile} />
         </Box>
       </TabbedShowLayout.Tab>
-      {/* todo: show fees list in a tab not link */}
+      {isStudentProfile && (
+        <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
+          <CommentList studentId={profile.id} />
+        </TabbedShowLayout.Tab>
+      )}
+
       {isStudentProfile && isManager() && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
           data-testid="fees-list-tab"
           style={{fontSize: "0.8rem"}}
         >
-          <FeeList studentId={id} />
+          <FeeList studentId={profile.id} studentRef={profile.ref} />
         </TabbedShowLayout.Tab>
       )}
     </TabbedShowLayout>
