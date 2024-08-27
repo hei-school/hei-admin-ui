@@ -1,5 +1,11 @@
 import {Button, SimpleShowLayout, TextField} from "react-admin";
-import {Dialog, DialogTitle, DialogContent, IconButton, Box} from "@mui/material";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  IconButton,
+  Box,
+} from "@mui/material";
 import {Close as CloseIcon, Create as EditIcon} from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {Show} from "@/operations/common/components";
