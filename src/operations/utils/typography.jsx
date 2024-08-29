@@ -20,7 +20,7 @@ const statusMap = {
   UNPAID: {
     text: "En attente",
     icon: <HourglassEmpty sx={{color: PALETTE_COLORS.white, mr: 1}} />,
-    backgroundColor: "#FFBF00",
+    backgroundColor: "#fbbf24",
   },
 };
 
@@ -40,7 +40,7 @@ export const statusRenderer = (status) => {
         backgroundColor: backgroundColor,
         color: PALETTE_COLORS.white,
         padding: "0.5em 1em",
-        borderRadius: "5px",
+        borderRadius: "25px",
         fontWeight: "bold",
       }}
     >

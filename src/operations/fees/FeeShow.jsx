@@ -54,7 +54,7 @@ const LabeledField = ({label, icon, children}) => (
         variant="subtitle1"
         sx={{
           fontSize: "1.2em",
-          color: PALETTE_COLORS.white,
+          color: "#2f2f2f",
         }}
       >
         {label}
@@ -70,7 +70,12 @@ export const FeeLayout = ({feeId}) => {
     <Box container spacing={2} m={6}>
       <Typography
         variant="h4"
-        sx={{color: PALETTE_COLORS.primary, mb: "1.5em", fontWeight: "bold"}}
+        sx={{
+          fontSize: "1.5em",
+          fontWeight: "bold",
+          mb: "2em",
+        }}
+        gutterBottom
       >
         Détails du paiement
       </Typography>
@@ -83,9 +88,10 @@ export const FeeLayout = ({feeId}) => {
               fontSize: "1.5em",
               mb: "2em",
               fontWeight: "bold",
+              color: PALETTE_COLORS.primary,
             }}
           >
-            <InfoOutlined sx={{color: PALETTE_COLORS.yellow, mr: 1}} />
+            <InfoOutlined sx={{color: "#2563eb", mr: 1}} />
             Informations de paiement
           </Typography>
           <LabeledField label="Reste à payer">
@@ -106,30 +112,29 @@ export const FeeLayout = ({feeId}) => {
               textAlign="right"
               sx={{
                 ...styles.font,
-                color: PALETTE_COLORS.white,
+                color: PALETTE_COLORS.primary,
               }}
             />
           </LabeledField>
           <Box
             sx={{
-              backgroundColor: "#002a6e",
-              border: "solid 1px #003694",
+              backgroundColor: "white",
               borderRadius: "5px",
               padding: "1em",
               marginTop: "1em",
-              color: PALETTE_COLORS.white,
+              boxShadow: "rgba(0, 0, 0, 0.05) 0px 0px 0px 1px",
             }}
           >
             <Box {...styles.box}>
               <ChatBubbleOutline
-                sx={{color: PALETTE_COLORS.yellow, marginRight: "0.5em"}}
+                sx={{color: "#2563eb", marginRight: "0.5em"}}
               />
               <Typography
                 variant="subtitle1"
                 sx={{
-                  color: PALETTE_COLORS.yellow,
                   fontWeight: "bold",
                   fontSize: "1.3em",
+                  color: PALETTE_COLORS.primary,
                 }}
               >
                 Commentaire
@@ -138,7 +143,7 @@ export const FeeLayout = ({feeId}) => {
             <FunctionField
               source="comment"
               render={commentFunctionRenderer}
-              sx={{color: PALETTE_COLORS.white, fontSize: "1em"}}
+              sx={{fontSize: "1em"}}
             />
           </Box>
         </Grid>
@@ -153,7 +158,7 @@ export const FeeLayout = ({feeId}) => {
               fontWeight: "bold",
             }}
           >
-            <EventNoteOutlined sx={{color: PALETTE_COLORS.yellow, mr: 1}} />
+            <EventNoteOutlined sx={{color: "#2563eb", mr: 1}} />
             Dates importantes
           </Typography>
           <LabeledField label="Date limite de paiement">
@@ -170,7 +175,10 @@ export const FeeLayout = ({feeId}) => {
             <DateField
               source="creation_datetime"
               showTime={false}
-              {...styles.font}
+              sx={{
+                ...styles.font,
+                color: PALETTE_COLORS.primary,
+              }}
             />
           </LabeledField>
           <LabeledField label="Statut">
@@ -183,11 +191,15 @@ export const FeeLayout = ({feeId}) => {
           </LabeledField>
         </Grid>
       </Grid>
-      <Grid item xs={12}>
+      <Grid item xs={12} sx={{margin: "1em 0"}}>
         <Typography sx={{...styles.box, color: "#495057"}}>
           <AccessTimeOutlined sx={{marginRight: "0.2em"}} />
           Dernière modification:
-          <FunctionField source="last_modified" render={dateTimeRenderer} />
+          <FunctionField
+            source="last_modified"
+            render={dateTimeRenderer}
+            sx={{marginLeft: "0.5em"}}
+          />
         </Typography>
       </Grid>
       <Grid item xs={12}>
