@@ -5,43 +5,48 @@ import {Letter} from "@haapi/typescript-client";
 import {PALETTE_COLORS} from "@/haTheme";
 import {formatDate} from "@/utils/date";
 
+interface LetterItemProps {
+  letter: Letter;
+}
+
 const statusColors = {
   APPROVED: {border: "#4de852", background: "#4de852"},
   REJECTED: {border: "#dc3545", background: "#dc3545"},
   PENDING: {border: "#ffcf5c", background: "#ffcf5c"},
 };
+const itemsStyle = {
+  width: "300px",
+  minHeight: "170px",
+  position: "relative",
+  boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.4)",
+  marginBlock: "0.5rem",
+  borderRadius: "12px",
+  borderBottom: "1rem solid",
+};
+const iconStyle = {
+  width: "55px",
+  height: "55px",
+  display: "flex",
+  alignItems: "center",
+  justifyContent: "center",
+  borderRadius: "50%",
+  position: "absolute",
+  top: "-27.5px",
+  left: "15px",
+};
 
-export function LetterItem({letter}: {letter: Letter}) {
+const LetterItem: FC<LetterItemProps> = ({letter}) => {
   const creationDate = formatDate(letter.creation_datetime!, false);
   const colors = statusColors[letter.status as keyof typeof statusColors] || {
     border: "#ffcf5c",
     background: "#ffcf5c",
   };
   return (
-    <Box
-      sx={{
-        width: "240px",
-        minHeight: "170px",
-        position: "relative",
-        boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.4)",
-        marginBlock: "0.5rem",
-        borderRadius: "12px",
-        borderBottom: "1rem solid",
-        borderColor: colors.border,
-      }}
-    >
+    <Box sx={{...itemsStyle, borderColor: colors.border}}>
       <Box
         sx={{
+          ...iconStyle,
           backgroundColor: colors.background,
-          width: "55px",
-          height: "55px",
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          borderRadius: "50%",
-          position: "absolute",
-          top: "-27.5px",
-          left: "15px",
         }}
       >
         <Folder sx={{fontSize: "2.5rem", color: "white"}} />
@@ -75,7 +80,8 @@ export function LetterItem({letter}: {letter: Letter}) {
       </Box>
     </Box>
   );
-}
+};
+export default LetterItem;
 
 const BottomField: FC<{
   text: string;
