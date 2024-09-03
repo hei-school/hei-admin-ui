@@ -39,7 +39,7 @@ export const DocList = () => {
     >
       <Typography sx={{display: "flex", alignItems: "center"}}>
         <WarningAmberIcon sx={{marginRight: "1em"}} />
-        L'accès à ce document est interdit car l'étudiant est suspendu.
+        L'accès à ce document vous est interdit car vous êtes suspendu.
       </Typography>
     </Box>
   ) : (
