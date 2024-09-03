@@ -17,6 +17,7 @@ interface ListContentStyleProps {
 
 interface StudentLettersContentProps {
   sx?: SxProps;
+  isStudentLetters: boolean;
 }
 
 const ListContentStyle = ({
@@ -86,7 +87,10 @@ const StudentLetters: FC = () => {
           </TopToolbar>
         }
       >
-        <StudentLettersContent sx={ListContentStyle({isLarge, isSmall})} />
+        <StudentLettersContent
+          sx={ListContentStyle({isLarge, isSmall})}
+          isStudentLetters={true}
+        />
       </List>
       <CreateLettersDialog
         isOpen={isOpen}
@@ -98,7 +102,10 @@ const StudentLetters: FC = () => {
 };
 export default StudentLetters;
 
-export const StudentLettersContent: FC<StudentLettersContentProps> = ({sx}) => {
+export const StudentLettersContent: FC<StudentLettersContentProps> = ({
+  sx,
+  isStudentLetters,
+}) => {
   const {data: letters = []} = useListContext<Required<Letter>>();
   const isEmpty = letters.length === 0;
 
@@ -106,7 +113,11 @@ export const StudentLettersContent: FC<StudentLettersContentProps> = ({sx}) => {
     <Box sx={sx}>
       {isEmpty && <Emptylist />}
       {letters.map((letter) => (
-        <LetterItem key={letter.id} letter={letter} />
+        <LetterItem
+          key={letter.id}
+          letter={letter}
+          isStudentLetters={isStudentLetters}
+        />
       ))}
     </Box>
   );

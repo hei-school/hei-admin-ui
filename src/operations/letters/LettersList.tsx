@@ -36,6 +36,7 @@ const LettersList: FC = () => {
             justifyContent: "center",
             paddingTop: "3rem",
           }}
+          isStudentLetters={false}
         />
       </List>
     </Box>
