@@ -23,15 +23,18 @@ const ListContentStyle = ({
   isLarge,
   isSmall,
 }: ListContentStyleProps): React.CSSProperties => {
-  const getJustifyContent = () => (isSmall ? "center" : "flex-start");
+  const getJustifyContent = () => {
+    if (isSmall) return "center";
+    return "flex-start";
+  };
 
   const getGap = () => {
-    if (isLarge) return "1.4rem";
+    if (isLarge) return "2.3rem";
     if (isSmall) return "1rem";
     return "1.6rem";
   };
 
-  const getPadding = () => (isLarge ? "2rem 1rem" : "2.5rem 3.2rem");
+  const getPadding = () => (isLarge ? "2rem 6rem" : "2.5rem 3.2rem");
 
   return {
     display: "flex",
