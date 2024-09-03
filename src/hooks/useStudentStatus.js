@@ -16,7 +16,7 @@ export const useStudentStatus = (studentId) => {
         if (data.status === "SUSPENDED") {
           setIsSuspended(true);
           notify(
-            "L'accès à ce document est interdit car l'étudiant est suspendu."
+            "L'accès à ce document vous est interdit car vous êtes suspendu."
           );
         }
       } catch (error) {
