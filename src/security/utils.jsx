@@ -1,5 +1,5 @@
 import React from "react";
-import {TextField} from "@mui/material";
+import {TextField, CircularProgress} from "@mui/material";
 import {Button} from "react-admin";
 import {indigo} from "@mui/material/colors";
 
@@ -50,7 +50,7 @@ export const CustomTextField = (props) => {
   );
 };
 
-export const CustomSubmitButton = ({text, onClick}) => {
+export const CustomSubmitButton = ({text, onClick, loading}) => {
   return (
     <Button
       onClick={onClick}
@@ -62,7 +62,7 @@ export const CustomSubmitButton = ({text, onClick}) => {
         margin: "0.75vw",
       }}
     >
-      {text}
+      {loading ? <CircularProgress size={24} color="inherit" /> : text}
     </Button>
   );
 };
