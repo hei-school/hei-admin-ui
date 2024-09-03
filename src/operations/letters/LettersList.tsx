@@ -14,6 +14,7 @@ const LettersList: FC = () => {
         empty={false}
         actions={false}
         pagination={<LettersPagination />}
+        disableSyncWithLocation
       >
         <Box
           sx={{
