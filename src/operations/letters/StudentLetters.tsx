@@ -1,11 +1,11 @@
 import {FC} from "react";
 import {List, TopToolbar, useListContext, useRecordContext} from "react-admin";
-import {IconButton, Box, useMediaQuery} from "@mui/material";
+import {IconButton, Box, useMediaQuery, SxProps} from "@mui/material";
 import {Add} from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import LetterItem from "@/operations/letters/components/letterItems";
+import LetterItem from "@/operations/letters/components/LetterItems";
 import {Letter} from "@haapi/typescript-client";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
 import Emptylist from "@/operations/letters/components/Emptylist";
@@ -13,6 +13,10 @@ import Emptylist from "@/operations/letters/components/Emptylist";
 interface ListContentStyleProps {
   isLarge: boolean;
   isSmall: boolean;
+}
+
+interface StudentLettersContentProps {
+  sx?: SxProps;
 }
 
 const ListContentStyle = ({
@@ -41,6 +45,8 @@ const ListContentStyle = ({
 const StudentLetters: FC = () => {
   const [isOpen, , toggle] = useToggle();
   const {id: studentId} = useRecordContext();
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
 
   return (
     <Box>
@@ -77,7 +83,7 @@ const StudentLetters: FC = () => {
           </TopToolbar>
         }
       >
-        <StudentLettersContent />
+        <StudentLettersContent sx={ListContentStyle({isLarge, isSmall})} />
       </List>
       <CreateLettersDialog
         isOpen={isOpen}
@@ -89,13 +95,12 @@ const StudentLetters: FC = () => {
 };
 export default StudentLetters;
 
-const StudentLettersContent: FC = () => {
+export const StudentLettersContent: FC<StudentLettersContentProps> = ({sx}) => {
   const {data: letters = []} = useListContext<Required<Letter>>();
   const isEmpty = letters.length === 0;
-  const isSmall = useMediaQuery("(max-width:900px)");
-  const isLarge = useMediaQuery("(min-width:1700px)");
+
   return (
-    <Box sx={ListContentStyle({isLarge, isSmall})}>
+    <Box sx={sx}>
       {isEmpty && <Emptylist />}
       {letters.map((letter) => (
         <LetterItem key={letter.id} letter={letter} />
