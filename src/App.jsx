@@ -50,6 +50,7 @@ function AppBase() {
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
       <Resource name="student-letters" />
+      <Resource name="letters" />
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
 

@@ -1,6 +1,6 @@
 import {FC, ReactNode} from "react";
-import {Box, Typography} from "@mui/material";
-import {Folder, EditCalendar, PersonPin} from "@mui/icons-material";
+import {Box, Typography, IconButton} from "@mui/material";
+import {Folder, EditCalendar, PersonPin, MoreVert} from "@mui/icons-material";
 import {Letter} from "@haapi/typescript-client";
 import {PALETTE_COLORS} from "@/haTheme";
 import {formatDate} from "@/utils/date";
@@ -51,15 +51,18 @@ const LetterItem: FC<LetterItemProps> = ({letter}) => {
       >
         <Folder sx={{fontSize: "2.5rem", color: "white"}} />
       </Box>
+      <IconButton sx={{position: "absolute", top: "8px", right: "0"}}>
+        <MoreVert />
+      </IconButton>
       <Typography
         sx={{
           textAlign: "right",
           paddingTop: "15px",
           fontWeight: "800",
-          paddingInline: "15px",
+          paddingRight: "2.6rem",
         }}
       >
-        {letter.ref}
+        HEI-{letter.ref}
       </Typography>
       <Typography
         sx={{
