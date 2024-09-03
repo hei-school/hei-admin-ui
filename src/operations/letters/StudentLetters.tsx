@@ -1,23 +1,16 @@
 import {FC} from "react";
-import {List, TopToolbar, useListContext, useRecordContext} from "react-admin";
-import {IconButton, Box, useMediaQuery, SxProps} from "@mui/material";
+import {List, TopToolbar, useRecordContext} from "react-admin";
+import {IconButton, Box, useMediaQuery} from "@mui/material";
 import {Add} from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import LetterItem from "@/operations/letters/components/LetterItems";
-import {Letter} from "@haapi/typescript-client";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
-import Emptylist from "@/operations/letters/components/Emptylist";
+import LettersContent from "@/operations/letters/components/LetterContent";
 
 interface ListContentStyleProps {
   isLarge: boolean;
   isSmall: boolean;
-}
-
-interface StudentLettersContentProps {
-  sx?: SxProps;
-  isStudentLetters: boolean;
 }
 
 const ListContentStyle = ({
@@ -87,7 +80,7 @@ const StudentLetters: FC = () => {
           </TopToolbar>
         }
       >
-        <StudentLettersContent
+        <LettersContent
           sx={ListContentStyle({isLarge, isSmall})}
           isStudentLetters={true}
         />
@@ -101,24 +94,3 @@ const StudentLetters: FC = () => {
   );
 };
 export default StudentLetters;
-
-export const StudentLettersContent: FC<StudentLettersContentProps> = ({
-  sx,
-  isStudentLetters,
-}) => {
-  const {data: letters = []} = useListContext<Required<Letter>>();
-  const isEmpty = letters.length === 0;
-
-  return (
-    <Box sx={sx}>
-      {isEmpty && <Emptylist />}
-      {letters.map((letter) => (
-        <LetterItem
-          key={letter.id}
-          letter={letter}
-          isStudentLetters={isStudentLetters}
-        />
-      ))}
-    </Box>
-  );
-};

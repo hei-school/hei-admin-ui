@@ -1,9 +1,9 @@
 import {FC} from "react";
 import {List} from "react-admin";
 import {Box} from "@mui/material";
-import {StudentLettersContent} from "./StudentLetters";
 import {PALETTE_COLORS} from "@/haTheme";
-import LettersPagination from "./components/LettersPagination";
+import LettersPagination from "@/operations/letters/components/LettersPagination";
+import LettersContent from "@/operations/letters/components/LetterContent";
 
 const LettersList: FC = () => {
   return (
@@ -27,7 +27,7 @@ const LettersList: FC = () => {
         >
           Liste de toutes les lettres
         </Box>
-        <StudentLettersContent
+        <LettersContent
           sx={{
             display: "flex",
             flexWrap: "wrap",
