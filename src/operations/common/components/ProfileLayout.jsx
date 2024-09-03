@@ -81,7 +81,7 @@ import {DATE_OPTIONS} from "@/utils/date";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
-import {StudentLetters} from "@/operations/letters/StudentLetters";
+import StudentLetters from "@/operations/letters/StudentLetters";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",

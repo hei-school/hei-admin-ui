@@ -31,7 +31,7 @@ const studentLettersProvider: HaDataProviderType = {
     const {title, rawFile} = filename;
     return lettersApi()
       .createLetter(studentId, description, title, rawFile)
-      .then((response) => response.data);
+      .then((response) => [response.data]);
   },
   delete(_id: string) {
     throw new Error("Not implemented");

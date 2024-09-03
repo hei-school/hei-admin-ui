@@ -19,7 +19,6 @@ import courseProvider from "./courseProvider";
 import statsProvider from "./statsProvider";
 import heiDocsProvider from "./heiDocsProvider";
 import studentLettersProvider from "./studentLettersProvider";
-import lettersProvider from "./lettersProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -43,7 +42,6 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "stats") return statsProvider;
   if (resourceType === "hei-docs") return heiDocsProvider;
   if (resourceType === "student-letters") return studentLettersProvider;
-  if (resourceType === "letters") return lettersProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
