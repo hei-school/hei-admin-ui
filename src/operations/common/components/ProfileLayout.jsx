@@ -81,6 +81,7 @@ import {DATE_OPTIONS} from "@/utils/date";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import StudentLetters from "@/operations/letters/StudentLetters";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -569,6 +570,11 @@ export const Informations = ({isStudentProfile}) => {
           style={{fontSize: "0.8rem"}}
         >
           <FeeList studentId={profile.id} studentRef={profile.ref} />
+        </TabbedShowLayout.Tab>
+      )}
+      {isStudentProfile && !isTeacher() && (
+        <TabbedShowLayout.Tab label="Boîte au lettres">
+          <StudentLetters />
         </TabbedShowLayout.Tab>
       )}
     </TabbedShowLayout>

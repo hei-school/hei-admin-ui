@@ -9,9 +9,11 @@ import {
   Badge,
   useMediaQuery,
   styled,
+  Drawer,
 } from "@mui/material";
-import {CalendarMonth, Comment, Feedback} from "@mui/icons-material";
+import {CalendarMonth, Comment, Feedback, Archive} from "@mui/icons-material";
 import {useDataProvider} from "react-admin";
+
 import {StudentComments} from "@/operations/comments";
 import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
 import {useToggle} from "@/hooks";
@@ -19,6 +21,7 @@ import {useRole} from "@/security/hooks";
 import {PALETTE_COLORS} from "@/haTheme";
 import authProvider from "@/providers/authProvider";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import LettersList from "@/operations/letters/LettersList";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
 
@@ -52,6 +55,39 @@ const LastComments = () => {
         onClose={toggleShowComments}
         open={showComments}
       />
+    </>
+  );
+};
+
+const StudentLetters = () => {
+  const [isOpen, , toggle] = useToggle();
+
+  return (
+    <>
+      <IconButton onClick={toggle}>
+        <Archive
+          sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
+        />
+      </IconButton>
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={toggle}
+        PaperProps={{
+          sx: {
+            width: "670px",
+            maxHeight: "100%",
+            boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.5)",
+          },
+        }}
+        sx={{
+          "& .MuiBackdrop-root": {
+            backgroundColor: "transparent",
+          },
+        }}
+      >
+        <LettersList />
+      </Drawer>
     </>
   );
 };
@@ -113,7 +149,7 @@ const FeedbackInfos = () => {
 function UserInfo() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
-  const {isStudent} = useRole();
+  const {isStudent, isManager} = useRole();
   const imgRef = useRef(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
@@ -211,6 +247,7 @@ function UserInfo() {
             />
           </a>
           {!isStudent() && <LastComments />}
+          {isManager() && <StudentLetters />}
           <FeedbackInfos />
         </>
       )}
