@@ -1,19 +1,21 @@
-import {FC} from "react";
-import {Box, Typography, IconButton} from "@mui/material";
+import {FC, useState} from "react";
+import {Box, Typography, Checkbox} from "@mui/material";
 import {
   Folder,
   EditCalendar,
   PersonPin,
-  MoreVert,
   EventAvailable,
 } from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
+import {useNotify, useRefresh} from "react-admin";
 
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {formatDate} from "@/utils/date";
 import LetterShow from "@/operations/letters/components/LetterShow";
 import {BottomFieldProps, LetterItemProps} from "@/operations/letters/types";
+import {useRole} from "@/security/hooks";
+import studentLettersProvider from "@/providers/studentLettersProvider";
 
 const STATUS_COLORS = {
   RECEIVED: {border: "#4de852", background: "#4de852"},
@@ -45,7 +47,11 @@ const ICON_STYLE = {
 
 const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
   const [isOpen, , toggle] = useToggle();
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
+  const {isManager} = useRole();
+  const notify = useNotify();
+  const refresh = useRefresh();
 
   const creationDate = formatDate(letter.creation_datetime!, false);
   const aprovalDate = formatDate(letter.approval_datetime!, false);
@@ -60,6 +66,32 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
       navigate(`/students/${letter.student?.id}/show`);
     }
   };
+
+  const updateLetterStatus = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setIsLoading(true);
+    const newStatus = event.target.checked ? "RECEIVED" : "";
+    try {
+      await studentLettersProvider.saveOrUpdate(
+        {id: letter.id, status: newStatus},
+        {
+          meta: {
+            method: "UPDATE",
+            studentId: letter.student?.id!,
+          },
+        }
+      );
+      notify("Letter status updated successfully", {type: "success"});
+      refresh();
+    } catch (error) {
+      console.error("Error updating letter status:", error);
+      notify("Error updating letter status", {type: "error"});
+    } finally {
+      setIsLoading(false);
+    }
+  };
+  const isChecked = letter.status === "RECEIVED";
 
   return (
     <>
@@ -77,9 +109,18 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
         >
           <Folder sx={{fontSize: "2.5rem", color: "white"}} />
         </Box>
-        <IconButton sx={{position: "absolute", top: "8px", right: "0"}}>
-          <MoreVert />
-        </IconButton>
+        {isManager() && isStudentLetter && !isChecked && (
+          <Checkbox
+            checked={isChecked}
+            onChange={updateLetterStatus}
+            disabled={isLoading}
+            sx={{
+              position: "absolute",
+              top: "0",
+              right: "0",
+            }}
+          />
+        )}
         <Typography
           sx={{
             textAlign: "right",

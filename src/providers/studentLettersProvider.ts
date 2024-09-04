@@ -24,8 +24,8 @@ const studentLettersProvider: HaDataProviderType = {
     const {method, studentId} = meta || {};
     if (method === "UPDATE") {
       return lettersApi()
-        .updateLettersStatus(payload)
-        .then((response) => response.data);
+        .updateLettersStatus([payload])
+        .then((response) => [response.data][0]);
     }
     const {description, filename} = payload[0];
     const {title, rawFile} = filename;
