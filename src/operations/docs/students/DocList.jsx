@@ -24,7 +24,7 @@ export const DocList = () => {
     ? authProvider.getCachedWhoami().id
     : params.studentId;
   const isSuspended = useStudentStatus(studentId);
-  return isSuspended ? (
+  return isStudent() && isSuspended ? (
     <Box
       sx={{
         marginTop: "20px",

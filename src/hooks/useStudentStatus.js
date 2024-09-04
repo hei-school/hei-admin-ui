@@ -15,9 +15,6 @@ export const useStudentStatus = (studentId) => {
         });
         if (data.status === "SUSPENDED") {
           setIsSuspended(true);
-          notify(
-            "L'accès à ce document vous est interdit car vous êtes suspendu."
-          );
         }
       } catch (error) {
         notify("Erreur de chargement. Merci de rafraîchir la page.");
