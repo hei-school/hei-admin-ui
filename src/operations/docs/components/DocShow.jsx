@@ -24,6 +24,10 @@ export const DocShow = ({owner, studentId}) => {
         setIsLoading(false);
         return;
       }
+      if (isSuspended) {
+        setIsLoading(false);
+        return;
+      }
       setIsLoading(true);
       await dataProvider
         .getOne("docs", {id, meta: {owner, studentId, type}})
