@@ -1,4 +1,4 @@
-import {FC, ReactNode} from "react";
+import {FC} from "react";
 import {Box, Typography, IconButton} from "@mui/material";
 import {
   Folder,
@@ -8,25 +8,21 @@ import {
   EventAvailable,
 } from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
-import {Letter} from "@haapi/typescript-client";
+
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
-
 import {formatDate} from "@/utils/date";
-import LetterShow from "./LetterShow";
+import LetterShow from "@/operations/letters/components/LetterShow";
+import {BottomFieldProps, LetterItemProps} from "@/operations/letters/types";
 
-interface LetterItemProps {
-  letter: Letter;
-  isStudentLetters?: boolean;
-}
-
-const statusColors = {
-  APPROVED: {border: "#4de852", background: "#4de852"},
+const STATUS_COLORS = {
+  RECEIVED: {border: "#4de852", background: "#4de852"},
   REJECTED: {border: "#dc3545", background: "#dc3545"},
   PENDING: {border: "#ffcf5c", background: "#ffcf5c"},
-};
-const itemsStyle = {
-  width: "300px",
+} as const;
+
+const ITEMS_STYLE = {
+  minWidth: "300px",
   minHeight: "170px",
   position: "relative",
   boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.4)",
@@ -34,7 +30,8 @@ const itemsStyle = {
   borderRadius: "12px",
   borderBottom: "1rem solid",
 };
-const iconStyle = {
+
+const ICON_STYLE = {
   width: "55px",
   height: "55px",
   display: "flex",
@@ -46,20 +43,18 @@ const iconStyle = {
   left: "15px",
 };
 
-const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetters}) => {
+const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
   const [isOpen, , toggle] = useToggle();
   const navigate = useNavigate();
 
   const creationDate = formatDate(letter.creation_datetime!, false);
   const aprovalDate = formatDate(letter.approval_datetime!, false);
-  const colors = statusColors[letter.status as keyof typeof statusColors] || {
-    border: "#ffcf5c",
-    background: "#ffcf5c",
-  };
+
   const studentName = `${letter.student?.first_name} ${letter.student?.last_name}`;
   const isDateAproved = letter.approval_datetime !== null;
+
   const handleItemClick = () => {
-    if (isStudentLetters) {
+    if (isStudentLetter) {
       toggle();
     } else {
       navigate(`/students/${letter.student?.id}/show`);
@@ -68,11 +63,16 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetters}) => {
 
   return (
     <>
-      <Box sx={{...itemsStyle, borderColor: colors.border}}>
+      <Box
+        sx={{
+          ...ITEMS_STYLE,
+          borderColor: STATUS_COLORS[letter.status!].border,
+        }}
+      >
         <Box
           sx={{
-            ...iconStyle,
-            backgroundColor: colors.background,
+            ...ICON_STYLE,
+            backgroundColor: STATUS_COLORS[letter.status!].background,
           }}
         >
           <Folder sx={{fontSize: "2.5rem", color: "white"}} />
@@ -116,10 +116,10 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetters}) => {
           </Box>
         </Box>
       </Box>
-      {isStudentLetters && (
+      {isStudentLetter && (
         <LetterShow
           isOpen={isOpen}
-          toggle={toggle}
+          onToggle={toggle}
           fileUrl={letter.file_url ?? ""}
           filename={letter.student?.first_name!}
         />
@@ -127,26 +127,22 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetters}) => {
     </>
   );
 };
-export default LetterItem;
 
-const BottomField: FC<{
-  text: string;
-  icon: ReactNode;
-}> = ({text, icon}) => {
-  return (
-    <Box
-      sx={{
-        "display": "flex",
-        "gap": "8px",
-        "alignItems": "center",
-        "marginBlock": "1rem",
-        "& .MuiSvgIcon-root": {
-          color: PALETTE_COLORS.primary,
-        },
-      }}
-    >
-      {icon}
-      <Typography variant="body2">{text}</Typography>
-    </Box>
-  );
-};
+const BottomField: FC<BottomFieldProps> = ({text, icon}) => (
+  <Box
+    sx={{
+      "display": "flex",
+      "gap": "8px",
+      "alignItems": "center",
+      "marginBlock": "1rem",
+      "& .MuiSvgIcon-root": {
+        color: PALETTE_COLORS.primary,
+      },
+    }}
+  >
+    {icon}
+    <Typography variant="body2">{text}</Typography>
+  </Box>
+);
+
+export default LetterItem;

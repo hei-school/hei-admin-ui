@@ -1,18 +1,13 @@
-import {
-  FileField,
-  FileInput,
-  Identifier,
-  SimpleForm,
-  TextInput,
-} from "react-admin";
+import {FileField, FileInput, SimpleForm, TextInput} from "react-admin";
 import {Dialog} from "@/ui/components";
 import {PALETTE_COLORS} from "@/haTheme";
 import uploadImg from "@/assets/file_upload.png";
 import {Letter} from "@haapi/typescript-client";
 import {v4 as uuid} from "uuid";
 import {Create} from "@/operations/common/components";
+import {CreateLettersDialogProps} from "@/operations/letters/types";
 
-const fileFieldStyle = {
+const FILE_FIELD_STYLE = {
   "border": "1px dashed",
   "borderColor": PALETTE_COLORS.grey,
   "borderRadius": "8px",
@@ -39,18 +34,14 @@ const fileFieldStyle = {
 
 export function CreateLettersDialog({
   isOpen,
-  toggle,
+  onClose,
   studentId,
-}: {
-  isOpen: boolean;
-  toggle: () => void;
-  studentId: Identifier;
-}) {
+}: CreateLettersDialogProps) {
   return (
-    <Dialog open={isOpen} onClose={toggle} title="Ajouter une lettre">
+    <Dialog open={isOpen} onClose={onClose} title="Ajouter une lettre">
       <Create
         title=" "
-        transform={(letter: Letter): Letter => ({
+        transform={(letter: Letter) => ({
           ...letter,
           id: uuid(),
         })}
@@ -82,7 +73,7 @@ export function CreateLettersDialog({
             label=" "
             multiple={false}
             accept="application/pdf"
-            sx={fileFieldStyle}
+            sx={FILE_FIELD_STYLE}
           >
             <FileField
               resource="student-letters"
