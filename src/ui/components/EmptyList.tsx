@@ -3,7 +3,7 @@ import {Box, Typography} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 import emptyImg from "@/assets/Empty_img.png";
 
-const EmptyLetterList: FC = () => (
+const EmptyList: FC = () => (
   <Box
     display="flex"
     flexDirection="column"
@@ -24,4 +24,4 @@ const EmptyLetterList: FC = () => (
   </Box>
 );
 
-export default EmptyLetterList;
+export default EmptyList;

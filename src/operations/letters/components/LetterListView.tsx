@@ -2,17 +2,17 @@ import {FC} from "react";
 import {useListContext} from "react-admin";
 import {Box} from "@mui/material";
 import {Letter} from "@haapi/typescript-client";
-import LetterItem from "@/operations/letters/components/LetterItem";
-import EmptyLetterList from "./EmptyLetterList";
 import {LetterListViewProps} from "@/operations/letters/types";
+import EmptyList from "@/ui/components/EmptyList";
+import { LetterItem } from "@/operations/letters/components/LetterItem";
 
-const LetterListView: FC<LetterListViewProps> = ({sx, isStudentLetter}) => {
+export const LetterListView: FC<LetterListViewProps> = ({sx, isStudentLetter}) => {
   const {data: letters = []} = useListContext<Required<Letter>>();
   const isEmpty = !letters.length;
 
   return (
     <Box sx={sx}>
-      {isEmpty && <EmptyLetterList />}
+      {isEmpty && <EmptyList/>}
       {letters.map((letter) => (
         <LetterItem
           key={letter.id}
@@ -23,5 +23,3 @@ const LetterListView: FC<LetterListViewProps> = ({sx, isStudentLetter}) => {
     </Box>
   );
 };
-
-export default LetterListView;

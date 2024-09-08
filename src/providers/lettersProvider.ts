@@ -7,13 +7,13 @@ const lettersProvider: HaDataProviderType = {
       .getLetters(page, perPage)
       .then(({data}) => ({data}) as HaListResponseType);
   },
-  getOne: (): Promise<any> => {
+  getOne: () => {
+    throw new Error("Functi/providerson not implemented.");
+  },
+  saveOrUpdate: () => {
     throw new Error("Function not implemented.");
   },
-  saveOrUpdate: (): Promise<any> => {
-    throw new Error("Function not implemented.");
-  },
-  delete: (): Promise<any> => {
+  delete: () => {
     throw new Error("Function not implemented.");
   },
 };

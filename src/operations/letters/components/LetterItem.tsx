@@ -5,6 +5,7 @@ import {
   EditCalendar,
   PersonPin,
   EventAvailable,
+  PanoramaFishEye
 } from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
 import {useNotify, useRefresh} from "react-admin";
@@ -12,7 +13,7 @@ import {useNotify, useRefresh} from "react-admin";
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {formatDate} from "@/utils/date";
-import LetterShow from "@/operations/letters/components/LetterShow";
+import LetterShow from "@/operations/letters/LetterShow";
 import {BottomFieldProps, LetterItemProps} from "@/operations/letters/types";
 import {useRole} from "@/security/hooks";
 import studentLettersProvider from "@/providers/studentLettersProvider";
@@ -45,8 +46,8 @@ const ICON_STYLE = {
   left: "15px",
 };
 
-const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
-  const [isOpen, , toggle] = useToggle();
+export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
+  const [isOpen, , onClose] = useToggle();
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const {isManager} = useRole();
@@ -61,7 +62,7 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
 
   const handleItemClick = () => {
     if (isStudentLetter) {
-      toggle();
+      onClose();
     } else {
       navigate(`/students/${letter.student?.id}/show`);
     }
@@ -112,8 +113,10 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
         {isManager() && isStudentLetter && !isChecked && (
           <Checkbox
             checked={isChecked}
-            onChange={updateLetterStatus}
             disabled={isLoading}
+            icon={<PanoramaFishEye sx={{
+              color :PALETTE_COLORS.primary
+            }}/>}
             sx={{
               position: "absolute",
               top: "0",
@@ -160,7 +163,7 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
       {isStudentLetter && (
         <LetterShow
           isOpen={isOpen}
-          onToggle={toggle}
+          onClose={onClose}
           fileUrl={letter.file_url ?? ""}
           filename={letter.student?.first_name!}
         />
@@ -185,5 +188,3 @@ const BottomField: FC<BottomFieldProps> = ({text, icon}) => (
     <Typography variant="body2">{text}</Typography>
   </Box>
 );
-
-export default LetterItem;

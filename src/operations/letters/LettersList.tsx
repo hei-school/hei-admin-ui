@@ -3,7 +3,7 @@ import {List} from "react-admin";
 import {Box} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import LettersContent from "@/operations/letters/components/LetterListView";
+import { LetterListView } from "@/operations/letters/components";
 
 const LettersList: FC = () => (
   <Box>
@@ -28,7 +28,7 @@ const LettersList: FC = () => (
       >
         Liste de toutes les lettres
       </Box>
-      <LettersContent
+      <LetterListView
         sx={{
           display: "flex",
           flexWrap: "wrap",

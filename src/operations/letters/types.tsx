@@ -20,14 +20,9 @@ export interface BottomFieldProps {
   icon: ReactNode;
 }
 
-export interface ListContentStyleProps {
-  isLarge: boolean;
-  isSmall: boolean;
-}
-
 export interface LetterShowProps {
   isOpen: boolean;
-  onToggle: () => void;
+  onClose: () => void;
   fileUrl: string;
   filename: string;
 }

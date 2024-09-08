@@ -8,13 +8,13 @@ import {LetterShowProps} from "@/operations/letters/types";
 
 const LetterShow: FC<LetterShowProps> = ({
   isOpen,
-  onToggle,
+  onClose,
   fileUrl,
   filename,
 }) => (
   <Dialog
     open={isOpen}
-    onClose={onToggle}
+    onClose={onClose}
     title="Détails de la lettre"
     sx={{
       width: "100%",

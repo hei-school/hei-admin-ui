@@ -7,13 +7,15 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
-import LettersContent from "@/operations/letters/components/LetterListView";
-import {ListContentStyleProps} from "@/operations/letters/types";
+import {LetterListView} from "@/operations/letters/components";
 
-const GET_LIST_CONTENT_STYLE = ({
+const getListContentStyle = ({
   isLarge,
   isSmall,
-}: ListContentStyleProps): React.CSSProperties => {
+}:{
+  isLarge: boolean;
+  isSmall: boolean;
+}): React.CSSProperties => {
   return {
     display: "flex",
     flexWrap: "wrap",
@@ -23,7 +25,7 @@ const GET_LIST_CONTENT_STYLE = ({
   };
 };
 
-const StudentLetters: FC = () => {
+export const StudentLettersList: FC = () => {
   const [isOpen, , onToggle] = useToggle();
   const {id: studentId} = useRecordContext();
   const isSmall = useMediaQuery("(max-width:900px)");
@@ -66,8 +68,8 @@ const StudentLetters: FC = () => {
             />
           </IconButton>
         </TopToolbar>
-        <LettersContent
-          sx={GET_LIST_CONTENT_STYLE({isLarge, isSmall})}
+        <LetterListView
+          sx={getListContentStyle({isLarge, isSmall})}
           isStudentLetter={true}
         />
         <PrevNextPagination />
@@ -80,4 +82,4 @@ const StudentLetters: FC = () => {
     </Box>
   );
 };
-export default StudentLetters;
+

@@ -33,7 +33,7 @@ const studentLettersProvider: HaDataProviderType = {
       .createLetter(studentId, description, title, rawFile)
       .then((response) => [response.data]);
   },
-  delete(_id: string) {
+  delete() {
     throw new Error("Not implemented");
   },
 };
