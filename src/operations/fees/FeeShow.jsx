@@ -22,7 +22,7 @@ import {
   ChatBubbleOutline,
   AccessTimeOutlined,
 } from "@mui/icons-material";
-import { GRID_STYLE } from "@/operations/fees/utils/gridStyle";
+import {GRID_STYLE} from "@/operations/fees/utils/gridStyle";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
