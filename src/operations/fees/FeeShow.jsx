@@ -22,7 +22,7 @@ import {
   ChatBubbleOutline,
   AccessTimeOutlined,
 } from "@mui/icons-material";
-import {gridStyle} from "@/operations/fees/utils";
+import { GRID_STYLE } from "@/operations/fees/utils/gridStyle";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
@@ -65,7 +65,7 @@ const LabeledField = ({label, icon, children}) => (
 );
 
 export const FeeLayout = ({feeId}) => {
-  const styles = gridStyle();
+  const styles = GRID_STYLE();
   return (
     <Box container spacing={2} m={6}>
       <Typography

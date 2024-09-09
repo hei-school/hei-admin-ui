@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 
-export const gridStyle = () => ({
+export const GRID_STYLE = () => ({
   item: {
     xs: 12,
     sm: 6,
