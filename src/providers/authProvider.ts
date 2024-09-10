@@ -122,6 +122,7 @@ const authProvider = {
   forgotPassword: async (username: string): Promise<void> => {
     await resetPassword({username});
   },
+
   forgotPasswordSubmit: async (
     username: string,
     code: string,
@@ -133,6 +134,7 @@ const authProvider = {
       newPassword,
     });
   },
+
   setNewPassword: async (newPassword: string): Promise<void> => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -140,6 +142,7 @@ const authProvider = {
     const username = atob(
       decodeURIComponent(urlParams.get(paramUsername) as string)
     );
+
     const temporaryPassword = atob(
       decodeURIComponent(urlParams.get(paramTemporaryPassword) as string)
     );
@@ -160,7 +163,6 @@ const authProvider = {
   },
 
   whoami: whoami,
-
   getCachedWhoami: getCachedWhoami,
   getCachedRole: getCachedRole,
   getCachedAuthConf: getCachedAuthConf,

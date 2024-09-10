@@ -32,7 +32,18 @@ const announcementProvider: HaDataProviderType = {
           .then((result) => result.data);
       case WhoamiRoleEnum.TEACHER:
         return announcementsApi()
-          .getTeachersAnnouncements(
+          .getAnnouncements(
+            page,
+            perPage,
+            filter.from,
+            filter.to,
+            filter.authorRef,
+            filter.scope
+          )
+          .then((result) => result.data);
+      case WhoamiRoleEnum.MONITOR:
+        return announcementsApi()
+          .getStudentsAnnouncements(
             page,
             perPage,
             filter.from,
@@ -60,6 +71,10 @@ const announcementProvider: HaDataProviderType = {
       case WhoamiRoleEnum.TEACHER:
         return announcementsApi()
           .getTeacherAnnouncementById(id)
+          .then((result) => result.data);
+      case WhoamiRoleEnum.MONITOR:
+        return announcementsApi()
+          .getStudentsAnnouncementById(id)
           .then((result) => result.data);
       default:
         throw new Error("Unexpected role");

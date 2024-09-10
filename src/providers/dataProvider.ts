@@ -20,6 +20,7 @@ import statsProvider from "@/providers/statsProvider";
 import heiDocsProvider from "@/providers/heiDocsProvider";
 import studentLettersProvider from "@/providers/studentLettersProvider";
 import lettersProvider from "@/providers/lettersProvider";
+import monitorProvider from "@/providers/monitorProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -27,6 +28,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "profile") return profileProvider;
   if (resourceType === "announcements") return announcementProvider;
   if (resourceType === "students") return studentProvider;
+  if (resourceType === "monitors") return monitorProvider;
   if (resourceType === "fees") return feeProvider;
   if (resourceType === "payments") return paymentProvider;
   if (resourceType === "teachers") return teacherProvider;

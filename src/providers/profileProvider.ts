@@ -19,6 +19,10 @@ const profileProvider: HaDataProviderType = {
         return usersApi()
           .getManagerById(id)
           .then((result) => result.data);
+      case WhoamiRoleEnum.MONITOR:
+        return usersApi()
+          .getMonitorById(id)
+          .then((result) => result.data);
     }
   },
   async getList() {
@@ -42,6 +46,10 @@ const profileProvider: HaDataProviderType = {
       case WhoamiRoleEnum.MANAGER:
         return usersApi()
           .updateManager(id, profileData)
+          .then((result) => [result.data]);
+      case WhoamiRoleEnum.MONITOR:
+        return usersApi()
+          .updateMonitorById(id, profileData)
           .then((result) => [result.data]);
     }
   },

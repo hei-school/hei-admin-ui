@@ -322,12 +322,17 @@ function FeesActions({studentId}) {
 }
 
 const FeeList = ({studentId, studentRef}) => {
-  const {isStudent} = useRole();
-  return isStudent() ? (
-    <StudentFeeList studentId={studentId} studentRef={studentRef} />
-  ) : (
-    <ManagerFeeList studentId={studentId} studentRef={studentRef} />
-  );
+  const {isStudent, isMonitor} = useRole();
+
+  if (isStudent()) {
+    return <StudentFeeList />;
+  }
+
+  if (isMonitor()) {
+    return <ManagerFeeList studentId={studentId} studentRef={studentRef} />;
+  }
+
+  return <ManagerFeeList studentId={studentId} studentRef={studentRef} />;
 };
 
 export default FeeList;

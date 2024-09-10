@@ -22,6 +22,7 @@ import studentDocs from "@/operations/docs/students";
 import HaLoginPage from "@/security/LoginPage";
 import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
+import monitors from "@/operations/monitors";
 
 function AppBase() {
   return (
@@ -51,6 +52,8 @@ function AppBase() {
       <Resource name="course" {...course} />
       <Resource name="student-letters" />
       <Resource name="letters" />
+
+      <Resource name="monitors" {...monitors} />
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
 
@@ -140,6 +143,47 @@ function AppBase() {
         <Route
           exact
           path="/docs/students/WORK_DOCUMENT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="monitors/:monitorId/students/:studentId"
+          element={<fees.list />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/students/:studentId/fees"
+          element={<fees.list />}
+        />
+
+        <Route
+          exact
+          path="/monitors/:monitorId/students/:studentId/docs/TRANSCRIPT"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/students/:studentId/docs/TRANSCRIPT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/students/:studentId/docs/WORK_DOCUMENT"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/students/:studentId/docs/WORK_DOCUMENT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/students/:studentId/docs/OTHER"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/students/:studentId/docs/OTHER/:id"
           element={<studentDocs.show />}
         />
       </CustomRoutes>

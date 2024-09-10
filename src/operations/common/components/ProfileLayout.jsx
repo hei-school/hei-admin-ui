@@ -423,6 +423,7 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
   const {record: profile = {}} = useShowContext();
   const redirect = useRedirect();
   const isStudentProfile = isStudent || viewerRole.isStudent();
+  const isMonitorProfile = viewerRole.isMonitor();
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const {groups = []} = profile;
@@ -500,16 +501,19 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
         </Box>
         <Box>{actions}</Box>
       </Box>
-      <Informations isStudentProfile={isStudentProfile} />
+      <Informations
+        isStudentProfile={isStudentProfile}
+        isMonitorProfile={isMonitorProfile}
+      />
     </Box>
   );
 };
 
-export const Informations = ({isStudentProfile}) => {
+export const Informations = ({isStudentProfile, isMonitorProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
-  const {isStudent, isTeacher, isManager} = useRole();
+  const {isStudent, isTeacher, isManager, isMonitor} = useRole();
 
   if (!profile) {
     return (

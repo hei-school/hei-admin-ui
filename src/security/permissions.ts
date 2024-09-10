@@ -1,4 +1,4 @@
-import authProvider from "../providers/authProvider";
+import authProvider from "@/providers/authProvider";
 
 export const getPermissions = (role: string) => {
   const whoamiId = authProvider.getCachedWhoami().id;
@@ -27,6 +27,13 @@ export const getPermissions = (role: string) => {
       {action: ["list", "read", "show"], resource: "fees"},
       {action: ["list", "read", "show"], resource: "payments"},
     ],
+
+    MONITOR: [
+      {action: "read", resource: "profile", record: {id: whoamiId}},
+      {action: ["list", "read", "show"], resource: "fees"},
+      {action: ["list", "read", "show"], resource: "students"},
+    ],
   };
+
   return roleDefinitions[role as keyof typeof roleDefinitions];
 };

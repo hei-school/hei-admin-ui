@@ -4,13 +4,20 @@ import {HaDataProviderType} from "./HaDataProviderType";
 const monitorProvider: HaDataProviderType = {
   async getList(perPage: number, filter: any) {
     const monitorId = filter.monitorId;
+    const pageSize = filter.pageSize || 15;
+    const options = filter.options || {};
+
     if (!monitorId) {
       throw new Error("Monitor ID is required to fetch students.");
     }
+
     const result = await monitoringApi().getLinkedStudentsByMonitorId(
+      monitorId,
+      pageSize,
       perPage,
-      filter.monitorId
+      options
     );
+
     return result.data;
   },
 

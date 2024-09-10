@@ -20,14 +20,29 @@ const docsProvider: HaDataProviderType = {
         }
         if (meta.type in FileType) {
           return filesApi()
-            .getStudentFiles(meta?.studentId, page, perPage, meta.type)
+            .getStudentFiles(meta.studentId, page, perPage, meta.type)
             .then((result) => result.data);
+        }
+        return [];
+      case OwnerType.MONITOR:
+        if (meta.childId === meta.studentId) {
+          if (meta.type === "WORK_DOCUMENT") {
+            return filesApi()
+              .getStudentWorkDocuments(meta.studentId, page, perPage)
+              .then((result) => result.data);
+          }
+          if (meta.type in FileType) {
+            return filesApi()
+              .getStudentFiles(meta.studentId, page, perPage, meta.type)
+              .then((result) => result.data);
+          }
         }
         return [];
       default:
         return [];
     }
   },
+
   async getOne(id: string, meta: any) {
     if (!meta) return [];
     switch (meta.owner) {
@@ -44,10 +59,23 @@ const docsProvider: HaDataProviderType = {
         return filesApi()
           .getStudentFilesById(meta.studentId, id)
           .then((result) => result.data);
+      case OwnerType.MONITOR:
+        if (meta.childId === meta.studentId) {
+          if (meta.type === "WORK_DOCUMENT") {
+            return filesApi()
+              .getStudentWorkDocumentsById(meta.studentId, id)
+              .then((result) => result.data);
+          }
+          return filesApi()
+            .getStudentFilesById(meta.studentId, id)
+            .then((result) => result.data);
+        }
+        return [];
       default:
         return [];
     }
   },
+
   async saveOrUpdate(payload: any) {
     const {raw, ...doc} = payload[0];
 
@@ -91,6 +119,7 @@ const docsProvider: HaDataProviderType = {
         return [];
     }
   },
+
   async delete(_id: string) {
     throw new Error("Not implemented.");
   },
