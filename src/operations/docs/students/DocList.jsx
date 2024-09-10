@@ -6,7 +6,7 @@ import {useRole} from "@/security/hooks";
 import {DocList as CommonDocList} from "@/operations/docs/components/DocList";
 import {useViewType} from "@/operations/docs/hooks/useViewType";
 import authProvider from "@/providers/authProvider";
-import {useStudentStatus} from "@/hooks/useStudentStatus";
+import {useGetOne} from "react-admin";
 
 export const DocList = () => {
   const params = useParams();
@@ -24,8 +24,13 @@ export const DocList = () => {
     ? authProvider.getCachedWhoami().id
     : params.studentId;
 
-  const isSuspended = useStudentStatus(studentId);
+  const {
+    data: studentData,
+    isLoading,
+    error,
+  } = useGetOne("students", {id: studentId});
 
+  const isSuspended = studentData?.status === "SUSPENDED";
   return isStudent() && isSuspended ? (
     <Box
       sx={{

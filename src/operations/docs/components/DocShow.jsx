@@ -4,7 +4,6 @@ import {useParams} from "react-router-dom";
 import {Container} from "@mui/material";
 import {useViewType} from "@/operations/docs/hooks/useViewType";
 import PdfViewer from "@/operations/common/components/PdfViewer";
-import {useStudentStatus} from "@/hooks/useStudentStatus";
 import {useNotify} from "@/hooks";
 
 export const DocShow = ({owner, studentId}) => {
@@ -16,15 +15,10 @@ export const DocShow = ({owner, studentId}) => {
   const id = params.id;
   const type = useViewType("SHOW");
   const notify = useNotify();
-  const isSuspended = useStudentStatus(studentId);
 
   useEffect(() => {
     const doEffect = async () => {
       setIsLoading(true);
-      if (isSuspended) {
-        setIsLoading(false);
-        return;
-      }
       await dataProvider
         .getOne("docs", {id, meta: {owner, studentId, type}})
         .then((result) => {
@@ -34,7 +28,7 @@ export const DocShow = ({owner, studentId}) => {
         .catch(() => {});
     };
     doEffect();
-  }, [studentId, type, id, owner, isSuspended]);
+  }, [studentId, type, id, owner]);
 
   return (
     <Container fixed>
