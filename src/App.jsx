@@ -5,23 +5,23 @@ import {Route} from "react-router-dom";
 import frenchMessages from "ra-language-french";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 
-import {HaLayout} from "./ui/haLayout";
-import {mainTheme} from "./haTheme.js";
-import {WaitUntilHot} from "./utils/retryer";
-import dataProvider from "./providers/dataProvider";
-import authProvider from "./providers/authProvider.ts";
-import groups from "./operations/groups";
-import profile from "./operations/profile";
-import students from "./operations/students";
-import teachers from "./operations/teachers";
-import announcements from "./operations/announcements";
-import fees from "./operations/fees";
-import feesTemplates from "./operations/feesTemplates";
-import payments from "./operations/payments";
-import studentDocs from "./operations/docs/students";
-import HaLoginPage from "./security/LoginPage";
-import promotions from "./operations/promotions/index.tsx";
-import course from "./operations/course/index.tsx";
+import {HaLayout} from "@/ui/haLayout";
+import {mainTheme} from "@/haTheme.js";
+import {WaitUntilHot} from "@/utils/retryer";
+import dataProvider from "@/providers/dataProvider";
+import authProvider from "@/providers/authProvider.ts";
+import groups from "@/operations/groups";
+import profile from "@/operations/profile";
+import students from "@/operations/students";
+import teachers from "@/operations/teachers";
+import announcements from "@/operations/announcements";
+import fees from "@/operations/fees";
+import feesTemplates from "@/operations/feesTemplates";
+import payments from "@/operations/payments";
+import studentDocs from "@/operations/docs/students";
+import HaLoginPage from "@/security/LoginPage";
+import promotions from "@/operations/promotions/index.tsx";
+import course from "@/operations/course/index.tsx";
 
 function AppBase() {
   return (
@@ -49,7 +49,8 @@ function AppBase() {
       <Resource name="promotions" {...promotions} />
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
-
+      <Resource name="student-letters" />
+      <Resource name="letters" />
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
 

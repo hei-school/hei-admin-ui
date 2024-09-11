@@ -49,6 +49,7 @@ import {
   IconButton,
   Typography,
   useMediaQuery,
+  CircularProgress,
 } from "@mui/material";
 
 import {
@@ -58,9 +59,16 @@ import {
 } from "@/operations/common/components/fields";
 import {Create} from "@/operations/common/components/Create";
 import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
+import {CommentList} from "@/operations/comments/CommentList";
+import HaField from "@/operations/common/components/fields/HaField";
+import FeeList from "@/operations/fees/FeeList";
+
 import {useNotify, useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
-import {getGenderInFr, getUserStatusInFr} from "../utils/typo_util";
+import {
+  getGenderInFr,
+  getUserStatusInFr,
+} from "@/operations/common/utils/typo_util";
 import {formatDate} from "@/utils/date";
 import {SPECIALIZATION_VALUE} from "@/operations/students/components";
 import {EMPTY_TEXT} from "@/ui/constants";
@@ -71,9 +79,9 @@ import {NOOP_FN} from "@/utils/noop";
 import {COMMON_FIELD_ATTRIBUTES} from "@/ui/constants/common_styles";
 import {DATE_OPTIONS} from "@/utils/date";
 
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import defaultCoverPicture from "@/assets/banner.jpg";
-import HaField from "@/operations/common/components/fields/HaField";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import StudentLetters from "@/operations/letters/StudentLetters";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -251,6 +259,7 @@ const Title = ({children: label}) => {
 const PersonalInfos = ({isStudentProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
+
   return (
     <Box
       sx={{
@@ -273,6 +282,11 @@ const PersonalInfos = ({isStudentProfile}) => {
         />
         {isStudentProfile && (
           <Box display="flex" flexDirection="column" gap={1}>
+            <HaField
+              label="Redoublant"
+              render={(user) => (user.is_repeating_year ? "Oui" : "Non")}
+              icon={<PersonIcon />}
+            />
             <HaField
               label="Parcours de Spécialisation"
               render={(user) => renderSpecialization(user.specialization_field)}
@@ -495,10 +509,29 @@ export const Informations = ({isStudentProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
-  const {isManager} = useRole();
-  const id = profile?.id;
+  const {isStudent, isTeacher, isManager} = useRole();
+
+  if (!profile) {
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="100vh"
+        width="100%"
+        flexDirection="column"
+        gap={2}
+      >
+        <CircularProgress color="primary" />
+        <Typography variant="h6" color="textSecondary">
+          Chargement en cours...
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
-    <TabbedShowLayout>
+    <TabbedShowLayout syncWithLocation={false}>
       <TabbedShowLayout.Tab
         label="Détails du Profil"
         style={{fontSize: "0.8rem"}}
@@ -524,31 +557,21 @@ export const Informations = ({isStudentProfile}) => {
           <PersonalInfos isStudentProfile={isStudentProfile} />
         </Box>
       </TabbedShowLayout.Tab>
-      {/* todo: show fees list in a tab not link */}
+      {isStudentProfile && (
+        <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
+          <CommentList studentId={profile.id} />
+        </TabbedShowLayout.Tab>
+      )}
+
       {isStudentProfile && isManager() && (
         <TabbedShowLayout.Tab
-          label={
-            <Button
-              component={Link}
-              to={`/students/${id}/fees`}
-              data-testid="fees-list-tab"
-              style={{
-                textDecoration: "none",
-                color: "inherit",
-                height: "100%",
-                fontSize: "0.9rem",
-              }}
-            >
-              Liste des Frais
-            </Button>
-          }
-          sx={{
-            padding: "0 !important",
-            margin: "0 !important",
-          }}
-        />
+          label="Liste des Frais"
+          data-testid="fees-list-tab"
+          style={{fontSize: "0.8rem"}}
+        >
+          <FeeList studentId={profile.id} studentRef={profile.ref} />
+        </TabbedShowLayout.Tab>
       )}
-      {/* todo: change comment button to tab */}
     </TabbedShowLayout>
   );
 };

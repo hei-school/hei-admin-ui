@@ -27,7 +27,7 @@ export function Dialog({
       open={open}
       onClose={onClose}
       sx={{
-        "zIndex": 999999,
+        // "zIndex": 999999,
         "& .MuiPaper-root": {boxShadow: "none"},
       }}
       fullWidth

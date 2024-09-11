@@ -1,23 +1,25 @@
-import {HaDataProviderType} from "./HaDataProviderType";
-import {RaDataProviderType} from "./RaDataProviderType";
-import profileProvider from "./profileProvider";
-import studentProvider from "./studentProvider";
-import feeProvider from "./feeProvider";
-import paymentProvider from "./paymentProvider";
-import teacherProvider from "./teacherProvider";
-import groupProvider from "./groupProvider";
-import groupFlowProvider from "./groupFlowProvider";
-import groupStudentProvider from "./groupStudentProvider";
-import profilePicProvider from "./profilePicProvider";
-import feesTemplatesProvider from "./feesTemplatesProvider";
-import docsProvider from "./docsProvider";
-import commentProvider from "./commentProvider";
-import promotionProvider from "./promotionProvider";
-import promotionGroupsProvider from "./promotionGroupsProvider";
-import announcementProvider from "./announcementProvider";
-import courseProvider from "./courseProvider";
-import statsProvider from "./statsProvider";
-import heiDocsProvider from "./heiDocsProvider";
+import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {RaDataProviderType} from "@/providers/RaDataProviderType";
+import profileProvider from "@/providers/profileProvider";
+import studentProvider from "@/providers/studentProvider";
+import feeProvider from "@/providers/feeProvider";
+import paymentProvider from "@/providers/paymentProvider";
+import teacherProvider from "@/providers/teacherProvider";
+import groupProvider from "@/providers/groupProvider";
+import groupFlowProvider from "@/providers/groupFlowProvider";
+import groupStudentProvider from "@/providers/groupStudentProvider";
+import profilePicProvider from "@/providers/profilePicProvider";
+import feesTemplatesProvider from "@/providers/feesTemplatesProvider";
+import docsProvider from "@/providers/docsProvider";
+import commentProvider from "@/providers/commentProvider";
+import promotionProvider from "@/providers/promotionProvider";
+import promotionGroupsProvider from "@/providers/promotionGroupsProvider";
+import announcementProvider from "@/providers/announcementProvider";
+import courseProvider from "@/providers/courseProvider";
+import statsProvider from "@/providers/statsProvider";
+import heiDocsProvider from "@/providers/heiDocsProvider";
+import studentLettersProvider from "@/providers/studentLettersProvider";
+import lettersProvider from "@/providers/lettersProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -40,6 +42,8 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "course") return courseProvider;
   if (resourceType === "stats") return statsProvider;
   if (resourceType === "hei-docs") return heiDocsProvider;
+  if (resourceType === "student-letters") return studentLettersProvider;
+  if (resourceType === "letters") return lettersProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
@@ -78,11 +82,12 @@ const dataProvider: RaDataProviderType = {
     });
     return {data: result[0]};
   },
-  async create(resourceType: string, params: any) {
+  async create(resourceType: string, params = {}) {
     const result = await getProvider(resourceType).saveOrUpdate(
       resourceType === "students" || resourceType === "teachers"
         ? toEnabledUsers([params.data])
-        : [params.data]
+        : [params.data],
+      params
     );
     return {data: result[0]};
   },

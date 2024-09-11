@@ -147,6 +147,9 @@ export function CommentList({studentId, close}) {
 
   return (
     <>
+      {!role.isStudent() && studentId && (
+        <CommentCreate refetchList={refetchList} studentId={studentId} />
+      )}
       <Box
         ref={listContainerRef}
         onScroll={showNextComments}
@@ -155,8 +158,8 @@ export function CommentList({studentId, close}) {
           bgcolor: "#f2f1ed",
           px: 1,
           py: 2,
-          maxHeight: "300px",
           overflowY: "auto",
+          maxHeight: "600px",
         }}
       >
         {shownComments.map((comment, index) => (
@@ -193,9 +196,6 @@ export function CommentList({studentId, close}) {
           </Box>
         )}
       </Box>
-      {!role.isStudent() && studentId && (
-        <CommentCreate refetchList={refetchList} studentId={studentId} />
-      )}
     </>
   );
 }

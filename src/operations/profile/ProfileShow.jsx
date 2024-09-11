@@ -1,6 +1,6 @@
 import {EditButton, Button} from "react-admin";
 import {Download, Comment as CommentIcon} from "@mui/icons-material";
-
+import {Box} from "@mui/material";
 import {Show} from "@/operations/common/components/Show";
 import {GetCertificate} from "@/operations/students/components";
 import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
@@ -41,15 +41,7 @@ const ProfileShow = () => {
             }}
           >
             {isStudent() ? (
-              <>
-                <Button
-                  label="Commentaires"
-                  studentId={id}
-                  onClick={toogleShowComments}
-                  {...COMMON_OUTLINED_BUTTON_PROPS}
-                >
-                  <CommentIcon />
-                </Button>
+              <Box>
                 <Button
                   label={<GetCertificate studentId={id} />}
                   data-testid="get-certificate-btn"
@@ -57,7 +49,7 @@ const ProfileShow = () => {
                 >
                   <Download />
                 </Button>
-              </>
+              </Box>
             ) : (
               <EditButton
                 to={`/profile/${id}/edit`}

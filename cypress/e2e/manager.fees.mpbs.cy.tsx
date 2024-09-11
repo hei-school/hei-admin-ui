@@ -22,7 +22,7 @@ describe("Mobile payment by student", () => {
 
     cy.contains("Transactions (Mobile Money)");
     cy.contains("Référence de la transaction");
-    cy.contains("Type de transaction");
+    cy.contains("Type de PSP");
     cy.contains("Statut");
   });
 

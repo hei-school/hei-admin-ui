@@ -8,7 +8,7 @@ import {
 } from "react-admin";
 import {Course} from "@haapi/typescript-client";
 import {v4 as uuid} from "uuid";
-import {Create} from "../common/components";
+import {Create} from "@/operations/common/components";
 
 export function CourseCreate(props: Partial<CreateProps>) {
   return (
@@ -17,7 +17,7 @@ export function CourseCreate(props: Partial<CreateProps>) {
       transform={(course: Course): Course => ({
         ...course,
         id: uuid(),
-        total_hours: +course.total_hours!,
+        total_hours: course.total_hours ? +course.total_hours : 1,
         credits: +course.credits!,
       })}
       {...props}
@@ -34,7 +34,7 @@ export function CourseCreate(props: Partial<CreateProps>) {
         <TextInput
           source="total_hours"
           label="Heure total"
-          validate={[required(), number(), minValue(1)]}
+          validate={[number(), minValue(1)]}
           fullWidth
         />
       </SimpleForm>

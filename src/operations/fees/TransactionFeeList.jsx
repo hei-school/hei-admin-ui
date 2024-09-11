@@ -46,7 +46,7 @@ const TransactionFeeList = () => (
           EMPTY_TEXT
         )
       }
-      label="Type de transaction"
+      label="Type de PSP"
       emptyText={EMPTY_TEXT}
     />
     <FunctionField
@@ -65,12 +65,12 @@ const TransactionFeeList = () => (
     />
     <DateField
       source="mpbs.last_datetime_verification"
-      label="Dernière vérification par HEI"
+      label="Dernière vérification par le PSP"
       showTime
     />
     <DateField
       source="mpbs.psp_own_datetime_verification"
-      label="Vérification par Orange"
+      label="Vérification par PSP"
       showTime
     />
     <DateField
