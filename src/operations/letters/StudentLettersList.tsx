@@ -12,7 +12,7 @@ import {LetterListView} from "@/operations/letters/components";
 const getListContentStyle = ({
   isLarge,
   isSmall,
-}:{
+}: {
   isLarge: boolean;
   isSmall: boolean;
 }): React.CSSProperties => {
@@ -82,4 +82,3 @@ export const StudentLettersList: FC = () => {
     </Box>
   );
 };
-

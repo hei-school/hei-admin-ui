@@ -3,7 +3,7 @@ import {List} from "react-admin";
 import {Box} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import { LetterListView } from "@/operations/letters/components";
+import {LetterListView} from "@/operations/letters/components";
 
 const LettersList: FC = () => (
   <Box>
@@ -15,6 +15,7 @@ const LettersList: FC = () => (
       pagination={<PrevNextPagination />}
       disableSyncWithLocation
       perPage={6}
+      filterDefaultValues={{status: "PENDING"}}
     >
       <Box
         sx={{

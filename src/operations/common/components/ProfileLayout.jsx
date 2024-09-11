@@ -560,11 +560,9 @@ export const Informations = ({isStudentProfile}) => {
       {isStudentProfile && (
         <TabbedShowLayout.Tab
           label="Commentaires"
-          path="comments"
           style={{fontSize: "0.8rem"}}
-        >
-          <CommentList studentId={profile.id} />
-        </TabbedShowLayout.Tab>
+          children={<CommentList studentId={profile.id} />}
+        />
       )}
 
       {isStudentProfile && isManager() && (
@@ -573,14 +571,14 @@ export const Informations = ({isStudentProfile}) => {
           path="fees"
           data-testid="fees-list-tab"
           style={{fontSize: "0.8rem"}}
-        >
-          <FeeList studentId={profile.id} studentRef={profile.ref} />
-        </TabbedShowLayout.Tab>
+          children={<FeeList studentId={profile.id} studentRef={profile.ref} />}
+        />
       )}
       {isStudentProfile && !isTeacher() && (
-        <TabbedShowLayout.Tab label="Boîte au lettres">
-          <StudentLettersList />
-        </TabbedShowLayout.Tab>
+        <TabbedShowLayout.Tab
+          label="Boîte au lettres"
+          children={<StudentLettersList />}
+        />
       )}
     </TabbedShowLayout>
   );
