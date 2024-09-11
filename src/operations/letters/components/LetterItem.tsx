@@ -1,37 +1,47 @@
-import {FC, useState} from "react";
-import {Box, Typography, Checkbox} from "@mui/material";
+import React, {FC} from "react";
+import {
+  Box,
+  Typography,
+  Checkbox,
+  IconButton,
+  Popover,
+  Button,
+} from "@mui/material";
 import {
   Folder,
   EditCalendar,
   PersonPin,
   EventAvailable,
-  PanoramaFishEye
+  PanoramaFishEye,
+  MoreVert,
+  CheckCircle,
+  Unpublished,
 } from "@mui/icons-material";
 import {useNavigate} from "react-router-dom";
-import {useNotify, useRefresh} from "react-admin";
-
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {formatDate} from "@/utils/date";
 import LetterShow from "@/operations/letters/LetterShow";
-import {BottomFieldProps, LetterItemProps} from "@/operations/letters/types";
+import {
+  BottomFieldProps,
+  LetterItemProps,
+  PopoverProps,
+} from "@/operations/letters/types";
 import {useRole} from "@/security/hooks";
-import studentLettersProvider from "@/providers/studentLettersProvider";
-
 const STATUS_COLORS = {
-  RECEIVED: {border: "#4de852", background: "#4de852"},
+  RECEIVED: {border: "green", background: "green"},
   REJECTED: {border: "#dc3545", background: "#dc3545"},
-  PENDING: {border: "#ffcf5c", background: "#ffcf5c"},
+  PENDING: {border: PALETTE_COLORS.yellow, background: PALETTE_COLORS.yellow},
 } as const;
 
 const ITEMS_STYLE = {
-  minWidth: "300px",
-  minHeight: "170px",
+  width: "300px",
   position: "relative",
   boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.4)",
-  marginBlock: "1rem",
+  marginBlock: "1.5rem",
   borderRadius: "12px",
   borderBottom: "1rem solid",
+  padding: "1rem",
 };
 
 const ICON_STYLE = {
@@ -48,11 +58,12 @@ const ICON_STYLE = {
 
 export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
   const [isOpen, , onClose] = useToggle();
-  const [isLoading, setIsLoading] = useState(false);
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
   const navigate = useNavigate();
   const {isManager} = useRole();
-  const notify = useNotify();
-  const refresh = useRefresh();
 
   const creationDate = formatDate(letter.creation_datetime!, false);
   const aprovalDate = formatDate(letter.approval_datetime!, false);
@@ -67,31 +78,16 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
       navigate(`/students/${letter.student?.id}/show`);
     }
   };
-
-  const updateLetterStatus = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setIsLoading(true);
-    const newStatus = event.target.checked ? "RECEIVED" : "";
-    try {
-      await studentLettersProvider.saveOrUpdate(
-        {id: letter.id, status: newStatus},
-        {
-          meta: {
-            method: "UPDATE",
-            studentId: letter.student?.id!,
-          },
-        }
-      );
-      notify("Letter status updated successfully", {type: "success"});
-      refresh();
-    } catch (error) {
-      console.error("Error updating letter status:", error);
-      notify("Error updating letter status", {type: "error"});
-    } finally {
-      setIsLoading(false);
-    }
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = Boolean(anchorEl);
+
   const isChecked = letter.status === "RECEIVED";
 
   return (
@@ -111,25 +107,57 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
           <Folder sx={{fontSize: "2.5rem", color: "white"}} />
         </Box>
         {isManager() && isStudentLetter && !isChecked && (
-          <Checkbox
-            checked={isChecked}
-            disabled={isLoading}
-            icon={<PanoramaFishEye sx={{
-              color :PALETTE_COLORS.primary
-            }}/>}
+          <Box
             sx={{
-              position: "absolute",
-              top: "0",
-              right: "0",
+              "position": "absolute",
+              "top": "8px",
+              "right": "8px",
+              "display": "flex",
+              "alignItems": "center",
+              "gap": "0rem",
+              "justifyContent": "center",
+              "& .css-kcjtf1-MuiButtonBase-root-MuiCheckbox-root": {
+                padding: "0 !important",
+              },
             }}
-          />
+          >
+            <Checkbox
+              checked={isChecked}
+              icon={
+                <PanoramaFishEye
+                  sx={{
+                    color: PALETTE_COLORS.primary,
+                    fontSize: "1.2rem",
+                  }}
+                />
+              }
+            />
+            <IconButton
+              sx={{
+                padding: "0 !important",
+              }}
+              onClick={handleClick}
+            >
+              <MoreVert
+                sx={{
+                  fontSize: "1.2rem",
+                }}
+              />
+            </IconButton>
+            <LetterItemActions
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              open={open}
+            />
+          </Box>
         )}
         <Typography
           sx={{
-            textAlign: "right",
-            paddingTop: "15px",
-            fontWeight: "800",
-            paddingRight: "2.6rem",
+            fontSize: "1rem",
+            fontWeight: "bold",
+            textAlign: "center",
+            borderBottom: "1px solid",
+            borderColor: "rgba(0, 0, 0, 0.2)",
           }}
         >
           HEI-{letter.ref}
@@ -140,17 +168,17 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
         >
           <Typography
             sx={{
-              padding: "1rem",
               textAlign: "justify",
+              paddingBlock: "1rem",
             }}
           >
             {letter.description}
           </Typography>
           <Box
-            sx={{
-              paddingInline: "1rem",
-              paddingBottom: "0.1rem",
-            }}
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            gap="1vh"
           >
             <BottomField text={creationDate} icon={<EditCalendar />} />
             <BottomField text={studentName} icon={<PersonPin />} />
@@ -172,13 +200,79 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
   );
 };
 
+const LetterItemActions: FC<PopoverProps> = ({anchorEl, open, onClose}) => {
+  const id = open ? "simple-popover" : undefined;
+
+  return (
+    <>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={onClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <Box
+          sx={{
+            width: "150px",
+            padding: "0.5rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem",
+            boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.2)",
+          }}
+        >
+          <Button
+            startIcon={<CheckCircle />}
+            sx={{
+              "color": "green",
+              "width": "100%",
+              "display": "flex",
+              "justifyContent": "flex-start",
+              "backgroundColor": "#c8e6c9",
+              "&:hover": {
+                backgroundColor: "#81c784",
+                color: "white",
+              },
+            }}
+          >
+            Accepter
+          </Button>
+          <Button
+            startIcon={<Unpublished />}
+            sx={{
+              "color": "#d84315",
+              "width": "100%",
+              "display": "flex",
+              "justifyContent": "flex-start",
+              "backgroundColor": "#ffccbc",
+              "&:hover": {
+                backgroundColor: "#ff8a65",
+                color: "white",
+              },
+            }}
+          >
+            Réfuser
+          </Button>
+        </Box>
+      </Popover>
+    </>
+  );
+};
+
 const BottomField: FC<BottomFieldProps> = ({text, icon}) => (
   <Box
     sx={{
       "display": "flex",
-      "gap": "8px",
+      "gap": "10px",
       "alignItems": "center",
-      "marginBlock": "1rem",
       "& .MuiSvgIcon-root": {
         color: PALETTE_COLORS.primary,
       },

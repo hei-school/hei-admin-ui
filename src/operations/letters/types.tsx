@@ -31,3 +31,9 @@ export interface LetterListViewProps {
   sx?: SxProps;
   isStudentLetter: boolean;
 }
+
+export interface PopoverProps {
+  anchorEl: HTMLElement | null;
+  open: boolean;
+  onClose: () => void;
+}
