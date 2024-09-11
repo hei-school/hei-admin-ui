@@ -4,15 +4,24 @@ import {Box} from "@mui/material";
 import {Letter} from "@haapi/typescript-client";
 import {LetterListViewProps} from "@/operations/letters/types";
 import EmptyList from "@/ui/components/EmptyList";
-import { LetterItem } from "@/operations/letters/components/LetterItem";
+import {LetterItem} from "@/operations/letters/components/LetterItem";
 
-export const LetterListView: FC<LetterListViewProps> = ({sx, isStudentLetter}) => {
-  const {data: letters = []} = useListContext<Required<Letter>>();
+export const LetterListView: FC<LetterListViewProps> = ({
+  sx,
+  isStudentLetter,
+}) => {
+  const {data: letters = [], isLoading} = useListContext<Required<Letter>>();
   const isEmpty = !letters.length;
 
+  if (isLoading)
+    return (
+      <Box sx={sx}>
+        <p> Loading...</p>
+      </Box>
+    );
   return (
     <Box sx={sx}>
-      {isEmpty && <EmptyList/>}
+      {isEmpty && <EmptyList />}
       {letters.map((letter) => (
         <LetterItem
           key={letter.id}
