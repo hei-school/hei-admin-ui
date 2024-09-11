@@ -572,11 +572,6 @@ export const Informations = ({isStudentProfile}) => {
           <FeeList studentId={profile.id} studentRef={profile.ref} />
         </TabbedShowLayout.Tab>
       )}
-      {isStudentProfile && !isTeacher() && (
-        <TabbedShowLayout.Tab label="Boîte au lettres">
-          <StudentLetters />
-        </TabbedShowLayout.Tab>
-      )}
     </TabbedShowLayout>
   );
 };
