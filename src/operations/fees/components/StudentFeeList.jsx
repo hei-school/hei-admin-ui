@@ -1,4 +1,8 @@
-import {MobileMoneyType, MpbsStatus} from "@haapi/typescript-client";
+import {
+  FeeTypeEnum,
+  MobileMoneyType,
+  MpbsStatus,
+} from "@haapi/typescript-client";
 import {
   AutocompleteArrayInput,
   ChipField,
@@ -196,7 +200,8 @@ const DefaultInfos = () => {
   );
 };
 
-const CatchupFeesCreate = () => {
+const CatchupFeesCreate = ({toggle}) => {
+  const notify = useNotify();
   const {data: courses} = useGetList("course", {pagination: {perPage: 50}});
   const {id: student_id} = authProvider.getCachedWhoami();
 
@@ -207,13 +212,13 @@ const CatchupFeesCreate = () => {
       redirect={false}
       mutationOptions={{
         onSuccess: () => {
-          notify("Frais créés avec succès");
+          notify("Frais créés avec succès", {type: "success"});
           toggle();
         },
       }}
       transform={(data) => {
         return data?.course_list.map((course) => ({
-          type: "REMEDIAL_COSTS",
+          type: FeeTypeEnum.REMEDIAL_COSTS,
           comment: `Rattrapage ${course}`,
           total_amount: DEFAULT_REMEDIAL_COSTS_AMOUNT,
           student_id,
@@ -335,7 +340,7 @@ export const StudentFeeList = () => {
         open={show}
         onClose={toggle}
       >
-        <CatchupFeesCreate />
+        <CatchupFeesCreate toggle={toggle} />
       </Dialog>
     </Box>
   );
