@@ -5,7 +5,7 @@ const lettersProvider: HaDataProviderType = {
   getList: async (page: number, perPage: number) => {
     return lettersApi()
       .getLetters(page, perPage)
-      .then((resposne) => resposne.data);
+      .then((response) => response.data) as any;
   },
   getOne: (): Promise<any> => {
     throw new Error("Function not implemented.");
