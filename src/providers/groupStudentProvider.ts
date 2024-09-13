@@ -5,9 +5,7 @@ const groupStudentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any, meta: any) {
     return await teachingApi()
       .getStudentsByGroupId(meta.groupId, page, perPage, filter.first_name)
-      .then((result) => {
-        return result.data;
-      });
+      .then((result) => ({data: result.data}));
   },
   async getOne(_id: string) {
     throw new Error("Function not implemented.");

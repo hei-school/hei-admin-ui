@@ -11,7 +11,7 @@ const feesTemplatesProvider: HaDataProviderType = {
         page,
         perPage
       )
-      .then((response) => response.data);
+      .then((result) => ({data: result.data}));
   },
   async getOne(id: string) {
     return payingApi()

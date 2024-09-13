@@ -7,11 +7,11 @@ const commentProvider: HaDataProviderType = {
     if (studentId) {
       return commentApi()
         .getStudentComments(studentId, undefined, page, perPage)
-        .then((response) => response.data);
+        .then((response) => ({data: response.data}));
     } else {
       return commentApi()
         .getComments(page, perPage)
-        .then((response) => response.data);
+        .then((response) => ({data: response.data}));
     }
   },
   async getOne(_id: string) {
