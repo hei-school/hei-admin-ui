@@ -531,7 +531,7 @@ export const Informations = ({isStudentProfile}) => {
   }
 
   return (
-    <TabbedShowLayout syncWithLocation={false}>
+    <TabbedShowLayout syncWithLocation={true}>
       <TabbedShowLayout.Tab
         label="Détails du Profil"
         style={{fontSize: "0.8rem"}}

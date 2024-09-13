@@ -17,7 +17,7 @@ export default function FeeCreate(props) {
       {...props}
       title={`Frais de ${studentRef}`}
       resource="fees"
-      redirect={() => `students/${studentId}/fees`}
+      redirect={() => `students/${studentId}/show/2`}
       transform={(fees) => createFeesApi(fees, studentId)}
     >
       <SimpleForm
