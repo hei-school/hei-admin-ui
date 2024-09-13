@@ -16,12 +16,19 @@ import students from "@/operations/students";
 import teachers from "@/operations/teachers";
 import announcements from "@/operations/announcements";
 import fees from "@/operations/fees";
-import feesTemplates from "@/operations/feesTemplates";
+import feesTemplates from "@/operations/feesTemplates"; 
 import payments from "@/operations/payments";
 import studentDocs from "@/operations/docs/students";
 import HaLoginPage from "@/security/LoginPage";
 import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
+import monitors from "@/operations/monitors";
+import StudentList from "@/operations/students/StudentList";
+import MonitorStudentShow from "@/operations/monitorStudent/MonitorStudentShow";
+import MonitorStudentList from "@/operations/monitorStudent/MonitorStudentList";
+import monitorStudent from "@/operations/monitorStudent";
+import {AnnouncementList} from "@/operations/announcements/AnnouncementList";
+import MonitorStudentDocs from "@/operations/monitorStudent/MonitorStudentDocs";
 
 function AppBase() {
   return (
@@ -39,7 +46,7 @@ function AppBase() {
       <Resource name="students" {...students} />
       <Resource name="teachers" {...teachers} />
       <Resource name="groups" {...groups} />
-
+      <Resource name="monitors" {...monitors} />
       <Resource name="fees" {...fees} />
       <Resource name="fees-templates" {...feesTemplates} />
       <Resource name="payments" {...payments} />
@@ -49,8 +56,10 @@ function AppBase() {
       <Resource name="promotions" {...promotions} />
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
+      <Resource name="monitor-students" {...monitorStudent} />
       <Resource name="student-letters" />
       <Resource name="letters" />
+
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
 
@@ -141,6 +150,27 @@ function AppBase() {
           exact
           path="/docs/students/WORK_DOCUMENT/:id"
           element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/students"
+          element={<MonitorStudentList />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/show"
+          element={<MonitorStudentShow />}
+        />
+        
+         <Route
+          exact
+          path="/students/:studentId/docs/students/TRANSCRIPT"
+          element={<MonitorStudentDocs />}
+        />
+        <Route
+          exact
+          path="/students/:studentId/docs/students/OTHER"
+          element={<MonitorStudentDocs />}
         />
       </CustomRoutes>
     </Admin>

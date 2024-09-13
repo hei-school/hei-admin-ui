@@ -560,13 +560,13 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
           flexDirection={isSmall ? "column" : "row"}
           justifyContent="space-between"
         >
-          <Box
-            display="flex"
-            gap={2}
-            width={isSmall ? "100%" : "50%"}
-            flexDirection="column"
+          <Box 
+            display="flex" 
+            gap={2} 
+            width={isSmall ? "100%" : "50%"} 
+            flexDirection="column" 
             height="100%"
-          >
+          > 
             <Contact />
             <PersonalDetails />
           </Box>
@@ -633,6 +633,14 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
           style={{paddingTop: "1rem", width: "10vw"}}
           data-testid="letters-list-tab"
         />
+      )}
+      {isStudentProfile && isMonitor() && ( 
+        <TabbedShowLayout.Tab 
+          label="Liste de documents" 
+          style={{fontSize: "0.8rem"}}
+        >
+          <MonitorStudentDocs/>
+        </TabbedShowLayout.Tab>
       )}
     </TabbedShowLayout>
   );

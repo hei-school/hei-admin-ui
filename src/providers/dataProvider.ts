@@ -24,6 +24,9 @@ import heiDocsProvider from "@/providers/heiDocsProvider";
 import studentLettersProvider from "@/providers/studentLettersProvider";
 import lettersProvider from "@/providers/lettersProvider";
 import lettersStatsProvider from "./letterStatsProvider";
+import monitorProvider from "./monitorProvider";
+import monitorStudentProvider from "./monitorStudentProvider";
+
 export const MAX_ITEM_PER_PAGE = 500;
 
 const getProvider = (resourceType: string): HaDataProviderType => {
@@ -46,10 +49,13 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "stats") return statsProvider;
   if (resourceType === "hei-docs") return heiDocsProvider;
   if (resourceType === "student-letters") return studentLettersProvider;
+  if (resourceType === "monitors") return monitorProvider;
+  if (resourceType === "monitor-students") return monitorStudentProvider;
   if (resourceType === "letters") return lettersProvider;
   if (resourceType === "letters-stats") return lettersStatsProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
+
 
 const dataProvider: RaDataProviderType = {
   async getList(resourceType: string, params: any) {
@@ -65,19 +71,14 @@ const dataProvider: RaDataProviderType = {
       );
       perPage = MAX_ITEM_PER_PAGE;
     }
-
+    
     const {data, metadata} = await getProvider(resourceType).getList(
       page,
       perPage,
       filter,
       meta
     );
-
-    return {
-      data,
-      total: Number.MAX_SAFE_INTEGER,
-      metadata,
-    } as RaListResponseType;
+    return {data, total: Number.MAX_SAFE_INTEGER, metadata,} as RaListResponseType;
   },
   async getOne(resourceType: string, params: any) {
     const result = await getProvider(resourceType).getOne(
@@ -93,15 +94,19 @@ const dataProvider: RaDataProviderType = {
     });
     return {data: result[0]};
   },
+
   async create(resourceType: string, params = {}) {
     const result = await getProvider(resourceType).saveOrUpdate(
-      resourceType === "students" || resourceType === "teachers"
+      resourceType === "students" ||
+        resourceType === "teachers" ||
+        resourceType === "monitors"
         ? toEnabledUsers([params.data])
         : [params.data],
       params
     );
     return {data: result[0]};
   },
+
   async delete(resourceType: string, params: any) {
     const result = await getProvider(resourceType).delete(params.id);
     return {data: result};

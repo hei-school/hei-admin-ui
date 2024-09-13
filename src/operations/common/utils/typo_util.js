@@ -4,7 +4,7 @@ import {
   Sex,
   WhoamiRoleEnum,
 } from "@haapi/typescript-client";
-import {NOT_DEFINED} from "../../../utils/constants";
+import {NOT_DEFINED} from "@/utils/constants";
 
 export function getGenderInFr(sex) {
   switch (sex) {
@@ -55,6 +55,8 @@ export function getUserRoleInFr(userRole, sex) {
       return isWoman ? "Enseignante" : "Enseignant";
     case WhoamiRoleEnum.STUDENT:
       return isWoman ? "Étudiante" : "Étudiant";
+    case WhoamiRoleEnum.MONITOR:
+      return isWoman ? "Monitrice" : "Moniteur";
     default:
       throw new Error("Unknown user role");
   }

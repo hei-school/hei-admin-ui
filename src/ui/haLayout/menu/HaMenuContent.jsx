@@ -3,6 +3,7 @@ import authProvider from "@/providers/authProvider";
 import ManagerMenu from "./ManagerMenu";
 import StudentMenu from "./StudentMenu";
 import TeacherMenu from "./TeacherMenu";
+import MonitorMenu from "./MonitorMenu";
 
 export function HaMenuContent() {
   const role = authProvider.getCachedWhoami().role;
@@ -15,6 +16,9 @@ export function HaMenuContent() {
   }
   if (role === WhoamiRoleEnum.TEACHER) {
     return <TeacherMenu />;
+  }
+  if (role === WhoamiRoleEnum.MONITOR){
+    return <MonitorMenu/>
   }
   return null;
 }

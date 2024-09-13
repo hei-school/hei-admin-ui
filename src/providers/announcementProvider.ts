@@ -1,75 +1,79 @@
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
-import {announcementsApi} from "./api";
-import authProvider from "./authProvider";
+import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {announcementsApi} from "@/providers/api";
+import authProvider from "@/providers/authProvider";
 
 const announcementProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     const role = authProvider.getCachedRole();
 
+    let result;
     switch (role) {
       case WhoamiRoleEnum.MANAGER:
-        return announcementsApi()
-          .getAnnouncements(
-            page,
-            perPage,
-            filter.from,
-            filter.to,
-            filter.authorRef,
-            filter.scope
-          )
-          .then((result) => ({data: result.data}));
+        result = await announcementsApi().getAnnouncements(
+          page,
+          perPage,
+          filter.from,
+          filter.to,
+          filter.authorRef,
+          filter.scope
+        );
+        break;
       case WhoamiRoleEnum.STUDENT:
-        return announcementsApi()
-          .getStudentsAnnouncements(
-            page,
-            perPage,
-            filter.from,
-            filter.to,
-            filter.authorRef,
-            filter.scope
-          )
-          .then((result) => ({data: result.data}));
+      case WhoamiRoleEnum.MONITOR:
+        result = await announcementsApi().getStudentsAnnouncements(
+          page,
+          perPage,
+          filter.from,
+          filter.to,
+          filter.authorRef,
+          filter.scope
+        );
+        break;
       case WhoamiRoleEnum.TEACHER:
-        return announcementsApi()
-          .getTeachersAnnouncements(
-            page,
-            perPage,
-            filter.from,
-            filter.to,
-            filter.authorRef,
-            filter.scope
-          )
-          .then((result) => ({data: result.data}));
+        result = await announcementsApi().getTeachersAnnouncements(
+          page,
+          perPage,
+          filter.from,
+          filter.to,
+          filter.authorRef,
+          filter.scope
+        );
+        break;
       default:
         throw new Error("Unexpected role");
     }
+    return {
+      data: result.data,
+    };
   },
+
   async getOne(id: string) {
     const role = authProvider.getCachedRole();
 
+    let result;
     switch (role) {
       case WhoamiRoleEnum.MANAGER:
-        return announcementsApi()
-          .getAnnouncementById(id)
-          .then((result) => result.data);
+        result = await announcementsApi().getAnnouncementById(id);
+        break;
       case WhoamiRoleEnum.STUDENT:
-        return announcementsApi()
-          .getStudentsAnnouncementById(id)
-          .then((result) => result.data);
+      case WhoamiRoleEnum.MONITOR:
+        result = await announcementsApi().getStudentsAnnouncementById(id);
+        break;
       case WhoamiRoleEnum.TEACHER:
-        return announcementsApi()
-          .getTeacherAnnouncementById(id)
-          .then((result) => result.data);
+        result = await announcementsApi().getTeacherAnnouncementById(id);
+        break;
       default:
         throw new Error("Unexpected role");
     }
+    return { data: result.data };
   },
+
   async saveOrUpdate(payload: any) {
-    return announcementsApi()
-      .createAnnouncement(payload[0])
-      .then((result) => [result.data]);
+    const result = await announcementsApi().createAnnouncement(payload[0]);
+    return { data: [result.data] };
   },
+
   async delete() {
     throw new Error("Not implemented");
   },
