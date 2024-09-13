@@ -1,23 +1,13 @@
 import React, {FC} from "react";
-import {
-  Box,
-  Typography,
-  Checkbox,
-  IconButton,
-  Popover,
-  Button,
-} from "@mui/material";
+import {Box, Typography, Checkbox, IconButton, Popover} from "@mui/material";
 import {
   Folder,
   EditCalendar,
-  PersonPin,
   EventAvailable,
   PanoramaFishEye,
   MoreVert,
-  CheckCircle,
-  Unpublished,
 } from "@mui/icons-material";
-import {useNavigate} from "react-router-dom";
+
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {formatDate} from "@/utils/date";
@@ -27,7 +17,10 @@ import {
   LetterItemProps,
   PopoverProps,
 } from "@/operations/letters/types";
+import {AcceptWithConfirm, RefuseButton} from "@/operations/letters/components";
 import {useRole} from "@/security/hooks";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+
 const STATUS_COLORS = {
   RECEIVED: {border: "green", background: "green"},
   REJECTED: {border: "#dc3545", background: "#dc3545"},
@@ -36,6 +29,7 @@ const STATUS_COLORS = {
 
 const ITEMS_STYLE = {
   width: "300px",
+  height: "226px",
   position: "relative",
   boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.4)",
   marginBlock: "1.5rem",
@@ -62,21 +56,17 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
     null
   );
 
-  const navigate = useNavigate();
   const {isManager} = useRole();
 
   const creationDate = formatDate(letter.creation_datetime!, false);
   const aprovalDate = formatDate(letter.approval_datetime!, false);
 
-  const studentName = `${letter.student?.first_name} ${letter.student?.last_name}`;
+  const profilPicture =
+    letter.student?.profile_picture || defaultProfilePicture;
   const isDateAproved = letter.approval_datetime !== null;
 
   const handleItemClick = () => {
-    if (isStudentLetter) {
-      onClose();
-    } else {
-      navigate(`/students/${letter.student?.id}/show`);
-    }
+    onClose();
   };
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -88,7 +78,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
 
   const open = Boolean(anchorEl);
 
-  const isChecked = letter.status === "RECEIVED";
+  const isChecked = letter.status !== "PENDING";
 
   return (
     <>
@@ -148,6 +138,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
               anchorEl={anchorEl}
               onClose={handleClose}
               open={open}
+              letterId={letter.id!}
             />
           </Box>
         )}
@@ -181,10 +172,29 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
             gap="1vh"
           >
             <BottomField text={creationDate} icon={<EditCalendar />} />
-            <BottomField text={studentName} icon={<PersonPin />} />
             {isDateAproved && (
               <BottomField text={aprovalDate} icon={<EventAvailable />} />
             )}
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+              }}
+            >
+              <img
+                src={profilPicture}
+                alt="profil avatar"
+                style={{
+                  width: "30px",
+                  height: "30px",
+                  borderRadius: "50%",
+                  objectFit: "cover",
+                }}
+              />
+              <Typography variant="subtitle1" fontWeight="600">
+                {letter.student?.first_name}
+              </Typography>
+            </Box>
           </Box>
         </Box>
       </Box>
@@ -200,7 +210,12 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
   );
 };
 
-const LetterItemActions: FC<PopoverProps> = ({anchorEl, open, onClose}) => {
+const LetterItemActions: FC<PopoverProps> = ({
+  anchorEl,
+  open,
+  onClose,
+  letterId,
+}) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
@@ -229,38 +244,8 @@ const LetterItemActions: FC<PopoverProps> = ({anchorEl, open, onClose}) => {
             boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.2)",
           }}
         >
-          <Button
-            startIcon={<CheckCircle />}
-            sx={{
-              "color": "green",
-              "width": "100%",
-              "display": "flex",
-              "justifyContent": "flex-start",
-              "backgroundColor": "#c8e6c9",
-              "&:hover": {
-                backgroundColor: "#81c784",
-                color: "white",
-              },
-            }}
-          >
-            Accepter
-          </Button>
-          <Button
-            startIcon={<Unpublished />}
-            sx={{
-              "color": "#d84315",
-              "width": "100%",
-              "display": "flex",
-              "justifyContent": "flex-start",
-              "backgroundColor": "#ffccbc",
-              "&:hover": {
-                backgroundColor: "#ff8a65",
-                color: "white",
-              },
-            }}
-          >
-            Réfuser
-          </Button>
+          <AcceptWithConfirm letterId={letterId} />
+          <RefuseButton letterId={letterId} />
         </Box>
       </Popover>
     </>

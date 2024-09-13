@@ -36,4 +36,5 @@ export interface PopoverProps {
   anchorEl: HTMLElement | null;
   open: boolean;
   onClose: () => void;
+  letterId: string;
 }

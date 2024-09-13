@@ -22,10 +22,11 @@ const studentLettersProvider: HaDataProviderType = {
   },
   saveOrUpdate: async (payload: any, {meta}: Params) => {
     const {method, studentId} = meta || {};
+
     if (method === "UPDATE") {
       return lettersApi()
-        .updateLettersStatus([payload])
-        .then((response) => [response.data][0]);
+        .updateLettersStatus(payload)
+        .then((response) => response.data);
     }
     const {description, filename} = payload[0];
     const {title, rawFile} = filename;
