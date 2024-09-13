@@ -21,10 +21,12 @@ const paymentProvider: HaDataProviderType = {
       page,
       perPage
     );
-    return result.data.map((payment) => ({
-      ...payment,
-      id: toRaId(studentId, feeId, payment.id as string),
-    }));
+    return {
+      data: result.data.map((payment) => ({
+        ...payment,
+        id: toRaId(studentId, feeId, payment.id as string),
+      })),
+    };
   },
   async getOne(_raId: string) {
     throw new Error("Function not implemented.");

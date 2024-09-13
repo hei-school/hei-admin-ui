@@ -6,7 +6,7 @@ const promotionProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     return promotionApi()
       .getPromotions(page, perPage, filter.name, filter.ref, filter.groupRef)
-      .then((response) => response.data);
+      .then((result) => ({data: result.data}));
   },
   async getOne(id: string) {
     return promotionApi()

@@ -1,6 +1,8 @@
 export type RaListResponseType = {
   data: Array<any>;
   total: number;
+  pageInfos?: any;
+  metadata: Record<string, any>;
 };
 
 export type RaSingleResponseType = {

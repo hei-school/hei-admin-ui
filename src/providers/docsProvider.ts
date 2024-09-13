@@ -6,26 +6,26 @@ import {filesApi} from "./api";
 
 const docsProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, _filter: any, meta: any) {
-    if (!meta) return [];
+    if (!meta) return {data: []};
     switch (meta.owner) {
       case OwnerType.SCHOOL:
         return filesApi()
           .getSchoolRegulations(page, perPage)
-          .then((result) => result.data);
+          .then((result) => ({data: result.data}));
       case OwnerType.STUDENT:
         if (meta.type === "WORK_DOCUMENT") {
           return filesApi()
             .getStudentWorkDocuments(meta.studentId, page, perPage)
-            .then((result) => result.data);
+            .then((result) => ({data: result.data}));
         }
         if (meta.type in FileType) {
           return filesApi()
             .getStudentFiles(meta?.studentId, page, perPage, meta.type)
-            .then((result) => result.data);
+            .then((result) => ({data: result.data}));
         }
-        return [];
+        return {data: []};
       default:
-        return [];
+        return {data: []};
     }
   },
   async getOne(id: string, meta: any) {

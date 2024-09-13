@@ -13,7 +13,7 @@ const studentLettersProvider: HaDataProviderType = {
 
     return lettersApi()
       .getLettersByStudentId(studentId, page, perPage)
-      .then((response) => response.data);
+      .then((result) => ({data: result.data}));
   },
   getOne: async (id: string) => {
     return lettersApi()
