@@ -26,5 +26,5 @@ export const announcementsApi = () =>
   new AnnouncementsApi(authProvider.getCachedAuthConf());
 export const lettersApi = () =>
   new LettersApi(authProvider.getCachedAuthConf());
-export const monitoringApi =  () => 
-  new MonitoringApi (authProvider.getCachedAuthConf()); 
+export const monitoringApi = () =>
+  new MonitoringApi(authProvider.getCachedAuthConf());

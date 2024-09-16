@@ -1,4 +1,4 @@
-import {Group} from "@mui/icons-material"; 
+import {Group} from "@mui/icons-material";
 import ProfileEdit from "@/operations/profile/ProfileEdit";
 import MonitorStudentList from "@/operations/monitorStudent/MonitorStudentList";
 import MonitorStudentShow from "@/operations/monitorStudent/MonitorStudentShow";

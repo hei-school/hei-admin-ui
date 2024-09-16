@@ -11,13 +11,13 @@ import authProvider from "@/providers/authProvider";
 
 function MonitorMenu() {
   const monitorId = authProvider.getCachedWhoami().id;
- 
+  
   return (
     <Box>
-      <SingleMenu 
-        to={`/monitors/${monitorId}/students`} 
-        label="Étudiants" 
-        icon={<StudentIcon />} 
+      <SingleMenu
+        to={`/monitors/${monitorId}/students`}
+        label="Étudiants"
+        icon={<StudentIcon />}
       />
       <SingleMenu
         to="/announcements"

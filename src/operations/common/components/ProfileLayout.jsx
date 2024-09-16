@@ -637,7 +637,7 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
       {isStudentProfile && isMonitor() && ( 
         <TabbedShowLayout.Tab 
           label="Liste de documents" 
-          style={{fontSize: "0.8rem"}}
+          style={{ fontSize: "0.8rem" }}
         >
           <MonitorStudentDocs/>
         </TabbedShowLayout.Tab>

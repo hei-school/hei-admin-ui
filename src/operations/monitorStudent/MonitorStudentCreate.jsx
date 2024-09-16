@@ -4,10 +4,10 @@ import {SexRadioButton} from "@/operations/utils";
 import {toISO} from "@/utils/date";
 
 const transformStudent = (record) => {
-  let { entrance_datetime, longitude, latitude, ...student } = record;
+  let {entrance_datetime, longitude, latitude, ...student} = record;
   entrance_datetime = toISO(entrance_datetime);
-  const coordinates = { longitude: +longitude, latitude: +latitude };
-  return { ...student, entrance_datetime, coordinates };
+  const coordinates = {longitude: +longitude, latitude: +latitude};
+  return {...student, entrance_datetime, coordinates};
 };
 
 const MonitorStudentCreate = () => (

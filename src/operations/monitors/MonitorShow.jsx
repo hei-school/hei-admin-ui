@@ -25,11 +25,11 @@ const MonitorShow = () => {
         },
       }}
       actions={false}
-      title="Moniteurs" 
+      title="Moniteurs"
     >
       <ProfileLayout
-        role={WhoamiRoleEnum.MONITOR} 
-        actions={<ActionsOnShow />} 
+        role={WhoamiRoleEnum.MONITOR}
+        actions={<ActionsOnShow />}
       />
     </Show>
   );

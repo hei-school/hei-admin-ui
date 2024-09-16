@@ -17,8 +17,8 @@ export function HaMenuContent() {
   if (role === WhoamiRoleEnum.TEACHER) {
     return <TeacherMenu />;
   }
-  if (role === WhoamiRoleEnum.MONITOR){
-    return <MonitorMenu/>
+  if (role === WhoamiRoleEnum.MONITOR) {
+    return <MonitorMenu />;
   }
   return null;
 }
