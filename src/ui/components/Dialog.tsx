@@ -31,7 +31,7 @@ export function Dialog({
         "& .MuiPaper-root": {boxShadow: "none"},
       }}
       fullWidth
-      maxWidth="sm"
+      maxWidth="md"
       {...dialogProps}
     >
       <DialogTitle

@@ -11,12 +11,7 @@ const LetterShow: FC<LetterShowProps> = ({
   fileUrl,
   filename,
 }) => (
-  <Dialog
-    open={isOpen}
-    onClose={onClose}
-    title="Détails de la lettre"
-    sx={{width: "100%", height: "100%"}}
-  >
+  <Dialog open={isOpen} onClose={onClose} title="Détails de la lettre">
     <Container fixed>
       <PdfViewer
         isPending={false}
