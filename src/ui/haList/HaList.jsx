@@ -62,6 +62,7 @@ export function HaList({
         actions={false}
         pagination={<PrevNextPagination />}
         resource={resource}
+        disableSyncWithLocation
         empty={false}
         sx={{
           "& .MuiPaper-root": {boxShadow: "none"},

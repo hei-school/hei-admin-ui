@@ -1,6 +1,6 @@
 import {FC} from "react";
 import {useListContext} from "react-admin";
-import {Box} from "@mui/material";
+import {Box, CircularProgress} from "@mui/material";
 import {Letter} from "@haapi/typescript-client";
 import {LetterListViewProps} from "@/operations/letters/types";
 import EmptyList from "@/ui/components/EmptyList";
@@ -15,8 +15,14 @@ export const LetterListView: FC<LetterListViewProps> = ({
 
   if (isLoading)
     return (
-      <Box sx={sx}>
-        <p> Loading...</p>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress />
       </Box>
     );
   return (
