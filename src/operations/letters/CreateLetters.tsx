@@ -1,3 +1,4 @@
+import {FC} from "react";
 import {FileField, FileInput, SimpleForm, TextInput} from "react-admin";
 import {Dialog} from "@/ui/components";
 import {PALETTE_COLORS} from "@/haTheme";
@@ -6,6 +7,7 @@ import {Letter} from "@haapi/typescript-client";
 import {v4 as uuid} from "uuid";
 import {Create} from "@/operations/common/components";
 import {CreateLettersDialogProps} from "@/operations/letters/types";
+import {useNotify} from "@/hooks";
 
 const FILE_FIELD_STYLE = {
   "border": "1px dashed",
@@ -32,11 +34,13 @@ const FILE_FIELD_STYLE = {
   },
 };
 
-export function CreateLettersDialog({
+export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   isOpen,
   onClose,
   studentId,
-}: CreateLettersDialogProps) {
+}) => {
+  const notify = useNotify();
+
   return (
     <Dialog open={isOpen} onClose={onClose} title="Ajouter une lettre">
       <Create
@@ -51,6 +55,12 @@ export function CreateLettersDialog({
           meta: {
             method: "CREATE",
             studentId,
+          },
+          onSuccess: () => {
+            notify("Créé avec succès", {
+              type: "success",
+            });
+            onClose();
           },
         }}
         sx={{
@@ -85,4 +95,4 @@ export function CreateLettersDialog({
       </Create>
     </Dialog>
   );
-}
+};

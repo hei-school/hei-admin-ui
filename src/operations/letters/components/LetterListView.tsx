@@ -1,10 +1,11 @@
 import {FC} from "react";
 import {useListContext} from "react-admin";
 import {Box, CircularProgress} from "@mui/material";
+
 import {Letter} from "@haapi/typescript-client";
 import {LetterListViewProps} from "@/operations/letters/types";
-import EmptyList from "@/ui/components/EmptyList";
 import {LetterItem} from "@/operations/letters/components/LetterItem";
+import EmptyList from "@/ui/components/EmptyList";
 
 export const LetterListView: FC<LetterListViewProps> = ({
   sx,
@@ -13,7 +14,7 @@ export const LetterListView: FC<LetterListViewProps> = ({
   const {data: letters = [], isLoading} = useListContext<Required<Letter>>();
   const isEmpty = !letters.length;
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <Box
         sx={{
@@ -25,6 +26,8 @@ export const LetterListView: FC<LetterListViewProps> = ({
         <CircularProgress />
       </Box>
     );
+  }
+
   return (
     <Box sx={sx}>
       {isEmpty && <EmptyList />}

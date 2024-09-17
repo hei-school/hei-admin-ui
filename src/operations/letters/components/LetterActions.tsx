@@ -99,7 +99,7 @@ export const StatusFilter: FC<{
     setFilters({...filterValues, status}, displayedFilters);
     handleClose();
   };
-  const isStatusFilteActive = (status: LetterStatus) => {
+  const isStatusFilterActive = (status: LetterStatus) => {
     return filterValues.status === status;
   };
   const handleResetFilters = () => {
@@ -127,20 +127,21 @@ export const StatusFilter: FC<{
     <Menu anchorEl={anchorEl} open={Boolean(anchorEl)} onClose={handleClose}>
       <MenuItem onClick={handleResetFilters}>Tous</MenuItem>
       <MenuItem
-        disabled={isStatusFilteActive(LetterStatus.PENDING)}
+        disabled={isStatusFilterActive(LetterStatus.PENDING)}
         onClick={() => handleStatusSelect(LetterStatus.PENDING)}
-        color="black"
         sx={
-          isStatusFilteActive(LetterStatus.PENDING) ? showIndication : undefined
+          isStatusFilterActive(LetterStatus.PENDING)
+            ? showIndication
+            : undefined
         }
       >
         En attente
       </MenuItem>
       <MenuItem
-        disabled={isStatusFilteActive(LetterStatus.RECEIVED)}
+        disabled={isStatusFilterActive(LetterStatus.RECEIVED)}
         onClick={() => handleStatusSelect(LetterStatus.RECEIVED)}
         sx={
-          isStatusFilteActive(LetterStatus.RECEIVED)
+          isStatusFilterActive(LetterStatus.RECEIVED)
             ? showIndication
             : undefined
         }
@@ -148,15 +149,15 @@ export const StatusFilter: FC<{
         Accepté
       </MenuItem>
       <MenuItem
-        disabled={isStatusFilteActive(LetterStatus.REJECTED)}
+        disabled={isStatusFilterActive(LetterStatus.REJECTED)}
         onClick={() => handleStatusSelect(LetterStatus.REJECTED)}
         sx={
-          isStatusFilteActive(LetterStatus.REJECTED)
+          isStatusFilterActive(LetterStatus.REJECTED)
             ? showIndication
             : undefined
         }
       >
-        Réfusé
+        Refusé
       </MenuItem>
     </Menu>
   );

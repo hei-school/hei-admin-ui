@@ -55,7 +55,7 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
         }}
         onClick={handleClickOpen}
       >
-        Réfuser
+        Refuser
       </Button>
       <Dialog
         open={open}
@@ -70,14 +70,14 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
           <TextField
             required
             fullWidth
-            label="raison du refus"
+            label="Raison du refus"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
           />
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Annuler</Button>
-          <Button onClick={handleConfirm}> Confirmer</Button>
+          <Button onClick={handleConfirm}>Confirmer</Button>
         </DialogActions>
       </Dialog>
     </Box>

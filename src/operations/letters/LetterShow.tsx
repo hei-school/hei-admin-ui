@@ -3,7 +3,6 @@ import {Container} from "@mui/material";
 
 import {Dialog} from "@/ui/components";
 import PdfViewer from "@/operations/common/components/PdfViewer";
-
 import {LetterShowProps} from "@/operations/letters/types";
 
 const LetterShow: FC<LetterShowProps> = ({
@@ -16,19 +15,14 @@ const LetterShow: FC<LetterShowProps> = ({
     open={isOpen}
     onClose={onClose}
     title="Détails de la lettre"
-    sx={{
-      width: "100%",
-      height: "100%",
-    }}
+    sx={{width: "100%", height: "100%"}}
   >
     <Container fixed>
       <PdfViewer
         isPending={false}
         url={fileUrl}
         filename={filename}
-        style={{
-          marginTop: "10px",
-        }}
+        style={{marginTop: "10px"}}
       />
     </Container>
   </Dialog>

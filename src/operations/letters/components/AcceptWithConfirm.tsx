@@ -28,7 +28,7 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
     <Box>
       <Button
         startIcon={<CheckCircle />}
-        aria-hidden:false
+        aria-hidden={false}
         sx={{
           "color": "green",
           "width": "100%",
@@ -46,8 +46,8 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
       </Button>
       <Confirm
         isOpen={open}
-        title="Acceptation du lettre"
-        content="Voulez vous vraiment accepter ce lettre? "
+        title="Acceptation de la lettre"
+        content="Voulez-vous vraiment accepter cette lettre ?"
         onConfirm={onConfirm}
         onClose={handleDialogClose}
       />

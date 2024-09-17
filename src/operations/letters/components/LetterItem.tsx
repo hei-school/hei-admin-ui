@@ -59,15 +59,16 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
   const {isManager} = useRole();
 
   const creationDate = formatDate(letter.creation_datetime!, false);
-  const aprovalDate = formatDate(letter.approval_datetime!, false);
+  const approvalDate = formatDate(letter.approval_datetime!, false);
 
-  const profilPicture =
+  const profilePicture =
     letter.student?.profile_picture || defaultProfilePicture;
-  const isDateAproved = letter.approval_datetime !== null;
+  const isDateApproved = letter.approval_datetime !== null;
 
   const handleItemClick = () => {
     onClose();
   };
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -172,8 +173,8 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
             gap="1vh"
           >
             <BottomField text={creationDate} icon={<EditCalendar />} />
-            {isDateAproved && (
-              <BottomField text={aprovalDate} icon={<EventAvailable />} />
+            {isDateApproved && (
+              <BottomField text={approvalDate} icon={<EventAvailable />} />
             )}
             <Box
               sx={{
@@ -182,7 +183,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
               }}
             >
               <img
-                src={profilPicture}
+                src={profilePicture}
                 alt="profil avatar"
                 style={{
                   width: "30px",
