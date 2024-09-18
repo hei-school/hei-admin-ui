@@ -531,7 +531,7 @@ export const Informations = ({isStudentProfile}) => {
   }
 
   return (
-    <TabbedShowLayout syncWithLocation={false}>
+    <TabbedShowLayout syncWithLocation={!isStudent()}>
       <TabbedShowLayout.Tab
         label="Détails du Profil"
         style={{fontSize: "0.8rem"}}
@@ -558,7 +558,11 @@ export const Informations = ({isStudentProfile}) => {
         </Box>
       </TabbedShowLayout.Tab>
       {isStudentProfile && (
-        <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
+        <TabbedShowLayout.Tab
+          label="Commentaires"
+          path="comments"
+          style={{fontSize: "0.8rem"}}
+        >
           <CommentList studentId={profile.id} />
         </TabbedShowLayout.Tab>
       )}
@@ -566,6 +570,7 @@ export const Informations = ({isStudentProfile}) => {
       {isStudentProfile && isManager() && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
+          path="fees"
           data-testid="fees-list-tab"
           style={{fontSize: "0.8rem"}}
         >
