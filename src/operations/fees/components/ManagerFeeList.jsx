@@ -91,7 +91,7 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
       />
       <DeleteWithConfirm
         resourceType="fees"
-        redirect={`/students/${studentId}/fees`}
+        redirect={`/students/${studentId}/show/fees`}
         confirmTitle="Suppression de frais"
         confirmContent="Confirmez-vous la suppression de ce frais ?"
       />
