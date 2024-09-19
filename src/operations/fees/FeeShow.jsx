@@ -227,7 +227,6 @@ const FeeShow = (props) => {
   const studentId = studentIdFromRaId(feeId);
   const [studentRef, setStudentRef] = useState("...");
   const dataProvider = useDataProvider();
-  
 
   useEffect(() => {
     const doEffect = async () => {
