@@ -5,7 +5,7 @@ import {
   FunctionField,
   TopToolbar,
   CreateButton,
-  Button
+  Button,
 } from "react-admin";
 import {Download} from "@mui/icons-material";
 import {paymentTypeRenderer} from "@/operations/utils/index";
@@ -14,7 +14,7 @@ import {DeleteWithConfirm} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
 import GetReceipt from "@/operations/students/components/GetReceipt";
-import { COMMON_OUTLINED_BUTTON_PROPS } from "@/ui/constants/common_styles";
+import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>
     <CreateButton to={basePath + "/create"} resource={resource} />
@@ -24,7 +24,6 @@ const Actions = ({basePath, resource}) => (
 const PaymentList = ({feeId, studentId}) => {
   const role = useRole();
   return (
-
     <List
       title=" " // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={"payments"}
@@ -54,17 +53,17 @@ const PaymentList = ({feeId, studentId}) => {
           label="Reçu"
           render={() => (
             <Button
-            label={<GetReceipt studentId={studentId} feeId={feeId} />}
-            size="small"
-            data-testid="get-receipt-btn"
-            startIcon={<Download />}
+              label={<GetReceipt studentId={studentId} feeId={feeId} />}
+              size="small"
+              data-testid="get-receipt-btn"
+              startIcon={<Download />}
             >
               reçu
             </Button>
           )}
           textAlign="right"
         />
-        
+
         {role.isManager() && (
           <DeleteWithConfirm
             resourceType="payments"

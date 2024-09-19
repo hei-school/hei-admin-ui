@@ -13,8 +13,7 @@ export const toApiIds = (raId: string = "") => {
 export const studentIdFromRaId = (raId: string): string =>
   toApiIds(raId).studentId;
 
-export const feeIdFromRaId = (raId: string): string =>
-  toApiIds(raId).feeId;
+export const feeIdFromRaId = (raId: string): string => toApiIds(raId).feeId;
 
 const feeProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {

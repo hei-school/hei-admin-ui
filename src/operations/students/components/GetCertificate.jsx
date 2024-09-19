@@ -1,11 +1,13 @@
-import { FileDownloader } from "@/operations/common/components/FileDownloader";
-import { filesApi } from "@/providers/api";
+import {FileDownloader} from "@/operations/common/components/FileDownloader";
+import {filesApi} from "@/providers/api";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
-function GetCertificate({ studentId }) {
-  const downloadFunction = () => 
-    filesApi().getStudentScholarshipCertificate(studentId, { responseType: "arraybuffer" });
+function GetCertificate({studentId}) {
+  const downloadFunction = () =>
+    filesApi().getStudentScholarshipCertificate(studentId, {
+      responseType: "arraybuffer",
+    });
 
   return (
     <FileDownloader
