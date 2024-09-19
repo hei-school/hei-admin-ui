@@ -5,22 +5,26 @@ import {
   FunctionField,
   TopToolbar,
   CreateButton,
+  Button
 } from "react-admin";
-import {paymentTypeRenderer} from "../utils";
-import {useRole} from "../../security/hooks";
-import {DeleteWithConfirm} from "../common/components";
-import {DateField} from "../common/components/fields";
-import {renderMoney} from "../common/utils/money";
-
+import {Download} from "@mui/icons-material";
+import {paymentTypeRenderer} from "@/operations/utils/index";
+import {useRole} from "@/security/hooks/index";
+import {DeleteWithConfirm} from "@/operations/common/components";
+import {DateField} from "@/operations/common/components/fields";
+import {renderMoney} from "@/operations/common/utils/money";
+import GetReceipt from "@/operations/students/components/GetReceipt";
+import { COMMON_OUTLINED_BUTTON_PROPS } from "@/ui/constants/common_styles";
 const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>
     <CreateButton to={basePath + "/create"} resource={resource} />
   </TopToolbar>
 );
 
-const PaymentList = ({feeId}) => {
+const PaymentList = ({feeId, studentId}) => {
   const role = useRole();
   return (
+
     <List
       title=" " // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={"payments"}
@@ -46,6 +50,21 @@ const PaymentList = ({feeId}) => {
           render={(record) => renderMoney(record.amount)}
           textAlign="right"
         />
+        <FunctionField
+          label="Reçu"
+          render={() => (
+            <Button
+            label={<GetReceipt studentId={studentId} feeId={feeId} />}
+            size="small"
+            data-testid="get-receipt-btn"
+            startIcon={<Download />}
+            >
+              reçu
+            </Button>
+          )}
+          textAlign="right"
+        />
+        
         {role.isManager() && (
           <DeleteWithConfirm
             resourceType="payments"

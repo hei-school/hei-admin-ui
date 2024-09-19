@@ -18,8 +18,8 @@ import {
   Work,
 } from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
-import {GetCertificate} from "./GetCertificate";
-import {COMMON_OUTLINED_BUTTON_PROPS} from "../../../ui/constants/common_styles";
+import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import GetCertificate from "@/operations/students/components/GetCertificate";
 
 const StyledMenu = styled((props) => (
   <Menu

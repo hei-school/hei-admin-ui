@@ -64,7 +64,7 @@ const LabeledField = ({label, icon, children}) => (
   </Grid>
 );
 
-export const FeeLayout = ({feeId}) => {
+export const FeeLayout = ({feeId, studentId}) => {
   const styles = GRID_STYLE();
   return (
     <Box container spacing={2} m={6}>
@@ -214,7 +214,7 @@ export const FeeLayout = ({feeId}) => {
         >
           Paiements
         </Typography>
-        <PaymentList feeId={feeId} />
+        <PaymentList feeId={feeId} studentId={studentId} />
       </Grid>
     </Box>
   );
@@ -227,6 +227,7 @@ const FeeShow = (props) => {
   const studentId = studentIdFromRaId(feeId);
   const [studentRef, setStudentRef] = useState("...");
   const dataProvider = useDataProvider();
+  
 
   useEffect(() => {
     const doEffect = async () => {
@@ -257,7 +258,7 @@ const FeeShow = (props) => {
       basePath={`/fees/${feeId}/show`}
       title={`Frais de ${studentRef}`}
     >
-      <FeeLayout feeId={feeId} />
+      <FeeLayout feeId={feeId} studentId={studentId} />
     </Show>
   );
 };
