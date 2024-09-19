@@ -1,47 +1,39 @@
 import {FC} from "react";
 import {List} from "react-admin";
-import {Box} from "@mui/material";
-import {PALETTE_COLORS} from "@/haTheme";
+import {Box, useMediaQuery} from "@mui/material";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import {LetterListView} from "@/operations/letters/components";
+import {getListViewStyle} from "@/operations/letters/StudentLettersList";
+import {
+  HeaderLetterList,
+  LetterListView,
+} from "@/operations/letters/components";
 
-const LettersList: FC = () => (
-  <Box>
-    <List
-      title=" "
-      resource="letters"
-      empty={false}
-      actions={false}
-      pagination={<PrevNextPagination />}
-      disableSyncWithLocation
-      perPage={6}
-      filterDefaultValues={{status: "PENDING"}}
-    >
-      <Box
-        sx={{
-          fontSize: "2rem",
-          fontWeight: "bold",
-          textAlign: "center",
-          paddingBlock: "1rem",
-          backgroundColor: PALETTE_COLORS.primary,
-          color: PALETTE_COLORS.white,
-        }}
+export const LettersList: FC<{
+  total: string;
+  received: string;
+  pending: string;
+  rejected: string;
+}> = ({total, received, pending, rejected}) => {
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
+
+  return (
+    <Box>
+      <List
+        title=" "
+        resource="letters"
+        empty={false}
+        actions={false}
+        pagination={<PrevNextPagination />}
       >
-        Liste de toutes les lettres
-      </Box>
-      <LetterListView
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          gap: "1rem",
-          alignItems: "center",
-          justifyContent: "center",
-          paddingTop: "3rem",
-        }}
-        isStudentLetter={false}
-      />
-    </List>
-  </Box>
-);
-
-export default LettersList;
+        <HeaderLetterList
+          total={total}
+          received={received}
+          pending={pending}
+          rejected={rejected}
+        />
+        <LetterListView sx={getListViewStyle({isLarge, isSmall})} />
+      </List>
+    </Box>
+  );
+};

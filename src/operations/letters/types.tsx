@@ -29,7 +29,6 @@ export interface LetterShowProps {
 
 export interface LetterListViewProps {
   sx?: SxProps;
-  isStudentLetter: boolean;
 }
 
 export interface PopoverProps {

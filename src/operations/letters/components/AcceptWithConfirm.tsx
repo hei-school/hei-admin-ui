@@ -6,7 +6,7 @@ import {CheckCircle} from "@mui/icons-material";
 export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
   const [open, setOpen] = useState(false);
   const [update] = useUpdate();
-  const handleConfirm = () => setOpen(true);
+  const confirmLetter = () => setOpen(true);
   const handleDialogClose = () => setOpen(false);
 
   const onConfirm = () => {
@@ -40,7 +40,7 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
             color: "white",
           },
         }}
-        onClick={handleConfirm}
+        onClick={confirmLetter}
       >
         Accepter
       </Button>

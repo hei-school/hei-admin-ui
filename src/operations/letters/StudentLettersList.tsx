@@ -6,9 +6,12 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
-import {LetterListView, StatusFilter} from "@/operations/letters/components";
+import {
+  LetterListView,
+  LetterStatusFilter,
+} from "@/operations/letters/components";
 
-const getListContentStyle = ({
+export const getListViewStyle = ({
   isLarge,
   isSmall,
 }: {
@@ -27,13 +30,17 @@ const getListContentStyle = ({
 export const StudentLettersList: FC = () => {
   const [isOpen, , onToggle] = useToggle();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
+
   const handleStatusClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
+
   const handleClose = () => {
     setAnchorEl(null);
   };
+
   const {id: studentId} = useRecordContext();
+
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
 
@@ -51,7 +58,6 @@ export const StudentLettersList: FC = () => {
             studentId,
           },
         }}
-        filterDefaultValues={{}}
       >
         <TopToolbar
           sx={{
@@ -76,7 +82,7 @@ export const StudentLettersList: FC = () => {
           >
             Filtre
           </Button>
-          <StatusFilter anchorEl={anchorEl} handleClose={handleClose} />
+          <LetterStatusFilter anchorEl={anchorEl} handleClose={handleClose} />
           <Button
             startIcon={
               <CloudUpload
@@ -100,10 +106,7 @@ export const StudentLettersList: FC = () => {
             Ajouter
           </Button>
         </TopToolbar>
-        <LetterListView
-          sx={getListContentStyle({isLarge, isSmall})}
-          isStudentLetter={true}
-        />
+        <LetterListView sx={getListViewStyle({isLarge, isSmall})} />
         <PrevNextPagination />
       </ListBase>
       <CreateLettersDialog

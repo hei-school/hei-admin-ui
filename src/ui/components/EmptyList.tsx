@@ -3,7 +3,7 @@ import {Box, Typography} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 import emptyImg from "@/assets/Empty_img.png";
 
-const EmptyList: FC = () => (
+export const EmptyList: FC = () => (
   <Box
     display="flex"
     flexDirection="column"
@@ -23,5 +23,3 @@ const EmptyList: FC = () => (
     <Typography variant="body1">Veuillez ajouter des éléments</Typography>
   </Box>
 );
-
-export default EmptyList;

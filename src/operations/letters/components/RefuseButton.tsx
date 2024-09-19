@@ -15,15 +15,7 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
   const [reason, setReason] = useState("");
   const [update] = useUpdate();
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-  };
-
-  const handleConfirm = () => {
+  const onConfirm = () => {
     update("student-letters", {
       id: letterId,
       data: {
@@ -35,7 +27,7 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
         method: "UPDATE",
       },
     });
-    handleClose();
+    setOpen(false);
   };
 
   return (
@@ -53,13 +45,13 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
             color: "white",
           },
         }}
-        onClick={handleClickOpen}
+        onClick={() => setOpen(true)}
       >
         Refuser
       </Button>
       <Dialog
         open={open}
-        onClose={handleClose}
+        onClose={() => setOpen(false)}
         sx={{
           "& .MuiPaper-root": {
             width: "500px",
@@ -76,8 +68,8 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Annuler</Button>
-          <Button onClick={handleConfirm}>Confirmer</Button>
+          <Button onClick={() => setOpen(false)}>Annuler</Button>
+          <Button onClick={onConfirm}>Confirmer</Button>
         </DialogActions>
       </Dialog>
     </Box>

@@ -1,10 +1,9 @@
 import React, {FC} from "react";
-import {Box, Typography, Checkbox, IconButton, Popover} from "@mui/material";
+import {Box, Typography, IconButton, Popover} from "@mui/material";
 import {
   Folder,
   EditCalendar,
   EventAvailable,
-  PanoramaFishEye,
   MoreVert,
 } from "@mui/icons-material";
 
@@ -29,7 +28,7 @@ const STATUS_COLORS = {
 
 const ITEMS_STYLE = {
   width: "300px",
-  height: "226px",
+  minHeight: "245px",
   position: "relative",
   boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.4)",
   marginBlock: "1.5rem",
@@ -50,7 +49,7 @@ const ICON_STYLE = {
   left: "15px",
 };
 
-export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
+export const LetterItem: FC<LetterItemProps> = ({letter}) => {
   const [isOpen, , onClose] = useToggle();
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -77,7 +76,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
     setAnchorEl(null);
   };
 
-  const open = Boolean(anchorEl);
+  const open = !!anchorEl;
 
   const isChecked = letter.status !== "PENDING";
 
@@ -97,32 +96,17 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
         >
           <Folder sx={{fontSize: "2.5rem", color: "white"}} />
         </Box>
-        {isManager() && isStudentLetter && !isChecked && (
+        {isManager() && !isChecked && (
           <Box
             sx={{
-              "position": "absolute",
-              "top": "8px",
-              "right": "8px",
-              "display": "flex",
-              "alignItems": "center",
-              "gap": "0rem",
-              "justifyContent": "center",
-              "& .css-kcjtf1-MuiButtonBase-root-MuiCheckbox-root": {
-                padding: "0 !important",
-              },
+              position: "absolute",
+              top: "8px",
+              right: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            <Checkbox
-              checked={isChecked}
-              icon={
-                <PanoramaFishEye
-                  sx={{
-                    color: PALETTE_COLORS.primary,
-                    fontSize: "1.2rem",
-                  }}
-                />
-              }
-            />
             <IconButton
               sx={{
                 padding: "0 !important",
@@ -156,7 +140,12 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
         </Typography>
         <Box
           onClick={handleItemClick}
-          sx={{cursor: "pointer", backgroundColor: "whitesmoke"}}
+          sx={{
+            cursor: "pointer",
+            backgroundColor: "whitesmoke",
+            height: "95%",
+            position: "relative",
+          }}
         >
           <Typography
             sx={{
@@ -170,7 +159,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
             display="flex"
             flexDirection="column"
             justifyContent="center"
-            gap="1vh"
+            gap="0.6rem"
           >
             <BottomField text={creationDate} icon={<EditCalendar />} />
             {isDateApproved && (
@@ -180,6 +169,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
               sx={{
                 display: "flex",
                 alignItems: "center",
+                gap: "0.5rem",
               }}
             >
               <img
@@ -199,14 +189,12 @@ export const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
           </Box>
         </Box>
       </Box>
-      {isStudentLetter && (
-        <LetterShow
-          isOpen={isOpen}
-          onClose={onClose}
-          fileUrl={letter.file_url ?? ""}
-          filename={letter.student?.first_name!}
-        />
-      )}
+      <LetterShow
+        isOpen={isOpen}
+        onClose={onClose}
+        fileUrl={letter.file_url ?? ""}
+        filename={letter.student?.first_name || letter.student?.last_name!}
+      />
     </>
   );
 };
@@ -257,7 +245,7 @@ const BottomField: FC<BottomFieldProps> = ({text, icon}) => (
   <Box
     sx={{
       "display": "flex",
-      "gap": "10px",
+      "gap": "0.7rem",
       "alignItems": "center",
       "& .MuiSvgIcon-root": {
         color: PALETTE_COLORS.primary,
