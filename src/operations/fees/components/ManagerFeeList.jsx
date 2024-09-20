@@ -33,6 +33,9 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
       datagridProps={{
         rowClick: (id) => `/fees/${id}/show`,
         rowStyle,
+        rowProps: (record) => ({
+          "data-testid": `fee-row-${record.id}`,
+        }),
       }}
       editable={false}
     >
