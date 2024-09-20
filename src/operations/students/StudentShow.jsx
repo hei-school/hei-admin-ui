@@ -62,7 +62,7 @@ const StudentShow = () => (
     <ProfileLayout
       role={WhoamiRoleEnum.STUDENT}
       actions={<ActionsOnShow />}
-      isStudent
+      isStudentProfile
     />
   </Show>
 );

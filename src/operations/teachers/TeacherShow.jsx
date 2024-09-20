@@ -31,6 +31,7 @@ const TeacherShow = () => {
       <ProfileLayout
         role={WhoamiRoleEnum.TEACHER}
         actions={<ActionsOnShow />}
+        isTeacherProfile
       />
     </Show>
   );

@@ -1,15 +1,12 @@
 import {FC} from "react";
 import {useListFilterContext} from "react-admin";
 import {Box, Typography, MenuItem, Menu} from "@mui/material";
-import {LetterStatus} from "@haapi/typescript-client";
+import {LetterStats, LetterStatus} from "@haapi/typescript-client";
 import {PALETTE_COLORS} from "@/haTheme";
 
-export const HeaderLetterList: FC<{
-  total: string;
-  received: string;
-  pending: string;
-  rejected: string;
-}> = ({total, received, pending, rejected}) => {
+export const HeaderLetterList: FC<{stats: LetterStats & {total?: number}}> = ({
+  stats,
+}) => {
   return (
     <Box
       sx={{
@@ -29,16 +26,16 @@ export const HeaderLetterList: FC<{
           justifyContent: "center",
         }}
       >
-        <LetterStatusField count={total} value="Total" />
-        <LetterStatusField count={received} value="Accepté" />
-        <LetterStatusField count={pending} value="en attente" />
-        <LetterStatusField count={rejected} value="Refusé" />
+        <LetterStatusField count={stats?.total!} value="Total" />
+        <LetterStatusField count={stats?.received!} value="Accepté" />
+        <LetterStatusField count={stats?.pending!} value="en attente" />
+        <LetterStatusField count={stats?.rejected!} value="Refusé" />
       </Box>
     </Box>
   );
 };
 
-const LetterStatusField: FC<{value: string; count: string}> = ({
+const LetterStatusField: FC<{value: string; count: number}> = ({
   value,
   count,
 }) => (

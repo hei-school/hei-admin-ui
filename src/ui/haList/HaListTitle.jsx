@@ -23,7 +23,7 @@ const MainSearchContainer = styled("div")({
   backgroundColor: PALETTE_COLORS.bgGrey,
 });
 
-export const HaListContext = createContext();
+export const HaListContext = createContext({});
 
 export function HaListTitle({
   title,

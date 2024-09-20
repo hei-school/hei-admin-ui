@@ -1,4 +1,4 @@
-import {useRef, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 
 import {
   ImageField,
@@ -51,6 +51,8 @@ import {
   useMediaQuery,
   CircularProgress,
 } from "@mui/material";
+import {useQuery} from "react-query";
+import {v4 as uuid} from "uuid";
 
 import {
   DateField,
@@ -82,6 +84,8 @@ import {DATE_OPTIONS} from "@/utils/date";
 import defaultCoverPicture from "@/assets/banner.jpg";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {StudentLettersList} from "@/operations/letters/StudentLettersList";
+import {LettersList} from "@/operations/letters/LettersList";
+import {lettersApi} from "@/providers/api";
 
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
@@ -418,11 +422,14 @@ const PersonalDetails = () => {
   );
 };
 
-export const ProfileLayout = ({role, actions, isStudent = false}) => {
-  const viewerRole = useRole();
+export const ProfileLayout = ({
+  role,
+  actions,
+  isTeacherProfile = false,
+  isStudentProfile = false,
+}) => {
   const {record: profile = {}} = useShowContext();
   const redirect = useRedirect();
-  const isStudentProfile = isStudent || viewerRole.isStudent();
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const {groups = []} = profile;
@@ -500,16 +507,25 @@ export const ProfileLayout = ({role, actions, isStudent = false}) => {
         </Box>
         <Box>{actions}</Box>
       </Box>
-      <Informations isStudentProfile={isStudentProfile} />
+      <Informations
+        isStudentProfile={isStudentProfile}
+        isTeacherProfile={isTeacherProfile}
+      />
     </Box>
   );
 };
 
-export const Informations = ({isStudentProfile}) => {
+export const Informations = ({isStudentProfile, isTeacherProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
-  const {isStudent, isTeacher, isManager} = useRole();
+  const role = useRole();
+
+  const {
+    isLoading,
+    error,
+    data: letterStats,
+  } = useGetOne("letters-stats", {id: undefined});
 
   if (!profile) {
     return (
@@ -565,7 +581,7 @@ export const Informations = ({isStudentProfile}) => {
         />
       )}
 
-      {isStudentProfile && isManager() && (
+      {isStudentProfile && role.isManager() && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
           path="fees"
@@ -574,10 +590,45 @@ export const Informations = ({isStudentProfile}) => {
           children={<FeeList studentId={profile.id} studentRef={profile.ref} />}
         />
       )}
-      {isStudentProfile && !isTeacher() && (
+      {isStudentProfile && !role.isTeacher() && (
         <TabbedShowLayout.Tab
-          label="Boîte au lettres"
+          label="Boîte aux lettres"
           children={<StudentLettersList />}
+        />
+      )}
+      {!isTeacherProfile && !isStudentProfile && role.isManager() && (
+        <TabbedShowLayout.Tab
+          label={
+            letterStats ? (
+              <Badge
+                badgeContent={
+                  <span
+                    style={{
+                      backgroundColor: "red",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontWeight: "800",
+                      color: "white",
+                      marginLeft: "1rem",
+                      height: "1.4rem",
+                      width: "1.4rem",
+                    }}
+                  >
+                    {letterStats.pending}
+                  </span>
+                }
+                sx={{
+                  position: "relative",
+                }}
+              >
+                Boîte aux lettres
+              </Badge>
+            ) : null
+          }
+          children={<LettersList stats={letterStats} />}
+          style={{paddingTop: "1rem", width: "10vw"}}
         />
       )}
     </TabbedShowLayout>
