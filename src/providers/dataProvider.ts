@@ -76,7 +76,7 @@ const dataProvider: RaDataProviderType = {
     return {
       data,
       total: Number.MAX_SAFE_INTEGER,
-      meta: metadata,
+      metadata,
     } as RaListResponseType;
   },
   async getOne(resourceType: string, params: any) {
