@@ -5,6 +5,7 @@ import {
   Dialog as MuiDialog,
   DialogTitle,
   DialogContent,
+  useMediaQuery,
 } from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 
@@ -22,6 +23,7 @@ export function Dialog({
   onClose,
   ...dialogProps
 }: DialogProps) {
+  const isLarge = useMediaQuery("(min-width:1700px)");
   return (
     <MuiDialog
       open={open}
@@ -31,7 +33,7 @@ export function Dialog({
         "& .MuiPaper-root": {boxShadow: "none"},
       }}
       fullWidth
-      maxWidth="md"
+      maxWidth={isLarge ? "md" : "sm"}
       {...dialogProps}
     >
       <DialogTitle

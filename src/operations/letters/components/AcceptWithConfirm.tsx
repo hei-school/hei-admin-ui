@@ -28,7 +28,6 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
     <Box>
       <Button
         startIcon={<CheckCircle />}
-        aria-hidden={false}
         sx={{
           "color": "green",
           "width": "100%",

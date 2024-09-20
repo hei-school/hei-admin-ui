@@ -547,7 +547,7 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
   }
 
   return (
-    <TabbedShowLayout syncWithLocation={!isStudent()}>
+    <TabbedShowLayout syncWithLocation={!role.isStudent() && !role.isManager()}>
       <TabbedShowLayout.Tab
         label="Détails du Profil"
         style={{fontSize: "0.8rem"}}
