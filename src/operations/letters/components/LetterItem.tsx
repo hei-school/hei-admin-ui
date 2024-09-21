@@ -1,36 +1,44 @@
-import {FC, useState} from "react";
-import {Box, Typography, Checkbox} from "@mui/material";
+import React, {FC} from "react";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Popover,
+  useMediaQuery,
+} from "@mui/material";
 import {
   Folder,
   EditCalendar,
-  PersonPin,
   EventAvailable,
+  MoreVert,
 } from "@mui/icons-material";
-import {useNavigate} from "react-router-dom";
-import {useNotify, useRefresh} from "react-admin";
 
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {formatDate} from "@/utils/date";
-import LetterShow from "@/operations/letters/components/LetterShow";
-import {BottomFieldProps, LetterItemProps} from "@/operations/letters/types";
+import LetterShow from "@/operations/letters/LetterShow";
+import {
+  BottomFieldProps,
+  LetterItemProps,
+  PopoverProps,
+} from "@/operations/letters/types";
+import {AcceptWithConfirm, RefuseButton} from "@/operations/letters/components";
 import {useRole} from "@/security/hooks";
-import studentLettersProvider from "@/providers/studentLettersProvider";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 
 const STATUS_COLORS = {
-  RECEIVED: {border: "#4de852", background: "#4de852"},
+  RECEIVED: {border: "green", background: "green"},
   REJECTED: {border: "#dc3545", background: "#dc3545"},
-  PENDING: {border: "#ffcf5c", background: "#ffcf5c"},
+  PENDING: {border: PALETTE_COLORS.yellow, background: PALETTE_COLORS.yellow},
 } as const;
 
 const ITEMS_STYLE = {
-  minWidth: "300px",
-  minHeight: "170px",
   position: "relative",
   boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.4)",
-  marginBlock: "1rem",
+  marginBlock: "1.5rem",
   borderRadius: "12px",
   borderBottom: "1rem solid",
+  padding: "1rem",
 };
 
 const ICON_STYLE = {
@@ -45,53 +53,38 @@ const ICON_STYLE = {
   left: "15px",
 };
 
-const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
-  const [isOpen, , toggle] = useToggle();
-  const [isLoading, setIsLoading] = useState(false);
-  const navigate = useNavigate();
+export const LetterItem: FC<LetterItemProps> = ({letter}) => {
+  const [isOpen, , onClose] = useToggle();
+  const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
+    null
+  );
+
   const {isManager} = useRole();
-  const notify = useNotify();
-  const refresh = useRefresh();
 
   const creationDate = formatDate(letter.creation_datetime!, false);
-  const aprovalDate = formatDate(letter.approval_datetime!, false);
+  const approvalDate = formatDate(letter.approval_datetime!, false);
 
-  const studentName = `${letter.student?.first_name} ${letter.student?.last_name}`;
-  const isDateAproved = letter.approval_datetime !== null;
+  const profilePicture =
+    letter.student?.profile_picture || defaultProfilePicture;
+  const isDateApproved = letter.approval_datetime !== null;
 
   const handleItemClick = () => {
-    if (isStudentLetter) {
-      toggle();
-    } else {
-      navigate(`/students/${letter.student?.id}/show`);
-    }
+    onClose();
   };
 
-  const updateLetterStatus = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setIsLoading(true);
-    const newStatus = event.target.checked ? "RECEIVED" : "";
-    try {
-      await studentLettersProvider.saveOrUpdate(
-        {id: letter.id, status: newStatus},
-        {
-          meta: {
-            method: "UPDATE",
-            studentId: letter.student?.id!,
-          },
-        }
-      );
-      notify("Letter status updated successfully", {type: "success"});
-      refresh();
-    } catch (error) {
-      console.error("Error updating letter status:", error);
-      notify("Error updating letter status", {type: "error"});
-    } finally {
-      setIsLoading(false);
-    }
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
   };
-  const isChecked = letter.status === "RECEIVED";
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const open = !!anchorEl;
+
+  const isChecked = letter.status !== "PENDING";
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
 
   return (
     <>
@@ -99,6 +92,8 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
         sx={{
           ...ITEMS_STYLE,
           borderColor: STATUS_COLORS[letter.status!].border,
+          width: isLarge ? "calc(94% / 5)" : isSmall ? "95%" : "calc(94% / 4)",
+          minHeight: isLarge ? "245px" : "230px",
         }}
       >
         <Box
@@ -109,62 +104,155 @@ const LetterItem: FC<LetterItemProps> = ({letter, isStudentLetter}) => {
         >
           <Folder sx={{fontSize: "2.5rem", color: "white"}} />
         </Box>
-        {isManager() && isStudentLetter && !isChecked && (
-          <Checkbox
-            checked={isChecked}
-            onChange={updateLetterStatus}
-            disabled={isLoading}
+        {isManager() && !isChecked && (
+          <Box
             sx={{
               position: "absolute",
-              top: "0",
-              right: "0",
+              top: "8px",
+              right: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
-          />
+          >
+            <IconButton
+              data-testid="more-icon-item"
+              sx={{
+                padding: "0 !important",
+              }}
+              onClick={handleClick}
+            >
+              <MoreVert
+                sx={{
+                  fontSize: "1.2rem",
+                }}
+              />
+            </IconButton>
+            <LetterItemActions
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              open={open}
+              letterId={letter.id!}
+            />
+          </Box>
         )}
         <Typography
           sx={{
-            textAlign: "right",
-            paddingTop: "15px",
-            fontWeight: "800",
-            paddingRight: "2.6rem",
+            fontSize: "1rem",
+            fontWeight: "bold",
+            textAlign: "center",
+            borderBottom: "1px solid",
+            borderColor: "rgba(0, 0, 0, 0.2)",
           }}
         >
-          HEI-{letter.ref}
+          {letter.ref}
         </Typography>
         <Box
           onClick={handleItemClick}
-          sx={{cursor: "pointer", backgroundColor: "whitesmoke"}}
+          sx={{
+            cursor: "pointer",
+            height: "95%",
+            position: "relative",
+          }}
         >
           <Typography
             sx={{
-              padding: "1rem",
+              marginTop: "1rem",
               textAlign: "justify",
+              display: "-webkit-box",
+              WebkitLineClamp: "2",
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             {letter.description}
           </Typography>
           <Box
-            sx={{
-              paddingInline: "1rem",
-              paddingBottom: "0.1rem",
-            }}
+            marginTop="0.5rem"
+            display="flex"
+            flexDirection="column"
+            justifyContent="center"
+            gap="0.6rem"
           >
             <BottomField text={creationDate} icon={<EditCalendar />} />
-            <BottomField text={studentName} icon={<PersonPin />} />
-            {isDateAproved && (
-              <BottomField text={aprovalDate} icon={<EventAvailable />} />
+            {isDateApproved && (
+              <BottomField text={approvalDate} icon={<EventAvailable />} />
             )}
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              position: "absolute",
+              bottom: "1.5rem",
+            }}
+          >
+            <img
+              src={profilePicture}
+              alt="profil avatar"
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "50%",
+                objectFit: "cover",
+              }}
+            />
+            <Typography variant="subtitle1" fontWeight="600">
+              {letter.student?.first_name}
+            </Typography>
           </Box>
         </Box>
       </Box>
-      {isStudentLetter && (
-        <LetterShow
-          isOpen={isOpen}
-          onToggle={toggle}
-          fileUrl={letter.file_url ?? ""}
-          filename={letter.student?.first_name!}
-        />
-      )}
+      <LetterShow
+        isOpen={isOpen}
+        onClose={onClose}
+        fileUrl={letter.file_url ?? ""}
+        filename={letter.description!}
+      />
+    </>
+  );
+};
+
+const LetterItemActions: FC<PopoverProps> = ({
+  anchorEl,
+  open,
+  onClose,
+  letterId,
+}) => {
+  const id = open ? "simple-popover" : undefined;
+
+  return (
+    <>
+      <Popover
+        id={id}
+        open={open}
+        anchorEl={anchorEl}
+        onClose={onClose}
+        anchorOrigin={{
+          vertical: "bottom",
+          horizontal: "left",
+        }}
+        transformOrigin={{
+          vertical: "top",
+          horizontal: "right",
+        }}
+      >
+        <Box
+          sx={{
+            width: "150px",
+            padding: "0.5rem",
+            display: "flex",
+            flexDirection: "column",
+            gap: "0.5rem",
+            boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.2)",
+          }}
+        >
+          <AcceptWithConfirm letterId={letterId} />
+          <RefuseButton letterId={letterId} />
+        </Box>
+      </Popover>
     </>
   );
 };
@@ -173,9 +261,8 @@ const BottomField: FC<BottomFieldProps> = ({text, icon}) => (
   <Box
     sx={{
       "display": "flex",
-      "gap": "8px",
+      "gap": "0.7rem",
       "alignItems": "center",
-      "marginBlock": "1rem",
       "& .MuiSvgIcon-root": {
         color: PALETTE_COLORS.primary,
       },
@@ -185,5 +272,3 @@ const BottomField: FC<BottomFieldProps> = ({text, icon}) => (
     <Typography variant="body2">{text}</Typography>
   </Box>
 );
-
-export default LetterItem;

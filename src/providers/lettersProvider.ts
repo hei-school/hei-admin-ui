@@ -1,19 +1,26 @@
 import {lettersApi} from "./api";
-import {HaDataProviderType, HaListResponseType} from "./HaDataProviderType";
+import {HaDataProviderType} from "./HaDataProviderType";
 
 const lettersProvider: HaDataProviderType = {
-  getList: async (page: number, perPage: number) => {
+  getList: async (page, perPage, filter = {}) => {
     return lettersApi()
-      .getLetters(page, perPage)
-      .then(({data}) => ({data}) as HaListResponseType);
+      .getLetters(
+        page,
+        perPage,
+        filter.student_ref,
+        filter.letter_ref,
+        filter.status,
+        filter.student_name
+      )
+      .then((result) => ({data: result.data}));
   },
-  getOne: (): Promise<any> => {
+  getOne: () => {
     throw new Error("Function not implemented.");
   },
-  saveOrUpdate: (): Promise<any> => {
+  saveOrUpdate: () => {
     throw new Error("Function not implemented.");
   },
-  delete: (): Promise<any> => {
+  delete: () => {
     throw new Error("Function not implemented.");
   },
 };

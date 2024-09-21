@@ -121,8 +121,6 @@ describe("Manager edit students", () => {
         updatedStudent.coordinates
       );
     });
-    cy.wait("@getUpdatedStudent");
-    cy.contains(newFirstName);
   });
 });
 

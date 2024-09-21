@@ -8,11 +8,12 @@ type Params = {
   };
 };
 const studentLettersProvider: HaDataProviderType = {
-  getList: async (page, perPage, _sort, meta) => {
+  getList: async (page, perPage, filter, meta) => {
     const {studentId} = meta;
+    const {status} = filter;
 
     return lettersApi()
-      .getLettersByStudentId(studentId, page, perPage)
+      .getLettersByStudentId(studentId, page, perPage, status)
       .then((result) => ({data: result.data}));
   },
   getOne: async (id: string) => {
@@ -22,18 +23,19 @@ const studentLettersProvider: HaDataProviderType = {
   },
   saveOrUpdate: async (payload: any, {meta}: Params) => {
     const {method, studentId} = meta || {};
+
     if (method === "UPDATE") {
       return lettersApi()
-        .updateLettersStatus([payload])
-        .then((response) => [response.data][0]);
+        .updateLettersStatus(payload)
+        .then((response) => response.data);
     }
     const {description, filename} = payload[0];
     const {title, rawFile} = filename;
     return lettersApi()
-      .createLetter(studentId, description, title, rawFile)
+      .createLetter(studentId, title, description, rawFile)
       .then((response) => [response.data]);
   },
-  delete(_id: string) {
+  delete() {
     throw new Error("Not implemented");
   },
 };
