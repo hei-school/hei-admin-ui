@@ -11,7 +11,7 @@ const SPECIALIZATION_CHOICES = mapToChoices(SPECIALIZATION_VALUE);
 
 const DEFAULT_CHOICE = SPECIALIZATION_CHOICES[2];
 
-export function SelectSpecialization(props) {
+export const SelectSpecialization = (props) => {
   return (
     <SelectInput
       label="Parcours de Spécialisation"
@@ -25,4 +25,4 @@ export function SelectSpecialization(props) {
       {...props}
     />
   );
-}
+};

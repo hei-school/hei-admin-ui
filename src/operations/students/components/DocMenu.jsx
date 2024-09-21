@@ -17,9 +17,9 @@ import {
   LibraryAddCheck,
   Work,
 } from "@mui/icons-material";
+import {GetCertificate} from "@/operations/students/components";
 import {PALETTE_COLORS} from "@/haTheme";
-import {GetCertificate} from "./GetCertificate";
-import {COMMON_OUTLINED_BUTTON_PROPS} from "../../../ui/constants/common_styles";
+import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 
 const StyledMenu = styled((props) => (
   <Menu
