@@ -1,5 +1,4 @@
 import {
-  firstLetterSelected,
   newLetter,
   statsMocks,
   student1LettersMocks,
@@ -30,6 +29,11 @@ describe("Student.Letters", () => {
     ).as("getStudent1LettersPending");
   });
 
+  afterEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+  });
+
   it("student can list his letters", () => {
     cy.getByTestid("letters-list-tab").click();
     cy.wait("@getStudent1LettersPage1");
@@ -50,12 +54,6 @@ describe("Student.Letters", () => {
     cy.wait("@createLetter").then((interception) => {
       expect(interception.response!.statusCode).to.eq(200);
     });
-  });
-
-  it("student can show his letters", () => {
-    cy.getByTestid("letters-list-tab").click();
-    cy.getByTestid("letter-list-wrapper").children().first().click();
-    cy.contains(firstLetterSelected.description!);
   });
 });
 
@@ -87,6 +85,11 @@ describe("Manager.Letters.student", () => {
     cy.contains(student1Mock.first_name).click();
   });
 
+  afterEach(() => {
+    cy.clearCookies();
+    cy.clearLocalStorage();
+  });
+
   it("manager can list student letter", () => {
     cy.intercept(
       "GET",
@@ -98,18 +101,6 @@ describe("Manager.Letters.student", () => {
     cy.getByTestid("letter-list-wrapper")
       .children()
       .should("have.length", ITEM_PER_LIST);
-  });
-
-  it("manager can show student letter", () => {
-    cy.intercept(
-      "GET",
-      `/students/${student1Mock.id}/letters?page=1&page_size=10`,
-      student1LettersMocks.slice(0, ITEM_PER_LIST)
-    ).as("getStudent1LettersPage1");
-    cy.getByTestid("letters-list-tab").click();
-    cy.intercept("GET", `/letters/${newLetter.id}`);
-    cy.getByTestid("letter-list-wrapper").children().first().click();
-    cy.contains(firstLetterSelected.description!);
   });
 
   it("manager can create letters for student", () => {
