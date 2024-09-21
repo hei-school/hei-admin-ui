@@ -81,6 +81,7 @@ export const StudentLettersList: FC = () => {
                   backgroundColor: "#f2db9c",
                 },
               }}
+              data-testid="letter-status-filter"
             >
               Filtre
             </Button>
@@ -104,6 +105,7 @@ export const StudentLettersList: FC = () => {
                 },
               }}
               onClick={onToggle}
+              data-testid="letter-create-button"
             >
               Ajouter
             </Button>

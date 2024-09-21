@@ -594,6 +594,7 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
         <TabbedShowLayout.Tab
           label="Boîte aux lettres"
           children={<StudentLettersList />}
+          data-testid="letters-list-tab"
         />
       )}
       {!isTeacherProfile && !isStudentProfile && role.isManager() && (
@@ -629,6 +630,7 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
           }
           children={<LettersList stats={letterStats} />}
           style={{paddingTop: "1rem", width: "10vw"}}
+          data-testid="letters-list-tab"
         />
       )}
     </TabbedShowLayout>

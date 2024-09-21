@@ -47,7 +47,10 @@ export const LettersList: FC<{stats: LetterStats & {total?: number}}> = ({
             </Box>
           )}
           <Box>
-            <IconButton onClick={(event) => setAnchorEl(event.currentTarget)}>
+            <IconButton
+              onClick={(event) => setAnchorEl(event.currentTarget)}
+              data-testid="more-button"
+            >
               <MoreVert sx={{color: PALETTE_COLORS.primary}} />
             </IconButton>
           </Box>

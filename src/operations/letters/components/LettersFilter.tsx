@@ -6,9 +6,14 @@ export const LettersFilter: FC = () => {
   return (
     <FilterForm>
       <TextFilter label="Référence Étudiant" source="student_ref" />
-      <TextFilter label="Référence Lettre" source="letter_ref" />
+      <TextFilter
+        label="Référence Lettre"
+        source="letter_ref"
+        data-testid="filter-letter-ref"
+      />
       <SelectInputFilter
         label="Statut des Lettres"
+        data-testid="filter-letter-status"
         source="status"
         choices={[
           {id: LetterStatus.PENDING, name: "En attente"},
@@ -16,7 +21,11 @@ export const LettersFilter: FC = () => {
           {id: LetterStatus.REJECTED, name: "Refusée"},
         ]}
       />
-      <TextFilter label="Nom de l'Étudiant" source="student_name" />
+      <TextFilter
+        data-testid="filter-letter-first_name"
+        label="Prénom de l'Étudiant"
+        source="student_name"
+      />
     </FilterForm>
   );
 };

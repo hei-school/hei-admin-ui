@@ -108,6 +108,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
             }}
           >
             <IconButton
+              data-testid="more-icon-item"
               sx={{
                 padding: "0 !important",
               }}
@@ -136,7 +137,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
             borderColor: "rgba(0, 0, 0, 0.2)",
           }}
         >
-          HEI-{letter.ref}
+          {letter.ref}
         </Typography>
         <Box
           onClick={handleItemClick}
@@ -193,7 +194,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
         isOpen={isOpen}
         onClose={onClose}
         fileUrl={letter.file_url ?? ""}
-        filename={letter.student?.first_name || letter.student?.last_name!}
+        filename={letter.description!}
       />
     </>
   );

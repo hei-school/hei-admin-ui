@@ -25,7 +25,7 @@ export const LetterListView: FC<LetterListViewProps> = ({sx}) => {
   }
 
   return (
-    <Box sx={sx}>
+    <Box sx={sx} data-testid="letter-list-wrapper">
       {isEmpty && <EmptyList />}
       {letters.map((letter) => (
         <LetterItem key={letter.id} letter={letter} />
