@@ -1,10 +1,10 @@
-import {FileDownloader} from "@/operations/common/components/FileDownloader";
+import {FileDownloader} from "@/operations/common/components";
 import {payingApi} from "@/providers/api";
 import {feeIdFromRaId} from "@/providers/feeProvider";
 
 const FILE_NAME = "Reçu_paiement.pdf";
 
-export default function GetReceipt({studentId, feeId}) {
+export const GetReceipt = ({studentId, feeId}) => {
   const formattedFeeId = feeIdFromRaId(feeId);
   const downloadFunction = () =>
     payingApi().getPaidFeeReceipt(studentId, formattedFeeId, {
@@ -20,4 +20,4 @@ export default function GetReceipt({studentId, feeId}) {
       errorMessage="Échec de téléchargement. Veuillez réessayer"
     />
   );
-}
+};

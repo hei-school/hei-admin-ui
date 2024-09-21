@@ -1,7 +1,7 @@
 import {useRef, useState} from "react";
 import {CircularProgress} from "@mui/material";
-import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify} from "@/hooks";
+import {PALETTE_COLORS} from "@/haTheme";
 
 export function FileDownloader({
   downloadFunction,

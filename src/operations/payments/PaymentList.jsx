@@ -8,12 +8,12 @@ import {
   Button,
 } from "react-admin";
 import {Download} from "@mui/icons-material";
-import {paymentTypeRenderer} from "@/operations/utils/index";
-import {useRole} from "@/security/hooks/index";
+import {GetReceipt} from "@/operations/students/components";
 import {DeleteWithConfirm} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
+import {paymentTypeRenderer} from "@/operations/utils/index";
+import {useRole} from "@/security/hooks/index";
 import {renderMoney} from "@/operations/common/utils/money";
-import GetReceipt from "@/operations/students/components/GetReceipt";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>

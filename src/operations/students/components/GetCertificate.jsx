@@ -1,9 +1,9 @@
-import {FileDownloader} from "@/operations/common/components/FileDownloader";
+import {FileDownloader} from "@/operations/common/components";
 import {filesApi} from "@/providers/api";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 
-function GetCertificate({studentId}) {
+export const GetCertificate = ({studentId}) => {
   const downloadFunction = () =>
     filesApi().getStudentScholarshipCertificate(studentId, {
       responseType: "arraybuffer",
@@ -18,6 +18,4 @@ function GetCertificate({studentId}) {
       errorMessage="Échec de téléchargement. Veuillez réessayer"
     />
   );
-}
-
-export default GetCertificate;
+};
