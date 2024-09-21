@@ -1,38 +1,53 @@
 import {FC, useState} from "react";
-import {useUpdate} from "react-admin";
-import {
-  Box,
-  Button,
-  Dialog,
-  DialogContent,
-  TextField,
-  DialogActions,
-} from "@mui/material";
+import {Confirm, useUpdate} from "react-admin";
+import {Box, Button, TextField} from "@mui/material";
 import {Unpublished} from "@mui/icons-material";
+import {useNotify} from "@/hooks";
 
 export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("");
-  const [update] = useUpdate();
+  const [update, {isLoading}] = useUpdate();
+  const notify = useNotify();
+
+  const confirmRefusal = () => setOpen(true);
+  const handleDialogClose = () => setOpen(false);
 
   const onConfirm = () => {
-    update("student-letters", {
-      id: letterId,
-      data: {
+    if (!reason) {
+      notify("Veuillez fournir une raison pour le refus.", {type: "warning"});
+      return;
+    }
+    update(
+      "student-letters",
+      {
         id: letterId,
-        status: "REJECTED",
-        reason_for_refusal: reason,
+        data: {
+          id: letterId,
+          status: "REJECTED",
+          reason_for_refusal: reason,
+        },
+        meta: {
+          method: "UPDATE",
+        },
       },
-      meta: {
-        method: "UPDATE",
-      },
-    });
-    setOpen(false);
+      {
+        onSuccess: () => {
+          notify("Lettre refusée avec succès", {type: "success"});
+          handleDialogClose();
+        },
+        onError: () => {
+          notify("Erreur lors du refus de la lettre", {type: "error"});
+          handleDialogClose();
+        },
+      }
+    );
   };
 
   return (
     <Box>
       <Button
+        data-testid="refuse-button"
         startIcon={<Unpublished />}
         sx={{
           "color": "#d84315",
@@ -45,33 +60,32 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
             color: "white",
           },
         }}
-        onClick={() => setOpen(true)}
+        onClick={confirmRefusal}
+        disabled={isLoading}
       >
         Refuser
       </Button>
-      <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
-        sx={{
-          "& .MuiPaper-root": {
-            width: "500px",
-          },
-        }}
-      >
-        <DialogContent>
+      <Confirm
+        isOpen={open}
+        title="Refus de la lettre"
+        content={
           <TextField
             required
             fullWidth
             label="Raison du refus"
             value={reason}
             onChange={(e) => setReason(e.target.value)}
+            data-testid="refuse-reason-input"
           />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={() => setOpen(false)}>Annuler</Button>
-          <Button onClick={onConfirm}>Confirmer</Button>
-        </DialogActions>
-      </Dialog>
+        }
+        onConfirm={onConfirm}
+        onClose={handleDialogClose}
+        sx={{
+          "& .MuiPaper-root": {
+            width: "500px",
+          },
+        }}
+      />
     </Box>
   );
 };

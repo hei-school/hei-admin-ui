@@ -1,11 +1,19 @@
-import {FC} from "react";
-import {FileField, FileInput, SimpleForm, TextInput} from "react-admin";
+import {FC, useState} from "react";
+import {
+  FileField,
+  FileInput,
+  SimpleForm,
+  TextInput,
+  Confirm,
+  useCreate,
+  Toolbar,
+  SaveButton,
+} from "react-admin";
 import {Dialog} from "@/ui/components";
 import {PALETTE_COLORS} from "@/haTheme";
 import uploadImg from "@/assets/file_upload.png";
 import {Letter} from "@haapi/typescript-client";
 import {v4 as uuid} from "uuid";
-import {Create} from "@/operations/common/components";
 import {CreateLettersDialogProps} from "@/operations/letters/types";
 import {useNotify} from "@/hooks";
 
@@ -34,65 +42,89 @@ const FILE_FIELD_STYLE = {
   },
 };
 
+const CustomToolbar: React.FC<{handleSave: () => void}> = ({handleSave}) => (
+  <Toolbar>
+    <SaveButton label="Enregistrer" onClick={handleSave} />
+  </Toolbar>
+);
+
 export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   isOpen,
   onClose,
   studentId,
 }) => {
   const notify = useNotify();
+  const [confirmOpen, setConfirmOpen] = useState(false);
+  const [formData, setFormData] = useState<Letter | null>(null);
+  const [create] = useCreate();
+
+  const handleSubmit = (letter: Letter) => {
+    setFormData({
+      ...letter,
+      id: uuid(),
+    });
+    setConfirmOpen(true);
+  };
+
+  const handleConfirm = () => {
+    if (formData) {
+      create(
+        "student-letters",
+        {
+          data: formData,
+          meta: {studentId},
+        },
+        {
+          onSuccess: () => {
+            notify("Lettre créée avec succès", {type: "success"});
+            onClose();
+          },
+          onError: () => {
+            notify("Erreur lors de la création de la lettre", {type: "error"});
+          },
+        }
+      );
+    }
+    setConfirmOpen(false);
+  };
 
   return (
     <Dialog open={isOpen} onClose={onClose} title="Ajouter une lettre">
-      <Create
-        title=" "
-        transform={(letter: Letter) => ({
-          ...letter,
-          id: uuid(),
-        })}
-        redirect={false}
-        resource="student-letters"
-        mutationOptions={{
-          meta: {
-            method: "CREATE",
-            studentId,
-          },
-          onSuccess: () => {
-            notify("Créé avec succès", {
-              type: "success",
-            });
-            onClose();
-          },
-        }}
-        sx={{
-          width: "100%",
-        }}
+      <SimpleForm
+        onSubmit={handleSubmit}
+        toolbar={<CustomToolbar handleSave={() => handleSubmit(formData!)} />}
       >
-        <SimpleForm>
-          <TextInput
-            source="description"
-            label="Description"
-            required
-            sx={{
-              width: "100%",
-            }}
-          />
-          <FileInput
-            isRequired
+        <TextInput
+          source="description"
+          label="Description"
+          required
+          sx={{
+            width: "100%",
+          }}
+        />
+        <FileInput
+          isRequired
+          resource="student-letters"
+          source="filename"
+          label=" "
+          multiple={false}
+          accept="application/pdf"
+          sx={FILE_FIELD_STYLE}
+        >
+          <FileField
             resource="student-letters"
             source="filename"
-            label=" "
-            multiple={false}
-            accept="application/pdf"
-            sx={FILE_FIELD_STYLE}
-          >
-            <FileField
-              resource="student-letters"
-              source="filename"
-              title="title"
-            />
-          </FileInput>
-        </SimpleForm>
-      </Create>
+            title="title"
+          />
+        </FileInput>
+      </SimpleForm>
+      <Confirm
+        isOpen={confirmOpen}
+        title="Confirmation"
+        content="Êtes-vous sûr de vouloir créer cette lettre ?"
+        onConfirm={handleConfirm}
+        onClose={() => setConfirmOpen(false)}
+      />
     </Dialog>
   );
 };

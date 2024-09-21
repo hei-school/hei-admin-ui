@@ -2,30 +2,49 @@ import {FC, useState} from "react";
 import {Confirm, useUpdate} from "react-admin";
 import {Box, Button} from "@mui/material";
 import {CheckCircle} from "@mui/icons-material";
+import {useNotify} from "@/hooks";
 
 export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
   const [open, setOpen] = useState(false);
-  const [update] = useUpdate();
+  const [update, {isLoading}] = useUpdate();
+  const notify = useNotify();
+
   const confirmLetter = () => setOpen(true);
   const handleDialogClose = () => setOpen(false);
 
   const onConfirm = () => {
-    update("student-letters", {
-      id: letterId,
-      data: {
+    update(
+      "student-letters",
+      {
         id: letterId,
-        status: "RECEIVED",
-        reason_for_refusal: null,
+        data: {
+          id: letterId,
+          status: "RECEIVED",
+          reason_for_refusal: null,
+        },
+        meta: {
+          method: "UPDATE",
+        },
       },
-      meta: {
-        method: "UPDATE",
-      },
-    });
-    handleDialogClose();
+      {
+        onSuccess: () => {
+          notify("Lettre acceptée avec succès", {
+            type: "success",
+          });
+          handleDialogClose();
+        },
+        onError: () => {
+          notify("Erreur lors de l'acceptation de la lettre", {
+            type: "error",
+          });
+          handleDialogClose();
+        },
+      }
+    );
   };
 
   return (
-    <Box>
+    <Box data-testid="accept-letter-button">
       <Button
         startIcon={<CheckCircle />}
         sx={{
@@ -40,6 +59,7 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
           },
         }}
         onClick={confirmLetter}
+        disabled={isLoading}
       >
         Accepter
       </Button>
