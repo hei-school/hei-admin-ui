@@ -1,10 +1,9 @@
 import {FC, useMemo, useState} from "react";
 import {List} from "react-admin";
 
-import {Box, useMediaQuery, Stack, IconButton, Popover} from "@mui/material";
+import {Box, Stack, IconButton, Popover} from "@mui/material";
 import {MoreVert} from "@mui/icons-material";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import {getListViewStyle} from "@/operations/letters/StudentLettersList";
 import {
   HeaderLetterList,
   LetterListView,
@@ -18,8 +17,6 @@ export const LettersList: FC<{stats: LetterStats & {total?: number}}> = ({
   stats,
 }) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const isSmall = useMediaQuery("(max-width:900px)");
-  const isLarge = useMediaQuery("(min-width:1700px)");
 
   return (
     <Box>
@@ -56,7 +53,7 @@ export const LettersList: FC<{stats: LetterStats & {total?: number}}> = ({
           </Box>
         </Stack>
 
-        <LetterListView sx={getListViewStyle({isLarge, isSmall})} />
+        <LetterListView />
       </List>
     </Box>
   );

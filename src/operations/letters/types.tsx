@@ -1,7 +1,6 @@
 import {ReactNode} from "react";
 
 import {Identifier} from "react-admin";
-import {SxProps} from "@mui/material";
 import {Letter} from "@haapi/typescript-client";
 
 export interface CreateLettersDialogProps {
@@ -25,10 +24,6 @@ export interface LetterShowProps {
   onClose: () => void;
   fileUrl: string;
   filename: string;
-}
-
-export interface LetterListViewProps {
-  sx?: SxProps;
 }
 
 export interface PopoverProps {

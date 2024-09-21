@@ -1,6 +1,6 @@
 import {FC, useState} from "react";
 import {ListBase, TopToolbar, useRecordContext} from "react-admin";
-import {Box, useMediaQuery, Button} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import {CloudUpload, Tune} from "@mui/icons-material";
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
@@ -41,9 +41,6 @@ export const StudentLettersList: FC = () => {
   };
 
   const student = useRecordContext<Student>();
-
-  const isSmall = useMediaQuery("(max-width:900px)");
-  const isLarge = useMediaQuery("(min-width:1700px)");
 
   return (
     !!student && (
@@ -110,7 +107,7 @@ export const StudentLettersList: FC = () => {
               Ajouter
             </Button>
           </TopToolbar>
-          <LetterListView sx={getListViewStyle({isLarge, isSmall})} />
+          <LetterListView />
           <PrevNextPagination />
         </ListBase>
         <CreateLettersDialog

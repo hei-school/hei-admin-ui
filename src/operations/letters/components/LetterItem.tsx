@@ -1,5 +1,11 @@
 import React, {FC} from "react";
-import {Box, Typography, IconButton, Popover} from "@mui/material";
+import {
+  Box,
+  Typography,
+  IconButton,
+  Popover,
+  useMediaQuery,
+} from "@mui/material";
 import {
   Folder,
   EditCalendar,
@@ -27,8 +33,6 @@ const STATUS_COLORS = {
 } as const;
 
 const ITEMS_STYLE = {
-  width: "300px",
-  minHeight: "245px",
   position: "relative",
   boxShadow: "1px 1px 10px 0px rgba(0, 0, 0, 0.4)",
   marginBlock: "1.5rem",
@@ -79,6 +83,8 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
   const open = !!anchorEl;
 
   const isChecked = letter.status !== "PENDING";
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
 
   return (
     <>
@@ -86,6 +92,8 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
         sx={{
           ...ITEMS_STYLE,
           borderColor: STATUS_COLORS[letter.status!].border,
+          width: isLarge ? "calc(94% / 5)" : isSmall ? "95%" : "calc(94% / 4)",
+          minHeight: isLarge ? "245px" : "230px",
         }}
       >
         <Box
@@ -143,20 +151,25 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
           onClick={handleItemClick}
           sx={{
             cursor: "pointer",
-            backgroundColor: "whitesmoke",
             height: "95%",
             position: "relative",
           }}
         >
           <Typography
             sx={{
+              marginTop: "1rem",
               textAlign: "justify",
-              paddingBlock: "1rem",
+              display: "-webkit-box",
+              WebkitLineClamp: "2",
+              WebkitBoxOrient: "vertical",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
             }}
           >
             {letter.description}
           </Typography>
           <Box
+            marginTop="0.5rem"
             display="flex"
             flexDirection="column"
             justifyContent="center"
@@ -166,27 +179,29 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
             {isDateApproved && (
               <BottomField text={approvalDate} icon={<EventAvailable />} />
             )}
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                gap: "0.5rem",
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              position: "absolute",
+              bottom: "1.5rem",
+            }}
+          >
+            <img
+              src={profilePicture}
+              alt="profil avatar"
+              style={{
+                width: "30px",
+                height: "30px",
+                borderRadius: "50%",
+                objectFit: "cover",
               }}
-            >
-              <img
-                src={profilePicture}
-                alt="profil avatar"
-                style={{
-                  width: "30px",
-                  height: "30px",
-                  borderRadius: "50%",
-                  objectFit: "cover",
-                }}
-              />
-              <Typography variant="subtitle1" fontWeight="600">
-                {letter.student?.first_name}
-              </Typography>
-            </Box>
+            />
+            <Typography variant="subtitle1" fontWeight="600">
+              {letter.student?.first_name}
+            </Typography>
           </Box>
         </Box>
       </Box>
