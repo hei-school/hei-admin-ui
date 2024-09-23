@@ -33,6 +33,9 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
       datagridProps={{
         rowClick: (id) => `/fees/${id}/show`,
         rowStyle,
+        rowProps: (record) => ({
+          "data-testid": `fee-row-${record.id}`,
+        }),
       }}
       editable={false}
     >
@@ -91,7 +94,7 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
       />
       <DeleteWithConfirm
         resourceType="fees"
-        redirect={`/students/${studentId}/fees`}
+        redirect={`/students/${studentId}/show/fees`}
         confirmTitle="Suppression de frais"
         confirmContent="Confirmez-vous la suppression de ce frais ?"
       />

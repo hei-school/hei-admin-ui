@@ -1,7 +1,7 @@
 import {Create, SaveButton, SimpleForm, Toolbar} from "react-admin";
-import {useNotify, useStudentRef} from "../../hooks";
-import {FeeInputs} from "./components";
-import {createFeesApi} from "./utils/feeFactory";
+import {FeeInputs} from "@/operations/fees/components";
+import {useNotify, useStudentRef} from "@/hooks";
+import {createFeesApi} from "@/operations/fees/utils/feeFactory";
 
 export default function FeeCreate(props) {
   const notify = useNotify();
@@ -17,7 +17,7 @@ export default function FeeCreate(props) {
       {...props}
       title={`Frais de ${studentRef}`}
       resource="fees"
-      redirect={() => `students/${studentId}/fees`}
+      redirect={() => `students/${studentId}/show/fees`}
       transform={(fees) => createFeesApi(fees, studentId)}
     >
       <SimpleForm

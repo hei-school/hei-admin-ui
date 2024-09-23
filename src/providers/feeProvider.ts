@@ -13,6 +13,8 @@ export const toApiIds = (raId: string = "") => {
 export const studentIdFromRaId = (raId: string): string =>
   toApiIds(raId).studentId;
 
+export const feeIdFromRaId = (raId: string): string => toApiIds(raId).feeId;
+
 const feeProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     const {data: fees} = filter.studentId
@@ -25,12 +27,14 @@ const feeProvider: HaDataProviderType = {
           filter.student_ref
         );
 
-    return fees.map((fee) => {
-      return {
-        ...fee,
-        id: toRaId(fee.student_id as string, fee.id as string),
-      };
-    });
+    return {
+      data: fees.map((fee) => {
+        return {
+          ...fee,
+          id: toRaId(fee.student_id as string, fee.id as string),
+        };
+      }),
+    };
   },
 
   async getOne(raId: string) {

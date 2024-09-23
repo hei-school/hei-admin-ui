@@ -1,8 +1,8 @@
 import {EditButton, Button} from "react-admin";
 import {Download, Comment as CommentIcon} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {Show} from "@/operations/common/components/Show";
 import {GetCertificate} from "@/operations/students/components";
+import {Show} from "@/operations/common/components/Show";
 import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
 import {StudentComments} from "@/operations/comments";
 import {useRole} from "@/security/hooks";
@@ -11,7 +11,7 @@ import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import authProvider from "@/providers/authProvider";
 
 const ProfileShow = () => {
-  const {isStudent, role} = useRole();
+  const {isStudent, isTeacher, role} = useRole();
   const {id} = authProvider.getCachedWhoami();
   const [showComments, , toogleShowComments] = useToggle(false);
 
@@ -32,6 +32,8 @@ const ProfileShow = () => {
     >
       <ProfileLayout
         role={role}
+        isStudentProfile={isStudent()}
+        isTeacherProfile={isTeacher()}
         actions={
           <div
             style={{

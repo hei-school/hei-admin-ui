@@ -5,7 +5,7 @@ import {FilterContentResponsive} from "./FilterFormContent";
 import {ButtonBase} from "../haToolbar";
 import useHaListContext from "../haList/useHaListContext";
 
-export const HaToolbarContext = createContext();
+export const HaToolbarContext = createContext({});
 
 export function FilterForm({children}) {
   const {filterValues, setFilters} = useListFilterContext();

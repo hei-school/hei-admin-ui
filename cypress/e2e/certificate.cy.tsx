@@ -22,7 +22,7 @@ describe("Student Ceritificate", () => {
     cy.wait("@downloadCertificate");
 
     cy.contains(MESSAGE_ERROR);
-    cy.getByTestid("certificate-link").should("not.have.attr", "href");
+    cy.getByTestid("file-link").should("not.have.attr", "href");
   });
 
   it("student can get his certificate", () => {
@@ -31,9 +31,7 @@ describe("Student Ceritificate", () => {
     cy.getByTestid("get-certificate-btn").click();
     cy.wait("@downloadCertificate");
 
-    cy.getByTestid("certificate-link")
-      .and("have.attr", "href")
-      .and("include", "blob");
+    cy.getByTestid("file-link").and("have.attr", "href").and("include", "blob");
   });
 
   it("manager can get student's certificate", () => {
@@ -66,12 +64,10 @@ describe("Student Ceritificate", () => {
     cy.wait("@getStudent1");
 
     cy.getByTestid("docs-button").click();
-    cy.getByTestid("get-certificat").click();
+    cy.getByTestid("download-button").click();
 
     cy.wait("@downloadCertificate");
 
-    cy.getByTestid("certificate-link")
-      .and("have.attr", "href")
-      .and("include", "blob");
+    cy.getByTestid("file-link").and("have.attr", "href").and("include", "blob");
   });
 });

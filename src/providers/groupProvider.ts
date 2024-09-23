@@ -6,7 +6,7 @@ const groupProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     return await teachingApi()
       .getGroups(filter.ref, filter.student_ref, page, perPage)
-      .then((result) => result.data);
+      .then((result) => ({data: result.data}));
   },
   async getOne(id: string) {
     return await teachingApi()
