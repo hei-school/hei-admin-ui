@@ -622,6 +622,7 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
                 }
                 sx={{
                   position: "relative",
+                  fontSize: "0.7rem",
                 }}
               >
                 Boîte aux lettres
