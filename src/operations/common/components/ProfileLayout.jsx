@@ -595,6 +595,9 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
           label="Boîte aux lettres"
           children={<StudentLettersList />}
           data-testid="letters-list-tab"
+          sx={{
+            fontSize: "0.8rem",
+          }}
         />
       )}
       {!isTeacherProfile && !isStudentProfile && role.isManager() && (

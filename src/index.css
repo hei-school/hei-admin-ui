@@ -43,7 +43,7 @@ html {
 * {
   scrollbar-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1);
 }
-*::-webkit-scrollbar-thumb{
+*::-webkit-scrollbar-thumb {
   border-radius: 10px;
 }
 
