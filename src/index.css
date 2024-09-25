@@ -34,3 +34,19 @@ body iframe {
 ::-webkit-scrollbar-thumb:active {
   background: rgba(0, 0, 0, 0.15);
 }
+
+html {
+  scrollbar-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1);
+  scrollbar-width: thin;
+}
+
+* {
+  scrollbar-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1);
+}
+*::-webkit-scrollbar-thumb{
+  border-radius: 10px;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.15);
+}
