@@ -10,14 +10,17 @@ const MonitorStudentShow = () => {
   const {data, isLoading} = useGetOne("monitor-students", {studentId});
 
   return (
-    <Show title="Détails de l'étudiant" resource="monitor-students" id={studentId}>
+    <Show
+      title="Détails de l'étudiant"
+      resource="monitor-students"
+      id={studentId}
+    >
       <ProfileLayout
         role={WhoamiRoleEnum.STUDENT}
         isStudent
-        actions={<DocMenu/>}
-        isStudentProfile 
-      >
-      </ProfileLayout>
+        actions={<DocMenu />}
+        isStudentProfile
+      ></ProfileLayout>
     </Show>
   );
 };

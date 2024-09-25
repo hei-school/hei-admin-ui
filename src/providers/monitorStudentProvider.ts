@@ -10,15 +10,14 @@ const monitorStudentProvider: HaDataProviderType = {
       throw new Error("Monitor ID is required.");
     }
 
-      const result = await monitoringApi().getLinkedStudentsByMonitorId(
-        monitorId,
-        page || 1,
-        perPage || 15
-      );
-      return {
-        data: result.data,
-        
-      };
+    const result = await monitoringApi().getLinkedStudentsByMonitorId(
+      monitorId,
+      page || 1,
+      perPage || 15
+    );
+    return {
+      data: result.data,
+    };
   },
 
   async getOne(id: string) {

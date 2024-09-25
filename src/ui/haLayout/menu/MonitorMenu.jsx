@@ -11,7 +11,7 @@ import authProvider from "@/providers/authProvider";
 
 function MonitorMenu() {
   const monitorId = authProvider.getCachedWhoami().id;
-  
+
   return (
     <Box>
       <SingleMenu

@@ -56,7 +56,6 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
-
 const dataProvider: RaDataProviderType = {
   async getList(resourceType: string, params: any) {
     let {pagination, meta, filter} = params;
@@ -71,14 +70,18 @@ const dataProvider: RaDataProviderType = {
       );
       perPage = MAX_ITEM_PER_PAGE;
     }
-    
+
     const {data, metadata} = await getProvider(resourceType).getList(
       page,
       perPage,
       filter,
       meta
     );
-    return {data, total: Number.MAX_SAFE_INTEGER, metadata,} as RaListResponseType;
+    return {
+      data,
+      total: Number.MAX_SAFE_INTEGER,
+      metadata,
+    } as RaListResponseType;
   },
   async getOne(resourceType: string, params: any) {
     const result = await getProvider(resourceType).getOne(

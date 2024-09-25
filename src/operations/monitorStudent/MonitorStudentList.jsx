@@ -1,6 +1,6 @@
-import React from 'react'; 
+import React from "react";
 import {TextField} from "react-admin";
-import {GroupOutlined} from "@mui/icons-material"; 
+import {GroupOutlined} from "@mui/icons-material";
 import {HaList} from "@/ui/haList";
 
 function MonitorStudentList() {

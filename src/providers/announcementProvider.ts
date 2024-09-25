@@ -66,12 +66,12 @@ const announcementProvider: HaDataProviderType = {
       default:
         throw new Error("Unexpected role");
     }
-    return { data: result.data };
+    return {data: result.data};
   },
 
   async saveOrUpdate(payload: any) {
     const result = await announcementsApi().createAnnouncement(payload[0]);
-    return { data: [result.data] };
+    return {data: [result.data]};
   },
 
   async delete() {

@@ -16,7 +16,7 @@ import students from "@/operations/students";
 import teachers from "@/operations/teachers";
 import announcements from "@/operations/announcements";
 import fees from "@/operations/fees";
-import feesTemplates from "@/operations/feesTemplates"; 
+import feesTemplates from "@/operations/feesTemplates";
 import payments from "@/operations/payments";
 import studentDocs from "@/operations/docs/students";
 import HaLoginPage from "@/security/LoginPage";
@@ -28,7 +28,6 @@ import MonitorStudentShow from "@/operations/monitorStudent/MonitorStudentShow";
 import MonitorStudentList from "@/operations/monitorStudent/MonitorStudentList";
 import monitorStudent from "@/operations/monitorStudent";
 import {AnnouncementList} from "@/operations/announcements/AnnouncementList";
-
 
 function AppBase() {
   return (

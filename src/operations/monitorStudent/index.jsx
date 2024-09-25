@@ -5,11 +5,11 @@ import MonitorStudentShow from "@/operations/monitorStudent/MonitorStudentShow";
 import MonitorStudentCreate from "@/operations/monitorStudent/MonitorStudentCreate";
 
 const monitorStudent = {
-    list: MonitorStudentList,
-    edit: <ProfileEdit isOwnProfile={false} isStudent />,
-    show: MonitorStudentShow,
-    create: MonitorStudentCreate,
-    icon: Group,
-    option: {label:"Étudiants"}
+  list: MonitorStudentList,
+  edit: <ProfileEdit isOwnProfile={false} isStudent />,
+  show: MonitorStudentShow,
+  create: MonitorStudentCreate,
+  icon: Group,
+  option: {label: "Étudiants"},
 };
 export default monitorStudent;

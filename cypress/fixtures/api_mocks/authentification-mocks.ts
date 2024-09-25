@@ -82,7 +82,7 @@ export function getUserConnected(role: WhoamiRoleEnum) {
     case "MANAGER":
       return getManager1Connected();
     case "MONITOR":
-      return getMonitor1Connected();  
+      return getMonitor1Connected();
     default:
       throw new Error("Unknown role");
   }

@@ -508,7 +508,7 @@ export const ProfileLayout = ({
       </Box>
       <Informations
         isStudentProfile={isStudentProfile}
-        isTeacherProfile={isTeacherProfile} 
+        isTeacherProfile={isTeacherProfile}
       />
     </Box>
   );
@@ -559,13 +559,13 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
           flexDirection={isSmall ? "column" : "row"}
           justifyContent="space-between"
         >
-          <Box 
-            display="flex" 
-            gap={2} 
-            width={isSmall ? "100%" : "50%"} 
-            flexDirection="column" 
+          <Box
+            display="flex"
+            gap={2}
+            width={isSmall ? "100%" : "50%"}
+            flexDirection="column"
             height="100%"
-          > 
+          >
             <Contact />
             <PersonalDetails />
           </Box>

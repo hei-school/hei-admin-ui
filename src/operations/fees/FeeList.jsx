@@ -6,7 +6,6 @@ import {Box, Typography} from "@mui/material";
 import MonitorList from "@/operations/monitors/MonitorList";
 import {MonitorFeeList} from "./components/MonitorFeeList";
 
-
 export const MPBS_STATUS_LABEL = {
   SUCCESS: "Paiement avec succès",
   FAILED: "Paiement échoué",
@@ -29,7 +28,7 @@ const FeeList = ({studentId, studentRef}) => {
         <MonitorFeeList studentId={studentId} studentRef={studentRef} />
       )}
     </Box>
-  );  
+  );
 };
 
 export default FeeList;

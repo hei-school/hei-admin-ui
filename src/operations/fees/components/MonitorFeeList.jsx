@@ -1,16 +1,16 @@
-import React from 'react'; 
-import {FunctionField, TextField} from "react-admin"; 
-import {WarningOutlined} from "@mui/icons-material"; 
-import {Box, Chip} from "@mui/material"; 
+import React from "react";
+import {FunctionField, TextField} from "react-admin";
+import {WarningOutlined} from "@mui/icons-material";
+import {Box, Chip} from "@mui/material";
 import {HaList} from "@/ui/haList/HaList";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {DateField} from "@/operations/common/components/fields";
-import {renderMoney} from "@/operations/common/utils/money"; 
+import {renderMoney} from "@/operations/common/utils/money";
 import {commentFunctionRenderer} from "@/operations/utils";
 import {FeesFilter} from "@/operations/fees/components/FeesFilter";
 import {rowStyle, PSP_COLORS, PSP_VALUES} from "@/operations/fees/utils";
 
-export const MonitorFeeList = ({ studentId, studentRef }) => {
+export const MonitorFeeList = ({studentId, studentRef}) => {
   return (
     <HaList
       icon={<WarningOutlined />}
@@ -19,7 +19,7 @@ export const MonitorFeeList = ({ studentId, studentRef }) => {
       filterIndicator={false}
       actions={<MonitorFeesActions studentId={studentId} />}
       listProps={{
-        filterDefaultValues: { studentId },
+        filterDefaultValues: {studentId},
         storeKey: "fees",
       }}
       datagridProps={{
@@ -88,6 +88,6 @@ export const MonitorFeeList = ({ studentId, studentRef }) => {
   );
 };
 
-function MonitorFeesActions({ studentId }) {
+function MonitorFeesActions({studentId}) {
   return <FeesFilter studentId={studentId} />;
 }
