@@ -86,7 +86,6 @@ import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {StudentLettersList} from "@/operations/letters/StudentLettersList";
 import {LettersList} from "@/operations/letters/LettersList";
 import {lettersApi} from "@/providers/api";
-
 const COMMON_GRID_ATTRIBUTES = {
   gridTemplateRows: "2fr 1fr",
   direction: "column",
@@ -509,7 +508,7 @@ export const ProfileLayout = ({
       </Box>
       <Informations
         isStudentProfile={isStudentProfile}
-        isTeacherProfile={isTeacherProfile}
+        isTeacherProfile={isTeacherProfile} 
       />
     </Box>
   );
@@ -581,7 +580,7 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
         />
       )}
 
-      {isStudentProfile && role.isManager() && (
+      {isStudentProfile && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
           path="fees"
@@ -633,14 +632,6 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
           style={{paddingTop: "1rem", width: "10vw"}}
           data-testid="letters-list-tab"
         />
-      )}
-      {isStudentProfile && isMonitor() && ( 
-        <TabbedShowLayout.Tab 
-          label="Liste de documents" 
-          style={{ fontSize: "0.8rem" }}
-        >
-          <MonitorStudentDocs/>
-        </TabbedShowLayout.Tab>
       )}
     </TabbedShowLayout>
   );

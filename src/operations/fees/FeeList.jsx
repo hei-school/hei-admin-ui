@@ -4,6 +4,8 @@ import {ManagerFeeList, StudentFeeList} from "@/operations/fees/components";
 import MonitorStudentList from "@/operations/monitorStudent/MonitorStudentList";
 import {Box, Typography} from "@mui/material";
 import MonitorList from "@/operations/monitors/MonitorList";
+import {MonitorFeeList} from "./components/MonitorFeeList";
+
 
 export const MPBS_STATUS_LABEL = {
   SUCCESS: "Paiement avec succès",
@@ -20,11 +22,14 @@ const FeeList = ({studentId, studentRef}) => {
       {isStudent() && (
         <StudentFeeList studentId={studentId} studentRef={studentRef} />
       )}
-      {isManager() || isMonitor() && (
+      {isManager() && (
         <ManagerFeeList studentId={studentId} studentRef={studentRef} />
       )}
+      {isMonitor() && (
+        <MonitorFeeList studentId={studentId} studentRef={studentRef} />
+      )}
     </Box>
-  );
+  );  
 };
 
 export default FeeList;

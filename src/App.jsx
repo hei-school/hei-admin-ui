@@ -28,7 +28,7 @@ import MonitorStudentShow from "@/operations/monitorStudent/MonitorStudentShow";
 import MonitorStudentList from "@/operations/monitorStudent/MonitorStudentList";
 import monitorStudent from "@/operations/monitorStudent";
 import {AnnouncementList} from "@/operations/announcements/AnnouncementList";
-import MonitorStudentDocs from "@/operations/monitorStudent/MonitorStudentDocs";
+
 
 function AppBase() {
   return (
@@ -161,16 +161,35 @@ function AppBase() {
           path="/monitor-students/:studentId/show"
           element={<MonitorStudentShow />}
         />
-        
-         <Route
+        <Route
           exact
-          path="/students/:studentId/docs/students/TRANSCRIPT"
-          element={<MonitorStudentDocs />}
+          path="/monitor-students/:studentId/docs/students/TRANSCRIPT"
+          element={<studentDocs.list />}
         />
         <Route
           exact
-          path="/students/:studentId/docs/students/OTHER"
-          element={<MonitorStudentDocs />}
+          path="/monitor-students/:studentId/docs/students/TRANSCRIPT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/WORK_DOCUMENT"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/WORK_DOCUMENT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/OTHER"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/OTHER/:id"
+          element={<studentDocs.show />}
         />
       </CustomRoutes>
     </Admin>
