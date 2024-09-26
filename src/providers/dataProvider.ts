@@ -100,9 +100,7 @@ const dataProvider: RaDataProviderType = {
 
   async create(resourceType: string, params = {}) {
     const result = await getProvider(resourceType).saveOrUpdate(
-      resourceType === "students" ||
-        resourceType === "teachers" ||
-        resourceType === "monitors"
+      resourceType === "students" || resourceType === "teachers"
         ? toEnabledUsers([params.data])
         : [params.data],
       params

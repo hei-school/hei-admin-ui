@@ -7,6 +7,7 @@ import {ImportDialog} from "./ImportDialog";
 import {ImportInputFile} from "./ImportInputFile";
 import {ButtonBase} from "../Button";
 
+// TODO: refactor
 export function ImportButton({
   provider,
   optionalHeaders,

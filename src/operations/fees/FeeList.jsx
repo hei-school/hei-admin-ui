@@ -1,10 +1,7 @@
 import React from "react";
 import {useRole} from "@/security/hooks/useRole";
-import {ManagerFeeList, StudentFeeList} from "@/operations/fees/components";
-import MonitorStudentList from "@/operations/monitorStudent/MonitorStudentList";
+import {StudentFeeList, ManagerFeeList} from "@/operations/fees/components";
 import {Box, Typography} from "@mui/material";
-import MonitorList from "@/operations/monitors/MonitorList";
-import {MonitorFeeList} from "./components/MonitorFeeList";
 
 export const MPBS_STATUS_LABEL = {
   SUCCESS: "Paiement avec succès",
@@ -13,19 +10,16 @@ export const MPBS_STATUS_LABEL = {
 };
 
 const FeeList = ({studentId, studentRef}) => {
-  const {isStudent, isMonitor, isManager} = useRole();
+  const role = useRole();
 
   return (
     <Box>
       <Typography variant="h6">Liste des Frais</Typography>
-      {isStudent() && (
+      {(role.isStudent() || role.isMonitor()) && (
         <StudentFeeList studentId={studentId} studentRef={studentRef} />
       )}
-      {isManager() && (
+      {role.isManager() && (
         <ManagerFeeList studentId={studentId} studentRef={studentRef} />
-      )}
-      {isMonitor() && (
-        <MonitorFeeList studentId={studentId} studentRef={studentRef} />
       )}
     </Box>
   );

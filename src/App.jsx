@@ -1,15 +1,14 @@
 import React from "react";
-import {Admin} from "@react-admin/ra-enterprise";
-import {CustomRoutes, Resource} from "react-admin";
+import {Admin, CustomRoutes, Resource} from "react-admin";
 import {Route} from "react-router-dom";
-import frenchMessages from "ra-language-french";
 import polyglotI18nProvider from "ra-i18n-polyglot";
-
+import frenchMessages from "ra-language-french";
 import {HaLayout} from "@/ui/haLayout";
 import {mainTheme} from "@/haTheme.js";
 import {WaitUntilHot} from "@/utils/retryer";
 import dataProvider from "@/providers/dataProvider";
-import authProvider from "@/providers/authProvider.ts";
+import authProvider from "@/providers/authProvider";
+import HaLoginPage from "@/security/LoginPage";
 import groups from "@/operations/groups";
 import profile from "@/operations/profile";
 import students from "@/operations/students";
@@ -18,15 +17,13 @@ import announcements from "@/operations/announcements";
 import fees from "@/operations/fees";
 import feesTemplates from "@/operations/feesTemplates";
 import payments from "@/operations/payments";
-import studentDocs from "@/operations/docs/students";
-import HaLoginPage from "@/security/LoginPage";
-import promotions from "@/operations/promotions/index.tsx";
-import course from "@/operations/course/index.tsx";
+import promotions from "@/operations/promotions";
+import course from "@/operations/course";
 import monitors from "@/operations/monitors";
+import studentDocs from "@/operations/docs/students";
+import monitorStudent from "@/operations/monitors/component";
 import StudentList from "@/operations/students/StudentList";
-import MonitorStudentShow from "@/operations/monitorStudent/MonitorStudentShow";
-import MonitorStudentList from "@/operations/monitorStudent/MonitorStudentList";
-import monitorStudent from "@/operations/monitorStudent";
+import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import {AnnouncementList} from "@/operations/announcements/AnnouncementList";
 
 function AppBase() {
@@ -154,11 +151,6 @@ function AppBase() {
           exact
           path="/monitors/:monitorId/students"
           element={<MonitorStudentList />}
-        />
-        <Route
-          exact
-          path="/monitor-students/:studentId/show"
-          element={<MonitorStudentShow />}
         />
         <Route
           exact

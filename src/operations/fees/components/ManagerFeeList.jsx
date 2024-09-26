@@ -17,6 +17,7 @@ import {
 } from "@/operations/fees/importConf";
 import {rowStyle, PSP_COLORS, PSP_VALUES} from "@/operations/fees/utils";
 import {FeesFilter} from "@/operations/fees/components/FeesFilter";
+import {useRole} from "@/security/hooks";
 
 export const ManagerFeeList = ({studentId, studentRef}) => {
   return (

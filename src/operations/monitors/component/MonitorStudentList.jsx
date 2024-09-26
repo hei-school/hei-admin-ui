@@ -1,9 +1,12 @@
 import React from "react";
-import {TextField} from "react-admin";
+import {EditButton, ShowButton, TextField} from "react-admin";
 import {GroupOutlined} from "@mui/icons-material";
 import {HaList} from "@/ui/haList";
+import {useRole} from "@/security/hooks";
+import {PALETTE_COLORS} from "@/haTheme";
 
 function MonitorStudentList() {
+  const role = useRole();
   return (
     <HaList
       resource="monitor-students"
@@ -14,6 +17,11 @@ function MonitorStudentList() {
       <TextField source="ref" label="Référence" />
       <TextField source="first_name" label="Prénom·s" />
       <TextField source="last_name" label="Nom·s" />
+      {role.isManager() ? (
+        <EditButton sx={{color: PALETTE_COLORS.yellow}} />
+      ) : (
+        <ShowButton sx={{color: PALETTE_COLORS.yellow}} />
+      )}
     </HaList>
   );
 }

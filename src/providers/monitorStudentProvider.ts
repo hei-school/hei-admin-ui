@@ -4,22 +4,23 @@ import authProvider from "@/providers/authProvider";
 
 const monitorStudentProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, _filter: any) {
-    const monitorId = authProvider.getCachedWhoami().id;
+    const monitorId = authProvider.getCachedWhoami()?.id;
 
     if (!monitorId) {
       throw new Error("Monitor ID is required.");
     }
-
     const result = await monitoringApi().getLinkedStudentsByMonitorId(
       monitorId,
-      page || 1,
-      perPage || 15
+      page,
+      perPage
     );
+
     return {
       data: result.data,
     };
   },
 
+  // either student.getOne [ONLY for their student] or getStudentByMonitorId
   async getOne(id: string) {
     if (!id) {
       throw new Error("ID is required to fetch a single student.");
@@ -31,17 +32,13 @@ const monitorStudentProvider: HaDataProviderType = {
       throw new Error("Monitor ID is required.");
     }
 
-    try {
-      const result = await monitoringApi().getLinkedStudentsByMonitorId(
-        monitorId,
-        1,
-        15
-      );
-      return result.data.find((student) => student.id === id);
-    } catch (error) {
-      console.error("Error fetching student:", error);
-      throw error;
-    }
+    const result = await monitoringApi().getLinkedStudentsByMonitorId(
+      monitorId,
+      1,
+      15
+    );
+    // what if linked students is over 100
+    return result.data.find((student) => student.id === id);
   },
 
   async saveOrUpdate(_payload: any, _meta: any) {

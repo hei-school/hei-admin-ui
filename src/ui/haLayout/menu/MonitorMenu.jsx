@@ -5,9 +5,9 @@ import {
   Group as GroupIcon,
   Newspaper as AnnouncementIcon,
 } from "@mui/icons-material";
+import authProvider from "@/providers/authProvider";
 import {ListMenu, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
-import authProvider from "@/providers/authProvider";
 
 function MonitorMenu() {
   const monitorId = authProvider.getCachedWhoami().id;

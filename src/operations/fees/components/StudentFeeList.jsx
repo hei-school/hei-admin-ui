@@ -246,10 +246,9 @@ const CatchupFeesCreate = ({toggle}) => {
   );
 };
 
-export const StudentFeeList = () => {
+export const StudentFeeList = (resource) => {
   const {studentRef, studentId} = useStudentRef("studentId");
   const [show, _set, toggle] = useToggle();
-
   return (
     <Box>
       <HaList
@@ -259,7 +258,7 @@ export const StudentFeeList = () => {
         filterIndicator={false}
         hasDatagrid={false}
         listProps={{
-          filterDefaultValues: {studentId},
+          filterDefaultValues: {studentId: resource.studentId ?? studentId},
         }}
         actions={
           <Box>

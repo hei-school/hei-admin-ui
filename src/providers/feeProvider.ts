@@ -26,7 +26,6 @@ const feeProvider: HaDataProviderType = {
           filter.isMpbs,
           filter.student_ref
         );
-
     return {
       data: fees.map((fee) => {
         return {
