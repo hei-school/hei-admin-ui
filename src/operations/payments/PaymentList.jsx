@@ -51,9 +51,15 @@ const PaymentList = ({feeId, studentId}) => {
         />
         <FunctionField
           label="Reçu"
-          render={() => (
+          render={(record) => (
             <Button
-              label={<GetReceipt studentId={studentId} feeId={feeId} />}
+              label={
+                <GetReceipt
+                  studentId={studentId}
+                  feeId={feeId}
+                  paymentId={record.id}
+                />
+              }
               size="small"
               data-testid="get-receipt-btn"
               startIcon={<Download />}
