@@ -1,5 +1,5 @@
 import {FC, useState} from "react";
-import {Confirm, useUpdate} from "react-admin";
+import {Confirm, useRefresh, useUpdate} from "react-admin";
 import {Box, Button} from "@mui/material";
 import {CheckCircle} from "@mui/icons-material";
 import {useNotify} from "@/hooks";
@@ -8,6 +8,7 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
   const [open, setOpen] = useState(false);
   const [update, {isLoading}] = useUpdate();
   const notify = useNotify();
+  const refresh = useRefresh();
 
   const confirmLetter = () => setOpen(true);
   const handleDialogClose = () => setOpen(false);
@@ -31,12 +32,14 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
           notify("Lettre acceptée avec succès", {
             type: "success",
           });
+          refresh();
           handleDialogClose();
         },
         onError: () => {
           notify("Erreur lors de l'acceptation de la lettre", {
             type: "error",
           });
+          refresh();
           handleDialogClose();
         },
       }
