@@ -1,5 +1,8 @@
 import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
-import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
+import {
+  createPaymentMock,
+  payment1Mock,
+} from "../fixtures/api_mocks/payments-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Student receipt", () => {
@@ -25,7 +28,7 @@ describe("Student receipt", () => {
     ).as("getPaymentsOfOneFee");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${fee1Mock.id}/receipt/raw`,
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
       {fixture: "/students/reçu.pdf"}
     ).as("downloadReceipt");
   });
@@ -76,7 +79,7 @@ describe("Manager receipt", () => {
     ).as("getPaymentsOfOneFee");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${fee1Mock.id}/receipt/raw`,
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
       {fixture: "/students/reçu.pdf"}
     ).as("downloadReceipt");
   });
