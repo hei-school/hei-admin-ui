@@ -292,6 +292,7 @@ export const StudentFeeList = () => {
                 }
                 label="Écolages"
                 onClick={toggle2}
+                data-testid="fees-create-button"
               />
             </HaActionWrapper>
           </Box>
