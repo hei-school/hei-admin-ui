@@ -8,7 +8,7 @@ const receiptProvider: HaDataProviderType = {
 
   async getOne(id: string, meta: any) {
     const {paymentId: raId} = meta;
-    const [studentId, feeId, paymentId] = raId.split("--");
+    const [, feeId, paymentId] = raId.split("--");
 
     const response = await payingApi().getPaidFeeReceipt(id, feeId, paymentId, {
       responseType: "arraybuffer",
