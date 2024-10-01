@@ -141,7 +141,9 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
             fontSize: "1rem",
             fontWeight: "bold",
             textAlign: "center",
+            marginLeft: "2vw",
             borderBottom: "1px solid",
+            paddingBottom: "2px",
             borderColor: "rgba(0, 0, 0, 0.2)",
           }}
         >
