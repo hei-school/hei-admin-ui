@@ -40,7 +40,7 @@ export const createPaymentMock: (fee: Fee) => Payment[] = (fee) => {
   }
   return [
     {
-      id: `payment_of_${fee.id}_id`,
+      id: `payment1_id`,
       fee_id: fee.id,
       creation_datetime: fee.creation_datetime,
       type: PaymentTypeEnum.CASH,
