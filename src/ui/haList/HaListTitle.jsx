@@ -96,7 +96,7 @@ export function HaListTitle({
           anchorOrigin={{vertical: "top", horizontal: "right"}}
           transformOrigin={{vertical: "top", horizontal: "right"}}
         >
-          <Box sx={{width: "150px"}}>{actions}</Box>
+          <Box sx={{width: "165px"}}>{actions}</Box>
         </Popover>
       </HaListContext.Provider>
     </TitleContainer>
