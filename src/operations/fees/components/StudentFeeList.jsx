@@ -31,7 +31,8 @@ import {
   Visibility as ShowIcon,
   WarningOutlined,
   Pending,
-  Money,
+  Repartition,
+  Paid,
 } from "@mui/icons-material";
 import {
   Box,
@@ -75,8 +76,14 @@ import {
   DEFAULT_REMEDIAL_COSTS_AMOUNT,
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
 } from "@/operations/fees/utils";
-import {formatDate, toUTC} from "@/utils/date";
+import {formatDate, get27thOfMonth, toUTC} from "@/utils/date";
 import authProvider from "@/providers/authProvider";
+import {FeesDialog} from "./FeesDialog";
+import {SelectPredefinedType} from "./SelectPredefinedType";
+import {useState} from "react";
+import {createFeesApi} from "../utils/feeFactory";
+import {PALETTE_COLORS} from "@/haTheme";
+import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
 
 const ListForm = () => {
   const notify = useNotify();
@@ -249,7 +256,7 @@ const CatchupFeesCreate = ({toggle}) => {
 export const StudentFeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
   const [show, _set, toggle] = useToggle();
-
+  const [show2, _set2, toggle2] = useToggle();
   return (
     <Box>
       <HaList
@@ -265,9 +272,27 @@ export const StudentFeeList = () => {
           <Box>
             <HaActionWrapper>
               <ButtonBase
-                icon={<Money />}
+                icon={
+                  <Repartition
+                    sx={{
+                      color: PALETTE_COLORS.primary,
+                    }}
+                  />
+                }
                 label="Frais rattrapage"
                 onClick={toggle}
+              />
+              <ButtonBase
+                icon={
+                  <Paid
+                    sx={{
+                      color: PALETTE_COLORS.primary,
+                    }}
+                  />
+                }
+                label="Écolages"
+                onClick={toggle2}
+                data-testid="fees-create-button"
               />
             </HaActionWrapper>
           </Box>
@@ -335,13 +360,18 @@ export const StudentFeeList = () => {
           />
         </EditableDatagrid>
       </HaList>
-      <Dialog
+      <FeesDialog
         title="Créer mon/mes frais de rattrapage"
-        open={show}
-        onClose={toggle}
-      >
-        <CatchupFeesCreate toggle={toggle} />
-      </Dialog>
+        children={<CatchupFeesCreate toggle={toggle} />}
+        show={show}
+        toggle={toggle}
+      />
+      <FeesDialog
+        title="Création de frais"
+        children={<StudentFeeCreate toggle={toggle2} />}
+        show={show2}
+        toggle={toggle2}
+      />
     </Box>
   );
 };

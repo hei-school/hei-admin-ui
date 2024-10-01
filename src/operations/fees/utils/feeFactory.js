@@ -1,4 +1,4 @@
-import {getEndOfMonth, toUTC} from "../../../utils/date";
+import {get27thOfMonth, toUTC} from "../../../utils/date";
 
 function createComment(baseComment, monthIndex, numberOfPayemnts) {
   // add the suffix M(monthValue + 1) when numberOfPayemnts is 9
@@ -33,7 +33,7 @@ export function createFeesApi(fees, studentId) {
 
   for (let i = 0; i < number_of_payments; i++) {
     const dueDatetime = isPredefinedDate
-      ? getEndOfMonth(+predefinedYear, predefinedMonth + i)
+      ? get27thOfMonth(+predefinedYear, predefinedMonth + i)
       : getNextDate(
           new Date(firstDueDatetime),
           i /*to get the next date after $i*/

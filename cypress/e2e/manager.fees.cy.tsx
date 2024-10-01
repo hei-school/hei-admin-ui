@@ -12,7 +12,7 @@ import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
 
 import {renderMoney} from "../../src/operations/common/utils/money";
 import {getFeesStatusInFr} from "../../src/operations/common/utils/typo_util";
-import {getEndOfMonth} from "../../src/utils/date";
+import {get27thOfMonth} from "../../src/utils/date";
 
 describe("Manager.Fee", () => {
   beforeEach(() => {
@@ -122,7 +122,7 @@ describe("Manager.Fee", () => {
 
       const feeToCreate = requestBody[0];
       const currentDate = new Date();
-      const currentEndOfMonth = getEndOfMonth(
+      const currentEndOfMonth = get27thOfMonth(
         currentDate.getFullYear(),
         currentDate.getMonth()
       );
@@ -157,14 +157,14 @@ describe("Manager.Fee", () => {
       expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
 
       requestBody.forEach((feeToCreate: any, index: number) => {
-        /* making sure that the month will not greater than number of month (11)*/
+        /* making sure that the month will not greater than number of month (11) */
         const is_valid_month = FIRST_MONTH + index <= 11;
         const year_value = is_valid_month ? FIRST_YEAR : FIRST_YEAR + 1;
         const month_value = is_valid_month
           ? FIRST_MONTH + index
           : FIRST_MONTH + index - 12;
 
-        const currentEndOfMonth = getEndOfMonth(year_value, month_value);
+        const currentEndOfMonth = get27thOfMonth(year_value, month_value);
 
         assertFeeMatchesTemplate(feeToCreate, annual9xTemplate);
         expect(feeToCreate.due_datetime, currentEndOfMonth.toISOString());

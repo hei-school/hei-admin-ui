@@ -29,11 +29,6 @@ describe("Student.Letters", () => {
     ).as("getStudent1LettersPending");
   });
 
-  afterEach(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
-  });
-
   it("student can list his letters", () => {
     cy.getByTestid("letters-list-tab").click();
     cy.wait("@getStudent1LettersPage1");
@@ -83,11 +78,6 @@ describe("Manager.Letters.student", () => {
     cy.contains("Page : 1");
     cy.contains("Taille : 1 ");
     cy.contains(student1Mock.first_name).click();
-  });
-
-  afterEach(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
   });
 
   it("manager can list student letter", () => {
