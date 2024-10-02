@@ -427,6 +427,7 @@ export const ProfileLayout = ({
   actions,
   isTeacherProfile = false,
   isStudentProfile = false,
+  isMonitorProfile = false,
 }) => {
   const {record: profile = {}} = useShowContext();
   const redirect = useRedirect();
@@ -510,12 +511,17 @@ export const ProfileLayout = ({
       <Informations
         isStudentProfile={isStudentProfile}
         isTeacherProfile={isTeacherProfile}
+        isMonitorProfile={isMonitorProfile}
       />
     </Box>
   );
 };
 
-export const Informations = ({isStudentProfile, isTeacherProfile}) => {
+export const Informations = ({
+  isStudentProfile,
+  isTeacherProfile,
+  isMonitorProfile,
+}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
@@ -555,7 +561,8 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
   return (
     <TabbedShowLayout
       tabs={<TabbedShowLayoutTabs variant="scrollable" scrollButtons="auto" />}
-      syncWithLocation={!role.isStudent() && !role.isManager()}
+      syncWithLocation={!role.isStudent() && !role.isManager() && !role.isMonitor()
+      }
     >
       <TabbedShowLayout.Tab
         label="Détails du Profil"
@@ -590,7 +597,7 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
         />
       )}
 
-      {isStudentProfile && role.isManager() && (
+      {isStudentProfile && (role.isManager() || role.isMonitor()) && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
           path="fees"
@@ -599,17 +606,14 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
           children={<FeeList studentId={profile.id} studentRef={profile.ref} />}
         />
       )}
-      {isStudentProfile && !role.isTeacher() && (
+      {isStudentProfile && !role.isTeacher() && !role.isMonitor() && (
         <TabbedShowLayout.Tab
           label="Boîte aux lettres"
           children={<StudentLettersList />}
           data-testid="letters-list-tab"
-          sx={{
-            fontSize: "0.8rem",
-          }}
         />
       )}
-      {!isTeacherProfile && !isStudentProfile && role.isManager() && (
+      {!isTeacherProfile && !isStudentProfile && !isMonitorProfile && role.isManager() && (
         <TabbedShowLayout.Tab
           label={
             letterStats ? (
