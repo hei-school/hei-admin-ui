@@ -43,6 +43,11 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
           <DocMenu studentId={student.id} />
         </div>
       )}
+      {role.isMonitor() && student && (
+        <div style={{display: "flex", flexDirection: "column", gap: "0.2rem"}}>
+          <DocMenu studentId={student.id} />
+        </div>
+      )}
     </div>
   );
 };
