@@ -44,6 +44,7 @@ function AppBase() {
       <Resource name="students" {...students} />
       <Resource name="teachers" {...teachers} />
       <Resource name="monitors" {...monitors} />
+      <Resource name="monitor-students" {...monitorStudent} />
       <Resource name="groups" {...groups} />
 
       <Resource name="fees" {...fees} />
@@ -162,6 +163,41 @@ function AppBase() {
         <Route
           exact
           path="/docs/students/WORK_DOCUMENT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/students"
+          element={<MonitorStudentList />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/TRANSCRIPT"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/TRANSCRIPT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/WORK_DOCUMENT"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/WORK_DOCUMENT/:id"
+          element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/OTHER"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:studentId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
         />
       </CustomRoutes>

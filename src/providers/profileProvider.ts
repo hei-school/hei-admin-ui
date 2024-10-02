@@ -1,6 +1,6 @@
-import {usersApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
-import authProvider from "./authProvider";
+import authProvider from "@/providers/authProvider";
+import {usersApi} from "@/providers/api";
+import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 
 const profileProvider: HaDataProviderType = {
@@ -19,6 +19,12 @@ const profileProvider: HaDataProviderType = {
         return usersApi()
           .getManagerById(id)
           .then((result) => result.data);
+      case WhoamiRoleEnum.MONITOR:
+        return usersApi()
+          .getMonitorById(id)
+          .then((result) => result.data);
+      default:
+        throw new Error("Role non supporté");
     }
   },
   async getList() {
@@ -43,6 +49,12 @@ const profileProvider: HaDataProviderType = {
         return usersApi()
           .updateManager(id, profileData)
           .then((result) => [result.data]);
+      case WhoamiRoleEnum.MONITOR:
+        return usersApi()
+          .updateMonitorById(id, profileData)
+          .then((result) => [result.data]);
+      default:
+        throw new Error("Role non supporté");
     }
   },
   async delete(_id: string) {
