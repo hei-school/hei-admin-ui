@@ -39,6 +39,7 @@ function AppBase() {
       <Resource name="profile" {...profile} />
       <Resource name="students" {...students} />
       <Resource name="teachers" {...teachers} />
+      <Resource name="monitors" {...monitors} />
       <Resource name="groups" {...groups} />
 
       <Resource name="fees" {...fees} />
