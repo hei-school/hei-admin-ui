@@ -1,4 +1,5 @@
-import {usersApi} from "@/providers/api";
+import {monitoringApi, usersApi} from "@/providers/api";
+import authProvider from "./authProvider";
 
 const monitorProvider = {
   async getList(page: number, perPage: number, filter: any) {
@@ -21,22 +22,27 @@ const monitorProvider = {
     return result.data;
   },
 
-  async saveOrUpdate(monitors: Array<any>, meta: any) {
+  async saveOrUpdate(monitors: Array<any>, meta: any, students: Array<any>) {
     const isUpdate = meta?.isUpdate;
     const [monitor] = monitors;
 
     if (isUpdate) {
-      const result = await usersApi().updateMonitorById(monitor.id, monitor);
-      return [result.data];
+        const result = await usersApi().updateMonitorById(monitor.id, monitor);
+        
+        return [result.data];
     } else {
-      const result = await usersApi().createOrUpdateMonitors(monitors);
-      return result.data;
+        const result = await usersApi().createOrUpdateMonitors(monitors);
+        
+        const {id} = authProvider.getCachedWhoami();
+        await monitoringApi().linkStudentsByMonitorId(id!, students[0]);
+        
+        return result.data;
     }
-  },
-
+},
   async delete(_id: string) {
     throw new Error("Not implemented");
   },
 };
 
 export default monitorProvider;
+
