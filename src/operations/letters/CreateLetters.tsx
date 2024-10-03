@@ -1,4 +1,4 @@
-import {FC, useState} from "react";
+import {FC, useMemo, useRef, useState} from "react";
 import {
   FileField,
   FileInput,
@@ -9,13 +9,13 @@ import {
   Toolbar,
   SaveButton,
 } from "react-admin";
-import {Dialog} from "@/ui/components";
+
 import {PALETTE_COLORS} from "@/haTheme";
 import uploadImg from "@/assets/file_upload.png";
-import {Letter} from "@haapi/typescript-client";
 import {v4 as uuid} from "uuid";
 import {CreateLettersDialogProps} from "@/operations/letters/types";
 import {useNotify} from "@/hooks";
+import {Dialog} from "@/ui/components";
 
 const FILE_FIELD_STYLE = {
   "border": "1px dashed",
@@ -55,23 +55,15 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
 }) => {
   const notify = useNotify();
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const [formData, setFormData] = useState<Letter | null>(null);
+  const letterRef = useRef<any>(null);
   const [create] = useCreate();
 
-  const handleSubmit = (letter: Letter) => {
-    setFormData({
-      ...letter,
-      id: uuid(),
-    });
-    setConfirmOpen(true);
-  };
-
   const handleConfirm = () => {
-    if (formData) {
+    if (letterRef.current) {
       create(
         "student-letters",
         {
-          data: formData,
+          data: letterRef.current,
           meta: {studentId},
         },
         {
@@ -91,8 +83,25 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   return (
     <Dialog open={isOpen} onClose={onClose} title="Ajouter une lettre">
       <SimpleForm
-        onSubmit={handleSubmit}
-        toolbar={<CustomToolbar handleSave={() => handleSubmit(formData!)} />}
+        toolbar={
+          <CustomToolbar
+            handleSave={() => {
+              setConfirmOpen(true);
+            }}
+          />
+        }
+        values={useMemo(
+          () => ({
+            id: uuid(),
+            description: "",
+            filename: {},
+          }),
+          []
+        )}
+        onSubmit={(letter) => {
+          letterRef.current = letter;
+          setConfirmOpen(true);
+        }}
       >
         <TextInput
           source="description"
@@ -118,6 +127,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
           />
         </FileInput>
       </SimpleForm>
+
       <Confirm
         isOpen={confirmOpen}
         title="Confirmation"
