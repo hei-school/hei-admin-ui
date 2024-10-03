@@ -31,8 +31,10 @@ const studentLettersProvider: HaDataProviderType = {
     }
     const {description, filename} = payload[0];
     const {title, rawFile} = filename;
+    const feeId = undefined;
+    const amount = undefined;
     return lettersApi()
-      .createLetter(studentId, title, description, rawFile)
+      .createLetter(studentId, title, description, feeId, amount, rawFile)
       .then((response) => [response.data]);
   },
   delete() {

@@ -525,7 +525,13 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
     isLoading,
     error,
     data: letterStats,
-  } = useGetOne("letters-stats", {id: undefined});
+  } = useGetOne(
+    "letters-stats",
+    {id: undefined},
+    {
+      enabled: role.isManager(),
+    }
+  );
 
   if (!profile) {
     return (

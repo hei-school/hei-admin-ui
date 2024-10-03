@@ -1,5 +1,5 @@
 import {FC, useState} from "react";
-import {Confirm, useUpdate} from "react-admin";
+import {Confirm, useRefresh, useUpdate} from "react-admin";
 import {Box, Button, TextField} from "@mui/material";
 import {Unpublished} from "@mui/icons-material";
 import {useNotify} from "@/hooks";
@@ -9,6 +9,7 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
   const [reason, setReason] = useState("");
   const [update, {isLoading}] = useUpdate();
   const notify = useNotify();
+  const refresh = useRefresh();
 
   const confirmRefusal = () => setOpen(true);
   const handleDialogClose = () => setOpen(false);
@@ -34,10 +35,12 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
       {
         onSuccess: () => {
           notify("Lettre refusée avec succès", {type: "success"});
+          refresh();
           handleDialogClose();
         },
         onError: () => {
           notify("Erreur lors du refus de la lettre", {type: "error"});
+          refresh();
           handleDialogClose();
         },
       }
