@@ -42,80 +42,80 @@ export const StudentLettersList: FC = () => {
 
   const student = useRecordContext<Student>();
 
+  if (!student) return null;
+
   return (
-    !!student && (
-      <Box
-        sx={{
-          backgroundColor: PALETTE_COLORS.white,
-          borderRadius: "16px",
+    <Box
+      sx={{
+        backgroundColor: PALETTE_COLORS.white,
+        borderRadius: "16px",
+      }}
+    >
+      <ListBase
+        resource="student-letters"
+        queryOptions={{
+          meta: {
+            studentId: student.id,
+          },
         }}
       >
-        <ListBase
-          resource="student-letters"
-          queryOptions={{
-            meta: {
-              studentId: student.id,
-            },
+        <TopToolbar
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: "2rem",
           }}
         >
-          <TopToolbar
+          <Button
+            startIcon={<Tune />}
+            onClick={handleStatusClick}
             sx={{
-              display: "flex",
-              alignItems: "center",
-              gap: "2rem",
+              "borderRadius": "8px",
+              "padding": "0.5rem 1rem",
+              "fontWeight": "600",
+              "color": PALETTE_COLORS.primary,
+              "backgroundColor": "#f5e4b5",
+              "&:hover": {
+                backgroundColor: "#f2db9c",
+              },
             }}
+            data-testid="letter-status-filter"
           >
-            <Button
-              startIcon={<Tune />}
-              onClick={handleStatusClick}
-              sx={{
-                "borderRadius": "8px",
-                "padding": "0.5rem 1rem",
-                "fontWeight": "600",
-                "color": PALETTE_COLORS.primary,
-                "backgroundColor": "#f5e4b5",
-                "&:hover": {
-                  backgroundColor: "#f2db9c",
-                },
-              }}
-              data-testid="letter-status-filter"
-            >
-              Filtre
-            </Button>
-            <LetterStatusFilter anchorEl={anchorEl} handleClose={handleClose} />
-            <Button
-              startIcon={
-                <CloudUpload
-                  style={{
-                    fontSize: "1.5rem",
-                  }}
-                />
-              }
-              sx={{
-                "backgroundColor": PALETTE_COLORS.primary,
-                "color": PALETTE_COLORS.white,
-                "borderRadius": "8px",
-                "padding": "0.5rem 1rem",
-                "fontWeight": "600",
-                "&:hover": {
-                  backgroundColor: "#1a305a",
-                },
-              }}
-              onClick={onToggle}
-              data-testid="letter-create-button"
-            >
-              Ajouter
-            </Button>
-          </TopToolbar>
-          <LetterListView />
-          <PrevNextPagination />
-        </ListBase>
-        <CreateLettersDialog
-          isOpen={isOpen}
-          onClose={onToggle}
-          studentId={student.id!}
-        />
-      </Box>
-    )
+            Filtre
+          </Button>
+          <LetterStatusFilter anchorEl={anchorEl} handleClose={handleClose} />
+          <Button
+            startIcon={
+              <CloudUpload
+                style={{
+                  fontSize: "1.5rem",
+                }}
+              />
+            }
+            sx={{
+              "backgroundColor": PALETTE_COLORS.primary,
+              "color": PALETTE_COLORS.white,
+              "borderRadius": "8px",
+              "padding": "0.5rem 1rem",
+              "fontWeight": "600",
+              "&:hover": {
+                backgroundColor: "#1a305a",
+              },
+            }}
+            onClick={onToggle}
+            data-testid="letter-create-button"
+          >
+            Ajouter
+          </Button>
+        </TopToolbar>
+        <LetterListView />
+        <PrevNextPagination />
+      </ListBase>
+      <CreateLettersDialog
+        isOpen={isOpen}
+        onClose={onToggle}
+        studentId={student.id!}
+      />
+    </Box>
   );
 };
