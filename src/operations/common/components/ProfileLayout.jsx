@@ -613,43 +613,46 @@ export const Informations = ({
           data-testid="letters-list-tab"
         />
       )}
-      {!isTeacherProfile && !isStudentProfile && !isMonitorProfile && role.isManager() && (
-        <TabbedShowLayout.Tab
-          label={
-            letterStats ? (
-              <Badge
-                badgeContent={
-                  <span
-                    style={{
-                      backgroundColor: "red",
-                      borderRadius: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      fontWeight: "800",
-                      color: "white",
-                      marginLeft: "1rem",
-                      height: "1.4rem",
-                      width: "1.4rem",
-                    }}
-                  >
-                    {letterStats.pending}
-                  </span>
-                }
-                sx={{
-                  position: "relative",
-                  fontSize: "0.7rem",
-                }}
-              >
-                Boîte aux lettres
-              </Badge>
-            ) : null
-          }
-          children={<LettersList stats={letterStats} />}
-          style={{paddingTop: "1rem", width: "10vw"}}
-          data-testid="letters-list-tab"
-        />
-      )}
+      {!isTeacherProfile &&
+        !isStudentProfile &&
+        !isMonitorProfile &&
+        role.isManager() && (
+          <TabbedShowLayout.Tab
+            label={
+              letterStats ? (
+                <Badge
+                  badgeContent={
+                    <span
+                      style={{
+                        backgroundColor: "red",
+                        borderRadius: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontWeight: "800",
+                        color: "white",
+                        marginLeft: "1rem",
+                        height: "1.4rem",
+                        width: "1.4rem",
+                      }}
+                    >
+                      {letterStats.pending}
+                    </span>
+                  }
+                  sx={{
+                    position: "relative",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  Boîte aux lettres
+                </Badge>
+              ) : null
+            }
+            children={<LettersList stats={letterStats} />}
+            style={{paddingTop: "1rem", width: "10vw"}}
+            data-testid="letters-list-tab"
+          />
+        )}
     </TabbedShowLayout>
   );
 };

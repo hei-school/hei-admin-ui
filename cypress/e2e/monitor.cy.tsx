@@ -24,9 +24,10 @@ describe("Monitors", () => {
       studentsMock
     ).as("getStudents");
 
-    cy.visit(`http://localhost:5174/#/monitors/${monitor1Mock.id}/students`);
+    cy.get('[href="#/monitors/monitor1_id/students"]').click();
     cy.wait("@getStudents");
 
+    cy.get(`[href="#/monitor-students/${student1Mock.id}/show"]`).click();
     cy.get("#main-content")
       .should("contain", student1Mock.ref)
       .and("contain", student1Mock.first_name)

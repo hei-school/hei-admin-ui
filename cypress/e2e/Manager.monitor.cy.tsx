@@ -15,7 +15,7 @@ describe("Manager.Monitors", () => {
       "getMonitor1"
     );
 
-    cy.intercept("GET", "**/monitors?page=1&page_size=10", monitorsMock).as(
+    cy.intercept("GET", "/monitors?page=1&page_size=10", monitorsMock).as(
       "getMonitors"
     );
 
@@ -32,21 +32,39 @@ describe("Manager.Monitors", () => {
 
   it("can see the list of all monitors in manager", () => {
     cy.get('[href="#/monitors"]').click();
-    cy.wait("@getMonitors");
-    cy.get("#main-content")
-      .should("contain", monitorsMock[0].first_name)
-      .and("contain", monitorsMock[0].last_name)
-      .and("contain", monitorsMock[0].ref);
+    cy.get("tbody tr").should("have.length", monitorsMock.length);
+    cy.getByTestid("menu-list-action").click();
+    cy.get("body").click();
+    cy.get('a[aria-label="Éditer"]').should("exist");
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("create-button").should("exist");
+  });
+
+  it("can filter teachers by first_name", () => {
+    cy.getByTestid("main-search-filter").type(monitor1Mock.first_name);
+    cy.wait("@getFilters");
+    cy.get("tbody tr")
+      .should("have.length", 1)
+      .should("not.contain", monitorsMock[1].first_name);
+    cy.get("tbody tr").should("have.length", 1);
+    cy.get("tbody tr:first-child").should("contain", monitor1Mock.first_name);
   });
 
   it("can edit a monitor", () => {
+    cy.intercept("GET", `/monitors/${monitorsMock[0].id}`, monitor1Mock).as(
+      "getMonitors1"
+    );
     cy.get("@editButton").click();
-    cy.wait("@getMonitor1");
-    cy.get('input[name="last_name"]').should("exist");
-
+    cy.wait("@getMonitors1");
     cy.get("#last_name").clear().type(updatedInfo.last_name);
+    cy.intercept("PUT", `/monitors/${monitorsMock[0].id}`, updatedInfo).as(
+      "putUpdate"
+    );
     cy.getByTestid("SaveIcon").click();
     cy.wait("@putUpdate");
     cy.get("@editButton").click();
+    cy.intercept("GET", `/monitors/${monitorsMock[0].id}`, updatedInfo).as(
+      "getMonitorsUpdated"
+    );
   });
 });
