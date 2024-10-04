@@ -4,7 +4,7 @@ import {
   Sex,
   WhoamiRoleEnum,
 } from "@haapi/typescript-client";
-import {NOT_DEFINED} from "@/utils/constants";
+import {NOT_DEFINED} from "../../../utils/constants";
 
 export function getGenderInFr(sex) {
   switch (sex) {

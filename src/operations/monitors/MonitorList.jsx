@@ -19,23 +19,7 @@ function MonitorList() {
       icon={<GroupOutlined />}
       title="Liste des moniteurs"
       mainSearch={{label: "Prénom·s", source: "first_name"}}
-      actions={
-        <Box display="flex" gap={1}>
-          <CreateButton />
-          <ExportButton
-            onExport={(data) => console.log("Exporting data", data)}
-          />
-          <ImportButton
-            minimalHeaders={minimalUserHeaders}
-            optionalHeaders={optionalUserHeaders}
-            provider={monitorProvider.saveOrUpdate}
-            resource="moniteurs"
-            transformData={transformUserData}
-            validateData={validateUserData}
-          />
-          <ProfileFilters resource="monitors" />
-        </Box>
-      }
+      actions={<CreateButton />}
     >
       <TextField source="ref" label="Référence" />
       <TextField source="first_name" label="Prénom·s" />

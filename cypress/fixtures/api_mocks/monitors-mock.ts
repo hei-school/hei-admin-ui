@@ -20,6 +20,24 @@ export const monitorsMock: Monitor[] = [
       latitude: 123.0,
     },
   },
+  {
+    id: "f23f02b0-4d93-4603-a023-853b293b7e5f",
+    ref: "MT00000",
+    first_name: "test",
+    last_name: "ikoto",
+    email: "rakotonirinaonjaniaina8@gmail.com",
+    nic: "454145416252",
+    sex: Sex.F,
+    birth_date: "2010-01-27",
+    birth_place: "hfjhhhhvhk",
+    address: "blalala",
+    phone: "2123456778",
+    entrance_datetime: new Date("2024-08-28T00:00:00Z"),
+    coordinates: {
+      longitude: 47.5211,
+      latitude: 18.9185,
+    },
+  },
 ];
 
 export const monitor1Mock = monitorsMock[0] as Required<Monitor>;
