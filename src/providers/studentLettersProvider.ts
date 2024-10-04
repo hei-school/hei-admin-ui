@@ -1,5 +1,6 @@
 import {lettersApi} from "@/providers/api";
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {toApiIds} from "./feeProvider";
 
 type Params = {
   meta: {
@@ -24,7 +25,9 @@ const studentLettersProvider: HaDataProviderType = {
       .then((response) => response.data);
   },
   saveOrUpdate: async (payload: any, {meta}: Params) => {
-    const {method, studentId, feeId, feeAmount} = meta || {};
+    const {method, studentId, feeId: raId, feeAmount} = meta || {};
+
+    const {feeId} = toApiIds(raId);
 
     if (method === "UPDATE") {
       return lettersApi()

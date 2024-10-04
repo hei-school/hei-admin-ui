@@ -1,4 +1,8 @@
-import {FeeTypeEnum, MobileMoneyType} from "@haapi/typescript-client";
+import {
+  FeeTypeEnum,
+  MobileMoneyType,
+  MpbsStatus,
+} from "@haapi/typescript-client";
 import {
   FunctionField,
   FormDataConsumer,
@@ -10,6 +14,7 @@ import {
   TextInput,
   useGetList,
   useRecordContext,
+  IconButtonWithTooltip,
 } from "react-admin";
 import {EditableDatagrid} from "@react-admin/ra-editable-datagrid";
 import {
@@ -20,24 +25,15 @@ import {
   Repartition,
   Paid,
 } from "@mui/icons-material";
-import {
-  Box,
-  IconButton,
-  Tooltip,
-  Chip,
-  TextField as MuiTextInput,
-  Typography,
-} from "@mui/material";
+import {Box, Chip, TextField as MuiTextInput, Typography} from "@mui/material";
 import {RowForm, useRowContext} from "@react-admin/ra-editable-datagrid";
-import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
-import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
-import {Create} from "@/operations/common/components";
-import {DateField} from "@/operations/common/components/fields";
 import {useNotify, useToggle} from "@/hooks";
 import {useStudentRef} from "@/hooks/useStudentRef";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {Create} from "@/operations/common/components";
+import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
 import {commentFunctionRenderer} from "@/operations/utils";
 import {
@@ -49,9 +45,11 @@ import {
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
 } from "@/operations/fees/utils";
 import {formatDate, toUTC} from "@/utils/date";
-import {PALETTE_COLORS} from "@/haTheme";
 import {FeesDialog} from "./FeesDialog";
+import {PALETTE_COLORS} from "@/haTheme";
+import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
 import authProvider from "@/providers/authProvider";
+import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
 
 const DefaultInfos = () => {
   return (
@@ -132,7 +130,7 @@ const CatchupFeesCreate = ({toggle}) => {
 
 const MpbsCreate = ({toggle}) => {
   const notify = useNotify();
-  // TODO : add fee id in transform
+  const {id} = useRecordContext();
   const {id: student_id} = authProvider.getCachedWhoami();
 
   return (
@@ -146,7 +144,7 @@ const MpbsCreate = ({toggle}) => {
           toggle();
         },
       }}
-      transform={(data) => ({...data, student_id})}
+      transform={(data) => ({...data, student_id, id})}
     >
       <SimpleForm>
         <TextInput
@@ -165,12 +163,53 @@ const MpbsCreate = ({toggle}) => {
     </Create>
   );
 };
-export const StudentFeeList = () => {
-  const {studentRef, studentId} = useStudentRef("studentId");
-  const [show, _set, toggle] = useToggle();
-  const [show2, _set2, toggle2] = useToggle();
+
+const ListActionButtons = ({studentId}) => {
+  const {id, amount, mpbs} = useRecordContext();
   const [show3, , toggle3] = useToggle();
   const [show4, , toggle4] = useToggle();
+
+  return (
+    <Box>
+      {mpbs && mpbs.status != MpbsStatus.FAILED ? (
+        <StatusIcon />
+      ) : (
+        <IconButtonWithTooltip title="Mobile Money">
+          <AddMbpsIcon onClick={toggle3} />
+        </IconButtonWithTooltip>
+      )}
+      <IconButtonWithTooltip title="Bordereau" disabled={mpbs}>
+        <SlipIcon onClick={toggle4} />
+      </IconButtonWithTooltip>
+      <Link to={`/fees/${id}/show`} data-testid={`showButton-${id}`}>
+        <IconButtonWithTooltip title="Afficher">
+          <ShowIcon />
+        </IconButtonWithTooltip>
+      </Link>
+      <FeesDialog
+        title="Paiement de mon frais par Mobile Money"
+        show={show3}
+        toggle={toggle3}
+      >
+        <MpbsCreate toggle={toggle3} />
+      </FeesDialog>
+      <CreateLettersDialog
+        isOpen={show4}
+        onClose={toggle4}
+        studentId={studentId}
+        feeAmount={amount}
+        feeId={id}
+        title="Payer mon frais par ajout d'un bordereau"
+      />
+    </Box>
+  );
+};
+
+export const StudentFeeList = () => {
+  const {studentRef, studentId} = useStudentRef("studentId");
+
+  const [show, _set, toggle] = useToggle();
+  const [show2, _set2, toggle2] = useToggle();
 
   return (
     <Box>
@@ -229,11 +268,6 @@ export const StudentFeeList = () => {
           render={commentFunctionRenderer}
           label="Commentaire"
         />
-        {/* <DateField
-          source="mpbs.creation_datetime"
-          label="Ajout de la référence de transaction"
-          showTime
-        /> */}
         <DateField
           source="mpbs.last_datetime_verification"
           label="Dernière vérification par HEI"
@@ -249,34 +283,7 @@ export const StudentFeeList = () => {
           label="Vérification réussie"
           showTime
         />
-        {/* <TextField
-          source="mpbs.psp_id"
-          label="Référence de la transaction"
-          emptyText={EMPTY_TEXT}
-        /> */}
-        {/* <FunctionField
-          render={(fee) =>
-            fee.mpbs ? (
-              <Chip
-                color={PSP_COLORS[fee.mpbs?.psp_type]}
-                label={PSP_VALUES[fee.mpbs?.psp_type]}
-              />
-            ) : (
-              EMPTY_TEXT
-            )
-          }
-          label="Type de transaction"
-          emptyText={EMPTY_TEXT}
-        /> */}
-        <IconButton>
-          <AddMbpsIcon onClick={toggle3} />
-        </IconButton>
-        <IconButton>
-          <SlipIcon onClick={toggle4} />
-        </IconButton>
-        <IconButton>
-          <ShowIcon />
-        </IconButton>
+        <ListActionButtons studentId={studentId} />
       </HaList>
       <FeesDialog
         title="Créer mon/mes frais de rattrapage"
@@ -289,21 +296,6 @@ export const StudentFeeList = () => {
         children={<StudentFeeCreate toggle={toggle2} />}
         show={show2}
         toggle={toggle2}
-      />
-      <FeesDialog
-        title="Paiement de mon frais par Mobile Money"
-        show={show3}
-        toggle={toggle3}
-      >
-        <MpbsCreate toggle={toggle3} />
-      </FeesDialog>
-      <CreateLettersDialog
-        isOpen={show4}
-        onClose={toggle4}
-        studentId={studentId}
-        feeAmount={0}
-        feeId="ID"
-        title="Payer mon frais par ajout d'un bordereau"
       />
     </Box>
   );
