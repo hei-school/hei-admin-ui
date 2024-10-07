@@ -257,18 +257,6 @@ export const StudentFeeList = () => {
                 label="Frais rattrapage"
                 onClick={toggle}
               />
-              <ButtonBase
-                icon={
-                  <Paid
-                    sx={{
-                      color: PALETTE_COLORS.primary,
-                    }}
-                  />
-                }
-                label="Écolages"
-                onClick={toggle2}
-                data-testid="fees-create-button"
-              />
             </HaActionWrapper>
           </Box>
         }

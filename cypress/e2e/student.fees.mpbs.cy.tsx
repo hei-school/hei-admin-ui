@@ -4,7 +4,6 @@ import {
   feesMock,
   unverifiedMpbsFee,
 } from "../fixtures/api_mocks/fees-mocks";
-import {feesTemplatesMocks} from "../fixtures/api_mocks/fees-templates-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Mobile payment by student", () => {
@@ -62,36 +61,5 @@ describe("Mobile payment by student", () => {
     cy.getByTestid(`pspTypeIcon-${fee1Mock.student_id}--${fee1Mock.id}`).should(
       "exist"
     );
-  });
-});
-
-describe("Student fees", () => {
-  beforeEach(() => {
-    cy.login({role: "STUDENT"});
-    cy.intercept(
-      "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
-      feesMock
-    ).as("getFees");
-
-    cy.intercept(
-      "GET",
-      "**fees/templates?page=1&page_size=25",
-      feesTemplatesMocks
-    ).as("getFeesTemplates");
-    cy.intercept("POST", `/students/${student1Mock.id}/fees`, feesMock).as(
-      "createFees"
-    );
-  });
-
-  it("student can create fees", () => {
-    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click();
-    cy.getByTestid("menu-list-action").click();
-    cy.getByTestid("fees-create-button").click();
-    cy.wait("@getFeesTemplates");
-    cy.get("#feesTemplateId").click();
-    cy.get('[data-value="annualTuition1x"]').click();
-    cy.contains("Enregistrer").click();
-    cy.contains("Frais créés avec succès");
   });
 });
