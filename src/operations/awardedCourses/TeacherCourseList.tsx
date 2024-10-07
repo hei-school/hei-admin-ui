@@ -1,6 +1,6 @@
-import {HaList} from "@/ui/haList";
 import {TextField} from "react-admin";
 import {MenuBook as BookIcon} from "@mui/icons-material";
+import {HaList} from "@/ui/haList";
 
 export const TeacherCourseList = () => {
   return (

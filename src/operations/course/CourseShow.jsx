@@ -16,10 +16,10 @@ import {
   AccessTime as AccessTimeIcon,
   MenuBook as BookIcon,
 } from "@mui/icons-material";
-import {PALETTE_COLORS} from "@/haTheme";
 import {Show} from "@/operations/common/components";
+import {AwardedCoursesList} from "@/operations/awardedCourses/AwardedCoursesList";
 import {useToggle} from "@/hooks";
-import {AwardedCoursesList} from "../awardedCourses/AwardedCoursesList";
+import {PALETTE_COLORS} from "@/haTheme";
 
 const LabeledIconField = ({
   icon: Icon,
