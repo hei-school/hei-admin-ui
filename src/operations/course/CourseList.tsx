@@ -1,4 +1,3 @@
-import {useState} from "react";
 import {TextField, useNotify} from "react-admin";
 import {Box} from "@mui/material";
 import {Book, Add as AddIcon} from "@mui/icons-material";
@@ -7,17 +6,19 @@ import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Dialog} from "@/ui/components";
 import {CourseCreate} from "@/operations/course/CourseCreate";
 import {useToggle} from "@/hooks";
-import {CourseShowDialog} from "@/operations/course/CourseShow";
 import {CourseListFilter} from "@/operations/course/components";
 import {CourseEditButton} from "@/operations/course/CourseEditButton";
+import { useRole } from "@/security/hooks";
+import { TeacherCourseList } from "../awardedCourses/TeacherCourseList";
 
 export function CourseList() {
   const [showCreate, _set, toggleShowCreate] = useToggle();
-  const [selectedCourseId, setSelectedCourseId] = useState(null);
-
+  const {isTeacher} = useRole();
   const notify = useNotify();
 
-  return (
+  return isTeacher() ? (
+    <TeacherCourseList/>
+  ) : (
     <Box>
       <HaList
         icon={<Book />}
@@ -25,9 +26,7 @@ export function CourseList() {
         title="Liste de cours"
         mainSearch={{label: "Code", source: "code"}}
         datagridProps={{
-          rowClick: (id: any) => {
-            setSelectedCourseId(id);
-          },
+          rowClick: (id: any) => `/course/${id}/show`,
         }}
         actions={
           <Box>
@@ -49,7 +48,6 @@ export function CourseList() {
         <TextField source="credits" label="Credits" />
         <TextField source="total_hours" label="Heure total" />
         <CourseEditButton />
-        <CourseShowDialog courseId={selectedCourseId} />
       </HaList>
       <Dialog
         title="Création d'un cours"
