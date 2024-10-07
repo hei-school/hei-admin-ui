@@ -3,6 +3,12 @@ import {HaDataProviderType} from "./HaDataProviderType";
 
 const lettersProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}) => {
+    const LETTER_TYPE: any = {
+      PAYMENT_SLIP: true,
+      ADMIN: false,
+      ALL: null,
+    };
+
     return lettersApi()
       .getLetters(
         page,
@@ -10,7 +16,9 @@ const lettersProvider: HaDataProviderType = {
         filter.student_ref,
         filter.letter_ref,
         filter.status,
-        filter.student_name
+        filter.student_name,
+        filter.fee_id,
+        LETTER_TYPE[filter?.is_linked_with_fee]
       )
       .then((result) => ({data: result.data}));
   },

@@ -22,10 +22,10 @@ describe("Mobile payment by student", () => {
   it("checks the icon button based on the existence of the mpbs in the fee", () => {
     cy.getByTestid(
       `pspTypeIcon-${unverifiedMpbsFee.student_id}--${unverifiedMpbsFee.id}`
-    ).should("exist");
+    ).should("not.exist");
     cy.getByTestid(
       `addMobileMoney-${unverifiedMpbsFee.student_id}--${unverifiedMpbsFee.id}`
-    ).should("not.exist");
+    ).should("exist");
     cy.getByTestid(`pspTypeIcon-${fee1Mock.student_id}--${fee1Mock.id}`).should(
       "not.exist"
     );
@@ -55,7 +55,7 @@ describe("Mobile payment by student", () => {
     cy.get("#psp_id").click().type("reference orange no 1");
     cy.get('[data-testid="SaveIcon"]').click();
 
-    cy.contains("Élément mis à jour");
+    cy.contains("Frais créés avec succès");
 
     cy.wait("@getMpbsFees");
 

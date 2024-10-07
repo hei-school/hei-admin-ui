@@ -2,6 +2,7 @@ import {
   Fee,
   FeeStatusEnum,
   FeeTypeEnum,
+  LetterStatus,
   Payment,
 } from "@haapi/typescript-client";
 import {student1Mock} from "./students-mocks";
@@ -139,11 +140,52 @@ export const feesMock: Fee[] = [
     creation_datetime: new Date("2021-11-10"),
     due_datetime: new Date("2021-12-10"),
   },
+  {
+    id: "fee11_id",
+    student_id: student1Mock.id,
+    remaining_amount: 0,
+    status: FeeStatusEnum.PAID,
+    type: FeeTypeEnum.HARDWARE,
+    comment: "Comment",
+    total_amount: 250000,
+    creation_datetime: new Date("2021-11-10"),
+    due_datetime: new Date("2021-12-10"),
+    letter: {
+      id: "string",
+      approval_datetime: new Date("2024-10-07"),
+      creation_datetime: new Date("2024-10-07"),
+      ref: "string",
+      status: LetterStatus.REJECTED,
+      file_url: "string",
+    },
+  },
+  {
+    id: "fee12_id",
+    student_id: student1Mock.id,
+    remaining_amount: 0,
+    status: FeeStatusEnum.PAID,
+    type: FeeTypeEnum.HARDWARE,
+    comment: "Comment",
+    total_amount: 250000,
+    creation_datetime: new Date("2021-11-10"),
+    due_datetime: new Date("2021-12-10"),
+    letter: {
+      id: "string",
+      approval_datetime: new Date("2024-10-07"),
+      creation_datetime: new Date("2024-10-07"),
+      ref: "string",
+      status: LetterStatus.RECEIVED,
+      file_url: "string",
+    },
+  },
 ];
 
 let newLateFeesMock: Fee[] = [];
 
 export const unverifiedMpbsFee = feesMock[5];
+
+export const rejectedPaymentSlip = feesMock[10];
+export const acceptedPaymentSlip = feesMock[11];
 
 export const successMpbsFee = feesMock[6];
 

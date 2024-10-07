@@ -1,13 +1,25 @@
 import {useState, useEffect} from "react";
 import {
   FunctionField,
-  SimpleShowLayout,
   useDataProvider,
   EditButton,
   TopToolbar,
+  SimpleShowLayout,
+  TextField,
+  UrlField,
 } from "react-admin";
 import {useParams} from "react-router-dom";
-import {Divider, Typography, Grid, Box} from "@mui/material";
+import {
+  Divider,
+  Chip,
+  Typography,
+  Grid,
+  Box,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
+import {ExpandMore, Info} from "@mui/icons-material";
 import {useRole} from "@/security/hooks";
 import {studentIdFromRaId} from "@/providers/feeProvider";
 import {statusRenderer, commentFunctionRenderer} from "@/operations/utils";
@@ -23,6 +35,8 @@ import {
   AccessTimeOutlined,
 } from "@mui/icons-material";
 import {GRID_STYLE} from "@/operations/fees/utils/gridStyle";
+import {EMPTY_TEXT} from "@/ui/constants";
+import {PSP_COLORS, PSP_VALUES} from "./utils";
 
 const dateTimeRenderer = (data) => {
   return data.updated_at == null ? (
@@ -64,6 +78,90 @@ const LabeledField = ({label, icon, children}) => (
   </Grid>
 );
 
+const AccordionBase = ({title, children}) => (
+  <Accordion sx={{boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px"}}>
+    <AccordionSummary expandIcon={<ExpandMore />}>
+      <Info color="warning" sx={{mx: 1}} />
+      <Typography fontWeight="bold" color={PALETTE_COLORS.typography.grey}>
+        {title}
+      </Typography>
+    </AccordionSummary>
+    <AccordionDetails>{children}</AccordionDetails>
+  </Accordion>
+);
+
+const FeePaymentDetails = () => (
+  <Box>
+    <AccordionBase title="Informations sur le dernier paiement par Mobile Money">
+      <SimpleShowLayout>
+        <DateField
+          source="mpbs.creation_datetime"
+          label="Ajout de la référence de transaction"
+          showTime
+        />
+        <TextField
+          source="mpbs.psp_id"
+          label="Référence de la transaction"
+          emptyText={EMPTY_TEXT}
+        />
+        <DateField
+          source="mpbs.successfully_verified_on"
+          label="Vérification réussie"
+          showTime
+        />
+        <DateField
+          source="mpbs.psp_own_datetime_verification"
+          label="Vérification par PSP"
+          showTime
+        />
+        <DateField
+          source="mpbs.last_datetime_verification"
+          label="Dernière vérification par HEI"
+          showTime
+        />
+        <FunctionField
+          render={(fee) =>
+            fee.mpbs ? (
+              <Chip
+                color={PSP_COLORS[fee.mpbs?.psp_type]}
+                label={PSP_VALUES[fee.mpbs?.psp_type]}
+              />
+            ) : (
+              EMPTY_TEXT
+            )
+          }
+          label="Type de transaction"
+          emptyText={EMPTY_TEXT}
+        />
+      </SimpleShowLayout>
+    </AccordionBase>
+    <AccordionBase title="Informations sur le dernier paiement par ajout de bordereau">
+      <SimpleShowLayout>
+        <DateField
+          source="letter.creation_datetime"
+          label="Ajout du bordereau"
+          showTime
+        />
+        <TextField
+          source="letter.ref"
+          label="Référence du bordereau"
+          emptyText={EMPTY_TEXT}
+        />
+        <DateField
+          source="letter.approval_datetime"
+          label="Acceptation du bordereau"
+          showTime
+        />
+        <UrlField
+          source="letter.file_url"
+          label="Lien du bordereau"
+          emptyText={EMPTY_TEXT}
+        />
+      </SimpleShowLayout>
+    </AccordionBase>
+  </Box>
+);
+
 export const FeeLayout = ({feeId, studentId}) => {
   const styles = GRID_STYLE();
   return (
@@ -77,7 +175,7 @@ export const FeeLayout = ({feeId, studentId}) => {
         }}
         gutterBottom
       >
-        Détails du paiement
+        Détails du frais
       </Typography>
       <Grid container spacing={4} justifyContent="center">
         <Grid item {...styles.item}>
@@ -92,7 +190,7 @@ export const FeeLayout = ({feeId, studentId}) => {
             }}
           >
             <InfoOutlined sx={{color: "#2563eb", mr: 1}} />
-            Informations de paiement
+            Informations sur le frais
           </Typography>
           <LabeledField label="Reste à payer">
             <FunctionField
@@ -161,7 +259,7 @@ export const FeeLayout = ({feeId, studentId}) => {
             <EventNoteOutlined sx={{color: "#2563eb", mr: 1}} />
             Dates importantes
           </Typography>
-          <LabeledField label="Date limite de paiement">
+          <LabeledField label="Date limite de paiement du frais">
             <DateField
               source="due_datetime"
               showTime={false}
@@ -202,6 +300,7 @@ export const FeeLayout = ({feeId, studentId}) => {
           />
         </Typography>
       </Grid>
+      <FeePaymentDetails />
       <Grid item xs={12}>
         <Divider sx={{mt: 3, mb: 2}} />
         <Typography
@@ -220,7 +319,7 @@ export const FeeLayout = ({feeId, studentId}) => {
   );
 };
 
-const FeeShow = (props) => {
+const FeeShow = () => {
   const role = useRole();
   const params = useParams();
   const feeId = params.feeId;

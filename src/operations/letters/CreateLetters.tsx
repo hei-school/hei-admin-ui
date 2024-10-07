@@ -10,12 +10,12 @@ import {
   SaveButton,
 } from "react-admin";
 
-import {PALETTE_COLORS} from "@/haTheme";
-import uploadImg from "@/assets/file_upload.png";
-import {v4 as uuid} from "uuid";
+import {Dialog} from "@/ui/components";
 import {CreateLettersDialogProps} from "@/operations/letters/types";
 import {useNotify} from "@/hooks";
-import {Dialog} from "@/ui/components";
+import {PALETTE_COLORS} from "@/haTheme";
+import {v4 as uuid} from "uuid";
+import uploadImg from "@/assets/file_upload.png";
 
 const FILE_FIELD_STYLE = {
   "border": "1px dashed",
@@ -52,6 +52,9 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   isOpen,
   onClose,
   studentId,
+  feeId,
+  feeAmount,
+  title,
 }) => {
   const notify = useNotify();
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -64,7 +67,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
         "student-letters",
         {
           data: letterRef.current,
-          meta: {studentId},
+          meta: {studentId, feeId, feeAmount},
         },
         {
           onSuccess: () => {
@@ -81,7 +84,11 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onClose={onClose} title="Ajouter une lettre">
+    <Dialog
+      open={isOpen}
+      onClose={onClose}
+      title={title ?? "Ajouter une lettre"}
+    >
       <SimpleForm
         toolbar={
           <CustomToolbar
