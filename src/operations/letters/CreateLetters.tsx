@@ -11,11 +11,11 @@ import {
 } from "react-admin";
 
 import {Dialog} from "@/ui/components";
-import {PALETTE_COLORS} from "@/haTheme";
-import uploadImg from "@/assets/file_upload.png";
-import {v4 as uuid} from "uuid";
 import {CreateLettersDialogProps} from "@/operations/letters/types";
 import {useNotify} from "@/hooks";
+import {PALETTE_COLORS} from "@/haTheme";
+import {v4 as uuid} from "uuid";
+import uploadImg from "@/assets/file_upload.png";
 
 const FILE_FIELD_STYLE = {
   "border": "1px dashed",

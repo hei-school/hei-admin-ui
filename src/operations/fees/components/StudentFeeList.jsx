@@ -44,7 +44,7 @@ import {
   rowStyle,
   PSP_COLORS,
   PSP_VALUES,
-  MPBSStatusIcon,
+  MpbsStatusIcon,
   DEFAULT_REMEDIAL_COSTS_AMOUNT,
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
 } from "@/operations/fees/utils";
@@ -177,7 +177,7 @@ const ListActionButtons = ({studentId}) => {
   return (
     <Box>
       {mpbs && mpbs.status != MpbsStatus.FAILED ? (
-        <MPBSStatusIcon />
+        <MpbsStatusIcon />
       ) : (
         <IconButtonWithTooltip
           title="Mobile Money"

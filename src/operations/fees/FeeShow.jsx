@@ -89,6 +89,7 @@ const AccordionBase = ({title, children}) => (
     <AccordionDetails>{children}</AccordionDetails>
   </Accordion>
 );
+
 const FeePaymentDetails = () => (
   <Box>
     <AccordionBase title="Informations sur le dernier paiement par Mobile Money">
