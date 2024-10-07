@@ -4,7 +4,6 @@ import {
   required,
   SelectInput,
   SimpleForm,
-  TextInput,
   useGetList,
 } from "react-admin";
 import {useParams} from "react-router-dom";
@@ -41,14 +40,12 @@ export const AwardedCoursesCreate: React.FC<AwardedCoursesCreateProps> = ({
           toggleShowCreate();
         },
       }}
+      transform={(data: any) => ({
+        ...data,
+        course_id: courseId,
+      })}
     >
       <SimpleForm>
-        <TextInput
-          source="course_id"
-          label="Course ID"
-          defaultValue={courseId}
-          disabled
-        />
         <SelectInput
           source="main_teacher_id"
           label="Enseignant"
