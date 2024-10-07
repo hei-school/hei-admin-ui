@@ -16,6 +16,7 @@ import {
   TextInput,
   useGetList,
   useRecordContext,
+  useRefresh,
 } from "react-admin";
 import {EditableDatagrid} from "@react-admin/ra-editable-datagrid";
 import {
@@ -34,6 +35,8 @@ import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Create} from "@/operations/common/components";
+import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
+import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
 import {
@@ -49,12 +52,10 @@ import {
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
 } from "@/operations/fees/utils";
 import {formatDate, toUTC} from "@/utils/date";
-import {FeesDialog} from "./FeesDialog";
 import {PALETTE_COLORS} from "@/haTheme";
-import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
-import authProvider from "@/providers/authProvider";
-import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
+import {FeesDialog} from "./FeesDialog";
 import {LetterStatusIcon} from "./letterIcon";
+import authProvider from "@/providers/authProvider";
 
 const DefaultInfos = () => {
   return (
@@ -171,6 +172,7 @@ const MpbsCreate = ({toggle}) => {
 
 const ListActionButtons = ({studentId}) => {
   const {id, total_amount, mpbs, letter, status} = useRecordContext();
+  const refresh = useRefresh();
   const [show3, , toggle3] = useToggle();
   const [show4, , toggle4] = useToggle();
 
@@ -210,7 +212,10 @@ const ListActionButtons = ({studentId}) => {
       </FeesDialog>
       <CreateLettersDialog
         isOpen={show4}
-        onClose={toggle4}
+        onClose={() => {
+          toggle4();
+          refresh();
+        }}
         studentId={studentId}
         feeAmount={total_amount}
         feeId={id}
