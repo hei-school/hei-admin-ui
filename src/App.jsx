@@ -52,7 +52,7 @@ function AppBase() {
       <Resource name="course" {...course} />
       <Resource name="student-letters" />
       <Resource name="letters" />
-      <Resource name="awarded-courses"  {...awardedCourses} />
+      <Resource name="awarded-courses" {...awardedCourses} />
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
 

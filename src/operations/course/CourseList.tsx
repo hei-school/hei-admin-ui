@@ -8,8 +8,8 @@ import {CourseCreate} from "@/operations/course/CourseCreate";
 import {useToggle} from "@/hooks";
 import {CourseListFilter} from "@/operations/course/components";
 import {CourseEditButton} from "@/operations/course/CourseEditButton";
-import { useRole } from "@/security/hooks";
-import { TeacherCourseList } from "../awardedCourses/TeacherCourseList";
+import {useRole} from "@/security/hooks";
+import {TeacherCourseList} from "../awardedCourses/TeacherCourseList";
 
 export function CourseList() {
   const [showCreate, _set, toggleShowCreate] = useToggle();
@@ -17,7 +17,7 @@ export function CourseList() {
   const notify = useNotify();
 
   return isTeacher() ? (
-    <TeacherCourseList/>
+    <TeacherCourseList />
   ) : (
     <Box>
       <HaList
