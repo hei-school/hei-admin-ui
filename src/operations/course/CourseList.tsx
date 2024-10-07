@@ -1,8 +1,7 @@
-import {TextField, useNotify} from "react-admin";
+import {ShowButton, TextField, useNotify} from "react-admin";
 import {Box} from "@mui/material";
 import {Book, Add as AddIcon} from "@mui/icons-material";
 import {CourseListFilter} from "@/operations/course/components";
-import {CourseEditButton} from "@/operations/course/CourseEditButton";
 import {CourseCreate} from "@/operations/course/CourseCreate";
 import {TeacherCourseList} from "@/operations/awardedCourses/TeacherCourseList";
 import {useToggle} from "@/hooks";
@@ -10,6 +9,7 @@ import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Dialog} from "@/ui/components";
+import {CourseEditButton} from "./CourseEditButton";
 
 export function CourseList() {
   const [showCreate, _set, toggleShowCreate] = useToggle();
@@ -26,7 +26,7 @@ export function CourseList() {
         title="Liste de cours"
         mainSearch={{label: "Code", source: "code"}}
         datagridProps={{
-          rowClick: (id: any) => `/course/${id}/show`,
+          rowClick: false,
         }}
         actions={
           <Box>
@@ -48,6 +48,7 @@ export function CourseList() {
         <TextField source="credits" label="Credits" />
         <TextField source="total_hours" label="Heure total" />
         <CourseEditButton />
+        <ShowButton />
       </HaList>
       <Dialog
         title="Création d'un cours"
