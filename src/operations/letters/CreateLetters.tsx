@@ -67,7 +67,6 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
         "student-letters",
         {
           data: letterRef.current,
-          meta: {studentId},
           meta: {studentId, feeId, feeAmount},
         },
         {

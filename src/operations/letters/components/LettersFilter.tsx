@@ -26,6 +26,15 @@ export const LettersFilter: FC = () => {
         label="Prénom de l'Étudiant"
         source="student_name"
       />
+      <SelectInputFilter
+        label="Type de lettre"
+        source="is_linked_with_fee"
+        choices={[
+          {id: true, name: "Bordereau"},
+          {id: false, name: "Lettre administrative"},
+          {id: null, name: "Aucun"},
+        ]}
+      />
     </FilterForm>
   );
 };
