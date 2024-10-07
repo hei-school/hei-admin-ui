@@ -4,6 +4,7 @@ import {
   Inventory as DocsIcon,
   Group as GroupIcon,
   Newspaper as AnnouncementIcon,
+  Book as CourseIcon,
 } from "@mui/icons-material";
 import {ListMenu, SingleMenu} from "./utils";
 import {HeiListMenuItem} from "./common";
@@ -20,6 +21,12 @@ function TeacherMenu() {
         to="/announcements"
         label="Annonces"
         icon={<AnnouncementIcon />}
+      />
+      <SingleMenu
+        data-testid="course-menu"
+        to="/course"
+        label="Cours"
+        icon={<CourseIcon />}
       />
     </Box>
   );

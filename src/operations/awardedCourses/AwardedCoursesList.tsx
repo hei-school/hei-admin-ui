@@ -2,7 +2,7 @@ import { TextField} from "react-admin";
 import {Box} from "@mui/material";
 import { HaList } from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
-import { AttachMoney, Add as AddIcon } from "@mui/icons-material";
+import { Person as PersonIcon, Add as AddIcon } from "@mui/icons-material";
 import { useToggle } from "@/hooks";
 import { Dialog } from "@/ui/components";
 import { AwardedCoursesCreate } from "./AwardedCourseCreate";
@@ -13,7 +13,7 @@ export const AwardedCoursesList = ({ courseId }: {courseId: string}) => {
     return (
         <Box>
             <HaList
-                icon={<AttachMoney />}
+                icon={<PersonIcon />}
                 title="Enseignants"
                 resource="awarded-courses"
                 listProps={{
