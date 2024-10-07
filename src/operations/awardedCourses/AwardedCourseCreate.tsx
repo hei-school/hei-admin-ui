@@ -1,3 +1,4 @@
+import React from "react";
 import {
   Create,
   required,
@@ -7,7 +8,13 @@ import {
   useGetList,
 } from "react-admin";
 import {useParams} from "react-router-dom";
-export const AwardedCoursesCreate = ({toggleShowCreate}: any) => {
+
+interface AwardedCoursesCreateProps {
+  toggleShowCreate: () => void;
+}
+export const AwardedCoursesCreate: React.FC<AwardedCoursesCreateProps> = ({
+  toggleShowCreate,
+}) => {
   const params = useParams();
   const courseId = params.id;
   const {data: teachers} = useGetList("teachers");
