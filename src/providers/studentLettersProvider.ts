@@ -27,8 +27,6 @@ const studentLettersProvider: HaDataProviderType = {
   saveOrUpdate: async (payload: any, {meta}: Params) => {
     const {method, studentId, feeId: raId, feeAmount} = meta || {};
 
-    console.log("FEE AMOUNT", feeAmount);
-
     const {feeId} = toApiIds(raId);
 
     if (method === "UPDATE") {

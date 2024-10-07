@@ -171,8 +171,6 @@ const MpbsCreate = ({toggle}) => {
 
 const ListActionButtons = ({studentId}) => {
   const {id, total_amount, mpbs, letter, status} = useRecordContext();
-  console.log("AMOUNT", total_amount);
-
   const [show3, , toggle3] = useToggle();
   const [show4, , toggle4] = useToggle();
 
@@ -224,7 +222,6 @@ const ListActionButtons = ({studentId}) => {
 
 export const StudentFeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
-
   const [show, _set, toggle] = useToggle();
   const [show2, _set2, toggle2] = useToggle();
 
