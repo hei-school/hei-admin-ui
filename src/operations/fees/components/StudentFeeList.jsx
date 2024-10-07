@@ -1,5 +1,7 @@
 import {
+  FeeStatusEnum,
   FeeTypeEnum,
+  LetterStatus,
   MobileMoneyType,
   MpbsStatus,
 } from "@haapi/typescript-client";
@@ -14,7 +16,6 @@ import {
   TextInput,
   useGetList,
   useRecordContext,
-  IconButtonWithTooltip,
 } from "react-admin";
 import {EditableDatagrid} from "@react-admin/ra-editable-datagrid";
 import {
@@ -35,12 +36,15 @@ import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Create} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
-import {commentFunctionRenderer} from "@/operations/utils";
+import {
+  commentFunctionRenderer,
+  IconButtonWithTooltip,
+} from "@/operations/utils";
 import {
   rowStyle,
   PSP_COLORS,
   PSP_VALUES,
-  StatusIcon,
+  MPBSStatusIcon,
   DEFAULT_REMEDIAL_COSTS_AMOUNT,
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
 } from "@/operations/fees/utils";
@@ -50,6 +54,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
 import authProvider from "@/providers/authProvider";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
+import {LetterStatusIcon} from "./letterIcon";
 
 const DefaultInfos = () => {
   return (
@@ -165,22 +170,34 @@ const MpbsCreate = ({toggle}) => {
 };
 
 const ListActionButtons = ({studentId}) => {
-  const {id, amount, mpbs} = useRecordContext();
+  const {id, total_amount, mpbs, letter, status} = useRecordContext();
+  console.log("AMOUNT", total_amount);
+
   const [show3, , toggle3] = useToggle();
   const [show4, , toggle4] = useToggle();
 
   return (
     <Box>
       {mpbs && mpbs.status != MpbsStatus.FAILED ? (
-        <StatusIcon />
+        <MPBSStatusIcon />
       ) : (
-        <IconButtonWithTooltip title="Mobile Money">
-          <AddMbpsIcon onClick={toggle3} />
+        <IconButtonWithTooltip
+          title="Mobile Money"
+          disabled={letter || status == FeeStatusEnum.PAID}
+        >
+          <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />
         </IconButtonWithTooltip>
       )}
-      <IconButtonWithTooltip title="Bordereau" disabled={mpbs}>
-        <SlipIcon onClick={toggle4} />
-      </IconButtonWithTooltip>
+      {letter && letter.status != LetterStatus.REJECTED ? (
+        <LetterStatusIcon />
+      ) : (
+        <IconButtonWithTooltip
+          title="Bordereau"
+          disabled={mpbs || status == FeeStatusEnum.PAID}
+        >
+          <SlipIcon onClick={toggle4} data-testid={`addPaymentSlip-${id}`} />
+        </IconButtonWithTooltip>
+      )}
       <Link to={`/fees/${id}/show`} data-testid={`showButton-${id}`}>
         <IconButtonWithTooltip title="Afficher">
           <ShowIcon />
@@ -197,7 +214,7 @@ const ListActionButtons = ({studentId}) => {
         isOpen={show4}
         onClose={toggle4}
         studentId={studentId}
-        feeAmount={amount}
+        feeAmount={total_amount}
         feeId={id}
         title="Payer mon frais par ajout d'un bordereau"
       />

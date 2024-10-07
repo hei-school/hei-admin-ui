@@ -8,7 +8,7 @@ import {DateField} from "../common/components/fields";
 import {FunctionField, TextField} from "react-admin";
 import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
-import {PSP_COLORS, PSP_VALUES, rowStyle, StatusIcon} from "./utils";
+import {PSP_COLORS, PSP_VALUES, rowStyle, MPBSStatusIcon} from "./utils";
 
 const TransactionFeeList = () => (
   <HaList
@@ -78,7 +78,7 @@ const TransactionFeeList = () => (
       label="Vérification réussie"
       showTime
     />
-    <FunctionField label="Statut" render={() => <StatusIcon />} />
+    <FunctionField label="Statut" render={() => <MPBSStatusIcon />} />
   </HaList>
 );
 

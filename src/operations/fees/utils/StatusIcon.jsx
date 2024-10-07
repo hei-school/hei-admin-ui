@@ -4,7 +4,7 @@ import {Help as Question} from "@mui/icons-material";
 import {PSP_ICON} from "../components/pspIcon";
 import {MPBS_STATUS_LABEL} from "../FeeList";
 
-export const StatusIcon = () => {
+export const MPBSStatusIcon = () => {
   const record = useRecordContext();
 
   return (

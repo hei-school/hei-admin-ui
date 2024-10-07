@@ -6,6 +6,7 @@ import {
   TopToolbar,
   SimpleShowLayout,
   TextField,
+  UrlField,
 } from "react-admin";
 import {useParams} from "react-router-dom";
 import {
@@ -88,58 +89,77 @@ const AccordionBase = ({title, children}) => (
     <AccordionDetails>{children}</AccordionDetails>
   </Accordion>
 );
-const FeePaymentDetails = () => {
-  return (
-    <Box>
-      <AccordionBase title="Informations sur le dernier paiement par Mobile Money">
-        <SimpleShowLayout>
-          <DateField
-            source="mpbs.creation_datetime"
-            label="Ajout de la référence de transaction"
-            showTime
-          />
-          <TextField
-            source="mpbs.psp_id"
-            label="Référence de la transaction"
-            emptyText={EMPTY_TEXT}
-          />
-          <DateField
-            source="mpbs.successfully_verified_on"
-            label="Vérification réussie"
-            showTime
-          />
-          <DateField
-            source="mpbs.psp_own_datetime_verification"
-            label="Vérification par PSP"
-            showTime
-          />
-          <DateField
-            source="mpbs.last_datetime_verification"
-            label="Dernière vérification par HEI"
-            showTime
-          />
-          <FunctionField
-            render={(fee) =>
-              fee.mpbs ? (
-                <Chip
-                  color={PSP_COLORS[fee.mpbs?.psp_type]}
-                  label={PSP_VALUES[fee.mpbs?.psp_type]}
-                />
-              ) : (
-                EMPTY_TEXT
-              )
-            }
-            label="Type de transaction"
-            emptyText={EMPTY_TEXT}
-          />
-        </SimpleShowLayout>
-      </AccordionBase>
-      <AccordionBase title="Informations sur le dernier paiement par ajout de bordereau">
-        Pas d'informations
-      </AccordionBase>
-    </Box>
-  );
-};
+const FeePaymentDetails = () => (
+  <Box>
+    <AccordionBase title="Informations sur le dernier paiement par Mobile Money">
+      <SimpleShowLayout>
+        <DateField
+          source="mpbs.creation_datetime"
+          label="Ajout de la référence de transaction"
+          showTime
+        />
+        <TextField
+          source="mpbs.psp_id"
+          label="Référence de la transaction"
+          emptyText={EMPTY_TEXT}
+        />
+        <DateField
+          source="mpbs.successfully_verified_on"
+          label="Vérification réussie"
+          showTime
+        />
+        <DateField
+          source="mpbs.psp_own_datetime_verification"
+          label="Vérification par PSP"
+          showTime
+        />
+        <DateField
+          source="mpbs.last_datetime_verification"
+          label="Dernière vérification par HEI"
+          showTime
+        />
+        <FunctionField
+          render={(fee) =>
+            fee.mpbs ? (
+              <Chip
+                color={PSP_COLORS[fee.mpbs?.psp_type]}
+                label={PSP_VALUES[fee.mpbs?.psp_type]}
+              />
+            ) : (
+              EMPTY_TEXT
+            )
+          }
+          label="Type de transaction"
+          emptyText={EMPTY_TEXT}
+        />
+      </SimpleShowLayout>
+    </AccordionBase>
+    <AccordionBase title="Informations sur le dernier paiement par ajout de bordereau">
+      <SimpleShowLayout>
+        <DateField
+          source="letter.creation_datetime"
+          label="Ajout du bordereau"
+          showTime
+        />
+        <TextField
+          source="letter.ref"
+          label="Référence du bordereau"
+          emptyText={EMPTY_TEXT}
+        />
+        <DateField
+          source="letter.approval_datetime"
+          label="Acceptation du bordereau"
+          showTime
+        />
+        <UrlField
+          source="letter.file_url"
+          label="Lien du bordereau"
+          emptyText={EMPTY_TEXT}
+        />
+      </SimpleShowLayout>
+    </AccordionBase>
+  </Box>
+);
 
 export const FeeLayout = ({feeId, studentId}) => {
   const styles = GRID_STYLE();
