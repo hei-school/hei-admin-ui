@@ -152,8 +152,8 @@ export const feesMock: Fee[] = [
     due_datetime: new Date("2021-12-10"),
     letter: {
       id: "string",
-      approval_datetime: "2024 - 10-07T08: 33:02.241Z",
-      creation_datetime: "2024 - 10-07T08: 33:02.241Z",
+      approval_datetime: new Date("2024-10-07"),
+      creation_datetime: new Date("2024-10-07"),
       ref: "string",
       status: LetterStatus.REJECTED,
       file_url: "string",
@@ -171,8 +171,8 @@ export const feesMock: Fee[] = [
     due_datetime: new Date("2021-12-10"),
     letter: {
       id: "string",
-      approval_datetime: "2024 - 10-07T08: 33:02.241Z",
-      creation_datetime: "2024 - 10-07T08: 33:02.241Z",
+      approval_datetime: new Date("2024-10-07"),
+      creation_datetime: new Date("2024-10-07"),
       ref: "string",
       status: LetterStatus.RECEIVED,
       file_url: "string",
