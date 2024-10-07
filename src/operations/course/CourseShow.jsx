@@ -1,12 +1,12 @@
-import { Button, SimpleShowLayout, TextField } from "react-admin";
-import { useParams } from "react-router-dom";
+import {Button, SimpleShowLayout, TextField} from "react-admin";
+import {useParams} from "react-router-dom";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   IconButton,
   Box,
-  Typography
+  Typography,
 } from "@mui/material";
 import {
   Close as CloseIcon,
@@ -16,34 +16,39 @@ import {
   AccessTime as AccessTimeIcon,
   MenuBook as BookIcon,
 } from "@mui/icons-material";
-import { PALETTE_COLORS } from "@/haTheme";
-import { Show } from "@/operations/common/components";
-import { useToggle } from "@/hooks";
-import { AwardedCoursesList } from "../awardedCourses/AwardedCoursesList";
+import {PALETTE_COLORS} from "@/haTheme";
+import {Show} from "@/operations/common/components";
+import {useToggle} from "@/hooks";
+import {AwardedCoursesList} from "../awardedCourses/AwardedCoursesList";
 
-const LabeledIconField = ({ icon: Icon, label, source, iconColor = 'inherit' }) => {
+const LabeledIconField = ({
+  icon: Icon,
+  label,
+  source,
+  iconColor = "inherit",
+}) => {
   return (
     <Box mb={2} sx={{width: "48%"}}>
-      <Icon sx={{ marginRight: 1, color: iconColor }} />
+      <Icon sx={{marginRight: 1, color: iconColor}} />
       <Box sx={{display: "flex", flexDirection: "column"}}>
-      <Typography sx={{marginBottom: "0.5em"}}>{label}</Typography>
-      <TextField 
-        sx={{
-          border: "solid 1px",
-          borderColor: PALETTE_COLORS.grey,
-          padding: "8px",
-          borderRadius: "5px",
-          color: "grey"
-        }}
-        source={source}
-      />
+        <Typography sx={{marginBottom: "0.5em"}}>{label}</Typography>
+        <TextField
+          sx={{
+            border: "solid 1px",
+            borderColor: PALETTE_COLORS.grey,
+            padding: "8px",
+            borderRadius: "5px",
+            color: "grey",
+          }}
+          source={source}
+        />
       </Box>
     </Box>
   );
 };
 
 function CourseShow() {
-  const { id } = useParams();
+  const {id} = useParams();
   return (
     <Box>
       <Show title="Cours">
@@ -63,7 +68,7 @@ function CourseShow() {
             paddingTop: 0,
           }}
         >
-          <Box 
+          <Box
             sx={{
               display: "flex",
               flexDirection: "row",
