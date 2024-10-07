@@ -183,7 +183,10 @@ const ListActionButtons = ({studentId}) => {
       ) : (
         <IconButtonWithTooltip
           title="Mobile Money"
-          disabled={letter || status == FeeStatusEnum.PAID}
+          disabled={
+            (letter && letter.status != LetterStatus.REJECTED) ||
+            status == FeeStatusEnum.PAID
+          }
         >
           <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />
         </IconButtonWithTooltip>
@@ -193,7 +196,10 @@ const ListActionButtons = ({studentId}) => {
       ) : (
         <IconButtonWithTooltip
           title="Bordereau"
-          disabled={mpbs || status == FeeStatusEnum.PAID}
+          disabled={
+            (mpbs && mpbs.status != MpbsStatus.FAILED) ||
+            status == FeeStatusEnum.PAID
+          }
         >
           <SlipIcon onClick={toggle4} data-testid={`addPaymentSlip-${id}`} />
         </IconButtonWithTooltip>
