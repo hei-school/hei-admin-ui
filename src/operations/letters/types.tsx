@@ -7,6 +7,9 @@ export interface CreateLettersDialogProps {
   isOpen: boolean;
   onClose: () => void;
   studentId: Identifier;
+  feeId?: Identifier;
+  feeAmount?: number;
+  title?: string;
 }
 
 export interface LetterItemProps {

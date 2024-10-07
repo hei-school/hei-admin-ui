@@ -1,7 +1,6 @@
 import {useState, useEffect} from "react";
 import {
   FunctionField,
-  SimpleShowLayout,
   useDataProvider,
   EditButton,
   TopToolbar,
@@ -77,7 +76,7 @@ export const FeeLayout = ({feeId, studentId}) => {
         }}
         gutterBottom
       >
-        Détails du paiement
+        Détails du frais
       </Typography>
       <Grid container spacing={4} justifyContent="center">
         <Grid item {...styles.item}>
@@ -92,7 +91,7 @@ export const FeeLayout = ({feeId, studentId}) => {
             }}
           >
             <InfoOutlined sx={{color: "#2563eb", mr: 1}} />
-            Informations de paiement
+            Informations sur le frais
           </Typography>
           <LabeledField label="Reste à payer">
             <FunctionField
@@ -161,7 +160,7 @@ export const FeeLayout = ({feeId, studentId}) => {
             <EventNoteOutlined sx={{color: "#2563eb", mr: 1}} />
             Dates importantes
           </Typography>
-          <LabeledField label="Date limite de paiement">
+          <LabeledField label="Date limite de paiement du frais">
             <DateField
               source="due_datetime"
               showTime={false}
@@ -220,7 +219,7 @@ export const FeeLayout = ({feeId, studentId}) => {
   );
 };
 
-const FeeShow = (props) => {
+const FeeShow = () => {
   const role = useRole();
   const params = useParams();
   const feeId = params.feeId;
