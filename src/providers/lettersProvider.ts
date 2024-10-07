@@ -12,7 +12,7 @@ const lettersProvider: HaDataProviderType = {
         filter.status,
         filter.student_name,
         filter.fee_id,
-        filter.is_linked_with_fee,
+        filter.is_linked_with_fee
       )
       .then((result) => ({data: result.data}));
   },
