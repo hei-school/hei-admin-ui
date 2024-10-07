@@ -30,8 +30,8 @@ export const LettersFilter: FC = () => {
         label="Type de lettre"
         source="is_linked_with_fee"
         choices={[
-          {id: true, name: "Bordereau"},
-          {id: false, name: "Lettre administrative"},
+          {id: "PAYMENT_SLIP", name: "Bordereau"},
+          {id: "ADMIN", name: "Lettre administrative"},
           {id: null, name: "Aucun"},
         ]}
       />
