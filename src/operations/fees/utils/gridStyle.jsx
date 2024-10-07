@@ -9,8 +9,7 @@ export const GRID_STYLE = () => ({
     borderRadius: "10px",
     padding: "2em",
     margin: {xs: "1em 0", sm: "1em"},
-    boxShadow:
-      "rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px",
+    boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px",
   },
   box: {
     display: "flex",

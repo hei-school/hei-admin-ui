@@ -1,11 +1,11 @@
 import {
+  FeeStatusEnum,
   FeeTypeEnum,
+  LetterStatus,
   MobileMoneyType,
   MpbsStatus,
 } from "@haapi/typescript-client";
 import {
-  AutocompleteArrayInput,
-  ChipField,
   FunctionField,
   FormDataConsumer,
   Link,
@@ -14,167 +14,48 @@ import {
   SimpleForm,
   TextField,
   TextInput,
-  required,
-  useCreateContext,
-  useCreateController,
   useGetList,
   useRecordContext,
-  useRecordSelection,
+  useRefresh,
 } from "react-admin";
-import {
-  EditableDatagrid,
-  EditRowButton,
-} from "@react-admin/ra-editable-datagrid";
+import {EditableDatagrid} from "@react-admin/ra-editable-datagrid";
 import {
   AddCard as AddMbpsIcon,
-  CheckCircle,
   Visibility as ShowIcon,
   WarningOutlined,
-  Pending,
+  FilePresent as SlipIcon,
   Repartition,
   Paid,
 } from "@mui/icons-material";
-import {
-  Box,
-  IconButton,
-  Tooltip,
-  Chip,
-  TextField as MuiTextInput,
-  Typography,
-} from "@mui/material";
+import {Box, Chip, TextField as MuiTextInput, Typography} from "@mui/material";
 import {RowForm, useRowContext} from "@react-admin/ra-editable-datagrid";
 import {useNotify, useToggle} from "@/hooks";
 import {useStudentRef} from "@/hooks/useStudentRef";
-import feeProvider, {toApiIds} from "@/providers/feeProvider";
-import {useRole} from "@/security/hooks/useRole";
 import {EMPTY_TEXT} from "@/ui/constants";
-import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList/HaList";
-import {
-  ButtonBase,
-  CreateButton,
-  HaActionWrapper,
-  ImportButton,
-} from "@/ui/haToolbar";
-import {Create, DeleteWithConfirm} from "@/operations/common/components";
+import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {Create} from "@/operations/common/components";
+import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
+import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
 import {DateField} from "@/operations/common/components/fields";
-import {SelectGroup} from "@/operations/announcements/components";
-import {FeesFilter} from "@/operations/fees/components/FeesFilter";
 import {renderMoney} from "@/operations/common/utils/money";
-import {commentFunctionRenderer} from "@/operations/utils";
 import {
-  minimalFeesHeaders,
-  optionalFeesHeaders,
-  transformFeesData,
-  valideFeesData,
-} from "@/operations/fees/importConf";
+  commentFunctionRenderer,
+  IconButtonWithTooltip,
+} from "@/operations/utils";
 import {
   rowStyle,
   PSP_COLORS,
   PSP_VALUES,
-  StatusIcon,
+  MpbsStatusIcon,
   DEFAULT_REMEDIAL_COSTS_AMOUNT,
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
 } from "@/operations/fees/utils";
-import {formatDate, get27thOfMonth, toUTC} from "@/utils/date";
-import authProvider from "@/providers/authProvider";
-import {FeesDialog} from "./FeesDialog";
-import {SelectPredefinedType} from "./SelectPredefinedType";
-import {useState} from "react";
-import {createFeesApi} from "../utils/feeFactory";
+import {formatDate, toUTC} from "@/utils/date";
 import {PALETTE_COLORS} from "@/haTheme";
-import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
-
-const ListForm = () => {
-  const notify = useNotify();
-
-  return (
-    <RowForm
-      mutationOptions={{
-        onError: () => {
-          notify("Une erreur s'est produite", {
-            type: "error",
-          });
-        },
-      }}
-    >
-      <DateField
-        source="due_datetime"
-        label="Limite de paiement du frais"
-        showTime={false}
-      />
-      <FunctionField
-        label="Reste à payer"
-        render={(record) => renderMoney(record.remaining_amount)}
-      />
-      <FunctionField
-        source="comment"
-        render={commentFunctionRenderer}
-        label="Commentaire"
-      />
-      <DateField
-        source="mpbs.creation_datetime"
-        label="Ajout de la référence de transaction"
-        showTime
-      />
-      <DateField
-        source="mpbs.last_datetime_verification"
-        label="Dernière vérification par HEI"
-        showTime
-      />
-      <DateField
-        source="mpbs.psp_own_datetime_verification"
-        label="Vérification par Orange"
-        showTime
-      />
-      <DateField
-        source="mpbs.successfully_verified_on"
-        label="Vérification réussie"
-        showTime
-      />
-      <TextInput source="psp_id" label="Référence de la transaction" />
-      <SelectInput
-        source="psp_type"
-        label="Type de transaction"
-        choices={[{id: MobileMoneyType.ORANGE_MONEY, name: "Orange"}]}
-        defaultValue={MobileMoneyType.ORANGE_MONEY}
-      />
-    </RowForm>
-  );
-};
-
-const EditableDatagridActions = () => {
-  const {open} = useRowContext();
-  const record = useRecordContext();
-
-  return (
-    <Box display="flex" justifyContent="space-evenly" boxSizing="border-box">
-      {record.mpbs ? (
-        <StatusIcon />
-      ) : (
-        <Tooltip
-          title="Payer avec Mobile Money"
-          data-testid={`addMobileMoney-${record.id}`}
-        >
-          <IconButton onClick={open} variant="contained">
-            <AddMbpsIcon />
-          </IconButton>
-        </Tooltip>
-      )}
-
-      <Link
-        to={`/fees/${record?.id}/show`}
-        data-testid={`showButton-${record.id}`}
-      >
-        <Tooltip title="Afficher">
-          <IconButton variant="contained">
-            <ShowIcon />
-          </IconButton>
-        </Tooltip>
-      </Link>
-    </Box>
-  );
-};
+import {FeesDialog} from "./FeesDialog";
+import {LetterStatusIcon} from "./letterIcon";
+import authProvider from "@/providers/authProvider";
 
 const DefaultInfos = () => {
   return (
@@ -253,10 +134,108 @@ const CatchupFeesCreate = ({toggle}) => {
   );
 };
 
+const MpbsCreate = ({toggle}) => {
+  const notify = useNotify();
+  const {id} = useRecordContext();
+  const {id: student_id} = authProvider.getCachedWhoami();
+
+  return (
+    <Create
+      resource="fees"
+      title=" "
+      redirect={false}
+      mutationOptions={{
+        onSuccess: () => {
+          notify("Frais créés avec succès", {type: "success"});
+          toggle();
+        },
+      }}
+      transform={(data) => ({...data, student_id, id})}
+    >
+      <SimpleForm>
+        <TextInput
+          source="psp_id"
+          label="Référence de la transaction"
+          fullWidth
+        />
+        <SelectInput
+          source="psp_type"
+          label="Type de transaction"
+          defaultValue={MobileMoneyType.ORANGE_MONEY}
+          choices={[{id: MobileMoneyType.ORANGE_MONEY, name: "Orange"}]}
+          fullWidth
+        />
+      </SimpleForm>
+    </Create>
+  );
+};
+
+const ListActionButtons = ({studentId}) => {
+  const {id, total_amount, mpbs, letter, status} = useRecordContext();
+  const refresh = useRefresh();
+  const [show3, , toggle3] = useToggle();
+  const [show4, , toggle4] = useToggle();
+
+  return (
+    <Box>
+      {mpbs && mpbs.status != MpbsStatus.FAILED ? (
+        <MpbsStatusIcon />
+      ) : (
+        <IconButtonWithTooltip
+          title="Mobile Money"
+          disabled={
+            (letter && letter.status != LetterStatus.REJECTED) ||
+            status == FeeStatusEnum.PAID
+          }
+        >
+          <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />
+        </IconButtonWithTooltip>
+      )}
+      {letter && letter.status != LetterStatus.REJECTED ? (
+        <LetterStatusIcon />
+      ) : (
+        <IconButtonWithTooltip
+          title="Bordereau"
+          disabled={
+            (mpbs && mpbs.status != MpbsStatus.FAILED) ||
+            status == FeeStatusEnum.PAID
+          }
+        >
+          <SlipIcon onClick={toggle4} data-testid={`addPaymentSlip-${id}`} />
+        </IconButtonWithTooltip>
+      )}
+      <Link to={`/fees/${id}/show`} data-testid={`showButton-${id}`}>
+        <IconButtonWithTooltip title="Afficher">
+          <ShowIcon />
+        </IconButtonWithTooltip>
+      </Link>
+      <FeesDialog
+        title="Paiement de mon frais par Mobile Money"
+        show={show3}
+        toggle={toggle3}
+      >
+        <MpbsCreate toggle={toggle3} />
+      </FeesDialog>
+      <CreateLettersDialog
+        isOpen={show4}
+        onClose={() => {
+          toggle4();
+          refresh();
+        }}
+        studentId={studentId}
+        feeAmount={total_amount}
+        feeId={id}
+        title="Payer mon frais par ajout d'un bordereau"
+      />
+    </Box>
+  );
+};
+
 export const StudentFeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
   const [show, _set, toggle] = useToggle();
   const [show2, _set2, toggle2] = useToggle();
+
   return (
     <Box>
       <HaList
@@ -264,9 +243,11 @@ export const StudentFeeList = () => {
         title={`Frais de ${studentRef}`}
         resource={"fees"}
         filterIndicator={false}
-        hasDatagrid={false}
         listProps={{
           filterDefaultValues: {studentId},
+        }}
+        datagridProps={{
+          rowClick: false,
         }}
         actions={
           <Box>
@@ -282,83 +263,40 @@ export const StudentFeeList = () => {
                 label="Frais rattrapage"
                 onClick={toggle}
               />
-              <ButtonBase
-                icon={
-                  <Paid
-                    sx={{
-                      color: PALETTE_COLORS.primary,
-                    }}
-                  />
-                }
-                label="Écolages"
-                onClick={toggle2}
-                data-testid="fees-create-button"
-              />
             </HaActionWrapper>
           </Box>
         }
       >
-        <EditableDatagrid
-          editForm={<ListForm />}
-          bulkActionButtons={false}
-          noDelete
-          actions={<EditableDatagridActions />}
-          rowSx={rowStyle}
-        >
-          <DateField
-            source="due_datetime"
-            label="Limite de paiement du frais"
-            showTime={false}
-          />
-          <FunctionField
-            label="Reste à payer"
-            render={(record) => renderMoney(record.remaining_amount)}
-          />
-          <FunctionField
-            source="comment"
-            render={commentFunctionRenderer}
-            label="Commentaire"
-          />
-          <DateField
-            source="mpbs.creation_datetime"
-            label="Ajout de la référence de transaction"
-            showTime
-          />
-          <DateField
-            source="mpbs.last_datetime_verification"
-            label="Dernière vérification par HEI"
-            showTime
-          />
-          <DateField
-            source="mpbs.psp_own_datetime_verification"
-            label="Vérification par Orange"
-            showTime
-          />
-          <DateField
-            source="mpbs.successfully_verified_on"
-            label="Vérification réussie"
-            showTime
-          />
-          <TextField
-            source="mpbs.psp_id"
-            label="Référence de la transaction"
-            emptyText={EMPTY_TEXT}
-          />
-          <FunctionField
-            render={(fee) =>
-              fee.mpbs ? (
-                <Chip
-                  color={PSP_COLORS[fee.mpbs?.psp_type]}
-                  label={PSP_VALUES[fee.mpbs?.psp_type]}
-                />
-              ) : (
-                EMPTY_TEXT
-              )
-            }
-            label="Type de transaction"
-            emptyText={EMPTY_TEXT}
-          />
-        </EditableDatagrid>
+        <DateField
+          source="due_datetime"
+          label="Limite de paiement du frais"
+          showTime={false}
+        />
+        <FunctionField
+          label="Reste à payer"
+          render={(record) => renderMoney(record.remaining_amount)}
+        />
+        <FunctionField
+          source="comment"
+          render={commentFunctionRenderer}
+          label="Commentaire"
+        />
+        <DateField
+          source="mpbs.last_datetime_verification"
+          label="Dernière vérification par HEI"
+          showTime
+        />
+        <DateField
+          source="mpbs.psp_own_datetime_verification"
+          label="Vérification par PSP"
+          showTime
+        />
+        <DateField
+          source="mpbs.successfully_verified_on"
+          label="Vérification réussie"
+          showTime
+        />
+        <ListActionButtons studentId={studentId} />
       </HaList>
       <FeesDialog
         title="Créer mon/mes frais de rattrapage"

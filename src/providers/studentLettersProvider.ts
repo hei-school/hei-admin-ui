@@ -1,10 +1,13 @@
 import {lettersApi} from "@/providers/api";
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {toApiIds} from "./feeProvider";
 
 type Params = {
   meta: {
     method: "CREATE" | "UPDATE";
     studentId: string;
+    feeId: string;
+    feeAmount: number;
   };
 };
 const studentLettersProvider: HaDataProviderType = {
@@ -22,7 +25,9 @@ const studentLettersProvider: HaDataProviderType = {
       .then((response) => response.data);
   },
   saveOrUpdate: async (payload: any, {meta}: Params) => {
-    const {method, studentId} = meta || {};
+    const {method, studentId, feeId: raId, feeAmount} = meta || {};
+
+    const {feeId} = toApiIds(raId);
 
     if (method === "UPDATE") {
       return lettersApi()
@@ -31,10 +36,8 @@ const studentLettersProvider: HaDataProviderType = {
     }
     const {description, filename} = payload[0];
     const {title, rawFile} = filename;
-    const feeId = undefined;
-    const amount = undefined;
     return lettersApi()
-      .createLetter(studentId, title, description, feeId, amount, rawFile)
+      .createLetter(studentId, title, description, feeId, feeAmount, rawFile)
       .then((response) => [response.data]);
   },
   delete() {

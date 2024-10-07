@@ -1,5 +1,6 @@
 export * from "./EditToolBar";
 export * from "./PrevNextPagination";
+export * from "./IconButtonWithTooltip";
 export * from "./SexRadioButton";
 export * from "./typography";
 export * from "./commentRenderer";
