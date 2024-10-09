@@ -1,5 +1,5 @@
-import {teachingApi} from "@/providers/api";
 import {CreateAwardedCourse} from "@haapi/typescript-client";
+import {teachingApi} from "@/providers/api";
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 
 const awardedCoursesProvider: HaDataProviderType = {

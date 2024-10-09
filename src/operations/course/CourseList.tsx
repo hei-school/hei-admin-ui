@@ -16,10 +16,10 @@ export function CourseList() {
   const {isTeacher} = useRole();
   const notify = useNotify();
 
-  if(isTeacher()) {
+  if (isTeacher()) {
     return <TeacherCourseList />;
   }
-  
+
   return (
     <Box>
       <HaList
