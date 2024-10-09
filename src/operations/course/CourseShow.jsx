@@ -17,7 +17,7 @@ import {
   MenuBook as BookIcon,
 } from "@mui/icons-material";
 import {Show} from "@/operations/common/components";
-import {AwardedCoursesList} from "@/operations/awardedCourses/AwardedCoursesList";
+import {AssignedTeachersList} from "@/operations/awardedCourses/AssignedTeachersList";
 import {useToggle} from "@/hooks";
 import {PALETTE_COLORS} from "@/haTheme";
 
@@ -104,7 +104,7 @@ function CourseShow() {
           </Box>
         </SimpleShowLayout>
       </Show>
-      <AwardedCoursesList courseId={id} />
+      <AssignedTeachersList courseId={id} />
     </Box>
   );
 }

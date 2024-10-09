@@ -1,10 +1,11 @@
 import {ShowButton, TextField, useNotify} from "react-admin";
 import {Box} from "@mui/material";
 import {Book, Add as AddIcon} from "@mui/icons-material";
+//TODO: refactor, this CourseLIst facade
 import {CourseListFilter} from "@/operations/course/components";
 import {CourseCreate} from "@/operations/course/CourseCreate";
 import {TeacherCourseList} from "@/operations/awardedCourses/TeacherCourseList";
-import {CourseEditButton} from "./CourseEditButton";
+import {CourseEditButton} from "@/operations/course/CourseEditButton";
 import {useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
