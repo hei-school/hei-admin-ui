@@ -26,8 +26,7 @@ const LabeledIconField = ({
   label,
   source,
   iconColor = "inherit",
-}) => {
-  return (
+}) => (
     <Box mb={2} sx={{width: "48%"}}>
       <Icon sx={{marginRight: 1, color: iconColor}} />
       <Box sx={{display: "flex", flexDirection: "column"}}>
@@ -45,10 +44,10 @@ const LabeledIconField = ({
       </Box>
     </Box>
   );
-};
 
 function CourseShow() {
   const {id} = useParams();
+  
   return (
     <Box>
       <Show title="Cours">
