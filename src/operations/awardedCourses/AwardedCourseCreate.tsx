@@ -1,4 +1,5 @@
-import {FC} from "react";
+import { AwardedCourse } from "@haapi/typescript-client";
+import {useMemo} from "react";
 import {
   Create,
   required,
@@ -8,32 +9,32 @@ import {
 } from "react-admin";
 import {useParams} from "react-router-dom";
 
-interface AwardedCoursesCreateProps {
+export interface AwardedCoursesCreateProps {
   toggleShowCreate: () => void;
 }
 
-export const AwardedCoursesCreate: FC<AwardedCoursesCreateProps> = ({
+export const AwardedCoursesCreate = ({
   toggleShowCreate,
-}) => {
-  const {data: teachers} = useGetList("teachers");
-  const {data: groups} = useGetList("groups");
+}: AwardedCoursesCreateProps) => {
+  const {data: teachers = []} = useGetList("teachers");
+  const {data: groups = []} = useGetList("groups");
 
   const params = useParams();
   const courseId = params.id;
 
-  const teacherChoices = teachers
-    ? teachers.map((teacher) => ({
-        id: teacher.id,
-        name: `${teacher.first_name} ${teacher.last_name}`,
-      }))
-    : [];
+  const teacherChoices = useMemo(() => {
+    return teachers.map(({ id, first_name = '', last_name = '' }) => ({
+      id,
+      name: `${first_name} ${last_name}`,
+    }));
+  }, [teachers]);
 
-  const groupChoices = groups
-    ? groups.map((group) => ({
-        id: group.id,
-        ref: group.ref,
-      }))
-    : [];
+  const groupChoices = useMemo(() => {
+    return groups.map(({id, ref= ''}) => ({
+      id,
+      ref,
+    }));
+  }, [groups]);
 
   return (
     <Create
@@ -45,7 +46,7 @@ export const AwardedCoursesCreate: FC<AwardedCoursesCreateProps> = ({
           toggleShowCreate();
         },
       }}
-      transform={(data: any) => ({
+      transform={(data: AwardedCourse) => ({
         ...data,
         course_id: courseId,
       })}

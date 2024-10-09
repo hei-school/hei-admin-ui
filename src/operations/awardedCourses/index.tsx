@@ -1,8 +1,8 @@
 import {AwardedCoursesCreate} from "./AwardedCourseCreate";
-import {AwardedCoursesList} from "./AwardedCoursesList";
+import {AssignedTeachersList} from "./AssignedTeachersList"
 
 const awardedCourses = {
-  list: AwardedCoursesList,
+  list: AssignedTeachersList,
   create: AwardedCoursesCreate,
 };
 
