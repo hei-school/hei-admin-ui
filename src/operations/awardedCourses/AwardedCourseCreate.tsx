@@ -1,4 +1,4 @@
-import { AwardedCourse } from "@haapi/typescript-client";
+import {AwardedCourse} from "@haapi/typescript-client";
 import {useMemo} from "react";
 import {
   Create,
@@ -23,14 +23,14 @@ export const AwardedCoursesCreate = ({
   const courseId = params.id;
 
   const teacherChoices = useMemo(() => {
-    return teachers.map(({ id, first_name = '', last_name = '' }) => ({
+    return teachers.map(({id, first_name = "", last_name = ""}) => ({
       id,
       name: `${first_name} ${last_name}`,
     }));
   }, [teachers]);
 
   const groupChoices = useMemo(() => {
-    return groups.map(({id, ref= ''}) => ({
+    return groups.map(({id, ref = ""}) => ({
       id,
       ref,
     }));

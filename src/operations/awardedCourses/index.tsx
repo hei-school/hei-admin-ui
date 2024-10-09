@@ -1,5 +1,5 @@
 import {AwardedCoursesCreate} from "./AwardedCourseCreate";
-import {AssignedTeachersList} from "./AssignedTeachersList"
+import {AssignedTeachersList} from "./AssignedTeachersList";
 
 const awardedCourses = {
   list: AssignedTeachersList,

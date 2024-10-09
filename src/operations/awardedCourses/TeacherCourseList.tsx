@@ -5,9 +5,8 @@ import {HaList} from "@/ui/haList";
 
 export const TeacherCourseList = () => {
   const teacher = authProvider.getCachedWhoami();
-  if(!teacher) return null;
+  if (!teacher) return null;
   const teacherId = teacher.id;
-
 
   return (
     <HaList
