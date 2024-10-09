@@ -4,21 +4,23 @@ import {Book, Add as AddIcon} from "@mui/icons-material";
 import {CourseListFilter} from "@/operations/course/components";
 import {CourseCreate} from "@/operations/course/CourseCreate";
 import {TeacherCourseList} from "@/operations/awardedCourses/TeacherCourseList";
+import {CourseEditButton} from "./CourseEditButton";
 import {useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Dialog} from "@/ui/components";
-import {CourseEditButton} from "./CourseEditButton";
 
 export function CourseList() {
   const [showCreate, _set, toggleShowCreate] = useToggle();
   const {isTeacher} = useRole();
   const notify = useNotify();
 
-  return isTeacher() ? (
-    <TeacherCourseList />
-  ) : (
+  if(isTeacher()) {
+    return <TeacherCourseList />;
+  }
+  
+  return (
     <Box>
       <HaList
         icon={<Book />}
@@ -48,7 +50,7 @@ export function CourseList() {
         <TextField source="credits" label="Credits" />
         <TextField source="total_hours" label="Heure total" />
         <CourseEditButton />
-        <ShowButton />
+        <ShowButton data-testid="show-button" />
       </HaList>
       <Dialog
         title="Création d'un cours"
