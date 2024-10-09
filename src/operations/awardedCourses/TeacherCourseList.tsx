@@ -1,8 +1,12 @@
 import {TextField} from "react-admin";
 import {MenuBook as BookIcon} from "@mui/icons-material";
 import {HaList} from "@/ui/haList";
+import authProvider from "@/providers/authProvider";
+import {useRole} from "@/security/hooks";
 
 export const TeacherCourseList = () => {
+  const {isTeacher} = useRole();
+  const teacherId = isTeacher() ? authProvider.getCachedWhoami().id : null;
   return (
     <HaList
       icon={<BookIcon />}
@@ -10,7 +14,7 @@ export const TeacherCourseList = () => {
       resource="awarded-courses"
       actions={""}
       listProps={{
-        filterDefaultValues: {},
+        filterDefaultValues: {teacherId: teacherId},
       }}
       datagridProps={{
         rowClick: false,
