@@ -1,3 +1,4 @@
+import {useNotify} from "@/hooks";
 import {AwardedCourse} from "@haapi/typescript-client";
 import {useMemo} from "react";
 import {
@@ -22,6 +23,8 @@ export const AwardedCoursesCreate = ({
   const params = useParams();
   const courseId = params.id;
 
+  const notify = useNotify();
+
   const teacherChoices = useMemo(() => {
     return teachers.map(({id, first_name = "", last_name = ""}) => ({
       id,
@@ -43,6 +46,7 @@ export const AwardedCoursesCreate = ({
       redirect={() => `course/${courseId}/show`}
       mutationOptions={{
         onSuccess: () => {
+          notify("Élément créer avec succès", {type: "success"});
           toggleShowCreate();
         },
       }}
@@ -60,6 +64,9 @@ export const AwardedCoursesCreate = ({
           optionValue="id"
           optionText="name"
           validate={[required()]}
+          style={{
+            width: "100%",
+          }}
         />
         <SelectInput
           data-testid="group-select"
@@ -69,6 +76,9 @@ export const AwardedCoursesCreate = ({
           optionValue="id"
           optionText="ref"
           validate={[required()]}
+          style={{
+            width: "100%",
+          }}
         />
       </SimpleForm>
     </Create>
