@@ -17,7 +17,7 @@ export const AwardedCoursesCreate: FC<AwardedCoursesCreateProps> = ({
 }) => {
   const {data: teachers} = useGetList("teachers");
   const {data: groups} = useGetList("groups");
-  
+
   const params = useParams();
   const courseId = params.id;
 

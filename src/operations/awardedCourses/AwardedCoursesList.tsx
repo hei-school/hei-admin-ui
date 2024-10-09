@@ -7,7 +7,6 @@ import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 
-
 export const AwardedCoursesList = ({courseId}: {courseId: string}) => {
   const [showCreate, _set, toggleShowCreate] = useToggle();
 

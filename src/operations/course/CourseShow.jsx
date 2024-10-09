@@ -27,27 +27,27 @@ const LabeledIconField = ({
   source,
   iconColor = "inherit",
 }) => (
-    <Box mb={2} sx={{width: "48%"}}>
-      <Icon sx={{marginRight: 1, color: iconColor}} />
-      <Box sx={{display: "flex", flexDirection: "column"}}>
-        <Typography sx={{marginBottom: "0.5em"}}>{label}</Typography>
-        <TextField
-          sx={{
-            border: "solid 1px",
-            borderColor: PALETTE_COLORS.grey,
-            padding: "8px",
-            borderRadius: "5px",
-            color: "grey",
-          }}
-          source={source}
-        />
-      </Box>
+  <Box mb={2} sx={{width: "48%"}}>
+    <Icon sx={{marginRight: 1, color: iconColor}} />
+    <Box sx={{display: "flex", flexDirection: "column"}}>
+      <Typography sx={{marginBottom: "0.5em"}}>{label}</Typography>
+      <TextField
+        sx={{
+          border: "solid 1px",
+          borderColor: PALETTE_COLORS.grey,
+          padding: "8px",
+          borderRadius: "5px",
+          color: "grey",
+        }}
+        source={source}
+      />
     </Box>
-  );
+  </Box>
+);
 
 function CourseShow() {
   const {id} = useParams();
-  
+
   return (
     <Box>
       <Show title="Cours">
