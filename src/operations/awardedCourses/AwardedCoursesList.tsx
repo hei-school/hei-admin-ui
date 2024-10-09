@@ -3,9 +3,10 @@ import {Box} from "@mui/material";
 import {Person as PersonIcon, Add as AddIcon} from "@mui/icons-material";
 import {AwardedCoursesCreate} from "@/operations/awardedCourses/AwardedCourseCreate";
 import {useToggle} from "@/hooks";
+import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
-import {Dialog} from "@/ui/components";
+
 
 export const AwardedCoursesList = ({courseId}: {courseId: string}) => {
   const [showCreate, _set, toggleShowCreate] = useToggle();
