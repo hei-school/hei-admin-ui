@@ -1,5 +1,11 @@
 import {Course} from "@haapi/typescript-client";
 import {courseMock1, courseMocks} from "../fixtures/api_mocks/course-mocks";
+import {
+  awardedCourse1Mock,
+  createAwardedCourse,
+} from "../fixtures/api_mocks/awarded-course-mocks";
+import {teacher1Mock, teachersMock} from "../fixtures/api_mocks/teachers-mocks";
+import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
 
 const NEW_COURSE: Required<Course> = {
   ...courseMock1,
@@ -25,6 +31,11 @@ describe("Manager.Courses", () => {
     ).as("getFilteredCourses");
     cy.getByTestid("course-menu").click();
     cy.wait("@getCoursesPage1");
+    cy.intercept(
+      "GET",
+      `/awarded_courses?course_id=${courseMock1.id}&page=1&page_size=10`,
+      [awardedCourse1Mock]
+    ).as("getTeacherAwardedCourse");
   });
 
   it("can list all courses", () => {
@@ -80,5 +91,42 @@ describe("Manager.Courses", () => {
     });
 
     cy.contains("Cours mis à jour");
+  });
+
+  it("can get teacher assigned to course", () => {
+    cy.get("tbody tr").should("have.length", courseMocks.length);
+    cy.getByTestid("show-button").first().click();
+    cy.wait("@getCourses1");
+    cy.wait("@getTeacherAwardedCourse");
+  });
+
+  it("can assign teacher to course", () => {
+    cy.intercept("GET", "/teachers*", teachersMock).as("getTeachers");
+    cy.intercept("GET", `/groups*`, groupsMock).as("getGroups");
+    cy.intercept("PUT", `/teachers/${teacher1Mock.id}/awarded_courses`, [
+      createAwardedCourse,
+    ]).as("createAwardedCourse");
+    cy.get("tbody tr").should("have.length", courseMocks.length);
+    cy.getByTestid("show-button").first().click();
+    cy.wait("@getCourses1");
+    cy.wait("@getTeacherAwardedCourse");
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("create-button").click();
+    cy.getByTestid("teacher-select").click();
+    teachersMock.forEach((teacher) => {
+      cy.get("li")
+        .contains(`${teacher?.first_name} ${teacher?.last_name}`)
+        .should("exist");
+    });
+    cy.get("li")
+      .contains(`${teacher1Mock.first_name} ${teacher1Mock.last_name}`)
+      .click();
+    cy.getByTestid("group-select").click();
+    groupsMock.forEach((group) => {
+      cy.get("li").contains(`${group.ref}`).should("exist");
+    });
+    cy.get("li").contains(groupsMock[0].ref).click();
+    cy.contains("Enregistrer").click();
+    cy.wait("@createAwardedCourse");
   });
 });
