@@ -1,5 +1,4 @@
 import {useNotify} from "@/hooks";
-import {AwardedCourse} from "@haapi/typescript-client";
 import {useMemo} from "react";
 import {
   Create,
@@ -50,12 +49,8 @@ export const AwardedCoursesCreate = ({
           toggleShowCreate();
         },
       }}
-      transform={(data: AwardedCourse) => ({
-        ...data,
-        course_id: courseId,
-      })}
     >
-      <SimpleForm>
+      <SimpleForm defaultValues={{course_id: courseId}}>
         <SelectInput
           data-testid="teacher-select"
           source="main_teacher_id"
