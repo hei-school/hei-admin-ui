@@ -18,6 +18,7 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  useMediaQuery,
 } from "@mui/material";
 import {ExpandMore, Info} from "@mui/icons-material";
 import {useRole} from "@/security/hooks";
@@ -163,9 +164,17 @@ const FeePaymentDetails = () => (
 );
 
 export const FeeLayout = ({feeId, studentId}) => {
-  const styles = GRID_STYLE();
+  const isSmall = useMediaQuery("(max-width:900px)");
+  const styles = GRID_STYLE(isSmall);
   return (
-    <Box container spacing={2} m={6}>
+    <Box
+      container
+      spacing={2}
+      m={isSmall ? 2 : 6}
+      sx={{
+        width: isSmall ? "100%" : "auto ",
+      }}
+    >
       <Typography
         variant="h4"
         sx={{
@@ -177,8 +186,27 @@ export const FeeLayout = ({feeId, studentId}) => {
       >
         Détails du frais
       </Typography>
-      <Grid container spacing={4} justifyContent="center">
-        <Grid item {...styles.item}>
+      <Grid
+        container
+        spacing={4}
+        gap={4}
+        justifyContent="center"
+        sx={{
+          display: "flex",
+          flexDirection: isSmall ? "column" : "row",
+          justifyContent: "flex-start",
+          margin: {xs: "1em 0", sm: "1em"},
+          width: "100%",
+        }}
+      >
+        <Grid
+          item
+          {...styles.item}
+          sx={{
+            width: isSmall ? "90%" : "45%",
+            padding: isSmall ? "1.5rem" : "2em",
+          }}
+        >
           <Typography
             variant="h4"
             sx={{
@@ -246,7 +274,14 @@ export const FeeLayout = ({feeId, studentId}) => {
           </Box>
         </Grid>
 
-        <Grid item {...styles.item}>
+        <Grid
+          item
+          {...styles.item}
+          sx={{
+            width: isSmall ? "90%" : "45%",
+            padding: isSmall ? "1.5rem" : "2em",
+          }}
+        >
           <Typography
             variant="h4"
             sx={{
