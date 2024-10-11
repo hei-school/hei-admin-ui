@@ -64,8 +64,8 @@ const AnnouncementsGrid = () => {
       : isDesktop
         ? "flex-start"
         : "space-evenly",
-    gap: isDesktop ? "1.7rem" : "0.5rem",
-    padding: isDesktop ? "1.5rem 2.5rem" : "1.5rem 0.5vw",
+    gap: "1rem",
+    padding: isDesktop ? "1.5rem 3rem" : "1.5rem 0.5vw",
     margin: isDesktop ? "0 auto" : "0",
   };
 
