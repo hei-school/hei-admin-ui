@@ -5,8 +5,10 @@ import {
   TextField,
   useGetList,
   useGetOne,
+  useRedirect,
 } from "react-admin";
 import {
+  Add as AddIcon,
   Group as GroupIcon,
   Diversity2 as StudentIcon,
   Female as FemaleIcon,
@@ -20,7 +22,13 @@ import {
 import {Sex, WorkStudyStatus} from "@haapi/typescript-client";
 import {Box} from "@mui/material";
 import {useRole} from "@/security/hooks";
-import {CreateButton, ExportButton, ImportButton} from "@/ui/haToolbar";
+import {
+  ButtonBase,
+  CreateButton,
+  ExportButton,
+  HaActionWrapper,
+  ImportButton,
+} from "@/ui/haToolbar";
 import {HaList} from "@/ui/haList";
 import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {PALETTE_COLORS} from "@/haTheme";
@@ -36,14 +44,26 @@ import {transformStudentData} from "./importConf";
 import {NOOP_ID} from "@/utils/constants";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
 import studentProvider from "@/providers/studentProvider";
+import {useState} from "react";
 
 const ListActions = () => {
   const {isManager} = useRole();
+  const redirect = useRedirect();
+
   return (
     <Box>
       {isManager() && (
         <Box>
           <CreateButton />
+          <HaActionWrapper>
+            <ButtonBase
+              data-testid="create-fees-button"
+              icon={<AddIcon />}
+              onClick={() => redirect("/fees/create")}
+            >
+              Ajouter des frais
+            </ButtonBase>
+          </HaActionWrapper>
           <ExportButton
             onExport={() => exportData([], importHeaders, "template_students")}
             label="Template"
@@ -79,6 +99,8 @@ function StudentList() {
       students_alternating: "",
     },
   } = useGetOne("stats", {id: NOOP_ID});
+
+  const [isBulked, setIsBulked] = useState(false);
 
   const headerCardContent = [
     ...getCommonListHeaderContent(stats),
