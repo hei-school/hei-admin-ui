@@ -42,7 +42,7 @@ export function ProfileFilters({resource}) {
         ]}
       />
       {resource === "students" && (
-        <Box>
+        <Box width="100%">
           <SelectInputFilter
             data-testid="filter-profile-work-status"
             label="Statut professionnel"

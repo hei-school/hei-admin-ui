@@ -553,7 +553,10 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
   }
 
   return (
-    <TabbedShowLayout syncWithLocation={!role.isStudent() && !role.isManager()}>
+    <TabbedShowLayout
+      tabs={<TabbedShowLayoutTabs variant="scrollable" scrollButtons="auto" />}
+      syncWithLocation={!role.isStudent() && !role.isManager()}
+    >
       <TabbedShowLayout.Tab
         label="Détails du Profil"
         style={{fontSize: "0.8rem"}}
