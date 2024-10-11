@@ -1,75 +1,111 @@
 import {Button, SimpleShowLayout, TextField} from "react-admin";
+import {useParams} from "react-router-dom";
 import {
   Dialog,
   DialogTitle,
   DialogContent,
   IconButton,
   Box,
+  Typography,
 } from "@mui/material";
-import {Close as CloseIcon, Create as EditIcon} from "@mui/icons-material";
-import {PALETTE_COLORS} from "@/haTheme";
+import {
+  Close as CloseIcon,
+  Create as EditIcon,
+  Code as CodeIcon,
+  CreditCard as CreditCardIcon,
+  AccessTime as AccessTimeIcon,
+  MenuBook as BookIcon,
+} from "@mui/icons-material";
 import {Show} from "@/operations/common/components";
+import {AssignedTeachersList} from "@/operations/awardedCourses/AssignedTeachersList";
 import {useToggle} from "@/hooks";
+import {PALETTE_COLORS} from "@/haTheme";
 
-export const CourseShowDialog = ({courseId}) => {
-  const [showDetails, toggleShowDetails] = useToggle();
+const LabeledIconField = ({
+  icon: Icon,
+  label,
+  source,
+  iconColor = "inherit",
+}) => (
+  <Box mb={2} sx={{width: "48%"}}>
+    <Icon sx={{marginRight: 1, color: iconColor}} />
+    <Box sx={{display: "flex", flexDirection: "column"}}>
+      <Typography sx={{marginBottom: "0.5em"}}>{label}</Typography>
+      <TextField
+        sx={{
+          border: "solid 1px",
+          borderColor: PALETTE_COLORS.grey,
+          padding: "8px",
+          borderRadius: "5px",
+          color: "grey",
+        }}
+        source={source}
+      />
+    </Box>
+  </Box>
+);
+
+function CourseShow() {
+  const {id} = useParams();
+
   return (
     <Box>
-      <Button
-        onClick={toggleShowDetails}
-        startIcon={<EditIcon />}
-        label="AFFICHER"
-        variant="text"
-        sx={{py: "5px"}}
-      />
-      <Dialog open={showDetails} onClose={toggleShowDetails}>
-        <DialogTitle
-          variant="h2"
+      <Show title="Cours">
+        <Typography
+          variant="h6"
+          fontWeight="bold"
           sx={{
-            backgroundColor: PALETTE_COLORS.primary,
-            color: PALETTE_COLORS.white,
-            fontSize: "20px",
+            padding: 4,
+            paddingBottom: 2,
           }}
         >
-          Details d'un cours
-          <IconButton
+          Détails d'un cours
+        </Typography>
+        <SimpleShowLayout
+          sx={{
+            padding: 4,
+            paddingTop: 0,
+          }}
+        >
+          <Box
             sx={{
-              color: PALETTE_COLORS.white,
-              m: 0,
-              ml: 6,
-              borderRadius: "50%",
+              display: "flex",
+              flexDirection: "row",
+              flexWrap: "wrap",
+              justifyContent: "space-between",
             }}
-            onClick={() => toggleShowDetails()}
           >
-            <CloseIcon />
-          </IconButton>
-        </DialogTitle>
-        <DialogContent
-          sx={{
-            "& .RaShow-card": {
-              border: "solid 1px",
-              borderColor: PALETTE_COLORS.grey,
-              boxShadow: "initial",
-            },
-          }}
-        >
-          <CourseShow id={courseId} />
-        </DialogContent>
-      </Dialog>
-    </Box>
-  );
-};
+            <LabeledIconField
+              icon={CodeIcon}
+              label="Code"
+              source="code"
+              iconColor="blue"
+            />
 
-function CourseShow({id}) {
-  return (
-    <Show title="Cours" id={id}>
-      <SimpleShowLayout>
-        <TextField source="code" label="Code" />
-        <TextField source="name" label="Nom" />
-        <TextField source="credits" label="Crédits" />
-        <TextField source="total_hours" label="Heure totale" />
-      </SimpleShowLayout>
-    </Show>
+            <LabeledIconField
+              icon={BookIcon}
+              label="Nom"
+              source="name"
+              iconColor="green"
+            />
+            <LabeledIconField
+              icon={CreditCardIcon}
+              label="Crédits"
+              source="credits"
+              iconColor="orange"
+            />
+
+            <LabeledIconField
+              icon={AccessTimeIcon}
+              label="Heure totale"
+              source="total_hours"
+              iconColor="red"
+            />
+          </Box>
+        </SimpleShowLayout>
+      </Show>
+      <AssignedTeachersList courseId={id} />
+    </Box>
   );
 }
 
