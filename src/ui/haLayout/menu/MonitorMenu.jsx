@@ -1,8 +1,6 @@
 import {Box} from "@mui/material";
 import {
   School as StudentIcon,
-  Inventory as DocsIcon,
-  Group as GroupIcon,
   Newspaper as AnnouncementIcon,
 } from "@mui/icons-material";
 import authProvider from "@/providers/authProvider";

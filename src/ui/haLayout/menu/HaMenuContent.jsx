@@ -8,17 +8,16 @@ import MonitorMenu from "./MonitorMenu";
 export function HaMenuContent() {
   const role = authProvider.getCachedWhoami().role;
 
-  if (role === WhoamiRoleEnum.STUDENT) {
-    return <StudentMenu />;
+  switch (role) {
+    case WhoamiRoleEnum.STUDENT:
+      return <StudentMenu />;
+    case WhoamiRoleEnum.MANAGER:
+      return <ManagerMenu />;
+    case WhoamiRoleEnum.TEACHER:
+      return <TeacherMenu />;
+    case WhoamiRoleEnum.MONITOR:
+      return <MonitorMenu />;
+    default:
+      return null;
   }
-  if (role === WhoamiRoleEnum.MANAGER) {
-    return <ManagerMenu />;
-  }
-  if (role === WhoamiRoleEnum.TEACHER) {
-    return <TeacherMenu />;
-  }
-  if (role === WhoamiRoleEnum.MONITOR) {
-    return <MonitorMenu />;
-  }
-  return null;
 }

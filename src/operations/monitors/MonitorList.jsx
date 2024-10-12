@@ -13,20 +13,18 @@ import {
 } from "@/operations/utils/userImportConf";
 import monitorProvider from "@/providers/monitorProvider";
 
-function MonitorList() {
-  return (
-    <HaList
-      icon={<GroupOutlined />}
-      title="Liste des moniteurs"
-      mainSearch={{label: "Prénom·s", source: "first_name"}}
-      actions={<CreateButton />}
-    >
-      <TextField source="ref" label="Référence" />
-      <TextField source="first_name" label="Prénom·s" />
-      <TextField source="last_name" label="Nom·s" />
-      <EditButton />
-    </HaList>
-  );
-}
+const MonitorList = () => (
+  <HaList
+    icon={<GroupOutlined />}
+    title="Liste des moniteurs"
+    mainSearch={{label: "Prénom·s", source: "first_name"}}
+    actions={<CreateButton data-testid="create-button" />}
+  >
+    <TextField source="ref" label="Référence" />
+    <TextField source="first_name" label="Prénom·s" />
+    <TextField source="last_name" label="Nom·s" />
+    <EditButton />
+  </HaList>
+);
 
 export default MonitorList;

@@ -8,6 +8,7 @@ import {WhoamiRoleEnum} from "@haapi/typescript-client";
 const ActionsOnShow = ({basePath, data, resource}) => {
   const monitor = useRecordContext();
   const role = useRole();
+
   return (
     <div
       style={{

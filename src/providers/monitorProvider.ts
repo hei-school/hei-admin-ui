@@ -21,13 +21,15 @@ const monitorProvider = {
     return result.data;
   },
 
-  async saveOrUpdate(users: Array<any>, meta: any) {
-    if (meta?.isUpdate) {
-      const [monitor] = users;
+  async saveOrUpdate(monitors: Array<any>, meta: any) {
+    const isUpdate = meta?.isUpdate;
+    const [monitor] = monitors;
+
+    if (isUpdate) {
       const result = await usersApi().updateMonitorById(monitor.id, monitor);
       return [result.data];
     } else {
-      const result = await usersApi().createOrUpdateMonitors(users);
+      const result = await usersApi().createOrUpdateMonitors(monitors);
       return result.data;
     }
   },

@@ -521,6 +521,7 @@ export const Informations = ({
   isStudentProfile,
   isTeacherProfile,
   isMonitorProfile,
+  isManagerProfile,
 }) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
@@ -558,11 +559,13 @@ export const Informations = ({
     );
   }
 
+  const shouldSyncTab =
+    !role.isStudent() && !role.isManager() && !role.isMonitor();
+
   return (
     <TabbedShowLayout
-      syncWithLocation={
-        !role.isStudent() && !role.isManager() && !role.isMonitor()
-      }
+      tabs={<TabbedShowLayoutTabs variant="scrollable" scrollButtons="auto" />}
+      syncWithLocation={!role.isStudent() && !role.isManager()}
     >
       <TabbedShowLayout.Tab
         label="Détails du Profil"
@@ -606,7 +609,7 @@ export const Informations = ({
           children={<FeeList studentId={profile.id} studentRef={profile.ref} />}
         />
       )}
-      {isStudentProfile && !role.isTeacher() && !role.isMonitor() && (
+      {isStudentProfile && (role.isManager() || role.isStudent()) && (
         <TabbedShowLayout.Tab
           label="Boîte aux lettres"
           children={<StudentLettersList />}
@@ -615,8 +618,8 @@ export const Informations = ({
       )}
       {!isTeacherProfile &&
         !isStudentProfile &&
-        !isMonitorProfile &&
-        role.isManager() && (
+        isMonitorProfile &&
+        isManagerProfile && (
           <TabbedShowLayout.Tab
             label={
               letterStats ? (

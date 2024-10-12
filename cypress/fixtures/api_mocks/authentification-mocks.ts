@@ -60,6 +60,7 @@ export const getManager1Connected: () => UserConnected = () => {
     user: manager1Mock,
   };
 };
+
 export const getMonitor1Connected: () => UserConnected = () => {
   return {
     username: monitor1Mock.email,
