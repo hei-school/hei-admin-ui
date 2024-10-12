@@ -1,15 +1,14 @@
 import React from "react";
-import {Admin} from "@react-admin/ra-enterprise";
-import {CustomRoutes, Resource} from "react-admin";
+import {Admin, CustomRoutes, Resource} from "react-admin";
 import {Route} from "react-router-dom";
-import frenchMessages from "ra-language-french";
 import polyglotI18nProvider from "ra-i18n-polyglot";
-
+import frenchMessages from "ra-language-french";
 import {HaLayout} from "@/ui/haLayout";
-import {mainTheme} from "@/haTheme.js";
+import {mainTheme} from "@/haTheme";
 import {WaitUntilHot} from "@/utils/retryer";
 import dataProvider from "@/providers/dataProvider";
-import authProvider from "@/providers/authProvider.ts";
+import authProvider from "@/providers/authProvider";
+import HaLoginPage from "@/security/LoginPage";
 import groups from "@/operations/groups";
 import profile from "@/operations/profile";
 import students from "@/operations/students";
@@ -19,7 +18,6 @@ import fees from "@/operations/fees";
 import feesTemplates from "@/operations/feesTemplates";
 import payments from "@/operations/payments";
 import studentDocs from "@/operations/docs/students";
-import HaLoginPage from "@/security/LoginPage";
 import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
 import awardedCourses from "./operations/awardedCourses";
@@ -27,6 +25,9 @@ import events from "@/operations/events";
 
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
+import monitors from "@/operations/monitors";
+import monitorStudent from "@/operations/monitors/component";
+import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 
 function AppBase() {
   return (

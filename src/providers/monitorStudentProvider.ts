@@ -1,32 +1,25 @@
-import {monitoringApi} from "@/providers/api";
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
-import authProvider from "@/providers/authProvider";
+import {HaDataProviderType} from "./HaDataProviderType";
+import {monitoringApi} from "./api";
+import authProvider from "./authProvider";
 
 const monitorStudentProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, _filter: any) {
-    const monitorId = authProvider.getCachedWhoami()?.id;
-
-    if (!monitorId) {
-      throw new Error("Monitor ID is required.");
-    }
+  async getList(
+    page: number,
+    perPage: number,
+    _filter: any,
+    {monitorId}: {monitorId: string}
+  ) {
     const result = await monitoringApi().getLinkedStudentsByMonitorId(
       monitorId,
       page,
       perPage
     );
 
-    return {
-      data: result.data,
-    };
+    return {data: result.data};
   },
 
   async getOne(id: string) {
-    if (!id) {
-      throw new Error("ID is required to fetch a single student.");
-    }
-
     const monitorId = authProvider.getCachedWhoami().id;
-
     if (!monitorId) {
       throw new Error("Monitor ID is required.");
     }
@@ -39,12 +32,15 @@ const monitorStudentProvider: HaDataProviderType = {
     return result.data.find((student) => student.id === id);
   },
 
-  async saveOrUpdate(_payload: any, _meta: any) {
-    throw new Error("saveOrUpdate not supported for monitor-students");
+  async saveOrUpdate(students) {
+    const {id} = authProvider.getCachedWhoami();
+    return monitoringApi()
+      .linkStudentsByMonitorId(id!, students[0])
+      .then((result) => result.data);
   },
 
   async delete(_id: string) {
-    throw new Error("delete not supported for monitor-students");
+    throw new Error("Not implemented");
   },
 };
 

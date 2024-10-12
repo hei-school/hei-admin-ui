@@ -34,7 +34,7 @@ describe("Monitors", () => {
       .and("contain", student1Mock.last_name);
   });
 
-  it("monitors can see docs students details", () => {
+  it("monitors create students", () => {
     // TO DO
   });
 });

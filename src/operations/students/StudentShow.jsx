@@ -12,6 +12,8 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
   const id = student?.id;
   const role = useRole();
 
+  if (!student) return null;
+
   return (
     <div
       style={{
@@ -26,7 +28,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
         zIndex: 1,
       }}
     >
-      {role.isManager() && student && (
+      {role.isManager() && (
         <div style={{display: "flex", flexDirection: "column", gap: "0.2rem"}}>
           <EditButton
             to={`/students/${id}/edit`}
@@ -43,7 +45,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
           <DocMenu studentId={student.id} />
         </div>
       )}
-      {role.isMonitor() && student && (
+      {role.isMonitor() && (
         <div style={{display: "flex", flexDirection: "column", gap: "0.2rem"}}>
           <DocMenu studentId={student.id} />
         </div>

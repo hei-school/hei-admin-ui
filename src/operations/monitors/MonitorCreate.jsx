@@ -2,12 +2,15 @@ import React from "react";
 import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
 import {CreateGeoLocalisation, Create} from "@/operations/common/components";
 import {SexRadioButton} from "@/operations/utils";
-import {toISO} from "@/utils/date";
 
 const transformMonitor = (record) => {
-  let {entrance_datetime, longitude, latitude, status, ...monitor} = record;
-  entrance_datetime = toISO(entrance_datetime);
-  status = status || "ENABLED";
+  const {
+    entrance_datetime,
+    longitude,
+    latitude,
+    status = "ENABLED",
+    ...monitor
+  } = record;
 
   return {
     ...monitor,
