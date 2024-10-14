@@ -17,7 +17,7 @@ function MonitorStudentList() {
       icon={<GroupOutlined />}
       title="Liste des étudiants"
       mainSearch={{label: "Prénom·s", source: "first_name"}}
-      actions={<CreateButton />}
+      actions={<CreateButton data-testid="create-button" />}
       listProps={{
         queryOptions: {
           meta: {
