@@ -1,40 +1,48 @@
 import {useState} from "react";
 import authProvider from "../providers/authProvider";
-import {Typography} from "@mui/material";
+import {Typography, TextField, CircularProgress} from "@mui/material";
 import {CustomTextField, CustomSubmitButton} from "./utils";
 import {useNotify} from "react-admin";
 
 const ConfirmForgotPassword = ({setUsername, setConfirm}) => {
   const [email, setEmail] = useState("");
+  const [loading, setLoading] = useState(false);
   const handleEmailChange = (e) => setEmail(e.target.value);
   const notify = useNotify();
 
   const sendEmail = () => {
+    setLoading(true);
     setUsername(email);
     authProvider
       .forgotPassword(email)
-      .then(() => setConfirm(false))
-      .catch(() => notify(`Une erreur s'est produite`, {type: "error"}));
+      .then(() => {
+        setConfirm(false);
+        setLoading(false);
+      })
+      .catch(() => {
+        notify(`Une erreur s'est produite`, {type: "error"});
+        setLoading(false);
+      });
   };
   return (
     <div>
-      <Typography
-        variant="h7"
-        sx={{
-          margin: "0.75vw",
-        }}
-      >
+      <Typography style={{color: "grey"}} variant="body2" gutterBottom>
         Un mail de confirmation avec un code vous sera envoyé
       </Typography>
-      <CustomTextField
+      <TextField
         validator={email === ""}
-        label="Mail"
+        label="Email"
+        type="email"
         placeholder="Votre mail ici"
         onChange={handleEmailChange}
-        type="email"
         data-testid="mail_input"
+        fullWidth
+        variant="outlined"
+        sx={{marginBottom: 2}}
       />
-      <CustomSubmitButton onClick={sendEmail} text="ENVOYER" />
+      <CustomSubmitButton onClick={sendEmail} text="ENVOYER" loading={loading}>
+        {loading ? <CircularProgress size={24} color="#ffffff" /> : "ENVOYER"}
+      </CustomSubmitButton>
     </div>
   );
 };
