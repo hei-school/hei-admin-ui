@@ -71,11 +71,6 @@ function AppBase() {
           path="/fees/create"
           element={<fees.multipleStudentFeesCreate />}
         />
-        <Route
-          exact
-          path="/fees/:feeId/payments/create"
-          element={<fees.create isMultipletudents />}
-        />
         <Route exact path="/fees/:feeId/show" element={<fees.show />} />
         <Route exact path="/fees" element={<fees.listByStatus />} />
 
