@@ -618,8 +618,8 @@ export const Informations = ({
       )}
       {!isTeacherProfile &&
         !isStudentProfile &&
-        isMonitorProfile &&
-        isManagerProfile && (
+        !isMonitorProfile &&
+        role.isManager() && (
           <TabbedShowLayout.Tab
             label={
               letterStats ? (
