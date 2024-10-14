@@ -11,7 +11,15 @@ const ListContent = ({setStudentsIds}) => {
   }, [selectedIds]);
 
   return (
-    <Datagrid bulkActionButtons={<></>} rowClick={false}>
+    <Datagrid
+      bulkActionButtons={<></>}
+      rowClick={false}
+      sx={{
+        "& .RaBulkActionsToolbar-toolbar": {
+          width: "fit-content",
+        },
+      }}
+    >
       <TextField source="ref" label="Référence" />
       <TextField source="first_name" label="Prénom·s" />
       <TextField source="last_name" label="Nom·s" />
