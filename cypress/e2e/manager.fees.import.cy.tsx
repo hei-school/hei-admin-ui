@@ -1,4 +1,5 @@
 import {feesMock} from "../fixtures/api_mocks/fees-mocks";
+import {statsMocks} from "../fixtures/api_mocks/letters-mocks";
 import {manager1Mock} from "../fixtures/api_mocks/managers-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
@@ -36,6 +37,7 @@ describe("Manager import fees for one students", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
+    cy.intercept("GET", `letters/stats`, statsMocks).as("getStats");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
@@ -92,10 +94,7 @@ describe("Manager import fees for one students", () => {
   });
 
   it("notifies if the multiple students creation failed", () => {
-    cy.intercept("POST", `/students/${student1Mock.id}/fees`, [feesMock]).as(
-      "createFees"
-    );
-
+    cy.intercept("PUT", `/fees`, [feesMock]).as("createFees");
     importFile({
       file: "valid_fees_template.xlsx",
       message: "Importation effectuée avec succès",

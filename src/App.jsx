@@ -64,7 +64,12 @@ function AppBase() {
         <Route
           exact
           path="/students/:studentId/fees/create"
-          element={<fees.create />}
+          element={<fees.singStudentFeesCreate />}
+        />
+        <Route
+          exact
+          path="/fees/create"
+          element={<fees.multipleStudentFeesCreate />}
         />
         <Route exact path="/fees/:feeId/show" element={<fees.show />} />
         <Route exact path="/fees" element={<fees.listByStatus />} />

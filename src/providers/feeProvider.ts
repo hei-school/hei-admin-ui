@@ -64,7 +64,7 @@ const feeProvider: HaDataProviderType = {
     }
 
     return await payingApi()
-      .createStudentFees(fees[0]?.student_id, fees)
+      .crupdateStudentFees(fees)
       .then((result) => result.data);
   },
   async delete(raId: string) {
