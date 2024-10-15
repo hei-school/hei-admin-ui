@@ -4,11 +4,14 @@ import {
   MenuItem,
   InputLabel,
   FormControl,
+  useMediaQuery,
 } from "@mui/material";
 import useHaToolbarContext from "./useHaToolbarContext";
 
 export function TextFilter({label, source, ...rest}) {
   const {currentFilter, setOneFilter} = useHaToolbarContext();
+  const isSmall = useMediaQuery("(max-width:900px)");
+
   return (
     <TextField
       type="text"
@@ -16,7 +19,7 @@ export function TextFilter({label, source, ...rest}) {
       size="small"
       variant="outlined"
       value={currentFilter[source] || ""}
-      sx={{width: "100%", minWidth: "320px"}}
+      sx={{width: "100%", minWidth: isSmall ? "100%" : "320px"}}
       onChange={(event) => setOneFilter(source, event.target.value)}
       {...rest}
     />
@@ -25,6 +28,8 @@ export function TextFilter({label, source, ...rest}) {
 
 export const SelectInputFilter = ({choices, label, source, ...props}) => {
   const {currentFilter, setOneFilter} = useHaToolbarContext();
+  const isSmall = useMediaQuery("(max-width:900px)");
+
   return (
     <FormControl sx={{width: "100%"}}>
       <InputLabel id="select-label" size="small" variant="outlined">
@@ -36,7 +41,7 @@ export const SelectInputFilter = ({choices, label, source, ...props}) => {
         size="small"
         variant="outlined"
         value={currentFilter[source] || ""}
-        sx={{minWidth: "350px"}}
+        sx={{minWidth: isSmall ? "100%" : "350px"}}
         fullWidth
         onChange={(event) => setOneFilter(source, event.target.value)}
         {...props}

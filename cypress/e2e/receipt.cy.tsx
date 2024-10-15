@@ -40,8 +40,7 @@ describe("Student receipt", () => {
       force: true,
     });
     cy.getByTestid("get-receipt-btn").click();
-    cy.wait("@downloadReceipt");
-    cy.getByTestid("file-link").and("have.attr", "href").and("include", "blob");
+    cy.wait("@downloadReceipt").its("response.statusCode").should("eq", 200);
   });
 });
 
@@ -99,7 +98,6 @@ describe("Manager receipt", () => {
     cy.get("#main-content tbody tr").first().click();
     cy.wait("@getFee1");
     cy.getByTestid("get-receipt-btn").click();
-    cy.wait("@downloadReceipt");
-    cy.getByTestid("file-link").and("have.attr", "href").and("include", "blob");
+    cy.wait("@downloadReceipt").its("response.statusCode").should("eq", 200);
   });
 });

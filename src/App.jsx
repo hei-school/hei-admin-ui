@@ -22,6 +22,7 @@ import studentDocs from "@/operations/docs/students";
 import HaLoginPage from "@/security/LoginPage";
 import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
+import awardedCourses from "./operations/awardedCourses";
 
 function AppBase() {
   return (
@@ -51,6 +52,11 @@ function AppBase() {
       <Resource name="course" {...course} />
       <Resource name="student-letters" />
       <Resource name="letters" />
+      <Resource
+        name="awarded-courses"
+        {...awardedCourses}
+        options={{label: " "}}
+      />
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
 
@@ -58,7 +64,12 @@ function AppBase() {
         <Route
           exact
           path="/students/:studentId/fees/create"
-          element={<fees.create />}
+          element={<fees.singStudentFeesCreate />}
+        />
+        <Route
+          exact
+          path="/fees/create"
+          element={<fees.multipleStudentFeesCreate />}
         />
         <Route exact path="/fees/:feeId/show" element={<fees.show />} />
         <Route exact path="/fees" element={<fees.listByStatus />} />

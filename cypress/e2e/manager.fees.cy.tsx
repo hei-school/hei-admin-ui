@@ -44,9 +44,7 @@ describe("Manager.Fee", () => {
       `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
       fee1Mock
     ).as("getFee1");
-    cy.intercept("POST", `/students/${student1Mock.id}/fees`, feesMock).as(
-      "createFees"
-    );
+    cy.intercept("PUT", `/fees`, feesMock).as("createFees");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
     cy.login({role: "MANAGER"});
