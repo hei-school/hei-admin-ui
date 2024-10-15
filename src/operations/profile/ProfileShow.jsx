@@ -11,7 +11,7 @@ import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import authProvider from "@/providers/authProvider";
 
 const ProfileShow = () => {
-  const {isStudent, isTeacher, role} = useRole();
+  const {isStudent, isTeacher, isMonitor, role} = useRole();
   const {id} = authProvider.getCachedWhoami();
   const [showComments, , toogleShowComments] = useToggle(false);
 
@@ -52,6 +52,8 @@ const ProfileShow = () => {
                   <Download />
                 </Button>
               </Box>
+            ) : isMonitor() ? (
+              ""
             ) : (
               <EditButton
                 to={`/profile/${id}/edit`}

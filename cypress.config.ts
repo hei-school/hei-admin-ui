@@ -29,5 +29,7 @@ export default defineConfig({
       process.env.REACT_APP_TEST_TEACHER1_PASSWORD!,
     REACT_APP_TEST_MANAGER1_PASSWORD:
       process.env.REACT_APP_TEST_MANAGER1_PASSWORD!,
+    REACT_APP_TEST_MONITOR1_PASSWORD:
+      process.env.REACT_APP_TEST_MONITOR1_PASSWORD!,
   },
 });
