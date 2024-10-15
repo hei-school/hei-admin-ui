@@ -26,7 +26,7 @@ import lettersProvider from "@/providers/lettersProvider";
 import lettersStatsProvider from "./letterStatsProvider";
 import receiptProvider from "./receiptProvider";
 import awardedCoursesProvider from "./awardedCoursesProvider";
-
+import attendanceProvider from "@/providers/attendanceProvider";
 export const MAX_ITEM_PER_PAGE = 500;
 
 const getProvider = (resourceType: string): HaDataProviderType => {
@@ -53,6 +53,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "letters-stats") return lettersStatsProvider;
   if (resourceType === "receipts") return receiptProvider;
   if (resourceType === "awarded-courses") return awardedCoursesProvider;
+  if (resourceType === "attendance") return attendanceProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
