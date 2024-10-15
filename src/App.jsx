@@ -28,6 +28,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
+import attendance from "./operations/attendance";
 
 function AppBase() {
   return (
@@ -60,6 +61,7 @@ function AppBase() {
       <Resource name="events" {...events} />
       <Resource name="users-letters" />
       <Resource name="letters" />
+      <Resource name="attendance" {...attendance} />
       <Resource
         name="awarded-courses"
         {...awardedCourses}
