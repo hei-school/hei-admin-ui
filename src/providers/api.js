@@ -8,6 +8,7 @@ import {
   PromotionsApi,
   AnnouncementsApi,
   LettersApi,
+  EventsApi,
 } from "@haapi/typescript-client";
 import authProvider from "./authProvider";
 
@@ -25,3 +26,4 @@ export const announcementsApi = () =>
   new AnnouncementsApi(authProvider.getCachedAuthConf());
 export const lettersApi = () =>
   new LettersApi(authProvider.getCachedAuthConf());
+export const eventsApi = () => new EventsApi(authProvider.getCachedAuthConf());
