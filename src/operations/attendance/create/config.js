@@ -11,8 +11,8 @@ const defaultConfig = {
   box: 250,
   send: 10,
   interval: 10_000, //ms
-  type: AttendanceMovementType.In,
-  place: PlaceEnum.Andraharo,
+  type: AttendanceMovementType.IN,
+  place: PlaceEnum.ANDRAHARO,
 };
 
 const getConfig = () => {

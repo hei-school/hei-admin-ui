@@ -1,18 +1,35 @@
 import React, {useState} from "react";
+import {useCreate} from "react-admin";
 import {Box, Button} from "@mui/material";
 import {AttendanceMovementType} from "@haapi/typescript-client";
 import {qrcode} from "./config";
+import {useNotify} from "react-admin";
 
 export const Actions = ({studentId, sx = {}}) => {
   const [clicked, setClicked] = useState("");
+  const [create] = useCreate();
+  const notify = useNotify();
 
-  const removeClicked = async () => setTimeout(() => setClicked(""), 2500);
+  const removeClicked = () => setTimeout(() => setClicked(""), 2500);
 
-  const handlerClick = (type) => {
+  const handlerClick = async (type) => {
     if (clicked === "") {
-      qrcode.addAttendance(studentId, type);
-      setClicked(type);
-      removeClicked();
+      const payload = {
+        student_id: studentId,
+        created_at: new Date().toISOString(),
+        attendance_movement_type: type,
+        place: "IVANDRY",
+      };
+
+      try {
+        await create("attendance", {data: payload});
+        setClicked(type);
+        notify("Création réussie !", {type: "success"});
+        removeClicked();
+      } catch (error) {
+        console.error("Failed to create attendance:", error);
+        notify("Échec de la création.", {type: "error"});
+      }
     }
   };
 
@@ -24,16 +41,16 @@ export const Actions = ({studentId, sx = {}}) => {
       <Button
         variant="outlined"
         color="primary"
-        onClick={() => handlerClick(AttendanceMovementType.In)}
+        onClick={() => handlerClick(AttendanceMovementType.IN)}
       >
-        {clicked === AttendanceMovementType.In ? "Succès" : "Arriver"}
+        {clicked === AttendanceMovementType.IN ? "Succès" : "Arriver"}
       </Button>
       <Button
         variant="outlined"
         color="warning"
-        onClick={() => handlerClick(AttendanceMovementType.Out)}
+        onClick={() => handlerClick(AttendanceMovementType.OUT)}
       >
-        {clicked === AttendanceMovementType.Out ? "Succès" : "Sortie"}
+        {clicked === AttendanceMovementType.OUT ? "Succès" : "Sortie"}
       </Button>
     </Box>
   );

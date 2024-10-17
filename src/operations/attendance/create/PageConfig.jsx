@@ -11,11 +11,10 @@ import {
   DialogTitle,
   DialogContent,
   DialogActions,
+  styled,
 } from "@mui/material";
 import {Settings, Close} from "@mui/icons-material";
 import {qrcode, AvailablePlace} from "./config";
-import {styled} from "@mui/styles";
-
 const FormGroup = styled("div")({
   width: "100%",
   display: "flex",

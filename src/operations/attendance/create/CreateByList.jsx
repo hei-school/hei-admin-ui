@@ -16,7 +16,7 @@ export const CreateByList = () => {
         bottom="30px"
       />
       <List
-        title="Présences"
+        title="Présencesn"
         label="Présences"
         actions={<ToolBar />}
         perPage={pageSize}
@@ -31,7 +31,7 @@ export const CreateByList = () => {
             render={(record) => (
               <Actions
                 sx={{gap: 2, justifyContent: "end"}}
-                studentId={record.ref}
+                studentId={record.id}
               />
             )}
           />

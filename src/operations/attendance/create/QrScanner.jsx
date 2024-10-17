@@ -1,6 +1,6 @@
+import {styled} from "@mui/material";
 import {Html5QrcodeScanType, Html5QrcodeScanner} from "html5-qrcode";
 import {qrcode, ScanStatus} from "./config";
-import {styled} from "@mui/styles";
 
 export const ScannerBox = styled("div")({
   "width": "100%",

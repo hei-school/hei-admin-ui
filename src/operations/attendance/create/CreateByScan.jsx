@@ -45,9 +45,9 @@ export const CreateByScan = () => {
 
   const toggleType = () => {
     const newType =
-      config.type === AttendanceMovementType.In
-        ? AttendanceMovementType.Out
-        : AttendanceMovementType.In;
+      config.type === AttendanceMovementType.IN
+        ? AttendanceMovementType.OUT
+        : AttendanceMovementType.IN;
     setConfig({type: newType});
     setCurrent({...current, type: newType});
   };
@@ -117,12 +117,12 @@ export const CreateByScan = () => {
               }}
             >
               <FormControlLabel
-                value={AttendanceMovementType.In}
+                value={AttendanceMovementType.IN}
                 control={<Radio sx={{color: "white"}} />}
                 label="Entrer"
               />
               <FormControlLabel
-                value={AttendanceMovementType.Out}
+                value={AttendanceMovementType.OUT}
                 control={<Radio sx={{color: "white"}} />}
                 label="Sortie"
               />

@@ -4,11 +4,11 @@ import {
   DialogTitle,
   DialogContent,
   Typography,
+  styled,
 } from "@mui/material";
 import {Link} from "react-admin";
 import {Close} from "@mui/icons-material";
 import {formatDate} from "../utils";
-import {styled} from "@mui/styles";
 
 const StyledTypography = styled("h3")({
   color: "#3a3a3b",
