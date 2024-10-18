@@ -36,8 +36,8 @@ export const validateData = (data, headers) => {
     message = "Veuillez re-vérifier les en-têtes de votre fichier";
   } else if (!isEqual(Object.keys(data[0]), minimalImportHeaders)) {
     message = "Veuillez re-vérifier les en-têtes de votre fichier";
-  } else if (data.length >= 10) {
-    message = "Vous ne pouvez importer que 10 éléments à la fois.";
+  } else if (data.length >= 20) {
+    message = "Vous ne pouvez importer que 20 éléments à la fois.";
   } else {
     isValid = true;
   }
