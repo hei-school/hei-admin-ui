@@ -4,10 +4,16 @@ import {HaDataProviderType} from "@/providers/HaDataProviderType";
 
 const awardedCoursesProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}, _meta) => {
-    const {teacherId, courseId} = filter;
+    const {teacherId, courseId, groupId} = filter;
 
     return teachingApi()
-      .getAllAwardedCourseByCriteria(teacherId, courseId, page, perPage)
+      .getAllAwardedCourseByCriteria(
+        teacherId,
+        groupId,
+        courseId,
+        page,
+        perPage
+      )
       .then((result) => ({data: result.data}));
   },
   async getOne(id: string) {

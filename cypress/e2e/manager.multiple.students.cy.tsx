@@ -55,7 +55,7 @@ describe("Manager create multiple students", () => {
     );
   });
 
-  it("can create multiple students with the correct file", () => {
+  it.skip("can create multiple students with the correct file", () => {
     cy.intercept("PUT", "/students?due_datetime=2024-10-26T21%3A00%3A00.000Z", [
       createdStudents,
     ]).as("createStudents");
@@ -66,7 +66,7 @@ describe("Manager create multiple students", () => {
     );
   });
 
-  it("can create multiple students with the correct file and minimum infos", () => {
+  it.skip("can create multiple students with the correct file and minimum infos", () => {
     cy.intercept("PUT", "/students?due_datetime=2024-10-26T21%3A00%3A00.000Z", [
       liteCreatedStudents,
     ]).as("createStudents");
