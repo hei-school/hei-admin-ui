@@ -7,10 +7,10 @@ import {
   useUpdate,
 } from "react-admin";
 import {Event as EventIcon, Add, Save as SaveIcon} from "@mui/icons-material";
-import {Box, Stack, Typography, CircularProgress, Button} from "@mui/material";
+import {Box, Stack, Typography, Button} from "@mui/material";
 import {HaList} from "@/ui/haList";
 import {ButtonBase} from "@/ui/haToolbar";
-import {Show} from "@/operations/common/components";
+import {Loader, Show} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {
   AttendanceStatus,
@@ -170,21 +170,7 @@ const SaveButton = ({
       sx={{m: 2, maxWidth: 300, textTransform: "revert"}}
       disabled={disabled}
     >
-      {isLoading ? (
-        <CircularProgress
-          sx={{
-            "&.MuiCircularProgress-root": {
-              marginRight: "10px",
-              marginLeft: "2px",
-            },
-          }}
-          size={14}
-          thickness={3}
-          color="inherit"
-        />
-      ) : (
-        <SaveIcon fontSize="small" />
-      )}
+      {isLoading ? <Loader /> : <SaveIcon fontSize="small" />}
       Enregister
     </Button>
   );
