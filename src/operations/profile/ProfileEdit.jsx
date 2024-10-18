@@ -26,7 +26,13 @@ const ProfileEdit = ({isOwnProfile, isStudent}) => {
     <Edit
       title="Modifier le profil"
       transform={userToUserApi}
-      queryOptions={{meta: {isUpdate: true}}}
+      queryOptions={{
+        meta: {
+          meta: {
+            isUpdate: true,
+          },
+        },
+      }}
     >
       <SimpleForm toolbar={<EditToolBar />}>
         <TextInput source="ref" label="Référence" fullWidth readOnly />
