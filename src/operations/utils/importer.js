@@ -8,6 +8,7 @@ export const importHeaders = [
   "address",
   "phone",
   "entrance_datetime",
+  "payment_frequency",
 ];
 export const minimalImportHeaders = [
   "ref",

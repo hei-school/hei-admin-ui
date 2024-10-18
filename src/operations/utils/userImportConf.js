@@ -28,6 +28,12 @@ export const optionalUserHeaders = [
     value: "phone",
     disabled: false,
   },
+  {
+    id: 12,
+    label: "fréquence de paiement",
+    value: "payment_frequency",
+    disabled: false,
+  },
 ];
 
 export const validateUserData = (data) => {
@@ -49,6 +55,11 @@ export const transformUserData = (data) => {
       (element.birth_date = excelDateToJsDate(element.birth_date));
     element["status"] = EnableStatus.ENABLED;
     element["coordinates"] = {longitude: 0, latitude: 0};
+    if (element["payment_frequency"] === "mensuel") {
+      element["payment_frequency"] = "MONTHLY";
+    } else if (element["payment_frequency"] === "annuel") {
+      element["payment_frequency"] = "YEARLY";
+    }
     return element;
   });
 };
