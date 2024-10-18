@@ -11,6 +11,8 @@ import {
 import {EVENT_TYPE_VALUE} from "../utils";
 import {formatDate} from "@/utils/date";
 import defaultPicture from "@/assets/blank-profile-photo.png";
+import {useToggle} from "@/hooks";
+import {EventEditDialog} from "../EventEditDialog";
 
 export type EventCardPropsType = {
   event: Required<Event> & {
@@ -50,6 +52,7 @@ const CARD_SX: SxProps = {
 export function EventCard({event}: EventCardPropsType) {
   const {planner, course} = event;
   const PLANNER_PICTURE = planner.pic || defaultPicture;
+  const [editShow, _, toggleEdit] = useToggle();
 
   return (
     <Card sx={CARD_SX} className="event-card">
@@ -129,14 +132,11 @@ export function EventCard({event}: EventCardPropsType) {
           justifyContent: "space-between",
         }}
       >
-        <Button
-          size="small"
-          variant="contained"
-          href={`#/events/${event.id}/edit`}
-          sx={{textTransform: "revert"}}
-        >
-          Editer
-        </Button>
+        <EventEditDialog
+          eventId={event.id}
+          open={editShow}
+          toggle={toggleEdit}
+        />
         <Button
           size="small"
           href={`#/events/${event.id}/participants`}
