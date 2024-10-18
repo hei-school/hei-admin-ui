@@ -24,8 +24,11 @@ const studentProvider: HaDataProviderType = {
     const result = await usersApi().getStudentById(id);
     return result.data;
   },
-  async saveOrUpdate(payload: any, meta: any) {
-    if (meta?.isUpdate) {
+  async saveOrUpdate(
+    payload: any,
+    Params = {isUpdate: true, dueDatetime: Date}
+  ) {
+    if (Params.isUpdate) {
       const [student] = payload;
       const result = await usersApi().updateStudent(student.id, student);
       return [result.data];
@@ -36,8 +39,12 @@ const studentProvider: HaDataProviderType = {
       ...student,
       status: EnableStatus.ENABLED,
     }));
-    const studentResponse = (await usersApi().createOrUpdateStudents(students))
-      .data;
+    const studentResponse = (
+      await usersApi().createOrUpdateStudents(
+        students,
+        Params.meta?.dueDatetime
+      )
+    ).data;
 
     if (students.length <= 1 && fees.length > 0) {
       await payingApi().createStudentFees(studentResponse[0]?.id!, fees);
