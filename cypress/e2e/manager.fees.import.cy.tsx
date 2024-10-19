@@ -65,7 +65,7 @@ describe("Manager import fees for one students", () => {
     });
   });
 
-  it.skip("cannot create fees if there is too much students to create", () => {
+  it("cannot create fees if there is too much fees to create", () => {
     importFile({
       file: "13_fees_template.xlsx",
       message: "Vous ne pouvez importer que 20 éléments à la fois.",

@@ -13,7 +13,7 @@ export const validateData = (data, minimalHeaders, optionalHeaders) => {
   };
   if (data.length === 0) {
     result.message = "Il n'y a pas d'élément à insérer";
-  } else if (data.length >= 20) {
+  } else if (data.length > 20) {
     result.message = "Vous ne pouvez importer que 20 éléments à la fois.";
   } else {
     const isValid = isAllValid(Object.keys(data[0]));
