@@ -26,6 +26,8 @@ import lettersProvider from "@/providers/lettersProvider";
 import lettersStatsProvider from "./letterStatsProvider";
 import receiptProvider from "./receiptProvider";
 import awardedCoursesProvider from "./awardedCoursesProvider";
+import monitorStudentProvider from "./monitorStudentProvider";
+import monitorProvider from "./monitorProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -53,6 +55,8 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "letters-stats") return lettersStatsProvider;
   if (resourceType === "receipts") return receiptProvider;
   if (resourceType === "awarded-courses") return awardedCoursesProvider;
+  if (resourceType === "monitors") return monitorProvider;
+  if (resourceType === "monitor-students") return monitorStudentProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
@@ -100,7 +104,9 @@ const dataProvider: RaDataProviderType = {
   },
   async create(resourceType: string, params = {}) {
     const result = await getProvider(resourceType).saveOrUpdate(
-      resourceType === "students" || resourceType === "teachers"
+      resourceType === "students" ||
+        resourceType === "teachers" ||
+        resourceType === "monitors"
         ? toEnabledUsers([params.data])
         : [params.data],
       params

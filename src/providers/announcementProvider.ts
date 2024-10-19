@@ -19,6 +19,7 @@ const announcementProvider: HaDataProviderType = {
             filter.scope
           )
           .then((result) => ({data: result.data}));
+      case WhoamiRoleEnum.MONITOR:
       case WhoamiRoleEnum.STUDENT:
         return announcementsApi()
           .getStudentsAnnouncements(
@@ -53,6 +54,7 @@ const announcementProvider: HaDataProviderType = {
         return announcementsApi()
           .getAnnouncementById(id)
           .then((result) => result.data);
+      case WhoamiRoleEnum.MONITOR:
       case WhoamiRoleEnum.STUDENT:
         return announcementsApi()
           .getStudentsAnnouncementById(id)
