@@ -25,6 +25,7 @@ describe("Manager create multiple students", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
     cy.intercept("GET", `letters/stats`, {}).as("getStats");
     cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getStats");
     cy.getByTestid("students-menu").click();
     cy.get('[href="#/students"]').click();
   });
@@ -54,16 +55,17 @@ describe("Manager create multiple students", () => {
   });
 
   it("can create multiple students with the correct file", () => {
-    cy.intercept("PUT", "/students", [createdStudents]).as("createStudents");
+    cy.intercept("PUT", "/students?*", [createdStudents]).as("createStudents");
     importFile(
       "correct_students_template.xlsx",
       "Importation effectuée avec succès",
       _path
     );
+    cy.contains("Importation effectuée avec succès", {timeout: 20000});
   });
 
   it("can create multiple students with the correct file and minimum infos", () => {
-    cy.intercept("PUT", "/students", [liteCreatedStudents]).as(
+    cy.intercept("PUT", "/students?*", [liteCreatedStudents]).as(
       "createStudents"
     );
     importFile(
@@ -71,6 +73,7 @@ describe("Manager create multiple students", () => {
       "Importation effectuée avec succès",
       _path
     );
+    cy.contains("Importation effectuée avec succès", {timeout: 20000});
   });
 
   it("notifies if the multiple students creation failed", () => {
