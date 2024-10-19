@@ -5,7 +5,14 @@ import {eventsApi} from "./api";
 const eventProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     return eventsApi()
-      .getEvents(page, perPage, filter.from, filter.to, filter.event_type)
+      .getEvents(
+        page,
+        perPage,
+        filter.from,
+        filter.to,
+        filter.event_type,
+        filter.title
+      )
       .then((response) => ({data: response.data}));
   },
   async getOne(id: string) {
