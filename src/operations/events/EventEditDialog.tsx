@@ -1,4 +1,4 @@
-import {useNotify} from "@/hooks";
+import {useNotify, useToggle} from "@/hooks";
 import {Box, Button} from "@mui/material";
 import {
   Edit,
@@ -14,23 +14,23 @@ import {DateTimeField} from "@/operations/common/components/fields";
 
 interface EditProps {
   eventId: string;
-  toggle: () => void;
-  open: boolean;
 }
 
-export const EventEditDialog: FC<EditProps> = ({eventId, open, toggle}) => {
+export const EventEditDialog: FC<EditProps> = ({eventId}) => {
   const notify = useNotify();
+  const [editShow, _, toggleEdit] = useToggle();
+
   return (
     <>
       <Button
         size="small"
         variant="contained"
-        onClick={toggle}
+        onClick={toggleEdit}
         sx={{textTransform: "revert"}}
       >
         Editer
       </Button>
-      <Dialog title="Edition d'événement" open={open} onClose={toggle}>
+      <Dialog title="Edition d'événement" open={editShow} onClose={toggleEdit}>
         <Edit
           title=" "
           id={eventId}
@@ -40,7 +40,7 @@ export const EventEditDialog: FC<EditProps> = ({eventId, open, toggle}) => {
           mutationOptions={{
             onSuccess: () => {
               notify("Événement mis à jour.");
-              toggle();
+              toggleEdit();
             },
           }}
         >
