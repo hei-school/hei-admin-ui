@@ -23,6 +23,10 @@ import HaLoginPage from "@/security/LoginPage";
 import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
 import awardedCourses from "./operations/awardedCourses";
+import events from "@/operations/events";
+
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 
 function AppBase() {
   return (
@@ -50,6 +54,7 @@ function AppBase() {
       <Resource name="promotions" {...promotions} />
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
+      <Resource name="events" {...events} />
       <Resource name="student-letters" />
       <Resource name="letters" />
       <Resource
@@ -130,6 +135,11 @@ function AppBase() {
         />
         <Route
           exact
+          path="/events/:eventId/participants"
+          element={<events.participants />}
+        />
+        <Route
+          exact
           path="/docs/students/TRANSCRIPT/:id"
           element={<studentDocs.show />}
         />
@@ -159,7 +169,11 @@ function AppBase() {
 }
 
 function App() {
-  return <AppBase />;
+  return (
+    <LocalizationProvider dateAdapter={AdapterDayjs}>
+      <AppBase />
+    </LocalizationProvider>
+  );
 }
 
 export default App;

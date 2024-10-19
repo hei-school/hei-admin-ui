@@ -10,6 +10,7 @@ import {
   Group as GroupIcon,
   MenuBook as PromotionIcon,
   Newspaper as AnnouncementIcon,
+  CalendarMonth as EventIcon,
 } from "@mui/icons-material";
 import {HeiListMenuItem} from "./common";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
@@ -56,6 +57,7 @@ function ManagerMenu() {
         label="Annonces"
         icon={<AnnouncementIcon />}
       />
+      <SingleMenu to="/events" label="Événements" icon={<EventIcon />} />
     </Box>
   );
 }
