@@ -1,7 +1,6 @@
 import {useNotify} from "@/hooks";
 import {Box, Button} from "@mui/material";
 import {
-  DateTimeInput,
   Edit,
   required,
   SaveButton,
@@ -11,6 +10,7 @@ import {
 } from "react-admin";
 import {FC} from "react";
 import {Dialog} from "@/ui/components";
+import {DateTimeField} from "@/operations/common/components/fields";
 
 interface EditProps {
   eventId: string;
@@ -71,16 +71,14 @@ export const EventEditDialog: FC<EditProps> = ({eventId, open, toggle}) => {
                 width: "100%",
               }}
             >
-              <DateTimeInput
-                label="Début"
+              <DateTimeField
                 source="begin_datetime"
-                fullWidth
+                label="Fin"
                 validate={required()}
               />
-              <DateTimeInput
-                label="Fin"
+              <DateTimeField
                 source="end_datetime"
-                fullWidth
+                label="Fin"
                 validate={required()}
               />
             </Box>

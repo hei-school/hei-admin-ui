@@ -66,8 +66,6 @@ const ListContent = ({eventId}: {eventId: string}) => {
   };
 
   const changeStatus = async () => {
-    console.log("etooData", participants);
-
     const payload = participants.map((participant: EventParticipant) => ({
       id: participant.id,
       event_status:

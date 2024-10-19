@@ -1,5 +1,4 @@
 import {
-  DateTimeInput,
   SelectInput,
   SimpleForm,
   TextInput,
@@ -17,6 +16,7 @@ import {EVENT_TYPE_VALUE} from "./utils";
 import {SelectPlanner} from "./components";
 import authProvider from "@/providers/authProvider";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {DateTimeField} from "@/operations/common/components/fields";
 
 export function EventCreate() {
   const userId = authProvider.getCachedWhoami().id;
@@ -63,16 +63,14 @@ export function EventCreate() {
         <Box
           sx={{display: "flex", alignItems: "center", gap: 1, width: "100%"}}
         >
-          <DateTimeInput
+          <DateTimeField
             label="Début"
             source="begin_datetime"
-            fullWidth
             validate={required()}
           />
-          <DateTimeInput
+          <DateTimeField
             label="Fin"
             source="end_datetime"
-            fullWidth
             validate={required()}
           />
         </Box>
