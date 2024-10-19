@@ -74,16 +74,16 @@ const ListActions = () => {
           <ImportButton
             validateData={validateUserData}
             resource="étudiants"
-            provider={(resource, meta) =>
-              studentProvider.saveOrUpdate(resource, {
+            provider={(data) => {
+              return studentProvider.saveOrUpdate(data, {
                 meta: {
                   dueDatetime: get27thOfMonth(
                     date.getFullYear(),
                     date.getMonth()
                   ),
                 },
-              })
-            }
+              });
+            }}
             transformData={transformStudentData}
             minimalHeaders={minimalUserHeaders}
             optionalHeaders={optionalUserHeaders}

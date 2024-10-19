@@ -1,4 +1,3 @@
-import {statsMocks} from "../fixtures/api_mocks/letters-mocks";
 import {
   createdStudents,
   liteCreatedStudents,
@@ -24,9 +23,9 @@ describe("Manager create multiple students", () => {
       [student1Mock]
     ).as("getStudentsByName");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
-    cy.intercept("GET", `letters/stats`, statsMocks).as("getStats");
-
+    cy.intercept("GET", `letters/stats`, {}).as("getStats");
     cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getStats");
     cy.getByTestid("students-menu").click();
     cy.get('[href="#/students"]').click();
   });
@@ -39,7 +38,7 @@ describe("Manager create multiple students", () => {
     );
   });
 
-  it.skip("cannot create students if there is too much students to create", () => {
+  it("cannot create students if there is too much students to create", () => {
     importFile(
       "13_template.xlsx",
       "Vous ne pouvez importer que 20 éléments à la fois.",
@@ -55,26 +54,26 @@ describe("Manager create multiple students", () => {
     );
   });
 
-  it.skip("can create multiple students with the correct file", () => {
-    cy.intercept("PUT", "/students?due_datetime=2024-10-26T21%3A00%3A00.000Z", [
-      createdStudents,
-    ]).as("createStudents");
+  it("can create multiple students with the correct file", () => {
+    cy.intercept("PUT", "/students?*", [createdStudents]).as("createStudents");
     importFile(
       "correct_students_template.xlsx",
       "Importation effectuée avec succès",
       _path
     );
+    cy.contains("Importation effectuée avec succès", {timeout: 20000});
   });
 
-  it.skip("can create multiple students with the correct file and minimum infos", () => {
-    cy.intercept("PUT", "/students?due_datetime=2024-10-26T21%3A00%3A00.000Z", [
-      liteCreatedStudents,
-    ]).as("createStudents");
+  it("can create multiple students with the correct file and minimum infos", () => {
+    cy.intercept("PUT", "/students?*", [liteCreatedStudents]).as(
+      "createStudents"
+    );
     importFile(
       "lite_correct_students_template.xlsx",
       "Importation effectuée avec succès",
       _path
     );
+    cy.contains("Importation effectuée avec succès", {timeout: 20000});
   });
 
   it("notifies if the multiple students creation failed", () => {
