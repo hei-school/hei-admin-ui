@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {
   CreateButton as RaCreateButton,
   EditButton,
@@ -44,12 +45,13 @@ import {transformStudentData} from "./importConf";
 import {NOOP_ID} from "@/utils/constants";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
 import studentProvider from "@/providers/studentProvider";
-import {useState} from "react";
+import {newWorkerDoc} from "../../../cypress/fixtures/api_mocks/docs-mocks";
+import {get27thOfMonth} from "@/utils/date";
 
 const ListActions = () => {
   const {isManager} = useRole();
   const redirect = useRedirect();
-
+  const date = new Date();
   return (
     <Box>
       {isManager() && (
@@ -72,7 +74,16 @@ const ListActions = () => {
           <ImportButton
             validateData={validateUserData}
             resource="étudiants"
-            provider={studentProvider.saveOrUpdate}
+            provider={(data) => {
+              return studentProvider.saveOrUpdate(data, {
+                meta: {
+                  dueDatetime: get27thOfMonth(
+                    date.getFullYear(),
+                    date.getMonth()
+                  ),
+                },
+              });
+            }}
             transformData={transformStudentData}
             minimalHeaders={minimalUserHeaders}
             optionalHeaders={optionalUserHeaders}
