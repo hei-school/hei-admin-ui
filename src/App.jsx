@@ -23,6 +23,7 @@ import HaLoginPage from "@/security/LoginPage";
 import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
 import awardedCourses from "./operations/awardedCourses";
+import attendance from "./operations/attendance";
 
 function AppBase() {
   return (
@@ -52,6 +53,7 @@ function AppBase() {
       <Resource name="course" {...course} />
       <Resource name="student-letters" />
       <Resource name="letters" />
+      <Resource name="attendance" {...attendance} />
       <Resource
         name="awarded-courses"
         {...awardedCourses}

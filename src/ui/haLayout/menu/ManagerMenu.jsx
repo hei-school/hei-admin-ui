@@ -10,6 +10,7 @@ import {
   Group as GroupIcon,
   MenuBook as PromotionIcon,
   Newspaper as AnnouncementIcon,
+  ListAlt as AttendanceIcon,
 } from "@mui/icons-material";
 import {HeiListMenuItem} from "./common";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
@@ -45,6 +46,11 @@ function ManagerMenu() {
         icon={<PromotionIcon />}
       />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
+      <SingleMenu
+        to="/attendance"
+        label="Présences"
+        icon={<AttendanceIcon />}
+      />
       <SingleMenu
         data-testid="course-menu"
         to="/course"
