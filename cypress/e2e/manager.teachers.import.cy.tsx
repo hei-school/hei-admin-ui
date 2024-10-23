@@ -17,6 +17,7 @@ describe("Manager create multiple teachers", () => {
     cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
       "getTeachersPage2"
     );
+    cy.intercept("GET", `letters/stats`, {}).as("getStats");
     cy.intercept(
       "GET",
       `/teachers?page=1&page_size=10&last_name=${teacherNameToBeCheckedMock}`,
@@ -35,10 +36,10 @@ describe("Manager create multiple teachers", () => {
     );
   });
 
-  it("cannot create teachers if there is too much teachers to create", () => {
+  it.only("cannot create teachers if there is too much teachers to create", () => {
     importFile(
       "too_much_teachers_template.xlsx",
-      "Vous ne pouvez importer que 10 éléments à la fois.",
+      "Vous ne pouvez importer que 20 éléments à la fois.",
       _path
     );
   });
