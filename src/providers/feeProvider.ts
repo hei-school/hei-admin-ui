@@ -1,9 +1,12 @@
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
+import authProvider from "./authProvider";
 
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
   studentId + raSeparator + feeId;
+const role = authProvider.getCachedRole();
 
 export const toApiIds = (raId: string = "") => {
   const ids = raId.split(raSeparator);
@@ -63,9 +66,16 @@ const feeProvider: HaDataProviderType = {
         .then((result) => [{...result.data, ...fee}]);
     }
 
-    return await payingApi()
-      .crupdateStudentFees(fees)
-      .then((result) => result.data);
+    if (role === WhoamiRoleEnum.STUDENT) {
+      return await payingApi()
+        .createStudentFees(fees[0].student_id, fees)
+        .then((result) => result.data);
+    }
+    if (role === WhoamiRoleEnum.MANAGER) {
+      return await payingApi()
+        .crupdateStudentFees(fees)
+        .then((result) => result.data);
+    }
   },
   async delete(raId: string) {
     const {studentId, feeId} = toApiIds(raId);
