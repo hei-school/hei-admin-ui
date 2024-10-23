@@ -6,7 +6,6 @@ import authProvider from "./authProvider";
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
   studentId + raSeparator + feeId;
-const role = authProvider.getCachedRole();
 
 export const toApiIds = (raId: string = "") => {
   const ids = raId.split(raSeparator);
@@ -48,6 +47,7 @@ const feeProvider: HaDataProviderType = {
 
   async saveOrUpdate(resources: Array<any>) {
     const fees = resources[0];
+    const role = authProvider.getCachedRole();
 
     if (fees?.psp_id) {
       const fee = fees;
@@ -65,7 +65,7 @@ const feeProvider: HaDataProviderType = {
         .createMpbs(createMpbs?.student_id, createMpbs?.fee_id, createMpbs)
         .then((result) => [{...result.data, ...fee}]);
     }
-
+    console.log("role jhejhejheh", role);
     if (role === WhoamiRoleEnum.STUDENT) {
       return await payingApi()
         .createStudentFees(fees[0].student_id, fees)

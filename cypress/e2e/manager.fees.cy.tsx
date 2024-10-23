@@ -104,6 +104,7 @@ describe("Manager.Fee", () => {
   });
 
   it("can create fees with predefined fields equals to 1 month", () => {
+    cy.intercept("PUT", `/fees*`, feesMock).as("createFees");
     cy.get('[data-testid="fees-list-tab"]').click();
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
