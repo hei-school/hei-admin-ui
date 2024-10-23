@@ -565,7 +565,8 @@ export const Informations = ({
   return (
     <TabbedShowLayout
       tabs={<TabbedShowLayoutTabs variant="scrollable" scrollButtons="auto" />}
-      syncWithLocation={!role.isStudent() && !role.isManager() && !role.isMonitor()
+      syncWithLocation={
+        !role.isStudent() && !role.isManager() && !role.isMonitor()
       }
     >
       <TabbedShowLayout.Tab
