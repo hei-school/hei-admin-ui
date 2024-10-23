@@ -1,27 +1,28 @@
 import {TextField} from "@mui/material";
 import useHaToolbarContext from "./useHaToolbarContext";
+import {DateTimePicker} from "@mui/x-date-pickers";
+import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
+import {renderTimeViewClock} from "@mui/x-date-pickers/timeViewRenderers";
+import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
+import dayjs, {Dayjs} from "dayjs";
+import {useEffect} from "react";
 
 export function DateTimeFilter({source, label, ...rest}) {
   const {currentFilter, setOneFilter} = useHaToolbarContext();
-  const value = currentFilter[source]
-    ? currentFilter[source].slice(0, currentFilter[source].lastIndexOf(":"))
-    : "";
+  const value = currentFilter[source];
 
   return (
-    <TextField
-      size="small"
-      type="datetime-local"
-      variant="outlined"
+    <DateTimePicker
+      ampm={false}
       label={label}
-      sx={{width: "100%"}}
-      InputLabelProps={{shrink: true}}
-      value={value}
-      onChange={(event) => {
-        if (event.target.value !== "")
-          setOneFilter(source, event.target.value + ":00.000Z");
-        else setOneFilter(source, event.target.value);
+      value={value ? dayjs(value) : null}
+      slotProps={{
+        textField: {
+          size: "small",
+        },
       }}
-      {...rest}
+      sx={{width: "100%"}}
+      onChange={(value) => setOneFilter(source, value.toISOString())}
     />
   );
 }

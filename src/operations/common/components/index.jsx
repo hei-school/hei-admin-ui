@@ -3,6 +3,8 @@ export * from "./Edit";
 export * from "./GeoLocalisation";
 export * from "./Show";
 export * from "./FileDownloader";
+export * from "./ChipRadio";
+export * from "./Loader";
 export {StudentListWithBulkActions} from "./StudentListWithBulkActions";
 export {DeleteWithConfirm} from "./DeleteWithConfirm";
 export {ListHeader} from "./ListHeader";

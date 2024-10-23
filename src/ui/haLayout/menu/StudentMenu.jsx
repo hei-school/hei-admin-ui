@@ -6,6 +6,7 @@ import {
   LibraryAddCheck as WorkStudyDocsIcon,
   Work as OtherDocsIcon,
   Newspaper as AnnouncementIcon,
+  CalendarMonth as EventIcon,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 import {HeiListMenuItem} from "./common";
@@ -47,6 +48,12 @@ function StudentMenu() {
         to="/announcements"
         label="Annonces"
         icon={<AnnouncementIcon />}
+      />
+      <SingleMenu
+        data-testid="event-menu"
+        to="/events"
+        label="Événements"
+        icon={<EventIcon />}
       />
     </Box>
   );

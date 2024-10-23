@@ -26,6 +26,8 @@ import lettersProvider from "@/providers/lettersProvider";
 import lettersStatsProvider from "./letterStatsProvider";
 import receiptProvider from "./receiptProvider";
 import awardedCoursesProvider from "./awardedCoursesProvider";
+import eventProvider from "@/providers/eventProvider";
+import eventParticipantProvider from "@/providers/eventParticipantProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -53,6 +55,8 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "letters-stats") return lettersStatsProvider;
   if (resourceType === "receipts") return receiptProvider;
   if (resourceType === "awarded-courses") return awardedCoursesProvider;
+  if (resourceType === "events") return eventProvider;
+  if (resourceType === "event-participants") return eventParticipantProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
@@ -92,10 +96,13 @@ const dataProvider: RaDataProviderType = {
     return {data: result};
   },
   async update(resourceType: string, params: any) {
-    const result = await getProvider(resourceType).saveOrUpdate([params.data], {
-      isUpdate: true,
-      meta: params.meta || {},
-    });
+    const result = await getProvider(resourceType).saveOrUpdate(
+      [params.data].flat(),
+      {
+        isUpdate: true,
+        meta: params.meta || {},
+      }
+    );
     return {data: result[0]};
   },
   async create(resourceType: string, params = {}) {
