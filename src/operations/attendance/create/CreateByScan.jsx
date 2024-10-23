@@ -14,6 +14,15 @@ import {Close} from "@mui/icons-material";
 import {QrPageConfig} from ".";
 import {AttendanceMovementType} from "@haapi/typescript-client";
 import {createScanner, ScannerBox} from "./QrScanner";
+import {
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Typography
+} from '@mui/material';
+import attendanceProvider from "@/providers/attendanceProvider";
 
 const StatusStyled = styled("p")({
   mt: 2,
@@ -31,15 +40,15 @@ export const CreateByScan = () => {
   const [info, setInfo] = useState({status: ScanStatus.NoScan, data: ""});
   const [current, setCurrent] = useState({type: config.type, open: false});
   const [scanner, setScanner] = useState(null);
+  const [openDialog, setOpenDialog] = useState(false);
+  const [dialogData, setDialogData] = useState(null);
   const navigate = useNavigate();
 
-  //unmount event
   useEffect(() => () => scanner !== null && scanner.clear(), []);
 
   useEffect(() => {
-    const newScanner = createScanner(setInfo);
+    const newScanner = createScanner(setInfo, setOpenDialog, setDialogData);
     newScanner.render();
-
     setScanner(newScanner);
   }, [config.pause, config.box, config.fps]);
 
@@ -129,6 +138,37 @@ export const CreateByScan = () => {
             </RadioGroup>
           </FormControl>
         </Box>
+
+        <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
+          <DialogTitle>Confirmer la présence</DialogTitle>
+          <DialogContent>
+            <Typography variant="body1">
+              Êtes-vous sûr de vouloir enregistrer la présence de {dialogData?.name} ?
+            </Typography>
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={() => setOpenDialog(false)}>Annuler</Button>
+            <Button
+              onClick={async () => {
+                try {
+                  await attendanceProvider.saveOrUpdate([{
+                    place: "IVANDRY",
+                    student_id: dialogData.id,
+                    created_at: new Date().toISOString(),
+                    attendance_movement_type: dialogData.type,
+                  }]);
+                  setInfo({status: ScanStatus.Success, data: `${dialogData.name} a été enregistré avec succès.`});
+                  setOpenDialog(false);
+                } catch (error) {
+                  setInfo({status: ScanStatus.Failed, data: "Erreur lors de la vérification."});
+                  console.error("Erreur lors de l'enregistrement : ", error);
+                }
+              }}
+            >
+              Confirmer
+            </Button>
+          </DialogActions>
+        </Dialog>
       </Box>
     </Box>
   );

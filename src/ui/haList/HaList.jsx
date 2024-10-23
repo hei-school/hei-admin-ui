@@ -71,13 +71,13 @@ export function HaList({
         {...listProps}
       >
         <Box>
-          <HaListTitle
+          {/*<HaListTitle
             actions={actions}
             filterIndicator={filterIndicator}
             title={title}
             icon={icon}
             mainSearch={mainSearch}
-          />
+      /> //TODO: remove this*/} 
           <DatagridWrapper>
             {hasDatagrid ? (
               <Datagrid

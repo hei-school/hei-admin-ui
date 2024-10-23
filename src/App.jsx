@@ -228,6 +228,8 @@ function AppBase() {
           exact
           path="/monitor-students/:userId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
+          path="/attendance/scan"
+          element={<attendance.scan />}
         />
       </CustomRoutes>
     </Admin>

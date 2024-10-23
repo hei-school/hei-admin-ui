@@ -19,17 +19,17 @@ export const AttendanceAside = () => {
           <FilterListItem
             type="attendance_statuses"
             label="Présent"
-            value={AttendanceStatus.Present}
+            value={AttendanceStatus.PRESENT}
           />
           <FilterListItem
             type="attendance_statuses"
             label="En retard"
-            value={AttendanceStatus.Late}
+            value={AttendanceStatus.LATE}
           />
           <FilterListItem
             type="attendance_statuses"
             label="Absent"
-            value={AttendanceStatus.Missing}
+            value={AttendanceStatus.MISSING}
           />
         </FilterList>
       </CardContent>
