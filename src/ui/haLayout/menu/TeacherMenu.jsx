@@ -29,12 +29,12 @@ function TeacherMenu() {
         label="Cours"
         icon={<CourseIcon />}
       />
-      <SingleMenu
+      {/* <SingleMenu
         data-testid="event-menu"
         to="/events"
         label="Événements"
         icon={<EventIcon />}
-      />
+      /> */}
     </Box>
   );
 }
