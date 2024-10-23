@@ -24,9 +24,8 @@ const paramLocalAmplifyBoolean = "amplify-signin-with-hostedUI";
 
 const whoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
-  // const session = (await fetchAuthSession()) || {};
-  // conf.accessToken = session.tokens?.idToken?.toString();
-  conf.accessToken = localStorage.getItem("email") as string;
+  const session = (await fetchAuthSession()) || {};
+  conf.accessToken = session.tokens?.idToken?.toString();
   const securityApi = new SecurityApi(conf);
   return securityApi
     .whoami()
@@ -62,41 +61,40 @@ const authProvider = {
     password,
     clientMetadata,
   }: Record<string, unknown>): Promise<void> => {
-    // const user = await signIn({
-    //   username: username as string,
-    //   password: password as string,
-    //   options: {
-    //     clientMetadata: clientMetadata as any,
-    //   },
-    // });
+    const user = await signIn({
+      username: username as string,
+      password: password as string,
+      options: {
+        clientMetadata: clientMetadata as any,
+      },
+    });
 
-    // if (
-    //   user.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
-    // ) {
-    //   const encodedUsername = encodeURIComponent(btoa(username as string));
-    //   const encodedPassword = encodeURIComponent(btoa(password as string));
-    //   window.location.replace(
-    //     `/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
-    //   );
+    if (
+      user.nextStep.signInStep === "CONFIRM_SIGN_IN_WITH_NEW_PASSWORD_REQUIRED"
+    ) {
+      const encodedUsername = encodeURIComponent(btoa(username as string));
+      const encodedPassword = encodeURIComponent(btoa(password as string));
+      window.location.replace(
+        `/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
+      );
 
-    //   return;
-    // }
-    localStorage.setItem("email", username as string);
+      return;
+    }
     await whoami().then((whoami) => cacheWhoami(whoami));
   },
 
   logout: async (): Promise<void> => {
     localStorage.clear(); // Amplify stores data in localStorage
     sessionStorage.clear();
-    //await signOut();
+    await signOut();
   },
 
   checkAuth: async (): Promise<void> => {
     await whoami()
       .then(async (whoami) => {
         if (
-          !sessionStorage.getItem(bearerItem)
-          //!localStorage.getItem(paramLocalAmplifyBoolean)
+          !sessionStorage.getItem(bearerItem) ||
+          !localStorage.getItem(paramLocalAmplifyBoolean)
         ) {
           cacheWhoami(whoami);
         }
