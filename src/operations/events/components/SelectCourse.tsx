@@ -24,6 +24,7 @@ export function SelectCourse() {
       source="course_id"
       optionText="label"
       optionValue="value"
+      data-testid="event-course"
       choices={COURSE_CHOICES}
       disabled={eventType !== EventType.COURSE}
       isLoading={isLoading}

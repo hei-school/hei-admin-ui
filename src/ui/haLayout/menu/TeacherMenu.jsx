@@ -29,7 +29,7 @@ function TeacherMenu() {
         label="Cours"
         icon={<CourseIcon />}
       />
-      <SingleMenu to="/events" label="Événements" icon={<EventIcon />} />
+      <SingleMenu data-testid="event-menu" to="/events" label="Événements" icon={<EventIcon />} />
     </Box>
   );
 }

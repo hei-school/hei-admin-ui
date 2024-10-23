@@ -8,11 +8,13 @@ import {
 import {Box, Typography} from "@mui/material";
 import {mapToChoices} from "@/utils";
 import {EVENT_TYPE_VALUE} from "../utils";
+import { useRole } from "@/security/hooks";
 
 export function EventListAction() {
+  const {isManager} = useRole()
   return (
     <Box>
-      <CreateButton resource="events" />
+      {isManager() &&<CreateButton resource="events" />}
       <FilterForm>
         <TextFilter label="Titre" source="title" />
         <SelectInputFilter

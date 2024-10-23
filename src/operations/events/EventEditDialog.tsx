@@ -56,6 +56,7 @@ export const EventEditDialog: FC<EditProps> = ({eventId}) => {
               source="title"
               fullWidth
               validate={required()}
+              data-testid="event-title"
             />
             <TextInput
               label="Description"

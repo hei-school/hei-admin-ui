@@ -44,6 +44,7 @@ function EventListContent() {
         width: "100%",
         gap: 2,
       }}
+      data-testid="event-list-content"
     >
       {events.map((event) => (
         <EventCard key={event.id} event={event} />

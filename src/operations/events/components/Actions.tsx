@@ -39,6 +39,7 @@ export const StatusActionStatus: FC<StatusActionProps> = ({
         label=" "
         defaultSelected={localStatus || participant.event_status!}
         enable={isManager() || isTeacher()}
+        data-testid={`eventparticipant-${participant.id}-status`}
         choices={[
           {value: "PRESENT", label: "Présent", color: "success"},
           {value: "MISSING", label: "Absent", color: "error"},

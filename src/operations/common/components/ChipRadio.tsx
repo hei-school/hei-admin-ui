@@ -25,6 +25,7 @@ export const ChipRadio = ({
   defaultSelected,
   enable = true,
   sx = {},
+  ...props
 }: RadioProps) => {
   const [radio, setRadio] = useState(defaultSelected as string);
 
@@ -42,6 +43,7 @@ export const ChipRadio = ({
       direction={row ? "row" : "column"}
       justifyContent="space-between"
       sx={{gap: 1, ...sx}}
+      {...props}
     >
       <Typography>{label}</Typography>
       <Stack direction="row" gap={1} flexWrap="wrap">
@@ -54,6 +56,7 @@ export const ChipRadio = ({
               label={label}
               onClick={() => enable && handleItemChange(value)}
               color={color}
+              data-testid={value}
               variant={isSelected ? "filled" : "outlined"}
             />
           );

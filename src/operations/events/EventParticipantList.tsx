@@ -20,6 +20,7 @@ import {
 import {useState} from "react";
 import {useNotify, useToggle} from "@/hooks";
 import {AddGroupDialog, LetterActons, StatusActionStatus} from "./components";
+import {useRole} from "@/security/hooks";
 
 export function EventParticipantList() {
   const {eventId} = useParams();
@@ -50,6 +51,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
   const notify = useNotify();
   const [show, _, toggle] = useToggle();
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
+  const {isManager, isTeacher} = useRole();
 
   const [statusMap, setStatusMap] = useState(
     new Map<string, AttendanceStatus>()
@@ -140,11 +142,13 @@ const ListContent = ({eventId}: {eventId: string}) => {
           />
         </Datagrid>
       </HaList>
-      <SaveButton
-        onClick={changeStatus}
-        isLoading={editStatus}
-        disabled={editStatus}
-      />
+      {(isManager() || isTeacher()) && (
+        <SaveButton
+          onClick={changeStatus}
+          isLoading={editStatus}
+          disabled={editStatus || statusMap.size == 0}
+        />
+      )}
       <AddGroupDialog show={show} toggle={toggle} eventId={eventId} />
     </Stack>
   );
@@ -169,7 +173,7 @@ const SaveButton = ({
       disabled={disabled}
     >
       {isLoading ? <Loader /> : <SaveIcon fontSize="small" />}
-      Enregister
+      Enregistrer
     </Button>
   );
 };

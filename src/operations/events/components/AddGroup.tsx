@@ -22,6 +22,7 @@ const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
       title=" "
       id={eventId}
       redirect={false}
+      data-testid="add-group-form"
       transform={(data: any) => {
         // FIXME: backend not handle null id (course_id)
         return {
@@ -34,7 +35,7 @@ const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
       }}
       mutationOptions={{
         onSuccess: () => {
-          notify("Groupe ajuter avec succès", {type: "success"});
+          notify("Groupe ajouter avec succès", {type: "success"});
           toggle();
         },
       }}
@@ -45,6 +46,7 @@ const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
           source="groups"
           optionText="ref"
           optionValue="id"
+          data-testid="add-group"
           choices={groups}
           isLoading={isGroupsLoading}
           validate={required()}

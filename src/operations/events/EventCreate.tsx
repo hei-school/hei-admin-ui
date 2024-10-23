@@ -50,12 +50,14 @@ export function EventCreate() {
         <TextInput
           label="Titre"
           source="title"
+          data-testid="event-title"
           fullWidth
           validate={required()}
         />
         <TextInput
           label="Description"
           source="description"
+          data-testid="event-description"
           multiline
           fullWidth
         />
@@ -78,6 +80,7 @@ export function EventCreate() {
           fullWidth
           label="Types"
           source="event_type"
+          data-testid="event-type"
           optionText="label"
           optionValue="value"
           defaultValue={EventType.COURSE}
@@ -89,6 +92,7 @@ export function EventCreate() {
         <AutocompleteArrayInput
           label="Groupes"
           source="groups"
+          data-testid="event-groups"
           optionText="ref"
           optionValue="id"
           choices={groups}
