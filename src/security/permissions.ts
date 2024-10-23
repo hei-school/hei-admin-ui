@@ -14,11 +14,17 @@ export const getPermissions = (role: string) => {
 
       {action: createPermissions, resource: "fees"},
       {action: createPermissions, resource: "payments"},
+
+      {action: updatePermissions, resource: "events"},
+      {action: updatePermissions, resource: "event-participants"},
     ],
 
     TEACHER: [
       {action: "read", resource: "profile", record: {id: whoamiId}},
       {action: ["list", "read", "show"], resource: "students"},
+
+      {action: ["list", "read", "show"], resource: "events"},
+      {action: updatePermissions, resource: "event-participants"},
     ],
 
     STUDENT: [
@@ -26,6 +32,9 @@ export const getPermissions = (role: string) => {
 
       {action: ["list", "read", "show"], resource: "fees"},
       {action: ["list", "read", "show"], resource: "payments"},
+
+      {action: ["list", "read", "show"], resource: "event-participants"},
+      {action: ["list", "read", "show"], resource: "events"},
     ],
   };
   return roleDefinitions[role as keyof typeof roleDefinitions];

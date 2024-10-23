@@ -18,11 +18,13 @@
   },
   "dependencies": {
     "@haapi/typescript-client": "^1.67.0",
+    "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-enterprise": "^7.0.0",
     "@react-admin/ra-navigation": "^4.5.0",
     "@react-admin/ra-rbac": "^4.3.0",
     "aws-amplify": "^6.0.28",
     "axios": "^1.6.8",
+    "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "mime": "^4.0.3",
     "ra-language-french": "^4.16.15",

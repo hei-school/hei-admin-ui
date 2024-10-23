@@ -5,6 +5,7 @@ import {
   Group as GroupIcon,
   Newspaper as AnnouncementIcon,
   Book as CourseIcon,
+  CalendarMonth as EventIcon,
 } from "@mui/icons-material";
 import {ListMenu, SingleMenu} from "./utils";
 import {HeiListMenuItem} from "./common";
@@ -28,6 +29,12 @@ function TeacherMenu() {
         label="Cours"
         icon={<CourseIcon />}
       />
+      {/* <SingleMenu
+        data-testid="event-menu"
+        to="/events"
+        label="Événements"
+        icon={<EventIcon />}
+      /> */}
     </Box>
   );
 }

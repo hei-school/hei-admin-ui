@@ -1,5 +1,7 @@
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
+import authProvider from "./authProvider";
 
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
@@ -45,6 +47,7 @@ const feeProvider: HaDataProviderType = {
 
   async saveOrUpdate(resources: Array<any>) {
     const fees = resources[0];
+    const role = authProvider.getCachedRole();
 
     if (fees?.psp_id) {
       const fee = fees;
@@ -62,10 +65,17 @@ const feeProvider: HaDataProviderType = {
         .createMpbs(createMpbs?.student_id, createMpbs?.fee_id, createMpbs)
         .then((result) => [{...result.data, ...fee}]);
     }
-
-    return await payingApi()
-      .crupdateStudentFees(fees)
-      .then((result) => result.data);
+    console.log("role jhejhejheh", role);
+    if (role === WhoamiRoleEnum.STUDENT) {
+      return await payingApi()
+        .createStudentFees(fees[0].student_id, fees)
+        .then((result) => result.data);
+    }
+    if (role === WhoamiRoleEnum.MANAGER) {
+      return await payingApi()
+        .crupdateStudentFees(fees)
+        .then((result) => result.data);
+    }
   },
   async delete(raId: string) {
     const {studentId, feeId} = toApiIds(raId);
