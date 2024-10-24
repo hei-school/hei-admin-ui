@@ -4,6 +4,7 @@ import {
   FunctionField,
   SimpleShowLayout,
   TextField,
+  useRefresh,
   useUpdate,
 } from "react-admin";
 import {Event as EventIcon, Add, Save as SaveIcon} from "@mui/icons-material";
@@ -19,7 +20,7 @@ import {
 } from "@haapi/typescript-client";
 import {useState} from "react";
 import {useNotify, useToggle} from "@/hooks";
-import {AddGroupDialog, LetterActons, StatusActionStatus} from "./components";
+import {AddGroupDialog, LetterActions, StatusActionStatus} from "./components";
 import {useRole} from "@/security/hooks";
 
 export function EventParticipantList() {
@@ -39,6 +40,22 @@ export function EventParticipantList() {
           />
           <DateField label="De" source="begin_datetime" showTime />
           <DateField label="À" source="end_datetime" showTime />
+          <FunctionField
+            label="Groupes"
+            render={(record: Event) => (
+              <Typography
+                fontSize={{
+                  xs: "0.4rem",
+                  sm: "0.6rem",
+                  md: "0.8rem",
+                  lg: "0.9rem",
+                  xl: "1rem",
+                }}
+              >
+                {record.groups?.map((group) => group.ref).join(", ")}
+              </Typography>
+            )}
+          />
         </SimpleShowLayout>
       </Show>
       <ListContent eventId={eventId!} />
@@ -52,6 +69,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
   const [show, _, toggle] = useToggle();
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
   const {isManager, isTeacher} = useRole();
+  const refresh = useRefresh();
 
   const [statusMap, setStatusMap] = useState(
     new Map<string, AttendanceStatus>()
@@ -80,7 +98,11 @@ const ListContent = ({eventId}: {eventId: string}) => {
         meta: {eventId},
       },
       {
-        onSuccess: () => notify("Enregistrer avec succès.", {type: "success"}),
+        onSuccess: () => {
+          notify("Enregistrer avec succès.", {type: "success"});
+          refresh();
+          setStatusMap(new Map());
+        },
         onError: () => notify("Une erreur est survenu.", {type: "error"}),
       }
     );
@@ -103,12 +125,14 @@ const ListContent = ({eventId}: {eventId: string}) => {
         }}
         hasDatagrid={false}
         actions={
-          <ButtonBase
-            icon={<Add />}
-            label="Ajout groupe"
-            onClick={() => toggle()}
-            children={<></>}
-          />
+          isManager() && (
+            <ButtonBase
+              icon={<Add />}
+              label="Ajout groupe"
+              onClick={() => toggle()}
+              children={<></>}
+            />
+          )
         }
         datagridProps={{
           rowClick: false,
@@ -134,7 +158,11 @@ const ListContent = ({eventId}: {eventId: string}) => {
             render={(record: EventParticipant) => {
               return (statusMap.get(record.id!) || record.event_status) ===
                 "MISSING" ? (
-                <LetterActons />
+                <LetterActions
+                  studentId={record.student_id!}
+                  eventParticipantId={record.id!}
+                  letters={record.letter || []}
+                />
               ) : (
                 <></>
               );
@@ -167,12 +195,12 @@ const SaveButton = ({
 }: ButtonProps) => {
   return (
     <Button
+      startIcon={isLoading ? <Loader /> : <SaveIcon fontSize="small" />}
       variant={"contained"}
       onClick={() => onClick()}
-      sx={{m: 2, maxWidth: 300, textTransform: "revert"}}
+      sx={{m: 2, maxWidth: 150, textTransform: "revert"}}
       disabled={disabled}
     >
-      {isLoading ? <Loader /> : <SaveIcon fontSize="small" />}
       Enregistrer
     </Button>
   );
