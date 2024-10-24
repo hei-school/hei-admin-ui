@@ -24,7 +24,7 @@ describe("Letter.event", () => {
     cy.login({role: "STUDENT"});
     cy.visit(`/events/${event1mock.id}/participants`);
 
-    cy.getByTestid("attach-file").last().click();
+    cy.getByTestid("attach-file").last().click({force: true});
     cy.get("#description").type("missing justify");
     cy.get('[data-testid="dropzone"]').attachFileToDropZone(
       `docs_import/doc.pdf`

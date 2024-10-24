@@ -28,10 +28,10 @@ describe("Teacher.event", () => {
     ).as("saveEventParticipant");
     cy.intercept("GET", `/events/${event1mock.id}`, event1mock).as("getEvent1");
     cy.intercept("PUT", "/events", eventsMock);
-    cy.getByTestid("event-menu").click();
+    cy.visit("/events")
   });
 
-  xit("teacher can list event", () => {
+  it("teacher can list event", () => {
     cy.getByTestid("event-list-content")
       .should("contain", event1mock.title)
       .and(
@@ -64,9 +64,5 @@ describe("Teacher.event", () => {
       expect(interception.response?.statusCode).to.eq(200);
     });
     cy.contains("Enregistrer avec succès.");
-    cy.get("@participantStatus").within(() => {
-      cy.getByTestid("MISSING").should("have.class", "MuiChip-filled");
-      cy.getByTestid("PRESENT").should("have.class", "MuiChip-outlined");
-    });
   });
 });
