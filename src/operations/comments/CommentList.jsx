@@ -147,7 +147,7 @@ export function CommentList({studentId, close}) {
 
   return (
     <>
-      {!role.isStudent() && studentId && (
+      {!role.isStudent() && !role.isMonitor() && studentId && (
         <CommentCreate refetchList={refetchList} studentId={studentId} />
       )}
       <Box

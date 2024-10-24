@@ -1,5 +1,6 @@
 import {
   Manager,
+  Monitor,
   Student,
   Teacher,
   Whoami,
@@ -10,13 +11,14 @@ import dotenv from "dotenv";
 import {student1Mock} from "./students-mocks";
 import {teacher1Mock} from "./teachers-mocks";
 import {manager1Mock} from "./managers-mocks";
+import {monitor1Mock} from "./monitors-mock";
 
 dotenv.config();
 
 export type UserConnected = {
   username: string;
   password: string;
-  user: Student | Teacher | Manager;
+  user: Student | Teacher | Manager | Monitor;
   whoami: Whoami;
 };
 
@@ -59,6 +61,19 @@ export const getManager1Connected: () => UserConnected = () => {
   };
 };
 
+export const getMonitor1Connected: () => UserConnected = () => {
+  return {
+    username: monitor1Mock.email,
+    password: Cypress.env("REACT_APP_TEST_MONITOR1_PASSWORD"),
+    whoami: {
+      role: WhoamiRoleEnum.MONITOR,
+      id: monitor1Mock.id!,
+      bearer: "dymmy",
+    },
+    user: monitor1Mock,
+  };
+};
+
 export function getUserConnected(role: WhoamiRoleEnum) {
   switch (role) {
     case "STUDENT":
@@ -67,6 +82,8 @@ export function getUserConnected(role: WhoamiRoleEnum) {
       return getTeacher1Connected();
     case "MANAGER":
       return getManager1Connected();
+    case "MONITOR":
+      return getMonitor1Connected();
     default:
       throw new Error("Unknown role");
   }
