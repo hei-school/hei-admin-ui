@@ -10,17 +10,9 @@ const receiptProvider: HaDataProviderType = {
     const {paymentId: raId} = meta;
     const [, feeId, paymentId] = raId.split("--");
 
-    const response = await payingApi().getPaidFeeReceipt(id, feeId, paymentId, {
-      responseType: "arraybuffer",
-    });
-    if (!response || !response.data) {
-      throw new Error("No PDF content found");
-    }
-
-    return {
-      id: id,
-      data: response.data,
-    };
+    return payingApi()
+      .getPaidFeeReceipt(id, feeId, paymentId, {responseType: "arraybuffer"})
+      .then((res) => ({id, file: res.data}));
   },
 
   async saveOrUpdate() {

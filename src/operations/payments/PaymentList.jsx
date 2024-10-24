@@ -7,7 +7,6 @@ import {
   CreateButton,
   Button,
 } from "react-admin";
-import {Download} from "@mui/icons-material";
 import {GetReceipt} from "@/operations/students/components";
 import {DeleteWithConfirm} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
@@ -52,20 +51,11 @@ const PaymentList = ({feeId, studentId}) => {
         <FunctionField
           label="Reçu"
           render={(record) => (
-            <Button
-              label={
-                <GetReceipt
-                  studentId={studentId}
-                  feeId={feeId}
-                  paymentId={record.id}
-                />
-              }
-              size="small"
-              data-testid="get-receipt-btn"
-              startIcon={<Download />}
-            >
-              reçu
-            </Button>
+            <GetReceipt
+              studentId={studentId}
+              feeId={feeId}
+              paymentId={record.id}
+            />
           )}
           textAlign="right"
         />
