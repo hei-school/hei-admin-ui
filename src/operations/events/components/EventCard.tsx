@@ -97,6 +97,12 @@ export function EventCard({event}: EventCardPropsType) {
                 <Typography fontWeight="bold">Type: </Typography>
                 <Typography>{EVENT_TYPE_VALUE[event.type]}</Typography>
               </Stack>
+              <Stack gap={1} direction="row">
+                <Typography fontWeight="bold">Groupes: </Typography>
+                <Typography>
+                  {event.groups?.map((group) => group.ref).join(", ")}
+                </Typography>
+              </Stack>
               {event.type === EventType.COURSE && (
                 <Stack gap={1} sx={{color: "red"}} direction="row">
                   <Typography fontWeight="bold">Cours: </Typography>

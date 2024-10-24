@@ -10,6 +10,7 @@ export interface CreateLettersDialogProps {
   feeId?: Identifier;
   feeAmount?: number;
   title?: string;
+  eventParticipantId?: string;
 }
 
 export interface LetterItemProps {

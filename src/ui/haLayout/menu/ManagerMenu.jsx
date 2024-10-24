@@ -11,14 +11,21 @@ import {
   MenuBook as PromotionIcon,
   Newspaper as AnnouncementIcon,
   CalendarMonth as EventIcon,
+  SupervisedUserCircle as MonitorIcon,
 } from "@mui/icons-material";
-import {HeiListMenuItem} from "./common";
-import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
+import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
+import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 
 function ManagerMenu() {
   return (
     <Box>
       <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />
+      <SingleMenu
+        to="/monitors"
+        label="Moniteurs"
+        icon={<MonitorIcon />}
+        data-testid="monitors-menu"
+      />
       <ListMenu
         label="Étudiants"
         icon={<StudentIcon />}
@@ -57,12 +64,12 @@ function ManagerMenu() {
         label="Annonces"
         icon={<AnnouncementIcon />}
       />
-      {/* <SingleMenu
+      <SingleMenu
         data-testid="event-menu"
         to="/events"
         label="Événements"
         icon={<EventIcon />}
-      /> */}
+      />
     </Box>
   );
 }

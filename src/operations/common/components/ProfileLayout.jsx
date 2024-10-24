@@ -427,6 +427,7 @@ export const ProfileLayout = ({
   actions,
   isTeacherProfile = false,
   isStudentProfile = false,
+  isMonitorProfile = false,
 }) => {
   const {record: profile = {}} = useShowContext();
   const redirect = useRedirect();
@@ -510,12 +511,18 @@ export const ProfileLayout = ({
       <Informations
         isStudentProfile={isStudentProfile}
         isTeacherProfile={isTeacherProfile}
+        isMonitorProfile={isMonitorProfile}
       />
     </Box>
   );
 };
 
-export const Informations = ({isStudentProfile, isTeacherProfile}) => {
+export const Informations = ({
+  isStudentProfile,
+  isTeacherProfile,
+  isMonitorProfile,
+  isManagerProfile,
+}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
@@ -552,10 +559,15 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
     );
   }
 
+  const shouldSyncTab =
+    !role.isStudent() && !role.isManager() && !role.isMonitor();
+
   return (
     <TabbedShowLayout
       tabs={<TabbedShowLayoutTabs variant="scrollable" scrollButtons="auto" />}
-      syncWithLocation={!role.isStudent() && !role.isManager()}
+      syncWithLocation={
+        !role.isStudent() && !role.isManager() && !role.isMonitor()
+      }
     >
       <TabbedShowLayout.Tab
         label="Détails du Profil"
@@ -590,7 +602,7 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
         />
       )}
 
-      {isStudentProfile && role.isManager() && (
+      {isStudentProfile && (role.isManager() || role.isMonitor()) && (
         <TabbedShowLayout.Tab
           label="Liste des Frais"
           path="fees"
@@ -599,53 +611,53 @@ export const Informations = ({isStudentProfile, isTeacherProfile}) => {
           children={<FeeList studentId={profile.id} studentRef={profile.ref} />}
         />
       )}
-      {isStudentProfile && !role.isTeacher() && (
+      {isStudentProfile && (role.isManager() || role.isStudent()) && (
         <TabbedShowLayout.Tab
           label="Boîte aux lettres"
           children={<StudentLettersList />}
           data-testid="letters-list-tab"
-          sx={{
-            fontSize: "0.8rem",
-          }}
         />
       )}
-      {!isTeacherProfile && !isStudentProfile && role.isManager() && (
-        <TabbedShowLayout.Tab
-          label={
-            letterStats ? (
-              <Badge
-                badgeContent={
-                  <span
-                    style={{
-                      backgroundColor: "red",
-                      borderRadius: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      fontWeight: "800",
-                      color: "white",
-                      marginLeft: "1rem",
-                      height: "1.4rem",
-                      width: "1.4rem",
-                    }}
-                  >
-                    {letterStats.pending}
-                  </span>
-                }
-                sx={{
-                  position: "relative",
-                  fontSize: "0.7rem",
-                }}
-              >
-                Boîte aux lettres
-              </Badge>
-            ) : null
-          }
-          children={<LettersList stats={letterStats} />}
-          style={{paddingTop: "1rem", width: "10vw"}}
-          data-testid="letters-list-tab"
-        />
-      )}
+      {!isTeacherProfile &&
+        !isStudentProfile &&
+        !isMonitorProfile &&
+        role.isManager() && (
+          <TabbedShowLayout.Tab
+            label={
+              letterStats ? (
+                <Badge
+                  badgeContent={
+                    <span
+                      style={{
+                        backgroundColor: "red",
+                        borderRadius: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontWeight: "800",
+                        color: "white",
+                        marginLeft: "1rem",
+                        height: "1.4rem",
+                        width: "1.4rem",
+                      }}
+                    >
+                      {letterStats.pending}
+                    </span>
+                  }
+                  sx={{
+                    position: "relative",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  Boîte aux lettres
+                </Badge>
+              ) : null
+            }
+            children={<LettersList stats={letterStats} />}
+            style={{paddingTop: "1rem", width: "10vw"}}
+            data-testid="letters-list-tab"
+          />
+        )}
     </TabbedShowLayout>
   );
 };

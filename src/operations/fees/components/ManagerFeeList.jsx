@@ -17,15 +17,17 @@ import {
 } from "@/operations/fees/importConf";
 import {rowStyle, PSP_COLORS, PSP_VALUES} from "@/operations/fees/utils";
 import {FeesFilter} from "@/operations/fees/components/FeesFilter";
+import {useRole} from "@/security/hooks";
 
 export const ManagerFeeList = ({studentId, studentRef}) => {
+  const role = useRole();
   return (
     <HaList
       icon={<WarningOutlined />}
       title={`Frais de ${studentRef}`}
       resource={"fees"}
       filterIndicator={false}
-      actions={<FeesActions studentId={studentId} />}
+      actions={role.isManager() ? <FeesActions studentId={studentId} /> : null}
       listProps={{
         filterDefaultValues: {studentId},
         storeKey: "fees",
@@ -92,12 +94,14 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
         label="Vérification réussie"
         showTime
       />
-      <DeleteWithConfirm
-        resourceType="fees"
-        redirect={`/students/${studentId}/show/fees`}
-        confirmTitle="Suppression de frais"
-        confirmContent="Confirmez-vous la suppression de ce frais ?"
-      />
+      {!role.isMonitor() && (
+        <DeleteWithConfirm
+          resourceType="fees"
+          redirect={`/students/${studentId}/show/fees`}
+          confirmTitle="Suppression de frais"
+          confirmContent="Confirmez-vous la suppression de ce frais ?"
+        />
+      )}
     </HaList>
   );
 };
