@@ -13,6 +13,7 @@ import {Typography} from "@mui/material";
 import {HaList} from "@/ui/haList";
 import AddIcon from "@mui/icons-material/Add";
 import authProvider from "@/providers/authProvider";
+import {useNavigate} from "react-router-dom";
 
 const ListContent = () => {
   const {selectedIds} = useListContext();
@@ -31,6 +32,7 @@ const AddStudentToMonitor = ({monitorId}) => {
   const [create, {isLoading}] = useCreate();
   const notify = useNotify();
   const refresh = useRefresh();
+  const navigate = useNavigate();
 
   const addStudentToMonitor = () => {
     create(
@@ -40,6 +42,7 @@ const AddStudentToMonitor = ({monitorId}) => {
         onSuccess: () => {
           notify("Étudiants liés avec succès", {type: "success"});
           refresh();
+          navigate(`/monitors/${monitorId}/students`);
         },
         onFailure: () => {
           notify("Erreur lors de l'insertion", {type: "error"});
@@ -77,7 +80,7 @@ export const InsertStudentToMonitor = () => {
       mainSearch={{label: "Prénom·s", source: "first_name"}}
       hasDatagrid={false}
     >
-      <ListContent />
+      <ListContent monitorId={id} />
     </HaList>
   );
 };
