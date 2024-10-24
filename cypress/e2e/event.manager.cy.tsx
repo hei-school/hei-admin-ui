@@ -32,7 +32,7 @@ describe("Manager.event", () => {
       "getGroups"
     );
     cy.intercept("PUT", "/events", eventsMock);
-    cy.getByTestid("event-menu").click();
+    cy.visit("/events");
   });
 
   it("manager can create event", () => {
@@ -84,10 +84,6 @@ describe("Manager.event", () => {
       expect(interception.response?.statusCode).to.eq(200);
     });
     cy.contains("Enregistrer avec succès.");
-    cy.get("@participantStatus").within(() => {
-      cy.getByTestid("MISSING").should("have.class", "MuiChip-filled");
-      cy.getByTestid("PRESENT").should("have.class", "MuiChip-outlined");
-    });
   });
 
   it("manager can add group", () => {

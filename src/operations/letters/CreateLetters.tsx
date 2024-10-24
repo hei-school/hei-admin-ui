@@ -55,6 +55,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   feeId,
   feeAmount,
   title,
+  eventParticipantId,
 }) => {
   const notify = useNotify();
   const [confirmOpen, setConfirmOpen] = useState(false);
@@ -67,7 +68,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
         "student-letters",
         {
           data: letterRef.current,
-          meta: {studentId, feeId, feeAmount},
+          meta: {studentId, feeId, feeAmount, eventParticipantId},
         },
         {
           onSuccess: () => {
@@ -88,6 +89,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
       open={isOpen}
       onClose={onClose}
       title={title ?? "Ajouter une lettre"}
+      data-testid="add-letter"
     >
       <SimpleForm
         toolbar={

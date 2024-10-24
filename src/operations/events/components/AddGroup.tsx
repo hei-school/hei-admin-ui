@@ -1,4 +1,10 @@
-import {required, SimpleForm, useGetList, useGetOne} from "react-admin";
+import {
+  required,
+  SimpleForm,
+  useGetList,
+  useGetOne,
+  useRefresh,
+} from "react-admin";
 import {Edit} from "@/operations/common/components";
 import {FC} from "react";
 import {useNotify} from "@/hooks";
@@ -8,6 +14,7 @@ import {AutocompleteArrayInput} from "@/ui/components/inputs";
 
 const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
   const {data: event} = useGetOne("events", {id: eventId});
+  const refresh = useRefresh();
 
   const notify = useNotify();
   const {data: groups = [], isLoading: isGroupsLoading} = useGetList("groups", {
@@ -35,6 +42,7 @@ const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
       }}
       mutationOptions={{
         onSuccess: () => {
+          refresh();
           notify("Groupe ajouter avec succès", {type: "success"});
           toggle();
         },
