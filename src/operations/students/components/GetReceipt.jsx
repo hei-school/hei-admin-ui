@@ -1,35 +1,37 @@
+import {Button, useDataProvider, useGetOne} from "react-admin";
+import {Download} from "@mui/icons-material";
 import {FileDownloader} from "@/operations/common/components";
 import {payingApi} from "@/providers/api";
 import {feeIdFromRaId} from "@/providers/feeProvider";
 import receiptProvider from "@/providers/receiptProvider";
-import {useGetOne} from "react-admin";
 
 const FILE_NAME = "Reçu_paiement.pdf";
 
 export const GetReceipt = ({studentId, feeId, paymentId}) => {
   const formattedFeeId = feeIdFromRaId(feeId);
-  const {data, error, isLoading} = useGetOne("receipts", {
-    id: studentId,
-    meta: {formattedFeeId, paymentId},
-  });
+  const dataProvider = useDataProvider();
 
   const downloadReceipt = async () => {
-    if (error) {
-      console.error("Erreur lors du téléchargement du reçu :", error);
-      throw new Error("Échec du téléchargement du reçu.");
-    }
-    if (!data || !data.data) {
-      throw new Error("Aucun fichier PDF trouvé.");
-    }
-
-    const blob = new Blob([data.data], {type: "application/pdf"});
-    return {data: blob};
+    const {
+      data: {file},
+    } = await dataProvider.getOne("receipts", {
+      id: studentId,
+      meta: {formattedFeeId, paymentId},
+    });
+    return {data: file};
   };
+
   return (
     <FileDownloader
       downloadFunction={downloadReceipt}
       fileName={FILE_NAME}
-      buttonText="Reçu"
+      buttonText={
+        <Button
+          label="Reçu"
+          startIcon={<Download />}
+          data-testid="get-receipt-btn"
+        />
+      }
       successMessage="Reçu en cours de téléchargement"
       errorMessage="Échec de téléchargement. Veuillez réessayer"
     />
