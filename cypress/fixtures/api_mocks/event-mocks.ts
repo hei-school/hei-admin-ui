@@ -1,7 +1,6 @@
 import {
   Event,
   EventParticipant,
-  EventParticipantLetter,
 } from "@haapi/typescript-client";
 import {courseMock1} from "./course-mocks";
 import {manager1Mock} from "./managers-mocks";
