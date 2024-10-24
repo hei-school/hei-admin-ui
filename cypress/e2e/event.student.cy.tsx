@@ -28,7 +28,7 @@ describe("Student.event", () => {
     ).as("saveEventParticipant");
     cy.intercept("GET", `/events/${event1mock.id}`, event1mock).as("getEvent1");
     cy.intercept("PUT", "/events", eventsMock);
-    cy.visit("/events")
+    cy.visit("/events");
   });
 
   it("student can list event", () => {

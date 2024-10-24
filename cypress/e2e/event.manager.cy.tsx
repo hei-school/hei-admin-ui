@@ -32,7 +32,7 @@ describe("Manager.event", () => {
       "getGroups"
     );
     cy.intercept("PUT", "/events", eventsMock);
-    cy.visit("/events")
+    cy.visit("/events");
   });
 
   it("manager can create event", () => {
