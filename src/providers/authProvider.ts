@@ -106,7 +106,7 @@ const authProvider = {
 
   checkError: async () => Promise.resolve(),
 
-  getIdentity: async () => (await whoami()).id,
+  getIdentity: async () => await whoami(),
 
   getPermissions: async () =>
     Promise.resolve(getPermissions(getCachedRole() as string)),
