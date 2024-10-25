@@ -76,13 +76,13 @@ const Actions = () => {
 const GroupList = () => {
   const {
     data: stats = {
-      total_groups: "",
-      total_students: "",
-      women: "",
-      men: "",
-      students_alternating: "",
+      total_groups: "...",
+      total_students: "...",
+      women: "...",
+      men: "...",
+      students_alternating: "...",
     },
-  } = useGetOne("stats", {id: NOOP_ID});
+  } = useGetOne("stats", {id: NOOP_ID, meta: {resource: "users"}});
 
   const headerCardContent = [
     {
