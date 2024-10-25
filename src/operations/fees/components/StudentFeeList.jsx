@@ -17,6 +17,7 @@ import {
   useGetList,
   useRecordContext,
   useRefresh,
+  useListContext,
 } from "react-admin";
 import {EditableDatagrid} from "@react-admin/ra-editable-datagrid";
 import {
@@ -171,10 +172,18 @@ const MpbsCreate = ({toggle}) => {
 };
 
 const ListActionButtons = ({studentId}) => {
-  const {id, total_amount, mpbs, letter, status} = useRecordContext();
+  const {id, total_amount, mpbs, letter, status, due_datetime} =
+    useRecordContext();
+  const {data: fees} = useListContext();
   const refresh = useRefresh();
   const [show3, , toggle3] = useToggle();
   const [show4, , toggle4] = useToggle();
+
+  const prev = fees.filter(
+    (fee) =>
+      new Date(fee.due_datetime) < new Date(due_datetime) &&
+      !fee.comment.includes("Rattrapage")
+  )[0];
 
   return (
     <Box>
@@ -185,7 +194,8 @@ const ListActionButtons = ({studentId}) => {
           title="Mobile Money"
           disabled={
             (letter && letter.status != LetterStatus.REJECTED) ||
-            status == FeeStatusEnum.PAID
+            status == FeeStatusEnum.PAID ||
+            prev.status != FeeStatusEnum.PAID
           }
         >
           <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />
@@ -198,7 +208,8 @@ const ListActionButtons = ({studentId}) => {
           title="Bordereau"
           disabled={
             (mpbs && mpbs.status != MpbsStatus.FAILED) ||
-            status == FeeStatusEnum.PAID
+            status == FeeStatusEnum.PAID ||
+            prev.status != FeeStatusEnum.PAID
           }
         >
           <SlipIcon onClick={toggle4} data-testid={`addPaymentSlip-${id}`} />
