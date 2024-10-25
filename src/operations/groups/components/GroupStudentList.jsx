@@ -1,6 +1,6 @@
 import {Box} from "@mui/material";
-import {School as StudentIcon} from "@mui/icons-material";
-import {TextField, useRefresh} from "react-admin";
+import {School as StudentIcon, Download} from "@mui/icons-material";
+import {Button, TextField, useDataProvider, useRefresh} from "react-admin";
 import {useParams} from "react-router-dom";
 import {HaList} from "@/ui/haList";
 import {useRole} from "@/security/hooks";
@@ -9,20 +9,48 @@ import {exportData, exportHeaders} from "../../utils";
 import {ProfileFilters} from "../../profile/components/ProfileFilters";
 import {InsertStudent, MoveStudent, RemoveStudent} from "./MigrateStudent";
 import {GroupStudentsFilters} from "./GroupStudentFilters";
+import {FileDownloader} from "@/operations/common/components";
 
 const GroupStudentList = () => {
   const params = useParams();
-
+  const dataProvider = useDataProvider();
   const refresh = useRefresh();
   const {isManager} = useRole();
 
   const groupId = params.id;
 
+  const downloadFile = async () => {
+    const {
+      data: {file},
+    } = await dataProvider.getOne("group-export", {
+      id: groupId,
+    });
+
+    return {data: file};
+  };
+
   const ListActions = () => (
     <Box>
       {isManager() && <InsertStudent />}
-      <ExportButton
-        onExport={(list) => exportData(list, exportHeaders, "group-students")}
+      <FileDownloader
+        downloadFunction={downloadFile}
+        fileName="Liste des étudiants"
+        buttonText={
+          <Button
+            label="Exporter"
+            startIcon={<Download />}
+            sx={{
+              color: "inherit",
+              opacity: "0.8",
+              padding: "0.5rem 1.1rem",
+              textTransform: "none",
+              gap: "0.8rem",
+            }}
+          />
+        }
+        successMessage="Exporté avec succès."
+        errorMessage="Erreur lors de l'exportation du fichier."
+        fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       />
       <GroupStudentsFilters />
     </Box>

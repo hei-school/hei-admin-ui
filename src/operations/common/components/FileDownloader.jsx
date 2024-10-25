@@ -9,6 +9,7 @@ export function FileDownloader({
   buttonText,
   successMessage,
   errorMessage,
+  fileType = "application/pdf",
 }) {
   const [isLoading, setIsLoading] = useState(false);
   const fileLinkRef = useRef(null);
@@ -25,7 +26,7 @@ export function FileDownloader({
           return;
         }
         linkRef.href = window.URL.createObjectURL(
-          new Blob([data], {type: "application/pdf"})
+          new Blob([data], {type: fileType})
         );
         linkRef.download = fileName;
         linkRef.click();
