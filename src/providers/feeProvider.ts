@@ -20,9 +20,16 @@ export const feeIdFromRaId = (raId: string): string => toApiIds(raId).feeId;
 const feeProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     const {data: fees} = filter.studentId
-      ? await payingApi().getStudentFees(filter.studentId, page, perPage)
+      ? await payingApi().getStudentFees(
+          filter.studentId,
+          page,
+          perPage,
+          filter.status
+        )
       : await payingApi().getFees(
           filter.status,
+          filter.monthFrom,
+          filter.monthTo,
           page,
           perPage,
           filter.isMpbs,

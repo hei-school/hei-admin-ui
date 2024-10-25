@@ -2,12 +2,13 @@ import {
   FunctionField,
   ShowButton,
   TextField,
+  useList,
   useListContext,
 } from "react-admin";
 import {AttachMoney} from "@mui/icons-material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList/HaList";
-import {FeesFilter} from "./components/FeesFilter";
+import {FeesFilters} from "./components/FeesFilter";
 import {DateField} from "../common/components/fields";
 import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
@@ -17,13 +18,13 @@ const ByStatusFeeList = (props) => (
   <HaList
     {...props}
     icon={<AttachMoney />}
-    title="Liste des frais en retard"
+    title="Liste des frais (en retard par défaut)"
     resource="fees"
     listProps={{
       filterDefaultValues: {status: FeeStatusEnum.LATE},
       storeKey: "latefees",
     }}
-    actions={<FeesFilter />}
+    actions={<FeesFilters />}
     mainSearch={{label: "Référence étudiant", source: "student_ref"}}
     filterIndicator={false}
     datagridProps={{
