@@ -17,7 +17,7 @@
     "test:unit:ci": "npm run test:unit && npm run test:unit"
   },
   "dependencies": {
-    "@haapi/typescript-client": "^1.70.0",
+    "@haapi/typescript-client": "^1.72.1",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-enterprise": "^7.0.0",
     "@react-admin/ra-navigation": "^4.5.0",
