@@ -41,7 +41,11 @@ function ManagerMenu() {
           icon={<TransactionsIcon />}
           to="/transactions"
         />
-        <ListMenuItem label="Frais en retard" icon={<FeesIcon />} to="/fees" />
+        <ListMenuItem
+          label="Frais (en retard par défaut)"
+          icon={<FeesIcon />}
+          to="/fees"
+        />
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem />
