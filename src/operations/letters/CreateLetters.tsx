@@ -65,6 +65,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   const [fileInfo, setFileInfo] = useState<{name: string; size: number} | null>(
     null
   );
+  const [isFileTooLarge, setIsFileTooLarge] = useState(false);
 
   const handleConfirm = () => {
     if (letterRef.current) {
@@ -142,8 +143,14 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
           multiple={false}
           accept="application/pdf"
           sx={FILE_FIELD_STYLE}
-          maxSize={5000000}
+          maxSize={5_000_000}
+          options={{
+            onDropRejected() {
+              setIsFileTooLarge(true);
+            },
+          }}
           onChange={(data) => {
+            setIsFileTooLarge(false);
             if (data) {
               setFileInfo({
                 name: data.name,
@@ -192,9 +199,11 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
             </Box>
           </Box>
         )}
-        <Typography variant="subtitle1" color="red">
-          *PS : La taille maximale du fichier est de 5 Mo.
-        </Typography>
+        {isFileTooLarge && (
+          <Typography variant="subtitle1" color="red">
+            La taille maximale du fichier est de 5 Mo.
+          </Typography>
+        )}
       </SimpleForm>
 
       <Confirm
