@@ -1,5 +1,5 @@
-import {useNotify, useToggle} from "@/hooks";
-import {Box, Button} from "@mui/material";
+import {useNotify} from "@/hooks";
+import {Box} from "@mui/material";
 import {
   Edit,
   required,
@@ -14,35 +14,37 @@ import {DateTimeField} from "@/operations/common/components/fields";
 
 interface EditProps {
   eventId: string;
+  editShow: boolean;
+  toggleEdit: () => void;
 }
 
-export const EventEditDialog: FC<EditProps> = ({eventId}) => {
+export const EventEditDialog: FC<EditProps> = ({
+  eventId,
+  editShow,
+  toggleEdit,
+}) => {
   const notify = useNotify();
-  const [editShow, _, toggleEdit] = useToggle();
 
   return (
     <>
-      <Button
-        size="small"
-        variant="contained"
-        onClick={toggleEdit}
-        sx={{textTransform: "revert"}}
-      >
-        Editer
-      </Button>
       <Dialog title="Edition d'événement" open={editShow} onClose={toggleEdit}>
         <Edit
           title=" "
           id={eventId}
-          actions={false}
-          redirect={false}
           resource="events"
+          mutationMode="pessimistic"
           mutationOptions={{
             onSuccess: () => {
-              notify("Événement mis à jour.");
+              notify("Événement mis à jour.", {type: "success"});
               toggleEdit();
             },
           }}
+          transform={(input: {[key: string]: any}) => ({
+            ...input,
+            course_id: input.course?.id,
+            planner_id: input.planner.id,
+            event_type: input.type,
+          })}
         >
           <SimpleForm
             toolbar={
