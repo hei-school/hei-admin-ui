@@ -143,7 +143,13 @@ export const CreateByScan = () => {
           <DialogTitle>Confirmer la présence</DialogTitle>
           <DialogContent>
             <Typography variant="body1">
-              Êtes-vous sûr de vouloir enregistrer la présence de {dialogData?.name} ?
+              Êtes-vous sûr de vouloir enregistrer la présence de: {dialogData?.name}
+            </Typography>
+            <Typography variant="body2">
+              Réference: {dialogData?.ref}
+            </Typography>
+            <Typography variant="body3">
+              Type de mouvement: {dialogData?.type === AttendanceMovementType.IN ? "Entrée" : "Sortie"}
             </Typography>
           </DialogContent>
           <DialogActions>

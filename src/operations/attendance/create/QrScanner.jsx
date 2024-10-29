@@ -57,7 +57,8 @@ export function createScanner(setInfo, openDialog, setDialogData) {
   
     setDialogData({
       id: Json.id,
-      name: Json.name,
+      ref: Json.ref,
+      name: Json.first_name,
       type: qrcode.getConfig().type,
     });
     openDialog(true);
