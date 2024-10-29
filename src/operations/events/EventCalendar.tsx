@@ -69,7 +69,8 @@ export const EventCalendar = () => {
           selectable: isManager(),
           editable: isManager(),
           getFilterValueFromInterval: (dateInfo) => {
-            setFilter({from: dateInfo.startStr, to: dateInfo.endStr});
+            setFilter({from: dateInfo?.startStr, to: dateInfo?.endStr});
+            return {};
           },
           eventClick: (clickInfo: EventClickArg) => {
             setCurrentEvent({
