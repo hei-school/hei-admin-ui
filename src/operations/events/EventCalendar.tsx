@@ -9,10 +9,12 @@ import {Popover, Box, Button, PopoverPosition} from "@mui/material";
 import {useToggle} from "@/hooks";
 import {EventListAction} from "./components";
 import {HaListTitle} from "@/ui/haList";
+import {useRole} from "@/security/hooks";
 
 export const EventCalendar = () => {
   const [currentEvent, setCurrentEvent] = useState<Event>();
   const [editShow, _, toggleEdit] = useToggle();
+  const {isManager} = useRole();
   const [anchor, setAnchor] = useState<PopoverPosition & {open: boolean}>({
     top: 0,
     left: 0,
@@ -64,6 +66,8 @@ export const EventCalendar = () => {
           title: "Création d'un événement",
         }}
         CalendarProps={{
+          selectable: isManager(),
+          editable: isManager(),
           getFilterValueFromInterval: (dateInfo) => {
             setFilter({from: dateInfo.startStr, to: dateInfo.endStr});
           },
@@ -85,7 +89,6 @@ export const EventCalendar = () => {
             title: `${event.title} [${event.groups?.map((group) => group.ref).join(", ")}]`,
             start: event.begin_datetime,
             end: event.end_datetime,
-            editable: true,
             extendedProps: event,
           }),
         }}
@@ -126,6 +129,7 @@ type ActionProps = {
 };
 
 const EventAction = ({event, toggleEdit}: ActionProps) => {
+  const {isManager} = useRole();
   return (
     <Box
       sx={{
@@ -138,18 +142,21 @@ const EventAction = ({event, toggleEdit}: ActionProps) => {
       }}
     >
       <Box fontWeight="bold">{event?.title}</Box>
-      <Button
-        size="small"
-        variant="contained"
-        onClick={toggleEdit}
-        sx={{textTransform: "revert"}}
-      >
-        Editer
-      </Button>
+      {isManager() && (
+        <Button
+          size="small"
+          variant="contained"
+          onClick={toggleEdit}
+          sx={{textTransform: "revert"}}
+        >
+          Editer
+        </Button>
+      )}
       <Button
         size="small"
         href={`#/events/${event?.id}/participants`}
         sx={{textTransform: "revert"}}
+        variant="outlined"
       >
         Présence
       </Button>
