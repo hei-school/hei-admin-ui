@@ -58,7 +58,7 @@ function SelectUserPlanner() {
 }
 
 export function SelectPlanner() {
-  const isPlannedByMe = useWatch({name: "isPlannedByMe"});
+  const isPlannedByMe = useWatch({name: "isPlannedByMe"}) ?? true;
 
   return (
     <Box width="100%">
