@@ -57,12 +57,11 @@ const ByStatusFeeList = (props) => {
     <Box>
       <ListHeader
         cardContents={headerCardContent}
-        title="Liste des étudiants"
+        title="Liste des frais (en retard par défaut)"
       />
       <HaList
         {...props}
-        icon={<AttachMoney />}
-        title="Liste des frais (en retard par défaut)"
+        title=" "
         resource="fees"
         listProps={{
           filterDefaultValues: {status: FeeStatusEnum.LATE},
