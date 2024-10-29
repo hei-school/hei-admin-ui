@@ -32,6 +32,7 @@ describe("Student.event", () => {
   });
 
   it("student can list event", () => {
+    cy.contains("Listes").click();
     cy.getByTestid("event-list-content")
       .should("contain", event1mock.title)
       .and(
@@ -44,12 +45,14 @@ describe("Student.event", () => {
   });
 
   it("student cannot edit or create event", () => {
+    cy.contains("Listes").click();
     cy.contains("Editer").should("not.exist");
     cy.getByTestid("menu-list-action").click();
     cy.contains("Créer").should("not.exist");
   });
 
   it("student cannot change status event participant", () => {
+    cy.contains("Listes").click();
     cy.contains("Présence").click();
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid(`eventparticipant-${eventparticipant1mock.id}-status`)
