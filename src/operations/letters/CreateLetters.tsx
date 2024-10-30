@@ -43,9 +43,12 @@ const FILE_FIELD_STYLE = {
   },
 };
 
-const CustomToolbar: React.FC<{handleSave: () => void}> = ({handleSave}) => (
+const CustomToolbar: React.FC<{handleSave: () => void; isloading: boolean}> = ({
+  handleSave,
+  isloading,
+}) => (
   <Toolbar>
-    <SaveButton label="Enregistrer" onClick={handleSave} />
+    <SaveButton label="Enregistrer" disabled={isloading} onClick={handleSave} />
   </Toolbar>
 );
 
@@ -61,13 +64,14 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   const notify = useNotify();
   const [confirmOpen, setConfirmOpen] = useState(false);
   const letterRef = useRef<any>(null);
-  const [create] = useCreate();
+  const [create, {isLoading}] = useCreate();
   const [fileInfo, setFileInfo] = useState<{name: string; size: number} | null>(
     null
   );
   const [isFileTooLarge, setIsFileTooLarge] = useState(false);
 
   const handleConfirm = () => {
+    setConfirmOpen(false);
     if (letterRef.current) {
       create(
         "student-letters",
@@ -88,7 +92,6 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
         }
       );
     }
-    setConfirmOpen(false);
   };
 
   const formatFileSize = (bytes: number): string => {
@@ -113,6 +116,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
             handleSave={() => {
               setConfirmOpen(true);
             }}
+            isloading={isLoading}
           />
         }
         values={useMemo(
