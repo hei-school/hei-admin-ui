@@ -62,7 +62,7 @@ import {LetterStatusIcon} from "./letterIcon";
 import authProvider from "@/providers/authProvider";
 
 const TRANSACTION_PATTERN =
-  /^MP[a-zA-Z0-9]{3}\.[a-zA-Z0-9]{4}\.[a-zA-Z0-9]{6}$/;
+  /^MP[a-zA-Z0-9]{6}\.[a-zA-Z0-9]{4}\.[a-zA-Z0-9]{6}$/;
 
 const DefaultInfos = () => {
   return (
