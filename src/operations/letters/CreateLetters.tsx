@@ -9,7 +9,7 @@ import {
   Toolbar,
   SaveButton,
 } from "react-admin";
-import {Box, Typography} from "@mui/material";
+import {Box, Typography, Backdrop, CircularProgress} from "@mui/material";
 import {Dialog} from "@/ui/components";
 import {CreateLettersDialogProps} from "@/operations/letters/types";
 import {useNotify} from "@/hooks";
@@ -87,7 +87,9 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
           },
           onError: () => {
             setFileInfo(null);
-            notify("Erreur lors de la création de la lettre", {type: "error"});
+            notify("Erreur lors de la création de la lettre", {
+              type: "error",
+            });
           },
         }
       );
@@ -102,7 +104,6 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
     }
     return `${(kb / 1024).toFixed(2)} Mo`;
   };
-
   return (
     <Dialog
       open={isOpen}
@@ -110,6 +111,16 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
       title={title ?? "Ajouter une lettre"}
       data-testid="add-letter"
     >
+      {isLoading && (
+        <Backdrop sx={{zIndex: 10}} open={isOpen}>
+          <CircularProgress
+            sx={{
+              color: "white",
+            }}
+          />
+        </Backdrop>
+      )}
+      ;
       <SimpleForm
         toolbar={
           <CustomToolbar
@@ -209,7 +220,6 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
           </Typography>
         )}
       </SimpleForm>
-
       <Confirm
         isOpen={confirmOpen}
         title="Confirmation"
