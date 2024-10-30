@@ -2,26 +2,23 @@ import React, {useState, useEffect} from "react";
 import {
   Box,
   FormControl,
-  RadioGroup,
-  Radio,
-  FormControlLabel,
+  Select,
+  MenuItem,
   IconButton,
-  styled,
-} from "@mui/material";
-import {ScanStatus, qrcode} from "./config";
-import {useNavigate} from "react-router-dom";
-import {Close} from "@mui/icons-material";
-import {QrPageConfig} from ".";
-import {AttendanceMovementType} from "@haapi/typescript-client";
-import {createScanner, ScannerBox} from "./QrScanner";
-import {
   Dialog,
   DialogTitle,
   DialogContent,
   DialogActions,
   Button,
-  Typography
-} from '@mui/material';
+  Typography,
+  styled,
+} from "@mui/material";
+import {Close} from "@mui/icons-material";
+import {QrPageConfig} from ".";
+import {AttendanceMovementType} from "@haapi/typescript-client";
+import {createScanner, ScannerBox} from "./QrScanner";
+import {ScanStatus, qrcode} from "./config";
+import {useNavigate} from "react-router-dom";
 import attendanceProvider from "@/providers/attendanceProvider";
 
 const StatusStyled = styled("p")({
@@ -42,6 +39,7 @@ export const CreateByScan = () => {
   const [scanner, setScanner] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogData, setDialogData] = useState(null);
+  const [attendanceType, setAttendanceType] = useState(AttendanceMovementType.IN);
   const navigate = useNavigate();
 
   useEffect(() => () => scanner !== null && scanner.clear(), []);
@@ -51,15 +49,6 @@ export const CreateByScan = () => {
     newScanner.render();
     setScanner(newScanner);
   }, [config.pause, config.box, config.fps]);
-
-  const toggleType = () => {
-    const newType =
-      config.type === AttendanceMovementType.IN
-        ? AttendanceMovementType.OUT
-        : AttendanceMovementType.IN;
-    setConfig({type: newType});
-    setCurrent({...current, type: newType});
-  };
 
   const closeStream = () => {
     const closeButton = document.querySelector(
@@ -113,44 +102,30 @@ export const CreateByScan = () => {
         {info.status === ScanStatus.Success && (
           <StatusStyled>{info.data}</StatusStyled>
         )}
-        <Box sx={{position: "absolute", bottom: 5, width: "100%"}}>
-          <FormControl component="form" fullWidth onChange={toggleType}>
-            <RadioGroup
-              value={current.type}
-              sx={{
-                display: "flex",
-                justifyContent: "center",
-                flexDirection: "row",
-                m: 0,
-                color: "white",
-              }}
-            >
-              <FormControlLabel
-                value={AttendanceMovementType.IN}
-                control={<Radio sx={{color: "white"}} />}
-                label="Entrer"
-              />
-              <FormControlLabel
-                value={AttendanceMovementType.OUT}
-                control={<Radio sx={{color: "white"}} />}
-                label="Sortie"
-              />
-            </RadioGroup>
-          </FormControl>
-        </Box>
 
         <Dialog open={openDialog} onClose={() => setOpenDialog(false)}>
           <DialogTitle>Confirmer la présence</DialogTitle>
           <DialogContent>
             <Typography variant="body1">
-              Êtes-vous sûr de vouloir enregistrer la présence de: {dialogData?.name}
+              Êtes-vous sûr de vouloir enregistrer la présence de :
             </Typography>
-            <Typography variant="body2">
-              Réference: {dialogData?.ref}
-            </Typography>
-            <Typography variant="body3">
-              Type de mouvement: {dialogData?.type === AttendanceMovementType.IN ? "Entrée" : "Sortie"}
-            </Typography>
+            <ul>
+              <li><strong>Nom:</strong> {dialogData?.name}</li>
+              <li><strong>Référence:</strong> {dialogData?.ref}</li>
+            </ul>
+            <FormControl fullWidth>
+              <Select
+                value={attendanceType}
+                onChange={(e) => setAttendanceType(e.target.value)}
+                sx={{
+                  backgroundColor: "white",
+                  color: "black",
+                }}
+              >
+                <MenuItem value={AttendanceMovementType.IN}>Entrer</MenuItem>
+                <MenuItem value={AttendanceMovementType.OUT}>Sortie</MenuItem>
+              </Select>
+            </FormControl>
           </DialogContent>
           <DialogActions>
             <Button onClick={() => setOpenDialog(false)}>Annuler</Button>
@@ -161,10 +136,11 @@ export const CreateByScan = () => {
                     place: "IVANDRY",
                     student_id: dialogData.id,
                     created_at: new Date().toISOString(),
-                    attendance_movement_type: dialogData.type,
+                    attendance_movement_type: attendanceType,
                   }]);
                   setInfo({status: ScanStatus.Success, data: `${dialogData.name} a été enregistré avec succès.`});
                   setOpenDialog(false);
+                  navigate("/attendance");
                 } catch (error) {
                   setInfo({status: ScanStatus.Failed, data: "Erreur lors de la vérification."});
                   console.error("Erreur lors de l'enregistrement : ", error);

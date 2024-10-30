@@ -2,8 +2,7 @@ import {styled} from "@mui/material";
 import {Html5QrcodeScanType, Html5QrcodeScanner} from "html5-qrcode";
 import {qrcode, ScanStatus} from "./config";
 import attendanceProvider from "@/providers/attendanceProvider";
-import React from 'react';
-import {Dialog, DialogTitle, DialogContent, DialogActions, Button, Typography} from '@mui/material';
+import React from "react";
 
 export const ScannerBox = styled("div")({
   width: "100%",
@@ -54,7 +53,7 @@ export function createScanner(setInfo, openDialog, setDialogData) {
   const onSuccess = async (data) => {
     scanner.pause(false);
     const Json = JSON.parse(data);
-  
+
     setDialogData({
       id: Json.id,
       ref: Json.ref,
