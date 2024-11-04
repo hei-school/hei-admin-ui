@@ -12,6 +12,8 @@ import {
   Newspaper as AnnouncementIcon,
   CalendarMonth as EventIcon,
   SupervisedUserCircle as MonitorIcon,
+  GradeOutlined as GradeIcon,
+  LibraryBooksOutlined as LibraryIcon
 } from "@mui/icons-material";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
@@ -57,12 +59,22 @@ function ManagerMenu() {
         icon={<PromotionIcon />}
       />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
-      <SingleMenu
-        data-testid="course-menu"
-        to="/course"
+      <ListMenu
         label="Cours"
         icon={<CourseIcon />}
-      />
+        data-testid="cours-menu"
+      >
+        <ListMenuItem
+          label="Liste des cours"
+          icon={<LibraryIcon />}
+          to="/course"
+        />
+        <ListMenuItem
+          label="Examens"
+          icon={<GradeIcon />}
+          to="/exams"
+        />
+      </ListMenu>
       <SingleMenu
         to="/announcements"
         label="Annonces"
