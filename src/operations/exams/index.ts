@@ -1,9 +1,9 @@
-import { ExamCreate } from "./ExamCreate";
-import { ExamList } from "./ExamList";
+import {ExamCreate} from "./ExamCreate";
+import {ExamList} from "./ExamList";
 
 const exams = {
-    list: ExamList,
-    create: ExamCreate,
-}
+  list: ExamList,
+  create: ExamCreate,
+};
 
 export default exams;

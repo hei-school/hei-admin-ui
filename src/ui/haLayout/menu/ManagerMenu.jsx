@@ -13,7 +13,7 @@ import {
   CalendarMonth as EventIcon,
   SupervisedUserCircle as MonitorIcon,
   GradeOutlined as GradeIcon,
-  LibraryBooksOutlined as LibraryIcon
+  LibraryBooksOutlined as LibraryIcon,
 } from "@mui/icons-material";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
