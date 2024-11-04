@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {List, useGetList} from "react-admin";
 import {
   ImportContactsOutlined as BookIcon,
@@ -14,14 +15,13 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import {ExamInfo} from "@haapi/typescript-client";
+import {ExamFilter} from "@/operations/exams/components/ExamFilter";
+import {CreateButton} from "@/ui/haToolbar";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import {CreateButton} from "@/ui/haToolbar";
+import {ExamInfo} from "@haapi/typescript-client";
 import {formatDate} from "@/utils/date";
-import {ExamFilter} from "@/operations/exams/components/ExamFilter";
 import {PALETTE_COLORS} from "@/haTheme";
-import {useState} from "react";
 
 export const ExamList = () => {
   const [filters, setFilters] = useState({
@@ -35,6 +35,7 @@ export const ExamList = () => {
   const handleApplyFilters = (newFilters: any) => {
     setFilters(newFilters);
   };
+
   return (
     <Box>
       <List
@@ -62,6 +63,7 @@ export const ExamList = () => {
     </Box>
   );
 };
+
 interface ExamCardProps {
   filters: {
     course: string | null;
@@ -71,6 +73,7 @@ interface ExamCardProps {
     endDate: Date | null;
   };
 }
+
 export const ExamCard: React.FC<ExamCardProps> = ({filters}) => {
   const {data: exams = []} = useGetList("exams", {
     filter: {

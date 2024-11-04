@@ -7,9 +7,9 @@ import {
   useGetList,
 } from "react-admin";
 import {Create} from "@/operations/common/components";
+import authProvider from "@/providers/authProvider";
 import {DateTimeField} from "@/operations/common/components/fields";
 import {AutocompleteInput} from "@/ui/components/inputs";
-import authProvider from "@/providers/authProvider";
 
 export const ExamCreate = () => {
   const user = authProvider.getCachedWhoami();
@@ -24,14 +24,15 @@ export const ExamCreate = () => {
   const {data: teacherAwarded = []} = useGetList("awarded-courses", {
     filter: {teacherId: user.id},
   });
+
+  const {data: teacher = []} = useGetList("teachers");
+
   const teacherAwardedChoice = useMemo(() => {
     return teacherAwarded.map(({id, course, group}) => ({
       id,
       courseName: `${course.code} - ${group.ref}`,
     }));
   }, [teacherAwarded]);
-
-  const {data: teacher = []} = useGetList("teachers");
 
   const courseChoice = useMemo(() => {
     return awardedCourses.map(({id, course, group}) => ({

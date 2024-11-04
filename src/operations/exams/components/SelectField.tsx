@@ -1,3 +1,4 @@
+import {FC, useState} from "react";
 import {
   Select,
   MenuItem,
@@ -5,7 +6,6 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import {FC, useState} from "react";
 
 interface Option {
   id: string;
@@ -17,6 +17,7 @@ interface SelectFieldProps {
   options: Option[];
   onChange: (value: string) => void;
 }
+
 export const SelectField: FC<SelectFieldProps> = ({
   label,
   options,

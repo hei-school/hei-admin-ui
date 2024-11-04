@@ -1,9 +1,9 @@
+import {useState} from "react";
+import {useGetList} from "react-admin";
+import {Dayjs} from "dayjs";
 import {Box, Button, FormGroup, Typography} from "@mui/material";
 import {DateField} from "@mui/x-date-pickers";
-import {useGetList} from "react-admin";
-import {SelectField} from "./SelectField";
-import {useState} from "react";
-import {Dayjs} from "dayjs";
+import {SelectField} from "@/operations/exams/components/SelectField";
 
 interface FilterValues {
   course?: string;
