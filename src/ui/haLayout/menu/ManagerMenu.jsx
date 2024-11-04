@@ -58,23 +58,19 @@ function ManagerMenu() {
         data-testid="promotions-menu"
         icon={<PromotionIcon />}
       />
-      <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
-      <ListMenu
+      <SingleMenu
+        to="/course"
         label="Cours"
-        icon={<CourseIcon />}
-        data-testid="cours-menu"
-      >
-        <ListMenuItem
-          label="Liste des cours"
-          icon={<LibraryIcon />}
-          to="/course"
-        />
-        <ListMenuItem
-          label="Examens"
-          icon={<GradeIcon />}
-          to="/exams"
-        />
-      </ListMenu>
+        data-testid="course-menu"
+        icon={<LibraryIcon />}
+      />
+      <SingleMenu
+        to="/exams"
+        label="Examens"
+        data-testid="exams-menu"
+        icon={<GradeIcon />}
+      />
+      <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu
         to="/announcements"
         label="Annonces"
