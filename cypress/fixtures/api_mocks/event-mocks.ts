@@ -14,6 +14,12 @@ export const eventsMock: Event[] = [
     end_datetime: new Date(),
     course: courseMock1,
     planner: manager1Mock,
+    count: {
+      present: 5,
+      missing: 2,
+      late: 3,
+      total: 10,
+    },
   },
   {
     id: "event2_id",
@@ -24,6 +30,12 @@ export const eventsMock: Event[] = [
     end_datetime: new Date(),
     course: courseMock1,
     planner: manager1Mock,
+    count: {
+      present: 0,
+      missing: 10,
+      late: 0,
+      total: 10,
+    },
   },
 ];
 
