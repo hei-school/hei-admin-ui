@@ -1,3 +1,4 @@
+import {useMemo} from "react";
 import {
   FeeStatusEnum,
   FeeTypeEnum,
@@ -17,6 +18,9 @@ import {
   useGetList,
   useRecordContext,
   useRefresh,
+  useListContext,
+  regex,
+  minLength,
 } from "react-admin";
 import {EditableDatagrid} from "@react-admin/ra-editable-datagrid";
 import {
@@ -56,6 +60,9 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {FeesDialog} from "./FeesDialog";
 import {LetterStatusIcon} from "./letterIcon";
 import authProvider from "@/providers/authProvider";
+
+const TRANSACTION_PATTERN =
+  /^MP[a-zA-Z0-9]{6}\.[a-zA-Z0-9]{4}\.[a-zA-Z0-9]{6}$/;
 
 const DefaultInfos = () => {
   return (
@@ -156,6 +163,16 @@ const MpbsCreate = ({toggle}) => {
         <TextInput
           source="psp_id"
           label="Référence de la transaction"
+          validate={[
+            minLength(
+              20,
+              "La référence doit contenir exactement 20 caractères"
+            ),
+            regex(
+              TRANSACTION_PATTERN,
+              "La référence n'est pas saisie correctement (ex : MP123456.1234.B12345)"
+            ),
+          ]}
           fullWidth
         />
         <SelectInput
@@ -171,34 +188,55 @@ const MpbsCreate = ({toggle}) => {
 };
 
 const ListActionButtons = ({studentId}) => {
-  const {id, total_amount, mpbs, letter, status} = useRecordContext();
+  const {id, total_amount, mpbs, letter, status, due_datetime, student_id} =
+    useRecordContext();
+  44;
+  const {data: fees = []} = useGetList("fees", {
+    pagination: {page: 1, perPage: 100},
+    filter: {studentId: student_id},
+  });
   const refresh = useRefresh();
   const [show3, , toggle3] = useToggle();
   const [show4, , toggle4] = useToggle();
 
+  const prevUnpaidFee = useMemo(() => {
+    return fees.find((fee) => {
+      const feeDueDate = new Date(fee.due_datetime);
+      const targetDueDate = new Date(due_datetime);
+
+      return (
+        feeDueDate < targetDueDate &&
+        fee.status !== FeeStatusEnum.PAID &&
+        !fee.comment?.includes("Rattrapage")
+      );
+    });
+  }, [fees, due_datetime]);
+
   return (
     <Box>
-      {mpbs && mpbs.status != MpbsStatus.FAILED ? (
+      {mpbs && mpbs.status !== MpbsStatus.FAILED ? (
         <MpbsStatusIcon />
       ) : (
         <IconButtonWithTooltip
           title="Mobile Money"
           disabled={
-            (letter && letter.status != LetterStatus.REJECTED) ||
-            status == FeeStatusEnum.PAID
+            (letter && letter.status !== LetterStatus.REJECTED) ||
+            status === FeeStatusEnum.PAID ||
+            !!prevUnpaidFee
           }
         >
           <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />
         </IconButtonWithTooltip>
       )}
-      {letter && letter.status != LetterStatus.REJECTED ? (
+      {letter && letter.status !== LetterStatus.REJECTED ? (
         <LetterStatusIcon />
       ) : (
         <IconButtonWithTooltip
           title="Bordereau"
           disabled={
-            (mpbs && mpbs.status != MpbsStatus.FAILED) ||
-            status == FeeStatusEnum.PAID
+            (mpbs && mpbs.status !== MpbsStatus.FAILED) ||
+            status === FeeStatusEnum.PAID ||
+            !!prevUnpaidFee
           }
         >
           <SlipIcon onClick={toggle4} data-testid={`addPaymentSlip-${id}`} />

@@ -1,31 +1,47 @@
 import {List, useListContext} from "react-admin";
-import {Event as EventIcon} from "@mui/icons-material";
-import {Box, CircularProgress} from "@mui/material";
+import {Box, CircularProgress, Tabs, Tab} from "@mui/material";
 import {Event} from "@haapi/typescript-client";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {EventCard} from "./components";
 import {EventListAction} from "./components";
 import {HaListTitle} from "@/ui/haList";
+import {EventCalendar} from "./EventCalendar";
+import {useState} from "react";
 
 export function EventList() {
+  const [tabValue, setTab] = useState<string>("calendar");
   return (
-    <List
-      title="Événements"
-      resource="events"
-      empty={false}
-      actions={false}
-      pagination={<PrevNextPagination />}
-      sx={{mt: 1}}
-    >
-      <HaListTitle
-        title="Liste des événements"
-        icon={<EventIcon />}
-        filterIndicator
-        actions={<EventListAction />}
-        mainSearch={{label: "Titre", source: "title"}}
-      />
-      <EventListContent />
-    </List>
+    <>
+      <Tabs
+        value={tabValue}
+        onChange={(_, value) => setTab(value)}
+        sx={{bgcolor: "white"}}
+      >
+        <Tab value="calendar" label="Calendrier" />
+        <Tab value="list" label="Listes" />
+      </Tabs>
+      {tabValue === "list" && (
+        <List
+          title="Événements"
+          resource="events"
+          empty={false}
+          actions={false}
+          pagination={<PrevNextPagination />}
+          sx={{mt: 1}}
+          disableSyncWithLocation
+        >
+          <HaListTitle
+            title=" "
+            icon={<></>}
+            filterIndicator
+            actions={<EventListAction />}
+            mainSearch={{label: "Titre", source: "title"}}
+          />
+          <EventListContent />
+        </List>
+      )}
+      {tabValue === "calendar" && <EventCalendar />}
+    </>
   );
 }
 

@@ -51,7 +51,7 @@ describe("Mobile payment by student", () => {
       `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
     ).click({force: true});
 
-    cy.get("#psp_id").click().type("reference orange no 1");
+    cy.get("#psp_id").click().type("MP240726.1541.D88425");
     cy.get('[data-testid="SaveIcon"]').click();
 
     cy.contains("Frais créés avec succès");

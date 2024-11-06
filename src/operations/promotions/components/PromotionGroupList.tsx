@@ -1,25 +1,66 @@
 import {useParams} from "react-router-dom";
 import {HaList} from "@/ui/haList";
 import {Group, Promotion} from "@haapi/typescript-client";
-import {ShowButton, TextField, useListContext} from "react-admin";
-import {GroupsOutlined} from "@mui/icons-material";
+import {
+  Button,
+  ShowButton,
+  TextField,
+  useDataProvider,
+  useListContext,
+} from "react-admin";
+import {GroupsOutlined, Download} from "@mui/icons-material";
 import {
   InsertButton,
   LeaveButton,
   MigrateButton,
 } from "@/operations/common/components/resource-flows";
+import {FileDownloader} from "@/operations/common/components";
 
-function InsertPromotionGroup() {
+function ActionsPromotionsGroups() {
   const listContext = useListContext<Required<Group>>();
+  const {id} = useParams();
+  const dataProvider = useDataProvider();
+
+  const downloadFile = async () => {
+    const {
+      data: {file},
+    } = await dataProvider.getOne("promotions-export", {
+      id,
+    });
+    return {data: file};
+  };
+
   return (
-    <InsertButton<Required<Group>>
-      excludes={listContext.data.map((el) => el.id)}
-      dialogProps={{
-        showField: "ref",
-        title: "Sélectionner les groupes à insérer",
-        autoCompleteLabel: "Référence du group",
-      }}
-    />
+    <>
+      <InsertButton<Required<Group>>
+        excludes={listContext.data.map((el) => el.id)}
+        dialogProps={{
+          showField: "ref",
+          title: "Sélectionner les groupes à insérer",
+          autoCompleteLabel: "Référence du group",
+        }}
+      />
+      <FileDownloader
+        downloadFunction={downloadFile}
+        fileName="Liste des étudiants"
+        buttonText={
+          <Button
+            label="Exporter"
+            startIcon={<Download />}
+            sx={{
+              color: "inherit",
+              opacity: "0.8",
+              padding: "0.5rem 1.1rem",
+              textTransform: "none",
+              gap: "0.8rem",
+            }}
+          />
+        }
+        successMessage="Exporté avec succès."
+        errorMessage="Erreur lors de l'exportation du fichier."
+        fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+      />
+    </>
   );
 }
 
@@ -34,7 +75,7 @@ export function PromotionGroupList() {
         rowClick: false,
       }}
       listProps={{title: " ", queryOptions: {meta: {promotionId: id}}}}
-      actions={<InsertPromotionGroup />}
+      actions={<ActionsPromotionsGroups />}
     >
       <TextField source="name" label="Nom" />
       <TextField source="ref" label="Référence" />

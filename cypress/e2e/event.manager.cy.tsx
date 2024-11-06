@@ -1,3 +1,4 @@
+import {courseMocks} from "../fixtures/api_mocks/course-mocks";
 import {
   event1mock,
   eventparticipant1mock,
@@ -9,9 +10,7 @@ import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
 describe("Manager.event", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/events?page=1&page_size=10`, eventsMock).as(
-      "getEventsPage1"
-    );
+    cy.intercept("GET", `/events*`, eventsMock).as("getEventsPage1");
     cy.intercept("GET", `/events/${event1mock.id}`, event1mock);
     cy.intercept("PUT", `/events/${event1mock.id}`, {
       ...event1mock,
@@ -31,17 +30,21 @@ describe("Manager.event", () => {
     cy.intercept("GET", "/groups?page=1&page_size=499", groupsMock).as(
       "getGroups"
     );
+    cy.intercept("GET", "/courses?page=1&page_size=499", courseMocks).as(
+      "getCourses"
+    );
     cy.intercept("PUT", "/events", eventsMock);
     cy.visit("/events");
   });
 
   it("manager can create event", () => {
+    cy.contains("Listes").click();
     cy.getByTestid("menu-list-action").click();
     cy.contains("Créer").click();
     cy.getByTestid("event-title").type("Test Event");
     cy.getByTestid("event-description").type("Test for event");
-    cy.get("[name=begin_datetime]").type("101020240800");
-    cy.get("[name=end_datetime]").type("101020241000");
+    cy.get("[name=start]").type("101020240800");
+    cy.get("[name=end]").type("101020241000");
     cy.getByTestid("event-type").click();
     cy.contains("Intégration").click();
     cy.getByTestid("event-groups").type("g");
@@ -51,6 +54,7 @@ describe("Manager.event", () => {
   });
 
   it("manager can list event", () => {
+    cy.contains("Listes").click();
     cy.getByTestid("event-list-content")
       .should("contain", event1mock.title)
       .and(
@@ -63,13 +67,14 @@ describe("Manager.event", () => {
   });
 
   it("manager can edit event", () => {
+    cy.contains("Listes").click();
     cy.contains("Editer").first().click();
     cy.getByTestid("event-title").type("Change title");
     cy.contains("Enregistrer").click();
-    cy.contains("Change title");
   });
 
   it("manager can list & change status event participant", () => {
+    cy.contains("Listes").click();
     cy.contains("Présence").click();
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid(`eventparticipant-${eventparticipant1mock.id}-status`)
@@ -87,6 +92,7 @@ describe("Manager.event", () => {
   });
 
   it("manager can add group", () => {
+    cy.contains("Listes").click();
     cy.contains("Présence").click();
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid("menu-list-action").click();

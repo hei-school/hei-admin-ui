@@ -23,7 +23,7 @@ describe("Manager.Monitors", () => {
       "putUpdate"
     );
 
-    cy.get('[href="#/monitors"]').click();
+    cy.getByTestid("monitors-menu").click();
     cy.wait("@getMonitors");
     cy.get(":nth-child(1) > .column-undefined > .MuiButtonBase-root").as(
       "editButton"
@@ -31,7 +31,7 @@ describe("Manager.Monitors", () => {
   });
 
   it("can see the list of all monitors in manager", () => {
-    cy.get('[href="#/monitors"]').click();
+    cy.getByTestid("monitors-menu").click();
     cy.get("tbody tr").should("have.length", monitorsMock.length);
     cy.getByTestid("menu-list-action").click();
     cy.get("body").click();

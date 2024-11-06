@@ -3,7 +3,7 @@ import {Chip} from "@mui/material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList/HaList";
 import {EMPTY_TEXT} from "@/ui/constants";
-import {FeesFilter} from "./components/FeesFilter";
+import {FeesFilters} from "./components/FeesFilter";
 import {DateField} from "../common/components/fields";
 import {FunctionField, TextField} from "react-admin";
 import {commentFunctionRenderer} from "../utils";
@@ -19,7 +19,7 @@ const TransactionFeeList = () => (
       filterDefaultValues: {isMpbs: true},
       storeKey: "transactionsfees",
     }}
-    actions={<FeesFilter />}
+    actions={<FeesFilters />}
     mainSearch={{label: "Référence étudiant", source: "student_ref"}}
     datagridProps={rowStyle}
     filterIndicator={false}

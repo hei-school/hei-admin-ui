@@ -7,7 +7,7 @@ import {
 } from "react-admin";
 import {Box} from "@mui/material";
 import {v4 as uuid} from "uuid";
-import {CreateEvent, EventType} from "@haapi/typescript-client";
+import {EventType, GroupIdentifier} from "@haapi/typescript-client";
 import {AutocompleteArrayInput} from "@/ui/components/inputs";
 import {SelectCourse} from "./components";
 import {Create} from "../common/components";
@@ -17,6 +17,7 @@ import {SelectPlanner} from "./components";
 import authProvider from "@/providers/authProvider";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {DateTimeField} from "@/operations/common/components/fields";
+import {EventInput} from "@fullcalendar/react";
 
 export function EventCreate() {
   const userId = authProvider.getCachedWhoami().id;
@@ -30,19 +31,21 @@ export function EventCreate() {
   return (
     <Create
       resource="events"
-      title="Création d'un événement"
-      transform={(
-        event: CreateEvent & {groups: string[]; isPlannedByMe: boolean}
-      ) => {
+      title=" "
+      transform={(event: EventInput & {[key: string]: any}) => {
         const {isPlannedByMe, ...createEvent} = event;
 
         if (event.event_type !== EventType.COURSE) delete createEvent.course_id;
+        type AcceptDate = Date | number | string;
+        const parseDate = (date: AcceptDate) => new Date(date).toISOString();
 
         return {
           ...createEvent,
           id: uuid(),
-          groups: event.groups.map((group) => ({id: group})),
+          groups: event.groups?.map((group: GroupIdentifier) => ({id: group})),
           planner_id: isPlannedByMe ? userId : event.planner_id!,
+          begin_datetime: parseDate(event.start as AcceptDate),
+          end_datetime: parseDate(event.end as AcceptDate),
         };
       }}
     >
@@ -65,16 +68,8 @@ export function EventCreate() {
         <Box
           sx={{display: "flex", alignItems: "center", gap: 1, width: "100%"}}
         >
-          <DateTimeField
-            label="Début"
-            source="begin_datetime"
-            validate={required()}
-          />
-          <DateTimeField
-            label="Fin"
-            source="end_datetime"
-            validate={required()}
-          />
+          <DateTimeField label="Début" source="start" validate={required()} />
+          <DateTimeField label="Fin" source="end" validate={required()} />
         </Box>
         <SelectInput
           fullWidth

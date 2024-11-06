@@ -1,7 +1,6 @@
 import {FunctionField, TextField} from "react-admin";
 import {WarningOutlined} from "@mui/icons-material";
 import {Box, Chip} from "@mui/material";
-import feeProvider from "@/providers/feeProvider";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {CreateButton, ImportButton} from "@/ui/haToolbar";
@@ -16,11 +15,13 @@ import {
   valideFeesData,
 } from "@/operations/fees/importConf";
 import {rowStyle, PSP_COLORS, PSP_VALUES} from "@/operations/fees/utils";
-import {FeesFilter} from "@/operations/fees/components/FeesFilter";
+import {FeesFilters} from "@/operations/fees/components/FeesFilter";
 import {useRole} from "@/security/hooks";
+import feeProvider from "@/providers/feeProvider";
 
 export const ManagerFeeList = ({studentId, studentRef}) => {
   const role = useRole();
+
   return (
     <HaList
       icon={<WarningOutlined />}
@@ -118,7 +119,7 @@ function FeesActions({studentId}) {
         minimalHeaders={minimalFeesHeaders}
         transformData={(data) => transformFeesData(data, studentId)}
       />
-      <FeesFilter />
+      <FeesFilters />
     </Box>
   );
 }

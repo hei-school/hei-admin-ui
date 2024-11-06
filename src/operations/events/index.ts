@@ -4,7 +4,7 @@ import {EventParticipantList} from "./EventParticipantList";
 
 const events = {
   list: EventList,
-  create: EventCreate,
+  new: EventCreate,
   participants: EventParticipantList,
 };
 

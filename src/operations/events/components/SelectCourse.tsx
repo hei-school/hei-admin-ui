@@ -11,7 +11,7 @@ export function SelectCourse() {
       perPage: MAX_ITEM_PER_PAGE - 1,
     },
   });
-  const eventType = useWatch({name: "event_type"});
+  const eventType = useWatch({name: "event_type"}) || EventType.COURSE;
 
   const COURSE_CHOICES = courses.map((course) => ({
     label: course.name,
