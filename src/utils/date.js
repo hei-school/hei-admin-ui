@@ -20,6 +20,15 @@ export function formatDate(dateIso, showTime = true) {
   return new Date(dateIso).toLocaleDateString("fr-FR", OPTIONS);
 }
 
+export function getTime(dateIso) {
+  const date = new Date(dateIso);
+  return `${String(date.getHours()).padStart(2, 0)}:${String(date.getMinutes()).padStart(2, 0)}`;
+}
+
+export function isSameDay(startDate, endDate) {
+  return new Date(startDate).getDate() == new Date(endDate).getDate();
+}
+
 export const toISO = (stringDate) => {
   return new Date(stringDate).toISOString();
 };
