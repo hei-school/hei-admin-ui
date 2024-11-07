@@ -1,5 +1,5 @@
 import {Amplify} from "aws-amplify";
-import {AxiosResponse} from "axios";
+import {AxiosError, AxiosResponse} from "axios";
 import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 import {
   fetchAuthSession,
@@ -52,6 +52,8 @@ const getCachedAuthConf = (): Configuration => {
   return conf;
 };
 
+const TO_SIGNOUT_STATUS_CODE = [403, 401];
+
 const authProvider = {
   // --------------------- ra functions -------------------------------------------
   // https://marmelab.com/react-admin/Authentication.html#anatomy-of-an-authprovider
@@ -89,22 +91,33 @@ const authProvider = {
     await signOut();
   },
 
-  checkAuth: async (): Promise<void> => {
-    await whoami()
-      .then(async (whoami) => {
+  checkAuth: async () => {
+    try {
+      await whoami().then(async (whoami) => {
         if (
           !sessionStorage.getItem(bearerItem) ||
           !localStorage.getItem(paramLocalAmplifyBoolean)
         ) {
           cacheWhoami(whoami);
         }
-      })
-      .catch(() => {
-        throw new Error("Unauthorized");
       });
+      return Promise.resolve();
+    } catch {
+      await signOut();
+      return Promise.reject();
+    }
   },
 
-  checkError: async () => Promise.resolve(),
+  checkError: async (error: any) => {
+    if (error instanceof AxiosError) {
+      const responseStatus = error.response?.status;
+      if (responseStatus && TO_SIGNOUT_STATUS_CODE.includes(responseStatus)) {
+        return Promise.reject();
+      }
+    }
+
+    return Promise.resolve();
+  },
 
   getIdentity: async () => await whoami(),
 
