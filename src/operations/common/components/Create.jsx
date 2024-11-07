@@ -7,10 +7,14 @@ export const Create = ({children, mutationOptions = {}, ...createProps}) => {
     <RaCreate
       mutationMode="pessimistic"
       mutationOptions={{
-        onError: () => {
-          notify("Une erreur s'est produite", {
-            type: "error",
-          });
+        onError: (error) => {
+          if (mutationOptions.onError) {
+            mutationOptions.onError(error);
+          } else {
+            notify("Une erreur s'est produite", {
+              type: "error",
+            });
+          }
         },
         ...mutationOptions,
       }}
