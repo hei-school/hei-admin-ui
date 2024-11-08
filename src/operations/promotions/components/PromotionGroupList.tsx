@@ -2,7 +2,6 @@ import {useParams} from "react-router-dom";
 import {HaList} from "@/ui/haList";
 import {Group, Promotion} from "@haapi/typescript-client";
 import {
-  Button,
   ShowButton,
   TextField,
   useDataProvider,
@@ -43,20 +42,13 @@ function ActionsPromotionsGroups() {
       <FileDownloader
         downloadFunction={downloadFile}
         fileName="Liste des étudiants"
-        buttonText={
-          <Button
-            label="Exporter"
-            startIcon={<Download />}
-            sx={{
-              color: "inherit",
-              opacity: "0.8",
-              padding: "0.5rem 1.1rem",
-              textTransform: "none",
-              gap: "0.8rem",
-            }}
-          />
-        }
-        successMessage="Exporté avec succès."
+        startIcon={<Download />}
+        sx={{
+          textTransform: "none",
+          color: "inherit",
+        }}
+        buttonText="Exporter"
+        successMessage="Exportation en cours..."
         errorMessage="Erreur lors de l'exportation du fichier."
         fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
       />

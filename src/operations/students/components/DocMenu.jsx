@@ -125,10 +125,7 @@ export const DocMenu = ({studentId}) => {
           Autres
         </MenuItem>
         <Divider sx={{my: 0.5}} />
-        <MenuItem to="" handleClose={handleClose}>
-          <Download />
-          <GetCertificate studentId={studentId} />
-        </MenuItem>
+        <GetCertificate studentId={studentId} variant=" " />
       </StyledMenu>
     </Box>
   );

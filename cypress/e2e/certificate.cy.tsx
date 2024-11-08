@@ -18,7 +18,7 @@ describe("Student Ceritificate", () => {
       new Blob()
     ).as("downloadCertificate");
 
-    cy.getByTestid("get-certificate-btn").click();
+    cy.getByTestid("download-button").click();
     cy.wait("@downloadCertificate");
 
     cy.contains(MESSAGE_ERROR);
@@ -28,7 +28,7 @@ describe("Student Ceritificate", () => {
   it("student can get his certificate", () => {
     cy.login({role: "STUDENT"});
 
-    cy.getByTestid("get-certificate-btn").click();
+    cy.getByTestid("download-button").click();
     cy.wait("@downloadCertificate");
 
     cy.getByTestid("file-link").and("have.attr", "href").and("include", "blob");

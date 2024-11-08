@@ -43,15 +43,11 @@ const ProfileShow = () => {
             }}
           >
             {isStudent() ? (
-              <Box>
-                <Button
-                  label={<GetCertificate studentId={id} />}
-                  data-testid="get-certificate-btn"
-                  {...COMMON_OUTLINED_BUTTON_PROPS}
-                >
-                  <Download />
-                </Button>
-              </Box>
+              <GetCertificate
+                studentId={id}
+                variant="outlined"
+                data-testid="get-certificate-btn"
+              />
             ) : isMonitor() ? (
               ""
             ) : (
