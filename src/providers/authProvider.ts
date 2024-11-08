@@ -92,20 +92,14 @@ const authProvider = {
   },
 
   checkAuth: async () => {
-    try {
-      await whoami().then(async (whoami) => {
-        if (
-          !sessionStorage.getItem(bearerItem) ||
-          !localStorage.getItem(paramLocalAmplifyBoolean)
-        ) {
-          cacheWhoami(whoami);
-        }
-      });
-      return Promise.resolve();
-    } catch {
-      await signOut();
-      return Promise.reject();
-    }
+    return await whoami().then(async (whoami) => {
+      if (
+        !sessionStorage.getItem(bearerItem) ||
+        !localStorage.getItem(paramLocalAmplifyBoolean)
+      ) {
+        cacheWhoami(whoami);
+      }
+    });
   },
 
   checkError: async (error: any) => {
