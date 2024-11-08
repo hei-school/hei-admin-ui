@@ -52,6 +52,8 @@ const getCachedAuthConf = (): Configuration => {
   return conf;
 };
 
+const UNAUTH_HTTP_CODES = [403, 401];
+
 const authProvider = {
   // --------------------- ra functions -------------------------------------------
   // https://marmelab.com/react-admin/Authentication.html#anatomy-of-an-authprovider
@@ -89,22 +91,23 @@ const authProvider = {
     await signOut();
   },
 
-  checkAuth: async (): Promise<void> => {
-    await whoami()
-      .then(async (whoami) => {
-        if (
-          !sessionStorage.getItem(bearerItem) ||
-          !localStorage.getItem(paramLocalAmplifyBoolean)
-        ) {
-          cacheWhoami(whoami);
-        }
-      })
-      .catch(() => {
-        throw new Error("Unauthorized");
-      });
+  checkAuth: async () => {
+    return await whoami().then(async (whoami) => {
+      if (
+        !sessionStorage.getItem(bearerItem) ||
+        !localStorage.getItem(paramLocalAmplifyBoolean)
+      ) {
+        cacheWhoami(whoami);
+      }
+    });
   },
 
-  checkError: async () => Promise.resolve(),
+  checkError: async (error: any) => {
+    if (UNAUTH_HTTP_CODES.includes(error?.response?.status!)) {
+      return Promise.reject();
+    }
+    return Promise.resolve();
+  },
 
   getIdentity: async () => await whoami(),
 
