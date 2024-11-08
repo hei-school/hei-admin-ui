@@ -4,3 +4,4 @@ export * from "./SelectCourse";
 export * from "./SelectPlanner";
 export * from "./AddGroup";
 export * from "./Actions";
+export * from "./Stats";

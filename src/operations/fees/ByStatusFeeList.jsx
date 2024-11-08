@@ -4,7 +4,6 @@ import {
   ShowButton,
   TextField,
   useDataProvider,
-  useGetOne,
   useList,
   useListContext,
 } from "react-admin";
@@ -27,40 +26,6 @@ import {NOOP_ID} from "@/utils/constants";
 import {FileDownloader, ListHeader} from "@/operations/common/components";
 
 const ByStatusFeeList = (props) => {
-  const {
-    data: stats = {
-      total_fees: "...",
-      paid_fees: "...",
-      unpaid_fees: "...",
-    },
-  } = useGetOne("stats", {id: NOOP_ID, meta: {resource: "fees"}});
-
-  const headerCardContent = [
-    {
-      title: "Total",
-      icon: <AttachMoney fontSize="medium" />,
-      total: stats.total_fees,
-    },
-    {
-      title: "Non-payés",
-      icon: <Pending fontSize="medium" />,
-      total: stats.unpaid_fees,
-    },
-    {
-      title: "Payés",
-      icon: <Check fontSize="medium" />,
-      total: stats.paid_fees,
-    },
-    {
-      title: "En retard",
-      icon: <Cancel fontSize="medium" />,
-      total:
-        stats.total_fees == "..."
-          ? "..."
-          : stats.total_fees - (stats.paid_fees + stats.unpaid_fees),
-    },
-  ];
-
   const dataProvider = useDataProvider();
 
   const downloadFile = async () => {
@@ -77,10 +42,6 @@ const ByStatusFeeList = (props) => {
 
   return (
     <Box>
-      <ListHeader
-        cardContents={headerCardContent}
-        title="Liste des frais (en retard par défaut)"
-      />
       <HaList
         {...props}
         title=" "
