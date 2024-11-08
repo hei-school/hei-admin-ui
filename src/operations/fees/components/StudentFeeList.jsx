@@ -156,6 +156,21 @@ const MpbsCreate = ({toggle}) => {
           notify("Frais créés avec succès", {type: "success"});
           toggle();
         },
+        onError: (error) => {
+          if (error.response?.status === 500) {
+            notify("Cette référence de transaction existe déjà", {
+              type: "error",
+            });
+          } else if (error.response?.status === 404) {
+            notify("Transaction non trouvée chez Orange", {
+              type: "error",
+            });
+          } else {
+            notify("Une erreur inattendue s'est produite", {
+              type: "error",
+            });
+          }
+        },
       }}
       transform={(data) => ({...data, student_id, id})}
     >
@@ -190,7 +205,6 @@ const MpbsCreate = ({toggle}) => {
 const ListActionButtons = ({studentId}) => {
   const {id, total_amount, mpbs, letter, status, due_datetime, student_id} =
     useRecordContext();
-  44;
   const {data: fees = []} = useGetList("fees", {
     pagination: {page: 1, perPage: 100},
     filter: {studentId: student_id},
