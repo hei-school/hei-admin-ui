@@ -1,5 +1,5 @@
 import {Amplify} from "aws-amplify";
-import {AxiosError, AxiosResponse} from "axios";
+import {AxiosResponse} from "axios";
 import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 import {
   fetchAuthSession,
@@ -52,7 +52,7 @@ const getCachedAuthConf = (): Configuration => {
   return conf;
 };
 
-const TO_SIGNOUT_STATUS_CODE = [403, 401];
+const UNAUTH_HTTP_CODES = [403, 401];
 
 const authProvider = {
   // --------------------- ra functions -------------------------------------------
@@ -103,13 +103,9 @@ const authProvider = {
   },
 
   checkError: async (error: any) => {
-    if (error instanceof AxiosError) {
-      const responseStatus = error.response?.status;
-      if (responseStatus && TO_SIGNOUT_STATUS_CODE.includes(responseStatus)) {
-        return Promise.reject();
-      }
+    if (UNAUTH_HTTP_CODES.includes(error?.response?.status!)) {
+      return Promise.reject();
     }
-
     return Promise.resolve();
   },
 
