@@ -9,7 +9,7 @@ import {EventCalendar} from "./EventCalendar";
 import {useState} from "react";
 
 export function EventList() {
-  const [tabValue, setTab] = useState<string>("calendar");
+  const [tabValue, setTab] = useState<string>("list");
   return (
     <>
       <Tabs

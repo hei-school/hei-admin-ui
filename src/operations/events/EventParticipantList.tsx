@@ -20,7 +20,12 @@ import {
 } from "@haapi/typescript-client";
 import {useState} from "react";
 import {useNotify, useToggle} from "@/hooks";
-import {AddGroupDialog, LetterActions, StatusActionStatus} from "./components";
+import {
+  AddGroupDialog,
+  LetterActions,
+  StatCard,
+  StatusActionStatus,
+} from "./components";
 import {useRole} from "@/security/hooks";
 
 export function EventParticipantList() {
@@ -55,6 +60,10 @@ export function EventParticipantList() {
                 {record.groups?.map((group) => group.ref).join(", ")}
               </Typography>
             )}
+          />
+          <FunctionField
+            label="Statistiques"
+            render={(record: Event) => <StatCard stats={record.count || {}} />}
           />
         </SimpleShowLayout>
       </Show>
