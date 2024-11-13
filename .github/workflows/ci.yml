@@ -135,6 +135,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
+            -Dsonar.host.url=https://sonarcloud.io \
             -Dsonar.branch.name=${GITHUB_REF##*/}
 
   build:
