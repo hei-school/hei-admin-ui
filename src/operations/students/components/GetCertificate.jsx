@@ -14,7 +14,7 @@ export const GetCertificate = ({studentId, variant = " "}) => {
   return (
     <FileDownloader
       fileName={FILE_NAME}
-      buttonText="Certification"
+      buttonText="Certificat"
       startIcon={
         <Download
           sx={{
