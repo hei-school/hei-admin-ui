@@ -104,57 +104,7 @@ jobs:
 
       ## Sonar check ##
       - name: Sonar
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FOR_CONVENTIONAL_CHANGELOG }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        run: |
-          sonar-scanner \
-            -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
-            -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=hei-school \
-            -Dsonar.projectKey=hei-admin-ui \
-            -Dsonar.branch.name=${GITHUB_REF##*/} \
-  test-sonar:
-    timeout-minutes: 20
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-      - name: Setup node
-        uses: actions/setup-node@v4
-        with:
-          node-version: 18.19.0
-      - name: Set up JDK 17
-        uses: actions/setup-java@v3
-        with:
-          java-version: "17"
-          distribution: "temurin"
-
-      ## Connect to Numer Private Codeartifact Repository ##
-      - name: Configure prod AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4.0.1
-        with:
-          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.REACT_APP_AWS_REGION }}
-      - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
-
-      ## Connect to Numer Private Codeartifact Repository ##
-      - name: Configure preprod AWS credentials
-        uses: aws-actions/configure-aws-credentials@v4.0.1
-        with:
-          aws-access-key-id: ${{ secrets.PREPROD_AWS_ACCESS_KEY_ID }}
-          aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
-          aws-region: ${{ env.REACT_APP_AWS_REGION }}
-          unset-current-credentials: true
-      - run: sh ./initNpmrc.sh hei-store npm-hei-lab 057045785189
-
-      - run: npm install --location=global sonar-scanner
-
-      ## Sonar check ##
-      - name: Sonar
+        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FOR_CONVENTIONAL_CHANGELOG }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
