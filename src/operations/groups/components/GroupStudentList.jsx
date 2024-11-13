@@ -39,6 +39,9 @@ const GroupStudentList = () => {
         sx={{
           textTransform: "none",
           color: "inherit",
+          opacity: "0.8",
+          padding: "0.5rem 1.1rem",
+          gap: "0.8rem",
         }}
         buttonText="Exporter"
         successMessage="Exportation en cours..."
