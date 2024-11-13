@@ -96,11 +96,17 @@ jobs:
 
       - run: npm install --location=global sonar-scanner
 
-        ## Run Cypress e2e tests ##
+      ## Run Cypress e2e tests ##
       - name: Run e2e tests
         uses: cypress-io/github-action@v6
         with:
           start: npm run dev
+
+      ## Merge test reports ##
+      - name: Merge test reports
+        if: always()
+        run: |
+          npm run test:merge:reports
 
       ## Sonar check ##
       - name: Sonar
