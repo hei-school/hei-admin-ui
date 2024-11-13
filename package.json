@@ -47,6 +47,7 @@
     "concurrently": "^8.2.2",
     "cypress": "^13.7.3",
     "cypress-file-upload": "^5.0.8",
+    "cypress-sonarqube-reporter": "^1.13.2",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",
