@@ -14,7 +14,8 @@
     "test:e2e": "cypress run --spec cypress/e2e/**/*",
     "test:unit": "cypress run --component",
     "test:e2e:ci": "concurrently \"npm run dev\" \"npm run test:e2e\"",
-    "test:unit:ci": "npm run test:unit && npm run test:unit"
+    "test:unit:ci": "npm run test:unit && npm run test:unit",
+    "test:merge:reports": "srm ./dist/test-reports.xml \"./dist/**/!(*test-reports).xml\""
   },
   "dependencies": {
     "@haapi/typescript-client": "^1.75.0",
@@ -39,6 +40,7 @@
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.12.34",
+    "@skodaflow/sonar-report-merger": "^1.0.2",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
