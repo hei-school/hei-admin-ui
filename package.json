@@ -25,6 +25,7 @@
     "@react-admin/ra-rbac": "^4.3.0",
     "aws-amplify": "^6.0.28",
     "axios": "^1.6.8",
+    "cypress-multi-reporters": "^2.0.4",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "mime": "^4.0.3",

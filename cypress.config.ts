@@ -14,11 +14,13 @@ export default defineConfig({
       bundler: "vite",
     },
   },
-  reporter: "cypress-sonarqube-reporter",
+  reporter: "cypress-multi-reporters",
   reporterOptions: {
-    overwrite: false,
-    html: false,
-    json: true,
+    reporterEnabled: "cypress-sonarqube-reporter",
+    mergeFileName: "test-reports.xml",
+    cypressSonarqubeReporterReporterOptions: {
+      overwrite: true,
+    },
   },
   e2e: {
     setupNodeEvents(on, config) {
