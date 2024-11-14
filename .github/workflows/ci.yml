@@ -96,6 +96,15 @@ jobs:
 
       - run: npm install --location=global sonar-scanner
 
+      ## Read version file ##
+      - name: Read version file
+        if: always()
+        id: read-version
+        uses: CumulusDS/get-yaml-paths-action@v0.1.0
+        with:
+          file: version.yml
+          version: version
+
       ## Run Cypress e2e tests ##
       - name: Run e2e tests
         uses: cypress-io/github-action@v6
@@ -108,8 +117,8 @@ jobs:
         run: |
           npm run test:merge:reports
 
-      ## Sonar check ##
-      - name: Sonar
+      ## SonarQube Cloud Scan ##
+      - name: SonarQube Cloud Scan
         if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FOR_CONVENTIONAL_CHANGELOG }}
@@ -118,9 +127,6 @@ jobs:
           sonar-scanner \
             -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
             -Dsonar.host.url=https://sonarcloud.io \
-            -Dsonar.organization=hei-school \
-            -Dsonar.projectKey=hei-admin-ui \
-            -Dsonar.branch.name=${GITHUB_REF##*/} \
 
   build:
     timeout-minutes: 20
