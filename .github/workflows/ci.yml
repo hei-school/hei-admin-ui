@@ -91,6 +91,15 @@ jobs:
 
       - run: npm install --location=global sonar-scanner
 
+      ## Read version file ##
+      - name: Read version file
+        if: always()
+        id: read-version
+        uses: CumulusDS/get-yaml-paths-action@v0.1.0
+        with:
+          file: version.yml
+          version: version
+
       ## Run Cypress e2e tests ##
       - name: Run e2e tests
         uses: cypress-io/github-action@v6
@@ -105,10 +114,14 @@ jobs:
 
       ## SonarQube Cloud Scan ##
       - name: SonarQube Cloud Scan
-        uses: SonarSource/sonarcloud-github-action@master
+        if: always()
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FOR_CONVENTIONAL_CHANGELOG }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: |
+          sonar-scanner \
+            -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
+            -Dsonar.host.url=https://sonarcloud.io
 
   build:
     timeout-minutes: 20
