@@ -69,6 +69,11 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 18.19.0
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: "17"
+          distribution: "temurin"
 
       ## Connect to Numer Private Codeartifact Repository ##
       - name: Configure prod AWS credentials
@@ -121,7 +126,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
-            -Dsonar.host.url=https://sonarcloud.io
+            -Dsonar.host.url=https://sonarcloud.io \
 
   build:
     timeout-minutes: 20
