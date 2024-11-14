@@ -143,9 +143,8 @@ const CatchupFeesCreate = ({toggle}) => {
 
 const MpbsCreate = ({toggle}) => {
   const notify = useNotify();
-  const {id} = useRecordContext();
+  const {id: fee_id, mpbs} = useRecordContext();
   const {id: student_id} = authProvider.getCachedWhoami();
-
   return (
     <Create
       resource="fees"
@@ -172,7 +171,7 @@ const MpbsCreate = ({toggle}) => {
           }
         },
       }}
-      transform={(data) => ({...data, student_id, id})}
+      transform={(data) => ({...data, student_id, fee_id, mpbs_id: mpbs?.id})}
     >
       <SimpleForm>
         <TextInput

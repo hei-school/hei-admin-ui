@@ -6,7 +6,7 @@ import {
   Check,
   Download,
 } from "@mui/icons-material";
-import {Chip} from "@mui/material";
+import {Chip, Typography} from "@mui/material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList/HaList";
 import {EMPTY_TEXT} from "@/ui/constants";
@@ -57,7 +57,11 @@ const TransactionFeeList = () => {
     <>
       <ListHeader
         cardContents={headerCardContent}
-        title="Liste des frais (en retard par défaut)"
+        title={
+          <Typography variant="h6" fontWeight="bold">
+            Statistiques des frais de ce mois-ci
+          </Typography>
+        }
       />
       <HaList
         icon={<Money />}
