@@ -103,6 +103,13 @@ jobs:
         run: |
           npm run test:merge:reports
 
+      ## SonarQube Cloud Scan ##
+      - name: SonarQube Cloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN_FOR_CONVENTIONAL_CHANGELOG }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
   build:
     timeout-minutes: 20
     runs-on: ubuntu-latest
