@@ -58,7 +58,7 @@ function AppBase() {
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
       <Resource name="events" {...events} />
-      <Resource name="student-letters" />
+      <Resource name="users-letters" />
       <Resource name="letters" />
       <Resource
         name="awarded-courses"

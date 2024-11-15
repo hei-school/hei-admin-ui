@@ -168,7 +168,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
               return (statusMap.get(record.id!) || record.event_status) ===
                 "MISSING" ? (
                 <LetterActions
-                  studentId={record.student_id!}
+                  userId={record.student_id!}
                   eventParticipantId={record.id!}
                   letters={record.letter || []}
                 />

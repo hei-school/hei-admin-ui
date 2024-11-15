@@ -10,7 +10,7 @@ import {
   LetterListView,
   LetterStatusFilter,
 } from "@/operations/letters/components";
-import {Student} from "@haapi/typescript-client";
+import {Student, Teacher} from "@haapi/typescript-client";
 
 export const getListViewStyle = ({
   isLarge,
@@ -28,7 +28,7 @@ export const getListViewStyle = ({
   };
 };
 
-export const StudentLettersList: FC = () => {
+export const UserLettersList: FC = () => {
   const [isOpen, , onToggle] = useToggle();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -40,9 +40,9 @@ export const StudentLettersList: FC = () => {
     setAnchorEl(null);
   };
 
-  const student = useRecordContext<Student>();
+  const user = useRecordContext<Student | Teacher>();
 
-  if (!student) return null;
+  if (!user) return null;
 
   return (
     <Box
@@ -52,10 +52,10 @@ export const StudentLettersList: FC = () => {
       }}
     >
       <ListBase
-        resource="student-letters"
+        resource="users-letters"
         queryOptions={{
           meta: {
-            studentId: student.id,
+            userId: user.id,
           },
         }}
       >
@@ -114,7 +114,7 @@ export const StudentLettersList: FC = () => {
       <CreateLettersDialog
         isOpen={isOpen}
         onClose={onToggle}
-        studentId={student.id!}
+        userId={user.id!}
       />
     </Box>
   );

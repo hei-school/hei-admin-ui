@@ -285,7 +285,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
           toggle4();
           refresh();
         }}
-        studentId={studentId}
+        userId={studentId}
         feeAmount={total_amount}
         feeId={id}
         title="Payer mon frais par ajout d'un bordereau"

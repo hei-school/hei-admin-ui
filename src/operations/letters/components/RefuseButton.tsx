@@ -20,7 +20,7 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
       return;
     }
     update(
-      "student-letters",
+      "users-letters",
       {
         id: letterId,
         data: {
