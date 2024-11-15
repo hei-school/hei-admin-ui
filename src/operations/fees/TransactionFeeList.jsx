@@ -4,10 +4,8 @@ import {
   Cancel,
   Pending,
   Check,
-  Download,
 } from "@mui/icons-material";
 import {Chip, Typography} from "@mui/material";
-import {FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList/HaList";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {FeesFilters} from "./components/FeesFilter";

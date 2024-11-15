@@ -4,7 +4,7 @@ import {IconButton, Tooltip} from "@mui/material";
 export const IconButtonWithTooltip: FC<{
   title: string;
   children: ReactNode;
-  disabled: boolean;
+  disabled?: boolean;
 }> = ({title, children, disabled = false}) => {
   return (
     <Tooltip title={title}>
