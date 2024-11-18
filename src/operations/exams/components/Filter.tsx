@@ -1,27 +1,32 @@
-import { useMemo } from 'react';
-import { DateTimeInput, SelectInput, useGetList, useListContext } from 'react-admin';
-import { useForm, FormProvider } from 'react-hook-form';
-import { Box, Button, Grid, Typography} from '@mui/material';
+import {useMemo} from "react";
+import {
+  DateTimeInput,
+  SelectInput,
+  useGetList,
+  useListContext,
+} from "react-admin";
+import {useForm, FormProvider} from "react-hook-form";
+import {Box, Button, Grid, Typography} from "@mui/material";
 
 export const FilterExam = () => {
-  const { displayedFilters, filterValues, setFilters } = useListContext();
+  const {displayedFilters, filterValues, setFilters} = useListContext();
 
-  const { data: courses = [] } = useGetList("course");
-  const { data: groups = [] } = useGetList("groups");
+  const {data: courses = []} = useGetList("course");
+  const {data: groups = []} = useGetList("groups");
 
   const form = useForm({
     defaultValues: filterValues,
   });
 
   const courseChoices = useMemo(() => {
-    return courses.map(({ id, code = "" }) => ({
+    return courses.map(({id, code = ""}) => ({
       id,
       name: code,
     }));
   }, [courses]);
 
   const groupChoices = useMemo(() => {
-    return groups.map(({ id, ref = "" }) => ({
+    return groups.map(({id, ref = ""}) => ({
       id,
       name: ref,
     }));
@@ -38,7 +43,7 @@ export const FilterExam = () => {
 
   return (
     <FormProvider {...form}>
-      <Box component="form" onSubmit={form.handleSubmit(onSubmit)} sx={{ p: 3}}>
+      <Box component="form" onSubmit={form.handleSubmit(onSubmit)} sx={{p: 3}}>
         <Typography variant="h6" mb={2}>
           Filtres des Examens
         </Typography>
@@ -87,11 +92,16 @@ export const FilterExam = () => {
             variant="outlined"
             color="secondary"
             onClick={onResetFilters}
-            sx={{ mr: 2 }}
+            sx={{mr: 2}}
           >
             Annuler les filtres
           </Button>
-          <Button variant="contained" color="primary" type="submit" sx={{ px: 4 }}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            sx={{px: 4}}
+          >
             Appliquer les filtres
           </Button>
         </Box>
