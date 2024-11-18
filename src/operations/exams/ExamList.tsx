@@ -1,5 +1,4 @@
-import {useState} from "react";
-import {List, useGetList} from "react-admin";
+import {List,useListContext} from "react-admin";
 import {
   ImportContactsOutlined as BookIcon,
   PermIdentityOutlined as PersonIcon,
@@ -12,10 +11,11 @@ import {
   Card,
   CardContent,
   CardHeader,
+  Divider,
   Grid,
   Typography,
 } from "@mui/material";
-import {ExamFilter} from "@/operations/exams/components/ExamFilter";
+import { FilterExam } from "@/operations/exams/components";
 import {CreateButton} from "@/ui/haToolbar";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
@@ -24,18 +24,6 @@ import {formatDate} from "@/utils/date";
 import {PALETTE_COLORS} from "@/haTheme";
 
 export const ExamList = () => {
-  const [filters, setFilters] = useState({
-    course: null,
-    teacher: null,
-    group: null,
-    startDate: null,
-    endDate: null,
-  });
-
-  const handleApplyFilters = (newFilters: any) => {
-    setFilters(newFilters);
-  };
-
   return (
     <Box>
       <List
@@ -46,7 +34,8 @@ export const ExamList = () => {
         pagination={<PrevNextPagination />}
         sx={{mt: 1}}
       >
-        <ExamFilter onApplyFilters={handleApplyFilters} />
+        <FilterExam />
+        <Divider sx={{mt: 3, mb: 2}} />
         <HaListTitle
           title="Liste des examens"
           icon={<GradeIcon />}
@@ -58,33 +47,15 @@ export const ExamList = () => {
           }
           mainSearch={{label: "", source: ""}}
         />
-        <ExamCard filters={filters} />
+        <ExamCard/>
       </List>
     </Box>
   );
 };
 
-interface ExamCardProps {
-  filters: {
-    course: string | null;
-    teacher: string | null;
-    group: string | null;
-    startDate: Date | null;
-    endDate: Date | null;
-  };
-}
 
-export const ExamCard: React.FC<ExamCardProps> = ({filters}) => {
-  const {data: exams = []} = useGetList("exams", {
-    filter: {
-      course: filters.course,
-      teacher: filters.teacher,
-      group: filters.group,
-      startDate: filters.startDate,
-      endDate: filters.endDate,
-    },
-  });
-
+export const ExamCard = () => {
+  const {data: exams = []} = useListContext();
   return (
     <Box sx={{padding: "20px", minHeight: "100vh"}}>
       <Grid container direction="row" spacing={4}>
@@ -190,7 +161,7 @@ export const ExamCard: React.FC<ExamCardProps> = ({filters}) => {
                   />
                   Date et heure: {formatDate(exam.examination_date)}
                 </Typography>
-              </CardContent>
+              </CardContent>    
             </Card>
           </Grid>
         ))}
