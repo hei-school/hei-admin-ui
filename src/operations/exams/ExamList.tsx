@@ -1,4 +1,4 @@
-import {List,useListContext} from "react-admin";
+import {List, useListContext} from "react-admin";
 import {
   ImportContactsOutlined as BookIcon,
   PermIdentityOutlined as PersonIcon,
@@ -15,7 +15,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import { FilterExam } from "@/operations/exams/components";
+import {FilterExam} from "@/operations/exams/components";
 import {CreateButton} from "@/ui/haToolbar";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
@@ -47,12 +47,11 @@ export const ExamList = () => {
           }
           mainSearch={{label: "", source: ""}}
         />
-        <ExamCard/>
+        <ExamCard />
       </List>
     </Box>
   );
 };
-
 
 export const ExamCard = () => {
   const {data: exams = []} = useListContext();
@@ -161,7 +160,7 @@ export const ExamCard = () => {
                   />
                   Date et heure: {formatDate(exam.examination_date)}
                 </Typography>
-              </CardContent>    
+              </CardContent>
             </Card>
           </Grid>
         ))}
