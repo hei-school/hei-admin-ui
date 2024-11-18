@@ -21,7 +21,7 @@ import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {ExamInfo} from "@haapi/typescript-client";
 import {formatDate} from "@/utils/date";
 import {PALETTE_COLORS} from "@/haTheme";
-import { FilterExam } from "./components";
+import {FilterExam} from "./components";
 
 export const ExamList = () => {
   return (
