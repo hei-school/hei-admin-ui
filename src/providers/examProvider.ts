@@ -3,13 +3,30 @@ import {HaDataProviderType} from "./HaDataProviderType";
 
 const examsProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}, _meta) => {
-    const {awardedCourseId, title} = filter;
+    const {
+      awarded_course_id, 
+      title, 
+      course_code, 
+      group_ref, 
+      examination_date_from, 
+      examination_date_to
+    } = filter;
     return teachingApi()
-      .getAllExams(awardedCourseId, title, page, perPage)
-      .then((result) => ({data: result.data}));
+      .getAllExams(
+        awarded_course_id, 
+        title, 
+        course_code, 
+        group_ref, 
+        examination_date_from, 
+        examination_date_to, 
+        page, 
+        perPage
+      ).then((result) => ({data: result.data}));
   },
-  getOne: async (_examId: string, _meta) => {
-    throw new Error("Not implemented");
+  getOne: async (id: string) => {
+    return teachingApi()
+      .getExamOneExamById(id)
+      .then((response) => response.data);
   },
   saveOrUpdate: async (payloads: any) => {
     const payload = payloads[0];

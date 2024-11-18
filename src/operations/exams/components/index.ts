@@ -1,2 +1,2 @@
-export * from "./ExamFilter";
+export * from "./Filter"
 export * from "./SelectField";
