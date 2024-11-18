@@ -14,7 +14,8 @@
     "test:e2e": "cypress run --spec cypress/e2e/**/*",
     "test:unit": "cypress run --component",
     "test:e2e:ci": "concurrently \"npm run dev\" \"npm run test:e2e\"",
-    "test:unit:ci": "npm run test:unit && npm run test:unit"
+    "test:unit:ci": "npm run test:unit && npm run test:unit",
+    "test:merge:reports": "srm ./dist/test-reports.xml \"./dist/**/!(*test-reports).xml\""
   },
   "dependencies": {
     "@haapi/typescript-client": "^1.76.0",
@@ -25,6 +26,7 @@
     "@react-admin/ra-rbac": "^4.3.0",
     "aws-amplify": "^6.0.28",
     "axios": "^1.6.8",
+    "cypress-multi-reporters": "^2.0.4",
     "dayjs": "^1.11.13",
     "dotenv": "^16.4.5",
     "mime": "^4.0.3",
@@ -38,6 +40,7 @@
   },
   "devDependencies": {
     "@cypress/code-coverage": "^3.12.34",
+    "@skodaflow/sonar-report-merger": "^1.0.2",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
@@ -47,6 +50,7 @@
     "concurrently": "^8.2.2",
     "cypress": "^13.7.3",
     "cypress-file-upload": "^5.0.8",
+    "cypress-sonarqube-reporter": "^1.13.2",
     "eslint": "^8.45.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-prettier": "^5.1.3",

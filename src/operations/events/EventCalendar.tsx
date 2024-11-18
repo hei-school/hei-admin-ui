@@ -7,7 +7,7 @@ import {EventEditDialog} from "./EventEditDialog";
 import {useState} from "react";
 import {Popover, Box, Button, PopoverPosition} from "@mui/material";
 import {useToggle} from "@/hooks";
-import {EventListAction} from "./components";
+import {EventListAction, StatCard} from "./components";
 import {HaListTitle} from "@/ui/haList";
 import {useRole} from "@/security/hooks";
 
@@ -134,7 +134,7 @@ const EventAction = ({event, toggleEdit}: ActionProps) => {
   return (
     <Box
       sx={{
-        width: "150px",
+        width: "350px",
         padding: "0.5rem",
         display: "flex",
         flexDirection: "column",
@@ -161,6 +161,7 @@ const EventAction = ({event, toggleEdit}: ActionProps) => {
       >
         Présence
       </Button>
+      <StatCard stats={event?.count || {}} />
     </Box>
   );
 };
