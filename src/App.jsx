@@ -28,6 +28,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
+import exams from "@/operations/exams";
 
 function AppBase() {
   return (
@@ -65,6 +66,7 @@ function AppBase() {
         {...awardedCourses}
         options={{label: " "}}
       />
+      <Resource name="exams" {...exams} />
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
 
