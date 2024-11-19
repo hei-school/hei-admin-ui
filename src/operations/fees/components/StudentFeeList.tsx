@@ -21,6 +21,7 @@ import {
   regex,
   minLength,
 } from "react-admin";
+import {AxiosError} from "axios";
 import {
   AddCard as AddMbpsIcon,
   Visibility as ShowIcon,
@@ -54,13 +55,7 @@ import {LetterStatusIcon} from "./letterIcon";
 import authProvider from "@/providers/authProvider";
 
 interface CreateProps {
-  toggle: () => void;
-}
-
-interface ErrorResponse {
-  response: {
-    status: number;
-  };
+  onSuccess: () => void;
 }
 
 interface TransformData {
@@ -71,20 +66,7 @@ interface TransformData {
 const TRANSACTION_PATTERN =
   /^MP[a-zA-Z0-9]{6}\.[a-zA-Z0-9]{4}\.[a-zA-Z0-9]{6}$/;
 
-const handleError = (error: ErrorResponse, notify: Function) => {
-  if (!error.response) return;
-
-  const messages: Record<number, string> = {
-    500: "Cette référence de transaction existe déjà",
-    404: "Transaction non trouvée chez Orange",
-  };
-
-  const message =
-    messages[error.response.status] || "Une erreur inattendue s'est produite";
-  notify(message, {type: "error"});
-};
-
-const pspIdValidation = [
+const pspIdValidationContraints = [
   minLength(20, "La référence doit contenir exactement 20 caractères"),
   regex(
     TRANSACTION_PATTERN,
@@ -123,7 +105,7 @@ const DefaultInfos = () => {
   );
 };
 
-const CatchupFeesCreate: FC<CreateProps> = ({toggle}) => {
+const CatchupFeesCreate: FC<CreateProps> = ({onSuccess}) => {
   const notify = useNotify();
   const {data: courses = []} = useGetList("course", {
     pagination: {perPage: 50, page: 1},
@@ -138,7 +120,7 @@ const CatchupFeesCreate: FC<CreateProps> = ({toggle}) => {
       mutationOptions={{
         onSuccess: () => {
           notify("Frais créés avec succès", {type: "success"});
-          toggle();
+          onSuccess();
         },
       }}
       transform={(
@@ -175,10 +157,23 @@ const CatchupFeesCreate: FC<CreateProps> = ({toggle}) => {
   );
 };
 
-const MpbsCreate: FC<CreateProps> = ({toggle}) => {
+const MpbsCreate: FC<CreateProps> = ({onSuccess}) => {
   const notify = useNotify();
   const {id: fee_id, mpbs} = useRecordContext();
   const {id: student_id} = authProvider.getCachedWhoami();
+
+  const handleError = (error: AxiosError) => {
+    if (!error.response) return;
+
+    const messages: Record<number, string> = {
+      500: "Cette référence de transaction existe déjà",
+      404: "Transaction non trouvée chez Orange",
+    };
+
+    const message =
+      messages[error.response.status] || "Une erreur inattendue s'est produite";
+    notify(message, {type: "error"});
+  };
 
   return (
     <Create
@@ -188,9 +183,9 @@ const MpbsCreate: FC<CreateProps> = ({toggle}) => {
       mutationOptions={{
         onSuccess: () => {
           notify("Frais créés avec succès", {type: "success"});
-          toggle();
+          onSuccess();
         },
-        onError: (error: ErrorResponse) => handleError(error, notify),
+        onError: (error: AxiosError) => handleError(error),
       }}
       transform={(data: TransformData = {}) => ({
         ...data,
@@ -203,7 +198,7 @@ const MpbsCreate: FC<CreateProps> = ({toggle}) => {
         <TextInput
           source="psp_id"
           label="Référence de la transaction"
-          validate={pspIdValidation}
+          validate={pspIdValidationContraints}
           fullWidth
         />
         <SelectInput
@@ -282,7 +277,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
         show={show3}
         toggle={toggle3}
       >
-        <MpbsCreate toggle={toggle3} />
+        <MpbsCreate onSuccess={toggle3} />
       </FeesDialog>
       <CreateLettersDialog
         isOpen={show4}
@@ -371,7 +366,7 @@ export const StudentFeeList = () => {
       </HaList>
       <FeesDialog
         title="Créer mon/mes frais de rattrapage"
-        children={<CatchupFeesCreate toggle={toggle} />}
+        children={<CatchupFeesCreate onSuccess={toggle} />}
         show={show}
         toggle={toggle}
       />
