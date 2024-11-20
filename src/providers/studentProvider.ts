@@ -22,7 +22,7 @@ const studentProvider: HaDataProviderType = {
   },
   async getOne(id: string) {
     const result = await usersApi().getStudentById(id);
-    return result.data;
+    return result.data
   },
   async saveOrUpdate(
     payload: any,

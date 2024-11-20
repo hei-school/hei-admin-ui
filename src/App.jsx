@@ -18,6 +18,7 @@ import fees from "@/operations/fees";
 import feesTemplates from "@/operations/feesTemplates";
 import payments from "@/operations/payments";
 import studentDocs from "@/operations/docs/students";
+import teachersDocs from "@/operations/docs/teachers";
 import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
 import awardedCourses from "./operations/awardedCourses";
@@ -112,28 +113,38 @@ function AppBase() {
         />
         <Route
           exact
+          path="/docs/teachers/OTHER"
+          element={<teachersDocs.list />}
+        />
+        <Route
+          exact
           path="/docs/students/WORK_DOCUMENT"
           element={<studentDocs.list />}
         />
 
         <Route
           exact
-          path="/students/:studentId/docs/students/OTHER"
+          path="/students/:userId/docs/students/OTHER"
           element={<studentDocs.list />}
         />
         <Route
           exact
-          path="/students/:studentId/docs/students/WORK_DOCUMENT"
+          path="/teachers/:userId/docs/teachers/OTHER"
+          element={<teachersDocs.list />}
+        />
+        <Route
+          exact
+          path="/students/:userId/docs/students/WORK_DOCUMENT"
           element={<studentDocs.list />}
         />
         <Route
           exact
-          path="/students/:studentId/docs/students/TRANSCRIPT"
+          path="/students/:userId/docs/students/TRANSCRIPT"
           element={<studentDocs.list />}
         />
         <Route
           exact
-          path="/students/:studentId/docs/students/TRANSCRIPT/:id"
+          path="/students/:userId/docs/students/TRANSCRIPT/:id"
           element={<studentDocs.show />}
         />
         <Route
@@ -149,8 +160,13 @@ function AppBase() {
         />
         <Route
           exact
-          path="/students/:studentId/docs/students/OTHER/:id"
+          path="/students/:userId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/teachers/:userId/docs/teachers/OTHER/:id"
+          element={<teachersDocs.show />}
         />
         <Route
           exact
@@ -159,7 +175,12 @@ function AppBase() {
         />
         <Route
           exact
-          path="/students/:studentId/docs/students/WORK_DOCUMENT/:id"
+          path="/docs/teachers/OTHER/:id"
+          element={<teachersDocs.show />}
+        />
+        <Route
+          exact
+          path="/students/:userId/docs/students/WORK_DOCUMENT/:id"
           element={<studentDocs.show />}
         />
         <Route
@@ -174,32 +195,37 @@ function AppBase() {
         />
         <Route
           exact
-          path="/monitor-students/:studentId/docs/students/TRANSCRIPT"
+          path="/monitor-students/:userId/docs/students/TRANSCRIPT"
           element={<studentDocs.list />}
         />
         <Route
           exact
-          path="/monitor-students/:studentId/docs/students/TRANSCRIPT/:id"
+          path="/monitor-students/:userId/docs/students/TRANSCRIPT/:id"
           element={<studentDocs.show />}
         />
         <Route
           exact
-          path="/monitor-students/:studentId/docs/students/WORK_DOCUMENT"
+          path="/monitor-students/:userId/docs/students/WORK_DOCUMENT"
           element={<studentDocs.list />}
         />
         <Route
           exact
-          path="/monitor-students/:studentId/docs/students/WORK_DOCUMENT/:id"
+          path="/monitor-students/:userId/docs/students/WORK_DOCUMENT/:id"
           element={<studentDocs.show />}
         />
         <Route
           exact
-          path="/monitor-students/:studentId/docs/students/OTHER"
+          path="/monitor-students/:userId/docs/students/OTHER"
           element={<studentDocs.list />}
         />
         <Route
           exact
-          path="/monitor-students/:studentId/docs/students/OTHER/:id"
+          path="/teachers/:userId/files/OTHER"
+          element={<studentDocs.list />}
+        />
+        <Route
+          exact
+          path="/monitor-students/:userId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
         />
       </CustomRoutes>
