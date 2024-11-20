@@ -20,7 +20,7 @@ const docsProvider: HaDataProviderType = {
         }
         if (meta.type in FileType) {
           return filesApi()
-            .getStudentFiles(meta?.studentId, page, perPage, meta.type)
+            .getUserFiles(meta?.studentId, page, perPage, meta.type)
             .then((result) => ({data: result.data}));
         }
         return {data: []};
@@ -42,7 +42,7 @@ const docsProvider: HaDataProviderType = {
             .then((result) => result.data);
         }
         return filesApi()
-          .getStudentFilesById(meta.studentId, id)
+          .getUserFilesById(meta.studentId, id)
           .then((result) => result.data);
       default:
         return [];
@@ -77,13 +77,9 @@ const docsProvider: HaDataProviderType = {
         }
         if (doc.type in FileType) {
           return filesApi()
-            .uploadStudentFile(
-              doc.studentId,
-              doc.type,
-              doc.title,
-              raw.rawFile,
-              {headers: MULTIPART_HEADERS}
-            )
+            .uploadUserFile(doc.studentId, doc.type, doc.title, raw.rawFile, {
+              headers: MULTIPART_HEADERS,
+            })
             .then((result) => [result.data]);
         }
         return [];
