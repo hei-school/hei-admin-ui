@@ -95,6 +95,15 @@ const docsProvider: HaDataProviderType = {
             .then((result) => [result.data]);
         }
         return [];
+      case OwnerType.TEACHER:
+        if (doc.type in FileType) {
+          return filesApi()
+            .uploadUserFile(doc.userId, doc.type, doc.title, raw.rawFile, {
+              headers: MULTIPART_HEADERS,
+            })
+            .then((result) => [result.data]);
+        }
+        return [];
       default:
         return [];
     }
