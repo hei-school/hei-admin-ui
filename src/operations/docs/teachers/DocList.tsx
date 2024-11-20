@@ -16,10 +16,10 @@ export const TeacherDocList = () => {
       type="OTHER"
       owner="TEACHER"
       userId={userId!}
-      title="Liste des documents des enseignants"
+      title={`Liste des documents des enseignants`}
       haListProps={{
         actions: isManager() ? (
-          <DocListAction userId={userId!} owner="TEACHER" type="DOCUMENT" />
+          <DocListAction userId={userId!} owner="TEACHER" type="OTHER" />
         ) : null,
       }}
       datagridProps={{

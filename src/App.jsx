@@ -5,7 +5,6 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {HaLayout} from "@/ui/haLayout";
 import {mainTheme} from "@/haTheme";
-import {WaitUntilHot} from "@/utils/retryer";
 import dataProvider from "@/providers/dataProvider";
 import authProvider from "@/providers/authProvider";
 import HaLoginPage from "@/security/LoginPage";

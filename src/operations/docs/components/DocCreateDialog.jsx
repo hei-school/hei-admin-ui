@@ -2,21 +2,17 @@ import {
   DateInput,
   FileField,
   FileInput,
-  SelectInput,
   SimpleForm,
   TextInput,
   regex,
 } from "react-admin";
 import {Dialog, DialogTitle, Box} from "@mui/material";
-import {useParams} from "react-router-dom";
 import {FileType} from "@haapi/typescript-client";
 import {Create} from "@/operations/common/components";
-import {useRole} from "@/security/hooks/useRole";
 import {removeExtension} from "@/utils/files";
 import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify} from "@/hooks";
 import {OwnerType} from "../types";
-import authProvider from "@/providers/authProvider";
 import {SelectWorkType} from "./SelectWorkType";
 
 const DOCUMENT_FILENAME_PATTERN = /^[^.]*$/;
@@ -71,7 +67,6 @@ export const DocCreateDialog = ({
   toggle,
   refresh,
 }) => {
-  const params = useParams();
   const notify = useNotify();
 
   return (

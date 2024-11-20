@@ -9,11 +9,17 @@ import {PALETTE_COLORS} from "@/haTheme";
 
 const ActionsOnShow: FC = () => {
   const {id: teacherId} = useRecordContext();
-
   const navigate = useRedirect();
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1vh",
+        marginTop: "5vh",
+      }}
+    >
       <EditButton
         size="medium"
         variant="outlined"

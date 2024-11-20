@@ -24,11 +24,7 @@ export const DocList = () => {
     ? authProvider.getCachedWhoami().id
     : params.userId;
 
-  const {
-    data: studentData,
-    isLoading,
-    error,
-  } = useGetOne("students", {id: userId});
+  const {data: studentData} = useGetOne("students", {id: userId});
   const isSuspended = studentData?.status === "SUSPENDED";
 
   return isStudent() && isSuspended ? (

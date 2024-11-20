@@ -37,6 +37,7 @@ export const DocListAction: FC<{
         closeAction={false}
         onClick={toggle}
         label="Créer"
+        children={null}
       />
       <DocCreateDialog
         userId={userId}
