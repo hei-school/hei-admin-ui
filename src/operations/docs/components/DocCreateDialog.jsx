@@ -41,7 +41,7 @@ const getTitle = (owner, type) => {
   return "document";
 };
 
-const transformDoc = (doc, type, owner, studentId) => {
+const transformDoc = (doc, type, owner, userId) => {
   if (!doc) return null;
   doc.title = doc.name || removeExtension(doc.raw?.title);
 
@@ -57,20 +57,22 @@ const transformDoc = (doc, type, owner, studentId) => {
 
   return {
     type,
-    studentId,
+    userId,
     owner,
     ...doc,
   };
 };
 
-export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
+export const DocCreateDialog = ({
+  type,
+  userId,
+  owner,
+  isOpen,
+  toggle,
+  refresh,
+}) => {
   const params = useParams();
-  const {isStudent} = useRole();
   const notify = useNotify();
-
-  const studentId = isStudent()
-    ? authProvider.getCachedWhoami().id
-    : params.studentId;
 
   return (
     <Dialog open={isOpen} onClose={toggle}>
@@ -85,7 +87,7 @@ export const DocCreateDialog = ({type, owner, isOpen, toggle, refresh}) => {
         title=" "
         redirect={false}
         resource="docs"
-        transform={(doc) => transformDoc(doc, type, owner, studentId)}
+        transform={(doc) => transformDoc(doc, type, owner, userId)}
         mutationOptions={{
           onSuccess: () => {
             toggle();

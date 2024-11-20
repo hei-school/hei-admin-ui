@@ -27,7 +27,7 @@ export function ButtonBase({
   icon,
   onClick,
   closeAction = true,
-  children,
+  children = null,
   ...rest
 }) {
   const listContext = useHaListContext();
