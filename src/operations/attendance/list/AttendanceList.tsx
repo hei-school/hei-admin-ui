@@ -39,12 +39,6 @@ export const AttendanceList = () => {
         <TextField source="student.last_name" label="Nom·s" />
         <TextField source="student.first_name" label="Prénom·s" />
         <FunctionField
-          label="Cours"
-          render={(record: StudentAttendance) =>
-            record.course_session?.awareded_course?.course?.code || "---"
-          }
-        />
-        <FunctionField
           label="Heure"
           render={(record: StudentAttendance) =>
             formatDate(record.created_at) || "---"
