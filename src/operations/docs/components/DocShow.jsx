@@ -6,7 +6,7 @@ import {useViewType} from "@/operations/docs/hooks/useViewType";
 import PdfViewer from "@/operations/common/components/PdfViewer";
 import {useNotify} from "@/hooks";
 
-export const DocShow = ({owner, studentId}) => {
+export const DocShow = ({owner, userId}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [doc, setDoc] = useState({});
   const dataProvider = useDataProvider();
@@ -20,7 +20,7 @@ export const DocShow = ({owner, studentId}) => {
     const doEffect = async () => {
       setIsLoading(true);
       await dataProvider
-        .getOne("docs", {id, meta: {owner, studentId, type}})
+        .getOne("docs", {id, meta: {owner, userId, type}})
         .then((result) => {
           setDoc(result.data);
           setIsLoading(false);
@@ -28,7 +28,7 @@ export const DocShow = ({owner, studentId}) => {
         .catch(() => {});
     };
     doEffect();
-  }, [studentId, type, id, owner]);
+  }, [userId, type, id, owner]);
 
   return (
     <Container fixed>

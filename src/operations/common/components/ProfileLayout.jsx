@@ -83,7 +83,7 @@ import {DATE_OPTIONS} from "@/utils/date";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
-import {StudentLettersList} from "@/operations/letters/StudentLettersList";
+import {UserLettersList} from "@/operations/letters/UserLettersList";
 import {LettersList} from "@/operations/letters/LettersList";
 import {lettersApi} from "@/providers/api";
 
@@ -558,16 +558,16 @@ export const Informations = ({
       </Box>
     );
   }
-
-  const shouldSyncTab =
-    !role.isStudent() && !role.isManager() && !role.isMonitor();
+  const isViewerManager =
+    !isTeacherProfile &&
+    !isStudentProfile &&
+    !isMonitorProfile &&
+    role.isManager();
 
   return (
     <TabbedShowLayout
       tabs={<TabbedShowLayoutTabs variant="scrollable" scrollButtons="auto" />}
-      syncWithLocation={
-        !role.isStudent() && !role.isManager() && !role.isMonitor()
-      }
+      syncWithLocation={false}
     >
       <TabbedShowLayout.Tab
         label="Détails du Profil"
@@ -611,53 +611,54 @@ export const Informations = ({
           children={<FeeList studentId={profile.id} studentRef={profile.ref} />}
         />
       )}
-      {isStudentProfile && (role.isManager() || role.isStudent()) && (
+      {!isViewerManager && !role.isMonitor() && !isMonitorProfile && (
         <TabbedShowLayout.Tab
           label="Boîte aux lettres"
-          children={<StudentLettersList />}
+          children={<UserLettersList />}
+          data-testid="letters-list-tab"
+          sx={{
+            position: "relative",
+            fontSize: "0.7rem",
+          }}
+        />
+      )}
+      {isViewerManager && (
+        <TabbedShowLayout.Tab
+          label={
+            letterStats ? (
+              <Badge
+                badgeContent={
+                  <span
+                    style={{
+                      backgroundColor: "red",
+                      borderRadius: "50%",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      fontWeight: "800",
+                      color: "white",
+                      marginLeft: "1rem",
+                      height: "1.4rem",
+                      width: "1.4rem",
+                    }}
+                  >
+                    {letterStats.pending}
+                  </span>
+                }
+                sx={{
+                  position: "relative",
+                  fontSize: "0.7rem",
+                }}
+              >
+                Boîte aux lettres
+              </Badge>
+            ) : null
+          }
+          children={<LettersList stats={letterStats} />}
+          style={{paddingTop: "1rem", width: "10vw"}}
           data-testid="letters-list-tab"
         />
       )}
-      {!isTeacherProfile &&
-        !isStudentProfile &&
-        !isMonitorProfile &&
-        role.isManager() && (
-          <TabbedShowLayout.Tab
-            label={
-              letterStats ? (
-                <Badge
-                  badgeContent={
-                    <span
-                      style={{
-                        backgroundColor: "red",
-                        borderRadius: "50%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontWeight: "800",
-                        color: "white",
-                        marginLeft: "1rem",
-                        height: "1.4rem",
-                        width: "1.4rem",
-                      }}
-                    >
-                      {letterStats.pending}
-                    </span>
-                  }
-                  sx={{
-                    position: "relative",
-                    fontSize: "0.7rem",
-                  }}
-                >
-                  Boîte aux lettres
-                </Badge>
-              ) : null
-            }
-            children={<LettersList stats={letterStats} />}
-            style={{paddingTop: "1rem", width: "10vw"}}
-            data-testid="letters-list-tab"
-          />
-        )}
     </TabbedShowLayout>
   );
 };

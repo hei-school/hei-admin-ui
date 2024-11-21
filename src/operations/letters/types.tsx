@@ -6,7 +6,7 @@ import {Letter} from "@haapi/typescript-client";
 export interface CreateLettersDialogProps {
   isOpen: boolean;
   onClose: () => void;
-  studentId: Identifier;
+  userId: Identifier;
   feeId?: Identifier;
   feeAmount?: number;
   title?: string;

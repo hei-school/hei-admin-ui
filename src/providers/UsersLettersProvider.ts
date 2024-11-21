@@ -5,19 +5,19 @@ import {toApiIds} from "./feeProvider";
 type Params = {
   meta: {
     method: "CREATE" | "UPDATE";
-    studentId: string;
+    userId: string;
     feeId: string;
     feeAmount: number;
     eventParticipantId: string;
   };
 };
-const studentLettersProvider: HaDataProviderType = {
+const usersLettersProvider: HaDataProviderType = {
   getList: async (page, perPage, filter, meta) => {
-    const {studentId} = meta;
+    const {userId} = meta;
     const {status} = filter;
 
     return lettersApi()
-      .getLettersByStudentId(studentId, page, perPage, status)
+      .getLettersByUserId(userId, page, perPage, status)
       .then((result) => ({data: result.data}));
   },
   getOne: async (id: string) => {
@@ -28,7 +28,7 @@ const studentLettersProvider: HaDataProviderType = {
   saveOrUpdate: async (payload: any, {meta}: Params) => {
     const {
       method,
-      studentId,
+      userId,
       feeId: raId,
       feeAmount,
       eventParticipantId,
@@ -45,7 +45,7 @@ const studentLettersProvider: HaDataProviderType = {
     const {title, rawFile} = filename;
     return lettersApi()
       .createLetter(
-        studentId,
+        userId,
         title,
         description,
         feeId,
@@ -60,4 +60,4 @@ const studentLettersProvider: HaDataProviderType = {
   },
 };
 
-export default studentLettersProvider;
+export default usersLettersProvider;

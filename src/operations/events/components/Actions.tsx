@@ -16,13 +16,13 @@ import {LETTER_ICON} from "@/operations/fees/components/letterIcon";
 
 interface LetterActionProps {
   eventParticipantId: string;
-  studentId: string;
+  userId: string;
   letters: EventParticipantLetter[];
 }
 
 export const LetterActions = ({
   eventParticipantId,
-  studentId,
+  userId,
   letters,
 }: LetterActionProps) => {
   const [show, _, toggle] = useToggle();
@@ -31,12 +31,12 @@ export const LetterActions = ({
   const {data} = useGetIdentity();
 
   const disableAttach =
-    (data?.id as string) !== studentId ||
+    (data?.id as string) !== userId ||
     letters.some(
       (letter) => letter.status === "RECEIVED" || letter.status === "PENDING"
     );
   const disableView =
-    (!isManager() && (data?.id as string) !== studentId) || !letters[0];
+    (!isManager() && (data?.id as string) !== userId) || !letters[0];
 
   return (
     <Stack direction="row" alignItems="center" justifyContent="center">
@@ -63,7 +63,7 @@ export const LetterActions = ({
           toggle();
           refresh();
         }}
-        studentId={studentId}
+        userId={userId}
         eventParticipantId={eventParticipantId}
         title="Justificatif d'absence"
       />

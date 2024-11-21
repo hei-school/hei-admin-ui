@@ -21,7 +21,7 @@ import announcementProvider from "@/providers/announcementProvider";
 import courseProvider from "@/providers/courseProvider";
 import statsProvider from "@/providers/statsProvider";
 import heiDocsProvider from "@/providers/heiDocsProvider";
-import studentLettersProvider from "@/providers/studentLettersProvider";
+import usersLettersProvider from "@/providers/UsersLettersProvider";
 import lettersProvider from "@/providers/lettersProvider";
 import lettersStatsProvider from "./letterStatsProvider";
 import receiptProvider from "./receiptProvider";
@@ -55,7 +55,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "course") return courseProvider;
   if (resourceType === "stats") return statsProvider;
   if (resourceType === "hei-docs") return heiDocsProvider;
-  if (resourceType === "student-letters") return studentLettersProvider;
+  if (resourceType === "users-letters") return usersLettersProvider;
   if (resourceType === "letters") return lettersProvider;
   if (resourceType === "letters-stats") return lettersStatsProvider;
   if (resourceType === "receipts") return receiptProvider;

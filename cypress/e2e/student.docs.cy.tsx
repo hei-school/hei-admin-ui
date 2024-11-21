@@ -14,32 +14,32 @@ describe("Transcript.Docs", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
+      `/users/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
       transcriptsMock
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files?file_type=OTHER*`,
+      `/users/${student1Mock.id}/files?file_type=OTHER*`,
       otherDocsMocks
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files/${transcript1.id}`,
+      `/users/${student1Mock.id}/files/${transcript1.id}`,
       transcript1
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files/${otherDoc1.id}`,
+      `/users/${student1Mock.id}/files/${otherDoc1.id}`,
       otherDoc1
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/work_files?*`,
+      `/users/${student1Mock.id}/work_files?*`,
       workDocsMocks
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/work_files/${workDoc1.id}`,
+      `/users/${student1Mock.id}/work_files/${workDoc1.id}`,
       workDoc1
     );
 
@@ -63,22 +63,22 @@ describe("Work.Docs", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
+      `/users/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
       transcriptsMock
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files?file_type=OTHER*`,
+      `/users/${student1Mock.id}/files?file_type=OTHER*`,
       otherDocsMocks
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files/${transcript1.id}`,
+      `/users/${student1Mock.id}/files/${transcript1.id}`,
       transcript1
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files/${otherDoc1.id}`,
+      `/users/${student1Mock.id}/files/${otherDoc1.id}`,
       otherDoc1
     );
     cy.intercept(
@@ -112,32 +112,32 @@ describe("Other.Docs", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
+      `/users/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
       transcriptsMock
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files?file_type=OTHER*`,
+      `/users/${student1Mock.id}/files?file_type=OTHER*`,
       otherDocsMocks
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files/${transcript1.id}`,
+      `/users/${student1Mock.id}/files/${transcript1.id}`,
       transcript1
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files/${otherDoc1.id}`,
+      `/users/${student1Mock.id}/files/${otherDoc1.id}`,
       otherDoc1
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/work_files?*`,
+      `/users/${student1Mock.id}/work_files?*`,
       workDocsMocks
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/work_files/${workDoc1.id}`,
+      `/users/${student1Mock.id}/work_files/${workDoc1.id}`,
       workDoc1
     );
 

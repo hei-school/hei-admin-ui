@@ -12,11 +12,9 @@ describe("Letter.event", () => {
       `/events/${event1mock.id}/participants?page=1&page_size=10`,
       eventParticipantsMock
     ).as("getEventParticipantPage1");
-    cy.intercept(
-      "POST",
-      `/students/${student1Mock.id}/letters?*`,
-      newLetter
-    ).as("createLetter");
+    cy.intercept("POST", `/users/${student1Mock.id}/letters?*`, newLetter).as(
+      "createLetter"
+    );
     cy.intercept("GET", `/events/${event1mock.id}`, event1mock);
   });
 
