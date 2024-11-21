@@ -31,14 +31,7 @@ const monitorStudentProvider: HaDataProviderType = {
     );
     return result.data.find((student) => student.id === id);
   },
-
-  async saveOrUpdate(students) {
-    const {id} = authProvider.getCachedWhoami();
-    return monitoringApi()
-      .linkStudentsByMonitorId(id!, students[0])
-      .then((result) => result.data);
-  },
-
+  
   async delete(_id: string) {
     throw new Error("Not implemented");
   },

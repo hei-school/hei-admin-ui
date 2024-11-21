@@ -11,7 +11,6 @@ import {CreateGeoLocalisation} from "@/operations/common/components";
 import {SexRadioButton} from "@/operations/utils";
 import {StudentListWithBulkActions} from "../common/components";
 import {EditToolBar} from "../utils";
-import authProvider from "@/providers/authProvider";
 import monitorProvider from "@/providers/monitorProvider";
 
 const transformMonitor = (record, students) => {
@@ -25,39 +24,51 @@ const transformMonitor = (record, students) => {
 
   return {
     ...monitor,
-    entrance_datetime: entrance_datetime ? new Date(entrance_datetime).toISOString() : null,
-    coordinates: {longitude, latitude},
+    entrance_datetime: entrance_datetime
+      ? new Date(entrance_datetime).toISOString()
+      : null,
+    coordinates: { longitude, latitude },
     status,
-    students_ids: students,
+    students_ids: students
+      .filter(student => student.id)
+      .map((student) => student.id),
   };
 };
 
 const MonitorCreate = () => {
-  const {id} = authProvider.getCachedWhoami();
   const [students, setStudents] = useState([]);
   const notify = useNotify();
   const refresh = useRefresh();
 
-  const handleSuccess = async (data) => {
-    notify("Moniteur créé avec succès", {type: "success"});
-    
+  const handleSubmit = async (record) => {
     try {
-      await monitorProvider.linkStudents(students);
-      notify("Étudiants liés avec succès", {type: "success"});
-    } catch (error) {
-      notify("Erreur lors de la liaison des étudiants", {type: "warning"});
-    }
+      const monitorData = transformMonitor(record, students);
     
-    refresh();
+      await monitorProvider.saveOrUpdate([monitorData], {isUpdate: false}, students);
+      
+      notify("Moniteur créé et étudiants liés avec succès", { type: "info" });
+      refresh();
+    } catch (error) {
+      notify(
+        `Erreur lors de la création du moniteur: ${error.response?.data?.message || error.message}`,
+        { type: "error" }
+      );
+      throw error;
+    }
   };
-
+  
   return (
     <Create
       title="Moniteurs"
-      transform={(record) => transformMonitor(record, students)}
-      onSuccess={handleSuccess} 
+      onSuccess={() => {
+        notify("Moniteur créé avec succès", { type: "info" });
+        refresh();
+      }}
     >
-      <SimpleForm toolbar={<EditToolBar />}>
+      <SimpleForm
+        toolbar={<EditToolBar />}
+        onSubmit={handleSubmit}
+      >
         <TextInput source="ref" label="Référence" required fullWidth />
         <TextInput source="first_name" label="Prénoms" required fullWidth />
         <TextInput source="last_name" label="Nom" required fullWidth />
@@ -68,7 +79,9 @@ const MonitorCreate = () => {
           label="Numéro CIN"
           fullWidth
           validate={(value) =>
-            value && value.length > 12 ? "Le numéro CIN ne doit pas dépasser 12 caractères." : undefined
+            value && value.length > 12
+              ? "Le numéro CIN ne doit pas dépasser 12 caractères."
+              : undefined
           }
         />
         <CreateGeoLocalisation />

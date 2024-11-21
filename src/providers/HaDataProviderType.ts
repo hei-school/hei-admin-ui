@@ -10,6 +10,5 @@ export type HaDataProviderType = {
     meta?: any
   ) => Promise<HaListResponseType>;
   getOne: (id: string, meta?: any) => Promise<any>;
-  saveOrUpdate: (resources: any, meta?: any) => Promise<any>;
   delete: (id: string) => Promise<any>;
 };
