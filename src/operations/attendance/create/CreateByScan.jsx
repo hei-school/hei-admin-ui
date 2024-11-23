@@ -39,7 +39,9 @@ export const CreateByScan = () => {
   const [scanner, setScanner] = useState(null);
   const [openDialog, setOpenDialog] = useState(false);
   const [dialogData, setDialogData] = useState(null);
-  const [attendanceType, setAttendanceType] = useState(AttendanceMovementType.IN);
+  const [attendanceType, setAttendanceType] = useState(
+    AttendanceMovementType.IN
+  );
   const navigate = useNavigate();
 
   useEffect(() => () => scanner !== null && scanner.clear(), []);
@@ -110,8 +112,12 @@ export const CreateByScan = () => {
               Êtes-vous sûr de vouloir enregistrer la présence de :
             </Typography>
             <ul>
-              <li><strong>Nom:</strong> {dialogData?.name}</li>
-              <li><strong>Référence:</strong> {dialogData?.ref}</li>
+              <li>
+                <strong>Nom:</strong> {dialogData?.name}
+              </li>
+              <li>
+                <strong>Référence:</strong> {dialogData?.ref}
+              </li>
             </ul>
             <FormControl fullWidth>
               <Select
@@ -132,17 +138,25 @@ export const CreateByScan = () => {
             <Button
               onClick={async () => {
                 try {
-                  await attendanceProvider.saveOrUpdate([{
-                    place: "IVANDRY",
-                    student_id: dialogData.id,
-                    created_at: new Date().toISOString(),
-                    attendance_movement_type: attendanceType,
-                  }]);
-                  setInfo({status: ScanStatus.Success, data: `${dialogData.name} a été enregistré avec succès.`});
+                  await attendanceProvider.saveOrUpdate([
+                    {
+                      place: "IVANDRY",
+                      student_id: dialogData.id,
+                      created_at: new Date().toISOString(),
+                      attendance_movement_type: attendanceType,
+                    },
+                  ]);
+                  setInfo({
+                    status: ScanStatus.Success,
+                    data: `${dialogData.name} a été enregistré avec succès.`,
+                  });
                   setOpenDialog(false);
                   navigate("/attendance");
                 } catch (error) {
-                  setInfo({status: ScanStatus.Failed, data: "Erreur lors de la vérification."});
+                  setInfo({
+                    status: ScanStatus.Failed,
+                    data: "Erreur lors de la vérification.",
+                  });
                   console.error("Erreur lors de l'enregistrement : ", error);
                 }
               }}

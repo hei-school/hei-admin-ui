@@ -77,7 +77,7 @@ export function HaList({
             title={title}
             icon={icon}
             mainSearch={mainSearch}
-      /> //TODO: remove this*/} 
+      /> //TODO: remove this*/}
           <DatagridWrapper>
             {hasDatagrid ? (
               <Datagrid

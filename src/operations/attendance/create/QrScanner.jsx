@@ -1,34 +1,36 @@
 import {styled} from "@mui/material";
-import {Html5QrcodeScanType, Html5QrcodeScanner} from "html5-qrcode";
+// import {Html5QrcodeScanType, Html5QrcodeScanner} from "html5-qrcode";
 import {qrcode, ScanStatus} from "./config";
 import attendanceProvider from "@/providers/attendanceProvider";
 import React from "react";
 
 export const ScannerBox = styled("div")({
-  width: "100%",
-  marginTop: 5,
-  maxWidth: 750,
-  minHeight: 400,
-  borderColor: "transparent",
-  backgroundColor: "rgba(0,0,0,.8)",
-  "& button:not(#html5-qrcode-button-camera-permission, #html5-qrcode-button-camera-start), & img": {
-    display: "none !important",
-  },
+  "width": "100%",
+  "marginTop": 5,
+  "maxWidth": 750,
+  "minHeight": 400,
+  "borderColor": "transparent",
+  "backgroundColor": "rgba(0,0,0,.8)",
+  "& button:not(#html5-qrcode-button-camera-permission, #html5-qrcode-button-camera-start), & img":
+    {
+      display: "none !important",
+    },
   "& #reader__dashboard_section": {padding: "0 !important"},
   "& #reader__dashboard_section_csr span:nth-of-type(1)": {
     display: "none !important",
   },
-  "& #html5-qrcode-button-camera-permission,& #html5-qrcode-button-camera-start": {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    padding: "7px 5px",
-    border: "1px solid white",
-    backgroundColor: "transparent",
-    color: "white",
-    cursor: "pointer",
-  },
+  "& #html5-qrcode-button-camera-permission,& #html5-qrcode-button-camera-start":
+    {
+      position: "absolute",
+      top: "50%",
+      left: "50%",
+      transform: "translate(-50%, -50%)",
+      padding: "7px 5px",
+      border: "1px solid white",
+      backgroundColor: "transparent",
+      color: "white",
+      cursor: "pointer",
+    },
 });
 
 export function createScanner(setInfo, openDialog, setDialogData) {
