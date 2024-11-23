@@ -27,10 +27,10 @@ const transformMonitor = (record, students) => {
     entrance_datetime: entrance_datetime
       ? new Date(entrance_datetime).toISOString()
       : null,
-    coordinates: { longitude, latitude },
+    coordinates: {longitude, latitude},
     status,
     students_ids: students
-      .filter(student => student.id)
+      .filter((student) => student.id)
       .map((student) => student.id),
   };
 };
@@ -43,32 +43,33 @@ const MonitorCreate = () => {
   const handleSubmit = async (record) => {
     try {
       const monitorData = transformMonitor(record, students);
-    
-      await monitorProvider.saveOrUpdate([monitorData], {isUpdate: false}, students);
-      
-      notify("Moniteur créé et étudiants liés avec succès", { type: "info" });
+
+      await monitorProvider.saveOrUpdate(
+        [monitorData],
+        {isUpdate: false},
+        students
+      );
+
+      notify("Moniteur créé et étudiants liés avec succès", {type: "info"});
       refresh();
     } catch (error) {
       notify(
         `Erreur lors de la création du moniteur: ${error.response?.data?.message || error.message}`,
-        { type: "error" }
+        {type: "error"}
       );
       throw error;
     }
   };
-  
+
   return (
     <Create
       title="Moniteurs"
       onSuccess={() => {
-        notify("Moniteur créé avec succès", { type: "info" });
+        notify("Moniteur créé avec succès", {type: "info"});
         refresh();
       }}
     >
-      <SimpleForm
-        toolbar={<EditToolBar />}
-        onSubmit={handleSubmit}
-      >
+      <SimpleForm toolbar={<EditToolBar />} onSubmit={handleSubmit}>
         <TextInput source="ref" label="Référence" required fullWidth />
         <TextInput source="first_name" label="Prénoms" required fullWidth />
         <TextInput source="last_name" label="Nom" required fullWidth />

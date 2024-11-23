@@ -31,7 +31,7 @@ const monitorStudentProvider: HaDataProviderType = {
     );
     return result.data.find((student) => student.id === id);
   },
-  
+
   async delete(_id: string) {
     throw new Error("Not implemented");
   },

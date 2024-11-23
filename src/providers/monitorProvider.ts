@@ -21,18 +21,18 @@ const monitorProvider = {
     return result.data;
   },
 
-  async saveOrUpdate(monitors: any[], meta: {isUpdate: any;}, students: any[]) {
+  async saveOrUpdate(monitors: any[], meta: {isUpdate: any}, students: any[]) {
     const isUpdate = meta?.isUpdate;
     const monitor = monitors[0];
     if (!monitor) {
-      throw new Error('Monitor is required');
+      throw new Error("Monitor is required");
     }
-  
+
     let monitorResult;
-  
+
     if (isUpdate) {
       if (!monitor.id) {
-        throw new Error('Monitor id is required for update');
+        throw new Error("Monitor id is required for update");
       }
       monitorResult = await usersApi().updateMonitorById(monitor.id, monitor);
     } else {
@@ -45,17 +45,19 @@ const monitorProvider = {
     } else {
       monitorId = monitorResult.data?.id;
     }
-  
+
     if (!monitorId) {
-      throw new Error('Monitor ID is missing after creation or update');
+      throw new Error("Monitor ID is missing after creation or update");
     }
-  
+
     if (students?.length > 0) {
-      await monitoringApi().linkStudentsByMonitorId(monitorId, {students_ids: students});
+      await monitoringApi().linkStudentsByMonitorId(monitorId, {
+        students_ids: students,
+      });
     }
-  
+
     return isUpdate ? [monitorResult.data] : monitorResult.data;
-  },  
+  },
 
   async delete(_id: string) {
     throw new Error("Not implemented");
@@ -63,4 +65,3 @@ const monitorProvider = {
 };
 
 export default monitorProvider;
-
