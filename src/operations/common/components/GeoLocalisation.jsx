@@ -42,7 +42,7 @@ function GeoInput({coordinates = {longitude: null, latitude: null}, ...props}) {
   return (
     <Box sx={{display: "flex", width: "100%", alignItems: "center", gap: 3}}>
       <TextInput
-        source="latitude"
+        source="coordinates.latitude"
         label="Latitude"
         defaultValue={coordinates.latitude}
         validate={number()}
@@ -51,7 +51,7 @@ function GeoInput({coordinates = {longitude: null, latitude: null}, ...props}) {
         {...props}
       />
       <TextInput
-        source="longitude"
+        source="coordinates.longitude"
         label="Longitude"
         data-testid="longitude-input"
         defaultValue={coordinates.longitude}

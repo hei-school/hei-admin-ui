@@ -1,6 +1,4 @@
-import {EditButton, Button} from "react-admin";
-import {Download, Comment as CommentIcon} from "@mui/icons-material";
-import {Box} from "@mui/material";
+import {EditButton} from "react-admin";
 import {GetCertificate} from "@/operations/students/components";
 import {Show} from "@/operations/common/components/Show";
 import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
@@ -14,6 +12,26 @@ const ProfileShow = () => {
   const {isStudent, isTeacher, isMonitor, role} = useRole();
   const {id} = authProvider.getCachedWhoami();
   const [showComments, , toogleShowComments] = useToggle(false);
+
+  const actionButton = () => {
+    if (isStudent()) {
+      return (
+        <GetCertificate
+          studentId={id}
+          variant="outlined"
+          data-testid="get-certificate-btn"
+        />
+      );
+    } else if (!isMonitor()) {
+      return (
+        <EditButton
+          to={`/profile/${id}/edit`}
+          data-testid="profile-edit-button"
+          {...(COMMON_OUTLINED_BUTTON_PROPS as any)}
+        />
+      );
+    }
+  };
 
   return (
     <Show
@@ -42,21 +60,7 @@ const ProfileShow = () => {
               gap: "0.5rem",
             }}
           >
-            {isStudent() ? (
-              <GetCertificate
-                studentId={id}
-                variant="outlined"
-                data-testid="get-certificate-btn"
-              />
-            ) : isMonitor() ? (
-              ""
-            ) : (
-              <EditButton
-                to={`/profile/${id}/edit`}
-                data-testid="profile-edit-button"
-                {...COMMON_OUTLINED_BUTTON_PROPS}
-              />
-            )}
+            {actionButton()}
             {showComments && (
               <StudentComments
                 title="Liste des commentaires"
