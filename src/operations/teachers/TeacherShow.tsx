@@ -6,11 +6,12 @@ import {Show} from "@/operations/common/components/Show";
 import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
 import {FC} from "react";
 import {PALETTE_COLORS} from "@/haTheme";
+import {useRole} from "@/security/hooks";
 
 const ActionsOnShow: FC = () => {
   const {id: teacherId} = useRecordContext();
   const navigate = useRedirect();
-
+  const {isAdmin} = useRole();
   return (
     <Box
       sx={{
@@ -31,22 +32,26 @@ const ActionsOnShow: FC = () => {
           width: "100%",
         }}
       />
-      <Button
-        startIcon={<Inventory />}
-        label="Documents"
-        size="medium"
-        variant="outlined"
-        sx={{
-          backgroundColor: PALETTE_COLORS.white,
-          color: PALETTE_COLORS.primary,
-          padding: "0.5rem 1.5rem",
-          borderRadius: "0.4rem",
-          width: "100%",
-        }}
-        onClick={() => {
-          navigate(`/teachers/${teacherId}/docs/teachers/OTHER`);
-        }}
-      />
+      {isAdmin() ? (
+        <Button
+          startIcon={<Inventory />}
+          label="Documents"
+          size="medium"
+          variant="outlined"
+          sx={{
+            backgroundColor: PALETTE_COLORS.white,
+            color: PALETTE_COLORS.primary,
+            padding: "0.5rem 1.5rem",
+            borderRadius: "0.4rem",
+            width: "100%",
+          }}
+          onClick={() => {
+            navigate(`/teachers/${teacherId}/docs/teachers/OTHER`);
+          }}
+        />
+      ) : (
+        ""
+      )}
     </Box>
   );
 };

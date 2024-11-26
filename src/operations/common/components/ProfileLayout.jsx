@@ -1,29 +1,20 @@
-import {useMemo, useRef, useState} from "react";
+import {useRef} from "react";
 
 import {
   ImageField,
   ImageInput,
   SimpleForm,
-  EmailField,
   FunctionField,
-  SimpleShowLayout,
-  TextField,
-  Link,
   useRecordContext,
-  useRedirect,
   useGetOne,
-  Button,
-  Show,
   TabbedShowLayout,
   TabbedShowLayoutTabs,
-  EditButton,
   useShowContext,
 } from "react-admin";
 
 import {
   PhotoCamera,
   CardTravel as WorkStatusIcon,
-  Edit as EditIcon,
   MailOutlined as MailIcon,
   PhoneOutlined as PhoneIcon,
   School as SchoolIcon,
@@ -40,25 +31,16 @@ import {
 
 import {
   Box,
-  Card,
-  CardActions,
   Dialog,
   Badge,
   DialogTitle,
-  Grid,
   IconButton,
   Typography,
   useMediaQuery,
   CircularProgress,
 } from "@mui/material";
-import {useQuery} from "react-query";
-import {v4 as uuid} from "uuid";
 
-import {
-  DateField,
-  BirthDateField,
-  FieldLabel,
-} from "@/operations/common/components/fields";
+import {BirthDateField} from "@/operations/common/components/fields";
 import {Create} from "@/operations/common/components/Create";
 import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
 import {CommentList} from "@/operations/comments/CommentList";
@@ -71,29 +53,18 @@ import {
   getGenderInFr,
   getUserStatusInFr,
 } from "@/operations/common/utils/typo_util";
-import {formatDate} from "@/utils/date";
+import {formatDate, DATE_OPTIONS} from "@/utils/date";
 import {SPECIALIZATION_VALUE} from "@/operations/students/components";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {PALETTE_COLORS} from "@/haTheme";
 import {WORK_STATUS_VALUE} from "@/operations/docs/components/SelectWorkStatus";
 import {WORK_TYPE_VALUE} from "@/operations/docs/components/SelectWorkType";
 import {NOOP_FN} from "@/utils/noop";
-import {COMMON_FIELD_ATTRIBUTES} from "@/ui/constants/common_styles";
-import {DATE_OPTIONS} from "@/utils/date";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
 import {LettersList} from "@/operations/letters/LettersList";
-import {lettersApi} from "@/providers/api";
-
-const COMMON_GRID_ATTRIBUTES = {
-  gridTemplateRows: "2fr 1fr",
-  direction: "column",
-  item: true,
-  backgroundColor: "transparent",
-  mx: 2,
-};
 
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
@@ -262,7 +233,6 @@ const Title = ({children: label}) => {
 
 const PersonalInfos = ({isStudentProfile}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
-  const isLarge = useMediaQuery("(min-width:1700px)");
 
   return (
     <Box
@@ -430,8 +400,6 @@ export const ProfileLayout = ({
   isMonitorProfile = false,
 }) => {
   const {record: profile = {}} = useShowContext();
-  const redirect = useRedirect();
-  const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const {groups = []} = profile;
 
@@ -521,18 +489,12 @@ export const Informations = ({
   isStudentProfile,
   isTeacherProfile,
   isMonitorProfile,
-  isManagerProfile,
 }) => {
   const isSmall = useMediaQuery("(max-width:900px)");
-  const isLarge = useMediaQuery("(min-width:1700px)");
   const profile = useRecordContext();
   const role = useRole();
 
-  const {
-    isLoading,
-    error,
-    data: letterStats,
-  } = useGetOne(
+  const {data: letterStats} = useGetOne(
     "letters-stats",
     {id: undefined},
     {
@@ -559,10 +521,7 @@ export const Informations = ({
     );
   }
   const isViewerManager =
-    !isTeacherProfile &&
-    !isStudentProfile &&
-    !isMonitorProfile &&
-    role.isManager();
+    !isStudentProfile && !isMonitorProfile && role.isManager();
 
   return (
     <TabbedShowLayout
@@ -595,11 +554,9 @@ export const Informations = ({
         </Box>
       </TabbedShowLayout.Tab>
       {isStudentProfile && (
-        <TabbedShowLayout.Tab
-          label="Commentaires"
-          style={{fontSize: "0.8rem"}}
-          children={<CommentList studentId={profile.id} />}
-        />
+        <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
+          <CommentList studentId={profile.id} />
+        </TabbedShowLayout.Tab>
       )}
 
       {isStudentProfile && (role.isManager() || role.isMonitor()) && (
@@ -608,21 +565,23 @@ export const Informations = ({
           path="fees"
           data-testid="fees-list-tab"
           style={{fontSize: "0.8rem"}}
-          children={<FeeList studentId={profile.id} studentRef={profile.ref} />}
-        />
+        >
+          <FeeList studentId={profile.id} studentRef={profile.ref} />
+        </TabbedShowLayout.Tab>
       )}
       {!isViewerManager && !role.isMonitor() && !isMonitorProfile && (
         <TabbedShowLayout.Tab
           label="Boîte aux lettres"
-          children={<UserLettersList />}
           data-testid="letters-list-tab"
           sx={{
             position: "relative",
             fontSize: "0.7rem",
           }}
-        />
+        >
+          <UserLettersList />
+        </TabbedShowLayout.Tab>
       )}
-      {isViewerManager && (
+      {isViewerManager && !isTeacherProfile && (
         <TabbedShowLayout.Tab
           label={
             letterStats ? (
@@ -652,12 +611,15 @@ export const Informations = ({
               >
                 Boîte aux lettres
               </Badge>
-            ) : null
+            ) : (
+              ""
+            )
           }
-          children={<LettersList stats={letterStats} />}
           style={{paddingTop: "1rem", width: "10vw"}}
           data-testid="letters-list-tab"
-        />
+        >
+          <LettersList stats={letterStats} />
+        </TabbedShowLayout.Tab>
       )}
     </TabbedShowLayout>
   );

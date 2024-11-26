@@ -10,7 +10,7 @@ export const newLetter: Letter = {
   ref: "ref_14",
   status: LetterStatus.RECEIVED,
   file_url: `https://www.example.com/path/to/test_file.pdf`,
-  student: student1Mock,
+  user: student1Mock,
   reason_for_refusal: "",
 };
 
@@ -29,7 +29,7 @@ export const newLetter2: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
 ];
@@ -49,7 +49,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -66,7 +66,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -83,7 +83,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "your request does not respect the rules",
   },
   {
@@ -100,7 +100,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -117,7 +117,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -134,7 +134,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -151,7 +151,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "insufficient academic performance",
   },
   {
@@ -168,7 +168,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -185,7 +185,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -202,7 +202,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -219,7 +219,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -236,7 +236,7 @@ export const student1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "incomplete application form",
   },
 ];
@@ -264,7 +264,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -281,7 +281,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[1],
+    user: studentsMock[1],
     reason_for_refusal: "",
   },
   {
@@ -298,7 +298,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[3],
+    user: studentsMock[3],
     reason_for_refusal: "your request does not respect the rules",
   },
   {
@@ -315,7 +315,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[1],
+    user: studentsMock[1],
     reason_for_refusal: "",
   },
   {
@@ -332,7 +332,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[2],
+    user: studentsMock[2],
     reason_for_refusal: "",
   },
   {
@@ -349,7 +349,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[1],
+    user: studentsMock[1],
     reason_for_refusal: "",
   },
   {
@@ -366,7 +366,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[0],
+    user: studentsMock[0],
     reason_for_refusal: "insufficient academic performance",
   },
   {
@@ -383,7 +383,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "",
   },
   {
@@ -400,7 +400,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[2],
+    user: studentsMock[2],
     reason_for_refusal: "",
   },
   {
@@ -417,7 +417,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[0],
+    user: studentsMock[0],
     reason_for_refusal: "",
   },
   {
@@ -434,7 +434,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: studentsMock[2],
+    user: studentsMock[2],
     reason_for_refusal: "",
   },
   {
@@ -451,7 +451,7 @@ export const lettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: student1Mock,
+    user: student1Mock,
     reason_for_refusal: "incomplete application form",
   },
 ];
@@ -471,7 +471,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -488,7 +488,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -505,7 +505,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "your request does not respect the rules",
   },
   {
@@ -522,7 +522,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -539,7 +539,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -556,7 +556,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -573,7 +573,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "insufficient academic performance",
   },
   {
@@ -590,7 +590,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -607,7 +607,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -624,7 +624,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -641,7 +641,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "",
   },
   {
@@ -658,7 +658,7 @@ export const teacher1LettersMocks: Required<Letter>[] = [
       amount: 0,
       type: "TUITION",
     },
-    student: teacher1Mock,
+    user: teacher1Mock,
     reason_for_refusal: "incomplete application form",
   },
 ];
