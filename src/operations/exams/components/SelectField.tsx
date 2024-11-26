@@ -32,7 +32,7 @@ export const SelectField: FC<SelectFieldProps> = ({
   };
 
   return (
-    <FormControl fullWidth variant="outlined" sx={{flex: 1}}>
+    <FormControl variant="outlined" sx={{flex: 1}} fullWidth>
       <InputLabel>{label}</InputLabel>
       <Select
         label={label}

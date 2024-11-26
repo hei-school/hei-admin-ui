@@ -55,6 +55,7 @@ export const ExamList = () => {
 
 export const ExamCard = () => {
   const {data: exams = []} = useListContext();
+
   return (
     <Box sx={{padding: "20px", minHeight: "100vh"}}>
       <Grid container direction="row" spacing={4}>
