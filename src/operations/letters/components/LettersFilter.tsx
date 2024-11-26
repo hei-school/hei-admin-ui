@@ -5,7 +5,7 @@ import {LetterStatus} from "@haapi/typescript-client";
 export const LettersFilter: FC = () => {
   return (
     <FilterForm>
-      <TextFilter label="Référence Étudiant" source="student_ref" />
+      <TextFilter label="Référence de l'utilisateur" source="student_ref" />
       <TextFilter
         label="Référence Lettre"
         source="letter_ref"
@@ -23,7 +23,7 @@ export const LettersFilter: FC = () => {
       />
       <TextFilter
         data-testid="filter-letter-first_name"
-        label="Prénom de l'Étudiant"
+        label="Prénom de l'utilisateur"
         source="student_name"
       />
       <SelectInputFilter

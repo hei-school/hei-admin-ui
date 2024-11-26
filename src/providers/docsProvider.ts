@@ -15,12 +15,19 @@ const docsProvider: HaDataProviderType = {
       case OwnerType.STUDENT:
         if (meta.type === "WORK_DOCUMENT") {
           return filesApi()
-            .getStudentWorkDocuments(meta.studentId, page, perPage)
+            .getStudentWorkDocuments(meta.userId, page, perPage)
             .then((result) => ({data: result.data}));
         }
         if (meta.type in FileType) {
           return filesApi()
-            .getStudentFiles(meta?.studentId, page, perPage, meta.type)
+            .getUserFiles(meta?.userId, page, perPage, meta.type)
+            .then((result) => ({data: result.data}));
+        }
+        return {data: []};
+      case OwnerType.TEACHER:
+        if (meta.type === "OTHER") {
+          return filesApi()
+            .getUserFiles(meta?.userId, page, perPage, meta.type)
             .then((result) => ({data: result.data}));
         }
         return {data: []};
@@ -38,12 +45,17 @@ const docsProvider: HaDataProviderType = {
       case OwnerType.STUDENT:
         if (meta.type === "WORK_DOCUMENT") {
           return filesApi()
-            .getStudentWorkDocumentsById(meta.studentId, id)
+            .getStudentWorkDocumentsById(meta.userId, id)
             .then((result) => result.data);
         }
         return filesApi()
-          .getStudentFilesById(meta.studentId, id)
+          .getUserFilesById(meta.userId, id)
           .then((result) => result.data);
+      case OwnerType.TEACHER:
+        return filesApi()
+          .getUserFilesById(meta.userId, id)
+          .then((result) => result.data);
+
       default:
         return [];
     }
@@ -64,7 +76,7 @@ const docsProvider: HaDataProviderType = {
         if (doc.type === "WORK_DOCUMENT") {
           return filesApi()
             .uploadStudentWorkFile(
-              doc.studentId,
+              doc.userId,
               doc.title,
               doc.commitment_begin_date,
               doc.experience_type,
@@ -77,13 +89,18 @@ const docsProvider: HaDataProviderType = {
         }
         if (doc.type in FileType) {
           return filesApi()
-            .uploadStudentFile(
-              doc.studentId,
-              doc.type,
-              doc.title,
-              raw.rawFile,
-              {headers: MULTIPART_HEADERS}
-            )
+            .uploadUserFile(doc.userId, doc.type, doc.title, raw.rawFile, {
+              headers: MULTIPART_HEADERS,
+            })
+            .then((result) => [result.data]);
+        }
+        return [];
+      case OwnerType.TEACHER:
+        if (doc.type in FileType) {
+          return filesApi()
+            .uploadUserFile(doc.userId, doc.type, doc.title, raw.rawFile, {
+              headers: MULTIPART_HEADERS,
+            })
             .then((result) => [result.data]);
         }
         return [];

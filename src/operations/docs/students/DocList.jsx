@@ -3,34 +3,30 @@ import {Box, Typography} from "@mui/material";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import {useStudentRef} from "@/hooks";
 import {useRole} from "@/security/hooks";
-import {DocList as CommonDocList} from "@/operations/docs/components/DocList";
+import {
+  DocList as CommonDocList,
+  DocListAction,
+} from "@/operations/docs/components/DocList";
 import {useViewType} from "@/operations/docs/hooks/useViewType";
 import authProvider from "@/providers/authProvider";
 import {useGetOne} from "react-admin";
+import {getDocListTitle} from "../utils/doc-list-title";
 
 export const DocList = () => {
   const params = useParams();
   const location = useLocation();
-
   const type = useViewType("LIST");
-
   const {isStudent, isManager} = useRole();
+  const getStudentRef = useStudentRef("userId");
+  const studentRef = isManager() ? getStudentRef?.studentRef : "";
 
-  const getStudentRef = useStudentRef("studentId");
-
-  let studentRef = isManager() ? getStudentRef?.studentRef : "";
-
-  const studentId = isStudent()
+  const userId = isStudent()
     ? authProvider.getCachedWhoami().id
-    : params.studentId;
+    : params.userId;
 
-  const {
-    data: studentData,
-    isLoading,
-    error,
-  } = useGetOne("students", {id: studentId});
-
+  const {data: studentData} = useGetOne("students", {id: userId});
   const isSuspended = studentData?.status === "SUSPENDED";
+
   return isStudent() && isSuspended ? (
     <Box
       sx={{
@@ -51,12 +47,17 @@ export const DocList = () => {
     </Box>
   ) : (
     <CommonDocList
-      owner="STUDENT"
       type={type}
-      studentId={studentId}
-      studentRef={isManager() && studentRef}
+      userId={userId}
+      owner="STUDENT"
+      title={getDocListTitle("STUDENT", type, studentRef)}
       datagridProps={{
         rowClick: (id) => `${location.pathname}/${id}`,
+      }}
+      haListProps={{
+        actions: isManager() ? (
+          <DocListAction userId={userId} owner="STUDENT" type={type} />
+        ) : null,
       }}
     />
   );

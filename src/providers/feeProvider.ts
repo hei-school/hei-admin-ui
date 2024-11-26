@@ -1,3 +1,4 @@
+import {v4 as uuid} from "uuid";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
@@ -53,34 +54,32 @@ const feeProvider: HaDataProviderType = {
   },
 
   async saveOrUpdate(resources: Array<any>) {
-    const fees = resources[0];
+    const payload = resources[0];
     const role = authProvider.getCachedRole();
 
-    if (fees?.psp_id) {
-      const fee = fees;
+    if (payload?.psp_id) {
+      const feeId = toApiIds(payload?.fee_id).feeId;
 
-      const feeId = toApiIds(fee?.id).feeId;
-
-      const createMpbs = {
-        student_id: fee?.student_id,
+      const mpbs = {
+        id: payload.mpbs_id ?? uuid(),
+        student_id: payload?.student_id,
         fee_id: feeId,
-        psp_id: fee?.psp_id,
-        psp_type: fee?.psp_type,
+        psp_id: payload?.psp_id,
+        psp_type: payload?.psp_type,
       };
 
       return await payingApi()
-        .createMpbs(createMpbs?.student_id, createMpbs?.fee_id, createMpbs)
-        .then((result) => [{...result.data, ...fee}]);
+        .crupdateMpbs(mpbs?.student_id, mpbs?.fee_id, mpbs)
+        .then((result) => [{...result.data, ...payload}]);
     }
-    console.log("role jhejhejheh", role);
     if (role === WhoamiRoleEnum.STUDENT) {
       return await payingApi()
-        .createStudentFees(fees[0].student_id, fees)
+        .createStudentFees(payload[0].student_id, payload)
         .then((result) => result.data);
     }
     if (role === WhoamiRoleEnum.MANAGER) {
       return await payingApi()
-        .crupdateStudentFees(fees)
+        .crupdateStudentFees(payload)
         .then((result) => result.data);
     }
   },

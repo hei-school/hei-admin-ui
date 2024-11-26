@@ -55,7 +55,7 @@ const CustomToolbar: React.FC<{handleSave: () => void; isloading: boolean}> = ({
 export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   isOpen,
   onClose,
-  studentId,
+  userId,
   feeId,
   feeAmount,
   title,
@@ -74,10 +74,10 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
     setConfirmOpen(false);
     if (letterRef.current) {
       create(
-        "student-letters",
+        "users-letters",
         {
           data: letterRef.current,
-          meta: {studentId, feeId, feeAmount, eventParticipantId},
+          meta: {userId, feeId, feeAmount, eventParticipantId},
         },
         {
           onSuccess: () => {
@@ -152,7 +152,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
         />
         <FileInput
           isRequired
-          resource="student-letters"
+          resource="users-letters"
           source="filename"
           label=" "
           multiple={false}
@@ -176,11 +176,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
             }
           }}
         >
-          <FileField
-            resource="student-letters"
-            source="filename"
-            title="title"
-          />
+          <FileField resource="users-letters" source="filename" title="title" />
         </FileInput>
         {fileInfo && (
           <Box

@@ -7,8 +7,9 @@ import {
   Book as CourseIcon,
   CalendarMonth as EventIcon,
   GradeOutlined as GradeIcon,
+  PictureAsPdf,
 } from "@mui/icons-material";
-import {ListMenu, SingleMenu} from "./utils";
+import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 import {HeiListMenuItem} from "./common";
 
 function TeacherMenu() {
@@ -17,6 +18,11 @@ function TeacherMenu() {
       <SingleMenu to="/students" label="Étudiants" icon={<StudentIcon />} />
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem />
+        <ListMenuItem
+          to="/docs/teachers/OTHER"
+          label="Documents personnels"
+          icon={<PictureAsPdf />}
+        />
       </ListMenu>
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu

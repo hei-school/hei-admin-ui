@@ -8,7 +8,7 @@ export const DocShow = () => {
   const params = useParams();
   const {isStudent} = useRole();
 
-  const id = isStudent() ? authProvider.getCachedWhoami().id : params.studentId;
+  const id = isStudent() ? authProvider.getCachedWhoami().id : params.userId;
 
-  return <CommonDocShow owner={OwnerType.STUDENT} studentId={id} />;
+  return <CommonDocShow owner={OwnerType.STUDENT} userId={id} />;
 };

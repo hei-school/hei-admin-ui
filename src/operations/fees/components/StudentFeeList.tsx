@@ -1,5 +1,6 @@
-import {useMemo} from "react";
+import {FC, useMemo} from "react";
 import {
+  Course,
   FeeStatusEnum,
   FeeTypeEnum,
   LetterStatus,
@@ -13,29 +14,24 @@ import {
   SelectArrayInput,
   SelectInput,
   SimpleForm,
-  TextField,
   TextInput,
   useGetList,
   useRecordContext,
   useRefresh,
-  useListContext,
   regex,
   minLength,
 } from "react-admin";
-import {EditableDatagrid} from "@react-admin/ra-editable-datagrid";
+import {AxiosError} from "axios";
 import {
   AddCard as AddMbpsIcon,
   Visibility as ShowIcon,
   WarningOutlined,
   FilePresent as SlipIcon,
   Repartition,
-  Paid,
 } from "@mui/icons-material";
-import {Box, Chip, TextField as MuiTextInput, Typography} from "@mui/material";
-import {RowForm, useRowContext} from "@react-admin/ra-editable-datagrid";
+import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
 import {useNotify, useToggle} from "@/hooks";
 import {useStudentRef} from "@/hooks/useStudentRef";
-import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Create} from "@/operations/common/components";
@@ -48,9 +44,6 @@ import {
   IconButtonWithTooltip,
 } from "@/operations/utils";
 import {
-  rowStyle,
-  PSP_COLORS,
-  PSP_VALUES,
   MpbsStatusIcon,
   DEFAULT_REMEDIAL_COSTS_AMOUNT,
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
@@ -61,13 +54,30 @@ import {FeesDialog} from "./FeesDialog";
 import {LetterStatusIcon} from "./letterIcon";
 import authProvider from "@/providers/authProvider";
 
+interface CreateProps {
+  onSuccess: () => void;
+}
+
+interface TransformData {
+  psp_id?: string;
+  psp_type?: MobileMoneyType;
+}
+
 const TRANSACTION_PATTERN =
   /^MP[a-zA-Z0-9]{6}\.[a-zA-Z0-9]{4}\.[a-zA-Z0-9]{6}$/;
+
+const pspIdValidationContraints = [
+  minLength(20, "La référence doit contenir exactement 20 caractères"),
+  regex(
+    TRANSACTION_PATTERN,
+    "La référence n'est pas saisie correctement (ex : MP123456.1234.B12345)"
+  ),
+];
 
 const DefaultInfos = () => {
   return (
     <FormDataConsumer>
-      {({formData, ...rest}) => {
+      {({formData}) => {
         const {course_list = []} = formData;
 
         return (
@@ -95,9 +105,11 @@ const DefaultInfos = () => {
   );
 };
 
-const CatchupFeesCreate = ({toggle}) => {
+const CatchupFeesCreate: FC<CreateProps> = ({onSuccess}) => {
   const notify = useNotify();
-  const {data: courses} = useGetList("course", {pagination: {perPage: 50}});
+  const {data: courses = []} = useGetList("course", {
+    pagination: {perPage: 50, page: 1},
+  });
   const {id: student_id} = authProvider.getCachedWhoami();
 
   return (
@@ -108,11 +120,15 @@ const CatchupFeesCreate = ({toggle}) => {
       mutationOptions={{
         onSuccess: () => {
           notify("Frais créés avec succès", {type: "success"});
-          toggle();
+          onSuccess();
         },
       }}
-      transform={(data) => {
-        return data?.course_list.map((course) => ({
+      transform={(
+        data: {
+          course_list: Course[];
+        } = {course_list: []}
+      ) => {
+        return data.course_list.map((course: Course) => ({
           type: FeeTypeEnum.REMEDIAL_COSTS,
           comment: `Rattrapage ${course}`,
           total_amount: DEFAULT_REMEDIAL_COSTS_AMOUNT,
@@ -141,10 +157,23 @@ const CatchupFeesCreate = ({toggle}) => {
   );
 };
 
-const MpbsCreate = ({toggle}) => {
+const MpbsCreate: FC<CreateProps> = ({onSuccess}) => {
   const notify = useNotify();
-  const {id} = useRecordContext();
+  const {id: fee_id, mpbs} = useRecordContext();
   const {id: student_id} = authProvider.getCachedWhoami();
+
+  const handleError = (error: AxiosError) => {
+    if (!error.response) return;
+
+    const messages: Record<number, string> = {
+      500: "Cette référence de transaction existe déjà",
+      404: "Transaction non trouvée chez Orange",
+    };
+
+    const message =
+      messages[error.response.status] || "Une erreur inattendue s'est produite";
+    notify(message, {type: "error"});
+  };
 
   return (
     <Create
@@ -154,40 +183,22 @@ const MpbsCreate = ({toggle}) => {
       mutationOptions={{
         onSuccess: () => {
           notify("Frais créés avec succès", {type: "success"});
-          toggle();
+          onSuccess();
         },
-        onError: (error) => {
-          if (error.response?.status === 500) {
-            notify("Cette référence de transaction existe déjà", {
-              type: "error",
-            });
-          } else if (error.response?.status === 404) {
-            notify("Transaction non trouvée chez Orange", {
-              type: "error",
-            });
-          } else {
-            notify("Une erreur inattendue s'est produite", {
-              type: "error",
-            });
-          }
-        },
+        onError: (error: AxiosError) => handleError(error),
       }}
-      transform={(data) => ({...data, student_id, id})}
+      transform={(data: TransformData = {}) => ({
+        ...data,
+        student_id,
+        fee_id,
+        mpbs_id: mpbs?.id,
+      })}
     >
       <SimpleForm>
         <TextInput
           source="psp_id"
           label="Référence de la transaction"
-          validate={[
-            minLength(
-              20,
-              "La référence doit contenir exactement 20 caractères"
-            ),
-            regex(
-              TRANSACTION_PATTERN,
-              "La référence n'est pas saisie correctement (ex : MP123456.1234.B12345)"
-            ),
-          ]}
+          validate={pspIdValidationContraints}
           fullWidth
         />
         <SelectInput
@@ -202,7 +213,7 @@ const MpbsCreate = ({toggle}) => {
   );
 };
 
-const ListActionButtons = ({studentId}) => {
+const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
   const {id, total_amount, mpbs, letter, status, due_datetime, student_id} =
     useRecordContext();
   const {data: fees = []} = useGetList("fees", {
@@ -266,7 +277,7 @@ const ListActionButtons = ({studentId}) => {
         show={show3}
         toggle={toggle3}
       >
-        <MpbsCreate toggle={toggle3} />
+        <MpbsCreate onSuccess={toggle3} />
       </FeesDialog>
       <CreateLettersDialog
         isOpen={show4}
@@ -274,7 +285,7 @@ const ListActionButtons = ({studentId}) => {
           toggle4();
           refresh();
         }}
-        studentId={studentId}
+        userId={studentId}
         feeAmount={total_amount}
         feeId={id}
         title="Payer mon frais par ajout d'un bordereau"
@@ -312,9 +323,10 @@ export const StudentFeeList = () => {
                     }}
                   />
                 }
-                label="Frais rattrapage"
                 onClick={toggle}
-              />
+              >
+                Frais de rattrapage
+              </ButtonBase>
             </HaActionWrapper>
           </Box>
         }
@@ -326,7 +338,9 @@ export const StudentFeeList = () => {
         />
         <FunctionField
           label="Reste à payer"
-          render={(record) => renderMoney(record.remaining_amount)}
+          render={(record: {remaining_amount: number}) =>
+            renderMoney(record.remaining_amount)
+          }
         />
         <FunctionField
           source="comment"
@@ -352,7 +366,7 @@ export const StudentFeeList = () => {
       </HaList>
       <FeesDialog
         title="Créer mon/mes frais de rattrapage"
-        children={<CatchupFeesCreate toggle={toggle} />}
+        children={<CatchupFeesCreate onSuccess={toggle} />}
         show={show}
         toggle={toggle}
       />

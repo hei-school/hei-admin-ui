@@ -15,7 +15,7 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
 
   const onConfirm = () => {
     update(
-      "student-letters",
+      "users-letters",
       {
         id: letterId,
         data: {
