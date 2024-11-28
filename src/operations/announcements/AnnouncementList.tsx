@@ -182,7 +182,7 @@ export const AnnouncementList = () => {
       }}
     >
       <HaListTitle
-        actions={isManager() || (isAdmin() && <AnnouncementActions />)}
+        actions={(isManager() || isAdmin()) && <AnnouncementActions />}
         filterIndicator={true}
         title="Liste des annonces"
         icon={<AnnouncementIcon />}

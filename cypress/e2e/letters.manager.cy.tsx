@@ -16,22 +16,22 @@ describe("Manager.Letters", () => {
     cy.intercept("GET", `letters/stats`, statsMocks).as("getStats");
     cy.intercept(
       "GET",
-      `/letters?page=1&page_size=10`,
+      `/students/letters?page=1&page_size=10`,
       lettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getAllLetters");
     cy.intercept(
       "GET",
-      `/letters?page=1&page_size=10&name=${student1Mock.first_name}`,
+      `/students/letters?page=1&page_size=10&name=${student1Mock.first_name}`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getLettersFilteredByfirstName");
     cy.intercept(
       "GET",
-      `/letters?page=1&page_size=10&ref=${newLetter2[0].ref}`,
+      `/students/letters?page=1&page_size=10&ref=${newLetter2[0].ref}`,
       newLetter2
     ).as("getLettersFilteredByRef");
     cy.intercept(
       "GET",
-      `/letters?page=1&page_size=10&status=${newLetter2[0].status}`,
+      `/students/letters?page=1&page_size=10&status=${newLetter2[0].status}`,
       newLetter2
     ).as("getLettersFilteredByStatus");
     cy.intercept("PUT", `/letters`, (req) => {

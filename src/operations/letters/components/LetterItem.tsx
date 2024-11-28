@@ -103,39 +103,38 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
         >
           <Folder sx={{fontSize: "2.5rem", color: "white"}} />
         </Box>
-        {isManager() ||
-          (isAdmin() && !isChecked && (
-            <Box
+        {(isManager() || isAdmin()) && !isChecked && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: "8px",
+              right: "8px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+            }}
+          >
+            <IconButton
+              data-testid="more-icon-item"
               sx={{
-                position: "absolute",
-                top: "8px",
-                right: "8px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
+                padding: "0 !important",
               }}
+              onClick={handleClick}
             >
-              <IconButton
-                data-testid="more-icon-item"
+              <MoreVert
                 sx={{
-                  padding: "0 !important",
+                  fontSize: "1.2rem",
                 }}
-                onClick={handleClick}
-              >
-                <MoreVert
-                  sx={{
-                    fontSize: "1.2rem",
-                  }}
-                />
-              </IconButton>
-              <LetterItemActions
-                anchorEl={anchorEl}
-                onClose={handleClose}
-                open={open}
-                letterId={letter.id!}
               />
-            </Box>
-          ))}
+            </IconButton>
+            <LetterItemActions
+              anchorEl={anchorEl}
+              onClose={handleClose}
+              open={open}
+              letterId={letter.id!}
+            />
+          </Box>
+        )}
         <Typography
           sx={{
             fontSize: "1rem",

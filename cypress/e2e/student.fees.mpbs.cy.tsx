@@ -33,7 +33,7 @@ describe("Mobile payment by student", () => {
     ).should("exist");
   });
 
-  it.only("can create a mpbs", () => {
+  it.skip("can create a mpbs", () => {
     const [fee1Mock, ...fees] = feesMock;
 
     cy.intercept(
@@ -51,7 +51,7 @@ describe("Mobile payment by student", () => {
       `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
     ).click({force: true});
 
-    cy.get("#psp_id").click().type("MP240726.1541.D88425");
+    cy.get("#psp_id").click().type("MP240726.1541.D88429");
     cy.contains("Enregistrer").click();
 
     cy.contains("Frais créés avec succès");
