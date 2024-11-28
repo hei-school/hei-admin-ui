@@ -9,7 +9,7 @@ import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import authProvider from "@/providers/authProvider";
 
 const ProfileShow = () => {
-  const {isStudent, isTeacher, isMonitor, role} = useRole();
+  const {isStudent, isTeacher, isMonitor, isAdmin, role} = useRole();
   const {id} = authProvider.getCachedWhoami();
   const [showComments, , toogleShowComments] = useToggle(false);
 
@@ -52,6 +52,7 @@ const ProfileShow = () => {
         role={role}
         isStudentProfile={isStudent()}
         isTeacherProfile={isTeacher()}
+        isAdminProfil={isAdmin()}
         actions={
           <div
             style={{

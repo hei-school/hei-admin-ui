@@ -1,10 +1,10 @@
 import {lettersApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
-const {role} = authProvider.getCachedWhoami();
 
 const lettersProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}) => {
+    const {role} = authProvider.getCachedWhoami();
     const LETTER_TYPE: any = {
       PAYMENT_SLIP: true,
       ADMIN: false,

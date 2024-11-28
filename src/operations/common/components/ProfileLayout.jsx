@@ -398,6 +398,7 @@ export const ProfileLayout = ({
   isTeacherProfile = false,
   isStudentProfile = false,
   isMonitorProfile = false,
+  isAdminProfil = false,
 }) => {
   const {record: profile = {}} = useShowContext();
   const isLarge = useMediaQuery("(min-width:1700px)");
@@ -493,12 +494,21 @@ export const Informations = ({
   const isSmall = useMediaQuery("(max-width:900px)");
   const profile = useRecordContext();
   const role = useRole();
-
+  const isAdminProfil =
+    role.isAdmin() &&
+    !isMonitorProfile &&
+    !isStudentProfile &&
+    !isTeacherProfile;
+  const isManagerProfil =
+    role.isManager() &&
+    !isMonitorProfile &&
+    !isStudentProfile &&
+    !isTeacherProfile;
   const {data: letterStats} = useGetOne(
     "letters-stats",
     {id: undefined},
     {
-      enabled: role.isManager(),
+      enabled: role.isManager() || role.isAdmin(),
     }
   );
 
@@ -520,8 +530,6 @@ export const Informations = ({
       </Box>
     );
   }
-  const isViewerManager =
-    !isStudentProfile && !isMonitorProfile && role.isManager();
 
   return (
     <TabbedShowLayout
@@ -569,58 +577,64 @@ export const Informations = ({
           <FeeList studentId={profile.id} studentRef={profile.ref} />
         </TabbedShowLayout.Tab>
       )}
-      {!isViewerManager && !role.isMonitor() && !isMonitorProfile && (
-        <TabbedShowLayout.Tab
-          label="Boîte aux lettres"
-          data-testid="letters-list-tab"
-          sx={{
-            position: "relative",
-            fontSize: "0.7rem",
-          }}
-        >
-          <UserLettersList />
-        </TabbedShowLayout.Tab>
-      )}
-      {isViewerManager && !isTeacherProfile && (
-        <TabbedShowLayout.Tab
-          label={
-            letterStats ? (
-              <Badge
-                badgeContent={
-                  <span
-                    style={{
-                      backgroundColor: "red",
-                      borderRadius: "50%",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      fontWeight: "800",
-                      color: "white",
-                      marginLeft: "1rem",
-                      height: "1.4rem",
-                      width: "1.4rem",
-                    }}
-                  >
-                    {letterStats.pending}
-                  </span>
-                }
-                sx={{
-                  position: "relative",
-                  fontSize: "0.7rem",
-                }}
-              >
-                Boîte aux lettres
-              </Badge>
-            ) : (
-              ""
-            )
-          }
-          style={{paddingTop: "1rem", width: "10vw"}}
-          data-testid="letters-list-tab"
-        >
-          <LettersList stats={letterStats} />
-        </TabbedShowLayout.Tab>
-      )}
+      {!role.isMonitor() &&
+        !isMonitorProfile &&
+        !(role.isManager() && isTeacherProfile) &&
+        !(role.isTeacher() && isStudentProfile) &&
+        !isAdminProfil &&
+        !isManagerProfil && (
+          <TabbedShowLayout.Tab
+            label="Boîte aux lettres"
+            data-testid="letters-list-tab"
+            sx={{
+              position: "relative",
+              fontSize: "0.7rem",
+            }}
+          >
+            <UserLettersList />
+          </TabbedShowLayout.Tab>
+        )}
+      {!isMonitorProfile &&
+        !isStudentProfile &&
+        !isTeacherProfile &&
+        (role.isAdmin() || role.isManager()) && (
+          <TabbedShowLayout.Tab
+            label={
+              letterStats && (
+                <Badge
+                  badgeContent={
+                    <span
+                      style={{
+                        backgroundColor: "red",
+                        borderRadius: "50%",
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        fontWeight: "800",
+                        color: "white",
+                        marginLeft: "1rem",
+                        height: "1.4rem",
+                        width: "1.4rem",
+                      }}
+                    >
+                      {letterStats.pending}
+                    </span>
+                  }
+                  sx={{
+                    position: "relative",
+                    fontSize: "0.7rem",
+                  }}
+                >
+                  Boîte aux lettres
+                </Badge>
+              )
+            }
+            style={{paddingTop: "1rem", width: "10vw"}}
+            data-testid="letters-list-tab"
+          >
+            <LettersList stats={letterStats} />
+          </TabbedShowLayout.Tab>
+        )}
     </TabbedShowLayout>
   );
 };

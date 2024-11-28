@@ -21,7 +21,7 @@ import announcementProvider from "@/providers/announcementProvider";
 import courseProvider from "@/providers/courseProvider";
 import statsProvider from "@/providers/statsProvider";
 import heiDocsProvider from "@/providers/heiDocsProvider";
-import usersLettersProvider from "@/providers/UsersLettersProvider";
+import usersLettersProvider from "@/providers/usersLettersProvider";
 import lettersProvider from "@/providers/lettersProvider";
 import lettersStatsProvider from "./letterStatsProvider";
 import receiptProvider from "./receiptProvider";

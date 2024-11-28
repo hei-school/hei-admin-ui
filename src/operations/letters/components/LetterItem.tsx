@@ -59,7 +59,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
     null
   );
 
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
 
   const creationDate = formatDate(letter.creation_datetime!, false);
   const approvalDate = formatDate(letter.approval_datetime!, false);
@@ -103,38 +103,39 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
         >
           <Folder sx={{fontSize: "2.5rem", color: "white"}} />
         </Box>
-        {isManager() && !isChecked && (
-          <Box
-            sx={{
-              position: "absolute",
-              top: "8px",
-              right: "8px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-            }}
-          >
-            <IconButton
-              data-testid="more-icon-item"
+        {isManager() ||
+          (isAdmin() && !isChecked && (
+            <Box
               sx={{
-                padding: "0 !important",
+                position: "absolute",
+                top: "8px",
+                right: "8px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
               }}
-              onClick={handleClick}
             >
-              <MoreVert
+              <IconButton
+                data-testid="more-icon-item"
                 sx={{
-                  fontSize: "1.2rem",
+                  padding: "0 !important",
                 }}
+                onClick={handleClick}
+              >
+                <MoreVert
+                  sx={{
+                    fontSize: "1.2rem",
+                  }}
+                />
+              </IconButton>
+              <LetterItemActions
+                anchorEl={anchorEl}
+                onClose={handleClose}
+                open={open}
+                letterId={letter.id!}
               />
-            </IconButton>
-            <LetterItemActions
-              anchorEl={anchorEl}
-              onClose={handleClose}
-              open={open}
-              letterId={letter.id!}
-            />
-          </Box>
-        )}
+            </Box>
+          ))}
         <Typography
           sx={{
             fontSize: "1rem",
