@@ -28,7 +28,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
         zIndex: 1,
       }}
     >
-      {role.isManager() && (
+      {(role.isManager() || role.isAdmin()) && (
         <div style={{display: "flex", flexDirection: "column", gap: "0.2rem"}}>
           <EditButton
             to={`/students/${id}/edit`}

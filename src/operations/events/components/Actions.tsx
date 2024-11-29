@@ -26,7 +26,7 @@ export const LetterActions = ({
   letters,
 }: LetterActionProps) => {
   const [show, _, toggle] = useToggle();
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
   const refresh = useRefresh();
   const {data} = useGetIdentity();
 
@@ -36,7 +36,8 @@ export const LetterActions = ({
       (letter) => letter.status === "RECEIVED" || letter.status === "PENDING"
     );
   const disableView =
-    (!isManager() && (data?.id as string) !== userId) || !letters[0];
+    (!(isManager() || isAdmin()) && (data?.id as string) !== userId) ||
+    !letters[0];
 
   return (
     <Stack direction="row" alignItems="center" justifyContent="center">
@@ -99,14 +100,14 @@ export const StatusActionStatus: FC<StatusActionProps> = ({
   changeStatus,
   localStatus,
 }) => {
-  const {isManager, isTeacher} = useRole();
+  const {isManager, isTeacher, isAdmin} = useRole();
 
   return (
     <Stack direction="row" gap={1}>
       <ChipRadio
         label=" "
         defaultSelected={localStatus || participant.event_status!}
-        enable={isManager() || isTeacher()}
+        enable={isManager() || isTeacher() || isAdmin()}
         data-testid={`eventparticipant-${participant.id}-status`}
         choices={[
           {value: "PRESENT", label: "Présent", color: "success"},

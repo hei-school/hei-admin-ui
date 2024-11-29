@@ -567,16 +567,17 @@ export const Informations = ({
         </TabbedShowLayout.Tab>
       )}
 
-      {isStudentProfile && (role.isManager() || role.isMonitor()) && (
-        <TabbedShowLayout.Tab
-          label="Liste des Frais"
-          path="fees"
-          data-testid="fees-list-tab"
-          style={{fontSize: "0.8rem"}}
-        >
-          <FeeList studentId={profile.id} studentRef={profile.ref} />
-        </TabbedShowLayout.Tab>
-      )}
+      {isStudentProfile &&
+        (role.isManager() || role.isAdmin() || role.isMonitor()) && (
+          <TabbedShowLayout.Tab
+            label="Liste des Frais"
+            path="fees"
+            data-testid="fees-list-tab"
+            style={{fontSize: "0.8rem"}}
+          >
+            <FeeList studentId={profile.id} studentRef={profile.ref} />
+          </TabbedShowLayout.Tab>
+        )}
       {!role.isMonitor() &&
         !isMonitorProfile &&
         !(role.isManager() && isTeacherProfile) &&

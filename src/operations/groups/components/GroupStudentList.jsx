@@ -15,7 +15,7 @@ const GroupStudentList = () => {
   const params = useParams();
   const dataProvider = useDataProvider();
   const refresh = useRefresh();
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
 
   const groupId = params.id;
 
@@ -31,7 +31,7 @@ const GroupStudentList = () => {
 
   const ListActions = () => (
     <Box>
-      {isManager() && <InsertStudent />}
+      {(isManager() || isAdmin()) && <InsertStudent />}
       <FileDownloader
         downloadFunction={downloadFile}
         fileName="Liste des étudiants"
@@ -65,7 +65,7 @@ const GroupStudentList = () => {
       <TextField source="ref" label="Référence" />
       <TextField source="first_name" label="Prénom·s" />
       <TextField source="last_name" label="Nom·s" />
-      {isManager() && (
+      {(isManager() || isAdmin()) && (
         <div style={{display: "flex", justifyContent: "space-around"}}>
           <MoveStudent />
           <RemoveStudent />

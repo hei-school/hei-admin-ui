@@ -37,7 +37,7 @@ describe("Manager import fees for one students", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
-    cy.intercept("GET", `letters/stats`, statsMocks).as("getStats");
+    cy.intercept("GET", `students/letters/stats`, statsMocks).as("getStats");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,

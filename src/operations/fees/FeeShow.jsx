@@ -376,7 +376,7 @@ const FeeShow = () => {
       id={feeId}
       resource="fees"
       actions={
-        role.isManager() && (
+        (role.isManager() || role.isAdmin()) && (
           <TopToolbar>
             <EditButton />
             <DeleteWithConfirm

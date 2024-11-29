@@ -44,7 +44,7 @@ const CARD_SX: SxProps = {
 export function EventCard({event}: EventCardPropsType) {
   const {planner, course} = event;
   const PLANNER_PICTURE = planner.pic || defaultPicture;
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
   const [editShow, _, toggleEdit] = useToggle();
 
   return (
@@ -138,7 +138,7 @@ export function EventCard({event}: EventCardPropsType) {
             justifyContent: "space-between",
           }}
         >
-          {isManager() && (
+          {(isManager() || isAdmin()) && (
             <Button
               size="small"
               variant="contained"

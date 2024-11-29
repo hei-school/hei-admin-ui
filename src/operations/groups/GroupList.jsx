@@ -62,11 +62,11 @@ const AvatarGroup = ({group = {id: ""}}) => {
 };
 
 const Actions = () => {
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
 
   return (
     <Box>
-      {isManager() && <CreateButton />}
+      {(isManager() || isAdmin()) && <CreateButton />}
       <ExportButton />
       <GroupFilters />
     </Box>
