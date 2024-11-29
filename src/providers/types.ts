@@ -1,4 +1,10 @@
-import {Manager, Monitor, Student, Teacher} from "@haapi/typescript-client";
+import {
+  Admin,
+  Manager,
+  Monitor,
+  Student,
+  Teacher,
+} from "@haapi/typescript-client";
 
 export interface Doc {
   id: string;
@@ -12,4 +18,4 @@ export interface Doc {
   type?: string;
 }
 
-export type User = Student | Teacher | Manager | Monitor;
+export type User = Student | Teacher | Manager | Monitor | Admin;

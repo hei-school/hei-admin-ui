@@ -49,12 +49,12 @@ import {newWorkerDoc} from "../../../cypress/fixtures/api_mocks/docs-mocks";
 import {get27thOfMonth} from "@/utils/date";
 
 const ListActions = () => {
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
   const redirect = useRedirect();
   const date = new Date();
   return (
     <Box>
-      {isManager() && (
+      {(isManager() || isAdmin()) && (
         <Box>
           <CreateButton />
           <HaActionWrapper>
