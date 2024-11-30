@@ -47,7 +47,7 @@
     async function loadData() {
         // Attempt to fetch a resource that's configured to trigger a CAPTCHA
         // action if the rule matches. The CAPTCHA response has status=HTTP 405.
-        const result = await AwsWafIntegration.fetch("https://api-prod.hei.school/ping");
+        const result = await AwsWafIntegration.fetch("https://api-prod.hei.school/whoami");
 
         // If the action was CAPTCHA, render the CAPTCHA and return
 
