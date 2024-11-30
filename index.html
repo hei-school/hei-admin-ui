@@ -40,7 +40,7 @@
       ></iframe
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
-        <div id="my-captcha-box"></div>
+    <div id="root"></div>
     <div id="my-output-box"></div>
 
     <script type="text/javascript">
@@ -56,7 +56,7 @@
         // difference between that and the CAPTCHA rule action response.
 
         if (result.status === 405) {
-            const container = document.querySelector("#my-captcha-box");
+            const container = document.querySelector("#root");
             AwsWafCaptcha.renderCaptcha(container, {
                 apiKey: process.env.REACT_APP_WAF_API_KEY,
                 onSuccess() {
@@ -76,7 +76,6 @@
         loadData();
     });
     </script>
-    <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <noscript>Activez Javascript pour accéder à HEI Admin.</noscript>
   </body>
