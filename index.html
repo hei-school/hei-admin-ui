@@ -40,6 +40,42 @@
       ></iframe
     ></noscript>
     <!-- End Google Tag Manager (noscript) -->
+        <div id="my-captcha-box"></div>
+    <div id="my-output-box"></div>
+
+    <script type="text/javascript">
+    async function loadData() {
+        // Attempt to fetch a resource that's configured to trigger a CAPTCHA
+        // action if the rule matches. The CAPTCHA response has status=HTTP 405.
+        const result = await AwsWafIntegration.fetch("/protected-resource");
+
+        // If the action was CAPTCHA, render the CAPTCHA and return
+
+        // NOTE: If the endpoint you're calling in the fetch call responds with HTTP 405
+        // as an expected response status code, then this check won't be able to tell the
+        // difference between that and the CAPTCHA rule action response.
+
+        if (result.status === 405) {
+            const container = document.querySelector("#my-captcha-box");
+            AwsWafCaptcha.renderCaptcha(container, {
+                apiKey: process.env.REACT_APP_WAF_API_KEY,
+                onSuccess() {
+                    // Try loading again, now that there is a valid CAPTCHA token
+                    loadData();
+                },
+            });
+            return;
+        }
+
+        const container = document.querySelector("#my-output-box");
+        const response = await result.text();
+        container.innerHTML = response;
+    }
+
+    window.addEventListener("load", () => {
+        loadData();
+    });
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <noscript>Activez Javascript pour accéder à HEI Admin.</noscript>
