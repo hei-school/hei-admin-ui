@@ -1,0 +1,64 @@
+name: health-hei-admin
+
+on:
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: "*/5 6-15 * * 1-5" # Exécuter toutes les 5 minutes de 8h à 17h (UTC+3) pendant les jours ouvrables
+
+env:
+  REACT_APP_TEST_STUDENT1_PASSWORD: ${{ secrets.STUDENT1_PASSWORD }}
+  REACT_APP_AWS_REGION: eu-west-3
+  REACT_APP_USERPOOL_ID: ${{ vars.PREPROD_USERPOOL_ID }}
+  REACT_APP_WEBCLIENT_ID: ${{ vars.PREPROD_WEBCLIENT_ID }}
+  REACT_APP_OAUTH_DOMAIN: ${{ vars.PREPROD_OAUTH_DOMAIN }}
+
+jobs:
+  auth-check:
+    timeout-minutes: 4
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [20]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: npm
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Configure prod AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
+      - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
+
+      - name: Run authentification tests
+        uses: cypress-io/github-action@v6
+        with:
+          spec: "./cypress/e2e/hei-admin/authentification.cy.tsx"
+
+  update-status:
+    needs: [auth-check]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set trigger value based on job status
+        id: set-trigger
+        run: echo "trigger=$(if [ '${{ job.status }}' == 'failure' ]; then echo 'down'; else echo 'up'; fi)" >> $GITHUB_ENV
+
+      - name: Send update to hei admin webhook
+        uses: fjogeleit/http-request-action@v1.16.3
+        with:
+          url: ${{ secrets.HEI_ADMIN_WEBHOOK_URL }}
+          method: "POST"
+          customHeaders: '{"Content-Type": "application/json"}'
+          data: '{"trigger": "${{ env.trigger }}"}'
