@@ -11,6 +11,7 @@ export function HaMenuContent() {
   switch (role) {
     case WhoamiRoleEnum.STUDENT:
       return <StudentMenu />;
+    case WhoamiRoleEnum.ADMIN:
     case WhoamiRoleEnum.MANAGER:
       return <ManagerMenu />;
     case WhoamiRoleEnum.TEACHER:

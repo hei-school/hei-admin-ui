@@ -77,7 +77,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
   const notify = useNotify();
   const [show, _, toggle] = useToggle();
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
-  const {isManager, isTeacher} = useRole();
+  const {isManager, isTeacher, isAdmin} = useRole();
   const refresh = useRefresh();
 
   const [statusMap, setStatusMap] = useState(
@@ -134,7 +134,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
         }}
         hasDatagrid={false}
         actions={
-          isManager() && (
+          (isManager() || isAdmin()) && (
             <ButtonBase
               icon={<Add />}
               label="Ajout groupe"
@@ -179,7 +179,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
           />
         </Datagrid>
       </HaList>
-      {(isManager() || isTeacher()) && (
+      {(isManager() || isTeacher() || isAdmin()) && (
         <SaveButton
           onClick={changeStatus}
           isLoading={editStatus}

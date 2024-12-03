@@ -27,12 +27,12 @@ export const FeesFilterByStatus = () => (
 );
 
 export const FeesFilters = () => {
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
 
   return (
     <FilterForm>
       <FeesFilterByStatus />
-      {isManager() && (
+      {(isManager() || isAdmin()) && (
         <TextFilter label="Référence étudiante" source="student_ref" />
       )}
       <Divider sx={{mt: 2, mb: 1}} />

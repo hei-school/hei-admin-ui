@@ -49,8 +49,10 @@ export function getFeesStatusInFr(status) {
 export function getUserRoleInFr(userRole, sex) {
   const isWoman = sex === Sex.F;
   switch (userRole) {
-    case WhoamiRoleEnum.MANAGER:
+    case WhoamiRoleEnum.ADMIN:
       return "Admin";
+    case WhoamiRoleEnum.MANAGER:
+      return "Manager";
     case WhoamiRoleEnum.TEACHER:
       return isWoman ? "Enseignante" : "Enseignant";
     case WhoamiRoleEnum.STUDENT:

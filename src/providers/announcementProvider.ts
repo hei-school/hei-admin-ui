@@ -8,6 +8,7 @@ const announcementProvider: HaDataProviderType = {
     const role = authProvider.getCachedRole();
 
     switch (role) {
+      case WhoamiRoleEnum.ADMIN:
       case WhoamiRoleEnum.MANAGER:
         return announcementsApi()
           .getAnnouncements(
@@ -50,6 +51,7 @@ const announcementProvider: HaDataProviderType = {
     const role = authProvider.getCachedRole();
 
     switch (role) {
+      case WhoamiRoleEnum.ADMIN:
       case WhoamiRoleEnum.MANAGER:
         return announcementsApi()
           .getAnnouncementById(id)

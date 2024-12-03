@@ -1,3 +1,11 @@
+import {
+  Admin,
+  Manager,
+  Monitor,
+  Student,
+  Teacher,
+} from "@haapi/typescript-client";
+
 export interface Doc {
   id: string;
   url: string;
@@ -9,3 +17,5 @@ export interface Doc {
   owner_id: string;
   type?: string;
 }
+
+export type User = Student | Teacher | Manager | Monitor | Admin;

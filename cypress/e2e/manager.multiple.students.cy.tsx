@@ -23,7 +23,7 @@ describe("Manager create multiple students", () => {
       [student1Mock]
     ).as("getStudentsByName");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
-    cy.intercept("GET", `letters/stats`, {}).as("getStats");
+    cy.intercept("GET", `students/letters/stats`, {}).as("getStats");
     cy.wait("@getWhoami", {timeout: 10000});
     cy.wait("@getStats");
     cy.getByTestid("students-menu").click();

@@ -107,7 +107,7 @@ export default function PromotionShow() {
         title={"Promotion"}
         resource="promotions"
         actions={
-          role.isManager() && (
+          (role.isManager() || role.isAdmin()) && (
             <TopToolbar>
               <PromotionEditButton id={id!} />
             </TopToolbar>

@@ -49,12 +49,12 @@ import {newWorkerDoc} from "../../../cypress/fixtures/api_mocks/docs-mocks";
 import {get27thOfMonth} from "@/utils/date";
 
 const ListActions = () => {
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
   const redirect = useRedirect();
   const date = new Date();
   return (
     <Box>
-      {isManager() && (
+      {(isManager() || isAdmin()) && (
         <Box>
           <CreateButton />
           <HaActionWrapper>
@@ -99,7 +99,7 @@ const ListActions = () => {
 };
 
 function StudentList() {
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
 
   const {
     data: stats = {
@@ -163,7 +163,7 @@ function StudentList() {
         <TextField source="ref" label="Référence" />
         <TextField source="first_name" label="Prénom·s" />
         <TextField source="last_name" label="Nom·s" />
-        {isManager() ? (
+        {isManager() || isAdmin() ? (
           <EditButton sx={{color: PALETTE_COLORS.yellow}} />
         ) : (
           <ShowButton sx={{color: PALETTE_COLORS.yellow}} />

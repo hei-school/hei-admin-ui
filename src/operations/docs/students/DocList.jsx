@@ -16,9 +16,9 @@ export const DocList = () => {
   const params = useParams();
   const location = useLocation();
   const type = useViewType("LIST");
-  const {isStudent, isManager} = useRole();
+  const {isStudent, isManager, isAdmin} = useRole();
   const getStudentRef = useStudentRef("userId");
-  const studentRef = isManager() ? getStudentRef?.studentRef : "";
+  const studentRef = isManager() || isAdmin() ? getStudentRef?.studentRef : "";
 
   const userId = isStudent()
     ? authProvider.getCachedWhoami().id
@@ -55,9 +55,10 @@ export const DocList = () => {
         rowClick: (id) => `${location.pathname}/${id}`,
       }}
       haListProps={{
-        actions: isManager() ? (
-          <DocListAction userId={userId} owner="STUDENT" type={type} />
-        ) : null,
+        actions:
+          isManager() || isAdmin() ? (
+            <DocListAction userId={userId} owner="STUDENT" type={type} />
+          ) : null,
       }}
     />
   );

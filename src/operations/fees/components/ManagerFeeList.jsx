@@ -28,7 +28,11 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
       title={`Frais de ${studentRef}`}
       resource={"fees"}
       filterIndicator={false}
-      actions={role.isManager() ? <FeesActions studentId={studentId} /> : null}
+      actions={
+        role.isManager() || role.isAdmin() ? (
+          <FeesActions studentId={studentId} />
+        ) : null
+      }
       listProps={{
         filterDefaultValues: {studentId},
         storeKey: "fees",

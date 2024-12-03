@@ -77,7 +77,7 @@ const feeProvider: HaDataProviderType = {
         .createStudentFees(payload[0].student_id, payload)
         .then((result) => result.data);
     }
-    if (role === WhoamiRoleEnum.MANAGER) {
+    if (role === WhoamiRoleEnum.MANAGER || role === WhoamiRoleEnum.ADMIN) {
       return await payingApi()
         .crupdateStudentFees(payload)
         .then((result) => result.data);

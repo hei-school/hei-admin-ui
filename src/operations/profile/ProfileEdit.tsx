@@ -1,25 +1,33 @@
+import {FC} from "react";
 import {DateInput, SimpleForm, TextInput, maxLength} from "react-admin";
 import {EditToolBar, SexRadioButton} from "../utils";
 import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 import {SelectSpecialization} from "../students/components";
 import {EditGeoLocalisation, Edit} from "../common/components";
+import {User} from "@/providers/types";
+import {Student} from "@haapi/typescript-client";
 import {useRole} from "../../security/hooks";
 import {toUTC} from "../../utils/date";
 
 const userToUserApi = ({
   birth_date,
   entrance_datetime,
-  longitude,
-  latitude,
+  coordinates = {},
   ...data
-}) => ({
-  ...data,
-  birth_date: toUTC(new Date(birth_date)).toISOString(),
-  entrance_datetime: toUTC(new Date(entrance_datetime)).toISOString(),
-  coordinates: {latitude: +latitude, longitude: +longitude},
-});
+}: User & Required<Student>["coordinates"]) => {
+  const {latitude, longitude} = coordinates;
+  return {
+    ...data,
+    birth_date: toUTC(new Date(birth_date!)).toISOString(),
+    entrance_datetime: toUTC(new Date(entrance_datetime!)).toISOString(),
+    coordinates: {latitude: +latitude!, longitude: +longitude!},
+  };
+};
 
-const ProfileEdit = ({isOwnProfile, isStudent}) => {
+const ProfileEdit: FC<{isOwnProfile: boolean; isStudent: boolean}> = ({
+  isOwnProfile,
+  isStudent,
+}) => {
   const role = useRole();
   const isStudentProfile = isStudent || role.isStudent();
   return (

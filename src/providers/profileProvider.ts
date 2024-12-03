@@ -23,6 +23,10 @@ const profileProvider: HaDataProviderType = {
         return usersApi()
           .getMonitorById(id)
           .then((result) => result.data);
+      case WhoamiRoleEnum.ADMIN:
+        return usersApi()
+          .getAdminById(id)
+          .then((result) => result.data);
       default:
         throw new Error("Role non supporté");
     }
@@ -48,6 +52,10 @@ const profileProvider: HaDataProviderType = {
       case WhoamiRoleEnum.MANAGER:
         return usersApi()
           .updateManager(id, profileData)
+          .then((result) => [result.data]);
+      case WhoamiRoleEnum.ADMIN:
+        return usersApi()
+          .updateAdmin(id, profileData)
           .then((result) => [result.data]);
       case WhoamiRoleEnum.MONITOR:
         return usersApi()

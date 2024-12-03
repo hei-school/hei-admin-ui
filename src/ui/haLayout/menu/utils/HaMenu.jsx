@@ -97,7 +97,7 @@ export function HaMenuBase({sx = {}}) {
         <HaMenuContent />
       </Box>
       <Box sx={{width: "100%"}}>
-        {role.isManager() && (
+        {(role.isManager() || role.isAdmin()) && (
           <SingleMenu
             label="Frais prédéfinis"
             to="/fees-templates"

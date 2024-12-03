@@ -165,7 +165,7 @@ const AnnouncementActions = () => {
 };
 
 export const AnnouncementList = () => {
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
 
   return (
     <List
@@ -182,7 +182,7 @@ export const AnnouncementList = () => {
       }}
     >
       <HaListTitle
-        actions={isManager() && <AnnouncementActions />}
+        actions={(isManager() || isAdmin()) && <AnnouncementActions />}
         filterIndicator={true}
         title="Liste des annonces"
         icon={<AnnouncementIcon />}
