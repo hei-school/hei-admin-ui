@@ -253,20 +253,6 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
           <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />
         </IconButtonWithTooltip>
       )}
-      {letter && letter.status !== LetterStatus.REJECTED ? (
-        <LetterStatusIcon />
-      ) : (
-        <IconButtonWithTooltip
-          title="Bordereau"
-          disabled={
-            (mpbs && mpbs.status !== MpbsStatus.FAILED) ||
-            status === FeeStatusEnum.PAID ||
-            !!prevUnpaidFee
-          }
-        >
-          <SlipIcon onClick={toggle4} data-testid={`addPaymentSlip-${id}`} />
-        </IconButtonWithTooltip>
-      )}
       <Link to={`/fees/${id}/show`} data-testid={`showButton-${id}`}>
         <IconButtonWithTooltip title="Afficher">
           <ShowIcon />
@@ -312,24 +298,7 @@ export const StudentFeeList = () => {
         datagridProps={{
           rowClick: false,
         }}
-        actions={
-          <Box>
-            <HaActionWrapper>
-              <ButtonBase
-                icon={
-                  <Repartition
-                    sx={{
-                      color: PALETTE_COLORS.primary,
-                    }}
-                  />
-                }
-                onClick={toggle}
-              >
-                Frais de rattrapage
-              </ButtonBase>
-            </HaActionWrapper>
-          </Box>
-        }
+        actions={false}
       >
         <DateField
           source="due_datetime"

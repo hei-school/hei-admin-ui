@@ -136,30 +136,6 @@ const FeePaymentDetails = () => (
         />
       </SimpleShowLayout>
     </AccordionBase>
-    <AccordionBase title="Informations sur le dernier paiement par ajout de bordereau">
-      <SimpleShowLayout>
-        <DateField
-          source="letter.creation_datetime"
-          label="Ajout du bordereau"
-          showTime
-        />
-        <TextField
-          source="letter.ref"
-          label="Référence du bordereau"
-          emptyText={EMPTY_TEXT}
-        />
-        <DateField
-          source="letter.approval_datetime"
-          label="Acceptation du bordereau"
-          showTime
-        />
-        <UrlField
-          source="letter.file_url"
-          label="Lien du bordereau"
-          emptyText={EMPTY_TEXT}
-        />
-      </SimpleShowLayout>
-    </AccordionBase>
   </Box>
 );
 
