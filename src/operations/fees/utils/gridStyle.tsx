@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 
-export const GRID_STYLE = ({isSmall}) => ({
+export const GRID_STYLE = (isSmall: boolean) => ({
   item: {
     backgroundColor: PALETTE_COLORS.white,
     borderRadius: "10px",
