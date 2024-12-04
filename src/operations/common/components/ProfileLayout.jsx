@@ -27,6 +27,7 @@ import {
   HowToRegOutlined as StatusIcon,
   PersonOutlined as PersonIcon,
   AssignmentOutlined as SpecializationIcon,
+  CurrencyExchange,
 } from "@mui/icons-material";
 
 import {
@@ -231,7 +232,7 @@ const Title = ({children: label}) => {
   );
 };
 
-const PersonalInfos = ({isStudentProfile}) => {
+const PersonalInfos = ({isStudentProfile, isStaffMember}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
 
   return (
@@ -288,6 +289,27 @@ const PersonalInfos = ({isStudentProfile}) => {
               label="Lycée de provenance"
               icon={<SchoolIcon />}
               source="high_school_origin"
+            />
+          </Box>
+        )}
+        {isStaffMember && (
+          <Box>
+            <HaField label="Cnaps" icon={<CurrencyExchange />} source="cnaps" />
+            <HaField label="Ostie" icon={<CurrencyExchange />} source="ostie" />
+            <HaField
+              label="Poste chez HEI"
+              icon={<CurrencyExchange />}
+              source="function"
+            />
+            <HaField
+              label="Diplôme"
+              icon={<CurrencyExchange />}
+              source="degree"
+            />
+            <HaField
+              label="Fin de service"
+              icon={<CurrencyExchange />}
+              render={(user) => <HaDateField value={user.ending_service} />}
             />
           </Box>
         )}
@@ -399,6 +421,7 @@ export const ProfileLayout = ({
   isStudentProfile = false,
   isMonitorProfile = false,
   isAdminProfil = false,
+  isStaffProfil = false,
 }) => {
   const {record: profile = {}} = useShowContext();
   const isLarge = useMediaQuery("(min-width:1700px)");
@@ -481,6 +504,7 @@ export const ProfileLayout = ({
         isStudentProfile={isStudentProfile}
         isTeacherProfile={isTeacherProfile}
         isMonitorProfile={isMonitorProfile}
+        isStaffProfil={isStaffProfil}
       />
     </Box>
   );
@@ -490,6 +514,7 @@ export const Informations = ({
   isStudentProfile,
   isTeacherProfile,
   isMonitorProfile,
+  isStaffProfil,
 }) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const profile = useRecordContext();
@@ -531,6 +556,14 @@ export const Informations = ({
     );
   }
 
+  const adminView =
+    !role.isMonitor() &&
+    !isMonitorProfile &&
+    !(role.isManager() && isTeacherProfile) &&
+    !(role.isTeacher() && isStudentProfile) &&
+    !isAdminProfil &&
+    !isManagerProfil;
+
   return (
     <TabbedShowLayout
       tabs={<TabbedShowLayoutTabs variant="scrollable" scrollButtons="auto" />}
@@ -558,7 +591,10 @@ export const Informations = ({
             <Contact />
             <PersonalDetails />
           </Box>
-          <PersonalInfos isStudentProfile={isStudentProfile} />
+          <PersonalInfos
+            isStudentProfile={isStudentProfile}
+            isStaffMember={isStaffProfil}
+          />
         </Box>
       </TabbedShowLayout.Tab>
       {isStudentProfile && (
@@ -578,26 +614,22 @@ export const Informations = ({
             <FeeList studentId={profile.id} studentRef={profile.ref} />
           </TabbedShowLayout.Tab>
         )}
-      {!role.isMonitor() &&
-        !isMonitorProfile &&
-        !(role.isManager() && isTeacherProfile) &&
-        !(role.isTeacher() && isStudentProfile) &&
-        !isAdminProfil &&
-        !isManagerProfil && (
-          <TabbedShowLayout.Tab
-            label="Boîte aux lettres"
-            data-testid="letters-list-tab"
-            sx={{
-              position: "relative",
-              fontSize: "0.7rem",
-            }}
-          >
-            <UserLettersList />
-          </TabbedShowLayout.Tab>
-        )}
+      {(adminView || (role.isAdmin() && isStaffProfil)) && (
+        <TabbedShowLayout.Tab
+          label="Boîte aux lettres"
+          data-testid="letters-list-tab"
+          sx={{
+            position: "relative",
+            fontSize: "0.7rem",
+          }}
+        >
+          <UserLettersList />
+        </TabbedShowLayout.Tab>
+      )}
       {!isMonitorProfile &&
         !isStudentProfile &&
         !isTeacherProfile &&
+        !isStaffProfil &&
         (role.isAdmin() || role.isManager()) && (
           <TabbedShowLayout.Tab
             label={

@@ -58,6 +58,8 @@ export function getUserRoleInFr(userRole, sex) {
       return isWoman ? "Étudiante" : "Étudiant";
     case WhoamiRoleEnum.MONITOR:
       return isWoman ? "Monitrice" : "Moniteur";
+    case WhoamiRoleEnum.STAFF_MEMBER:
+      return "Staff";
     default:
       throw new Error("Unknown user role");
   }

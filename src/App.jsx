@@ -22,13 +22,13 @@ import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
 import awardedCourses from "./operations/awardedCourses";
 import events from "@/operations/events";
-
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import exams from "@/operations/exams";
+import staffMembers from "./operations/staffMembers";
 
 function AppBase() {
   return (
@@ -48,7 +48,7 @@ function AppBase() {
       <Resource name="monitors" {...monitors} />
       <Resource name="monitor-students" {...monitorStudent} />
       <Resource name="groups" {...groups} />
-
+      <Resource name="staffmembers" {...staffMembers} />
       <Resource name="fees" {...fees} />
       <Resource name="fees-templates" {...feesTemplates} />
       <Resource name="payments" {...payments} />

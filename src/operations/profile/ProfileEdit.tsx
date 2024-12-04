@@ -24,10 +24,11 @@ const userToUserApi = ({
   };
 };
 
-const ProfileEdit: FC<{isOwnProfile: boolean; isStudent: boolean}> = ({
-  isOwnProfile,
-  isStudent,
-}) => {
+const ProfileEdit: FC<{
+  isOwnProfile: boolean;
+  isStudent: boolean;
+  isStaffProfil: boolean;
+}> = ({isOwnProfile, isStudent, isStaffProfil = false}) => {
   const role = useRole();
   const isStudentProfile = isStudent || role.isStudent();
   return (
@@ -69,6 +70,20 @@ const ProfileEdit: FC<{isOwnProfile: boolean; isStudent: boolean}> = ({
           fullWidth
           readOnly={isOwnProfile}
         />
+        {isStaffProfil && (
+          <>
+            <TextInput source="cnaps" label="Cnaps" fullWidth />
+            <TextInput source="ostie" label="Ostie" fullWidth />
+            <TextInput source="function" label="Poste chez HEI" fullWidth />
+            <TextInput source="degree" label="Diplôme" fullWidth />
+            <DateInput
+              source="ending_service"
+              label="Fin de service"
+              fullWidth
+              readOnly={isOwnProfile}
+            />
+          </>
+        )}
         <StatusRadioButton readOnly={isOwnProfile} />
       </SimpleForm>
     </Edit>

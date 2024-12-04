@@ -16,6 +16,7 @@ export function HaMenuContent() {
       return <ManagerMenu />;
     case WhoamiRoleEnum.TEACHER:
       return <TeacherMenu />;
+    case WhoamiRoleEnum.STAFF_MEMBER:
     case WhoamiRoleEnum.MONITOR:
       return <MonitorMenu />;
     default:
