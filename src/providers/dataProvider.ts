@@ -34,6 +34,7 @@ import exportPromotionProvider from "./exportPromotionProvider";
 import exportGroupProvider from "./exportGroupProvider";
 import feesExportProvider from "./feesExportProvider";
 import examsProvider from "./examProvider";
+import staffProvider from "./staffProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -69,6 +70,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "group-export") return exportGroupProvider;
   if (resourceType === "fees-export") return feesExportProvider;
   if (resourceType === "exams") return examsProvider;
+  if (resourceType === "staffmembers") return staffProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
