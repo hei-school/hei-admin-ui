@@ -4,6 +4,7 @@ import ManagerMenu from "./ManagerMenu";
 import StudentMenu from "./StudentMenu";
 import TeacherMenu from "./TeacherMenu";
 import MonitorMenu from "./MonitorMenu";
+import StaffMenu from "./StaffMenu";
 
 export function HaMenuContent() {
   const role = authProvider.getCachedWhoami().role;
@@ -17,6 +18,7 @@ export function HaMenuContent() {
     case WhoamiRoleEnum.TEACHER:
       return <TeacherMenu />;
     case WhoamiRoleEnum.STAFF_MEMBER:
+      return <StaffMenu />;
     case WhoamiRoleEnum.MONITOR:
       return <MonitorMenu />;
     default:
