@@ -5,21 +5,23 @@ import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 import {SelectSpecialization} from "../students/components";
 import {EditGeoLocalisation, Edit} from "../common/components";
 import {User} from "@/providers/types";
-import {Student} from "@haapi/typescript-client";
+import {StaffMember, Student} from "@haapi/typescript-client";
 import {useRole} from "../../security/hooks";
 import {toUTC} from "../../utils/date";
 
 const userToUserApi = ({
   birth_date,
   entrance_datetime,
+  ending_service,
   coordinates = {},
   ...data
-}: User & Required<Student>["coordinates"]) => {
+}: User & Required<Student>["coordinates"] & Required<StaffMember>) => {
   const {latitude, longitude} = coordinates;
   return {
     ...data,
     birth_date: toUTC(new Date(birth_date!)).toISOString(),
     entrance_datetime: toUTC(new Date(entrance_datetime!)).toISOString(),
+    ending_service: toUTC(new Date(ending_service!)).toISOString(),
     coordinates: {latitude: +latitude!, longitude: +longitude!},
   };
 };
@@ -27,10 +29,12 @@ const userToUserApi = ({
 const ProfileEdit: FC<{
   isOwnProfile: boolean;
   isStudent: boolean;
-  isStaffProfil: boolean;
-}> = ({isOwnProfile, isStudent, isStaffProfil = false}) => {
+  isStaff: boolean;
+}> = ({isOwnProfile, isStudent, isStaff = false}) => {
   const role = useRole();
   const isStudentProfile = isStudent || role.isStudent();
+  const isStaffProfil = isStaff || role.isStaffMember();
+
   return (
     <Edit
       title="Modifier le profil"
