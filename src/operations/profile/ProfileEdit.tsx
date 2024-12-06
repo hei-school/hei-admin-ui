@@ -21,7 +21,9 @@ const userToUserApi = ({
     ...data,
     birth_date: toUTC(new Date(birth_date!)).toISOString(),
     entrance_datetime: toUTC(new Date(entrance_datetime!)).toISOString(),
-    ending_service: toUTC(new Date(ending_service!)).toISOString(),
+    ending_service: ending_service
+      ? toUTC(new Date(ending_service!)).toISOString()
+      : null,
     coordinates: {latitude: +latitude!, longitude: +longitude!},
   };
 };
