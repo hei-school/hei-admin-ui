@@ -12,12 +12,20 @@ export const ActionsOnShow: FC = () => {
   const navigate = useRedirect();
 
   return (
-    <Box>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        gap: "1vh",
+        marginTop: "5vh",
+      }}
+    >
       <EditButton
         to={`/staffmembers/${id}/edit`}
         startIcon={<EditIcon />}
         data-testid="profile-edit-button"
         variant="outlined"
+        size="medium"
         sx={{
           display: "flex",
           justifyContent: "flex-start",

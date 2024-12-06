@@ -6,15 +6,24 @@ import {HaList} from "@/ui/haList";
 <EditButton sx={{color: PALETTE_COLORS.yellow}} />;
 import {useRole} from "@/security/hooks";
 import {PALETTE_COLORS} from "@/haTheme";
+import {CreateButton, ExportButton} from "@/ui/haToolbar";
+import {ProfileFilters} from "../profile/components/ProfileFilters";
 
 const StaffList: FC = () => {
   const {isAdmin} = useRole();
+
   return (
     <Box>
       <HaList
         title="Liste des staffs de HEI"
-        actions={undefined}
-        resource=""
+        actions={
+          <>
+            <CreateButton resource="staffmembers" />
+            <ExportButton />
+            <ProfileFilters resource="" />
+          </>
+        }
+        resource="staffmembers"
         icon={<AssignmentInd />}
       >
         <TextField source="ref" label="Référence" />

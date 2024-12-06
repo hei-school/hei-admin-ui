@@ -10,8 +10,8 @@ const staffProvider: HaDataProviderType = {
         perPage,
         filter.status,
         filter.sex,
-        filter.firstName,
-        filter.lastName
+        filter.first_name,
+        filter.last_name
       )
       .then((result) => ({data: result.data}));
   },
@@ -20,15 +20,15 @@ const staffProvider: HaDataProviderType = {
       .getStaffMemberById(id)
       .then((result) => result.data);
   },
-  saveOrUpdate: async (users: Array<StaffMember>, meta: any) => {
+  saveOrUpdate: async (staffs: Required<StaffMember>[], meta: any) => {
     if (meta?.isUpdate) {
-      const [staff] = users;
+      const [staff] = staffs;
       return usersApi()
         .updateStaffMember(staff.id!, staff)
-        .then((result) => result.data);
+        .then((result) => [result.data]);
     }
     return usersApi()
-      .crupdateStaffMembers(users)
+      .crupdateStaffMembers(staffs)
       .then((result) => result.data);
   },
   delete: () => {

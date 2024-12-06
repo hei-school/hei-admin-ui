@@ -1,3 +1,4 @@
+import {Teacher} from "@haapi/typescript-client";
 import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
@@ -19,13 +20,16 @@ const teacherProvider: HaDataProviderType = {
     const result = await usersApi().getTeacherById(id);
     return result.data;
   },
-  async saveOrUpdate(users: Array<any>, meta: any) {
+  async saveOrUpdate(
+    teachers: Required<Teacher>[],
+    meta?: {isUpdate?: boolean}
+  ) {
     if (meta?.isUpdate) {
-      const [teacher] = users;
+      const [teacher] = teachers;
       const result = await usersApi().updateTeacher(teacher.id, teacher);
       return [result.data];
     }
-    const result = await usersApi().createOrUpdateTeachers(users);
+    const result = await usersApi().createOrUpdateTeachers(teachers);
     return result.data;
   },
   async delete(_id: string) {

@@ -28,6 +28,10 @@ import {
   PersonOutlined as PersonIcon,
   AssignmentOutlined as SpecializationIcon,
   CurrencyExchange,
+  MedicationLiquid,
+  WorkspacePremium,
+  Engineering,
+  WorkOff,
 } from "@mui/icons-material";
 
 import {
@@ -234,7 +238,8 @@ const Title = ({children: label}) => {
 
 const PersonalInfos = ({isStudentProfile, isStaffMember}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
-
+  const role = useRole();
+  const isStaffMemberProfile = isStaffMember || role.isStaffMember();
   return (
     <Box
       sx={{
@@ -292,23 +297,23 @@ const PersonalInfos = ({isStudentProfile, isStaffMember}) => {
             />
           </Box>
         )}
-        {isStaffMember && (
+        {isStaffMemberProfile && (
           <Box>
             <HaField label="Cnaps" icon={<CurrencyExchange />} source="cnaps" />
-            <HaField label="Ostie" icon={<CurrencyExchange />} source="ostie" />
+            <HaField label="Ostie" icon={<MedicationLiquid />} source="ostie" />
             <HaField
               label="Poste chez HEI"
-              icon={<CurrencyExchange />}
+              icon={<Engineering />}
               source="function"
             />
             <HaField
               label="Diplôme"
-              icon={<CurrencyExchange />}
+              icon={<WorkspacePremium />}
               source="degree"
             />
             <HaField
               label="Fin de service"
-              icon={<CurrencyExchange />}
+              icon={<WorkOff />}
               render={(user) => <HaDateField value={user.ending_service} />}
             />
           </Box>

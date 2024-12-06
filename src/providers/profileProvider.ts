@@ -6,6 +6,7 @@ import {WhoamiRoleEnum} from "@haapi/typescript-client";
 const profileProvider: HaDataProviderType = {
   async getOne(id: string) {
     const role = authProvider.getCachedRole();
+
     switch (role) {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
@@ -40,7 +41,6 @@ const profileProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload) {
     const role = authProvider.getCachedRole();
-
     const id = payload[0].id;
     const profileData = payload[0];
 
