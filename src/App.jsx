@@ -28,6 +28,7 @@ import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import exams from "@/operations/exams";
+import staffDocs from "@/operations/docs/staffs/index";
 import staffMembers from "./operations/staffMembers";
 
 function AppBase() {
@@ -117,6 +118,7 @@ function AppBase() {
           path="/docs/teachers/OTHER"
           element={<teachersDocs.list />}
         />
+        <Route exact path="/docs/staff/OTHER" element={<staffDocs.list />} />
         <Route
           exact
           path="/docs/students/WORK_DOCUMENT"
@@ -131,6 +133,11 @@ function AppBase() {
         <Route
           exact
           path="/teachers/:userId/docs/teachers/OTHER"
+          element={<teachersDocs.list />}
+        />
+        <Route
+          exact
+          path="/staff/:userId/docs/staff/OTHER"
           element={<teachersDocs.list />}
         />
         <Route
@@ -171,6 +178,11 @@ function AppBase() {
         />
         <Route
           exact
+          path="/staff/:userId/docs/staff/OTHER/:id"
+          element={<staffDocs.show />}
+        />
+        <Route
+          exact
           path="/docs/students/OTHER/:id"
           element={<studentDocs.show />}
         />
@@ -178,6 +190,11 @@ function AppBase() {
           exact
           path="/docs/teachers/OTHER/:id"
           element={<teachersDocs.show />}
+        />
+        <Route
+          exact
+          path="/docs/staff/OTHER/:id"
+          element={<staffDocs.show />}
         />
         <Route
           exact
