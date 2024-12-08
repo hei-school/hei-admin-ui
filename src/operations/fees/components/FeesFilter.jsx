@@ -31,8 +31,6 @@ export const FeesFilters = () => {
 
   const {filterValues} = useListContext();
 
-  console.log(filterValues);
-
   return (
     <FilterForm>
       {(isManager() || isAdmin()) && (
