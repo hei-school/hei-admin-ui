@@ -61,7 +61,7 @@ describe("Manager.Payment", () => {
     cy.getByTestid("fees-list-tab").click();
 
     cy.contains(unpaidFeeMock.comment as string).click();
-    cy.contains("En attente");
+    cy.contains("En cours");
     cy.getByTestid("AddIcon").click();
     cy.intercept(
       "GET",

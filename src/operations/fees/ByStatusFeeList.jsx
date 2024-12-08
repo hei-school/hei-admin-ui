@@ -4,17 +4,9 @@ import {
   ShowButton,
   TextField,
   useDataProvider,
-  useList,
-  useListContext,
 } from "react-admin";
 import {Box} from "@mui/material";
-import {
-  AttachMoney,
-  Cancel,
-  Pending,
-  Check,
-  Download,
-} from "@mui/icons-material";
+import {Download} from "@mui/icons-material";
 import {FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList/HaList";
 import {FeesFilters} from "./components/FeesFilter";
@@ -22,10 +14,9 @@ import {DateField} from "../common/components/fields";
 import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
 import {rowStyle} from "./utils";
-import {NOOP_ID} from "@/utils/constants";
-import {FileDownloader, ListHeader} from "@/operations/common/components";
+import {FileDownloader} from "../common/components";
 
-const ByStatusFeeList = (props) => {
+const ByStatusFeeList = () => {
   const dataProvider = useDataProvider();
 
   const downloadFile = async () => {
@@ -43,7 +34,6 @@ const ByStatusFeeList = (props) => {
   return (
     <Box>
       <HaList
-        {...props}
         title=" "
         resource="fees"
         listProps={{

@@ -1,5 +1,5 @@
 import {v4 as uuid} from "uuid";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {Fee, WhoamiRoleEnum} from "@haapi/typescript-client";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 import authProvider from "./authProvider";
@@ -20,14 +20,17 @@ export const feeIdFromRaId = (raId: string): string => toApiIds(raId).feeId;
 
 const feeProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    const {data: fees} = filter.studentId
-      ? await payingApi().getStudentFees(
-          filter.studentId,
-          page,
-          perPage,
-          filter.status
-        )
-      : await payingApi().getFees(
+    const doGetFees = async (): Promise<Fee[]> => {
+      if (filter.studentId) {
+        return await payingApi()
+          .getStudentFees(filter.studentId, page, perPage, filter.status)
+          .then(({data}) => data);
+      }
+      //TODO : redundance
+      return await payingApi()
+        .getFees(
+          filter.transaction_status,
+          filter.type,
           filter.status,
           filter.monthFrom,
           filter.monthTo,
@@ -35,15 +38,17 @@ const feeProvider: HaDataProviderType = {
           perPage,
           filter.isMpbs,
           filter.student_ref
-        );
+        )
+        .then(({data: {data: fees}}) => fees!);
+    };
+
+    const fees = await doGetFees();
 
     return {
-      data: fees.map((fee) => {
-        return {
-          ...fee,
-          id: toRaId(fee.student_id as string, fee.id as string),
-        };
-      }),
+      data: fees.map((fee) => ({
+        ...fee,
+        id: toRaId(fee.student_id!, fee.id!),
+      })),
     };
   },
 

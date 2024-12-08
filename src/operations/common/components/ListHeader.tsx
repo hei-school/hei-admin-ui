@@ -17,20 +17,20 @@ import {PALETTE_COLORS} from "@/haTheme";
 
 export interface StatDetail {
   icon: ReactElement;
-  total: number;
+  total: number | string;
   title: string;
 }
 
 export interface CardContent {
   title: string;
-  total: number;
+  total: number | string;
   icon: ReactElement;
   statDetails?: Array<StatDetail>;
 }
 
 interface ListHeaderProps {
-  title: string;
-  action: ReactNode;
+  title: string | ReactNode;
+  action?: ReactNode;
   cardContents: Array<CardContent>;
 }
 
@@ -158,7 +158,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
               px={2}
               justifyContent="space-between"
             >
-              <Typography variant="h6" fontWeight="bolder">
+              <Typography variant="subtitle1" fontWeight="bolder">
                 {card.title ?? ""}
               </Typography>
               <Avatar
@@ -179,7 +179,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
                 {card.total}
               </Typography>
               <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6">Au total</Typography>
+                <Typography variant="body1">Au total</Typography>
                 {card.statDetails && (
                   <CardInfos cardDetails={card?.statDetails!} />
                 )}

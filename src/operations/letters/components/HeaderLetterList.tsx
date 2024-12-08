@@ -103,7 +103,7 @@ export const LetterStatusFilter: FC<{
 
   const statuses = [
     {label: "Tous", value: null, onClick: handleResetFilters},
-    {label: "En attente", value: LetterStatus.PENDING},
+    {label: "En cours", value: LetterStatus.PENDING},
     {label: "Accepté", value: LetterStatus.RECEIVED},
     {label: "Refusé", value: LetterStatus.REJECTED},
   ];

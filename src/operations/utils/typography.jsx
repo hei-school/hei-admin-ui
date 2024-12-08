@@ -18,7 +18,7 @@ const statusMap = {
     backgroundColor: "#388E3C",
   },
   UNPAID: {
-    text: "En attente",
+    text: "En cours",
     icon: <HourglassEmpty sx={{color: PALETTE_COLORS.white, mr: 1}} />,
     backgroundColor: "#fbbf24",
   },
