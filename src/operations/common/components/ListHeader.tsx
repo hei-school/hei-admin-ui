@@ -158,7 +158,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
               px={2}
               justifyContent="space-between"
             >
-              <Typography variant="subtitle1" fontWeight="bolder">
+              <Typography variant="h6" fontWeight="bolder">
                 {card.title ?? ""}
               </Typography>
               <Avatar
@@ -179,7 +179,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
                 {card.total}
               </Typography>
               <Box display="flex" justifyContent="space-between">
-                <Typography variant="body1">Au total</Typography>
+                <Typography variant="h6">Au total</Typography>
                 {card.statDetails && (
                   <CardInfos cardDetails={card?.statDetails!} />
                 )}

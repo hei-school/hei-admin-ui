@@ -34,7 +34,7 @@ export const FeesListHeader = () => {
 
   const headerCardContent: CardContent[] = [
     {
-      title: "Total frais / mois",
+      title: "Total des frais",
       icon: <AttachMoney fontSize="medium" />,
       total: stats.total_fees!,
       statDetails: [
@@ -56,7 +56,7 @@ export const FeesListHeader = () => {
       ],
     },
     {
-      title: "Transactions / mois",
+      title: "Transactions",
       icon: <Money fontSize="medium" />,
       total: stats.unpaid_fees!,
       statDetails: [
@@ -73,12 +73,12 @@ export const FeesListHeader = () => {
       ],
     },
     {
-      title: "Total des frais mensuels / mois",
+      title: "Frais mensuels",
       icon: <CalendarMonth fontSize="medium" />,
       total: stats.total_monthly_fees ?? "...",
     },
     {
-      title: "Total des frais annuels  / mois",
+      title: "Frais annuels",
       icon: <LinearScale fontSize="medium" />,
       total: stats.total_yearly_fees ?? "...",
     },
