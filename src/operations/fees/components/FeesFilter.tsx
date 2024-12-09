@@ -1,6 +1,4 @@
-import {useListContext} from "react-admin";
 import {Box, Divider, Typography} from "@mui/material";
-import {FeeStatusEnum} from "@haapi/typescript-client";
 import {useRole} from "@/security/hooks";
 import {
   FilterForm,
@@ -8,28 +6,10 @@ import {
   SelectInputFilter,
   DateTimeFilter,
 } from "@/ui/haToolbar";
-import {mapToChoices} from "@/utils";
-import {FEESTEMPLATES_CHOICES} from "../feesTemplatesChoices";
-import {MPBS_STATUS_LABEL} from "../utils";
-import useHaToolbarContext from "@/ui/haToolbar/useHaToolbarContext";
-
-export const FEE_STATUS = {
-  LATE: "En retard",
-  PAID: "Payés",
-  UNPAID: "En cours",
-};
-
-const FEE_STATUS_CHOICES = mapToChoices(FEE_STATUS, "id", "name");
-const FEES_TYPES_CHOICES = FEESTEMPLATES_CHOICES.map((choice) => ({
-  name: choice.label,
-  id: choice.value,
-}));
-const MPBS_CHOICES = mapToChoices(MPBS_STATUS_LABEL, "id", "name");
+import {FEE_STATUS_CHOICES, FEES_TYPES_CHOICES, MPBS_CHOICES} from "../constants";
 
 export const FeesFilters = () => {
   const {isManager, isAdmin} = useRole();
-
-  const {filterValues} = useListContext();
 
   return (
     <FilterForm>

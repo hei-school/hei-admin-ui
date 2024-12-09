@@ -13,20 +13,22 @@ import {ListHeader} from "@/operations/common/components";
 import {CardContent} from "@/operations/common/components/ListHeader";
 import {NOOP_ID} from "@/utils/constants";
 
+const INITIAL_STATS = {
+  total_fees: "...",
+  paid_fees: "...",
+  unpaid_fees: "...",
+  late_fees: "...",
+  pending_transaction: "...",
+  paid_by_transaction: "...",
+  total_monthly_fees: "...",
+  total_yearly_fees: "...",
+};
+
 // TODO: Add this to ByStatusFeeList
 export const FeesListHeader = () => {
   const {filterValues} = useListContext();
   const {
-    data: stats = {
-      total_fees: "...",
-      paid_fees: "...",
-      unpaid_fees: "...",
-      late_fees: "...",
-      pending_transaction: "...",
-      paid_by_transaction: "...",
-      total_monthly_fees: "...",
-      total_yearly_fees: "...",
-    },
+    data: stats = INITIAL_STATS,
   } = useGetOne("stats", {
     id: NOOP_ID,
     meta: {resource: "fees", filters: filterValues},

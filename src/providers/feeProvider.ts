@@ -1,5 +1,5 @@
 import {v4 as uuid} from "uuid";
-import {Fee, WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 import authProvider from "./authProvider";
@@ -20,7 +20,7 @@ export const feeIdFromRaId = (raId: string): string => toApiIds(raId).feeId;
 
 const feeProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    const doGetFees = async (): Promise<Fee[]> => {
+    const doGetFees = async () => {
       if (filter.studentId) {
         return await payingApi()
           .getStudentFees(filter.studentId, page, perPage, filter.status)

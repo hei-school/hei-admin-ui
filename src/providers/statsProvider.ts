@@ -6,7 +6,7 @@ const statsProvider: HaDataProviderType = {
   async getList(_page: number, _perPage: number, _filter: any) {
     throw new Error("Function not implemented.");
   },
-  async getOne(id: string, meta) {
+  async getOne(id: string, meta = {}) {
     const filter = meta.filters ?? {};
     switch (meta.resource) {
       case "users":
