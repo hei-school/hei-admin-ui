@@ -27,9 +27,7 @@ const INITIAL_STATS = {
 // TODO: Add this to ByStatusFeeList
 export const FeesListHeader = () => {
   const {filterValues} = useListContext();
-  const {
-    data: stats = INITIAL_STATS,
-  } = useGetOne("stats", {
+  const {data: stats = INITIAL_STATS} = useGetOne("stats", {
     id: NOOP_ID,
     meta: {resource: "fees", filters: filterValues},
   });

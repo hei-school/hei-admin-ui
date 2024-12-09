@@ -6,7 +6,11 @@ import {
   SelectInputFilter,
   DateTimeFilter,
 } from "@/ui/haToolbar";
-import {FEE_STATUS_CHOICES, FEES_TYPES_CHOICES, MPBS_CHOICES} from "../constants";
+import {
+  FEE_STATUS_CHOICES,
+  FEES_TYPES_CHOICES,
+  MPBS_CHOICES,
+} from "../constants";
 
 export const FeesFilters = () => {
   const {isManager, isAdmin} = useRole();

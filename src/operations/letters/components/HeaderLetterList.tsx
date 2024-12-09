@@ -114,7 +114,7 @@ export const LetterStatusFilter: FC<{
         <MenuItem
           key={label}
           disabled={value! && isStatusFilterActive(value)}
-          onClick={() => (handleStatusSelect(value as LetterStatus))}
+          onClick={() => handleStatusSelect(value as LetterStatus)}
           sx={value && isStatusFilterActive(value) ? showIndication : undefined}
         >
           {label}

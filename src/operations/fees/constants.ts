@@ -1,5 +1,5 @@
-import { mapToChoices } from "@/utils";
-import { FeeTypeEnum } from "@haapi/typescript-client";
+import {mapToChoices} from "@/utils";
+import {FeeTypeEnum} from "@haapi/typescript-client";
 
 export const FEE_STATUS = {
   LATE: "En retard",
@@ -16,10 +16,10 @@ export const MPBS_STATUS_LABEL = {
 export const FEE_STATUS_CHOICES = mapToChoices(FEE_STATUS, "id", "name");
 
 export const FEESTEMPLATES_CHOICES = [
-  { label: "Écolage", value: FeeTypeEnum.TUITION },
-  { label: "Matériel", value: FeeTypeEnum.HARDWARE },
-  { label: "Assurance étudiante", value: FeeTypeEnum.STUDENT_INSURANCE },
-  { label: "Rattrapage", value: FeeTypeEnum.REMEDIAL_COSTS },
+  {label: "Écolage", value: FeeTypeEnum.TUITION},
+  {label: "Matériel", value: FeeTypeEnum.HARDWARE},
+  {label: "Assurance étudiante", value: FeeTypeEnum.STUDENT_INSURANCE},
+  {label: "Rattrapage", value: FeeTypeEnum.REMEDIAL_COSTS},
 ] as const;
 
 export const FEES_TYPES_CHOICES = FEESTEMPLATES_CHOICES.map((choice) => ({
@@ -28,4 +28,3 @@ export const FEES_TYPES_CHOICES = FEESTEMPLATES_CHOICES.map((choice) => ({
 }));
 
 export const MPBS_CHOICES = mapToChoices(MPBS_STATUS_LABEL, "id", "name");
-

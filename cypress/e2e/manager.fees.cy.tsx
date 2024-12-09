@@ -1,5 +1,4 @@
 import {FeeTypeEnum} from "@haapi/typescript-client";
-
 import {assertFeeMatchesTemplate} from "./utils";
 import {
   annual1xTemplate,
@@ -16,11 +15,9 @@ import {get27thOfMonth} from "../../src/utils/date";
 
 describe("Manager.Fee", () => {
   beforeEach(() => {
-    cy.intercept(
-      "GET",
-      `/fees/templates?page=1&page_size=25`,
-      feesTemplatesMocks
-    ).as("getFeesTemplates");
+    cy.intercept("GET", `/fees/templates?page=1&page_size=25`, {
+      data: feesTemplatesMocks,
+    }).as("getFeesTemplates");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
