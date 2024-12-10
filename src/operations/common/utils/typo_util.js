@@ -40,6 +40,8 @@ export function getFeesStatusInFr(status) {
       return "Payé";
     case FeeStatusEnum.UNPAID:
       return "En cours";
+    case FeeStatusEnum.PENDING:
+      return "En cours de vérification";
     default:
       throw new Error("Unknown fees status");
   }
