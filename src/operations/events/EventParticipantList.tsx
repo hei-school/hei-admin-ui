@@ -7,7 +7,12 @@ import {
   useRefresh,
   useUpdate,
 } from "react-admin";
-import {Event as EventIcon, Add, Save as SaveIcon} from "@mui/icons-material";
+import {
+  Event as EventIcon,
+  Add,
+  Save as SaveIcon,
+  UploadFile as UploadFileIcon,
+} from "@mui/icons-material";
 import {Box, Stack, Typography, Button} from "@mui/material";
 import {HaList} from "@/ui/haList";
 import {ButtonBase} from "@/ui/haToolbar";
@@ -27,6 +32,10 @@ import {
   StatusActionStatus,
 } from "./components";
 import {useRole} from "@/security/hooks";
+import {exportData} from "../utils";
+import {participantHeaders, participantMapper} from "./utils";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {eventsApi} from "@/providers/api";
 
 export function EventParticipantList() {
   const {eventId} = useParams();
@@ -74,6 +83,7 @@ export function EventParticipantList() {
 
 const ListContent = ({eventId}: {eventId: string}) => {
   const [participants, setParticipants] = useState([] as EventParticipant[]);
+  const [isExport, setExport] = useState(false);
   const notify = useNotify();
   const [show, _, toggle] = useToggle();
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
@@ -117,6 +127,21 @@ const ListContent = ({eventId}: {eventId: string}) => {
     );
   };
 
+  const exportParticipants = async () => {
+    setExport(true);
+    try {
+      const lists = (
+        await eventsApi().getEventParticipants(eventId, 1, MAX_ITEM_PER_PAGE)
+      ).data;
+      exportData(
+        lists.map(participantMapper) || [],
+        participantHeaders,
+        "participants"
+      );
+    } catch (ignored) {}
+    setExport(false);
+  };
+
   return (
     <Stack>
       <HaList
@@ -133,16 +158,32 @@ const ListContent = ({eventId}: {eventId: string}) => {
           },
         }}
         hasDatagrid={false}
-        actions={
-          (isManager() || isAdmin()) && (
-            <ButtonBase
-              icon={<Add />}
-              label="Ajout groupe"
-              onClick={() => toggle()}
-              children={<></>}
-            />
-          )
-        }
+        actions={(() => {
+          const actions = [
+            (isManager() || isAdmin()) && (
+              <ButtonBase
+                icon={<Add />}
+                label="Ajout groupe"
+                onClick={() => toggle()}
+                children={<></>}
+              />
+            ),
+            (isManager() || isAdmin() || isTeacher()) && (
+              <ButtonBase
+                closeAction={false}
+                icon={<UploadFileIcon />}
+                label="Export"
+                onClick={() => exportParticipants()}
+                children={isExport ? <Loader /> : <></>}
+              />
+            ),
+          ];
+          return (
+            actions.some((action) => action) && (
+              <>{actions.map((action) => action)}</>
+            )
+          );
+        })()}
         datagridProps={{
           rowClick: false,
         }}
