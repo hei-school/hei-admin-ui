@@ -83,7 +83,7 @@ export function EventParticipantList() {
 
 const ListContent = ({eventId}: {eventId: string}) => {
   const [participants, setParticipants] = useState([] as EventParticipant[]);
-  const [isExport, setExport] = useState(false);
+  const [isExport, setIsExport] = useState(false);
   const notify = useNotify();
   const [show, _, toggle] = useToggle();
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
@@ -128,7 +128,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
   };
 
   const exportParticipants = async () => {
-    setExport(true);
+    setIsExport(true);
     try {
       const lists = (
         await eventsApi().getEventParticipants(eventId, 1, MAX_ITEM_PER_PAGE)
@@ -139,7 +139,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
         "participants"
       );
     } catch (ignored) {}
-    setExport(false);
+    setIsExport(false);
   };
 
   return (
