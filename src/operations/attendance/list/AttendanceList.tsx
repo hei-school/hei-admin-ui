@@ -15,10 +15,6 @@ const Actions = () => {
 };
 
 export const AttendanceList = () => {
-  //const [showOne, setShowOne] = useState({status: false, record: null});
-
-  //const handlerRowClick = (id: string, ressource: string, record)=> setShowOne({ status: true, record })
-
   return (
     <>
       <LinkButton to="create" icon={<Add />} bottom="90px" />
@@ -46,7 +42,6 @@ export const AttendanceList = () => {
         />
         <TextField source="place" label="Lieu" />
       </HaList>
-      {/* <ShowOne showOne={showOne} setShowOne={setShowOne} /> */}
     </>
   );
 };
