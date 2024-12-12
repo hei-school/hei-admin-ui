@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, FC} from "react";
 import {
   Box,
   FormControl,
@@ -26,18 +26,14 @@ import {LinkButton} from "../list";
 
 export const CreateByScan = () => {
   const [openDialog, , toggleOpenDialog] = useToggle();
-  const notify = useNotify();
   const config = qrcode.getConfig();
   const [currentConfig, setCurrentConfig] = useState({
     type: config.type,
     open: false,
   });
   const [scanner, setScanner] = useState<Html5QrcodeScanner>();
-  const [isSaving, setIsSaving] = useState(false);
   const [dialogData, setDialogData] = useState<UserIdentifier>();
-  const [attendanceType, setAttendanceType] = useState<AttendanceMovementType>(
-    AttendanceMovementType.IN
-  );
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -68,17 +64,6 @@ export const CreateByScan = () => {
     ) as HTMLButtonElement;
     closeButton && closeButton.click();
     navigate("/attendance");
-  };
-  const handleConfirm = async () => {
-    setIsSaving(true);
-    await createAttendance({
-      studentId: dialogData?.id!,
-      type: attendanceType,
-      place: "IVANDRY",
-      notify,
-    });
-    setIsSaving(false);
-    toggleOpenDialog();
   };
 
   return (
@@ -124,65 +109,99 @@ export const CreateByScan = () => {
             />
           </IconButton>
         </Box>
-
-        <Dialog open={openDialog}>
-          <DialogTitle>Confirmer la présence</DialogTitle>
-          <DialogContent>
-            <Typography variant="body1">
-              Êtes-vous sûr de vouloir enregistrer la présence de :
-            </Typography>
-            <ul>
-              <li>
-                <strong>Nom:</strong> {dialogData?.last_name}
-              </li>
-              <li>
-                <strong>Préom:</strong> {dialogData?.first_name}
-              </li>
-              <li>
-                <strong>Référence:</strong> {dialogData?.ref}
-              </li>
-            </ul>
-            <FormControl fullWidth>
-              <Select
-                value={attendanceType}
-                onChange={(status) =>
-                  setAttendanceType(
-                    status.target.value as AttendanceMovementType
-                  )
-                }
-                sx={{
-                  backgroundColor: "white",
-                  color: "black",
-                }}
-              >
-                <MenuItem value={AttendanceMovementType.IN}>Entrer</MenuItem>
-                <MenuItem value={AttendanceMovementType.OUT}>Sortie</MenuItem>
-              </Select>
-            </FormControl>
-          </DialogContent>
-          <DialogActions>
-            <Button
-              color="error"
-              size="small"
-              sx={{textTransform: "revert"}}
-              disabled={isSaving}
-              onClick={() => toggleOpenDialog()}
-            >
-              Annuler
-            </Button>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{textTransform: "revert"}}
-              color="success"
-              disabled={isSaving}
-              onClick={() => handleConfirm()}
-            >
-              Confirmer {isSaving && <Loader />}
-            </Button>
-          </DialogActions>
-        </Dialog>
+        <ConfirmDialog
+          dialogData={dialogData!}
+          openDialog={openDialog}
+          toggleOpenDialog={toggleOpenDialog}
+        />
       </Box>
     </Box>
+  );
+};
+
+type ConfirmProps = {
+  openDialog: boolean;
+  toggleOpenDialog: () => void;
+  dialogData: UserIdentifier;
+};
+
+const ConfirmDialog: FC<ConfirmProps> = ({
+  openDialog,
+  toggleOpenDialog,
+  dialogData,
+}) => {
+  const notify = useNotify();
+  const [isSaving, setIsSaving] = useState(false);
+  const [attendanceType, setAttendanceType] = useState<AttendanceMovementType>(
+    AttendanceMovementType.IN
+  );
+  const handleConfirm = async () => {
+    setIsSaving(true);
+    await createAttendance({
+      studentId: dialogData?.id!,
+      type: attendanceType,
+      place: "IVANDRY",
+      notify,
+    });
+    setIsSaving(false);
+    toggleOpenDialog();
+  };
+  return (
+    <Dialog open={openDialog}>
+      <DialogTitle>Confirmer la présence</DialogTitle>
+      <DialogContent>
+        <Typography variant="body1">
+          Êtes-vous sûr de vouloir enregistrer la présence de :
+        </Typography>
+        <ul>
+          <li>
+            <strong>Nom:</strong> {dialogData?.last_name}
+          </li>
+          <li>
+            <strong>Préom:</strong> {dialogData?.first_name}
+          </li>
+          <li>
+            <strong>Référence:</strong> {dialogData?.ref}
+          </li>
+        </ul>
+        <FormControl fullWidth>
+          <Select
+            size="small"
+            value={attendanceType}
+            onChange={(status) =>
+              setAttendanceType(status.target.value as AttendanceMovementType)
+            }
+            sx={{
+              backgroundColor: "white",
+              color: "black",
+            }}
+          >
+            <MenuItem value={AttendanceMovementType.IN}>Entrer</MenuItem>
+            <MenuItem value={AttendanceMovementType.OUT}>Sortie</MenuItem>
+          </Select>
+        </FormControl>
+      </DialogContent>
+      <DialogActions>
+        <Button
+          color="error"
+          size="small"
+          sx={{textTransform: "revert"}}
+          disabled={isSaving}
+          onClick={() => toggleOpenDialog()}
+        >
+          Annuler
+        </Button>
+        <Button
+          variant="contained"
+          size="small"
+          sx={{textTransform: "revert"}}
+          color="success"
+          disabled={isSaving}
+          onClick={() => handleConfirm()}
+        >
+          Confirmer {isSaving && <Loader />}
+        </Button>
+      </DialogActions>
+    </Dialog>
   );
 };
