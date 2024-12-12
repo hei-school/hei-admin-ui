@@ -24,14 +24,14 @@ export const AttendanceList = () => {
       <LinkButton to="create" icon={<Add />} bottom="90px" />
       <LinkButton to="scan" icon={<QrCodeScanner />} bottom="30px" />
       <HaList
-        title="Présences"
+        title="Listes présences"
         resource="attendance"
         listProps={{title: "Présences"}}
         icon={<ListAlt />}
         actions={<Actions />}
         datagridProps={{rowClick: false}}
         mainSearch={{
-          label: "Rechercher par étudiant",
+          label: "STD, Nom, Prénom...",
           source: "student_key_word",
         }}
       >

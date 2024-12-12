@@ -21,8 +21,8 @@ const attendanceProvider: HaDataProviderType = {
           ? teachers_ids.map((el: SelectFilter) => el.value)
           : undefined,
         filter.student_key_word,
-        undefined,
-        undefined,
+        filter.from,
+        filter.to,
         filter.attendance_statuses
       )
       .then((result) => ({data: result.data}));
