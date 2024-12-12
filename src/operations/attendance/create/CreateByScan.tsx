@@ -53,6 +53,15 @@ export const CreateByScan = () => {
     setScanner(newScanner.scanner);
   }, []);
 
+  useEffect(() => {
+    setTimeout(() => {
+      const cameraPermissionButton = document.querySelector(
+        "#html5-qrcode-button-camera-permission"
+      ) as HTMLButtonElement;
+      cameraPermissionButton && cameraPermissionButton.click();
+    }, 1000);
+  }, [scanner]);
+
   const closeStream = () => {
     const closeButton = document.querySelector(
       "#html5-qrcode-button-camera-stop"
@@ -125,6 +134,9 @@ export const CreateByScan = () => {
             <ul>
               <li>
                 <strong>Nom:</strong> {dialogData?.last_name}
+              </li>
+              <li>
+                <strong>Préom:</strong> {dialogData?.first_name}
               </li>
               <li>
                 <strong>Référence:</strong> {dialogData?.ref}
