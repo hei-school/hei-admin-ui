@@ -9,7 +9,7 @@ import GroupStudentList from "./components/GroupStudentList";
 
 export const GroupLayout = () => {
   const {record: group} = useShowContext();
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
 
   return (
     <SimpleShowLayout
@@ -50,7 +50,7 @@ export const GroupLayout = () => {
             {formatDate(group?.creation_datetime ?? "", false)}
           </Typography>
         </Box>
-        {isManager() && (
+        {(isManager() || isAdmin()) && (
           <Box display="flex" justifyContent="flex-end">
             <EditButton
               size="large"

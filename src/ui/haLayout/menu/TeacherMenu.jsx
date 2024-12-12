@@ -6,6 +6,7 @@ import {
   Newspaper as AnnouncementIcon,
   Book as CourseIcon,
   CalendarMonth as EventIcon,
+  GradeOutlined as GradeIcon,
   PictureAsPdf,
 } from "@mui/icons-material";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
@@ -34,6 +35,12 @@ function TeacherMenu() {
         to="/course"
         label="Cours"
         icon={<CourseIcon />}
+      />
+      <SingleMenu
+        data-testid="exam-menu"
+        to="/exams"
+        label="Examens"
+        icon={<GradeIcon />}
       />
       <SingleMenu
         data-testid="event-menu"

@@ -8,6 +8,8 @@ export function useRole() {
     isManager: () => role === WhoamiRoleEnum.MANAGER,
     isTeacher: () => role === WhoamiRoleEnum.TEACHER,
     isMonitor: () => role === WhoamiRoleEnum.MONITOR,
+    isAdmin: () => role === WhoamiRoleEnum.ADMIN,
+    isStaffMember: () => role === WhoamiRoleEnum.STAFF_MEMBER,
     role,
   };
 }

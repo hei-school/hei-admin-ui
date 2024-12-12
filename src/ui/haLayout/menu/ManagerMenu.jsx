@@ -12,12 +12,17 @@ import {
   Newspaper as AnnouncementIcon,
   CalendarMonth as EventIcon,
   SupervisedUserCircle as MonitorIcon,
-  ListAlt as AttendanceIcon,
+  GradeOutlined as GradeIcon,
+  LibraryBooksOutlined as LibraryIcon,
+  AssignmentInd as StaffIcon,
 } from "@mui/icons-material";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
+import {useRole} from "@/security/hooks";
 
 function ManagerMenu() {
+  const {isAdmin} = useRole();
+
   return (
     <Box>
       <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />
@@ -57,7 +62,6 @@ function ManagerMenu() {
         data-testid="promotions-menu"
         icon={<PromotionIcon />}
       />
-      <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu
         to="/attendance"
         label="Présences"
@@ -67,8 +71,15 @@ function ManagerMenu() {
         data-testid="course-menu"
         to="/course"
         label="Cours"
-        icon={<CourseIcon />}
+        icon={<LibraryIcon />}
       />
+      <SingleMenu
+        to="/exams"
+        label="Examens"
+        data-testid="exams-menu"
+        icon={<GradeIcon />}
+      />
+      <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu
         to="/announcements"
         label="Annonces"
@@ -80,6 +91,9 @@ function ManagerMenu() {
         label="Événements"
         icon={<EventIcon />}
       />
+      {isAdmin() && (
+        <SingleMenu to="/staffmembers" label="Staff" icon={<StaffIcon />} />
+      )}
     </Box>
   );
 }

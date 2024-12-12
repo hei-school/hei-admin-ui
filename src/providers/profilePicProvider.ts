@@ -30,6 +30,14 @@ const profilePicProvider: HaDataProviderType = {
         return usersApi()
           .uploadManagerProfilePicture(user?.id, user?.rawFile, PIC_OPTIONS)
           .then((result) => [result.data]);
+      case WhoamiRoleEnum.ADMIN:
+        return usersApi()
+          .uploadAdminProfilePicture(user?.id, user?.rawFile, PIC_OPTIONS)
+          .then((result) => [result.data]);
+      case WhoamiRoleEnum.STAFF_MEMBER:
+        return usersApi()
+          .uploadStaffMemberProfilePicture(user?.id, user?.rawFile, PIC_OPTIONS)
+          .then((result) => [result.data]);
     }
   },
   async delete(_id: string) {

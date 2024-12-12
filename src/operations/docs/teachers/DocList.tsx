@@ -6,7 +6,7 @@ import authProvider from "@/providers/authProvider";
 export const TeacherDocList = () => {
   const params = useParams();
   const location = useLocation();
-  const {isTeacher, isManager} = useRole();
+  const {isTeacher, isAdmin} = useRole();
   const userId = isTeacher()
     ? authProvider.getCachedWhoami().id
     : params.userId;
@@ -18,7 +18,7 @@ export const TeacherDocList = () => {
       userId={userId!}
       title={`Liste des documents des enseignants`}
       haListProps={{
-        actions: isManager() ? (
+        actions: isAdmin() ? (
           <DocListAction userId={userId!} owner="TEACHER" type="OTHER" />
         ) : null,
       }}

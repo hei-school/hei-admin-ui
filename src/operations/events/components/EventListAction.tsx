@@ -13,11 +13,11 @@ import {Add} from "@mui/icons-material";
 import {useRedirect} from "react-admin";
 
 export function EventListAction({withDate = true}: {withDate?: boolean}) {
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
   const redirect = useRedirect();
   return (
     <Box>
-      {isManager() && (
+      {(isManager() || isAdmin()) && (
         <ButtonBase
           label="Créer"
           icon={<Add />}

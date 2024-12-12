@@ -59,13 +59,12 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
     null
   );
 
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
 
   const creationDate = formatDate(letter.creation_datetime!, false);
   const approvalDate = formatDate(letter.approval_datetime!, false);
 
-  const profilePicture =
-    letter.student?.profile_picture || defaultProfilePicture;
+  const profilePicture = letter.user?.profile_picture ?? defaultProfilePicture;
   const isDateApproved = letter.approval_datetime !== null;
 
   const handleItemClick = () => {
@@ -104,7 +103,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
         >
           <Folder sx={{fontSize: "2.5rem", color: "white"}} />
         </Box>
-        {isManager() && !isChecked && (
+        {(isManager() || isAdmin()) && !isChecked && (
           <Box
             sx={{
               position: "absolute",
@@ -202,7 +201,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
               }}
             />
             <Typography variant="subtitle1" fontWeight="600">
-              {letter.student?.first_name}
+              {letter.user?.first_name}
             </Typography>
           </Box>
         </Box>
@@ -226,7 +225,7 @@ const LetterItemActions: FC<PopoverProps> = ({
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <>
+    <Box>
       <Popover
         id={id}
         open={open}
@@ -255,7 +254,7 @@ const LetterItemActions: FC<PopoverProps> = ({
           <RefuseButton letterId={letterId} />
         </Box>
       </Popover>
-    </>
+    </Box>
   );
 };
 

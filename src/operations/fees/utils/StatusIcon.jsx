@@ -2,7 +2,7 @@ import {useRecordContext} from "react-admin";
 import {IconButton, Tooltip} from "@mui/material";
 import {Help as Question} from "@mui/icons-material";
 import {PSP_ICON} from "../components/pspIcon";
-import {MPBS_STATUS_LABEL} from "../FeeList";
+import {MPBS_STATUS_LABEL} from "../constants";
 
 export const MpbsStatusIcon = () => {
   const record = useRecordContext();

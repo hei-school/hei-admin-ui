@@ -1,4 +1,3 @@
-import {renderMoney} from "../../src/operations/common/utils/money";
 import {
   UpdateFeeWithPaymentMock,
   feesMock,
@@ -61,7 +60,7 @@ describe("Manager.Payment", () => {
     cy.getByTestid("fees-list-tab").click();
 
     cy.contains(unpaidFeeMock.comment as string).click();
-    cy.contains("En attente");
+    cy.contains("En cours");
     cy.getByTestid("AddIcon").click();
     cy.intercept(
       "GET",
@@ -81,7 +80,7 @@ describe("Manager.Payment", () => {
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
+    cy.get(`.MuiTableCell-alignRight:contains(${amount} Ar)`).should(
       "have.length",
       1
     );
@@ -94,7 +93,7 @@ describe("Manager.Payment", () => {
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
+    cy.get(`.MuiTableCell-alignRight:contains(${amount} Ar)`).should(
       "have.length",
       1
     );
@@ -116,7 +115,7 @@ describe("Manager.Payment", () => {
     cy.get("#creation_datetime").click().type("2023-11-24");
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(`.MuiTableCell-alignRight:contains(${renderMoney(amount)})`).should(
+    cy.get(`.MuiTableCell-alignRight:contains(${amount} Ar)`).should(
       "have.length",
       1
     );

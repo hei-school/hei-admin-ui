@@ -6,6 +6,7 @@ import {WhoamiRoleEnum} from "@haapi/typescript-client";
 const profileProvider: HaDataProviderType = {
   async getOne(id: string) {
     const role = authProvider.getCachedRole();
+
     switch (role) {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
@@ -23,6 +24,14 @@ const profileProvider: HaDataProviderType = {
         return usersApi()
           .getMonitorById(id)
           .then((result) => result.data);
+      case WhoamiRoleEnum.ADMIN:
+        return usersApi()
+          .getAdminById(id)
+          .then((result) => result.data);
+      case WhoamiRoleEnum.STAFF_MEMBER:
+        return usersApi()
+          .getStaffMemberById(id)
+          .then((result) => result.data);
       default:
         throw new Error("Role non supporté");
     }
@@ -32,7 +41,6 @@ const profileProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload) {
     const role = authProvider.getCachedRole();
-
     const id = payload[0].id;
     const profileData = payload[0];
 
@@ -49,9 +57,17 @@ const profileProvider: HaDataProviderType = {
         return usersApi()
           .updateManager(id, profileData)
           .then((result) => [result.data]);
+      case WhoamiRoleEnum.ADMIN:
+        return usersApi()
+          .updateAdmin(id, profileData)
+          .then((result) => [result.data]);
       case WhoamiRoleEnum.MONITOR:
         return usersApi()
           .updateMonitorById(id, profileData)
+          .then((result) => [result.data]);
+      case WhoamiRoleEnum.STAFF_MEMBER:
+        return usersApi()
+          .updateStaffMember(id, profileData)
           .then((result) => [result.data]);
       default:
         throw new Error("Role non supporté");

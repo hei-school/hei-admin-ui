@@ -17,7 +17,7 @@ describe("Manager create multiple teachers", () => {
     cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
       "getTeachersPage2"
     );
-    cy.intercept("GET", `letters/stats`, {}).as("getStats");
+    cy.intercept("GET", `students/letters/stats`, {}).as("getStats");
     cy.intercept(
       "GET",
       `/teachers?page=1&page_size=10&last_name=${teacherNameToBeCheckedMock}`,

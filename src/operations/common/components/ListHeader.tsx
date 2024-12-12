@@ -17,20 +17,20 @@ import {PALETTE_COLORS} from "@/haTheme";
 
 export interface StatDetail {
   icon: ReactElement;
-  total: number;
+  total: number | string;
   title: string;
 }
 
 export interface CardContent {
   title: string;
-  total: number;
+  total: number | string;
   icon: ReactElement;
   statDetails?: Array<StatDetail>;
 }
 
 interface ListHeaderProps {
-  title: string;
-  action: ReactNode;
+  title: string | ReactNode;
+  action?: ReactNode;
   cardContents: Array<CardContent>;
 }
 

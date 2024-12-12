@@ -27,7 +27,9 @@ const PaymentList = ({feeId, studentId}) => {
       title=" " // is appended to ContainingComponent.title, default is ContainingComponent.title... so need to set it!
       resource={"payments"}
       actions={
-        role.isManager() && <Actions basePath={`/fees/${feeId}/payments`} />
+        (role.isManager() || role.isAdmin()) && (
+          <Actions basePath={`/fees/${feeId}/payments`} />
+        )
       }
       filterDefaultValues={{feeId: feeId}}
       pagination={false}
@@ -60,7 +62,7 @@ const PaymentList = ({feeId, studentId}) => {
           textAlign="right"
         />
 
-        {role.isManager() && (
+        {(role.isManager() || role.isAdmin()) && (
           <DeleteWithConfirm
             resourceType="payments"
             confirmTitle="Suppression du paiement"

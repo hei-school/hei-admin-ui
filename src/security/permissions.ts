@@ -7,6 +7,17 @@ export const getPermissions = (role: string) => {
   const updatePermissions = createPermissions.concat("edit");
 
   const roleDefinitions = {
+    ADMIN: [
+      {action: "read", resource: "profile", record: {id: whoamiId}},
+      {action: updatePermissions, resource: "students"},
+      {action: updatePermissions, resource: "teachers"},
+
+      {action: createPermissions, resource: "fees"},
+      {action: createPermissions, resource: "payments"},
+
+      {action: updatePermissions, resource: "events"},
+      {action: updatePermissions, resource: "event-participants"},
+    ],
     MANAGER: [
       {action: "read", resource: "profile", record: {id: whoamiId}},
       {action: updatePermissions, resource: "students"},

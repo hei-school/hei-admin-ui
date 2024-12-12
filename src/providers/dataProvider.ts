@@ -21,7 +21,7 @@ import announcementProvider from "@/providers/announcementProvider";
 import courseProvider from "@/providers/courseProvider";
 import statsProvider from "@/providers/statsProvider";
 import heiDocsProvider from "@/providers/heiDocsProvider";
-import usersLettersProvider from "@/providers/UsersLettersProvider";
+import usersLettersProvider from "@/providers/usersLettersProvider";
 import lettersProvider from "@/providers/lettersProvider";
 import lettersStatsProvider from "./letterStatsProvider";
 import receiptProvider from "./receiptProvider";
@@ -33,6 +33,8 @@ import monitorProvider from "./monitorProvider";
 import exportPromotionProvider from "./exportPromotionProvider";
 import exportGroupProvider from "./exportGroupProvider";
 import feesExportProvider from "./feesExportProvider";
+import examsProvider from "./examProvider";
+import staffProvider from "./staffProvider";
 
 import attendanceProvider from "@/providers/attendanceProvider";
 export const MAX_ITEM_PER_PAGE = 500;
@@ -69,6 +71,8 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "group-export") return exportGroupProvider;
   if (resourceType === "fees-export") return feesExportProvider;
   if (resourceType === "attendance") return attendanceProvider;
+  if (resourceType === "exams") return examsProvider;
+  if (resourceType === "staffmembers") return staffProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 

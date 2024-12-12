@@ -12,11 +12,10 @@ describe("Mobile payment by student", () => {
   });
 
   it("can list fees transactions", () => {
-    cy.intercept(
-      "GET",
-      `/fees?page=1&page_size=10&isMpbs=true`,
-      feesMpbsMock
-    ).as("getFees");
+    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
+      data: feesMpbsMock,
+      statistics: {},
+    }).as("getFees");
 
     cy.get(`[href="#/transactions"]`).click();
 
@@ -27,9 +26,9 @@ describe("Mobile payment by student", () => {
   });
 
   it("shows success status icon when the status is SUCCESS", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, [
-      succeedMpbs1,
-    ]).as("getFees");
+    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
+      data: [succeedMpbs1],
+    }).as("getFees");
 
     cy.get(`[href="#/transactions"]`).click();
 
@@ -41,9 +40,9 @@ describe("Mobile payment by student", () => {
   });
 
   it("shows pending status icon when the status is PENDING", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, [
-      pendingMpbs,
-    ]).as("getFees");
+    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
+      data: [pendingMpbs],
+    }).as("getFees");
 
     cy.get(`[href="#/transactions"]`).click();
 
@@ -55,9 +54,9 @@ describe("Mobile payment by student", () => {
   });
 
   it("shows failed status icon when the status is FAILED", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, [
-      failedMpbs,
-    ]).as("getFees");
+    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
+      data: [failedMpbs],
+    }).as("getFees");
 
     cy.get(`[href="#/transactions"]`).click();
 

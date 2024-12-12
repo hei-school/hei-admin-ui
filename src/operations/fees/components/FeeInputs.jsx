@@ -12,7 +12,7 @@ import {
 import {useFormContext} from "react-hook-form";
 import {SelectDueDatetime} from "./SelectDueDatetime";
 import {SelectPredefinedType} from "./SelectPredefinedType";
-import {FEESTEMPLATES_CHOICES} from "../feesTemplatesChoices";
+import {FEESTEMPLATES_CHOICES} from "../constants";
 
 export function FeeInputs() {
   const {reset, getValues} = useFormContext();

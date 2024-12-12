@@ -14,7 +14,7 @@ import {useRole} from "@/security/hooks";
 export const EventCalendar = () => {
   const [currentEvent, setCurrentEvent] = useState<Event>();
   const [editShow, _, toggleEdit] = useToggle();
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
   const [anchor, setAnchor] = useState<PopoverPosition & {open: boolean}>({
     top: 0,
     left: 0,
@@ -66,8 +66,8 @@ export const EventCalendar = () => {
           title: "Création d'un événement",
         }}
         CalendarProps={{
-          selectable: isManager(),
-          editable: isManager(),
+          selectable: isManager() || isAdmin(),
+          editable: isManager() || isAdmin(),
           getFilterValueFromInterval: (dateInfo) => {
             setFilter({from: dateInfo?.startStr, to: dateInfo?.endStr});
             return {};
@@ -130,7 +130,7 @@ type ActionProps = {
 };
 
 const EventAction = ({event, toggleEdit}: ActionProps) => {
-  const {isManager} = useRole();
+  const {isManager, isAdmin} = useRole();
   return (
     <Box
       sx={{
@@ -143,7 +143,7 @@ const EventAction = ({event, toggleEdit}: ActionProps) => {
       }}
     >
       <Box fontWeight="bold">{event?.title}</Box>
-      {isManager() && (
+      {(isAdmin() || isManager()) && (
         <Button
           size="small"
           variant="contained"

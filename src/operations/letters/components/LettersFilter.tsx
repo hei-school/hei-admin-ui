@@ -1,18 +1,20 @@
 import {FC} from "react";
 import {FilterForm, TextFilter, SelectInputFilter} from "@/ui/haToolbar";
-import {LetterStatus} from "@haapi/typescript-client";
+import {LetterStatus, RoleParamEnum} from "@haapi/typescript-client";
+import {useRole} from "@/security/hooks";
 
 export const LettersFilter: FC = () => {
+  const {isAdmin} = useRole();
   return (
     <FilterForm>
       <TextFilter label="Référence de l'utilisateur" source="student_ref" />
       <TextFilter
-        label="Référence Lettre"
+        label="Référence de la lettre"
         source="letter_ref"
         data-testid="filter-letter-ref"
       />
       <SelectInputFilter
-        label="Statut des Lettres"
+        label="Statut des lettres "
         data-testid="filter-letter-status"
         source="status"
         choices={[
@@ -35,6 +37,17 @@ export const LettersFilter: FC = () => {
           {id: null, name: "Aucun"},
         ]}
       />
+      {isAdmin() ? (
+        <SelectInputFilter
+          choices={[
+            {id: RoleParamEnum.TEACHER, name: "Enseignant(e)"},
+            {id: RoleParamEnum.STUDENT, name: "Étudiant(e)"},
+            {id: RoleParamEnum.STAFF_MEMBER, name: "Membre du staff"},
+          ]}
+          label="Utilisateurs"
+          source="role"
+        />
+      ) : null}
     </FilterForm>
   );
 };

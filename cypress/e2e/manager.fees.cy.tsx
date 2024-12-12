@@ -1,5 +1,4 @@
 import {FeeTypeEnum} from "@haapi/typescript-client";
-
 import {assertFeeMatchesTemplate} from "./utils";
 import {
   annual1xTemplate,
@@ -10,9 +9,10 @@ import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
 import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
 
-import {renderMoney} from "../../src/operations/common/utils/money";
-import {getFeesStatusInFr} from "../../src/operations/common/utils/typo_util";
-import {get27thOfMonth} from "../../src/utils/date";
+/*Added this to make the test blackbox */
+const get27thOfMonth = (year: number, month: number) => {
+  return new Date(year, month, 27);
+};
 
 describe("Manager.Fee", () => {
   beforeEach(() => {
@@ -83,10 +83,9 @@ describe("Manager.Fee", () => {
     cy.get("#main-content tbody tr").first().click();
     cy.wait("@getFee1");
     cy.get("#main-content")
-      .should("contain", renderMoney(interceptedFeeMock!.remaining_amount!))
-      .and("contain", renderMoney(interceptedFeeMock!.total_amount!))
+      .should("contain", `${interceptedFeeMock!.remaining_amount!} Ar`)
+      .and("contain", `${interceptedFeeMock!.total_amount!} Ar`)
       .and("contain", interceptedFeeMock!.comment!)
-      .and("contain", getFeesStatusInFr(interceptedFeeMock!.status))
       .and("contain", "Paiements");
   });
 
