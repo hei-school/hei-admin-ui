@@ -41,7 +41,7 @@ import {
 } from "../utils/userImportConf";
 import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {ListHeader} from "../common/components";
-import {transformStudentData} from "./importConf";
+import {transformUsersData} from "./importConf";
 import {NOOP_ID} from "@/utils/constants";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
 import studentProvider from "@/providers/studentProvider";
@@ -84,7 +84,7 @@ const ListActions = () => {
                 },
               });
             }}
-            transformData={transformStudentData}
+            transformData={transformUsersData}
             minimalHeaders={minimalUserHeaders}
             optionalHeaders={optionalUserHeaders}
           />
