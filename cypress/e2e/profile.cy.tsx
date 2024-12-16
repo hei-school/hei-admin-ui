@@ -29,7 +29,7 @@ describe("Profil test", () => {
       .click()
       .type(editedManager1.coordinates.latitude!.toString());
 
-    cy.intercept("PUT", `/managers/${manager1Mock.id}`, editedManager1).as(
+    cy.intercept("PUT", `*/managers/${manager1Mock.id}`, editedManager1).as(
       "modifyProfile"
     );
 

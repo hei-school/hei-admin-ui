@@ -13,22 +13,22 @@ describe("Student receipt", () => {
     cy.login({role: "STUDENT"});
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees?page=1&page_size=10`,
       feesMock
     ).as("getfees");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}`,
+      `*/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}`,
       interceptedFeeMock
     ).as("getFee1");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
       createPaymentMock(interceptedFeeMock!)
     ).as("getPaymentsOfOneFee");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
+      `*/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
       {fixture: "/students/reçu.pdf"}
     ).as("downloadReceipt");
   });
@@ -50,35 +50,35 @@ describe("Manager receipt", () => {
       (fee) => fee.remaining_amount === fee1Mock.remaining_amount
     );
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByFirstName");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees?page=1&page_size=10`,
       feesMock
     ).as("getFees");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}`,
+      `*/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}`,
       interceptedFeeMock
     ).as("getFee1");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
       createPaymentMock(interceptedFeeMock!)
     ).as("getPaymentsOfOneFee");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
+      `*/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
       {fixture: "/students/reçu.pdf"}
     ).as("downloadReceipt");
   });

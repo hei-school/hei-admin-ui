@@ -5,7 +5,7 @@ describe("Student Ceritificate", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/scholarship_certificate/raw`,
+      `*/students/${student1Mock.id}/scholarship_certificate/raw`,
       {fixture: "/students/certificate.pdf"}
     ).as("downloadCertificate");
   });
@@ -14,7 +14,7 @@ describe("Student Ceritificate", () => {
     cy.login({role: "STUDENT"});
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/scholarship_certificate/raw`,
+      `*/students/${student1Mock.id}/scholarship_certificate/raw`,
       new Blob()
     ).as("downloadCertificate");
 
@@ -36,20 +36,20 @@ describe("Student Ceritificate", () => {
 
   it("manager can get student's certificate", () => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10?first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10?first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getFilteredStudent");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/scholarship_certificate/raw`,
+      `*/students/${student1Mock.id}/scholarship_certificate/raw`,
       {fixture: "/students/certificate.pdf"}
     ).as("downloadCertificate");
 

@@ -9,13 +9,13 @@ describe("Teacher course", () => {
     cy.login({role: "TEACHER"});
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/letters?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/letters?page=1&page_size=10`,
       student1LettersMocks.slice(0, 10)
     ).as("getStudent1LettersPage1");
     cy.getByTestid("course-menu").click();
     cy.intercept(
       "GET",
-      `/awarded_courses?teacher_id=${teacher1Mock.id}&page=1&page_size=10`,
+      `*/awarded_courses?teacher_id=${teacher1Mock.id}&page=1&page_size=10`,
       [awardedCourse1Mock]
     ).as("getTeacherAwardedCourse");
   });

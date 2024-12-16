@@ -15,10 +15,10 @@ const createPayment = createPaymentWithAmountMock(amount);
 describe("Manager.Payment", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
     cy.intercept(
@@ -26,27 +26,27 @@ describe("Manager.Payment", () => {
       `students?page=1&page_size=10&ref=${student1Mock.ref}`,
       [student1Mock]
     ).as("getStudents");
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees?page=1&page_size=10`,
       feesMock
     ).as("getfees");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
+      `*/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
       unpaidFeeMock
     ).as("getUnpaidFee");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`,
       []
     ).as("getPaymentOfUnpaidFee");
     cy.intercept(
       "POST",
-      `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments`,
+      `*/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments`,
       [payment1Mock]
     ).as("addPayments");
     cy.getByTestid("students-menu").click(); // Étudiants category
@@ -64,12 +64,12 @@ describe("Manager.Payment", () => {
     cy.getByTestid("AddIcon").click();
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`,
       [createPayment]
     ).as("getPayment");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
+      `*/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
       UpdateFeeWithPaymentMock(unpaidFeeMock, createPayment)
     ).as("getFee");
   });

@@ -13,21 +13,21 @@ import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Manager.Transcript.Docs", () => {
   beforeEach(() => {
-    cy.intercept("GET", `/students?*`, studentsMock);
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `*/students?*`, studentsMock);
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
+      `*/students/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
       transcriptsMock
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files/${transcript1.id}`,
+      `*/students/${student1Mock.id}/files/${transcript1.id}`,
       transcript1
     );
     cy.intercept(
       "POST",
-      `/students/${student1Mock.id}/files/raw?file_type=TRANSCRIPT&filename=${newTranscript.name}`,
+      `*/students/${student1Mock.id}/files/raw?file_type=TRANSCRIPT&filename=${newTranscript.name}`,
       newTranscript
     );
 
@@ -67,21 +67,21 @@ describe("Manager.Transcript.Docs", () => {
 
 describe("Manager.Work.Docs", () => {
   beforeEach(() => {
-    cy.intercept("GET", `/students?*`, studentsMock);
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `*/students?*`, studentsMock);
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/work_files?*`,
+      `*/students/${student1Mock.id}/work_files?*`,
       workDocsMocks
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/work_files/${workDoc1.id}`,
+      `*/students/${student1Mock.id}/work_files/${workDoc1.id}`,
       workDoc1
     );
     cy.intercept(
       "POST",
-      `/students/${student1Mock.id}/work_files/raw?*`,
+      `*/students/${student1Mock.id}/work_files/raw?*`,
       newWorkerDoc
     );
 
@@ -110,7 +110,7 @@ describe("Manager.Work.Docs", () => {
     cy.contains("Afficher");
   });
 
-  it.only("can create a student worker doc", () => {
+  it("can create a student worker doc", () => {
     cy.get(
       '[href="#/students/student1_id/docs/students/WORK_DOCUMENT"]'
     ).click();
@@ -129,21 +129,21 @@ describe("Manager.Work.Docs", () => {
 
 describe("Manager.Other.Docs", () => {
   beforeEach(() => {
-    cy.intercept("GET", `/students?*`, studentsMock);
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `*/students?*`, studentsMock);
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files?file_type=OTHER*`,
+      `*/students/${student1Mock.id}/files?file_type=OTHER*`,
       otherDocsMocks
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/files/${otherDoc1.id}`,
+      `*/students/${student1Mock.id}/files/${otherDoc1.id}`,
       otherDoc1
     );
     cy.intercept(
       "POST",
-      `/students/${student1Mock.id}/files/raw?file_type=OTHER&filename=${newOtherrDoc.name}`,
+      `*/students/${student1Mock.id}/files/raw?file_type=OTHER&filename=${newOtherrDoc.name}`,
       newOtherrDoc
     );
 

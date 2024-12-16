@@ -12,7 +12,7 @@ import {studentsMock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Manager.Group", () => {
   beforeEach(() => {
-    cy.intercept("GET", "/groups?*", groupsMock);
+    cy.intercept("GET", "*/groups?*", groupsMock);
 
     cy.login({role: "MANAGER"});
 
@@ -31,10 +31,14 @@ describe("Manager.Group", () => {
   });
 
   it("can create a group", () => {
-    cy.intercept("GET", `/students?*`, studentsMock);
-    cy.intercept("GET", `/groups/${groupCreate.id}/students?*`, group1Students);
-    cy.intercept("PUT", "/groups", [groupCreate]);
-    cy.intercept("GET", `/groups/${groupCreate.id}`, groupCreate);
+    cy.intercept("GET", `*/students?*`, studentsMock);
+    cy.intercept(
+      "GET",
+      `*/groups/${groupCreate.id}/students?*`,
+      group1Students
+    );
+    cy.intercept("PUT", "*/groups", [groupCreate]);
+    cy.intercept("GET", `*/groups/${groupCreate.id}`, groupCreate);
 
     cy.contains("Créer").click();
     cy.get("#ref").click().type(groupCreate?.ref!);
@@ -55,9 +59,9 @@ describe("Manager.Group", () => {
   });
 
   it("can detail a group with its students", () => {
-    cy.intercept("GET", `/groups/${group1Mock.id}`, group1Mock);
-    cy.intercept("GET", `/groups/${group1Mock.id}/students?*`, group1Students);
-    cy.intercept("GET", `/students?*`, studentsMock);
+    cy.intercept("GET", `*/groups/${group1Mock.id}`, group1Mock);
+    cy.intercept("GET", `*/groups/${group1Mock.id}/students?*`, group1Students);
+    cy.intercept("GET", `*/students?*`, studentsMock);
 
     cy.contains(group1Mock.name).click();
 
@@ -66,12 +70,12 @@ describe("Manager.Group", () => {
   });
 
   it("can remove a student from a group", () => {
-    cy.intercept("GET", `/groups/${group1Mock.id}`, group1Mock);
-    cy.intercept("GET", `/groups/${group1Mock.id}/students?*`, group1Students);
-    cy.intercept("GET", `/students?*`, studentsMock);
+    cy.intercept("GET", `*/groups/${group1Mock.id}`, group1Mock);
+    cy.intercept("GET", `*/groups/${group1Mock.id}/students?*`, group1Students);
+    cy.intercept("GET", `*/students?*`, studentsMock);
     cy.intercept(
       "POST",
-      `/students/${group1Student1Mock.id}/group_flows`,
+      `*/students/${group1Student1Mock.id}/group_flows`,
       leaveGroupFlow
     );
 
@@ -84,12 +88,12 @@ describe("Manager.Group", () => {
   });
 
   it("can move a student to another group", () => {
-    cy.intercept("GET", `/groups/${group1Mock.id}`, group1Mock);
-    cy.intercept("GET", `/groups/${group1Mock.id}/students?*`, group1Students);
-    cy.intercept("GET", `/students?*`, studentsMock);
+    cy.intercept("GET", `*/groups/${group1Mock.id}`, group1Mock);
+    cy.intercept("GET", `*/groups/${group1Mock.id}/students?*`, group1Students);
+    cy.intercept("GET", `*/students?*`, studentsMock);
     cy.intercept(
       "POST",
-      `/students/${group1Student1Mock.id}/group_flows`,
+      `*/students/${group1Student1Mock.id}/group_flows`,
       moveGroupFlow
     );
 

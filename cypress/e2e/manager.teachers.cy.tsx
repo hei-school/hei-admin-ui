@@ -9,13 +9,13 @@ describe("Manager.Teachers", () => {
       /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/,
       [teacher1Mock]
     ).as("getFilters");
-    cy.intercept("GET", `/teachers/${teacher1Mock.id}`, teacher1Mock).as(
+    cy.intercept("GET", `*/teachers/${teacher1Mock.id}`, teacher1Mock).as(
       "getTeachers1"
     );
     cy.intercept("GET", "**/teachers?page=1&page_size=10", teachersMock).as(
       "getTeachers"
     );
-    cy.intercept("PUT", `/teachers/${teacher1Mock.id}`, updatedInfo).as(
+    cy.intercept("PUT", `*/teachers/${teacher1Mock.id}`, updatedInfo).as(
       "putUpdate"
     );
     cy.get('[href="#/teachers"]').click();
@@ -77,7 +77,7 @@ describe("Manager.Teachers", () => {
     cy.wait("@getTeachers1");
     cy.get("#last_name").clear().type(updatedInfo.last_name);
     cy.getByTestid("SaveIcon").click();
-    cy.intercept("GET", `/teachers/${teachersMock[0].id}`, updatedInfo).as(
+    cy.intercept("GET", `*/teachers/${teachersMock[0].id}`, updatedInfo).as(
       "getTeachers1"
     );
     cy.wait("@putUpdate");
