@@ -14,6 +14,7 @@ import {
   SupervisedUserCircle as MonitorIcon,
   GradeOutlined as GradeIcon,
   LibraryBooksOutlined as LibraryIcon,
+  ListAlt as AttendanceIcon,
   AssignmentInd as StaffIcon,
 } from "@mui/icons-material";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
