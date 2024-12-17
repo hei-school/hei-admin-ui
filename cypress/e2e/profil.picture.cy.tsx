@@ -35,12 +35,12 @@ describe("Profile picture test", () => {
     );
     cy.intercept(
       "POST",
-      `/managers/${updatedManager().id}/picture/raw`,
+      `*/managers/${updatedManager().id}/picture/raw`,
       updatedManager()
     ).as("getManager");
     cy.intercept(
       "GET",
-      `/managers/${updatedManager().id}`,
+      `*/managers/${updatedManager().id}`,
       updatedManager()
     ).as("getManager");
 

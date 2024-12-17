@@ -21,10 +21,10 @@ const testLettersFunctionality = (
 
     cy.intercept(
       "GET",
-      `/users/${userId}/letters?page=1&page_size=10`,
+      `*/users/${userId}/letters?page=1&page_size=10`,
       letterMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage1");
-    cy.intercept("POST", `/users/${userId}/letters?*`, newLetter).as(
+    cy.intercept("POST", `*/users/${userId}/letters?*`, newLetter).as(
       "createLetter"
     );
   });
@@ -63,15 +63,15 @@ describe("Teacher.Letters", () => {
 describe("Manager.Letters.student", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByName");
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
 
     cy.getByTestid("students-menu").click();
     cy.get('a[href="#/students"]').click();
@@ -91,7 +91,7 @@ describe("Manager.Letters.student", () => {
   it("manager can list student letter", () => {
     cy.intercept(
       "GET",
-      `/users/${student1Mock.id}/letters?page=1&page_size=10`,
+      `*/users/${student1Mock.id}/letters?page=1&page_size=10`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage1");
     cy.getByTestid("letters-list-tab").click();
@@ -102,7 +102,7 @@ describe("Manager.Letters.student", () => {
   });
 
   it("manager can create letters for student", () => {
-    cy.intercept("POST", `/users/${student1Mock.id}/letters?*`, newLetter).as(
+    cy.intercept("POST", `*/users/${student1Mock.id}/letters?*`, newLetter).as(
       "createLetter"
     );
     cy.getByTestid("letters-list-tab").click();

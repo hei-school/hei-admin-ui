@@ -11,19 +11,19 @@ const _path = "cypress/fixtures/students_import";
 describe("Manager create multiple students", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
+      `*/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
       [student1Mock]
     ).as("getStudentsByName");
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
-    cy.intercept("GET", `students/letters/stats`, {}).as("getStats");
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `*/students/letters/stats`, {}).as("getStats");
     cy.wait("@getWhoami", {timeout: 10000});
     cy.wait("@getStats");
     cy.getByTestid("students-menu").click();
@@ -55,7 +55,7 @@ describe("Manager create multiple students", () => {
   });
 
   it("can create multiple students with the correct file", () => {
-    cy.intercept("PUT", "/students?*", [createdStudents]).as("createStudents");
+    cy.intercept("PUT", "*/students?*", [createdStudents]).as("createStudents");
     importFile(
       "correct_students_template.xlsx",
       "Importation effectuée avec succès",
@@ -65,7 +65,7 @@ describe("Manager create multiple students", () => {
   });
 
   it("can create multiple students with the correct file and minimum infos", () => {
-    cy.intercept("PUT", "/students?*", [liteCreatedStudents]).as(
+    cy.intercept("PUT", "*/students?*", [liteCreatedStudents]).as(
       "createStudents"
     );
     importFile(
@@ -77,7 +77,7 @@ describe("Manager create multiple students", () => {
   });
 
   it("notifies if the multiple students creation failed", () => {
-    cy.intercept("PUT", "/students", {
+    cy.intercept("PUT", "*/students", {
       statusCode: 500,
       body: {
         message: "error",

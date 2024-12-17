@@ -8,10 +8,10 @@ describe("Student announcements", () => {
   beforeEach(() => {
     cy.login({role: "STUDENT"});
 
-    cy.intercept("POST", `/announcements`, createdAnnouncement);
+    cy.intercept("POST", `*/announcements`, createdAnnouncement);
     cy.intercept(
       "GET",
-      `/students/announcements?page=1&page_size=10`,
+      `*/students/announcements?page=1&page_size=10`,
       announcementsMock
     ).as("getAnnouncements");
 

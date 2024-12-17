@@ -12,7 +12,7 @@ describe("Student.Comments", () => {
     cy.login({role: "STUDENT"});
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/comments?page=2&page_size=10`,
+      `*/students/${student1Mock.id}/comments?page=2&page_size=10`,
       student1CommentMocks.slice(ITEM_PER_LIST)
     ).as("getStudent1CommentsPage2");
   });
@@ -20,7 +20,7 @@ describe("Student.Comments", () => {
   it("student can list his comments", () => {
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/comments?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/comments?page=1&page_size=10`,
       student1CommentMocks.slice(0, ITEM_PER_LIST)
     ).as("getStudent1CommentsPage1");
     cy.contains("Commentaires").click();
@@ -36,7 +36,7 @@ describe("Student.Comments", () => {
   it("student view empty list of comments", () => {
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/comments?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/comments?page=1&page_size=10`,
       []
     ).as("getEmptyComments");
     cy.contains("Commentaires").click();
@@ -52,7 +52,7 @@ describe("Global.Comments", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      `/comments?page=1&page_size=10`,
+      `*/comments?page=1&page_size=10`,
       commentMocks.slice(0, ITEM_PER_LIST2)
     ).as("getCommentsPage1");
   });

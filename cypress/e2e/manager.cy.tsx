@@ -23,26 +23,26 @@ updatedStudent.first_name = newLastname;
 describe("Manager", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByName");
-    cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
-    cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=2&page_size=10`, teachersMock).as(
       "getTeachersPage2"
     );
     cy.intercept(
       "GET",
-      `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
+      `*/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
     ).as("getTeacherByName");
   });

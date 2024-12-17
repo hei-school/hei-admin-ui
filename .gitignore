@@ -52,3 +52,5 @@ amplifytools.xcconfig
 src/aws-exports.js
 cypress/downloads/*.pdf
 cypress/screenshots/*
+
+.env

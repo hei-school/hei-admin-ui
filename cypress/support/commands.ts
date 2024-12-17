@@ -60,7 +60,9 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     role,
   };
 
-  cy.intercept(`**/${role.toLowerCase()}s/${user.id}`, user).as("getProfile");
+  cy.intercept("GET", `**/${role.toLowerCase()}s/${user.id}`, user).as(
+    "getProfile"
+  );
   cy.intercept("**/health/db", "OK").as("getHealthDb");
   cy.intercept("POST", "https://cognito-idp.eu-west-3.amazonaws.com").as(
     "postCognito"
