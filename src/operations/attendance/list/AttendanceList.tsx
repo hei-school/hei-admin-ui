@@ -1,7 +1,7 @@
 import {FunctionField, TextField} from "react-admin";
 import {QrCodeScanner, Add, ListAlt} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {formatDate} from "../utils";
+import {formatDate} from "./utils";
 import {LinkButton, AttendanceFilters} from ".";
 import {HaList} from "@/ui/haList";
 import {StudentAttendance} from "@haapi/typescript-client";

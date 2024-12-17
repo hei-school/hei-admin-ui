@@ -145,7 +145,7 @@ const ConfirmDialog: FC<ConfirmProps> = ({
             <strong>Nom:</strong> {dialogData?.last_name}
           </li>
           <li>
-            <strong>Préom:</strong> {dialogData?.first_name}
+            <strong>Prénom:</strong> {dialogData?.first_name}
           </li>
           <li>
             <strong>Référence:</strong> {dialogData?.ref}
