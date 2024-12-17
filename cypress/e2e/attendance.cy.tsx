@@ -38,7 +38,7 @@ describe("Attendance", () => {
 
     cy.contains("button", "Arriver").click();
     cy.wait("@CreateAttendanceMovement");
-    cy.contains("Création réussie !").should("be.visible");
+    cy.contains("Présence réussie !").should("be.visible");
     cy.wait("@getPresencePage1");
 
     navigateToAttendancePage();
@@ -51,7 +51,7 @@ describe("Attendance", () => {
 
     cy.contains("button", "Sortie").click();
     cy.wait("@CreateAttendanceMovement");
-    cy.contains("Création réussie !").should("be.visible");
+    cy.contains("Présence réussie !").should("be.visible");
     cy.wait("@getPresencePage1");
 
     navigateToAttendancePage();
