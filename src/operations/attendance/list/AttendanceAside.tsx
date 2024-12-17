@@ -1,4 +1,3 @@
-import React from "react";
 import {AssignmentTurnedIn} from "@mui/icons-material";
 import {FilterList, FilterLiveSearch, SavedQueriesList} from "react-admin";
 import {AttendanceStatus} from "@haapi/typescript-client";
@@ -17,17 +16,17 @@ export const AttendanceAside = () => {
         <SavedQueriesList />
         <FilterList label="Status" icon={<AssignmentTurnedIn />}>
           <FilterListItem
-            type="attendance_statuses"
+            source="attendance_statuses"
             label="Présent"
             value={AttendanceStatus.PRESENT}
           />
           <FilterListItem
-            type="attendance_statuses"
+            source="attendance_statuses"
             label="En retard"
             value={AttendanceStatus.LATE}
           />
           <FilterListItem
-            type="attendance_statuses"
+            source="attendance_statuses"
             label="Absent"
             value={AttendanceStatus.MISSING}
           />

@@ -6,24 +6,30 @@ import {
   ListItemSecondaryAction,
 } from "@mui/material";
 import {Cancel} from "@mui/icons-material";
-import {useEffect, useState} from "react";
+import {FC, useEffect, useState} from "react";
 
-export const FilterListItem = ({label, value, type}) => {
-  const {filterValues, setFilters} = useListFilterContext();
-  const [values, setValues] = useState(filterValues[type] || []);
+type FilterProps = {
+  label: string;
+  value: string;
+  source: string;
+};
+
+export const FilterListItem: FC<FilterProps> = ({label, value, source}) => {
+  const {filterValues, setFilters, displayedFilters} = useListFilterContext();
+  const [values, setValues] = useState(filterValues[source] || []);
 
   useEffect(() => {
-    filterValues[type] !== values && setValues(filterValues[type] || []);
-  }, [filterValues[type]]);
+    filterValues[source] !== values && setValues(filterValues[source] || []);
+  }, [filterValues[source]]);
 
   const isSelected = () => values.indexOf(value) !== -1;
   const toggleFilter = () => {
-    const newFilter = !isSelected(value)
+    const newFilter = !isSelected()
       ? [...values, value]
       : [...values].filter((el) => el !== value);
 
     setValues(newFilter);
-    setFilters({...filterValues, [type]: newFilter});
+    setFilters({...filterValues, [source]: newFilter}, displayedFilters);
   };
 
   return (
