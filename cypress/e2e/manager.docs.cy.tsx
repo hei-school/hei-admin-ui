@@ -17,7 +17,7 @@ describe("Manager.Transcript.Docs", () => {
     cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
     cy.intercept(
       "GET",
-      `*/students/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
+      `*/users/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
       transcriptsMock
     );
     cy.intercept(
@@ -27,7 +27,7 @@ describe("Manager.Transcript.Docs", () => {
     );
     cy.intercept(
       "POST",
-      `*/students/${student1Mock.id}/files/raw?file_type=TRANSCRIPT&filename=${newTranscript.name}`,
+      `*/users/${student1Mock.id}/files/raw?file_type=TRANSCRIPT&filename=${newTranscript.name}`,
       newTranscript
     );
 
@@ -133,17 +133,17 @@ describe("Manager.Other.Docs", () => {
     cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
     cy.intercept(
       "GET",
-      `*/students/${student1Mock.id}/files?file_type=OTHER*`,
+      `*/users/${student1Mock.id}/files?file_type=OTHER*`,
       otherDocsMocks
     );
     cy.intercept(
       "GET",
-      `*/students/${student1Mock.id}/files/${otherDoc1.id}`,
+      `*/users/${student1Mock.id}/files/${otherDoc1.id}`,
       otherDoc1
     );
     cy.intercept(
       "POST",
-      `*/students/${student1Mock.id}/files/raw?file_type=OTHER&filename=${newOtherrDoc.name}`,
+      `*/users/${student1Mock.id}/files/raw?file_type=OTHER&filename=${newOtherrDoc.name}`,
       newOtherrDoc
     );
 
