@@ -26,26 +26,26 @@ const importFile = ({file, message, middleware}: ImportArgs) => {
 describe("Manager import fees for one students", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByFirstName");
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
     cy.intercept("GET", `students/letters/stats`, statsMocks).as("getStats");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees?page=1&page_size=10`,
       feesMock
     ).as("getStudent1Fees");
 
     cy.wait("@getWhoami", {timeout: 10000});
-    cy.intercept("GET", `/manager/${manager1Mock.id}`, manager1Mock).as(
+    cy.intercept("GET", `*/manager/${manager1Mock.id}`, manager1Mock).as(
       "getManager1"
     );
     cy.getByTestid("students-menu").click();
@@ -94,7 +94,7 @@ describe("Manager import fees for one students", () => {
   });
 
   it("notifies if the multiple students creation failed", () => {
-    cy.intercept("PUT", `/fees`, [feesMock]).as("createFees");
+    cy.intercept("PUT", `*/fees`, [feesMock]).as("createFees");
     importFile({
       file: "valid_fees_template.xlsx",
       message: "Importation effectuée avec succès",

@@ -10,30 +10,32 @@ import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
 describe("Manager.event", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/events*`, eventsMock).as("getEventsPage1");
-    cy.intercept("GET", `/events/${event1mock.id}`, event1mock);
-    cy.intercept("PUT", `/events/${event1mock.id}`, {
+    cy.intercept("GET", `*/events*`, eventsMock).as("getEventsPage1");
+    cy.intercept("GET", `*/events/${event1mock.id}`, event1mock);
+    cy.intercept("PUT", `*/events/${event1mock.id}`, {
       ...event1mock,
       title: "Change title",
     });
     cy.intercept(
       "GET",
-      `/events/${event1mock.id}/participants?page=1&page_size=10`,
+      `*/events/${event1mock.id}/participants?page=1&page_size=10`,
       eventParticipantsMock
     ).as("getEventParticipantPage1");
     cy.intercept(
       "PUT",
-      `/events/${event1mock.id}/participants`,
+      `*/events/${event1mock.id}/participants`,
       eventParticipantsMock
     ).as("saveEventParticipant");
-    cy.intercept("GET", `/events/${event1mock.id}`, event1mock).as("getEvent1");
-    cy.intercept("GET", "/groups?page=1&page_size=499", groupsMock).as(
+    cy.intercept("GET", `*/events/${event1mock.id}`, event1mock).as(
+      "getEvent1"
+    );
+    cy.intercept("GET", "*/groups?page=1&page_size=499", groupsMock).as(
       "getGroups"
     );
-    cy.intercept("GET", "/courses?page=1&page_size=499", courseMocks).as(
+    cy.intercept("GET", "*/courses?page=1&page_size=499", courseMocks).as(
       "getCourses"
     );
-    cy.intercept("PUT", "/events", eventsMock);
+    cy.intercept("PUT", "*/events", eventsMock);
     cy.visit("/events");
   });
 

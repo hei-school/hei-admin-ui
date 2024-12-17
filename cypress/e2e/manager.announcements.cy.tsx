@@ -9,10 +9,10 @@ describe("Manager announcements", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
 
-    cy.intercept("POST", `/announcements`, createdAnnouncement);
+    cy.intercept("POST", `*/announcements`, createdAnnouncement);
     cy.intercept(
       "GET",
-      `/announcements?page=1&page_size=10`,
+      `*/announcements?page=1&page_size=10`,
       announcementsMock
     ).as("getAnnouncements");
 
@@ -42,7 +42,7 @@ describe("Manager announcements", () => {
 
     cy.intercept(
       "GET",
-      `/announcements/${createdAnnouncement.id}`,
+      `*/announcements/${createdAnnouncement.id}`,
       createdAnnouncement
     );
 

@@ -5,6 +5,7 @@ export const FEE_STATUS = {
   LATE: "En retard",
   PAID: "Payés",
   UNPAID: "En cours",
+  PENDING: "En cours de vérification",
 } as const;
 
 export const MPBS_STATUS_LABEL = {

@@ -18,34 +18,34 @@ describe("Manager.Fee", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      `/fees/templates?page=1&page_size=25`,
+      `*/fees/templates?page=1&page_size=25`,
       feesTemplatesMocks
     ).as("getFeesTemplates");
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByName");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`,
       []
     ).as("getPayments");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees?page=1&page_size=10`,
       feesMock
     ).as("getFees");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
+      `*/students/${student1Mock.id}/fees/${fee1Mock.id}`,
       fee1Mock
     ).as("getFee1");
-    cy.intercept("PUT", `/fees`, feesMock).as("createFees");
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("PUT", `*/fees`, feesMock).as("createFees");
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
 
     cy.login({role: "MANAGER"});
     cy.getByTestid("students-menu").click();
@@ -70,12 +70,12 @@ describe("Manager.Fee", () => {
     );
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}`,
+      `*/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}`,
       interceptedFeeMock
     ).as("getFee1");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
+      `*/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
       createPaymentMock(interceptedFeeMock!)
     ).as("getPaymentsOfOneFee");
     cy.get('[data-testid="fees-list-tab"]').click();
@@ -103,7 +103,7 @@ describe("Manager.Fee", () => {
   });
 
   it("can create fees with predefined fields equals to 1 month", () => {
-    cy.intercept("PUT", `/fees*`, feesMock).as("createFees");
+    cy.intercept("PUT", `*/fees*`, feesMock).as("createFees");
     cy.get('[data-testid="fees-list-tab"]').click();
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();

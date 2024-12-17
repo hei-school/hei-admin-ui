@@ -17,10 +17,10 @@ let createdStudent = {
 describe("Notifications on error when create, e.g: StudentCreate", () => {
   it("notifies when there is error", () => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
     cy.intercept("GET", `students/${createdStudent.id}`, createdStudent).as(
@@ -28,18 +28,18 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
+      `*/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
       [student1Mock]
     ).as("getStudentsByName");
-    cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
-    cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=2&page_size=10`, teachersMock).as(
       "getTeachersPage2"
     );
     cy.intercept(
       "GET",
-      `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
+      `*/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
     ).as("getTeacherByName");
 
@@ -64,7 +64,7 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
     cy.get("#entrance_datetime")
       .click()
       .type(createStudent.entrance_datetime.toISOString().slice(0, 10));
-    cy.intercept("PUT", "/students", {
+    cy.intercept("PUT", "*/students", {
       statusCode: 500,
       body: {
         message: "error",
@@ -77,7 +77,7 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
 describe("Notifications on error when edit, e.g: TeacherEdit", () => {
   it("notifies when there is error", () => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", "/teachers?page=1&page_size=10", teachersMock).as(
+    cy.intercept("GET", "*/teachers?page=1&page_size=10", teachersMock).as(
       "getTeachers"
     );
     cy.intercept(
@@ -85,7 +85,7 @@ describe("Notifications on error when edit, e.g: TeacherEdit", () => {
       /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/,
       [teacher1Mock]
     ).as("getFilters");
-    cy.intercept("GET", `/teachers/${teachersMock[0].id}`, teachersMock[0]).as(
+    cy.intercept("GET", `*/teachers/${teachersMock[0].id}`, teachersMock[0]).as(
       "getTeachers1"
     );
 
@@ -96,7 +96,7 @@ describe("Notifications on error when edit, e.g: TeacherEdit", () => {
     );
     cy.get("@editButton").click();
     cy.wait("@getTeachers1");
-    cy.intercept("PUT", "/teachers", {
+    cy.intercept("PUT", "*/teachers", {
       statusCode: 500,
       body: {
         message: "error",
