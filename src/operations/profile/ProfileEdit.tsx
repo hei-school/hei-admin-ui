@@ -12,18 +12,20 @@ import {toUTC} from "../../utils/date";
 const userToUserApi = ({
   birth_date,
   entrance_datetime,
-  ending_service,
   coordinates = {},
   ...data
 }: User & Required<Student>["coordinates"] & Required<StaffMember>) => {
   const {latitude, longitude} = coordinates;
+  const {isStaffMember} = useRole();
+
+  if (isStaffMember() && data.ending_service) {
+    data.ending_service = toUTC(new Date(data.ending_service!));
+  }
+
   return {
     ...data,
     birth_date: toUTC(new Date(birth_date!)).toISOString(),
     entrance_datetime: toUTC(new Date(entrance_datetime!)).toISOString(),
-    ending_service: ending_service
-      ? toUTC(new Date(ending_service!)).toISOString()
-      : null,
     coordinates: {latitude: +latitude!, longitude: +longitude!},
   };
 };
