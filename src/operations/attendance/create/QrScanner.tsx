@@ -1,7 +1,7 @@
 import {styled} from "@mui/material";
 import {Html5QrcodeScanType, Html5QrcodeScanner} from "html5-qrcode";
-import {qrcode} from "./config";
 import {UserIdentifier} from "@haapi/typescript-client";
+import {defaultQrScannerConfig} from "./utils";
 
 export const ScannerBox = styled("div")({
   "width": "100%",
@@ -32,10 +32,12 @@ export const ScannerBox = styled("div")({
 });
 
 export const createScanner = (onFind: (data: UserIdentifier) => void) => {
-  const currentConfig = qrcode.getConfig();
   const config = {
-    fps: currentConfig.fps,
-    qrbox: {width: currentConfig.box, height: currentConfig.box},
+    fps: defaultQrScannerConfig.fps,
+    qrbox: {
+      width: defaultQrScannerConfig.box,
+      height: defaultQrScannerConfig.box,
+    },
     rememberLastUsedCamera: true,
     supportedScanTypes: [Html5QrcodeScanType.SCAN_TYPE_CAMERA],
     videoConstraints: {
@@ -48,7 +50,7 @@ export const createScanner = (onFind: (data: UserIdentifier) => void) => {
   const resumeScan = () => {
     setTimeout(() => {
       scanner.resume();
-    }, currentConfig.pause * 1000);
+    }, defaultQrScannerConfig.pause * 1000);
   };
 
   const render = async (data: string) => {

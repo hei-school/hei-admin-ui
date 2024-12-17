@@ -13,10 +13,8 @@ import {
   Typography,
 } from "@mui/material";
 import {Add, Close, List as ListIcon} from "@mui/icons-material";
-import {QrPageConfig} from ".";
 import {AttendanceMovementType, UserIdentifier} from "@haapi/typescript-client";
 import {createScanner, ScannerBox} from "./QrScanner";
-import {qrcode} from "./config";
 import {useNavigate} from "react-router-dom";
 import {useNotify, useToggle} from "@/hooks";
 import {createAttendance} from "./utils";
@@ -26,11 +24,6 @@ import {LinkButton} from "../list";
 
 export const CreateByScan = () => {
   const [openDialog, , toggleOpenDialog] = useToggle();
-  const config = qrcode.getConfig();
-  const [currentConfig, setCurrentConfig] = useState({
-    type: config.type,
-    open: false,
-  });
   const [scanner, setScanner] = useState<Html5QrcodeScanner>();
   const [dialogData, setDialogData] = useState<UserIdentifier>();
 
@@ -94,12 +87,6 @@ export const CreateByScan = () => {
             right: 5,
           }}
         >
-          <QrPageConfig
-            open={currentConfig.open}
-            toggle={() =>
-              setCurrentConfig({...currentConfig, open: !currentConfig.open})
-            }
-          />
           <IconButton onClick={closeStream}>
             <Close
               sx={{

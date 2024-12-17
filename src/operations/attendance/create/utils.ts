@@ -1,6 +1,23 @@
 import attendanceProvider from "@/providers/attendanceProvider";
 import {AttendanceMovementType, PlaceEnum} from "@haapi/typescript-client";
 
+export const AvailablePlace = Object.entries(PlaceEnum).map((el) => ({
+  label: el[0],
+  value: el[1],
+}));
+
+type QrConfig = {[key: string]: any};
+
+export const defaultQrScannerConfig: QrConfig = {
+  pause: 2,
+  fps: 30,
+  box: 250,
+  send: 10,
+  interval: 10_000, //ms
+  type: AttendanceMovementType.IN,
+  place: PlaceEnum.ANDRAHARO,
+};
+
 type AttendancePayload = {
   studentId: string;
   type: AttendanceMovementType;
