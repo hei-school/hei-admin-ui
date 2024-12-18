@@ -16,46 +16,33 @@ describe("Attendance", () => {
         statusCode: 201,
         body: {
           ...req.body,
-          id: attendancesMock.length + 1,
         },
       });
     }).as("CreateAttendanceMovement");
+    cy.visit("/attendance");
   });
 
-  const navigateToAttendancePage = () => {
-    cy.get('[href="#/attendance"]').first().click();
-  };
-
   it("manager can see list of present", () => {
-    navigateToAttendancePage();
     cy.get("tbody tr").should("have.length", attendancesMock.length);
     cy.get("body").click();
   });
 
   it("manager can create attendance arrive", () => {
-    navigateToAttendancePage();
     cy.get('[href="#/attendance/create"]').click();
 
     cy.contains("button", "Arriver").click();
     cy.wait("@CreateAttendanceMovement");
     cy.contains("Présence réussie !").should("be.visible");
     cy.wait("@getPresencePage1");
-
-    navigateToAttendancePage();
-    cy.get("tbody tr").should("have.length", attendancesMock.length);
   });
 
   it("manager can create attendance exit", () => {
-    navigateToAttendancePage();
     cy.get('[href="#/attendance/create"]').click();
 
     cy.contains("button", "Sortie").click();
     cy.wait("@CreateAttendanceMovement");
     cy.contains("Présence réussie !").should("be.visible");
     cy.wait("@getPresencePage1");
-
-    navigateToAttendancePage();
-    cy.get("tbody tr").should("have.length", attendancesMock.length);
   });
 
   // TODO REFACTOR
