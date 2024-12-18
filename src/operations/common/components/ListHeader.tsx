@@ -125,7 +125,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
         borderRadius="20px 20px 0px 0px"
         paddingBottom={15}
       >
-        <Box>
+        <Box width="100%">
           <Typography variant="h5" fontWeight="bolder">
             {title}
           </Typography>

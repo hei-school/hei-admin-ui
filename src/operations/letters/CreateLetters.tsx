@@ -18,7 +18,7 @@ import {v4 as uuid} from "uuid";
 import uploadImg from "@/assets/file_upload.png";
 import PdfIcon from "@/assets/pdf.png";
 
-const FILE_FIELD_STYLE = {
+export const FILE_FIELD_STYLE = {
   "border": "1px dashed",
   "borderColor": PALETTE_COLORS.grey,
   "borderRadius": "8px",
