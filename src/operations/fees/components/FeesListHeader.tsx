@@ -1,4 +1,12 @@
-import {useGetOne, useListContext} from "react-admin";
+import React, {FC} from "react";
+import {
+  useGetOne,
+  useListContext,
+  FileInput,
+  FileField,
+  SimpleForm,
+} from "react-admin";
+import {Box, Button as ImportButton, Typography} from "@mui/material";
 import {
   CurrencyExchange as Money,
   AttachMoney,
@@ -8,10 +16,11 @@ import {
   CalendarMonth,
   LinearScale,
 } from "@mui/icons-material";
-import {Typography} from "@mui/material";
+import {Dialog} from "@/ui/components";
 import {ListHeader} from "@/operations/common/components";
 import {CardContent} from "@/operations/common/components/ListHeader";
 import {NOOP_ID} from "@/utils/constants";
+import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 
 const INITIAL_STATS = {
   total_fees: "...",
@@ -83,15 +92,50 @@ export const FeesListHeader = () => {
       total: stats.total_yearly_fees ?? "...",
     },
   ];
+  const [open, setOpen] = React.useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   return (
     <ListHeader
       cardContents={headerCardContent}
       title={
-        <Typography variant="h6" fontWeight="bold">
-          Statistiques des frais de ce mois-ci
-        </Typography>
+        <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <Typography variant="h6" fontWeight="bold">
+            Statistiques des frais de ce mois-ci
+          </Typography>
+          <ImportButton onClick={handleClickOpen} variant="contained">
+            Importer
+          </ImportButton>
+          <ImportDialog OnShow={open} onClose={handleClose} />
+        </Box>
       }
     />
+  );
+};
+
+const ImportDialog: FC<{OnShow: boolean; onClose: () => void}> = ({
+  OnShow,
+  onClose,
+}) => {
+  return (
+    <Dialog onClose={onClose} open={OnShow} title={"Importer le fichier excel"}>
+      <SimpleForm>
+        <FileInput
+          source=""
+          accept=".xlsx,.xls,.gsheet"
+          sx={FILE_FIELD_STYLE}
+          multiple={true}
+        >
+          <FileField source="src" title="title" />
+        </FileInput>
+      </SimpleForm>
+    </Dialog>
   );
 };
