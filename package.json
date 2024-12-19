@@ -18,7 +18,7 @@
     "test:merge:reports": "srm ./dist/test-reports.xml \"./dist/**/!(*test-reports).xml\""
   },
   "dependencies": {
-    "@haapi/typescript-client": "^1.85.0",
+    "@haapi/typescript-client": "^1.86.0",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-calendar": "^4.0.1",
     "@react-admin/ra-enterprise": "^7.0.0",

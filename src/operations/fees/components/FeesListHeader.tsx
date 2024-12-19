@@ -1,4 +1,13 @@
-import {useGetOne, useListContext} from "react-admin";
+import React, {FC} from "react";
+import {
+  useGetOne,
+  useListContext,
+  FileInput,
+  FileField,
+  SimpleForm,
+  useRefresh,
+} from "react-admin";
+import {Box, Button as ImportButton, Typography} from "@mui/material";
 import {
   CurrencyExchange as Money,
   AttachMoney,
@@ -8,10 +17,13 @@ import {
   CalendarMonth,
   LinearScale,
 } from "@mui/icons-material";
-import {Typography} from "@mui/material";
-import {ListHeader} from "@/operations/common/components";
+import {Dialog} from "@/ui/components";
+import {Create, ListHeader} from "@/operations/common/components";
 import {CardContent} from "@/operations/common/components/ListHeader";
+import {useNotify} from "@/hooks";
 import {NOOP_ID} from "@/utils/constants";
+import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
+import {PALETTE_COLORS} from "@/haTheme";
 
 const INITIAL_STATS = {
   total_fees: "...",
@@ -83,15 +95,67 @@ export const FeesListHeader = () => {
       total: stats.total_yearly_fees ?? "...",
     },
   ];
+  const [open, setOpen] = React.useState(false);
 
   return (
     <ListHeader
       cardContents={headerCardContent}
       title={
-        <Typography variant="h6" fontWeight="bold">
-          Statistiques des frais de ce mois-ci
-        </Typography>
+        <Box display="flex" flexDirection="row" justifyContent="space-between">
+          <Typography variant="h6" fontWeight="bold">
+            Statistiques des frais de ce mois-ci
+          </Typography>
+          <ImportButton
+            onClick={() => setOpen(true)}
+            variant="contained"
+            sx={{bgcolor: PALETTE_COLORS.primary}}
+          >
+            Vérifier des transactions
+          </ImportButton>
+          <ImportDialog onShow={open} onClose={() => setOpen(false)} />
+        </Box>
       }
     />
+  );
+};
+
+const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
+  onShow: onShow,
+  onClose,
+}) => {
+  const notify = useNotify();
+  const refresh = useRefresh();
+
+  return (
+    <Dialog
+      onClose={onClose}
+      open={onShow}
+      title={
+        "Importer les transactions venant de Orange Money (sous format excel)"
+      }
+    >
+      <Create
+        title=" "
+        redirect={false}
+        resource="mpbs-verify"
+        mutationOptions={{
+          onSuccess: () => {
+            notify("Transactions importées.", {type: "success"});
+            refresh();
+          },
+        }}
+      >
+        <SimpleForm>
+          <FileInput
+            source="mpbsFile"
+            label=" "
+            accept=".xlsx,.xls,.gsheet"
+            sx={FILE_FIELD_STYLE}
+          >
+            <FileField source="src" title="title" />
+          </FileInput>
+        </SimpleForm>
+      </Create>
+    </Dialog>
   );
 };

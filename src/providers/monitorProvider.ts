@@ -1,4 +1,5 @@
 import {usersApi} from "@/providers/api";
+import {Monitor} from "@haapi/typescript-client";
 
 const monitorProvider = {
   async getList(page: number, perPage: number, filter: any) {
@@ -7,8 +8,7 @@ const monitorProvider = {
       perPage,
       filter?.ref,
       filter?.first_name,
-      filter?.last_name,
-      filter?.status
+      filter?.last_name
     );
 
     return {
@@ -21,17 +21,17 @@ const monitorProvider = {
     return result.data;
   },
 
-  async saveOrUpdate(monitors: Array<any>, meta: any) {
-    const isUpdate = meta?.isUpdate;
-    const [monitor] = monitors;
-
-    if (isUpdate) {
+  async saveOrUpdate(
+    monitors: Required<Monitor>[],
+    meta?: {isUpdate?: boolean}
+  ) {
+    if (meta?.isUpdate) {
+      const [monitor] = monitors;
       const result = await usersApi().updateMonitorById(monitor.id, monitor);
       return [result.data];
-    } else {
-      const result = await usersApi().createOrUpdateMonitors(monitors);
-      return result.data;
     }
+    const result = await usersApi().createOrUpdateMonitors(monitors);
+    return result.data;
   },
 
   async delete(_id: string) {
