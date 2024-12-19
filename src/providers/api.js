@@ -12,21 +12,24 @@ import {
   MonitoringApi,
 } from "@haapi/typescript-client";
 import authProvider from "./authProvider";
+import {getAxiosInstance} from "@/config/axios";
 
-export const usersApi = () => new UsersApi(authProvider.getCachedAuthConf());
-export const payingApi = () => new PayingApi(authProvider.getCachedAuthConf());
-export const commentApi = () =>
-  new CommentsApi(authProvider.getCachedAuthConf());
-export const teachingApi = () =>
-  new TeachingApi(authProvider.getCachedAuthConf());
-export const filesApi = () => new FilesApi(authProvider.getCachedAuthConf());
-export const healthApi = () => new HealthApi(authProvider.getCachedAuthConf());
-export const promotionApi = () =>
-  new PromotionsApi(authProvider.getCachedAuthConf());
-export const announcementsApi = () =>
-  new AnnouncementsApi(authProvider.getCachedAuthConf());
-export const lettersApi = () =>
-  new LettersApi(authProvider.getCachedAuthConf());
-export const eventsApi = () => new EventsApi(authProvider.getCachedAuthConf());
-export const monitoringApi = () =>
-  new MonitoringApi(authProvider.getCachedAuthConf());
+const createApiInstance = (ApiClass) => {
+  return new ApiClass(
+    authProvider.getCachedAuthConf(),
+    undefined,
+    getAxiosInstance()
+  );
+};
+
+export const usersApi = () => createApiInstance(UsersApi);
+export const payingApi = () => createApiInstance(PayingApi);
+export const teachingApi = () => createApiInstance(TeachingApi);
+export const filesApi = () => createApiInstance(FilesApi);
+export const commentApi = () => createApiInstance(CommentsApi);
+export const healthApi = () => createApiInstance(HealthApi);
+export const promotionApi = () => createApiInstance(PromotionsApi);
+export const announcementsApi = () => createApiInstance(AnnouncementsApi);
+export const lettersApi = () => createApiInstance(LettersApi);
+export const eventsApi = () => createApiInstance(EventsApi);
+export const monitoringApi = () => createApiInstance(MonitoringApi);
