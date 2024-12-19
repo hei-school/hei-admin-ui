@@ -30,6 +30,7 @@ import MonitorStudentList from "@/operations/monitors/component/MonitorStudentLi
 import exams from "@/operations/exams";
 import staffDocs from "@/operations/docs/staffs/index";
 import staffMembers from "./operations/staffMembers";
+import {HumanVerification, useAwsWafCaptchaHandler} from "@/security/waf";
 
 function AppBase() {
   return (
@@ -247,11 +248,16 @@ function AppBase() {
           element={<studentDocs.show />}
         />
       </CustomRoutes>
+      <CustomRoutes noLayout>
+        <Route path="/human-verification" element={<HumanVerification />} />
+      </CustomRoutes>
     </Admin>
   );
 }
 
 function App() {
+  useAwsWafCaptchaHandler();
+
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <AppBase />
