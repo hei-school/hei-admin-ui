@@ -11,14 +11,9 @@ describe("Attendance", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudent"
     );
-    cy.intercept("POST", `/attendance/movement`, (req) => {
-      req.reply({
-        statusCode: 201,
-        body: {
-          ...req.body,
-        },
-      });
-    }).as("CreateAttendanceMovement");
+    cy.intercept("POST", `/attendance/movement`, {}).as(
+      "CreateAttendanceMovement"
+    );
     cy.visit("/attendance");
   });
 
