@@ -73,6 +73,7 @@ const ByStatusFeeList = () => {
         }}
       >
         <TextField source="student_ref" label="Référence de l'étudiant" />
+        <TextField source="student_first_name" label="Prénom de l'étudiant" />
         <DateField source="due_datetime" label="Date limite" showTime={false} />
         <FunctionField
           source="comment"
@@ -82,11 +83,6 @@ const ByStatusFeeList = () => {
         <FunctionField
           label="Reste à payer"
           render={(fee) => renderMoney(fee.remaining_amount)}
-        />
-        <DateField
-          source="creation_datetime"
-          label="Date de création"
-          showTime={false}
         />
         <ShowButton basePath="/fees" />
       </HaList>
