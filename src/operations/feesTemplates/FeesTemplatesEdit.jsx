@@ -10,7 +10,7 @@ import {
 
 import {Edit} from "../common/components";
 import {EditToolBar} from "../utils";
-import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
+import {FEESTEMPLATES_CHOICES} from "../fees/constants";
 
 function FeesTemplatesEdit() {
   return (

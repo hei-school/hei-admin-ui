@@ -7,19 +7,19 @@ describe("Manager.Monitors", () => {
 
     cy.intercept(
       "GET",
-      /monitors\?page=1&page_size=10&(first_name|ref|last_name)=/,
+      /^.*\/monitors\?page=1&page_size=10&(first_name|ref|last_name)=/,
       [monitor1Mock]
     ).as("getFilters");
 
-    cy.intercept("GET", `/monitors/${monitor1Mock.id}`, monitor1Mock).as(
+    cy.intercept("GET", `*/monitors/${monitor1Mock.id}`, monitor1Mock).as(
       "getMonitor1"
     );
 
-    cy.intercept("GET", "/monitors?page=1&page_size=10", monitorsMock).as(
+    cy.intercept("GET", "*/monitors?page=1&page_size=10", monitorsMock).as(
       "getMonitors"
     );
 
-    cy.intercept("PUT", `/monitors/${monitor1Mock.id}`, updatedInfo).as(
+    cy.intercept("PUT", `*/monitors/${monitor1Mock.id}`, updatedInfo).as(
       "putUpdate"
     );
 

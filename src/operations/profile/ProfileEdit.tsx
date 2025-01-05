@@ -5,7 +5,7 @@ import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 import {SelectSpecialization} from "../students/components";
 import {EditGeoLocalisation, Edit} from "../common/components";
 import {User} from "@/providers/types";
-import {Student} from "@haapi/typescript-client";
+import {StaffMember, Student} from "@haapi/typescript-client";
 import {useRole} from "../../security/hooks";
 import {toUTC} from "../../utils/date";
 
@@ -14,8 +14,14 @@ const userToUserApi = ({
   entrance_datetime,
   coordinates = {},
   ...data
-}: User & Required<Student>["coordinates"]) => {
+}: User & Required<Student>["coordinates"] & Required<StaffMember>) => {
   const {latitude, longitude} = coordinates;
+  const {isStaffMember} = useRole();
+
+  if (isStaffMember() && data.ending_service) {
+    data.ending_service = toUTC(new Date(data.ending_service!));
+  }
+
   return {
     ...data,
     birth_date: toUTC(new Date(birth_date!)).toISOString(),
@@ -24,12 +30,15 @@ const userToUserApi = ({
   };
 };
 
-const ProfileEdit: FC<{isOwnProfile: boolean; isStudent: boolean}> = ({
-  isOwnProfile,
-  isStudent,
-}) => {
+const ProfileEdit: FC<{
+  isOwnProfile: boolean;
+  isStudent: boolean;
+  isStaff: boolean;
+}> = ({isOwnProfile, isStudent, isStaff = false}) => {
   const role = useRole();
   const isStudentProfile = isStudent || role.isStudent();
+  const isStaffProfil = isStaff || role.isStaffMember();
+
   return (
     <Edit
       title="Modifier le profil"
@@ -69,6 +78,20 @@ const ProfileEdit: FC<{isOwnProfile: boolean; isStudent: boolean}> = ({
           fullWidth
           readOnly={isOwnProfile}
         />
+        {isStaffProfil && (
+          <>
+            <TextInput source="cnaps" label="Cnaps" fullWidth />
+            <TextInput source="ostie" label="Ostie" fullWidth />
+            <TextInput source="function" label="Poste chez HEI" fullWidth />
+            <TextInput source="degree" label="Diplôme" fullWidth />
+            <DateInput
+              source="ending_service"
+              label="Fin de service"
+              fullWidth
+              readOnly={isOwnProfile}
+            />
+          </>
+        )}
         <StatusRadioButton readOnly={isOwnProfile} />
       </SimpleForm>
     </Edit>

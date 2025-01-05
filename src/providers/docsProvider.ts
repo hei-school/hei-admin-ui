@@ -24,6 +24,7 @@ const docsProvider: HaDataProviderType = {
             .then((result) => ({data: result.data}));
         }
         return {data: []};
+      case OwnerType.STAFF_MEMBER:
       case OwnerType.TEACHER:
         if (meta.type === "OTHER") {
           return filesApi()
@@ -51,6 +52,7 @@ const docsProvider: HaDataProviderType = {
         return filesApi()
           .getUserFilesById(meta.userId, id)
           .then((result) => result.data);
+      case OwnerType.STAFF_MEMBER:
       case OwnerType.TEACHER:
         return filesApi()
           .getUserFilesById(meta.userId, id)
@@ -95,6 +97,7 @@ const docsProvider: HaDataProviderType = {
             .then((result) => [result.data]);
         }
         return [];
+      case OwnerType.STAFF_MEMBER:
       case OwnerType.TEACHER:
         if (doc.type in FileType) {
           return filesApi()

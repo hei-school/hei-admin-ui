@@ -10,7 +10,7 @@ import {
 } from "react-admin";
 import {v4 as uuid} from "uuid";
 
-import {FEESTEMPLATES_CHOICES} from "../fees/feesTemplatesChoices";
+import {FEESTEMPLATES_CHOICES} from "../fees/constants";
 
 function FeesTemplatesCreate() {
   return (

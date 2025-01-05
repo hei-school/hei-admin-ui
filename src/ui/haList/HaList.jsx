@@ -50,6 +50,7 @@ export function HaList({
   resource,
   children,
   icon,
+  header = <></>,
   hasDatagrid = true,
   listProps = {},
   datagridProps = {},
@@ -70,6 +71,7 @@ export function HaList({
         }}
         {...listProps}
       >
+        {header}
         <Box>
           <HaListTitle
             actions={actions}

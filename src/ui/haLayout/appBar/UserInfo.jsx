@@ -115,7 +115,7 @@ const FeedbackInfos = () => {
 function UserInfo() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
-  const {isStudent, isManager, isMonitor} = useRole();
+  const {isStudent, isManager, isMonitor, isStaffMember} = useRole();
   const imgRef = useRef(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
@@ -212,7 +212,7 @@ function UserInfo() {
               sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
             />
           </a>
-          {!isStudent() && !isMonitor() && <LastComments />}
+          {!isStudent() && !isMonitor() && !isStaffMember() && <LastComments />}
           <FeedbackInfos />
         </>
       )}

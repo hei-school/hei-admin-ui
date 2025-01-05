@@ -44,7 +44,7 @@ export const valideStudentData = (data) => {
   );
 };
 
-export const transformStudentData = (data) => {
-  const students = transformUserData(data);
-  return [[[], students]];
+export const transformUsersData = (data) => {
+  const users = transformUserData(data);
+  return [[[], users]];
 };

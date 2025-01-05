@@ -103,18 +103,18 @@ export const LetterStatusFilter: FC<{
 
   const statuses = [
     {label: "Tous", value: null, onClick: handleResetFilters},
-    {label: "En attente", value: LetterStatus.PENDING},
+    {label: "En cours", value: LetterStatus.PENDING},
     {label: "Accepté", value: LetterStatus.RECEIVED},
     {label: "Refusé", value: LetterStatus.REJECTED},
-  ];
+  ] as const;
 
   return (
     <Menu anchorEl={anchorEl} open={Boolean(!!anchorEl)} onClose={handleClose}>
-      {statuses.map(({label, value, onClick}) => (
+      {statuses.map(({label, value}) => (
         <MenuItem
           key={label}
           disabled={value! && isStatusFilterActive(value)}
-          onClick={() => (onClick ? onClick() : handleStatusSelect(value))}
+          onClick={() => handleStatusSelect(value as LetterStatus)}
           sx={value && isStatusFilterActive(value) ? showIndication : undefined}
         >
           {label}

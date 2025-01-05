@@ -16,15 +16,15 @@ describe("Manager.feesTemplates", () => {
     cy.login({role: "MANAGER"});
     cy.intercept(
       "GET",
-      "**fees/templates?page=1&page_size=10",
+      "*/fees/templates?page=1&page_size=10",
       feesTemplatesMocks
     ).as("getFeesTemplates");
-    cy.intercept("PUT", `**fees/templates/**`, feesTemplate1Updated).as(
+    cy.intercept("PUT", `*/fees/templates/**`, feesTemplate1Updated).as(
       "putFeeTemplate1"
     );
     cy.intercept(
       "GET",
-      `**fees/templates/${feesTemplates1Mock.id}`,
+      `*/fees/templates/${feesTemplates1Mock.id}`,
       feesTemplates1Mock
     ).as("getFeesTemplate1");
 

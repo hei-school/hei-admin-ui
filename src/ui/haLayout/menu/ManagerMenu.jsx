@@ -14,11 +14,15 @@ import {
   SupervisedUserCircle as MonitorIcon,
   GradeOutlined as GradeIcon,
   LibraryBooksOutlined as LibraryIcon,
+  AssignmentInd as StaffIcon,
 } from "@mui/icons-material";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
+import {useRole} from "@/security/hooks";
 
 function ManagerMenu() {
+  const {isAdmin} = useRole();
+
   return (
     <Box>
       <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />
@@ -82,6 +86,9 @@ function ManagerMenu() {
         label="Événements"
         icon={<EventIcon />}
       />
+      {isAdmin() && (
+        <SingleMenu to="/staffmembers" label="Staff" icon={<StaffIcon />} />
+      )}
     </Box>
   );
 }

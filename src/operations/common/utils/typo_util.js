@@ -4,7 +4,6 @@ import {
   Sex,
   WhoamiRoleEnum,
 } from "@haapi/typescript-client";
-import {NOT_DEFINED} from "../../../utils/constants";
 
 export function getGenderInFr(sex) {
   switch (sex) {
@@ -13,7 +12,7 @@ export function getGenderInFr(sex) {
     case Sex.F:
       return "Femme";
     case null: // display empty_text if sex is null
-      return NOT_DEFINED;
+      return "Non défini.e";
     default:
       throw new Error("Unknown gender");
   }
@@ -40,7 +39,9 @@ export function getFeesStatusInFr(status) {
     case FeeStatusEnum.PAID:
       return "Payé";
     case FeeStatusEnum.UNPAID:
-      return "En attente";
+      return "En cours";
+    case FeeStatusEnum.PENDING:
+      return "En cours de vérification";
     default:
       throw new Error("Unknown fees status");
   }
@@ -59,6 +60,8 @@ export function getUserRoleInFr(userRole, sex) {
       return isWoman ? "Étudiante" : "Étudiant";
     case WhoamiRoleEnum.MONITOR:
       return isWoman ? "Monitrice" : "Moniteur";
+    case WhoamiRoleEnum.STAFF_MEMBER:
+      return "Staff";
     default:
       throw new Error("Unknown user role");
   }

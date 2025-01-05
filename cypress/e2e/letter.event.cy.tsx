@@ -9,13 +9,13 @@ describe("Letter.event", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      `/events/${event1mock.id}/participants?page=1&page_size=10`,
+      `*/events/${event1mock.id}/participants?page=1&page_size=10`,
       eventParticipantsMock
     ).as("getEventParticipantPage1");
-    cy.intercept("POST", `/users/${student1Mock.id}/letters?*`, newLetter).as(
+    cy.intercept("POST", `*/users/${student1Mock.id}/letters?*`, newLetter).as(
       "createLetter"
     );
-    cy.intercept("GET", `/events/${event1mock.id}`, event1mock);
+    cy.intercept("GET", `*/events/${event1mock.id}`, event1mock);
   });
 
   it("student can upload letter", () => {

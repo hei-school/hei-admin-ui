@@ -18,22 +18,22 @@ const NEW_COURSE: Required<Course> = {
 describe.skip("Manager.Courses", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/courses?page=1&page_size=10`, courseMocks).as(
+    cy.intercept("GET", `*/courses?page=1&page_size=10`, courseMocks).as(
       "getCoursesPage1"
     );
-    cy.intercept("GET", `/courses/${courseMock1.id}`, courseMock1).as(
+    cy.intercept("GET", `*/courses/${courseMock1.id}`, courseMock1).as(
       "getCourses1"
     );
     cy.intercept(
       "GET",
-      `/courses?name=${courseMock1.name}&page=1&page_size=10`,
+      `*/courses?name=${courseMock1.name}&page=1&page_size=10`,
       [courseMock1]
     ).as("getFilteredCourses");
     cy.getByTestid("course-menu").click();
     cy.wait("@getCoursesPage1");
     cy.intercept(
       "GET",
-      `/awarded_courses?course_id=${courseMock1.id}&page=1&page_size=10`,
+      `*/awarded_courses?course_id=${courseMock1.id}&page=1&page_size=10`,
       [awardedCourse1Mock]
     ).as("getTeacherAwardedCourse");
   });
@@ -54,7 +54,7 @@ describe.skip("Manager.Courses", () => {
   });
 
   it("can create new course", () => {
-    cy.intercept("PUT", "/courses", [NEW_COURSE]).as("createCourse");
+    cy.intercept("PUT", "*/courses", [NEW_COURSE]).as("createCourse");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.get("#name").type(NEW_COURSE.name);
@@ -74,7 +74,7 @@ describe.skip("Manager.Courses", () => {
 
   it("can edit course", () => {
     cy.get("tbody tr").should("have.length", courseMocks.length);
-    cy.intercept("PUT", "/courses", [courseMock1]).as("editCourses");
+    cy.intercept("PUT", "*/courses", [courseMock1]).as("editCourses");
     cy.getByTestid("edit-button").first().click();
     cy.get("#name").clear().type(NEW_COURSE.name);
     cy.get("#code").clear().type(NEW_COURSE.code);
@@ -101,9 +101,9 @@ describe.skip("Manager.Courses", () => {
   });
 
   it("can assign teacher to course", () => {
-    cy.intercept("GET", "/teachers*", teachersMock).as("getTeachers");
-    cy.intercept("GET", `/groups*`, groupsMock).as("getGroups");
-    cy.intercept("PUT", `/teachers/${teacher1Mock.id}/awarded_courses`, [
+    cy.intercept("GET", "*/teachers*", teachersMock).as("getTeachers");
+    cy.intercept("GET", `*/groups*`, groupsMock).as("getGroups");
+    cy.intercept("PUT", `*/teachers/${teacher1Mock.id}/awarded_courses`, [
       createAwardedCourse,
     ]).as("createAwardedCourse");
     cy.get("tbody tr").should("have.length", courseMocks.length);

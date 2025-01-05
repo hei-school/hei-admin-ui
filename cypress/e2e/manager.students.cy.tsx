@@ -48,33 +48,33 @@ const fillEditInputs = () => {
 describe("Manager edit students", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByFirstName");
-    cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
-    cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=2&page_size=10`, teachersMock).as(
       "getTeachersPage2"
     );
     cy.intercept(
       "GET",
-      `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
+      `*/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
     ).as("getTeacherByFirstName");
   });
 
   it("can edit students", () => {
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
-    cy.intercept("PUT", `/students/${student1Mock.id}`, updatedStudent).as(
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("PUT", `*/students/${student1Mock.id}`, updatedStudent).as(
       "modifyStudent"
     );
     cy.contains("Étudiants");
@@ -105,7 +105,7 @@ describe("Manager edit students", () => {
 
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [updatedStudent]
     ).as("getUpdatedStudent");
     cy.contains("Enregistrer").click();
@@ -127,34 +127,34 @@ describe("Manager edit students", () => {
 describe("Manager creates students", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
     cy.intercept(
       "GET",
-      `/fees/templates?page=1&page_size=25`,
+      `*/fees/templates?page=1&page_size=25`,
       feesTemplatesMocks
     ).as("getFeesTemplates");
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
-    cy.intercept("GET", `students/${createdStudent.id}`, createdStudent).as(
+    cy.intercept("GET", `*/students/${createdStudent.id}`, createdStudent).as(
       "getStudent"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByFirstName");
-    cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
-    cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=2&page_size=10`, teachersMock).as(
       "getTeachersPage2"
     );
     cy.intercept(
       "GET",
-      `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
+      `*/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
     ).as("getTeacherByFirstName");
     cy.contains("Enseignants");
@@ -167,8 +167,8 @@ describe("Manager creates students", () => {
     cy.contains(`Taille : ${studentsMock.length}`);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
-    cy.intercept("PUT", "/students", [createdStudent]).as("createStudent");
-    cy.intercept("POST", `students/${createdStudent.id}/fees`, [
+    cy.intercept("PUT", "*/students", [createdStudent]).as("createStudent");
+    cy.intercept("POST", `*/students/${createdStudent.id}/fees`, [
       createdFeesForNewStudent,
     ]).as("createFees");
     cy.get("#ref").type(createStudent.ref);
@@ -184,7 +184,7 @@ describe("Manager creates students", () => {
   it("can create students without fees", () => {
     cy.intercept(
       "GET",
-      "/students?page=1&page_size=10",
+      "*/students?page=1&page_size=10",
       [createdStudent, ...studentsMock].slice(0, 10)
     ).as("getStudents");
     fillEditInputs();
@@ -200,7 +200,7 @@ describe("Manager creates students", () => {
   it("can create students with only ref, firstname, lastname and entranceDatetime", () => {
     cy.intercept(
       "GET",
-      "/students?page=1&page_size=10",
+      "*/students?page=1&page_size=10",
       [createdStudent, ...studentsMock].slice(0, 10)
     ).as("getStudents");
     cy.contains("Enregistrer").click();
@@ -220,7 +220,7 @@ describe("Manager creates students", () => {
     ).click();
     cy.intercept(
       "GET",
-      "/students?page=1&page_size=10",
+      "*/students?page=1&page_size=10",
       [...studentsMock, createdStudent].slice(0, 10)
     ).as("getStudents");
     cy.getByTestid("predefinedType").click();
@@ -254,7 +254,7 @@ describe("Manager creates students", () => {
 
     cy.intercept(
       "GET",
-      "/students?page=1&page_size=10",
+      "*/students?page=1&page_size=10",
       [...studentsMock, createdStudent].slice(0, 10)
     ).as("getStudents");
     cy.intercept("POST", `students/${createdStudent.id}/fees`, [

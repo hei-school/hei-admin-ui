@@ -1,24 +1,36 @@
-import React from "react";
-import {Box} from "@mui/material";
 import {EditButton, TextField} from "react-admin";
 import {GroupOutlined} from "@mui/icons-material";
-import {CreateButton, ExportButton, ImportButton} from "@/ui/haToolbar";
+import {CreateButton, ImportButton} from "@/ui/haToolbar";
 import {HaList} from "@/ui/haList";
-import {ProfileFilters} from "@/operations/profile/components/ProfileFilters";
 import {
   minimalUserHeaders,
   optionalUserHeaders,
-  transformUserData,
   validateUserData,
-} from "@/operations/utils/userImportConf";
+  transformUserData,
+} from "../utils/userImportConf";
+import {ProfileFilters} from "../profile/components/ProfileFilters";
 import monitorProvider from "@/providers/monitorProvider";
 
 const MonitorList = () => (
   <HaList
     icon={<GroupOutlined />}
     title="Liste des moniteurs"
+    resource="monitors"
     mainSearch={{label: "Prénom·s", source: "first_name"}}
-    actions={<CreateButton data-testid="create-button" />}
+    actions={
+      <>
+        <CreateButton data-testid="create-button" resource="monitors" />
+        <ImportButton
+          minimalHeaders={minimalUserHeaders}
+          optionalHeaders={optionalUserHeaders}
+          provider={monitorProvider.saveOrUpdate}
+          resource="monitors"
+          transformData={transformUserData}
+          validateData={validateUserData}
+        />
+        <ProfileFilters resource="monitors" />
+      </>
+    }
   >
     <TextField source="ref" label="Référence" />
     <TextField source="first_name" label="Prénom·s" />

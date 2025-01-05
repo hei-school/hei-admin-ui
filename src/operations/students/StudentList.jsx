@@ -1,26 +1,19 @@
-import {useState} from "react";
 import {
   CreateButton as RaCreateButton,
   EditButton,
   ShowButton,
   TextField,
-  useGetList,
   useGetOne,
   useRedirect,
 } from "react-admin";
 import {
   Add as AddIcon,
-  Group as GroupIcon,
-  Diversity2 as StudentIcon,
-  Female as FemaleIcon,
-  Male as MaleIcon,
   School as SchoolIcon,
   UploadFile as UploadFileIcon,
   Work as WorkIcon,
   WorkHistory as WillWorking,
   WorkOff as HaveBeenWorking,
 } from "@mui/icons-material";
-import {Sex, WorkStudyStatus} from "@haapi/typescript-client";
 import {Box} from "@mui/material";
 import {useRole} from "@/security/hooks";
 import {
@@ -41,11 +34,10 @@ import {
 } from "../utils/userImportConf";
 import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {ListHeader} from "../common/components";
-import {transformStudentData} from "./importConf";
+import {transformUsersData} from "./importConf";
 import {NOOP_ID} from "@/utils/constants";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
 import studentProvider from "@/providers/studentProvider";
-import {newWorkerDoc} from "../../../cypress/fixtures/api_mocks/docs-mocks";
 import {get27thOfMonth} from "@/utils/date";
 
 const ListActions = () => {
@@ -84,7 +76,7 @@ const ListActions = () => {
                 },
               });
             }}
-            transformData={transformStudentData}
+            transformData={transformUsersData}
             minimalHeaders={minimalUserHeaders}
             optionalHeaders={optionalUserHeaders}
           />
@@ -110,8 +102,6 @@ function StudentList() {
       students_alternating: "...",
     },
   } = useGetOne("stats", {id: NOOP_ID, meta: {resource: "users"}});
-
-  const [isBulked, setIsBulked] = useState(false);
 
   const headerCardContent = [
     ...getCommonListHeaderContent(stats),

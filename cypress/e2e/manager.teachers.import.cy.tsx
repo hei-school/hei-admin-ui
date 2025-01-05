@@ -11,16 +11,16 @@ const _path = "cypress/fixtures/teachers_import";
 describe("Manager create multiple teachers", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
-    cy.intercept("GET", `/teachers?page=2&page_size=10`, teachersMock).as(
+    cy.intercept("GET", `*/teachers?page=2&page_size=10`, teachersMock).as(
       "getTeachersPage2"
     );
     cy.intercept("GET", `students/letters/stats`, {}).as("getStats");
     cy.intercept(
       "GET",
-      `/teachers?page=1&page_size=10&last_name=${teacherNameToBeCheckedMock}`,
+      `*/teachers?page=1&page_size=10&last_name=${teacherNameToBeCheckedMock}`,
       [student1Mock]
     ).as("getTeachersByName");
 
@@ -36,7 +36,7 @@ describe("Manager create multiple teachers", () => {
     );
   });
 
-  it.only("cannot create teachers if there is too much teachers to create", () => {
+  it("cannot create teachers if there is too much teachers to create", () => {
     importFile(
       "too_much_teachers_template.xlsx",
       "Vous ne pouvez importer que 20 éléments à la fois.",
@@ -53,7 +53,7 @@ describe("Manager create multiple teachers", () => {
   });
 
   it("can create multiple teachers with the correct file", () => {
-    cy.intercept("PUT", "/teachers", [createdTeachers]).as("createteachers");
+    cy.intercept("PUT", "*/teachers", [createdTeachers]).as("createteachers");
     importFile(
       "correct_teachers_template.xlsx",
       "Importation effectuée avec succès",
@@ -62,7 +62,7 @@ describe("Manager create multiple teachers", () => {
   });
 
   it("can create multiple teachers with the correct file and minimum infos", () => {
-    cy.intercept("PUT", "/teachers", [liteCreatedTeachers]).as(
+    cy.intercept("PUT", "*/teachers", [liteCreatedTeachers]).as(
       "createteachers"
     );
     importFile(
@@ -73,7 +73,7 @@ describe("Manager create multiple teachers", () => {
   });
 
   it("notifies if the multiple teachers creation failed", () => {
-    cy.intercept("PUT", "/teachers", {
+    cy.intercept("PUT", "*/teachers", {
       statusCode: 500,
       body: {
         message: "error",

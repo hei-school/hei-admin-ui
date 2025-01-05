@@ -1,4 +1,4 @@
-import {useState, useEffect} from "react";
+import {useState, useEffect, FC, ReactElement, ReactNode} from "react";
 import {
   FunctionField,
   useDataProvider,
@@ -6,7 +6,6 @@ import {
   TopToolbar,
   SimpleShowLayout,
   TextField,
-  UrlField,
 } from "react-admin";
 import {useParams} from "react-router-dom";
 import {
@@ -20,7 +19,7 @@ import {
   AccordionDetails,
   useMediaQuery,
 } from "@mui/material";
-import {ExpandMore, Info} from "@mui/icons-material";
+import {Fee} from "@haapi/typescript-client";
 import {useRole} from "@/security/hooks";
 import {studentIdFromRaId} from "@/providers/feeProvider";
 import {statusRenderer, commentFunctionRenderer} from "@/operations/utils";
@@ -34,14 +33,36 @@ import {
   InfoOutlined,
   ChatBubbleOutline,
   AccessTimeOutlined,
+  ExpandMore,
+  Info,
 } from "@mui/icons-material";
 import {GRID_STYLE} from "@/operations/fees/utils/gridStyle";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {PSP_COLORS, PSP_VALUES} from "./utils";
 
-const dateTimeRenderer = (data) => {
+type LabeledFieldProps = {
+  label: string;
+  icon?: ReactElement;
+  children: ReactNode;
+};
+
+type FeeLayoutProps = {
+  feeId: string;
+  studentId: string;
+};
+
+type AccordionProps = {
+  title: string;
+  children: ReactNode;
+};
+
+const dateTimeRenderer = (data: Fee) => {
   return data.updated_at == null ? (
-    <DateField source="creation_datetime" showTime />
+    <DateField
+      label="Date et heure de dernière modification"
+      source="creation_datetime"
+      showTime
+    />
   ) : (
     <DateField
       source="updated_at"
@@ -51,7 +72,7 @@ const dateTimeRenderer = (data) => {
   );
 };
 
-const LabeledField = ({label, icon, children}) => (
+const LabeledField: FC<LabeledFieldProps> = ({label, icon, children}) => (
   <Grid
     item
     xs={12}
@@ -79,7 +100,7 @@ const LabeledField = ({label, icon, children}) => (
   </Grid>
 );
 
-const AccordionBase = ({title, children}) => (
+const AccordionBase: FC<AccordionProps> = ({title, children}) => (
   <Accordion sx={{boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px"}}>
     <AccordionSummary expandIcon={<ExpandMore />}>
       <Info color="warning" sx={{mx: 1}} />
@@ -121,41 +142,18 @@ const FeePaymentDetails = () => (
           showTime
         />
         <FunctionField
-          render={(fee) =>
-            fee.mpbs ? (
-              <Chip
-                color={PSP_COLORS[fee.mpbs?.psp_type]}
-                label={PSP_VALUES[fee.mpbs?.psp_type]}
-              />
-            ) : (
-              EMPTY_TEXT
-            )
-          }
+          render={(fee: Fee) => {
+            if (fee?.mpbs?.psp_type) {
+              return (
+                <Chip
+                  color={PSP_COLORS[fee.mpbs.psp_type]}
+                  label={PSP_VALUES[fee.mpbs.psp_type]}
+                />
+              );
+            }
+            return EMPTY_TEXT;
+          }}
           label="Type de transaction"
-          emptyText={EMPTY_TEXT}
-        />
-      </SimpleShowLayout>
-    </AccordionBase>
-    <AccordionBase title="Informations sur le dernier paiement par ajout de bordereau">
-      <SimpleShowLayout>
-        <DateField
-          source="letter.creation_datetime"
-          label="Ajout du bordereau"
-          showTime
-        />
-        <TextField
-          source="letter.ref"
-          label="Référence du bordereau"
-          emptyText={EMPTY_TEXT}
-        />
-        <DateField
-          source="letter.approval_datetime"
-          label="Acceptation du bordereau"
-          showTime
-        />
-        <UrlField
-          source="letter.file_url"
-          label="Lien du bordereau"
           emptyText={EMPTY_TEXT}
         />
       </SimpleShowLayout>
@@ -163,13 +161,11 @@ const FeePaymentDetails = () => (
   </Box>
 );
 
-export const FeeLayout = ({feeId, studentId}) => {
+export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const styles = GRID_STYLE(isSmall);
   return (
     <Box
-      container
-      spacing={2}
       m={isSmall ? 2 : 6}
       sx={{
         width: isSmall ? "100%" : "auto ",
@@ -223,7 +219,7 @@ export const FeeLayout = ({feeId, studentId}) => {
           <LabeledField label="Reste à payer">
             <FunctionField
               source="remaining_amount"
-              render={(record) => renderMoney(record.remaining_amount)}
+              render={(record: Fee) => renderMoney(record.remaining_amount!)}
               textAlign="right"
               sx={{
                 ...styles.font,
@@ -234,7 +230,7 @@ export const FeeLayout = ({feeId, studentId}) => {
           <LabeledField label="Total à payer">
             <FunctionField
               source="total_amount"
-              render={(record) => renderMoney(record.total_amount)}
+              render={(record: Fee) => renderMoney(record.total_amount!)}
               textAlign="right"
               sx={{
                 ...styles.font,
@@ -297,6 +293,7 @@ export const FeeLayout = ({feeId, studentId}) => {
           <LabeledField label="Date limite de paiement du frais">
             <DateField
               source="due_datetime"
+              label=" "
               showTime={false}
               sx={{
                 ...styles.font,
@@ -307,6 +304,7 @@ export const FeeLayout = ({feeId, studentId}) => {
           <LabeledField label="Date de création">
             <DateField
               source="creation_datetime"
+              label=" "
               showTime={false}
               sx={{
                 ...styles.font,
@@ -318,7 +316,7 @@ export const FeeLayout = ({feeId, studentId}) => {
             <Box {...styles.box}>
               <FunctionField
                 source="status"
-                render={(record) => statusRenderer(record.status)}
+                render={(record: Fee) => statusRenderer(record.status)}
               />
             </Box>
           </LabeledField>
@@ -358,9 +356,9 @@ const FeeShow = () => {
   const role = useRole();
   const params = useParams();
   const feeId = params.feeId;
-  const studentId = studentIdFromRaId(feeId);
-  const [studentRef, setStudentRef] = useState("...");
+  const studentId = studentIdFromRaId(feeId!);
   const dataProvider = useDataProvider();
+  const [studentRef, setStudentRef] = useState("...");
 
   useEffect(() => {
     const doEffect = async () => {
@@ -391,7 +389,7 @@ const FeeShow = () => {
       basePath={`/fees/${feeId}/show`}
       title={`Frais de ${studentRef}`}
     >
-      <FeeLayout feeId={feeId} studentId={studentId} />
+      <FeeLayout feeId={feeId!} studentId={studentId} />
     </Show>
   );
 };

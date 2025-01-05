@@ -26,14 +26,11 @@ import {
   AddCard as AddMbpsIcon,
   Visibility as ShowIcon,
   WarningOutlined,
-  FilePresent as SlipIcon,
-  Repartition,
 } from "@mui/icons-material";
 import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
 import {useNotify, useToggle} from "@/hooks";
 import {useStudentRef} from "@/hooks/useStudentRef";
 import {HaList} from "@/ui/haList/HaList";
-import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Create} from "@/operations/common/components";
 import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
@@ -49,9 +46,7 @@ import {
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
 } from "@/operations/fees/utils";
 import {formatDate, toUTC} from "@/utils/date";
-import {PALETTE_COLORS} from "@/haTheme";
 import {FeesDialog} from "./FeesDialog";
-import {LetterStatusIcon} from "./letterIcon";
 import authProvider from "@/providers/authProvider";
 
 interface CreateProps {
@@ -253,20 +248,6 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
           <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />
         </IconButtonWithTooltip>
       )}
-      {letter && letter.status !== LetterStatus.REJECTED ? (
-        <LetterStatusIcon />
-      ) : (
-        <IconButtonWithTooltip
-          title="Bordereau"
-          disabled={
-            (mpbs && mpbs.status !== MpbsStatus.FAILED) ||
-            status === FeeStatusEnum.PAID ||
-            !!prevUnpaidFee
-          }
-        >
-          <SlipIcon onClick={toggle4} data-testid={`addPaymentSlip-${id}`} />
-        </IconButtonWithTooltip>
-      )}
       <Link to={`/fees/${id}/show`} data-testid={`showButton-${id}`}>
         <IconButtonWithTooltip title="Afficher">
           <ShowIcon />
@@ -312,24 +293,7 @@ export const StudentFeeList = () => {
         datagridProps={{
           rowClick: false,
         }}
-        actions={
-          <Box>
-            <HaActionWrapper>
-              <ButtonBase
-                icon={
-                  <Repartition
-                    sx={{
-                      color: PALETTE_COLORS.primary,
-                    }}
-                  />
-                }
-                onClick={toggle}
-              >
-                Frais de rattrapage
-              </ButtonBase>
-            </HaActionWrapper>
-          </Box>
-        }
+        actions={false}
       >
         <DateField
           source="due_datetime"

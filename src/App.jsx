@@ -22,13 +22,14 @@ import promotions from "@/operations/promotions/index.tsx";
 import course from "@/operations/course/index.tsx";
 import awardedCourses from "./operations/awardedCourses";
 import events from "@/operations/events";
-
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import exams from "@/operations/exams";
+import staffDocs from "@/operations/docs/staffs/index";
+import staffMembers from "./operations/staffMembers";
 
 function AppBase() {
   return (
@@ -48,7 +49,7 @@ function AppBase() {
       <Resource name="monitors" {...monitors} />
       <Resource name="monitor-students" {...monitorStudent} />
       <Resource name="groups" {...groups} />
-
+      <Resource name="staffmembers" {...staffMembers} />
       <Resource name="fees" {...fees} />
       <Resource name="fees-templates" {...feesTemplates} />
       <Resource name="payments" {...payments} />
@@ -117,6 +118,7 @@ function AppBase() {
           path="/docs/teachers/OTHER"
           element={<teachersDocs.list />}
         />
+        <Route exact path="/docs/staff/OTHER" element={<staffDocs.list />} />
         <Route
           exact
           path="/docs/students/WORK_DOCUMENT"
@@ -131,6 +133,11 @@ function AppBase() {
         <Route
           exact
           path="/teachers/:userId/docs/teachers/OTHER"
+          element={<teachersDocs.list />}
+        />
+        <Route
+          exact
+          path="/staff/:userId/docs/staff/OTHER"
           element={<teachersDocs.list />}
         />
         <Route
@@ -171,6 +178,11 @@ function AppBase() {
         />
         <Route
           exact
+          path="/staff/:userId/docs/staff/OTHER/:id"
+          element={<staffDocs.show />}
+        />
+        <Route
+          exact
           path="/docs/students/OTHER/:id"
           element={<studentDocs.show />}
         />
@@ -178,6 +190,11 @@ function AppBase() {
           exact
           path="/docs/teachers/OTHER/:id"
           element={<teachersDocs.show />}
+        />
+        <Route
+          exact
+          path="/docs/staff/OTHER/:id"
+          element={<staffDocs.show />}
         />
         <Route
           exact

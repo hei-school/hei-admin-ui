@@ -19,10 +19,10 @@ describe("Teacher", () => {
   });
 
   it("can check one student", () => {
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
-    cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
+    cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
     cy.get('a[href="#/students"]').click(); // Étudiants menu
@@ -42,15 +42,15 @@ describe("Teacher", () => {
   });
 
   it("can list and filter students", () => {
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `*/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `*/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentByFirstName");
     // note(listAndFilterStudents)
