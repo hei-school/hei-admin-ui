@@ -62,7 +62,7 @@ const authProvider = {
     clientMetadata,
   }: Record<string, unknown>): Promise<void> => {
     const user = await signIn({
-      username: username as string,
+      username: (username as string).trim(),
       password: password as string,
       options: {
         clientMetadata: clientMetadata as any,
