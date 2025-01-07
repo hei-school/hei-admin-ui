@@ -7,15 +7,12 @@ const transformTeacher = (record) => {
   const {entrance_datetime, longitude, latitude, ...teacher} = record;
   const coordinates = {longitude: +longitude, latitude: +latitude};
 
-  console.log("lllll", record);
-  console.log("teacher", teacher);
-  const test = {
+  const teachers = {
     ...teacher,
     entrance_datetime: toISO(entrance_datetime),
     coordinates,
   };
-  console.log("test", test);
-  return test;
+  return teachers;
 };
 
 const TeacherCreate = () => (
