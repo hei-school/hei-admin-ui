@@ -84,9 +84,9 @@ const authProvider = {
   },
 
   logout: async (): Promise<void> => {
+    await signOut();
     localStorage.clear(); // Amplify stores data in localStorage
     sessionStorage.clear();
-    await signOut();
   },
 
   checkAuth: async (): Promise<void> => {
