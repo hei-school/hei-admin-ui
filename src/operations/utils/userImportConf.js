@@ -34,6 +34,12 @@ export const optionalUserHeaders = [
     value: "payment_frequency",
     disabled: false,
   },
+  {
+    id:13,
+    label:"Student STD",
+    value:"student_ref",
+    disabled:false, 
+  }
 ];
 
 export const validateUserData = (data) => {
@@ -60,6 +66,12 @@ export const transformUserData = (data) => {
     } else if (element["payment_frequency"] === "annuel") {
       element["payment_frequency"] = "YEARLY";
     }
+    if (element["student_ref"]) {
+      element["student_ref"] = element["student_ref"]
+        .split(",")
+        .map((ref) => ref.trim());
+    }
     return element;
+
   });
 };
