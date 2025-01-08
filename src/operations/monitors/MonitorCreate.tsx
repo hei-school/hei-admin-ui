@@ -1,9 +1,10 @@
-import React from "react";
-import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
+import {AutocompleteArrayInput, DateInput, maxLength, SimpleForm, TextInput, useGetList} from "react-admin";
 import {CreateGeoLocalisation, Create} from "@/operations/common/components";
 import {SexRadioButton} from "@/operations/utils";
+import  { MAX_ITEM_PER_PAGE } from "@/providers/dataProvider";
 
-const transformMonitor = (record) => {
+
+const transformMonitor = (record:any) => {
   const {
     entrance_datetime,
     longitude,
@@ -20,7 +21,8 @@ const transformMonitor = (record) => {
   };
 };
 
-const MonitorCreate = () => (
+const MonitorCreate = () => {
+  return(
   <Create title="Moniteurs" transform={transformMonitor}>
     <SimpleForm>
       <TextInput source="ref" label="Référence" fullWidth required />
@@ -48,8 +50,30 @@ const MonitorCreate = () => (
         fullWidth
         required
       />
+      <SelectStudent/>
     </SimpleForm>
   </Create>
-);
+)};
+
+const SelectStudent = ()=> {
+  const {data: students = [], isLoading} = useGetList("students", {
+    pagination: {
+      page: 1,
+      perPage: MAX_ITEM_PER_PAGE
+    }
+  })
+
+  return (
+    <AutocompleteArrayInput
+    fullWidth
+      optionText="ref"
+      optionValue="ref"
+      isLoading={isLoading}
+      choices={students}
+      label="Etudiants"
+      source="studentRefs"
+    />
+  )
+}
 
 export default MonitorCreate;
