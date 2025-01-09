@@ -53,6 +53,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   const {role, success: isSuccess = true} = options;
   const defaultUserConnected = getUserConnected(role);
   const user = options.user || defaultUserConnected.user;
+  let attemptConnection = false;
 
   const whoami: Whoami = {
     id: user.id,
@@ -67,20 +68,25 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   cy.intercept("POST", "https://cognito-idp.eu-west-3.amazonaws.com").as(
     "postCognito"
   );
+  cy.intercept("**/whoami", (req) => {
+    if (attemptConnection) {
+      return req.reply({...req, body: whoami, statusCode: 200});
+    }
+    return req.reply({...req, statusCode: 403});
+  }).as("getWhoami");
+
   cy.visit("/login");
 
   // have to click 'cause of MUI input style
-  cy.get("#username")
+  cy.get("#username").type(options.username || defaultUserConnected.username);
+  cy.get("#password").type(options.password || defaultUserConnected.password);
+  cy.get("button")
+    .contains("Connexion", {timeout: 10000})
     .click()
-    .type(options.username || defaultUserConnected.username);
+    .then(() => {
+      attemptConnection = true;
+    });
 
-  isSuccess && cy.intercept("**/whoami", whoami).as("getWhoami");
-  cy.get("#password")
-    .click()
-    .type(options.password || defaultUserConnected.password);
-  cy.get("button").contains("Connexion", {timeout: 10000}).click();
-
-  cy.wait("@postCognito");
   cy.wait("@postCognito");
 
   if (isSuccess) {
