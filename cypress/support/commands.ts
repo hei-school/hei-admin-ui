@@ -93,4 +93,19 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     cy.wait("@getWhoami");
     cy.wait("@getProfile");
   }
+
+  cy.intercept(
+    {
+      url: /.*awswaf.*telemetry.*/, // Match any URL containing 'awswaf' and 'telemetry'
+      method: "POST",
+    },
+    {
+      statusCode: 200,
+      body: {
+        token: "dummy_token",
+        next_interval: 100,
+        awswaf_session_storage: "awswaf_dummy_session_storage_key",
+      },
+    }
+  ).as("awsWafTelemetry");
 });

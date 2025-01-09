@@ -37,3 +37,8 @@ export const assertFeeMatchesTemplate = (feeToCreate: any, template: any) => {
     currentDateString
   );
 };
+
+export const heiAdmin = (tail: string) =>
+  (Cypress.env("REACT_APP_API_URL") || "https://api.preprod.hei.school").concat(
+    tail
+  );

@@ -26,9 +26,10 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
-import {Route} from "react-router-dom";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 import awardedCourses from "./operations/awardedCourses";
 import staffMembers from "./operations/staffMembers";
+import {HumanVerification} from "./security/waf";
 
 function AppBase() {
   return (
@@ -253,7 +254,12 @@ function AppBase() {
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <AppBase />
+      <BrowserRouter>
+        <Routes>
+          <Route path="/human-verification" element={<HumanVerification />} />
+          <Route path="*" element={<AppBase />} />
+        </Routes>
+      </BrowserRouter>
     </LocalizationProvider>
   );
 }
