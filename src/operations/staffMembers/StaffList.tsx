@@ -1,11 +1,11 @@
 import {FC} from "react";
 import {EditButton, TextField} from "react-admin";
 import {Box} from "@mui/material";
-import {AssignmentInd} from "@mui/icons-material";
+import {AssignmentInd, Download} from "@mui/icons-material";
 import {HaList} from "@/ui/haList";
 import {useRole} from "@/security/hooks";
 import {PALETTE_COLORS} from "@/haTheme";
-import {CreateButton, ExportButton, ImportButton} from "@/ui/haToolbar";
+import {CreateButton, ImportButton} from "@/ui/haToolbar";
 import {ProfileFilters} from "../profile/components/ProfileFilters";
 import staffProvider from "@/providers/staffProvider";
 import {
@@ -14,10 +14,19 @@ import {
   transformUserData,
   validateUserData,
 } from "../utils/userImportConf";
+import dataProvider from "@/providers/dataProvider";
+import {FileDownloader} from "../common/components";
 
 const StaffList: FC = () => {
   const {isAdmin} = useRole();
-
+  const downloadFile = async () => {
+    const {
+      data: {file},
+    } = await dataProvider.getOne("staffs-export", {
+      undefined,
+    });
+    return {data: file};
+  };
   return (
     <Box>
       <HaList
@@ -26,7 +35,22 @@ const StaffList: FC = () => {
         actions={
           <>
             <CreateButton resource="staffmembers" />
-            <ExportButton />
+            <FileDownloader
+              downloadFunction={downloadFile}
+              fileName="Liste des staffs"
+              startIcon={<Download />}
+              sx={{
+                textTransform: "none",
+                color: "inherit",
+                opacity: "0.8",
+                padding: "0.5rem 1.1rem",
+                gap: "0.8rem",
+              }}
+              buttonText="Exporter"
+              successMessage="Exportation en cours..."
+              errorMessage="Erreur lors de l'exportation du fichier."
+              fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            />
             <ProfileFilters resource="staffmembers" />
             <ImportButton
               provider={staffProvider.saveOrUpdate}
