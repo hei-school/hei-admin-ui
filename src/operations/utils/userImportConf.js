@@ -35,11 +35,17 @@ export const optionalUserHeaders = [
     disabled: false,
   },
   {
-    id:13,
-    label:"Student STD",
-    value:"student_ref",
-    disabled:false, 
-  }
+    id: 13,
+    label: "Lieu de naissance",
+    value: "birth_place",
+    disabled: false,
+  },
+  {
+    id: 14,
+    label: "Student STD(monitor seulement)",
+    value: "student_ref",
+    disabled: false,
+  },
 ];
 
 export const validateUserData = (data) => {
@@ -72,6 +78,5 @@ export const transformUserData = (data) => {
         .map((ref) => ref.trim());
     }
     return element;
-
   });
 };
