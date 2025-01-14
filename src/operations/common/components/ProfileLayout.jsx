@@ -180,7 +180,8 @@ const ProfileCardAvatar = ({role}) => {
     <Badge
       variant="contained"
       badgeContent={
-        !isStudent() && !isMonitor() && (
+        !isStudent() &&
+        !isMonitor() && (
           <UploadPictureButton
             role={role}
             onUpload={(user) => {
