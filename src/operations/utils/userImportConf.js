@@ -42,8 +42,14 @@ export const optionalUserHeaders = [
   },
   {
     id: 14,
+    label: "Carte d'identité nationale",
+    value: "nic",
+    disabled: false,
+  },
+  {
+    id: 15,
     label: "Student STD(monitor seulement)",
-    value: "student_ref",
+    value: "student_refs",
     disabled: false,
   },
 ];
@@ -72,8 +78,8 @@ export const transformUserData = (data) => {
     } else if (element["payment_frequency"] === "annuel") {
       element["payment_frequency"] = "YEARLY";
     }
-    if (element["student_ref"]) {
-      element["student_ref"] = element["student_ref"]
+    if (element["student_refs"]) {
+      element["student_refs"] = element["student_refs"]
         .split(",")
         .map((ref) => ref.trim());
     }
