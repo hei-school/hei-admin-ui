@@ -45,7 +45,7 @@ function TeacherMenu() {
       <SingleMenu
         data-testid="event-menu"
         to="/events"
-        label="Événements"
+        label="Présences"
         icon={<EventIcon />}
       />
     </Box>

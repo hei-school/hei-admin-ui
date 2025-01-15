@@ -22,7 +22,7 @@ export function EventList() {
       </Tabs>
       {tabValue === "list" && (
         <List
-          title="Événements"
+          title="Présences"
           resource="events"
           empty={false}
           actions={false}

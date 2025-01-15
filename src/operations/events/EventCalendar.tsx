@@ -42,7 +42,7 @@ export const EventCalendar = () => {
         }}
         ListProps={{
           filter: filter || {},
-          title: "Événements",
+          title: "Présences",
           actions: (
             <Box sx={{bgcolor: "white", width: "100%", mt: 2}}>
               <HaListTitle
