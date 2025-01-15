@@ -34,6 +34,24 @@ export const optionalUserHeaders = [
     value: "payment_frequency",
     disabled: false,
   },
+  {
+    id: 13,
+    label: "Lieu de naissance",
+    value: "birth_place",
+    disabled: false,
+  },
+  {
+    id: 14,
+    label: "Carte d'identité nationale",
+    value: "nic",
+    disabled: false,
+  },
+  {
+    id: 15,
+    label: "Student STD(monitor seulement)",
+    value: "student_refs",
+    disabled: false,
+  },
 ];
 
 export const validateUserData = (data) => {
@@ -59,6 +77,11 @@ export const transformUserData = (data) => {
       element["payment_frequency"] = "MONTHLY";
     } else if (element["payment_frequency"] === "annuel") {
       element["payment_frequency"] = "YEARLY";
+    }
+    if (element["student_refs"]) {
+      element["student_refs"] = element["student_refs"]
+        .split(",")
+        .map((ref) => ref.trim());
     }
     return element;
   });

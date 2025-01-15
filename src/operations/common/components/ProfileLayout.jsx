@@ -166,7 +166,8 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
 };
 
 const ProfileCardAvatar = ({role}) => {
-  const {isStudent} = useRole();
+  const {isStudent, isMonitor} = useRole();
+
   const user = useRecordContext();
   const imgRef = useRef(null);
   const isLarge = useMediaQuery("(min-width:1700px)");
@@ -179,7 +180,8 @@ const ProfileCardAvatar = ({role}) => {
     <Badge
       variant="contained"
       badgeContent={
-        !isStudent() && (
+        !isStudent() &&
+        !isMonitor() && (
           <UploadPictureButton
             role={role}
             onUpload={(user) => {

@@ -62,7 +62,7 @@ const authProvider = {
     clientMetadata,
   }: Record<string, unknown>): Promise<void> => {
     const user = await signIn({
-      username: username as string,
+      username: (username as string).trim(),
       password: password as string,
       options: {
         clientMetadata: clientMetadata as any,
@@ -84,9 +84,9 @@ const authProvider = {
   },
 
   logout: async (): Promise<void> => {
+    await signOut();
     localStorage.clear(); // Amplify stores data in localStorage
     sessionStorage.clear();
-    await signOut();
   },
 
   checkAuth: async (): Promise<void> => {

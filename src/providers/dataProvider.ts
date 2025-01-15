@@ -36,6 +36,7 @@ import feesExportProvider from "./feesExportProvider";
 import examsProvider from "./examProvider";
 import staffProvider from "./staffProvider";
 import mpbsVerifyProvider from "./mpbsVerifyProvider";
+import staffExportProvider from "./staffExportProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -72,6 +73,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "fees-export") return feesExportProvider;
   if (resourceType === "exams") return examsProvider;
   if (resourceType === "staffmembers") return staffProvider;
+  if (resourceType === "staffs-export") return staffExportProvider;
   if (resourceType === "mpbs-verify") return mpbsVerifyProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
