@@ -105,6 +105,6 @@ describe("Manager.event", () => {
     cy.getByTestid("add-group-form").within(() => {
       cy.contains("Enregistrer").click();
     });
-    cy.contains("Groupe ajouter avec succès");
+    cy.contains("Groupe ajouté avec succès");
   });
 });

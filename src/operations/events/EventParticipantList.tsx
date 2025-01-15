@@ -128,7 +128,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
           queryOptions: {
             meta: {eventId},
             onSuccess: (data: {data: EventParticipant[]}) => {
-              setParticipants(data.data);
+              setParticipants((participants) => participants.concat(data.data));
             },
           },
         }}

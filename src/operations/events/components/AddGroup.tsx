@@ -43,7 +43,7 @@ const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
       mutationOptions={{
         onSuccess: () => {
           refresh();
-          notify("Groupe ajouter avec succès", {type: "success"});
+          notify("Groupe ajouté avec succès", {type: "success"});
           toggle();
         },
       }}
