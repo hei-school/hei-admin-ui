@@ -19,6 +19,15 @@ import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {DateTimeField} from "@/operations/common/components/fields";
 import {EventInput} from "@fullcalendar/react";
 
+const CLASSROOM_CHOICES = [
+  {label: "Salle F", value: "F"},
+  {label: "Salle R", value: "R"},
+  {label: "Salle Pi", value: "Pi"},
+  {label: " Salle Sigma", value: "Sigma"},
+  {label: "Salle Algebre", value: "Algebre"},
+  {label: "Salle B", value: "B"},
+];
+
 export function EventCreate() {
   const userId = authProvider.getCachedWhoami().id;
   const {data: groups = [], isLoading: isGroupsLoading} = useGetList("groups", {
@@ -50,11 +59,15 @@ export function EventCreate() {
       }}
     >
       <SimpleForm>
-        <TextInput
-          label="Titre"
+        <SelectInput
+          fullWidth
+          label="Salle"
           source="title"
           data-testid="event-title"
-          fullWidth
+          optionText="label"
+          optionValue="value"
+          defaultValue={CLASSROOM_CHOICES[0].value}
+          choices={CLASSROOM_CHOICES}
           validate={required()}
         />
         <TextInput
