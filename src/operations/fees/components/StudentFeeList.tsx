@@ -388,9 +388,19 @@ export const StudentFeeList = () => {
         toggle={toggleCatchupFees}
       />
       <FeesDialog
-        title="ssfois"
+        title="Payer votre écolage"
         children={
-          <MpbsCreate onSuccess={toggleRightFee} feeToPay={nextFeeToPay} />
+          <Box py={2}>
+            <Typography
+              align="center"
+              variant="h6"
+              sx={{color: PALETTE_COLORS.red}}
+            >
+              Vous allez payer le frais intitulé {nextFeeToPay?.comment} d'une
+              valeur de <strong>{nextFeeToPay?.total_amount} ariary.</strong>
+            </Typography>
+            <MpbsCreate onSuccess={toggleRightFee} feeToPay={nextFeeToPay} />
+          </Box>
         }
         show={showRightFee}
         toggle={toggleRightFee}
