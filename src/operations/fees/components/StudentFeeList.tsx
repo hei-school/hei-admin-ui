@@ -284,27 +284,38 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
 
 export const StudentFeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
-  const [show, _set, toggle] = useToggle(); // catch up fees
-  const [show3, _set3, toggle3] = useToggle(); // pay the right fee
+  const [showCatchupFees, _set, toggleCatchupFees] = useToggle();
+  const [showRightFee, _set3, toggleRightFee] = useToggle();
 
   const {data: fees = []} = useGetList("fees", {
     pagination: {page: 1, perPage: 100},
     filter: {studentId},
   });
 
-  const sortedFees = [...fees].sort(
-    (a, b) =>
-      new Date(a.due_datetime!).getTime() - new Date(b.due_datetime!).getTime()
+  const sortedFees = useMemo(
+    () =>
+      [...fees].sort(
+        (a, b) =>
+          new Date(a.due_datetime!).getTime() -
+          new Date(b.due_datetime!).getTime()
+      ),
+    [fees]
   );
-  const nextFeeToPay = sortedFees.find(
-    (fee, i) =>
-      fee.status === "UNPAID" &&
-      sortedFees
-        .slice(0, i)
-        .every(
-          (prevFee) =>
-            prevFee.status === "PAID" && !fee.comment?.includes("Rattrapage")
-        )
+
+  const nextFeeToPay = useMemo(
+    () =>
+      sortedFees.find(
+        (fee, i) =>
+          fee.status === FeeStatusEnum.UNPAID &&
+          sortedFees
+            .slice(0, i)
+            .every(
+              (prevFee) =>
+                prevFee.status === FeeStatusEnum.PAID &&
+                !fee.comment?.includes("Rattrapage")
+            )
+      ),
+    [fees, sortedFees]
   );
 
   return (
@@ -325,7 +336,7 @@ export const StudentFeeList = () => {
             <HaActionWrapper>
               <ButtonBase
                 icon={<PayIcon />}
-                onClick={toggle3}
+                onClick={toggleRightFee}
                 style={{
                   backgroundColor: PALETTE_COLORS.red,
                   color: PALETTE_COLORS.white,
@@ -372,15 +383,17 @@ export const StudentFeeList = () => {
       </HaList>
       <FeesDialog
         title="Créer mon/mes frais de rattrapage"
-        children={<CatchupFeesCreate onSuccess={toggle} />}
-        show={show}
-        toggle={toggle}
+        children={<CatchupFeesCreate onSuccess={toggleCatchupFees} />}
+        show={showCatchupFees}
+        toggle={toggleCatchupFees}
       />
       <FeesDialog
         title="ssfois"
-        children={<MpbsCreate onSuccess={toggle3} feeToPay={nextFeeToPay} />}
-        show={show3}
-        toggle={toggle3}
+        children={
+          <MpbsCreate onSuccess={toggleRightFee} feeToPay={nextFeeToPay} />
+        }
+        show={showRightFee}
+        toggle={toggleRightFee}
       />
     </Box>
   );
