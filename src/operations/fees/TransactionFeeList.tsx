@@ -16,7 +16,7 @@ const TransactionFeeList = () => {
     <Box>
       <HaList
         icon={<Money />}
-        header={<FeesListHeader />}
+        header={<FeesListHeader title="Statistiques des transactions" isMpbs />}
         title="Transactions (Mobile Money)"
         resource="fees"
         listProps={{

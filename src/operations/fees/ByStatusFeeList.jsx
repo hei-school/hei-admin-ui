@@ -15,6 +15,7 @@ import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
 import {rowStyle} from "./utils";
 import {FileDownloader} from "../common/components";
+import {FeesListHeader} from "./components";
 
 const ByStatusFeeList = () => {
   const dataProvider = useDataProvider();
@@ -36,6 +37,9 @@ const ByStatusFeeList = () => {
       <HaList
         title=" "
         resource="fees"
+        header={
+          <FeesListHeader title="Statistiques des frais filtrés par statut (en retard par défaut)" />
+        }
         listProps={{
           filterDefaultValues: {status: FeeStatusEnum.LATE},
           storeKey: "latefees",

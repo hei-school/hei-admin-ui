@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import {FC, useState} from "react";
 import {
   useGetOne,
   useListContext,
@@ -37,7 +37,10 @@ const INITIAL_STATS = {
 };
 
 // TODO: Add this to ByStatusFeeList
-export const FeesListHeader = () => {
+export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
+  title,
+  isMpbs = false,
+}) => {
   const {filterValues} = useListContext();
   const {data: stats = INITIAL_STATS} = useGetOne("stats", {
     id: NOOP_ID,
@@ -95,7 +98,7 @@ export const FeesListHeader = () => {
       total: stats.total_yearly_fees ?? "...",
     },
   ];
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <ListHeader
@@ -103,15 +106,17 @@ export const FeesListHeader = () => {
       title={
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           <Typography variant="h6" fontWeight="bold">
-            Statistiques des frais de ce mois-ci
+            {title}
           </Typography>
-          <ImportButton
-            onClick={() => setOpen(true)}
-            variant="contained"
-            sx={{bgcolor: PALETTE_COLORS.primary}}
-          >
-            Vérifier des transactions
-          </ImportButton>
+          {isMpbs && (
+            <ImportButton
+              onClick={() => setOpen(true)}
+              variant="contained"
+              sx={{bgcolor: PALETTE_COLORS.primary}}
+            >
+              Vérifier des transactions
+            </ImportButton>
+          )}
           <ImportDialog onShow={open} onClose={() => setOpen(false)} />
         </Box>
       }
