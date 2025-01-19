@@ -28,3 +28,12 @@ export const CLASSROOM_CHOICES = [
   {label: "Salle B", value: "B"},
   {label: "Autre", value: "autre"},
 ];
+
+export const RECURRENCE_TYPE_CHOICES = [
+  {value: "MONDAY", label: "Lundi"},
+  {value: "TUESDAY", label: "Mardi"},
+  {value: "WEDNESDAY", label: "Mercredi"},
+  {value: "THURSDAY", label: "Jeudi"},
+  {value: "FRIDAY", label: "Vendredi"},
+  {value: "SATURDAY", label: "Samedi"},
+];
