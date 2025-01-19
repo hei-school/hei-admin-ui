@@ -20,9 +20,21 @@ const eventProvider: HaDataProviderType = {
       .getEventById(id)
       .then((response) => response.data);
   },
-  async saveOrUpdate(events: CreateEvent[]) {
+  async saveOrUpdate(events: CreateEvent[], {meta}) {
+    const {
+      recurrenceType: frequencyDay,
+      frequency: frequencyNumber,
+      startTime: frequencyBeginningHour,
+      endTime: frequencyEndingHour,
+    } = meta;
     return eventsApi()
-      .crupdateEvents(events)
+      .crupdateEvents(
+        events,
+        frequencyDay,
+        frequencyNumber,
+        frequencyBeginningHour,
+        frequencyEndingHour
+      )
       .then((response) => response.data);
   },
   async delete(_id: string) {
