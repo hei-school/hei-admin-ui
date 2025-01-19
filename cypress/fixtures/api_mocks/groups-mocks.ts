@@ -14,6 +14,7 @@ export const groupsMock: Required<Group>[] = [
     ref: "group_ref1",
     size: 4,
     creation_datetime: new Date("2024-01-28"),
+    attributed_color: "#ffffff",
   },
   {
     id: "group_id2",
@@ -21,6 +22,7 @@ export const groupsMock: Required<Group>[] = [
     ref: "group_ref2",
     size: 4,
     creation_datetime: new Date("2023-02-28"),
+    attributed_color: "#ffffff",
   },
   {
     id: "group_id3",
@@ -28,6 +30,7 @@ export const groupsMock: Required<Group>[] = [
     size: 4,
     ref: "group_ref3",
     creation_datetime: new Date("2023-04-01"),
+    attributed_color: "#ffffff",
   },
   {
     id: "group_id4",
@@ -35,6 +38,7 @@ export const groupsMock: Required<Group>[] = [
     ref: "group_ref4",
     size: 4,
     creation_datetime: new Date("2023-04-01"),
+    attributed_color: "#ffffff",
   },
 ];
 

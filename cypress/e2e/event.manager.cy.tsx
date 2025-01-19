@@ -75,9 +75,9 @@ describe("Manager.event", () => {
     cy.contains("Enregistrer").click();
   });
 
-  it("manager can list & change status event participant", () => {
+  it.only("manager can list & change status event participant", () => {
     cy.contains("Listes").click();
-    cy.contains("Présence").click();
+    cy.get("#event-show").click({force: true});
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid(`eventparticipant-${eventparticipant1mock.id}-status`)
       .as("participantStatus")

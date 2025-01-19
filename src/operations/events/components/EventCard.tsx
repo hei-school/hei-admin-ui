@@ -152,6 +152,7 @@ export function EventCard({event}: EventCardPropsType) {
             size="small"
             href={`#/events/${event.id}/participants`}
             sx={{textTransform: "revert"}}
+            id="event-show"
           >
             Présence
           </Button>

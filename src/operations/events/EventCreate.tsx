@@ -250,26 +250,35 @@ const RecurrenceFields = ({
             fullWidth
           />
           <NumberInput
+            fullWidth
             source="meta.frequency"
             label="Fréquence"
             validate={required()}
             min={1}
             defaultValue={1}
           />
-          <TextInput
-            source="meta.startTime"
-            label="Heure de début"
-            type="time"
-            validate={required()}
-            defaultValue={"08:00"}
-          />
-          <TextInput
-            source="meta.endTime"
-            label="Heure de fin"
-            type="time"
-            validate={required()}
-            defaultValue={"17:00"}
-          />
+          <Box display="flex" gap="1vw" width="100%">
+            <TextInput
+              source="meta.startTime"
+              label="Heure de début"
+              type="time"
+              validate={required()}
+              defaultValue={"08:00"}
+              sx={{
+                flex: 1,
+              }}
+            />
+            <TextInput
+              source="meta.endTime"
+              label="Heure de fin"
+              type="time"
+              validate={required()}
+              defaultValue={"17:00"}
+              sx={{
+                flex: 1,
+              }}
+            />
+          </Box>
         </>
       )}
     </>
