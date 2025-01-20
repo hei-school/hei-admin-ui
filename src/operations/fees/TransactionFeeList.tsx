@@ -1,5 +1,6 @@
-import {FunctionField, TextField} from "react-admin";
-import {CurrencyExchange as Money} from "@mui/icons-material";
+import {useState} from "react";
+import {Button, FunctionField, TextField} from "react-admin";
+import {CurrencyExchange as Money, Download} from "@mui/icons-material";
 import {Fee} from "@haapi/typescript-client";
 import {Box, Chip} from "@mui/material";
 import {HaList} from "@/ui/haList/HaList";
@@ -10,8 +11,16 @@ import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
 import {PSP_COLORS, PSP_VALUES, rowStyle, MpbsStatusIcon} from "./utils";
 import {FeesListHeader} from "./components";
+import {FeesExport} from "./utils/FeesExport";
 
 const TransactionFeeList = () => {
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
   return (
     <Box>
       <HaList
@@ -23,7 +32,28 @@ const TransactionFeeList = () => {
           filterDefaultValues: {isMpbs: true},
           storeKey: "transactionsfees",
         }}
-        actions={<FeesFilters />}
+        actions={
+          <>
+            <FeesFilters />
+            <Button
+              startIcon={<Download />}
+              onClick={handleOpenDialog}
+              label="Exporter"
+              sx={{
+                color: "black",
+                opacity: "0.8",
+                padding: "0.5rem 1.1rem",
+                textTransform: "none",
+                gap: "0.8rem",
+                width: "100%",
+                justifyContent: "flex-start",
+              }}
+            />
+            {openDialog && (
+              <FeesExport open={openDialog} onClose={handleCloseDialog} />
+            )}
+          </>
+        }
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
         datagridProps={rowStyle}
         filterIndicator={false}
