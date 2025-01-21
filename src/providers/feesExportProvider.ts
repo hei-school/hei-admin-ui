@@ -8,9 +8,11 @@ const feesExportProvider: HaDataProviderType = {
   },
 
   async getOne(_id: string, meta) {
-    const {status} = meta;
+    const {status, fromDueDatetime, toDueDatetime} = meta;
     return payingApi()
-      .generateFeesListAsXlsx(status, {responseType: "arraybuffer"})
+      .generateFeesListAsXlsx(status, fromDueDatetime, toDueDatetime, {
+        responseType: "arraybuffer",
+      })
       .then((res) => ({id: uuid(), file: res.data}));
   },
 

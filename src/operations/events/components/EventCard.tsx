@@ -62,7 +62,7 @@ export function EventCard({event}: EventCardPropsType) {
             )}
           </Stack>
           <Typography sx={{fontSize: 30, fontWeight: "bold"}}>
-            {event.title || ""}
+            {event?.course?.code || event.title}
           </Typography>
           <Box sx={CARD_HEADER_SX}>
             <img
@@ -152,6 +152,7 @@ export function EventCard({event}: EventCardPropsType) {
             size="small"
             href={`#/events/${event.id}/participants`}
             sx={{textTransform: "revert"}}
+            id="event-show"
           >
             Présence
           </Button>

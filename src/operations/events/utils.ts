@@ -26,6 +26,7 @@ export const CLASSROOM_CHOICES = [
   {label: " Salle Sigma", value: "Sigma"},
   {label: "Salle Algebre", value: "Algebre"},
   {label: "Salle B", value: "B"},
+  {label: "Salle NP", value: "NP"},
   {label: "Autre", value: "autre"},
 ];
 

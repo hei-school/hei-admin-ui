@@ -11,6 +11,7 @@ import {
 import {FC} from "react";
 import {Dialog} from "@/ui/components";
 import {DateTimeField} from "@/operations/common/components/fields";
+import {SelectClassroom} from "./components/SelectClassrroom";
 
 interface EditProps {
   eventId: string;
@@ -53,13 +54,7 @@ export const EventEditDialog: FC<EditProps> = ({
               </Toolbar>
             }
           >
-            <TextInput
-              label="Titre"
-              source="title"
-              fullWidth
-              validate={required()}
-              data-testid="event-title"
-            />
+            <SelectClassroom />
             <TextInput
               label="Description"
               source="description"

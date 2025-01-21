@@ -1,4 +1,4 @@
-import {FC, useEffect, useState} from "react";
+import {FC, useEffect} from "react";
 import {
   BooleanInput,
   NumberInput,
@@ -16,11 +16,7 @@ import {AutocompleteArrayInput} from "@/ui/components/inputs";
 import {SelectCourse} from "./components";
 import {Create} from "../common/components";
 import {mapToChoices} from "@/utils";
-import {
-  CLASSROOM_CHOICES,
-  EVENT_TYPE_VALUE,
-  RECURRENCE_TYPE_CHOICES,
-} from "./utils";
+import {EVENT_TYPE_VALUE, RECURRENCE_TYPE_CHOICES} from "./utils";
 import {SelectPlanner} from "./components";
 import authProvider from "@/providers/authProvider";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
@@ -29,10 +25,10 @@ import {EventInput} from "@fullcalendar/react";
 import {ColorInput} from "../common/components/ColorInput";
 import {ToRaRecord} from "../common/utils/types";
 import {stringifyObj} from "../common/utils/strinfigy-obj";
+import {SelectClassroom} from "./components/SelectClassrroom";
 
 export function EventCreate() {
   const userId = authProvider.getCachedWhoami().id;
-  const [meta, setMeta] = useState({});
   const {data: groups = [], isLoading: isGroupsLoading} = useGetList<
     ToRaRecord<Group>
   >("groups", {
@@ -65,9 +61,6 @@ export function EventCreate() {
           begin_datetime: parseDate(event.start as AcceptDate),
           end_datetime: parseDate(event.end as AcceptDate),
         };
-      }}
-      mutationOptions={{
-        meta,
       }}
     >
       <SimpleForm>
@@ -109,7 +102,7 @@ export function EventCreate() {
           validate={required()}
           fullWidth
         />
-        <RecurrenceFields onUpdateMeta={setMeta} />
+        <RecurrenceFields />
         <SelectEventColor groupList={groups} />
       </SimpleForm>
     </Create>
@@ -166,70 +159,20 @@ export const SelectEventColor: FC<{groupList: Group[]}> = ({groupList}) => {
   );
 };
 
-const SelectClassroom = () => {
-  const selectedClassroom = useWatch({
-    name: "title",
-    defaultValue: CLASSROOM_CHOICES[0].value,
-  });
-
-  return (
-    <>
-      <SelectInput
-        fullWidth
-        label="Salle"
-        source="title"
-        data-testid="event-title"
-        optionText="label"
-        optionValue="value"
-        defaultValue={CLASSROOM_CHOICES[0].value}
-        choices={CLASSROOM_CHOICES}
-        validate={required()}
-      />
-      {selectedClassroom === "autre" && (
-        <TextInput
-          fullWidth
-          label="Préciser la salle"
-          source="customTitle"
-          data-testid="event-title-custom"
-          validate={required()}
-        />
-      )}
-    </>
-  );
-};
-
-const RecurrenceFields = ({
-  onUpdateMeta,
-}: {
-  onUpdateMeta: (meta: object) => void;
-}) => {
-  const {watch} = useFormContext();
+const RecurrenceFields = () => {
+  const {watch, setValue} = useFormContext();
 
   const isRecurrent = watch("meta.isRecurrent", false);
-  const recurrenceType = watch("meta.recurrenceType");
-  const frequency = watch("meta.frequency");
-  const startTime = watch("meta.startTime");
-  const endTime = watch("meta.endTime");
 
   useEffect(() => {
+    const startDate = new Date(watch("start"));
+    const endDate = new Date(watch("end"));
+
     if (isRecurrent) {
-      onUpdateMeta({
-        recurrenceType,
-        frequency,
-        startTime,
-        endTime,
-      });
-    } else {
-      onUpdateMeta({});
+      setValue("recurrent.startTime", startDate.toTimeString().slice(0, 5));
+      setValue("recurrent.endTime", endDate.toTimeString().slice(0, 5));
     }
-  }, [
-    isRecurrent,
-    recurrenceType,
-    frequency,
-    startTime,
-    endTime,
-    onUpdateMeta,
-  ]);
+  }, [isRecurrent, watch, setValue]);
 
   return (
     <>
@@ -241,7 +184,7 @@ const RecurrenceFields = ({
       {isRecurrent && (
         <>
           <SelectInput
-            source="meta.recurrenceType"
+            source="recurrent.recurrenceType"
             label="Type de récurrence"
             choices={RECURRENCE_TYPE_CHOICES}
             optionText="label"
@@ -251,7 +194,7 @@ const RecurrenceFields = ({
           />
           <NumberInput
             fullWidth
-            source="meta.frequency"
+            source="recurrent.frequency"
             label="Fréquence"
             validate={required()}
             min={1}
@@ -259,21 +202,19 @@ const RecurrenceFields = ({
           />
           <Box display="flex" gap="1vw" width="100%">
             <TextInput
-              source="meta.startTime"
+              source="recurrent.startTime"
               label="Heure de début"
               type="time"
               validate={required()}
-              defaultValue={"08:00"}
               sx={{
                 flex: 1,
               }}
             />
             <TextInput
-              source="meta.endTime"
+              source="recurrent.endTime"
               label="Heure de fin"
               type="time"
               validate={required()}
-              defaultValue={"17:00"}
               sx={{
                 flex: 1,
               }}

@@ -1,12 +1,13 @@
-import {ChangeEvent, FC} from "react";
+import {FC} from "react";
 import {BoxProps, TextFieldProps, Box, TextField} from "@mui/material";
-import {useWatch, useFormContext} from "react-hook-form";
+import {useInput} from "react-admin";
 
 export type ColorInputProps = {
   source: string;
   label: string;
+  defaultValue?: string;
   wrapperProps?: BoxProps;
-  inputProps?: TextFieldProps;
+  inputProps?: Omit<TextFieldProps, "value" | "onChange">;
   hexInputProps?: TextFieldProps;
 };
 
@@ -16,15 +17,12 @@ export const ColorInput: FC<ColorInputProps> = ({
   hexInputProps = {},
   inputProps = {},
   wrapperProps = {},
+  defaultValue = "",
 }) => {
-  const value = useWatch({name: source});
-  const {setValue} = useFormContext();
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const inputValue = event?.target?.value;
-    setValue(source, inputValue);
-  };
-
+  const {field} = useInput({
+    source,
+    defaultValue,
+  });
   return (
     <Box
       sx={{display: "flex", width: "100%", alignItems: "center", gap: 2}}
@@ -34,19 +32,17 @@ export const ColorInput: FC<ColorInputProps> = ({
         size="small"
         type="color"
         label={label}
-        value={value}
         defaultValue="#3788d8"
-        onChange={handleChange}
         sx={{flex: 1}}
         {...inputProps}
+        {...field}
       />
       <TextField
         size="small"
-        value={value}
         placeholder="#3788d8"
-        onChange={handleChange}
         sx={{flex: 1}}
         {...hexInputProps}
+        {...field}
       />
     </Box>
   );

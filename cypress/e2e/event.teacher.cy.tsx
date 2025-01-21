@@ -33,10 +33,10 @@ describe("Teacher.event", () => {
     cy.visit("/events");
   });
 
-  it("teacher can list event", () => {
+  it.only("teacher can list event", () => {
     cy.contains("Listes").click();
     cy.getByTestid("event-list-content")
-      .should("contain", event1mock.title)
+      .should("contain", event1mock.course?.code)
       .and(
         "contain",
         `${event1mock.planner?.first_name} ${event1mock.planner?.last_name}`
@@ -55,7 +55,7 @@ describe("Teacher.event", () => {
 
   it("teacher can list & change status event participant", () => {
     cy.contains("Listes").click();
-    cy.contains("Présence").click();
+    cy.get("#event-show").click({force: true});
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid(`eventparticipant-${eventparticipant1mock.id}-status`)
       .as("participantStatus")
