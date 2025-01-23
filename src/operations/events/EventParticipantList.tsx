@@ -7,11 +7,16 @@ import {
   useRefresh,
   useUpdate,
 } from "react-admin";
-import {Event as EventIcon, Add, Save as SaveIcon} from "@mui/icons-material";
+import {
+  Event as EventIcon,
+  Add,
+  Save as SaveIcon,
+  Download,
+} from "@mui/icons-material";
 import {Box, Stack, Typography, Button} from "@mui/material";
 import {HaList} from "@/ui/haList";
 import {ButtonBase} from "@/ui/haToolbar";
-import {Loader, Show} from "@/operations/common/components";
+import {FileDownloader, Loader, Show} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {
   AttendanceStatus,
@@ -27,6 +32,7 @@ import {
   StatusActionStatus,
 } from "./components";
 import {useRole} from "@/security/hooks";
+import dataProvider from "@/providers/dataProvider";
 
 export function EventParticipantList() {
   const {eventId} = useParams();
@@ -117,6 +123,16 @@ const ListContent = ({eventId}: {eventId: string}) => {
     );
   };
 
+  const downloadFile = async () => {
+    const {
+      data: {file},
+    } = await dataProvider.getOne("events-participants-export", {
+      id: eventId,
+    });
+
+    return {data: file};
+  };
+
   return (
     <Stack>
       <HaList
@@ -135,12 +151,30 @@ const ListContent = ({eventId}: {eventId: string}) => {
         hasDatagrid={false}
         actions={
           (isManager() || isAdmin()) && (
-            <ButtonBase
-              icon={<Add />}
-              label="Ajout groupe"
-              onClick={() => toggle()}
-              children={<></>}
-            />
+            <>
+              <ButtonBase
+                icon={<Add />}
+                label="Ajout groupe"
+                onClick={() => toggle()}
+                children={<></>}
+              />
+              <FileDownloader
+                downloadFunction={downloadFile}
+                fileName="Listes des participants"
+                startIcon={<Download />}
+                sx={{
+                  textTransform: "none",
+                  color: "inherit",
+                  opacity: "0.8",
+                  padding: "0.5rem 1.1rem",
+                  gap: "0.8rem",
+                }}
+                buttonText="Exporter"
+                successMessage="Exportation en cours..."
+                errorMessage="Erreur lors de l'exportation du fichier."
+                fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+              />
+            </>
           )
         }
         datagridProps={{
