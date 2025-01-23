@@ -37,6 +37,7 @@ import examsProvider from "./examProvider";
 import staffProvider from "./staffProvider";
 import mpbsVerifyProvider from "./mpbsVerifyProvider";
 import staffExportProvider from "./staffExportProvider";
+import exportTeacherProvider from "./exportTeacherProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -47,6 +48,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "fees") return feeProvider;
   if (resourceType === "payments") return paymentProvider;
   if (resourceType === "teachers") return teacherProvider;
+  if (resourceType === "export-teachers") return exportTeacherProvider;
   if (resourceType === "docs") return docsProvider;
   if (resourceType === "groups") return groupProvider;
   if (resourceType === "group-flow") return groupFlowProvider;
