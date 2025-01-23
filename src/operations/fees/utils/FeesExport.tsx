@@ -31,8 +31,8 @@ export const FileDownloaderWrapper = () => {
         },
       });
       return {data: file};
-    } catch (e) {
-      console.log("fr", e);
+    } catch (error) {
+      console.log(error);
     }
   };
 
