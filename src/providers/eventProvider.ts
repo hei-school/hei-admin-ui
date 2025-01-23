@@ -30,7 +30,7 @@ const eventProvider: HaDataProviderType = {
         recurrent?.recurrenceType,
         recurrent?.frequency,
         recurrent?.startTime,
-        recurrent?.startTime
+        recurrent?.endTime
       )
       .then((response) => response.data);
   },

@@ -31,10 +31,10 @@ export const CLASSROOM_CHOICES = [
 ];
 
 export const RECURRENCE_TYPE_CHOICES = [
-  {value: "MONDAY", label: "Lundi"},
-  {value: "TUESDAY", label: "Mardi"},
-  {value: "WEDNESDAY", label: "Mercredi"},
-  {value: "THURSDAY", label: "Jeudi"},
-  {value: "FRIDAY", label: "Vendredi"},
-  {value: "SATURDAY", label: "Samedi"},
+  {value: "MONDAY", label: "  Lundis"},
+  {value: "TUESDAY", label: "Mardis"},
+  {value: "WEDNESDAY", label: "Mercredis"},
+  {value: "THURSDAY", label: "Jeudis"},
+  {value: "FRIDAY", label: "Vendredis"},
+  {value: "SATURDAY", label: "Samedis"},
 ];

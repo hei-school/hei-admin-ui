@@ -43,7 +43,9 @@ export function EventCreate() {
       resource="events"
       title="Créer un événement"
       transform={(event: EventInput & {[key: string]: any}) => {
-        const {isPlannedByMe, customTitle, ...createEvent} = event;
+        const {isPlannedByMe, customTitle, meta, recurrent, ...createEvent} =
+          event;
+        const {isRecurrent} = meta;
 
         if (event.event_type !== EventType.COURSE) delete createEvent.course_id;
         type AcceptDate = Date | number | string;
@@ -55,6 +57,7 @@ export function EventCreate() {
 
         return {
           ...createEvent,
+          recurrent: isRecurrent ? recurrent : undefined,
           id: uuid(),
           groups: event.groups?.map((group: GroupIdentifier) => ({id: group})),
           planner_id: isPlannedByMe ? userId : event.planner_id!,
@@ -171,6 +174,8 @@ const RecurrenceFields = () => {
     if (isRecurrent) {
       setValue("recurrent.startTime", startDate.toTimeString().slice(0, 5));
       setValue("recurrent.endTime", endDate.toTimeString().slice(0, 5));
+    } else {
+      undefined;
     }
   }, [isRecurrent, watch, setValue]);
 
@@ -187,7 +192,7 @@ const RecurrenceFields = () => {
             source="recurrent.recurrenceType"
             label="Type de récurrence"
             choices={RECURRENCE_TYPE_CHOICES}
-            optionText="label"
+            optionText={(label) => "Tous les  " + label.label}
             optionValue="value"
             validate={required()}
             fullWidth
