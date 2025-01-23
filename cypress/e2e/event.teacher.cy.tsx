@@ -33,7 +33,7 @@ describe("Teacher.event", () => {
     cy.visit("/events");
   });
 
-  it.only("teacher can list event", () => {
+  it("teacher can list event", () => {
     cy.contains("Listes").click();
     cy.getByTestid("event-list-content")
       .should("contain", event1mock.course?.code)

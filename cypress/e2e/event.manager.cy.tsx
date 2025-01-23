@@ -76,7 +76,7 @@ describe("Manager.event", () => {
     cy.contains("Enregistrer").click();
   });
 
-  it.only("manager can list & change status event participant", () => {
+  it("manager can list & change status event participant", () => {
     cy.contains("Listes").click();
     cy.get("#event-show").click({force: true});
     cy.wait("@getEventParticipantPage1");

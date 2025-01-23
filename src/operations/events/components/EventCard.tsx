@@ -62,7 +62,7 @@ export function EventCard({event}: EventCardPropsType) {
             )}
           </Stack>
           <Typography sx={{fontSize: 30, fontWeight: "bold"}}>
-            {event?.course?.code || event.title}
+            {event?.course?.code ?? event.title}
           </Typography>
           <Box sx={CARD_HEADER_SX}>
             <img
