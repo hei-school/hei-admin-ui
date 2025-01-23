@@ -4,7 +4,7 @@ import {useWatch} from "react-hook-form";
 import {Teacher} from "@haapi/typescript-client";
 import {Box} from "@mui/material";
 import {AutocompleteInput} from "@/ui/components/inputs";
-import dataProvider from "@/providers/dataProvider";
+import dataProvider, {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import authProvider from "@/providers/authProvider";
 
 function SelectUserPlanner() {
@@ -19,7 +19,7 @@ function SelectUserPlanner() {
       await dataProvider
         .getList("teachers", {
           filter: {ref},
-          pagination: {perPage: 10, page: 1},
+          pagination: {perPage: MAX_ITEM_PER_PAGE, page: 1},
         })
         .then(({data}) => {
           setTeachers(data);
