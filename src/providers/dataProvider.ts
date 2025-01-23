@@ -39,6 +39,7 @@ import mpbsVerifyProvider from "./mpbsVerifyProvider";
 import staffExportProvider from "./staffExportProvider";
 import exportTeacherProvider from "./exportTeacherProvider";
 import exportEventParticipantProvider from "./exportEventParticipantProvider";
+import exportStudentProvider from "./exportStudentProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -46,6 +47,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "profile") return profileProvider;
   if (resourceType === "announcements") return announcementProvider;
   if (resourceType === "students") return studentProvider;
+  if (resourceType === "students-export") return exportStudentProvider;
   if (resourceType === "fees") return feeProvider;
   if (resourceType === "payments") return paymentProvider;
   if (resourceType === "teachers") return teacherProvider;

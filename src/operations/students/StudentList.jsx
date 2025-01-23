@@ -1,3 +1,4 @@
+import {useState} from "react";
 import {
   CreateButton as RaCreateButton,
   EditButton,
@@ -5,6 +6,7 @@ import {
   TextField,
   useGetOne,
   useRedirect,
+  Button,
 } from "react-admin";
 import {
   Add as AddIcon,
@@ -13,6 +15,7 @@ import {
   Work as WorkIcon,
   WorkHistory as WillWorking,
   WorkOff as HaveBeenWorking,
+  Download,
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {useRole} from "@/security/hooks";
@@ -26,7 +29,7 @@ import {
 import {HaList} from "@/ui/haList";
 import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {PALETTE_COLORS} from "@/haTheme";
-import {exportData, exportHeaders, importHeaders} from "../utils";
+import {exportData, importHeaders} from "../utils";
 import {
   minimalUserHeaders,
   optionalUserHeaders,
@@ -39,11 +42,21 @@ import {NOOP_ID} from "@/utils/constants";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
 import studentProvider from "@/providers/studentProvider";
 import {get27thOfMonth} from "@/utils/date";
+import {StudentFilterExport} from "./utils/StudentFilterExport";
 
 const ListActions = () => {
   const {isManager, isAdmin} = useRole();
+  const [openDialog, setOpenDialog] = useState(false);
   const redirect = useRedirect();
   const date = new Date();
+
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
+
   return (
     <Box>
       {(isManager() || isAdmin()) && (
@@ -82,9 +95,23 @@ const ListActions = () => {
           />
         </Box>
       )}
-      <ExportButton
-        onExport={(list) => exportData(list, exportHeaders, "students")}
+      <Button
+        startIcon={<Download />}
+        onClick={handleOpenDialog}
+        label="Exporter"
+        sx={{
+          color: "black",
+          opacity: "0.8",
+          padding: "0.5rem 1.1rem",
+          textTransform: "none",
+          gap: "0.8rem",
+          width: "100%",
+          justifyContent: "flex-start",
+        }}
       />
+      {openDialog && (
+        <StudentFilterExport open={openDialog} onClose={handleCloseDialog} />
+      )}
       <ProfileFilters resource="students" />
     </Box>
   );
