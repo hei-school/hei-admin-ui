@@ -43,7 +43,8 @@ describe("Manager.event", () => {
     cy.contains("Listes").click();
     cy.getByTestid("menu-list-action").click();
     cy.contains("Créer").click();
-    cy.getByTestid("event-title").type("Test Event");
+    cy.getByTestid("event-title").click();
+    cy.get('[data-value="Pi"]').click();
     cy.getByTestid("event-description").type("Test for event");
     cy.get("[name=start]").type("101020240800");
     cy.get("[name=end]").type("101020241000");
@@ -58,7 +59,7 @@ describe("Manager.event", () => {
   it("manager can list event", () => {
     cy.contains("Listes").click();
     cy.getByTestid("event-list-content")
-      .should("contain", event1mock.title)
+      .should("contain", event1mock.course?.code)
       .and(
         "contain",
         `${event1mock.planner?.first_name} ${event1mock.planner?.last_name}`
@@ -71,13 +72,14 @@ describe("Manager.event", () => {
   it("manager can edit event", () => {
     cy.contains("Listes").click();
     cy.contains("Editer").first().click();
-    cy.getByTestid("event-title").type("Change title");
+    cy.getByTestid("event-title").click();
+    cy.get('[data-value="Pi"]').click();
     cy.contains("Enregistrer").click();
   });
 
   it("manager can list & change status event participant", () => {
     cy.contains("Listes").click();
-    cy.contains("Présence").click();
+    cy.get("#event-show").click({force: true});
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid(`eventparticipant-${eventparticipant1mock.id}-status`)
       .as("participantStatus")
@@ -95,7 +97,7 @@ describe("Manager.event", () => {
 
   it("manager can add group", () => {
     cy.contains("Listes").click();
-    cy.contains("Présence").click();
+    cy.get("#event-show").click({force: true});
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid("menu-list-action").click();
     cy.contains("Ajout groupe").click();
@@ -105,6 +107,6 @@ describe("Manager.event", () => {
     cy.getByTestid("add-group-form").within(() => {
       cy.contains("Enregistrer").click();
     });
-    cy.contains("Groupe ajouter avec succès");
+    cy.contains("Groupe ajouté avec succès");
   });
 });

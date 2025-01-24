@@ -37,6 +37,9 @@ import examsProvider from "./examProvider";
 import staffProvider from "./staffProvider";
 import mpbsVerifyProvider from "./mpbsVerifyProvider";
 import staffExportProvider from "./staffExportProvider";
+import exportTeacherProvider from "./exportTeacherProvider";
+import exportEventParticipantProvider from "./exportEventParticipantProvider";
+import exportStudentProvider from "./exportStudentProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -44,9 +47,11 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "profile") return profileProvider;
   if (resourceType === "announcements") return announcementProvider;
   if (resourceType === "students") return studentProvider;
+  if (resourceType === "students-export") return exportStudentProvider;
   if (resourceType === "fees") return feeProvider;
   if (resourceType === "payments") return paymentProvider;
   if (resourceType === "teachers") return teacherProvider;
+  if (resourceType === "export-teachers") return exportTeacherProvider;
   if (resourceType === "docs") return docsProvider;
   if (resourceType === "groups") return groupProvider;
   if (resourceType === "group-flow") return groupFlowProvider;
@@ -65,6 +70,8 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "receipts") return receiptProvider;
   if (resourceType === "awarded-courses") return awardedCoursesProvider;
   if (resourceType === "events") return eventProvider;
+  if (resourceType === "events-participants-export")
+    return exportEventParticipantProvider;
   if (resourceType === "event-participants") return eventParticipantProvider;
   if (resourceType === "monitors") return monitorProvider;
   if (resourceType === "monitor-students") return monitorStudentProvider;

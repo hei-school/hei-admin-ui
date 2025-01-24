@@ -10,12 +10,15 @@ const mpbsVerifyProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload: any, _params: any) {
     const {
+      id,
       mpbsFile: {rawFile},
     } = payload[0];
     if (!rawFile) return [];
     return payingApi()
       .verifyMpbs(rawFile)
-      .then((result) => result.data);
+      .then((result) => {
+        return [{...result.data, id}];
+      });
   },
   async delete(_id: string) {
     throw new Error("Not implemented");

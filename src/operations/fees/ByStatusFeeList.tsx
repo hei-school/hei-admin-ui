@@ -1,41 +1,37 @@
-import {
-  Button,
-  FunctionField,
-  ShowButton,
-  TextField,
-  useDataProvider,
-} from "react-admin";
+import {useState} from "react";
+import {Button, FunctionField, ShowButton, TextField} from "react-admin";
 import {Box} from "@mui/material";
 import {Download} from "@mui/icons-material";
-import {FeeStatusEnum} from "@haapi/typescript-client";
+import {Fee, FeeStatusEnum} from "@haapi/typescript-client";
 import {HaList} from "@/ui/haList/HaList";
 import {FeesFilters} from "./components/FeesFilter";
 import {DateField} from "../common/components/fields";
 import {commentFunctionRenderer} from "../utils";
 import {renderMoney} from "../common/utils/money";
 import {rowStyle} from "./utils";
-import {FileDownloader} from "../common/components";
+import {FeesListHeader} from "./components";
+import {FeesExport} from "./utils/FeesExport";
 
 const ByStatusFeeList = () => {
-  const dataProvider = useDataProvider();
-
-  const downloadFile = async () => {
-    const {
-      data: {file},
-    } = await dataProvider.getOne("fees-export", {
-      id: null,
-      meta: {
-        status: FeeStatusEnum.LATE,
-      },
-    });
-    return {data: file};
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
   };
-
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
   return (
     <Box>
       <HaList
         title=" "
+        icon={""}
         resource="fees"
+        header={
+          <FeesListHeader
+            isMpbs={false}
+            title="Statistiques des frais filtrés par statut (en retard par défaut)"
+          />
+        }
         listProps={{
           filterDefaultValues: {status: FeeStatusEnum.LATE},
           storeKey: "latefees",
@@ -43,32 +39,29 @@ const ByStatusFeeList = () => {
         actions={
           <>
             <FeesFilters />
-            <FileDownloader
-              downloadFunction={downloadFile}
-              fileName="Liste frais en retard"
-              buttonText={
-                <Button
-                  label="Exporter"
-                  startIcon={<Download />}
-                  sx={{
-                    color: "black",
-                    opacity: "0.8",
-                    padding: "0.5rem 1.1rem",
-                    textTransform: "none",
-                    gap: "0.8rem",
-                  }}
-                />
-              }
-              successMessage="Exportation en cours..."
-              errorMessage="Erreur lors de l'exportation du fichier."
-              fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            <Button
+              startIcon={<Download />}
+              onClick={handleOpenDialog}
+              label="Exporter"
+              sx={{
+                color: "black",
+                opacity: "0.8",
+                padding: "0.5rem 1.1rem",
+                textTransform: "none",
+                gap: "0.8rem",
+                width: "100%",
+                justifyContent: "flex-start",
+              }}
             />
+            {openDialog && (
+              <FeesExport open={openDialog} onClose={handleCloseDialog} />
+            )}
           </>
         }
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
         filterIndicator={false}
         datagridProps={{
-          rowClick: (id) => `/fees/${id}/show`,
+          rowClick: (id: any) => `/fees/${id}/show`,
           rowStyle,
         }}
       >
@@ -82,9 +75,9 @@ const ByStatusFeeList = () => {
         />
         <FunctionField
           label="Reste à payer"
-          render={(fee) => renderMoney(fee.remaining_amount)}
+          render={(fee: Fee) => renderMoney(fee.remaining_amount!)}
         />
-        <ShowButton basePath="/fees" />
+        <ShowButton href="/fees" />
       </HaList>
     </Box>
   );

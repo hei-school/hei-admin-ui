@@ -1,17 +1,22 @@
-import {payingApi} from "./api";
+import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
-const feesExportProvider: HaDataProviderType = {
+const exportStudentProvider: HaDataProviderType = {
   async getList() {
     throw new Error("Function not implemented.");
   },
 
   async getOne(id: string, meta) {
-    const {status, fromDueDatetime, toDueDatetime} = meta;
-    return payingApi()
-      .generateFeesListAsXlsx(status, fromDueDatetime, toDueDatetime, {
-        responseType: "arraybuffer",
-      })
+    const {status, sex, workStudyStatus} = meta;
+    return usersApi()
+      .generateStudentsInXlsx(
+        undefined,
+        status,
+        sex,
+        workStudyStatus,
+        undefined,
+        {responseType: "arraybuffer"}
+      )
       .then((res) => ({id, file: res.data}));
   },
 
@@ -24,4 +29,4 @@ const feesExportProvider: HaDataProviderType = {
   },
 };
 
-export default feesExportProvider;
+export default exportStudentProvider;

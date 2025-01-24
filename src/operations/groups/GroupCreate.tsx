@@ -1,27 +1,9 @@
-import {useEffect, useState} from "react";
-import {
-  Button,
-  Confirm,
-  CreateButton,
-  Datagrid,
-  DateInput,
-  EditButton,
-  List,
-  SelectArrayInput,
-  SimpleForm,
-  TextField,
-  TextInput,
-  useListContext,
-  useNotify,
-  useRefresh,
-} from "react-admin";
-import {Box, Typography, Divider} from "@mui/material";
-import {Add as AddIcon} from "@mui/icons-material";
-import {HaList} from "@/ui/haList";
-import {PALETTE_COLORS} from "@/haTheme";
+import {useState} from "react";
+import {DateInput, SimpleForm, TextInput} from "react-admin";
 import {Create, StudentListWithBulkActions} from "../common/components";
 import {EditToolBar} from "../utils";
-import {toISO} from "@/utils/date";
+import {Group} from "@haapi/typescript-client";
+import {ColorInput} from "../common/components/ColorInput";
 
 const GroupCreate = () => {
   const [students, setStudents] = useState([]);
@@ -31,7 +13,7 @@ const GroupCreate = () => {
       resource="groups"
       title="Création de groupe"
       redirect="show"
-      transform={(group) => ({...group, students})}
+      transform={(group: Group) => ({...group, students})}
     >
       <SimpleForm toolbar={<EditToolBar />}>
         <TextInput source="ref" label="Référence" required fullWidth />
@@ -42,9 +24,22 @@ const GroupCreate = () => {
           required
           fullWidth
         />
+        <ColorInput
+          source="attributed_color"
+          label="Code couleur groupe"
+          inputProps={{
+            size: "small",
+            sx: {flex: 1},
+          }}
+          hexInputProps={{
+            sx: {flex: 1},
+          }}
+          wrapperProps={{width: "100%"}}
+        />
         <StudentListWithBulkActions setStudentsIds={setStudents} />
       </SimpleForm>
     </Create>
   );
 };
+
 export default GroupCreate;

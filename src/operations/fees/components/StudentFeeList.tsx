@@ -1,6 +1,7 @@
 import {FC, useMemo} from "react";
 import {
   Course,
+  Fee,
   FeeStatusEnum,
   FeeTypeEnum,
   LetterStatus,
@@ -24,15 +25,17 @@ import {
 import {AxiosError} from "axios";
 import {
   AddCard as AddMbpsIcon,
+  Payment as PayIcon,
   Visibility as ShowIcon,
   WarningOutlined,
 } from "@mui/icons-material";
 import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
 import {useNotify, useToggle} from "@/hooks";
+import {PALETTE_COLORS} from "@/haTheme";
 import {useStudentRef} from "@/hooks/useStudentRef";
 import {HaList} from "@/ui/haList/HaList";
+import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Create} from "@/operations/common/components";
-import {StudentFeeCreate} from "@/operations/fees/StudentFeeCreate";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
@@ -152,9 +155,13 @@ const CatchupFeesCreate: FC<CreateProps> = ({onSuccess}) => {
   );
 };
 
-const MpbsCreate: FC<CreateProps> = ({onSuccess}) => {
+const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
+  onSuccess,
+  feeToPay,
+}) => {
   const notify = useNotify();
-  const {id: fee_id, mpbs} = useRecordContext();
+
+  const {id: fee_id, mpbs} = feeToPay;
   const {id: student_id} = authProvider.getCachedWhoami();
 
   const handleError = (error: AxiosError) => {
@@ -258,7 +265,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
         show={show3}
         toggle={toggle3}
       >
-        <MpbsCreate onSuccess={toggle3} />
+        <MpbsCreate onSuccess={toggle3} feeToPay={{id: id.toString(), mpbs}} />
       </FeesDialog>
       <CreateLettersDialog
         isOpen={show4}
@@ -277,8 +284,39 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
 
 export const StudentFeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
-  const [show, _set, toggle] = useToggle();
-  const [show2, _set2, toggle2] = useToggle();
+  const [showCatchupFees, _set, toggleCatchupFees] = useToggle();
+  const [showRightFee, _set3, toggleRightFee] = useToggle();
+
+  const {data: fees = []} = useGetList("fees", {
+    pagination: {page: 1, perPage: 100},
+    filter: {studentId},
+  });
+
+  const sortedFees = useMemo(
+    () =>
+      [...fees].sort(
+        (a, b) =>
+          new Date(a.due_datetime!).getTime() -
+          new Date(b.due_datetime!).getTime()
+      ),
+    [fees]
+  );
+
+  const nextFeeToPay = useMemo(
+    () =>
+      sortedFees.find(
+        (fee, i) =>
+          fee.status === FeeStatusEnum.UNPAID &&
+          sortedFees
+            .slice(0, i)
+            .every(
+              (prevFee) =>
+                prevFee.status === FeeStatusEnum.PAID &&
+                !fee.comment?.includes("Rattrapage")
+            )
+      ),
+    [fees, sortedFees]
+  );
 
   return (
     <Box>
@@ -293,7 +331,22 @@ export const StudentFeeList = () => {
         datagridProps={{
           rowClick: false,
         }}
-        actions={false}
+        actions={
+          <Box>
+            <HaActionWrapper>
+              <ButtonBase
+                icon={<PayIcon />}
+                onClick={toggleRightFee}
+                style={{
+                  backgroundColor: PALETTE_COLORS.red,
+                  color: PALETTE_COLORS.white,
+                }}
+              >
+                Payer mon écolage
+              </ButtonBase>
+            </HaActionWrapper>
+          </Box>
+        }
       >
         <DateField
           source="due_datetime"
@@ -330,15 +383,27 @@ export const StudentFeeList = () => {
       </HaList>
       <FeesDialog
         title="Créer mon/mes frais de rattrapage"
-        children={<CatchupFeesCreate onSuccess={toggle} />}
-        show={show}
-        toggle={toggle}
+        children={<CatchupFeesCreate onSuccess={toggleCatchupFees} />}
+        show={showCatchupFees}
+        toggle={toggleCatchupFees}
       />
       <FeesDialog
-        title="Création de frais"
-        children={<StudentFeeCreate toggle={toggle2} />}
-        show={show2}
-        toggle={toggle2}
+        title="Payer votre écolage"
+        children={
+          <Box py={2}>
+            <Typography
+              align="center"
+              variant="h6"
+              sx={{color: PALETTE_COLORS.red}}
+            >
+              Vous allez payer le frais intitulé {nextFeeToPay?.comment} d'une
+              valeur de <strong>{nextFeeToPay?.total_amount} ariary.</strong>
+            </Typography>
+            <MpbsCreate onSuccess={toggleRightFee} feeToPay={nextFeeToPay} />
+          </Box>
+        }
+        show={showRightFee}
+        toggle={toggleRightFee}
       />
     </Box>
   );

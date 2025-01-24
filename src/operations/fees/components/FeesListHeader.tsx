@@ -1,4 +1,4 @@
-import React, {FC} from "react";
+import {FC, useState} from "react";
 import {
   useGetOne,
   useListContext,
@@ -24,6 +24,7 @@ import {useNotify} from "@/hooks";
 import {NOOP_ID} from "@/utils/constants";
 import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 import {PALETTE_COLORS} from "@/haTheme";
+import {v4 as uuid} from "uuid";
 
 const INITIAL_STATS = {
   total_fees: "...",
@@ -37,7 +38,10 @@ const INITIAL_STATS = {
 };
 
 // TODO: Add this to ByStatusFeeList
-export const FeesListHeader = () => {
+export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
+  title,
+  isMpbs = false,
+}) => {
   const {filterValues} = useListContext();
   const {data: stats = INITIAL_STATS} = useGetOne("stats", {
     id: NOOP_ID,
@@ -95,7 +99,7 @@ export const FeesListHeader = () => {
       total: stats.total_yearly_fees ?? "...",
     },
   ];
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
 
   return (
     <ListHeader
@@ -103,15 +107,17 @@ export const FeesListHeader = () => {
       title={
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           <Typography variant="h6" fontWeight="bold">
-            Statistiques des frais de ce mois-ci
+            {title}
           </Typography>
-          <ImportButton
-            onClick={() => setOpen(true)}
-            variant="contained"
-            sx={{bgcolor: PALETTE_COLORS.primary}}
-          >
-            Vérifier des transactions
-          </ImportButton>
+          {isMpbs && (
+            <ImportButton
+              onClick={() => setOpen(true)}
+              variant="contained"
+              sx={{bgcolor: PALETTE_COLORS.primary}}
+            >
+              Vérifier des transactions
+            </ImportButton>
+          )}
           <ImportDialog onShow={open} onClose={() => setOpen(false)} />
         </Box>
       }
@@ -141,15 +147,22 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
         mutationOptions={{
           onSuccess: () => {
             notify("Transactions importées.", {type: "success"});
+            onClose();
             refresh();
           },
+        }}
+        transform={(mpbsFile: any) => {
+          return {
+            id: uuid(),
+            ...mpbsFile,
+          };
         }}
       >
         <SimpleForm>
           <FileInput
             source="mpbsFile"
             label=" "
-            accept=".xlsx,.xls,.gsheet"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             sx={FILE_FIELD_STYLE}
           >
             <FileField source="src" title="title" />

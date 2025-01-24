@@ -1,15 +1,16 @@
+import {useState} from "react";
 import {CompleteCalendar} from "@react-admin/ra-calendar";
+import {Popover, Box, Button, PopoverPosition} from "@mui/material";
+import {EventInput, EventClickArg} from "@fullcalendar/react";
 import frLocale from "@fullcalendar/core/locales/fr";
 import {Event} from "@haapi/typescript-client";
 import {EventCreate} from "./EventCreate";
-import {EventInput, EventClickArg} from "@fullcalendar/react";
 import {EventEditDialog} from "./EventEditDialog";
-import {useState} from "react";
-import {Popover, Box, Button, PopoverPosition} from "@mui/material";
 import {useToggle} from "@/hooks";
-import {EventListAction, StatCard} from "./components";
+import {EVENT_TYPE_VALUE} from "./utils";
 import {HaListTitle} from "@/ui/haList";
 import {useRole} from "@/security/hooks";
+import {EventListAction, StatCard} from "./components";
 
 export const EventCalendar = () => {
   const [currentEvent, setCurrentEvent] = useState<Event>();
@@ -42,7 +43,7 @@ export const EventCalendar = () => {
         }}
         ListProps={{
           filter: filter || {},
-          title: "Événements",
+          title: "Présences",
           actions: (
             <Box sx={{bgcolor: "white", width: "100%", mt: 2}}>
               <HaListTitle
@@ -85,11 +86,13 @@ export const EventCalendar = () => {
             });
           },
           locale: frLocale,
-          convertToEvent: (event: Event) => ({
+          convertToEvent: (event: Event & {color: string}) => ({
             id: event.id,
-            title: `${event.title} [${event.groups?.map((group) => group.ref).join(", ")}]`,
+            title: `[${event.groups?.map((group) => group.ref).join(", ")} | ${event.title}] ${event.course?.code ?? EVENT_TYPE_VALUE[event.type!]} `,
             start: event.begin_datetime,
             end: event.end_datetime,
+            backgroundColor: event?.color ?? "#54544f",
+            borderColor: "#ffffff",
             extendedProps: event,
           }),
         }}
