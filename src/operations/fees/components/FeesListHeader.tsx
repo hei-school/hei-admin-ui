@@ -24,6 +24,7 @@ import {useNotify} from "@/hooks";
 import {NOOP_ID} from "@/utils/constants";
 import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 import {PALETTE_COLORS} from "@/haTheme";
+import {v4 as uuid} from "uuid";
 
 const INITIAL_STATS = {
   total_fees: "...",
@@ -146,15 +147,22 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
         mutationOptions={{
           onSuccess: () => {
             notify("Transactions importées.", {type: "success"});
+            onClose();
             refresh();
           },
+        }}
+        transform={(mpbsFile: any) => {
+          return {
+            id: uuid(),
+            ...mpbsFile,
+          };
         }}
       >
         <SimpleForm>
           <FileInput
             source="mpbsFile"
             label=" "
-            accept=".xlsx,.xls,.gsheet"
+            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             sx={FILE_FIELD_STYLE}
           >
             <FileField source="src" title="title" />
