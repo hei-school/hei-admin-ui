@@ -4,6 +4,7 @@ import {
   SpecializationField,
   Student,
 } from "@haapi/typescript-client";
+import {group1Mock} from "./groups-mocks";
 
 export const studentsMock: Student[] = [
   {
@@ -15,6 +16,7 @@ export const studentsMock: Student[] = [
     birth_date: "2000-01-01",
     specialization_field: SpecializationField.COMMON_CORE,
     address: "Adr 1",
+    groups: [group1Mock],
     phone: "0322411123",
     email: "test+ryan@hei.school",
     entrance_datetime: new Date("2021-11-08T08:25:24Z"),
