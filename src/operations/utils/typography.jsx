@@ -22,6 +22,11 @@ const statusMap = {
     icon: <HourglassEmpty sx={{color: PALETTE_COLORS.white, mr: 1}} />,
     backgroundColor: "#fbbf24",
   },
+  PENDING: {
+    text: "En cours de vérification",
+    icon: <HourglassEmpty sx={{color: PALETTE_COLORS.white, mr: 1}} />,
+    backgroundColor: PALETTE_COLORS.primary,
+  },
 };
 
 const unexpectedValue = {
