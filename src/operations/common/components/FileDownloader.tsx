@@ -46,7 +46,6 @@ export const FileDownloader: FC<FileDownloaderProps> = ({
         notify(errorMessage, {type: "error"});
         return;
       }
-
       if (linkRef === null) {
         return;
       }

@@ -4,6 +4,7 @@ import {FileDownloader} from "@/operations/common/components";
 import {useNotify} from "@/hooks";
 import {filesApi} from "@/providers/api";
 import {isOver18} from "../utils/isOver18";
+import {useEffect, useState} from "react";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 const requiredFields = {
@@ -17,26 +18,30 @@ const requiredFields = {
 export const GetCertificate = ({studentId, variant = " "}) => {
   const notify = useNotify();
   const record = useRecordContext();
+  const [errorMessage, setErrorMessage] = useState(
+    "Échec de téléchargement. Veuillez réessayer"
+  );
 
-  const downloadFunction = () => {
-    const missingFields = Object.entries(requiredFields)
-      .filter(([key]) => !record[key])
-      .map(([_, value]) => value);
+  useEffect(() => {
+    const missingFields = record
+      ? Object.entries(requiredFields)
+          .filter(([key]) => !record[key])
+          .map(([_, value]) => value)
+      : [];
 
     if (missingFields.length > 0) {
-      notify(
-        `Vous ne pouvez pas télécharger votre certificat de scolarité car vos informations sont incomplètes : ${missingFields.join(", ")}.`,
-        {type: "error"}
+      setErrorMessage(
+        `Vous ne pouvez pas télécharger votre certificat de scolarité car vos informations sont incomplètes : ${missingFields.join(", ")}.`
       );
-      return;
     }
-    if (isOver18(record?.birth_date) && !nic) {
-      notify(
-        "Vous ne pouvez pas télécharger votre certificat de scolarité car vous êtes majeur et sans CIN.",
-        {type: "error"}
+    if (isOver18(record?.birth_date) && !record?.nic) {
+      setErrorMessage(
+        "Vous ne pouvez pas télécharger votre certificat de scolarité car vous êtes majeur et sans CIN."
       );
-      return;
     }
+  }, []);
+
+  const downloadFunction = () => {
     return filesApi().getStudentScholarshipCertificate(studentId, {
       responseType: "arraybuffer",
     });
@@ -64,7 +69,7 @@ export const GetCertificate = ({studentId, variant = " "}) => {
         fontWeight: "500",
       }}
       color="inherit"
-      errorMessage="Échec de téléchargement. Veuillez réessayer"
+      errorMessage={errorMessage}
       successMessage="Certificat de scolarité en cours de téléchargement"
     />
   );
