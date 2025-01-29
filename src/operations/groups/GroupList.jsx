@@ -92,6 +92,7 @@ const GroupList = () => {
     },
     ...getCommonListHeaderContent(stats),
   ];
+  const {isManager, isAdmin} = useRole();
 
   return (
     <Box>
@@ -146,7 +147,9 @@ const GroupList = () => {
         />
         <Box display="flex" justifyContent="space-evenly">
           <ShowButton />
-          <EditButton sx={{color: PALETTE_COLORS.yellow}} />
+          {(isAdmin() || isManager()) && (
+            <EditButton sx={{color: PALETTE_COLORS.yellow}} />
+          )}
         </Box>
       </HaList>
     </Box>
