@@ -162,13 +162,15 @@ function StudentList() {
         cardContents={headerCardContent}
         title="Liste des étudiants"
         action={
-          <RaCreateButton
-            {...COMMON_BUTTON_PROPS}
-            size="medium"
-            SX={{
-              m: "0px",
-            }}
-          />
+          (isManager() || isAdmin()) && (
+            <RaCreateButton
+              {...COMMON_BUTTON_PROPS}
+              size="medium"
+              SX={{
+                m: "0px",
+              }}
+            />
+          )
         }
       />
       <HaList
