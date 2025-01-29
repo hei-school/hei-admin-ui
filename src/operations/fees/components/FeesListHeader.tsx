@@ -131,6 +131,7 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
 }) => {
   const notify = useNotify();
   const refresh = useRefresh();
+  const [fileUploaded, setFileUploaded] = useState(false);
 
   return (
     <Dialog
@@ -158,12 +159,25 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
           };
         }}
       >
-        <SimpleForm>
+        <SimpleForm
+          onSubmit={fileUploaded ? undefined : () => {}}
+          disabled={!fileUploaded}
+        >
           <FileInput
             source="mpbsFile"
             label=" "
-            accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            accept=".xlsx, .xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             sx={FILE_FIELD_STYLE}
+            options={{
+              onDropAccepted: () => setFileUploaded(true),
+              onDropRejected: () => {
+                setFileUploaded(false);
+                notify(
+                  "Mauvais format de fichier. Seuls les fichiers .xlsx et .xls sont acceptés.",
+                  {type: "warning"}
+                );
+              },
+            }}
           >
             <FileField source="src" title="title" />
           </FileInput>
