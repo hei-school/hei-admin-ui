@@ -1,11 +1,11 @@
-import {EditButton, useRecordContext} from "react-admin";
-import {Edit as EditIcon} from "@mui/icons-material";
+import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
+import {Show} from "@/operations/common/components/Show";
+import {DocMenu} from "@/operations/students/components/DocMenu";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import {Show} from "@/operations/common/components/Show";
-import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
-import {DocMenu} from "@/operations/students/components/DocMenu";
+import {Edit as EditIcon} from "@mui/icons-material";
+import {EditButton, useRecordContext} from "react-admin";
 
 export const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();

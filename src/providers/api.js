@@ -1,15 +1,15 @@
 import {
-  UsersApi,
-  PayingApi,
-  TeachingApi,
-  FilesApi,
-  CommentsApi,
-  HealthApi,
-  PromotionsApi,
   AnnouncementsApi,
-  LettersApi,
+  CommentsApi,
   EventsApi,
+  FilesApi,
+  HealthApi,
+  LettersApi,
   MonitoringApi,
+  PayingApi,
+  PromotionsApi,
+  TeachingApi,
+  UsersApi,
 } from "@haapi/typescript-client";
 import authProvider from "./authProvider";
 

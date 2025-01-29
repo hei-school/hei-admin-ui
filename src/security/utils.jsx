@@ -1,7 +1,6 @@
-import React from "react";
 import {TextField} from "@mui/material";
-import {Button} from "react-admin";
 import {indigo} from "@mui/material/colors";
+import {Button} from "react-admin";
 
 const matchCognitoPassword = (password) => {
   var format = /[!@#$%^&*()_+\-=]/;

@@ -1,7 +1,7 @@
-import {TextField} from "react-admin";
-import {MenuBook as BookIcon} from "@mui/icons-material";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
+import {MenuBook as BookIcon} from "@mui/icons-material";
+import {TextField} from "react-admin";
 
 export const TeacherCourseList = () => {
   const teacher = authProvider.getCachedWhoami();

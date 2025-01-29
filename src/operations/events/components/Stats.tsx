@@ -1,9 +1,9 @@
-import {FC} from "react";
 import {Box, Stack, Typography} from "@mui/material";
+import {FC} from "react";
 
-import SvgIcon from "@mui/material/SvgIcon";
-import {People, PersonOff, AccessTime} from "@mui/icons-material";
 import {EventStats} from "@haapi/typescript-client";
+import {AccessTime, People, PersonOff} from "@mui/icons-material";
+import SvgIcon from "@mui/material/SvgIcon";
 
 type SvgIconComponent = typeof SvgIcon;
 

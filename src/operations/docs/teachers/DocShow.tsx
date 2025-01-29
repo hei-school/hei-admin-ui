@@ -1,8 +1,8 @@
 import {useParams} from "react-router-dom";
-import {DocShow} from "../components/DocShow";
-import {useRole} from "../../../security/hooks/useRole";
-import {OwnerType} from "../types";
 import authProvider from "../../../providers/authProvider";
+import {useRole} from "../../../security/hooks/useRole";
+import {DocShow} from "../components/DocShow";
+import {OwnerType} from "../types";
 
 export const TeacherDocShow = () => {
   const params = useParams();

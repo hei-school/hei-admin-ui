@@ -1,7 +1,7 @@
 import {DateInput, SimpleForm, TextInput} from "react-admin";
 import {Edit} from "../common/components";
-import {EditToolBar} from "../utils";
 import {ColorInput} from "../common/components/ColorInput";
+import {EditToolBar} from "../utils";
 
 const GroupEdit = () => {
   return (

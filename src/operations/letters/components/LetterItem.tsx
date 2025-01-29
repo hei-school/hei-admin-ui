@@ -1,30 +1,30 @@
-import React, {FC} from "react";
 import {
-  Box,
-  Typography,
-  IconButton,
-  Popover,
-  useMediaQuery,
-} from "@mui/material";
-import {
-  Folder,
   EditCalendar,
   EventAvailable,
+  Folder,
   MoreVert,
 } from "@mui/icons-material";
+import {
+  Box,
+  IconButton,
+  Popover,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import React, {FC} from "react";
 
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
-import {formatDate} from "@/utils/date";
+import {AcceptWithConfirm, RefuseButton} from "@/operations/letters/components";
 import LetterShow from "@/operations/letters/LetterShow";
 import {
   BottomFieldProps,
   LetterItemProps,
   PopoverProps,
 } from "@/operations/letters/types";
-import {AcceptWithConfirm, RefuseButton} from "@/operations/letters/components";
 import {useRole} from "@/security/hooks";
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import {formatDate} from "@/utils/date";
 
 const STATUS_COLORS = {
   RECEIVED: {border: "green", background: "green"},

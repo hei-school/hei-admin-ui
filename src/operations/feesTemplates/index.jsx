@@ -1,6 +1,6 @@
+import FeesTemplatesCreate from "./FeesTemplateCreate";
 import FeesTemplatesEdit from "./FeesTemplatesEdit";
 import FeesTemplatesList from "./FeesTemplatesList";
-import FeesTemplatesCreate from "./FeesTemplateCreate";
 
 const feesTemplates = {
   list: <FeesTemplatesList />,

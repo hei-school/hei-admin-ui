@@ -1,7 +1,6 @@
-import React from "react";
-import {FunctionField, SimpleShowLayout} from "react-admin";
-import {Box, Typography, useMediaQuery} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
+import {Box, Typography, useMediaQuery} from "@mui/material";
+import {FunctionField, SimpleShowLayout} from "react-admin";
 
 export default function HaField({source, label, icon, render}) {
   const isLarge = useMediaQuery("(min-width:1700px)");

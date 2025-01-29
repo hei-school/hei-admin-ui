@@ -1,11 +1,11 @@
-import {useRecordContext} from "react-admin";
-import {IconButton, Tooltip} from "@mui/material";
 import {
-  Help as Question,
   Cancel,
   CheckCircle,
   Pending,
+  Help as Question,
 } from "@mui/icons-material";
+import {IconButton, Tooltip} from "@mui/material";
+import {useRecordContext} from "react-admin";
 
 export const LETTER_STATUS_LABEL = {
   RECEIVED: "Paiement avec succès",

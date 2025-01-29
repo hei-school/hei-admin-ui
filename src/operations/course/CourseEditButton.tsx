@@ -1,3 +1,8 @@
+import {useNotify, useToggle} from "@/hooks";
+import {Edit} from "@/operations/common/components";
+import {Dialog} from "@/ui/components";
+import {Course} from "@haapi/typescript-client";
+import {Create as EditIcon} from "@mui/icons-material";
 import {
   Button,
   SaveButton,
@@ -9,11 +14,6 @@ import {
   required,
   useRecordContext,
 } from "react-admin";
-import {Create as EditIcon} from "@mui/icons-material";
-import {Dialog} from "@/ui/components";
-import {Edit} from "@/operations/common/components";
-import {useToggle, useNotify} from "@/hooks";
-import {Course} from "@haapi/typescript-client";
 
 export function CourseEditButton() {
   const {id} = useRecordContext();

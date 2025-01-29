@@ -1,7 +1,10 @@
+import dataProvider from "@/providers/dataProvider";
+import {Download, WorkOutlined} from "@mui/icons-material";
 import {EditButton, TextField} from "react-admin";
-import {CreateButton, ImportButton} from "../../ui/haToolbar";
-import {WorkOutlined, Download} from "@mui/icons-material";
+import teacherProvider from "../../providers/teacherProvider";
 import {HaList} from "../../ui/haList";
+import {CreateButton, ImportButton} from "../../ui/haToolbar";
+import {FileDownloader} from "../common/components";
 import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {
   minimalUserHeaders,
@@ -9,9 +12,6 @@ import {
   transformUserData,
   validateUserData,
 } from "../utils/userImportConf";
-import teacherProvider from "../../providers/teacherProvider";
-import {FileDownloader} from "../common/components";
-import dataProvider from "@/providers/dataProvider";
 
 const downloadFile = async () => {
   const {

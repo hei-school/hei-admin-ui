@@ -1,11 +1,11 @@
-import {TextField} from "react-admin";
-import {Box} from "@mui/material";
-import {Person as PersonIcon, Add as AddIcon} from "@mui/icons-material";
-import {AwardedCoursesCreate} from "@/operations/awardedCourses/AwardedCourseCreate";
 import {useToggle} from "@/hooks";
+import {AwardedCoursesCreate} from "@/operations/awardedCourses/AwardedCourseCreate";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {Add as AddIcon, Person as PersonIcon} from "@mui/icons-material";
+import {Box} from "@mui/material";
+import {TextField} from "react-admin";
 
 export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
   const [showCreate, _set, toggleShowCreate] = useToggle();

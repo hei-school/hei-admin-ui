@@ -1,23 +1,23 @@
-import {FunctionField, TextField} from "react-admin";
-import {WarningOutlined} from "@mui/icons-material";
-import {Box, Chip} from "@mui/material";
-import {EMPTY_TEXT} from "@/ui/constants";
-import {HaList} from "@/ui/haList/HaList";
-import {CreateButton, ImportButton} from "@/ui/haToolbar";
 import {DeleteWithConfirm} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
-import {commentFunctionRenderer} from "@/operations/utils";
+import {FeesFilters} from "@/operations/fees/components/FeesFilter";
 import {
   minimalFeesHeaders,
   optionalFeesHeaders,
   transformFeesData,
   valideFeesData,
 } from "@/operations/fees/importConf";
-import {rowStyle, PSP_COLORS, PSP_VALUES} from "@/operations/fees/utils";
-import {FeesFilters} from "@/operations/fees/components/FeesFilter";
-import {useRole} from "@/security/hooks";
+import {PSP_COLORS, PSP_VALUES, rowStyle} from "@/operations/fees/utils";
+import {commentFunctionRenderer} from "@/operations/utils";
 import feeProvider from "@/providers/feeProvider";
+import {useRole} from "@/security/hooks";
+import {EMPTY_TEXT} from "@/ui/constants";
+import {HaList} from "@/ui/haList/HaList";
+import {CreateButton, ImportButton} from "@/ui/haToolbar";
+import {WarningOutlined} from "@mui/icons-material";
+import {Box, Chip} from "@mui/material";
+import {FunctionField, TextField} from "react-admin";
 
 export const ManagerFeeList = ({studentId, studentRef}) => {
   const role = useRole();

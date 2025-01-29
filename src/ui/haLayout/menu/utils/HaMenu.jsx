@@ -1,16 +1,16 @@
-import {Box, Drawer, Typography, styled, useMediaQuery} from "@mui/material";
+import menuLogo from "@/assets/menu-logo.png";
+import {PALETTE_COLORS} from "@/haTheme";
+import authProvider from "@/providers/authProvider";
+import {useRole} from "@/security/hooks";
+import {HaMenuContent} from "@/ui/haLayout/menu/HaMenuContent";
+import {SingleMenu} from "@/ui/haLayout/menu/utils/SingleMenu";
 import {
   AccountCircle,
   Logout,
   Settings as SettingsIcon,
 } from "@mui/icons-material";
+import {Box, Drawer, Typography, styled, useMediaQuery} from "@mui/material";
 import {useSidebarState} from "react-admin";
-import {useRole} from "@/security/hooks";
-import {PALETTE_COLORS} from "@/haTheme";
-import {HaMenuContent} from "@/ui/haLayout/menu/HaMenuContent";
-import {SingleMenu} from "@/ui/haLayout/menu/utils/SingleMenu";
-import menuLogo from "@/assets/menu-logo.png";
-import authProvider from "@/providers/authProvider";
 
 //TODO: create hook useIsSmall
 

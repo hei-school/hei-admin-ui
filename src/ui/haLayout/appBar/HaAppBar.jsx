@@ -1,8 +1,8 @@
-import {useMediaQuery, AppBar, Box, Typography} from "@mui/material";
-import {SidebarToggleButton} from "react-admin";
+import menuLogo from "@/assets/menu-logo.png";
 import {PALETTE_COLORS} from "@/haTheme";
 import UserInfo from "@/ui/haLayout/appBar/UserInfo";
-import menuLogo from "@/assets/menu-logo.png";
+import {AppBar, Box, Typography, useMediaQuery} from "@mui/material";
+import {SidebarToggleButton} from "react-admin";
 
 const APPBAR_STYLE = {
   display: "flex",

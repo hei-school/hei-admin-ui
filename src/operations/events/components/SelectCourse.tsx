@@ -1,8 +1,8 @@
-import {required, useGetList} from "react-admin";
-import {useWatch} from "react-hook-form";
-import {EventType} from "@haapi/typescript-client";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {AutocompleteInput} from "@/ui/components/inputs";
+import {EventType} from "@haapi/typescript-client";
+import {required, useGetList} from "react-admin";
+import {useWatch} from "react-hook-form";
 
 export function SelectCourse() {
   const {data: courses = [], isLoading} = useGetList("course", {

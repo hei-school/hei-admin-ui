@@ -1,19 +1,17 @@
-import {List} from "@react-admin/ra-rbac";
-import {
-  Datagrid,
-  TextField,
-  FunctionField,
-  TopToolbar,
-  CreateButton,
-  Button,
-} from "react-admin";
-import {GetReceipt} from "@/operations/students/components";
 import {DeleteWithConfirm} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
+import {renderMoney} from "@/operations/common/utils/money";
+import {GetReceipt} from "@/operations/students/components";
 import {paymentTypeRenderer} from "@/operations/utils/index";
 import {useRole} from "@/security/hooks/index";
-import {renderMoney} from "@/operations/common/utils/money";
-import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {List} from "@react-admin/ra-rbac";
+import {
+  CreateButton,
+  Datagrid,
+  FunctionField,
+  TextField,
+  TopToolbar,
+} from "react-admin";
 const Actions = ({basePath, resource}) => (
   <TopToolbar disableGutters>
     <CreateButton to={basePath + "/create"} resource={resource} />

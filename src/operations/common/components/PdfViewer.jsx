@@ -1,26 +1,26 @@
-import {useCallback, useEffect, useRef, useState} from "react";
-import {useTheme} from "@mui/material";
+import {PALETTE_COLORS} from "@/haTheme";
 import {
   DownloadForOffline,
   Error,
   KeyboardArrowLeft,
   KeyboardArrowRight,
 } from "@mui/icons-material";
-import "pdfjs-dist/build/pdf.min.mjs";
-import "pdfjs-dist/build/pdf.worker.min.mjs";
-import {Document as Pdf, Page as PdfPage} from "react-pdf";
 import {
   Box,
-  Typography,
-  IconButton,
-  Tooltip,
   Card,
   CardContent,
   CardHeader,
+  IconButton,
   LinearProgress,
   Stack,
+  Tooltip,
+  Typography,
+  useTheme,
 } from "@mui/material";
-import {PALETTE_COLORS} from "@/haTheme";
+import "pdfjs-dist/build/pdf.min.mjs";
+import "pdfjs-dist/build/pdf.worker.min.mjs";
+import {useCallback, useEffect, useRef, useState} from "react";
+import {Document as Pdf, Page as PdfPage} from "react-pdf";
 
 const TooltipButton = ({icon, disabled, onClick, ...others}) => (
   <Tooltip {...others} sx={{margin: "0 6px"}}>

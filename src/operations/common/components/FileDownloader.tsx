@@ -1,15 +1,15 @@
-import {FC, useRef, useState} from "react";
+import {Download} from "@mui/icons-material";
 import {
-  CircularProgress,
   Button,
   ButtonProps,
-  useMediaQuery,
+  CircularProgress,
   IconButton,
+  useMediaQuery,
 } from "@mui/material";
-import {Download} from "@mui/icons-material";
+import {FC, useRef, useState} from "react";
 
-import {useNotify} from "@/hooks";
 import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify} from "@/hooks";
 
 export type FileDownloaderProps = {
   downloadFunction: () => Promise<any>;

@@ -1,8 +1,8 @@
 import {Work} from "@mui/icons-material";
 import ProfileEdit from "../profile/ProfileEdit";
-import TeacherShow from "./TeacherShow";
-import TeacherList from "./TeacherList";
 import TeacherCreate from "./TeacherCreate";
+import TeacherList from "./TeacherList";
+import TeacherShow from "./TeacherShow";
 
 const teachers = {
   list: TeacherList,

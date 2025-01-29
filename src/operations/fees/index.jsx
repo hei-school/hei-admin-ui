@@ -1,11 +1,11 @@
 import {AttachMoney} from "@mui/icons-material";
-import FeeList from "./FeeList";
 import ByStatusFeeList from "./ByStatusFeeList";
-import FeeShow from "./FeeShow";
 import FeeCreate from "./FeeCreate";
 import FeeEdit from "./FeeEdit";
-import TransactionFeeList from "./TransactionFeeList";
+import FeeList from "./FeeList";
+import FeeShow from "./FeeShow";
 import MultipleStudentFeesCreate from "./MultipleStudentFeesCreate";
+import TransactionFeeList from "./TransactionFeeList";
 
 const fees = {
   list: FeeList,

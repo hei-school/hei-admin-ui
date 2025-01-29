@@ -1,6 +1,6 @@
-import {Box, Divider, Typography} from "@mui/material";
 import {DateTimeFilter, FilterForm, SelectInputFilter} from "@/ui/haToolbar";
 import {mapToChoices} from "@/utils";
+import {Box, Divider, Typography} from "@mui/material";
 import {ANNOUNCEMENT_SCOPE} from "../utils/constants/announcementsScopes";
 
 const DEFAULT_CHOICE = {id: "", name: "Aucune valeur"};

@@ -1,75 +1,75 @@
 import {useRef} from "react";
 
 import {
+  FunctionField,
   ImageField,
   ImageInput,
   SimpleForm,
-  FunctionField,
-  useRecordContext,
-  useGetOne,
   TabbedShowLayout,
   TabbedShowLayoutTabs,
+  useGetOne,
+  useRecordContext,
   useShowContext,
 } from "react-admin";
 
 import {
-  PhotoCamera,
-  CardTravel as WorkStatusIcon,
-  MailOutlined as MailIcon,
-  PhoneOutlined as PhoneIcon,
-  School as SchoolIcon,
   LocationOnOutlined as AdressIcon,
   CakeOutlined as BirthDateIcon,
   CalendarTodayOutlined as CalendarIcon,
-  MapOutlined as GeoIcon,
-  AccountBoxOutlined as GenderIcon,
-  FeaturedVideoOutlined as NicIcon,
-  HowToRegOutlined as StatusIcon,
-  PersonOutlined as PersonIcon,
-  AssignmentOutlined as SpecializationIcon,
   CurrencyExchange,
-  MedicationLiquid,
-  WorkspacePremium,
   Engineering,
+  AccountBoxOutlined as GenderIcon,
+  MapOutlined as GeoIcon,
+  MailOutlined as MailIcon,
+  MedicationLiquid,
+  FeaturedVideoOutlined as NicIcon,
+  PersonOutlined as PersonIcon,
+  PhoneOutlined as PhoneIcon,
+  PhotoCamera,
+  School as SchoolIcon,
+  AssignmentOutlined as SpecializationIcon,
+  HowToRegOutlined as StatusIcon,
   WorkOff,
+  WorkspacePremium,
+  CardTravel as WorkStatusIcon,
 } from "@mui/icons-material";
 
 import {
-  Box,
-  Dialog,
   Badge,
+  Box,
+  CircularProgress,
+  Dialog,
   DialogTitle,
   IconButton,
   Typography,
   useMediaQuery,
-  CircularProgress,
 } from "@mui/material";
 
-import {BirthDateField} from "@/operations/common/components/fields";
-import {Create} from "@/operations/common/components/Create";
-import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
 import {CommentList} from "@/operations/comments/CommentList";
+import {Create} from "@/operations/common/components/Create";
+import {BirthDateField} from "@/operations/common/components/fields";
 import HaField from "@/operations/common/components/fields/HaField";
+import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
 import FeeList from "@/operations/fees/FeeList";
 
+import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify, useToggle} from "@/hooks";
-import {useRole} from "@/security/hooks";
 import {
   getGenderInFr,
   getUserStatusInFr,
 } from "@/operations/common/utils/typo_util";
-import {formatDate, DATE_OPTIONS} from "@/utils/date";
-import {SPECIALIZATION_VALUE} from "@/operations/students/components";
-import {EMPTY_TEXT} from "@/ui/constants";
-import {PALETTE_COLORS} from "@/haTheme";
 import {WORK_STATUS_VALUE} from "@/operations/docs/components/SelectWorkStatus";
 import {WORK_TYPE_VALUE} from "@/operations/docs/components/SelectWorkType";
+import {SPECIALIZATION_VALUE} from "@/operations/students/components";
+import {useRole} from "@/security/hooks";
+import {EMPTY_TEXT} from "@/ui/constants";
+import {DATE_OPTIONS, formatDate} from "@/utils/date";
 import {NOOP_FN} from "@/utils/noop";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
-import {UserLettersList} from "@/operations/letters/UserLettersList";
 import {LettersList} from "@/operations/letters/LettersList";
+import {UserLettersList} from "@/operations/letters/UserLettersList";
 
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;

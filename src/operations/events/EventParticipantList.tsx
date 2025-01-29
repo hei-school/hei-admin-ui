@@ -1,4 +1,23 @@
-import {useParams} from "react-router-dom";
+import {useNotify, useToggle} from "@/hooks";
+import {FileDownloader, Loader, Show} from "@/operations/common/components";
+import {DateField} from "@/operations/common/components/fields";
+import dataProvider from "@/providers/dataProvider";
+import {useRole} from "@/security/hooks";
+import {HaList} from "@/ui/haList";
+import {ButtonBase} from "@/ui/haToolbar";
+import {
+  AttendanceStatus,
+  Event,
+  EventParticipant,
+} from "@haapi/typescript-client";
+import {
+  Add,
+  Download,
+  Event as EventIcon,
+  Save as SaveIcon,
+} from "@mui/icons-material";
+import {Box, Button, Stack, Typography} from "@mui/material";
+import {useState} from "react";
 import {
   Datagrid,
   FunctionField,
@@ -7,32 +26,13 @@ import {
   useRefresh,
   useUpdate,
 } from "react-admin";
-import {
-  Event as EventIcon,
-  Add,
-  Save as SaveIcon,
-  Download,
-} from "@mui/icons-material";
-import {Box, Stack, Typography, Button} from "@mui/material";
-import {HaList} from "@/ui/haList";
-import {ButtonBase} from "@/ui/haToolbar";
-import {FileDownloader, Loader, Show} from "@/operations/common/components";
-import {DateField} from "@/operations/common/components/fields";
-import {
-  AttendanceStatus,
-  Event,
-  EventParticipant,
-} from "@haapi/typescript-client";
-import {useState} from "react";
-import {useNotify, useToggle} from "@/hooks";
+import {useParams} from "react-router-dom";
 import {
   AddGroupDialog,
   LetterActions,
   StatCard,
   StatusActionStatus,
 } from "./components";
-import {useRole} from "@/security/hooks";
-import dataProvider from "@/providers/dataProvider";
 
 export function EventParticipantList() {
   const {eventId} = useParams();

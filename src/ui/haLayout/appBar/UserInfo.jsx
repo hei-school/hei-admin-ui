@@ -1,26 +1,25 @@
-import {useEffect, useRef, useState} from "react";
+import {CalendarMonth, Comment, Feedback} from "@mui/icons-material";
 import {
-  Typography,
+  Badge,
   Box,
   CircularProgress,
-  Popover,
-  IconButton,
   Divider,
-  Badge,
-  useMediaQuery,
+  IconButton,
+  Popover,
   styled,
-  Drawer,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
-import {CalendarMonth, Comment, Feedback, Archive} from "@mui/icons-material";
+import {useEffect, useRef, useState} from "react";
 import {useDataProvider} from "react-admin";
 
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import {PALETTE_COLORS} from "@/haTheme";
+import {useToggle} from "@/hooks";
 import {StudentComments} from "@/operations/comments";
 import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
-import {useToggle} from "@/hooks";
-import {useRole} from "@/security/hooks";
-import {PALETTE_COLORS} from "@/haTheme";
 import authProvider from "@/providers/authProvider";
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import {useRole} from "@/security/hooks";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
 

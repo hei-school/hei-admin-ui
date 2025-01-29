@@ -1,6 +1,6 @@
-import {AnnouncementShow} from "./AnnouncementShow";
-import {AnnouncementList} from "./AnnouncementList";
 import {AnnouncementCreate} from "./AnnouncementCreate";
+import {AnnouncementList} from "./AnnouncementList";
+import {AnnouncementShow} from "./AnnouncementShow";
 
 const announcements = {
   list: AnnouncementList,

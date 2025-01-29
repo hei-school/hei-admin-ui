@@ -1,3 +1,4 @@
+import {FeeTypeEnum} from "@haapi/typescript-client";
 import {createdFeesForNewStudent} from "../fixtures/api_mocks/fees-mocks";
 import {
   annual1xTemplate,
@@ -16,10 +17,9 @@ import {
   teachersMock,
 } from "../fixtures/api_mocks/teachers-mocks";
 import {
-  studentRequestBodyVerification,
   assertFeeMatchesTemplate,
+  studentRequestBodyVerification,
 } from "./utils";
-import {FeeTypeEnum} from "@haapi/typescript-client";
 
 const newFirstName = "Aina herilala";
 let createdStudent = {

@@ -1,5 +1,5 @@
-import {FC, ReactNode} from "react";
 import {IconButton, Tooltip} from "@mui/material";
+import {FC, ReactNode} from "react";
 
 export const IconButtonWithTooltip: FC<{
   title: string;

@@ -1,4 +1,23 @@
-import {FC, useMemo} from "react";
+import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify, useToggle} from "@/hooks";
+import {useStudentRef} from "@/hooks/useStudentRef";
+import {Create} from "@/operations/common/components";
+import {DateField} from "@/operations/common/components/fields";
+import {renderMoney} from "@/operations/common/utils/money";
+import {
+  DEFAULT_REMEDIAL_COSTS_AMOUNT,
+  DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
+  MpbsStatusIcon,
+} from "@/operations/fees/utils";
+import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
+import {
+  commentFunctionRenderer,
+  IconButtonWithTooltip,
+} from "@/operations/utils";
+import authProvider from "@/providers/authProvider";
+import {HaList} from "@/ui/haList/HaList";
+import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {formatDate, toUTC} from "@/utils/date";
 import {
   Course,
   Fee,
@@ -9,9 +28,20 @@ import {
   MpbsStatus,
 } from "@haapi/typescript-client";
 import {
-  FunctionField,
+  AddCard as AddMbpsIcon,
+  Payment as PayIcon,
+  Visibility as ShowIcon,
+  WarningOutlined,
+} from "@mui/icons-material";
+import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
+import {AxiosError} from "axios";
+import {FC, useMemo} from "react";
+import {
   FormDataConsumer,
+  FunctionField,
   Link,
+  minLength,
+  regex,
   SelectArrayInput,
   SelectInput,
   SimpleForm,
@@ -19,38 +49,8 @@ import {
   useGetList,
   useRecordContext,
   useRefresh,
-  regex,
-  minLength,
 } from "react-admin";
-import {AxiosError} from "axios";
-import {
-  AddCard as AddMbpsIcon,
-  Payment as PayIcon,
-  Visibility as ShowIcon,
-  WarningOutlined,
-} from "@mui/icons-material";
-import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
-import {useNotify, useToggle} from "@/hooks";
-import {PALETTE_COLORS} from "@/haTheme";
-import {useStudentRef} from "@/hooks/useStudentRef";
-import {HaList} from "@/ui/haList/HaList";
-import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
-import {Create} from "@/operations/common/components";
-import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
-import {DateField} from "@/operations/common/components/fields";
-import {renderMoney} from "@/operations/common/utils/money";
-import {
-  commentFunctionRenderer,
-  IconButtonWithTooltip,
-} from "@/operations/utils";
-import {
-  MpbsStatusIcon,
-  DEFAULT_REMEDIAL_COSTS_AMOUNT,
-  DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
-} from "@/operations/fees/utils";
-import {formatDate, toUTC} from "@/utils/date";
 import {FeesDialog} from "./FeesDialog";
-import authProvider from "@/providers/authProvider";
 
 interface CreateProps {
   onSuccess: () => void;

@@ -1,8 +1,8 @@
-import {Confirm, useDelete, useRecordContext, useRedirect} from "react-admin";
-import {Button} from "@mui/material";
 import {Delete as DeleteIcon} from "@mui/icons-material";
+import {Button} from "@mui/material";
+import {Confirm, useDelete, useRecordContext, useRedirect} from "react-admin";
 
-import {useToggle, useNotify} from "../../../hooks";
+import {useNotify, useToggle} from "../../../hooks";
 
 export function DeleteWithConfirm({
   resourceType,

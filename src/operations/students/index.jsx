@@ -1,8 +1,8 @@
 import {School} from "@mui/icons-material";
 import ProfileEdit from "../profile/ProfileEdit";
-import StudentShow from "./StudentShow";
-import StudentList from "./StudentList";
 import StudentCreate from "./StudentCreate";
+import StudentList from "./StudentList";
+import StudentShow from "./StudentShow";
 
 // /!\ Create ProfileEdit variant: TeacherProfileEdit, StudentProfileEdit
 const students = {

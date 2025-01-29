@@ -1,11 +1,6 @@
-import {TextField} from "@mui/material";
-import useHaToolbarContext from "./useHaToolbarContext";
 import {DateTimePicker} from "@mui/x-date-pickers";
-import {DemoContainer} from "@mui/x-date-pickers/internals/demo";
-import {renderTimeViewClock} from "@mui/x-date-pickers/timeViewRenderers";
-import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
-import dayjs, {Dayjs} from "dayjs";
-import {useEffect} from "react";
+import dayjs from "dayjs";
+import useHaToolbarContext from "./useHaToolbarContext";
 
 export function DateTimeFilter({source, label, ...rest}) {
   const {currentFilter, setOneFilter} = useHaToolbarContext();

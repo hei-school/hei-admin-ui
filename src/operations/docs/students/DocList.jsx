@@ -1,15 +1,15 @@
-import {useParams, useLocation} from "react-router-dom";
-import {Box, Typography} from "@mui/material";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import {useStudentRef} from "@/hooks";
-import {useRole} from "@/security/hooks";
 import {
   DocList as CommonDocList,
   DocListAction,
 } from "@/operations/docs/components/DocList";
 import {useViewType} from "@/operations/docs/hooks/useViewType";
 import authProvider from "@/providers/authProvider";
+import {useRole} from "@/security/hooks";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
+import {Box, Typography} from "@mui/material";
 import {useGetOne} from "react-admin";
+import {useLocation, useParams} from "react-router-dom";
 import {getDocListTitle} from "../utils/doc-list-title";
 
 export const DocList = () => {

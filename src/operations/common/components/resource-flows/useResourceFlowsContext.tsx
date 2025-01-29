@@ -1,8 +1,8 @@
 import {useContext} from "react";
 import {
+  RESOURCE_FLOWS_CONTEXT,
   ResourceFlowsContextType,
   ResourceIdentifier,
-  RESOURCE_FLOWS_CONTEXT,
 } from "./ResourceFlowsContext";
 
 export function useResourceFlowsContext<

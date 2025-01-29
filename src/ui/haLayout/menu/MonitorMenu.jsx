@@ -1,11 +1,10 @@
-import {Box} from "@mui/material";
-import {
-  School as StudentIcon,
-  Newspaper as AnnouncementIcon,
-} from "@mui/icons-material";
 import authProvider from "@/providers/authProvider";
-import {ListMenu, SingleMenu} from "@/ui/haLayout/menu/utils";
-import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
+import {SingleMenu} from "@/ui/haLayout/menu/utils";
+import {
+  Newspaper as AnnouncementIcon,
+  School as StudentIcon,
+} from "@mui/icons-material";
+import {Box} from "@mui/material";
 
 function MonitorMenu() {
   const monitorId = authProvider.getCachedWhoami().id;

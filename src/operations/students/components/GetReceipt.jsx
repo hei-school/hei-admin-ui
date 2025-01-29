@@ -1,9 +1,7 @@
-import {Button, useDataProvider, useGetOne} from "react-admin";
-import {Download} from "@mui/icons-material";
 import {FileDownloader} from "@/operations/common/components";
-import {payingApi} from "@/providers/api";
 import {feeIdFromRaId} from "@/providers/feeProvider";
-import receiptProvider from "@/providers/receiptProvider";
+import {Download} from "@mui/icons-material";
+import {Button, useDataProvider} from "react-admin";
 
 const FILE_NAME = "Reçu_paiement.pdf";
 

@@ -1,25 +1,15 @@
-import {Button, SimpleShowLayout, TextField} from "react-admin";
-import {useParams} from "react-router-dom";
+import {PALETTE_COLORS} from "@/haTheme";
+import {AssignedTeachersList} from "@/operations/awardedCourses/AssignedTeachersList";
+import {Show} from "@/operations/common/components";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  IconButton,
-  Box,
-  Typography,
-} from "@mui/material";
-import {
-  Close as CloseIcon,
-  Create as EditIcon,
-  Code as CodeIcon,
-  CreditCard as CreditCardIcon,
   AccessTime as AccessTimeIcon,
   MenuBook as BookIcon,
+  Code as CodeIcon,
+  CreditCard as CreditCardIcon,
 } from "@mui/icons-material";
-import {Show} from "@/operations/common/components";
-import {AssignedTeachersList} from "@/operations/awardedCourses/AssignedTeachersList";
-import {useToggle} from "@/hooks";
-import {PALETTE_COLORS} from "@/haTheme";
+import {Box, Typography} from "@mui/material";
+import {SimpleShowLayout, TextField} from "react-admin";
+import {useParams} from "react-router-dom";
 
 const LabeledIconField = ({
   icon: Icon,

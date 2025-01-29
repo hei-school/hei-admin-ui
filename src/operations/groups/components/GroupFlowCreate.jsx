@@ -1,28 +1,21 @@
+import {PALETTE_COLORS} from "@/haTheme";
+import dataProvider from "@/providers/dataProvider";
+import groupFlowProvider from "@/providers/groupFlowProvider";
+import {GroupFlowMoveTypeEnum} from "@haapi/typescript-client";
 import {
-  Dialog,
-  DialogActions as MuiDialogActions,
-  DialogTitle,
   Button,
+  Dialog,
   DialogContent,
+  DialogTitle,
+  DialogActions as MuiDialogActions,
   Typography,
 } from "@mui/material";
-import {
-  Confirm,
-  RefreshButton,
-  useGetList,
-  useListContext,
-  useRecordContext,
-  useRefresh,
-} from "react-admin";
-import {GroupFlowMoveTypeEnum} from "@haapi/typescript-client";
+import {useEffect, useState} from "react";
+import {Confirm, useGetList, useRecordContext, useRefresh} from "react-admin";
 import {useForm} from "react-hook-form";
 import {useParams} from "react-router-dom";
-import {CustomAutoComplete} from "../../utils/CustomAutoComplete";
 import {useNotify} from "../../../hooks";
-import {PALETTE_COLORS} from "@/haTheme";
-import groupFlowProvider from "@/providers/groupFlowProvider";
-import {useEffect, useState} from "react";
-import dataProvider from "@/providers/dataProvider";
+import {CustomAutoComplete} from "../../utils/CustomAutoComplete";
 
 const DIALOG_CONTENT_STYLE = {
   width: "450px",

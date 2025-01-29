@@ -1,13 +1,9 @@
 import {
-  Group as GroupIcon,
-  Diversity2 as StudentIcon,
+  PersonOff as DisabledIcon,
+  CheckCircle as EnabledIcon,
   Female as FemaleIcon,
   Male as MaleIcon,
-  School as SchoolIcon,
-  UploadFile as UploadFileIcon,
-  Work as WorkIcon,
-  CheckCircle as EnabledIcon,
-  PersonOff as DisabledIcon,
+  Diversity2 as StudentIcon,
   PersonRemove as SuspendedIcon,
 } from "@mui/icons-material";
 

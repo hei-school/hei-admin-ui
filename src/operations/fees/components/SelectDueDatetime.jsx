@@ -1,5 +1,5 @@
 import {Box} from "@mui/material";
-import {SelectInput, TextInput, minValue, required, number} from "react-admin";
+import {SelectInput, TextInput, minValue, number, required} from "react-admin";
 
 const DATETIME_FORMAT = new Intl.DateTimeFormat("fr-FR", {month: "long"});
 

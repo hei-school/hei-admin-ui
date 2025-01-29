@@ -1,3 +1,7 @@
+import {Create, CreateGeoLocalisation} from "@/operations/common/components";
+import {SexRadioButton} from "@/operations/utils";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {toISO} from "@/utils/date";
 import {
   AutocompleteArrayInput,
   DateInput,
@@ -6,10 +10,6 @@ import {
   TextInput,
   useGetList,
 } from "react-admin";
-import {CreateGeoLocalisation, Create} from "@/operations/common/components";
-import {SexRadioButton} from "@/operations/utils";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
-import {toISO} from "@/utils/date";
 
 const transformMonitor = (record: any) => {
   const {

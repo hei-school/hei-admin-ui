@@ -1,7 +1,6 @@
-import React from "react";
-import {useForm} from "react-hook-form";
-import {TextField, Button, Typography, Box, Divider} from "@mui/material";
 import {useNotify} from "@/hooks";
+import {Box, Button, Divider, TextField, Typography} from "@mui/material";
+import {useForm} from "react-hook-form";
 import authProvider from "../providers/authProvider";
 
 const matchCognitoPassword = (password) => {

@@ -1,9 +1,9 @@
+import {Group} from "@haapi/typescript-client";
 import {useState} from "react";
 import {DateInput, SimpleForm, TextInput} from "react-admin";
 import {Create, StudentListWithBulkActions} from "../common/components";
-import {EditToolBar} from "../utils";
-import {Group} from "@haapi/typescript-client";
 import {ColorInput} from "../common/components/ColorInput";
+import {EditToolBar} from "../utils";
 
 const GroupCreate = () => {
   const [students, setStudents] = useState([]);

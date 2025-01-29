@@ -1,16 +1,16 @@
+import {useRole} from "@/security/hooks";
 import {
+  ButtonBase,
+  DateTimeFilter,
   FilterForm,
   SelectInputFilter,
-  DateTimeFilter,
   TextFilter,
-  ButtonBase,
 } from "@/ui/haToolbar";
-import {Box, Typography} from "@mui/material";
 import {mapToChoices} from "@/utils";
-import {EVENT_TYPE_VALUE} from "../utils";
-import {useRole} from "@/security/hooks";
 import {Add} from "@mui/icons-material";
+import {Box, Typography} from "@mui/material";
 import {useRedirect} from "react-admin";
+import {EVENT_TYPE_VALUE} from "../utils";
 
 export function EventListAction({withDate = true}: {withDate?: boolean}) {
   const {isManager, isAdmin} = useRole();

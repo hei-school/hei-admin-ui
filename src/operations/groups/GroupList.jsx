@@ -1,39 +1,30 @@
-import {useState} from "react";
-import {
-  Datagrid,
-  EditButton,
-  FunctionField,
-  List,
-  ShowButton,
-  TextField,
-  CreateButton as RaCreateButton,
-  useListContext,
-  useGetOne,
-  useGetList,
-} from "react-admin";
+import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import {PALETTE_COLORS} from "@/haTheme";
+import {useRole} from "@/security/hooks";
+import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {HaList} from "@/ui/haList";
+import {CreateButton, ExportButton} from "@/ui/haToolbar";
+import {NOOP_ID} from "@/utils/constants";
+import {Group as GroupIcon} from "@mui/icons-material";
 import {
   Box,
   Avatar as MuiAvatar,
   AvatarGroup as MuiAvatarGroup,
 } from "@mui/material";
-import {Group as GroupIcon} from "@mui/icons-material";
-import {Sex} from "@haapi/typescript-client";
-import {HaList} from "@/ui/haList";
-import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
-import {PALETTE_COLORS} from "@/haTheme";
+import {useState} from "react";
 import {
-  CreateButton,
-  ExportButton,
-  FilterForm,
-  TextFilter,
-} from "@/ui/haToolbar";
-import {useRole} from "@/security/hooks";
-import {DateField} from "../common/components/fields";
-import {GroupFilters} from "./components/GroupFilters";
+  EditButton,
+  FunctionField,
+  CreateButton as RaCreateButton,
+  ShowButton,
+  TextField,
+  useGetList,
+  useGetOne,
+} from "react-admin";
 import {ListHeader} from "../common/components";
-import {NOOP_ID} from "@/utils/constants";
+import {DateField} from "../common/components/fields";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
+import {GroupFilters} from "./components/GroupFilters";
 
 const Avatar = ({student = {ref: "", profile_picture: ""}}) => {
   const [isLoaded, setLoaded] = useState(false);

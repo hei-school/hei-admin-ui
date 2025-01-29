@@ -1,13 +1,13 @@
 import {FeeTypeEnum} from "@haapi/typescript-client";
-import {assertFeeMatchesTemplate} from "./utils";
+import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
 import {
   annual1xTemplate,
   annual9xTemplate,
   feesTemplatesMocks,
 } from "../fixtures/api_mocks/fees-templates-mocks";
-import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
-import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
 import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
+import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
+import {assertFeeMatchesTemplate} from "./utils";
 
 /*Added this to make the test blackbox */
 const get27thOfMonth = (year: number, month: number) => {

@@ -1,6 +1,6 @@
-import React, {useState, useEffect} from "react";
-import {LoadingPage} from "@mui/material";
 import {healthApi} from "@/providers/api";
+import {LoadingPage} from "@mui/material";
+import {useEffect, useState} from "react";
 
 const MAX_ATTEMP = 10;
 

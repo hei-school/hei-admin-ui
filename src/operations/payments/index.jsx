@@ -1,6 +1,6 @@
 import {AttachMoney} from "@mui/icons-material";
-import PaymentList from "./PaymentList";
 import PaymentCreate from "./PaymentCreate";
+import PaymentList from "./PaymentList";
 
 const payments = {
   list: PaymentList,

@@ -1,10 +1,10 @@
-import {Button, useRecordContext} from "react-admin";
-import {Download} from "@mui/icons-material";
-import {FileDownloader} from "@/operations/common/components";
 import {useNotify} from "@/hooks";
+import {FileDownloader} from "@/operations/common/components";
 import {filesApi} from "@/providers/api";
-import {isOver18} from "../utils/isOver18";
+import {Download} from "@mui/icons-material";
 import {useEffect, useState} from "react";
+import {useRecordContext} from "react-admin";
+import {isOver18} from "../utils/isOver18";
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 const requiredFields = {

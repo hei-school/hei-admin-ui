@@ -1,4 +1,4 @@
-import {Toolbar, SaveButton} from "react-admin";
+import {SaveButton, Toolbar} from "react-admin";
 
 export const EditToolBar = (props) => (
   <Toolbar {...props}>

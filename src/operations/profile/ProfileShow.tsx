@@ -1,12 +1,12 @@
-import {EditButton} from "react-admin";
-import {GetCertificate} from "@/operations/students/components";
-import {Show} from "@/operations/common/components/Show";
-import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
-import {StudentComments} from "@/operations/comments";
-import {useRole} from "@/security/hooks";
 import {useToggle} from "@/hooks";
-import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {StudentComments} from "@/operations/comments";
+import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
+import {Show} from "@/operations/common/components/Show";
+import {GetCertificate} from "@/operations/students/components";
 import authProvider from "@/providers/authProvider";
+import {useRole} from "@/security/hooks";
+import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {EditButton} from "react-admin";
 
 const ProfileShow = () => {
   const {isStudent, isTeacher, isMonitor, isAdmin, role} = useRole();

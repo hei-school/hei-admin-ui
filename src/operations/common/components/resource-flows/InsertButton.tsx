@@ -1,18 +1,18 @@
-import {Button, useGetList} from "react-admin";
+import {useToggle} from "@/hooks";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {MultipleAutocomplete} from "@/ui/components/inputs";
+import useHaListContext from "@/ui/haList/useHaListContext";
+import {HaActionWrapper} from "@/ui/haToolbar";
 import {Add as InsertIcon} from "@mui/icons-material";
+import {Button, useGetList} from "react-admin";
 import {useForm} from "react-hook-form";
+import {DialogActions} from "./components/DialogActions";
+import {FlowsDialog, FlowsDialogProps} from "./components/FlowsDialog";
 import {
   ResourceFlowsArgsType,
   ResourceIdentifier,
 } from "./ResourceFlowsContext";
-import {HaActionWrapper} from "@/ui/haToolbar";
-import {MultipleAutocomplete} from "@/ui/components/inputs";
-import {DialogActions} from "./components/DialogActions";
-import {FlowsDialog, FlowsDialogProps} from "./components/FlowsDialog";
 import {useResourceFlowsContext} from "./useResourceFlowsContext";
-import {useToggle} from "@/hooks";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
-import useHaListContext from "@/ui/haList/useHaListContext";
 
 export type InsertDialogProps<T> = FlowsDialogProps & {
   onClose: () => void;

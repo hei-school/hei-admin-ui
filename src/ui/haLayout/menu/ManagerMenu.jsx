@@ -1,24 +1,23 @@
-import {Box} from "@mui/material";
-import {
-  Work as TeachersIcon,
-  School as StudentIcon,
-  People as StudentListIcon,
-  AttachMoney as FeesIcon,
-  CurrencyExchange as TransactionsIcon,
-  Book as CourseIcon,
-  Inventory as DocsIcon,
-  Group as GroupIcon,
-  MenuBook as PromotionIcon,
-  Newspaper as AnnouncementIcon,
-  CalendarMonth as EventIcon,
-  SupervisedUserCircle as MonitorIcon,
-  GradeOutlined as GradeIcon,
-  LibraryBooksOutlined as LibraryIcon,
-  AssignmentInd as StaffIcon,
-} from "@mui/icons-material";
+import {useRole} from "@/security/hooks";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
-import {useRole} from "@/security/hooks";
+import {
+  Newspaper as AnnouncementIcon,
+  Inventory as DocsIcon,
+  CalendarMonth as EventIcon,
+  AttachMoney as FeesIcon,
+  GradeOutlined as GradeIcon,
+  Group as GroupIcon,
+  LibraryBooksOutlined as LibraryIcon,
+  SupervisedUserCircle as MonitorIcon,
+  MenuBook as PromotionIcon,
+  AssignmentInd as StaffIcon,
+  School as StudentIcon,
+  People as StudentListIcon,
+  Work as TeachersIcon,
+  CurrencyExchange as TransactionsIcon,
+} from "@mui/icons-material";
+import {Box} from "@mui/material";
 
 function ManagerMenu() {
   const {isAdmin} = useRole();

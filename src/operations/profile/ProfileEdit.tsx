@@ -1,13 +1,13 @@
-import {FC} from "react";
-import {DateInput, SimpleForm, TextInput, maxLength} from "react-admin";
-import {EditToolBar, SexRadioButton} from "../utils";
-import {StatusRadioButton} from "../utils/UserStatusRadioButton";
-import {SelectSpecialization} from "../students/components";
-import {EditGeoLocalisation, Edit} from "../common/components";
 import {User} from "@/providers/types";
 import {StaffMember, Student} from "@haapi/typescript-client";
+import {FC} from "react";
+import {DateInput, SimpleForm, TextInput, maxLength} from "react-admin";
 import {useRole} from "../../security/hooks";
 import {toUTC} from "../../utils/date";
+import {Edit, EditGeoLocalisation} from "../common/components";
+import {SelectSpecialization} from "../students/components";
+import {EditToolBar, SexRadioButton} from "../utils";
+import {StatusRadioButton} from "../utils/UserStatusRadioButton";
 
 const userToUserApi = ({
   birth_date,

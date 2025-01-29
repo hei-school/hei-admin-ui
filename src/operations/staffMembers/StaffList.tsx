@@ -1,21 +1,21 @@
+import {PALETTE_COLORS} from "@/haTheme";
+import dataProvider from "@/providers/dataProvider";
+import staffProvider from "@/providers/staffProvider";
+import {useRole} from "@/security/hooks";
+import {HaList} from "@/ui/haList";
+import {CreateButton, ImportButton} from "@/ui/haToolbar";
+import {AssignmentInd, Download} from "@mui/icons-material";
+import {Box} from "@mui/material";
 import {FC} from "react";
 import {EditButton, TextField} from "react-admin";
-import {Box} from "@mui/material";
-import {AssignmentInd, Download} from "@mui/icons-material";
-import {HaList} from "@/ui/haList";
-import {useRole} from "@/security/hooks";
-import {PALETTE_COLORS} from "@/haTheme";
-import {CreateButton, ImportButton} from "@/ui/haToolbar";
+import {FileDownloader} from "../common/components";
 import {ProfileFilters} from "../profile/components/ProfileFilters";
-import staffProvider from "@/providers/staffProvider";
 import {
   minimalUserHeaders,
   optionalUserHeaders,
   transformUserData,
   validateUserData,
 } from "../utils/userImportConf";
-import dataProvider from "@/providers/dataProvider";
-import {FileDownloader} from "../common/components";
 
 const StaffList: FC = () => {
   const {isAdmin} = useRole();

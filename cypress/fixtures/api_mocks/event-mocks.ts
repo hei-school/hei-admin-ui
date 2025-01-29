@@ -1,8 +1,8 @@
 import {Event, EventParticipant} from "@haapi/typescript-client";
 import {courseMock1} from "./course-mocks";
+import {lettersMocks} from "./letters-mocks";
 import {manager1Mock} from "./managers-mocks";
 import {student1Mock} from "./students-mocks";
-import {lettersMocks} from "./letters-mocks";
 
 export const eventsMock: Event[] = [
   {

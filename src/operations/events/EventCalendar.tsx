@@ -1,16 +1,16 @@
-import {useState} from "react";
-import {CompleteCalendar} from "@react-admin/ra-calendar";
-import {Popover, Box, Button, PopoverPosition} from "@mui/material";
-import {EventInput, EventClickArg} from "@fullcalendar/react";
+import {useToggle} from "@/hooks";
+import {useRole} from "@/security/hooks";
+import {HaListTitle} from "@/ui/haList";
 import frLocale from "@fullcalendar/core/locales/fr";
+import {EventClickArg, EventInput} from "@fullcalendar/react";
 import {Event} from "@haapi/typescript-client";
+import {Box, Button, Popover, PopoverPosition} from "@mui/material";
+import {CompleteCalendar} from "@react-admin/ra-calendar";
+import {useState} from "react";
+import {EventListAction, StatCard} from "./components";
 import {EventCreate} from "./EventCreate";
 import {EventEditDialog} from "./EventEditDialog";
-import {useToggle} from "@/hooks";
 import {EVENT_TYPE_VALUE} from "./utils";
-import {HaListTitle} from "@/ui/haList";
-import {useRole} from "@/security/hooks";
-import {EventListAction, StatCard} from "./components";
 
 export const EventCalendar = () => {
   const [currentEvent, setCurrentEvent] = useState<Event>();

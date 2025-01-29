@@ -1,11 +1,11 @@
-import {useRef, useState} from "react";
-import {MenuItem, Popover, Typography} from "@mui/material";
 import {Upload} from "@mui/icons-material";
+import {MenuItem, Popover, Typography} from "@mui/material";
+import {useRef, useState} from "react";
 import {useNotify} from "react-admin";
 import {useToggle} from "../../../hooks/useToggle";
+import {ButtonBase} from "../Button";
 import {ImportDialog} from "./ImportDialog";
 import {ImportInputFile} from "./ImportInputFile";
-import {ButtonBase} from "../Button";
 
 export function ImportButton({
   provider,

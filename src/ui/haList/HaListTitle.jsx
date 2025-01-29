@@ -1,8 +1,8 @@
-import {MoreVert, SearchOutlined} from "@mui/icons-material";
-import {Box, Typography, IconButton, Popover, styled} from "@mui/material";
-import {useListFilterContext} from "ra-core";
 import {PALETTE_COLORS} from "@/haTheme";
-import {useState, createContext} from "react";
+import {MoreVert, SearchOutlined} from "@mui/icons-material";
+import {Box, IconButton, Popover, styled, Typography} from "@mui/material";
+import {useListFilterContext} from "ra-core";
+import {createContext, useState} from "react";
 import {HaMainSearch} from "./HaMainSearch";
 
 const TitleContainer = styled("div")({

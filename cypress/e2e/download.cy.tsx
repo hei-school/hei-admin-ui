@@ -1,11 +1,11 @@
 import {
   newWorkerDoc,
-  workDoc1,
-  workDocsMocks,
   otherDoc1,
   otherDocsMocks,
   transcript1,
   transcriptsMock,
+  workDoc1,
+  workDocsMocks,
 } from "../fixtures/api_mocks/docs-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 

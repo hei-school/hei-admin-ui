@@ -1,6 +1,6 @@
-import {useListFilterContext} from "react-admin";
-import {styled} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
+import {styled} from "@mui/material";
+import {useListFilterContext} from "react-admin";
 
 const HaMainSearchInput = styled("input")({
   "outline": "none",

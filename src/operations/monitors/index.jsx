@@ -1,8 +1,8 @@
-import {Group} from "@mui/icons-material";
-import ProfileEdit from "@/operations/profile/ProfileEdit";
-import MonitorShow from "@/operations/monitors/MonitorShow";
-import MonitorList from "@/operations/monitors/MonitorList";
 import MonitorCreate from "@/operations/monitors/MonitorCreate";
+import MonitorList from "@/operations/monitors/MonitorList";
+import MonitorShow from "@/operations/monitors/MonitorShow";
+import ProfileEdit from "@/operations/profile/ProfileEdit";
+import {Group} from "@mui/icons-material";
 
 const monitors = {
   list: MonitorList,

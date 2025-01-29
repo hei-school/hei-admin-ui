@@ -1,20 +1,20 @@
-import {Login} from "react-admin";
 import {
+  Box,
   Card,
   CardContent,
   Grid,
+  Link,
+  Modal,
   Typography,
   useMediaQuery,
-  Modal,
-  Box,
-  Link,
 } from "@mui/material";
-import {mainTheme} from "../haTheme";
-import CompletePasswordPage from "./CompletePasswordPage";
-import authProvider from "../providers/authProvider";
 import {useState} from "react";
-import ForgotPassword from "./ForgotPassword";
+import {Login} from "react-admin";
+import {mainTheme} from "../haTheme";
+import authProvider from "../providers/authProvider";
+import CompletePasswordPage from "./CompletePasswordPage";
 import ConfirmForgotPassword from "./ConfirmForgotPassword";
+import ForgotPassword from "./ForgotPassword";
 
 const aCard = (title, subtitle, description1, description2, course) => {
   const syllabus =

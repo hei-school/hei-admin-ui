@@ -1,5 +1,15 @@
+import {PALETTE_COLORS} from "@/haTheme";
+import {useToggle} from "@/hooks";
+import {HaList} from "@/ui/haList";
+import {ButtonBase} from "@/ui/haToolbar";
+import {
+  FileType,
+  WhoamiRoleEnum,
+  WorkDocumentInfo,
+} from "@haapi/typescript-client";
+import {AddOutlined, RemoveRedEye} from "@mui/icons-material";
+import {Button, Chip} from "@mui/material";
 import {FC} from "react";
-import {useLocation, Link} from "react-router-dom";
 import {
   DatagridProps,
   FunctionField,
@@ -7,20 +17,10 @@ import {
   useRecordContext,
   useRefresh,
 } from "react-admin";
-import {Chip, Button} from "@mui/material";
-import {AddOutlined, RemoveRedEye} from "@mui/icons-material";
-import {
-  FileType,
-  WhoamiRoleEnum,
-  WorkDocumentInfo,
-} from "@haapi/typescript-client";
-import {DocCreateDialog} from "./DocCreateDialog";
-import {HaList} from "@/ui/haList";
-import {ButtonBase} from "@/ui/haToolbar";
-import {useToggle} from "@/hooks";
+import {Link, useLocation} from "react-router-dom";
 import {DateField} from "../../common/components/fields";
+import {DocCreateDialog} from "./DocCreateDialog";
 import {WORK_TYPE_VALUE} from "./SelectWorkType";
-import {PALETTE_COLORS} from "@/haTheme";
 
 export const DocListAction: FC<{
   type: FileType;

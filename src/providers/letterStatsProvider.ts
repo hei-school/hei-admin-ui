@@ -1,7 +1,7 @@
+import {v4 as uuid} from "uuid";
 import {lettersApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
-import {v4 as uuid} from "uuid";
 
 export type CountResponseType = "count" | "pending" | "rejected" | "received";
 export type LetterGetListReponseType = {

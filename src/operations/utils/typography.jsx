@@ -1,10 +1,9 @@
+import {PALETTE_COLORS} from "@/haTheme";
 import {
   CheckCircleOutline,
-  HourglassEmpty,
-  CancelOutlined,
   ErrorOutlineOutlined,
+  HourglassEmpty,
 } from "@mui/icons-material";
-import {PALETTE_COLORS} from "@/haTheme";
 
 const statusMap = {
   LATE: {

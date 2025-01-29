@@ -1,12 +1,12 @@
-import {Dialog, Typography, Box, IconButton, styled} from "@mui/material";
 import {
   Close as CloseIcon,
   CommentOutlined as CommentIcon,
 } from "@mui/icons-material";
+import {Box, Dialog, IconButton, styled, Typography} from "@mui/material";
 
+import {PALETTE_COLORS} from "@/haTheme";
 import {CommentList} from "./CommentList";
 import {Separator} from "./utils";
-import {PALETTE_COLORS} from "@/haTheme";
 
 const CommentWrapper = styled("div")({
   width: "100%",

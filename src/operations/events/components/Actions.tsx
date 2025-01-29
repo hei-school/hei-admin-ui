@@ -1,18 +1,18 @@
-import {Visibility, AttachFile} from "@mui/icons-material";
-import {Stack, Tooltip, IconButton} from "@mui/material";
+import {useToggle} from "@/hooks";
 import {ChipRadio} from "@/operations/common/components";
+import {LETTER_ICON} from "@/operations/fees/components/letterIcon";
+import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
+import {IconButtonWithTooltip} from "@/operations/utils";
+import {useRole} from "@/security/hooks";
 import {
   AttendanceStatus,
   EventParticipant,
   EventParticipantLetter,
 } from "@haapi/typescript-client";
+import {AttachFile, Visibility} from "@mui/icons-material";
+import {IconButton, Stack, Tooltip} from "@mui/material";
 import {FC} from "react";
-import {useRole} from "@/security/hooks";
-import {IconButtonWithTooltip} from "@/operations/utils";
-import {useToggle} from "@/hooks";
-import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
 import {useGetIdentity, useRefresh} from "react-admin";
-import {LETTER_ICON} from "@/operations/fees/components/letterIcon";
 
 interface LetterActionProps {
   eventParticipantId: string;

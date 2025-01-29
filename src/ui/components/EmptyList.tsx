@@ -1,7 +1,7 @@
-import {FC} from "react";
-import {Box, Typography} from "@mui/material";
-import {PALETTE_COLORS} from "@/haTheme";
 import emptyImg from "@/assets/Empty_img.png";
+import {PALETTE_COLORS} from "@/haTheme";
+import {Box, Typography} from "@mui/material";
+import {FC} from "react";
 
 export const EmptyList: FC = () => (
   <Box

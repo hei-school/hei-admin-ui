@@ -1,5 +1,5 @@
+import {Box, BoxProps, TextField, TextFieldProps} from "@mui/material";
 import {FC} from "react";
-import {BoxProps, TextFieldProps, Box, TextField} from "@mui/material";
 import {useInput} from "react-admin";
 
 export type ColorInputProps = {

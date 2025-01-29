@@ -1,3 +1,7 @@
+import {useNotify, useToggle} from "@/hooks";
+import {Dialog} from "@/ui/components";
+import {CrupdatePromotion, Promotion} from "@haapi/typescript-client";
+import {Create as EditIcon} from "@mui/icons-material";
 import {
   Button,
   SaveButton,
@@ -6,11 +10,7 @@ import {
   Toolbar,
   required,
 } from "react-admin";
-import {Create as EditIcon} from "@mui/icons-material";
-import {CrupdatePromotion, Promotion} from "@haapi/typescript-client";
-import {Dialog} from "@/ui/components";
 import {Edit} from "../common/components";
-import {useToggle, useNotify} from "@/hooks";
 
 export function PromotionEditButton({id}: {id: string}) {
   const [showEdit, _set, toggleEdit] = useToggle();

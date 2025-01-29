@@ -1,11 +1,11 @@
-import {Button} from "react-admin";
+import {useToggle} from "@/hooks/useToggle";
+import {HaActionWrapper} from "@/ui/haToolbar";
 import {
   Add as InsertIcon,
   PersonRemove as MoveIcon,
   Delete as RemoveIcon,
 } from "@mui/icons-material";
-import {HaActionWrapper} from "@/ui/haToolbar";
-import {useToggle} from "@/hooks/useToggle";
+import {Button} from "react-admin";
 import {
   JoinGroupDialog,
   LeaveGroupDialog,

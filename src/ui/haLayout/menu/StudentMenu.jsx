@@ -1,16 +1,16 @@
-import {Box} from "@mui/material";
-import {
-  AttachMoney as FeesIcon,
-  CollectionsBookmark as TranscriptIcon,
-  Inventory as DocsIcon,
-  LibraryAddCheck as WorkStudyDocsIcon,
-  Work as OtherDocsIcon,
-  Newspaper as AnnouncementIcon,
-  CalendarMonth as EventIcon,
-} from "@mui/icons-material";
-import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
-import {HeiListMenuItem} from "./common";
 import authProvider from "@/providers/authProvider";
+import {
+  Newspaper as AnnouncementIcon,
+  Inventory as DocsIcon,
+  CalendarMonth as EventIcon,
+  AttachMoney as FeesIcon,
+  Work as OtherDocsIcon,
+  CollectionsBookmark as TranscriptIcon,
+  LibraryAddCheck as WorkStudyDocsIcon,
+} from "@mui/icons-material";
+import {Box} from "@mui/material";
+import {HeiListMenuItem} from "./common";
+import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function StudentMenu() {
   const whoamiId = authProvider.getCachedWhoami().id;

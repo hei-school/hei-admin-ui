@@ -1,16 +1,16 @@
-import {Amplify} from "aws-amplify";
-import {AxiosResponse} from "axios";
-import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 import {
-  fetchAuthSession,
-  resetPassword,
   confirmResetPassword,
   confirmSignIn,
+  fetchAuthSession,
+  resetPassword,
   signIn,
   signOut,
 } from "@aws-amplify/auth";
-import {awsConfig} from "./aws-config";
+import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
+import {Amplify} from "aws-amplify";
+import {AxiosResponse} from "axios";
 import {getPermissions} from "../security/permissions";
+import {awsConfig} from "./aws-config";
 
 Amplify.configure(awsConfig);
 

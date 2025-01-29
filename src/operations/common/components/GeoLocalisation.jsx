@@ -1,6 +1,6 @@
-import {TextInput, useEditContext, number} from "react-admin";
-import {Typography, Box} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
+import {Box, Typography} from "@mui/material";
+import {number, TextInput, useEditContext} from "react-admin";
 
 const NOT_DEFINED_POSITION = "Non défini.e";
 

@@ -1,16 +1,16 @@
-import {ShowButton, TextField, useNotify} from "react-admin";
+import {Add as AddIcon, Book} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {Book, Add as AddIcon} from "@mui/icons-material";
+import {ShowButton, TextField, useNotify} from "react-admin";
 //TODO: refactor, this CourseLIst facade
+import {useToggle} from "@/hooks";
+import {TeacherCourseList} from "@/operations/awardedCourses/TeacherCourseList";
 import {CourseListFilter} from "@/operations/course/components";
 import {CourseCreate} from "@/operations/course/CourseCreate";
-import {TeacherCourseList} from "@/operations/awardedCourses/TeacherCourseList";
 import {CourseEditButton} from "@/operations/course/CourseEditButton";
-import {useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
+import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
-import {Dialog} from "@/ui/components";
 
 export function CourseList() {
   const [showCreate, _set, toggleShowCreate] = useToggle();

@@ -1,6 +1,6 @@
+import {EMPTY_TEXT} from "@/ui/constants";
 import {DateField as RaDateField} from "react-admin";
 import {DATETIME_OPTIONS, DATE_OPTIONS} from "../../../../utils/date";
-import {EMPTY_TEXT} from "@/ui/constants";
 
 export function DateField({source, label, showTime = false, ...fieldProps}) {
   return (

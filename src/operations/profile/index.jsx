@@ -1,5 +1,5 @@
-import ProfileShow from "./ProfileShow";
 import ProfileEdit from "./ProfileEdit";
+import ProfileShow from "./ProfileShow";
 
 const profile = {
   show: ProfileShow,

@@ -1,9 +1,9 @@
 /// <reference types="cypress" />
 
 import {Whoami} from "@haapi/typescript-client";
-import {LoginConfig} from "./global";
-import {getUserConnected} from "../fixtures/api_mocks/authentification-mocks";
 import "cypress-file-upload";
+import {getUserConnected} from "../fixtures/api_mocks/authentification-mocks";
+import {LoginConfig} from "./global";
 
 Cypress.Commands.add("getByTestid", <Subject = any>(id: string) => {
   return cy.get<Subject>(`[data-testid='${id}']`);

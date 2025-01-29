@@ -1,16 +1,16 @@
 import {
-  minValue,
-  required,
-  number,
-  SimpleForm,
   maxValue,
-  TextInput,
+  minValue,
+  number,
   RadioButtonGroupInput,
+  required,
+  SimpleForm,
+  TextInput,
 } from "react-admin";
 
 import {Edit} from "../common/components";
-import {EditToolBar} from "../utils";
 import {FEESTEMPLATES_CHOICES} from "../fees/constants";
+import {EditToolBar} from "../utils";
 
 function FeesTemplatesEdit() {
   return (
