@@ -27,8 +27,10 @@ let refreshPromise: Promise<void> | null = null;
 
 const whoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
-  const session = (await fetchAuthSession()) || {};
-  conf.accessToken = session.tokens?.idToken?.toString();
+  // const session = (await fetchAuthSession()) || {};
+  // conf.accessToken = session.tokens?.idToken?.toString();
+  const token = sessionStorage.getItem("bearerItem") || "";
+  conf.accessToken = token;
   const securityApi = new SecurityApi(conf);
   return securityApi
     .whoami()
