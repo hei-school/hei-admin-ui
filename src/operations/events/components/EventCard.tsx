@@ -14,6 +14,7 @@ import {
   SxProps,
   Typography,
 } from "@mui/material";
+import {Link} from "react-admin";
 import {EventEditDialog} from "../EventEditDialog";
 import {EVENT_TYPE_VALUE} from "../utils";
 import {StatCard} from "./Stats";
@@ -150,7 +151,8 @@ export function EventCard({event}: EventCardPropsType) {
           )}
           <Button
             size="small"
-            href={`#/events/${event.id}/participants`}
+            component={Link}
+            to={`/events/${event.id}/participants`}
             sx={{textTransform: "revert"}}
             id="event-show"
           >

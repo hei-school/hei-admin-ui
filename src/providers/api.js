@@ -1,3 +1,4 @@
+import {getAxiosInstance} from "@/config/axios";
 import {
   AnnouncementsApi,
   CommentsApi,
@@ -12,7 +13,6 @@ import {
   UsersApi,
 } from "@haapi/typescript-client";
 import authProvider from "./authProvider";
-import {getAxiosInstance} from "@/config/axios";
 
 export const usersApi = () =>
   new UsersApi(authProvider.getCachedAuthConf(), undefined, getAxiosInstance());

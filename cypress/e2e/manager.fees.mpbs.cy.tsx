@@ -17,7 +17,7 @@ describe("Mobile payment by student", () => {
       statistics: {},
     }).as("getFees");
 
-    cy.get(`[href="#/transactions"]`).click();
+    cy.get(`[href="/transactions"]`).click();
 
     cy.contains("Transactions (Mobile Money)");
     cy.contains("Référence de la transaction");
@@ -30,7 +30,7 @@ describe("Mobile payment by student", () => {
       data: [succeedMpbs1],
     }).as("getFees");
 
-    cy.get(`[href="#/transactions"]`).click();
+    cy.get(`[href="/transactions"]`).click();
 
     cy.get('[data-testid="pspTypeIcon-student1_id--fee7_id"]').trigger(
       "mouseover"
@@ -44,7 +44,7 @@ describe("Mobile payment by student", () => {
       data: [pendingMpbs],
     }).as("getFees");
 
-    cy.get(`[href="#/transactions"]`).click();
+    cy.get(`[href="/transactions"]`).click();
 
     cy.get('[data-testid="pspTypeIcon-student1_id--fee7_id"]').trigger(
       "mouseover"
@@ -58,7 +58,7 @@ describe("Mobile payment by student", () => {
       data: [failedMpbs],
     }).as("getFees");
 
-    cy.get(`[href="#/transactions"]`).click();
+    cy.get(`[href="/transactions"]`).click();
 
     cy.get('[data-testid="pspTypeIcon-student1_id--fee7_id"]').trigger(
       "mouseover"

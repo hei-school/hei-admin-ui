@@ -49,7 +49,7 @@ describe("Manager.Fee", () => {
 
     cy.login({role: "MANAGER"});
     cy.getByTestid("students-menu").click();
-    cy.get('a[href="#/students"]').click();
+    cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
     cy.contains("Page : 1");
     cy.contains(`Taille : ${feesMock.length > 10 ? 10 : feesMock.length}`);

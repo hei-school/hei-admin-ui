@@ -15,7 +15,7 @@ describe("Mobile payment by student", () => {
     ).as("getFees");
 
     cy.login({role: "STUDENT"});
-    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click();
+    cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
   });
 
   it("checks the icon button based on the existence of the mpbs in the fee", () => {

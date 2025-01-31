@@ -35,7 +35,7 @@ describe("Student", () => {
   });
 
   it("lands on profile page if succeeds", () => {
-    cy.get('[href="#/profile"] > .MuiBox-root').click();
+    cy.get('[href="/profile"] > .MuiBox-root').click();
     cy.get("#main-content")
       .should("contain", student1Mock.ref)
       .and("contain", student1Mock.first_name)
@@ -55,7 +55,7 @@ describe("Student", () => {
       `*/students/${student1Mock.id}/fees?page=1&page_size=500`,
       feesMock
     ).as("getFees");
-    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click();
+    cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
     cy.wait("@getFees");
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     cy.get("td a").should("not.contain", "ÉDITER", {timeout: 50});
@@ -71,7 +71,7 @@ describe("Student", () => {
   });
 
   it("can detail fee (click on fee button)", () => {
-    cy.get(`[href="#/students/${student1Mock.id}/fees"]`).click();
+    cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
     cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`).click({
       force: true,
     });

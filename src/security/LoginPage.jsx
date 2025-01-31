@@ -97,7 +97,7 @@ const HaLoginPage = () => {
           position={"absolute"}
         >
           <Link
-            href="#/login"
+            href="/login"
             color="#FFFF"
             onClick={() => setOpenModal(true)}
             align="center"

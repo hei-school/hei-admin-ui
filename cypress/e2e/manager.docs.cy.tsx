@@ -33,7 +33,7 @@ describe("Manager.Transcript.Docs", () => {
 
     cy.login({role: "MANAGER"});
     cy.getByTestid("students-menu").click();
-    cy.get('a[href="#/students"]').click();
+    cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
@@ -44,7 +44,7 @@ describe("Manager.Transcript.Docs", () => {
   });
 
   it("can create a student transcript", () => {
-    cy.get('[href="#/students/student1_id/docs/students/TRANSCRIPT"]').click();
+    cy.get('[href="/students/student1_id/docs/students/TRANSCRIPT"]').click();
     cy.getByTestid("menu-list-action").click();
     cy.contains("Créer").click();
     cy.get("#name").click().type(newTranscript?.name!);
@@ -56,7 +56,7 @@ describe("Manager.Transcript.Docs", () => {
   });
 
   it("can list a student transcripts", () => {
-    cy.get('[href="#/students/student1_id/docs/students/TRANSCRIPT"]').click();
+    cy.get('[href="/students/student1_id/docs/students/TRANSCRIPT"]').click();
 
     cy.contains(`Liste des bulletins de ${student1Mock.ref}`);
     cy.contains("Nom du fichier");
@@ -87,7 +87,7 @@ describe("Manager.Work.Docs", () => {
 
     cy.login({role: "MANAGER"});
     cy.getByTestid("students-menu").click();
-    cy.get('a[href="#/students"]').click();
+    cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
@@ -99,7 +99,7 @@ describe("Manager.Work.Docs", () => {
 
   it("can list student worker docs", () => {
     cy.get(
-      '[href="#/students/student1_id/docs/students/WORK_DOCUMENT"]'
+      '[href="/students/student1_id/docs/students/WORK_DOCUMENT"]'
     ).click();
 
     cy.contains(
@@ -112,7 +112,7 @@ describe("Manager.Work.Docs", () => {
 
   it("can create a student worker doc", () => {
     cy.get(
-      '[href="#/students/student1_id/docs/students/WORK_DOCUMENT"]'
+      '[href="/students/student1_id/docs/students/WORK_DOCUMENT"]'
     ).click();
     cy.getByTestid("menu-list-action").click();
     cy.contains("Créer").click();
@@ -149,7 +149,7 @@ describe("Manager.Other.Docs", () => {
 
     cy.login({role: "MANAGER"});
     cy.getByTestid("students-menu").click();
-    cy.get('a[href="#/students"]').click();
+    cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
@@ -160,7 +160,7 @@ describe("Manager.Other.Docs", () => {
   });
 
   it("can list other student docs", () => {
-    cy.get('[href="#/students/student1_id/docs/students/OTHER"]').click();
+    cy.get('[href="/students/student1_id/docs/students/OTHER"]').click();
 
     cy.contains(`Liste des autres documents étudiant de ${student1Mock.ref}`);
     cy.contains("Nom du fichier");

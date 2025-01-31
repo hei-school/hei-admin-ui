@@ -1,12 +1,12 @@
-import {useEffect} from "react";
-import {useNavigate} from "react-router-dom";
-import {AxiosError} from "axios";
+import {getAxiosInstance} from "@/config/axios";
 import {
   AWS_WAF_TOKEN_HEADER_KEY,
   awsWafToken,
   loadAwsWafScript,
 } from "@/security/waf/index";
-import {getAxiosInstance} from "@/config/axios";
+import {AxiosError} from "axios";
+import {useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 const HUMAN_VERIFICATION_ROUTE_PREFIX = "/human-verification";
 

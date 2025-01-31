@@ -18,7 +18,7 @@ describe("Manager.Teachers", () => {
     cy.intercept("PUT", `*/teachers/${teacher1Mock.id}`, updatedInfo).as(
       "putUpdate"
     );
-    cy.get('[href="#/teachers"]').click();
+    cy.get('[href="/teachers"]').click();
     cy.wait("@getTeachers");
     cy.get(":nth-child(1) > .column-undefined > .MuiButtonBase-root").as(
       "editButton"

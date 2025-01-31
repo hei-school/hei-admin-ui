@@ -158,7 +158,7 @@ const EventAction = ({event, toggleEdit}: ActionProps) => {
       )}
       <Button
         size="small"
-        href={`#/events/${event?.id}/participants`}
+        href={`/events/${event?.id}/participants`}
         sx={{textTransform: "revert"}}
         variant="outlined"
       >

@@ -16,7 +16,7 @@ describe("Manager.Group", () => {
 
     cy.login({role: "MANAGER"});
 
-    cy.get('[href="#/groups"]').click();
+    cy.get('[href="/groups"]').click();
   });
 
   it("can list groups", () => {

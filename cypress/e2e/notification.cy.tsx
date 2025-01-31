@@ -46,7 +46,7 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
     cy.contains("Enseignants");
     cy.contains("Étudiants");
     cy.getByTestid("students-menu").click();
-    cy.get('[href="#/students"]').click();
+    cy.get('[href="/students"]').click();
     cy.contains("Page : 1");
     cy.contains(`Taille : ${studentsMock.length}`);
     cy.getByTestid("menu-list-action").click();
@@ -90,7 +90,7 @@ describe("Notifications on error when edit, e.g: TeacherEdit", () => {
     );
 
     cy.wait("@getWhoami");
-    cy.get('[href="#/teachers"]').click();
+    cy.get('[href="/teachers"]').click();
     cy.get(":nth-child(1) > .column-undefined > .MuiButtonBase-root").as(
       "editButton"
     );

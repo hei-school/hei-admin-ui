@@ -50,7 +50,7 @@ describe("Manager.Payment", () => {
       [payment1Mock]
     ).as("addPayments");
     cy.getByTestid("students-menu").click(); // Étudiants category
-    cy.get('a[href="#/students"]').click();
+    cy.get('a[href="/students"]').click();
     cy.wait("@getStudentsPage1");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();

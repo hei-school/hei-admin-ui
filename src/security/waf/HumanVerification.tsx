@@ -1,8 +1,8 @@
+import {awsWaf} from "@/config/env";
+import {loadAwsWafScript} from "@/security/waf/index";
+import {Box, CircularProgress, Dialog, DialogContent} from "@mui/material";
 import {useEffect, useRef} from "react";
 import {useNavigate, useSearchParams} from "react-router-dom";
-import {Dialog, DialogContent, CircularProgress, Box} from "@mui/material";
-import {loadAwsWafScript} from "@/security/waf/index";
-import {awsWaf} from "@/config/env";
 
 export const HumanVerification = () => {
   const [p] = useSearchParams();

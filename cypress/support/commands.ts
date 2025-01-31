@@ -78,8 +78,12 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   cy.visit("/login");
 
   // have to click 'cause of MUI input style
-  cy.get("#username").type(options.username || defaultUserConnected.username);
-  cy.get("#password").type(options.password || defaultUserConnected.password);
+  cy.get("#username")
+    .clear()
+    .type(options.username || defaultUserConnected.username);
+  cy.get("#password")
+    .clear()
+    .type(options.password || defaultUserConnected.password);
   cy.get("button")
     .contains("Connexion", {timeout: 10000})
     .click()
