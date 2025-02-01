@@ -99,7 +99,12 @@ const authProvider = {
           cacheWhoami(whoami);
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        if (e.status === 405) {
+          console.log("ktr", e);
+          throw Promise.resolve();
+        }
+
         throw new Error("Unauthorized");
       });
   },

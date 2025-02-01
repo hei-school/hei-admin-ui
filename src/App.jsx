@@ -29,7 +29,7 @@ import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import awardedCourses from "./operations/awardedCourses";
 import staffMembers from "./operations/staffMembers";
-import {HumanVerification} from "./security/waf";
+import {AwsWafCaptchaHandler, HumanVerification} from "./security/waf";
 
 function AppBase() {
   return (
@@ -255,6 +255,7 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <BrowserRouter>
+        <AwsWafCaptchaHandler />
         <Routes>
           <Route path="/human-verification" element={<HumanVerification />} />
           <Route path="*" element={<AppBase />} />

@@ -26,6 +26,7 @@ export function loadAwsWafScript(): Promise<AwsWafScriptCDNLib> {
     const AwsWafScript = document.createElement("script");
     AwsWafScript.id = AWS_WAF_SCRIPT_ID;
     AwsWafScript.src = awsWaf.jsApiUrl;
+    AwsWafScript.crossOrigin = "true";
     AwsWafScript.onload = () => {
       (window as any)[AWS_WAF_SCRIPT_LOADED_KEY] = true;
       resolve(awsWafScriptLib());

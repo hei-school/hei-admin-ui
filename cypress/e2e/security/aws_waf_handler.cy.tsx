@@ -1,24 +1,21 @@
-import {heiAdmin} from "../utils";
-
 describe("Aws waf handler", () => {
-  specify(
-    "display captcha dialog on x-amzn-waf-action: captcha & status: 405",
-    () => {
-      cy.login({
-        role: "MANAGER",
+  it("should display captcha dialog on status: 405", () => {
+    cy.login({
+      role: "MANAGER",
+    });
+
+    cy.intercept("GET", "**/monitors*", (req) => {
+      req.reply({
+        statusCode: 405,
+        body: {},
       });
+    }).as("monitorsRequest");
+    cy.get('[href="/monitors"]').click();
 
-      cy.get('[href="/monitors"]').click();
+    cy.wait("@monitorsRequest");
 
-      cy.intercept("GET", heiAdmin("/monitors*"), (req) => {
-        req.reply({...req, statusCode: 405});
-      });
+    cy.location("pathname").should("include", "human-verification");
 
-      cy.window()
-        .its("location")
-        .should(({pathname}) => {
-          expect(pathname).to.contains("human-verification");
-        });
-    }
-  );
+    cy.getByTestid("aws-waf-captcha-dialog").should("be.visible");
+  });
 });

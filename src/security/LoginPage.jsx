@@ -1,9 +1,9 @@
 import {
   Box,
+  Button,
   Card,
   CardContent,
   Grid,
-  Link,
   Modal,
   Typography,
   useMediaQuery,
@@ -96,14 +96,9 @@ const HaLoginPage = () => {
           }}
           position={"absolute"}
         >
-          <Link
-            href="/login"
-            color="#FFFF"
-            onClick={() => setOpenModal(true)}
-            align="center"
-          >
+          <Button onClick={() => setOpenModal(true)} align="center">
             Mot de passe oublié?
-          </Link>
+          </Button>
         </Grid>
       </Grid>
     );
