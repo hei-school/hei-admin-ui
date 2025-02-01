@@ -68,6 +68,8 @@ function AppBase() {
         options={{label: " "}}
       />
       <Resource name="exams" {...exams} />
+      <Resource name="student-grades" />
+      <Resource name="exam-students" />
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
 
