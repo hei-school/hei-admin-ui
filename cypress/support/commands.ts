@@ -52,7 +52,20 @@ Cypress.Commands.add(
 Cypress.Commands.add("login", (options: LoginConfig) => {
   const {role, success: isSuccess = true} = options;
   const defaultUserConnected = getUserConnected(role);
+
+  if (!defaultUserConnected || !defaultUserConnected.user) {
+    throw new Error(`No default user found for role: ${role}`);
+  }
+
   const user = options.user || defaultUserConnected.user;
+  const username = options.username || defaultUserConnected.username;
+  const password = options.password || defaultUserConnected.password;
+
+  if (!username || !password) {
+    throw new Error(
+      `Missing credentials: username=${username}, password=${password}`
+    );
+  }
 
   const whoami: Whoami = {
     id: user.id,
@@ -69,21 +82,15 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   );
   cy.visit("/login");
 
-  // have to click 'cause of MUI input style
-  cy.get("#username")
-    .click()
-    .type(options.username || defaultUserConnected.username);
-
-  isSuccess && cy.intercept("**/whoami", whoami).as("getWhoami");
-  cy.get("#password")
-    .click()
-    .type(options.password || defaultUserConnected.password);
+  cy.get("#username").clear().type(username);
+  cy.get("#password").clear().type(password);
   cy.get("button").contains("Connexion", {timeout: 10000}).click();
 
   cy.wait("@postCognito");
   cy.wait("@postCognito");
 
   if (isSuccess) {
+    cy.intercept("**/whoami", whoami).as("getWhoami");
     cy.wait("@getWhoami");
     cy.wait("@getProfile");
   }
