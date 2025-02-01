@@ -1,20 +1,21 @@
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
 import course from "@/operations/course/index.tsx";
-import staffDocs from "@/operations/docs/staffs/index";
+import staffDocs from "@/operations/docs/staffs";
 import studentDocs from "@/operations/docs/students";
 import teachersDocs from "@/operations/docs/teachers";
 import events from "@/operations/events";
 import exams from "@/operations/exams";
 import fees from "@/operations/fees";
 import feesTemplates from "@/operations/feesTemplates";
+import grades from "@/operations/grades";
 import groups from "@/operations/groups";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import payments from "@/operations/payments";
 import profile from "@/operations/profile";
-import promotions from "@/operations/promotions/index.tsx";
+import promotions from "@/operations/promotions";
 import students from "@/operations/students";
 import teachers from "@/operations/teachers";
 import authProvider from "@/providers/authProvider";
@@ -245,6 +246,12 @@ function AppBase() {
           path="/monitor-students/:userId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
         />
+        <Route
+          exact
+          path="/students/:studentId/grades"
+          element={<grades.studentGradeList />}
+        />
+        <Route exact path="/grades" element={<grades.examGradeList />} />
       </CustomRoutes>
     </Admin>
   );

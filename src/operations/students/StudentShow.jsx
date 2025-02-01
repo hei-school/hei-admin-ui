@@ -3,9 +3,11 @@ import {Show} from "@/operations/common/components/Show";
 import {DocMenu} from "@/operations/students/components/DocMenu";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {ButtonBase} from "@/ui/haToolbar/index.jsx";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import {Edit as EditIcon} from "@mui/icons-material";
+import {Edit as EditIcon, Grade as GradeIcon} from "@mui/icons-material";
 import {EditButton, useRecordContext} from "react-admin";
+import {Link} from "react-router-dom";
 
 export const ActionsOnShow = ({basePath, data, resource}) => {
   const student = useRecordContext();
@@ -45,6 +47,20 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
           <DocMenu studentId={student.id} />
         </div>
       )}
+      <ButtonBase
+        onClick={undefined}
+        icon={<GradeIcon />}
+        children={undefined}
+        label="VOIR NOTES"
+        component={Link}
+        to={`/students/${id}/grades`}
+        {...COMMON_OUTLINED_BUTTON_PROPS}
+        sx={{
+          display: "flex",
+          justifyContent: "flex-start",
+          gap: "0.2rem",
+        }}
+      />
       {role.isMonitor() && (
         <div style={{display: "flex", flexDirection: "column", gap: "0.2rem"}}>
           <DocMenu studentId={student.id} />

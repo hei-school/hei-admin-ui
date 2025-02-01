@@ -5,7 +5,9 @@ import {
   CalendarMonth as EventIcon,
   GradeOutlined as GradeIcon,
   Group as GroupIcon,
-  PictureAsPdf,
+  HistoryEdu as HistoryEduIcon,
+  Mode as ModeIcon,
+  PictureAsPdf as PictureAsPdfIcon,
   School as StudentIcon,
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
@@ -21,7 +23,7 @@ function TeacherMenu() {
         <ListMenuItem
           to="/docs/teachers/OTHER"
           label="Documents personnels"
-          icon={<PictureAsPdf />}
+          icon={<PictureAsPdfIcon />}
         />
       </ListMenu>
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
@@ -36,12 +38,15 @@ function TeacherMenu() {
         label="Cours"
         icon={<CourseIcon />}
       />
-      <SingleMenu
-        data-testid="exam-menu"
-        to="/exams"
-        label="Examens"
-        icon={<GradeIcon />}
-      />
+      <ListMenu label="Gestion académique" icon={<HistoryEduIcon />}>
+        <ListMenuItem
+          data-testid="exam-menu"
+          to="/exams"
+          label="Examens"
+          icon={<ModeIcon />}
+        />
+        <ListMenuItem to="/grades" label="Notes" icon={<GradeIcon />} />
+      </ListMenu>
       <SingleMenu
         data-testid="event-menu"
         to="/events"

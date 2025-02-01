@@ -8,7 +8,9 @@ import {
   AttachMoney as FeesIcon,
   GradeOutlined as GradeIcon,
   Group as GroupIcon,
+  HistoryEdu as HistoryEduIcon,
   LibraryBooksOutlined as LibraryIcon,
+  Mode as ModeIcon,
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
   AssignmentInd as StaffIcon,
@@ -67,12 +69,15 @@ function ManagerMenu() {
         data-testid="course-menu"
         icon={<LibraryIcon />}
       />
-      <SingleMenu
-        to="/exams"
-        label="Examens"
-        data-testid="exams-menu"
-        icon={<GradeIcon />}
-      />
+      <ListMenu label="Gestion académique" icon={<HistoryEduIcon />}>
+        <ListMenuItem
+          data-testid="exam-menu"
+          to="/exams"
+          label="Examens"
+          icon={<ModeIcon />}
+        />
+        <ListMenuItem to="/grades" label="Notes" icon={<GradeIcon />} />
+      </ListMenu>
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu
         to="/announcements"
