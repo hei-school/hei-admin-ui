@@ -50,7 +50,6 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
       <ButtonBase
         onClick={undefined}
         icon={<GradeIcon />}
-        children={undefined}
         label="VOIR NOTES"
         component={Link}
         to={`/students/${id}/grades`}
