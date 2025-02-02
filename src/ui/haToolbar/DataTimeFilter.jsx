@@ -18,6 +18,7 @@ export function DateTimeFilter({source, label, ...rest}) {
       }}
       sx={{width: "100%"}}
       onChange={(value) => setOneFilter(source, value.toISOString())}
+      views={["month"]}
     />
   );
 }

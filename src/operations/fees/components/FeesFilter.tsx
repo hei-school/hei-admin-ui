@@ -19,7 +19,11 @@ export const FeesFilters = () => {
     <FilterForm>
       {(isManager() || isAdmin()) && (
         <Box>
-          <TextFilter label="Référence étudiante" source="student_ref" />
+          <TextFilter
+            label="Référence étudiante"
+            source="student_ref"
+            sx={{marginBottom: 2}}
+          />
           <SelectInputFilter
             data-testid="filter-fees-status"
             label="Statut du paiement du frais"
