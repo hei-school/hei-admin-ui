@@ -23,6 +23,8 @@ import {
   CasdoorSDK,
   isLoggedIn,
 } from "./setting";
+import {isSilentSigninRequired, SilentSignin} from "casdoor-react-sdk";
+
 
 const casdoorLogin = () => {
   getRedirectUrl().then((res) => {
