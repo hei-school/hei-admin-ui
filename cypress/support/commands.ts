@@ -61,6 +61,12 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     role,
   };
 
+  const casdoorSignin = {
+    "code": 200,
+    "status": "ok",
+    "data": "dummy",
+  } 
+
   cy.intercept("GET", `**/${role.toLowerCase()}s/${user.id}`, user).as(
     "getProfile"
   );
@@ -68,6 +74,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   cy.intercept("POST", "https://cognito-idp.eu-west-3.amazonaws.com").as(
     "postCognito"
   );
+
   cy.intercept("**/whoami", (req) => {
     if (attemptConnection) {
       return req.reply({...req, body: whoami, statusCode: 200});
@@ -77,23 +84,40 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
 
   cy.visit("/login");
 
+     cy.intercept("GET", "**/redirect-url").as(
+    "getRedirectionURL"
+  );
+
+    cy.intercept("GET", "https://numer.casdoor.com/login/oauth/authorize").as(
+    "getIntoCasdoorLoginPage"
+  );
+
+    
+  cy.visit("/login");
+
   // have to click 'cause of MUI input style
-  cy.get("#username")
-    .clear()
-    .type(options.username || defaultUserConnected.username);
-  cy.get("#password")
-    .clear()
-    .type(options.password || defaultUserConnected.password);
-  cy.get("button")
-    .contains("Connexion", {timeout: 10000})
+  cy.get('[data-testid="casdoor-login-btn"]',{timeout: 15000}).click();
+
+  cy.origin("https://numer.casdoor.com", () => {
+    // Saisie de l'identifiant (email ou téléphone)
+    cy.get('input[placeholder="identifiant, adresse e-mail ou téléphone"], input[placeholder="username, Email or phone"]', { timeout: 45000 })
     .click()
+    .type("name_here@mail.hei.school");
+  
+    // Saisie du mot de passe
+    cy.get('input[placeholder="Mot de passe"], input[placeholder="Password"').click().type("_password_here_");
+  
+    // Clic sur "Se connecter"
+    cy.contains(/Se connecter|Sign In/).click()
     .then(() => {
       attemptConnection = true;
-    });
-
-  cy.wait("@postCognito");
+    });;
+  });
+  
+  cy.get('body', { timeout: 45000 }).should('contain', 'La page est en cours de chargement, merci de bien vouloir patienter.');
 
   if (isSuccess) {
+    cy.intercept("**/whoami", whoami).as("getWhoami");
     cy.wait("@getWhoami");
     cy.wait("@getProfile");
   }
