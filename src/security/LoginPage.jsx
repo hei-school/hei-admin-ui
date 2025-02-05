@@ -96,7 +96,13 @@ const HaLoginPage = () => {
           }}
           position={"absolute"}
         >
-          <Button onClick={() => setOpenModal(true)} align="center">
+          <Button
+            onClick={() => setOpenModal(true)}
+            align="center"
+            sx={{
+              color: "white",
+            }}
+          >
             Mot de passe oublié?
           </Button>
         </Grid>
