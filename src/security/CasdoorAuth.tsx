@@ -57,6 +57,7 @@ const AuthCallback: React.FC = () => {
         setSession(res.data);
       } else {
         //showMessage(res);
+        goToLink("/login")
       }
     });
   }, [location]);
