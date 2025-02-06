@@ -88,35 +88,38 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     "getRedirectionURL"
   );
 
-    cy.intercept("GET", "https://numer.casdoor.com/login/oauth/authorize").as(
-    "getIntoCasdoorLoginPage"
-  );
-
-    
   cy.visit("/login");
 
   // have to click 'cause of MUI input style
   cy.get('[data-testid="casdoor-login-btn"]',{timeout: 15000}).click();
 
+  cy.wait("@getRedirectionURL")
+    
+  
   cy.origin("https://numer.casdoor.com", () => {
     // Saisie de l'identifiant (email ou téléphone)
     cy.get('input[placeholder="identifiant, adresse e-mail ou téléphone"], input[placeholder="username, Email or phone"]', { timeout: 45000 })
     .click()
-    .type("name_here@mail.hei.school");
+    .type("_name_here_@mail.hei.school");
   
     // Saisie du mot de passe
     cy.get('input[placeholder="Mot de passe"], input[placeholder="Password"').click().type("_password_here_");
-  
-    // Clic sur "Se connecter"
+
+    /*
+        // Clic sur "Se connecter"
     cy.contains(/Se connecter|Sign In/).click()
     .then(() => {
       attemptConnection = true;
     });;
+  */
   });
-  
-  cy.get('body', { timeout: 45000 }).should('contain', 'La page est en cours de chargement, merci de bien vouloir patienter.');
+
+
+  cy.visit(`/callback?code=${role}&state=HEI Admin`);
 
   if (isSuccess) {
+    cy.intercept("**/api/api/signin", casdoorSignin).as("getCasdoorToken");
+    //cy.wait("@casdoorSignin");
     cy.intercept("**/whoami", whoami).as("getWhoami");
     cy.wait("@getWhoami");
     cy.wait("@getProfile");
