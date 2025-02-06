@@ -1,5 +1,4 @@
 import React, {useEffect} from "react";
-import {useLocation} from "react-router-dom";
 import {
   ServerUrl,
   setToken,
@@ -11,9 +10,8 @@ import {Whoami} from "@haapi/typescript-client";
 import {LoadingPage} from "react-admin";
 
 const AuthCallback: React.FC = () => {
-  const location = useLocation();
 
-  const handleCallback = (code: string, state: string) => {
+  const handleCallback = (code: string | null, state: string | null) => {
     return fetch(`${ServerUrl}/api/signin?code=${code}&state=${state}`, {
       method: "POST",
       headers: {
@@ -57,10 +55,12 @@ const AuthCallback: React.FC = () => {
         setSession(res.data);
       } else {
         //showMessage(res);
-        goToLink("/login")
+        setTimeout(() => {
+        goToLink("/login");
+      }, 6000);
       }
     });
-  }, [location]);
+  }, []);
 
   return (
     <LoadingPage

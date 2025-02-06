@@ -33,32 +33,11 @@ import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 
-import {BrowserRouter, Routes} from "react-router-dom";
 import AuthCallback from "./security/CasdoorAuth.tsx";
 
 function AppBase() {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="callback"
-          element={
-            // <AuthCallback
-            //   sdk={CasdoorSetting.CasdoorSDK}
-            //   serverUrl={CasdoorSetting.ServerUrl}
-            //   saveTokenFromResponse={(res) => {
-            //     CasdoorSetting.setToken(res?.data);
-            //     CasdoorSetting.goToLink("/");
-            //   }}
-            //   isGetTokenSuccessful={(res) => res?.status === "ok"}
-            // />
-            //<div>test ok</div>\
-            <AuthCallback />
-          }
-        />
-        <Route
-          path="*"
-          element={
+
     <Admin
       title="HEI Admin"
       authProvider={authProvider}
@@ -280,10 +259,7 @@ function AppBase() {
         />
       </CustomRoutes>
     </Admin>
-              }
-        />
-      </Routes>
-    </BrowserRouter>
+
   );
 }
 
@@ -294,6 +270,22 @@ function App() {
         <AwsWafCaptchaHandler />
         <Routes>
           <Route path="/calendar" element={<publicContent.calendar />} />
+          <Route
+          path="callback"
+          element={
+            // <AuthCallback
+            //   sdk={CasdoorSetting.CasdoorSDK}
+            //   serverUrl={CasdoorSetting.ServerUrl}
+            //   saveTokenFromResponse={(res) => {
+            //     CasdoorSetting.setToken(res?.data);
+            //     CasdoorSetting.goToLink("/");
+            //   }}
+            //   isGetTokenSuccessful={(res) => res?.status === "ok"}
+            // />
+            //<div>test ok</div>\
+            <AuthCallback />
+          }
+        />
           <Route path="/human-verification" element={<HumanVerification />} />
           <Route path="*" element={<AppBase />} />
         </Routes>
