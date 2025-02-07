@@ -14,7 +14,7 @@ export function SelectCourse() {
   const eventType = useWatch({name: "event_type"}) || EventType.COURSE;
 
   const COURSE_CHOICES = courses.map((course) => ({
-    label: course.name,
+    label: `${course.name} (${course.code?.toUpperCase()})`,
     value: course.id,
   }));
 
