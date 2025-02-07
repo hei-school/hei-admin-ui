@@ -161,7 +161,7 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
 }) => {
   const notify = useNotify();
 
-  const {id: fee_id, mpbs} = feeToPay;
+  const {id: fee_id = "", mpbs = {}} = feeToPay;
   const {id: student_id} = authProvider.getCachedWhoami();
 
   const handleError = (error: AxiosError) => {
@@ -283,6 +283,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
 };
 
 export const StudentFeeList = () => {
+  const notify = useNotify();
   const {studentRef, studentId} = useStudentRef("studentId");
   const [showCatchupFees, _set, toggleCatchupFees] = useToggle();
   const [showRightFee, _set3, toggleRightFee] = useToggle();
@@ -336,7 +337,15 @@ export const StudentFeeList = () => {
             <HaActionWrapper>
               <ButtonBase
                 icon={<PayIcon />}
-                onClick={toggleRightFee}
+                onClick={() => {
+                  if (!nextFeeToPay) {
+                    notify("Vous n'avez plus de frais à payer", {
+                      type: "error",
+                    });
+                    return;
+                  }
+                  toggleRightFee();
+                }}
                 style={{
                   backgroundColor: PALETTE_COLORS.red,
                   color: PALETTE_COLORS.white,
