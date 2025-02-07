@@ -101,7 +101,6 @@ const authProvider = {
       })
       .catch((e) => {
         if (e.status === 405) {
-          console.log("ktr", e);
           throw Promise.resolve();
         }
 
