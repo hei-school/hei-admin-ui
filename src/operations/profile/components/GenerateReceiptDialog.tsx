@@ -22,6 +22,7 @@ export const GenerateReceiptDialog: FC<{
     notify(`Nombre de reçu traiter: ${data?.fileCountInZip}`, {
       type: "success",
     });
+    onClose();
   }, [isSuccess]);
 
   const handleSubmit = ({from, to, destinationEmail}: any) => {
@@ -41,6 +42,10 @@ export const GenerateReceiptDialog: FC<{
             <SaveButton disabled={isLoading} />
           </Toolbar>
         }
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+        gap="1.5vh"
       >
         <DateTimeField source="from" label="Depuis" />
         <DateTimeField source="to" label="Jusqu'à" />

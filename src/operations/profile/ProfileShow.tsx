@@ -7,12 +7,13 @@ import {GetCertificate} from "@/operations/students/components";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {CloudDownload} from "@mui/icons-material";
 import {Box, Button} from "@mui/material";
 import {useState} from "react";
 import {EditButton} from "react-admin";
 
 const ProfileShow = () => {
-  const {isStudent, isTeacher, isMonitor, isAdmin, role} = useRole();
+  const {isStudent, isTeacher, isMonitor, isManager, isAdmin, role} = useRole();
   const {id} = authProvider.getCachedWhoami();
   const [showComments, , toggleShowComments] = useToggle(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -28,13 +29,26 @@ const ProfileShow = () => {
       );
     } else if (!isMonitor()) {
       return (
-        <Box>
+        <Box
+          display="flex"
+          flexDirection="column"
+          alignItems="center"
+          gap="1vh"
+        >
           <EditButton
             to={`/profile/${id}/edit`}
             data-testid="profile-edit-button"
             {...(COMMON_OUTLINED_BUTTON_PROPS as any)}
           />
-          <Button onClick={() => setOpenDialog(true)}>Générer reçu</Button>
+          {(isAdmin() || isManager()) && (
+            <Button
+              startIcon={<CloudDownload />}
+              onClick={() => setOpenDialog(true)}
+              {...(COMMON_OUTLINED_BUTTON_PROPS as any)}
+            >
+              Générer reçu
+            </Button>
+          )}
           {openDialog && (
             <GenerateReceiptDialog
               open={openDialog}
