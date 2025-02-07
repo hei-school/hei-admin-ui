@@ -27,7 +27,6 @@ export const AwsWafCaptchaHandler = () => {
           const isVerifying = window.location.pathname.startsWith(
             HUMAN_VERIFICATION_ROUTE_PREFIX
           );
-          console.log("captcha ver");
           if (error.status === 405 && !isVerifying) {
             navigate(
               `${HUMAN_VERIFICATION_ROUTE_PREFIX}?redirect_to=${window.location.pathname}`.replace(
