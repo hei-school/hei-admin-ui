@@ -23,6 +23,7 @@ export const GenerateReceiptDialog: FC<{
       type: "success",
     });
   }, [isSuccess]);
+
   const handleSubmit = ({from, to, destinationEmail}: any) => {
     create("receipts", {data: {id: uuid(), from, to, destinationEmail}});
   };

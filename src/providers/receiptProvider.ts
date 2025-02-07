@@ -7,7 +7,7 @@ const receiptProvider: HaDataProviderType = {
     throw new Error("Function not implemented.");
   },
 
-  getOne(id: string, meta: any) {
+  async getOne(id: string, meta: any) {
     const {paymentId: raId} = meta;
     const [, feeId, paymentId] = raId.split("--");
 
@@ -16,7 +16,7 @@ const receiptProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  saveOrUpdate(payload: (ZipReceiptsRequest & {id: string})[]) {
+  async saveOrUpdate(payload: (ZipReceiptsRequest & {id: string})[]) {
     if (Array.isArray(payload) && payload.length != 1) {
       throw new Error(
         "Unexpected payload was received, must be an array of one payload"

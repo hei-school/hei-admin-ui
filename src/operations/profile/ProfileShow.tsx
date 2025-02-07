@@ -2,28 +2,20 @@ import {useToggle} from "@/hooks";
 import {StudentComments} from "@/operations/comments";
 import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
 import {Show} from "@/operations/common/components/Show";
-import {GenerateReceiptDialog} from "@/operations/profile/components/GenerateReceiptDialog.tsx";
+import {GenerateReceiptDialog} from "@/operations/profile/components/GenerateReceiptDialog";
 import {GetCertificate} from "@/operations/students/components";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
-import {Button} from "@mui/material";
+import {Box, Button} from "@mui/material";
 import {useState} from "react";
 import {EditButton} from "react-admin";
 
 const ProfileShow = () => {
   const {isStudent, isTeacher, isMonitor, isAdmin, role} = useRole();
   const {id} = authProvider.getCachedWhoami();
-  const [showComments, , toogleShowComments] = useToggle(false);
+  const [showComments, , toggleShowComments] = useToggle(false);
   const [openDialog, setOpenDialog] = useState(false);
-
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
 
   const actionButton = () => {
     if (isStudent()) {
@@ -36,20 +28,20 @@ const ProfileShow = () => {
       );
     } else if (!isMonitor()) {
       return (
-        <>
+        <Box>
           <EditButton
             to={`/profile/${id}/edit`}
             data-testid="profile-edit-button"
             {...(COMMON_OUTLINED_BUTTON_PROPS as any)}
           />
-          <Button onClick={handleOpenDialog}>Générer reçu</Button>
+          <Button onClick={() => setOpenDialog(true)}>Générer reçu</Button>
           {openDialog && (
             <GenerateReceiptDialog
               open={openDialog}
-              onClose={handleCloseDialog}
+              onClose={() => setOpenDialog(false)}
             />
           )}
-        </>
+        </Box>
       );
     }
   };
@@ -88,7 +80,7 @@ const ProfileShow = () => {
                 title="Liste des commentaires"
                 studentId={id}
                 open={showComments}
-                onClose={toogleShowComments}
+                onClose={toggleShowComments}
               />
             )}
           </div>
