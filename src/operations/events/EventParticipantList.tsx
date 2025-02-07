@@ -1,5 +1,11 @@
+import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify, useToggle} from "@/hooks";
-import {FileDownloader, Loader, Show} from "@/operations/common/components";
+import {
+  DeleteWithConfirm,
+  FileDownloader,
+  Loader,
+  Show,
+} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import dataProvider from "@/providers/dataProvider";
 import {useRole} from "@/security/hooks";
@@ -33,22 +39,62 @@ import {
   StatCard,
   StatusActionStatus,
 } from "./components";
+import {EventParticipantsFilter} from "./components/EventParticipantsFilter";
 
 export function EventParticipantList() {
   const {eventId} = useParams();
+  const {isAdmin, isManager} = useRole();
 
   return (
     <Box>
       <Show title=" " id={eventId} resource="events">
         <SimpleShowLayout sx={{bgcolor: "white"}}>
-          <FunctionField
-            title=" "
-            render={(record: Event) => (
-              <Typography fontWeight="bold" variant="h6">
-                {record.title || ""}
-              </Typography>
+          <Box
+            display="flex"
+            justifyContent="space-between"
+            alignItems="center"
+          >
+            <FunctionField
+              title=" "
+              render={(record: Event) => (
+                <Typography fontWeight="bold" variant="h6">
+                  {record.course?.code
+                    ? `Salle ${record.title || ""}`
+                    : record.title || ""}
+                </Typography>
+              )}
+            />
+            {isAdmin() || isManager() ? (
+              <DeleteWithConfirm
+                resourceType="events"
+                confirmContent="Voulez-vous vraiment supprimer la présence ?"
+                confirmTitle="Confirmation de la suppression de présence"
+                redirect="/events"
+                buttonProps={{
+                  variant: "contained",
+                  type: "button",
+                }}
+              />
+            ) : (
+              <FunctionField
+                title=" "
+                render={(record: Event) => (
+                  <Typography
+                    fontWeight="bold"
+                    variant="h6"
+                    sx={{
+                      backgroundColor: "#fcdfb5",
+                      padding: "5px 1vw",
+                      color: PALETTE_COLORS.primary,
+                      borderRadius: "5px",
+                    }}
+                  >
+                    {record?.course?.code ?? record.title}
+                  </Typography>
+                )}
+              />
             )}
-          />
+          </Box>
           <DateField label="De" source="begin_datetime" showTime />
           <DateField label="À" source="end_datetime" showTime />
           <FunctionField
@@ -137,6 +183,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
     <Stack>
       <HaList
         resource="event-participants"
+        mainSearch={{label: "Références étudiant(e)s", source: "studentRef"}}
         title="Listes des participants"
         icon={<EventIcon />}
         listProps={{
@@ -158,6 +205,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
                 onClick={() => toggle()}
                 children={<></>}
               />
+              <EventParticipantsFilter />
               <FileDownloader
                 downloadFunction={downloadFile}
                 fileName="Listes des participants"
