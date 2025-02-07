@@ -1,16 +1,16 @@
-import {Amplify} from "aws-amplify";
-import {AxiosResponse} from "axios";
-import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 import {
-  fetchAuthSession,
-  resetPassword,
   confirmResetPassword,
   confirmSignIn,
+  fetchAuthSession,
+  resetPassword,
   signIn,
   signOut,
 } from "@aws-amplify/auth";
-import {awsConfig} from "./aws-config";
+import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
+import {Amplify} from "aws-amplify";
+import {AxiosResponse} from "axios";
 import {getPermissions} from "../security/permissions";
+import {awsConfig} from "./aws-config";
 
 Amplify.configure(awsConfig);
 
@@ -99,7 +99,11 @@ const authProvider = {
           cacheWhoami(whoami);
         }
       })
-      .catch(() => {
+      .catch((e) => {
+        if (e.status === 405) {
+          throw Promise.resolve();
+        }
+
         throw new Error("Unauthorized");
       });
   },

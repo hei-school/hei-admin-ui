@@ -1,7 +1,7 @@
-import {useParams, useLocation} from "react-router-dom";
-import {useRole} from "@/security/hooks";
-import {DocList, DocListAction} from "../components/DocList";
 import authProvider from "@/providers/authProvider";
+import {useRole} from "@/security/hooks";
+import {useLocation, useParams} from "react-router-dom";
+import {DocList, DocListAction} from "../components/DocList";
 
 export const TeacherDocList = () => {
   const params = useParams();

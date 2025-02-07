@@ -1,5 +1,5 @@
-import {Box} from "@mui/material";
 import {Inventory as OtherDocsIcon} from "@mui/icons-material";
+import {Box} from "@mui/material";
 import {SingleMenu} from "./utils";
 
 const StaffMenu = () => {

@@ -1,8 +1,9 @@
+import {ZipReceiptsRequest} from "@haapi/typescript-client";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const receiptProvider: HaDataProviderType = {
-  async getList() {
+  getList() {
     throw new Error("Function not implemented.");
   },
 
@@ -15,11 +16,20 @@ const receiptProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  async saveOrUpdate() {
-    throw new Error("Function not implemented.");
+  async saveOrUpdate(payload: (ZipReceiptsRequest & {id: string})[]) {
+    if (Array.isArray(payload) && payload.length != 1) {
+      throw new Error(
+        "Unexpected payload was received, must be an array of one payload"
+      );
+    }
+
+    const [receiptPayload] = payload;
+    return payingApi()
+      .getZipFeeReceipts(receiptPayload)
+      .then((res) => [{...res.data, id: receiptPayload.id}]);
   },
 
-  async delete() {
+  delete() {
     throw new Error("Function not implemented.");
   },
 };

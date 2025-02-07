@@ -1,15 +1,15 @@
-import {EditButton, TextField} from "react-admin";
-import {GroupOutlined} from "@mui/icons-material";
-import {CreateButton, ImportButton} from "@/ui/haToolbar";
+import monitorProvider from "@/providers/monitorProvider";
 import {HaList} from "@/ui/haList";
+import {CreateButton, ImportButton} from "@/ui/haToolbar";
+import {GroupOutlined} from "@mui/icons-material";
+import {EditButton, TextField} from "react-admin";
+import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {
   minimalUserHeaders,
   optionalUserHeaders,
-  validateUserData,
   transformUserData,
+  validateUserData,
 } from "../utils/userImportConf";
-import {ProfileFilters} from "../profile/components/ProfileFilters";
-import monitorProvider from "@/providers/monitorProvider";
 
 const MonitorList = () => (
   <HaList

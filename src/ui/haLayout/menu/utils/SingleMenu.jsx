@@ -1,5 +1,5 @@
-import {Box, Typography, useMediaQuery} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
+import {Box, Typography, useMediaQuery} from "@mui/material";
 import {Link, useSidebarState} from "react-admin";
 import {useLocation} from "react-router-dom";
 

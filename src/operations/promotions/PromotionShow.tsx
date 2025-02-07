@@ -1,21 +1,23 @@
-import {TopToolbar, SimpleShowLayout, TextField} from "react-admin";
-import {
-  Fingerprint as ReferenceIcon,
-  PermIdentity as NameIcon,
-  CalendarMonth as CreationDateIcon,
-} from "@mui/icons-material";
+import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify} from "@/hooks";
+import promotionFlowsProvider from "@/providers/promotionFlowProvider";
+import {useRole} from "@/security/hooks";
+import {EMPTY_TEXT} from "@/ui/constants";
 import {
   Group,
   Promotion,
   UpdatePromotionSGroupTypeEnum,
 } from "@haapi/typescript-client";
+import {
+  CalendarMonth as CreationDateIcon,
+  PermIdentity as NameIcon,
+  Fingerprint as ReferenceIcon,
+} from "@mui/icons-material";
 import {Box, useMediaQuery} from "@mui/material";
+import {SimpleShowLayout, TextField, TopToolbar} from "react-admin";
 import {useParams} from "react-router-dom";
-import {useNotify} from "@/hooks";
-import {useRole} from "@/security/hooks";
-import {EMPTY_TEXT} from "@/ui/constants";
-import {DateField, FieldLabel} from "../common/components/fields";
 import {Show} from "../common/components";
+import {DateField, FieldLabel} from "../common/components/fields";
 import {
   ResourceFlowsArgsType,
   ResourceFlowsContext,
@@ -23,8 +25,6 @@ import {
 } from "../common/components/resource-flows/ResourceFlowsContext";
 import {PromotionGroupList} from "./components";
 import {PromotionEditButton} from "./PromotionEditButton";
-import promotionFlowsProvider from "@/providers/promotionFlowProvider";
-import {PALETTE_COLORS} from "@/haTheme";
 
 const SyleSx = (isSmall: boolean) => ({
   "& .css-jfdv4h-MuiStack-root > *": {

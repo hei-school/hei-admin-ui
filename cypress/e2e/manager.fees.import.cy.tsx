@@ -49,7 +49,7 @@ describe("Manager import fees for one students", () => {
       "getManager1"
     );
     cy.getByTestid("students-menu").click();
-    cy.get('[href="#/students"]').click();
+    cy.get('[href="/students"]').click();
     cy.getByTestid("main-search-filter").type(student1Mock.first_name);
     cy.wait("@getStudentsByFirstName");
     cy.contains(student1Mock.first_name).click();

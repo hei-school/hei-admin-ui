@@ -34,7 +34,7 @@ describe("Student receipt", () => {
   });
 
   it("Student can get receipt", () => {
-    cy.get('a[href="#/students/student1_id/fees"]').click();
+    cy.get('a[href="/students/student1_id/fees"]').click();
     cy.wait("@getfees");
     cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`).click({
       force: true,
@@ -84,7 +84,7 @@ describe("Manager receipt", () => {
   });
   it("Manager can get student's receipt", () => {
     cy.getByTestid("students-menu").click();
-    cy.get('a[href="#/students"]').click();
+    cy.get('a[href="/students"]').click();
     cy.wait("@getStudents");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();

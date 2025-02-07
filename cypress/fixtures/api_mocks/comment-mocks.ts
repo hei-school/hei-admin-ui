@@ -1,6 +1,6 @@
 import {Comment} from "@haapi/typescript-client";
-import {student1Mock, studentsMock} from "./students-mocks";
 import {manager1Mock, managersMock} from "./managers-mocks";
+import {student1Mock, studentsMock} from "./students-mocks";
 import {teacher1Mock, teachersMock} from "./teachers-mocks";
 
 export const student1CommentMocks: Required<Comment>[] = [

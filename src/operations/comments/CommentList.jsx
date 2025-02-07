@@ -1,14 +1,14 @@
-import {Box, Typography, CircularProgress} from "@mui/material";
+import {Box, CircularProgress, Typography} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import {Link, useGetList} from "react-admin";
 
-import {CommentCreate} from "./CommentCreate";
-import {useNotify} from "../../hooks";
 import {PALETTE_COLORS} from "@/haTheme";
-import {getUserRoleInFr} from "../common/utils/typo_util";
-import {Separator} from "./utils";
-import {DATE_OPTIONS, TIME_OPTIONS} from "../../utils/date";
+import {useNotify} from "../../hooks";
 import {useRole} from "../../security/hooks";
+import {DATE_OPTIONS, TIME_OPTIONS} from "../../utils/date";
+import {getUserRoleInFr} from "../common/utils/typo_util";
+import {CommentCreate} from "./CommentCreate";
+import {Separator} from "./utils";
 
 import defaultProfilePicture from "../../assets/blank-profile-photo.png";
 

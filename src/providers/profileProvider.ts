@@ -1,5 +1,5 @@
-import authProvider from "@/providers/authProvider";
 import {usersApi} from "@/providers/api";
+import authProvider from "@/providers/authProvider";
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 

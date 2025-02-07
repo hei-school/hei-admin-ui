@@ -54,7 +54,7 @@ describe("Student Ceritificate", () => {
     ).as("downloadCertificate");
 
     cy.getByTestid("students-menu").click();
-    cy.get('[href="#/students"]').click();
+    cy.get('[href="/students"]').click();
     cy.wait("@getStudents");
 
     cy.getByTestid("main-search-filter").type(student1Mock.first_name);

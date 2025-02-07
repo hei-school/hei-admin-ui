@@ -1,8 +1,8 @@
 import {AssignmentInd} from "@mui/icons-material";
 import ProfileEdit from "../profile/ProfileEdit";
+import {StaffCreate} from "./StaffCreate";
 import StaffList from "./StaffList";
 import StaffShow from "./StaffShow";
-import {StaffCreate} from "./StaffCreate";
 
 const staffMembers = {
   list: StaffList,

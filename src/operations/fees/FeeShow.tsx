@@ -1,43 +1,43 @@
-import {useState, useEffect, FC, ReactElement, ReactNode} from "react";
-import {
-  FunctionField,
-  useDataProvider,
-  EditButton,
-  TopToolbar,
-  SimpleShowLayout,
-  TextField,
-} from "react-admin";
-import {useParams} from "react-router-dom";
-import {
-  Divider,
-  Chip,
-  Typography,
-  Grid,
-  Box,
-  Accordion,
-  AccordionSummary,
-  AccordionDetails,
-  useMediaQuery,
-} from "@mui/material";
-import {Fee} from "@haapi/typescript-client";
-import {useRole} from "@/security/hooks";
-import {studentIdFromRaId} from "@/providers/feeProvider";
-import {statusRenderer, commentFunctionRenderer} from "@/operations/utils";
+import {PALETTE_COLORS} from "@/haTheme";
 import {DeleteWithConfirm, Show} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
+import {GRID_STYLE} from "@/operations/fees/utils/gridStyle";
 import PaymentList from "@/operations/payments/PaymentList";
-import {PALETTE_COLORS} from "@/haTheme";
+import {commentFunctionRenderer, statusRenderer} from "@/operations/utils";
+import {studentIdFromRaId} from "@/providers/feeProvider";
+import {useRole} from "@/security/hooks";
+import {EMPTY_TEXT} from "@/ui/constants";
+import {Fee} from "@haapi/typescript-client";
 import {
-  EventNoteOutlined,
-  InfoOutlined,
-  ChatBubbleOutline,
   AccessTimeOutlined,
+  ChatBubbleOutline,
+  EventNoteOutlined,
   ExpandMore,
   Info,
+  InfoOutlined,
 } from "@mui/icons-material";
-import {GRID_STYLE} from "@/operations/fees/utils/gridStyle";
-import {EMPTY_TEXT} from "@/ui/constants";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  Box,
+  Chip,
+  Divider,
+  Grid,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
+import {FC, ReactElement, ReactNode, useEffect, useState} from "react";
+import {
+  EditButton,
+  FunctionField,
+  SimpleShowLayout,
+  TextField,
+  TopToolbar,
+  useDataProvider,
+} from "react-admin";
+import {useParams} from "react-router-dom";
 import {PSP_COLORS, PSP_VALUES} from "./utils";
 
 type LabeledFieldProps = {

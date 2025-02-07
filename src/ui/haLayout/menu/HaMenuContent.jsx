@@ -1,10 +1,10 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import authProvider from "@/providers/authProvider";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import ManagerMenu from "./ManagerMenu";
-import StudentMenu from "./StudentMenu";
-import TeacherMenu from "./TeacherMenu";
 import MonitorMenu from "./MonitorMenu";
 import StaffMenu from "./StaffMenu";
+import StudentMenu from "./StudentMenu";
+import TeacherMenu from "./TeacherMenu";
 
 export function HaMenuContent() {
   const role = authProvider.getCachedWhoami().role;

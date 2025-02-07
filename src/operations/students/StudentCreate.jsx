@@ -11,11 +11,11 @@ import {
 import {SelectSpecialization} from "./components";
 import {createStudentApi} from "./utils/studentFactory";
 
-import {SexRadioButton} from "../utils";
-import {Create} from "../common/components";
-import {FeeInputs} from "../fees/components";
 import {useToggle} from "../../hooks";
+import {Create} from "../common/components";
 import {CreateGeoLocalisation} from "../common/components/GeoLocalisation";
+import {FeeInputs} from "../fees/components";
+import {SexRadioButton} from "../utils";
 
 const StudentCreate = () => {
   const [canCreateFees, , toggleCanCreateFees] = useToggle(false);

@@ -1,11 +1,11 @@
-import {FC, useState} from "react";
 import {
-  Select,
-  MenuItem,
-  SelectChangeEvent,
   FormControl,
   InputLabel,
+  MenuItem,
+  Select,
+  SelectChangeEvent,
 } from "@mui/material";
+import {FC, useState} from "react";
 
 interface Option {
   id: string;

@@ -1,11 +1,11 @@
 import {
   newWorkerDoc,
-  workDoc1,
-  workDocsMocks,
   otherDoc1,
   otherDocsMocks,
   transcript1,
   transcriptsMock,
+  workDoc1,
+  workDocsMocks,
 } from "../fixtures/api_mocks/docs-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
@@ -31,7 +31,7 @@ describe("Manager.Work.Docs.Download", () => {
 
     cy.login({role: "MANAGER"});
     cy.getByTestid("students-menu").click();
-    cy.get('a[href="#/students"]').click();
+    cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
@@ -43,7 +43,7 @@ describe("Manager.Work.Docs.Download", () => {
 
   it("can download a student worker doc", () => {
     cy.get(
-      '[href="#/students/student1_id/docs/students/WORK_DOCUMENT"]'
+      '[href="/students/student1_id/docs/students/WORK_DOCUMENT"]'
     ).click();
 
     cy.contains("Afficher").click();
@@ -144,7 +144,7 @@ describe("Student.Work.Docs.Download", () => {
   });
 
   it("can download a student worker doc", () => {
-    cy.get('[href="#/docs/students/WORK_DOCUMENT"]').click();
+    cy.get('[href="/docs/students/WORK_DOCUMENT"]').click();
 
     cy.contains("Afficher").click();
 

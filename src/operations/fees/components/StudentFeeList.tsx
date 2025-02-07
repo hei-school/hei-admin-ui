@@ -1,4 +1,23 @@
-import {FC, useMemo} from "react";
+import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify, useToggle} from "@/hooks";
+import {useStudentRef} from "@/hooks/useStudentRef";
+import {Create} from "@/operations/common/components";
+import {DateField} from "@/operations/common/components/fields";
+import {renderMoney} from "@/operations/common/utils/money";
+import {
+  DEFAULT_REMEDIAL_COSTS_AMOUNT,
+  DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
+  MpbsStatusIcon,
+} from "@/operations/fees/utils";
+import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
+import {
+  commentFunctionRenderer,
+  IconButtonWithTooltip,
+} from "@/operations/utils";
+import authProvider from "@/providers/authProvider";
+import {HaList} from "@/ui/haList/HaList";
+import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {formatDate, toUTC} from "@/utils/date";
 import {
   Course,
   Fee,
@@ -9,9 +28,20 @@ import {
   MpbsStatus,
 } from "@haapi/typescript-client";
 import {
-  FunctionField,
+  AddCard as AddMbpsIcon,
+  Payment as PayIcon,
+  Visibility as ShowIcon,
+  WarningOutlined,
+} from "@mui/icons-material";
+import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
+import {AxiosError} from "axios";
+import {FC, useMemo} from "react";
+import {
   FormDataConsumer,
+  FunctionField,
   Link,
+  minLength,
+  regex,
   SelectArrayInput,
   SelectInput,
   SimpleForm,
@@ -19,38 +49,8 @@ import {
   useGetList,
   useRecordContext,
   useRefresh,
-  regex,
-  minLength,
 } from "react-admin";
-import {AxiosError} from "axios";
-import {
-  AddCard as AddMbpsIcon,
-  Payment as PayIcon,
-  Visibility as ShowIcon,
-  WarningOutlined,
-} from "@mui/icons-material";
-import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
-import {useNotify, useToggle} from "@/hooks";
-import {PALETTE_COLORS} from "@/haTheme";
-import {useStudentRef} from "@/hooks/useStudentRef";
-import {HaList} from "@/ui/haList/HaList";
-import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
-import {Create} from "@/operations/common/components";
-import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
-import {DateField} from "@/operations/common/components/fields";
-import {renderMoney} from "@/operations/common/utils/money";
-import {
-  commentFunctionRenderer,
-  IconButtonWithTooltip,
-} from "@/operations/utils";
-import {
-  MpbsStatusIcon,
-  DEFAULT_REMEDIAL_COSTS_AMOUNT,
-  DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
-} from "@/operations/fees/utils";
-import {formatDate, toUTC} from "@/utils/date";
 import {FeesDialog} from "./FeesDialog";
-import authProvider from "@/providers/authProvider";
 
 interface CreateProps {
   onSuccess: () => void;
@@ -161,7 +161,7 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
 }) => {
   const notify = useNotify();
 
-  const {id: fee_id, mpbs} = feeToPay;
+  const {id: fee_id = "", mpbs = {}} = feeToPay;
   const {id: student_id} = authProvider.getCachedWhoami();
 
   const handleError = (error: AxiosError) => {
@@ -283,6 +283,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
 };
 
 export const StudentFeeList = () => {
+  const notify = useNotify();
   const {studentRef, studentId} = useStudentRef("studentId");
   const [showCatchupFees, _set, toggleCatchupFees] = useToggle();
   const [showRightFee, _set3, toggleRightFee] = useToggle();
@@ -336,7 +337,15 @@ export const StudentFeeList = () => {
             <HaActionWrapper>
               <ButtonBase
                 icon={<PayIcon />}
-                onClick={toggleRightFee}
+                onClick={() => {
+                  if (!nextFeeToPay) {
+                    notify("Vous n'avez plus de frais à payer", {
+                      type: "error",
+                    });
+                    return;
+                  }
+                  toggleRightFee();
+                }}
                 style={{
                   backgroundColor: PALETTE_COLORS.red,
                   color: PALETTE_COLORS.white,

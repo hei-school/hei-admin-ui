@@ -1,11 +1,11 @@
+import {PALETTE_COLORS} from "@/haTheme";
+import {Show} from "@/operations/common/components/Show";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {Edit as EditIcon, Inventory} from "@mui/icons-material";
+import {Box} from "@mui/material";
 import {FC} from "react";
 import {Button, EditButton, useRecordContext, useRedirect} from "react-admin";
-import {Box} from "@mui/material";
-import {Edit as EditIcon, Inventory} from "@mui/icons-material";
-import {Show} from "@/operations/common/components/Show";
 import {ProfileLayout} from "../common/components/ProfileLayout";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import {PALETTE_COLORS} from "@/haTheme";
 
 export const ActionsOnShow: FC = () => {
   const {id} = useRecordContext();

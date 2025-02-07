@@ -1,7 +1,7 @@
+import {HaList} from "@/ui/haList";
+import {Typography} from "@mui/material";
 import {useEffect} from "react";
 import {Datagrid, TextField, useListContext} from "react-admin";
-import {Typography} from "@mui/material";
-import {HaList} from "@/ui/haList";
 
 const ListContent = ({setStudentsIds}) => {
   const {selectedIds} = useListContext();

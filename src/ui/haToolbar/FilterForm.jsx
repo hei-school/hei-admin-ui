@@ -1,9 +1,9 @@
 import {FilterList} from "@mui/icons-material";
 import {createContext, useState} from "react";
 import {useListFilterContext} from "react-admin";
-import {FilterContentResponsive} from "./FilterFormContent";
-import {ButtonBase} from "../haToolbar";
 import useHaListContext from "../haList/useHaListContext";
+import {ButtonBase} from "../haToolbar";
+import {FilterContentResponsive} from "./FilterFormContent";
 
 export const HaToolbarContext = createContext({});
 

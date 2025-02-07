@@ -1,3 +1,9 @@
+import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify} from "@/hooks";
+import {Create} from "@/operations/common/components";
+import {removeExtension} from "@/utils/files";
+import {FileType} from "@haapi/typescript-client";
+import {Box, Dialog, DialogTitle} from "@mui/material";
 import {
   DateInput,
   FileField,
@@ -6,12 +12,6 @@ import {
   TextInput,
   regex,
 } from "react-admin";
-import {Dialog, DialogTitle, Box} from "@mui/material";
-import {FileType} from "@haapi/typescript-client";
-import {Create} from "@/operations/common/components";
-import {removeExtension} from "@/utils/files";
-import {PALETTE_COLORS} from "@/haTheme";
-import {useNotify} from "@/hooks";
 import {OwnerType} from "../types";
 import {SelectWorkType} from "./SelectWorkType";
 

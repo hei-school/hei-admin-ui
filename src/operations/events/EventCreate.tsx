@@ -1,3 +1,11 @@
+import {DateTimeField} from "@/operations/common/components/fields";
+import authProvider from "@/providers/authProvider";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {AutocompleteArrayInput} from "@/ui/components/inputs";
+import {mapToChoices} from "@/utils";
+import {EventInput} from "@fullcalendar/react";
+import {EventType, Group, GroupIdentifier} from "@haapi/typescript-client";
+import {Box} from "@mui/material";
 import {FC, useEffect} from "react";
 import {
   BooleanInput,
@@ -8,24 +16,15 @@ import {
   required,
   useGetList,
 } from "react-admin";
-import {Box} from "@mui/material";
-import {useWatch, useFormContext} from "react-hook-form";
+import {useFormContext, useWatch} from "react-hook-form";
 import {v4 as uuid} from "uuid";
-import {EventType, Group, GroupIdentifier} from "@haapi/typescript-client";
-import {AutocompleteArrayInput} from "@/ui/components/inputs";
-import {SelectCourse} from "./components";
 import {Create} from "../common/components";
-import {mapToChoices} from "@/utils";
-import {EVENT_TYPE_VALUE, RECURRENCE_TYPE_CHOICES} from "./utils";
-import {SelectPlanner} from "./components";
-import authProvider from "@/providers/authProvider";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
-import {DateTimeField} from "@/operations/common/components/fields";
-import {EventInput} from "@fullcalendar/react";
 import {ColorInput} from "../common/components/ColorInput";
-import {ToRaRecord} from "../common/utils/types";
 import {stringifyObj} from "../common/utils/strinfigy-obj";
+import {ToRaRecord} from "../common/utils/types";
+import {SelectCourse, SelectPlanner} from "./components";
 import {SelectClassroom} from "./components/SelectClassrroom";
+import {EVENT_TYPE_VALUE, RECURRENCE_TYPE_CHOICES} from "./utils";
 
 export function EventCreate() {
   const userId = authProvider.getCachedWhoami().id;

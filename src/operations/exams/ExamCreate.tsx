@@ -1,3 +1,9 @@
+import {Create} from "@/operations/common/components";
+import {DateTimeField} from "@/operations/common/components/fields";
+import authProvider from "@/providers/authProvider";
+import {useRole} from "@/security/hooks";
+import {AutocompleteInput} from "@/ui/components/inputs";
+import {Box} from "@mui/material";
 import {useMemo, useState} from "react";
 import {
   NumberInput,
@@ -6,12 +12,6 @@ import {
   TextInput,
   useGetList,
 } from "react-admin";
-import {Box} from "@mui/material";
-import authProvider from "@/providers/authProvider";
-import {Create} from "@/operations/common/components";
-import {DateTimeField} from "@/operations/common/components/fields";
-import {AutocompleteInput} from "@/ui/components/inputs";
-import {useRole} from "@/security/hooks";
 
 export const ExamCreate = () => {
   const {role: userRole, id: userId} = authProvider.getCachedWhoami();

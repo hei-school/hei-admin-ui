@@ -34,8 +34,10 @@ const eventProvider: HaDataProviderType = {
       )
       .then((response) => response.data);
   },
-  async delete(_id: string) {
-    throw new Error("Not implemented");
+  async delete(id: string) {
+    return eventsApi()
+      .deleteEventById(id)
+      .then((response) => response.data);
   },
 };
 

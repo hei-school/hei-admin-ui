@@ -1,19 +1,19 @@
-import {useParams} from "react-router-dom";
+import {FileDownloader} from "@/operations/common/components";
+import {
+  InsertButton,
+  LeaveButton,
+  MigrateButton,
+} from "@/operations/common/components/resource-flows";
 import {HaList} from "@/ui/haList";
 import {Group, Promotion} from "@haapi/typescript-client";
+import {Download, GroupsOutlined} from "@mui/icons-material";
 import {
   ShowButton,
   TextField,
   useDataProvider,
   useListContext,
 } from "react-admin";
-import {GroupsOutlined, Download} from "@mui/icons-material";
-import {
-  InsertButton,
-  LeaveButton,
-  MigrateButton,
-} from "@/operations/common/components/resource-flows";
-import {FileDownloader} from "@/operations/common/components";
+import {useParams} from "react-router-dom";
 
 function ActionsPromotionsGroups() {
   const listContext = useListContext<Required<Group>>();

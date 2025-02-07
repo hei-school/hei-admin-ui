@@ -1,7 +1,7 @@
 import {
-  useNotify as useRaNotify,
   NotificationOptions,
   NotificationType,
+  useNotify as useRaNotify,
 } from "react-admin";
 
 type UseNotifyOptions = NotificationOptions & {

@@ -1,8 +1,8 @@
-import {v4 as uuid} from "uuid";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
 import authProvider from "./authProvider";
+import {HaDataProviderType} from "./HaDataProviderType";
 
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>

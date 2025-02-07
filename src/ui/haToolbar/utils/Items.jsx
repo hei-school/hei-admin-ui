@@ -1,5 +1,5 @@
-import {MenuItem, IconButton} from "@mui/material";
 import {Cancel} from "@mui/icons-material";
+import {IconButton, MenuItem} from "@mui/material";
 import {getObjValue} from "../../../utils";
 
 export function Items({options, labelKey, valueKey, onClick, checked}) {

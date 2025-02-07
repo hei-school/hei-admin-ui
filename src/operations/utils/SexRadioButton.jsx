@@ -1,5 +1,5 @@
-import {RadioButtonGroupInput} from "react-admin";
 import {Sex} from "@haapi/typescript-client";
+import {RadioButtonGroupInput} from "react-admin";
 
 export const SexRadioButton = () => (
   <RadioButtonGroupInput

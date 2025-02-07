@@ -1,18 +1,15 @@
-import {useEffect, useState} from "react";
+import authProvider from "@/providers/authProvider";
+import {HaList} from "@/ui/haList";
+import {Typography} from "@mui/material";
 import {
-  Button as MUIButton,
-  Create,
   Datagrid,
+  Button as MUIButton,
   TextField,
-  useListContext,
   useCreate,
+  useListContext,
   useNotify,
   useRefresh,
 } from "react-admin";
-import {Typography} from "@mui/material";
-import {HaList} from "@/ui/haList";
-import AddIcon from "@mui/icons-material/Add";
-import authProvider from "@/providers/authProvider";
 import {useNavigate} from "react-router-dom";
 
 const ListContent = () => {

@@ -1,9 +1,9 @@
 import {Dispatch, FC, SetStateAction} from "react";
 
-import {SelectInput} from "react-admin";
-import {ANNOUNCEMENT_SCOPE} from "../utils/constants/announcementsScopes";
 import {useRole} from "@/security/hooks";
 import {mapToChoices} from "@/utils";
+import {SelectInput} from "react-admin";
+import {ANNOUNCEMENT_SCOPE} from "../utils/constants/announcementsScopes";
 
 export const SCOPE_CHOICES = mapToChoices(ANNOUNCEMENT_SCOPE);
 

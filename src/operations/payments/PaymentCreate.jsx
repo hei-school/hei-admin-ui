@@ -1,23 +1,23 @@
-import {useState, useEffect} from "react";
+import {useEffect, useState} from "react";
 
+import {PaymentTypeEnum} from "@haapi/typescript-client";
 import {
+  BooleanInput,
   Create,
-  SimpleForm,
-  TextInput,
-  RadioButtonGroupInput,
-  useDataProvider,
-  required,
-  useNotify,
+  DateInput,
   minValue,
   number,
-  DateInput,
-  BooleanInput,
+  RadioButtonGroupInput,
+  required,
+  SimpleForm,
+  TextInput,
+  useDataProvider,
+  useNotify,
 } from "react-admin";
 import {useParams} from "react-router-dom";
 import {paymentTypes} from "../../conf";
 import {useToggle} from "../../hooks/useToggle";
 import {studentIdFromRaId} from "../../providers/feeProvider";
-import {PaymentTypeEnum} from "@haapi/typescript-client";
 
 const PaymentCreate = (props) => {
   const params = useParams();

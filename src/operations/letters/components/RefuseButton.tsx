@@ -1,8 +1,8 @@
+import {useNotify} from "@/hooks";
+import {Unpublished} from "@mui/icons-material";
+import {Box, Button, TextField} from "@mui/material";
 import {FC, useState} from "react";
 import {Confirm, useRefresh, useUpdate} from "react-admin";
-import {Box, Button, TextField} from "@mui/material";
-import {Unpublished} from "@mui/icons-material";
-import {useNotify} from "@/hooks";
 
 export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
   const [open, setOpen] = useState(false);

@@ -4,8 +4,8 @@ import {
 } from "@haapi/typescript-client";
 import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
 import {
-  promotionsMock,
   promotion1Mock,
+  promotionsMock,
 } from "../fixtures/api_mocks/promotions-mocks";
 
 const promotion2Mock = promotionsMock[1];

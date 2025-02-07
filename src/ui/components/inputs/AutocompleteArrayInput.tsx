@@ -1,6 +1,6 @@
 import {
-  AutocompleteArrayInput as RaAutocompleteArrayInput,
   AutocompleteArrayInputProps,
+  AutocompleteArrayInput as RaAutocompleteArrayInput,
 } from "react-admin";
 
 export function AutocompleteArrayInput(props: AutocompleteArrayInputProps) {

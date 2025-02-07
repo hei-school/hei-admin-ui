@@ -1,19 +1,19 @@
-import {FC, ReactElement, ReactNode, useState} from "react";
+import {PALETTE_COLORS} from "@/haTheme";
+import {Info as InfoIcon} from "@mui/icons-material";
 import {
-  Box,
-  Typography,
   Avatar,
-  useMediaQuery,
-  Tooltip,
+  Box,
   IconButton,
-  Popover,
   List,
   ListItem,
-  ListItemText,
   ListItemIcon,
+  ListItemText,
+  Popover,
+  Tooltip,
+  Typography,
+  useMediaQuery,
 } from "@mui/material";
-import {Info as InfoIcon} from "@mui/icons-material";
-import {PALETTE_COLORS} from "@/haTheme";
+import {FC, ReactElement, ReactNode, useState} from "react";
 
 export interface StatDetail {
   icon: ReactElement;

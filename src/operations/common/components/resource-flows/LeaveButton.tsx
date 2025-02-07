@@ -1,3 +1,6 @@
+import {useToggle} from "@/hooks";
+import {Delete as RemoveIcon} from "@mui/icons-material";
+import {Typography} from "@mui/material";
 import {
   Button,
   Confirm,
@@ -5,14 +8,11 @@ import {
   useGetOne,
   useRecordContext,
 } from "react-admin";
-import {Delete as RemoveIcon} from "@mui/icons-material";
-import {Typography} from "@mui/material";
 import {
   LabelFn,
   ResourceFlowsArgsType,
   ResourceIdentifier,
 } from "./ResourceFlowsContext";
-import {useToggle} from "@/hooks";
 import {useResourceFlowsContext} from "./useResourceFlowsContext";
 
 export type LeaveDialogProps<T> = Partial<Omit<ConfirmProps, "title">> & {

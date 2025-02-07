@@ -1,21 +1,22 @@
+import defaultPicture from "@/assets/blank-profile-photo.png";
+import {useToggle} from "@/hooks";
+import {useRole} from "@/security/hooks";
+import {formatDate, getTime, isSameDay} from "@/utils/date";
 import {Event} from "@haapi/typescript-client";
 import {CalendarMonthOutlined, MenuBook} from "@mui/icons-material";
 import {
   Box,
   Button,
-  Typography,
   Card,
   CardContent,
+  Chip,
   Stack,
   SxProps,
-  Chip,
+  Typography,
 } from "@mui/material";
-import {EVENT_TYPE_VALUE} from "../utils";
-import {formatDate, getTime, isSameDay} from "@/utils/date";
-import defaultPicture from "@/assets/blank-profile-photo.png";
+import {Link} from "react-admin";
 import {EventEditDialog} from "../EventEditDialog";
-import {useRole} from "@/security/hooks";
-import {useToggle} from "@/hooks";
+import {EVENT_TYPE_VALUE} from "../utils";
 import {StatCard} from "./Stats";
 
 export type EventCardPropsType = {
@@ -150,7 +151,8 @@ export function EventCard({event}: EventCardPropsType) {
           )}
           <Button
             size="small"
-            href={`#/events/${event.id}/participants`}
+            component={Link}
+            to={`/events/${event.id}/participants`}
             sx={{textTransform: "revert"}}
             id="event-show"
           >

@@ -1,3 +1,5 @@
+import {mapToChoices} from "@/utils";
+
 export const EVENT_TYPE_VALUE = {
   COURSE: "Cours",
   INTEGRATION: "Intégration",
@@ -12,6 +14,12 @@ export const ATTENDANCE_STATUS_VALUE = {
   LATE: "En retard",
   PRESENT: "Présent",
 };
+
+export const ATTENDANCE_STATUS = mapToChoices(
+  ATTENDANCE_STATUS_VALUE,
+  "id",
+  "name"
+);
 
 export const ATTENDANCE_STATUS_COLOR = {
   MISSING: "error",

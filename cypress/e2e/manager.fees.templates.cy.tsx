@@ -28,7 +28,7 @@ describe("Manager.feesTemplates", () => {
       feesTemplates1Mock
     ).as("getFeesTemplate1");
 
-    cy.get('a[href="#/fees-templates"]').click();
+    cy.get('a[href="/fees-templates"]').click();
   });
 
   it("can edit feesTemplates", () => {

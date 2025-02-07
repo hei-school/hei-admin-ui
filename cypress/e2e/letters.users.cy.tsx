@@ -74,7 +74,7 @@ describe("Manager.Letters.student", () => {
     cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock);
 
     cy.getByTestid("students-menu").click();
-    cy.get('a[href="#/students"]').click();
+    cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
     cy.contains("Page : 1");
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");

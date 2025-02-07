@@ -1,7 +1,7 @@
-import {SelectInput, SimpleForm, useGetList} from "react-admin";
 import {useNotify} from "@/hooks";
 import {Create} from "@/operations/common/components";
 import authProvider from "@/providers/authProvider";
+import {SelectInput, SimpleForm, useGetList} from "react-admin";
 import {createFeesApi} from "./utils/feeFactory";
 
 export const StudentFeeCreate = ({toggle}) => {

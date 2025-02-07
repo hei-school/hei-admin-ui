@@ -1,22 +1,22 @@
-import {FC, useMemo, useRef, useState} from "react";
-import {
-  FileField,
-  FileInput,
-  SimpleForm,
-  TextInput,
-  Confirm,
-  useCreate,
-  Toolbar,
-  SaveButton,
-} from "react-admin";
-import {Box, Typography, Backdrop, CircularProgress} from "@mui/material";
-import {Dialog} from "@/ui/components";
-import {CreateLettersDialogProps} from "@/operations/letters/types";
-import {useNotify} from "@/hooks";
-import {PALETTE_COLORS} from "@/haTheme";
-import {v4 as uuid} from "uuid";
 import uploadImg from "@/assets/file_upload.png";
 import PdfIcon from "@/assets/pdf.png";
+import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify} from "@/hooks";
+import {CreateLettersDialogProps} from "@/operations/letters/types";
+import {Dialog} from "@/ui/components";
+import {Backdrop, Box, CircularProgress, Typography} from "@mui/material";
+import {FC, useMemo, useRef, useState} from "react";
+import {
+  Confirm,
+  FileField,
+  FileInput,
+  SaveButton,
+  SimpleForm,
+  TextInput,
+  Toolbar,
+  useCreate,
+} from "react-admin";
+import {v4 as uuid} from "uuid";
 
 export const FILE_FIELD_STYLE = {
   "border": "1px dashed",

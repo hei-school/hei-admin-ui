@@ -1,5 +1,5 @@
-import {excelDateToJsDate, validateData} from "../../ui/haToolbar";
 import {EnableStatus} from "@haapi/typescript-client";
+import {excelDateToJsDate, validateData} from "../../ui/haToolbar";
 
 export const minimalUserHeaders = [
   {id: 1, label: "Référence (ref)", value: "ref", disabled: true},

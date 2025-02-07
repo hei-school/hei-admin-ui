@@ -1,13 +1,13 @@
+import {PALETTE_COLORS} from "@/haTheme";
 import {Close as CloseIcon} from "@mui/icons-material";
 import {
-  DialogProps as MuiDialogProps,
+  DialogContent,
+  DialogTitle,
   IconButton,
   Dialog as MuiDialog,
-  DialogTitle,
-  DialogContent,
+  DialogProps as MuiDialogProps,
   useMediaQuery,
 } from "@mui/material";
-import {PALETTE_COLORS} from "@/haTheme";
 
 type DialogProps = Partial<MuiDialogProps> & {
   children: React.ReactNode;

@@ -1,11 +1,11 @@
-import {Box} from "@mui/material";
 import {
+  DateTimeFilter,
   FilterForm,
   SelectInputFilter,
   TextFilter,
-  DateTimeFilter,
 } from "@/ui/haToolbar";
 import {EnableStatus, Sex, WorkStudyStatus} from "@haapi/typescript-client";
+import {Box} from "@mui/material";
 
 export function ProfileFilters({resource}) {
   return (

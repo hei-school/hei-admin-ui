@@ -1,8 +1,8 @@
+import {useNotify} from "@/hooks";
+import {CheckCircle} from "@mui/icons-material";
+import {Box, Button} from "@mui/material";
 import {FC, useState} from "react";
 import {Confirm, useRefresh, useUpdate} from "react-admin";
-import {Box, Button} from "@mui/material";
-import {CheckCircle} from "@mui/icons-material";
-import {useNotify} from "@/hooks";
 
 export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
   const [open, setOpen] = useState(false);

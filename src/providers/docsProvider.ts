@@ -1,8 +1,8 @@
 import {FileType} from "@haapi/typescript-client";
 import {OwnerType} from "../operations/docs/types";
 import {HaDataProviderType} from "./HaDataProviderType";
-import {MULTIPART_HEADERS} from "./constants";
 import {filesApi} from "./api";
+import {MULTIPART_HEADERS} from "./constants";
 
 const docsProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, _filter: any, meta: any) {

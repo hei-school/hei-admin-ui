@@ -1,7 +1,7 @@
-import {Group} from "@mui/icons-material";
-import ProfileEdit from "@/operations/profile/ProfileEdit";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
+import ProfileEdit from "@/operations/profile/ProfileEdit";
 import StudentShow from "@/operations/students/StudentShow";
+import {Group} from "@mui/icons-material";
 import {InsertStudentToMonitor} from "./InsertStudentToMonitor";
 
 const monitorStudent = {

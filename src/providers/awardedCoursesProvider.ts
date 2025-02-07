@@ -1,6 +1,6 @@
-import {CreateAwardedCourse} from "@haapi/typescript-client";
 import {teachingApi} from "@/providers/api";
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {CreateAwardedCourse} from "@haapi/typescript-client";
 
 const awardedCoursesProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}, _meta) => {

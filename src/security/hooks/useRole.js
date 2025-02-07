@@ -1,5 +1,5 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import authProvider from "@/providers/authProvider";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
 
 export function useRole() {
   const {role} = authProvider.getCachedWhoami();

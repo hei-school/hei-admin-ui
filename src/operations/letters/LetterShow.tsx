@@ -1,9 +1,9 @@
-import {FC} from "react";
 import {Container} from "@mui/material";
+import {FC} from "react";
 
-import {Dialog} from "@/ui/components";
 import PdfViewer from "@/operations/common/components/PdfViewer";
 import {LetterShowProps} from "@/operations/letters/types";
+import {Dialog} from "@/ui/components";
 
 const LetterShow: FC<LetterShowProps> = ({
   isOpen,

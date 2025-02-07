@@ -1,11 +1,11 @@
-import {Box, Divider, Typography} from "@mui/material";
 import {useRole} from "@/security/hooks";
 import {
-  FilterForm,
-  TextFilter,
-  SelectInputFilter,
   DateTimeFilter,
+  FilterForm,
+  SelectInputFilter,
+  TextFilter,
 } from "@/ui/haToolbar";
+import {Box, Divider, Typography} from "@mui/material";
 import {
   FEE_STATUS_CHOICES,
   FEES_TYPES_CHOICES,
@@ -19,7 +19,11 @@ export const FeesFilters = () => {
     <FilterForm>
       {(isManager() || isAdmin()) && (
         <Box>
-          <TextFilter label="Référence étudiante" source="student_ref" />
+          <TextFilter
+            label="Référence étudiante"
+            source="student_ref"
+            sx={{marginBottom: 2}}
+          />
           <SelectInputFilter
             data-testid="filter-fees-status"
             label="Statut du paiement du frais"

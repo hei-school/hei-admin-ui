@@ -1,13 +1,8 @@
-import React from "react";
-import {List, Datagrid} from "react-admin";
-import {Box, styled, useMediaQuery} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
-import {PrevNextPagination} from "./PrevNextPagination";
+import {Box, styled} from "@mui/material";
+import {Datagrid, List} from "react-admin";
 import {HaListTitle} from "./HaListTitle";
-import {
-  EditableDatagrid,
-  EditRowButton,
-} from "@react-admin/ra-editable-datagrid";
+import {PrevNextPagination} from "./PrevNextPagination";
 
 const ListWrapper = styled("div")({
   width: "calc(100% - 20px)",

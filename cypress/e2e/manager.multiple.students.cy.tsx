@@ -27,7 +27,7 @@ describe("Manager create multiple students", () => {
     cy.wait("@getWhoami", {timeout: 10000});
     cy.wait("@getStats");
     cy.getByTestid("students-menu").click();
-    cy.get('[href="#/students"]').click();
+    cy.get('[href="/students"]').click();
   });
 
   it("cannot create students if the file is empty", () => {

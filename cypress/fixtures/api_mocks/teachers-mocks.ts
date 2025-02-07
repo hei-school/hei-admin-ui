@@ -1,4 +1,4 @@
-import {EnableStatus, Teacher, Sex} from "@haapi/typescript-client";
+import {EnableStatus, Sex, Teacher} from "@haapi/typescript-client";
 
 export const teachersMock: Teacher[] = [
   {

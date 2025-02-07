@@ -1,18 +1,18 @@
 import {FC} from "react";
 
-import {
-  Typography,
-  Box,
-  Avatar,
-  Card,
-  CardMedia,
-  CardContent,
-} from "@mui/material";
-import {Show, SimpleShowLayout, useGetOne, useRedirect} from "react-admin";
-import {MarkdownField} from "@react-admin/ra-markdown";
-import {useParams} from "react-router-dom";
 import {PALETTE_COLORS} from "@/haTheme";
 import {AnnouncementAuthor} from "@haapi/typescript-client";
+import {
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  CardMedia,
+  Typography,
+} from "@mui/material";
+import {MarkdownField} from "@react-admin/ra-markdown";
+import {Show, SimpleShowLayout, useGetOne, useRedirect} from "react-admin";
+import {useParams} from "react-router-dom";
 import {EmailField} from "./components/EmailField";
 import {getBgImg} from "./utils/getBgImg";
 

@@ -1,10 +1,10 @@
+import {PALETTE_COLORS} from "@/haTheme";
 import {
   CircularProgress,
-  DialogActions as MuiDialogActions,
   Button as MuiButton,
+  DialogActions as MuiDialogActions,
 } from "@mui/material";
 import {useResourceFlowsContext} from "../useResourceFlowsContext";
-import {PALETTE_COLORS} from "@/haTheme";
 
 export function DialogActions() {
   const {isLoading} = useResourceFlowsContext();

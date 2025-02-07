@@ -1,9 +1,9 @@
-import {EditButton, SimpleShowLayout, useShowContext} from "react-admin";
-import {Typography, Box, Avatar} from "@mui/material";
-import {useRole} from "@/security/hooks";
-import {formatDate} from "@/utils/date";
-import {EMPTY_TEXT} from "@/ui/constants";
 import {PALETTE_COLORS} from "@/haTheme";
+import {useRole} from "@/security/hooks";
+import {EMPTY_TEXT} from "@/ui/constants";
+import {formatDate} from "@/utils/date";
+import {Avatar, Box, Typography} from "@mui/material";
+import {EditButton, SimpleShowLayout, useShowContext} from "react-admin";
 import {Show} from "../common/components";
 import GroupStudentList from "./components/GroupStudentList";
 

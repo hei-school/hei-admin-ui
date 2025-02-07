@@ -1,12 +1,12 @@
-import {EditButton, useRecordContext, Button, useRedirect} from "react-admin";
-import {Box} from "@mui/material";
-import {Inventory} from "@mui/icons-material";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
-import {Show} from "@/operations/common/components/Show";
-import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
-import {FC} from "react";
 import {PALETTE_COLORS} from "@/haTheme";
+import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
+import {Show} from "@/operations/common/components/Show";
 import {useRole} from "@/security/hooks";
+import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {Inventory} from "@mui/icons-material";
+import {Box} from "@mui/material";
+import {FC} from "react";
+import {Button, EditButton, useRecordContext, useRedirect} from "react-admin";
 
 const ActionsOnShow: FC = () => {
   const {id: teacherId} = useRecordContext();

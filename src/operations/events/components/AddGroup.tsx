@@ -1,3 +1,9 @@
+import {useNotify} from "@/hooks";
+import {Edit} from "@/operations/common/components";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {Dialog} from "@/ui/components";
+import {AutocompleteArrayInput} from "@/ui/components/inputs";
+import {FC} from "react";
 import {
   required,
   SimpleForm,
@@ -5,12 +11,6 @@ import {
   useGetOne,
   useRefresh,
 } from "react-admin";
-import {Edit} from "@/operations/common/components";
-import {FC} from "react";
-import {useNotify} from "@/hooks";
-import {Dialog} from "@/ui/components";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
-import {AutocompleteArrayInput} from "@/ui/components/inputs";
 
 const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
   const {data: event} = useGetOne("events", {id: eventId});

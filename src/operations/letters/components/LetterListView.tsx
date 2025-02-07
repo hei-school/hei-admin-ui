@@ -1,9 +1,9 @@
-import {FC} from "react";
-import {useListContext} from "react-admin";
-import {Box, CircularProgress, useMediaQuery} from "@mui/material";
-import {Letter} from "@haapi/typescript-client";
 import {LetterItem} from "@/operations/letters/components/LetterItem";
 import {EmptyList} from "@/ui/components";
+import {Letter} from "@haapi/typescript-client";
+import {Box, CircularProgress, useMediaQuery} from "@mui/material";
+import {FC} from "react";
+import {useListContext} from "react-admin";
 
 export const LetterListView: FC = () => {
   const {data: letters = [], isLoading} = useListContext<Required<Letter>>();

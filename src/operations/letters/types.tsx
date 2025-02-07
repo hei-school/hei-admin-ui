@@ -1,7 +1,7 @@
 import {ReactNode} from "react";
 
-import {Identifier} from "react-admin";
 import {Letter} from "@haapi/typescript-client";
+import {Identifier} from "react-admin";
 
 export interface CreateLettersDialogProps {
   isOpen: boolean;

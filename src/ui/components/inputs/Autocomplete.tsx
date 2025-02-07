@@ -1,11 +1,11 @@
-import {Controller, ControllerProps, Control} from "react-hook-form";
 import {
+  Chip,
   Autocomplete as MuiAutocomplete,
   AutocompleteProps as MuiAutocompleteProps,
-  Chip,
   TextField,
   TextFieldProps,
 } from "@mui/material";
+import {Control, Controller, ControllerProps} from "react-hook-form";
 
 export type AutocompleteOption = {
   id: string;

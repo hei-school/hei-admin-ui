@@ -1,18 +1,18 @@
 import {useState} from "react";
 import {
   BooleanInput,
-  RadioButtonGroupInput,
-  TextInput,
   DateInput,
   maxValue,
   minValue,
   number,
+  RadioButtonGroupInput,
   required,
+  TextInput,
 } from "react-admin";
 import {useFormContext} from "react-hook-form";
+import {FEESTEMPLATES_CHOICES} from "../constants";
 import {SelectDueDatetime} from "./SelectDueDatetime";
 import {SelectPredefinedType} from "./SelectPredefinedType";
-import {FEESTEMPLATES_CHOICES} from "../constants";
 
 export function FeeInputs() {
   const {reset, getValues} = useFormContext();

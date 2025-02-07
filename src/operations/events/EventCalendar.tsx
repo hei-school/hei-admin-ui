@@ -1,16 +1,17 @@
-import {useState} from "react";
-import {CompleteCalendar} from "@react-admin/ra-calendar";
-import {Popover, Box, Button, PopoverPosition} from "@mui/material";
-import {EventInput, EventClickArg} from "@fullcalendar/react";
+import {useToggle} from "@/hooks";
+import {useRole} from "@/security/hooks";
+import {HaListTitle} from "@/ui/haList";
 import frLocale from "@fullcalendar/core/locales/fr";
+import {EventClickArg, EventInput} from "@fullcalendar/react";
 import {Event} from "@haapi/typescript-client";
+import {Box, Button, Popover, PopoverPosition} from "@mui/material";
+import {CompleteCalendar} from "@react-admin/ra-calendar";
+import {useState} from "react";
+import {DeleteWithConfirm} from "../common/components";
+import {EventListAction, StatCard} from "./components";
 import {EventCreate} from "./EventCreate";
 import {EventEditDialog} from "./EventEditDialog";
-import {useToggle} from "@/hooks";
 import {EVENT_TYPE_VALUE} from "./utils";
-import {HaListTitle} from "@/ui/haList";
-import {useRole} from "@/security/hooks";
-import {EventListAction, StatCard} from "./components";
 
 export const EventCalendar = () => {
   const [currentEvent, setCurrentEvent] = useState<Event>();
@@ -69,6 +70,8 @@ export const EventCalendar = () => {
         CalendarProps={{
           selectable: isManager() || isAdmin(),
           editable: isManager() || isAdmin(),
+          slotMinTime: "07:00:00",
+          slotMaxTime: "19:00:00",
           getFilterValueFromInterval: (dateInfo) => {
             setFilter({from: dateInfo?.startStr, to: dateInfo?.endStr});
             return {};
@@ -112,6 +115,7 @@ export const EventCalendar = () => {
       >
         <EventAction
           event={currentEvent!}
+          handleClosePopover={handleClose}
           toggleEdit={() => {
             toggleEdit();
             handleClose();
@@ -130,9 +134,10 @@ export const EventCalendar = () => {
 type ActionProps = {
   event: Event;
   toggleEdit: () => void;
+  handleClosePopover: () => void;
 };
 
-const EventAction = ({event, toggleEdit}: ActionProps) => {
+const EventAction = ({event, toggleEdit, handleClosePopover}: ActionProps) => {
   const {isManager, isAdmin} = useRole();
   return (
     <Box
@@ -146,6 +151,15 @@ const EventAction = ({event, toggleEdit}: ActionProps) => {
       }}
     >
       <Box fontWeight="bold">{event?.title}</Box>
+      <StatCard stats={event?.count || {}} />
+      <Button
+        size="small"
+        href={`/events/${event?.id}/participants`}
+        sx={{textTransform: "revert"}}
+        variant="outlined"
+      >
+        Présence
+      </Button>
       {(isAdmin() || isManager()) && (
         <Button
           size="small"
@@ -156,15 +170,21 @@ const EventAction = ({event, toggleEdit}: ActionProps) => {
           Editer
         </Button>
       )}
-      <Button
-        size="small"
-        href={`#/events/${event?.id}/participants`}
-        sx={{textTransform: "revert"}}
-        variant="outlined"
-      >
-        Présence
-      </Button>
-      <StatCard stats={event?.count || {}} />
+      <DeleteWithConfirm
+        resourceType="events"
+        id={event.id}
+        confirmContent="Voulez-vous vraiment supprimer la présence ?"
+        confirmTitle="Confirmation de la suppression de présence"
+        redirect="/events"
+        buttonProps={{
+          variant: "contained",
+          type: "button",
+          sx: {
+            width: "100%",
+          },
+        }}
+        onDelete={handleClosePopover}
+      />
     </Box>
   );
 };

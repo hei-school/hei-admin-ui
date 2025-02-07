@@ -1,6 +1,6 @@
 import {Letter, LetterStats, LetterStatus} from "@haapi/typescript-client";
-import {student1Mock, studentsMock} from "./students-mocks";
 import {teacher1Mock} from "../api_mocks/teachers-mocks";
+import {student1Mock, studentsMock} from "./students-mocks";
 
 export const newLetter: Letter = {
   id: "id_14",

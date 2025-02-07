@@ -15,6 +15,16 @@ export const studentsMock: Student[] = [
     birth_date: "2000-01-01",
     specialization_field: SpecializationField.COMMON_CORE,
     address: "Adr 1",
+    groups: [
+      {
+        id: "group_id1",
+        name: "group_name1",
+        ref: "group_ref1",
+        size: 4,
+        creation_datetime: new Date("2024-01-28"),
+        attributed_color: "#ffffff",
+      },
+    ],
     phone: "0322411123",
     email: "test+ryan@hei.school",
     entrance_datetime: new Date("2021-11-08T08:25:24Z"),

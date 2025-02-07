@@ -15,7 +15,7 @@ describe("Student announcements", () => {
       announcementsMock
     ).as("getAnnouncements");
 
-    cy.get('[href="#/announcements"]').click();
+    cy.get('[href="/announcements"]').click();
   });
 
   it("can view announcements list", () => {

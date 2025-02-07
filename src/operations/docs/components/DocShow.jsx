@@ -1,10 +1,10 @@
+import {useNotify} from "@/hooks";
+import PdfViewer from "@/operations/common/components/PdfViewer";
+import {useViewType} from "@/operations/docs/hooks/useViewType";
+import {Container} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useDataProvider} from "react-admin";
 import {useParams} from "react-router-dom";
-import {Container} from "@mui/material";
-import {useViewType} from "@/operations/docs/hooks/useViewType";
-import PdfViewer from "@/operations/common/components/PdfViewer";
-import {useNotify} from "@/hooks";
 
 export const DocShow = ({owner, userId}) => {
   const [isLoading, setIsLoading] = useState(false);

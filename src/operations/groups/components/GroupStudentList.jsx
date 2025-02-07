@@ -1,15 +1,12 @@
-import {Box} from "@mui/material";
-import {School as StudentIcon, Download} from "@mui/icons-material";
-import {Button, TextField, useDataProvider, useRefresh} from "react-admin";
-import {useParams} from "react-router-dom";
-import {HaList} from "@/ui/haList";
-import {useRole} from "@/security/hooks";
-import {ExportButton} from "@/ui/haToolbar";
-import {exportData, exportHeaders} from "../../utils";
-import {ProfileFilters} from "../../profile/components/ProfileFilters";
-import {InsertStudent, MoveStudent, RemoveStudent} from "./MigrateStudent";
-import {GroupStudentsFilters} from "./GroupStudentFilters";
 import {FileDownloader} from "@/operations/common/components";
+import {useRole} from "@/security/hooks";
+import {HaList} from "@/ui/haList";
+import {Download, School as StudentIcon} from "@mui/icons-material";
+import {Box} from "@mui/material";
+import {TextField, useDataProvider, useRefresh} from "react-admin";
+import {useParams} from "react-router-dom";
+import {GroupStudentsFilters} from "./GroupStudentFilters";
+import {InsertStudent, MoveStudent, RemoveStudent} from "./MigrateStudent";
 
 const GroupStudentList = () => {
   const params = useParams();

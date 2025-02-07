@@ -1,5 +1,5 @@
-import {SimpleForm, TextInput, required} from "react-admin";
 import {CrupdatePromotion} from "@haapi/typescript-client";
+import {SimpleForm, TextInput, required} from "react-admin";
 import {v4 as uuid} from "uuid";
 import {Create} from "../common/components";
 

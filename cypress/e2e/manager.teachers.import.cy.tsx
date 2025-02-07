@@ -25,7 +25,7 @@ describe("Manager create multiple teachers", () => {
     ).as("getTeachersByName");
 
     cy.wait("@getWhoami", {timeout: 10000});
-    cy.get('[href="#/teachers"]').click();
+    cy.get('[href="/teachers"]').click();
   });
 
   it("cannot create teachers if the file is empty", () => {

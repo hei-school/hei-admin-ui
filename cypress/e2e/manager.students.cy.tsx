@@ -1,3 +1,4 @@
+import {FeeTypeEnum} from "@haapi/typescript-client";
 import {createdFeesForNewStudent} from "../fixtures/api_mocks/fees-mocks";
 import {
   annual1xTemplate,
@@ -16,10 +17,9 @@ import {
   teachersMock,
 } from "../fixtures/api_mocks/teachers-mocks";
 import {
-  studentRequestBodyVerification,
   assertFeeMatchesTemplate,
+  studentRequestBodyVerification,
 } from "./utils";
-import {FeeTypeEnum} from "@haapi/typescript-client";
 
 const newFirstName = "Aina herilala";
 let createdStudent = {
@@ -80,7 +80,7 @@ describe("Manager edit students", () => {
     cy.contains("Étudiants");
     cy.getByTestid("students-menu").click(); // Étudiants category
 
-    cy.get('[href="#/students"]').click();
+    cy.get('[href="/students"]').click();
     cy.get("body").click(200, 0); //note(uncover-menu)
     cy.contains("Page : 1");
     cy.contains(`Taille : ${studentsMock.length}`);
@@ -161,7 +161,7 @@ describe("Manager creates students", () => {
     cy.contains("Étudiants");
     cy.getByTestid("students-menu").click(); // Étudiants category
 
-    cy.get('[href="#/students"]').click();
+    cy.get('[href="/students"]').click();
     cy.get("body").click(200, 0); //note(uncover-menu)
     cy.contains("Page : 1");
     cy.contains(`Taille : ${studentsMock.length}`);

@@ -1,17 +1,17 @@
-import {Button, useGetList, useGetOne, useRecordContext} from "react-admin";
+import {useToggle} from "@/hooks";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import {Autocomplete} from "@/ui/components/inputs";
 import {PersonRemove as MigrateIcon} from "@mui/icons-material";
+import {Button, useGetList, useGetOne, useRecordContext} from "react-admin";
+import {useForm} from "react-hook-form";
+import {DialogActions} from "./components/DialogActions";
+import {FlowsDialog, FlowsDialogProps} from "./components/FlowsDialog";
 import {
   LabelFn,
   ResourceFlowsArgsType,
   ResourceIdentifier,
 } from "./ResourceFlowsContext";
-import {Autocomplete} from "@/ui/components/inputs";
-import {DialogActions} from "./components/DialogActions";
-import {FlowsDialog, FlowsDialogProps} from "./components/FlowsDialog";
-import {useForm} from "react-hook-form";
-import {useToggle} from "@/hooks";
 import {useResourceFlowsContext} from "./useResourceFlowsContext";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 
 export type MigrateDialogProps<Child, Parent> = Omit<
   FlowsDialogProps,

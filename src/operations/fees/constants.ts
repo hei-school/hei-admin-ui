@@ -19,7 +19,7 @@ export const FEE_STATUS_CHOICES = mapToChoices(FEE_STATUS, "id", "name");
 export const FEESTEMPLATES_CHOICES = [
   {label: "Écolage", value: FeeTypeEnum.TUITION},
   {label: "Matériel", value: FeeTypeEnum.HARDWARE},
-  {label: "Assurance étudiante", value: FeeTypeEnum.STUDENT_INSURANCE},
+  {label: "Frais généraux", value: FeeTypeEnum.STUDENT_INSURANCE},
   {label: "Rattrapage", value: FeeTypeEnum.REMEDIAL_COSTS},
 ] as const;
 

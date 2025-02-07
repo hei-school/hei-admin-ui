@@ -1,5 +1,5 @@
-import {Typography} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
+import {Typography} from "@mui/material";
 
 export const FieldLabel = ({children: label, icon}) => (
   <Typography

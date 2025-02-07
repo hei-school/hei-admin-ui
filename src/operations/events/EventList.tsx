@@ -1,12 +1,11 @@
-import {List, useListContext} from "react-admin";
-import {Box, CircularProgress, Tabs, Tab} from "@mui/material";
-import {Event} from "@haapi/typescript-client";
-import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import {EventCard} from "./components";
-import {EventListAction} from "./components";
 import {HaListTitle} from "@/ui/haList";
-import {EventCalendar} from "./EventCalendar";
+import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
+import {Event} from "@haapi/typescript-client";
+import {Box, CircularProgress, Tab, Tabs} from "@mui/material";
 import {useState} from "react";
+import {List, useListContext} from "react-admin";
+import {EventCard, EventListAction} from "./components";
+import {EventCalendar} from "./EventCalendar";
 
 export function EventList() {
   const [tabValue, setTab] = useState<string>("list");

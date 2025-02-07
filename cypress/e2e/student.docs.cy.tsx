@@ -97,7 +97,7 @@ describe("Work.Docs", () => {
   });
 
   it("can list student worker docs", () => {
-    cy.get('[href="#/docs/students/WORK_DOCUMENT"]').click();
+    cy.get('[href="/docs/students/WORK_DOCUMENT"]').click();
 
     cy.contains(`Liste des validations d'expériences professionnelles`);
     cy.contains("Nom du fichier");

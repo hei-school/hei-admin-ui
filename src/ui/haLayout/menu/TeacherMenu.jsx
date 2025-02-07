@@ -1,16 +1,16 @@
-import {Box} from "@mui/material";
 import {
-  School as StudentIcon,
-  Inventory as DocsIcon,
-  Group as GroupIcon,
   Newspaper as AnnouncementIcon,
   Book as CourseIcon,
+  Inventory as DocsIcon,
   CalendarMonth as EventIcon,
   GradeOutlined as GradeIcon,
+  Group as GroupIcon,
   PictureAsPdf,
+  School as StudentIcon,
 } from "@mui/icons-material";
-import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
+import {Box} from "@mui/material";
 import {HeiListMenuItem} from "./common";
+import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function TeacherMenu() {
   return (

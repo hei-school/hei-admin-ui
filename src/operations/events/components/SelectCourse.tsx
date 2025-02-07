@@ -1,8 +1,8 @@
-import {required, useGetList} from "react-admin";
-import {useWatch} from "react-hook-form";
-import {EventType} from "@haapi/typescript-client";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {AutocompleteInput} from "@/ui/components/inputs";
+import {EventType} from "@haapi/typescript-client";
+import {required, useGetList} from "react-admin";
+import {useWatch} from "react-hook-form";
 
 export function SelectCourse() {
   const {data: courses = [], isLoading} = useGetList("course", {
@@ -14,7 +14,7 @@ export function SelectCourse() {
   const eventType = useWatch({name: "event_type"}) || EventType.COURSE;
 
   const COURSE_CHOICES = courses.map((course) => ({
-    label: course.name,
+    label: `${course.name} (${course.code?.toUpperCase()})`,
     value: course.id,
   }));
 

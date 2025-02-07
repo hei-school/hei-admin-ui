@@ -1,29 +1,29 @@
 import React from "react";
 
-import {List, useListContext} from "react-admin";
+import {PALETTE_COLORS} from "@/haTheme";
+import {useRole} from "@/security/hooks";
+import {HaListTitle} from "@/ui/haList";
+import {CreateButton} from "@/ui/haToolbar";
 import {Announcement, Scope} from "@haapi/typescript-client";
+import {Newspaper as AnnouncementIcon} from "@mui/icons-material";
 import {
+  Avatar,
+  Box,
   Card,
   CardContent,
   CardHeader,
-  Avatar,
-  Chip,
   CardMedia,
+  Chip,
   Typography,
-  Box,
+  useMediaQuery,
 } from "@mui/material";
-import {Newspaper as AnnouncementIcon} from "@mui/icons-material";
+import {List, useListContext} from "react-admin";
 import {Link} from "react-router-dom";
-import {PALETTE_COLORS} from "@/haTheme";
-import {HaListTitle} from "@/ui/haList";
-import {CreateButton} from "@/ui/haToolbar";
-import {useRole} from "@/security/hooks";
-import {AnnouncementFilter} from "./components";
-import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
 import {PrevNextPagination} from "../utils";
+import {AnnouncementFilter} from "./components";
 import {EmailField} from "./components/EmailField";
+import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
 import {getBgImg} from "./utils/getBgImg";
-import {useMediaQuery} from "@mui/material";
 
 const cardStyle: React.CSSProperties = {
   width: 350,

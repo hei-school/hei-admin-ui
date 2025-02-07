@@ -1,9 +1,9 @@
-import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
-import {Box} from "@mui/material";
-import {Create, CreateGeoLocalisation} from "../common/components";
-import {SexRadioButton} from "../utils";
 import {toISO} from "@/utils/date";
 import {StaffMember} from "@haapi/typescript-client";
+import {Box} from "@mui/material";
+import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
+import {Create, CreateGeoLocalisation} from "../common/components";
+import {SexRadioButton} from "../utils";
 
 const transformStaff = (staff: StaffMember) => {
   const {entrance_datetime, ending_service, coordinates, ...restStaff} = staff;

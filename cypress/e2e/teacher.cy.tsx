@@ -25,7 +25,7 @@ describe("Teacher", () => {
     cy.intercept("GET", `*/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
-    cy.get('a[href="#/students"]').click(); // Étudiants menu
+    cy.get('a[href="/students"]').click(); // Étudiants menu
     cy.wait("@getStudents");
     cy.get("body").click(200, 0); //note(uncover-menu)
     cy.contains(student1Mock.first_name).click();
@@ -54,7 +54,7 @@ describe("Teacher", () => {
       [student1Mock]
     ).as("getStudentByFirstName");
     // note(listAndFilterStudents)
-    cy.get('a[href="#/students"]').click(); // Étudiants menu
+    cy.get('a[href="/students"]').click(); // Étudiants menu
     cy.wait("@getStudentsPage1");
     cy.get("body").click(200, 0); //note(uncover-menu)
     cy.contains("Page : 1");

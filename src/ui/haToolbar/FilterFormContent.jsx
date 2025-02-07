@@ -1,4 +1,4 @@
-import {Button, Typography, Box, Dialog, styled} from "@mui/material";
+import {Box, Button, Dialog, styled, Typography} from "@mui/material";
 import useHaToolbarContext from "./useHaToolbarContext";
 
 const FilterContainer = styled("div")({

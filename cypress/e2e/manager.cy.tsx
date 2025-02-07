@@ -61,7 +61,7 @@ describe("Manager", () => {
     cy.contains("Étudiants");
 
     cy.getByTestid("students-menu").click(); // Étudiants category
-    cy.get('[href="#/students"]').click();
+    cy.get('[href="/students"]').click();
     cy.contains("Page : 1");
     cy.contains(`Taille : ${studentsMock.length}`);
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
@@ -76,7 +76,7 @@ describe("Manager", () => {
   });
 
   it("can list and filter teachers", () => {
-    cy.get('[href="#/teachers"]').click();
+    cy.get('[href="/teachers"]').click();
     cy.contains("Page : 1");
     cy.contains(`Taille : ${studentsMock.length}`);
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");

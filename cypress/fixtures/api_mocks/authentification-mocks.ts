@@ -8,10 +8,10 @@ import {
 } from "@haapi/typescript-client";
 import dotenv from "dotenv";
 
-import {student1Mock} from "./students-mocks";
-import {teacher1Mock} from "./teachers-mocks";
 import {manager1Mock} from "./managers-mocks";
 import {monitor1Mock} from "./monitors-mock";
+import {student1Mock} from "./students-mocks";
+import {teacher1Mock} from "./teachers-mocks";
 
 dotenv.config();
 

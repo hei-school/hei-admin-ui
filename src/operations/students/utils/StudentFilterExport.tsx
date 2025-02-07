@@ -4,12 +4,12 @@ import {useFormContext} from "react-hook-form";
 
 import {Download} from "@mui/icons-material";
 
-import {Dialog} from "@/ui/components";
+import {PALETTE_COLORS} from "@/haTheme";
 import {FileDownloader} from "@/operations/common/components";
 import {WORK_STATUS_VALUE} from "@/operations/docs/components/SelectWorkStatus";
-import {mapToChoices} from "@/utils";
-import {PALETTE_COLORS} from "@/haTheme";
 import dataProvider from "@/providers/dataProvider";
+import {Dialog} from "@/ui/components";
+import {mapToChoices} from "@/utils";
 
 import {GENDER_OPTIONS, USERS_STATUS} from "../constants";
 

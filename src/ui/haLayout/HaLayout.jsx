@@ -1,8 +1,8 @@
-import {AppLocationContext} from "@react-admin/ra-navigation";
 import {Box, styled, ThemeProvider, useMediaQuery} from "@mui/material";
-import {HaMenu} from "./menu/utils/";
-import {HaAppBar} from "./appBar";
+import {AppLocationContext} from "@react-admin/ra-navigation";
 import {mainTheme, PALETTE_COLORS} from "../../haTheme";
+import {HaAppBar} from "./appBar";
+import {HaMenu} from "./menu/utils/";
 
 const HaLayoutStyled = styled("div")({
   minHeight: "100vh",

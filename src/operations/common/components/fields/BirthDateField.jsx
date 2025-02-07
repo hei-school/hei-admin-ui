@@ -1,5 +1,5 @@
-import {Typography, useMediaQuery} from "@mui/material";
 import {formatDate} from "@/utils/date";
+import {Typography, useMediaQuery} from "@mui/material";
 
 export function BirthDateField({
   birthdate,

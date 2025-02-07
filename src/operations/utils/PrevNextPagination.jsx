@@ -1,8 +1,8 @@
 import {useState} from "react";
 import {useListContext} from "react-admin";
 
-import {Button, Toolbar, Typography} from "@mui/material";
 import {ChevronLeft, ChevronRight} from "@mui/icons-material";
+import {Button, Toolbar, Typography} from "@mui/material";
 
 export const pageSize = 10;
 

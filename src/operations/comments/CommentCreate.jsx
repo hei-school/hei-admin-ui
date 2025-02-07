@@ -1,10 +1,10 @@
-import {Create, SimpleForm, TextInput} from "react-admin";
-import {Box, Button, Dialog} from "@mui/material";
 import {Add as AddIcon} from "@mui/icons-material";
+import {Box, Button, Dialog} from "@mui/material";
+import {Create, SimpleForm, TextInput} from "react-admin";
 import {v4 as uuid} from "uuid";
 
-import authProvider from "../../providers/authProvider";
 import {useToggle} from "../../hooks";
+import authProvider from "../../providers/authProvider";
 
 const CREATE_WRAPPER_STYLE = {
   display: "flex",
