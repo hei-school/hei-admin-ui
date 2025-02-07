@@ -8,7 +8,7 @@ import {EventCard, EventListAction} from "./components";
 import {EventCalendar} from "./EventCalendar";
 
 export function EventList() {
-  const [tabValue, setTab] = useState<string>("list");
+  const [tabValue, setTab] = useState<string>("calendar");
   return (
     <>
       <Tabs

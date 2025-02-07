@@ -161,30 +161,32 @@ const EventAction = ({event, toggleEdit, handleClosePopover}: ActionProps) => {
         Présence
       </Button>
       {(isAdmin() || isManager()) && (
-        <Button
-          size="small"
-          variant="contained"
-          onClick={toggleEdit}
-          sx={{textTransform: "revert"}}
-        >
-          Editer
-        </Button>
+        <>
+          <Button
+            size="small"
+            variant="contained"
+            onClick={toggleEdit}
+            sx={{textTransform: "revert"}}
+          >
+            Editer
+          </Button>
+          <DeleteWithConfirm
+            resourceType="events"
+            id={event.id}
+            confirmContent="Voulez-vous vraiment supprimer la présence ?"
+            confirmTitle="Confirmation de la suppression de présence"
+            redirect="/events"
+            buttonProps={{
+              variant: "contained",
+              type: "button",
+              sx: {
+                width: "100%",
+              },
+            }}
+            onDelete={handleClosePopover}
+          />
+        </>
       )}
-      <DeleteWithConfirm
-        resourceType="events"
-        id={event.id}
-        confirmContent="Voulez-vous vraiment supprimer la présence ?"
-        confirmTitle="Confirmation de la suppression de présence"
-        redirect="/events"
-        buttonProps={{
-          variant: "contained",
-          type: "button",
-          sx: {
-            width: "100%",
-          },
-        }}
-        onDelete={handleClosePopover}
-      />
     </Box>
   );
 };
