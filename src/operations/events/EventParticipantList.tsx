@@ -197,33 +197,36 @@ const ListContent = ({eventId}: {eventId: string}) => {
         }}
         hasDatagrid={false}
         actions={
-          (isManager() || isAdmin()) && (
-            <>
-              <ButtonBase
-                icon={<Add />}
-                label="Ajout groupe"
-                onClick={() => toggle()}
-                children={<></>}
-              />
-              <EventParticipantsFilter />
-              <FileDownloader
-                downloadFunction={downloadFile}
-                fileName="Listes des participants"
-                startIcon={<Download />}
-                sx={{
-                  textTransform: "none",
-                  color: "inherit",
-                  opacity: "0.8",
-                  padding: "0.5rem 1.1rem",
-                  gap: "0.8rem",
-                }}
-                buttonText="Exporter"
-                successMessage="Exportation en cours..."
-                errorMessage="Erreur lors de l'exportation du fichier."
-                fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
-              />
-            </>
-          )
+          <Box>
+            {(isManager() || isAdmin()) && (
+              <Box>
+                <ButtonBase
+                  icon={<Add />}
+                  label="Ajout groupe"
+                  onClick={() => toggle()}
+                  children={<></>}
+                />
+                <FileDownloader
+                  downloadFunction={downloadFile}
+                  fileName="Listes des participants"
+                  startIcon={<Download />}
+                  sx={{
+                    textTransform: "none",
+                    color: "inherit",
+                    opacity: "0.8",
+                    padding: "0.5rem 1.1rem",
+                    gap: "0.8rem",
+                  }}
+                  buttonText="Exporter"
+                  successMessage="Exportation en cours..."
+                  errorMessage="Erreur lors de l'exportation du fichier."
+                  fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+                />
+                )
+              </Box>
+            )}
+            <EventParticipantsFilter />
+          </Box>
         }
         datagridProps={{
           rowClick: false,

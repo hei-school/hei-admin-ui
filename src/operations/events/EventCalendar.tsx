@@ -72,8 +72,18 @@ export const EventCalendar = () => {
           editable: isManager() || isAdmin(),
           slotMinTime: "07:00:00",
           slotMaxTime: "19:00:00",
+          initialView: "timeGridWeek",
+          hiddenDays: [0],
           getFilterValueFromInterval: (dateInfo) => {
-            setFilter({from: dateInfo?.startStr, to: dateInfo?.endStr});
+            setFilter((prevFilter) => {
+              const newFilter = {
+                from: dateInfo?.startStr,
+                to: dateInfo?.endStr,
+              };
+              return JSON.stringify(prevFilter) === JSON.stringify(newFilter)
+                ? prevFilter
+                : newFilter;
+            });
             return {};
           },
           eventClick: (clickInfo: EventClickArg) => {
