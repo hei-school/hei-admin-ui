@@ -1,7 +1,6 @@
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Authentification", () => {
-
   it("should lands on profile page if succeeds", () => {
     cy.login({role: "STUDENT"});
     cy.getByTestid("main-content")
@@ -11,5 +10,4 @@ describe("Authentification", () => {
       .and("contain", student1Mock.email)
       .and("contain", student1Mock.phone);
   });
- 
 });
