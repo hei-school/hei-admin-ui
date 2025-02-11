@@ -1,7 +1,6 @@
-import {PALETTE_COLORS} from "@/haTheme";
+import CardBackground from "@/assets/shape-square.svg";
 import {Info as InfoIcon} from "@mui/icons-material";
 import {
-  Avatar,
   Box,
   IconButton,
   List,
@@ -9,11 +8,12 @@ import {
   ListItemIcon,
   ListItemText,
   Popover,
+  SvgIconProps,
   Tooltip,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {FC, ReactElement, ReactNode, useState} from "react";
+import React, {FC, ReactElement, ReactNode, useState} from "react";
 
 export interface StatDetail {
   icon: ReactElement;
@@ -53,25 +53,20 @@ const CardInfos: FC<CardInfosProps> = ({cardDetails = []}) => {
   const id = open ? "simple-popover" : undefined;
 
   return (
-    <div>
+    <div
+      style={{
+        display: "fit-content",
+        width: "fit-content",
+      }}
+    >
       <Tooltip title="Infos">
-        <Avatar
-          sx={{
-            height: "30px",
-            width: "30px",
-            bgcolor: "#263B63",
-            borderRadius: "7px",
-          }}
-          variant="square"
+        <IconButton
+          sx={{width: "fit-content"}}
+          aria-describedby={id}
+          onClick={handleClick}
         >
-          <IconButton aria-describedby={id} onClick={handleClick}>
-            <InfoIcon
-              width="5px"
-              height="5px"
-              sx={{color: PALETTE_COLORS.yellow}}
-            />
-          </IconButton>
-        </Avatar>
+          <InfoIcon width="5px" height="5px" sx={{color: "#f1c16b"}} />
+        </IconButton>
       </Tooltip>
       <Popover
         id={id}
@@ -101,6 +96,35 @@ const CardInfos: FC<CardInfosProps> = ({cardDetails = []}) => {
     </div>
   );
 };
+
+interface IconWithShadowProps {
+  icon: React.ReactElement<SvgIconProps>;
+}
+
+export const IconWithShadow: React.FC<IconWithShadowProps> = ({icon}) => {
+  return (
+    <Box sx={{position: "relative", display: "inline-block"}}>
+      {React.cloneElement(icon, {
+        style: {
+          position: "absolute",
+          top: -4,
+          left: -4,
+          color: "#F1c16b",
+          zIndex: 1,
+          fontSize: "2.7rem",
+        },
+      })}
+      {React.cloneElement(icon, {
+        style: {
+          position: "relative",
+          zIndex: 2,
+          fontSize: "2.7rem",
+        },
+      })}
+    </Box>
+  );
+};
+
 export const ListHeader: FC<ListHeaderProps> = ({
   title,
   action,
@@ -117,12 +141,12 @@ export const ListHeader: FC<ListHeaderProps> = ({
       flexDirection="column"
     >
       <Box
-        bgcolor={PALETTE_COLORS.yellow}
+        bgcolor="#f7d090"
         display="flex"
         justifyContent="space-between"
         px={5}
         paddingTop={5}
-        borderRadius="20px 20px 0px 0px"
+        borderRadius="0px 0px 30px 30px "
         paddingBottom={15}
       >
         <Box width="100%">
@@ -144,45 +168,44 @@ export const ListHeader: FC<ListHeaderProps> = ({
           <Box
             key={card.title}
             sx={{
-              backgroundColor: PALETTE_COLORS.primary,
-              color: PALETTE_COLORS.white,
-              maxWidth: "225px",
-              height: "150px",
+              color: "white",
+              maxWidth: "300px",
+              height: "170px",
               m: "-80px 5px 5px 5px",
               borderRadius: "10px",
+              background: `linear-gradient(90deg, rgba(165, 165, 214, 0.9) 30%, rgba(13, 56, 136, 1) 90%), url(${CardBackground})`,
+              backgroundSize: "110%",
+              backgroundPosition: "left",
+              textAlign: "right",
+              position: "relative",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "space-around",
             }}
           >
-            <Box
-              display="flex"
-              paddingTop={2}
-              px={2}
-              justifyContent="space-between"
-            >
+            <Box display="flex" px={2} justifyContent="space-between" gap={4}>
+              <IconWithShadow icon={card.icon} />
               <Typography variant="h6" fontWeight="bolder">
                 {card.title ?? ""}
               </Typography>
-              <Avatar
-                sx={{
-                  height: "35px",
-                  width: "35px",
-                  color: PALETTE_COLORS.yellow,
-                  bgcolor: "#263B63",
-                  borderRadius: "7px",
-                }}
-                variant="square"
-              >
-                {card.icon}
-              </Avatar>
             </Box>
             <Box display="flex" flexDirection="column" px={3}>
               <Typography variant="h4" fontWeight="bolder">
                 {card.total}
               </Typography>
-              <Box display="flex" justifyContent="space-between">
-                <Typography variant="h6">Au total</Typography>
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                alignItems="center"
+                textAlign="right"
+                position="relative"
+              >
                 {card.statDetails && (
                   <CardInfos cardDetails={card?.statDetails!} />
                 )}
+                <Typography variant="h6" right="0" flex={1}>
+                  Au total
+                </Typography>
               </Box>
             </Box>
           </Box>
