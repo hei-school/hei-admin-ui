@@ -1,17 +1,10 @@
-import React, {useEffect} from "react";
-import {
-  ServerUrl,
-  setToken,
-  clearToken,
-  goToLink,
-  //showMessage,
-} from "./setting";
 import {Whoami} from "@haapi/typescript-client";
+import React, {useEffect} from "react";
 import {LoadingPage} from "react-admin";
+import {clearToken, goToLink, ServerUrl, setToken} from "./setting";
 
 const AuthCallback: React.FC = () => {
-
-  const handleCallback = (code: string | null, state: string | null) => {
+  const handleCallback = (code: string, state: string) => {
     return fetch(`${ServerUrl}/api/signin?code=${code}&state=${state}`, {
       method: "POST",
       headers: {
@@ -56,8 +49,8 @@ const AuthCallback: React.FC = () => {
       } else {
         //showMessage(res);
         setTimeout(() => {
-        goToLink("/login");
-      }, 6000);
+          goToLink("/login");
+        }, 6000);
       }
     });
   }, []);
