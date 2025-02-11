@@ -5,12 +5,15 @@ import {clearToken, goToLink, ServerUrl, setToken} from "./setting";
 
 const AuthCallback: React.FC = () => {
   const handleCallback = (code: string, state: string) => {
-    return fetch(`${ServerUrl}/authentication/casdoor/signin?code=${code}&state=${state}`, {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    }).then((res) => res.json());
+    return fetch(
+      `${ServerUrl}/authentication/casdoor/signin?code=${code}&state=${state}`,
+      {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
+      }
+    ).then((res) => res.json());
   };
 
   const cacheWhoami = (whoami: Whoami) => {
@@ -47,7 +50,6 @@ const AuthCallback: React.FC = () => {
       if (res?.status === "ok") {
         setSession(res.data);
       } else {
-        //showMessage(res);
         setTimeout(() => {
           goToLink("/login");
         }, 6000);
