@@ -45,13 +45,13 @@ export const goToLink = (link) => {
 };
 
 export const getRedirectUrl = () => {
-  return fetch(`${ServerUrl}/api/redirect-url`, {
+  return fetch(`${ServerUrl}/authentication/casdoor/login-url`, {
     method: "GET",
   }).then((res) => res.json());
 };
 
 export const getUserinfo = () => {
-  return fetch(`${ServerUrl}/api/userinfo`, {
+  return fetch(`${ServerUrl}/authentication/casdoor/userinfo`, {
     method: "GET",
     headers: {
       Authorization: `Bearer ${localStorage.getItem("token")}`,
