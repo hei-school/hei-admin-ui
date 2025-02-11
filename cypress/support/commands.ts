@@ -121,7 +121,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   cy.visit(`/callback?code=${role}&state=HEI Admin`);
 
   if (isSuccess) {
-    cy.intercept("**/api/api/signin", casdoorSignin).as("getCasdoorToken");
+    cy.intercept("**/api/authentication/casdoor/signin", casdoorSignin).as("getCasdoorToken");
     //cy.wait("@casdoorSignin");
     cy.intercept("**/whoami", whoami).as("getWhoami");
     cy.wait("@getProfile");
