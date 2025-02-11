@@ -37,7 +37,6 @@ import AuthCallback from "./security/CasdoorAuth.tsx";
 
 function AppBase() {
   return (
-
     <Admin
       title="HEI Admin"
       authProvider={authProvider}
@@ -259,7 +258,6 @@ function AppBase() {
         />
       </CustomRoutes>
     </Admin>
-
   );
 }
 
@@ -271,21 +269,21 @@ function App() {
         <Routes>
           <Route path="/calendar" element={<publicContent.calendar />} />
           <Route
-          path="callback"
-          element={
-            // <AuthCallback
-            //   sdk={CasdoorSetting.CasdoorSDK}
-            //   serverUrl={CasdoorSetting.ServerUrl}
-            //   saveTokenFromResponse={(res) => {
-            //     CasdoorSetting.setToken(res?.data);
-            //     CasdoorSetting.goToLink("/");
-            //   }}
-            //   isGetTokenSuccessful={(res) => res?.status === "ok"}
-            // />
-            //<div>test ok</div>\
-            <AuthCallback />
-          }
-        />
+            path="callback"
+            element={
+              // <AuthCallback
+              //   sdk={CasdoorSetting.CasdoorSDK}
+              //   serverUrl={CasdoorSetting.ServerUrl}
+              //   saveTokenFromResponse={(res) => {
+              //     CasdoorSetting.setToken(res?.data);
+              //     CasdoorSetting.goToLink("/");
+              //   }}
+              //   isGetTokenSuccessful={(res) => res?.status === "ok"}
+              // />
+              //<div>test ok</div>\
+              <AuthCallback />
+            }
+          />
           <Route path="/human-verification" element={<HumanVerification />} />
           <Route path="*" element={<AppBase />} />
         </Routes>

@@ -1,7 +1,6 @@
 import {
   confirmResetPassword,
   confirmSignIn,
-  fetchAuthSession,
   resetPassword,
   signIn,
   signOut,

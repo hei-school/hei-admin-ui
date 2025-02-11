@@ -5,10 +5,11 @@ import {
   CardContent,
   Grid,
   Modal,
+  Button as MuiButton,
   Typography,
   useMediaQuery,
-  Button as MuiButton,
 } from "@mui/material";
+import {isSilentSigninRequired, SilentSignin} from "casdoor-react-sdk";
 import {useState} from "react";
 import {Login} from "react-admin";
 import {mainTheme} from "../haTheme";
@@ -17,14 +18,12 @@ import CompletePasswordPage from "./CompletePasswordPage";
 import ConfirmForgotPassword from "./ConfirmForgotPassword";
 import ForgotPassword from "./ForgotPassword";
 import {
-  getRedirectUrl,
-  showMessage,
-  goToLink,
   CasdoorSDK,
+  getRedirectUrl,
+  goToLink,
   isLoggedIn,
+  showMessage,
 } from "./setting";
-import {isSilentSigninRequired, SilentSignin} from "casdoor-react-sdk";
-
 
 const casdoorLogin = () => {
   getRedirectUrl().then((res) => {
