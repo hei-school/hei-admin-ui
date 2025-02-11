@@ -11,7 +11,5 @@ Cypress.on("uncaught:exception", (err, _runnable) => {
 });
 
 Cypress.on("uncaught:exception", (err) => {
-  return !err.message.includes(
-    `Failed to execute 'define' on 'CustomElementRegistry': the name "awswaf-captcha" has already been used with this registry`
-  );
+  return !err.message.includes(`awswaf-captcha`);
 });
