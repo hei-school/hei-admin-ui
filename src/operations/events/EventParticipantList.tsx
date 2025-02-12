@@ -43,7 +43,7 @@ import {EventParticipantsFilter} from "./components/EventParticipantsFilter";
 
 export function EventParticipantList() {
   const {eventId} = useParams();
-  const {isAdmin, isManager} = useRole();
+  const {isAdmin, isManager, isOrganizer} = useRole();
 
   return (
     <Box>
@@ -59,12 +59,12 @@ export function EventParticipantList() {
               render={(record: Event) => (
                 <Typography fontWeight="bold" variant="h6">
                   {record.course?.code
-                    ? `Salle ${record.title || ""}`
-                    : record.title || ""}
+                    ? `Salle ${record.title ?? ""}`
+                    : (record.title ?? "")}
                 </Typography>
               )}
             />
-            {isAdmin() || isManager() ? (
+            {isAdmin() || isManager() || isOrganizer() ? (
               <DeleteWithConfirm
                 resourceType="events"
                 confirmContent="Voulez-vous vraiment supprimer la présence ?"
@@ -115,7 +115,7 @@ export function EventParticipantList() {
           />
           <FunctionField
             label="Statistiques"
-            render={(record: Event) => <StatCard stats={record.count || {}} />}
+            render={(record: Event) => <StatCard stats={record.count ?? {}} />}
           />
         </SimpleShowLayout>
       </Show>
@@ -129,7 +129,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
   const notify = useNotify();
   const [show, _, toggle] = useToggle();
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
-  const {isManager, isTeacher, isAdmin} = useRole();
+  const {isManager, isTeacher, isAdmin, isOrganizer} = useRole();
   const refresh = useRefresh();
 
   const [statusMap, setStatusMap] = useState(
@@ -150,7 +150,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
     const payload = participants.map((participant: EventParticipant) => ({
       id: participant.id,
       event_status:
-        statusMap.get(participant.id!) || participant.event_status || "MISSING",
+        statusMap.get(participant.id!) ?? participant.event_status ?? "MISSING",
     }));
     await updateStatus(
       "event-participants",
@@ -198,7 +198,7 @@ const ListContent = ({eventId}: {eventId: string}) => {
         hasDatagrid={false}
         actions={
           <Box>
-            {(isManager() || isAdmin()) && (
+            {(isManager() || isAdmin() || isOrganizer()) && (
               <Box>
                 <ButtonBase
                   icon={<Add />}
@@ -222,7 +222,6 @@ const ListContent = ({eventId}: {eventId: string}) => {
                   errorMessage="Erreur lors de l'exportation du fichier."
                   fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
                 />
-                )
               </Box>
             )}
             <EventParticipantsFilter />

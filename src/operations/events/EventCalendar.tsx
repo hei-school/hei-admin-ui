@@ -16,7 +16,7 @@ import {EVENT_TYPE_VALUE} from "./utils";
 export const EventCalendar = () => {
   const [currentEvent, setCurrentEvent] = useState<Event>();
   const [editShow, _, toggleEdit] = useToggle();
-  const {isManager, isAdmin} = useRole();
+  const {isManager, isAdmin, isOrganizer} = useRole();
   const [anchor, setAnchor] = useState<PopoverPosition & {open: boolean}>({
     top: 0,
     left: 0,
@@ -68,8 +68,8 @@ export const EventCalendar = () => {
           title: "Création d'un événement",
         }}
         CalendarProps={{
-          selectable: isManager() || isAdmin(),
-          editable: isManager() || isAdmin(),
+          selectable: isManager() || isAdmin() || isOrganizer(),
+          editable: isManager() || isAdmin() || isOrganizer(),
           slotMinTime: "07:00:00",
           slotMaxTime: "19:00:00",
           initialView: "timeGridWeek",
@@ -148,7 +148,7 @@ type ActionProps = {
 };
 
 const EventAction = ({event, toggleEdit, handleClosePopover}: ActionProps) => {
-  const {isManager, isAdmin} = useRole();
+  const {isManager, isAdmin, isOrganizer} = useRole();
   return (
     <Box
       sx={{
@@ -170,7 +170,7 @@ const EventAction = ({event, toggleEdit, handleClosePopover}: ActionProps) => {
       >
         Présence
       </Button>
-      {(isAdmin() || isManager()) && (
+      {(isAdmin() || isManager() || isOrganizer()) && (
         <>
           <Button
             size="small"
