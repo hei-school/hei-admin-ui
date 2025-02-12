@@ -1,6 +1,8 @@
 import {Card, CardContent} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import {useEffect} from "react";
+import {useCheckAuth} from "react-admin";
 import {getRedirectUrl, goToLink, showMessage} from "./setting";
 
 const casdoorLogin = () => {
@@ -14,6 +16,17 @@ const casdoorLogin = () => {
 };
 
 const CasdoorLoginCard = () => {
+  const checkAuth = useCheckAuth();
+  useEffect(() => {
+    checkAuth({}, false)
+      .then(() => {
+        // already authenticated, redirect to the home page
+        goToLink("/");
+      })
+      .catch(() => {
+        // not authenticated, stay on the login page
+      });
+  }, [checkAuth]);
   return (
     <Box
       display="flex"
@@ -57,7 +70,7 @@ const CasdoorLoginCard = () => {
           </Box>
         </Box>
         <CardContent>
-          <Button 
+          <Button
             fullWidth
             variant="contained"
             data-testid="casdoor-login-btn"
