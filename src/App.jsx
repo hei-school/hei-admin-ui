@@ -162,6 +162,7 @@ function AppBase() {
           path="/events/:eventId/participants"
           element={<events.participants />}
         />
+        <Route exact path="/events/missing" element={<events.missing />} />
         <Route exact path="/events/new" element={<events.new />} />
         <Route
           exact

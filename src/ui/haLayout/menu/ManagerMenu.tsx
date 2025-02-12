@@ -94,7 +94,7 @@ function ManagerMenu() {
         />
         <ListMenuItem
           data-testid="event-missing"
-          to="/abscents"
+          to="/events/missing"
           label="liste des absents"
           icon={<EventBusy />}
         />

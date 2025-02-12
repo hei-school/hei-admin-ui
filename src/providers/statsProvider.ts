@@ -1,5 +1,5 @@
 import {HaDataProviderType} from "./HaDataProviderType";
-import {payingApi, usersApi} from "./api";
+import {eventsApi, payingApi, usersApi} from "./api";
 import {MAX_ITEM_PER_PAGE} from "./dataProvider";
 
 const statsProvider: HaDataProviderType = {
@@ -31,6 +31,10 @@ const statsProvider: HaDataProviderType = {
             filter.student_ref
           )
           .then(({data: {statistics}}) => ({id, ...statistics}));
+      case "events":
+        return eventsApi()
+          .getEventStats()
+          .then((result) => ({id, ...result.data}));
       default:
         console.error("unknown resource type for getStats");
         return;

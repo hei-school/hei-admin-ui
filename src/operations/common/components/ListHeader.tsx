@@ -61,7 +61,7 @@ const CardInfos: FC<CardInfosProps> = ({cardDetails = []}) => {
     >
       <Tooltip title="Infos">
         <IconButton
-          sx={{width: "fit-content"}}
+          sx={{width: "fit-content", background: "rgba(167,167,167, 0.54)"}}
           aria-describedby={id}
           onClick={handleClick}
         >
@@ -107,9 +107,10 @@ export const IconWithShadow: React.FC<IconWithShadowProps> = ({icon}) => {
       {React.cloneElement(icon, {
         style: {
           position: "absolute",
-          top: -4,
-          left: -4,
-          color: "#F1c16b",
+          top: -7,
+          left: -8,
+          scale: " 0.9",
+          color: "rgba(235, 233, 226, 0.5)",
           zIndex: 1,
           fontSize: "2.7rem",
         },
@@ -173,7 +174,7 @@ export const ListHeader: FC<ListHeaderProps> = ({
               height: "170px",
               m: "-80px 5px 5px 5px",
               borderRadius: "10px",
-              background: `linear-gradient(90deg, rgba(165, 165, 214, 0.9) 30%, rgba(13, 56, 136, 1) 90%), url(${CardBackground})`,
+              background: ` url(${CardBackground}),linear-gradient(120deg, #001948 0%, #001B4E 12%, #003CAE 86%)`,
               backgroundSize: "110%",
               backgroundPosition: "left",
               textAlign: "right",
