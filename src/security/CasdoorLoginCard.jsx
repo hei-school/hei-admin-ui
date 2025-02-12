@@ -57,9 +57,10 @@ const CasdoorLoginCard = () => {
           </Box>
         </Box>
         <CardContent>
-          <Button
+          <Button 
             fullWidth
             variant="contained"
+            data-testid="casdoor-login-btn"
             color="primary"
             onClick={() => casdoorLogin()}
           >
