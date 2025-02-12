@@ -1,4 +1,5 @@
 import {
+  Button,
   Box,
   Card,
   CardContent,
@@ -102,20 +103,7 @@ const HaLoginPage = () => {
             }}
           >
           </Button>
-            <MuiButton
-              onClick={() => casdoorLogin()}
-              variant="contained"
-              color="secondary"
-              data-testid="casdoor-login-btn"
-              style={{
-                display: "flex",
-                justifySelf: "center",
-                margin: "2em 0 0 0",
-                color: "white",
-              }}
-            >
-              Casdoor connexion
-            </MuiButton>
+
         </Grid>
       </Grid>
     );
