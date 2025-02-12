@@ -1,57 +1,24 @@
 import {
   Box,
-  Button,
   Card,
   CardContent,
   Grid,
   Modal,
-  Button as MuiButton,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {isSilentSigninRequired, SilentSignin} from "casdoor-react-sdk";
 import {useState} from "react";
-import {Login} from "react-admin";
 import {mainTheme} from "../haTheme";
 import authProvider from "../providers/authProvider";
 import CompletePasswordPage from "./CompletePasswordPage";
 import ConfirmForgotPassword from "./ConfirmForgotPassword";
 import ForgotPassword from "./ForgotPassword";
-import {
-  CasdoorSDK,
-  getRedirectUrl,
-  goToLink,
-  isLoggedIn,
-  showMessage,
-} from "./setting";
 
-const casdoorLogin = () => {
-  getRedirectUrl().then((res) => {
-    if (res?.status === "ok") {
-      goToLink(res.data);
-    } else {
-      showMessage("failed to get redirect url");
-    }
-  });
-};
+import CasdoorLoginCard from "./CasdoorLoginCard";
 
 const aCard = (title, subtitle, description1, description2, course) => {
   const syllabus =
     "https://drive.google.com/file/d/12Lc4o3jfQOFHIzazPToO2hnGZc8epU3I/view";
-
-  if (isSilentSigninRequired()) {
-    return (
-      <div style={{marginTop: 200, textAlign: "center", alignItems: "center"}}>
-        <SilentSignin
-          sdk={CasdoorSDK}
-          isLoggedIn={isLoggedIn}
-          handleReceivedSilentSigninSuccessEvent={() => goToLink("/")}
-          handleReceivedSilentSigninFailureEvent={() => {}}
-        />
-        <p>Logging in...</p>
-      </div>
-    );
-  }
 
   return (
     <Card style={{backgroundColor: "#ffffff", opacity: 0.9}}>
@@ -115,10 +82,7 @@ const HaLoginPage = () => {
           }}
           position={"absolute"}
         >
-          <Login
-            backgroundImage={null}
-            style={{backgroundImage: "inherit", position: "relative"}}
-          />
+          <CasdoorLoginCard />
         </Grid>
         <Grid
           xs={displayFull ? 4 : 12}

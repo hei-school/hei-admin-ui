@@ -20,6 +20,10 @@
   "dependencies": {
     "@haapi/typescript-client": "^1.103.1",
     "casdoor-js-sdk": "^0.14.0",
+<<<<<<< HEAD
+=======
+    "@haapi/typescript-client": "^1.93.0",
+>>>>>>> 97f022f (feat: add casdoor login)
     "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-calendar": "^4.0.1",
     "@react-admin/ra-enterprise": "^7.0.0",
