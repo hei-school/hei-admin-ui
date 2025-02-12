@@ -10,6 +10,7 @@ export function useRole() {
     isMonitor: () => role === WhoamiRoleEnum.MONITOR,
     isAdmin: () => role === WhoamiRoleEnum.ADMIN,
     isStaffMember: () => role === WhoamiRoleEnum.STAFF_MEMBER,
+    isOrganizer: () => role === WhoamiRoleEnum.ORGANIZER,
     role,
   };
 }

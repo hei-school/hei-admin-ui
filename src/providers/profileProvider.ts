@@ -32,6 +32,10 @@ const profileProvider: HaDataProviderType = {
         return usersApi()
           .getStaffMemberById(id)
           .then((result) => result.data);
+      case WhoamiRoleEnum.ORGANIZER:
+        return usersApi()
+          .getOrganizerById(id)
+          .then((result) => result.data);
       default:
         throw new Error("Role non supporté");
     }
