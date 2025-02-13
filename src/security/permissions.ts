@@ -51,6 +51,10 @@ export const getPermissions = (role: string) => {
       {action: "read", resource: "profile", record: {id: whoamiId}},
       {action: ["list", "read", "show"], resource: "students"},
     ],
+    ORGANIZER: [
+      {action: updatePermissions, resource: "events"},
+      {action: createPermissions, resource: "events"},
+    ],
   };
   return roleDefinitions[role as keyof typeof roleDefinitions];
 };

@@ -2,6 +2,7 @@ import authProvider from "@/providers/authProvider";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import ManagerMenu from "./ManagerMenu";
 import MonitorMenu from "./MonitorMenu";
+import {OrganizerMenu} from "./OrganizerMenu";
 import StaffMenu from "./StaffMenu";
 import StudentMenu from "./StudentMenu";
 import TeacherMenu from "./TeacherMenu";
@@ -21,6 +22,8 @@ export function HaMenuContent() {
       return <StaffMenu />;
     case WhoamiRoleEnum.MONITOR:
       return <MonitorMenu />;
+    case WhoamiRoleEnum.ORGANIZER:
+      return <OrganizerMenu />;
     default:
       return null;
   }

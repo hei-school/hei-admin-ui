@@ -114,7 +114,7 @@ const FeedbackInfos = () => {
 function UserInfo() {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState({});
-  const {isStudent, isManager, isMonitor, isStaffMember} = useRole();
+  const {isManager, isAdmin, isTeacher} = useRole();
   const imgRef = useRef(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
@@ -136,6 +136,7 @@ function UserInfo() {
   }, []);
 
   const {first_name = "", profile_picture = defaultProfilePicture} = user;
+  const profilePictureSrc = profile_picture ?? defaultProfilePicture;
 
   if (isLoading) {
     return (
@@ -156,7 +157,7 @@ function UserInfo() {
       alt="profile"
       data-testid="appbar-profile-pic"
       ref={imgRef}
-      src={profile_picture}
+      src={profilePictureSrc}
       onError={() => {
         if (imgRef.current) {
           imgRef.current.src = defaultProfilePicture;
@@ -211,7 +212,7 @@ function UserInfo() {
               sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
             />
           </a>
-          {!isStudent() && !isMonitor() && !isStaffMember() && <LastComments />}
+          {(isManager() || isAdmin() || isTeacher()) && <LastComments />}
           <FeedbackInfos />
         </>
       )}

@@ -565,6 +565,7 @@ export const Informations = ({
 
   const adminView =
     !role.isMonitor() &&
+    !role.isOrganizer() &&
     !isMonitorProfile &&
     !(role.isManager() && isTeacherProfile) &&
     !(role.isTeacher() && isStudentProfile) &&

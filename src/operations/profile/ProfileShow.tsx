@@ -13,7 +13,15 @@ import {useState} from "react";
 import {EditButton} from "react-admin";
 
 const ProfileShow = () => {
-  const {isStudent, isTeacher, isMonitor, isManager, isAdmin, role} = useRole();
+  const {
+    isStudent,
+    isTeacher,
+    isMonitor,
+    isManager,
+    isAdmin,
+    isOrganizer,
+    role,
+  } = useRole();
   const {id} = authProvider.getCachedWhoami();
   const [showComments, , toggleShowComments] = useToggle(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -27,7 +35,7 @@ const ProfileShow = () => {
           data-testid="get-certificate-btn"
         />
       );
-    } else if (!isMonitor()) {
+    } else if (!isMonitor() && !isOrganizer()) {
       return (
         <Box
           display="flex"

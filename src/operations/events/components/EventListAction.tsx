@@ -13,11 +13,11 @@ import {useRedirect} from "react-admin";
 import {EVENT_TYPE_VALUE} from "../utils";
 
 export function EventListAction({withDate = true}: {withDate?: boolean}) {
-  const {isManager, isAdmin} = useRole();
+  const {isManager, isAdmin, isOrganizer} = useRole();
   const redirect = useRedirect();
   return (
     <Box>
-      {(isManager() || isAdmin()) && (
+      {(isManager() || isAdmin() || isOrganizer()) && (
         <ButtonBase
           label="Créer"
           icon={<Add />}
