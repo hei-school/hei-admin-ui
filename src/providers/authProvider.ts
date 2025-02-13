@@ -75,7 +75,7 @@ const authProvider = {
       const encodedUsername = encodeURIComponent(btoa(username as string));
       const encodedPassword = encodeURIComponent(btoa(password as string));
       window.location.replace(
-        `/?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
+        `/login?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
       );
 
       return;
