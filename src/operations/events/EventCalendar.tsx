@@ -9,6 +9,7 @@ import {CompleteCalendar} from "@react-admin/ra-calendar";
 import {useState} from "react";
 import {DeleteWithConfirm} from "../common/components";
 import {EventListAction, StatCard} from "./components";
+import {EventLoaderCalendar} from "./components/EventLoaderCalendar";
 import {EventCreate} from "./EventCreate";
 import {EventEditDialog} from "./EventEditDialog";
 import {EVENT_TYPE_VALUE} from "./utils";
@@ -47,6 +48,7 @@ export const EventCalendar = () => {
           title: "Présences",
           actions: (
             <Box sx={{bgcolor: "white", width: "100%", mt: 2}}>
+              <EventLoaderCalendar />
               <HaListTitle
                 title=" "
                 icon={<></>}
