@@ -36,7 +36,7 @@ const AuthCallback: React.FC = () => {
         clearToken();
         goToLink("/");
       })
-      .catch((error) => {
+      .catch(() => {
         clearToken();
         goToLink("/");
       });
@@ -46,7 +46,7 @@ const AuthCallback: React.FC = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     const state = urlParams.get("state");
-    handleCallback(code, state).then((res) => {
+    handleCallback(code!, state!).then((res) => {
       if (res?.status === "ok") {
         setSession(res.data);
       } else {

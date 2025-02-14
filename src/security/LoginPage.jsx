@@ -1,6 +1,6 @@
 import {
-  Button,
   Box,
+  Button,
   Card,
   CardContent,
   Grid,
@@ -101,9 +101,7 @@ const HaLoginPage = () => {
             sx={{
               color: "white",
             }}
-          >
-          </Button>
-
+          ></Button>
         </Grid>
       </Grid>
     );
