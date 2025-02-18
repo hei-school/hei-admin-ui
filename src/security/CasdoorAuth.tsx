@@ -6,7 +6,7 @@ import {clearToken, goToLink, ServerUrl, setToken} from "./setting";
 const AuthCallback: React.FC = () => {
   const handleCallback = (code: string, state: string) => {
     return fetch(
-      `${ServerUrl}/authentication/casdoor/signin?code=${code}&state=${state}`,
+      `${ServerUrl}/authentication/signin?code=${code}&state=${state}`,
       {
         method: "POST",
         headers: {
