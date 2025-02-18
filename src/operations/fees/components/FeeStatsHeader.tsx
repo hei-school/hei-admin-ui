@@ -11,7 +11,6 @@ import {
   BoxProps,
   IconButton,
   Popover,
-  SxProps,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -38,10 +37,6 @@ interface ListHeaderProps {
   cardContents: Array<CardFeesContent>;
 }
 
-const TYPO_STYLE: SxProps = {};
-
-const BOX_STYLE: SxProps = {};
-
 const BoxItem: FC<
   {
     value?: number | string;
@@ -63,7 +58,7 @@ const BoxItem: FC<
       }}
       {...boxProps}
     >
-      <Tooltip title={title} arrow placement="left">
+      <Tooltip title={title} arrow placement="bottom">
         <Typography
           sx={{
             width: "40px",
@@ -174,19 +169,19 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
               >
                 <Box display="flex" width="100%" gap="auto">
                   <BoxItem
-                    bgcolor="blue"
+                    bgcolor="#00ff3e"
                     value={card.L1}
                     label="L1"
                     title="Frais L1"
                   />
                   <BoxItem
-                    bgcolor="red"
+                    bgcolor="#ff00e8"
                     value={card.L2}
                     label="L2"
                     title="Frais L2"
                   />
                   <BoxItem
-                    bgcolor="green"
+                    bgcolor="#ff0000"
                     value={card.L3}
                     label="L3"
                     title="Frais L3"
@@ -194,12 +189,17 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
                 </Box>
                 <Box display="flex" width="100%" justifyContent="start">
                   <BoxItem
-                    bgcolor="yellow"
+                    bgcolor="#614efb"
                     value={card.A}
                     label="A"
-                    title="Frais alternance"
+                    title="Frais d'Alternance"
                   />
-                  <BoxItem bgcolor="red" value={card.R} label="R" title="R" />
+                  <BoxItem
+                    bgcolor="#f9d100"
+                    value={card.R}
+                    label="R"
+                    title="Frais de rattrapage"
+                  />
                   <BoxItem
                     sx={{opacity: 0}}
                     bgcolor=""
@@ -234,7 +234,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
                         color: PALETTE_COLORS.yellow,
                       }}
                     />
-                    <Typography>Mensuels : {card.mensual}</Typography>
+                    <Typography>Mensuel : {card.mensual}</Typography>
                   </Box>
                   <Box
                     sx={{
@@ -248,7 +248,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
                         color: PALETTE_COLORS.yellow,
                       }}
                     />
-                    <Typography>Annuels : {card.annual}</Typography>
+                    <Typography>Annuel : {card.annual}</Typography>
                   </Box>
                 </Box>
                 {card.bank_fees !== undefined &&
