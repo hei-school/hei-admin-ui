@@ -86,7 +86,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   );
   cy.intercept("**/health/db", "OK").as("getHealthDb");
 
-  cy.intercept("GET", "**/authentication/casdoor/login-url").as(
+  cy.intercept("GET", "**/authentication/login-url").as(
     "getRedirectionURL"
   );
 
@@ -123,7 +123,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   cy.visit(`/callback?code=${role}&state=HEI Admin`);
 
   if (isSuccess) {
-    cy.intercept("**/authentication/casdoor/signin", casdoorSignin).as(
+    cy.intercept("**/authentication/signin", casdoorSignin).as(
       "getCasdoorToken"
     );
     //cy.wait("@casdoorSignin");
