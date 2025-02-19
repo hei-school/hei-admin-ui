@@ -6,7 +6,6 @@ import {
   DateInput,
   DateTimeInput,
   required,
-  SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
@@ -94,13 +93,7 @@ function DisabledInfo() {
           readOnly
           label="Reste à payer"
         />
-        <SelectInput
-          label="Statut"
-          source="status"
-          choices={[{id: record.status, name: statusRenderer(record.status)}]}
-          {...props}
-          sx={{flex: 1}}
-        />
+        <Box>{statusRenderer(record.status)}</Box>
       </Box>
     </>
   );
