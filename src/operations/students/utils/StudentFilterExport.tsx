@@ -11,6 +11,7 @@ import dataProvider from "@/providers/dataProvider";
 import {Dialog} from "@/ui/components";
 import {mapToChoices} from "@/utils";
 
+import {NOOP_ID} from "@/utils/constants";
 import {GENDER_OPTIONS, USERS_STATUS} from "../constants";
 
 const FileDownloaderWrapper = () => {
@@ -22,6 +23,7 @@ const FileDownloaderWrapper = () => {
       const {
         data: {file},
       } = await dataProvider.getOne("students-export", {
+        id: NOOP_ID,
         meta: {
           status: status,
           sex: sex,
