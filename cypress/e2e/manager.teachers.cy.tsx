@@ -9,11 +9,19 @@ describe("Manager.Teachers", () => {
       /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/,
       [teacher1Mock]
     ).as("getFilters");
+    cy.intercept(
+      "GET",
+      /teachers\?page=2&page_size=10&(first_name|ref|last_name)=/,
+      [teacher1Mock]
+    ).as("getFilters2");
     cy.intercept("GET", `/teachers/${teacher1Mock.id}`, teacher1Mock).as(
       "getTeachers1"
     );
     cy.intercept("GET", "/teachers?page=1&page_size=10", teachersMock).as(
       "getTeachers"
+    );
+    cy.intercept("GET", "/teachers?page=2&page_size=10", teachersMock).as(
+      "getTeachers2"
     );
     cy.intercept("PUT", `/teachers/${teacher1Mock.id}`, updatedInfo).as(
       "putUpdate"

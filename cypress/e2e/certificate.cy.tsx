@@ -42,6 +42,9 @@ describe("Student Ceritificate", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
+    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+      "getStudents2"
+    );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10?first_name=${student1Mock.first_name}`,

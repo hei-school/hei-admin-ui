@@ -16,6 +16,10 @@ describe("Mobile payment by student", () => {
       data: feesMpbsMock,
       statistics: {},
     }).as("getFees");
+    cy.intercept("GET", `/fees?page=2&page_size=10&isMpbs=true`, {
+      data: feesMpbsMock,
+      statistics: {},
+    }).as("getFees2");
 
     cy.get(`[href="/transactions"]`).click();
 
@@ -29,6 +33,9 @@ describe("Mobile payment by student", () => {
     cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
       data: [succeedMpbs1],
     }).as("getFees");
+    cy.intercept("GET", `/fees?page=2&page_size=10&isMpbs=true`, {
+      data: [succeedMpbs1],
+    }).as("getFees2");
 
     cy.get(`[href="/transactions"]`).click();
 
@@ -43,6 +50,9 @@ describe("Mobile payment by student", () => {
     cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
       data: [pendingMpbs],
     }).as("getFees");
+    cy.intercept("GET", `/fees?page=2&page_size=10&isMpbs=true`, {
+      data: [pendingMpbs],
+    }).as("getFees2");
 
     cy.get(`[href="/transactions"]`).click();
 
@@ -57,6 +67,9 @@ describe("Mobile payment by student", () => {
     cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
       data: [failedMpbs],
     }).as("getFees");
+    cy.intercept("GET", `/fees?page=2&page_size=10&isMpbs=true`, {
+      data: [failedMpbs],
+    }).as("getFees2");
 
     cy.get(`[href="/transactions"]`).click();
 

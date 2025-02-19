@@ -38,13 +38,20 @@ describe("Manager.Promotions", () => {
       "getPromotionsPage1"
     );
     cy.intercept("GET", `/promotions?page=1&page_size=499`, promotionsMock).as(
-      "getAllPromotionsPage1"
+      "getPromotionsPage1Many"
+    );
+    cy.intercept("GET", `/promotions?page=2&page_size=499`, promotionsMock).as(
+      "getPromotionsPage2Many"
+    );
+    cy.intercept("GET", `/promotions?page=2&page_size=10`, promotionsMock).as(
+      "getPromotionsPage2"
     );
     cy.inteceptMockByOne("groups", groupsMock);
     cy.intercept("GET", `/promotions/${promotion1Mock.id}`, promotion1Mock).as(
       "getPromotion1"
     );
     cy.getByTestid("promotions-menu").click();
+    cy.wait(1000);
     cy.wait("@getPromotionsPage1");
     cy.intercept(
       "GET",
@@ -64,6 +71,11 @@ describe("Manager.Promotions", () => {
       `/promotions?page=1&page_size=10?name=${promotion1Mock.name}`,
       [promotion1Mock]
     ).as("getFilteredPromotions");
+    cy.intercept(
+      "GET",
+      `/promotions?page=2&page_size=10?name=${promotion1Mock.name}`,
+      [promotion1Mock]
+    ).as("getFilteredPromotions2");
     cy.get("tbody tr").should("have.length", promotionsMock.length);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();

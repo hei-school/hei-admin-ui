@@ -22,6 +22,9 @@ describe("Teacher", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
+    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+      "getStudents2"
+    );
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
@@ -53,6 +56,11 @@ describe("Teacher", () => {
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentByFirstName");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
+      [student1Mock]
+    ).as("getStudentByFirstName2");
     // note(listAndFilterStudents)
     cy.get('a[href="/students"]').click(); // Étudiants menu
     cy.wait("@getStudentsPage1");

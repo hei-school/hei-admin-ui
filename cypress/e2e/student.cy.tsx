@@ -12,6 +12,11 @@ describe("Student", () => {
     ).as("getFees");
     cy.intercept(
       "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      feesMock
+    ).as("getFees2");
+    cy.intercept(
+      "GET",
       `/students/${student1Mock.id}/fees/${
         feesMock[7 - 1].id
       }/payments?page=1&page_size=10`,
@@ -19,9 +24,21 @@ describe("Student", () => {
     ).as("getPaymentsOfFee1");
     cy.intercept(
       "GET",
+      `/students/${student1Mock.id}/fees/${
+        feesMock[7 - 1].id
+      }/payments?page=2&page_size=10`,
+      createPaymentMock(feesMock[7 - 1])
+    ).as("getPaymentsOfFee11");
+    cy.intercept(
+      "GET",
       `/students/${student1Mock.id}/fees/${feesMock[0].id}/payments?page=1&page_size=10`,
       createPaymentMock(feesMock[0])
     ).as("getPaymentsOfFee2");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${feesMock[0].id}/payments?page=2&page_size=10`,
+      createPaymentMock(feesMock[0])
+    ).as("getPaymentsOfFee22");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${feesMock[7 - 1].id}`,

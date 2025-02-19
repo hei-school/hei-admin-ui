@@ -59,6 +59,11 @@ describe("Manager edit students", () => {
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByFirstName");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
+      [student1Mock]
+    ).as("getStudentsByFirstName2");
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
@@ -70,6 +75,11 @@ describe("Manager edit students", () => {
       `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
     ).as("getTeacherByFirstName");
+    cy.intercept(
+      "GET",
+      `/teachers?page=2&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
+      [teacher1Mock]
+    ).as("getTeacherByFirstName2");
   });
 
   it("can edit students", () => {
@@ -108,6 +118,11 @@ describe("Manager edit students", () => {
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [updatedStudent]
     ).as("getUpdatedStudent");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
+      [updatedStudent]
+    ).as("getUpdatedStudent2");
     cy.contains("Enregistrer").click();
     cy.wait("@modifyStudent").then((requestIntersection) => {
       let modifyStudentWithoutFeesBodyMock = requestIntersection.request.body;
@@ -130,11 +145,19 @@ describe("Manager creates students", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
+    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+      "getStudentsPage2"
+    );
     cy.intercept(
       "GET",
       `/fees/templates?page=1&page_size=25`,
       feesTemplatesMocks
     ).as("getFeesTemplates");
+    cy.intercept(
+      "GET",
+      `/fees/templates?page=2&page_size=25`,
+      feesTemplatesMocks
+    ).as("getFeesTemplates2");
     cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
       "getStudentsPage2"
     );
@@ -146,6 +169,11 @@ describe("Manager creates students", () => {
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByFirstName");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
+      [student1Mock]
+    ).as("getStudentsByFirstName2");
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
@@ -157,6 +185,11 @@ describe("Manager creates students", () => {
       `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
     ).as("getTeacherByFirstName");
+    cy.intercept(
+      "GET",
+      `/teachers?page=2&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
+      [teacher1Mock]
+    ).as("getTeacherByFirstName2");
     cy.contains("Enseignants");
     cy.contains("Étudiants");
     cy.getByTestid("students-menu").click(); // Étudiants category
@@ -187,6 +220,11 @@ describe("Manager creates students", () => {
       "/students?page=1&page_size=10",
       [createdStudent, ...studentsMock].slice(0, 10)
     ).as("getStudents");
+    cy.intercept(
+      "GET",
+      "/students?page=2&page_size=10",
+      [createdStudent, ...studentsMock].slice(0, 10)
+    ).as("getStudents2");
     fillEditInputs();
     cy.contains("Enregistrer").click();
     cy.wait("@createStudent").then((requestInterseption) =>
@@ -203,6 +241,11 @@ describe("Manager creates students", () => {
       "/students?page=1&page_size=10",
       [createdStudent, ...studentsMock].slice(0, 10)
     ).as("getStudents");
+    cy.intercept(
+      "GET",
+      "/students?page=2&page_size=10",
+      [createdStudent, ...studentsMock].slice(0, 10)
+    ).as("getStudents2");
     cy.contains("Enregistrer").click();
     cy.wait("@createStudent").then((requestInterception) =>
       studentRequestBodyVerification(requestInterception.request.body, {
@@ -223,6 +266,11 @@ describe("Manager creates students", () => {
       "/students?page=1&page_size=10",
       [...studentsMock, createdStudent].slice(0, 10)
     ).as("getStudents");
+    cy.intercept(
+      "GET",
+      "/students?page=2&page_size=10",
+      [...studentsMock, createdStudent].slice(0, 10)
+    ).as("getStudents2");
     cy.getByTestid("predefinedType").click();
     cy.get(`[data-value="${annual1xTemplate.id}"]`).click();
 
@@ -257,6 +305,11 @@ describe("Manager creates students", () => {
       "/students?page=1&page_size=10",
       [...studentsMock, createdStudent].slice(0, 10)
     ).as("getStudents");
+    cy.intercept(
+      "GET",
+      "/students?page=2&page_size=10",
+      [...studentsMock, createdStudent].slice(0, 10)
+    ).as("getStudents2");
     cy.intercept("POST", `students/${createdStudent.id}/fees`, [
       createdFeesForNewStudent,
     ]).as("createFees");

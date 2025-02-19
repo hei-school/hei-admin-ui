@@ -22,6 +22,11 @@ describe("Manager.event", () => {
       eventParticipantsMock
     ).as("getEventParticipantPage1");
     cy.intercept(
+      "GET",
+      `/events/${event1mock.id}/participants?page=2&page_size=10`,
+      eventParticipantsMock
+    ).as("getEventParticipantPage2");
+    cy.intercept(
       "PUT",
       `/events/${event1mock.id}/participants`,
       eventParticipantsMock
@@ -30,8 +35,14 @@ describe("Manager.event", () => {
     cy.intercept("GET", "/groups?page=1&page_size=499", groupsMock).as(
       "getGroups"
     );
+    cy.intercept("GET", "/groups?page=2&page_size=499", groupsMock).as(
+      "getGroups2"
+    );
     cy.intercept("GET", "/courses?page=1&page_size=499", courseMocks).as(
       "getCourses"
+    );
+    cy.intercept("GET", "/courses?page=2&page_size=499", courseMocks).as(
+      "getCourses2"
     );
     cy.intercept("PUT", "/events", eventsMock);
     cy.getByTestid("event-menu").click();

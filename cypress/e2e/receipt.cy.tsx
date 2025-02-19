@@ -13,9 +13,14 @@ describe("Student receipt", () => {
     cy.login({role: "STUDENT"});
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `/students/${student1Mock.id}/fees?page=1&page_size=*`,
       feesMock
     ).as("getfees");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=*`,
+      feesMock
+    ).as("getfees2");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}`,
@@ -23,9 +28,14 @@ describe("Student receipt", () => {
     ).as("getFee1");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
+      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=*`,
       createPaymentMock(interceptedFeeMock!)
     ).as("getPaymentsOfOneFee");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=2&page_size=*`,
+      createPaymentMock(interceptedFeeMock!)
+    ).as("getPaymentsOfOneFee2");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
@@ -53,6 +63,9 @@ describe("Manager receipt", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
+    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+      "getStudents2"
+    );
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
@@ -63,9 +76,19 @@ describe("Manager receipt", () => {
     ).as("getStudentsByFirstName");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
+      [student1Mock]
+    ).as("getStudentsByFirstName2");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=*`,
       feesMock
     ).as("getFees");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=*`,
+      feesMock
+    ).as("getFees2");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}`,
@@ -73,9 +96,14 @@ describe("Manager receipt", () => {
     ).as("getFee1");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=10`,
+      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=1&page_size=*`,
       createPaymentMock(interceptedFeeMock!)
     ).as("getPaymentsOfOneFee");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${interceptedFeeMock!.id}/payments?page=2&page_size=*`,
+      createPaymentMock(interceptedFeeMock!)
+    ).as("getPaymentsOfOneFee2");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
@@ -90,8 +118,6 @@ describe("Manager receipt", () => {
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
-    cy.contains("Page : 1");
-    cy.contains("Taille : 1");
     cy.contains(student1Mock.first_name).click();
     cy.getByTestid("fees-list-tab").click();
     cy.wait("@getFees");

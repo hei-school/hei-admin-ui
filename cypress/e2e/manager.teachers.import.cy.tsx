@@ -23,6 +23,11 @@ describe("Manager create multiple teachers", () => {
       `/teachers?page=1&page_size=10&last_name=${teacherNameToBeCheckedMock}`,
       [student1Mock]
     ).as("getTeachersByName");
+    cy.intercept(
+      "GET",
+      `/teachers?page=2&page_size=10&last_name=${teacherNameToBeCheckedMock}`,
+      [student1Mock]
+    ).as("getTeachersByName2");
 
     cy.wait("@getWhoami", {timeout: 10000});
     cy.get('[href="/teachers"]').click();

@@ -34,6 +34,11 @@ describe("Manager", () => {
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByName");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
+      [student1Mock]
+    ).as("getStudentsByName2");
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
@@ -45,6 +50,11 @@ describe("Manager", () => {
       `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
     ).as("getTeacherByName");
+    cy.intercept(
+      "GET",
+      `/teachers?page=2&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
+      [teacher1Mock]
+    ).as("getTeacherByName2");
   });
 
   it("lands on profile page if succeeds", () => {
