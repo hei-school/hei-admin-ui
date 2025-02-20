@@ -64,22 +64,24 @@ describe("Teacher", () => {
     // note(listAndFilterStudents)
     cy.get('a[href="/students"]').click(); // Étudiants menu
     cy.wait("@getStudentsPage1");
+    cy.wait("@getStudentsPage2");
     cy.get("body").click(200, 0); //note(uncover-menu)
-    cy.contains("Page : 1");
-    cy.contains(`Taille : ${studentsMock.length}`);
+    cy.window().scrollTo("bottom");
+    cy.contains("Page :1");
+    cy.contains(`Taille :${studentsMock.length}`);
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     cy.get("td a").should("not.contain", "ÉDITER", {timeout: 50});
     cy.get(".RaList-main>").should("not.contain", "CRÉER", {timeout: 50});
 
-    cy.get("button").contains("Suivant").click();
+    cy.get("#next-button").click();
     cy.wait("@getStudentsPage2");
-    cy.contains("Page : 2");
+    cy.contains("Page :2");
 
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.get('[data-testid="apply-filter"]').click();
     cy.wait("@getStudentByFirstName");
-    cy.contains("Page : 1");
+    cy.contains("Page :1");
   });
 });

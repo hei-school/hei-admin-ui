@@ -56,8 +56,8 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
     cy.contains("Étudiants");
     cy.getByTestid("students-menu").click();
     cy.get('[href="/students"]').click();
-    cy.contains("Page : 1");
-    cy.contains(`Taille : ${studentsMock.length}`);
+    cy.contains("Page :1");
+    cy.contains(`Taille :${studentsMock.length}`);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.get("#ref").type(createStudent.ref);

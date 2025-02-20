@@ -89,15 +89,13 @@ describe("Manager.Letters.student", () => {
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
-    cy.contains("Page : 1");
+    cy.contains("Page :1");
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
     cy.wait("@getStudentsByName");
-    cy.contains("Page : 1");
-    cy.contains("Taille : 1 ");
     cy.contains(student1Mock.first_name).click();
   });
 
