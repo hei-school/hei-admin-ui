@@ -34,22 +34,20 @@ export const ExamGradeList = () => {
     );
 
   return (
-    <Box>
-      <HaList
-        icon={<Book />}
-        resource="exam-grades"
-        title={`Liste des participants à l'examen ${exam?.title}`}
-        datagridProps={{rowClick: false}}
-        listProps={{filter: {examId}, title: "Notes des participants"}}
-        actions={false}
-      >
-        <TextField source="student.ref" label="Référence" />
-        <TextField source="student.last_name" label="Nom" />
-        <TextField source="student.first_name" label="Prénom(s)" />
-        <TextField source="grade.score" label="Note" />
-        <TextField source="grade.created_at" label="Créée le" />
-        <TextField source="grade.updated_at" label="Mis à jour le" />
-      </HaList>
-    </Box>
+    <HaList
+      icon={<Book />}
+      resource="exam-grades"
+      title={`Liste des participants à l'examen ${exam?.title}`}
+      datagridProps={{rowClick: false}}
+      listProps={{filter: {examId}, title: "Notes des participants"}}
+      actions={false}
+    >
+      <TextField source="student.ref" label="Référence" />
+      <TextField source="student.last_name" label="Nom" />
+      <TextField source="student.first_name" label="Prénom(s)" />
+      <TextField source="grade.score" label="Note" />
+      <TextField source="grade.created_at" label="Créée le" />
+      <TextField source="grade.updated_at" label="Mis à jour le" />
+    </HaList>
   );
 };

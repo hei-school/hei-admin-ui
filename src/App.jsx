@@ -1,7 +1,7 @@
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
 import awardedCourses from "@/operations/awardedCourses";
-import course from "@/operations/course/index.tsx";
+import course from "@/operations/course";
 import staffDocs from "@/operations/docs/staffs/index";
 import studentDocs from "@/operations/docs/students";
 import teachersDocs from "@/operations/docs/teachers";
@@ -16,7 +16,7 @@ import monitorStudent from "@/operations/monitors/component";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import payments from "@/operations/payments";
 import profile from "@/operations/profile";
-import promotions from "@/operations/promotions/index.tsx";
+import promotions from "@/operations/promotions";
 import staffMembers from "@/operations/staffMembers";
 import students from "@/operations/students";
 import teachers from "@/operations/teachers";
