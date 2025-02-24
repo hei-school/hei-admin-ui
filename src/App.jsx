@@ -1,6 +1,7 @@
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
-import course from "@/operations/course/index.tsx";
+import awardedCourses from "@/operations/awardedCourses";
+import course from "@/operations/course";
 import staffDocs from "@/operations/docs/staffs/index";
 import studentDocs from "@/operations/docs/students";
 import teachersDocs from "@/operations/docs/teachers";
@@ -8,18 +9,21 @@ import events from "@/operations/events";
 import exams from "@/operations/exams";
 import fees from "@/operations/fees";
 import feesTemplates from "@/operations/feesTemplates";
+import grades from "@/operations/grades";
 import groups from "@/operations/groups";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
 import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import payments from "@/operations/payments";
 import profile from "@/operations/profile";
-import promotions from "@/operations/promotions/index.tsx";
+import promotions from "@/operations/promotions";
+import staffMembers from "@/operations/staffMembers";
 import students from "@/operations/students";
 import teachers from "@/operations/teachers";
 import authProvider from "@/providers/authProvider";
 import dataProvider from "@/providers/dataProvider";
 import HaLoginPage from "@/security/LoginPage";
+import {AwsWafCaptchaHandler, HumanVerification} from "@/security/waf";
 import {HaLayout} from "@/ui/haLayout";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -27,9 +31,6 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import awardedCourses from "./operations/awardedCourses";
-import staffMembers from "./operations/staffMembers";
-import {AwsWafCaptchaHandler, HumanVerification} from "./security/waf";
 
 function AppBase() {
   return (
@@ -245,6 +246,11 @@ function AppBase() {
           exact
           path="/monitor-students/:userId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
+        />
+        <Route
+          exact
+          path="/exams/:id/grades"
+          element={<grades.examGradeList />}
         />
       </CustomRoutes>
     </Admin>
