@@ -3,6 +3,7 @@ import {FileDownloader} from "@/operations/common/components";
 import dataProvider from "@/providers/dataProvider";
 import {Dialog} from "@/ui/components";
 import {mapToChoices} from "@/utils";
+import {NOOP_ID} from "@/utils/constants";
 import {toUTC} from "@/utils/date";
 import {Download} from "@mui/icons-material";
 import {Box} from "@mui/material";
@@ -20,6 +21,7 @@ export const FileDownloaderWrapper = () => {
       const {
         data: {file},
       } = await dataProvider.getOne("fees-export", {
+        id: NOOP_ID,
         meta: {
           status: status,
           fromDueDatetime: monthFrom

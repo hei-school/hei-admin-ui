@@ -8,12 +8,17 @@ describe("Manager announcements", () => {
   beforeEach(() => {
     cy.login({role: "TEACHER"});
 
-    cy.intercept("POST", `*/announcements`, createdAnnouncement);
+    cy.intercept("POST", `/announcements`, createdAnnouncement);
     cy.intercept(
       "GET",
-      `*/teachers/announcements?page=1&page_size=10`,
+      `/teachers/announcements?page=1&page_size=10`,
       announcementsMock
     ).as("getAnnouncements");
+    cy.intercept(
+      "GET",
+      `/teachers/announcements?page=2&page_size=10`,
+      announcementsMock
+    ).as("getAnnouncements2");
 
     cy.get('[href="/announcements"]').click();
   });

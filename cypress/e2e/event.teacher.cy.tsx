@@ -8,29 +8,35 @@ import {
 describe("Teacher.event", () => {
   beforeEach(() => {
     cy.login({role: "TEACHER"});
-    cy.intercept("GET", `*/events?page=1&page_size=10`, eventsMock).as(
+    cy.intercept("GET", `/events?page=1&page_size=10`, eventsMock).as(
       "getEventsPage1"
     );
-    cy.intercept("GET", `*/events/${event1mock.id}`, event1mock);
-    cy.intercept("PUT", `*/events/${event1mock.id}`, {
+    cy.intercept("GET", `/events?page=2&page_size=10`, eventsMock).as(
+      "getEventsPage2"
+    );
+    cy.intercept("GET", `/events/${event1mock.id}`, event1mock);
+    cy.intercept("PUT", `/events/${event1mock.id}`, {
       ...event1mock,
       title: "Change title",
     });
     cy.intercept(
       "GET",
-      `*/events/${event1mock.id}/participants?page=1&page_size=10`,
+      `/events/${event1mock.id}/participants?page=1&page_size=10`,
       eventParticipantsMock
     ).as("getEventParticipantPage1");
     cy.intercept(
+      "GET",
+      `/events/${event1mock.id}/participants?page=2&page_size=10`,
+      eventParticipantsMock
+    ).as("getEventParticipantPage2");
+    cy.intercept(
       "PUT",
-      `*/events/${event1mock.id}/participants`,
+      `/events/${event1mock.id}/participants`,
       eventParticipantsMock
     ).as("saveEventParticipant");
-    cy.intercept("GET", `*/events/${event1mock.id}`, event1mock).as(
-      "getEvent1"
-    );
-    cy.intercept("PUT", "*/events", eventsMock);
-    cy.visit("/events");
+    cy.intercept("GET", `/events/${event1mock.id}`, event1mock).as("getEvent1");
+    cy.intercept("PUT", "/events", eventsMock);
+    cy.getByTestid("event-menu").click();
   });
 
   it("teacher can list event", () => {

@@ -33,27 +33,34 @@ const LEAVE_API: UpdatePromotionSGroup = {
 describe("Manager.Promotions", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `*/groups?*`, groupsMock).as("getGroups");
-    cy.intercept("GET", `*/promotions?page=1&page_size=10`, promotionsMock).as(
+    cy.intercept("GET", `/groups?*`, groupsMock).as("getGroups");
+    cy.intercept("GET", `/promotions?page=1&page_size=10`, promotionsMock).as(
       "getPromotionsPage1"
     );
-    cy.intercept("GET", `*/promotions?page=1&page_size=499`, promotionsMock).as(
-      "getAllPromotionsPage1"
+    cy.intercept("GET", `/promotions?page=1&page_size=499`, promotionsMock).as(
+      "getPromotionsPage1Many"
+    );
+    cy.intercept("GET", `/promotions?page=2&page_size=499`, promotionsMock).as(
+      "getPromotionsPage2Many"
+    );
+    cy.intercept("GET", `/promotions?page=2&page_size=10`, promotionsMock).as(
+      "getPromotionsPage2"
     );
     cy.inteceptMockByOne("groups", groupsMock);
-    cy.intercept("GET", `*/promotions/${promotion1Mock.id}`, promotion1Mock).as(
+    cy.intercept("GET", `/promotions/${promotion1Mock.id}`, promotion1Mock).as(
       "getPromotion1"
     );
     cy.getByTestid("promotions-menu").click();
+    cy.wait(1000);
     cy.wait("@getPromotionsPage1");
     cy.intercept(
       "GET",
-      `*/groups/${promotion1Mock?.groups[0]?.id!}`,
+      `/groups/${promotion1Mock?.groups[0]?.id!}`,
       groupsMock[0]
     );
     cy.intercept(
       "GET",
-      `*/groups/${promotion1Mock?.groups[1]?.id!}`,
+      `/groups/${promotion1Mock?.groups[1]?.id!}`,
       groupsMock[1]
     );
   });
@@ -61,9 +68,14 @@ describe("Manager.Promotions", () => {
   it("can list all promotions and details one promotion", () => {
     cy.intercept(
       "GET",
-      `*/promotions?page=1&page_size=10?name=${promotion1Mock.name}`,
+      `/promotions?page=1&page_size=10?name=${promotion1Mock.name}`,
       [promotion1Mock]
     ).as("getFilteredPromotions");
+    cy.intercept(
+      "GET",
+      `/promotions?page=2&page_size=10?name=${promotion1Mock.name}`,
+      [promotion1Mock]
+    ).as("getFilteredPromotions2");
     cy.get("tbody tr").should("have.length", promotionsMock.length);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
@@ -79,7 +91,7 @@ describe("Manager.Promotions", () => {
   });
 
   it("can create new promotion", () => {
-    cy.intercept("PUT", "*/promotions", NEW_PROMOTION).as("createPromotion");
+    cy.intercept("PUT", "/promotions", NEW_PROMOTION).as("createPromotion");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.get("#name").type(NEW_PROMOTION.name!);
@@ -101,7 +113,7 @@ describe("Manager.Promotions", () => {
       .first()
       .click();
     cy.wait("@getPromotion1");
-    cy.intercept("PUT", "*/promotions").as("editPromotion");
+    cy.intercept("PUT", "/promotions").as("editPromotion");
     cy.getByTestid("edit-button").click();
     cy.get("#name").clear().type(NEW_PROMOTION.name!);
     cy.get("#ref").clear().type(NEW_PROMOTION.ref!);
@@ -123,7 +135,7 @@ describe("Manager.Promotions", () => {
     cy.wait("@getPromotion1");
     cy.intercept(
       "PUT",
-      `*/promotions/${promotion1Mock?.id!}/groups`,
+      `/promotions/${promotion1Mock?.id!}/groups`,
       promotion1Mock
     ).as("removeGroup");
     cy.getByTestid("leave-button").first().click();
@@ -146,7 +158,7 @@ describe("Manager.Promotions", () => {
     cy.wait("@getPromotion1");
     cy.intercept(
       "PUT",
-      `*/promotions/${promotion2Mock.id}/groups`,
+      `/promotions/${promotion2Mock.id}/groups`,
       promotion2Mock
     ).as("migrateGroup");
     cy.getByTestid("migrate-button").first().click();
@@ -171,7 +183,7 @@ describe("Manager.Promotions", () => {
     cy.wait("@getPromotion1");
     cy.intercept(
       "PUT",
-      `*/promotions/${promotion1Mock.id}/groups`,
+      `/promotions/${promotion1Mock.id}/groups`,
       promotion1Mock
     ).as("insertGroups");
     cy.getByTestid("menu-list-action").click();

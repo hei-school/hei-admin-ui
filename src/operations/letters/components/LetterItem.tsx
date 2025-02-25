@@ -115,7 +115,7 @@ export const LetterItem: FC<LetterItemProps> = ({letter}) => {
             }}
           >
             <IconButton
-              data-testid="more-icon-item"
+              id="letter-option"
               sx={{
                 padding: "0 !important",
               }}

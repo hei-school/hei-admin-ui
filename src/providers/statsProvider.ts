@@ -13,6 +13,10 @@ const statsProvider: HaDataProviderType = {
         return usersApi()
           .getStats()
           .then((result) => ({id, ...result.data}));
+      case "fees_stats":
+        return payingApi()
+          .getAdvancedFeesStats(filter.monthFrom, filter.monthTo)
+          .then((result) => ({id, ...result.data}));
       case "fees":
         return payingApi()
           .getFees(

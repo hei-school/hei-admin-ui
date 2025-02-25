@@ -1,8 +1,4 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
-import {
-  RaDataProviderType,
-  RaListResponseType,
-} from "@/providers/RaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
 import commentProvider from "@/providers/commentProvider";
 import courseProvider from "@/providers/courseProvider";
@@ -22,10 +18,13 @@ import profileProvider from "@/providers/profileProvider";
 import promotionGroupsProvider from "@/providers/promotionGroupsProvider";
 import promotionProvider from "@/providers/promotionProvider";
 import statsProvider from "@/providers/statsProvider";
+import studentGradeProvider from "@/providers/studentGradeProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
+import {DataProvider} from "react-admin";
 import awardedCoursesProvider from "./awardedCoursesProvider";
+import examGradeProvider from "./examGradeProvider";
 import examsProvider from "./examProvider";
 import exportEventParticipantProvider from "./exportEventParticipantProvider";
 import exportGroupProvider from "./exportGroupProvider";
@@ -82,15 +81,32 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "staffmembers") return staffProvider;
   if (resourceType === "staffs-export") return staffExportProvider;
   if (resourceType === "mpbs-verify") return mpbsVerifyProvider;
+  if (resourceType === "exam-grades") return examGradeProvider;
+  if (resourceType === "student-grades") return studentGradeProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
-const dataProvider: RaDataProviderType = {
+const getHasNextPageInfo = async (
+  resource: string,
+  page: number,
+  perPage: number,
+  filter: any,
+  meta: any
+) => {
+  const {data: nextPageResult} = await getProvider(resource).getList(
+    page + 1,
+    perPage,
+    filter,
+    meta
+  );
+
+  return nextPageResult.length > 0;
+};
+const dataProvider: DataProvider = {
   async getList(resourceType: string, params: any) {
     let {pagination, meta, filter} = params;
 
-    const page =
-      pagination.page === 0 ? 1 /* TODO(empty-pages) */ : pagination.page;
+    const page = pagination.page === 0 ? 1 : pagination.page;
     let perPage = pagination.perPage;
 
     if (perPage > MAX_ITEM_PER_PAGE) {
@@ -100,7 +116,15 @@ const dataProvider: RaDataProviderType = {
       perPage = MAX_ITEM_PER_PAGE;
     }
 
-    const {data, metadata} = await getProvider(resourceType).getList(
+    const {data} = await getProvider(resourceType).getList(
+      page,
+      perPage,
+      filter,
+      meta
+    );
+
+    const hasNextPage = await getHasNextPageInfo(
+      resourceType,
       page,
       perPage,
       filter,
@@ -109,9 +133,11 @@ const dataProvider: RaDataProviderType = {
 
     return {
       data,
-      total: Number.MAX_SAFE_INTEGER,
-      metadata,
-    } as RaListResponseType;
+      pageInfo: {
+        hasNextPage,
+        hasPreviousPage: page > 1,
+      },
+    };
   },
   async getOne(resourceType: string, params: any) {
     const result = await getProvider(resourceType).getOne(
@@ -130,7 +156,7 @@ const dataProvider: RaDataProviderType = {
     );
     return {data: result[0]};
   },
-  async create(resourceType: string, params = {}) {
+  async create(resourceType: string, params) {
     const result = await getProvider(resourceType).saveOrUpdate(
       resourceType === "students" ||
         resourceType === "teachers" ||
@@ -144,6 +170,18 @@ const dataProvider: RaDataProviderType = {
   async delete(resourceType: string, params: any) {
     const result = await getProvider(resourceType).delete(params.id);
     return {data: result};
+  },
+  deleteMany: () => {
+    throw new Error("Not Impelemented");
+  },
+  getMany: () => {
+    throw new Error("Not implemented");
+  },
+  getManyReference: () => {
+    throw new Error("Not implemented");
+  },
+  updateMany: () => {
+    throw new Error("Not implemented");
   },
 };
 

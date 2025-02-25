@@ -47,7 +47,7 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
   };
 
   return (
-    <Box data-testid="accept-letter-button">
+    <Box data-testid="accept-letter-button" id="accept-letter-button">
       <Button
         startIcon={<CheckCircle />}
         sx={{

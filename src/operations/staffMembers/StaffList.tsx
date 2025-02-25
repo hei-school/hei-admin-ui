@@ -4,6 +4,7 @@ import staffProvider from "@/providers/staffProvider";
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
 import {CreateButton, ImportButton} from "@/ui/haToolbar";
+import {NOOP_ID} from "@/utils/constants";
 import {AssignmentInd, Download} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {FC} from "react";
@@ -23,7 +24,7 @@ const StaffList: FC = () => {
     const {
       data: {file},
     } = await dataProvider.getOne("staffs-export", {
-      undefined,
+      id: NOOP_ID,
     });
     return {data: file};
   };

@@ -3,6 +3,7 @@ import React from "react";
 import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
 import {HaListTitle} from "@/ui/haList";
+import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateButton} from "@/ui/haToolbar";
 import {Announcement, Scope} from "@haapi/typescript-client";
 import {Newspaper as AnnouncementIcon} from "@mui/icons-material";
@@ -19,7 +20,6 @@ import {
 } from "@mui/material";
 import {List, useListContext} from "react-admin";
 import {Link} from "react-router-dom";
-import {PrevNextPagination} from "../utils";
 import {AnnouncementFilter} from "./components";
 import {EmailField} from "./components/EmailField";
 import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";

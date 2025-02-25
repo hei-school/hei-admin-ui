@@ -1,18 +1,15 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify} from "@/hooks";
-import {Create, ListHeader} from "@/operations/common/components";
-import {CardContent} from "@/operations/common/components/ListHeader";
+import {Create} from "@/operations/common/components";
 import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 import {Dialog} from "@/ui/components";
 import {NOOP_ID} from "@/utils/constants";
+import {AdvancedFeesStatistics} from "@haapi/typescript-client";
 import {
   AttachMoney,
   CalendarMonth,
-  Cancel,
-  Check,
   LinearScale,
   CurrencyExchange as Money,
-  Pending,
 } from "@mui/icons-material";
 import {Box, Button as ImportButton, Typography} from "@mui/material";
 import {FC, useState} from "react";
@@ -25,17 +22,7 @@ import {
   useRefresh,
 } from "react-admin";
 import {v4 as uuid} from "uuid";
-
-const INITIAL_STATS = {
-  total_fees: "...",
-  paid_fees: "...",
-  unpaid_fees: "...",
-  late_fees: "...",
-  pending_transaction: "...",
-  paid_by_transaction: "...",
-  total_monthly_fees: "...",
-  total_yearly_fees: "...",
-};
+import {CardFeesContent, FeesStatsHeader} from "./FeeStatsHeader";
 
 // TODO: Add this to ByStatusFeeList
 export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
@@ -43,66 +30,66 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
   isMpbs = false,
 }) => {
   const {filterValues} = useListContext();
-  const {data: stats = INITIAL_STATS} = useGetOne("stats", {
-    id: NOOP_ID,
-    meta: {resource: "fees", filters: filterValues},
-  });
+  const {data: stats} = useGetOne<AdvancedFeesStatistics & {id: string}>(
+    "stats",
+    {
+      id: NOOP_ID,
+      meta: {resource: "fees_stats", filters: filterValues},
+    }
+  );
 
-  const headerCardContent: CardContent[] = [
+  const headerCardContent: CardFeesContent[] = [
     {
       title: "Total des frais",
       icon: <AttachMoney fontSize="medium" />,
-      total: stats.total_fees!,
-      statDetails: [
-        {
-          icon: <Check fontSize="medium" />,
-          total: stats.paid_fees!,
-          title: "Frais payés",
-        },
-        {
-          icon: <Pending fontSize="medium" />,
-          total: stats.unpaid_fees!,
-          title: "Frais en cours",
-        },
-        {
-          icon: <Cancel fontSize="medium" />,
-          total: stats.late_fees!,
-          title: "Frais en retard",
-        },
-      ],
+      L1: stats?.total_expected_fees_count?.first_grade,
+      L2: stats?.total_expected_fees_count?.second_grade,
+      R: 0,
+      L3: stats?.total_expected_fees_count?.third_grade,
+      A: stats?.total_expected_fees_count?.work_study,
+      mensual: stats?.total_expected_fees_count?.monthly,
+      annual: stats?.total_expected_fees_count?.yearly,
     },
     {
-      title: "Transactions",
+      title: "Frais payés",
       icon: <Money fontSize="medium" />,
-      total: stats.unpaid_fees!,
-      statDetails: [
-        {
-          icon: <Pending fontSize="medium" />,
-          total: stats.pending_transaction!,
-          title: "Transactions en cours de vérification",
-        },
-        {
-          icon: <Check fontSize="medium" />,
-          total: stats.paid_by_transaction!,
-          title: "Transactions vérifiées avec succès",
-        },
-      ],
+      L1: stats?.paid_fees_count?.first_grade,
+      L2: stats?.paid_fees_count?.second_grade,
+      L3: stats?.paid_fees_count?.third_grade,
+      R: stats?.paid_fees_count?.remedial_fees_count,
+      A: stats?.paid_fees_count?.work_study,
+      mensual: stats?.paid_fees_count?.monthly,
+      annual: stats?.paid_fees_count?.yearly,
+      bank_fees: stats?.paid_fees_count?.bank_fees,
+      mobile_money: stats?.paid_fees_count?.mobile_money,
     },
     {
-      title: "Frais mensuels",
+      title: "En cours de vérification",
       icon: <CalendarMonth fontSize="medium" />,
-      total: stats.total_monthly_fees ?? "...",
+      L1: stats?.pending_fees_count?.first_grade,
+      L2: stats?.pending_fees_count?.second_grade,
+      L3: stats?.pending_fees_count?.third_grade,
+      A: stats?.pending_fees_count?.work_study,
+      R: stats?.pending_fees_count?.remedial_fees_count,
+      mensual: stats?.pending_fees_count?.monthly,
+      annual: stats?.pending_fees_count?.yearly,
     },
     {
-      title: "Frais annuels",
+      title: "Frais En retard",
       icon: <LinearScale fontSize="medium" />,
-      total: stats.total_yearly_fees ?? "...",
+      L1: stats?.late_fees_count?.first_grade,
+      L2: stats?.late_fees_count?.second_grade,
+      L3: stats?.late_fees_count?.third_grade,
+      R: stats?.late_fees_count?.remedial_fees_count,
+      A: stats?.late_fees_count?.work_study,
+      mensual: stats?.late_fees_count?.monthly,
+      annual: stats?.late_fees_count?.yearly,
     },
   ];
   const [open, setOpen] = useState(false);
 
   return (
-    <ListHeader
+    <FeesStatsHeader
       cardContents={headerCardContent}
       title={
         <Box display="flex" flexDirection="row" justifyContent="space-between">

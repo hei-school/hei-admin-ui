@@ -8,6 +8,7 @@ import {Box, Button, Popover, PopoverPosition} from "@mui/material";
 import {CompleteCalendar} from "@react-admin/ra-calendar";
 import {useState} from "react";
 import {DeleteWithConfirm} from "../common/components";
+import {stringifyObj} from "../common/utils/strinfigy-obj";
 import {EventListAction, StatCard} from "./components";
 import {EventLoaderCalendar} from "./components/EventLoaderCalendar";
 import {EventCreate} from "./EventCreate";
@@ -82,7 +83,7 @@ export const EventCalendar = () => {
                 from: dateInfo?.startStr,
                 to: dateInfo?.endStr,
               };
-              return JSON.stringify(prevFilter) === JSON.stringify(newFilter)
+              return stringifyObj(prevFilter) === stringifyObj(newFilter)
                 ? prevFilter
                 : newFilter;
             });

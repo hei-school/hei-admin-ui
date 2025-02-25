@@ -13,28 +13,53 @@ describe("Manager.Letters", () => {
     cy.clearCookies();
     cy.clearLocalStorage();
     cy.login({role: "MANAGER"});
-    cy.intercept("GET", `*/students/letters/stats`, statsMocks).as("getStats");
+    cy.intercept("GET", `/students/letters/stats`, statsMocks).as("getStats");
     cy.intercept(
       "GET",
-      `*/students/letters?page=1&page_size=10`,
+      `/students/letters?page=1&page_size=10`,
       lettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getAllLetters");
     cy.intercept(
       "GET",
-      `*/students/letters?page=1&page_size=10&name=${student1Mock.first_name}`,
+      `/students/letters?page=2&page_size=10`,
+      lettersMocks.slice(0, ITEM_PER_LIST)
+    ).as("getAllLetters2");
+    cy.intercept(
+      "GET",
+      `/students/letters?page=2&page_size=10`,
+      lettersMocks.slice(0, ITEM_PER_LIST)
+    ).as("getAllLetters2");
+    cy.intercept(
+      "GET",
+      `/students/letters?page=1&page_size=10&name=${student1Mock.first_name}`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getLettersFilteredByfirstName");
     cy.intercept(
       "GET",
-      `*/students/letters?page=1&page_size=10&ref=${newLetter2[0].ref}`,
+      `/students/letters?page=2&page_size=10&name=${student1Mock.first_name}`,
+      student1LettersMocks.slice(0, ITEM_PER_LIST)
+    ).as("getLettersFilteredByfirstName2");
+    cy.intercept(
+      "GET",
+      `/students/letters?page=1&page_size=10&ref=${newLetter2[0].ref}`,
       newLetter2
     ).as("getLettersFilteredByRef");
     cy.intercept(
       "GET",
-      `*/students/letters?page=1&page_size=10&status=${newLetter2[0].status}`,
+      `/students/letters?page=2&page_size=10&ref=${newLetter2[0].ref}`,
+      newLetter2
+    ).as("getLettersFilteredByRef2");
+    cy.intercept(
+      "GET",
+      `/students/letters?page=1&page_size=10&status=${newLetter2[0].status}`,
       newLetter2
     ).as("getLettersFilteredByStatus");
-    cy.intercept("PUT", `*/letters`, (req) => {
+    cy.intercept(
+      "GET",
+      `/students/letters?page=2&page_size=10&status=${newLetter2[0].status}`,
+      newLetter2
+    ).as("getLettersFilteredByStatus2");
+    cy.intercept("PUT", `/letters`, (req) => {
       req.reply({
         statusCode: 200,
         body: {
@@ -86,8 +111,9 @@ describe("Manager.Letters", () => {
     cy.get('[role="option"]').contains("En attente").click();
     cy.contains("Appliquer").click();
     cy.wait("@getLettersFilteredByStatus");
-    cy.getByTestid("more-icon-item").click();
-    cy.getByTestid("accept-letter-button").click();
+    cy.wait("@getLettersFilteredByStatus2");
+    cy.get("#letter-option").first().click();
+    cy.get("#accept-letter-button").click();
     cy.get(".ra-confirm").click();
     cy.wait("@updateLetter").then((interception) => {
       expect(interception.response!.statusCode).to.eq(200);
@@ -105,8 +131,9 @@ describe("Manager.Letters", () => {
     cy.get('[role="option"]').contains("En attente").click();
     cy.contains("Appliquer").click();
     cy.wait("@getLettersFilteredByStatus");
-    cy.getByTestid("more-icon-item").click();
-    cy.getByTestid("refuse-button").click();
+    cy.wait("@getLettersFilteredByStatus2");
+    cy.get("#letter-option").first().click();
+    cy.get("#refuse-button").click();
     cy.getByTestid("refuse-reason-input").type(
       "because your document is not valid"
     );

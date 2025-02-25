@@ -9,12 +9,17 @@ describe("Manager announcements", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
 
-    cy.intercept("POST", `*/announcements`, createdAnnouncement);
+    cy.intercept("POST", `/announcements`, createdAnnouncement);
     cy.intercept(
       "GET",
-      `*/announcements?page=1&page_size=10`,
+      `/announcements?page=1&page_size=10`,
       announcementsMock
     ).as("getAnnouncements");
+    cy.intercept(
+      "GET",
+      `/announcements?page=2&page_size=10`,
+      announcementsMock
+    ).as("getAnnouncements2");
 
     cy.get('[href="/announcements"]').click();
   });
@@ -42,7 +47,7 @@ describe("Manager announcements", () => {
 
     cy.intercept(
       "GET",
-      `*/announcements/${createdAnnouncement.id}`,
+      `/announcements/${createdAnnouncement.id}`,
       createdAnnouncement
     );
 
