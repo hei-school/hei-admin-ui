@@ -51,6 +51,7 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
     <Box>
       <Button
         data-testid="refuse-button"
+        id="refuse-button"
         startIcon={<Unpublished />}
         sx={{
           "color": "#d84315",

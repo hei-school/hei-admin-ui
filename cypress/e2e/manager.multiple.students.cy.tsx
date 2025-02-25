@@ -22,6 +22,11 @@ describe("Manager create multiple students", () => {
       `/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
       [student1Mock]
     ).as("getStudentsByName");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&last_name=${student1Mock.last_name}`,
+      [student1Mock]
+    ).as("getStudentsByName2");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
     cy.intercept("GET", `/students/letters/stats`, {}).as("getStats");
     cy.wait("@getWhoami", {timeout: 10000});

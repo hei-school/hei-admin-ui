@@ -19,6 +19,11 @@ describe("Manager.feesTemplates", () => {
       "/fees/templates?page=1&page_size=10",
       feesTemplatesMocks
     ).as("getFeesTemplates");
+    cy.intercept(
+      "GET",
+      "/fees/templates?page=2&page_size=10",
+      feesTemplatesMocks
+    ).as("getFeesTemplates2");
     cy.intercept("PUT", `/fees/templates/**`, feesTemplate1Updated).as(
       "putFeeTemplate1"
     );

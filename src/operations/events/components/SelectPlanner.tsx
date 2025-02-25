@@ -20,6 +20,7 @@ function SelectUserPlanner() {
         .getList("teachers", {
           filter: {ref},
           pagination: {perPage: MAX_ITEM_PER_PAGE, page: 1},
+          sort: {field: "id", order: "DESC"},
         })
         .then(({data}) => {
           setTeachers(data);

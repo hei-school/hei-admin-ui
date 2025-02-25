@@ -26,6 +26,11 @@ describe("Manager.Payment", () => {
       `students?page=1&page_size=10&ref=${student1Mock.ref}`,
       [student1Mock]
     ).as("getStudents");
+    cy.intercept(
+      "GET",
+      `students?page=2&page_size=10&ref=${student1Mock.ref}`,
+      [student1Mock]
+    ).as("getStudents2");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
@@ -36,6 +41,11 @@ describe("Manager.Payment", () => {
     ).as("getfees");
     cy.intercept(
       "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      feesMock
+    ).as("getfees2");
+    cy.intercept(
+      "GET",
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
       unpaidFeeMock
     ).as("getUnpaidFee");
@@ -44,6 +54,11 @@ describe("Manager.Payment", () => {
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=1&page_size=10`,
       []
     ).as("getPaymentOfUnpaidFee");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments?page=2&page_size=10`,
+      []
+    ).as("getPaymentOfUnpaidFee2");
     cy.intercept(
       "POST",
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/payments`,

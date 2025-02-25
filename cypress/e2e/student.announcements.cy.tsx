@@ -14,6 +14,11 @@ describe("Student announcements", () => {
       `/students/announcements?page=1&page_size=10`,
       announcementsMock
     ).as("getAnnouncements");
+    cy.intercept(
+      "GET",
+      `/students/announcements?page=2&page_size=10`,
+      announcementsMock
+    ).as("getAnnouncements2");
 
     cy.get('[href="/announcements"]').click();
   });

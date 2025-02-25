@@ -13,6 +13,11 @@ describe("Mobile payment by student", () => {
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
       feesMock
     ).as("getFees");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      feesMock
+    ).as("getFees2");
 
     cy.login({role: "STUDENT"});
     cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
@@ -46,6 +51,11 @@ describe("Mobile payment by student", () => {
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
       [{mpbs: fee1MockMpbs, ...fee1Mock}, ...fees]
     ).as("getMpbsFees");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      [{mpbs: fee1MockMpbs, ...fee1Mock}, ...fees]
+    ).as("getMpbsFees2");
 
     cy.getByTestid(
       `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`

@@ -21,6 +21,9 @@ describe("Manager.Courses", () => {
     cy.intercept("GET", `/courses?page=1&page_size=10`, courseMocks).as(
       "getCoursesPage1"
     );
+    cy.intercept("GET", `/courses?page=2&page_size=10`, courseMocks).as(
+      "getCoursesPage2"
+    );
     cy.intercept("GET", `/courses/${courseMock1.id}`, courseMock1).as(
       "getCourses1"
     );
@@ -29,6 +32,11 @@ describe("Manager.Courses", () => {
       `/courses?name=${courseMock1.name}&page=1&page_size=10`,
       [courseMock1]
     ).as("getFilteredCourses");
+    cy.intercept(
+      "GET",
+      `/courses?name=${courseMock1.name}&page=2&page_size=10`,
+      [courseMock1]
+    ).as("getFilteredCourses2");
     cy.getByTestid("course-menu").click();
     cy.wait("@getCoursesPage1");
     cy.intercept(

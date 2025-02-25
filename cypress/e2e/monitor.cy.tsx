@@ -23,6 +23,11 @@ describe("Monitors", () => {
       `/monitors/${monitor1Mock.id}/students?page=1&page_size=10`,
       studentsMock
     ).as("getStudents");
+    cy.intercept(
+      "GET",
+      `/monitors/${monitor1Mock.id}/students?page=2&page_size=10`,
+      studentsMock
+    ).as("getStudents2");
 
     cy.get('[href="/monitors/monitor1_id/students"]').click();
     cy.wait("@getStudents");

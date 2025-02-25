@@ -55,6 +55,12 @@ describe("Global.Comments", () => {
       `/comments?page=1&page_size=10`,
       commentMocks.slice(0, ITEM_PER_LIST2)
     ).as("getCommentsPage1");
+
+    cy.intercept(
+      "GET",
+      `/comments?page=2&page_size=10`,
+      commentMocks.slice(0, ITEM_PER_LIST2)
+    ).as("getCommentsPage2");
   });
 
   it("manager can list global comments", () => {

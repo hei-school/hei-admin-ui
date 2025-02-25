@@ -14,6 +14,11 @@ describe("Manager announcements", () => {
       `/teachers/announcements?page=1&page_size=10`,
       announcementsMock
     ).as("getAnnouncements");
+    cy.intercept(
+      "GET",
+      `/teachers/announcements?page=2&page_size=10`,
+      announcementsMock
+    ).as("getAnnouncements2");
 
     cy.get('[href="/announcements"]').click();
   });

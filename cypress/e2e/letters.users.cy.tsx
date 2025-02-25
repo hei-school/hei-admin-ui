@@ -24,6 +24,11 @@ const testLettersFunctionality = (
       `/users/${userId}/letters?page=1&page_size=10`,
       letterMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage1");
+    cy.intercept(
+      "GET",
+      `/users/${userId}/letters?page=2&page_size=10`,
+      letterMocks.slice(0, ITEM_PER_LIST)
+    ).as("getusers1LettersPage2");
     cy.intercept("POST", `/users/${userId}/letters?*`, newLetter).as(
       "createLetter"
     );
@@ -66,25 +71,31 @@ describe("Manager.Letters.student", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );
+    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+      "getStudents2"
+    );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByName");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
+      [student1Mock]
+    ).as("getStudentsByName2");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
-    cy.contains("Page : 1");
+    cy.contains("Page :1");
     cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
     cy.wait("@getStudentsByName");
-    cy.contains("Page : 1");
-    cy.contains("Taille : 1 ");
     cy.contains(student1Mock.first_name).click();
   });
 
@@ -94,6 +105,11 @@ describe("Manager.Letters.student", () => {
       `/users/${student1Mock.id}/letters?page=1&page_size=10`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage1");
+    cy.intercept(
+      "GET",
+      `/users/${student1Mock.id}/letters?page=2&page_size=10`,
+      student1LettersMocks.slice(0, ITEM_PER_LIST)
+    ).as("getusers1LettersPage2");
     cy.getByTestid("letters-list-tab").click();
     cy.wait("@getusers1LettersPage1");
     cy.getByTestid("letter-list-wrapper")

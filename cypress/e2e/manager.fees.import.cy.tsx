@@ -29,11 +29,19 @@ describe("Manager import fees for one students", () => {
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
+    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+      "getStudentsPage2"
+    );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByFirstName");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
+      [student1Mock]
+    ).as("getStudentsByFirstName2");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
@@ -43,6 +51,12 @@ describe("Manager import fees for one students", () => {
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
       feesMock
     ).as("getStudent1Fees");
+
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      feesMock
+    ).as("getStudent1Fees2");
 
     cy.wait("@getWhoami", {timeout: 10000});
     cy.intercept("GET", `/manager/${manager1Mock.id}`, manager1Mock).as(

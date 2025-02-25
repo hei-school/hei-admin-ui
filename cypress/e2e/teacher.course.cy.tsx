@@ -12,12 +12,22 @@ describe("Teacher course", () => {
       `/students/${student1Mock.id}/letters?page=1&page_size=10`,
       student1LettersMocks.slice(0, 10)
     ).as("getStudent1LettersPage1");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/letters?page=2&page_size=10`,
+      student1LettersMocks.slice(0, 10)
+    ).as("getStudent1LettersPage2");
     cy.getByTestid("course-menu").click();
     cy.intercept(
       "GET",
       `/awarded_courses?teacher_id=${teacher1Mock.id}&page=1&page_size=10`,
       [awardedCourse1Mock]
     ).as("getTeacherAwardedCourse");
+    cy.intercept(
+      "GET",
+      `/awarded_courses?teacher_id=${teacher1Mock.id}&page=2&page_size=10`,
+      [awardedCourse1Mock]
+    ).as("getTeacherAwardedCourse2");
   });
 
   it("can get courses assigned to teacher", () => {

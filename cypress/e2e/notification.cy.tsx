@@ -31,6 +31,11 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
       `/students?page=1&page_size=10&last_name=${student1Mock.last_name}`,
       [student1Mock]
     ).as("getStudentsByName");
+    cy.intercept(
+      "GET",
+      `/students?page=2&page_size=10&last_name=${student1Mock.last_name}`,
+      [student1Mock]
+    ).as("getStudentsByName2");
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
@@ -42,13 +47,17 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
       `/teachers?page=1&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
       [teacher1Mock]
     ).as("getTeacherByName");
-
+    cy.intercept(
+      "GET",
+      `/teachers?page=2&page_size=10&first_name=${teacherNameToBeCheckedMock}`,
+      [teacher1Mock]
+    ).as("getTeacherByName2");
     cy.contains("Enseignants");
     cy.contains("Étudiants");
     cy.getByTestid("students-menu").click();
     cy.get('[href="/students"]').click();
-    cy.contains("Page : 1");
-    cy.contains(`Taille : ${studentsMock.length}`);
+    cy.contains("Page :1");
+    cy.contains(`Taille :${studentsMock.length}`);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.get("#ref").type(createStudent.ref);
@@ -80,11 +89,19 @@ describe("Notifications on error when edit, e.g: TeacherEdit", () => {
     cy.intercept("GET", "/teachers?page=1&page_size=10", teachersMock).as(
       "getTeachers"
     );
+    cy.intercept("GET", "/teachers?page=2&page_size=10", teachersMock).as(
+      "getTeachers2"
+    );
     cy.intercept(
       "GET",
       /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/,
       [teacher1Mock]
     ).as("getFilters");
+    cy.intercept(
+      "GET",
+      /teachers\?page=2&page_size=10&(first_name|ref|last_name)=/,
+      [teacher1Mock]
+    ).as("getFilters2");
     cy.intercept("GET", `/teachers/${teachersMock[0].id}`, teachersMock[0]).as(
       "getTeachers1"
     );
