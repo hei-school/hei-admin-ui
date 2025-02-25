@@ -6,14 +6,26 @@ import {
   TextFilter,
 } from "@/ui/haToolbar";
 import {Box, Divider, Typography} from "@mui/material";
+import React, {useState} from "react";
 import {
   FEE_STATUS_CHOICES,
   FEES_TYPES_CHOICES,
   MPBS_CHOICES,
 } from "../constants";
 
-export const FeesFilters = () => {
+interface FeesFilterProps {
+  onStatusChange: (status: string) => void;
+}
+
+export const FeesFilters: React.FC<FeesFilterProps> = ({onStatusChange}) => {
   const {isManager, isAdmin} = useRole();
+  const [selectedStatus, setSelectedStatus] = useState("");
+
+  const handleStatusChange = (event: React.ChangeEvent<{value: unknown}>) => {
+    const newStatus = event.target.value as string;
+    setSelectedStatus(newStatus);
+    onStatusChange(newStatus);
+  };
 
   return (
     <FilterForm>
@@ -23,12 +35,15 @@ export const FeesFilters = () => {
             label="Référence étudiante"
             source="student_ref"
             sx={{marginBottom: 2}}
+            fullWidth
           />
           <SelectInputFilter
             data-testid="filter-fees-status"
             label="Statut du paiement du frais"
             source="status"
             choices={FEE_STATUS_CHOICES}
+            value={selectedStatus}
+            onChange={handleStatusChange}
           />
           <SelectInputFilter
             data-testid="filter-fees-type"

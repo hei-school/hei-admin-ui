@@ -14,12 +14,32 @@ import {FeesExport} from "./utils/FeesExport";
 
 const ByStatusFeeList = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [paymentStatus, setPaymentStatus] = useState("");
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
+  const handlePaymentStatusChange = (newStatus: any) => {
+    setPaymentStatus(newStatus);
+  };
+
+  const getStatusTitle = () => {
+    switch (paymentStatus) {
+      case "PAID":
+        return "payés";
+      case "UNPAID":
+        return "en cours";
+      case "PENDING":
+        return "en cours de vérification";
+      default:
+        return "en retard";
+    }
+  };
+
   return (
     <Box>
       <HaList
@@ -29,7 +49,7 @@ const ByStatusFeeList = () => {
         header={
           <FeesListHeader
             isMpbs={false}
-            title="Statistiques des frais filtrés par statut (en retard par défaut)"
+            title={`Statistiques des frais ${getStatusTitle()}`}
           />
         }
         listProps={{
@@ -38,7 +58,7 @@ const ByStatusFeeList = () => {
         }}
         actions={
           <>
-            <FeesFilters />
+            <FeesFilters onStatusChange={handlePaymentStatusChange} />
             <Button
               startIcon={<Download />}
               onClick={handleOpenDialog}
