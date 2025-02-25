@@ -6,7 +6,8 @@ import {
   TextFilter,
 } from "@/ui/haToolbar";
 import {Box, Divider, Typography} from "@mui/material";
-import React, {useState} from "react";
+import React from "react";
+import {useListContext} from "react-admin";
 import {
   FEE_STATUS_CHOICES,
   FEES_TYPES_CHOICES,
@@ -14,17 +15,19 @@ import {
 } from "../constants";
 
 interface FeesFilterProps {
-  onStatusChange: (status: string) => void;
+  onStatusChange?: (status: string) => void;
 }
 
 export const FeesFilters: React.FC<FeesFilterProps> = ({onStatusChange}) => {
   const {isManager, isAdmin} = useRole();
-  const [selectedStatus, setSelectedStatus] = useState("");
+  const {filterValues, setFilters, displayedFilters} = useListContext();
 
   const handleStatusChange = (event: React.ChangeEvent<{value: unknown}>) => {
     const newStatus = event.target.value as string;
-    setSelectedStatus(newStatus);
-    onStatusChange(newStatus);
+    setFilters({...filterValues, status: newStatus}, displayedFilters, false);
+    if (onStatusChange) {
+      onStatusChange(newStatus);
+    }
   };
 
   return (
@@ -42,7 +45,7 @@ export const FeesFilters: React.FC<FeesFilterProps> = ({onStatusChange}) => {
             label="Statut du paiement du frais"
             source="status"
             choices={FEE_STATUS_CHOICES}
-            value={selectedStatus}
+            value={filterValues.status || ""}
             onChange={handleStatusChange}
           />
           <SelectInputFilter

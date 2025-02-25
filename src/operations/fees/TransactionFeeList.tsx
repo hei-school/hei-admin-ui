@@ -34,7 +34,7 @@ const TransactionFeeList = () => {
         }}
         actions={
           <>
-            <FeesFilters />
+            <FeesFilters onStatusChange={undefined} />
             <Button
               startIcon={<Download />}
               onClick={handleOpenDialog}
