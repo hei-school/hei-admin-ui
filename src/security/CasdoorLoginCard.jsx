@@ -3,16 +3,17 @@ import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
 import {useEffect} from "react";
 import {useCheckAuth} from "react-admin";
-import {getRedirectUrl, goToLink, showMessage} from "./setting";
+import {getRedirectUrl, goToLink} from "./setting";
 
 const casdoorLogin = () => {
-  getRedirectUrl().then((res) => {
-    if (res?.status === "ok") {
-      goToLink(res.data);
-    } else {
-      showMessage("failed to get redirect url");
+  (async () => {
+    try {
+      const url = await getRedirectUrl();
+      goToLink(url);
+    } catch (error) {
+      console.error("Failed to fetch redirect URL:", error);
     }
-  });
+  })();
 };
 
 const CasdoorLoginCard = () => {
