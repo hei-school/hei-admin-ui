@@ -13,7 +13,7 @@ const AuthCallback: React.FC = () => {
           Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
       }
-    ).then((res) => res.json());
+    );
   };
 
   const cacheWhoami = (whoami: Whoami) => {
@@ -46,9 +46,9 @@ const AuthCallback: React.FC = () => {
     const urlParams = new URLSearchParams(window.location.search);
     const code = urlParams.get("code");
     const state = urlParams.get("state");
-    handleCallback(code!, state!).then((res) => {
-      if (res?.status === "ok") {
-        setSession(res.data);
+    handleCallback(code!, state!).then(async (res) => {
+      if (res.ok) {
+        setSession(await res.text());
       } else {
         setTimeout(() => {
           goToLink("/login");
