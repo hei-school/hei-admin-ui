@@ -29,7 +29,9 @@
     "cypress-multi-reporters": "^2.0.4",
     "cypress-vite": "^1.5.0",
     "dayjs": "^1.11.13",
+    "dom-to-image": "^2.6.0",
     "dotenv": "^16.4.5",
+    "jspdf": "^2.5.2",
     "mime": "^4.0.3",
     "ra-language-french": "^4.16.15",
     "react": "^18.2.0",
@@ -42,6 +44,7 @@
   "devDependencies": {
     "@cypress/code-coverage": "^3.12.34",
     "@skodaflow/sonar-report-merger": "^1.0.2",
+    "@types/dom-to-image": "^2.6.7",
     "@types/node": "^20.12.7",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
