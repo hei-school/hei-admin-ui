@@ -29,10 +29,19 @@ export const goToLink = (link) => {
   window.location.href = link;
 };
 
-export const getRedirectUrl = () => {
+export const getRedirectUrl = async () => {
   return fetch(`${ServerUrl}/authentication/login-url`, {
     method: "GET",
-  }).then((res) => res.json());
+  })
+    .then((response) => {
+      return response.text();
+    })
+    .then((data) => {
+      return data;
+    })
+    .catch((error) => {
+      throw error;
+    });
 };
 
 export const getUserinfo = () => {
