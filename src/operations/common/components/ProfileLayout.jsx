@@ -611,11 +611,6 @@ export const Informations = ({
           <CommentList studentId={profile.id} />
         </TabbedShowLayout.Tab>
       )}
-      {isStudentProfile && (
-        <TabbedShowLayout.Tab label="Notes" style={{fontSize: "0.8rem"}}>
-          <StudentGradeList studentId={profile.id} />
-        </TabbedShowLayout.Tab>
-      )}
       {isStudentProfile &&
         (role.isManager() || role.isAdmin() || role.isMonitor()) && (
           <TabbedShowLayout.Tab

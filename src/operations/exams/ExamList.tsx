@@ -21,7 +21,6 @@ import {
   Typography,
 } from "@mui/material";
 import {List, useListContext} from "react-admin";
-import {useNavigate} from "react-router-dom";
 import {FilterExam} from "./components";
 
 export const ExamList = () => {
@@ -56,7 +55,6 @@ export const ExamList = () => {
 
 export const ExamCard = () => {
   const {data: exams = []} = useListContext();
-  const navigate = useNavigate();
 
   return (
     <Box sx={{padding: "20px", minHeight: "100vh"}}>
@@ -93,13 +91,9 @@ export const ExamCard = () => {
                     <Typography
                       variant="h6"
                       sx={{
-                        "fontWeight": "bold",
-                        "cursor": "pointer",
-                        "&:hover": {
-                          textDecoration: "underline",
-                        },
+                        fontWeight: "bold",
+                        cursor: "pointer",
                       }}
-                      onClick={() => navigate(`/exams/${exam.id}/grades`)}
                     >
                       {exam.title}
                     </Typography>
