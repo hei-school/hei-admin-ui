@@ -32,7 +32,7 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import AuthCallback from "./security/CasdoorAuth.tsx";
+import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
 function AppBase() {
   return (
@@ -266,7 +266,7 @@ function App() {
       <BrowserRouter>
         <AwsWafCaptchaHandler />
         <Routes>
-          <Route path="callback" element={<AuthCallback />} />
+          <Route path="callback" element={<CasdoorAuthCallback />} />
           <Route path="/human-verification" element={<HumanVerification />} />
           <Route path="*" element={<AppBase />} />
         </Routes>
