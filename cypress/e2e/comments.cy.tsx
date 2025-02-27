@@ -17,7 +17,7 @@ describe("Student.Comments", () => {
     ).as("getStudent1CommentsPage2");
   });
 
-  it.only("student can list his comments", () => {
+  it("student can list his comments", () => {
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/comments?page=1&page_size=10`,
