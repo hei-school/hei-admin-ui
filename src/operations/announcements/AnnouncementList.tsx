@@ -33,7 +33,7 @@ const cardStyle: React.CSSProperties = {
   marginTop: "50px",
 };
 
-const getChipColor = (scope: string) => {
+export const getChipColor = (scope: string) => {
   switch (scope) {
     case Scope.GLOBAL:
       return PALETTE_COLORS.primary;
