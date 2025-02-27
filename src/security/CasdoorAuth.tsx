@@ -3,8 +3,12 @@ import {FC, useEffect} from "react";
 import {LoadingPage} from "react-admin";
 import {clearToken, goToLink, ServerUrl, setToken} from "./setting";
 
-const AuthCallback: FC = () => {
-  const handleCallback = (code: string, state: string) => {
+const CasdoorAuthCallback: FC = () => {
+  const urlParams = new URLSearchParams(window.location.search);
+  const code = urlParams.get("code");
+  const state = urlParams.get("state");
+
+  const getToken = (code: string, state: string) => {
     return fetch(
       `${ServerUrl}/authentication/signin?code=${code}&state=${state}`,
       {
@@ -43,19 +47,18 @@ const AuthCallback: FC = () => {
   };
 
   useEffect(() => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const code = urlParams.get("code");
-    const state = urlParams.get("state");
-    handleCallback(code!, state!).then(async (res) => {
-      if (res.ok) {
-        setSession(await res.text());
-      } else {
-        setTimeout(() => {
-          goToLink("/login");
-        }, 6000);
-      }
-    });
-  }, []);
+    if (code && state) {
+      getToken(code, state).then(async (res) => {
+        if (res.ok) {
+          setSession(await res.text());
+        } else {
+          setTimeout(() => {
+            goToLink("/login");
+          }, 6000);
+        }
+      });
+    }
+  }, [code, state]);
 
   return (
     <LoadingPage
@@ -65,4 +68,4 @@ const AuthCallback: FC = () => {
   );
 };
 
-export default AuthCallback;
+export default CasdoorAuthCallback;
