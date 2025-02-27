@@ -68,7 +68,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
 
   cy.intercept(
     {
-      url: /.*awswaf.*telemetry.*/, // Match any URL containing 'awswaf' and 'telemetry'
+      url: /.*awswaf.*telemetry.*/,
       method: "POST",
     },
     {
@@ -90,14 +90,11 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
 
   cy.visit("/login");
 
-  // have to click 'cause of MUI input style
   cy.get('[data-testid="casdoor-login-btn"]', {timeout: 15000}).click();
 
   cy.wait("@getRedirectionURL");
 
   cy.origin("https://numer.casdoor.com", () => {
-    // Saisie de l'identifiant (email ou téléphone)
-
     cy.get(
       'input[placeholder="identifiant, adresse e-mail ou téléphone"], input[placeholder="username, Email or phone"]',
       {timeout: 45000}
@@ -109,13 +106,6 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     cy.get('input[placeholder="Mot de passe"], input[placeholder="Password"')
       .click()
       .type("_password_here_");
-    /*
-        // Clic sur "Se connecter"
-    cy.contains(/Se connecter|Sign In/).click()
-    .then(() => {
-      attemptConnection = true;
-    });
-  */
   });
 
   cy.visit(`/callback?code=${role}&state=HEI Admin`);
@@ -124,7 +114,6 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     cy.intercept("**/authentication/signin", casdoorSignin).as(
       "getCasdoorToken"
     );
-    //cy.wait("@casdoorSignin");
     cy.intercept("**/whoami", whoami).as("getWhoami");
     cy.wait("@getProfile");
   }
