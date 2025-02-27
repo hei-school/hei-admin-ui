@@ -1,9 +1,9 @@
 import {Whoami} from "@haapi/typescript-client";
-import React, {useEffect} from "react";
+import {FC, useEffect} from "react";
 import {LoadingPage} from "react-admin";
 import {clearToken, goToLink, ServerUrl, setToken} from "./setting";
 
-const AuthCallback: React.FC = () => {
+const AuthCallback: FC = () => {
   const handleCallback = (code: string, state: string) => {
     return fetch(
       `${ServerUrl}/authentication/signin?code=${code}&state=${state}`,
