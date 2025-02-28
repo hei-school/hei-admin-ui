@@ -1,5 +1,3 @@
-import React, {FC} from "react";
-
 import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
 import {HaListTitle} from "@/ui/haList";
@@ -16,17 +14,16 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import React, {FC} from "react";
 import {Link, List, useListContext} from "react-admin";
 import {AnnouncementFilter} from "./components";
 import {EmailField} from "./components/EmailField";
 import {getBgImg} from "./utils/getBgImg";
 
 const cardStyle: React.CSSProperties = {
-  width: "300px",
-  display: "inline-block",
-  verticalAlign: "top",
+  minWidth: "300px",
   borderRadius: "7px",
-  boxShadow: " 0 0 10px rgb(182, 182, 182)",
+  boxShadow: "0 0 10px rgb(182, 182, 182)",
   borderBottom: "10px solid",
   position: "relative",
   overflow: "visible",
@@ -38,53 +35,50 @@ export const getChipColor = (scope: string) => {
     case Scope.GLOBAL:
       return PALETTE_COLORS.primary;
     case Scope.STUDENT:
-      return PALETTE_COLORS.yellow;
     case Scope.TEACHER:
-      return PALETTE_COLORS.yellow;
     case Scope.MANAGER:
       return PALETTE_COLORS.yellow;
     default:
       return PALETTE_COLORS.yellow;
   }
 };
-
 const AnnouncementsGrid = () => {
   const {data: announcements = []} = useListContext();
-
-  const isSmall = useMediaQuery("(max-width:900px)");
+  const isSmall = useMediaQuery("(max-width:600px)");
+  const isTablet = useMediaQuery("(min-width:601px) and (max-width:900px)");
+  const isMedium = useMediaQuery("(min-width:901px) and (max-width:1400px)");
   const isDesktop = useMediaQuery("(min-width:1400px)");
-  const customStyles = {
-    justifyContent: isSmall
-      ? "center"
-      : isDesktop
-        ? "flex-start"
-        : "space-evenly",
-    gap: isDesktop ? "2rem " : "1rem",
-    padding: isDesktop ? "1.6rem 3rem" : "1.5rem 0.5vw",
-    margin: isDesktop ? "0 auto" : "0",
+
+  const getGridTemplateColumns = () => {
+    if (isSmall) return "1fr";
+    if (isTablet) return "1fr 1fr";
+    if (isMedium) return "1fr 1fr 1fr";
+    if (isDesktop) return "1fr 1fr 1fr 1fr";
+    return "1fr";
   };
 
   return (
     <Box
-      display="flex"
-      flexWrap="wrap"
-      padding="1rem"
-      paddingLeft="2rem"
-      justifyContent={customStyles.justifyContent}
-      gap={customStyles.gap}
+      display="grid"
+      gridTemplateColumns={getGridTemplateColumns()}
+      gap="1.5rem"
+      padding="1.5rem"
+      sx={{
+        justifyItems: announcements.length <= 2 ? "start" : "center",
+        paddingLeft: "2rem",
+      }}
     >
       {announcements.map((announcement: Announcement) => (
         <Link
+          key={announcement.id}
           to={`/announcements/${announcement.id}/show`}
           sx={{
             ...cardStyle,
             "borderColor": getChipColor(announcement?.scope!),
-            "&:hover": {
-              transform: "scale(1.05)",
-            },
+            "&:hover": {transform: "scale(1.05)"},
           }}
         >
-          <Card key={announcement.id} component="div">
+          <Card component="div">
             <CardMedia
               component="img"
               image={getBgImg(announcement?.scope!)}
@@ -104,7 +98,7 @@ const AnnouncementsGrid = () => {
               sx={{
                 backgroundColor: getChipColor(announcement?.scope!),
                 height: "60px",
-                padding: "1rem ",
+                padding: "1rem",
                 borderRadius: "7px 7px 0 0",
               }}
             />
@@ -122,8 +116,8 @@ const AnnouncementsGrid = () => {
                 sx={{
                   display: "flex",
                   flexDirection: "row",
-                  position: "relative",
                   padding: "1rem",
+                  position: "relative",
                 }}
               >
                 <Campaign
@@ -131,15 +125,11 @@ const AnnouncementsGrid = () => {
                     color: getChipColor(announcement?.scope!),
                     fontSize: "2.5rem",
                     position: "absolute",
-                    top: "-1vh",
+                    top: 0,
                     transform: "rotate(-10deg)",
                   }}
                 />
-                <Typography
-                  sx={{
-                    textIndent: "2.5rem",
-                  }}
-                >
+                <Typography sx={{textIndent: "2.5rem"}}>
                   Cliquez sur la carte pour accéder à l'annonce complète et
                   découvrir tous les détails pertinents.
                 </Typography>
