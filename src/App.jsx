@@ -16,6 +16,7 @@ import MonitorStudentList from "@/operations/monitors/component/MonitorStudentLi
 import payments from "@/operations/payments";
 import profile from "@/operations/profile";
 import promotions from "@/operations/promotions";
+import publicContent from "@/operations/public";
 import staffMembers from "@/operations/staffMembers";
 import students from "@/operations/students";
 import teachers from "@/operations/teachers";
@@ -30,6 +31,7 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import Students from '@/operations/students';
 
 function AppBase() {
   return (
@@ -264,6 +266,7 @@ function App() {
       <BrowserRouter>
         <AwsWafCaptchaHandler />
         <Routes>
+          <Route path="/calendar" element={<publicContent.calendar />} />
           <Route path="/human-verification" element={<HumanVerification />} />
           <Route path="*" element={<AppBase />} />
         </Routes>
