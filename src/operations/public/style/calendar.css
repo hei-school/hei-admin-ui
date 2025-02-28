@@ -1,0 +1,89 @@
+/* ---- TOOLBAR STYLES ---- */
+.rbc-toolbar {
+  padding: 1rem 0;
+  background-color: #001948;
+  color: white;
+  margin-bottom: 0;
+}
+
+/* ---- BUTTON GROUP ---- */
+.rbc-toolbar .rbc-btn-group {
+  display: flex;
+  padding: 10px;
+  gap: 1rem;
+}
+
+.rbc-toolbar .rbc-btn-group button {
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  padding: 0.5rem 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-family: inherit;
+  background-color: #7495e0;
+  color: white;
+  gap: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.rbc-toolbar .rbc-btn-group button:hover {
+  background-color: #5b7fcf;
+}
+
+/* ---- TOOLBAR LABEL ---- */
+.rbc-toolbar .rbc-toolbar-label {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+/* ---- TIME VIEW ---- */
+.rbc-time-view {
+  border: none;
+}
+
+.rbc-time-view .rbc-time-header {
+  padding: 1rem 0;
+  color: white;
+  background-color: #7495e0;
+}
+
+/* ---- HEADER ---- */
+.rbc-header {
+  padding: 0.5rem;
+  border-radius: 20px;
+}
+
+/* ---- TODAY'S DATE HIGHLIGHT ----- */
+.rbc-today {
+  color: #001948;
+}
+
+.rbc-header .rbc-today {
+  background-color: transparent;
+  border: none;
+}
+
+/* ----- TIME HEADER ADJUSTMENT ---- */
+.rbc-time-view .rbc-time-header span {
+  padding: 1rem 0;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+.rbc-time-view .rbc-time-header .rbc-allday-cell {
+  display: none;
+}
+
+/* ---- BORDER & SHADOW CLEANUP ---- */
+.rbc-header,
+.rbc-day-bg,
+.rbc-time-slot,
+.rbc-time-header-cell,
+.rbc-timeslot-group,
+.rbc-date-cell {
+  border: none !important;
+  box-shadow: none !important;
+}

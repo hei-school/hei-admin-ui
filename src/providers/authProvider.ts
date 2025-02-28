@@ -90,11 +90,6 @@ const authProvider = {
   },
 
   checkAuth: async (): Promise<void> => {
-    const publicRoute = "/public";
-
-    if (publicRoute.includes(window.location.hostname))
-      return Promise.resolve();
-
     await whoami()
       .then(async (whoami) => {
         if (

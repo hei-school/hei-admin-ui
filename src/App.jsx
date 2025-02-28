@@ -31,7 +31,6 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-import Students from '@/operations/students';
 
 function AppBase() {
   return (
