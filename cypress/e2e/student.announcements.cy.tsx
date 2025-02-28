@@ -11,12 +11,12 @@ describe("Student announcements", () => {
     cy.intercept("POST", `/announcements`, createdAnnouncement);
     cy.intercept(
       "GET",
-      `/students/announcements?page=1&page_size=10`,
+      `/students/announcements?page=1&page_size=12`,
       announcementsMock
     ).as("getAnnouncements");
     cy.intercept(
       "GET",
-      `/students/announcements?page=2&page_size=10`,
+      `/students/announcements?page=2&page_size=12`,
       announcementsMock
     ).as("getAnnouncements2");
 
