@@ -1,4 +1,5 @@
 import {BEARER_ITEM} from "@/providers/authProvider";
+import axios from "axios";
 import Sdk from "casdoor-js-sdk";
 
 export const SERVER_URL = process.env.REACT_APP_SERVER_URL;
@@ -31,27 +32,12 @@ export const goToLink = (link) => {
 };
 
 export const getRedirectUrl = async () => {
-  return fetch(`${SERVER_URL}/authentication/login-url`, {
-    method: "GET",
-  })
-    .then((response) => {
-      return response.text();
-    })
-    .then((data) => {
-      return data;
-    })
-    .catch((error) => {
-      throw error;
-    });
-};
-
-export const getUserinfo = () => {
-  return fetch(`${SERVER_URL}/authentication/userinfo`, {
-    method: "GET",
-    headers: {
-      Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
-    },
-  }).then((res) => res.json());
+  try {
+    const response = await axios.get(`${SERVER_URL}/authentication/login-url`);
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
 };
 
 export const logout = () => {

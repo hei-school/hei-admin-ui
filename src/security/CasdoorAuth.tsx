@@ -1,5 +1,6 @@
 import {BEARER_ITEM, ID_ITEM, ROLE_ITEM} from "@/providers/authProvider";
 import {Whoami} from "@haapi/typescript-client";
+import axios from "axios";
 import {FC, useEffect} from "react";
 import {LoadingPage} from "react-admin";
 import {clearToken, goToLink, SERVER_URL, setToken} from "./setting";
@@ -9,16 +10,23 @@ const CasdoorAuthCallback: FC = () => {
   const code = urlParams.get("code");
   const state = urlParams.get("state");
 
-  const getToken = (code: string, state: string) => {
-    return fetch(
-      `${SERVER_URL}/authentication/signin?code=${code}&state=${state}`,
-      {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
-        },
-      }
-    );
+  const getToken = async (code: string, state: string) => {
+    try {
+      const response = await axios.post(
+        `${SERVER_URL}/authentication/signin`,
+        null,
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
+          },
+          params: {code, state},
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error("Error fetching token:", error);
+      throw error;
+    }
   };
 
   const cacheWhoami = (whoami: Whoami) => {
@@ -31,23 +39,18 @@ const CasdoorAuthCallback: FC = () => {
     try {
       setToken(token);
 
-      const response = await fetch(`${SERVER_URL}/whoami`, {
-        method: "GET",
+      const response = await axios.get(`${SERVER_URL}/whoami`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
         },
       });
 
-      if (!response.ok) {
-        throw new Error("Invalid token");
-      }
-
-      const whoami = await response.json();
+      const whoami = response.data;
       cacheWhoami(whoami);
       clearToken();
       goToLink("/");
     } catch (error) {
-      console.error(error);
+      console.error("Invalid token: ", error);
       clearToken();
       goToLink("/");
     }
@@ -57,10 +60,9 @@ const CasdoorAuthCallback: FC = () => {
     const fetchData = async () => {
       if (code && state) {
         try {
-          const tokenRes = await getToken(code, state);
+          const token = await getToken(code, state);
 
-          if (tokenRes.ok) {
-            const token = await tokenRes.text();
+          if (token) {
             setSession(token);
           } else {
             setTimeout(() => {
@@ -69,6 +71,9 @@ const CasdoorAuthCallback: FC = () => {
           }
         } catch (error) {
           console.error("Error during token fetching:", error);
+          setTimeout(() => {
+            goToLink("/login");
+          }, 6000);
         }
       }
     };
