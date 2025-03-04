@@ -21,16 +21,22 @@ const loginWithCasdoor = (notify) => {
 const CasdoorLoginCard = () => {
   const notify = useNotify();
   const checkAuth = useCheckAuth();
+
   useEffect(() => {
-    checkAuth({}, false)
-      .then(() => {
+    const verifyAuth = async () => {
+      try {
+        await checkAuth({}, false);
         // already authenticated, redirect to the home page
         goToLink("/");
-      })
-      .catch(() => {
+      } catch (error) {
+        console.error("Authentication check failed:", error);
         // not authenticated, stay on the login page
-      });
+      }
+    };
+
+    verifyAuth();
   }, [checkAuth]);
+
   return (
     <Box
       display="flex"
