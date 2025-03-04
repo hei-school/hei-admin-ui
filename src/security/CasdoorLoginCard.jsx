@@ -1,3 +1,4 @@
+import defaultCasdoorLogo from "@/assets/casdoor-logo_1185x256.png";
 import {Card, CardContent} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -46,7 +47,6 @@ const CasdoorLoginCard = () => {
           textAlign: "center",
         }}
       >
-        <Box display="flex" justifyContent="center" mb={2}></Box>
         <Box display="flex" justifyContent="center" mb={2}>
           <Box
             sx={{
@@ -59,7 +59,7 @@ const CasdoorLoginCard = () => {
             }}
           >
             <img
-              src="https://cdn.casbin.org/img/casdoor-logo_1185x256.png"
+              src={defaultCasdoorLogo}
               alt="Logo"
               style={{
                 width: 240,
