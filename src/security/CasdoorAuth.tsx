@@ -1,7 +1,8 @@
+import {BEARER_ITEM, ID_ITEM, ROLE_ITEM} from "@/providers/authProvider";
 import {Whoami} from "@haapi/typescript-client";
 import {FC, useEffect} from "react";
 import {LoadingPage} from "react-admin";
-import {clearToken, goToLink, ServerUrl, setToken} from "./setting";
+import {clearToken, goToLink, SERVER_URL, setToken} from "./setting";
 
 const CasdoorAuthCallback: FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -10,30 +11,30 @@ const CasdoorAuthCallback: FC = () => {
 
   const getToken = (code: string, state: string) => {
     return fetch(
-      `${ServerUrl}/authentication/signin?code=${code}&state=${state}`,
+      `${SERVER_URL}/authentication/signin?code=${code}&state=${state}`,
       {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
         },
       }
     );
   };
 
   const cacheWhoami = (whoami: Whoami) => {
-    sessionStorage.setItem("idItem", whoami.id as string);
-    sessionStorage.setItem("roleItem", whoami.role as string);
-    sessionStorage.setItem("token", whoami.bearer as string);
+    sessionStorage.setItem(ID_ITEM, whoami.id as string);
+    sessionStorage.setItem(ROLE_ITEM, whoami.role as string);
+    sessionStorage.setItem(BEARER_ITEM, whoami.bearer as string);
   };
 
   const setSession = async (token: string) => {
     try {
       setToken(token);
 
-      const response = await fetch(`${ServerUrl}/whoami`, {
+      const response = await fetch(`${SERVER_URL}/whoami`, {
         method: "GET",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
         },
       });
 

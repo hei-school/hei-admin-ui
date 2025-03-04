@@ -13,9 +13,9 @@ import {awsConfig} from "./aws-config";
 
 Amplify.configure(awsConfig);
 
-const idItem = "ha_id";
-const roleItem = "ha_role";
-const bearerItem = "ha_bearer";
+export const ID_ITEM = "ha_id";
+export const ROLE_ITEM = "ha_role";
+export const BEARER_ITEM = "ha_bearer";
 const paramIsTemporaryPassword = "t";
 const paramUsername = "u";
 const paramTemporaryPassword = "p";
@@ -26,7 +26,7 @@ let refreshPromise: Promise<void> | null = null;
 
 const whoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
-  const token = sessionStorage.getItem("token") || "";
+  const token = sessionStorage.getItem(BEARER_ITEM) || "";
   conf.accessToken = token;
   const securityApi = new SecurityApi(conf);
   return securityApi
@@ -35,22 +35,22 @@ const whoami = async (): Promise<Whoami> => {
 };
 
 const cacheWhoami = (whoami: Whoami): void => {
-  sessionStorage.setItem(idItem, whoami.id as string);
-  sessionStorage.setItem(roleItem, whoami.role as string);
-  sessionStorage.setItem(bearerItem, whoami.bearer as string);
+  sessionStorage.setItem(ID_ITEM, whoami.id as string);
+  sessionStorage.setItem(ROLE_ITEM, whoami.role as string);
+  sessionStorage.setItem(BEARER_ITEM, whoami.bearer as string);
 };
 
 const getCachedWhoami = () => ({
-  id: sessionStorage.getItem(idItem),
-  role: sessionStorage.getItem(roleItem),
-  bearer: sessionStorage.getItem(bearerItem),
+  id: sessionStorage.getItem(ID_ITEM),
+  role: sessionStorage.getItem(ROLE_ITEM),
+  bearer: sessionStorage.getItem(BEARER_ITEM),
 });
 
 const getCachedRole = () => getCachedWhoami().role;
 
 const getCachedAuthConf = (): Configuration => {
   const conf = new Configuration();
-  conf.accessToken = sessionStorage.getItem(bearerItem) as string;
+  conf.accessToken = sessionStorage.getItem(BEARER_ITEM) as string;
   return conf;
 };
 
@@ -122,7 +122,7 @@ const authProvider = {
     try {
       await whoami();
       if (
-        !sessionStorage.getItem(bearerItem) ||
+        !sessionStorage.getItem(BEARER_ITEM) ||
         !localStorage.getItem(paramLocalAmplifyBoolean)
       ) {
         const newWhoami = await whoami();
