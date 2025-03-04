@@ -26,7 +26,7 @@ let refreshPromise: Promise<void> | null = null;
 
 const whoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
-  const token = sessionStorage.getItem("bearerItem") || "";
+  const token = sessionStorage.getItem("token") || "";
   conf.accessToken = token;
   const securityApi = new SecurityApi(conf);
   return securityApi
