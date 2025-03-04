@@ -73,8 +73,9 @@ const HaLoginPage = () => {
   };
   const ResponsiveLogin = () => {
     return (
-      <Grid container xs={12}>
+      <Grid container item xs={12}>
         <Grid
+          item
           xs={displayFull ? 4 : 12}
           sx={{
             width: "inherit",
@@ -86,6 +87,7 @@ const HaLoginPage = () => {
           <CasdoorLoginCard />
         </Grid>
         <Grid
+          item
           xs={displayFull ? 4 : 12}
           sx={{
             width: "inherit",
