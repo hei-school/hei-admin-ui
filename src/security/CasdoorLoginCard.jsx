@@ -6,7 +6,7 @@ import {useEffect} from "react";
 import {useCheckAuth} from "react-admin";
 import {getRedirectUrl, goToLink} from "./setting";
 
-const casdoorLogin = () => {
+const loginWithCasdoor = () => {
   (async () => {
     try {
       const url = await getRedirectUrl();
@@ -76,7 +76,7 @@ const CasdoorLoginCard = () => {
             variant="contained"
             data-testid="casdoor-login-btn"
             color="primary"
-            onClick={() => casdoorLogin()}
+            onClick={() => loginWithCasdoor()}
           >
             CONNEXION AVEC CASDOOR
           </Button>

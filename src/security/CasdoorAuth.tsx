@@ -23,41 +23,56 @@ const CasdoorAuthCallback: FC = () => {
   const cacheWhoami = (whoami: Whoami) => {
     sessionStorage.setItem("idItem", whoami.id as string);
     sessionStorage.setItem("roleItem", whoami.role as string);
-    sessionStorage.setItem("bearerItem", whoami.bearer as string);
+    sessionStorage.setItem("token", whoami.bearer as string);
   };
 
-  const setSession = (token: string) => {
-    setToken(token);
-    fetch(`${ServerUrl}/whoami`, {
-      method: "GET",
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("token")}`,
-      },
-    })
-      .then((res) => res.json())
-      .then((whoami) => {
-        cacheWhoami(whoami);
-        clearToken();
-        goToLink("/");
-      })
-      .catch(() => {
-        clearToken();
-        goToLink("/");
+  const setSession = async (token: string) => {
+    try {
+      setToken(token);
+
+      const response = await fetch(`${ServerUrl}/whoami`, {
+        method: "GET",
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
+        },
       });
+
+      if (!response.ok) {
+        throw new Error("Invalid token");
+      }
+
+      const whoami = await response.json();
+      cacheWhoami(whoami);
+      clearToken();
+      goToLink("/");
+    } catch (error) {
+      console.error(error);
+      clearToken();
+      goToLink("/");
+    }
   };
 
   useEffect(() => {
-    if (code && state) {
-      getToken(code, state).then(async (res) => {
-        if (res.ok) {
-          setSession(await res.text());
-        } else {
-          setTimeout(() => {
-            goToLink("/login");
-          }, 6000);
+    const fetchData = async () => {
+      if (code && state) {
+        try {
+          const tokenRes = await getToken(code, state);
+
+          if (tokenRes.ok) {
+            const token = await tokenRes.text();
+            setSession(token);
+          } else {
+            setTimeout(() => {
+              goToLink("/login");
+            }, 6000);
+          }
+        } catch (error) {
+          console.error("Error during token fetching:", error);
         }
-      });
-    }
+      }
+    };
+
+    fetchData();
   }, [code, state]);
 
   return (

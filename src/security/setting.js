@@ -1,6 +1,8 @@
 import Sdk from "casdoor-js-sdk";
 
 export const ServerUrl = process.env.REACT_APP_SERVER_URL;
+const bearerItem = "ha_bearer";
+
 
 const sdkConfig = {
   serverUrl: process.env.REACT_APP_CASDOOR_SDK_SERVER_URL,
@@ -13,7 +15,7 @@ const sdkConfig = {
 export const CasdoorSDK = new Sdk(sdkConfig);
 
 export const isLoggedIn = () => {
-  const token = sessionStorage.getItem("bearerItem");
+  const token = sessionStorage.getItem("token");
   return token !== null && token.length > 0;
 };
 
