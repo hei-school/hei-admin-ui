@@ -267,7 +267,10 @@ function App() {
         <AwsWafCaptchaHandler />
         <Routes>
           <Route
-            path={process.env.REACT_APP_CASDOOR_SDK_REDIRECT_PATH || "/auth/callback"}
+            path={
+              process.env.REACT_APP_CASDOOR_SDK_REDIRECT_PATH ||
+              "/auth/callback"
+            }
             element={<CasdoorAuthCallback />}
           />
           <Route path="/human-verification" element={<HumanVerification />} />
