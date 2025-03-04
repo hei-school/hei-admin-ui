@@ -1,9 +1,9 @@
+import {BEARER_ITEM} from "@/providers/authProvider";
 import Sdk from "casdoor-js-sdk";
 
-export const ServerUrl = process.env.REACT_APP_SERVER_URL;
-const bearerItem = "ha_bearer";
+export const SERVER_URL = process.env.REACT_APP_SERVER_URL;
 
-const sdkConfig = {
+const SDK_CONFIG = {
   serverUrl: process.env.REACT_APP_CASDOOR_SDK_SERVER_URL,
   clientId: process.env.REACT_APP_CASDOOR_SDK_CLIENT_ID,
   appName: process.env.REACT_APP_CASDOOR_SDK_APP_NAME,
@@ -11,19 +11,19 @@ const sdkConfig = {
   redirectPath: process.env.REACT_APP_CASDOOR_SDK_REDIRECT_PATH,
 };
 
-export const CasdoorSDK = new Sdk(sdkConfig);
+export const CasdoorSDK = new Sdk(SDK_CONFIG);
 
 export const isLoggedIn = () => {
-  const token = sessionStorage.getItem("token");
+  const token = sessionStorage.getItem(BEARER_ITEM);
   return token !== null && token.length > 0;
 };
 
 export const setToken = (token) => {
-  localStorage.setItem("token", token);
+  localStorage.setItem(BEARER_ITEM, token);
 };
 
 export const clearToken = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem(BEARER_ITEM);
 };
 
 export const goToLink = (link) => {
@@ -31,7 +31,7 @@ export const goToLink = (link) => {
 };
 
 export const getRedirectUrl = async () => {
-  return fetch(`${ServerUrl}/authentication/login-url`, {
+  return fetch(`${SERVER_URL}/authentication/login-url`, {
     method: "GET",
   })
     .then((response) => {
@@ -46,16 +46,16 @@ export const getRedirectUrl = async () => {
 };
 
 export const getUserinfo = () => {
-  return fetch(`${ServerUrl}/authentication/userinfo`, {
+  return fetch(`${SERVER_URL}/authentication/userinfo`, {
     method: "GET",
     headers: {
-      Authorization: `Bearer ${localStorage.getItem("token")}`,
+      Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
     },
   }).then((res) => res.json());
 };
 
 export const logout = () => {
-  localStorage.removeItem("token");
+  localStorage.removeItem(BEARER_ITEM);
 };
 
 export const showMessage = (message) => {
