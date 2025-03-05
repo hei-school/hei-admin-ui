@@ -1,5 +1,5 @@
 import defaultCasdoorLogo from "@/assets/casdoor-logo_1185x256.png";
-import {useNotify} from "@/hooks";
+import {useNotify, UseNotifyOptions} from "@/hooks";
 import {Card, CardContent} from "@mui/material";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
@@ -7,7 +7,9 @@ import {useEffect} from "react";
 import {useCheckAuth} from "react-admin";
 import {getRedirectUrl, goToLink} from "./setting";
 
-const loginWithCasdoor = (notify) => {
+const loginWithCasdoor = (
+  notify: (message: string, config?: UseNotifyOptions) => void
+) => {
   (async () => {
     try {
       const url = await getRedirectUrl();
