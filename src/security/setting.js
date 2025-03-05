@@ -43,7 +43,3 @@ export const getRedirectUrl = async () => {
 export const logout = () => {
   localStorage.removeItem(BEARER_ITEM);
 };
-
-export const showMessage = (message) => {
-  alert(message);
-};
