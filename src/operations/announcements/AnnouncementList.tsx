@@ -12,6 +12,7 @@ import {
   Card,
   CardMedia,
   LinearProgress,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import React, {FC} from "react";
@@ -43,7 +44,7 @@ export const getChipColor = (scope: string) => {
   }
 };
 const AnnouncementsGrid = () => {
-  const {data: announcements = []} = useListContext();
+  const {data: announcements = [], isLoading} = useListContext();
 
   return (
     <ResponsiveGrid gap="1.5rem">
@@ -61,21 +62,25 @@ const AnnouncementsGrid = () => {
           }}
         >
           <Card component="div">
-            <CardMedia
-              component="img"
-              image={getBgImg(announcement?.scope!)}
-              alt="Announcement Background"
-              sx={{
-                borderRadius: "50%",
-                height: "100px",
-                width: "100px",
-                marginLeft: "1.5rem",
-                position: "absolute",
-                top: "-45px",
-                border: "4px solid",
-                borderColor: getChipColor(announcement?.scope!),
-              }}
-            />
+            {isLoading ? (
+              <Skeleton variant="rectangular" width={100} height={100} />
+            ) : (
+              <CardMedia
+                component="img"
+                image={getBgImg(announcement?.scope!)}
+                alt="Announcement Background"
+                sx={{
+                  borderRadius: "50%",
+                  height: "100px",
+                  width: "100px",
+                  marginLeft: "1.5rem",
+                  position: "absolute",
+                  top: "-45px",
+                  border: "4px solid",
+                  borderColor: getChipColor(announcement?.scope!),
+                }}
+              />
+            )}
             <Box
               sx={{
                 backgroundColor: getChipColor(announcement?.scope!),
@@ -132,16 +137,20 @@ const AnnouncementsGrid = () => {
                     ).toLocaleString()}
                   </Typography>
                 </Box>
-                <Avatar
-                  alt={announcement.author?.first_name}
-                  src={announcement.author?.profile_picture}
-                  sx={{
-                    height: 50,
-                    width: 50,
-                    border: "2px solid",
-                    borderColor: getChipColor(announcement?.scope!),
-                  }}
-                />
+                {isLoading ? (
+                  <Skeleton variant="circular" width={50} height={50} />
+                ) : (
+                  <Avatar
+                    alt={announcement.author?.first_name}
+                    src={announcement.author?.profile_picture}
+                    sx={{
+                      height: 50,
+                      width: 50,
+                      border: "2px solid",
+                      borderColor: getChipColor(announcement?.scope!),
+                    }}
+                  />
+                )}
               </Box>
             </Box>
           </Card>
