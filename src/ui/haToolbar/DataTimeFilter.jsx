@@ -8,6 +8,7 @@ export function DateTimeFilter({source, label, ...rest}) {
 
   return (
     <DateTimePicker
+      format="DD/MM/YYYY"
       ampm={false}
       label={label}
       value={value ? dayjs(value) : null}
