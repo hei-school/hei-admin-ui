@@ -108,7 +108,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
       .type("_password_here_");
   });
 
-  cy.visit(`/callback?code=${role}&state=HEI Admin`);
+  cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
 
   if (isSuccess) {
     cy.intercept("**/authentication/signin", casdoorSignin).as(
