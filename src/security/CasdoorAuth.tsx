@@ -5,7 +5,7 @@ import authProvider, {
 } from "@/providers/authProvider";
 import {Whoami} from "@haapi/typescript-client";
 import axios from "axios";
-import {FC, useEffect} from "react";
+import {FC, useEffect, useRef} from "react";
 import {LoadingPage} from "react-admin";
 import {goToLink, SERVER_URL} from "./setting";
 
@@ -13,6 +13,7 @@ const CasdoorAuthCallback: FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
   const state = urlParams.get("state");
+  const isExchanged = useRef(false);
   const whoami = authProvider.whoami();
 
   const getToken = async (code: string, state: string) => {
@@ -39,7 +40,8 @@ const CasdoorAuthCallback: FC = () => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (code && state) {
+      if (code && state && !isExchanged.current) {
+        isExchanged.current = true;
         try {
           const token = await getToken(code, state);
           cacheWhoami({bearer: token});
