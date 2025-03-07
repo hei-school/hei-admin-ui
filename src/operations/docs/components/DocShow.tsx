@@ -41,6 +41,7 @@ export const DocShow: FC<DocShowProps> = ({owner, userId}) => {
         );
       },
       enabled: !!(userId && type && id && owner),
+      refetchOnWindowFocus: false,
     }
   );
 
