@@ -31,7 +31,7 @@ const CasdoorLoginCard = () => {
         // already authenticated, redirect to the home page
         goToLink("/");
       } catch (error) {
-        console.error("Authentication check failed:", error);
+        notify("Authentication check failed", {type: "error"});
         // not authenticated, stay on the login page
       }
     };
