@@ -26,6 +26,17 @@ import {SelectCourse, SelectPlanner} from "./components";
 import {SelectClassroom} from "./components/SelectClassrroom";
 import {EVENT_TYPE_VALUE, RECURRENCE_TYPE_CHOICES} from "./utils";
 
+const validateGroups = (value: any, allValues: any) => {
+  const eventType = allValues.event_type;
+  if (
+    (eventType === "COURSE" || eventType === "EXAM") &&
+    (!value || value.length === 0)
+  ) {
+    return "Les groupes sont requis pour les cours et examens";
+  }
+  return undefined;
+};
+
 export function EventCreate() {
   const userId = authProvider.getCachedWhoami().id;
   const {data: groups = [], isLoading: isGroupsLoading} = useGetList<
@@ -101,7 +112,7 @@ export function EventCreate() {
           optionValue="id"
           choices={groups}
           isLoading={isGroupsLoading}
-          validate={required()}
+          validate={validateGroups}
           fullWidth
         />
         <RecurrenceFields />
