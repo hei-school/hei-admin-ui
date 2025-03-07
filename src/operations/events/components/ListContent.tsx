@@ -35,7 +35,7 @@ export const ListContent = ({eventId}: {eventId: string}) => {
   const [showAddGroup, _, toggleAddGroup] = useToggle();
   const [showImportDialog, setShowImportDialog] = useState(false);
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
-  const {isManager, isTeacher, isAdmin, isOrganizer} = useRole();
+  const {isManager, isTeacher, isAdmin, isOrganizer, isStudent} = useRole();
   const refresh = useRefresh();
 
   const [statusMap, setStatusMap] = useState(
@@ -104,22 +104,15 @@ export const ListContent = ({eventId}: {eventId: string}) => {
         actions={
           <Box>
             {(isManager() || isAdmin() || isOrganizer()) && (
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: 2,
-                  alignItems: "flex-start",
-                  textAlign: "left",
-                  width: "100%",
-                }}
-              >
-                <ButtonBase
-                  icon={<Add />}
-                  label="Ajout groupe"
-                  onClick={() => toggleAddGroup()}
-                  children={<></>}
-                />
+              <ButtonBase
+                icon={<Add />}
+                label="Ajout groupe"
+                onClick={() => toggleAddGroup()}
+                children={<></>}
+              />
+            )}
+            {!isStudent() && (
+              <Box>
                 <FileDownloader
                   downloadFunction={downloadFile}
                   fileName="Listes des participants"
