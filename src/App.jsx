@@ -9,6 +9,7 @@ import events from "@/operations/events";
 import exams from "@/operations/exams";
 import fees from "@/operations/fees";
 import feesTemplates from "@/operations/feesTemplates";
+import grades from "@/operations/grades";
 import groups from "@/operations/groups";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
@@ -247,13 +248,11 @@ function AppBase() {
           path="/monitor-students/:userId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
         />
-        {/*
-            <Route
-            exact
-            path="/exams/:id/grades"
-            element={<grades.examGradeList
-          />
-          */}
+        <Route
+          exact
+          path="/exams/:id/grades"
+          element={<grades.examGradeList />}
+        />
       </CustomRoutes>
     </Admin>
   );
