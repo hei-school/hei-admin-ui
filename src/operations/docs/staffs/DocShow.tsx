@@ -10,5 +10,6 @@ export const StaffDocShow = () => {
     ? authProvider.getCachedWhoami().id
     : params.userId;
 
+  if (!id) return null;
   return <DocShow owner="STAFF_MEMBER" userId={id} />;
 };

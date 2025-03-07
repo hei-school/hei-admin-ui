@@ -142,7 +142,7 @@ const PdfViewer = (props) => {
       }
     };
     if (url) void retrievePdf();
-  }, [url]);
+  }, [notify, url]);
 
   const isLoadingPdf = isPending || loadingBinary;
 
@@ -210,8 +210,8 @@ const PdfViewer = (props) => {
               error={onLoadError || <PdfLoadingError />}
               file={!isLoadingPdf && binary ? binary : null}
               loading={<LoadingMessage />}
-              onLoadSuccess={() => {
-                setLastPage({current: pages.current + 1});
+              onLoadSuccess={(cb) => {
+                setLastPage({numPages: cb.numPages});
                 setLoadingBinary(false);
               }}
             >
