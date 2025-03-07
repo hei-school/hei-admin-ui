@@ -1,14 +1,19 @@
-import {BEARER_ITEM, ID_ITEM, ROLE_ITEM} from "@/providers/authProvider";
+import authProvider, {
+  BEARER_ITEM,
+  ID_ITEM,
+  ROLE_ITEM,
+} from "@/providers/authProvider";
 import {Whoami} from "@haapi/typescript-client";
 import axios from "axios";
 import {FC, useEffect} from "react";
 import {LoadingPage} from "react-admin";
-import {clearToken, goToLink, SERVER_URL, setToken} from "./setting";
+import {goToLink, SERVER_URL} from "./setting";
 
 const CasdoorAuthCallback: FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
   const state = urlParams.get("state");
+  const whoami = authProvider.whoami();
 
   const getToken = async (code: string, state: string) => {
     try {
@@ -16,9 +21,6 @@ const CasdoorAuthCallback: FC = () => {
         `${SERVER_URL}/authentication/signin`,
         null,
         {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
-          },
           params: {code, state},
         }
       );
@@ -29,31 +31,10 @@ const CasdoorAuthCallback: FC = () => {
     }
   };
 
-  const cacheWhoami = (whoami: Whoami) => {
+  const cacheWhoami = (whoami: Whoami): void => {
     sessionStorage.setItem(ID_ITEM, whoami.id as string);
     sessionStorage.setItem(ROLE_ITEM, whoami.role as string);
     sessionStorage.setItem(BEARER_ITEM, whoami.bearer as string);
-  };
-
-  const setSession = async (token: string) => {
-    try {
-      setToken(token);
-
-      const response = await axios.get(`${SERVER_URL}/whoami`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem(BEARER_ITEM)}`,
-        },
-      });
-
-      const whoami = response.data;
-      cacheWhoami(whoami);
-      clearToken();
-      goToLink("/");
-    } catch (error) {
-      console.error("Invalid token: ", error);
-      clearToken();
-      goToLink("/");
-    }
   };
 
   useEffect(() => {
@@ -61,19 +42,12 @@ const CasdoorAuthCallback: FC = () => {
       if (code && state) {
         try {
           const token = await getToken(code, state);
-
-          if (token) {
-            setSession(token);
-          } else {
-            setTimeout(() => {
-              goToLink("/login");
-            }, 6000);
-          }
+          cacheWhoami({bearer: token});
+          await whoami.then((whoami) => cacheWhoami(whoami));
         } catch (error) {
           console.error("Error during token fetching:", error);
-          setTimeout(() => {
-            goToLink("/login");
-          }, 6000);
+        } finally {
+          goToLink("/");
         }
       }
     };
