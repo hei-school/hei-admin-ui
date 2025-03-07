@@ -1,3 +1,4 @@
+import codeCoverageTask from "@cypress/code-coverage/task";
 import {defineConfig} from "cypress";
 import dotenv from "dotenv";
 
@@ -14,17 +15,16 @@ export default defineConfig({
       bundler: "vite",
     },
   },
-  reporter: "cypress-multi-reporters",
+  reporter: "cypress-sonarqube-reporter",
   reporterOptions: {
-    reporterEnabled: "cypress-sonarqube-reporter",
+    overwrite: true,
+    outputDir: "dist/test-reports",
     mergeFileName: "test-reports.xml",
-    cypressSonarqubeReporterReporterOptions: {
-      overwrite: true,
-    },
   },
   e2e: {
     setupNodeEvents(on, config) {
-      // implement node event listeners here
+      codeCoverageTask(on, config);
+      return config;
     },
     baseUrl: "http://localhost:5173/",
     requestTimeout: REQUEST_TIMEOUT,

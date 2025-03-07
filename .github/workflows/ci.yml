@@ -112,6 +112,13 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run dev
+          command: npx cypress run --env coverage=true
+
+      ## Generate Lcov report ##
+      - name: Generate Lcov report
+        if: always()
+        run: |
+          npx nyc report --reporter=lcov
 
       ## Merge test reports ##
       - name: Merge test reports
