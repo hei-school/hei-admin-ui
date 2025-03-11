@@ -9,7 +9,7 @@ export const StudentGradeList = ({studentId}) => {
       resource="student-grades"
       title="Liste des notes"
       datagridProps={{rowClick: false}}
-      listProps={{filter: {studentId}, title: "Notes"}}
+      listProps={{filter: {studentId}, title: " "}}
       actions={false}
     >
       <TextField source="course.code" label="Matière" />
