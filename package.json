@@ -38,7 +38,7 @@
     "react-admin": "^4.16.15",
     "react-big-calendar": "^1.18.0",
     "react-dom": "^18.2.0",
-    "react-pdf": "^9.0.0",
+    "react-pdf": "^9.2.1",
     "uuid": "^9.0.1",
     "xlsx": "^0.18.5"
   },
