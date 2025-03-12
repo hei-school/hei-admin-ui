@@ -22,6 +22,9 @@ const paramUsername = "u";
 const paramTemporaryPassword = "p";
 const paramLocalAmplifyBoolean = "amplify-signin-with-hostedUI";
 
+let isRefreshing = false;
+let refreshPromise: Promise<void> | null = null;
+
 const whoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
   const session = (await fetchAuthSession()) || {};
@@ -52,10 +55,38 @@ const getCachedAuthConf = (): Configuration => {
   return conf;
 };
 
+// Fonction pour tenter une reconnexion via rafraîchissement du token
+const attemptReconnectUser = async (): Promise<void> => {
+  if (isRefreshing) {
+    return refreshPromise!;
+  }
+
+  isRefreshing = true;
+  refreshPromise = new Promise<void>(async (resolve, reject) => {
+    try {
+      const session = await fetchAuthSession({forceRefresh: true});
+      if (!session.tokens?.idToken) {
+        throw new Error("No valid token found after refresh");
+      }
+      const newWhoami = await whoami();
+      cacheWhoami(newWhoami);
+      resolve();
+    } catch (error) {
+      console.error("Token refresh failed:", error);
+      sessionStorage.clear();
+      localStorage.clear();
+      reject(error);
+    } finally {
+      isRefreshing = false;
+      refreshPromise = null;
+    }
+  });
+
+  return refreshPromise;
+};
+
 const authProvider = {
   // --------------------- ra functions -------------------------------------------
-  // https://marmelab.com/react-admin/Authentication.html#anatomy-of-an-authprovider
-
   login: async ({
     username,
     password,
@@ -77,7 +108,6 @@ const authProvider = {
       window.location.replace(
         `/login?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
       );
-
       return;
     }
     await whoami().then((whoami) => cacheWhoami(whoami));
@@ -90,22 +120,34 @@ const authProvider = {
   },
 
   checkAuth: async (): Promise<void> => {
-    await whoami()
-      .then(async (whoami) => {
-        if (
-          !sessionStorage.getItem(bearerItem) ||
-          !localStorage.getItem(paramLocalAmplifyBoolean)
-        ) {
-          cacheWhoami(whoami);
+    try {
+      await whoami();
+      if (
+        !sessionStorage.getItem(bearerItem) ||
+        !localStorage.getItem(paramLocalAmplifyBoolean)
+      ) {
+        const newWhoami = await whoami();
+        cacheWhoami(newWhoami);
+      }
+    } catch (error: any) {
+      if (error.status === 401 || !error.status) {
+        const cachedWhoami = getCachedWhoami();
+        if (cachedWhoami.bearer) {
+          try {
+            await attemptReconnectUser();
+            return;
+          } catch (refreshError) {
+            throw new Error("Unauthorized after refresh attempt");
+          }
+        } else {
+          throw new Error("Unauthorized - No cached token");
         }
-      })
-      .catch((e) => {
-        if (e.status === 405) {
-          throw Promise.resolve();
-        }
-
+      } else if (error.status === 405) {
+        return Promise.resolve();
+      } else {
         throw new Error("Unauthorized");
-      });
+      }
+    }
   },
 
   checkError: async () => Promise.resolve(),
@@ -137,6 +179,7 @@ const authProvider = {
       newPassword,
     });
   },
+
   setNewPassword: async (newPassword: string): Promise<void> => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
@@ -164,7 +207,6 @@ const authProvider = {
   },
 
   whoami: whoami,
-
   getCachedWhoami: getCachedWhoami,
   getCachedRole: getCachedRole,
   getCachedAuthConf: getCachedAuthConf,
