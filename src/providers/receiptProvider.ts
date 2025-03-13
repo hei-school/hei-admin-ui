@@ -1,4 +1,4 @@
-import {ZipReceiptsRequest} from "@haapi/typescript-client";
+import {GenerationReceiptsRequest} from "@haapi/typescript-client";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
@@ -16,7 +16,7 @@ const receiptProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  async saveOrUpdate(payload: (ZipReceiptsRequest & {id: string})[]) {
+  async saveOrUpdate(payload: (GenerationReceiptsRequest & {id: string})[]) {
     if (Array.isArray(payload) && payload.length != 1) {
       throw new Error(
         "Unexpected payload was received, must be an array of one payload"
@@ -25,7 +25,7 @@ const receiptProvider: HaDataProviderType = {
 
     const [receiptPayload] = payload;
     return payingApi()
-      .getZipFeeReceipts(receiptPayload)
+      .generateFeeReceipts(receiptPayload)
       .then((res) => [{...res.data, id: receiptPayload.id}]);
   },
 
