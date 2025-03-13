@@ -27,7 +27,7 @@
     "aws-amplify": "^6.0.28",
     "axios": "^1.6.8",
     "cypress-multi-reporters": "^2.0.4",
-    "cypress-vite": "^1.5.0",
+    "cypress-vite": "^1.6.0",
     "dayjs": "^1.11.13",
     "dom-to-image": "^2.6.0",
     "dotenv": "^16.4.5",
@@ -65,6 +65,6 @@
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^4.1.0",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^6.2.1"
   }
 }
