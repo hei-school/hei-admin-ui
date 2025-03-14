@@ -12,12 +12,12 @@ describe("Manager announcements", () => {
     cy.intercept("POST", `/announcements`, createdAnnouncement);
     cy.intercept(
       "GET",
-      `/announcements?page=1&page_size=10`,
+      `/announcements?page=1&page_size=12`,
       announcementsMock
     ).as("getAnnouncements");
     cy.intercept(
       "GET",
-      `/announcements?page=2&page_size=10`,
+      `/announcements?page=2&page_size=12`,
       announcementsMock
     ).as("getAnnouncements2");
 

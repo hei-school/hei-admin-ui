@@ -1,155 +1,169 @@
-import React from "react";
-
 import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateButton} from "@/ui/haToolbar";
 import {Announcement, Scope} from "@haapi/typescript-client";
-import {Newspaper as AnnouncementIcon} from "@mui/icons-material";
+import {Newspaper as AnnouncementIcon, Campaign} from "@mui/icons-material";
 import {
   Avatar,
   Box,
   Card,
-  CardContent,
-  CardHeader,
   CardMedia,
-  Chip,
+  LinearProgress,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {List, useListContext} from "react-admin";
-import {Link} from "react-router-dom";
+import React, {FC} from "react";
+import {Link, List, useListContext} from "react-admin";
 import {AnnouncementFilter} from "./components";
 import {EmailField} from "./components/EmailField";
-import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
 import {getBgImg} from "./utils/getBgImg";
 
 const cardStyle: React.CSSProperties = {
-  width: 350,
-  height: "fit-content",
-  display: "inline-block",
-  verticalAlign: "top",
+  minWidth: "300px",
   borderRadius: "7px",
-  boxShadow:
-    "rgba(0, 0, 0, 0.24) 0px 3px 8pxrgba(0, 0, 0, 0.25) 0px 0.0625em 0.0625em, rgba(0, 0, 0, 0.25) 0px 0.125em 0.5em, rgba(255, 255, 255, 0.1) 0px 0px 0px 1px inset",
-  borderBottom: "8px solid",
-  borderColor: PALETTE_COLORS.yellow,
+  boxShadow: "0 0 10px rgb(182, 182, 182)",
+  borderBottom: "10px solid",
   position: "relative",
+  overflow: "visible",
+  marginTop: "50px",
 };
 
-const getChipColor = (scope: string) => {
+export const getChipColor = (scope: string) => {
   switch (scope) {
     case Scope.GLOBAL:
-      return PALETTE_COLORS.red;
-    case Scope.STUDENT:
-      return PALETTE_COLORS.yellow;
-    case Scope.TEACHER:
       return PALETTE_COLORS.primary;
+    case Scope.STUDENT:
+    case Scope.TEACHER:
     case Scope.MANAGER:
-      return PALETTE_COLORS.black;
+      return PALETTE_COLORS.yellow;
     default:
-      return PALETTE_COLORS.black;
+      return PALETTE_COLORS.yellow;
   }
 };
-
 const AnnouncementsGrid = () => {
   const {data: announcements = []} = useListContext();
-
-  const isSmall = useMediaQuery("(max-width:900px)");
+  const isSmall = useMediaQuery("(max-width:600px)");
+  const isTablet = useMediaQuery("(min-width:601px) and (max-width:900px)");
+  const isMedium = useMediaQuery("(min-width:901px) and (max-width:1400px)");
   const isDesktop = useMediaQuery("(min-width:1400px)");
-  const customStyles = {
-    justifyContent: isSmall
-      ? "center"
-      : isDesktop
-        ? "flex-start"
-        : "space-evenly",
-    gap: "1rem",
-    padding: isDesktop ? "1.5rem 3rem" : "1.5rem 0.5vw",
-    margin: isDesktop ? "0 auto" : "0",
+
+  const getGridTemplateColumns = () => {
+    if (isSmall) return "1fr";
+    if (isTablet) return "1fr 1fr";
+    if (isMedium) return "1fr 1fr 1fr";
+    if (isDesktop) return "1fr 1fr 1fr 1fr";
+    return "1fr";
   };
 
   return (
     <Box
-      display="flex"
-      flexWrap="wrap"
-      padding={customStyles.padding}
-      justifyContent={customStyles.justifyContent}
-      gap={customStyles.gap}
+      display="grid"
+      gridTemplateColumns={getGridTemplateColumns()}
+      gap="1.5rem"
+      padding="1.5rem"
+      sx={{
+        justifyItems: announcements.length <= 2 ? "start" : "center",
+        paddingLeft: "2rem",
+      }}
     >
       {announcements.map((announcement: Announcement) => (
-        <Card key={announcement.id} style={cardStyle}>
-          <Link to={`/announcements/${announcement.id}/show`}>
+        <Link
+          key={announcement.id}
+          to={`/announcements/${announcement.id}/show`}
+          sx={{
+            ...cardStyle,
+            "borderColor": getChipColor(announcement?.scope!),
+            "&:hover": {transform: "scale(1.05)"},
+          }}
+        >
+          <Card component="div">
             <CardMedia
               component="img"
-              height="100"
               image={getBgImg(announcement?.scope!)}
               alt="Announcement Background"
-              sx={{borderRadius: "7px 7px 0px 0px"}}
+              sx={{
+                borderRadius: "50%",
+                height: "100px",
+                width: "100px",
+                marginLeft: "1.5rem",
+                position: "absolute",
+                top: "-45px",
+                border: "4px solid",
+                borderColor: getChipColor(announcement?.scope!),
+              }}
             />
-          </Link>
-          <CardHeader
-            avatar={
-              <Avatar
-                src={announcement.author?.profile_picture}
-                sx={{
-                  width: 85,
-                  height: 85,
-                  borderRadius: "1rem",
-                  boxShadow: "1px 1px 1px 1px rgba(0, 0, 0, 0.25)",
-                }}
-              />
-            }
-            title={<EmailField value={announcement.author?.email} />}
-            subheader={new Date(
-              announcement?.creation_datetime!
-            ).toLocaleString()}
-            sx={{
-              paddingBottom: "0 !important",
-              display: "flex",
-              alignItems: "flex-end",
-              marginTop: "-3.5rem",
-            }}
-          />
-          <Link
-            to={`/announcements/${announcement.id}/show`}
-            style={{textDecoration: "none", color: "inherit"}}
-          >
-            <CardContent>
+            <Box
+              sx={{
+                backgroundColor: getChipColor(announcement?.scope!),
+                height: "60px",
+                padding: "1rem",
+                borderRadius: "7px 7px 0 0",
+              }}
+            />
+            <Box>
               <Typography
                 variant="h6"
                 fontWeight="bold"
                 noWrap
                 textOverflow="ellipsis"
+                padding="1rem"
               >
                 {announcement.title}
               </Typography>
-              <Typography variant="body2">
-                Cliquez sur la carte pour accéder à l'annonce complète et
-                découvrir tous les détails pertinents.
-              </Typography>
-            </CardContent>
-            <CardContent
-              sx={{
-                padding: "5px 10px",
-                position: "absolute",
-                top: 0,
-                right: 0,
-                zIndex: 10,
-                paddingBlock: "0.5rem",
-              }}
-            >
-              <Chip
-                label={ANNOUNCEMENT_SCOPE[announcement?.scope!]}
+              <Box
                 sx={{
-                  backgroundColor: getChipColor(announcement?.scope!),
-                  color: PALETTE_COLORS.white,
-                  borderRadius: "4px",
+                  display: "flex",
+                  flexDirection: "row",
+                  padding: "1rem",
+                  position: "relative",
                 }}
-              />
-            </CardContent>
-          </Link>
-        </Card>
+              >
+                <Campaign
+                  sx={{
+                    color: getChipColor(announcement?.scope!),
+                    fontSize: "2.5rem",
+                    position: "absolute",
+                    top: 0,
+                    transform: "rotate(-10deg)",
+                  }}
+                />
+                <Typography sx={{textIndent: "2.5rem"}}>
+                  Cliquez sur la carte pour accéder à l'annonce complète et
+                  découvrir tous les détails pertinents.
+                </Typography>
+              </Box>
+              <Box
+                display="flex"
+                alignItems="center"
+                justifyContent="space-between"
+                marginInline="1rem"
+                paddingBlock="1rem"
+                borderTop="1px solid rgba(100, 100, 100, 0.3)"
+              >
+                <Box>
+                  <EmailField value={announcement.author?.email} />
+                  <Typography>
+                    {new Date(
+                      announcement?.creation_datetime!
+                    ).toLocaleString()}
+                  </Typography>
+                </Box>
+                <Avatar
+                  alt={announcement.author?.first_name}
+                  src={announcement.author?.profile_picture}
+                  sx={{
+                    height: 50,
+                    width: 50,
+                    border: "2px solid",
+                    borderColor: getChipColor(announcement?.scope!),
+                  }}
+                />
+              </Box>
+            </Box>
+          </Card>
+        </Link>
       ))}
     </Box>
   );
@@ -172,6 +186,7 @@ export const AnnouncementList = () => {
       actions={false}
       pagination={<PrevNextPagination />}
       resource="announcements"
+      perPage={12}
       empty={false}
       sx={{
         "& .RaList-content": {
@@ -181,6 +196,7 @@ export const AnnouncementList = () => {
         "mt": 2,
       }}
     >
+      <AnnouncementLoader />
       <HaListTitle
         actions={(isManager() || isAdmin()) && <AnnouncementActions />}
         filterIndicator={true}
@@ -191,4 +207,9 @@ export const AnnouncementList = () => {
       <AnnouncementsGrid />
     </List>
   );
+};
+
+const AnnouncementLoader: FC = () => {
+  const {isLoading} = useListContext();
+  return isLoading && <LinearProgress />;
 };

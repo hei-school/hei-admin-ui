@@ -1,0 +1,67 @@
+import moment from "moment";
+import {useEffect, useState} from "react";
+import {Calendar, momentLocalizer, View, Views} from "react-big-calendar";
+
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+
+import {
+  dateFormats,
+  dayPropGetter,
+  eventStyleGetter,
+  frenchMessages,
+  transformApiDataToCalendarEvents,
+} from "@/operations/public/utils";
+
+import "react-big-calendar/lib/css/react-big-calendar.css";
+import "./style/calendar.css";
+
+moment.locale("fr");
+const localizer = momentLocalizer(moment);
+
+const API_URL = process.env.REACT_APP_API_URL;
+
+export default function CalendarView() {
+  const [view, setView] = useState<View>(Views.WEEK);
+  const [events, setEvents] = useState([]);
+
+  const fetchEvents = async () => {
+    try {
+      const response = await fetch(
+        `${API_URL}/events?page=1&page_size=${MAX_ITEM_PER_PAGE}`
+      );
+      const data = await response.json();
+      setEvents(data);
+    } catch (error) {
+      console.error("Error fetching events:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchEvents();
+  }, []);
+
+  const handleOnChangeView = (selectedView: View) => {
+    setView(selectedView);
+  };
+
+  const calendarEvents = transformApiDataToCalendarEvents(events);
+
+  return (
+    <Calendar
+      localizer={localizer}
+      events={calendarEvents}
+      startAccessor="start"
+      endAccessor="end"
+      view={view}
+      views={[Views.MONTH, Views.WEEK, Views.DAY]}
+      style={{height: "100vh"}}
+      onView={handleOnChangeView}
+      min={new Date(2025, 1, 0, 8, 0, 0)}
+      max={new Date(2025, 1, 0, 18, 0, 0)}
+      eventPropGetter={eventStyleGetter}
+      dayPropGetter={dayPropGetter}
+      messages={frenchMessages}
+      formats={dateFormats}
+    />
+  );
+}

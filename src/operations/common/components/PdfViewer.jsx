@@ -17,9 +17,11 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
+import axios from "axios";
 import "pdfjs-dist/build/pdf.min.mjs";
 import "pdfjs-dist/build/pdf.worker.min.mjs";
-import {useCallback, useEffect, useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
+import {useNotify} from "react-admin";
 import {Document as Pdf, Page as PdfPage} from "react-pdf";
 
 const TooltipButton = ({icon, disabled, onClick, ...others}) => (
@@ -40,6 +42,8 @@ const STYLE = {
   backgroundColor: "#fff",
   padding: "0.1rem",
 };
+
+const PDF_LOADING_ERROR_MESSAGE = "Échec de chargement du document";
 
 export const HorizontalPagination = ({
   maxSteps,
@@ -92,23 +96,21 @@ export const HorizontalPagination = ({
   );
 };
 
-export const ErrorHandling = ({errorMessage}) => (
+export const PdfLoadingError = () => (
   <Box sx={{display: "flex", alignItems: "center"}}>
     <Error style={{fontSize: 40}} />
-    <Typography variant="body2">{errorMessage}</Typography>
+    <Typography variant="body2">{PDF_LOADING_ERROR_MESSAGE}</Typography>
   </Box>
 );
 
+// TODO: migrate to ts
 const PdfViewer = (props) => {
   const {url, filename, isPending, noData, onLoadError, children, ...others} =
     props;
-  const loadErrorMessage = "Échec de chargement du document";
   const [pages, setPages] = useState({current: 1, last: null});
-  const [isLoading, setLoading] = useState(true);
   const pdfRef = useRef(null);
 
-  const stopLoading = () => setLoading(false);
-  const startLoading = useCallback(() => setLoading(true), [setLoading]);
+  const notify = useNotify();
 
   const setLastPage = ({numPages}) => {
     setPages((e) => ({...e, last: numPages}));
@@ -118,13 +120,36 @@ const PdfViewer = (props) => {
     setPages((e) => ({...e, current: callback(e.current)}));
   };
 
+  const [binary, setBinary] = useState();
+  const [loadingBinary, setLoadingBinary] = useState(true);
+
   useEffect(() => {
-    startLoading();
-  }, [url, startLoading]);
+    const retrievePdf = async () => {
+      setLoadingBinary(true);
+      try {
+        const res = await axios.get(url, {
+          headers: {"Content-Type": "application/pdf"},
+          responseType: "blob",
+        });
+
+        if (res.data) {
+          setBinary(res.data);
+        }
+      } catch (e) {
+        notify("An error occurred while loading the pdf.", {type: "error"});
+      } finally {
+        setLoadingBinary(false);
+      }
+    };
+    if (url) void retrievePdf();
+  }, [notify, url]);
+
+  const isLoadingPdf = isPending || loadingBinary;
+
   return (
     <Box {...others}>
       <Card ref={pdfRef}>
-        {isPending && <LinearProgress />}
+        {isLoadingPdf && <LinearProgress />}
         <Box
           display="flex"
           justifyContent="space-between"
@@ -135,7 +160,7 @@ const PdfViewer = (props) => {
             flexDirection="row"
             sx={{alignItems: "center", padding: "0.2rem 0.2rem 0 0"}}
           >
-            {url && !isLoading && (
+            {url && isLoadingPdf && (
               <HorizontalPagination
                 activeStep={pages.current}
                 maxSteps={pages.last}
@@ -167,7 +192,7 @@ const PdfViewer = (props) => {
         </Box>
         <CardContent
           sx={{
-            ...(url && !isLoading && {paddingInline: 0}),
+            ...(url && !isLoadingPdf ? {paddingInline: 0} : {}),
             justifyContent: "center",
             display: "flex",
             alignItems: "center",
@@ -182,16 +207,16 @@ const PdfViewer = (props) => {
                   </Typography>
                 )
               }
-              error={
-                onLoadError || <ErrorHandling errorMessage={loadErrorMessage} />
-              }
+              error={onLoadError || <PdfLoadingError />}
+              file={!isLoadingPdf && binary ? binary : null}
               loading={<LoadingMessage />}
-              file={!isPending ? url : null}
-              onLoadSuccess={setLastPage}
+              onLoadSuccess={(cb) => {
+                setLastPage({numPages: cb.numPages});
+                setLoadingBinary(false);
+              }}
             >
               <PdfPage
                 loading={<LoadingMessage />}
-                onLoadSuccess={stopLoading}
                 width={pdfRef.current && pdfRef.current.clientWidth - 50}
                 pageNumber={pages.current}
                 renderTextLayer={false}

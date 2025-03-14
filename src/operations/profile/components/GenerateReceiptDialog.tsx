@@ -2,13 +2,7 @@ import {useNotify} from "@/hooks";
 import {DateTimeField} from "@/operations/common/components/fields";
 import {Dialog} from "@/ui/components";
 import {FC, useEffect} from "react";
-import {
-  SaveButton,
-  SimpleForm,
-  TextInput,
-  Toolbar,
-  useCreate,
-} from "react-admin";
+import {SaveButton, SimpleForm, Toolbar, useCreate} from "react-admin";
 import {v4 as uuid} from "uuid";
 
 export const GenerateReceiptDialog: FC<{
@@ -19,7 +13,7 @@ export const GenerateReceiptDialog: FC<{
   const notify = useNotify();
   useEffect(() => {
     if (!isSuccess) return;
-    notify(`Nombre de reçu traiter: ${data?.fileCountInZip}`, {
+    notify(`Nombre de reçu traiter: ${data?.processedFileCount}`, {
       type: "success",
     });
     onClose();
@@ -47,14 +41,8 @@ export const GenerateReceiptDialog: FC<{
         alignItems="center"
         gap="1.5vh"
       >
-        <DateTimeField source="from" label="Depuis" />
+        <DateTimeField source="from" label="Depuis " />
         <DateTimeField source="to" label="Jusqu'à" />
-        <TextInput
-          fullWidth
-          source="destinationEmail"
-          label="Email de destination"
-          type="email"
-        />
       </SimpleForm>
     </Dialog>
   );

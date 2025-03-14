@@ -10,5 +10,6 @@ export const TeacherDocShow = () => {
 
   const id = isTeacher() ? authProvider.getCachedWhoami().id : params.userId;
 
+  if (!id) return null;
   return <DocShow owner={OwnerType.TEACHER} userId={id} />;
 };

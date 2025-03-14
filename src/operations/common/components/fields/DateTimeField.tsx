@@ -25,6 +25,7 @@ export const DateTimeField: FC<DatetimeFieldProps> = ({
   return (
     <Box sx={{width: "100%"}}>
       <DateTimePicker
+        format="DD/MM/YYYY HH:mm"
         ampm={false}
         {...field}
         label={

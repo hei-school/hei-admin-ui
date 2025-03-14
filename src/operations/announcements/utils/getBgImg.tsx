@@ -1,20 +1,18 @@
-import globalBg from "@/assets/announcements_bg.jpg";
-import managerBg from "@/assets/manager_announcement_bg.jpg";
-import studentBg from "@/assets/student_announcement_bg.jpg";
-import teacherBg from "@/assets/teachers_announcement_bg.jpg";
+import logoBlue from "@/assets/logo-blue.jpg";
+import logo from "@/assets/logo.jpg";
 import {PALETTE_COLORS} from "@/haTheme";
 import {Scope} from "@haapi/typescript-client";
 
 export const getBgImg = (scope: string) => {
   switch (scope) {
     case Scope.GLOBAL:
-      return globalBg;
+      return logoBlue;
     case Scope.STUDENT:
-      return studentBg;
+      return logo;
     case Scope.TEACHER:
-      return teacherBg;
+      return logo;
     case Scope.MANAGER:
-      return managerBg;
+      return logo;
     default:
       return PALETTE_COLORS.black;
   }

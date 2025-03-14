@@ -1,0 +1,17 @@
+export const frenchMessages = {
+  date: "Date",
+  time: "Heure",
+  event: "Événement",
+  allDay: "Toute la journée",
+  week: "Semaine",
+  work_week: "Semaine de travail",
+  day: "Jour",
+  month: "Mois",
+  previous: "Précédent",
+  next: "Suivant",
+  yesterday: "Hier",
+  tomorrow: "Demain",
+  today: "Aujourd'hui",
+  agenda: "Agenda",
+  noEventsInRange: "Aucun événement dans cette période.",
+};

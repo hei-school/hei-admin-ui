@@ -9,7 +9,6 @@ import events from "@/operations/events";
 import exams from "@/operations/exams";
 import fees from "@/operations/fees";
 import feesTemplates from "@/operations/feesTemplates";
-import grades from "@/operations/grades";
 import groups from "@/operations/groups";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
@@ -17,6 +16,7 @@ import MonitorStudentList from "@/operations/monitors/component/MonitorStudentLi
 import payments from "@/operations/payments";
 import profile from "@/operations/profile";
 import promotions from "@/operations/promotions";
+import publicContent from "@/operations/public";
 import staffMembers from "@/operations/staffMembers";
 import students from "@/operations/students";
 import teachers from "@/operations/teachers";
@@ -247,11 +247,13 @@ function AppBase() {
           path="/monitor-students/:userId/docs/students/OTHER/:id"
           element={<studentDocs.show />}
         />
-        <Route
-          exact
-          path="/exams/:id/grades"
-          element={<grades.examGradeList />}
-        />
+        {/*
+            <Route
+            exact
+            path="/exams/:id/grades"
+            element={<grades.examGradeList
+          />
+          */}
       </CustomRoutes>
     </Admin>
   );
@@ -263,6 +265,7 @@ function App() {
       <BrowserRouter>
         <AwsWafCaptchaHandler />
         <Routes>
+          <Route path="/calendar" element={<publicContent.calendar />} />
           <Route path="/human-verification" element={<HumanVerification />} />
           <Route path="*" element={<AppBase />} />
         </Routes>
