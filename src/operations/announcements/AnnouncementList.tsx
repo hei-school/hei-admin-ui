@@ -76,6 +76,9 @@ const AnnouncementsGrid = () => {
             ...cardStyle,
             "borderColor": getChipColor(announcement?.scope!),
             "&:hover": {transform: "scale(1.05)"},
+            "maxWidth": "100%",
+            "width": "100%",
+            "boxSizing": "border-box",
           }}
         >
           <Card component="div">
