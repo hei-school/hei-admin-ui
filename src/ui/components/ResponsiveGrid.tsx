@@ -37,6 +37,7 @@ export const ResponsiveGrid: FC<ResponsiveGridProps> = ({
         marginTop: "2rem",
         paddingX: "1rem",
       }}
+      data-testid="letter-list-wrapper"
     >
       {children}
     </Box>

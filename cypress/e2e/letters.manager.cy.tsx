@@ -6,7 +6,7 @@ import {
 } from "../fixtures/api_mocks/letters-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
-const ITEM_PER_LIST = 10;
+const ITEM_PER_LIST = 12;
 
 describe("Manager.Letters", () => {
   beforeEach(() => {
@@ -16,47 +16,42 @@ describe("Manager.Letters", () => {
     cy.intercept("GET", `/students/letters/stats`, statsMocks).as("getStats");
     cy.intercept(
       "GET",
-      `/students/letters?page=1&page_size=10`,
+      `/students/letters?page=1&page_size=12`,
       lettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getAllLetters");
     cy.intercept(
       "GET",
-      `/students/letters?page=2&page_size=10`,
+      `/students/letters?page=2&page_size=12`,
       lettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getAllLetters2");
     cy.intercept(
       "GET",
-      `/students/letters?page=2&page_size=10`,
-      lettersMocks.slice(0, ITEM_PER_LIST)
-    ).as("getAllLetters2");
-    cy.intercept(
-      "GET",
-      `/students/letters?page=1&page_size=10&name=${student1Mock.first_name}`,
+      `/students/letters?page=1&page_size=12&name=${student1Mock.first_name}`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getLettersFilteredByfirstName");
     cy.intercept(
       "GET",
-      `/students/letters?page=2&page_size=10&name=${student1Mock.first_name}`,
+      `/students/letters?page=2&page_size=12&name=${student1Mock.first_name}`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getLettersFilteredByfirstName2");
     cy.intercept(
       "GET",
-      `/students/letters?page=1&page_size=10&ref=${newLetter2[0].ref}`,
+      `/students/letters?page=1&page_size=12&ref=${newLetter2[0].ref}`,
       newLetter2
     ).as("getLettersFilteredByRef");
     cy.intercept(
       "GET",
-      `/students/letters?page=2&page_size=10&ref=${newLetter2[0].ref}`,
+      `/students/letters?page=2&page_size=12&ref=${newLetter2[0].ref}`,
       newLetter2
     ).as("getLettersFilteredByRef2");
     cy.intercept(
       "GET",
-      `/students/letters?page=1&page_size=10&status=${newLetter2[0].status}`,
+      `/students/letters?page=1&page_size=12&status=${newLetter2[0].status}`,
       newLetter2
     ).as("getLettersFilteredByStatus");
     cy.intercept(
       "GET",
-      `/students/letters?page=2&page_size=10&status=${newLetter2[0].status}`,
+      `/students/letters?page=2&page_size=12&status=${newLetter2[0].status}`,
       newLetter2
     ).as("getLettersFilteredByStatus2");
     cy.intercept("PUT", `/letters`, (req) => {

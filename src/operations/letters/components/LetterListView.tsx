@@ -84,7 +84,7 @@ export const LetterListView: FC = () => {
           />
         </Box>
       )}
-      <ResponsiveGrid data-testid="letter-list-wrapper">
+      <ResponsiveGrid>
         {isEmpty && <EmptyList />}
         {letters.map((letter) => (
           <LetterItem

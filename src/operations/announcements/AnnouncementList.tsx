@@ -46,7 +46,7 @@ const AnnouncementsGrid = () => {
   const {data: announcements = []} = useListContext();
 
   return (
-    <ResponsiveGrid gap="1.5rem" paddingLeft="2rem">
+    <ResponsiveGrid gap="1.5rem">
       {announcements.map((announcement: Announcement) => (
         <Link
           key={announcement.id}
