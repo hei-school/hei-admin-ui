@@ -1,6 +1,7 @@
 import {lettersApi} from "@/providers/api";
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {toApiIds} from "./feeProvider";
+import {LETTER_PER_PAGE} from "./lettersProvider";
 
 type Params = {
   meta: {
@@ -12,12 +13,12 @@ type Params = {
   };
 };
 const usersLettersProvider: HaDataProviderType = {
-  getList: async (page, perPage, filter, meta) => {
+  getList: async (page, _perPage, filter, meta) => {
     const {userId} = meta;
     const {status} = filter;
 
     return lettersApi()
-      .getLettersByUserId(userId, page, perPage, status)
+      .getLettersByUserId(userId, page, LETTER_PER_PAGE, status)
       .then((result) => ({data: result.data}));
   },
   getOne: async (id: string) => {

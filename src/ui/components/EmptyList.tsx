@@ -9,7 +9,7 @@ export const EmptyList: FC = () => (
     flexDirection="column"
     justifyContent="center"
     alignItems="center"
-    width="100%"
+    width="70vw"
   >
     <img src={emptyImg} alt="empty image" />
     <Typography
