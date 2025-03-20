@@ -1,5 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
+import {ResponsiveGrid} from "@/ui/components";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateButton} from "@/ui/haToolbar";
@@ -12,7 +13,6 @@ import {
   CardMedia,
   LinearProgress,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
 import React, {FC} from "react";
 import {Link, List, useListContext} from "react-admin";
@@ -44,30 +44,9 @@ export const getChipColor = (scope: string) => {
 };
 const AnnouncementsGrid = () => {
   const {data: announcements = []} = useListContext();
-  const isSmall = useMediaQuery("(max-width:600px)");
-  const isTablet = useMediaQuery("(min-width:601px) and (max-width:900px)");
-  const isMedium = useMediaQuery("(min-width:901px) and (max-width:1400px)");
-  const isDesktop = useMediaQuery("(min-width:1400px)");
-
-  const getGridTemplateColumns = () => {
-    if (isSmall) return "1fr";
-    if (isTablet) return "1fr 1fr";
-    if (isMedium) return "1fr 1fr 1fr";
-    if (isDesktop) return "1fr 1fr 1fr 1fr";
-    return "1fr";
-  };
 
   return (
-    <Box
-      display="grid"
-      gridTemplateColumns={getGridTemplateColumns()}
-      gap="1.5rem"
-      padding="1.5rem"
-      sx={{
-        justifyItems: announcements.length <= 2 ? "start" : "center",
-        paddingLeft: "2rem",
-      }}
-    >
+    <ResponsiveGrid gap="1.5rem" paddingLeft="2rem">
       {announcements.map((announcement: Announcement) => (
         <Link
           key={announcement.id}
@@ -168,7 +147,7 @@ const AnnouncementsGrid = () => {
           </Card>
         </Link>
       ))}
-    </Box>
+    </ResponsiveGrid>
   );
 };
 

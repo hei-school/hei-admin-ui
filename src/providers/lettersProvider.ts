@@ -2,8 +2,9 @@ import {lettersApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
 
+export const LETTER_PER_PAGE = 12;
 const lettersProvider: HaDataProviderType = {
-  getList: async (page, perPage, filter = {}) => {
+  getList: async (page, _perPage, filter = {}) => {
     const {role} = authProvider.getCachedWhoami();
     const LETTER_TYPE: any = {
       PAYMENT_SLIP: true,
@@ -14,7 +15,7 @@ const lettersProvider: HaDataProviderType = {
       return lettersApi()
         .getStudentsLetters(
           page,
-          perPage,
+          LETTER_PER_PAGE,
           filter.student_ref,
           filter.letter_ref,
           filter.status,
@@ -27,7 +28,7 @@ const lettersProvider: HaDataProviderType = {
       return lettersApi()
         .getLetters(
           page,
-          perPage,
+          LETTER_PER_PAGE,
           filter.student_ref,
           filter.letter_ref,
           filter.status,
