@@ -89,7 +89,6 @@ export const LetterItem: FC<LetterItemProps> = ({
   const open = !!anchorEl;
 
   const isChecked = letter.status !== "PENDING";
-  const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
 
   const statusColor = STATUS_COLORS[letter.status!];
@@ -268,9 +267,6 @@ export const LetterItem: FC<LetterItemProps> = ({
                     fontSize: "1rem",
                     fontWeight: "700",
                     color: "#37474f",
-                    maxWidth: isSmall ? "120px" : "150px",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
                     whiteSpace: "nowrap",
                   }}
                 >
