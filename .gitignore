@@ -54,3 +54,5 @@ cypress/downloads/*.pdf
 cypress/screenshots/*
 
 .env
+.nyc_output/
+coverage/
