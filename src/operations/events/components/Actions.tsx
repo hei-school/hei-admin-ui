@@ -35,7 +35,7 @@ const IconButtonWithTooltip = ({
   onClick,
 }: IconButtonWithTooltipProps) => {
   return (
-    <Tooltip title={title}>
+    <Tooltip title={title} id="attach-file">
       <span>
         <IconButton disabled={disabled} onClick={onClick}>
           {children}
@@ -120,7 +120,7 @@ export const LetterActions = ({
           disabled={disableAttach}
           onClick={() => toggle()}
         >
-          <AttachFile data-testid="attach-file" fontSize="small" />
+          <AttachFile id="attach-file" fontSize="small" />
         </IconButtonWithTooltip>
         <Icon letter={letters[0] || {}} />
         <IconButtonWithTooltip
