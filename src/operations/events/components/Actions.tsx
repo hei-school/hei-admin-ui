@@ -84,7 +84,7 @@ const Icon = ({letter}: {letter: EventParticipantLetter}) => {
       title={LETTER_STATUS_LABEL[letter.status!] || ""}
       data-testid={`letterTypeIcon-${letter.ref}`}
     >
-      <IconButton>{LETTER_ICON[letter?.status!] || <></>}</IconButton>
+      <IconButton> {LETTER_ICON[letter?.status!] || <></>}</IconButton>
     </Tooltip>
   );
 };
@@ -112,7 +112,7 @@ export const StatusActionStatus: FC<StatusActionProps> = ({
         choices={[
           {value: "PRESENT", label: "Présent", color: "success"},
           {value: "MISSING", label: "Absent", color: "error"},
-          {value: "LATE", label: "En retard", color: "info"},
+          {value: "UNCHECKED", label: "Non défini", color: "info"},
         ]}
         onChange={(status) =>
           changeStatus(participant.id!, status as AttendanceStatus)
