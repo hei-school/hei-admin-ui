@@ -2,7 +2,6 @@ import {useToggle} from "@/hooks";
 import {ChipRadio} from "@/operations/common/components";
 import {LETTER_ICON} from "@/operations/fees/components/letterIcon";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
-import {IconButtonWithTooltip} from "@/operations/utils";
 import {useRole} from "@/security/hooks";
 import {
   AttendanceStatus,
@@ -11,66 +10,46 @@ import {
 } from "@haapi/typescript-client";
 import {AttachFile, Visibility} from "@mui/icons-material";
 import {IconButton, Stack, Tooltip} from "@mui/material";
-import {FC} from "react";
+import {FC, useState} from "react";
 import {useGetIdentity, useRefresh} from "react-admin";
+import {EventJustificateModal} from "./EventJustificateModal";
 
 interface LetterActionProps {
   eventParticipantId: string;
   userId: string;
   letters: EventParticipantLetter[];
+  username?: string;
 }
 
-export const LetterActions = ({
-  eventParticipantId,
-  userId,
-  letters,
-}: LetterActionProps) => {
-  const [show, _, toggle] = useToggle();
-  const {isManager, isAdmin} = useRole();
-  const refresh = useRefresh();
-  const {data} = useGetIdentity();
+interface IconButtonWithTooltipProps {
+  title: string;
+  children: React.ReactNode;
+  disabled?: boolean;
+  onClick?: () => void;
+}
 
-  const disableAttach =
-    (data?.id as string) !== userId ||
-    letters.some(
-      (letter) => letter.status === "RECEIVED" || letter.status === "PENDING"
-    );
-  const disableView =
-    (!(isManager() || isAdmin()) && (data?.id as string) !== userId) ||
-    !letters[0];
-
+const IconButtonWithTooltip = ({
+  title,
+  children,
+  disabled,
+  onClick,
+}: IconButtonWithTooltipProps) => {
   return (
-    <Stack direction="row" alignItems="center" justifyContent="center">
-      <IconButtonWithTooltip
-        title="Enregister un justificatif"
-        disabled={disableAttach}
-      >
-        <AttachFile
-          data-testid="attach-file"
-          onClick={() => toggle()}
-          fontSize="small"
-        />
-      </IconButtonWithTooltip>
-      <Icon letter={letters[0] || {}} />
-      <IconButtonWithTooltip
-        title="Voir le dernier justificatif"
-        disabled={disableView}
-      >
-        <Visibility data-testid="view-file" fontSize="small" />
-      </IconButtonWithTooltip>
-      <CreateLettersDialog
-        isOpen={show}
-        onClose={() => {
-          toggle();
-          refresh();
-        }}
-        userId={userId}
-        eventParticipantId={eventParticipantId}
-        title="Justificatif d'absence"
-      />
-    </Stack>
+    <Tooltip title={title}>
+      <span>
+        <IconButton disabled={disabled} onClick={onClick}>
+          {children}
+        </IconButton>
+      </span>
+    </Tooltip>
   );
 };
+
+interface StatusActionProps {
+  participant: EventParticipant;
+  localStatus: AttendanceStatus;
+  changeStatus: (id: string, status: AttendanceStatus) => void;
+}
 
 export const LETTER_STATUS_LABEL = {
   RECEIVED: "Justifié avec succès",
@@ -84,16 +63,10 @@ const Icon = ({letter}: {letter: EventParticipantLetter}) => {
       title={LETTER_STATUS_LABEL[letter.status!] || ""}
       data-testid={`letterTypeIcon-${letter.ref}`}
     >
-      <IconButton> {LETTER_ICON[letter?.status!] || <></>}</IconButton>
+      <IconButton>{LETTER_ICON[letter?.status!] || <></>}</IconButton>
     </Tooltip>
   );
 };
-
-interface StatusActionProps {
-  participant: EventParticipant;
-  localStatus: AttendanceStatus;
-  changeStatus: (id: string, status: AttendanceStatus) => void;
-}
 
 export const StatusActionStatus: FC<StatusActionProps> = ({
   participant,
@@ -119,5 +92,62 @@ export const StatusActionStatus: FC<StatusActionProps> = ({
         }
       />
     </Stack>
+  );
+};
+
+export const LetterActions = ({
+  eventParticipantId,
+  userId,
+  letters,
+  username,
+}: LetterActionProps) => {
+  const [show, _, toggle] = useToggle();
+  const [viewerOpen, setViewerOpen] = useState(false);
+  const refresh = useRefresh();
+  const {data} = useGetIdentity();
+
+  const disableAttach =
+    (data?.id as string) !== userId ||
+    letters.some(
+      (letter) => letter.status === "RECEIVED" || letter.status === "PENDING"
+    );
+
+  return (
+    <>
+      <Stack direction="row" alignItems="center" justifyContent="center">
+        <IconButtonWithTooltip
+          title="Enregister un justificatif"
+          disabled={disableAttach}
+          onClick={() => toggle()}
+        >
+          <AttachFile data-testid="attach-file" fontSize="small" />
+        </IconButtonWithTooltip>
+        <Icon letter={letters[0] || {}} />
+        <IconButtonWithTooltip
+          title="Voir le dernier justificatif"
+          disabled={!letters[0]?.file_url}
+          onClick={() => setViewerOpen(true)}
+        >
+          <Visibility data-testid="view-file" fontSize="small" />
+        </IconButtonWithTooltip>
+        <CreateLettersDialog
+          isOpen={show}
+          onClose={() => {
+            toggle();
+            refresh();
+          }}
+          userId={userId}
+          eventParticipantId={eventParticipantId}
+          title="Justificatif d'absence"
+        />
+      </Stack>
+      <EventJustificateModal
+        open={viewerOpen}
+        onClose={() => setViewerOpen(false)}
+        fileUrl={letters[0]?.file_url}
+        userId={userId}
+        username={username}
+      />
+    </>
   );
 };

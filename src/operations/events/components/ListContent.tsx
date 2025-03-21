@@ -166,6 +166,7 @@ export const ListContent = ({eventId}: {eventId: string}) => {
                 "MISSING" ? (
                 <LetterActions
                   userId={record.student_id!}
+                  username={record.first_name}
                   eventParticipantId={record.id!}
                   letters={record.letter || []}
                 />
