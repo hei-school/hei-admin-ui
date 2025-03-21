@@ -177,6 +177,7 @@ const AnnouncementsGrid = () => {
 const ScopeFilterChips = () => {
   const {filterValues, setFilters} = useListFilterContext();
   const [activeScope, setActiveScope] = useState<string | null>(null);
+  const {isStudent, isTeacher, isManager, isAdmin} = useRole();
 
   const handleScopeFilter = (scope: string | null) => {
     setActiveScope(scope);
@@ -230,6 +231,23 @@ const ScopeFilterChips = () => {
     },
   });
 
+  const getFilteredScopes = () => {
+    if (isAdmin() || isManager()) {
+      return Object.entries(ANNOUNCEMENT_SCOPE);
+    }
+    if (isStudent()) {
+      return Object.entries(ANNOUNCEMENT_SCOPE).filter(
+        ([scope]) => scope === Scope.GLOBAL || scope === Scope.STUDENT
+      );
+    }
+    if (isTeacher()) {
+      return Object.entries(ANNOUNCEMENT_SCOPE).filter(
+        ([scope]) => scope === Scope.GLOBAL || scope === Scope.TEACHER
+      );
+    }
+    return [];
+  };
+
   return (
     <Paper
       elevation={0}
@@ -256,7 +274,7 @@ const ScopeFilterChips = () => {
         />
       </Tooltip>
 
-      {Object.entries(ANNOUNCEMENT_SCOPE).map(([scope, label]) => (
+      {getFilteredScopes().map(([scope, label]) => (
         <Tooltip key={scope} title={label as string} arrow>
           <Chip
             icon={getScopeIcon(scope)}
