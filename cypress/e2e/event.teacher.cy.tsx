@@ -70,7 +70,7 @@ describe("Teacher.event", () => {
         cy.getByTestid("MISSING").should("have.class", "MuiChip-outlined");
         cy.contains("Absent").click();
       });
-    cy.contains("Enregistrer").click();
+    cy.contains("Sauvegarder").click();
     cy.wait("@saveEventParticipant").then((interception) => {
       expect(interception.response?.statusCode).to.eq(200);
     });
