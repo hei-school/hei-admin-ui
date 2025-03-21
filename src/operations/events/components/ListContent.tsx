@@ -1,14 +1,13 @@
 import {
   Add,
+  CheckCircleOutline,
   Download,
   Event as EventIcon,
-  Save,
   Upload,
 } from "@mui/icons-material";
 import {Box, Stack} from "@mui/material";
 import {useState} from "react";
 import {
-  Button,
   Datagrid,
   FunctionField,
   TextField,
@@ -24,6 +23,7 @@ import {HaList} from "@/ui/haList";
 import {ButtonBase} from "@/ui/haToolbar";
 import {AttendanceStatus, EventParticipant} from "@haapi/typescript-client";
 
+import {FloatingActionButton} from "@/operations/common/components/FloatingActionButton";
 import {LetterActions, StatusActionStatus} from "./Actions";
 import {AddGroupDialog} from "./AddGroup";
 import {EventParticipantsFilter} from "./EventParticipantsFilter";
@@ -177,10 +177,23 @@ export const ListContent = ({eventId}: {eventId: string}) => {
         </Datagrid>
       </HaList>
       {(isManager() || isTeacher() || isAdmin()) && (
-        <SaveButton
+        <FloatingActionButton
           onClick={changeStatus}
           isLoading={editStatus}
           disabled={editStatus || statusMap.size === 0}
+          count={statusMap.size}
+          countLabel={(count) =>
+            count === 1 ? "modification en attente" : "modifications en attente"
+          }
+          actionIcon={
+            editStatus ? (
+              <Loader />
+            ) : (
+              <CheckCircleOutline sx={{fontSize: "20px"}} />
+            )
+          }
+          actionLabel="Sauvegarder"
+          loadingLabel="Enregistrement..."
         />
       )}
       <AddGroupDialog
@@ -196,27 +209,5 @@ export const ListContent = ({eventId}: {eventId: string}) => {
         onSuccess={refresh}
       />
     </Stack>
-  );
-};
-interface ButtonProps {
-  onClick: () => void;
-  isLoading: boolean;
-  disabled?: boolean;
-}
-
-const SaveButton = ({
-  onClick,
-  isLoading = false,
-  disabled = false,
-}: ButtonProps) => {
-  return (
-    <Button
-      label="Enregistrer"
-      startIcon={isLoading ? <Loader /> : <Save fontSize="small" />}
-      variant={"contained"}
-      onClick={() => onClick()}
-      sx={{m: 2, maxWidth: 150, textTransform: "revert"}}
-      disabled={disabled}
-    />
   );
 };
