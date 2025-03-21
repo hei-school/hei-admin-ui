@@ -3,6 +3,12 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {announcementsApi} from "./api";
 import authProvider from "./authProvider";
 
+type Params = {
+  meta: {
+    method: "CREATE" | "UPDATE";
+    id: string;
+  };
+};
 const announcementProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
     const role = authProvider.getCachedRole();
@@ -69,10 +75,17 @@ const announcementProvider: HaDataProviderType = {
         throw new Error("Unexpected role");
     }
   },
-  async saveOrUpdate(payload: any) {
-    return announcementsApi()
-      .createAnnouncement(payload[0])
-      .then((result) => [result.data]);
+  async saveOrUpdate(payload: any, {meta}: Params) {
+    const {id, method} = meta;
+    if (method === "UPDATE") {
+      return announcementsApi()
+        .reactToAnnouncement(id, payload[0])
+        .then((result) => [result.data]);
+    } else if (method === "CREATE") {
+      return announcementsApi()
+        .createAnnouncement(payload[0])
+        .then((result) => [result.data]);
+    }
   },
   async delete() {
     throw new Error("Not implemented");

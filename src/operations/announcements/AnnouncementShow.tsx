@@ -1,19 +1,30 @@
-import {FC} from "react";
-
+import {useNotify} from "@/hooks";
 import {AnnouncementAuthor} from "@haapi/typescript-client";
+import {ThumbUpAlt, ThumbUpOffAlt} from "@mui/icons-material";
 import {
   Avatar,
   Box,
   Card,
   CardContent,
   CardMedia,
+  Checkbox,
+  Chip,
+  Skeleton,
   Typography,
 } from "@mui/material";
 import {MarkdownField} from "@react-admin/ra-markdown";
-import {Show, SimpleShowLayout, useGetOne, useRedirect} from "react-admin";
+import {FC} from "react";
+import {
+  Show,
+  SimpleShowLayout,
+  useGetOne,
+  useRedirect,
+  useUpdate,
+} from "react-admin";
 import {useParams} from "react-router-dom";
 import {getChipColor} from "./AnnouncementList";
 import {EmailField} from "./components/EmailField";
+import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
 import {getBgImg} from "./utils/getBgImg";
 
 interface AuthorProps {
@@ -25,10 +36,14 @@ const AnnouncementAuthorShow: FC<AuthorProps> = ({author}) => {
 
   return (
     <Box display="flex">
-      <Avatar
-        src={author.profile_picture}
-        sx={{width: 50, height: 50, borderRadius: "50%"}}
-      />
+      {author.profile_picture ? (
+        <Avatar
+          src={author.profile_picture}
+          sx={{width: 50, height: 50, borderRadius: "50%"}}
+        />
+      ) : (
+        <Skeleton variant="circular" width={50} height={50} />
+      )}
       <Box display="flex" flexDirection="column" justifyContent="flex-end">
         <Typography
           variant="caption"
@@ -56,8 +71,39 @@ export const AnnouncementShow = () => {
   const {data: announcement = [], isFetching} = useGetOne("announcements", {
     id,
   });
+  const [update, {isLoading}] = useUpdate();
 
   if (!announcement && !isFetching) redirect("/announcements");
+
+  const notify = useNotify();
+  const handleCheckboxChange = async (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const checked = event.target.checked;
+    const payload = {reaction: checked ? "CHECK" : "UNCHECK"};
+    update(
+      "announcements",
+      {
+        id,
+        meta: {method: "UPDATE", id},
+        data: payload,
+        previousData: announcement,
+      },
+      {
+        onSuccess: () => {
+          notify("Réaction mise à jour avec succès", {
+            type: "success",
+          });
+        },
+        onError: (error) => {
+          notify("Erreur lors de la mise à jour de la réaction", {
+            type: "error",
+          });
+          console.error(error);
+        },
+      }
+    );
+  };
 
   return (
     <Card
@@ -85,6 +131,19 @@ export const AnnouncementShow = () => {
           top: "-60px",
           border: "4px solid",
           borderColor: getChipColor(announcement?.scope!),
+        }}
+      />
+      <Chip
+        label={ANNOUNCEMENT_SCOPE[announcement?.scope!]}
+        sx={{
+          position: "absolute",
+          backgroundColor: "white",
+          color: getChipColor(announcement?.scope!),
+          fontWeight: "bold",
+          marginBottom: "0.5rem",
+          top: "10px",
+          right: "10px",
+          borderRadius: "5px",
         }}
       />
       <Box
@@ -122,11 +181,56 @@ export const AnnouncementShow = () => {
           />
         </SimpleShowLayout>
       </Show>
-      <CardContent>
-        <AnnouncementAuthorShow author={announcement.author} />
-        <Typography variant="caption">
-          {new Date(announcement.creation_datetime).toLocaleString()}
-        </Typography>
+      <CardContent
+        style={{
+          display: "flex",
+          flexDirection: "row",
+          alignItems: "end",
+          justifyContent: "space-between",
+          paddingInline: "1rem",
+        }}
+      >
+        <Box
+          sx={{
+            textAlign: "start",
+          }}
+        >
+          <AnnouncementAuthorShow author={announcement.author} />
+          <Typography variant="caption">
+            {new Date(announcement.creation_datetime).toLocaleString()}
+          </Typography>
+        </Box>
+        <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
+          <Typography fontSize="1rem" fontWeight={900}>
+            {announcement.reaction_count || 0}
+          </Typography>
+          <Checkbox
+            disabled={isLoading}
+            checked={announcement.hasCurrentUserReaction || false}
+            icon={
+              <ThumbUpOffAlt
+                sx={{color: "#aaa", transition: "all 0.2s ease"}}
+              />
+            }
+            checkedIcon={
+              <ThumbUpAlt
+                sx={{color: "#2196f3", transition: "all 0.2s ease"}}
+              />
+            }
+            onChange={handleCheckboxChange}
+            sx={{
+              "&:hover": {
+                backgroundColor: "rgba(33, 150, 243, 0.08)",
+              },
+              "& .MuiSvgIcon-root": {
+                fontSize: "1.4rem",
+              },
+              "padding": "6px",
+              "borderRadius": "50%",
+              "transition": "all 0.2s ease",
+            }}
+          />
+        </Box>
       </CardContent>
     </Card>
   );
