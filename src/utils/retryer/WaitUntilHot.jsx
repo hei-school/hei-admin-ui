@@ -2,7 +2,7 @@ import {healthApi} from "@/providers/api";
 import {LoadingPage} from "@mui/material";
 import {useEffect, useState} from "react";
 
-const MAX_ATTEMP = 10;
+const MAX_ATTEMPT = 10;
 
 // TODO: create error page
 export function WaitUntilHot({children}) {
@@ -34,7 +34,7 @@ export function WaitUntilHot({children}) {
     };
 
     if (
-      retryStatus.attempt < MAX_ATTEMP &&
+      retryStatus.attempt < MAX_ATTEMPT &&
       !retryStatus.loading &&
       !retryStatus.resolve
     ) {

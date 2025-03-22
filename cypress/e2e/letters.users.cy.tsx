@@ -6,7 +6,7 @@ import {
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 import {teacher1Mock} from "../fixtures/api_mocks/teachers-mocks";
 
-const ITEM_PER_LIST = 10;
+const ITEM_PER_LIST = 12;
 
 const testLettersFunctionality = (
   role: string,
@@ -21,12 +21,12 @@ const testLettersFunctionality = (
 
     cy.intercept(
       "GET",
-      `/users/${userId}/letters?page=1&page_size=10`,
+      `/users/${userId}/letters?page=1&page_size=12`,
       letterMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage1");
     cy.intercept(
       "GET",
-      `/users/${userId}/letters?page=2&page_size=10`,
+      `/users/${userId}/letters?page=2&page_size=12`,
       letterMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage2");
     cy.intercept("POST", `/users/${userId}/letters?*`, newLetter).as(
@@ -102,12 +102,12 @@ describe("Manager.Letters.student", () => {
   it("manager can list student letter", () => {
     cy.intercept(
       "GET",
-      `/users/${student1Mock.id}/letters?page=1&page_size=10`,
+      `/users/${student1Mock.id}/letters?page=1&page_size=12`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage1");
     cy.intercept(
       "GET",
-      `/users/${student1Mock.id}/letters?page=2&page_size=10`,
+      `/users/${student1Mock.id}/letters?page=2&page_size=12`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage2");
     cy.getByTestid("letters-list-tab").click();

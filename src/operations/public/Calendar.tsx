@@ -12,6 +12,7 @@ import {
   transformApiDataToCalendarEvents,
 } from "@/operations/public/utils";
 
+import {Box, CircularProgress, Typography} from "@mui/material";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./style/calendar.css";
 
@@ -23,6 +24,7 @@ const API_URL = process.env.REACT_APP_API_URL;
 export default function CalendarView() {
   const [view, setView] = useState<View>(Views.WEEK);
   const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const fetchEvents = async () => {
     try {
@@ -33,6 +35,8 @@ export default function CalendarView() {
       setEvents(data);
     } catch (error) {
       console.error("Error fetching events:", error);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -47,21 +51,45 @@ export default function CalendarView() {
   const calendarEvents = transformApiDataToCalendarEvents(events);
 
   return (
-    <Calendar
-      localizer={localizer}
-      events={calendarEvents}
-      startAccessor="start"
-      endAccessor="end"
-      view={view}
-      views={[Views.MONTH, Views.WEEK, Views.DAY]}
-      style={{height: "100vh"}}
-      onView={handleOnChangeView}
-      min={new Date(2025, 1, 0, 8, 0, 0)}
-      max={new Date(2025, 1, 0, 18, 0, 0)}
-      eventPropGetter={eventStyleGetter}
-      dayPropGetter={dayPropGetter}
-      messages={frenchMessages}
-      formats={dateFormats}
-    />
+    <Box>
+      {loading && (
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            width: "100vw",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            flexDirection: "column",
+            height: "100vh",
+            zIndex: 10,
+            backgroundColor: "rgba(0,0,0,0.7)",
+          }}
+        >
+          <CircularProgress sx={{color: "white"}} />
+          <Typography variant="h6" color="white">
+            Chargement des évènements
+          </Typography>
+        </Box>
+      )}
+      <Calendar
+        localizer={localizer}
+        events={calendarEvents}
+        startAccessor="start"
+        endAccessor="end"
+        view={view}
+        views={[Views.MONTH, Views.WEEK, Views.DAY]}
+        style={{height: "100vh"}}
+        onView={handleOnChangeView}
+        min={new Date(2025, 1, 0, 8, 0, 0)}
+        max={new Date(2025, 1, 0, 18, 0, 0)}
+        eventPropGetter={eventStyleGetter}
+        dayPropGetter={dayPropGetter}
+        messages={frenchMessages}
+        formats={dateFormats}
+      />
+    </Box>
   );
 }

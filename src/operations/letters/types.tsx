@@ -16,6 +16,9 @@ export interface CreateLettersDialogProps {
 export interface LetterItemProps {
   letter: Letter;
   isStudentLetter?: boolean;
+  onSelect?: (id: string, selected: boolean) => void;
+  selected?: boolean;
+  showCheckbox?: boolean;
 }
 
 export interface BottomFieldProps {

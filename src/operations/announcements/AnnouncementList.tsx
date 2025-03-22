@@ -1,23 +1,36 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
+import {ResponsiveGrid} from "@/ui/components";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateButton} from "@/ui/haToolbar";
 import {Announcement, Scope} from "@haapi/typescript-client";
-import {Newspaper as AnnouncementIcon, Campaign} from "@mui/icons-material";
+import {
+  Newspaper as AnnouncementIcon,
+  Campaign,
+  FilterList,
+  People,
+  Public,
+  School,
+  Work,
+} from "@mui/icons-material";
 import {
   Avatar,
   Box,
   Card,
   CardMedia,
+  Chip,
   LinearProgress,
+  Paper,
+  Skeleton,
+  Tooltip,
   Typography,
-  useMediaQuery,
 } from "@mui/material";
-import React, {FC} from "react";
-import {Link, List, useListContext} from "react-admin";
+import React, {FC, useState} from "react";
+import {Link, List, useListContext, useListFilterContext} from "react-admin";
 import {AnnouncementFilter} from "./components";
 import {EmailField} from "./components/EmailField";
+import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
 import {getBgImg} from "./utils/getBgImg";
 
 const cardStyle: React.CSSProperties = {
@@ -42,32 +55,12 @@ export const getChipColor = (scope: string) => {
       return PALETTE_COLORS.yellow;
   }
 };
-const AnnouncementsGrid = () => {
-  const {data: announcements = []} = useListContext();
-  const isSmall = useMediaQuery("(max-width:600px)");
-  const isTablet = useMediaQuery("(min-width:601px) and (max-width:900px)");
-  const isMedium = useMediaQuery("(min-width:901px) and (max-width:1400px)");
-  const isDesktop = useMediaQuery("(min-width:1400px)");
 
-  const getGridTemplateColumns = () => {
-    if (isSmall) return "1fr";
-    if (isTablet) return "1fr 1fr";
-    if (isMedium) return "1fr 1fr 1fr";
-    if (isDesktop) return "1fr 1fr 1fr 1fr";
-    return "1fr";
-  };
+const AnnouncementsGrid = () => {
+  const {data: announcements = [], isLoading} = useListContext();
 
   return (
-    <Box
-      display="grid"
-      gridTemplateColumns={getGridTemplateColumns()}
-      gap="1.5rem"
-      padding="1.5rem"
-      sx={{
-        justifyItems: announcements.length <= 2 ? "start" : "center",
-        paddingLeft: "2rem",
-      }}
-    >
+    <ResponsiveGrid gap="1.5rem">
       {announcements.map((announcement: Announcement) => (
         <Link
           key={announcement.id}
@@ -79,24 +72,29 @@ const AnnouncementsGrid = () => {
             "maxWidth": "100%",
             "width": "100%",
             "boxSizing": "border-box",
+            "marginBottom": "1rem",
           }}
         >
           <Card component="div">
-            <CardMedia
-              component="img"
-              image={getBgImg(announcement?.scope!)}
-              alt="Announcement Background"
-              sx={{
-                borderRadius: "50%",
-                height: "100px",
-                width: "100px",
-                marginLeft: "1.5rem",
-                position: "absolute",
-                top: "-45px",
-                border: "4px solid",
-                borderColor: getChipColor(announcement?.scope!),
-              }}
-            />
+            {isLoading ? (
+              <Skeleton variant="rectangular" width={100} height={100} />
+            ) : (
+              <CardMedia
+                component="img"
+                image={getBgImg(announcement?.scope!)}
+                alt="Announcement Background"
+                sx={{
+                  borderRadius: "50%",
+                  height: "100px",
+                  width: "100px",
+                  marginLeft: "1.5rem",
+                  position: "absolute",
+                  top: "-45px",
+                  border: "4px solid",
+                  borderColor: getChipColor(announcement?.scope!),
+                }}
+              />
+            )}
             <Box
               sx={{
                 backgroundColor: getChipColor(announcement?.scope!),
@@ -153,22 +151,141 @@ const AnnouncementsGrid = () => {
                     ).toLocaleString()}
                   </Typography>
                 </Box>
-                <Avatar
-                  alt={announcement.author?.first_name}
-                  src={announcement.author?.profile_picture}
-                  sx={{
-                    height: 50,
-                    width: 50,
-                    border: "2px solid",
-                    borderColor: getChipColor(announcement?.scope!),
-                  }}
-                />
+                {isLoading ? (
+                  <Skeleton variant="circular" width={50} height={50} />
+                ) : (
+                  <Avatar
+                    alt={announcement.author?.first_name}
+                    src={announcement.author?.profile_picture}
+                    sx={{
+                      height: 50,
+                      width: 50,
+                      border: "2px solid",
+                      borderColor: getChipColor(announcement?.scope!),
+                    }}
+                  />
+                )}
               </Box>
             </Box>
           </Card>
         </Link>
       ))}
-    </Box>
+    </ResponsiveGrid>
+  );
+};
+
+const ScopeFilterChips = () => {
+  const {filterValues, setFilters} = useListFilterContext();
+  const [activeScope, setActiveScope] = useState<string | null>(null);
+  const {isStudent, isTeacher, isManager, isAdmin} = useRole();
+
+  const handleScopeFilter = (scope: string | null) => {
+    setActiveScope(scope);
+    if (scope) {
+      setFilters({...filterValues, scope}, null, false);
+    } else {
+      const {scope, ...restFilters} = filterValues || {};
+      setFilters(restFilters, null, false);
+    }
+  };
+
+  const getScopeIcon = (scope: string) => {
+    switch (scope) {
+      case Scope.GLOBAL:
+        return <Public sx={{fontSize: "1.2rem"}} />;
+      case Scope.STUDENT:
+        return <School sx={{fontSize: "1.2rem"}} />;
+      case Scope.TEACHER:
+        return <Work sx={{fontSize: "1.2rem"}} />;
+      case Scope.MANAGER:
+        return <People sx={{fontSize: "1.2rem"}} />;
+      default:
+        return <FilterList sx={{fontSize: "1.2rem"}} />;
+    }
+  };
+
+  const getChipStyles = (isActive: boolean) => ({
+    "fontWeight": "bold",
+    "fontSize": "0.9rem",
+    "height": "36px",
+    "transition": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    "background": isActive
+      ? "linear-gradient(45deg, #1976d2, #42a5f5)"
+      : "white",
+    "border": isActive ? "none" : "1px solid #e0e0e0",
+    "color": isActive ? "white" : "#666",
+    "& .MuiChip-icon": {
+      color: isActive ? "white" : "#666",
+      transition: "color 0.3s ease",
+    },
+    "&:hover": {
+      transform: "translateY(-2px)",
+      boxShadow: "0 4px 12px rgba(0,0,0,0.15)",
+      background: isActive
+        ? "linear-gradient(45deg, #1976d2, #42a5f5)"
+        : "linear-gradient(45deg, #f5f5f5, #ffffff)",
+    },
+    "&:active": {
+      transform: "translateY(0)",
+      boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+    },
+  });
+
+  const getFilteredScopes = () => {
+    if (isAdmin() || isManager()) {
+      return Object.entries(ANNOUNCEMENT_SCOPE);
+    }
+    if (isStudent()) {
+      return Object.entries(ANNOUNCEMENT_SCOPE).filter(
+        ([scope]) => scope === Scope.GLOBAL || scope === Scope.STUDENT
+      );
+    }
+    if (isTeacher()) {
+      return Object.entries(ANNOUNCEMENT_SCOPE).filter(
+        ([scope]) => scope === Scope.GLOBAL || scope === Scope.TEACHER
+      );
+    }
+    return [];
+  };
+
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        gap: 1.5,
+        padding: "20px",
+        background: "linear-gradient(to right, #f8f9fa, #ffffff)",
+        borderRadius: "16px",
+        marginBottom: "24px",
+        position: "relative",
+        overflow: "hidden",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.03)",
+      }}
+    >
+      <Tooltip title="Tous les types d'annonces" arrow>
+        <Chip
+          icon={<FilterList sx={{fontSize: "1.2rem"}} />}
+          label="Tous"
+          clickable
+          onClick={() => handleScopeFilter(null)}
+          sx={getChipStyles(activeScope === null)}
+        />
+      </Tooltip>
+
+      {getFilteredScopes().map(([scope, label]) => (
+        <Tooltip key={scope} title={label as string} arrow>
+          <Chip
+            icon={getScopeIcon(scope)}
+            label={label as string}
+            clickable
+            onClick={() => handleScopeFilter(scope)}
+            sx={getChipStyles(activeScope === scope)}
+          />
+        </Tooltip>
+      ))}
+    </Paper>
   );
 };
 
@@ -207,6 +324,7 @@ export const AnnouncementList = () => {
         icon={<AnnouncementIcon />}
         mainSearch={{source: "", label: ""}}
       />
+      <ScopeFilterChips />
       <AnnouncementsGrid />
     </List>
   );

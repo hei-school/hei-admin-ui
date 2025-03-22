@@ -27,7 +27,15 @@ export const AnnouncementCreate = () => {
   const [scope, setScope] = useState("");
 
   return (
-    <Create title="Annonces" transform={transformAnnouncement}>
+    <Create
+      title="Annonces"
+      mutationOptions={{
+        meta: {
+          method: "CREATE",
+        },
+      }}
+      transform={transformAnnouncement}
+    >
       <SimpleForm>
         <TextInput source="title" label="Titre" fullWidth required />
         <SelectScope setScope={setScope} />
