@@ -1,12 +1,23 @@
 import react from "@vitejs/plugin-react";
 import path from "path";
 import {defineConfig, loadEnv} from "vite";
+import istanbul from "vite-plugin-istanbul";
+import {nodePolyfills} from "vite-plugin-node-polyfills";
 
 // https://vitejs.dev/config/
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, process.cwd(), "");
   return {
-    plugins: [react()],
+    plugins: [
+      react(),
+      nodePolyfills(),
+      istanbul({
+        requireEnv: false,
+        // Instruments the code for cypress runs
+        cypress: true,
+        forceBuildInstrument: true,
+      }),
+    ],
     define: {
       "process.env": env,
     },
@@ -21,6 +32,9 @@ export default defineConfig(({mode}) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
+        "path": "vite-plugin-node-polyfills/polyfills/path",
+        "os": "vite-plugin-node-polyfills/polyfills/os",
+        "crypto": "vite-plugin-node-polyfills/polyfills/crypto",
       },
     },
     build: {

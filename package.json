@@ -65,6 +65,8 @@
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^4.1.0",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-istanbul": "^7.0.0",
+    "vite-plugin-node-polyfills": "^0.23.0"
   }
 }
