@@ -20,7 +20,6 @@ export default defineConfig({
   reporterOptions: {
     overwrite: true,
     outputDir: "dist/test-reports",
-    mergeFilename: "test-reports.xml",
   },
   e2e: {
     setupNodeEvents(on, config) {

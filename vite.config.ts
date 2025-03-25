@@ -15,8 +15,7 @@ export default defineConfig(({mode}) => {
         requireEnv: false,
         cypress: true,
         forceBuildInstrument: true,
-        include: ["cypress/**", "cypress/**/*"],
-        exclude: ["node_modules", "coverage", "dist"],
+        exclude: ["cypress/fixtures/**/*", "cypress/support/*"],
       }),
     ],
     define: {
