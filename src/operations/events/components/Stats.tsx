@@ -28,8 +28,8 @@ export const StatCard = ({stats}: {stats: EventStats}) => {
       />
       <StatBox
         Icon={AccessTime}
-        label="En retard"
-        value={stats.late || 0}
+        label="Non défini"
+        value={stats.total! - (stats.present || 0) - (stats.missing || 0) || 0}
         color="#f2f4d2"
       />
     </Stack>
