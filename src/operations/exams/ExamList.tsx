@@ -96,7 +96,7 @@ export const ExamCard = () => {
                     <Typography
                       variant="h6"
                       sx={{
-                        "fontWeight": "bold",
+                        fontWeight: "bold",
                       }}
                     >
                       {exam.title}
