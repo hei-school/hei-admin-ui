@@ -68,7 +68,6 @@ import {NOOP_FN} from "@/utils/noop";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
-import {StudentGradeList} from "@/operations/grades/StudentGradeList";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
 
@@ -428,7 +427,6 @@ export const ProfileLayout = ({
   isTeacherProfile = false,
   isStudentProfile = false,
   isMonitorProfile = false,
-  isAdminProfil = false,
   isStaffProfil = false,
 }) => {
   const {record: profile = {}} = useShowContext();
@@ -609,11 +607,6 @@ export const Informations = ({
       {isStudentProfile && (
         <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
           <CommentList studentId={profile.id} />
-        </TabbedShowLayout.Tab>
-      )}
-      {isStudentProfile && (
-        <TabbedShowLayout.Tab label="Notes" style={{fontSize: "0.8rem"}}>
-          <StudentGradeList studentId={profile.id} />
         </TabbedShowLayout.Tab>
       )}
       {isStudentProfile &&
