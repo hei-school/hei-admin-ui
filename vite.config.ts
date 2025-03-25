@@ -10,7 +10,7 @@ export default defineConfig(({mode}) => {
   return {
     plugins: [
       react(),
-      nodePolyfills(),
+      nodePolyfills({include: ["crypto", "os", "path", "stream", "vm"]}),
       istanbul({
         requireEnv: false,
         // Instruments the code for cypress runs
@@ -32,9 +32,6 @@ export default defineConfig(({mode}) => {
     resolve: {
       alias: {
         "@": path.resolve(__dirname, "./src"),
-        "path": "vite-plugin-node-polyfills/polyfills/path",
-        "os": "vite-plugin-node-polyfills/polyfills/os",
-        "crypto": "vite-plugin-node-polyfills/polyfills/crypto",
       },
     },
     build: {
