@@ -2,8 +2,6 @@ import moment from "moment";
 import {useEffect, useState} from "react";
 import {Calendar, momentLocalizer, View, Views} from "react-big-calendar";
 
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
-
 import {
   dateFormats,
   dayPropGetter,
@@ -22,6 +20,7 @@ const localizer = momentLocalizer(moment);
 const API_URL = process.env.REACT_APP_API_URL;
 
 export default function CalendarView() {
+  const ITEM_PER_PAGE = 100;
   const [view, setView] = useState<View>(Views.WEEK);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -29,7 +28,7 @@ export default function CalendarView() {
   const fetchEvents = async () => {
     try {
       const response = await fetch(
-        `${API_URL}/events?page=1&page_size=${MAX_ITEM_PER_PAGE}`
+        `${API_URL}/events?page=1&page_size=${ITEM_PER_PAGE}`
       );
       const data = await response.json();
       setEvents(data);
