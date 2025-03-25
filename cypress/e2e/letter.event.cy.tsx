@@ -28,11 +28,11 @@ describe("Letter.event", () => {
     cy.intercept("GET", `/events/${event1mock.id}`, event1mock);
   });
 
-  it.skip("student can upload letter", () => {
+  it("student can upload letter", () => {
     cy.login({role: "STUDENT"});
     cy.visit(`/events/${event1mock.id}/participants`);
 
-    cy.getByTestid("AttachFileIcon").click();
+    cy.getByTestid(`attach-file`).last().click();
     cy.get("#description").type("missing justify");
     cy.get('[data-testid="dropzone"]').attachFileToDropZone(
       `docs_import/doc.pdf`
@@ -43,5 +43,13 @@ describe("Letter.event", () => {
     cy.contains("Confirmer").click();
     cy.wait("@createLetter");
     cy.contains("Lettre créée avec succès");
+  });
+
+  it.only("student can view uploaded letter", () => {
+    cy.login({role: "STUDENT"});
+    cy.visit(`/events/${event1mock.id}/participants`);
+
+    cy.getByTestid("view-file").first().click();
+    cy.contains(`Document : Justificatif de ${student1Mock.first_name}`);
   });
 });
