@@ -13,9 +13,10 @@ export default defineConfig(({mode}) => {
       nodePolyfills({include: ["crypto", "os", "path", "stream", "vm"]}),
       istanbul({
         requireEnv: false,
-        // Instruments the code for cypress runs
         cypress: true,
         forceBuildInstrument: true,
+        include: ["cypress/**", "cypress/**/*"],
+        exclude: ["node_modules", "coverage", "dist"],
       }),
     ],
     define: {
