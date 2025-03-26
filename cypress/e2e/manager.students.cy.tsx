@@ -351,6 +351,10 @@ describe("Manager creates students", () => {
 
     cy.getByTestid("isPredefinedFee").click();
     cy.get(`#type_${FeeTypeEnum.TUITION}`).click();
+    cy.get("#category").click();
+    cy.contains("Frais L1").click();
+    cy.get("#frequency").click();
+    cy.contains("Mensuel").click();
     cy.getByTestid("amount").click().clear().type(AMOUNT.toString());
     cy.getByTestid("number_of_payments")
       .click()
