@@ -1,4 +1,3 @@
-import {FeeCategory, FeeFrequency} from "@haapi/typescript-client";
 import {Box} from "@mui/material";
 import {useState} from "react";
 import {
@@ -80,7 +79,7 @@ export function FeeInputs() {
             source="category"
             name="category"
             id="category"
-            defaultValue={FeeCategory.UNKNOWN}
+            readOnly={isPredefinedFee}
             label="Catégorie du frais"
             choices={[...CATEGORY_CHOICES]}
             validate={required()}
@@ -89,7 +88,7 @@ export function FeeInputs() {
             source="frequency"
             name="frequency"
             id="frequency"
-            defaultValue={FeeFrequency.UNKNOWN}
+            readOnly={isPredefinedFee}
             label="Frequence du frais"
             choices={[...FEES_FREQUENCY_CHOICES]}
             validate={required()}
