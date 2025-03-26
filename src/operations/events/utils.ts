@@ -11,7 +11,7 @@ export const EVENT_TYPE_VALUE = {
 
 export const ATTENDANCE_STATUS_VALUE = {
   MISSING: "Absent",
-  LATE: "En retard",
+  UNCHECKED: "Non défini",
   PRESENT: "Présent",
 };
 
@@ -23,7 +23,7 @@ export const ATTENDANCE_STATUS = mapToChoices(
 
 export const ATTENDANCE_STATUS_COLOR = {
   MISSING: "error",
-  LATE: "info",
+  UNCHECKED: "info",
   PRESENT: "success",
 };
 

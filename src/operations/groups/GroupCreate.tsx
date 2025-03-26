@@ -6,7 +6,7 @@ import {ColorInput} from "../common/components/ColorInput";
 import {EditToolBar} from "../utils";
 
 const GroupCreate = () => {
-  const [students, setStudents] = useState([]);
+  const [students, setStudents] = useState<string[]>([]);
 
   return (
     <Create

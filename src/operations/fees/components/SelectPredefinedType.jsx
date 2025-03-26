@@ -10,10 +10,13 @@ export function SelectPredefinedType(props) {
   const updateFeesFields = (event) => {
     const configId = event.target.value;
     const feeConfig = feeTemplates.find((el) => el.id === configId);
+    console.log("ito", feeConfig);
 
     reset({
       ...getValues(),
       predefinedType: feeConfig.id,
+      category: feeConfig.category,
+      frequency: feeConfig.frequency,
       amount: feeConfig.amount,
       number_of_payments: feeConfig.number_of_payments,
       comment: feeConfig.name,
