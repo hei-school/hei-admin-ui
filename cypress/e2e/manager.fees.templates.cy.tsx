@@ -10,7 +10,7 @@ const feesTemplate1Updated: Required<FeeTemplate> = {
   type: "TUITION",
   amount: 1000,
   category: "L1",
-  frequency: "MONTHLY",
+  frequency: "YEARLY",
 };
 
 describe("Manager.feesTemplates", () => {
@@ -49,7 +49,7 @@ describe("Manager.feesTemplates", () => {
     cy.get("#category").click();
     cy.contains("Frais L1").click();
     cy.get("#frequency").click();
-    cy.contains("Mensuel").click();
+    cy.contains("Annuel").click();
     cy.getByTestid("SaveIcon").click();
 
     cy.wait("@putFeeTemplate1").then((interception) => {
@@ -75,7 +75,7 @@ describe("Manager.feesTemplates", () => {
     cy.get("#category").click();
     cy.contains("Frais L1").click();
     cy.get("#frequency").click();
-    cy.contains("Mensuel").click();
+    cy.contains("Annuel").click();
     cy.getByTestid("SaveIcon").click();
 
     cy.wait("@putFeeTemplate1").then((interception) => {

@@ -222,6 +222,10 @@ describe("Manager.Fee", () => {
       .click()
       .clear()
       .type(feesToCreate.amount.toString());
+    cy.get("#category").click();
+    cy.contains("Frais L1").click();
+    cy.get("#frequency").click();
+    cy.contains("Mensuel").click();
     cy.getByTestid("number_of_payments")
       .click()
       .clear()
@@ -262,6 +266,10 @@ describe("Manager.Fee", () => {
     cy.getByTestid("create-button").click();
     cy.getByTestid("isPredefinedFee").click();
     cy.get(`#type_${FeeTypeEnum.HARDWARE}`).click();
+    cy.get("#category").click();
+    cy.contains("Frais L1").click();
+    cy.get("#frequency").click();
+    cy.contains("Mensuel").click();
     cy.getByTestid("amount").click().type(feesToCreate.amount.toString());
     cy.getByTestid("number_of_payments")
       .click()
