@@ -25,6 +25,8 @@ export function createFeesApi(fees, studentId) {
     due_datetime,
     amount,
     number_of_payments,
+    category,
+    frequency,
     comment,
     type,
   } = fees;
@@ -50,6 +52,8 @@ export function createFeesApi(fees, studentId) {
       student_id: studentId,
       due_datetime: toUTC(dueDatetime).toISOString(),
       creation_datetime: currentDate,
+      category,
+      frequency,
     });
   }
   return feesToCreate;
