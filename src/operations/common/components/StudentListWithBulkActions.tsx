@@ -1,9 +1,15 @@
 import {HaList} from "@/ui/haList";
 import {Typography} from "@mui/material";
-import {useEffect} from "react";
+import {Dispatch, FC, SetStateAction, useEffect} from "react";
 import {Datagrid, TextField, useListContext} from "react-admin";
 
-const ListContent = ({setStudentsIds}) => {
+interface bulkActionButtonsProps {
+  setStudentsIds: Dispatch<SetStateAction<string[]>>;
+  onBulkAction?: () => void;
+  title?: string;
+}
+
+const ListContent: FC<bulkActionButtonsProps> = ({setStudentsIds}) => {
   const {selectedIds} = useListContext();
 
   useEffect(() => {
@@ -17,6 +23,7 @@ const ListContent = ({setStudentsIds}) => {
       sx={{
         "& .RaBulkActionsToolbar-toolbar": {
           width: "fit-content",
+          display: "none",
         },
       }}
     >
@@ -27,7 +34,7 @@ const ListContent = ({setStudentsIds}) => {
   );
 };
 
-export const StudentListWithBulkActions = ({
+export const StudentListWithBulkActions: FC<bulkActionButtonsProps> = ({
   setStudentsIds,
   title = "Ajouter des étudiants",
 }) => (
@@ -43,6 +50,8 @@ export const StudentListWithBulkActions = ({
     }
     mainSearch={{label: "Prénom·s", source: "first_name"}}
     hasDatagrid={false}
+    actions={undefined}
+    icon={undefined}
   >
     <ListContent setStudentsIds={setStudentsIds} />
   </HaList>

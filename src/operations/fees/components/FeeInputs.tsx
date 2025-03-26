@@ -1,3 +1,5 @@
+import {FeeCategory, FeeFrequency} from "@haapi/typescript-client";
+import {Box} from "@mui/material";
 import {useState} from "react";
 import {
   BooleanInput,
@@ -7,10 +9,15 @@ import {
   number,
   RadioButtonGroupInput,
   required,
+  SelectInput,
   TextInput,
 } from "react-admin";
 import {useFormContext} from "react-hook-form";
-import {FEESTEMPLATES_CHOICES} from "../constants";
+import {
+  CATEGORY_CHOICES,
+  FEES_FREQUENCY_CHOICES,
+  FEESTEMPLATES_CHOICES,
+} from "../constants";
 import {SelectDueDatetime} from "./SelectDueDatetime";
 import {SelectPredefinedType} from "./SelectPredefinedType";
 
@@ -23,7 +30,10 @@ export function FeeInputs() {
 
   const {isPredefinedDate, isPredefinedFee} = feeConfig;
 
-  const updateFeeConfig = (event, shouldResetField = false) => {
+  const updateFeeConfig = (
+    event: React.ChangeEvent<HTMLInputElement>,
+    shouldResetField = false
+  ) => {
     const {name, checked} = event.target;
     setFeeConfig({...feeConfig, [name]: checked});
     if (shouldResetField) {
@@ -57,14 +67,34 @@ export function FeeInputs() {
           data-testid="type"
           optionText="label"
           optionValue="value"
-          choices={FEESTEMPLATES_CHOICES}
+          choices={FEESTEMPLATES_CHOICES.slice()}
           readOnly={isPredefinedFee}
           validate={required()}
         />
       ) : (
         <SelectPredefinedType />
       )}
-      <div>
+      <Box width="100%">
+        <Box display="grid" gridTemplateColumns="1fr 1fr" gap={2}>
+          <SelectInput
+            source="category"
+            name="category"
+            id="category"
+            defaultValue={FeeCategory.UNKNOWN}
+            label="Catégorie du frais"
+            choices={[...CATEGORY_CHOICES]}
+            validate={required()}
+          />
+          <SelectInput
+            source="frequency"
+            name="frequency"
+            id="frequency"
+            defaultValue={FeeFrequency.UNKNOWN}
+            label="Frequence du frais"
+            choices={[...FEES_FREQUENCY_CHOICES]}
+            validate={required()}
+          />
+        </Box>
         <TextInput
           fullWidth
           source="amount"
@@ -122,7 +152,7 @@ export function FeeInputs() {
             validate={required()}
           />
         )}
-      </div>
+      </Box>
     </>
   );
 }
