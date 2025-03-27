@@ -112,6 +112,8 @@ export const LetterActions = ({
       (letter) => letter.status === "RECEIVED" || letter.status === "PENDING"
     );
 
+  const isNotOwner = (data?.id as string) !== userId;
+
   return (
     <>
       <Stack direction="row" alignItems="center" justifyContent="center">
@@ -125,7 +127,7 @@ export const LetterActions = ({
         <Icon letter={letters[0] || {}} />
         <IconButtonWithTooltip
           title="Voir le dernier justificatif"
-          disabled={!letters[0]?.file_url}
+          disabled={!letters[0]?.file_url || isNotOwner}
           onClick={() => setViewerOpen(true)}
         >
           <Visibility data-testid="view-file" fontSize="small" />

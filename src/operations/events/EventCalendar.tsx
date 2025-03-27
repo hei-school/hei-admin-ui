@@ -5,8 +5,9 @@ import frLocale from "@fullcalendar/core/locales/fr";
 import {EventClickArg, EventInput} from "@fullcalendar/react";
 import {Event} from "@haapi/typescript-client";
 import {Download} from "@mui/icons-material";
-import {Box, Button, Popover} from "@mui/material";
+import {Box, Popover} from "@mui/material";
 import {CompleteCalendar} from "@react-admin/ra-calendar";
+import {Button, Link} from "react-admin";
 
 import {ButtonBase} from "@/ui/haToolbar";
 import {useRef, useState} from "react";
@@ -189,14 +190,15 @@ const EventAction = ({event, toggleEdit, handleClosePopover}: ActionProps) => {
     >
       <Box fontWeight="bold">{event?.title}</Box>
       <StatCard stats={event?.count || {}} />
-      <Button
-        size="small"
-        href={`/events/${event?.id}/participants`}
-        sx={{textTransform: "revert"}}
-        variant="outlined"
-      >
-        Présence
-      </Button>
+      <Link to={`/events/${event?.id}/participants`} width="100%">
+        <Button
+          size="small"
+          sx={{textTransform: "revert", width: "100%"}}
+          variant="outlined"
+          label="Présence"
+        />
+      </Link>
+
       {(isAdmin() || isManager() || isOrganizer()) && (
         <>
           <Button
@@ -204,9 +206,8 @@ const EventAction = ({event, toggleEdit, handleClosePopover}: ActionProps) => {
             variant="contained"
             onClick={toggleEdit}
             sx={{textTransform: "revert"}}
-          >
-            Editer
-          </Button>
+            label="Editer"
+          />
           <DeleteWithConfirm
             resourceType="events"
             id={event.id}
