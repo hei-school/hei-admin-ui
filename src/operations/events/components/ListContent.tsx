@@ -184,7 +184,7 @@ export const ListContent = ({eventId}: {eventId: string}) => {
           disabled={editStatus || statusMap.size === 0}
           count={statusMap.size}
           countLabel={(count) =>
-            count === 1 ? "modification en attente" : "modifications en attente"
+            count === 1 ? "item sélectionné" : "items sélectionnés"
           }
           actionIcon={
             editStatus ? (

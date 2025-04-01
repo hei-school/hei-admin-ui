@@ -65,7 +65,6 @@ export const BulkActions: FC<BulkActionsProps> = ({
       return;
     }
 
-    // Création d'un tableau d'objets pour la mise à jour en masse
     const updateData = selectedIds.map((letterId) => ({
       id: letterId,
       status: "REJECTED",
@@ -75,7 +74,7 @@ export const BulkActions: FC<BulkActionsProps> = ({
     update(
       "users-letters",
       {
-        id: selectedIds[0], // ID requis par react-admin mais non utilisé dans ce cas
+        id: selectedIds[0],
         data: updateData,
         meta: {
           method: "UPDATE",
