@@ -39,21 +39,22 @@ export const FloatingActionButton = ({
     <Box
       sx={{
         "position": "fixed",
-        "bottom": 24,
-        "left": "50%",
-        "transform": "translateX(-50%)",
-        "backgroundColor": "background.paper",
-        "borderRadius": "32px",
-        "boxShadow": "0 8px 32px rgba(0, 0, 0, 0.08)",
+        "bottom": "20px",
+        "right": "13vw",
+        "zIndex": 1000,
+        "backgroundColor": "#2c2c2c",
+        "color": "white",
+        "borderRadius": "8px",
+        "boxShadow": "0 4px 12px rgba(0, 0, 0, 0.15)",
+        "padding": "8px 16px",
         "display": "flex",
         "alignItems": "center",
-        "gap": 2,
-        "padding": "12px 24px",
-        "zIndex": 1000,
-        "transition": "all 0.3s ease",
-        "&:hover": {
-          boxShadow: "0 12px 48px rgba(0, 0, 0, 0.12)",
-          transform: "translateX(-50%) translateY(-2px)",
+        "justifyContent": "center",
+        "gap": "10px",
+        "animation": "slideUp 0.3s ease-out",
+        "@keyframes slideUp": {
+          from: {transform: "translateY(20px)", opacity: 0},
+          to: {transform: "translateY(0)", opacity: 1},
         },
         ...containerSx,
       }}
@@ -62,30 +63,19 @@ export const FloatingActionButton = ({
         sx={{
           display: "flex",
           alignItems: "center",
-          background: "linear-gradient(45deg, #2196F3, #1976D2)",
-          borderRadius: "24px",
-          padding: "6px 16px",
+          gap: 1,
         }}
       >
         <Box
           sx={{
-            width: 28,
-            height: 28,
+            width: 10,
+            height: 10,
             borderRadius: "50%",
-            backgroundColor: "rgba(255, 255, 255, 0.2)",
-            color: "white",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            fontSize: "0.9rem",
-            fontWeight: "600",
-            mr: 1,
+            backgroundColor: "#4caf50",
           }}
-        >
-          {count}
-        </Box>
-        <Box sx={{color: "white", fontSize: "0.9rem", fontWeight: "500"}}>
-          {getCountLabel()}
+        ></Box>
+        <Box sx={{color: "white", fontSize: "0.9rem"}}>
+          {count} {getCountLabel()}
         </Box>
       </Box>
       <Button
@@ -95,20 +85,16 @@ export const FloatingActionButton = ({
         onClick={onClick}
         disabled={disabled}
         sx={{
-          "borderRadius": "24px",
+          "color": "white !important",
+          "backgroundColor": isLoading
+            ? "#66bb6a !important"
+            : "#4caf50 !important",
+          "borderRadius": "4px",
           "textTransform": "none",
-          "px": 3,
-          "py": 1,
-          "minHeight": 0,
-          "background": "linear-gradient(45deg, #4CAF50, #45a049)",
-          "boxShadow": "0 4px 12px rgba(76, 175, 80, 0.2)",
-          "transition": "all 0.3s ease",
+          "fontWeight": 500,
+          "padding": "6px 12px",
           "&:hover": {
-            background: "linear-gradient(45deg, #45a049, #388E3C)",
-            boxShadow: "0 6px 16px rgba(76, 175, 80, 0.3)",
-          },
-          "&:disabled": {
-            background: "#9e9e9e",
+            backgroundColor: "#43a047",
           },
           ...buttonSx,
         }}

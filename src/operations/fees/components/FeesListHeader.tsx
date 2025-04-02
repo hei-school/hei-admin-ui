@@ -5,13 +5,13 @@ import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 import {Dialog} from "@/ui/components";
 import {NOOP_ID} from "@/utils/constants";
 import {AdvancedFeesStatistics} from "@haapi/typescript-client";
-import {
-  AttachMoney,
-  CalendarMonth,
-  LinearScale,
-  CurrencyExchange as Money,
-} from "@mui/icons-material";
 import {Box, Button as ImportButton, Typography} from "@mui/material";
+import {
+  AlertTriangle,
+  BadgeDollarSign,
+  CircleCheckBig,
+  RefreshCw,
+} from "lucide-react";
 import {FC, useState} from "react";
 import {
   FileField,
@@ -24,7 +24,6 @@ import {
 import {v4 as uuid} from "uuid";
 import {CardFeesContent, FeesStatsHeader} from "./FeeStatsHeader";
 
-// TODO: Add this to ByStatusFeeList
 export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
   title,
   isMpbs = false,
@@ -41,7 +40,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
   const headerCardContent: CardFeesContent[] = [
     {
       title: "Total des frais",
-      icon: <AttachMoney fontSize="medium" />,
+      icon: <BadgeDollarSign fontSize="medium" />,
       L1: stats?.total_expected_fees_count?.first_grade,
       L2: stats?.total_expected_fees_count?.second_grade,
       R: 0,
@@ -52,7 +51,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
     },
     {
       title: "Frais payés",
-      icon: <Money fontSize="medium" />,
+      icon: <CircleCheckBig fontSize="medium" />,
       L1: stats?.paid_fees_count?.first_grade,
       L2: stats?.paid_fees_count?.second_grade,
       L3: stats?.paid_fees_count?.third_grade,
@@ -65,7 +64,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
     },
     {
       title: "En cours de vérification",
-      icon: <CalendarMonth fontSize="medium" />,
+      icon: <RefreshCw fontSize="medium" />,
       L1: stats?.pending_fees_count?.first_grade,
       L2: stats?.pending_fees_count?.second_grade,
       L3: stats?.pending_fees_count?.third_grade,
@@ -76,7 +75,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
     },
     {
       title: "Frais En retard",
-      icon: <LinearScale fontSize="medium" />,
+      icon: <AlertTriangle fontSize="medium" />,
       L1: stats?.late_fees_count?.first_grade,
       L2: stats?.late_fees_count?.second_grade,
       L3: stats?.late_fees_count?.third_grade,
