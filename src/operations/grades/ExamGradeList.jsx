@@ -1,20 +1,40 @@
-import {transformUsersData} from "@/operations/students/importConf";
-import {
-  minimalUserHeaders,
-  optionalUserHeaders,
-  validateUserData,
-} from "@/operations/utils/userImportConf";
 import examGradeProvider from "@/providers/examGradeProvider";
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
-import {ImportButton} from "@/ui/haToolbar";
-import {get27thOfMonth} from "@/utils/date";
+import {ImportButton, validateData} from "@/ui/haToolbar";
 import {Book, InfoOutlined} from "@mui/icons-material";
 import {Box, Typography} from "@mui/material";
 import {TextField, useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
+import {DateField} from "@/operations/common/components/fields";
 
-const ListActions = () => {
+// TODO: Refactor this
+const minimalGradeHeaders = [
+  {id: 1, label: "Référence", value: "student_id", disabled: true},
+  {id: 1, label: "Note", value: "grade.score", disabled: true},
+];
+
+const optionalGradeHeaders = [];
+
+const validateGradeData = (data) => {
+  return validateData(
+    data,
+    minimalGradeHeaders.map((el) => el.value)
+  );
+};
+
+const transformGradesData = (data) => {
+  const grades = transformGradeData(data);
+  return [[[], grades]];
+};
+
+const transformGradeData = (data) => {
+  return data.map((element) => {
+    console.log(element);
+  });
+};
+
+const ListActions = ({examId}) => {
   const {isManager, isAdmin, isTeacher} = useRole();
 
   return (
@@ -22,21 +42,16 @@ const ListActions = () => {
       {(isManager() || isAdmin() || isTeacher()) && (
         <Box>
           <ImportButton
-            validateData={validateUserData}
-            resource="exam-grades"
+            validateData={validateGradeData}
+            resource="notes"
             provider={(data) => {
               return examGradeProvider.saveOrUpdate(data, {
-                meta: {
-                  dueDatetime: get27thOfMonth(
-                    date.getFullYear(),
-                    date.getMonth()
-                  ),
-                },
+                examId,
               });
             }}
-            transformData={transformUsersData}
-            minimalHeaders={minimalUserHeaders}
-            optionalHeaders={optionalUserHeaders}
+            transformData={transformGradesData}
+            minimalHeaders={minimalGradeHeaders}
+            optionalHeaders={optionalGradeHeaders}
           />
         </Box>
       )}
@@ -79,15 +94,18 @@ export const ExamGradeList = () => {
       resource="exam-grades"
       title={`Liste des participants à l'examen ${exam?.title}`}
       datagridProps={{rowClick: false}}
-      listProps={{filter: {examId}, title: "Notes des participants"}}
-      actions={<ListActions />}
+      listProps={{
+        queryOptions: {meta: {examId}},
+        title: "Notes des participants",
+      }}
+      actions={<ListActions examId={examId} />}
     >
       <TextField source="student.ref" label="Référence" />
       <TextField source="student.last_name" label="Nom" />
       <TextField source="student.first_name" label="Prénom(s)" />
       <TextField source="grade.score" label="Note" />
-      <TextField source="grade.created_at" label="Créée le" />
-      <TextField source="grade.updated_at" label="Mis à jour le" />
+      <DateField source="grade.created_at" label="Créée le" showTime />
+      <DateField source="grade.update_date" label="Mis à jour le" showTime />
     </HaList>
   );
 };
