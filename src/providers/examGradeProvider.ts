@@ -5,18 +5,21 @@ const examGradeProvider: HaDataProviderType = {
   async getList(
     page: number,
     perPage: number = 10,
-    filter: Record<string, any> = {}
+    _filter?: any,
+    meta: Record<string, any> = {}
   ) {
     return teachingApi()
-      .getParticipantsGradeForExam(filter?.examId, page, perPage)
-      .then(({data}) => ({data}));
+      .getParticipantsGradeForExam(meta?.examId, page, perPage)
+      .then(({data = []}) => ({
+        data: data.map((value) => ({...value, id: value?.grade?.id})),
+      }));
   },
   getOne() {
     throw new Error("Not implemented");
   },
   async saveOrUpdate(payload: any, meta: Record<string, any> = {}) {
     return teachingApi()
-      .updateParticipantsGradeForExam(payload, meta?.examId)
+      .updateParticipantsGradeForExam(meta?.examId, payload)
       .then(({data}) => ({data}));
   },
   delete() {
