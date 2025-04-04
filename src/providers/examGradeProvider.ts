@@ -1,3 +1,4 @@
+import {UpdateGrade} from "@haapi/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {teachingApi} from "./api";
 
@@ -17,10 +18,13 @@ const examGradeProvider: HaDataProviderType = {
   getOne() {
     throw new Error("Not implemented");
   },
-  async saveOrUpdate(payload: any, meta: Record<string, any> = {}) {
+  async saveOrUpdate(payload: UpdateGrade[], meta: Record<string, any> = {}) {
     return teachingApi()
       .updateParticipantsGradeForExam(meta?.examId, payload)
-      .then(({data}) => ({data}));
+      .then(({data}) => {
+        console.log(data);
+        return {data};
+      });
   },
   delete() {
     throw new Error("Not implemented");

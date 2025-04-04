@@ -427,6 +427,7 @@ export const ProfileLayout = ({
   isTeacherProfile = false,
   isStudentProfile = false,
   isMonitorProfile = false,
+  isAdminProfil = false,
   isStaffProfil = false,
 }) => {
   const {record: profile = {}} = useShowContext();
