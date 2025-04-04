@@ -18,7 +18,6 @@ import profileProvider from "@/providers/profileProvider";
 import promotionGroupsProvider from "@/providers/promotionGroupsProvider";
 import promotionProvider from "@/providers/promotionProvider";
 import statsProvider from "@/providers/statsProvider";
-import studentGradeProvider from "@/providers/studentGradeProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
@@ -82,7 +81,6 @@ const getProvider = (resourceType: string): HaDataProviderType => {
   if (resourceType === "staffs-export") return staffExportProvider;
   if (resourceType === "mpbs-verify") return mpbsVerifyProvider;
   if (resourceType === "exam-grades") return examGradeProvider;
-  if (resourceType === "student-grades") return studentGradeProvider;
   throw new Error("Unexpected resourceType: " + resourceType);
 };
 
