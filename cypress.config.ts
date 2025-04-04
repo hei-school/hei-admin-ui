@@ -20,15 +20,16 @@ export default defineConfig({
   reporter: "cypress-sonarqube-reporter",
   reporterOptions: {
     overwrite: true,
-    outputDir: "dist/test-reports",
-    mergeFilename: "test-reports.xml",
   },
   e2e: {
     setupNodeEvents(on, config) {
       on("file:preprocessor", vitePreprocessor());
       codeCoverageTask(on, config);
       on("after:run", (results) => {
-        mergeReports(results);
+        mergeReports(results, {
+          outputDir: "dist/test-reports",
+          mergeFilename: "test-reports.xml",
+        });
       });
       return config;
 

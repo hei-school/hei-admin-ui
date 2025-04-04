@@ -115,7 +115,7 @@ jobs:
 
       - name: Log test reports
         if: always()
-        run: cat ./dist/test-reports/reports.all.xml
+        run: cat ./dist/cypress-sonarqube-reports.all.xml
 
       - name: Locate lcov.info
         if: always()
