@@ -1,4 +1,4 @@
-import {EnableStatus} from "@haapi/typescript-client";
+import {EnableStatus, SpecializationField} from "@haapi/typescript-client";
 import {excelDateToJsDate, validateData} from "../../ui/haToolbar";
 
 export const minimalUserHeaders = [
@@ -72,6 +72,7 @@ export const transformUserData = (data) => {
       element.birth_date &&
       (element.birth_date = excelDateToJsDate(element.birth_date));
     element["status"] = EnableStatus.ENABLED;
+    element["specialization_field"] = SpecializationField.COMMON_CORE;
     element["coordinates"] = {longitude: 0, latitude: 0};
     if (element["payment_frequency"] === "mensuel") {
       element["payment_frequency"] = "MONTHLY";
