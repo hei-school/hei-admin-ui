@@ -1,4 +1,3 @@
-// TODO: Use centralized index.ts to simplify these imports
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
 import awardedCoursesProvider from "@/providers/awardedCoursesProvider";
@@ -39,50 +38,93 @@ import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
 import {DataProvider} from "react-admin";
+import missingListProvider from "./missingListProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
 const getProvider = (resourceType: string): HaDataProviderType => {
-  if (resourceType === "profile") return profileProvider;
-  if (resourceType === "announcements") return announcementProvider;
-  if (resourceType === "students") return studentProvider;
-  if (resourceType === "students-export") return exportStudentProvider;
-  if (resourceType === "fees") return feeProvider;
-  if (resourceType === "payments") return paymentProvider;
-  if (resourceType === "teachers") return teacherProvider;
-  if (resourceType === "export-teachers") return exportTeacherProvider;
-  if (resourceType === "docs") return docsProvider;
-  if (resourceType === "groups") return groupProvider;
-  if (resourceType === "group-flow") return groupFlowProvider;
-  if (resourceType === "group-students") return groupStudentProvider;
-  if (resourceType === "profile-picture") return profilePicProvider;
-  if (resourceType === "fees-templates") return feesTemplatesProvider;
-  if (resourceType === "comments") return commentProvider;
-  if (resourceType === "promotions") return promotionProvider;
-  if (resourceType === "promotions-groups") return promotionGroupsProvider;
-  if (resourceType === "course") return courseProvider;
-  if (resourceType === "stats") return statsProvider;
-  if (resourceType === "hei-docs") return heiDocsProvider;
-  if (resourceType === "users-letters") return usersLettersProvider;
-  if (resourceType === "letters") return lettersProvider;
-  if (resourceType === "letters-stats") return lettersStatsProvider;
-  if (resourceType === "receipts") return receiptProvider;
-  if (resourceType === "awarded-courses") return awardedCoursesProvider;
-  if (resourceType === "events") return eventProvider;
-  if (resourceType === "events-participants-export")
-    return exportEventParticipantProvider;
-  if (resourceType === "event-participants") return eventParticipantProvider;
-  if (resourceType === "monitors") return monitorProvider;
-  if (resourceType === "monitor-students") return monitorStudentProvider;
-  if (resourceType === "promotions-export") return exportPromotionProvider;
-  if (resourceType === "group-export") return exportGroupProvider;
-  if (resourceType === "fees-export") return feesExportProvider;
-  if (resourceType === "exams") return examsProvider;
-  if (resourceType === "staffmembers") return staffProvider;
-  if (resourceType === "staffs-export") return staffExportProvider;
-  if (resourceType === "mpbs-verify") return mpbsVerifyProvider;
-  if (resourceType === "exam-grades") return examGradeProvider;
-  throw new Error("Unexpected resourceType: " + resourceType);
+  switch (resourceType) {
+    case "profile":
+      return profileProvider;
+    case "announcements":
+      return announcementProvider;
+    case "students":
+      return studentProvider;
+    case "students-export":
+      return exportStudentProvider;
+    case "fees":
+      return feeProvider;
+    case "payments":
+      return paymentProvider;
+    case "teachers":
+      return teacherProvider;
+    case "export-teachers":
+      return exportTeacherProvider;
+    case "docs":
+      return docsProvider;
+    case "groups":
+      return groupProvider;
+    case "group-flow":
+      return groupFlowProvider;
+    case "group-students":
+      return groupStudentProvider;
+    case "profile-picture":
+      return profilePicProvider;
+    case "fees-templates":
+      return feesTemplatesProvider;
+    case "comments":
+      return commentProvider;
+    case "promotions":
+      return promotionProvider;
+    case "promotions-groups":
+      return promotionGroupsProvider;
+    case "course":
+      return courseProvider;
+    case "stats":
+      return statsProvider;
+    case "hei-docs":
+      return heiDocsProvider;
+    case "users-letters":
+      return usersLettersProvider;
+    case "letters":
+      return lettersProvider;
+    case "letters-stats":
+      return lettersStatsProvider;
+    case "receipts":
+      return receiptProvider;
+    case "awarded-courses":
+      return awardedCoursesProvider;
+    case "events":
+      return eventProvider;
+    case "missing-event":
+      return missingListProvider;
+    case "events-participants-export":
+      return exportEventParticipantProvider;
+    case "event-participants":
+      return eventParticipantProvider;
+    case "monitors":
+      return monitorProvider;
+    case "monitor-students":
+      return monitorStudentProvider;
+    case "promotions-export":
+      return exportPromotionProvider;
+    case "group-export":
+      return exportGroupProvider;
+    case "fees-export":
+      return feesExportProvider;
+    case "exams":
+      return examsProvider;
+    case "staffmembers":
+      return staffProvider;
+    case "staffs-export":
+      return staffExportProvider;
+    case "mpbs-verify":
+      return mpbsVerifyProvider;
+    case "exam-grades":
+      return examGradeProvider;
+    default:
+      throw new Error("Unexpected resourceType: " + resourceType);
+  }
 };
 
 const getHasNextPageInfo = async (
