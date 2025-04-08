@@ -11,7 +11,7 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "test:open": "concurrently \"npm run dev\" \"npx cypress open\"",
-    "test:e2e": "cypress run --spec cypress/e2e/**/*",
+    "test:e2e": "cypress run --spec cypress/e2e/**/*, cypress/e2e/**/ ",
     "test:unit": "cypress run --component",
     "test:e2e:ci": "concurrently \"npm run dev\" \"npm run test:e2e\"",
     "test:unit:ci": "npm run test:unit && npm run test:unit",
@@ -41,6 +41,7 @@
     "react-dom": "^18.2.0",
     "react-pdf": "^9.2.1",
     "uuid": "^9.0.1",
+    "vite-plugin-node-polyfills": "^0.23.0",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
@@ -66,6 +67,7 @@
     "prettier": "^3.2.5",
     "prettier-plugin-organize-imports": "^4.1.0",
     "typescript": "^5.0.2",
-    "vite": "^4.4.5"
+    "vite": "^4.4.5",
+    "vite-plugin-istanbul": "^7.0.0"
   }
 }
