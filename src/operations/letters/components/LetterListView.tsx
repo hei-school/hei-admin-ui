@@ -47,7 +47,7 @@ export const LetterListView: FC = () => {
           sx={{
             "position": "fixed",
             "bottom": "20px",
-            "right": "20px",
+            "right": "13vw",
             "zIndex": 1000,
             "backgroundColor": "#2c2c2c",
             "color": "white",

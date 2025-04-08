@@ -21,6 +21,7 @@ import {
   Typography,
 } from "@mui/material";
 import {List, useListContext} from "react-admin";
+import {useNavigate} from "react-router-dom";
 import {FilterExam} from "./components";
 
 export const ExamList = () => {
@@ -55,6 +56,7 @@ export const ExamList = () => {
 
 export const ExamCard = () => {
   const {data: exams = []} = useListContext();
+  const navigate = useNavigate();
 
   return (
     <Box sx={{padding: "20px", minHeight: "100vh"}}>
@@ -69,11 +71,14 @@ export const ExamCard = () => {
                 "padding": "16px",
                 "background": "linear-gradient(135deg, #f8f9fa, #f1f3f5)",
                 "transition": "0.3s",
+                "cursor": "pointer",
                 "&:hover": {
                   boxShadow: "0 8px 24px rgba(0, 0, 0, 0.1)",
+                  textDecoration: "underline",
                 },
                 "width": "100%",
               }}
+              onClick={() => navigate(`/exams/${exam.id}/grades`)}
             >
               <CardHeader
                 sx={{
@@ -92,7 +97,6 @@ export const ExamCard = () => {
                       variant="h6"
                       sx={{
                         fontWeight: "bold",
-                        cursor: "pointer",
                       }}
                     >
                       {exam.title}

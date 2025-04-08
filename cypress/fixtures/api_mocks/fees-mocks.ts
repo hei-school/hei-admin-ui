@@ -14,6 +14,8 @@ export const fee1Mock: Fee = {
   status: FeeStatusEnum.LATE,
   type: FeeTypeEnum.TUITION,
   comment: "Comment",
+  frequency: "YEARLY",
+  category: "L3",
   total_amount: 400000,
   creation_datetime: new Date("2021-11-08"),
   due_datetime: new Date("2021-12-08"),

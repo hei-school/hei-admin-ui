@@ -2,9 +2,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {
   AccountBalance,
   AssuredWorkload,
-  CurrencyExchange,
   MobileFriendly,
-  RequestQuote,
 } from "@mui/icons-material";
 import {
   Box,
@@ -15,7 +13,15 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import {
+  BadgeDollarSign,
+  CalendarRange,
+  ChartColumn,
+  GraduationCap,
+  RefreshCw,
+} from "lucide-react";
 import {FC, ReactElement, ReactNode, useState} from "react";
+import cardBackground from "../../../assets/shape-square.svg";
 
 export interface CardFeesContent {
   title: string;
@@ -41,42 +47,50 @@ const BoxItem: FC<
   {
     value?: number | string;
     title: string;
-    label: string;
-    bgcolor: string;
+    icon: ReactElement;
   } & BoxProps
-> = ({bgcolor, label, title, value, sx: boxSxProps = {}, ...boxProps}) => {
+> = ({icon, title, value, sx: boxSxProps = {}, ...boxProps}) => {
   return (
     <Box
       sx={{
-        mx: "auto",
-        width: "4rem",
         display: "flex",
-        flexDirection: "column",
         alignItems: "center",
-        gap: "5px",
+        justifyContent: "flex-start",
+        gap: "10px ",
+        boxShadow: "1px 1px 3px rgba(167,167,167, 0.54)",
+        border: "1px solid rgba(167,167,167, 0.2)",
+        borderRadius: "5px",
+        padding: "2px 7px",
         ...boxSxProps,
       }}
       {...boxProps}
     >
-      <Tooltip title={title} arrow placement="bottom">
-        <Typography
-          sx={{
-            width: "40px",
-            height: "40px",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            borderRadius: "50%",
-            fontWeight: "900",
-            fontSize: "1.2rem",
-            textAlign: "center",
-            bgcolor,
-          }}
-        >
-          {label}
+      <Box
+        sx={{
+          height: 40,
+          width: 40,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          color: PALETTE_COLORS.yellow,
+          borderRadius: "50%",
+          background: "rgba(167,167,167, 0.54)",
+        }}
+      >
+        {icon}
+      </Box>
+      <Box
+        sx={{
+          color: "white",
+        }}
+      >
+        <Typography variant="body2" fontSize="1rem">
+          {title}
         </Typography>
-      </Tooltip>
-      <Typography>{value}</Typography>
+        <Typography variant="subtitle2" fontWeight="800" fontSize="1rem">
+          {value}
+        </Typography>
+      </Box>
     </Box>
   );
 };
@@ -101,7 +115,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
       }}
     >
       <Box
-        bgcolor={PALETTE_COLORS.yellow}
+        bgcolor="#f1C16B"
         display="flex"
         justifyContent="space-between"
         px={5}
@@ -120,7 +134,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
         display="grid"
         gridTemplateColumns={`repeat(${isSmall ? "auto-fill" : cardContents.length}, minmax(11.25rem, 1fr))`}
         gridTemplateRows="auto"
-        width="90%"
+        width="98%"
         m="auto"
         marginTop="-1rem"
       >
@@ -128,137 +142,134 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
           <Box
             key={card.title}
             sx={{
-              backgroundColor: PALETTE_COLORS.primary,
-              borderRadius: "1rem",
+              background: `url(${cardBackground}), linear-gradient(120deg, #001948 0%, #001B4E 12%, #003CAE 86%)`,
               m: "-80px 5px 5px 5px",
-              color: PALETTE_COLORS.white,
-              boxShadow: "1px 1px 5px grey ",
+              backgroundSize: "cover",
+              backgroundPosition: "right",
+              borderRadius: "10px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              gap: "1vh",
+              paddingBlock: "10px",
+              minWidth: "300px",
             }}
           >
             <Box
               sx={{
-                background: PALETTE_COLORS.white,
-                padding: "1rem 2rem",
-                color: PALETTE_COLORS.primary,
-                borderRadius: "1rem 1rem 0 0 ",
                 display: "flex",
+                flexDirection: "row",
                 alignItems: "center",
+                justifyContent: "flex-start",
+                padding: "5px 0.5vw",
                 gap: "1rem",
+                position: "relative",
               }}
             >
-              {card.icon}
-              <Typography
+              <Box
                 sx={{
-                  fontSize: "1.1rem",
-                  fontWeight: "900",
+                  height: 40,
+                  width: 40,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  color: "white",
+                  borderRadius: "50%",
+                  background: "rgba(167,167,167, 0.54)",
                 }}
+              >
+                {card.icon}
+              </Box>
+              <Typography
+                variant="h5"
+                color="white"
+                fontSize="1.4rem"
+                fontWeight="700"
               >
                 {card.title}
               </Typography>
-            </Box>
-            <Box>
-              <Box
-                padding="0.8rem 1rem"
-                sx={{
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  justifyContent: "flex-start",
-                  gap: "1rem",
-                }}
-              >
-                <Box display="flex" width="100%" gap="auto">
-                  <BoxItem
-                    bgcolor="#00ff3e"
-                    value={card.L1}
-                    label="L1"
-                    title="Frais L1"
-                  />
-                  <BoxItem
-                    bgcolor="#ff00e8"
-                    value={card.L2}
-                    label="L2"
-                    title="Frais L2"
-                  />
-                  <BoxItem
-                    bgcolor="#ff0000"
-                    value={card.L3}
-                    label="L3"
-                    title="Frais L3"
-                  />
-                </Box>
-                <Box display="flex" width="100%" justifyContent="start">
-                  <BoxItem
-                    bgcolor="#614efb"
-                    value={card.A}
-                    label="A"
-                    title="Frais d'Alternance"
-                  />
-                  <BoxItem
-                    bgcolor="#f9d100"
-                    value={card.R}
-                    label="R"
-                    title="Frais de rattrapage"
-                  />
-                  <BoxItem
-                    sx={{opacity: 0}}
-                    bgcolor=""
-                    value=""
-                    label=""
-                    title=""
-                  />
-                </Box>
-              </Box>
-              <Box
-                borderTop="0.5px solid white"
-                padding="0.5rem 1rem"
-                sx={{
-                  display: "flex",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "flex-end",
-                  gap: "5px",
-                }}
-              >
-                <Box>
+              {card.bank_fees !== undefined &&
+                card.mobile_money !== undefined && (
                   <Box
+                    position="absolute"
                     sx={{
+                      right: "10px",
+                      height: 40,
+                      width: 40,
                       display: "flex",
                       alignItems: "center",
-                      gap: "1rem",
-                      fontSize: "2rem",
+                      justifyContent: "center",
+                      color: "white",
+                      borderRadius: "50%",
+                      background: "rgba(167,167,167, 0.54)",
                     }}
                   >
-                    <CurrencyExchange
-                      sx={{
-                        color: PALETTE_COLORS.yellow,
-                      }}
-                    />
-                    <Typography>Mensuel : {card.mensual}</Typography>
-                  </Box>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      gap: "1rem",
-                    }}
-                  >
-                    <RequestQuote
-                      sx={{
-                        color: PALETTE_COLORS.yellow,
-                      }}
-                    />
-                    <Typography>Annuel : {card.annual}</Typography>
-                  </Box>
-                </Box>
-                {card.bank_fees !== undefined &&
-                  card.mobile_money !== undefined && (
                     <CardInfos
                       bank_fees={Number(card.bank_fees)}
                       mobile_money={Number(card.mobile_money)}
                     />
-                  )}
-              </Box>
+                  </Box>
+                )}
+            </Box>
+            <Box
+              display="grid"
+              gridTemplateColumns="1fr 1fr 1fr "
+              gap="10px"
+              paddingInline="15px"
+            >
+              <BoxItem value={card.L1} title="L1" icon={<GraduationCap />} />
+              <BoxItem value={card.L2} title=" L2" icon={<GraduationCap />} />
+              <BoxItem value={card.L3} title=" L3" icon={<GraduationCap />} />
+            </Box>
+            <Box
+              display="grid"
+              gridTemplateColumns="1fr 1fr"
+              gap="10px"
+              paddingInline="15px"
+            >
+              <BoxItem
+                value={card.A}
+                title="Alternants"
+                icon={<BadgeDollarSign />}
+              />
+              <BoxItem
+                value={card.R}
+                title=" rattrapages"
+                icon={<RefreshCw />}
+              />
+            </Box>
+            <Box
+              display="grid"
+              gridTemplateColumns="1fr 1fr"
+              sx={{
+                marginInline: "10px",
+                gap: "10px",
+                borderTop: "1px solid rgba(167,167,167, 0.4)",
+                paddingTop: "5px",
+              }}
+            >
+              <BoxItem
+                title="Mensuel"
+                sx={{
+                  borderRadius: "40px",
+                  color: "white !important",
+                  background: "rgba(114, 113, 113, 0.64)",
+                  fontWeight: "900",
+                }}
+                icon={<ChartColumn color="white" />}
+                value={card.mensual}
+              />
+              <BoxItem
+                sx={{
+                  borderRadius: "40px",
+                  color: "white !important",
+                  background: "rgba(114, 113, 113, 0.64)",
+                  fontWeight: "900",
+                }}
+                title="Mensuel"
+                icon={<CalendarRange color="white" />}
+                value={card.annual}
+              />
             </Box>
           </Box>
         ))}
@@ -291,7 +302,7 @@ const CardInfos: FC<{mobile_money: number; bank_fees: number}> = ({
           <AccountBalance
             width="5px"
             height="5px"
-            sx={{color: PALETTE_COLORS.yellow}}
+            sx={{color: PALETTE_COLORS.white}}
           />
         </IconButton>
       </Tooltip>
