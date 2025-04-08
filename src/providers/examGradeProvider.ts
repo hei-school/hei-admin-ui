@@ -15,16 +15,13 @@ const examGradeProvider: HaDataProviderType = {
         data: data.map((value) => ({...value, id: value?.grade?.id})),
       }));
   },
-  getOne() {
-    throw new Error("Not implemented");
-  },
   async saveOrUpdate(payload: UpdateGrade[], meta: Record<string, any> = {}) {
     return teachingApi()
       .updateParticipantsGradeForExam(meta?.examId, payload)
-      .then(({data}) => {
-        console.log(data);
-        return {data};
-      });
+      .then(({data}) => ({data}));
+  },
+  getOne() {
+    throw new Error("Not implemented");
   },
   delete() {
     throw new Error("Not implemented");
