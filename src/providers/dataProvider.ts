@@ -171,7 +171,7 @@ const dataProvider: DataProvider = {
     return {data: result};
   },
   deleteMany: () => {
-    throw new Error("Not Impelemented");
+    throw new Error("Not Implemented");
   },
   getMany: () => {
     throw new Error("Not implemented");
