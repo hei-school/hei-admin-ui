@@ -102,7 +102,7 @@ const getHasNextPageInfo = async (
 };
 const dataProvider: DataProvider = {
   async getList(resourceType: string, params: any) {
-    let {pagination, meta, filter} = params;
+    const {pagination, meta, filter} = params;
 
     const page = pagination.page === 0 ? 1 : pagination.page;
     let perPage = pagination.perPage;
@@ -184,9 +184,9 @@ const dataProvider: DataProvider = {
 };
 
 const toEnabledUsers = (users: Array<any>): Array<any> => {
-  let enabledUsers = [];
+  const enabledUsers = [];
   for (const user of users) {
-    let enabledUser = Object.assign(user);
+    const enabledUser = Object.assign(user);
     enabledUser.status = "ENABLED";
     enabledUsers.push(enabledUser);
   }
