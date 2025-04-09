@@ -1,5 +1,5 @@
 import {ImportContactsOutlined as BookIcon} from "@mui/icons-material";
-import {Box, LinearProgress} from "@mui/material";
+import {Box, LinearProgress, Typography} from "@mui/material";
 import {List, useListContext} from "react-admin";
 
 import {ExamCard, ExamFilter} from "@/operations/exams/components";
@@ -36,6 +36,9 @@ export const ExamList = () => {
         icon={<BookIcon />}
         actions={(isManager() || isAdmin() || isTeacher()) && <ExamActions />}
       />
+      <Typography marginInline={5}>
+        Veuillez trouver ci-joint la liste des différents examens.
+      </Typography>
       <ExamsGridContent />
     </List>
   );
