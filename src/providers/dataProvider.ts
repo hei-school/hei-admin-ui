@@ -1,43 +1,44 @@
+// TODO: Use centralized index.ts to simplify these imports
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
+import awardedCoursesProvider from "@/providers/awardedCoursesProvider";
 import commentProvider from "@/providers/commentProvider";
 import courseProvider from "@/providers/courseProvider";
 import docsProvider from "@/providers/docsProvider";
 import eventParticipantProvider from "@/providers/eventParticipantProvider";
 import eventProvider from "@/providers/eventProvider";
+import examGradeProvider from "@/providers/examGradeProvider";
+import examsProvider from "@/providers/examProvider";
+import exportEventParticipantProvider from "@/providers/exportEventParticipantProvider";
+import exportGroupProvider from "@/providers/exportGroupProvider";
+import exportPromotionProvider from "@/providers/exportPromotionProvider";
+import exportStudentProvider from "@/providers/exportStudentProvider";
+import exportTeacherProvider from "@/providers/exportTeacherProvider";
 import feeProvider from "@/providers/feeProvider";
+import feesExportProvider from "@/providers/feesExportProvider";
 import feesTemplatesProvider from "@/providers/feesTemplatesProvider";
 import groupFlowProvider from "@/providers/groupFlowProvider";
 import groupProvider from "@/providers/groupProvider";
 import groupStudentProvider from "@/providers/groupStudentProvider";
 import heiDocsProvider from "@/providers/heiDocsProvider";
+import lettersStatsProvider from "@/providers/letterStatsProvider";
 import lettersProvider from "@/providers/lettersProvider";
+import monitorProvider from "@/providers/monitorProvider";
+import monitorStudentProvider from "@/providers/monitorStudentProvider";
+import mpbsVerifyProvider from "@/providers/mpbsVerifyProvider";
 import paymentProvider from "@/providers/paymentProvider";
 import profilePicProvider from "@/providers/profilePicProvider";
 import profileProvider from "@/providers/profileProvider";
 import promotionGroupsProvider from "@/providers/promotionGroupsProvider";
 import promotionProvider from "@/providers/promotionProvider";
+import receiptProvider from "@/providers/receiptProvider";
+import staffExportProvider from "@/providers/staffExportProvider";
+import staffProvider from "@/providers/staffProvider";
 import statsProvider from "@/providers/statsProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
 import {DataProvider} from "react-admin";
-import awardedCoursesProvider from "./awardedCoursesProvider";
-import examGradeProvider from "./examGradeProvider";
-import examsProvider from "./examProvider";
-import exportEventParticipantProvider from "./exportEventParticipantProvider";
-import exportGroupProvider from "./exportGroupProvider";
-import exportPromotionProvider from "./exportPromotionProvider";
-import exportStudentProvider from "./exportStudentProvider";
-import exportTeacherProvider from "./exportTeacherProvider";
-import feesExportProvider from "./feesExportProvider";
-import lettersStatsProvider from "./letterStatsProvider";
-import monitorProvider from "./monitorProvider";
-import monitorStudentProvider from "./monitorStudentProvider";
-import mpbsVerifyProvider from "./mpbsVerifyProvider";
-import receiptProvider from "./receiptProvider";
-import staffExportProvider from "./staffExportProvider";
-import staffProvider from "./staffProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -102,7 +103,7 @@ const getHasNextPageInfo = async (
 };
 const dataProvider: DataProvider = {
   async getList(resourceType: string, params: any) {
-    let {pagination, meta, filter} = params;
+    const {pagination, meta, filter} = params;
 
     const page = pagination.page === 0 ? 1 : pagination.page;
     let perPage = pagination.perPage;
@@ -170,7 +171,7 @@ const dataProvider: DataProvider = {
     return {data: result};
   },
   deleteMany: () => {
-    throw new Error("Not Impelemented");
+    throw new Error("Not Implemented");
   },
   getMany: () => {
     throw new Error("Not implemented");
@@ -184,9 +185,9 @@ const dataProvider: DataProvider = {
 };
 
 const toEnabledUsers = (users: Array<any>): Array<any> => {
-  let enabledUsers = [];
+  const enabledUsers = [];
   for (const user of users) {
-    let enabledUser = Object.assign(user);
+    const enabledUser = Object.assign(user);
     enabledUser.status = "ENABLED";
     enabledUsers.push(enabledUser);
   }
