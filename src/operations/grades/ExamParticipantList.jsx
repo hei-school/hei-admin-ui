@@ -102,7 +102,7 @@ const ExamDetailsChips = ({exam}) => (
   </Paper>
 );
 
-export const ExamGradeList = () => {
+export const ExamParticipantList = () => {
   const {id: examId} = useParams();
   const {data: exam, isLoading, isError} = useGetOne("exams", {id: examId});
 
