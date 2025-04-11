@@ -21,6 +21,7 @@ import {
   useRecordContext,
 } from "react-admin";
 import {ListHeader} from "../common/components";
+import {EventMissingFilter} from "./components/EventMissingFilter";
 import {EVENT_TYPE_VALUE} from "./utils";
 
 const TOOLTIP_STYLE = {
@@ -86,7 +87,7 @@ export const EventMissingList: FC = () => {
           title="Liste des absents"
           icon={<ClipboardList />}
           mainSearch={{label: "Références", source: "ref"}}
-          actions={<></>}
+          actions={<EventMissingFilter />}
           filterIndicator={false}
         />
         <Datagrid
@@ -224,7 +225,7 @@ const DateTooltip: FC = () => {
             {record.event?.type === "COURSE"
               ? record.event?.course?.name +
                 " - " +
-                "Salle" +
+                "Salle " +
                 record.event?.title
               : record.event?.type === "OTHER"
                 ? record.event?.title
