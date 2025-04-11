@@ -1,27 +1,44 @@
-import {PALETTE_COLORS} from "@/haTheme";
-import {DateField} from "@/operations/common/components/fields";
-import {
-  ExamGradeListActions,
-  ExamLoadError,
-} from "@/operations/grades/components";
-import {HaList} from "@/ui/haList";
-import {formatDate} from "@/utils/date";
 import {
   Book,
   ImportContactsOutlined as BookIcon,
+  Create as EditIcon,
   PeopleOutline as GroupIcon,
   PermIdentityOutlined as PersonIcon,
 } from "@mui/icons-material";
 import {Box, Chip, Divider, Paper, Tooltip, Typography} from "@mui/material";
 import {Clock, InfoIcon} from "lucide-react";
-import {TextField, useGetOne} from "react-admin";
+import {
+  Button,
+  minValue,
+  number,
+  required,
+  SaveButton,
+  SimpleForm,
+  TextField,
+  TextInput,
+  Toolbar,
+  useGetOne,
+  useRecordContext,
+} from "react-admin";
 import {useParams} from "react-router-dom";
+
+import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify, useToggle} from "@/hooks";
+import {Edit} from "@/operations/common/components";
+import {DateField} from "@/operations/common/components/fields";
+import {
+  ExamGradeListActions,
+  ExamLoadError,
+} from "@/operations/grades/components";
+import {Dialog} from "@/ui/components";
+import {HaList} from "@/ui/haList";
+import {formatDate} from "@/utils/date";
 
 const ExamHeader = ({title, coefficient}) => (
   <Box
     display="flex"
+    borderRadius="20px 20px 0 0"
     justifyContent="space-between"
-    borderRadius="20px 20px 0px 0px"
     px={5}
     pt={5}
     pb={5}
@@ -34,36 +51,36 @@ const ExamHeader = ({title, coefficient}) => (
       fontWeight="bolder"
       gap={2}
     >
-      <InfoIcon /> Détails de l'examen {title}
+      <InfoIcon />
+      Détails de l'examen {title}
     </Typography>
     <Box
       py="3px"
       fontSize="14px"
-      fontWeight="bold"
       overflow="hidden"
+      fontWeight="bold"
       whiteSpace="nowrap"
-      display="inline-block"
       minWidth="fit-content"
       textOverflow="ellipsis"
+      px={1.5}
       borderRadius={20}
       bgcolor={PALETTE_COLORS.white}
-      px={1.5}
     >
       {`Coef. ${coefficient}`}
     </Box>
   </Box>
 );
 
-const ExamDetailsChips = ({exam}) => (
+const ExamDetails = ({exam}) => (
   <Paper
     elevation={0}
     sx={{
-      p: 2.5,
       display: "flex",
       flexWrap: "wrap",
       overflow: "hidden",
-      mb: 3,
       boxShadow: "0 2px 12px rgba(0,0,0,0.03)",
+      mb: 3,
+      p: 2.5,
       gap: 1.5,
     }}
   >
@@ -75,6 +92,7 @@ const ExamDetailsChips = ({exam}) => (
         sx={{fontWeight: 600}}
       />
     </Tooltip>
+
     <Tooltip title="Cours" arrow>
       <Chip
         clickable
@@ -102,6 +120,57 @@ const ExamDetailsChips = ({exam}) => (
   </Paper>
 );
 
+const GradeEditButton = () => {
+  const notify = useNotify();
+  const {id} = useRecordContext();
+  const [showEdit, , toggleEdit] = useToggle();
+
+  return (
+    <Box>
+      <Button
+        label="EDITER"
+        variant="text"
+        data-testid="edit-button"
+        onClick={toggleEdit}
+        sx={{py: "5px", color: PALETTE_COLORS.yellow}}
+        startIcon={<EditIcon />}
+      />
+      <Dialog
+        title="Modification d'une note"
+        open={showEdit}
+        onClose={toggleEdit}
+      >
+        <Edit
+          id={id}
+          title=" "
+          resource="grade"
+          mutationOptions={{
+            onSuccess: () => {
+              notify("Cours mis à jour");
+              toggleEdit();
+            },
+          }}
+        >
+          <SimpleForm
+            toolbar={
+              <Toolbar>
+                <SaveButton />
+              </Toolbar>
+            }
+          >
+            <TextInput
+              source="grade.score"
+              label="Note"
+              validate={[required(), number(), minValue(0)]}
+              fullWidth
+            />
+          </SimpleForm>
+        </Edit>
+      </Dialog>
+    </Box>
+  );
+};
+
 export const ExamParticipantList = () => {
   const {id: examId} = useParams();
   const {data: exam, isLoading, isError} = useGetOne("exams", {id: examId});
@@ -119,11 +188,9 @@ export const ExamParticipantList = () => {
         mt={3}
       >
         <ExamHeader title={exam?.title} coefficient={exam?.coefficient} />
-        <ExamDetailsChips exam={exam} />
+        <ExamDetails exam={exam} />
       </Box>
-
       <Divider sx={{mt: 1, mb: 1, width: "90%", mx: "auto"}} />
-
       <HaList
         icon={<Book />}
         resource="exam-grades"
@@ -140,6 +207,7 @@ export const ExamParticipantList = () => {
         <TextField source="student.first_name" label="Prénom(s)" />
         <TextField source="grade.score" label="Note" />
         <DateField source="grade.update_date" label="Mis à jour le" />
+        <GradeEditButton />
       </HaList>
     </Box>
   );
