@@ -70,7 +70,7 @@ const ExamDetailsChips = ({exam}) => (
     <Tooltip title="Date de l'examen" arrow>
       <Chip
         clickable
-        label={formatDate(exam?.examination_date)}
+        label={`Le ${formatDate(exam?.examination_date)}`}
         icon={<Clock size={20} />}
         sx={{fontWeight: 600}}
       />
@@ -78,7 +78,7 @@ const ExamDetailsChips = ({exam}) => (
     <Tooltip title="Cours" arrow>
       <Chip
         clickable
-        label={exam?.awarded_course?.course?.code}
+        label={`Cours de ${exam?.awarded_course?.course?.code}`}
         icon={<BookIcon />}
         sx={{fontWeight: 600}}
       />
@@ -86,7 +86,7 @@ const ExamDetailsChips = ({exam}) => (
     <Tooltip title="Groupe" arrow>
       <Chip
         clickable
-        label={exam?.awarded_course?.group?.ref}
+        label={`Groupe ${exam?.awarded_course?.group?.ref}`}
         icon={<GroupIcon />}
         sx={{fontWeight: 600}}
       />
@@ -139,7 +139,6 @@ export const ExamParticipantList = () => {
         <TextField source="student.last_name" label="Nom" />
         <TextField source="student.first_name" label="Prénom(s)" />
         <TextField source="grade.score" label="Note" />
-        <DateField source="grade.created_at" label="Créée le" />
         <DateField source="grade.update_date" label="Mis à jour le" />
       </HaList>
     </Box>
