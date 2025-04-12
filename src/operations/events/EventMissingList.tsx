@@ -126,7 +126,7 @@ const EventTypeItem: FC = () => {
   if (!record) return null;
   const typeColor =
     record.event?.type === "COURSE" ? "#0000FF" : record.event?.color;
-  console;
+
   return (
     <Chip
       sx={{
