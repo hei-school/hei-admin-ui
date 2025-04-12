@@ -72,7 +72,7 @@ export const EventMissingList: FC = () => {
     <Box>
       <ListHeader
         title="Statistiques des absences"
-        cardContents={eventsHeaderContent!}
+        cardContents={eventsHeaderContent}
       />
       <List
         resource="missing-event"
@@ -96,7 +96,7 @@ export const EventMissingList: FC = () => {
           rowSx={(record) => ({
             borderLeft: "5px solid",
             borderLeftColor:
-              record?.event?.groups[0]?.attributed_color || "#0000FF",
+              record?.event?.groups[0]?.attributed_color ?? "#0000FF",
           })}
           sx={{
             "& .RaDatagrid-headerCell": {
@@ -211,6 +211,10 @@ const DateTooltip: FC = () => {
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.2)",
   };
 
+  const otherEventTypeLabel =
+    record.event?.type === "OTHER"
+      ? record.event?.title
+      : EVENT_TYPE_VALUE[record.event?.type!];
   return (
     <Tooltip
       componentsProps={{
@@ -227,9 +231,7 @@ const DateTooltip: FC = () => {
                 " - " +
                 "Salle " +
                 record.event?.title
-              : record.event?.type === "OTHER"
-                ? record.event?.title
-                : EVENT_TYPE_VALUE[record.event?.type!]}
+              : otherEventTypeLabel}
           </Typography>
           <Box display="grid" gridTemplateColumns="1fr 1fr" gap="0.5rem">
             <Box sx={BOX_STYLE}>

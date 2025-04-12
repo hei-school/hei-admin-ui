@@ -3,13 +3,9 @@ import {HaDataProviderType} from "./HaDataProviderType";
 
 const missingListProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}) => {
+    const toDate = filter.to || new Date();
     return eventsApi()
-      .getAllEventParticipants(
-        page,
-        perPage,
-        filter.from,
-        (filter.to = new Date())
-      )
+      .getAllEventParticipants(page, perPage, filter.from, toDate)
       .then((result) => ({
         data: result.data.map((item) => ({
           id: item.event?.id,

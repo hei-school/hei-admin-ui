@@ -22,6 +22,7 @@ import groupStudentProvider from "@/providers/groupStudentProvider";
 import heiDocsProvider from "@/providers/heiDocsProvider";
 import lettersStatsProvider from "@/providers/letterStatsProvider";
 import lettersProvider from "@/providers/lettersProvider";
+import missingListProvider from "@/providers/missingListProvider";
 import monitorProvider from "@/providers/monitorProvider";
 import monitorStudentProvider from "@/providers/monitorStudentProvider";
 import mpbsVerifyProvider from "@/providers/mpbsVerifyProvider";
@@ -38,93 +39,57 @@ import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
 import {DataProvider} from "react-admin";
-import missingListProvider from "./missingListProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
+const providerMap: Record<string, HaDataProviderType> = {
+  "profile": profileProvider,
+  "announcements": announcementProvider,
+  "students": studentProvider,
+  "students-export": exportStudentProvider,
+  "fees": feeProvider,
+  "payments": paymentProvider,
+  "teachers": teacherProvider,
+  "export-teachers": exportTeacherProvider,
+  "docs": docsProvider,
+  "groups": groupProvider,
+  "group-flow": groupFlowProvider,
+  "group-students": groupStudentProvider,
+  "profile-picture": profilePicProvider,
+  "fees-templates": feesTemplatesProvider,
+  "comments": commentProvider,
+  "promotions": promotionProvider,
+  "promotions-groups": promotionGroupsProvider,
+  "course": courseProvider,
+  "stats": statsProvider,
+  "hei-docs": heiDocsProvider,
+  "users-letters": usersLettersProvider,
+  "letters": lettersProvider,
+  "letters-stats": lettersStatsProvider,
+  "receipts": receiptProvider,
+  "awarded-courses": awardedCoursesProvider,
+  "events": eventProvider,
+  "missing-event": missingListProvider,
+  "events-participants-export": exportEventParticipantProvider,
+  "event-participants": eventParticipantProvider,
+  "monitors": monitorProvider,
+  "monitor-students": monitorStudentProvider,
+  "promotions-export": exportPromotionProvider,
+  "group-export": exportGroupProvider,
+  "fees-export": feesExportProvider,
+  "exams": examsProvider,
+  "staffmembers": staffProvider,
+  "staffs-export": staffExportProvider,
+  "mpbs-verify": mpbsVerifyProvider,
+  "exam-grades": examGradeProvider,
+};
+
 const getProvider = (resourceType: string): HaDataProviderType => {
-  switch (resourceType) {
-    case "profile":
-      return profileProvider;
-    case "announcements":
-      return announcementProvider;
-    case "students":
-      return studentProvider;
-    case "students-export":
-      return exportStudentProvider;
-    case "fees":
-      return feeProvider;
-    case "payments":
-      return paymentProvider;
-    case "teachers":
-      return teacherProvider;
-    case "export-teachers":
-      return exportTeacherProvider;
-    case "docs":
-      return docsProvider;
-    case "groups":
-      return groupProvider;
-    case "group-flow":
-      return groupFlowProvider;
-    case "group-students":
-      return groupStudentProvider;
-    case "profile-picture":
-      return profilePicProvider;
-    case "fees-templates":
-      return feesTemplatesProvider;
-    case "comments":
-      return commentProvider;
-    case "promotions":
-      return promotionProvider;
-    case "promotions-groups":
-      return promotionGroupsProvider;
-    case "course":
-      return courseProvider;
-    case "stats":
-      return statsProvider;
-    case "hei-docs":
-      return heiDocsProvider;
-    case "users-letters":
-      return usersLettersProvider;
-    case "letters":
-      return lettersProvider;
-    case "letters-stats":
-      return lettersStatsProvider;
-    case "receipts":
-      return receiptProvider;
-    case "awarded-courses":
-      return awardedCoursesProvider;
-    case "events":
-      return eventProvider;
-    case "missing-event":
-      return missingListProvider;
-    case "events-participants-export":
-      return exportEventParticipantProvider;
-    case "event-participants":
-      return eventParticipantProvider;
-    case "monitors":
-      return monitorProvider;
-    case "monitor-students":
-      return monitorStudentProvider;
-    case "promotions-export":
-      return exportPromotionProvider;
-    case "group-export":
-      return exportGroupProvider;
-    case "fees-export":
-      return feesExportProvider;
-    case "exams":
-      return examsProvider;
-    case "staffmembers":
-      return staffProvider;
-    case "staffs-export":
-      return staffExportProvider;
-    case "mpbs-verify":
-      return mpbsVerifyProvider;
-    case "exam-grades":
-      return examGradeProvider;
-    default:
-      throw new Error("Unexpected resourceType: " + resourceType);
+  const provider = providerMap[resourceType];
+  if (!provider) {
+    throw new Error("Unexpected resourceType: " + resourceType);
   }
+  return provider;
 };
 
 const getHasNextPageInfo = async (
@@ -134,14 +99,20 @@ const getHasNextPageInfo = async (
   filter: any,
   meta: any
 ) => {
-  const {data: nextPageResult} = await getProvider(resource).getList(
+  const response = await getProvider(resource).getList(
     page + 1,
     perPage,
     filter,
     meta
   );
 
-  return nextPageResult.length > 0;
+  if (!response || !response.data) {
+    throw new Error(
+      `Provider for resource ${resource} did not return a valid response with a data property.`
+    );
+  }
+
+  return response.data.length > 0;
 };
 const dataProvider: DataProvider = {
   async getList(resourceType: string, params: any) {
@@ -151,9 +122,11 @@ const dataProvider: DataProvider = {
     let perPage = pagination.perPage;
 
     if (perPage > MAX_ITEM_PER_PAGE) {
-      console.warn(
-        `Page size is too big, truncating to MAX_ITEM_PER_PAGE=${MAX_ITEM_PER_PAGE}: resourceType=${resourceType}, requested pageSize=${perPage}`
-      );
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(
+          `Page size is too big, truncating to MAX_ITEM_PER_PAGE=${MAX_ITEM_PER_PAGE}: resourceType=${resourceType}, requested pageSize=${perPage}`
+        );
+      }
       perPage = MAX_ITEM_PER_PAGE;
     }
 
@@ -163,6 +136,12 @@ const dataProvider: DataProvider = {
       filter,
       meta
     );
+
+    if (!data) {
+      throw new Error(
+        `Provider for resourceType ${resourceType} did not return a valid data property.`
+      );
+    }
 
     const hasNextPage = await getHasNextPageInfo(
       resourceType,
@@ -192,7 +171,7 @@ const dataProvider: DataProvider = {
       [params.data].flat(),
       {
         isUpdate: true,
-        meta: params.meta || {},
+        meta: params.meta ?? {},
       }
     );
     return {data: result[0]};
