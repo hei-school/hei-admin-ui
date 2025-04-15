@@ -42,10 +42,10 @@ describe("Letter.event", () => {
     });
     cy.contains("Confirmer").click();
     cy.wait("@createLetter");
-    cy.contains("Lettre créée avec succès");
+    cy.contains("La lettre a été créée avec succès");
   });
 
-  it.only("student can view uploaded letter", () => {
+  it("student can view uploaded letter", () => {
     cy.login({role: "STUDENT"});
     cy.visit(`/events/${event1mock.id}/participants`);
 

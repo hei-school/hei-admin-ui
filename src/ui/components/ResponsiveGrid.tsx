@@ -32,9 +32,9 @@ export const ResponsiveGrid: FC<ResponsiveGridProps> = ({
         width: "100%",
         gridTemplateColumns: getGridTemplateColumns(),
         gap: isLarge ? (gap === "1rem" ? "1.1rem" : gap) : gap,
-
         justifyContent: "flex-start",
         marginTop: "2rem",
+        paddingY: "1rem",
         paddingX: "1rem",
       }}
       data-testid="letter-list-wrapper"

@@ -64,6 +64,7 @@ export const UserLettersList: FC = () => {
             display: "flex",
             alignItems: "center",
             gap: "2rem",
+            padding: "1rem 2rem",
           }}
         >
           <Button
