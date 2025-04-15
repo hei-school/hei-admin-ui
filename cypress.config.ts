@@ -22,9 +22,6 @@ export default defineConfig({
     reporterEnabled: "spec, cypress-sonarqube-reporter",
     cypressSonarqubeReporterReporterOptions: {
       overwrite: true,
-      outputDir: "dist/test-reports",
-      mergeOutputDir: "dist/test-reports",
-      mergeFileName: "test-reports.xml",
     },
   },
   e2e: {
