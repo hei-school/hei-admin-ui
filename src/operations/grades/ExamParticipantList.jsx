@@ -11,30 +11,33 @@ import {
   Button,
   minValue,
   number,
+  NumberInput,
   required,
   SaveButton,
   SimpleForm,
   TextField,
-  TextInput,
   Toolbar,
   useGetOne,
+  useNotify,
   useRecordContext,
+  useRefresh,
 } from "react-admin";
 import {useParams} from "react-router-dom";
 
 import {PALETTE_COLORS} from "@/haTheme";
-import {useNotify, useToggle} from "@/hooks";
-import {Edit} from "@/operations/common/components";
+import {useToggle} from "@/hooks";
 import {DateField} from "@/operations/common/components/fields";
 import {
   ExamGradeListActions,
   ExamLoadError,
 } from "@/operations/grades/components";
+import gradeProvider from "@/providers/gradeProvider";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {formatDate} from "@/utils/date";
+import {useState} from "react";
 
-const ExamHeader = ({title, coefficient}) => (
+const ExamHeader = ({exam}) => (
   <Box
     display="flex"
     borderRadius="20px 20px 0 0"
@@ -52,124 +55,156 @@ const ExamHeader = ({title, coefficient}) => (
       gap={2}
     >
       <InfoIcon />
-      Détails de l'examen {title}
+      Détails de l'examen {exam.title}
     </Typography>
-    <Box
-      py="3px"
-      fontSize="14px"
-      overflow="hidden"
-      fontWeight="bold"
-      whiteSpace="nowrap"
-      minWidth="fit-content"
-      textOverflow="ellipsis"
-      px={1.5}
-      borderRadius={20}
-      bgcolor={PALETTE_COLORS.white}
-    >
-      {`Coef. ${coefficient}`}
-    </Box>
+    <Chip
+      label={`Coef. ${exam.coefficient}`}
+      sx={{
+        py: "3px",
+        fontSize: "14px",
+        fontWeight: "bold",
+        bgcolor: PALETTE_COLORS.white,
+        borderRadius: 20,
+        minWidth: "fit-content",
+      }}
+    />
   </Box>
 );
 
-const ExamDetails = ({exam}) => (
-  <Paper
-    elevation={0}
-    sx={{
-      display: "flex",
-      flexWrap: "wrap",
-      overflow: "hidden",
-      boxShadow: "0 2px 12px rgba(0,0,0,0.03)",
-      mb: 3,
-      p: 2.5,
-      gap: 1.5,
-    }}
-  >
-    <Tooltip title="Date de l'examen" arrow>
-      <Chip
-        clickable
-        label={`Le ${formatDate(exam?.examination_date)}`}
-        icon={<Clock size={20} />}
-        sx={{fontWeight: 600}}
-      />
-    </Tooltip>
-
-    <Tooltip title="Cours" arrow>
-      <Chip
-        clickable
-        label={`Cours de ${exam?.awarded_course?.course?.code}`}
-        icon={<BookIcon />}
-        sx={{fontWeight: 600}}
-      />
-    </Tooltip>
-    <Tooltip title="Groupe" arrow>
-      <Chip
-        clickable
-        label={`Groupe ${exam?.awarded_course?.group?.ref}`}
-        icon={<GroupIcon />}
-        sx={{fontWeight: 600}}
-      />
-    </Tooltip>
-    <Tooltip title="Enseignant" arrow>
-      <Chip
-        clickable
-        label={`${exam?.awarded_course?.main_teacher?.first_name ?? ""} ${exam?.awarded_course?.main_teacher?.last_name ?? ""}`}
-        icon={<PersonIcon />}
-        sx={{fontWeight: 600}}
-      />
-    </Tooltip>
-  </Paper>
+const ExamDetailChip = ({icon, tooltip, label}) => (
+  <Tooltip title={tooltip} arrow>
+    <Chip clickable label={label} icon={icon} sx={{fontWeight: 600}} />
+  </Tooltip>
 );
 
-const GradeEditButton = () => {
+const ExamDetails = ({exam}) => {
+  const awardedCourse = exam?.awarded_course;
+  const mainTeacher = awardedCourse?.main_teacher;
+
+  return (
+    <Paper
+      elevation={0}
+      sx={{
+        display: "flex",
+        flexWrap: "wrap",
+        overflow: "hidden",
+        boxShadow: "0 2px 12px rgba(0,0,0,0.03)",
+        mb: 3,
+        p: 2.5,
+        gap: 1.5,
+      }}
+    >
+      <ExamDetailChip
+        icon={<Clock size={20} />}
+        tooltip="Date de l'examen"
+        label={`Le ${formatDate(exam?.examination_date)}`}
+      />
+      <ExamDetailChip
+        icon={<BookIcon />}
+        tooltip="Cours"
+        label={`Cours de ${awardedCourse?.course?.code}`}
+      />
+      <ExamDetailChip
+        icon={<GroupIcon />}
+        tooltip="Groupe"
+        label={`Groupe ${awardedCourse?.group?.ref}`}
+      />
+      <ExamDetailChip
+        icon={<PersonIcon />}
+        tooltip="Enseignant"
+        label={`${mainTeacher?.first_name ?? ""} ${mainTeacher?.last_name ?? ""}`}
+      />
+    </Paper>
+  );
+};
+
+const GradeEditForm = ({onSubmit, isLoading, onClose}) => (
+  <Dialog title="Modification d'une note" open={true} onClose={onClose}>
+    <SimpleForm
+      onSubmit={onSubmit}
+      toolbar={
+        <Toolbar>
+          <SaveButton saving={isLoading} disabled={isLoading} />
+        </Toolbar>
+      }
+    >
+      <NumberInput
+        source="grade.score"
+        label="Note"
+        fullWidth
+        validate={[required(), number(), minValue(0)]}
+      />
+    </SimpleForm>
+  </Dialog>
+);
+
+const GradeEditButton = ({examId}) => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [isDialogOpen, , toggleDialog] = useToggle(false);
   const notify = useNotify();
-  const {id} = useRecordContext();
-  const [showEdit, , toggleEdit] = useToggle();
+  const refresh = useRefresh();
+  const {
+    student: {id: studentId},
+  } = useRecordContext();
+
+  const handleGradeSubmit = async (formValues) => {
+    setIsLoading(true);
+    try {
+      await gradeProvider.saveOrUpdate(
+        {score: formValues.grade?.score},
+        {examId, studentId}
+      );
+      notify("Note mise à jour avec succès", {type: "success"});
+      toggleDialog();
+      refresh();
+    } catch (error) {
+      notify("Erreur lors de la mise à jour de la note", {type: "error"});
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Box>
       <Button
-        label="EDITER"
+        label="ÉDITER"
         variant="text"
         data-testid="edit-button"
-        onClick={toggleEdit}
+        onClick={toggleDialog}
         sx={{py: "5px", color: PALETTE_COLORS.yellow}}
         startIcon={<EditIcon />}
       />
-      <Dialog
-        title="Modification d'une note"
-        open={showEdit}
-        onClose={toggleEdit}
-      >
-        <Edit
-          id={id}
-          title=" "
-          resource="grade"
-          mutationOptions={{
-            onSuccess: () => {
-              notify("Cours mis à jour");
-              toggleEdit();
-            },
-          }}
-        >
-          <SimpleForm
-            toolbar={
-              <Toolbar>
-                <SaveButton />
-              </Toolbar>
-            }
-          >
-            <TextInput
-              source="grade.score"
-              label="Note"
-              validate={[required(), number(), minValue(0)]}
-              fullWidth
-            />
-          </SimpleForm>
-        </Edit>
-      </Dialog>
+      {isDialogOpen && (
+        <GradeEditForm
+          onSubmit={handleGradeSubmit}
+          isLoading={isLoading}
+          onClose={() => toggleDialog(false)}
+        />
+      )}
     </Box>
   );
 };
+
+const ParticipantsDataGrid = ({examId}) => (
+  <HaList
+    icon={<Book />}
+    resource="exam-grades"
+    title="Liste des participants"
+    datagridProps={{rowClick: false}}
+    listProps={{
+      queryOptions: {meta: {examId}},
+      title: "Notes des participants",
+    }}
+    actions={<ExamGradeListActions examId={examId} />}
+  >
+    <TextField source="student.ref" label="Référence" />
+    <TextField source="student.last_name" label="Nom" />
+    <TextField source="student.first_name" label="Prénom(s)" />
+    <TextField source="grade.score" label="Note" />
+    <DateField source="grade.update_date" label="Mis à jour le" />
+    <GradeEditButton examId={examId} />
+  </HaList>
+);
 
 export const ExamParticipantList = () => {
   const {id: examId} = useParams();
@@ -187,28 +222,11 @@ export const ExamParticipantList = () => {
         width="calc(100% - 20px)"
         mt={3}
       >
-        <ExamHeader title={exam?.title} coefficient={exam?.coefficient} />
+        <ExamHeader exam={exam} />
         <ExamDetails exam={exam} />
       </Box>
       <Divider sx={{mt: 1, mb: 1, width: "90%", mx: "auto"}} />
-      <HaList
-        icon={<Book />}
-        resource="exam-grades"
-        title="Liste des participants"
-        datagridProps={{rowClick: false}}
-        listProps={{
-          queryOptions: {meta: {examId}},
-          title: "Notes des participants",
-        }}
-        actions={<ExamGradeListActions examId={examId} />}
-      >
-        <TextField source="student.ref" label="Référence" />
-        <TextField source="student.last_name" label="Nom" />
-        <TextField source="student.first_name" label="Prénom(s)" />
-        <TextField source="grade.score" label="Note" />
-        <DateField source="grade.update_date" label="Mis à jour le" />
-        <GradeEditButton />
-      </HaList>
+      <ParticipantsDataGrid examId={examId} />
     </Box>
   );
 };

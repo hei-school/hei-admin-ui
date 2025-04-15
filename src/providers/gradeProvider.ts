@@ -11,7 +11,7 @@ const gradeProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload: CrupdateGrade, meta: Record<string, any> = {}) {
     return teachingApi()
-      .crupdateParticipantGrade(meta?.examId, meta?.student_id, payload)
+      .crupdateParticipantGrade(meta?.examId, meta?.studentId, payload)
       .then(({data}) => ({data}));
   },
   delete() {
