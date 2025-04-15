@@ -134,7 +134,7 @@ function StudentList() {
     ...getCommonListHeaderContent(stats),
     {
       title: "Collaborateurs",
-      icon: <WorkIcon fontSize="medium" />,
+      icon: <WorkIcon fontSize="large" />,
       total: stats.students_alternating.total,
       statDetails: [
         {

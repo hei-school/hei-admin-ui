@@ -12,7 +12,7 @@ export const getCommonListHeaderContent = (stats) => {
   return [
     {
       title: "Étudiants",
-      icon: <StudentIcon fontSize="medium" />,
+      icon: <StudentIcon fontSize="large" />,
       total: isNaN(totalStudents) ? "..." : totalStudents,
       statDetails: [
         {
@@ -34,7 +34,7 @@ export const getCommonListHeaderContent = (stats) => {
     },
     {
       title: "Femmes",
-      icon: <FemaleIcon fontSize="medium" />,
+      icon: <FemaleIcon fontSize="large" />,
       total: stats.women.total,
       statDetails: [
         {
@@ -56,7 +56,7 @@ export const getCommonListHeaderContent = (stats) => {
     },
     {
       title: "Hommes",
-      icon: <MaleIcon fontSize="medium" />,
+      icon: <MaleIcon fontSize="large" />,
       total: stats.men.total,
       statDetails: [
         {
