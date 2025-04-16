@@ -8,7 +8,7 @@ import {
 import {Box, Chip, Divider, Paper, Tooltip, Typography} from "@mui/material";
 import {Clock, InfoIcon} from "lucide-react";
 import {
-  Button,
+  Button, maxValue,
   minValue,
   number,
   NumberInput,
@@ -132,7 +132,7 @@ const GradeEditForm = ({onSubmit, isLoading, onClose}) => (
         source="grade.score"
         label="Note"
         fullWidth
-        validate={[required(), number(), minValue(0)]}
+        validate={[required(), number(), maxValue(20), minValue(0)]}
       />
     </SimpleForm>
   </Dialog>
