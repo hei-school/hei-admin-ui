@@ -8,7 +8,8 @@ import {
 import {Box, Chip, Divider, Paper, Tooltip, Typography} from "@mui/material";
 import {Clock, InfoIcon} from "lucide-react";
 import {
-  Button, maxValue,
+  Button,
+  maxValue,
   minValue,
   number,
   NumberInput,
@@ -196,6 +197,7 @@ const ParticipantsDataGrid = ({examId}) => (
       title: "Notes des participants",
     }}
     actions={<ExamGradeListActions examId={examId} />}
+    data-testid="participants-list"
   >
     <TextField source="student.ref" label="Référence" />
     <TextField source="student.last_name" label="Nom" />
