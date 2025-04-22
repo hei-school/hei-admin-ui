@@ -63,6 +63,7 @@ export const SingleMenu: FC<{
   to: string;
   menu?: boolean;
   target?: React.HTMLAttributeAnchorTarget;
+  onClick?: () => void;
 }> = ({label, icon, to, menu, target, ...rest}) =>
   to ? (
     <Link to={to} target={target} sx={{color: "inherit"}}>
