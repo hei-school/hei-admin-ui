@@ -20,6 +20,16 @@ import {StudentComments} from "@/operations/comments";
 import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
+import {RightDrawer} from "@/ui/components/RightDrawer";
+import {
+  Admin,
+  Manager,
+  Monitor,
+  Organizer,
+  StaffMember,
+  Student,
+  Teacher,
+} from "@haapi/typescript-client";
 
 const HEI_CALENDAR_URL = "http://calendar.hei.school/";
 
@@ -61,7 +71,7 @@ const LastComments = () => {
 const FeedbackInfos = () => {
   const [anchorEl, setAnchorEl] = useState(null);
 
-  const handleClick = (event) => {
+  const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -114,13 +124,16 @@ const FeedbackInfos = () => {
 
 function UserInfo() {
   const [isLoading, setIsLoading] = useState(false);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState<
+    Teacher | Student | Manager | Organizer | StaffMember | Admin | Monitor
+  >();
   const {isManager, isAdmin, isTeacher} = useRole();
-  const imgRef = useRef(null);
+  const imgRef = useRef<HTMLImageElement | null>(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
   const id = authProvider.getCachedWhoami().id;
   const dataProvider = useDataProvider();
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     const doEffect = async () => {
@@ -136,7 +149,7 @@ function UserInfo() {
     doEffect();
   }, []);
 
-  const {first_name = "", profile_picture = defaultProfilePicture} = user;
+  const {first_name, profile_picture = defaultProfilePicture} = user ?? {};
   const profilePictureSrc = profile_picture ?? defaultProfilePicture;
 
   if (isLoading) {
@@ -154,31 +167,49 @@ function UserInfo() {
   }
 
   const ProfilePicture = () => (
-    <img
-      alt="profile"
-      data-testid="appbar-profile-pic"
-      ref={imgRef}
-      src={profilePictureSrc}
-      onError={() => {
-        if (imgRef.current) {
-          imgRef.current.src = defaultProfilePicture;
-        }
-      }}
-      style={{
-        objectFit: "cover",
-        height: 40,
-        width: 40,
-        border: `1px solid ${PALETTE_COLORS.grey}`,
-        borderRadius: "50%",
-      }}
-    />
+    <>
+      <img
+        alt="profile"
+        data-testid="appbar-profile-pic"
+        ref={imgRef}
+        onClick={() => setIsDrawerOpen(true)}
+        src={profilePictureSrc}
+        onError={() => {
+          if (imgRef.current) {
+            imgRef.current.src = defaultProfilePicture;
+          }
+        }}
+        style={{
+          objectFit: "cover",
+          height: 40,
+          width: 40,
+          border: `1px solid ${PALETTE_COLORS.grey}`,
+          borderRadius: "50%",
+          cursor: "pointer",
+        }}
+      />
+      <RightDrawer
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        imgUrl={profilePictureSrc}
+        userName={first_name}
+        userRef={user?.ref}
+        userRole={role!}
+      />
+    </>
   );
 
   return (
     <StyledUserInfo>
-      <ProfilePicture />
       {!isSmall && (
         <>
+          <a href={HEI_CALENDAR_URL} rel="noreferrer" target="_blank">
+            <CalendarMonth
+              sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
+            />
+          </a>
+          {(isManager() || isAdmin() || isTeacher()) && <LastComments />}
+          <FeedbackInfos />
           <Box
             sx={{
               display: "flex",
@@ -205,16 +236,10 @@ function UserInfo() {
                 lineHeight: 1.2,
               }}
             >
-              {user.sex && getUserRoleInFr(role, user.sex)}
+              {user?.sex && getUserRoleInFr(role, user.sex)}
             </Typography>
           </Box>
-          <a href={HEI_CALENDAR_URL} rel="noreferrer" target="_blank">
-            <CalendarMonth
-              sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
-            />
-          </a>
-          {(isManager() || isAdmin() || isTeacher()) && <LastComments />}
-          <FeedbackInfos />
+          <ProfilePicture />
         </>
       )}
     </StyledUserInfo>
