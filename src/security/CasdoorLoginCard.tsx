@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import {useEffect} from "react";
 import {useCheckAuth} from "react-admin";
 import {CasdoorLoginButton} from "./CasdoorLoginButton";
-import {goToLink} from "./setting";
+import {goToLink} from "./casdoorSetting";
 
 const CasdoorLoginCard = () => {
   const notify = useNotify();
