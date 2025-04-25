@@ -14,9 +14,9 @@ import {awsConfig} from "./aws-config";
 
 Amplify.configure(awsConfig);
 
-export const ID_ITEM = "ha_id";
-export const ROLE_ITEM = "ha_role";
-export const BEARER_ITEM = "ha_bearer";
+const ID_ITEM = "ha_id";
+const ROLE_ITEM = "ha_role";
+const BEARER_ITEM = "ha_bearer";
 const paramIsTemporaryPassword = "t";
 const paramUsername = "u";
 const paramTemporaryPassword = "p";
@@ -83,6 +83,22 @@ const attemptReconnectUser = async (): Promise<void> => {
   });
 
   return refreshPromise;
+};
+
+const getToken = async (serverURL: string, code: string, state: string) => {
+  try {
+    const response = await axios.post(
+      `${serverURL}/authentication/signin`,
+      null,
+      {
+        params: {code, state},
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching token:", error);
+    throw error;
+  }
 };
 
 const authProvider = {
@@ -210,6 +226,8 @@ const authProvider = {
   getCachedWhoami: getCachedWhoami,
   getCachedRole: getCachedRole,
   getCachedAuthConf: getCachedAuthConf,
+  cacheWhoami: cacheWhoami,
+  getToken: getToken,
 };
 
 export default authProvider;

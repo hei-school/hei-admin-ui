@@ -1,6 +1,6 @@
 import {useNotify, UseNotifyOptions} from "@/hooks";
 import {Button} from "@mui/material";
-import {getRedirectUrl, goToLink} from "./setting";
+import {getRedirectUrl, goToLink} from "./casdoorSetting";
 
 const loginWithCasdoor = (
   notify: (message: string, config?: UseNotifyOptions) => void

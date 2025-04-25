@@ -1,13 +1,7 @@
-import authProvider, {
-  BEARER_ITEM,
-  ID_ITEM,
-  ROLE_ITEM,
-} from "@/providers/authProvider";
-import {Whoami} from "@haapi/typescript-client";
-import axios from "axios";
 import {FC, useEffect, useRef} from "react";
 import {LoadingPage} from "react-admin";
-import {goToLink, SERVER_URL} from "./setting";
+import authProvider from "../providers/authProvider";
+import {goToLink, SERVER_URL} from "./casdoorSetting";
 
 const CasdoorAuthCallback: FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
@@ -16,36 +10,14 @@ const CasdoorAuthCallback: FC = () => {
   const isExchanged = useRef(false);
   const whoami = authProvider.whoami();
 
-  const getToken = async (code: string, state: string) => {
-    try {
-      const response = await axios.post(
-        `${SERVER_URL}/authentication/signin`,
-        null,
-        {
-          params: {code, state},
-        }
-      );
-      return response.data;
-    } catch (error) {
-      console.error("Error fetching token:", error);
-      throw error;
-    }
-  };
-
-  const cacheWhoami = (whoami: Whoami): void => {
-    sessionStorage.setItem(ID_ITEM, whoami.id as string);
-    sessionStorage.setItem(ROLE_ITEM, whoami.role as string);
-    sessionStorage.setItem(BEARER_ITEM, whoami.bearer as string);
-  };
-
   useEffect(() => {
     const fetchData = async () => {
       if (code && state && !isExchanged.current) {
         isExchanged.current = true;
         try {
-          const token = await getToken(code, state);
-          cacheWhoami({bearer: token});
-          await whoami.then((whoami) => cacheWhoami(whoami));
+          const token = await authProvider.getToken(SERVER_URL, code, state);
+          authProvider.cacheWhoami({bearer: token});
+          await whoami.then((whoami) => authProvider.cacheWhoami(whoami));
         } catch (error) {
           console.error("Error during token fetching:", error);
         } finally {
