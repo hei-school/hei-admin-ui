@@ -1,24 +1,11 @@
 import defaultCasdoorLogo from "@/assets/casdoor-logo_1185x256.png";
-import {useNotify, UseNotifyOptions} from "@/hooks";
+import {useNotify} from "@/hooks";
 import {Card, CardContent} from "@mui/material";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
 import {useEffect} from "react";
 import {useCheckAuth} from "react-admin";
-import {getRedirectUrl, goToLink} from "./setting";
-
-const loginWithCasdoor = (
-  notify: (message: string, config?: UseNotifyOptions) => void
-) => {
-  (async () => {
-    try {
-      const url = await getRedirectUrl();
-      goToLink(url);
-    } catch (error) {
-      notify("Failed to fetch redirect URL", {type: "error"});
-    }
-  })();
-};
+import {CasdoorLoginButton} from "./CasdoorLoginButton";
+import {goToLink} from "./setting";
 
 const CasdoorLoginCard = () => {
   const notify = useNotify();
@@ -81,15 +68,7 @@ const CasdoorLoginCard = () => {
           </Box>
         </Box>
         <CardContent>
-          <Button
-            fullWidth
-            variant="contained"
-            data-testid="casdoor-login-btn"
-            color="primary"
-            onClick={() => loginWithCasdoor(notify)}
-          >
-            CONNEXION AVEC CASDOOR
-          </Button>
+          <CasdoorLoginButton />
         </CardContent>
       </Card>
     </Box>
