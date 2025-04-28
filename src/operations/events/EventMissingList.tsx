@@ -1,5 +1,4 @@
-import {HaListTitle} from "@/ui/haList";
-import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
+import {HaList} from "@/ui/haList";
 import {NOOP_ID} from "@/utils/constants";
 import {EventAttendance} from "@haapi/typescript-client";
 import {alpha, Avatar, Box, Chip, Tooltip, Typography} from "@mui/material";
@@ -12,10 +11,8 @@ import {
 } from "lucide-react";
 import {FC} from "react";
 import {
-  Datagrid,
   DateField,
   FunctionField,
-  List,
   TextField,
   useGetOne,
   useRecordContext,
@@ -74,49 +71,34 @@ export const EventMissingList: FC = () => {
         title="Statistiques des absences"
         cardContents={eventsHeaderContent}
       />
-      <List
+      <HaList
+        title="Listes des absences"
+        actions={<EventMissingFilter />}
         resource="missing-event"
-        title="Liste des absents"
-        actions={<></>}
-        pagination={<PrevNextPagination />}
-        sx={{
-          fontFamily: "Quicksand, sans-serif",
-        }}
-      >
-        <HaListTitle
-          title="Liste des absents"
-          icon={<ClipboardList />}
-          mainSearch={{label: "Références", source: "ref"}}
-          actions={<EventMissingFilter />}
-          filterIndicator={false}
-        />
-        <Datagrid
-          bulkActionButtons={false}
-          rowClick={false}
-          rowSx={(record) => ({
+        icon={<ClipboardList />}
+        mainSearch={{label: "Références", source: "studentRef"}}
+        datagridProps={{
+          rowClick: false,
+          rowStyle: (record: any) => ({
             borderLeft: "5px solid",
+            padding: "0 !important",
             borderLeftColor:
               record?.event?.groups[0]?.attributed_color ?? "#0000FF",
-          })}
-          sx={{
-            "& .RaDatagrid-headerCell": {
-              fontWeight: "bold",
-            },
-          }}
-        >
-          <FunctionField render={() => <AvatarGroup />} label="Groupe" />
-          <TextField source="event_participant.ref" label="Références" />
-          <TextField source="event_participant.first_name" label="Prénom" />
-          <TextField source="event_participant.last_name" label="Nom" />
-          <FunctionField render={() => <CourseTooltip />} label="Matière" />
-          <FunctionField
-            render={() => <EventTypeItem />}
-            source="event.type"
-            label="Type d'évènement"
-          />
-          <FunctionField render={() => <DateTooltip />} label="Date" />
-        </Datagrid>
-      </List>
+          }),
+        }}
+      >
+        <FunctionField render={() => <AvatarGroup />} label="Groupe" />
+        <TextField source="event_participant.ref" label="Références" />
+        <TextField source="event_participant.first_name" label="Prénom" />
+        <TextField source="event_participant.last_name" label="Nom" />
+        <FunctionField render={() => <CourseTooltip />} label="Matière" />
+        <FunctionField
+          render={() => <EventTypeItem />}
+          source="event.type"
+          label="Type d'évènement"
+        />
+        <FunctionField render={() => <DateTooltip />} label="Date" />
+      </HaList>
     </Box>
   );
 };
