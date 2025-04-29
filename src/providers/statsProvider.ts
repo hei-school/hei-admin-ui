@@ -8,6 +8,9 @@ const statsProvider: HaDataProviderType = {
   },
   async getOne(id: string, meta = {}) {
     const filter = meta.filters ?? {};
+    const monthToDate = filter.monthTo?.split("T")[0] ?? "";
+    const monthFromDate = filter.monthFrom?.split("T")[0] ?? "";
+
     switch (meta.resource) {
       case "users":
         return usersApi()
@@ -15,7 +18,7 @@ const statsProvider: HaDataProviderType = {
           .then((result) => ({id, ...result.data}));
       case "fees_stats":
         return payingApi()
-          .getAdvancedFeesStats(filter.monthFrom, filter.monthTo)
+          .getAdvancedFeesStats(monthFromDate, monthToDate)
           .then((result) => ({id, ...result.data}));
       case "fees":
         return payingApi()

@@ -10,8 +10,8 @@ const missingListProvider: HaDataProviderType = {
         filter.from,
         filter.to,
         filter.attendanceStatus,
-        filter.studentRef,
         filter.groupRef,
+        filter.studentRef,
         filter.studentName
       )
       .then((result) => ({
