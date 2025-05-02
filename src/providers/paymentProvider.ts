@@ -1,3 +1,4 @@
+import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
@@ -34,13 +35,22 @@ const paymentProvider: HaDataProviderType = {
   async saveOrUpdate(resources: Array<any>) {
     const payments = resources[0];
     const raFeeId = payments[0].feeId;
+    const {studentId, feeId} = toApiFeeIds(raFeeId);
+
     payments.forEach((payment: any) => {
       if (payment.feeId !== raFeeId) {
         throw new Error("Creation of payments for multiple fees not supported");
       }
     });
 
-    const {studentId, feeId} = toApiFeeIds(raFeeId);
+    await payingApi().crupdateMpbs(studentId, feeId, {
+      id: uuid(),
+      student_id: studentId,
+      fee_id: feeId,
+      psp_id: payments[0].psp_id,
+      psp_type: payments[0].psp_type,
+    });
+
     const result = await payingApi().createStudentPayments(
       studentId,
       feeId,

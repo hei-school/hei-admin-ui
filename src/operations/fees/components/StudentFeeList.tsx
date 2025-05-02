@@ -13,6 +13,7 @@ import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
 import {
   commentFunctionRenderer,
   IconButtonWithTooltip,
+  pspIdValidationContraints,
 } from "@/operations/utils";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList/HaList";
@@ -40,8 +41,6 @@ import {
   FormDataConsumer,
   FunctionField,
   Link,
-  minLength,
-  regex,
   SelectArrayInput,
   SelectInput,
   SimpleForm,
@@ -60,17 +59,6 @@ interface TransformData {
   psp_id?: string;
   psp_type?: MobileMoneyType;
 }
-
-const TRANSACTION_PATTERN =
-  /^MP[a-zA-Z0-9]{6}\.[a-zA-Z0-9]{4}\.[a-zA-Z0-9]{6}$/;
-
-const pspIdValidationContraints = [
-  minLength(20, "La référence doit contenir exactement 20 caractères"),
-  regex(
-    TRANSACTION_PATTERN,
-    "La référence n'est pas saisie correctement (ex : MP123456.1234.B12345)"
-  ),
-];
 
 const DefaultInfos = () => {
   return (

@@ -1,6 +1,9 @@
 import {useEffect, useState} from "react";
 
-import {PaymentTypeEnum} from "@haapi/typescript-client";
+import {paymentTypes} from "@/conf";
+import {useToggle} from "@/hooks/useToggle";
+import {studentIdFromRaId} from "@/providers/feeProvider";
+import {MobileMoneyType, PaymentTypeEnum} from "@haapi/typescript-client";
 import {
   BooleanInput,
   Create,
@@ -9,15 +12,14 @@ import {
   number,
   RadioButtonGroupInput,
   required,
+  SelectInput,
   SimpleForm,
   TextInput,
   useDataProvider,
   useNotify,
 } from "react-admin";
 import {useParams} from "react-router-dom";
-import {paymentTypes} from "../../conf";
-import {useToggle} from "../../hooks/useToggle";
-import {studentIdFromRaId} from "../../providers/feeProvider";
+import {pspIdValidationContraints} from "../utils";
 
 const PaymentCreate = (props) => {
   const params = useParams();
@@ -58,6 +60,8 @@ const PaymentCreate = (props) => {
     amount,
     comment,
     creation_datetime,
+    psp_id,
+    psp_type,
   }) => {
     const getDatetimeValue = () => {
       if (notSpecifiedDate) {
@@ -74,6 +78,8 @@ const PaymentCreate = (props) => {
         amount,
         comment,
         ref,
+        psp_id,
+        psp_type,
         creation_datetime: getDatetimeValue(),
       },
     ];
@@ -104,6 +110,24 @@ const PaymentCreate = (props) => {
             label="Réference"
             fullWidth
             validate={required()}
+          />
+        )}
+        {paymentChoice === PaymentTypeEnum.MOBILE_MONEY && (
+          <TextInput
+            source="psp_id"
+            label="Réference de la transaction"
+            fullWidth
+            validate={pspIdValidationContraints}
+          />
+        )}
+        {paymentChoice === PaymentTypeEnum.MOBILE_MONEY && (
+          <SelectInput
+            source="psp_type"
+            label="Type de transaction"
+            defaultValue={MobileMoneyType.ORANGE_MONEY}
+            choices={[{id: MobileMoneyType.ORANGE_MONEY, name: "Orange"}]}
+            validate={required()}
+            fullWidth
           />
         )}
         <TextInput

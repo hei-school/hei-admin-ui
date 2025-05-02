@@ -1,6 +1,7 @@
 import {
   UpdateFeeWithPaymentMock,
   feesMock,
+  feesMpbsMock,
   unpaidFeeMock,
 } from "../fixtures/api_mocks/fees-mocks";
 import {
@@ -87,6 +88,11 @@ describe("Manager.Payment", () => {
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
       UpdateFeeWithPaymentMock(unpaidFeeMock, createPayment)
     ).as("getFee");
+    cy.intercept(
+      "PUT",
+      `/students/${student1Mock.id}/fees/${feesMpbsMock[0].id}/mpbs`,
+      feesMpbsMock[0]
+    ).as("getFee");
   });
 
   it("can add cash payment to a fee", () => {
@@ -105,6 +111,7 @@ describe("Manager.Payment", () => {
   it("can add mobile money payment to a fee", () => {
     cy.get("#type_MOBILE_MONEY").click();
     cy.get("#amount").click().type(createPayment.amount!.toString());
+    cy.get("#psp_id").click().type(feesMpbsMock[0]?.mpbs?.psp_id!);
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
