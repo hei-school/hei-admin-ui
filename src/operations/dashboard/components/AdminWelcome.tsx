@@ -2,28 +2,32 @@ import {
   alpha,
   Avatar,
   Box,
+  Button,
   Card,
   CardContent,
+  Chip,
   Grid,
   LinearProgress,
+  Stack,
   Typography,
 } from "@mui/material";
 import {FC, useEffect, useState} from "react";
 
-// Images
 import backgroundImg from "@/assets/Fond-HEI-1.png";
 import managerImg from "@/assets/Jeune_panneau.png";
 
-// Theme
 import {PALETTE_COLORS} from "@/haTheme";
 
-// Icons
+import {AnnouncementCard} from "@/operations/announcements/components/AnnoucementCard";
 import authProvider from "@/providers/authProvider";
+import {Announcement} from "@haapi/typescript-client";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import MailIcon from "@mui/icons-material/Mail";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SchoolIcon from "@mui/icons-material/School";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import {useGetOne} from "react-admin";
+import {BellDot} from "lucide-react";
+import {Link, useGetList, useGetOne} from "react-admin";
 import {RecentLetters} from "./common/RecentLetters";
 
 const mockStats = [
@@ -72,6 +76,13 @@ export const AdminWelcome: FC = () => {
   const [animate, setAnimate] = useState(false);
   const {data: user} = useGetOne("profile", {
     id: authProvider.getCachedWhoami().id,
+  });
+
+  const LastAnnouncements = useGetList("announcements", {
+    pagination: {
+      page: 1,
+      perPage: 4,
+    },
   });
 
   useEffect(() => {
@@ -282,6 +293,110 @@ export const AdminWelcome: FC = () => {
       </Grid>
 
       <RecentLetters />
+
+      <Grid container spacing={3}>
+        <Grid item xs={12} lg={8}></Grid>
+
+        <Grid
+          item
+          xs={12}
+          lg={4}
+          sx={{
+            backgroundColor: "white",
+            borderRadius: "8px",
+            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+            paddingLeft: "0 !important",
+          }}
+        >
+          <Box
+            sx={{
+              opacity: animate ? 1 : 0,
+              transform: animate ? "translateY(0)" : "translateY(30px)",
+              transition: "all 0.5s ease-out 0.7s",
+              width: "90%",
+              marginInline: "auto",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                mb: 2,
+              }}
+            >
+              <Box display="flex" gap="0.5rem" alignItems="center">
+                <BellDot
+                  style={{
+                    color: "#ae46f9",
+                  }}
+                />
+                <Typography variant="h6" fontSize="1  rem" fontWeight="bold">
+                  Latest Announcements
+                </Typography>
+              </Box>
+
+              <Chip
+                label={`${4} New`}
+                color="primary"
+                size="small"
+                sx={{
+                  fontWeight: "bold",
+                  bgcolor: alpha("#ae46f9", 0.1),
+                  color: "#ae46f9",
+                  border: "1px solid rgba(174, 70, 249, 0.2)",
+                }}
+              />
+            </Box>
+
+            <Stack
+              spacing={8}
+              sx={{
+                padding: "1rem",
+                marginTop: "7vh",
+              }}
+            >
+              {LastAnnouncements.data?.map((announcement: Announcement) => (
+                <AnnouncementCard
+                  key={announcement.id}
+                  id={announcement.id!}
+                  scope={announcement.scope!}
+                  title={announcement.title!}
+                  author={announcement.author!}
+                  creation_datetime={announcement.creation_datetime!}
+                  isLoading={false}
+                />
+              ))}
+            </Stack>
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                mt: 2,
+                gap: 1,
+                borderTop: "1px solid rgba(174, 70, 249, 0.2)",
+                padding: "5px ",
+              }}
+            >
+              <Button
+                variant="text"
+                component={Link}
+                to="/announcements"
+                endIcon={<ArrowForwardIcon />}
+                sx={{
+                  "textTransform": "none",
+                  "padding": "0.3rem 0.8rem",
+                  "color": "#ae46f9",
+                  "&:hover": {},
+                }}
+              >
+                Tous les annonces
+              </Button>
+            </Box>
+          </Box>
+        </Grid>
+      </Grid>
     </Box>
   );
 };

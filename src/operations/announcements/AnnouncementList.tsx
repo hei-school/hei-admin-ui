@@ -14,21 +14,11 @@ import {
   Work,
 } from "@mui/icons-material";
 import {Box, Chip, LinearProgress, Paper, Tooltip} from "@mui/material";
-import React, {FC, useState} from "react";
+import {FC, useState} from "react";
 import {List, useListContext, useListFilterContext} from "react-admin";
 import {AnnouncementFilter} from "./components";
 import {AnnouncementCard} from "./components/AnnoucementCard";
 import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
-
-const cardStyle: React.CSSProperties = {
-  minWidth: "300px",
-  borderRadius: "7px",
-  boxShadow: "0 0 10px rgb(182, 182, 182)",
-  borderBottom: "10px solid",
-  position: "relative",
-  overflow: "visible",
-  marginTop: "50px",
-};
 
 export const getChipColor = (scope: string) => {
   switch (scope) {
