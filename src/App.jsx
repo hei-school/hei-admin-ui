@@ -41,6 +41,7 @@ function AppBase() {
       dataProvider={dataProvider}
       i18nProvider={polyglotI18nProvider(() => frenchMessages, "fr")}
       loginPage={HaLoginPage}
+      dashboard={DashboardContent}
       theme={mainTheme}
       layout={HaLayout}
       requireAuth
