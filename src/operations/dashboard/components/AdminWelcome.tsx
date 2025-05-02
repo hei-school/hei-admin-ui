@@ -10,17 +10,21 @@ import {
 } from "@mui/material";
 import {FC, useEffect, useState} from "react";
 
+// Images
 import backgroundImg from "@/assets/Fond-HEI-1.png";
 import managerImg from "@/assets/Jeune_panneau.png";
 
+// Theme
 import {PALETTE_COLORS} from "@/haTheme";
 
+// Icons
 import authProvider from "@/providers/authProvider";
 import MailIcon from "@mui/icons-material/Mail";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SchoolIcon from "@mui/icons-material/School";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import {useGetOne} from "react-admin";
+import {RecentLetters} from "./common/RecentLetters";
 
 const mockStats = [
   {
@@ -147,6 +151,7 @@ export const AdminWelcome: FC = () => {
             construit l'avenir, et chaque geste a un impact durable.
           </Typography>
         </Box>
+
         <Box
           component="img"
           src={managerImg}
@@ -163,7 +168,6 @@ export const AdminWelcome: FC = () => {
           }}
         />
 
-        {/* Decorative elements */}
         <Box
           sx={{
             position: "absolute",
@@ -276,6 +280,8 @@ export const AdminWelcome: FC = () => {
           </Grid>
         ))}
       </Grid>
+
+      <RecentLetters />
     </Box>
   );
 };
