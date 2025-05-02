@@ -1,4 +1,13 @@
-import {alpha, Box, Typography} from "@mui/material";
+import {
+  alpha,
+  Avatar,
+  Box,
+  Card,
+  CardContent,
+  Grid,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import {FC, useEffect, useState} from "react";
 
 import backgroundImg from "@/assets/Fond-HEI-1.png";
@@ -7,7 +16,46 @@ import managerImg from "@/assets/Jeune_panneau.png";
 import {PALETTE_COLORS} from "@/haTheme";
 
 import authProvider from "@/providers/authProvider";
+import MailIcon from "@mui/icons-material/Mail";
+import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
+import SchoolIcon from "@mui/icons-material/School";
+import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import {useGetOne} from "react-admin";
+
+const mockStats = [
+  {
+    id: 1,
+    title: "Total Students",
+    count: 1254,
+    icon: <PeopleAltIcon />,
+    color: "#4CAF50",
+    progress: 85,
+  },
+  {
+    id: 2,
+    title: "Active Courses",
+    count: 42,
+    icon: <SchoolIcon />,
+    color: "#2196F3",
+    progress: 70,
+  },
+  {
+    id: 3,
+    title: "New Messages",
+    count: 18,
+    icon: <MailIcon />,
+    color: "#FF9800",
+    progress: 45,
+  },
+  {
+    id: 4,
+    title: "Pending Issues",
+    count: 7,
+    icon: <WarningAmberIcon />,
+    color: "#F44336",
+    progress: 30,
+  },
+];
 
 const getGreeting = () => {
   const hour = new Date().getHours();
@@ -141,6 +189,93 @@ export const AdminWelcome: FC = () => {
           }}
         />
       </Box>
+
+      <Grid container spacing={3} sx={{mb: 4}}>
+        {mockStats.map((stat, index) => (
+          <Grid
+            item
+            xs={12}
+            sm={6}
+            md={3}
+            key={stat.id}
+            sx={{
+              opacity: animate ? 1 : 0,
+              transform: animate ? "translateY(0)" : "translateY(30px)",
+              transition: `all 0.5s ease-out ${0.2 + index * 0.1}s`,
+            }}
+          >
+            <Card
+              sx={{
+                "borderRadius": "1rem",
+                "overflow": "visible",
+                "height": "100%",
+                "position": "relative",
+                "background": `linear-gradient(135deg, ${alpha(stat.color, 0.05)} 0%, ${alpha(stat.color, 0.15)} 100%)`,
+                "boxShadow": `0 10px 20px ${alpha(stat.color, 0.1)}`,
+                "border": `1px solid ${alpha(stat.color, 0.1)}`,
+                "transition": "all 0.3s ease",
+                "&:hover": {
+                  transform: "translateY(-5px)",
+                  boxShadow: `0 15px 30px ${alpha(stat.color, 0.2)}`,
+                },
+              }}
+            >
+              <CardContent sx={{p: 3}}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    mb: 2,
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    sx={{
+                      fontSize: "1.1rem",
+                      fontWeight: 600,
+                      color: PALETTE_COLORS.typography.black,
+                    }}
+                  >
+                    {stat.title}
+                  </Typography>
+                  <Avatar
+                    sx={{
+                      bgcolor: alpha(stat.color, 0.9),
+                      boxShadow: `0 4px 10px ${alpha(stat.color, 0.3)}`,
+                    }}
+                  >
+                    {stat.icon}
+                  </Avatar>
+                </Box>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    fontWeight: "bold",
+                    mb: 1.5,
+                    color: stat.color,
+                  }}
+                >
+                  {stat.count}
+                </Typography>
+                <LinearProgress
+                  variant="determinate"
+                  value={stat.progress}
+                  sx={{
+                    "height": 8,
+                    "borderRadius": 4,
+                    "backgroundColor": alpha(stat.color, 0.1),
+                    "& .MuiLinearProgress-bar": {
+                      backgroundColor: stat.color,
+                      borderRadius: 4,
+                    },
+                  }}
+                />
+              </CardContent>
+            </Card>
+          </Grid>
+        ))}
+      </Grid>
     </Box>
   );
 };
