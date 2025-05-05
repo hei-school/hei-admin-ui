@@ -11,15 +11,12 @@ import {
 
 import {
   LocationOnOutlined as AdressIcon,
-  CakeOutlined as BirthDateIcon,
   CalendarTodayOutlined as CalendarIcon,
   CurrencyExchange,
   Engineering,
-  AccountBoxOutlined as GenderIcon,
   MapOutlined as GeoIcon,
   MailOutlined as MailIcon,
   MedicationLiquid,
-  FeaturedVideoOutlined as NicIcon,
   PersonOutlined as PersonIcon,
   PhoneOutlined as PhoneIcon,
   PhotoCamera,
@@ -44,17 +41,12 @@ import {
 
 import {CommentList} from "@/operations/comments/CommentList";
 import {Create} from "@/operations/common/components/Create";
-import {BirthDateField} from "@/operations/common/components/fields";
 import HaField from "@/operations/common/components/fields/HaField";
 import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
 import FeeList from "@/operations/fees/FeeList";
 
 import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify, useToggle} from "@/hooks";
-import {
-  getGenderInFr,
-  getUserStatusInFr,
-} from "@/operations/common/utils/typo_util";
 import {WORK_STATUS_VALUE} from "@/operations/docs/components/SelectWorkStatus";
 import {WORK_TYPE_VALUE} from "@/operations/docs/components/SelectWorkType";
 import {SPECIALIZATION_VALUE} from "@/operations/students/components";
@@ -66,7 +58,9 @@ import {NOOP_FN} from "@/utils/noop";
 import defaultCoverPicture from "@/assets/banner.jpg";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
-import {ProfileCardAvatar} from "./profil/ProfilCardAvatar";
+import {PersonalDetails} from "./profilContent/PersonalDetails";
+import {ProfileCardAvatar} from "./profilContent/ProfilCardAvatar";
+import {Title} from "./Title";
 
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
@@ -159,21 +153,6 @@ export const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
         </Create>
       </Dialog>
     </div>
-  );
-};
-
-const Title = ({children: label}) => {
-  const isLarge = useMediaQuery("(min-width:1700px)");
-  return (
-    <Typography
-      color={PALETTE_COLORS.yellow}
-      fontWeight="bold"
-      width="100%"
-      borderBottom={`1px solid ${PALETTE_COLORS.grey}`}
-      fontSize={isLarge ? "1.5rem" : "0.9rem"}
-    >
-      {label}
-    </Typography>
   );
 };
 
@@ -278,7 +257,7 @@ const Contact = () => {
         padding: "1rem",
       }}
     >
-      <Title>Coordonnées</Title>
+      <Title label="Coordonnées" />
       <Box
         sx={{
           display: "grid",
@@ -305,55 +284,6 @@ const Contact = () => {
           label="Géolocalisation"
           icon={<GeoIcon />}
           render={(user) => <GeoPositionName coordinates={user.coordinates} />}
-        />
-      </Box>
-    </Box>
-  );
-};
-
-const PersonalDetails = () => {
-  const isSmall = useMediaQuery("(max-width:900px)");
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.5rem",
-        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
-        width: "100%",
-        padding: "1rem",
-      }}
-    >
-      <Title>Détails personnels</Title>
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr",
-          gap: "1rem",
-        }}
-      >
-        <HaField
-          label="Sexe"
-          render={(user) => getGenderInFr(user.sex)}
-          icon={<GenderIcon />}
-        />
-        <HaField label="Numéro CIN" source="nic" icon={<NicIcon />} />
-        <HaField
-          label="Date et lieu de naissance"
-          render={(user) => (
-            <BirthDateField
-              birthdate={user.birth_date}
-              birthplace={user.birth_place}
-              emptyText="Non défini.e"
-            />
-          )}
-          icon={<BirthDateIcon />}
-        />
-        <HaField
-          label="Statut"
-          render={(user) => getUserStatusInFr(user.status, user.sex)}
-          icon={<StatusIcon />}
         />
       </Box>
     </Box>
