@@ -10,15 +10,11 @@ import {
 } from "react-admin";
 
 import {
-  LocationOnOutlined as AdressIcon,
   CalendarTodayOutlined as CalendarIcon,
   CurrencyExchange,
   Engineering,
-  MapOutlined as GeoIcon,
-  MailOutlined as MailIcon,
   MedicationLiquid,
   PersonOutlined as PersonIcon,
-  PhoneOutlined as PhoneIcon,
   PhotoCamera,
   School as SchoolIcon,
   AssignmentOutlined as SpecializationIcon,
@@ -42,7 +38,6 @@ import {
 import {CommentList} from "@/operations/comments/CommentList";
 import {Create} from "@/operations/common/components/Create";
 import HaField from "@/operations/common/components/fields/HaField";
-import {GeoPositionName} from "@/operations/common/components/GeoLocalisation";
 import FeeList from "@/operations/fees/FeeList";
 
 import {PALETTE_COLORS} from "@/haTheme";
@@ -58,6 +53,7 @@ import {NOOP_FN} from "@/utils/noop";
 import defaultCoverPicture from "@/assets/banner.jpg";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
+import {Contact} from "./profilContent/ContactDetails";
 import {PersonalDetails} from "./profilContent/PersonalDetails";
 import {ProfileCardAvatar} from "./profilContent/ProfilCardAvatar";
 import {Title} from "./Title";
@@ -173,7 +169,7 @@ const PersonalInfos = ({isStudentProfile, isStaffMember}) => {
         borderRadius: "10px",
       }}
     >
-      <Title>Informations personnelles</Title>
+      <Title label="Informations personnelles" />
       <Box display="flex" flexDirection="column" gap={1}>
         <HaField
           label="Date d'entrée chez HEI"
@@ -238,53 +234,6 @@ const PersonalInfos = ({isStudentProfile, isStaffMember}) => {
             />
           </Box>
         )}
-      </Box>
-    </Box>
-  );
-};
-
-const Contact = () => {
-  const isSmall = useMediaQuery("(max-width:900px)");
-
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.5rem",
-        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
-        width: "100%",
-        padding: "1rem",
-      }}
-    >
-      <Title label="Coordonnées" />
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: isSmall ? "1fr" : "1fr 1fr",
-          gap: "1rem",
-        }}
-      >
-        <HaField
-          label="Email"
-          icon={<MailIcon />}
-          render={(user) => (
-            <a
-              href={`mailto:${user.email}`}
-              target="_blank"
-              style={{color: "inherit"}}
-            >
-              {user.email}
-            </a>
-          )}
-        />
-        <HaField label="Téléphone" source="phone" icon={<PhoneIcon />} />
-        <HaField label="Adresse" source="address" icon={<AdressIcon />} />
-        <HaField
-          label="Géolocalisation"
-          icon={<GeoIcon />}
-          render={(user) => <GeoPositionName coordinates={user.coordinates} />}
-        />
       </Box>
     </Box>
   );
