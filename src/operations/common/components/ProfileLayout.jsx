@@ -9,20 +9,7 @@ import {
   useShowContext,
 } from "react-admin";
 
-import {
-  CalendarTodayOutlined as CalendarIcon,
-  CurrencyExchange,
-  Engineering,
-  MedicationLiquid,
-  PersonOutlined as PersonIcon,
-  PhotoCamera,
-  School as SchoolIcon,
-  AssignmentOutlined as SpecializationIcon,
-  HowToRegOutlined as StatusIcon,
-  WorkOff,
-  WorkspacePremium,
-  CardTravel as WorkStatusIcon,
-} from "@mui/icons-material";
+import {PhotoCamera} from "@mui/icons-material";
 
 import {
   Badge,
@@ -37,17 +24,11 @@ import {
 
 import {CommentList} from "@/operations/comments/CommentList";
 import {Create} from "@/operations/common/components/Create";
-import HaField from "@/operations/common/components/fields/HaField";
 import FeeList from "@/operations/fees/FeeList";
 
 import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify, useToggle} from "@/hooks";
-import {WORK_STATUS_VALUE} from "@/operations/docs/components/SelectWorkStatus";
-import {WORK_TYPE_VALUE} from "@/operations/docs/components/SelectWorkType";
-import {SPECIALIZATION_VALUE} from "@/operations/students/components";
 import {useRole} from "@/security/hooks";
-import {EMPTY_TEXT} from "@/ui/constants";
-import {DATE_OPTIONS, formatDate} from "@/utils/date";
 import {NOOP_FN} from "@/utils/noop";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
@@ -55,39 +36,8 @@ import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
 import {Contact} from "./profilContent/ContactDetails";
 import {PersonalDetails} from "./profilContent/PersonalDetails";
+import {PersonalInfos} from "./profilContent/PersonalInfos";
 import {ProfileCardAvatar} from "./profilContent/ProfilCardAvatar";
-import {Title} from "./Title";
-
-const renderSpecialization = (specialization_field) =>
-  SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
-
-const renderWorkStatus = (workStatus) =>
-  WORK_STATUS_VALUE[workStatus] || EMPTY_TEXT;
-
-const renderExperienceDuration = ({
-  commitment_begin_date,
-  commitment_end_date,
-}) => {
-  if (!commitment_begin_date) return EMPTY_TEXT;
-
-  const beginDate = formatDate(commitment_begin_date, false);
-  const endDate = commitment_end_date
-    ? `au ${formatDate(commitment_end_date, false)}`
-    : `jusqu'à maintenant`;
-
-  return `Du ${beginDate} ${endDate}`;
-};
-
-const HaDateField = ({value, ...props}) => {
-  const isLarge = useMediaQuery("(min-width:1700px)");
-  return (
-    <Typography {...props} variant={isLarge ? "body2" : "caption"}>
-      {value
-        ? new Date(value).toLocaleString("fr-FR", DATE_OPTIONS)
-        : "Non-défini.e"}
-    </Typography>
-  );
-};
 
 export const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
@@ -149,93 +99,6 @@ export const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
         </Create>
       </Dialog>
     </div>
-  );
-};
-
-const PersonalInfos = ({isStudentProfile, isStaffMember}) => {
-  const isSmall = useMediaQuery("(max-width:900px)");
-  const role = useRole();
-  const isStaffMemberProfile = isStaffMember || role.isStaffMember();
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        gap: "0.5rem",
-        boxShadow: "0px 0px 10px 0px rgba(0, 0, 0, 0.1)",
-        width: isSmall ? "100%" : "50%",
-        minHeight: "100%",
-        padding: "1rem",
-        borderRadius: "10px",
-      }}
-    >
-      <Title label="Informations personnelles" />
-      <Box display="flex" flexDirection="column" gap={1}>
-        <HaField
-          label="Date d'entrée chez HEI"
-          icon={<CalendarIcon />}
-          render={(user) => <HaDateField value={user.entrance_datetime} />}
-        />
-        {isStudentProfile && (
-          <Box display="flex" flexDirection="column" gap={1}>
-            <HaField
-              label="Redoublant"
-              render={(user) => (user.is_repeating_year ? "Oui" : "Non")}
-              icon={<PersonIcon />}
-            />
-            <HaField
-              label="Parcours de Spécialisation"
-              render={(user) => renderSpecialization(user.specialization_field)}
-              icon={<SpecializationIcon />}
-            />
-            <HaField
-              label="Statut professionnel"
-              icon={<StatusIcon />}
-              render={(user) => renderWorkStatus(user.work_study_status)}
-            />
-            <HaField
-              label="Type d'expérience professionnelle"
-              render={(user) =>
-                WORK_TYPE_VALUE[user.professional_experience] ??
-                "Pas d'expérience professionnelle"
-              }
-              icon={<WorkStatusIcon />}
-            />
-            <HaField
-              label="Période de l'expérience professionnelle"
-              icon={<CalendarIcon />}
-              render={renderExperienceDuration}
-            />
-            <HaField
-              label="Lycée de provenance"
-              icon={<SchoolIcon />}
-              source="high_school_origin"
-            />
-          </Box>
-        )}
-        {isStaffMemberProfile && (
-          <Box>
-            <HaField label="Cnaps" icon={<CurrencyExchange />} source="cnaps" />
-            <HaField label="Ostie" icon={<MedicationLiquid />} source="ostie" />
-            <HaField
-              label="Poste chez HEI"
-              icon={<Engineering />}
-              source="function"
-            />
-            <HaField
-              label="Diplôme"
-              icon={<WorkspacePremium />}
-              source="degree"
-            />
-            <HaField
-              label="Fin de service"
-              icon={<WorkOff />}
-              render={(user) => <HaDateField value={user.ending_service} />}
-            />
-          </Box>
-        )}
-      </Box>
-    </Box>
   );
 };
 
