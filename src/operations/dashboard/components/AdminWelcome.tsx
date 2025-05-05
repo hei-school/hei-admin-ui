@@ -12,6 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import {FC, useEffect, useState} from "react";
+import {ChipField, FunctionField, TextField} from "react-admin";
 
 import backgroundImg from "@/assets/Fond-HEI-1.png";
 import managerImg from "@/assets/Jeune_panneau.png";
@@ -26,8 +27,8 @@ import MailIcon from "@mui/icons-material/Mail";
 import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
 import SchoolIcon from "@mui/icons-material/School";
 import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import {BellDot} from "lucide-react";
-import {Link, useGetList, useGetOne} from "react-admin";
+import {BadgeDollarSign, BellDot, ExternalLink, UserRoundX} from "lucide-react";
+import {Datagrid, Link, List, useGetList, useGetOne} from "react-admin";
 import {RecentLetters} from "./common/RecentLetters";
 
 const mockStats = [
@@ -78,7 +79,7 @@ export const AdminWelcome: FC = () => {
     id: authProvider.getCachedWhoami().id,
   });
 
-  const LastAnnouncements = useGetList("announcements", {
+  const {data: LastAnnouncements} = useGetList("announcements", {
     pagination: {
       page: 1,
       perPage: 4,
@@ -294,17 +295,317 @@ export const AdminWelcome: FC = () => {
 
       <RecentLetters />
 
-      <Grid container spacing={3}>
-        <Grid item xs={12} lg={8}></Grid>
+      <Grid
+        container
+        spacing={3}
+        sx={{
+          gap: {xs: 2, md: 3},
+        }}
+      >
+        <Grid item xs={12} lg={7.5}>
+          <Stack spacing={4} height="100%">
+            <Box
+              sx={{
+                opacity: animate ? 1 : 0,
+                transform: animate ? "translateY(0)" : "translateY(30px)",
+                transition: "all 0.5s ease-out 0.8s",
+                backgroundColor: "white",
+                borderRadius: "8px",
+                boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
+                padding: "1rem",
+                height: "50%",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
+              >
+                <Box sx={{display: "flex", alignItems: "center"}}>
+                  <BadgeDollarSign
+                    style={{
+                      color: "#F44336",
+                      fontSize: "1.5rem",
+                      marginRight: "0.5rem",
+                    }}
+                  />
+                  <Typography variant="h6" fontWeight="bold">
+                    Listes des frais en retard
+                  </Typography>
+                </Box>
+                <Chip
+                  label={`${4} Étudiants`}
+                  color="error"
+                  size="small"
+                  sx={{
+                    fontWeight: "bold",
+                    bgcolor: alpha("#F44336", 0.1),
+                    color: "#F44336",
+                    border: "1px solid rgba(244, 67, 54, 0.2)",
+                  }}
+                />
+              </Box>
+              <List
+                exporter={false}
+                hasCreate={false}
+                actions={false}
+                resource="fees"
+                filter={{status: "LATE"}}
+                pagination={false}
+                sx={{
+                  padding: "0 !important",
+                }}
+              >
+                <Datagrid
+                  bulkActionButtons={false}
+                  rowSx={() => ({
+                    "borderLeft": "1px solid  #F44336 ",
+                    "padding": "5px",
+                    "transition": "background-color 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: `${alpha("#F44336", 0.05)} !important`,
+                    },
+                  })}
+                >
+                  <FunctionField
+                    render={(record) => <Avatar src={record.profile_picture} />}
+                  />
+                  <TextField source="ref" label="Référence" />
+                  <TextField source="first_name" label="Prénom" />
+                  <TextField source="last_name" label="Nom" />
+
+                  <FunctionField
+                    label="groupe"
+                    render={() => {
+                      return (
+                        <ChipField
+                          source="groups[0].ref"
+                          variant="outlined"
+                          sx={{
+                            background: "groups[0].attributed_color",
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                  <FunctionField
+                    label="Profil"
+                    render={(record) => (
+                      <>
+                        <Button
+                          component={Link}
+                          to={`/students/${record.id}/show`}
+                          endIcon={
+                            <ExternalLink
+                              style={{
+                                color: alpha("#F44336", 0.7),
+                              }}
+                            />
+                          }
+                          sx={{
+                            "color": alpha("#F44336", 0.7),
+                            "background": alpha("#F44336", 0.1),
+                            "textTransform": "none",
+                            "border": "1px solid transparent",
+                            "padding": "5px 1rem",
+                            "&:hover": {
+                              border: "1px solid",
+                            },
+                          }}
+                        >
+                          Voir Profil
+                        </Button>
+                      </>
+                    )}
+                  />
+                </Datagrid>
+              </List>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderTop: "1px solid",
+                  borderColor: alpha("#F44336", 0.2),
+                  marginTop: "0.5rem",
+                  padding: "5px",
+                }}
+              >
+                <Button
+                  variant="text"
+                  component={Link}
+                  to="/students"
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{
+                    textTransform: "none",
+                    padding: "0.3rem 0.8rem",
+                    color: "#F44336",
+                  }}
+                >
+                  Tous les étudiants
+                </Button>
+              </Box>
+            </Box>
+
+            <Box
+              sx={{
+                opacity: animate ? 1 : 0,
+                transform: animate ? "translateY(0)" : "translateY(30px)",
+                transition: "all 0.5s ease-out 0.8s",
+                backgroundColor: "white",
+                borderRadius: "8px",
+                boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
+                padding: "1rem",
+                height: "50%",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  mb: 2,
+                }}
+              >
+                <Box sx={{display: "flex", alignItems: "center"}}>
+                  <UserRoundX
+                    style={{
+                      color: "#F44336",
+                      fontSize: "1.5rem",
+                      marginRight: "0.5rem",
+                    }}
+                  />
+                  <Typography variant="h6" fontWeight="bold">
+                    Listes de étudiants suspendus
+                  </Typography>
+                </Box>
+                <Chip
+                  label={`${4} Étudiants`}
+                  color="error"
+                  size="small"
+                  sx={{
+                    fontWeight: "bold",
+                    bgcolor: alpha("#F44336", 0.1),
+                    color: "#F44336",
+                    border: "1px solid rgba(244, 67, 54, 0.2)",
+                  }}
+                />
+              </Box>
+              <List
+                exporter={false}
+                hasCreate={false}
+                actions={false}
+                resource="students"
+                filter={{status: "SUSPENDED"}}
+                pagination={false}
+                sx={{
+                  padding: "0 !important",
+                }}
+              >
+                <Datagrid
+                  bulkActionButtons={false}
+                  rowSx={() => ({
+                    "borderLeft": "1px solid  #F44336 ",
+                    "padding": "5px",
+                    "transition": "background-color 0.2s ease",
+                    "&:hover": {
+                      backgroundColor: `${alpha("#F44336", 0.05)} !important`,
+                    },
+                  })}
+                >
+                  <FunctionField
+                    render={(record) => <Avatar src={record.profile_picture} />}
+                  />
+                  <TextField source="ref" label="Référence" />
+                  <TextField source="first_name" label="Prénom" />
+                  <TextField source="last_name" label="Nom" />
+
+                  <FunctionField
+                    label="groupe"
+                    render={() => {
+                      return (
+                        <ChipField
+                          source="groups[0].ref"
+                          variant="outlined"
+                          sx={{
+                            background: "groups[0].attributed_color",
+                          }}
+                        />
+                      );
+                    }}
+                  />
+                  <FunctionField
+                    label="Profil"
+                    render={(record) => (
+                      <>
+                        <Button
+                          component={Link}
+                          to={`/students/${record.id}/show`}
+                          endIcon={
+                            <ExternalLink
+                              style={{
+                                color: alpha("#F44336", 0.7),
+                              }}
+                            />
+                          }
+                          sx={{
+                            "color": alpha("#F44336", 0.7),
+                            "background": alpha("#F44336", 0.1),
+                            "textTransform": "none",
+                            "border": "1px solid transparent",
+                            "padding": "5px 1rem",
+                            "&:hover": {
+                              border: "1px solid",
+                            },
+                          }}
+                        >
+                          Voir Profil
+                        </Button>
+                      </>
+                    )}
+                  />
+                </Datagrid>
+              </List>
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  borderTop: "1px solid",
+                  borderColor: alpha("#F44336", 0.2),
+                  marginTop: "0.5rem",
+                  padding: "5px",
+                }}
+              >
+                <Button
+                  variant="text"
+                  component={Link}
+                  to="/students"
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{
+                    textTransform: "none",
+                    padding: "0.3rem 0.8rem",
+                    color: "#F44336",
+                  }}
+                >
+                  Tous les étudiants
+                </Button>
+              </Box>
+            </Box>
+          </Stack>
+        </Grid>
 
         <Grid
           item
           xs={12}
-          lg={4}
+          lg={4.3}
           sx={{
             backgroundColor: "white",
             borderRadius: "8px",
-            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.1)",
+            boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
             paddingLeft: "0 !important",
           }}
         >
@@ -356,7 +657,7 @@ export const AdminWelcome: FC = () => {
                 marginTop: "7vh",
               }}
             >
-              {LastAnnouncements.data?.map((announcement: Announcement) => (
+              {LastAnnouncements?.map((announcement: Announcement) => (
                 <AnnouncementCard
                   key={announcement.id}
                   id={announcement.id!}
@@ -385,10 +686,9 @@ export const AdminWelcome: FC = () => {
                 to="/announcements"
                 endIcon={<ArrowForwardIcon />}
                 sx={{
-                  "textTransform": "none",
-                  "padding": "0.3rem 0.8rem",
-                  "color": "#ae46f9",
-                  "&:hover": {},
+                  textTransform: "none",
+                  padding: "0.3rem 0.8rem",
+                  color: "#ae46f9",
                 }}
               >
                 Tous les annonces
