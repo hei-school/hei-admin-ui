@@ -1,7 +1,4 @@
-import {useRef} from "react";
-
 import {
-  FunctionField,
   ImageField,
   ImageInput,
   SimpleForm,
@@ -67,9 +64,9 @@ import {DATE_OPTIONS, formatDate} from "@/utils/date";
 import {NOOP_FN} from "@/utils/noop";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
-import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
+import {ProfileCardAvatar} from "./profil/ProfilCardAvatar";
 
 const renderSpecialization = (specialization_field) =>
   SPECIALIZATION_VALUE[specialization_field] || EMPTY_TEXT;
@@ -102,7 +99,7 @@ const HaDateField = ({value, ...props}) => {
   );
 };
 
-const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
+export const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
   const [isOpen, , toggle] = useToggle();
   const user = useRecordContext();
   const id = user?.id;
@@ -162,64 +159,6 @@ const UploadPictureButton = ({role, onUpload = NOOP_FN}) => {
         </Create>
       </Dialog>
     </div>
-  );
-};
-
-const ProfileCardAvatar = ({role}) => {
-  const {isStudent, isMonitor} = useRole();
-
-  const user = useRecordContext();
-  const imgRef = useRef(null);
-  const isLarge = useMediaQuery("(min-width:1700px)");
-
-  const updateImage = (newImage) => {
-    imgRef.current.src = newImage;
-  };
-
-  return (
-    <Badge
-      variant="contained"
-      badgeContent={
-        !isStudent() &&
-        !isMonitor() && (
-          <UploadPictureButton
-            role={role}
-            onUpload={(user) => {
-              updateImage(user.profile_picture);
-            }}
-          />
-        )
-      }
-      sx={{bgcolor: "transparent", bottom: "5vh"}}
-      anchorOrigin={{
-        vertical: "bottom",
-        horizontal: "right",
-      }}
-    >
-      <FunctionField
-        label=" "
-        render={() => (
-          <img
-            alt="profile"
-            data-testid="profile-pic"
-            ref={imgRef}
-            src={user?.profile_picture || defaultProfilePicture}
-            onError={() => {
-              if (imgRef.current) {
-                imgRef.current.src = defaultProfilePicture;
-              }
-            }}
-            style={{
-              objectFit: "cover",
-              height: isLarge ? 210 : 175,
-              width: isLarge ? 210 : 175,
-              border: `1px solid ${PALETTE_COLORS.grey}`,
-              borderRadius: "50%",
-            }}
-          />
-        )}
-      />
-    </Badge>
   );
 };
 
