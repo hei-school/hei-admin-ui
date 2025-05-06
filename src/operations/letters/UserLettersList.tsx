@@ -58,6 +58,7 @@ export const UserLettersList: FC = () => {
             userId: user.id,
           },
         }}
+        disableSyncWithLocation={true}
       >
         <TopToolbar
           sx={{

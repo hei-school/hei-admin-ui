@@ -31,6 +31,7 @@ export const LettersList: FC<{stats: LetterStats & {total?: number}}> = ({
             anchorEl={anchorEl}
           />
         }
+        disableSyncWithLocation={true}
       >
         <Stack
           direction="row"

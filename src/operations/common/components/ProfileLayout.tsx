@@ -105,6 +105,7 @@ export const ProfileLayout: FC<{
   isStudentProfile?: boolean;
   isMonitorProfile?: boolean;
   isStaffProfil?: boolean;
+  isAdminProfile?: boolean;
 }> = ({
   role,
   actions,
