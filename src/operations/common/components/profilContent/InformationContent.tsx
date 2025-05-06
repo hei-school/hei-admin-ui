@@ -1,11 +1,4 @@
-import {FC} from "react";
-import {
-  TabbedShowLayout,
-  TabbedShowLayoutTabs,
-  useGetOne,
-  useRecordContext,
-} from "react-admin";
-
+import {useTabManager} from "@/hooks/useTabManager";
 import {CommentList} from "@/operations/comments/CommentList";
 import FeeList from "@/operations/fees/FeeList";
 import {LettersList} from "@/operations/letters/LettersList";
@@ -15,12 +8,35 @@ import {
   Badge,
   Box,
   CircularProgress,
+  Tab,
+  Tabs,
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import {FC} from "react";
+import {useGetOne, useRecordContext} from "react-admin";
 import {Contact} from "./ContactDetails";
 import {PersonalDetails} from "./PersonalDetails";
 import {PersonalInfos} from "./PersonalInfos";
+
+interface TabPanelProps {
+  children?: React.ReactNode;
+  index: number;
+  value: number;
+}
+function TabPanel(props: TabPanelProps) {
+  const {children, value, index, ...other} = props;
+  return (
+    <Box
+      role="tabpanel"
+      hidden={value !== index}
+      id={`tabpanel-${index}`}
+      {...other}
+    >
+      {value === index && <Box>{children}</Box>}
+    </Box>
+  );
+}
 
 export const Informations: FC<{
   isStudentProfile: boolean;
@@ -54,25 +70,6 @@ export const Informations: FC<{
     }
   );
 
-  if (!profile) {
-    return (
-      <Box
-        display="flex"
-        alignItems="center"
-        justifyContent="center"
-        height="100vh"
-        width="100%"
-        flexDirection="column"
-        gap={2}
-      >
-        <CircularProgress color="primary" />
-        <Typography variant="h6" color="textSecondary">
-          Chargement en cours...
-        </Typography>
-      </Box>
-    );
-  }
-
   const adminView =
     !role.isMonitor() &&
     !role.isOrganizer() &&
@@ -82,15 +79,12 @@ export const Informations: FC<{
     !isAdminProfil &&
     !isManagerProfil;
 
-  return (
-    <TabbedShowLayout
-      tabs={<TabbedShowLayoutTabs variant="scrollable" scrollButtons="auto" />}
-      syncWithLocation={false}
-    >
-      <TabbedShowLayout.Tab
-        label="Détails du Profil"
-        style={{fontSize: "0.8rem"}}
-      >
+  const allTabs = [
+    {
+      id: "profile",
+      label: "Détails du Profil",
+      show: true,
+      content: (
         <Box
           display="flex"
           gap={2}
@@ -114,77 +108,129 @@ export const Informations: FC<{
             isStaffMember={isStaffProfil}
           />
         </Box>
-      </TabbedShowLayout.Tab>
-      {isStudentProfile && (
-        <TabbedShowLayout.Tab label="Commentaires" style={{fontSize: "0.8rem"}}>
-          <CommentList studentId={profile.id} close={false} />
-        </TabbedShowLayout.Tab>
-      )}
-      {isStudentProfile &&
-        (role.isManager() || role.isAdmin() || role.isMonitor()) && (
-          <TabbedShowLayout.Tab
-            label="Liste des Frais"
-            path="fees"
-            data-testid="fees-list-tab"
-            style={{fontSize: "0.8rem"}}
-          >
-            <FeeList studentId={profile.id} studentRef={profile.ref} />
-          </TabbedShowLayout.Tab>
-        )}
-      {(adminView || (role.isAdmin() && isStaffProfil)) && (
-        <TabbedShowLayout.Tab
-          label="Boîte aux lettres"
-          data-testid="letters-list-tab"
+      ),
+    },
+    {
+      id: "comments",
+      label: "Commentaires",
+      show: isStudentProfile,
+      content: <CommentList studentId={profile?.id ?? ""} close={false} />,
+    },
+    {
+      id: "fees",
+      label: "Liste des Frais",
+      show:
+        isStudentProfile &&
+        (role.isManager() || role.isAdmin() || role.isMonitor()),
+      content: (
+        <FeeList
+          studentId={profile?.id ?? ""}
+          studentRef={profile?.ref ?? ""}
+        />
+      ),
+    },
+    {
+      id: "user-letters",
+      label: "Boîte aux lettres",
+      show: adminView || (role.isAdmin() && isStaffProfil),
+      content: <UserLettersList />,
+    },
+    {
+      id: "letters",
+      label: (
+        <Badge
+          badgeContent={letterStats?.pending ?? 0}
+          color="error"
           sx={{
-            position: "relative",
-            fontSize: "0.7rem",
+            "& .MuiBadge-badge": {
+              fontSize: "0.8rem",
+              height: "1.4rem",
+              width: "1.4rem",
+              right: "-0.2rem",
+            },
           }}
         >
-          <UserLettersList />
-        </TabbedShowLayout.Tab>
-      )}
-      {!isMonitorProfile &&
+          Boîte aux lettres
+        </Badge>
+      ),
+      show:
+        !isMonitorProfile &&
         !isStudentProfile &&
         !isTeacherProfile &&
         !isStaffProfil &&
-        (role.isAdmin() || role.isManager()) && (
-          <TabbedShowLayout.Tab
-            label={
-              letterStats && (
-                <Badge
-                  badgeContent={
-                    <span
-                      style={{
-                        backgroundColor: "red",
-                        borderRadius: "50%",
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        fontWeight: "800",
-                        color: "white",
-                        marginLeft: "1rem",
-                        height: "1.4rem",
-                        width: "1.4rem",
-                      }}
-                    >
-                      {letterStats.pending}
-                    </span>
-                  }
-                  sx={{
-                    position: "relative",
-                    fontSize: "0.7rem",
-                  }}
-                >
-                  Boîte aux lettres
-                </Badge>
-              )
-            }
-            style={{paddingTop: "1rem", width: "10vw"}}
-            data-testid="letters-list-tab"
-          >
-            <LettersList stats={letterStats} />
-          </TabbedShowLayout.Tab>
-        )}
-    </TabbedShowLayout>
+        (role.isAdmin() || role.isManager()),
+      content: <LettersList stats={letterStats} />,
+    },
+  ];
+
+  const tabValues = allTabs.map((tab) => tab.id);
+
+  const {tabIndex, handleTabChange} = useTabManager({
+    values: tabValues,
+    defaultTabIndex: 0,
+  });
+
+  if (!profile) {
+    return (
+      <Box
+        display="flex"
+        alignItems="center"
+        justifyContent="center"
+        height="100vh"
+        width="100%"
+        flexDirection="column"
+        gap={2}
+      >
+        <CircularProgress color="primary" />
+        <Typography variant="h6" color="textSecondary">
+          Chargement en cours...
+        </Typography>
+      </Box>
+    );
+  }
+
+  const visibleTabs = allTabs.filter((tab) => tab.show);
+  const visibleTabIndexes = allTabs
+    .map((tab, idx) => (tab.show ? idx : null))
+    .filter((idx) => idx !== null) as number[];
+  const currentTabIndex = visibleTabIndexes.includes(tabIndex)
+    ? visibleTabs.findIndex((_, i) => visibleTabIndexes[i] === tabIndex)
+    : 0;
+
+  return (
+    <Box sx={{width: "100%"}}>
+      <Tabs
+        value={currentTabIndex}
+        onChange={(_, newValue) => {
+          const absoluteIndex = visibleTabIndexes[newValue];
+          handleTabChange(absoluteIndex ?? 0);
+        }}
+        variant="scrollable"
+        scrollButtons="auto"
+        sx={{
+          "width": "100%",
+          "borderBottom": "1px solid rgba(0, 0, 0, 0.12)",
+
+          "& .MuiTab-root": {
+            "textTransform": "none",
+            "minWidth": 120,
+            "fontSize": "0.9rem",
+            "fontWeight": 400,
+            "&.Mui-selected": {
+              fontWeight: 500,
+            },
+          },
+        }}
+      >
+        {visibleTabs.map((tab) => (
+          <Tab key={tab.id} label={tab.label} data-testid={`${tab.id}-tab`} />
+        ))}
+      </Tabs>
+      {visibleTabs.map((tab, idx) => (
+        <TabPanel key={tab.id} value={currentTabIndex} index={idx}>
+          {tab.content}
+        </TabPanel>
+      ))}
+    </Box>
   );
 };

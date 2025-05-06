@@ -140,6 +140,9 @@ export const ProfileLayout: FC<{
         paddingInline="2vw"
         height="7rem"
         position="relative"
+        sx={{
+          backgroundColor: "#f0f0f0",
+        }}
       >
         <Box
           display="flex"
