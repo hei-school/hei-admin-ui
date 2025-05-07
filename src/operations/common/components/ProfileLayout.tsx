@@ -1,102 +1,14 @@
-import {
-  ImageField,
-  ImageInput,
-  SimpleForm,
-  useRecordContext,
-  useShowContext,
-} from "react-admin";
+import {useShowContext} from "react-admin";
 
-import {PhotoCamera} from "@mui/icons-material";
-
-import {
-  Box,
-  Dialog,
-  DialogTitle,
-  IconButton,
-  Typography,
-  useMediaQuery,
-} from "@mui/material";
-
-import {Create} from "@/operations/common/components/Create";
+import {Box, Typography, useMediaQuery} from "@mui/material";
 
 import {PALETTE_COLORS} from "@/haTheme";
-import {useNotify, useToggle} from "@/hooks";
-import {NOOP_FN} from "@/utils/noop";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
 import {Group, RoleParamEnum} from "@haapi/typescript-client";
 import {FC} from "react";
 import {Informations} from "./profilContent/InformationContent";
 import {ProfileCardAvatar} from "./profilContent/ProfilCardAvatar";
-
-export const UploadPictureButton = ({
-  role,
-  onUpload = NOOP_FN,
-}: {
-  role: RoleParamEnum;
-  onUpload?: () => void;
-}) => {
-  const [isOpen, , toggle] = useToggle();
-  const user = useRecordContext();
-  const id = user?.id;
-  const notify = useNotify();
-  const isLarge = useMediaQuery("(min-width:1700px)");
-  return (
-    <div>
-      <IconButton
-        data-testid="upload-picture-button"
-        onClick={toggle}
-        sx={{
-          borderRadius: "50%",
-          transform: isLarge
-            ? "translate(-35px, -35px)"
-            : "translate(-30px, -25px)",
-          bgcolor: PALETTE_COLORS.grey,
-          height: 30,
-          width: 30,
-        }}
-      >
-        <PhotoCamera
-          sx={{height: 20, width: 20, color: PALETTE_COLORS.yellow}}
-        />
-      </IconButton>
-      <Dialog open={isOpen} onClose={toggle}>
-        <DialogTitle color={PALETTE_COLORS.yellow} fontWeight="bold">
-          Modifier la photo de profil
-        </DialogTitle>
-        <Create
-          title=" "
-          redirect={false}
-          resource="profile-picture"
-          transform={(user: any) => ({
-            rawFile: user?.profile_picture?.rawFile,
-            id,
-            role,
-          })}
-          mutationOptions={{
-            onSuccess: () => {
-              toggle();
-              onUpload();
-              notify(`Photo mise à jour avec succès!`, {
-                type: "success",
-              });
-            },
-          }}
-        >
-          <SimpleForm>
-            <ImageInput
-              source="profile_picture"
-              label=" "
-              accept="image/jpeg,image/png,image/webp"
-            >
-              <ImageField source="src" title="title" />
-            </ImageInput>
-          </SimpleForm>
-        </Create>
-      </Dialog>
-    </div>
-  );
-};
 
 export const ProfileLayout: FC<{
   role: RoleParamEnum;

@@ -24,7 +24,7 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
-function TabPanel(props: TabPanelProps) {
+const TabPanel = (props: TabPanelProps) => {
   const {children, value, index, ...other} = props;
   return (
     <Box
@@ -36,7 +36,7 @@ function TabPanel(props: TabPanelProps) {
       {value === index && <Box>{children}</Box>}
     </Box>
   );
-}
+};
 
 export const Informations: FC<{
   isStudentProfile: boolean;
