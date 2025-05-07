@@ -21,37 +21,6 @@ import {
 import {useParams} from "react-router-dom";
 import {pspIdValidationContraints} from "../utils";
 
-const paymentConfToPaymentApi = ({
-  ref,
-  type,
-  amount,
-  comment,
-  creation_datetime,
-  psp_id,
-  psp_type,
-}) => {
-  const getDatetimeValue = () => {
-    if (notSpecifiedDate) {
-      const currentDate = new Date();
-      currentDate.setSeconds(0);
-      return currentDate.toISOString();
-    }
-    return new Date(creation_datetime).toISOString();
-  };
-  return [
-    {
-      feeId,
-      type,
-      amount,
-      comment,
-      ref,
-      psp_id,
-      psp_type,
-      creation_datetime: getDatetimeValue(),
-    },
-  ];
-};
-
 const PaymentCreate = (props) => {
   const params = useParams();
   const notify = useNotify();
@@ -84,6 +53,36 @@ const PaymentCreate = (props) => {
       else message = "Paiement pour date future non autorisé";
     }
     notify(message, {type: "error", autoHideDuration: 2500});
+  };
+  const paymentConfToPaymentApi = ({
+    ref,
+    type,
+    amount,
+    comment,
+    creation_datetime,
+    psp_id,
+    psp_type,
+  }) => {
+    const getDatetimeValue = () => {
+      if (notSpecifiedDate) {
+        const currentDate = new Date();
+        currentDate.setSeconds(0);
+        return currentDate.toISOString();
+      }
+      return new Date(creation_datetime).toISOString();
+    };
+    return [
+      {
+        feeId,
+        type,
+        amount,
+        comment,
+        ref,
+        psp_id,
+        psp_type,
+        creation_datetime: getDatetimeValue(),
+      },
+    ];
   };
 
   return (
