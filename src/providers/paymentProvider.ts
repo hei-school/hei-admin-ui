@@ -37,7 +37,7 @@ const paymentProvider: HaDataProviderType = {
     const raFeeId = payments[0].feeId;
     const {studentId, feeId} = toApiFeeIds(raFeeId);
 
-    payments.forEach((payment: any) => {
+    payments.forEach((payment: {feeId: string}) => {
       if (payment.feeId !== raFeeId) {
         throw new Error("Creation of payments for multiple fees not supported");
       }

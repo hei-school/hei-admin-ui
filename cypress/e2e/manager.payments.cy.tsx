@@ -92,12 +92,12 @@ describe("Manager.Payment", () => {
       "PUT",
       `/students/${student1Mock.id}/fees/${feesMpbsMock[0].id}/mpbs`,
       feesMpbsMock[0]
-    ).as("getFee");
+    ).as("addMpbs");
     cy.intercept(
       "PUT",
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/mpbs`,
       unpaidFeeMock
-    ).as("getFee");
+    ).as("addMpbs");
   });
 
   it("can add cash payment to a fee", () => {
