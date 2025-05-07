@@ -35,7 +35,7 @@ const testLettersFunctionality = (
   });
 
   it("can list letters", () => {
-    cy.getByTestid("letters-list-tab").click();
+    cy.getByTestid("user-letters-tab").click();
     cy.wait("@getusers1LettersPage1");
     cy.getByTestid("letter-list-wrapper")
       .children()
@@ -43,7 +43,7 @@ const testLettersFunctionality = (
   });
 
   it("can create letters", () => {
-    cy.getByTestid("letters-list-tab").click();
+    cy.getByTestid("user-letters-tab").click();
     cy.getByTestid("letter-create-button").click();
     cy.get("#description").type(newLetter.description!);
     cy.get('[data-testid="dropzone"]').attachFileToDropZone(
@@ -110,7 +110,7 @@ describe("Manager.Letters.student", () => {
       `/users/${student1Mock.id}/letters?page=2&page_size=12`,
       student1LettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage2");
-    cy.getByTestid("letters-list-tab").click();
+    cy.getByTestid("user-letters-tab").click();
     cy.wait("@getusers1LettersPage1");
     cy.getByTestid("letter-list-wrapper")
       .children()
@@ -121,7 +121,7 @@ describe("Manager.Letters.student", () => {
     cy.intercept("POST", `/users/${student1Mock.id}/letters?*`, newLetter).as(
       "createLetter"
     );
-    cy.getByTestid("letters-list-tab").click();
+    cy.getByTestid("user-letters-tab").click();
     cy.getByTestid("letter-create-button").click();
     cy.get("#description").type(newLetter.description!);
     cy.get('[data-testid="dropzone"]').attachFileToDropZone(

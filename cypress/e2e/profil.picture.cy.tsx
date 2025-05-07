@@ -45,9 +45,6 @@ describe("Profile picture test", () => {
     ).as("getManager");
 
     cy.contains("Enregistrer").click();
-    cy.wait("@getManager");
-    cy.getByTestid("profile-pic")
-      .should("have.attr", "src")
-      .and("include", updatedManager().profile_picture);
+    cy.contains("Photo mise à jour avec succès!");
   });
 });

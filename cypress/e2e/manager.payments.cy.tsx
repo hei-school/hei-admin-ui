@@ -72,7 +72,7 @@ describe("Manager.Payment", () => {
     cy.getByTestid("filter-profile-ref").type(student1Mock.ref);
     cy.getByTestid("apply-filter").click();
     cy.get("table").contains(student1Mock.ref).click();
-    cy.getByTestid("fees-list-tab").click();
+    cy.getByTestid("fees-tab").click();
 
     cy.contains(unpaidFeeMock.comment as string).click();
     cy.contains("En cours");

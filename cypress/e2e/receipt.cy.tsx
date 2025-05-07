@@ -119,7 +119,7 @@ describe("Manager receipt", () => {
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
     cy.contains(student1Mock.first_name).click();
-    cy.getByTestid("fees-list-tab").click();
+    cy.getByTestid("fees-tab").click();
     cy.wait("@getFees");
     cy.get("#main-content tbody tr").first().click();
     cy.wait("@getFee1");
