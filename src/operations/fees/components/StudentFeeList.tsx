@@ -149,7 +149,7 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
 }) => {
   const notify = useNotify();
 
-  const {id: fee_id = "", mpbs = {}} = feeToPay;
+  const {id: fee_id = "", mpbs = []} = feeToPay;
   const {id: student_id} = authProvider.getCachedWhoami();
 
   const handleError = (error: AxiosError) => {
@@ -181,7 +181,7 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
         ...data,
         student_id,
         fee_id,
-        mpbs_id: mpbs?.id,
+        mpbs_id: mpbs[mpbs.length - 1].id,
       })}
     >
       <SimpleForm>
@@ -229,7 +229,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
 
   return (
     <Box>
-      {mpbs && mpbs.status !== MpbsStatus.FAILED ? (
+      {mpbs && mpbs.at(-1).status !== MpbsStatus.FAILED ? (
         <MpbsStatusIcon />
       ) : (
         <IconButtonWithTooltip
@@ -253,7 +253,10 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
         show={show3}
         toggle={toggle3}
       >
-        <MpbsCreate onSuccess={toggle3} feeToPay={{id: id.toString(), mpbs}} />
+        <MpbsCreate
+          onSuccess={toggle3}
+          feeToPay={{id: id.toString(), mpbs: mpbs[mpbs.length - 1]}}
+        />
       </FeesDialog>
       <CreateLettersDialog
         isOpen={show4}
@@ -362,17 +365,17 @@ export const StudentFeeList = () => {
           label="Commentaire"
         />
         <DateField
-          source="mpbs.last_datetime_verification"
+          source="mpbs.at(-1).last_datetime_verification"
           label="Dernière vérification par HEI"
           showTime
         />
         <DateField
-          source="mpbs.psp_own_datetime_verification"
+          source="mpbs.at(-1).psp_own_datetime_verification"
           label="Vérification par PSP"
           showTime
         />
         <DateField
-          source="mpbs.successfully_verified_on"
+          source="mpbs.at(-1).successfully_verified_on"
           label="Vérification réussie"
           showTime
         />

@@ -65,7 +65,7 @@ const TransactionFeeList = () => {
           showTime={false}
         />
         <TextField
-          source="mpbs.psp_id"
+          source="mpbs.at(-1).psp_id"
           label="Référence de la transaction"
           emptyText={EMPTY_TEXT}
         />
@@ -74,8 +74,8 @@ const TransactionFeeList = () => {
             fee.mpbs ? (
               <Chip
                 // @ts-ignore
-                color={PSP_COLORS[fee.mpbs.psp_type!]}
-                label={PSP_VALUES[fee.mpbs.psp_type!]}
+                color={PSP_COLORS[fee.mpbs.at(-1).psp_type]}
+                label={PSP_VALUES[fee.mpbs.at(-1)?.psp_type!]}
               />
             ) : (
               EMPTY_TEXT
@@ -94,22 +94,22 @@ const TransactionFeeList = () => {
           render={(fee: Fee) => renderMoney(fee.remaining_amount!)}
         />
         <DateField
-          source="mpbs.creation_datetime"
+          source="mpbs.at(-1).creation_datetime"
           label="Ajout de la référence de transaction"
           showTime
         />
         <DateField
-          source="mpbs.last_datetime_verification"
+          source="mpbs.at(-1).last_datetime_verification"
           label="Dernière vérification par le PSP"
           showTime
         />
         <DateField
-          source="mpbs.psp_own_datetime_verification"
+          source="mpbs.at(-1).psp_own_datetime_verification"
           label="Vérification par PSP"
           showTime
         />
         <DateField
-          source="mpbs.successfully_verified_on"
+          source="mpbs.at(-1).successfully_verified_on"
           label="Vérification réussie"
           showTime
         />
