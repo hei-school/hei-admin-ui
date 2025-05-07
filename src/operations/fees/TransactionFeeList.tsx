@@ -1,5 +1,6 @@
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
+import {formatDate} from "@/utils/date";
 import {Fee} from "@haapi/typescript-client";
 import {Download, CurrencyExchange as Money} from "@mui/icons-material";
 import {Box, Chip} from "@mui/material";
@@ -64,8 +65,8 @@ const TransactionFeeList = () => {
           label="Limite de paiement du frais"
           showTime={false}
         />
-        <TextField
-          source="mpbs.at(-1).psp_id"
+        <FunctionField
+          render={(fee) => fee?.mpbs?.at(-1)?.psp_id}
           label="Référence de la transaction"
           emptyText={EMPTY_TEXT}
         />
@@ -93,25 +94,27 @@ const TransactionFeeList = () => {
           label="Reste à payer"
           render={(fee: Fee) => renderMoney(fee.remaining_amount!)}
         />
-        <DateField
-          source="mpbs.at(-1).creation_datetime"
+        <FunctionField
+          render={(fee) => formatDate(fee?.mpbs?.at(-1)?.creation_datetime)}
           label="Ajout de la référence de transaction"
-          showTime
         />
-        <DateField
-          source="mpbs.at(-1).last_datetime_verification"
-          label="Dernière vérification par le PSP"
-          showTime
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.last_datetime_verification)
+          }
+          label="Dernière vérification par HEI"
         />
-        <DateField
-          source="mpbs.at(-1).psp_own_datetime_verification"
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.psp_own_datetime_verification)
+          }
           label="Vérification par PSP"
-          showTime
         />
-        <DateField
-          source="mpbs.at(-1).successfully_verified_on"
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.successfully_verified_on)
+          }
           label="Vérification réussie"
-          showTime
         />
         <FunctionField label="Statut" render={() => <MpbsStatusIcon />} />
       </HaList>

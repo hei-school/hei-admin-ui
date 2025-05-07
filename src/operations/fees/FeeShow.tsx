@@ -8,6 +8,7 @@ import {commentFunctionRenderer, statusRenderer} from "@/operations/utils";
 import {studentIdFromRaId} from "@/providers/feeProvider";
 import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
+import {formatDate} from "@/utils/date";
 import {Fee} from "@haapi/typescript-client";
 import {
   AccessTimeOutlined,
@@ -33,7 +34,6 @@ import {
   EditButton,
   FunctionField,
   SimpleShowLayout,
-  TextField,
   TopToolbar,
   useDataProvider,
 } from "react-admin";
@@ -116,30 +116,32 @@ const FeePaymentDetails = () => (
   <Box>
     <AccordionBase title="Informations sur le dernier paiement par Mobile Money">
       <SimpleShowLayout>
-        <DateField
-          source="mpbs.at(-1).creation_datetime"
+        <FunctionField
+          render={(fee) => formatDate(fee?.mpbs?.at(-1)?.creation_datetime)}
           label="Ajout de la référence de transaction"
-          showTime
         />
-        <TextField
-          source="mpbs.at(-1).psp_id"
+        <FunctionField
+          render={(fee) => fee?.mpbs?.at(-1)?.psp_id}
           label="Référence de la transaction"
           emptyText={EMPTY_TEXT}
         />
-        <DateField
-          source="mpbs.at(-1).successfully_verified_on"
-          label="Vérification réussie"
-          showTime
-        />
-        <DateField
-          source="mpbs.at(-1).psp_own_datetime_verification"
-          label="Vérification par PSP"
-          showTime
-        />
-        <DateField
-          source="mpbs.at(-1).last_datetime_verification"
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.last_datetime_verification)
+          }
           label="Dernière vérification par HEI"
-          showTime
+        />
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.psp_own_datetime_verification)
+          }
+          label="Vérification par PSP"
+        />
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.successfully_verified_on)
+          }
+          label="Vérification réussie"
         />
         <FunctionField
           render={(fee: Fee) => {

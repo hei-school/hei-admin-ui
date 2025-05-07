@@ -364,20 +364,27 @@ export const StudentFeeList = () => {
           render={commentFunctionRenderer}
           label="Commentaire"
         />
-        <DateField
-          source="mpbs.at(-1).last_datetime_verification"
+        <FunctionField
+          render={(fee) => formatDate(fee?.mpbs?.at(-1)?.creation_datetime)}
+          label="Ajout de la référence de transaction"
+        />
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.last_datetime_verification)
+          }
           label="Dernière vérification par HEI"
-          showTime
         />
-        <DateField
-          source="mpbs.at(-1).psp_own_datetime_verification"
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.psp_own_datetime_verification)
+          }
           label="Vérification par PSP"
-          showTime
         />
-        <DateField
-          source="mpbs.at(-1).successfully_verified_on"
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.successfully_verified_on)
+          }
           label="Vérification réussie"
-          showTime
         />
         <ListActionButtons studentId={studentId} />
       </HaList>

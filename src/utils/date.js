@@ -1,3 +1,5 @@
+import {EMPTY_TEXT} from "@/ui/constants";
+
 export const DATE_OPTIONS = {
   year: "numeric",
   month: "long",
@@ -16,6 +18,7 @@ export const DATETIME_OPTIONS = {
 };
 
 export function formatDate(dateIso, showTime = true) {
+  if (!dateIso) return EMPTY_TEXT;
   const OPTIONS = showTime ? DATETIME_OPTIONS : DATE_OPTIONS;
   return new Date(dateIso).toLocaleDateString("fr-FR", OPTIONS);
 }
