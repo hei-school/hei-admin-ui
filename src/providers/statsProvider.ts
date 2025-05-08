@@ -1,6 +1,8 @@
+import {formatDateToLocalTimeZone} from "@/utils";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {eventsApi, payingApi, usersApi} from "./api";
 import {MAX_ITEM_PER_PAGE} from "./dataProvider";
+import {getMonthFilters} from "./utils";
 
 const statsProvider: HaDataProviderType = {
   async getList(_page: number, _perPage: number, _filter: any) {
@@ -8,8 +10,7 @@ const statsProvider: HaDataProviderType = {
   },
   async getOne(id: string, meta = {}) {
     const filter = meta.filters ?? {};
-    const monthToDate = filter.monthTo?.split("T")[0] ?? "";
-    const monthFromDate = filter.monthFrom?.split("T")[0] ?? "";
+    const {monthFrom, monthTo} = getMonthFilters(filter);
 
     switch (meta.resource) {
       case "users":
@@ -18,7 +19,10 @@ const statsProvider: HaDataProviderType = {
           .then((result) => ({id, ...result.data}));
       case "fees_stats":
         return payingApi()
-          .getAdvancedFeesStats(monthFromDate, monthToDate)
+          .getAdvancedFeesStats(
+            formatDateToLocalTimeZone(monthFrom),
+            formatDateToLocalTimeZone(monthTo)
+          )
           .then((result) => ({id, ...result.data}));
       case "fees":
         return payingApi()
