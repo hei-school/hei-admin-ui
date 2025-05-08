@@ -4,7 +4,7 @@ import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {HaMenuContent} from "@/ui/haLayout/menu/HaMenuContent";
 import {SingleMenu} from "@/ui/haLayout/menu/utils/SingleMenu";
-import {AccountCircle, Logout, Settings} from "@mui/icons-material";
+import {AccountCircle, Dashboard, Logout, Settings} from "@mui/icons-material";
 import {Box, Drawer, Typography, styled, useMediaQuery} from "@mui/material";
 import {MailQuestion, PhoneCall} from "lucide-react";
 import {useSidebarState} from "react-admin";
@@ -94,6 +94,7 @@ export function HaMenuBase({sx = {}}) {
             <Separator />
           </>
         )}
+        <SingleMenu label="Dashboard" to="/" icon={<Dashboard />} />
         <SingleMenu label="Profil" to="/profile" icon={<AccountCircle />} />
         <HaMenuContent />
       </Box>
