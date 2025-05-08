@@ -9,12 +9,12 @@ export const MpbsStatusIcon = () => {
 
   return (
     <Tooltip
-      title={MPBS_STATUS_LABEL[record.mpbs?.status]}
+      title={MPBS_STATUS_LABEL[record.mpbs.at(-1)?.status]}
       data-testid={`pspTypeIcon-${record.id}`}
     >
       <IconButton variant="contained" color="info">
-        {record.mpbs?.status ? (
-          PSP_ICON[record.mpbs?.status]
+        {record.mpbs.at(-1)?.status ? (
+          PSP_ICON[record.mpbs.at(-1)?.status]
         ) : (
           <Question color="disabled" />
         )}

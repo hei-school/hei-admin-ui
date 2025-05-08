@@ -13,6 +13,7 @@ import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
 import {
   commentFunctionRenderer,
   IconButtonWithTooltip,
+  pspIdValidationContraints,
 } from "@/operations/utils";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList/HaList";
@@ -40,8 +41,6 @@ import {
   FormDataConsumer,
   FunctionField,
   Link,
-  minLength,
-  regex,
   SelectArrayInput,
   SelectInput,
   SimpleForm,
@@ -60,17 +59,6 @@ interface TransformData {
   psp_id?: string;
   psp_type?: MobileMoneyType;
 }
-
-const TRANSACTION_PATTERN =
-  /^MP[a-zA-Z0-9]{6}\.[a-zA-Z0-9]{4}\.[a-zA-Z0-9]{6}$/;
-
-const pspIdValidationContraints = [
-  minLength(20, "La référence doit contenir exactement 20 caractères"),
-  regex(
-    TRANSACTION_PATTERN,
-    "La référence n'est pas saisie correctement (ex : MP123456.1234.B12345)"
-  ),
-];
 
 const DefaultInfos = () => {
   return (
@@ -161,7 +149,7 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
 }) => {
   const notify = useNotify();
 
-  const {id: fee_id = "", mpbs = {}} = feeToPay;
+  const {id: fee_id = "", mpbs = []} = feeToPay;
   const {id: student_id} = authProvider.getCachedWhoami();
 
   const handleError = (error: AxiosError) => {
@@ -193,7 +181,7 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
         ...data,
         student_id,
         fee_id,
-        mpbs_id: mpbs?.id,
+        mpbs_id: mpbs[mpbs.length - 1].id,
       })}
     >
       <SimpleForm>
@@ -241,7 +229,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
 
   return (
     <Box>
-      {mpbs && mpbs.status !== MpbsStatus.FAILED ? (
+      {mpbs.at(-1)?.status === (MpbsStatus.PENDING || MpbsStatus.SUCCESS) ? (
         <MpbsStatusIcon />
       ) : (
         <IconButtonWithTooltip
@@ -265,7 +253,10 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
         show={show3}
         toggle={toggle3}
       >
-        <MpbsCreate onSuccess={toggle3} feeToPay={{id: id.toString(), mpbs}} />
+        <MpbsCreate
+          onSuccess={toggle3}
+          feeToPay={{id: id.toString(), mpbs: mpbs[mpbs.length - 1]}}
+        />
       </FeesDialog>
       <CreateLettersDialog
         isOpen={show4}
@@ -373,20 +364,27 @@ export const StudentFeeList = () => {
           render={commentFunctionRenderer}
           label="Commentaire"
         />
-        <DateField
-          source="mpbs.last_datetime_verification"
+        <FunctionField
+          render={(fee) => formatDate(fee?.mpbs?.at(-1)?.creation_datetime)}
+          label="Ajout de la référence de transaction"
+        />
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.last_datetime_verification)
+          }
           label="Dernière vérification par HEI"
-          showTime
         />
-        <DateField
-          source="mpbs.psp_own_datetime_verification"
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.psp_own_datetime_verification)
+          }
           label="Vérification par PSP"
-          showTime
         />
-        <DateField
-          source="mpbs.successfully_verified_on"
+        <FunctionField
+          render={(fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.successfully_verified_on)
+          }
           label="Vérification réussie"
-          showTime
         />
         <ListActionButtons studentId={studentId} />
       </HaList>
