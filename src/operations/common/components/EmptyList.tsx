@@ -1,4 +1,5 @@
 import EmptyImg from "@/assets/Empty_img_3D.png";
+import {PALETTE_COLORS} from "@/haTheme";
 import {Box, Typography, useTheme} from "@mui/material";
 import {keyframes} from "@mui/system";
 
@@ -14,7 +15,7 @@ export const EmptyList3D = () => {
   return (
     <Box
       sx={{
-        height: "100%",
+        height: "90%",
         width: "100%",
         display: "flex",
         flexDirection: "column",
@@ -42,14 +43,9 @@ export const EmptyList3D = () => {
       <Typography
         variant="h6"
         sx={{
-          mt: 4,
-          color: theme.palette.primary.main,
           fontWeight: 500,
+          color: PALETTE_COLORS.primary,
           textAlign: "center",
-          background: `linear-gradient(45deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-          backgroundClip: "text",
-          WebkitBackgroundClip: "text",
-          WebkitTextFillColor: "transparent",
           textShadow: "0 2px 4px rgba(0,0,0,0.1)",
         }}
       >

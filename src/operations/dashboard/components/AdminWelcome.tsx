@@ -3,83 +3,29 @@ import {
   Avatar,
   Box,
   Button,
-  Card,
-  CardContent,
   Chip,
   Grid,
-  LinearProgress,
   Stack,
   Typography,
 } from "@mui/material";
 import {FC, useEffect, useState} from "react";
 import {ChipField, FunctionField, TextField} from "react-admin";
 
-import backgroundImg from "@/assets/Fond-HEI-1.png";
-import managerImg from "@/assets/Jeune_panneau.png";
-
-import {PALETTE_COLORS} from "@/haTheme";
-
 import {AnnouncementCard} from "@/operations/announcements/components/AnnoucementCard";
 import {EmptyList3D} from "@/operations/common/components/EmptyList";
-import authProvider from "@/providers/authProvider";
-import {Announcement} from "@haapi/typescript-client";
+import {DateField} from "@/operations/common/components/fields";
+import {renderMoney} from "@/operations/common/utils/money";
+import {commentFunctionRenderer} from "@/operations/utils";
+import {Announcement, Fee} from "@haapi/typescript-client";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
-import MailIcon from "@mui/icons-material/Mail";
-import PeopleAltIcon from "@mui/icons-material/PeopleAlt";
-import SchoolIcon from "@mui/icons-material/School";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
 import {BadgeDollarSign, BellDot, ExternalLink, UserRoundX} from "lucide-react";
-import {Datagrid, Link, List, useGetList, useGetOne} from "react-admin";
+import {Datagrid, Link, List, useGetList} from "react-admin";
 import {CommentContent} from "./common/CommentContent";
 import {RecentLetters} from "./common/RecentLetters";
-
-const mockStats = [
-  {
-    id: 1,
-    title: "Total Students",
-    count: 1254,
-    icon: <PeopleAltIcon />,
-    color: "#4CAF50",
-    progress: 85,
-  },
-  {
-    id: 2,
-    title: "Active Courses",
-    count: 42,
-    icon: <SchoolIcon />,
-    color: "#2196F3",
-    progress: 70,
-  },
-  {
-    id: 3,
-    title: "New Messages",
-    count: 18,
-    icon: <MailIcon />,
-    color: "#FF9800",
-    progress: 45,
-  },
-  {
-    id: 4,
-    title: "Pending Issues",
-    count: 7,
-    icon: <WarningAmberIcon />,
-    color: "#F44336",
-    progress: 30,
-  },
-];
-
-const getGreeting = () => {
-  const hour = new Date().getHours();
-  if (hour < 12) return "Bonjour";
-  if (hour < 18) return "Bon après-midi";
-  return "Bonsoir";
-};
+import {WelcomingCard} from "./common/WelcomingCard";
 
 export const AdminWelcome: FC = () => {
   const [animate, setAnimate] = useState(false);
-  const {data: user} = useGetOne("profile", {
-    id: authProvider.getCachedWhoami().id,
-  });
 
   const {data: LastAnnouncements} = useGetList("announcements", {
     pagination: {
@@ -94,208 +40,8 @@ export const AdminWelcome: FC = () => {
 
   return (
     <Box sx={{p: {xs: 1, md: 2}, overflow: "hidden", bgcolor: "#F9FAFB"}}>
-      <Box
-        sx={{
-          "width": "100%",
-          "height": {xs: "25vh", md: "30vh"},
-          "position": "relative",
-          "borderRadius": "1.5rem",
-          "backgroundColor": alpha(PALETTE_COLORS.primary, 0.95),
-          "backgroundImage": `url(${backgroundImg})`,
-          "backgroundPosition": "left top",
-          "backgroundSize": "cover",
-          "backgroundRepeat": "no-repeat",
-          "padding": {xs: "1.5rem", md: "2.5rem"},
-          "boxShadow": "0 10px 30px rgba(0, 25, 72, 0.15)",
-          "transition": "all 0.3s ease-in-out",
-          "mb": 3,
-          "&:hover": {
-            boxShadow: "0 15px 40px rgba(0, 25, 72, 0.2)",
-          },
-        }}
-      >
-        <Box
-          sx={{
-            position: "relative",
-            zIndex: 2,
-            opacity: animate ? 1 : 0,
-            transform: animate ? "translateY(0)" : "translateY(20px)",
-            transition: "all 0.6s ease-out",
-          }}
-        >
-          <Typography
-            variant="h2"
-            fontSize={{xs: "1.8rem", md: "2.5rem"}}
-            fontWeight="bold"
-            color={PALETTE_COLORS.white}
-            sx={{
-              textShadow: "0 2px 10px rgba(0,0,0,0.2)",
-              mb: 1,
-            }}
-          >
-            {getGreeting()} {user?.first_name ?? user?.last_name} 👋
-          </Typography>
-          <Typography
-            variant="h4"
-            fontSize={{xs: "1.2rem", md: "1.5rem"}}
-            fontWeight="bold"
-            color={PALETTE_COLORS.yellow}
-            sx={{textShadow: "0 2px 8px rgba(0,0,0,0.3)"}}
-          >
-            Continuons à bâtir l'excellence 🚀🛠️
-          </Typography>
-          <Typography
-            color={PALETTE_COLORS.white}
-            sx={{
-              opacity: 0.9,
-              fontStyle: "italic",
-              mt: 1,
-            }}
-          >
-            Penser. Travailler. Impacter.
-          </Typography>
-          <Typography
-            width={{xs: "100%", md: "50%"}}
-            fontSize={{xs: "1rem", md: "1.2rem"}}
-            marginTop="1rem"
-            color={PALETTE_COLORS.white}
-            sx={{opacity: 0.85}}
-          >
-            Parce que chaque pensée nourrit l'innovation, chaque action
-            construit l'avenir, et chaque geste a un impact durable.
-          </Typography>
-        </Box>
-
-        <Box
-          component="img"
-          src={managerImg}
-          sx={{
-            position: "absolute",
-            bottom: -23,
-            right: {xs: "-5vw", md: "2vw"},
-            width: {xs: "15rem", md: "19.8rem"},
-            objectFit: "cover",
-            zIndex: 10,
-            opacity: animate ? 1 : 0,
-            transform: animate ? "translateX(0)" : "translateX(100px)",
-            transition: "all 0.8s ease-out 0.3s",
-          }}
-        />
-
-        <Box
-          sx={{
-            position: "absolute",
-            top: "10%",
-            right: "30%",
-            width: "150px",
-            height: "150px",
-            borderRadius: "50%",
-            background: `radial-gradient(circle, ${alpha(PALETTE_COLORS.yellow, 0.2)} 0%, rgba(255,255,255,0) 70%)`,
-            zIndex: 0,
-          }}
-        />
-        <Box
-          sx={{
-            position: "absolute",
-            bottom: "20%",
-            left: "10%",
-            width: "100px",
-            height: "100px",
-            borderRadius: "50%",
-            background: `radial-gradient(circle, ${alpha("#4CAF50", 0.15)} 0%, rgba(255,255,255,0) 70%)`,
-            zIndex: 0,
-          }}
-        />
-      </Box>
-
-      <Grid container spacing={3} sx={{mb: 4}}>
-        {mockStats.map((stat, index) => (
-          <Grid
-            item
-            xs={12}
-            sm={6}
-            md={3}
-            key={stat.id}
-            sx={{
-              opacity: animate ? 1 : 0,
-              transform: animate ? "translateY(0)" : "translateY(30px)",
-              transition: `all 0.5s ease-out ${0.2 + index * 0.1}s`,
-            }}
-          >
-            <Card
-              sx={{
-                "borderRadius": "1rem",
-                "overflow": "visible",
-                "height": "100%",
-                "position": "relative",
-                "background": `linear-gradient(135deg, ${alpha(stat.color, 0.05)} 0%, ${alpha(stat.color, 0.15)} 100%)`,
-                "boxShadow": `0 10px 20px ${alpha(stat.color, 0.1)}`,
-                "border": `1px solid ${alpha(stat.color, 0.1)}`,
-                "transition": "all 0.3s ease",
-                "&:hover": {
-                  transform: "translateY(-5px)",
-                  boxShadow: `0 15px 30px ${alpha(stat.color, 0.2)}`,
-                },
-              }}
-            >
-              <CardContent sx={{p: 3}}>
-                <Box
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "space-between",
-                    mb: 2,
-                  }}
-                >
-                  <Typography
-                    variant="h6"
-                    sx={{
-                      fontSize: "1.1rem",
-                      fontWeight: 600,
-                      color: PALETTE_COLORS.typography.black,
-                    }}
-                  >
-                    {stat.title}
-                  </Typography>
-                  <Avatar
-                    sx={{
-                      bgcolor: alpha(stat.color, 0.9),
-                      boxShadow: `0 4px 10px ${alpha(stat.color, 0.3)}`,
-                    }}
-                  >
-                    {stat.icon}
-                  </Avatar>
-                </Box>
-                <Typography
-                  variant="h4"
-                  sx={{
-                    fontWeight: "bold",
-                    mb: 1.5,
-                    color: stat.color,
-                  }}
-                >
-                  {stat.count}
-                </Typography>
-                <LinearProgress
-                  variant="determinate"
-                  value={stat.progress}
-                  sx={{
-                    "height": 8,
-                    "borderRadius": 4,
-                    "backgroundColor": alpha(stat.color, 0.1),
-                    "& .MuiLinearProgress-bar": {
-                      backgroundColor: stat.color,
-                      borderRadius: 4,
-                    },
-                  }}
-                />
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
-      </Grid>
-
-      <RecentLetters />
+      <WelcomingCard animate={animate} />
+      <RecentLetters animate={animate} />
 
       <Grid
         container
@@ -315,8 +61,9 @@ export const AdminWelcome: FC = () => {
                 backgroundColor: "white",
                 boxShadow: "0px 4px 20px rgba(0, 0, 0, 0.2)",
                 position: "relative",
-                borderRadius: "12px",
+                borderRadius: "8px",
                 height: "53vh",
+                overflow: "hidden",
               }}
             >
               <Box
@@ -367,13 +114,29 @@ export const AdminWelcome: FC = () => {
                 actions={false}
                 resource="fees"
                 empty={<EmptyList3D />}
-                filter={{status: "LATE"}}
+                filter={{
+                  status: "LATE",
+                  monthFrom: new Date(
+                    new Date().getFullYear(),
+                    new Date().getMonth() - 1,
+                    1
+                  ).toISOString(),
+                  monthTo: new Date().toISOString(),
+                }}
                 pagination={false}
                 sx={{
-                  padding: "0 !important",
-                  width: "100%",
-                  height: "90%",
-                  overflowY: "auto",
+                  "padding": "0 !important",
+                  "width": "100%",
+                  "overflowY": "auto",
+                  "height": "90%",
+                  "&::-webkit-scrollbar": {
+                    width: "0px",
+                    background: "transparent",
+                  },
+                  "scrollbarWidth": "none",
+                  "&": {
+                    msOverflowStyle: "none",
+                  },
                 }}
               >
                 <Datagrid
@@ -388,34 +151,29 @@ export const AdminWelcome: FC = () => {
                   })}
                   width={"100%"}
                 >
-                  <FunctionField
-                    render={(record) => <Avatar src={record.profile_picture} />}
-                  />
-                  <TextField source="ref" label="Référence" />
-                  <TextField source="first_name" label="Prénom" />
-                  <TextField source="last_name" label="Nom" />
-
-                  <FunctionField
-                    label="groupe"
-                    render={() => {
-                      return (
-                        <ChipField
-                          source="groups[0].ref"
-                          variant="outlined"
-                          sx={{
-                            background: "groups[0].attributed_color",
-                          }}
-                        />
-                      );
-                    }}
+                  <TextField source="student_ref" label="Référence" />
+                  <TextField source="student_first_name" label="Prénom" />
+                  <DateField
+                    source="due_datetime"
+                    label="Date limite"
+                    showTime={false}
                   />
                   <FunctionField
-                    label="Profil"
+                    source="comment"
+                    render={commentFunctionRenderer}
+                    label="Commentaire"
+                  />
+                  <FunctionField
+                    label="Reste à payer"
+                    render={(fee: Fee) => renderMoney(fee.remaining_amount!)}
+                  />
+                  <FunctionField
+                    label="Voir dans Profil"
                     render={(record) => (
                       <>
                         <Button
                           component={Link}
-                          to={`/students/${record.id}/show`}
+                          to={`/students/${record.student_id}/show?tab=fees`}
                           endIcon={
                             <ExternalLink
                               style={{
@@ -434,7 +192,7 @@ export const AdminWelcome: FC = () => {
                             },
                           }}
                         >
-                          Voir Profil
+                          Voir
                         </Button>
                       </>
                     )}
@@ -447,13 +205,14 @@ export const AdminWelcome: FC = () => {
                   alignItems: "center",
                   justifyContent: "center",
                   borderTop: "1px solid",
-                  borderColor: alpha("#F44336", 0.2),
+                  borderColor: alpha("#FF9800", 0.2),
                   marginTop: "0.5rem",
                   padding: "5px",
                   position: "absolute",
                   width: "100%",
                   bottom: 0,
                   left: 0,
+                  backgroundColor: "white",
                 }}
               >
                 <Button
@@ -525,6 +284,7 @@ export const AdminWelcome: FC = () => {
                 exporter={false}
                 hasCreate={false}
                 actions={false}
+                empty={<EmptyList3D />}
                 resource="students"
                 filter={{status: "SUSPENDED"}}
                 pagination={false}

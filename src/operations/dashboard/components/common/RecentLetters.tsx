@@ -2,16 +2,10 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {LetterItem} from "@/operations/letters/components";
 import {alpha, Box, Chip, Typography} from "@mui/material";
 import {FileBox, MoveRight} from "lucide-react";
-import {FC, useEffect, useState} from "react";
-import {Button, useGetList} from "react-admin";
+import {FC} from "react";
+import {Button, Link, useGetList} from "react-admin";
 
-export const RecentLetters: FC = () => {
-  const [animate, setAnimate] = useState(false);
-
-  useEffect(() => {
-    setAnimate(true);
-  }, []);
-
+export const RecentLetters: FC<{animate: boolean}> = ({animate}) => {
   const letters = useGetList("letters", {
     pagination: {page: 1, perPage: 4},
   });
@@ -46,7 +40,7 @@ export const RecentLetters: FC = () => {
           </Typography>
         </Box>
         <Chip
-          label={`${3} Unread`}
+          label={`${4} Unread`}
           color="info"
           size="small"
           sx={{
@@ -79,7 +73,9 @@ export const RecentLetters: FC = () => {
 
       <Box sx={{display: "flex", justifyContent: "center", mt: 2}}>
         <Button
+          component={Link}
           variant="text"
+          to={"/profile?tab=letters"}
           endIcon={
             <MoveRight
               style={{
