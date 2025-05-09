@@ -148,8 +148,8 @@ const FeePaymentDetails = () => (
             if (fee?.mpbs?.at(-1)?.psp_type) {
               return (
                 <Chip
-                  color={PSP_COLORS[fee.mpbs.at(-1)?.psp_type!]}
-                  label={PSP_VALUES[fee.mpbs.at(-1)?.psp_type!]}
+                  color={PSP_COLORS[fee.mpbs?.at(-1)?.psp_type!]}
+                  label={PSP_VALUES[fee.mpbs?.at(-1)?.psp_type!]}
                 />
               );
             }
