@@ -19,3 +19,13 @@ export const toCamelCaseJSON = (input) => {
     };
   }, {});
 };
+
+export const getMonthFilters = (filter = {}) => {
+  const now = new Date();
+  const monthFrom =
+    filter.monthFrom ?? new Date(now.getFullYear(), now.getMonth(), 1);
+  const monthTo =
+    filter.monthTo ?? new Date(now.getFullYear(), now.getMonth() + 1, 0);
+
+  return {monthFrom, monthTo};
+};

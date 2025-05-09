@@ -3,6 +3,7 @@ import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
+import {getMonthFilters} from "./utils";
 
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
@@ -26,14 +27,17 @@ const feeProvider: HaDataProviderType = {
           .getStudentFees(filter.studentId, page, perPage, filter.status)
           .then(({data}) => data);
       }
+
+      const {monthFrom, monthTo} = getMonthFilters(filter);
+
       //TODO : redundance
       return await payingApi()
         .getFees(
           filter.transaction_status,
           filter.type,
           filter.status,
-          filter.monthFrom,
-          filter.monthTo,
+          monthFrom,
+          monthTo,
           page,
           perPage,
           filter.isMpbs,

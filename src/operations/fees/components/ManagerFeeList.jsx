@@ -83,24 +83,28 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
       <FunctionField
         render={(fee) => formatDate(fee?.mpbs?.at(-1)?.creation_datetime)}
         label="Ajout de la référence de transaction"
+        emptyText={EMPTY_TEXT}
       />
       <FunctionField
         render={(fee) =>
           formatDate(fee?.mpbs?.at(-1)?.last_datetime_verification)
         }
         label="Dernière vérification par HEI"
+        emptyText={EMPTY_TEXT}
       />
       <FunctionField
         render={(fee) =>
           formatDate(fee?.mpbs?.at(-1)?.psp_own_datetime_verification)
         }
         label="Vérification par PSP"
+        emptyText={EMPTY_TEXT}
       />
       <FunctionField
         render={(fee) =>
           formatDate(fee?.mpbs?.at(-1)?.successfully_verified_on)
         }
         label="Vérification réussie"
+        emptyText={EMPTY_TEXT}
       />
       {!role.isMonitor() && (
         <DeleteWithConfirm
