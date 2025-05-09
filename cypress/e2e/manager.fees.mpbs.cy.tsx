@@ -4,6 +4,7 @@ import {
   pendingMpbs,
   succeedMpbs1,
 } from "../fixtures/api_mocks/fees-mocks";
+import {advancedStats} from "../fixtures/api_mocks/fees-stats";
 
 describe("Mobile payment by student", () => {
   beforeEach(() => {
@@ -12,11 +13,14 @@ describe("Mobile payment by student", () => {
   });
 
   it("can list fees transactions", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
+    cy.intercept("GET", `/fees?*`, {
       data: feesMpbsMock,
       statistics: {},
     }).as("getFees");
-    cy.intercept("GET", `/fees?page=2&page_size=10&isMpbs=true`, {
+    cy.intercept("GET", `/fees/advanced-stats?month_from=*`, advancedStats).as(
+      "getFeesStats"
+    );
+    cy.intercept("GET", `/fees?*`, {
       data: feesMpbsMock,
       statistics: {},
     }).as("getFees2");
@@ -30,10 +34,13 @@ describe("Mobile payment by student", () => {
   });
 
   it("shows success status icon when the status is SUCCESS", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
+    cy.intercept("GET", `/fees?*`, {
       data: [succeedMpbs1],
     }).as("getFees");
-    cy.intercept("GET", `/fees?page=2&page_size=10&isMpbs=true`, {
+    cy.intercept("GET", `/fees/advanced-stats?month_from=*`, advancedStats).as(
+      "getFeesStats"
+    );
+    cy.intercept("GET", `/fees?*`, {
       data: [succeedMpbs1],
     }).as("getFees2");
 
@@ -47,10 +54,13 @@ describe("Mobile payment by student", () => {
   });
 
   it("shows pending status icon when the status is PENDING", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
+    cy.intercept("GET", `/fees?*`, {
       data: [pendingMpbs],
     }).as("getFees");
-    cy.intercept("GET", `/fees?page=2&page_size=10&isMpbs=true`, {
+    cy.intercept("GET", `/fees/advanced-stats?month_from=*`, advancedStats).as(
+      "getFeesStats"
+    );
+    cy.intercept("GET", `/fees?*`, {
       data: [pendingMpbs],
     }).as("getFees2");
 
@@ -64,10 +74,13 @@ describe("Mobile payment by student", () => {
   });
 
   it("shows failed status icon when the status is FAILED", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=10&isMpbs=true`, {
+    cy.intercept("GET", `/fees?*`, {
       data: [failedMpbs],
     }).as("getFees");
-    cy.intercept("GET", `/fees?page=2&page_size=10&isMpbs=true`, {
+    cy.intercept("GET", `/fees/advanced-stats?month_from=*`, advancedStats).as(
+      "getFeesStats"
+    );
+    cy.intercept("GET", `/fees?*`, {
       data: [failedMpbs],
     }).as("getFees2");
 
