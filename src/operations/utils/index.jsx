@@ -5,5 +5,6 @@ export * from "./exporter";
 export * from "./IconButtonWithTooltip";
 export * from "./importer";
 export * from "./paymentTypeRenderer";
+export * from "./pspIdValidationContraints";
 export * from "./SexRadioButton";
 export * from "./typography";

@@ -6,6 +6,7 @@ import {
   eventsMock,
 } from "../fixtures/api_mocks/event-mocks";
 import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
+import {missingParticipantsMock} from "../fixtures/api_mocks/missing-participants-mock";
 
 describe("Manager.event", () => {
   beforeEach(() => {
@@ -44,11 +45,28 @@ describe("Manager.event", () => {
     cy.intercept("GET", "/courses?page=2&page_size=499", courseMocks).as(
       "getCourses2"
     );
+    cy.intercept("GET", "/events/stats", {
+      missing: 10,
+      present: 30,
+      late: 0,
+      total: 40,
+    }).as("getEventStats");
+    cy.intercept(
+      "GET",
+      `/event_participants?page=1&page_size=10*`,
+      missingParticipantsMock
+    ).as("getMissingParticipantsPage1");
+    cy.intercept(
+      "GET",
+      `event_participants?page=2&page_size=10&*`,
+      missingParticipantsMock
+    ).as("getMissingParticipantsPage2");
     cy.intercept("PUT", "/events", eventsMock);
-    cy.getByTestid("event-menu").click();
+    cy.getByTestid("event-point").click();
   });
 
   it("manager can create event", () => {
+    cy.getByTestid("event-menu").click();
     cy.contains("Listes").click();
     cy.getByTestid("menu-list-action").click();
     cy.contains("Créer").click();
@@ -66,6 +84,7 @@ describe("Manager.event", () => {
   });
 
   it("manager can list event", () => {
+    cy.getByTestid("event-menu").click();
     cy.contains("Listes").click();
     cy.getByTestid("event-list-content")
       .should("contain", event1mock.course?.code)
@@ -79,6 +98,7 @@ describe("Manager.event", () => {
   });
 
   it("manager can edit event", () => {
+    cy.getByTestid("event-menu").click();
     cy.contains("Listes").click();
     cy.contains("Editer").first().click();
     cy.getByTestid("event-title").click();
@@ -87,6 +107,7 @@ describe("Manager.event", () => {
   });
 
   it("manager can list & change status event participant", () => {
+    cy.getByTestid("event-menu").click();
     cy.contains("Listes").click();
     cy.get("#event-show").click({force: true});
     cy.wait("@getEventParticipantPage1");
@@ -105,6 +126,7 @@ describe("Manager.event", () => {
   });
 
   it("manager can add group", () => {
+    cy.getByTestid("event-menu").click();
     cy.contains("Listes").click();
     cy.get("#event-show").click({force: true});
     cy.wait("@getEventParticipantPage1");
@@ -117,5 +139,10 @@ describe("Manager.event", () => {
       cy.contains("Enregistrer").click();
     });
     cy.contains("Groupe ajouté avec succès");
+  });
+  it("manager can list missing participants", () => {
+    cy.getByTestid("event-missing").click();
+    cy.wait("@getEventStats");
+    cy.wait("@getMissingParticipantsPage1");
   });
 });

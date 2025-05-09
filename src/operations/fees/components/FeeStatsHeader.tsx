@@ -234,7 +234,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
               />
               <BoxItem
                 value={card.R}
-                title=" rattrapages"
+                title=" Rattrapages"
                 icon={<RefreshCw />}
               />
             </Box>

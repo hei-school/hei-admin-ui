@@ -1,87 +1,95 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
+import awardedCoursesProvider from "@/providers/awardedCoursesProvider";
 import commentProvider from "@/providers/commentProvider";
 import courseProvider from "@/providers/courseProvider";
 import docsProvider from "@/providers/docsProvider";
 import eventParticipantProvider from "@/providers/eventParticipantProvider";
 import eventProvider from "@/providers/eventProvider";
+import examGradeProvider from "@/providers/examGradeProvider";
+import examsProvider from "@/providers/examProvider";
+import exportEventParticipantProvider from "@/providers/exportEventParticipantProvider";
+import exportGroupProvider from "@/providers/exportGroupProvider";
+import exportPromotionProvider from "@/providers/exportPromotionProvider";
+import exportStudentProvider from "@/providers/exportStudentProvider";
+import exportTeacherProvider from "@/providers/exportTeacherProvider";
 import feeProvider from "@/providers/feeProvider";
+import feesExportProvider from "@/providers/feesExportProvider";
 import feesTemplatesProvider from "@/providers/feesTemplatesProvider";
 import groupFlowProvider from "@/providers/groupFlowProvider";
 import groupProvider from "@/providers/groupProvider";
 import groupStudentProvider from "@/providers/groupStudentProvider";
 import heiDocsProvider from "@/providers/heiDocsProvider";
+import lettersStatsProvider from "@/providers/letterStatsProvider";
 import lettersProvider from "@/providers/lettersProvider";
+import missingListProvider from "@/providers/missingListProvider";
+import monitorProvider from "@/providers/monitorProvider";
+import monitorStudentProvider from "@/providers/monitorStudentProvider";
+import mpbsVerifyProvider from "@/providers/mpbsVerifyProvider";
 import paymentProvider from "@/providers/paymentProvider";
 import profilePicProvider from "@/providers/profilePicProvider";
 import profileProvider from "@/providers/profileProvider";
 import promotionGroupsProvider from "@/providers/promotionGroupsProvider";
 import promotionProvider from "@/providers/promotionProvider";
+import receiptProvider from "@/providers/receiptProvider";
+import staffExportProvider from "@/providers/staffExportProvider";
+import staffProvider from "@/providers/staffProvider";
 import statsProvider from "@/providers/statsProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
 import {DataProvider} from "react-admin";
-import awardedCoursesProvider from "./awardedCoursesProvider";
-import examGradeProvider from "./examGradeProvider";
-import examsProvider from "./examProvider";
-import exportEventParticipantProvider from "./exportEventParticipantProvider";
-import exportGroupProvider from "./exportGroupProvider";
-import exportPromotionProvider from "./exportPromotionProvider";
-import exportStudentProvider from "./exportStudentProvider";
-import exportTeacherProvider from "./exportTeacherProvider";
-import feesExportProvider from "./feesExportProvider";
-import lettersStatsProvider from "./letterStatsProvider";
-import monitorProvider from "./monitorProvider";
-import monitorStudentProvider from "./monitorStudentProvider";
-import mpbsVerifyProvider from "./mpbsVerifyProvider";
-import receiptProvider from "./receiptProvider";
-import staffExportProvider from "./staffExportProvider";
-import staffProvider from "./staffProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
+const providerMap: Record<string, HaDataProviderType> = {
+  "profile": profileProvider,
+  "announcements": announcementProvider,
+  "students": studentProvider,
+  "students-export": exportStudentProvider,
+  "fees": feeProvider,
+  "payments": paymentProvider,
+  "teachers": teacherProvider,
+  "export-teachers": exportTeacherProvider,
+  "docs": docsProvider,
+  "groups": groupProvider,
+  "group-flow": groupFlowProvider,
+  "group-students": groupStudentProvider,
+  "profile-picture": profilePicProvider,
+  "fees-templates": feesTemplatesProvider,
+  "comments": commentProvider,
+  "promotions": promotionProvider,
+  "promotions-groups": promotionGroupsProvider,
+  "course": courseProvider,
+  "stats": statsProvider,
+  "hei-docs": heiDocsProvider,
+  "users-letters": usersLettersProvider,
+  "letters": lettersProvider,
+  "letters-stats": lettersStatsProvider,
+  "receipts": receiptProvider,
+  "awarded-courses": awardedCoursesProvider,
+  "events": eventProvider,
+  "missing-event": missingListProvider,
+  "events-participants-export": exportEventParticipantProvider,
+  "event-participants": eventParticipantProvider,
+  "monitors": monitorProvider,
+  "monitor-students": monitorStudentProvider,
+  "promotions-export": exportPromotionProvider,
+  "group-export": exportGroupProvider,
+  "fees-export": feesExportProvider,
+  "exams": examsProvider,
+  "staffmembers": staffProvider,
+  "staffs-export": staffExportProvider,
+  "mpbs-verify": mpbsVerifyProvider,
+  "exam-grades": examGradeProvider,
+};
+
 const getProvider = (resourceType: string): HaDataProviderType => {
-  if (resourceType === "profile") return profileProvider;
-  if (resourceType === "announcements") return announcementProvider;
-  if (resourceType === "students") return studentProvider;
-  if (resourceType === "students-export") return exportStudentProvider;
-  if (resourceType === "fees") return feeProvider;
-  if (resourceType === "payments") return paymentProvider;
-  if (resourceType === "teachers") return teacherProvider;
-  if (resourceType === "export-teachers") return exportTeacherProvider;
-  if (resourceType === "docs") return docsProvider;
-  if (resourceType === "groups") return groupProvider;
-  if (resourceType === "group-flow") return groupFlowProvider;
-  if (resourceType === "group-students") return groupStudentProvider;
-  if (resourceType === "profile-picture") return profilePicProvider;
-  if (resourceType === "fees-templates") return feesTemplatesProvider;
-  if (resourceType === "comments") return commentProvider;
-  if (resourceType === "promotions") return promotionProvider;
-  if (resourceType === "promotions-groups") return promotionGroupsProvider;
-  if (resourceType === "course") return courseProvider;
-  if (resourceType === "stats") return statsProvider;
-  if (resourceType === "hei-docs") return heiDocsProvider;
-  if (resourceType === "users-letters") return usersLettersProvider;
-  if (resourceType === "letters") return lettersProvider;
-  if (resourceType === "letters-stats") return lettersStatsProvider;
-  if (resourceType === "receipts") return receiptProvider;
-  if (resourceType === "awarded-courses") return awardedCoursesProvider;
-  if (resourceType === "events") return eventProvider;
-  if (resourceType === "events-participants-export")
-    return exportEventParticipantProvider;
-  if (resourceType === "event-participants") return eventParticipantProvider;
-  if (resourceType === "monitors") return monitorProvider;
-  if (resourceType === "monitor-students") return monitorStudentProvider;
-  if (resourceType === "promotions-export") return exportPromotionProvider;
-  if (resourceType === "group-export") return exportGroupProvider;
-  if (resourceType === "fees-export") return feesExportProvider;
-  if (resourceType === "exams") return examsProvider;
-  if (resourceType === "staffmembers") return staffProvider;
-  if (resourceType === "staffs-export") return staffExportProvider;
-  if (resourceType === "mpbs-verify") return mpbsVerifyProvider;
-  if (resourceType === "exam-grades") return examGradeProvider;
-  throw new Error("Unexpected resourceType: " + resourceType);
+  const provider = providerMap[resourceType];
+  if (!provider) {
+    throw new Error("Unexpected resourceType: " + resourceType);
+  }
+  return provider;
 };
 
 const getHasNextPageInfo = async (
@@ -91,26 +99,34 @@ const getHasNextPageInfo = async (
   filter: any,
   meta: any
 ) => {
-  const {data: nextPageResult} = await getProvider(resource).getList(
+  const response = await getProvider(resource).getList(
     page + 1,
     perPage,
     filter,
     meta
   );
 
-  return nextPageResult.length > 0;
+  if (!response || !response.data) {
+    throw new Error(
+      `Provider for resource ${resource} did not return a valid response with a data property.`
+    );
+  }
+
+  return response.data.length > 0;
 };
 const dataProvider: DataProvider = {
   async getList(resourceType: string, params: any) {
-    let {pagination, meta, filter} = params;
+    const {pagination, meta, filter} = params;
 
     const page = pagination.page === 0 ? 1 : pagination.page;
     let perPage = pagination.perPage;
 
     if (perPage > MAX_ITEM_PER_PAGE) {
-      console.warn(
-        `Page size is too big, truncating to MAX_ITEM_PER_PAGE=${MAX_ITEM_PER_PAGE}: resourceType=${resourceType}, requested pageSize=${perPage}`
-      );
+      if (process.env.NODE_ENV !== "production") {
+        console.warn(
+          `Page size is too big, truncating to MAX_ITEM_PER_PAGE=${MAX_ITEM_PER_PAGE}: resourceType=${resourceType}, requested pageSize=${perPage}`
+        );
+      }
       perPage = MAX_ITEM_PER_PAGE;
     }
 
@@ -120,6 +136,12 @@ const dataProvider: DataProvider = {
       filter,
       meta
     );
+
+    if (!data) {
+      throw new Error(
+        `Provider for resourceType ${resourceType} did not return a valid data property.`
+      );
+    }
 
     const hasNextPage = await getHasNextPageInfo(
       resourceType,
@@ -149,7 +171,7 @@ const dataProvider: DataProvider = {
       [params.data].flat(),
       {
         isUpdate: true,
-        meta: params.meta || {},
+        meta: params.meta ?? {},
       }
     );
     return {data: result[0]};
@@ -170,7 +192,7 @@ const dataProvider: DataProvider = {
     return {data: result};
   },
   deleteMany: () => {
-    throw new Error("Not Impelemented");
+    throw new Error("Not Implemented");
   },
   getMany: () => {
     throw new Error("Not implemented");
@@ -184,9 +206,9 @@ const dataProvider: DataProvider = {
 };
 
 const toEnabledUsers = (users: Array<any>): Array<any> => {
-  let enabledUsers = [];
+  const enabledUsers = [];
   for (const user of users) {
-    let enabledUser = Object.assign(user);
+    const enabledUser = Object.assign(user);
     enabledUser.status = "ENABLED";
     enabledUsers.push(enabledUser);
   }

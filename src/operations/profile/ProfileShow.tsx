@@ -84,10 +84,10 @@ const ProfileShow = () => {
       }}
     >
       <ProfileLayout
-        role={role}
+        role={role as any}
         isStudentProfile={isStudent()}
         isTeacherProfile={isTeacher()}
-        isAdminProfil={isAdmin()}
+        isAdminProfile={isAdmin()}
         actions={
           <div
             style={{

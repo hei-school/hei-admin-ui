@@ -66,7 +66,7 @@ describe("Manager.Letters", () => {
     }).as("updateLetter");
 
     cy.wait("@getStats");
-    cy.getByTestid("letters-list-tab").click();
+    cy.getByTestid("letters-tab").click();
     cy.wait("@getAllLetters");
   });
 

@@ -18,7 +18,7 @@
     "test:merge:reports": "srm ./dist/test-reports.xml \"./dist/**/!(*test-reports).xml\""
   },
   "dependencies": {
-    "@haapi/typescript-client": "^1.102.1",
+    "@haapi/typescript-client": "^1.103.1",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-calendar": "^4.0.1",
     "@react-admin/ra-enterprise": "^7.0.0",
@@ -28,6 +28,8 @@
     "axios": "^1.6.8",
     "cypress-multi-reporters": "^2.0.4",
     "cypress-vite": "^1.5.0",
+    "date-fns": "^4.1.0",
+    "date-fns-tz": "^3.2.0",
     "dayjs": "^1.11.13",
     "dom-to-image": "^2.6.0",
     "dotenv": "^16.4.5",

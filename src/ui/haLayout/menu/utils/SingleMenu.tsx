@@ -1,5 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {Box, Typography, useMediaQuery} from "@mui/material";
+import {FC, ReactNode} from "react";
 import {Link, useSidebarState} from "react-admin";
 import {useLocation} from "react-router-dom";
 
@@ -10,14 +11,13 @@ const style = {
   "gap": 2,
   ":hover": {color: PALETTE_COLORS.yellow},
 };
-export function SingleMenuBase({
-  label,
-  icon,
-  to,
-  menu = true,
-  sx = {},
-  ...rest
-}) {
+export const SingleMenuBase: FC<{
+  label: string;
+  icon: ReactNode;
+  to: string;
+  menu?: boolean;
+  sx?: any;
+}> = ({label, icon, to, menu = true, sx = {}, ...rest}) => {
   const location = useLocation();
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
@@ -55,9 +55,15 @@ export function SingleMenuBase({
       </Typography>
     </Box>
   );
-}
+};
 
-export const SingleMenu = ({label, icon, to, menu, target, ...rest}) =>
+export const SingleMenu: FC<{
+  label: string;
+  icon: ReactNode;
+  to: string;
+  menu?: boolean;
+  target?: React.HTMLAttributeAnchorTarget;
+}> = ({label, icon, to, menu, target, ...rest}) =>
   to ? (
     <Link to={to} target={target} sx={{color: "inherit"}}>
       <SingleMenuBase {...{label, icon, to, menu, ...rest}} />

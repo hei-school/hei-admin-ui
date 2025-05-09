@@ -81,13 +81,13 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
         },
         {
           onSuccess: () => {
-            notify("Lettre créée avec succès", {type: "success"});
+            notify("La lettre a été créée avec succès", {type: "success"});
             setFileInfo(null);
             onClose();
           },
           onError: () => {
             setFileInfo(null);
-            notify("Erreur lors de la création de la lettre", {
+            notify("Une erreur est survenue lors de la création de la lettre", {
               type: "error",
             });
           },
@@ -108,7 +108,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
     <Dialog
       open={isOpen}
       onClose={onClose}
-      title={title ?? "Ajouter une lettre"}
+      title={title ?? "Créer une lettre"}
       data-testid="add-letter"
     >
       {isLoading && (
@@ -212,14 +212,14 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
         )}
         {isFileTooLarge && (
           <Typography variant="subtitle1" color="red">
-            La taille maximale du fichier est de 5 Mo.
+            La taille maximale autorisée pour le fichier est de 5 Mo.
           </Typography>
         )}
       </SimpleForm>
       <Confirm
         isOpen={confirmOpen}
         title="Confirmation"
-        content="Êtes-vous sûr de vouloir créer cette lettre ?"
+        content="Êtes-vous certain de vouloir créer cette lettre ?"
         onConfirm={handleConfirm}
         onClose={() => setConfirmOpen(false)}
       />

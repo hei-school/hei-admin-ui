@@ -10,12 +10,12 @@ describe("Mobile payment by student", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `/students/${student1Mock.id}/fees?page=1&page_size=*`,
       feesMock
     ).as("getFees");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      `/students/${student1Mock.id}/fees?page=2&page_size=*`,
       feesMock
     ).as("getFees2");
 
@@ -48,12 +48,12 @@ describe("Mobile payment by student", () => {
     ).as("addMpbs");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      `/students/${student1Mock.id}/fees?page=1&page_size=*`,
       [{mpbs: fee1MockMpbs, ...fee1Mock}, ...fees]
     ).as("getMpbsFees");
     cy.intercept(
       "GET",
-      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      `/students/${student1Mock.id}/fees?page=2&page_size=*`,
       [{mpbs: fee1MockMpbs, ...fee1Mock}, ...fees]
     ).as("getMpbsFees2");
 

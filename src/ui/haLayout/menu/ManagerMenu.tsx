@@ -4,6 +4,8 @@ import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
   Inventory as DocsIcon,
+  EditCalendar,
+  EventBusy,
   CalendarMonth as EventIcon,
   AttachMoney as FeesIcon,
   GradeOutlined as GradeIcon,
@@ -79,12 +81,24 @@ function ManagerMenu() {
         label="Annonces"
         icon={<AnnouncementIcon />}
       />
-      <SingleMenu
-        data-testid="event-menu"
-        to="/events"
-        label="Présences"
-        icon={<EventIcon />}
-      />
+      <ListMenu
+        icon={<EditCalendar />}
+        label="Pointage"
+        data-testid="event-point"
+      >
+        <ListMenuItem
+          data-testid="event-menu"
+          to="/events"
+          label="Présences"
+          icon={<EventIcon />}
+        />
+        <ListMenuItem
+          data-testid="event-missing"
+          to="/event_participants"
+          label="Liste des absents"
+          icon={<EventBusy />}
+        />
+      </ListMenu>
       {isAdmin() && (
         <SingleMenu to="/staffmembers" label="Staff" icon={<StaffIcon />} />
       )}

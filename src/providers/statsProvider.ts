@@ -1,6 +1,8 @@
+import {formatDateToLocalTimeZone} from "@/utils";
 import {HaDataProviderType} from "./HaDataProviderType";
-import {payingApi, usersApi} from "./api";
+import {eventsApi, payingApi, usersApi} from "./api";
 import {MAX_ITEM_PER_PAGE} from "./dataProvider";
+import {getMonthFilters} from "./utils";
 
 const statsProvider: HaDataProviderType = {
   async getList(_page: number, _perPage: number, _filter: any) {
@@ -8,6 +10,8 @@ const statsProvider: HaDataProviderType = {
   },
   async getOne(id: string, meta = {}) {
     const filter = meta.filters ?? {};
+    const {monthFrom, monthTo} = getMonthFilters(filter);
+
     switch (meta.resource) {
       case "users":
         return usersApi()
@@ -15,7 +19,10 @@ const statsProvider: HaDataProviderType = {
           .then((result) => ({id, ...result.data}));
       case "fees_stats":
         return payingApi()
-          .getAdvancedFeesStats(filter.monthFrom, filter.monthTo)
+          .getAdvancedFeesStats(
+            formatDateToLocalTimeZone(monthFrom),
+            formatDateToLocalTimeZone(monthTo)
+          )
           .then((result) => ({id, ...result.data}));
       case "fees":
         return payingApi()
@@ -31,6 +38,10 @@ const statsProvider: HaDataProviderType = {
             filter.student_ref
           )
           .then(({data: {statistics}}) => ({id, ...statistics}));
+      case "events":
+        return eventsApi()
+          .getEventStats()
+          .then((result) => ({id, ...result.data}));
       default:
         console.error("unknown resource type for getStats");
         return;

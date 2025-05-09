@@ -15,9 +15,10 @@ import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {CreateButton, ImportButton} from "@/ui/haToolbar";
+import {formatDate} from "@/utils/date";
 import {WarningOutlined} from "@mui/icons-material";
 import {Box, Chip} from "@mui/material";
-import {FunctionField, TextField} from "react-admin";
+import {FunctionField} from "react-admin";
 
 export const ManagerFeeList = ({studentId, studentRef}) => {
   const role = useRole();
@@ -60,8 +61,8 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
         label="Reste à payer"
         render={(record) => renderMoney(record.remaining_amount)}
       />
-      <TextField
-        source="mpbs.psp_id"
+      <FunctionField
+        render={(fee) => fee?.mpbs?.at(-1)?.psp_id}
         label="Référence de la transaction"
         emptyText={EMPTY_TEXT}
       />
@@ -69,8 +70,8 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
         render={(fee) =>
           fee.mpbs ? (
             <Chip
-              color={PSP_COLORS[fee.mpbs?.psp_type]}
-              label={PSP_VALUES[fee.mpbs?.psp_type]}
+              color={PSP_COLORS[fee.mpbs.at(-1)?.psp_type]}
+              label={PSP_VALUES[fee.mpbs.at(-1)?.psp_type]}
             />
           ) : (
             EMPTY_TEXT
@@ -79,25 +80,31 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
         label="Type de transaction"
         emptyText={EMPTY_TEXT}
       />
-      <DateField
-        source="mpbs.creation_datetime"
+      <FunctionField
+        render={(fee) => formatDate(fee?.mpbs?.at(-1)?.creation_datetime)}
         label="Ajout de la référence de transaction"
-        showTime
+        emptyText={EMPTY_TEXT}
       />
-      <DateField
-        source="mpbs.last_datetime_verification"
+      <FunctionField
+        render={(fee) =>
+          formatDate(fee?.mpbs?.at(-1)?.last_datetime_verification)
+        }
         label="Dernière vérification par HEI"
-        showTime
+        emptyText={EMPTY_TEXT}
       />
-      <DateField
-        source="mpbs.psp_own_datetime_verification"
-        label="Vérification par Orange"
-        showTime
+      <FunctionField
+        render={(fee) =>
+          formatDate(fee?.mpbs?.at(-1)?.psp_own_datetime_verification)
+        }
+        label="Vérification par PSP"
+        emptyText={EMPTY_TEXT}
       />
-      <DateField
-        source="mpbs.successfully_verified_on"
+      <FunctionField
+        render={(fee) =>
+          formatDate(fee?.mpbs?.at(-1)?.successfully_verified_on)
+        }
         label="Vérification réussie"
-        showTime
+        emptyText={EMPTY_TEXT}
       />
       {!role.isMonitor() && (
         <DeleteWithConfirm

@@ -1,6 +1,7 @@
 import {
   UpdateFeeWithPaymentMock,
   feesMock,
+  feesMpbsMock,
   unpaidFeeMock,
 } from "../fixtures/api_mocks/fees-mocks";
 import {
@@ -72,7 +73,7 @@ describe("Manager.Payment", () => {
     cy.getByTestid("filter-profile-ref").type(student1Mock.ref);
     cy.getByTestid("apply-filter").click();
     cy.get("table").contains(student1Mock.ref).click();
-    cy.getByTestid("fees-list-tab").click();
+    cy.getByTestid("fees-tab").click();
 
     cy.contains(unpaidFeeMock.comment as string).click();
     cy.contains("En cours");
@@ -87,6 +88,16 @@ describe("Manager.Payment", () => {
       `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}`,
       UpdateFeeWithPaymentMock(unpaidFeeMock, createPayment)
     ).as("getFee");
+    cy.intercept(
+      "PUT",
+      `/students/${student1Mock.id}/fees/${feesMpbsMock[0].id}/mpbs`,
+      feesMpbsMock[0]
+    ).as("addMpbs");
+    cy.intercept(
+      "PUT",
+      `/students/${student1Mock.id}/fees/${unpaidFeeMock.id}/mpbs`,
+      unpaidFeeMock
+    ).as("addMpbs");
   });
 
   it("can add cash payment to a fee", () => {
@@ -105,6 +116,7 @@ describe("Manager.Payment", () => {
   it("can add mobile money payment to a fee", () => {
     cy.get("#type_MOBILE_MONEY").click();
     cy.get("#amount").click().type(createPayment.amount!.toString());
+    cy.get("#psp_id").click().type(feesMpbsMock[0]?.mpbs![0].psp_id!);
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");

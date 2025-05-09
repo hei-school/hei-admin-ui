@@ -68,7 +68,7 @@ describe("Manager import fees for one students", () => {
     cy.wait("@getStudentsByFirstName");
     cy.contains(student1Mock.first_name).click();
     cy.wait("@getStudent1");
-    cy.getByTestid("fees-list-tab").click();
+    cy.getByTestid("fees-tab").click();
     cy.wait("@getStudent1Fees");
   });
 
@@ -107,20 +107,20 @@ describe("Manager import fees for one students", () => {
     });
   });
 
-  it.skip("notifies if the multiple students creation failed", () => {
+  it("notifies if the multiple students creation failed", () => {
     cy.intercept("PUT", `/fees`, [feesMock]).as("createFees");
     importFile({
       file: "valid_fees_template.xlsx",
       message: "Importation effectuée avec succès",
       middleware: () => {
         cy.wait("@createFees").then((requestIntersection) => {
-          const DATA_LENGTH = 9; //data inside the correct xlsx file fixtures
+          const DATA_LENGTH = 7; //data inside the correct xlsx file fixtures
 
           //One type of data inside the xlsx
           const feesExpected = {
             type: "TUITION",
             comment: "comment1",
-            category: "L2",
+            category: "L3",
             frequency: "YEARLY",
             total_amount: 10,
             due_datetime: new Date("2023-01-01").toISOString(),
