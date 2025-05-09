@@ -229,7 +229,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
 
   return (
     <Box>
-      {mpbs.at(-1)?.status === (MpbsStatus.PENDING || MpbsStatus.SUCCESS) ? (
+      {mpbs?.at(-1)?.status === (MpbsStatus.PENDING || MpbsStatus.SUCCESS) ? (
         <MpbsStatusIcon />
       ) : (
         <IconButtonWithTooltip
