@@ -16,6 +16,7 @@ const createPayment = createPaymentWithAmountMock(amount);
 describe("Manager.Payment", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );

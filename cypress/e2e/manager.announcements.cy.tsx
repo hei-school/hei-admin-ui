@@ -8,7 +8,7 @@ import {
 describe("Manager announcements", () => {
   beforeEach(() => {
     cy.login({role: "MANAGER"});
-
+    cy.visit("/profile");
     cy.intercept("POST", `/announcements`, createdAnnouncement);
     cy.intercept(
       "GET",

@@ -32,6 +32,7 @@ describe("Manager.Transcript.Docs", () => {
     );
 
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
@@ -86,6 +87,7 @@ describe("Manager.Work.Docs", () => {
     );
 
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
@@ -148,6 +150,7 @@ describe("Manager.Other.Docs", () => {
     );
 
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);
