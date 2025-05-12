@@ -181,7 +181,7 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
         ...data,
         student_id,
         fee_id,
-        mpbs_id: mpbs[mpbs.length - 1].id,
+        mpbs_id: mpbs[mpbs.length - 1]?.id,
       })}
     >
       <SimpleForm>
