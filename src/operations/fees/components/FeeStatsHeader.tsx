@@ -266,7 +266,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
                   background: "rgba(114, 113, 113, 0.64)",
                   fontWeight: "900",
                 }}
-                title="Mensuel"
+                title="Annuel"
                 icon={<CalendarRange color="white" />}
                 value={card.annual}
               />

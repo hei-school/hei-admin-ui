@@ -1,3 +1,4 @@
+import {getMonthFilters} from "@/providers/utils";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {formatDate} from "@/utils/date";
@@ -14,6 +15,11 @@ import {FeesFilters} from "./components/FeesFilter";
 import {MpbsStatusIcon, PSP_COLORS, PSP_VALUES, rowStyle} from "./utils";
 import {FeesExport} from "./utils/FeesExport";
 
+const FEES_LIST_DEFAULT_FILTER = {
+  isMpbs: true,
+  ...getMonthFilters(),
+};
+
 const TransactionFeeList = () => {
   const [openDialog, setOpenDialog] = useState(false);
   const handleOpenDialog = () => {
@@ -22,6 +28,7 @@ const TransactionFeeList = () => {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
+
   return (
     <Box>
       <HaList
@@ -30,7 +37,7 @@ const TransactionFeeList = () => {
         title="Transactions (Mobile Money)"
         resource="fees"
         listProps={{
-          filterDefaultValues: {isMpbs: true},
+          filterDefaultValues: FEES_LIST_DEFAULT_FILTER,
           storeKey: "transactionsfees",
         }}
         actions={
@@ -57,7 +64,7 @@ const TransactionFeeList = () => {
         }
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
         datagridProps={rowStyle}
-        filterIndicator={false}
+        filterIndicator={true}
       >
         <TextField source="student_ref" label="Référence de l'étudiant" />
         <DateField
@@ -74,8 +81,7 @@ const TransactionFeeList = () => {
           render={(fee: Fee) =>
             fee.mpbs ? (
               <Chip
-                // @ts-ignore
-                color={PSP_COLORS[fee.mpbs?.at(-1).psp_type]}
+                color={PSP_COLORS[fee.mpbs?.at(-1)?.psp_type!]}
                 label={PSP_VALUES[fee.mpbs?.at(-1)?.psp_type!]}
               />
             ) : (
