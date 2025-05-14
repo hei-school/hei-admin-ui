@@ -1,6 +1,6 @@
 import {useNotify, UseNotifyOptions} from "@/hooks";
 import {Button} from "@mui/material";
-import {getRedirectUrl, goToLink} from "./casdoorSetting";
+import {getRedirectUrl, goToExternalURL} from "./casdoorSetting";
 
 const loginWithCasdoor = (
   notify: (message: string, config?: UseNotifyOptions) => void
@@ -8,7 +8,7 @@ const loginWithCasdoor = (
   (async () => {
     try {
       const url = await getRedirectUrl();
-      goToLink(url);
+      goToExternalURL(url);
     } catch (error) {
       notify("Failed to fetch redirect URL", {type: "error"});
     }
