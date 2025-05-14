@@ -1,31 +1,9 @@
 import defaultCasdoorLogo from "@/assets/casdoor-logo_1185x256.png";
-import {useNotify} from "@/hooks";
 import {Card, CardContent} from "@mui/material";
 import Box from "@mui/material/Box";
-import {useEffect} from "react";
-import {useCheckAuth} from "react-admin";
 import {CasdoorLoginButton} from "./CasdoorLoginButton";
-import {goToLink} from "./casdoorSetting";
 
 const CasdoorLoginCard = () => {
-  const notify = useNotify();
-  const checkAuth = useCheckAuth();
-
-  useEffect(() => {
-    const verifyAuth = async () => {
-      try {
-        await checkAuth({}, false);
-        // already authenticated, redirect to the home page
-        goToLink("/");
-      } catch (error) {
-        notify("Authentication check failed", {type: "error"});
-        // not authenticated, stay on the login page
-      }
-    };
-
-    verifyAuth();
-  }, [checkAuth]);
-
   return (
     <Box
       display="flex"
