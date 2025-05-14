@@ -1,14 +1,25 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {LetterItem} from "@/operations/letters/components";
+import {useRole} from "@/security/hooks";
 import {alpha, Box, Chip, Typography} from "@mui/material";
 import {FileBox, MoveRight} from "lucide-react";
 import {FC} from "react";
-import {Button, Link, useGetList} from "react-admin";
+import {Button, Link, useGetList, useGetOne} from "react-admin";
 
 export const RecentLetters: FC<{animate: boolean}> = ({animate}) => {
   const letters = useGetList("letters", {
     pagination: {page: 1, perPage: 4},
   });
+
+  const role = useRole();
+
+  const {data: letterStats} = useGetOne(
+    "letters-stats",
+    {id: undefined},
+    {
+      enabled: role.isManager() || role.isAdmin(),
+    }
+  );
 
   return (
     <Box
@@ -40,7 +51,7 @@ export const RecentLetters: FC<{animate: boolean}> = ({animate}) => {
           </Typography>
         </Box>
         <Chip
-          label={`${4} Unread`}
+          label={`${letterStats?.pending!} Unread`}
           color="info"
           size="small"
           sx={{

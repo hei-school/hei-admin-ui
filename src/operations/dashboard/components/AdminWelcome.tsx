@@ -9,24 +9,45 @@ import {
   Typography,
 } from "@mui/material";
 import {FC, useEffect, useState} from "react";
-import {ChipField, FunctionField, TextField} from "react-admin";
+import {
+  ChipField,
+  Datagrid,
+  FunctionField,
+  Link,
+  List,
+  TextField,
+  useGetList,
+  useGetOne,
+  useListContext,
+} from "react-admin";
 
 import {AnnouncementCard} from "@/operations/announcements/components/AnnoucementCard";
 import {EmptyList3D} from "@/operations/common/components/EmptyList";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
 import {commentFunctionRenderer} from "@/operations/utils";
-import {Announcement, Fee} from "@haapi/typescript-client";
+import {NOOP_ID} from "@/utils/constants";
+import {
+  AdvancedFeesStatistics,
+  Announcement,
+  Fee,
+} from "@haapi/typescript-client";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {BadgeDollarSign, BellDot, ExternalLink, UserRoundX} from "lucide-react";
-import {Datagrid, Link, List, useGetList} from "react-admin";
 import {CommentContent} from "./common/CommentContent";
 import {RecentLetters} from "./common/RecentLetters";
 import {WelcomingCard} from "./common/WelcomingCard";
 
 export const AdminWelcome: FC = () => {
   const [animate, setAnimate] = useState(false);
-
+  const {filterValues} = useListContext();
+  const {data: stats} = useGetOne<AdvancedFeesStatistics & {id: string}>(
+    "stats",
+    {
+      id: NOOP_ID,
+      meta: {resource: "fees_stats", filters: filterValues},
+    }
+  );
   const {data: LastAnnouncements} = useGetList("announcements", {
     pagination: {
       page: 1,
@@ -97,7 +118,7 @@ export const AdminWelcome: FC = () => {
                   </Typography>
                 </Box>
                 <Chip
-                  label={`${4} frais`}
+                  label={`${stats?.late_fees_count?.monthly} frais en retard`}
                   color="error"
                   size="small"
                   sx={{
@@ -170,31 +191,29 @@ export const AdminWelcome: FC = () => {
                   <FunctionField
                     label="Voir dans Profil"
                     render={(record) => (
-                      <>
-                        <Button
-                          component={Link}
-                          to={`/students/${record.student_id}/show?tab=fees`}
-                          endIcon={
-                            <ExternalLink
-                              style={{
-                                color: alpha("#F44336", 0.7),
-                              }}
-                            />
-                          }
-                          sx={{
-                            "color": alpha("#F44336", 0.7),
-                            "background": alpha("#F44336", 0.1),
-                            "textTransform": "none",
-                            "border": "1px solid transparent",
-                            "padding": "5px 1rem",
-                            "&:hover": {
-                              border: "1px solid",
-                            },
-                          }}
-                        >
-                          Voir
-                        </Button>
-                      </>
+                      <Button
+                        component={Link}
+                        to={`/students/${record.student_id}/show?tab=fees`}
+                        endIcon={
+                          <ExternalLink
+                            style={{
+                              color: alpha("#F44336", 0.7),
+                            }}
+                          />
+                        }
+                        sx={{
+                          "color": alpha("#F44336", 0.7),
+                          "background": alpha("#F44336", 0.1),
+                          "textTransform": "none",
+                          "border": "1px solid transparent",
+                          "padding": "5px 1rem",
+                          "&:hover": {
+                            border: "1px solid",
+                          },
+                        }}
+                      >
+                        Voir
+                      </Button>
                     )}
                   />
                 </Datagrid>
@@ -268,17 +287,6 @@ export const AdminWelcome: FC = () => {
                     Listes de étudiants suspendus
                   </Typography>
                 </Box>
-                <Chip
-                  label={`${4} Étudiants`}
-                  color="error"
-                  size="small"
-                  sx={{
-                    fontWeight: "bold",
-                    bgcolor: alpha("#FF9800", 0.2),
-                    color: "#FF9800",
-                    border: "1px solid rgba(255, 153, 0, 0.3)",
-                  }}
-                />
               </Box>
               <List
                 exporter={false}
@@ -338,31 +346,29 @@ export const AdminWelcome: FC = () => {
                   <FunctionField
                     label="Profil"
                     render={(record) => (
-                      <>
-                        <Button
-                          component={Link}
-                          to={`/students/${record.id}/show`}
-                          endIcon={
-                            <ExternalLink
-                              style={{
-                                color: alpha("#FF9800", 0.7),
-                              }}
-                            />
-                          }
-                          sx={{
-                            "color": alpha("#FF9800", 0.7),
-                            "background": alpha("#FF9800", 0.1),
-                            "textTransform": "none",
-                            "border": "1px solid transparent",
-                            "padding": "5px 1rem",
-                            "&:hover": {
-                              border: "1px solid",
-                            },
-                          }}
-                        >
-                          Voir Profil
-                        </Button>
-                      </>
+                      <Button
+                        component={Link}
+                        to={`/students/${record.id}/show`}
+                        endIcon={
+                          <ExternalLink
+                            style={{
+                              color: alpha("#FF9800", 0.7),
+                            }}
+                          />
+                        }
+                        sx={{
+                          "color": alpha("#FF9800", 0.7),
+                          "background": alpha("#FF9800", 0.1),
+                          "textTransform": "none",
+                          "border": "1px solid transparent",
+                          "padding": "5px 1rem",
+                          "&:hover": {
+                            border: "1px solid",
+                          },
+                        }}
+                      >
+                        Voir Profil
+                      </Button>
                     )}
                   />
                 </Datagrid>
@@ -414,7 +420,13 @@ export const AdminWelcome: FC = () => {
             "boxShadow": "0px 4px 20px rgba(0, 0, 0, 0.2)",
             "paddingLeft": "0 !important",
             "maxHeight": "160vh",
-            "position": "sticky",
+            "position": "relative",
+            "opacity": animate ? 1 : 0,
+            "transform": animate ? "translateY(0)" : "translateY(30px)",
+            "transition": "all 0.5s ease-out 0.7s",
+            "width": "90%",
+            "marginInline": "auto",
+            "height": "100%",
             "overflowY": "auto",
             "&::-webkit-scrollbar": {
               width: "0px",
@@ -428,89 +440,71 @@ export const AdminWelcome: FC = () => {
         >
           <Box
             sx={{
-              opacity: animate ? 1 : 0,
-              transform: animate ? "translateY(0)" : "translateY(30px)",
-              transition: "all 0.5s ease-out 0.7s",
-              width: "90%",
-              marginInline: "auto",
+              display: "flex",
+              justifyContent: "flex-start",
+              alignItems: "center",
+              mb: 2,
+              gap: "0.5rem",
+              position: "sticky",
+              top: "-24px",
+              backgroundColor: "white",
+              zIndex: 1,
+              height: "7vh",
+              padding: "1rem",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-                mb: 2,
+            <BellDot
+              style={{
+                color: "#ae46f9",
               }}
-            >
-              <Box display="flex" gap="0.5rem" alignItems="center">
-                <BellDot
-                  style={{
-                    color: "#ae46f9",
-                  }}
-                />
-                <Typography variant="h6" fontSize="1rem" fontWeight="bold">
-                  Les dernières annonces
-                </Typography>
-              </Box>
-
-              <Chip
-                label={`${4} New`}
-                color="primary"
-                size="small"
-                sx={{
-                  fontWeight: "bold",
-                  bgcolor: alpha("#ae46f9", 0.1),
-                  color: "#ae46f9",
-                  border: "1px solid rgba(174, 70, 249, 0.2)",
-                }}
+            />
+            <Typography variant="h6" fontSize="1rem" fontWeight="bold">
+              Les dernières annonces
+            </Typography>
+          </Box>
+          <Stack
+            spacing={8}
+            sx={{
+              padding: "1rem",
+              marginTop: "7vh",
+            }}
+          >
+            {LastAnnouncements?.map((announcement: Announcement) => (
+              <AnnouncementCard
+                key={announcement.id}
+                id={announcement.id!}
+                scope={announcement.scope!}
+                title={announcement.title!}
+                author={announcement.author!}
+                creation_datetime={announcement.creation_datetime!}
+                isLoading={false}
               />
-            </Box>
-
-            <Stack
-              spacing={8}
+            ))}
+          </Stack>
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              mt: 2,
+              gap: 1,
+              borderTop: "1px solid rgba(174, 70, 249, 0.2)",
+              padding: "5px ",
+            }}
+          >
+            <Button
+              variant="text"
+              component={Link}
+              to="/announcements"
+              endIcon={<ArrowForwardIcon />}
               sx={{
-                padding: "1rem",
-                marginTop: "7vh",
+                textTransform: "none",
+                padding: "0.3rem 0.8rem",
+                color: "#ae46f9",
               }}
             >
-              {LastAnnouncements?.map((announcement: Announcement) => (
-                <AnnouncementCard
-                  key={announcement.id}
-                  id={announcement.id!}
-                  scope={announcement.scope!}
-                  title={announcement.title!}
-                  author={announcement.author!}
-                  creation_datetime={announcement.creation_datetime!}
-                  isLoading={false}
-                />
-              ))}
-            </Stack>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                mt: 2,
-                gap: 1,
-                borderTop: "1px solid rgba(174, 70, 249, 0.2)",
-                padding: "5px ",
-              }}
-            >
-              <Button
-                variant="text"
-                component={Link}
-                to="/announcements"
-                endIcon={<ArrowForwardIcon />}
-                sx={{
-                  textTransform: "none",
-                  padding: "0.3rem 0.8rem",
-                  color: "#ae46f9",
-                }}
-              >
-                Tous les annonces
-              </Button>
-            </Box>
+              Tous les annonces
+            </Button>
           </Box>
         </Grid>
       </Grid>

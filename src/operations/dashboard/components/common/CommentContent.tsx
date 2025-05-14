@@ -78,6 +78,7 @@ export const CommentContent: FC<{animate: boolean}> = ({animate}) => {
       >
         {comments?.map((comment) => (
           <Box
+            key={comment.id}
             sx={{
               "p": 2,
               "borderBottom": "1px solid",
@@ -117,7 +118,7 @@ export const CommentContent: FC<{animate: boolean}> = ({animate}) => {
                       fontSize: "0.7rem",
                       fontWeight: "bold",
                       bgcolor:
-                        comment?.subject?.groups?.[0]?.attributed_color ||
+                        comment?.subject?.groups?.[0]?.attributed_color ??
                         "#2196F3",
                       color: "white",
                     }}

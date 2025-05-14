@@ -1,4 +1,5 @@
-import {AnnouncementAuthor} from "@haapi/typescript-client";
+import {PALETTE_COLORS} from "@/haTheme";
+import {AnnouncementAuthor, Scope} from "@haapi/typescript-client";
 import {Campaign} from "@mui/icons-material";
 import {
   Avatar,
@@ -10,7 +11,6 @@ import {
 } from "@mui/material";
 import {FC} from "react";
 import {EmailField, Link} from "react-admin";
-import {getChipColor} from "../AnnouncementList";
 import {getBgImg} from "../utils/getBgImg";
 
 interface Announcement {
@@ -21,6 +21,19 @@ interface Announcement {
   creation_datetime: Date;
   isLoading: boolean;
 }
+
+export const getChipColor = (scope: string) => {
+  switch (scope) {
+    case Scope.GLOBAL:
+      return PALETTE_COLORS.primary;
+    case Scope.STUDENT:
+    case Scope.TEACHER:
+    case Scope.MANAGER:
+      return PALETTE_COLORS.yellow;
+    default:
+      return PALETTE_COLORS.yellow;
+  }
+};
 
 const cardStyle: React.CSSProperties = {
   minWidth: "300px",

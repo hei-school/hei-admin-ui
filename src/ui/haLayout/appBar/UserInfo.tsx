@@ -31,7 +31,7 @@ import {
   Teacher,
 } from "@haapi/typescript-client";
 
-const HEI_CALENDAR_URL = "http://calendar.hei.school/";
+const HEI_CALENDAR_URL = `https://admin.hei.school/calendar`;
 
 const StyledUserInfo = styled("div")({
   display: "flex",
@@ -131,6 +131,7 @@ function UserInfo() {
   const imgRef = useRef<HTMLImageElement | null>(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
+  const {isStudent, isMonitor} = useRole();
   const id = authProvider.getCachedWhoami().id;
   const dataProvider = useDataProvider();
   const [isDrawerOpen, setIsDrawerOpen] = useState(false);
@@ -168,26 +169,81 @@ function UserInfo() {
 
   const ProfilePicture = () => (
     <>
-      <img
-        alt="profile"
-        data-testid="appbar-profile-pic"
-        ref={imgRef}
-        onClick={() => setIsDrawerOpen(true)}
-        src={profilePictureSrc}
-        onError={() => {
-          if (imgRef.current) {
-            imgRef.current.src = defaultProfilePicture;
-          }
+      <Box
+        sx={{
+          position: "relative",
+          display: "inline-block",
         }}
-        style={{
-          objectFit: "cover",
-          height: 40,
-          width: 40,
-          border: `1px solid ${PALETTE_COLORS.grey}`,
-          borderRadius: "50%",
-          cursor: "pointer",
-        }}
-      />
+      >
+        <img
+          alt="profile"
+          data-testid="appbar-profile-pic"
+          ref={imgRef}
+          onClick={() => {
+            if (isStudent() || isMonitor()) {
+              setIsDrawerOpen(true);
+            }
+          }}
+          src={profilePictureSrc}
+          onError={() => {
+            if (imgRef.current) {
+              imgRef.current.src = defaultProfilePicture;
+            }
+          }}
+          style={{
+            objectFit: "cover",
+            height: 40,
+            width: 40,
+            border: `2px solid ${PALETTE_COLORS.primary}`,
+            borderRadius: "50%",
+            cursor: isStudent() || isMonitor() ? "pointer" : "default",
+            transition: "box-shadow 0.2s",
+            boxShadow:
+              isStudent() || isMonitor()
+                ? "0 0 0 2px rgba(255, 215, 0, 0.5)"
+                : undefined,
+          }}
+          tabIndex={isStudent() || isMonitor() ? 0 : -1}
+          role="button"
+          aria-label="Open profile drawer"
+          onKeyDown={(e) => {
+            if (
+              (isStudent() || isMonitor()) &&
+              (e.key === "Enter" || e.key === " ")
+            ) {
+              setIsDrawerOpen(true);
+            }
+          }}
+        />
+        {(isStudent() || isMonitor()) && (
+          <Box
+            sx={{
+              "pointerEvents": "none",
+              "position": "absolute",
+              "top": -6,
+              "left": -6,
+              "width": 52,
+              "height": 52,
+              "borderRadius": "50%",
+              "border": `2px solid ${PALETTE_COLORS.yellow}`,
+              "boxSizing": "border-box",
+              "animation": "hei-pulse 1.2s infinite cubic-bezier(0.4,0,0.2,1)",
+              "zIndex": 1,
+              "@keyframes hei-pulse": {
+                "0%": {
+                  boxShadow: `0 0 0 0 ${PALETTE_COLORS.yellow}80`,
+                },
+                "70%": {
+                  boxShadow: `0 0 0 8px ${PALETTE_COLORS.yellow}00`,
+                },
+                "100%": {
+                  boxShadow: `0 0 0 0 ${PALETTE_COLORS.yellow}00`,
+                },
+              },
+            }}
+          />
+        )}
+      </Box>
       <RightDrawer
         open={isDrawerOpen}
         onClose={() => setIsDrawerOpen(false)}
@@ -239,9 +295,9 @@ function UserInfo() {
               {user?.sex && getUserRoleInFr(role, user.sex)}
             </Typography>
           </Box>
-          <ProfilePicture />
         </>
       )}
+      <ProfilePicture />
     </StyledUserInfo>
   );
 }

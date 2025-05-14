@@ -1,4 +1,3 @@
-import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
 import {ResponsiveGrid} from "@/ui/components";
 import {HaListTitle} from "@/ui/haList";
@@ -19,19 +18,6 @@ import {List, useListContext, useListFilterContext} from "react-admin";
 import {AnnouncementFilter} from "./components";
 import {AnnouncementCard} from "./components/AnnoucementCard";
 import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
-
-export const getChipColor = (scope: string) => {
-  switch (scope) {
-    case Scope.GLOBAL:
-      return PALETTE_COLORS.primary;
-    case Scope.STUDENT:
-    case Scope.TEACHER:
-    case Scope.MANAGER:
-      return PALETTE_COLORS.yellow;
-    default:
-      return PALETTE_COLORS.yellow;
-  }
-};
 
 const AnnouncementsGrid = () => {
   const {data: announcements = [], isLoading} = useListContext();
@@ -63,7 +49,7 @@ const ScopeFilterChips = () => {
     if (scope) {
       setFilters({...filterValues, scope}, null, false);
     } else {
-      const {scope, ...restFilters} = filterValues || {};
+      const {scope, ...restFilters} = filterValues ?? {};
       setFilters(restFilters, null, false);
     }
   };
