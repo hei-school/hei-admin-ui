@@ -8,16 +8,14 @@ const CasdoorAuthCallback: FC = () => {
   const code = urlParams.get("code");
   const state = urlParams.get("state");
   const isExchanged = useRef(false);
-  const whoami = authProvider.whoami();
 
   useEffect(() => {
     const fetchData = async () => {
-      if (code && state && !isExchanged.current) {
+      if (code && state && !isExchanged.current && SERVER_URL) {
         isExchanged.current = true;
         try {
           const token = await authProvider.getToken(SERVER_URL, code, state);
           authProvider.cacheWhoami({bearer: token});
-          await whoami.then((whoami) => authProvider.cacheWhoami(whoami));
         } catch (error) {
           console.error("Error during token fetching:", error);
         } finally {

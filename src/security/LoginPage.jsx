@@ -1,3 +1,4 @@
+import {useNotify} from "@/hooks";
 import {
   Box,
   Button,
@@ -8,14 +9,14 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {useState} from "react";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {mainTheme} from "../haTheme";
 import authProvider from "../providers/authProvider";
+import CasdoorLoginCard from "./CasdoorLoginCard";
 import CompletePasswordPage from "./CompletePasswordPage";
 import ConfirmForgotPassword from "./ConfirmForgotPassword";
 import ForgotPassword from "./ForgotPassword";
-
-import CasdoorLoginCard from "./CasdoorLoginCard";
 
 const aCard = (title, subtitle, description1, description2, course) => {
   const syllabus =
@@ -117,6 +118,22 @@ const HaLoginPage = () => {
     ) : (
       <ResponsiveLogin />
     );
+
+  const notify = useNotify();
+  const navigate = useNavigate();
+  useEffect(() => {
+    try {
+      authProvider.checkAuth().catch((e) => {
+        notify("Authentication check failed", {type: "error"});
+      });
+      const id = authProvider.getCachedWhoami().id;
+      if (id) {
+        navigate("/profile");
+      }
+    } catch (error) {
+      notify("Authentication check failed", {type: "error"});
+    }
+  }, [navigate]);
 
   return (
     <div

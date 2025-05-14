@@ -8,7 +8,7 @@ import {
 } from "@aws-amplify/auth";
 import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 import {Amplify} from "aws-amplify";
-import {AxiosResponse} from "axios";
+import axios, {AxiosResponse} from "axios";
 import {getPermissions} from "../security/permissions";
 import {awsConfig} from "./aws-config";
 

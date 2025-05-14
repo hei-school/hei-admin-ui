@@ -94,20 +94,6 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
 
   cy.wait("@getRedirectionURL");
 
-  cy.origin("https://numer.casdoor.com", () => {
-    cy.get(
-      'input[placeholder="identifiant, adresse e-mail ou téléphone"], input[placeholder="username, Email or phone"]',
-      {timeout: 45000}
-    )
-      .click()
-      .type("_name_here_@mail.hei.school");
-
-    // Saisie du mot de passe
-    cy.get('input[placeholder="Mot de passe"], input[placeholder="Password"')
-      .click()
-      .type("_password_here_");
-  });
-
   cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
 
   if (isSuccess) {
