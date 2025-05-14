@@ -13,7 +13,7 @@ const SDK_CONFIG = {
 
 export const CasdoorSDK = new Sdk(SDK_CONFIG);
 
-export const goToLink = (link) => {
+export const goToExternalURL = (link) => {
   window.location.href = link;
 };
 

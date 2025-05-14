@@ -1,13 +1,15 @@
 import {FC, useEffect, useRef} from "react";
 import {LoadingPage} from "react-admin";
+import {useNavigate} from "react-router-dom";
 import authProvider from "../providers/authProvider";
-import {goToLink, SERVER_URL} from "./casdoorSetting";
+import {SERVER_URL} from "./casdoorSetting";
 
 const CasdoorAuthCallback: FC = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
   const state = urlParams.get("state");
   const isExchanged = useRef(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +21,7 @@ const CasdoorAuthCallback: FC = () => {
         } catch (error) {
           console.error("Error during token fetching:", error);
         } finally {
-          goToLink("/");
+          navigate("/");
         }
       }
     };
