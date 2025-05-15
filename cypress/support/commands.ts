@@ -97,11 +97,11 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   if (!isSuccess) {
     cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
   } else if (isSuccess) {
-    cy.intercept("**/authentication/signin", casdoorSignin).as(
+    cy.intercept("**/authentication/signin**", casdoorSignin).as(
       "getCasdoorToken"
     );
-    cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
     cy.intercept("**/whoami", whoami).as("getWhoami");
-    cy.wait("@getProfile", {timeout: 15000});
+    cy.visit(`/auth/callback?code=${role}&state=HEI Admin`, {timeout: 12000});
+    cy.wait("@getProfile", {timeout: 24000});
   }
 });
