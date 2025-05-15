@@ -4,6 +4,7 @@ import {Create} from "@/operations/common/components";
 import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 import {Dialog} from "@/ui/components";
 import {NOOP_ID} from "@/utils/constants";
+import {formatDate} from "@/utils/date";
 import {AdvancedFeesStatistics} from "@haapi/typescript-client";
 import {Box, Button as ImportButton, Typography} from "@mui/material";
 import {
@@ -92,14 +93,50 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
       cardContents={headerCardContent}
       title={
         <Box display="flex" flexDirection="row" justifyContent="space-between">
-          <Typography variant="h6" fontWeight="bold">
-            {title}
-          </Typography>
+          <Box>
+            <Typography variant="h6" fontWeight="bold">
+              {title}
+            </Typography>
+            {filterValues?.monthFrom && filterValues?.monthTo && (
+              <Typography
+                sx={{
+                  "display": "inline-flex",
+                  "alignItems": "center",
+                  "gap": "8px",
+                  "background":
+                    "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 100%)",
+                  "backdropFilter": "blur(10px)",
+                  "padding": "8px 16px",
+                  "borderRadius": "12px",
+                  "fontSize": "0.875rem",
+                  "color": "text.secondary",
+                  "margin": "12px 0",
+                  "border": "1px solid rgba(255,255,255,0.1)",
+                  "boxShadow": "0 4px 12px rgba(0,0,0,0.05)",
+                  "transition": "all 0.2s ease",
+                  "&:hover": {
+                    transform: "translateY(-1px)",
+                    boxShadow: "0 6px 16px rgba(0,0,0,0.08)",
+                  },
+                  "& span": {
+                    fontWeight: 600,
+                    color: "primary.main",
+                    padding: "2px 8px",
+                    borderRadius: "6px",
+                    background: "rgba(0,0,0,0.03)",
+                  },
+                }}
+              >
+                Du <span>{formatDate(filterValues?.monthFrom, false)}</span> au
+                <span>{formatDate(filterValues?.monthTo, false)}</span>
+              </Typography>
+            )}
+          </Box>
           {isMpbs && (
             <ImportButton
               onClick={() => setOpen(true)}
               variant="contained"
-              sx={{bgcolor: PALETTE_COLORS.primary}}
+              sx={{bgcolor: PALETTE_COLORS.primary, height: "fit-content"}}
             >
               Vérifier des transactions
             </ImportButton>

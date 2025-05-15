@@ -1,3 +1,4 @@
+import {getMonthFilters} from "@/providers/utils";
 import {HaList} from "@/ui/haList/HaList";
 import {Fee, FeeStatusEnum} from "@haapi/typescript-client";
 import {Download} from "@mui/icons-material";
@@ -12,8 +13,14 @@ import {FeesFilters} from "./components/FeesFilter";
 import {rowStyle} from "./utils";
 import {FeesExport} from "./utils/FeesExport";
 
+const FEES_LIST_DEFAULT_FILTER = {
+  status: FeeStatusEnum.LATE,
+  ...getMonthFilters(),
+};
+
 const ByStatusFeeList = () => {
   const [openDialog, setOpenDialog] = useState(false);
+
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -33,7 +40,7 @@ const ByStatusFeeList = () => {
           />
         }
         listProps={{
-          filterDefaultValues: {status: FeeStatusEnum.LATE},
+          filterDefaultValues: FEES_LIST_DEFAULT_FILTER,
           storeKey: "latefees",
         }}
         actions={
@@ -59,7 +66,7 @@ const ByStatusFeeList = () => {
           </>
         }
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
-        filterIndicator={false}
+        filterIndicator={true}
         datagridProps={{
           rowClick: (id: any) => `/fees/${id}/show`,
           rowStyle,

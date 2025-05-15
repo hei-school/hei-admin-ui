@@ -23,6 +23,7 @@ export const FeesFilters = () => {
             label="Référence étudiante"
             source="student_ref"
             sx={{marginBottom: 2}}
+            fullWidth
           />
           <SelectInputFilter
             data-testid="filter-fees-status"
