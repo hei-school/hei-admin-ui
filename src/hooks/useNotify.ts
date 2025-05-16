@@ -4,7 +4,7 @@ import {
   useNotify as useRaNotify,
 } from "react-admin";
 
-type UseNotifyOptions = NotificationOptions & {
+export type UseNotifyOptions = NotificationOptions & {
   type?: NotificationType | undefined;
 };
 

@@ -53,7 +53,6 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   const {role, success: isSuccess = true} = options;
   const defaultUserConnected = getUserConnected(role);
   const user = options.user || defaultUserConnected.user;
-  let attemptConnection = false;
 
   const whoami: Whoami = {
     id: user.id,
@@ -61,46 +60,15 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     role,
   };
 
-  cy.intercept("GET", `**/${role.toLowerCase()}s/${user.id}`, user).as(
-    "getProfile"
-  );
-  cy.intercept("**/health/db", "OK").as("getHealthDb");
-  cy.intercept("POST", "https://cognito-idp.eu-west-3.amazonaws.com").as(
-    "postCognito"
-  );
-  cy.intercept("**/whoami", (req) => {
-    if (attemptConnection) {
-      return req.reply({...req, body: whoami, statusCode: 200});
-    }
-    return req.reply({...req, statusCode: 403});
-  }).as("getWhoami");
-
-  cy.visit("/login");
-
-  // have to click 'cause of MUI input style
-  cy.get("#username")
-    .clear()
-    .type(options.username || defaultUserConnected.username);
-  cy.get("#password")
-    .clear()
-    .type(options.password || defaultUserConnected.password);
-  cy.get("button")
-    .contains("Connexion", {timeout: 10000})
-    .click()
-    .then(() => {
-      attemptConnection = true;
-    });
-
-  cy.wait("@postCognito");
-
-  if (isSuccess) {
-    cy.wait("@getWhoami");
-    cy.wait("@getProfile");
-  }
+  const casdoorSignin = {
+    code: 200,
+    status: "ok",
+    data: "dummy",
+  };
 
   cy.intercept(
     {
-      url: /.*awswaf.*telemetry.*/, // Match any URL containing 'awswaf' and 'telemetry'
+      url: /.*awswaf.*telemetry.*/,
       method: "POST",
     },
     {
@@ -112,4 +80,28 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
       },
     }
   ).as("awsWafTelemetry");
+
+  cy.intercept("GET", `**/${role.toLowerCase()}s/${user.id}`, user).as(
+    "getProfile"
+  );
+  cy.intercept("**/health/db", "OK").as("getHealthDb");
+
+  cy.intercept("GET", "**/authentication/login-url").as("getRedirectionURL");
+
+  cy.visit("/login");
+
+  cy.get('[data-testid="casdoor-login-btn"]', {timeout: 15000}).click();
+
+  cy.wait("@getRedirectionURL");
+
+  if (!isSuccess) {
+    cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
+  } else if (isSuccess) {
+    cy.intercept("**/authentication/signin**", casdoorSignin).as(
+      "getCasdoorToken"
+    );
+    cy.intercept("**/whoami", whoami).as("getWhoami");
+    cy.visit(`/auth/callback?code=${role}&state=HEI Admin`, {timeout: 12000});
+    cy.wait("@getProfile", {timeout: 24000});
+  }
 });

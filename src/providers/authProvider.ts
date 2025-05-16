@@ -8,15 +8,15 @@ import {
 } from "@aws-amplify/auth";
 import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
 import {Amplify} from "aws-amplify";
-import {AxiosResponse} from "axios";
+import axios, {AxiosResponse} from "axios";
 import {getPermissions} from "../security/permissions";
 import {awsConfig} from "./aws-config";
 
 Amplify.configure(awsConfig);
 
-const idItem = "ha_id";
-const roleItem = "ha_role";
-const bearerItem = "ha_bearer";
+const ID_ITEM = "ha_id";
+const ROLE_ITEM = "ha_role";
+const BEARER_ITEM = "ha_bearer";
 const paramIsTemporaryPassword = "t";
 const paramUsername = "u";
 const paramTemporaryPassword = "p";
@@ -27,8 +27,8 @@ let refreshPromise: Promise<void> | null = null;
 
 const whoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
-  const session = (await fetchAuthSession()) || {};
-  conf.accessToken = session.tokens?.idToken?.toString();
+  const token = sessionStorage.getItem(BEARER_ITEM) || "";
+  conf.accessToken = token;
   const securityApi = new SecurityApi(conf);
   return securityApi
     .whoami()
@@ -36,22 +36,22 @@ const whoami = async (): Promise<Whoami> => {
 };
 
 const cacheWhoami = (whoami: Whoami): void => {
-  sessionStorage.setItem(idItem, whoami.id as string);
-  sessionStorage.setItem(roleItem, whoami.role as string);
-  sessionStorage.setItem(bearerItem, whoami.bearer as string);
+  sessionStorage.setItem(ID_ITEM, whoami.id as string);
+  sessionStorage.setItem(ROLE_ITEM, whoami.role as string);
+  sessionStorage.setItem(BEARER_ITEM, whoami.bearer as string);
 };
 
 const getCachedWhoami = () => ({
-  id: sessionStorage.getItem(idItem),
-  role: sessionStorage.getItem(roleItem),
-  bearer: sessionStorage.getItem(bearerItem),
+  id: sessionStorage.getItem(ID_ITEM),
+  role: sessionStorage.getItem(ROLE_ITEM),
+  bearer: sessionStorage.getItem(BEARER_ITEM),
 });
 
 const getCachedRole = () => getCachedWhoami().role;
 
 const getCachedAuthConf = (): Configuration => {
   const conf = new Configuration();
-  conf.accessToken = sessionStorage.getItem(bearerItem) as string;
+  conf.accessToken = sessionStorage.getItem(BEARER_ITEM) as string;
   return conf;
 };
 
@@ -83,6 +83,22 @@ const attemptReconnectUser = async (): Promise<void> => {
   });
 
   return refreshPromise;
+};
+
+const getToken = async (serverURL: string, code: string, state: string) => {
+  try {
+    const response = await axios.post(
+      `${serverURL}/authentication/signin`,
+      null,
+      {
+        params: {code, state},
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Error fetching token:", error);
+    throw error;
+  }
 };
 
 const authProvider = {
@@ -123,7 +139,7 @@ const authProvider = {
     try {
       await whoami();
       if (
-        !sessionStorage.getItem(bearerItem) ||
+        !sessionStorage.getItem(BEARER_ITEM) ||
         !localStorage.getItem(paramLocalAmplifyBoolean)
       ) {
         const newWhoami = await whoami();
@@ -210,6 +226,8 @@ const authProvider = {
   getCachedWhoami: getCachedWhoami,
   getCachedRole: getCachedRole,
   getCachedAuthConf: getCachedAuthConf,
+  cacheWhoami: cacheWhoami,
+  getToken: getToken,
 };
 
 export default authProvider;
