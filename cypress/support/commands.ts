@@ -86,7 +86,10 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
   );
   cy.intercept("**/health/db", "OK").as("getHealthDb");
 
-  cy.intercept("GET", "**/authentication/login-url").as("getRedirectionURL");
+  cy.intercept(
+    "GET",
+    `**/authentication/login-url?redirect_url=${window.location.origin}/auth/callback`
+  ).as("getRedirectionURL");
 
   cy.visit("/login");
 
