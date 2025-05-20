@@ -88,7 +88,7 @@ const attemptReconnectUser = async (): Promise<void> => {
 const getToken = async (serverURL: string, code: string, state: string) => {
   try {
     const response = await axios.post(
-      `${serverURL}/authentication/signin`,
+      `${serverURL}authentication/signin`,
       null,
       {
         params: {code, state},

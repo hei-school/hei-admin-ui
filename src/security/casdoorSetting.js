@@ -19,7 +19,9 @@ export const goToExternalURL = (link) => {
 
 export const getRedirectUrl = async () => {
   try {
-    const response = await axios.get(`${SERVER_URL}/authentication/login-url`);
+    const response = await axios.get(
+      `${SERVER_URL}authentication/login-url?redirect_url=${window.location.origin}${SDK_CONFIG.redirectPath}`
+    );
     return response.data;
   } catch (error) {
     throw error;
