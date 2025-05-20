@@ -88,7 +88,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
 
   cy.intercept(
     "GET",
-    `**/authentication/login-url?redirect_url=${window.location.origin}/auth/callback`
+    `**/authentication/login-url?redirect_uri=${window.location.origin}/auth/callback`
   ).as("getRedirectionURL");
 
   cy.visit("/login");
