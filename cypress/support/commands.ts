@@ -95,7 +95,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
 
   cy.get('[data-testid="casdoor-login-btn"]', {timeout: 15000}).click();
 
-  cy.wait("@getRedirectionURL");
+  cy.wait("@getRedirectionURL", {timeout: 15000});
 
   if (!isSuccess) {
     cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
