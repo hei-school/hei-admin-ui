@@ -26,6 +26,7 @@
     "@react-admin/ra-rbac": "^4.3.0",
     "aws-amplify": "^6.0.28",
     "axios": "^1.6.8",
+    "casdoor-js-sdk": "^0.14.0",
     "cypress-multi-reporters": "^2.0.4",
     "cypress-vite": "^1.5.0",
     "date-fns": "^4.1.0",

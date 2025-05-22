@@ -1,3 +1,4 @@
+import {useNotify} from "@/hooks";
 import {
   Box,
   Button,
@@ -8,10 +9,11 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {useState} from "react";
-import {Login} from "react-admin";
+import {useEffect, useState} from "react";
+import {useNavigate} from "react-router-dom";
 import {mainTheme} from "../haTheme";
 import authProvider from "../providers/authProvider";
+import CasdoorLoginCard from "./CasdoorLoginCard";
 import CompletePasswordPage from "./CompletePasswordPage";
 import ConfirmForgotPassword from "./ConfirmForgotPassword";
 import ForgotPassword from "./ForgotPassword";
@@ -19,6 +21,7 @@ import ForgotPassword from "./ForgotPassword";
 const aCard = (title, subtitle, description1, description2, course) => {
   const syllabus =
     "https://drive.google.com/file/d/12Lc4o3jfQOFHIzazPToO2hnGZc8epU3I/view";
+
   return (
     <Card style={{backgroundColor: "#ffffff", opacity: 0.9}}>
       <CardContent>
@@ -71,8 +74,9 @@ const HaLoginPage = () => {
   };
   const ResponsiveLogin = () => {
     return (
-      <Grid container xs={12}>
+      <Grid container item xs={12}>
         <Grid
+          item
           xs={displayFull ? 4 : 12}
           sx={{
             width: "inherit",
@@ -81,12 +85,10 @@ const HaLoginPage = () => {
           }}
           position={"absolute"}
         >
-          <Login
-            backgroundImage={null}
-            style={{backgroundImage: "inherit", position: "relative"}}
-          />
+          <CasdoorLoginCard />
         </Grid>
         <Grid
+          item
           xs={displayFull ? 4 : 12}
           sx={{
             width: "inherit",
@@ -102,9 +104,7 @@ const HaLoginPage = () => {
             sx={{
               color: "white",
             }}
-          >
-            Mot de passe oublié?
-          </Button>
+          ></Button>
         </Grid>
       </Grid>
     );
@@ -118,6 +118,22 @@ const HaLoginPage = () => {
     ) : (
       <ResponsiveLogin />
     );
+
+  const notify = useNotify();
+  const navigate = useNavigate();
+  useEffect(() => {
+    try {
+      authProvider.checkAuth().catch((e) => {
+        notify("Authentication check failed", {type: "error"});
+      });
+      const id = authProvider.getCachedWhoami().id;
+      if (id) {
+        navigate("/profile");
+      }
+    } catch (error) {
+      notify("Authentication check failed", {type: "error"});
+    }
+  }, [navigate]);
 
   return (
     <div
