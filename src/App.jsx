@@ -17,6 +17,7 @@ import MonitorStudentList from "@/operations/monitors/component/MonitorStudentLi
 import payments from "@/operations/payments";
 import profile from "@/operations/profile";
 import promotions from "@/operations/promotions";
+import publicContent from "@/operations/public";
 import staffMembers from "@/operations/staffMembers";
 import students from "@/operations/students";
 import teachers from "@/operations/teachers";
@@ -272,6 +273,7 @@ function App() {
             }
             element={<CasdoorAuthCallback />}
           />
+          <Route path="/calendar" element={<publicContent.calendar />} />
           <Route path="/human-verification" element={<HumanVerification />} />
           <Route path="*" element={<AppBase />} />
         </Routes>
