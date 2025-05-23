@@ -1,3 +1,5 @@
+import {Group} from "@haapi/typescript-client";
+
 const typeTranslations: {[key: string]: string} = {
   COURSE: "Cours",
   INTEGRATION: "Intégration",
@@ -19,12 +21,13 @@ export const transformApiDataToCalendarEvents = (data: any) => {
       const isCourse = event.type === "COURSE";
       const courseCode = isCourse && event.course ? event.course.code : "";
       const translatedType = typeTranslations[event.type] || event.type;
-
+      const groupe = event.groups?.map((group: Group) => group.ref).join(", ");
       return {
         id: event.id,
         title: isCourse
-          ? `${translatedType} (${courseCode}) - ${event.title}`
-          : `${translatedType} - ${event.title}` || "Événement sans titre",
+          ? `[${groupe}] ${translatedType} (${courseCode}) - ${event.title}`
+          : ` ${groupe ? `[${groupe}] ` : ""} ${translatedType} - ${event.title}` ||
+            "Événement sans titre",
         start: event?.begin_datetime ? new Date(event.begin_datetime) : null,
         end: event?.end_datetime ? new Date(event.end_datetime) : null,
         description: event.description || "Pas de description",
