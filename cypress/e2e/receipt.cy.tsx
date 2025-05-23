@@ -60,6 +60,7 @@ describe("Manager receipt", () => {
       (fee) => fee.remaining_amount === fee1Mock.remaining_amount
     );
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
     );

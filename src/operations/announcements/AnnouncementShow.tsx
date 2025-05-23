@@ -22,7 +22,7 @@ import {
   useUpdate,
 } from "react-admin";
 import {useParams} from "react-router-dom";
-import {getChipColor} from "./AnnouncementList";
+import {getChipColor} from "./components/AnnoucementCard";
 import {EmailField} from "./components/EmailField";
 import {ANNOUNCEMENT_SCOPE} from "./utils/constants/announcementsScopes";
 import {getBgImg} from "./utils/getBgImg";

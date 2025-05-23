@@ -7,6 +7,7 @@ import {
 describe("Profile picture test", () => {
   it("should fallback to default source when profile_pic is falsy", () => {
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.getByTestid("profile-pic")
       .should("have.attr", "src")
       .and("include", "blank-profile-photo");
@@ -14,6 +15,7 @@ describe("Profile picture test", () => {
 
   it("should have the right source when profile_pic is ok", () => {
     cy.login({role: "MANAGER", user: withPicManager()});
+    cy.visit("/profile");
     cy.getByTestid("profile-pic")
       .should("have.attr", "src")
       .and("include", withPicManager().profile_picture);
@@ -21,6 +23,7 @@ describe("Profile picture test", () => {
 
   it("should fallback to default source when profile_pic cannot be fetched", () => {
     cy.login({role: "MANAGER", user: badPicManager()});
+    cy.visit("/profile");
     cy.getByTestid("profile-pic")
       .should("have.attr", "src")
       .and("include", "blank-profile-photo");
@@ -28,6 +31,7 @@ describe("Profile picture test", () => {
 
   it("can edit the profile picture", () => {
     cy.login({role: "MANAGER", user: withPicManager()});
+    cy.visit("/profile");
     cy.getByTestid("upload-picture-button").click();
     cy.getByTestid("dropzone").selectFile(
       "cypress/fixtures/profile_picture/profile-picture.png",

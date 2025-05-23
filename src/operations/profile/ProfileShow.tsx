@@ -100,7 +100,7 @@ const ProfileShow = () => {
             {showComments && (
               <StudentComments
                 title="Liste des commentaires"
-                studentId={id}
+                studentId={id!}
                 open={showComments}
                 onClose={toggleShowComments}
               />

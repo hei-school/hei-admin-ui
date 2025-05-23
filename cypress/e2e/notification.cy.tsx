@@ -17,6 +17,7 @@ let createdStudent = {
 describe("Notifications on error when create, e.g: StudentCreate", () => {
   it("notifies when there is error", () => {
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );

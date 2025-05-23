@@ -36,6 +36,7 @@ describe("Student Ceritificate", () => {
 
   it("manager can get student's certificate", () => {
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );

@@ -30,6 +30,7 @@ describe("Manager.Work.Docs.Download", () => {
     );
 
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.get("body").click(200, 0);

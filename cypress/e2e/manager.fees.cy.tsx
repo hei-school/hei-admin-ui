@@ -71,6 +71,7 @@ describe("Manager.Fee", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
     cy.login({role: "MANAGER"});
+    cy.visit("/profile");
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.wait("@getStudents");

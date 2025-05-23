@@ -35,12 +35,14 @@ export const SingleMenuBase: FC<{
         ...style,
         color,
         "pl": menu ? 0 : 2,
-        "mb": menu ? 3 : 1.5,
         "width": to ? "100%" : "fit-content",
         "& .MuiSvgIcon-root": {
           fontSize: menu ? "1.6rem !important" : "1.5rem !important",
         },
         ...sx,
+        "paddingBlock": "1vh ",
+        "display": "flex",
+        "alignItems": "center",
       }}
       component="div"
       onClick={handlerClick}
@@ -63,6 +65,7 @@ export const SingleMenu: FC<{
   to: string;
   menu?: boolean;
   target?: React.HTMLAttributeAnchorTarget;
+  onClick?: () => void;
 }> = ({label, icon, to, menu, target, ...rest}) =>
   to ? (
     <Link to={to} target={target} sx={{color: "inherit"}}>
