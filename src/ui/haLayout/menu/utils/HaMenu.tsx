@@ -108,7 +108,12 @@ export function HaMenuBase({sx = {}}) {
             <Separator />
           </>
         )}
-        <SingleMenu label="Dashboard" to="/" icon={<Dashboard />} />
+        <SingleMenu
+          label="Dashboard"
+          to="/"
+          exact={true}
+          icon={<Dashboard />}
+        />
         <SingleMenu label="Profil" to="/profile" icon={<AccountCircle />} />
         <HaMenuContent />
       </Box>
@@ -274,7 +279,7 @@ export function HaMenuBase({sx = {}}) {
                 <MailQuestion size={24} />
               </Box>
               <a
-                href="mailto:contact@hei.school"
+                href="mailto:contact@mail.hei.school"
                 target="_blank"
                 style={{
                   color: "white",
@@ -284,7 +289,7 @@ export function HaMenuBase({sx = {}}) {
                   letterSpacing: "0.5px",
                 }}
               >
-                contact@hei.school
+                contact@mail.hei.school
               </a>
             </Box>
           </Box>
