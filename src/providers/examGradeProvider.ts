@@ -20,8 +20,10 @@ const examGradeProvider: HaDataProviderType = {
       .updateParticipantsGradeForExam(meta?.examId, payload)
       .then(({data}) => ({data}));
   },
-  getOne() {
-    throw new Error("Not implemented");
+  async getOne(id: string, meta: Record<string, any>) {
+    return teachingApi()
+      .getParticipantGrade(id, meta?.studentId)
+      .then(({data}) => ({data}));
   },
   delete() {
     throw new Error("Not implemented");

@@ -1,7 +1,8 @@
 import {ImportContactsOutlined as BookIcon} from "@mui/icons-material";
-import {Box, LinearProgress} from "@mui/material";
+import {Box, LinearProgress, Typography} from "@mui/material";
 import {List, useListContext} from "react-admin";
 
+import EmptyBox from "@/assets/empty-box.webp";
 import {ExamCard, ExamFilter} from "@/operations/exams/components";
 import {useRole} from "@/security/hooks";
 import {ResponsiveGrid} from "@/ui/components";
@@ -36,6 +37,9 @@ export const ExamList = () => {
         icon={<BookIcon />}
         actions={(isManager() || isAdmin() || isTeacher()) && <ExamActions />}
       />
+      <Typography marginInline={5}>
+        Veuillez trouver ci-joint la liste des différents examens.
+      </Typography>
       <ExamsGridContent />
     </List>
   );
@@ -47,7 +51,7 @@ const ExamLoaderContent = () => {
 };
 
 const ExamActions = () => (
-  <Box>
+  <Box data-testId="exam-actions-btn">
     <CreateButton resource="exams" />
     <ExamFilter />
   </Box>
@@ -56,10 +60,26 @@ const ExamActions = () => (
 const ExamsGridContent = () => {
   const {data: exams = [], isLoading} = useListContext();
 
+  if (!isLoading && exams.length === 0) {
+    return (
+      <Box m={5} textAlign="center">
+        <img src={EmptyBox} alt="No item found" />
+        <Typography variant="h6" color="textSecondary">
+          Aucun examen trouvé.
+        </Typography>
+      </Box>
+    );
+  }
+
   return (
     <ResponsiveGrid gap="1.5rem">
       {exams.map((exam: ExamInfo) => (
-        <ExamCard key={exam.id} exam={exam} isLoading={isLoading} />
+        <ExamCard
+          data-testId="exam-card"
+          key={exam.id}
+          exam={exam}
+          isLoading={isLoading}
+        />
       ))}
     </ResponsiveGrid>
   );

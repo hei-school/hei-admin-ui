@@ -1,7 +1,7 @@
-import {ExamGradeList} from "./ExamGradeList";
+import {ExamParticipantList} from "./ExamParticipantList";
 
 const grades = {
-  examGradeList: ExamGradeList,
+  examParticipantList: ExamParticipantList,
 };
 
 export default grades;
