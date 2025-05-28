@@ -43,6 +43,7 @@ export function HaList({
   title,
   actions,
   resource,
+  wrapperSx = {},
   children,
   icon,
   header = <></>,
@@ -53,7 +54,7 @@ export function HaList({
   filterIndicator = true,
 }) {
   return (
-    <ListWrapper>
+    <ListWrapper sx={wrapperSx}>
       <List
         actions={false}
         pagination={<PrevNextPagination />}

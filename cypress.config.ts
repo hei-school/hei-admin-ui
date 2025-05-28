@@ -6,7 +6,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const REQUEST_TIMEOUT = 10000;
+const REQUEST_TIMEOUT = 30000;
 
 export default defineConfig({
   viewportHeight: 1080,
