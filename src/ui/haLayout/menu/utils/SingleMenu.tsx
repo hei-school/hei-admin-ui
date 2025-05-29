@@ -16,14 +16,17 @@ export const SingleMenuBase: FC<{
   icon: ReactNode;
   to: string;
   menu?: boolean;
+  exact?: boolean;
   sx?: any;
-}> = ({label, icon, to, menu = true, sx = {}, ...rest}) => {
+}> = ({label, icon, to, exact, menu = true, sx = {}, ...rest}) => {
   const location = useLocation();
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const [open, setOpen] = useSidebarState();
   const color =
-    to && location.pathname.startsWith(to) ? PALETTE_COLORS.yellow : "inherit";
+    to && (exact ? location.pathname === to : location.pathname.startsWith(to))
+      ? PALETTE_COLORS.yellow
+      : "inherit";
 
   const handlerClick = () => {
     if (to && isSmall) setOpen(!open);
@@ -64,13 +67,14 @@ export const SingleMenu: FC<{
   icon: ReactNode;
   to: string;
   menu?: boolean;
+  exact?: boolean;
   target?: React.HTMLAttributeAnchorTarget;
   onClick?: () => void;
-}> = ({label, icon, to, menu, target, ...rest}) =>
+}> = ({label, icon, to, menu, exact, target, ...rest}) =>
   to ? (
     <Link to={to} target={target} sx={{color: "inherit"}}>
-      <SingleMenuBase {...{label, icon, to, menu, ...rest}} />
+      <SingleMenuBase {...{label, icon, to, exact, menu, ...rest}} />
     </Link>
   ) : (
-    <SingleMenuBase {...{label, icon, to, menu, ...rest}} />
+    <SingleMenuBase {...{label, icon, to, exact, menu, ...rest}} />
   );

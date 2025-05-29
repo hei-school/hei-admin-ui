@@ -4,6 +4,7 @@ import {
   Inventory as DocsIcon,
   CalendarMonth as EventIcon,
   AttachMoney as FeesIcon,
+  Logout as LogoutIcon,
   Work as OtherDocsIcon,
   CollectionsBookmark as TranscriptIcon,
   LibraryAddCheck as WorkStudyDocsIcon,
@@ -14,9 +15,13 @@ import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function StudentMenu() {
   const whoamiId = authProvider.getCachedWhoami().id;
+  const logout = async () => {
+    await authProvider.logout();
+    window.location.reload();
+  };
 
   return (
-    <Box>
+    <Box sx={{position: "relative"}} height="calc(100% - 100px)">
       <SingleMenu
         to={
           whoamiId ? `/students/${authProvider.getCachedWhoami().id}/fees` : "/"
@@ -55,6 +60,22 @@ function StudentMenu() {
         label="Présences"
         icon={<EventIcon />}
       />
+      <Box
+        sx={{
+          position: "absolute",
+          bottom: 0,
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: 1,
+        }}
+      >
+        <SingleMenu
+          label="Se déconnecter"
+          icon={<LogoutIcon />}
+          onClick={() => logout()}
+        />
+      </Box>
     </Box>
   );
 }

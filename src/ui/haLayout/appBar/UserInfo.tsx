@@ -20,7 +20,6 @@ import {StudentComments} from "@/operations/comments";
 import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
-import {RightDrawer} from "@/ui/components/RightDrawer";
 import {
   Admin,
   Manager,
@@ -131,10 +130,8 @@ function UserInfo() {
   const imgRef = useRef<HTMLImageElement | null>(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
-  const {isStudent, isMonitor} = useRole();
   const id = authProvider.getCachedWhoami().id;
   const dataProvider = useDataProvider();
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
 
   useEffect(() => {
     const doEffect = async () => {
@@ -179,11 +176,6 @@ function UserInfo() {
           alt="profile"
           data-testid="appbar-profile-pic"
           ref={imgRef}
-          onClick={() => {
-            if (isStudent() || isMonitor()) {
-              setIsDrawerOpen(true);
-            }
-          }}
           src={profilePictureSrc}
           onError={() => {
             if (imgRef.current) {
@@ -196,62 +188,10 @@ function UserInfo() {
             width: 40,
             border: `2px solid ${PALETTE_COLORS.primary}`,
             borderRadius: "50%",
-            cursor: isStudent() || isMonitor() ? "pointer" : "default",
             transition: "box-shadow 0.2s",
-            boxShadow:
-              isStudent() || isMonitor()
-                ? "0 0 0 2px rgba(255, 215, 0, 0.5)"
-                : undefined,
-          }}
-          tabIndex={isStudent() || isMonitor() ? 0 : -1}
-          role="button"
-          aria-label="Open profile drawer"
-          onKeyDown={(e) => {
-            if (
-              (isStudent() || isMonitor()) &&
-              (e.key === "Enter" || e.key === " ")
-            ) {
-              setIsDrawerOpen(true);
-            }
           }}
         />
-        {(isStudent() || isMonitor()) && (
-          <Box
-            sx={{
-              "pointerEvents": "none",
-              "position": "absolute",
-              "top": -6,
-              "left": -6,
-              "width": 52,
-              "height": 52,
-              "borderRadius": "50%",
-              "border": `2px solid ${PALETTE_COLORS.yellow}`,
-              "boxSizing": "border-box",
-              "animation": "hei-pulse 1.2s infinite cubic-bezier(0.4,0,0.2,1)",
-              "zIndex": 1,
-              "@keyframes hei-pulse": {
-                "0%": {
-                  boxShadow: `0 0 0 0 ${PALETTE_COLORS.yellow}80`,
-                },
-                "70%": {
-                  boxShadow: `0 0 0 8px ${PALETTE_COLORS.yellow}00`,
-                },
-                "100%": {
-                  boxShadow: `0 0 0 0 ${PALETTE_COLORS.yellow}00`,
-                },
-              },
-            }}
-          />
-        )}
       </Box>
-      <RightDrawer
-        open={isDrawerOpen}
-        onClose={() => setIsDrawerOpen(false)}
-        imgUrl={profilePictureSrc}
-        userName={first_name}
-        userRef={user?.ref}
-        userRole={role!}
-      />
     </>
   );
 

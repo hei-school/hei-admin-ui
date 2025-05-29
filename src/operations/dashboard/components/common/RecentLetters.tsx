@@ -51,7 +51,7 @@ export const RecentLetters: FC<{animate: boolean}> = ({animate}) => {
           </Typography>
         </Box>
         <Chip
-          label={`${letterStats?.pending!} Unread`}
+          label={`${letterStats?.pending!} en attente`}
           color="info"
           size="small"
           sx={{

@@ -36,6 +36,7 @@ import {
 } from "@mui/icons-material";
 import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
 import {AxiosError} from "axios";
+
 import {FC, useMemo} from "react";
 import {
   FormDataConsumer,
@@ -50,6 +51,7 @@ import {
   useRefresh,
 } from "react-admin";
 import {FeesDialog} from "./FeesDialog";
+import {OrangeMoneyHeader} from "./OrangeMoneyHeader";
 
 interface CreateProps {
   onSuccess: () => void;
@@ -312,7 +314,11 @@ export const StudentFeeList = () => {
 
   return (
     <Box>
+      <OrangeMoneyHeader />
       <HaList
+        wrapperSx={{
+          marginTop: 2,
+        }}
         icon={<WarningOutlined />}
         title={`Frais de ${studentRef}`}
         resource={"fees"}
