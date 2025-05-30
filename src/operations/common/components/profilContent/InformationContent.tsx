@@ -13,14 +13,14 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {FC} from "react";
+import {FC, ReactNode} from "react";
 import {useGetOne, useRecordContext} from "react-admin";
 import {Contact} from "./ContactDetails";
 import {PersonalDetails} from "./PersonalDetails";
 import {PersonalInfos} from "./PersonalInfos";
 
 interface TabPanelProps {
-  children?: React.ReactNode;
+  children?: ReactNode;
   index: number;
   value: number;
 }
@@ -38,16 +38,16 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
-export const Informations: FC<{
+export const Information: FC<{
   isStudentProfile: boolean;
   isTeacherProfile: boolean;
   isMonitorProfile: boolean;
-  isStaffProfil: boolean;
+  isStaffProfile: boolean;
 }> = ({
   isStudentProfile,
   isTeacherProfile,
   isMonitorProfile,
-  isStaffProfil,
+  isStaffProfile,
 }) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const profile = useRecordContext();
@@ -57,7 +57,7 @@ export const Informations: FC<{
     !isMonitorProfile &&
     !isStudentProfile &&
     !isTeacherProfile;
-  const isManagerProfil =
+  const isManagerProfile =
     role.isManager() &&
     !isMonitorProfile &&
     !isStudentProfile &&
@@ -77,7 +77,7 @@ export const Informations: FC<{
     !(role.isManager() && isTeacherProfile) &&
     !(role.isTeacher() && isStudentProfile) &&
     !isAdminProfil &&
-    !isManagerProfil;
+    !isManagerProfile;
 
   const allTabs = [
     {
@@ -105,7 +105,7 @@ export const Informations: FC<{
           </Box>
           <PersonalInfos
             isStudentProfile={isStudentProfile}
-            isStaffMember={isStaffProfil}
+            isStaffMember={isStaffProfile}
           />
         </Box>
       ),
@@ -132,7 +132,7 @@ export const Informations: FC<{
     {
       id: "user-letters",
       label: "Boîte aux lettres",
-      show: adminView || (role.isAdmin() && isStaffProfil),
+      show: adminView || (role.isAdmin() && isStaffProfile),
       content: <UserLettersList />,
     },
     {
@@ -157,7 +157,7 @@ export const Informations: FC<{
         !isMonitorProfile &&
         !isStudentProfile &&
         !isTeacherProfile &&
-        !isStaffProfil &&
+        !isStaffProfile &&
         (role.isAdmin() || role.isManager()),
       content: <LettersList stats={letterStats} />,
     },
