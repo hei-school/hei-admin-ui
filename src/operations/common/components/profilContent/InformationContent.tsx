@@ -1,6 +1,7 @@
 import {useTabManager} from "@/hooks/useTabManager";
 import {CommentList} from "@/operations/comments/CommentList";
 import FeeList from "@/operations/fees/FeeList";
+import {StudentGrade} from "@/operations/grades/StudentGrade";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
 import {useRole} from "@/security/hooks";
@@ -24,6 +25,7 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+
 const TabPanel = (props: TabPanelProps) => {
   const {children, value, index, ...other} = props;
   return (
@@ -160,6 +162,12 @@ export const Information: FC<{
         !isStaffProfile &&
         (role.isAdmin() || role.isManager()),
       content: <LettersList stats={letterStats} />,
+    },
+    {
+      id: "student-grades",
+      label: "Notes",
+      show: isStudentProfile,
+      content: <StudentGrade />,
     },
   ];
 
