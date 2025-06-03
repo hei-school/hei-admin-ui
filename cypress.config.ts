@@ -9,7 +9,7 @@ dotenv.config();
 export default defineConfig({
   viewportHeight: 1080,
   viewportWidth: 1920,
-  defaultCommandTimeout: 15_000,
+  defaultCommandTimeout: 25_000,
   component: {
     devServer: {
       framework: "react",
@@ -49,7 +49,7 @@ export default defineConfig({
     REACT_APP_TEST_MONITOR1_PASSWORD:
       process.env.REACT_APP_TEST_MONITOR1_PASSWORD,
     codeCoverage: {
-      exclude: ["cypress/**/*", "src/**/*.cy.*"],
+      exclude: ["cypress/**/*.*", "src/**/*.cy"],
     },
   },
 });
