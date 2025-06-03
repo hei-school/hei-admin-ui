@@ -111,7 +111,7 @@ describe("Manager.Payment", () => {
       "have.length",
       1
     );
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
+    cy.get('td input[type="checkbox"]').should("not.exist");
   });
 
   it("can add mobile money payment to a fee", () => {

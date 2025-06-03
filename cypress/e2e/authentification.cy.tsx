@@ -7,7 +7,7 @@ describe("Authentification", () => {
       password: "bad password",
       success: false,
     });
-    cy.contains("CONNEXION AVEC CASDOOR", {timeout: 15000});
+    cy.contains("CONNEXION AVEC CASDOOR");
   });
 
   it("should lands on profile page if succeeds", () => {

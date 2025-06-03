@@ -8,7 +8,7 @@ describe("Teacher", () => {
 
   it("lands on profile page if succeeds", () => {
     cy.get("#ha-menu")
-      .should("not.contain", "Enseignants", {timeout: 50})
+      .should("not.contain", "Enseignants")
       .and("contain", "Étudiants");
     cy.get("#main-content")
       .should("contain", teacher1Mock.ref)
@@ -69,9 +69,9 @@ describe("Teacher", () => {
     cy.window().scrollTo("bottom");
     cy.contains("Page :1");
     cy.contains(`Taille :${studentsMock.length}`);
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
-    cy.get("td a").should("not.contain", "ÉDITER", {timeout: 50});
-    cy.get(".RaList-main>").should("not.contain", "CRÉER", {timeout: 50});
+    cy.get('td input[type="checkbox"]').should("not.exist");
+    cy.get("td a").should("not.contain", "ÉDITER");
+    cy.get(".RaList-main>").should("not.contain", "CRÉER");
 
     cy.get("#next-button").click();
     cy.wait("@getStudentsPage2");

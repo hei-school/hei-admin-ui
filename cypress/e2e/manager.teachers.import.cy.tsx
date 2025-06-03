@@ -29,7 +29,7 @@ describe("Manager create multiple teachers", () => {
       [student1Mock]
     ).as("getTeachersByName2");
 
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami");
     cy.get('[href="/teachers"]').click();
   });
 

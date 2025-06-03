@@ -6,11 +6,10 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-const REQUEST_TIMEOUT = 30000;
-
 export default defineConfig({
   viewportHeight: 1080,
   viewportWidth: 1920,
+  defaultCommandTimeout: 15_000,
   component: {
     devServer: {
       framework: "react",
@@ -39,7 +38,6 @@ export default defineConfig({
       // implement node event listeners here
     },
     baseUrl: "http://localhost:5173/",
-    requestTimeout: REQUEST_TIMEOUT,
   },
   env: {
     REACT_APP_TEST_STUDENT1_PASSWORD:

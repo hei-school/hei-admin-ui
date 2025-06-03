@@ -75,7 +75,7 @@ describe("Manager", () => {
     cy.get('[href="/students"]').click();
     cy.contains("Page :1");
     cy.contains(`Taille :${studentsMock.length}`);
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
+    cy.get('td input[type="checkbox"]').should("not.exist");
 
     cy.get("#next-button").click();
     cy.contains("Page :2");
@@ -90,7 +90,7 @@ describe("Manager", () => {
     cy.get('[href="/teachers"]').click();
     cy.contains("Page :1");
     cy.contains(`Taille :${studentsMock.length}`);
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
+    cy.get('td input[type="checkbox"]').should("not.exist");
 
     cy.get("#next-button").click();
     cy.contains("Page :2");

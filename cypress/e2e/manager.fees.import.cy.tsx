@@ -59,7 +59,7 @@ describe("Manager import fees for one students", () => {
       feesMock
     ).as("getStudent1Fees2");
 
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami");
     cy.intercept("GET", `/manager/${manager1Mock.id}`, manager1Mock).as(
       "getManager1"
     );

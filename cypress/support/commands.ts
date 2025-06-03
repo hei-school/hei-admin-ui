@@ -93,7 +93,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
 
   cy.visit("/login");
 
-  cy.get('[data-testid="casdoor-login-btn"]', {timeout: 15000}).click();
+  cy.get('[data-testid="casdoor-login-btn"]').click();
 
   if (!isSuccess) {
     cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
@@ -102,7 +102,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
       "getCasdoorToken"
     );
     cy.intercept("**/whoami", whoami).as("getWhoami");
-    cy.visit(`/auth/callback?code=${role}&state=HEI Admin`, {timeout: 12000});
-    cy.wait("@getProfile", {timeout: 24000});
+    cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
+    cy.wait("@getProfile");
   }
 });

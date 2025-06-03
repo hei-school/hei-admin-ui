@@ -78,7 +78,7 @@ describe("Manager.Fee", () => {
     cy.get("body").click(200, 0);
     cy.contains("Page :1");
     cy.contains(`Taille :${feesMock.length > 10 ? 10 : feesMock.length}`);
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
+    cy.get('td input[type="checkbox"]').should("not.exist");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
