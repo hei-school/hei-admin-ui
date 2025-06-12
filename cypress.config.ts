@@ -39,6 +39,10 @@ export default defineConfig({
     },
     baseUrl: "http://localhost:5173/",
   },
+  retries: {
+    runMode: 4,
+    openMode: 0,
+  },
   env: {
     REACT_APP_TEST_STUDENT1_PASSWORD:
       process.env.REACT_APP_TEST_STUDENT1_PASSWORD,

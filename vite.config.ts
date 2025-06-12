@@ -13,9 +13,9 @@ export default defineConfig(({mode}) => {
       nodePolyfills({include: ["crypto", "os", "path", "stream", "vm"]}),
       istanbul({
         requireEnv: false,
-        // Instruments the code for cypress runs
         cypress: true,
         forceBuildInstrument: true,
+        exclude: ["node_modules", "cypress", "src/**/*.cy.*"],
       }),
     ],
     build: {
@@ -25,6 +25,11 @@ export default defineConfig(({mode}) => {
         output: {
           sourcemap: false,
         },
+      },
+    },
+    server: {
+      watch: {
+        ignored: ["**/coverage/**"],
       },
     },
     define: {

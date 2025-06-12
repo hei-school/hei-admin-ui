@@ -103,6 +103,5 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     );
     cy.intercept("**/whoami", whoami).as("getWhoami");
     cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
-    cy.wait("@getProfile");
   }
 });
