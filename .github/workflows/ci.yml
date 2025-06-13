@@ -136,6 +136,7 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
+            -Dsonar.branch.name=${GITHUB_REF##*/}
 
   build:
     timeout-minutes: 30
