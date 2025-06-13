@@ -14,7 +14,7 @@ export default defineConfig(({mode}) => {
       istanbul({
         requireEnv: false,
         cypress: true,
-        forceBuildInstrument: true,
+        include: "src/*",
         exclude: ["node_modules", "cypress", "src/**/*.cy.*"],
       }),
     ],

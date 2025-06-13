@@ -80,7 +80,7 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: "17"
-          distribution: "temurin"
+          distribution: "corretto"
 
       ## Connect to Numer Private Codeartifact Repository ##
       - name: Configure prod AWS credentials
@@ -120,7 +120,7 @@ jobs:
 
       - name: Log test reports
         if: always()
-        run: cat ./dist/cypress-sonarqube-reports.all.xml
+        run: cat ./dist/test-reports.xml
 
       - name: Locate lcov.info
         if: always()

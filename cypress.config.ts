@@ -18,7 +18,8 @@ export default defineConfig({
   },
   reporter: "cypress-multi-reporters",
   reporterOptions: {
-    reporterEnabled: "spec, cypress-sonarqube-reporter",
+    reporterEnabled: "cypress-sonarqube-reporter",
+    mergeFileName: "test-reports.xml",
     cypressSonarqubeReporterReporterOptions: {
       overwrite: true,
     },
@@ -29,8 +30,8 @@ export default defineConfig({
       codeCoverageTask(on, config);
       on("after:run", (results) => {
         mergeReports(results, {
-          outputDir: "dist/test-reports",
-          mergeFilename: "test-reports.xml",
+          mergeOutputDir: "dist",
+          mergeFileName: "test-reports.xml",
         });
       });
       return config;
@@ -38,6 +39,7 @@ export default defineConfig({
       // implement node event listeners here
     },
     baseUrl: "http://localhost:5173/",
+    specPattern: "cypress/e2e/**/*",
   },
   retries: {
     runMode: 4,
@@ -53,7 +55,7 @@ export default defineConfig({
     REACT_APP_TEST_MONITOR1_PASSWORD:
       process.env.REACT_APP_TEST_MONITOR1_PASSWORD,
     codeCoverage: {
-      exclude: ["cypress/**/*.*", "src/**/*.cy"],
+      exclude: ["cypress/**/*.*", "src/**/*.cy.*"],
     },
   },
 });
