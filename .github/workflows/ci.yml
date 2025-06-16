@@ -112,6 +112,10 @@ jobs:
           file: version.yml
           version: version
 
+      ## Ensure dist folder exists ##
+      - name: Ensure dist folder exists
+        run: mkdir -p dist
+
       ## Run Cypress e2e tests ##
       - name: Run e2e tests
         uses: cypress-io/github-action@v6
@@ -126,6 +130,14 @@ jobs:
         if: always()
         run: |
           cat coverage/lcov.info | wc -l
+
+      - name: Debug test report output
+        if: always()
+        run: |
+          echo "=== DIST FOLDER ==="
+          ls -l dist/
+          echo "=== REPORT CONTENT ==="
+          cat dist/test-reports.xml || echo "❌ File not found"
 
       ## SonarQube Cloud Scan ##
       - name: SonarQube Cloud Scan
