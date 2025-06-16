@@ -10,7 +10,6 @@ import {
   transformApiDataToCalendarEvents,
 } from "@/operations/public/utils";
 
-import {Event} from "@haapi/typescript-client";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import axios from "axios";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -24,12 +23,12 @@ const API_URL = process.env.REACT_APP_API_URL;
 export default function CalendarView() {
   const ITEM_PER_PAGE = 100;
   const [view, setView] = useState<View>(Views.WEEK);
-  const [events, setEvents] = useState<Event[]>([]);
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const fetchEvents = async () => {
     try {
-      const {data} = await axios.get<Event[]>(
+      const {data} = await axios.get(
         `${API_URL}/events?page=1&page_size=${ITEM_PER_PAGE}`
       );
       setEvents(data);
