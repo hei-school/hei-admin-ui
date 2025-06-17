@@ -67,5 +67,52 @@ describe("Fee Provider", () => {
         });
       });
     });
+
+    context("when getting fees without a specific student ID", () => {
+      const page = 1;
+      const perPage = 10;
+      const filter = {
+        transaction_status: "SUCCESS",
+        type: "TUITION",
+        status: "UNPAID",
+        monthFrom: "2022-01",
+        monthTo: "2022-12",
+        isMpbs: true,
+        student_ref: "STD123",
+      };
+
+      const buildQueryString = (params: Record<string, unknown>) =>
+        Object.entries(params)
+          .map(([key, value]) => `${key}=${value}`)
+          .join("&");
+
+      const query = buildQueryString({
+        transaction_status: filter.transaction_status,
+        type: filter.type,
+        status: filter.status,
+        month_from: filter.monthFrom,
+        month_to: filter.monthTo,
+        page,
+        page_size: perPage,
+        is_mpbs: filter.isMpbs,
+        student_ref: filter.student_ref,
+      });
+
+      it("should get fees correctly with various filters", () => {
+        cy.intercept("GET", `/fees?${query}`, {
+          data: {data: feesMock},
+        }).as("getFees");
+        feeProvider.getList(page, perPage, filter).then((result) => {
+          cy.wait("@getFees");
+          expect(result.data).to.have.length(feesMock.length);
+          result.data.forEach((fee, index) => {
+            expect(fee.id).to.equal(
+              toRaId(feesMock[index].student_id!, feesMock[index].id!)
+            );
+            expect(fee).to.include(feesMock[index]);
+          });
+        });
+      });
+    });
   });
 });
