@@ -5,7 +5,7 @@ import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const raSeparator = "--";
-const toRaId = (studentId: string, feeId: string): string =>
+export const toRaId = (studentId: string, feeId: string): string =>
   studentId + raSeparator + feeId;
 
 export const toApiIds = (raId: string = "") => {
