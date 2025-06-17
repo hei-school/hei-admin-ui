@@ -13,25 +13,33 @@ describe("Fee Provider", () => {
   const raId = toRaId(studentId, feeId);
 
   describe("Utility Functions", () => {
-    it("should convert student and fee IDs to RA ID", () => {
-      const result = toRaId(studentId, feeId);
-      expect(result).to.equal(`${studentId}--${feeId}`);
+    describe("toRaId()", () => {
+      it("should convert student and fee IDs to RA ID", () => {
+        const result = toRaId(studentId, feeId);
+        expect(result).to.equal(`${studentId}--${feeId}`);
+      });
     });
 
-    it("should extract student and fee IDs from RA ID", () => {
-      const result = toApiIds(raId);
-      expect(result.studentId).to.equal(studentId);
-      expect(result.feeId).to.equal(feeId);
+    describe("toApiIds()", () => {
+      it("should extract student and fee IDs from RA ID", () => {
+        const result = toApiIds(raId);
+        expect(result.studentId).to.equal(studentId);
+        expect(result.feeId).to.equal(feeId);
+      });
     });
 
-    it("should extract student ID from RA ID", () => {
-      const result = studentIdFromRaId(raId);
-      expect(result).to.equal(studentId);
+    describe("studentIdFromRaId()", () => {
+      it("should extract student ID from RA ID", () => {
+        const result = studentIdFromRaId(raId);
+        expect(result).to.equal(studentId);
+      });
     });
 
-    it("should extract fee ID from RA ID", () => {
-      const result = feeIdFromRaId(raId);
-      expect(result).to.equal(feeId);
+    describe("feeIdFromRaId()", () => {
+      it("should extract fee ID from RA ID", () => {
+        const result = feeIdFromRaId(raId);
+        expect(result).to.equal(feeId);
+      });
     });
   });
 });
