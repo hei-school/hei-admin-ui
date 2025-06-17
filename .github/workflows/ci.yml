@@ -3,11 +3,15 @@ name: CI
 on:
   push:
     branches:
-      - "*"
+      - ["preprod, prod"]
   pull_request:
     branches:
-      - "*"
+      - "**"
   workflow_dispatch:
+
+concurrency:
+  group: sonar-${{ github.ref }}
+  cancel-in-progress: true
 
 env:
   REACT_APP_TEST_STUDENT1_PASSWORD: ${{ secrets.STUDENT1_PASSWORD }}
@@ -135,9 +139,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           sonar-scanner \
-            -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
-            -Dsonar.branch.name=${GITHUB_REF##*/}
-
+            -Dsonar.projectVersion=${{ steps.read-version.outputs.version }}
   build:
     timeout-minutes: 30
     runs-on: ubuntu-latest

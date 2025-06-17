@@ -30,7 +30,7 @@ export default defineConfig({
       on("after:run", (results) => {
         mergeReports(results, {
           outputDir: "dist/test-reports",
-          mergeFilename: "test-reports.xml",
+          mergeFileName: "cypress-sonarqube-reports.all.xml",
         });
       });
       return config;
