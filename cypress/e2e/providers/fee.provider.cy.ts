@@ -4,6 +4,7 @@ import feeProvider, {
   toApiIds,
   toRaId,
 } from "@/providers/feeProvider";
+import {v4 as uuid} from "uuid";
 import {fee1Mock, feesMock} from "../../fixtures/api_mocks/fees-mocks";
 import {student1Mock} from "../../fixtures/api_mocks/students-mocks";
 
@@ -114,5 +115,60 @@ describe("Fee Provider", () => {
         });
       });
     });
+  });
+
+  describe("getOne()", () => {
+    it("should get a single fee by ID", () => {
+      cy.intercept("GET", `/students/${studentId}/fees/${feeId}`, fee1Mock).as(
+        "getFee"
+      );
+      cy.intercept("GET", `/students/${studentId}/fees/${feeId}`).as("getFee");
+      cy.then(() => {
+        return feeProvider.getOne(raId);
+      }).then((result) => {
+        expect(result.id).to.equal(raId);
+        expect(result.student_id).to.equal(studentId);
+        expect(result.remaining_amount).to.equal(fee1Mock.remaining_amount);
+      });
+      cy.wait("@getFee");
+    });
+  });
+
+  describe("saveOrUpdate()", () => {
+    it("should create a mobile payment (mpbs)", () => {
+      const mpbsId = uuid();
+      const pspId = "reference123";
+      const pspType = "MVOLA";
+      const payload = {
+        fee_id: raId,
+        student_id: studentId,
+        psp_id: pspId,
+        psp_type: pspType,
+        mpbs_id: mpbsId,
+      };
+
+      cy.intercept("PUT", `/students/${studentId}/fees/${feeId}/mpbs`, {
+        statusCode: 200,
+        body: payload,
+      }).as("createMpbs");
+      cy.wrap(feeProvider.saveOrUpdate([payload])).as("savePromise");
+      cy.wait("@createMpbs");
+      cy.get("@savePromise").then((result: unknown) => {
+        const data = result as {
+          fee_id: string;
+          student_id: string;
+          psp_id: string;
+          psp_type: string;
+        }[];
+        expect(data[0].fee_id).to.equal(raId);
+        expect(data[0].student_id).to.equal(studentId);
+        expect(data[0].psp_id).to.equal(pspId);
+        expect(data[0].psp_type).to.equal(pspType);
+      });
+    });
+
+    it("should create fees as a student", () => {});
+
+    it("should create/update fees as a manager", () => {});
   });
 });
