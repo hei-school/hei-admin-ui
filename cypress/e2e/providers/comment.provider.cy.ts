@@ -1,7 +1,11 @@
 import {commentApi} from "@/providers/api";
 import commentProvider from "@/providers/commentProvider";
+import {commentMocks} from "../../fixtures/api_mocks/comment-mocks";
+import {student1Mock} from "../../fixtures/api_mocks/students-mocks";
 
 describe("Comment Provider", () => {
+  const studentId = student1Mock.id;
+
   beforeEach(() => {
     cy.stub(commentApi(), "getStudentComments").resolves({
       data: [{id: "1", student_id: "123", content: "Test comment"}],
@@ -19,7 +23,27 @@ describe("Comment Provider", () => {
     });
   });
 
-  describe("getList()", () => {});
+  describe("getList()", () => {
+    context("when getting comments for a specific student", () => {
+      it("should get comments correctly", () => {
+        const page = 1;
+        const perPage = 10;
+        const filter = {studentId};
+        cy.intercept(
+          "GET",
+          `/students/${studentId}/comments?page=${page}&page_size=${perPage}`,
+          commentMocks
+        ).as("getStudentComments");
+        commentProvider.getList(page, perPage, filter).then((result) => {
+          cy.wait("@getStudentComments");
+          expect(result.data).to.have.length(commentMocks.length);
+          result.data.forEach((comment, index) => {
+            expect(comment).to.deep.equal(commentMocks[index]);
+          });
+        });
+      });
+    });
+  });
 
   describe("saveOrUpdate()", () => {});
 
