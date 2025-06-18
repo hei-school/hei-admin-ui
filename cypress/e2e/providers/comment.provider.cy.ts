@@ -65,7 +65,43 @@ describe("Comment Provider", () => {
     });
   });
 
-  describe("saveOrUpdate()", () => {});
+  describe("saveOrUpdate()", () => {
+    context("when creating a new comment", () => {
+      it("should create the comment successfully", () => {
+        const newComment = {
+          student_id: studentId,
+          observer_id: "observer-1",
+          content: "New test comment",
+          creation_datetime: new Date().toISOString(),
+        };
+
+        cy.intercept(
+          "POST",
+          `/students/${studentId}/observers/${newComment.observer_id}/comments`,
+          {
+            statusCode: 201,
+            body: {...newComment, id: "new-comment-id"},
+          }
+        ).as("createComment");
+
+        commentProvider.saveOrUpdate([newComment]).then((result) => {
+          cy.wait("@createComment");
+          expect(result).to.have.length(1);
+          expect(result[0].id).to.equal("new-comment-id");
+          expect(result[0].student_id).to.equal(studentId);
+          expect(result[0].content).to.equal(newComment.content);
+        });
+      });
+    });
+
+    context("with invalid payload", () => {
+      it("should throw an error when payload is empty", () => {
+        commentProvider.saveOrUpdate([]).catch((error) => {
+          expect(error.message).to.include("Cannot read properties");
+        });
+      });
+    });
+  });
 
   describe("unimplemented methods", () => {
     it("should throw error for getOne", () => {
