@@ -21,6 +21,14 @@ describe("Export Promotion Provider", () => {
         expect(result.file).to.equal(mockArrayBuffer);
       });
     });
+
+    it("should handle API errors gracefully", () => {
+      const error = new Error("API Error");
+      cy.stub(promotionApi(), "getStudentsByPromotion").rejects(error);
+      exportPromotionProvider.getOne(mockPromotionId).catch((err) => {
+        expect(err).to.equal(error);
+      });
+    });
   });
 
   describe("unimplemented methods", () => {
