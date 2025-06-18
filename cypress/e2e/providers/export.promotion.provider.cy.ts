@@ -29,6 +29,28 @@ describe("Export Promotion Provider", () => {
         expect(err).to.equal(error);
       });
     });
+
+    context("with different response scenarios", () => {
+      it("should handle empty ArrayBuffer", () => {
+        const emptyBuffer = new ArrayBuffer(0);
+        cy.stub(promotionApi(), "getStudentsByPromotion").resolves({
+          data: emptyBuffer,
+        });
+        exportPromotionProvider.getOne(mockPromotionId).then((result) => {
+          expect(result.file.byteLength).to.equal(0);
+        });
+      });
+
+      it("should handle large ArrayBuffer (5MB)", () => {
+        const largeBuffer = new ArrayBuffer(5 * 1024 * 1024);
+        cy.stub(promotionApi(), "getStudentsByPromotion").resolves({
+          data: largeBuffer,
+        });
+        exportPromotionProvider.getOne(mockPromotionId).then((result) => {
+          expect(result.file.byteLength).to.equal(5 * 1024 * 1024);
+        });
+      });
+    });
   });
 
   describe("unimplemented methods", () => {
