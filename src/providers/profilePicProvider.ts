@@ -8,11 +8,11 @@ const PIC_OPTIONS = {
 };
 
 const profilePicProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, _filter: any) {
-    throw new Error("Function not implemented.");
+  getList() {
+    throw new Error("Not implemented");
   },
-  async getOne(_id: string) {
-    throw new Error("Function not implemented.");
+  getOne() {
+    throw new Error("Not implemented");
   },
   async saveOrUpdate(payload: any) {
     const user = payload[0];
@@ -44,7 +44,7 @@ const profilePicProvider: HaDataProviderType = {
           .then((result) => [result.data]);
     }
   },
-  async delete(_id: string) {
+  delete() {
     throw new Error("Not implemented");
   },
 };
