@@ -30,6 +30,28 @@ describe("Export Group Provider", () => {
         expect(err).to.equal(error);
       });
     });
+
+    context("with different response types", () => {
+      it("should handle empty ArrayBuffer", () => {
+        const emptyBuffer = new ArrayBuffer(0);
+        cy.stub(teachingApi(), "generateStudentsGroupInXlsx").resolves({
+          data: emptyBuffer,
+        });
+        exportGroupProvider.getOne(mockGroupId).then((result) => {
+          expect(result.file.byteLength).to.equal(0);
+        });
+      });
+
+      it("should handle large ArrayBuffer (5MB)", () => {
+        const largeBuffer = new ArrayBuffer(5 * 1024 * 1024);
+        cy.stub(teachingApi(), "generateStudentsGroupInXlsx").resolves({
+          data: largeBuffer,
+        });
+        exportGroupProvider.getOne(mockGroupId).then((result) => {
+          expect(result.file.byteLength).to.equal(5 * 1024 * 1024);
+        });
+      });
+    });
   });
 
   describe("unimplemented methods", () => {
