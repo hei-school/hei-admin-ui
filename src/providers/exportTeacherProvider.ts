@@ -2,8 +2,8 @@ import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const exportTeacherProvider: HaDataProviderType = {
-  async getList() {
-    throw new Error("Function not implemented.");
+  getList() {
+    throw new Error("Not implemented");
   },
 
   async getOne(id: string) {
@@ -12,12 +12,12 @@ const exportTeacherProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  async saveOrUpdate() {
-    throw new Error("Function not implemented.");
+  saveOrUpdate() {
+    throw new Error("Not implemented");
   },
 
-  async delete() {
-    throw new Error("Function not implemented.");
+  delete() {
+    throw new Error("Not implemented");
   },
 };
 
