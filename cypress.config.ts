@@ -1,5 +1,6 @@
 import codeCoverageTask from "@cypress/code-coverage/task.js";
 import {defineConfig} from "cypress";
+import vitePreprocessor from "cypress-vite";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -22,9 +23,11 @@ export default defineConfig({
   },
   e2e: {
     setupNodeEvents(on, config) {
+      on("file:preprocessor", vitePreprocessor());
       codeCoverageTask(on, config);
       return config;
     },
+    specPattern: "cypress/e2e/**/*",
     baseUrl: "http://localhost:5173/",
   },
   retries: {
