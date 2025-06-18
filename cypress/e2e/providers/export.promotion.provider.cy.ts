@@ -72,4 +72,20 @@ describe("Export Promotion Provider", () => {
       );
     });
   });
+
+  describe("special cases", () => {
+    it("should maintain response structure", () => {
+      exportPromotionProvider.getOne(mockPromotionId).then((result) => {
+        expect(result).to.have.all.keys(["id", "file"]);
+        expect(result.file).to.be.instanceOf(ArrayBuffer);
+      });
+    });
+
+    it("should handle different promotion ID formats", () => {
+      const uuidPromotionId = "123e4567-e89b-12d3-a456-426614174000";
+      exportPromotionProvider.getOne(uuidPromotionId).then((result) => {
+        expect(result.id).to.equal(uuidPromotionId);
+      });
+    });
+  });
 });
