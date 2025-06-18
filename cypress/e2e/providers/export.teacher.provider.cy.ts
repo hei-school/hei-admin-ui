@@ -35,6 +35,26 @@ describe("Export Teacher Provider", () => {
         expect(err).to.equal(error);
       });
     });
+
+    it("should handle different response sizes", () => {
+      const testCases = [
+        {size: 0, description: "empty"},
+        {size: 1024, description: "small"},
+        {size: 5 * 1024 * 1024, description: "large (5MB)"},
+      ];
+
+      testCases.forEach(({size, description}) => {
+        it(`should handle ${description} ArrayBuffer`, () => {
+          const buffer = new ArrayBuffer(size);
+          cy.stub(usersApi(), "generateTeachersInXlsx").resolves({
+            data: buffer,
+          });
+          exportTeacherProvider.getOne(mockTeacherId).then((result) => {
+            expect(result.file.byteLength).to.equal(size);
+          });
+        });
+      });
+    });
   });
 
   describe("unimplemented methods", () => {
