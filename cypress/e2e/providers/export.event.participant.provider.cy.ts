@@ -53,4 +53,26 @@ describe("Export Event Participant Provider", () => {
       );
     });
   });
+
+  describe("response handling", () => {
+    it("should handle different ArrayBuffer sizes", () => {
+      const largeArrayBuffer = new ArrayBuffer(1024 * 1024);
+      cy.stub(eventsApi(), "generateEventStudentsParticipantInXlsx").resolves({
+        data: largeArrayBuffer,
+      });
+      exportEventParticipantProvider.getOne(mockEventId).then((result) => {
+        expect(result.file.byteLength).to.equal(1024 * 1024);
+      });
+    });
+
+    it("should handle empty responses", () => {
+      const emptyArrayBuffer = new ArrayBuffer(0);
+      cy.stub(eventsApi(), "generateEventStudentsParticipantInXlsx").resolves({
+        data: emptyArrayBuffer,
+      });
+      exportEventParticipantProvider.getOne(mockEventId).then((result) => {
+        expect(result.file.byteLength).to.equal(0);
+      });
+    });
+  });
 });
