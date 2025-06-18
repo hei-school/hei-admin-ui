@@ -27,6 +27,14 @@ describe("Export Teacher Provider", () => {
         });
       });
     });
+
+    it("should handle API errors", () => {
+      const error = new Error("API failure");
+      cy.stub(usersApi(), "generateTeachersInXlsx").rejects(error);
+      exportTeacherProvider.getOne(mockTeacherId).catch((err) => {
+        expect(err).to.equal(error);
+      });
+    });
   });
 
   describe("unimplemented methods", () => {
