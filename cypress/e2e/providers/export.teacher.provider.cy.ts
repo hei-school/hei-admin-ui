@@ -18,6 +18,15 @@ describe("Export Teacher Provider", () => {
         });
       });
     });
+
+    it("should return correct response structure", () => {
+      exportTeacherProvider.getOne(mockTeacherId).then((result) => {
+        expect(result).to.deep.equal({
+          id: mockTeacherId,
+          file: mockArrayBuffer,
+        });
+      });
+    });
   });
 
   describe("unimplemented methods", () => {
