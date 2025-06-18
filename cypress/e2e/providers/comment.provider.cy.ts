@@ -43,6 +43,26 @@ describe("Comment Provider", () => {
         });
       });
     });
+
+    context("when getting comments without a specific student ID", () => {
+      it("should get all comments correctly", () => {
+        const page = 1;
+        const perPage = 10;
+        const filter = {};
+
+        cy.intercept("GET", `/comments?page=${page}&page_size=${perPage}`, {
+          data: commentMocks,
+        }).as("getComments");
+
+        commentProvider.getList(page, perPage, filter).then((result) => {
+          cy.wait("@getComments");
+          expect(result.data).to.have.length(commentMocks.length);
+          result.data.forEach((comment, index) => {
+            expect(comment).to.deep.equal(commentMocks[index]);
+          });
+        });
+      });
+    });
   });
 
   describe("saveOrUpdate()", () => {});
