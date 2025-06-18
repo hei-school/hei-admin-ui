@@ -22,6 +22,14 @@ describe("Export Group Provider", () => {
         expect(result.file).to.equal(mockArrayBuffer);
       });
     });
+
+    it("should handle API errors", () => {
+      const error = new Error("API Error");
+      cy.stub(teachingApi(), "generateStudentsGroupInXlsx").rejects(error);
+      exportGroupProvider.getOne(mockGroupId).catch((err) => {
+        expect(err).to.equal(error);
+      });
+    });
   });
 
   describe("unimplemented methods", () => {
