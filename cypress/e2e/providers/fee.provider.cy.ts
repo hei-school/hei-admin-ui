@@ -146,7 +146,6 @@ describe("Fee Provider", () => {
         psp_type: pspType,
         mpbs_id: mpbsId,
       };
-
       cy.intercept("PUT", `/students/${studentId}/fees/${feeId}/mpbs`, {
         statusCode: 200,
         body: payload,
@@ -167,8 +166,26 @@ describe("Fee Provider", () => {
       });
     });
 
+    /* FIXME */
     it("should create fees as a student", () => {});
 
+    /* FIXME */
     it("should create/update fees as a manager", () => {});
+  });
+
+  describe("delete()", () => {
+    it("should delete a fee", () => {
+      cy.intercept("DELETE", `/students/${studentId}/fees/${feeId}`, {
+        statusCode: 200,
+        body: fee1Mock,
+      }).as("deleteFee");
+      cy.wrap(feeProvider.delete(raId)).as("deletePromise");
+      cy.wait("@deleteFee");
+      cy.get("@deletePromise").then((result) => {
+        const plainResult = JSON.parse(JSON.stringify(result));
+        const plainExpected = JSON.parse(JSON.stringify(fee1Mock));
+        expect(plainResult).to.deep.equal(plainExpected);
+      });
+    });
   });
 });
