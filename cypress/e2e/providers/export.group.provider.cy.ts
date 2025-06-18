@@ -71,4 +71,19 @@ describe("Export Group Provider", () => {
       expect(() => exportGroupProvider.delete("")).to.throw("Not implemented");
     });
   });
+
+  describe("response validation", () => {
+    it("should return object with correct structure", () => {
+      exportGroupProvider.getOne(mockGroupId).then((result) => {
+        expect(result).to.have.all.keys(["id", "file"]);
+        expect(result.file).to.be.instanceOf(ArrayBuffer);
+      });
+    });
+
+    it("should throw error when id is not provided", () => {
+      exportGroupProvider.getOne("").catch((err) => {
+        expect(err.message).to.include("Cannot read properties");
+      });
+    });
+  });
 });
