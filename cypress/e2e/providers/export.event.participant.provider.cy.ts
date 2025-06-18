@@ -42,7 +42,7 @@ describe("Export Event Participant Provider", () => {
     });
 
     it("saveOrUpdate() should throw not implemented error", () => {
-      expect(() => exportEventParticipantProvider.saveOrUpdate({})).to.throw(
+      expect(() => exportEventParticipantProvider.saveOrUpdate([])).to.throw(
         "Not implemented"
       );
     });

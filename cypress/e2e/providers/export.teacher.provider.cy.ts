@@ -76,4 +76,18 @@ describe("Export Teacher Provider", () => {
       );
     });
   });
+
+  describe("edge cases", () => {
+    it("should handle undefined id", () => {
+      exportTeacherProvider.getOne("").catch((err) => {
+        expect(err.message).to.include("Cannot read properties");
+      });
+    });
+
+    it("should handle empty string id", () => {
+      exportTeacherProvider.getOne("").then((result) => {
+        expect(result.id).to.equal("");
+      });
+    });
+  });
 });
