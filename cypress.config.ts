@@ -43,6 +43,10 @@ export default defineConfig({
       process.env.REACT_APP_TEST_MANAGER1_PASSWORD,
     REACT_APP_TEST_MONITOR1_PASSWORD:
       process.env.REACT_APP_TEST_MONITOR1_PASSWORD,
+    REACT_APP_TEST_ADMIN1_PASSWORD: process.env.REACT_APP_TEST_ADMIN1_PASSWORD,
+    REACT_APP_TEST_STAFF1_PASSWORD: process.env.REACT_APP_TEST_STAFF1_PASSWORD,
+    REACT_APP_TEST_ORGANIZER1_PASSWORD:
+      process.env.REACT_APP_TEST_ORGANIZER1_PASSWORD,
     codeCoverage: {
       exclude: ["cypress/**/*.*", "src/**/*.cy"],
     },
