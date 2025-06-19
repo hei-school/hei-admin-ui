@@ -1,15 +1,21 @@
-import "./commands";
-
 import "@cypress/code-coverage/support";
+import "./commands";
 
 Cypress.on("uncaught:exception", (err, _runnable) => {
   // FIXME: on the login when try to reset password
   if (err.message.includes("Cannot call an event handler while rendering.")) {
     return false;
   }
+
+  if (err.message.includes(`awswaf-captcha`)) {
+    return false;
+  }
+
   return true;
 });
 
 Cypress.on("uncaught:exception", (err) => {
-  return !err.message.includes(`awswaf-captcha`);
+  return !err.message.includes(
+    `Failed to execute 'define' on 'CustomElementRegistry': the name "awswaf-captcha" has already been used with this registry`
+  );
 });
