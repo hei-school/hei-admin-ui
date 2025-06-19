@@ -12,6 +12,7 @@ import {
 
 import {Box, CircularProgress, Typography} from "@mui/material";
 import axios from "axios";
+import {addDays, subDays} from "date-fns";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./style/calendar.css";
 
@@ -26,10 +27,14 @@ export default function CalendarView() {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
 
+  const currentDate = new Date();
+  const startDate = subDays(currentDate, 7).toISOString();
+  const endDate = addDays(currentDate, 7).toISOString();
+
   const fetchEvents = async () => {
     try {
       const {data} = await axios.get(
-        `${API_URL}/events?page=1&page_size=${ITEM_PER_PAGE}`
+        `${API_URL}/events?page=1&page_size=${ITEM_PER_PAGE}&from=${startDate}&to=${endDate}`
       );
       setEvents(data);
     } catch (error) {
@@ -41,7 +46,7 @@ export default function CalendarView() {
 
   useEffect(() => {
     fetchEvents();
-  }, []);
+  }, [fetchEvents]);
 
   const handleOnChangeView = (selectedView: View) => {
     setView(selectedView);
