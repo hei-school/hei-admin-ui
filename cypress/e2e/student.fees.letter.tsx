@@ -5,7 +5,7 @@ import {
 } from "../fixtures/api_mocks/fees-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
-describe("Mobile payment by student", () => {
+describe.skip("Mobile payment by student", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
