@@ -20,6 +20,17 @@ describe("Student announcements", () => {
       announcementsMock
     ).as("getAnnouncements2");
 
+    cy.intercept(
+      "GET",
+      `students/announcements/${announcement1.id}`,
+      announcement1
+    ).as("getOneAnnoncement");
+
+    cy.intercept("PUT", `/announcements/${announcement1.id}/reaction`, {
+      id: announcement1.id,
+      reaction: "UNCHECK",
+    }).as("updateReaction");
+
     cy.get('[href="/announcements"]').click();
   });
 
@@ -34,5 +45,12 @@ describe("Student announcements", () => {
     cy.contains(announcement1?.title!).click();
     cy.contains(announcement1?.title!);
     cy.contains(announcement1?.author?.email!);
+  });
+
+  it("Can react to an annoucement", () => {
+    cy.contains(announcement1?.title!).click();
+    cy.get("#reaction").click();
+    cy.wait("@updateReaction").its("response.statusCode").should("eq", 200);
+    cy.contains("Réaction mise à jour avec succès");
   });
 });

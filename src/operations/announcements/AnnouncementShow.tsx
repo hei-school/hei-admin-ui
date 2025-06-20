@@ -130,7 +130,7 @@ export const AnnouncementShow = () => {
           position: "absolute",
           top: "-60px",
           border: "4px solid",
-          borderColor: getChipColor(announcement?.scope!),
+          borderColor: getChipColor(announcement?.scope),
         }}
       />
       <Chip
@@ -138,7 +138,7 @@ export const AnnouncementShow = () => {
         sx={{
           position: "absolute",
           backgroundColor: "white",
-          color: getChipColor(announcement?.scope!),
+          color: getChipColor(announcement?.scope),
           fontWeight: "bold",
           marginBottom: "0.5rem",
           top: "10px",
@@ -148,7 +148,7 @@ export const AnnouncementShow = () => {
       />
       <Box
         sx={{
-          backgroundColor: getChipColor(announcement?.scope!),
+          backgroundColor: getChipColor(announcement?.scope),
           height: "70px",
           padding: "1rem ",
           borderRadius: "7px 7px 0 0",
@@ -202,11 +202,12 @@ export const AnnouncementShow = () => {
         </Box>
         <Box display="flex" flexDirection="row" alignItems="center" gap={1}>
           <Typography fontSize="1rem" fontWeight={900}>
-            {announcement.reaction_count || 0}
+            {announcement.reaction_count ?? 0}
           </Typography>
           <Checkbox
             disabled={isLoading}
-            checked={announcement.hasCurrentUserReaction || false}
+            id="reaction"
+            checked={announcement.hasCurrentUserReaction ?? false}
             icon={
               <ThumbUpOffAlt
                 sx={{color: "#aaa", transition: "all 0.2s ease"}}
