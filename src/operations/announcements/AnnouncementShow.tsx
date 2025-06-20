@@ -206,6 +206,7 @@ export const AnnouncementShow = () => {
           </Typography>
           <Checkbox
             disabled={isLoading}
+            id="reaction"
             checked={announcement.hasCurrentUserReaction ?? false}
             icon={
               <ThumbUpOffAlt
