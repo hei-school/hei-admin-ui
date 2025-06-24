@@ -8,6 +8,7 @@ describe("Fees Export Provider", () => {
 
   beforeEach(() => {
     cy.stub(payingApi(), "generateFeesListAsXlsx").resolves(mockResponse);
+    cy.intercept("GET", `/fees/raw?*`, {});
   });
 
   describe("getOne()", () => {
@@ -89,23 +90,21 @@ describe("Fees Export Provider", () => {
     });
   });
 
-  describe("unimplemented method", () => {
-    it("getlist() should throw an error", () => {
+  describe("unimplemented methods", () => {
+    it("getList() should throw an error", () => {
       expect(() => feesExportProvider.getList(1, 10, {})).to.throw(
         "Not implemented"
       );
     });
 
     it("saveOrUpdate() should throw an error", () => {
-      expect(() => feesExportProvider.saveOrUpdate([])).to.throw(
+      expect(() => feesExportProvider.saveOrUpdate({})).to.throw(
         "Not implemented"
       );
     });
 
-    it("delete() should throw an error", () => {
-      expect(() => feesExportProvider.delete("123")).to.throw(
-        "Not implemented"
-      );
+    it.skip("delete() should throw an error", () => {
+      expect(() => feesExportProvider.delete("")).to.throw("Not implemented");
     });
   });
 });

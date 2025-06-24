@@ -17,7 +17,6 @@ export default defineConfig(({mode}) => {
         include: "src/*",
         exclude: ["node_modules", "cypress", "src/**/*.cy.*"],
         extension: [".js", ".jsx", ".ts", ".tsx"],
-        include: "src/*",
       }),
     ],
     define: {

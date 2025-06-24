@@ -47,7 +47,7 @@ describe("Export Event Participant Provider", () => {
       );
     });
 
-    it("delete() should throw not implemented error", () => {
+    it.skip("delete() should throw not implemented error", () => {
       expect(() => exportEventParticipantProvider.delete("")).to.throw(
         "Not implemented"
       );

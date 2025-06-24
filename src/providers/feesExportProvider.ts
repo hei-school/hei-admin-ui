@@ -15,11 +15,11 @@ const feesExportProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  saveOrUpdate() {
+  async saveOrUpdate() {
     throw new Error("Not implemented");
   },
 
-  delete() {
+  async delete() {
     throw new Error("Not implemented");
   },
 };
