@@ -121,10 +121,11 @@ const HaLoginPage = () => {
 
   const notify = useNotify();
   const navigate = useNavigate();
+
   useEffect(() => {
     try {
       authProvider.checkAuth().catch((e) => {
-        notify("Authentication check failed", {type: "error"});
+        console.error("Authentication check failed : ", e);
       });
       const id = authProvider.getCachedWhoami().id;
       if (id) {
@@ -133,7 +134,7 @@ const HaLoginPage = () => {
     } catch (error) {
       notify("Authentication check failed", {type: "error"});
     }
-  }, [navigate]);
+  }, [navigate, notify]);
 
   return (
     <div
