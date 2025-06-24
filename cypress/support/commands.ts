@@ -65,6 +65,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     status: "ok",
     data: "dummy",
   };
+  cy.intercept("POST", "https://www.google-analytics.com**");
 
   cy.intercept(
     {
@@ -91,6 +92,8 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     `**/authentication/login-url?redirect_uri=${window.location.origin}/auth/callback`
   ).as("getRedirectionURL");
 
+  cy.intercept("**/whoami", whoami).as("getWhoami");
+
   cy.visit("/login");
 
   cy.get('[data-testid="casdoor-login-btn"]').click();
@@ -101,7 +104,7 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     cy.intercept("**/authentication/signin**", casdoorSignin).as(
       "getCasdoorToken"
     );
-    cy.intercept("**/whoami", whoami).as("getWhoami");
+    cy.wait("@getWhoami");
     cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
   }
 });

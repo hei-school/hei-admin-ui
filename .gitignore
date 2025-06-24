@@ -56,3 +56,5 @@ cypress/screenshots/*
 dist
 .nyc_output
 coverage
+
+.env
