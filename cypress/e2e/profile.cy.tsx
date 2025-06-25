@@ -9,7 +9,7 @@ import {teacher1Mock} from "../fixtures/api_mocks/teachers-mocks";
 
 describe("Admin profile test", () => {
   beforeEach(() => {
-    cy.mockLogin({role: "MANAGER"});
+    cy.mockLogin({role: WhoamiRoleEnum.ADMIN});
   });
 
   it("can view his own profile as admin", () => {
@@ -33,7 +33,7 @@ describe("Admin profile test", () => {
 
 describe("Manager profile test", () => {
   beforeEach(() => {
-    cy.login({role: WhoamiRoleEnum.MANAGER});
+    cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
   });
 
   it("can view his own profile as manager", () => {
@@ -59,7 +59,7 @@ describe("Manager profile test", () => {
 
 describe("Teacher profile test", () => {
   beforeEach(() => {
-    cy.login({role: WhoamiRoleEnum.TEACHER});
+    cy.mockLogin({role: WhoamiRoleEnum.TEACHER});
   });
 
   it("can view his own profile as teacher", () => {
@@ -83,7 +83,7 @@ describe("Teacher profile test", () => {
 
 describe("Monitor profile test", () => {
   beforeEach(() => {
-    cy.login({role: WhoamiRoleEnum.MONITOR});
+    cy.mockLogin({role: WhoamiRoleEnum.MONITOR});
   });
 
   it("can view his own profile as monitor", () => {
@@ -106,7 +106,7 @@ describe("Monitor profile test", () => {
 
 describe("Student profile test", () => {
   beforeEach(() => {
-    cy.login({role: WhoamiRoleEnum.STUDENT});
+    cy.mockLogin({role: WhoamiRoleEnum.STUDENT});
   });
 
   it("can view his own profile as student", () => {
@@ -129,7 +129,7 @@ describe("Student profile test", () => {
 
 describe("Staff profile test", () => {
   beforeEach(() => {
-    cy.login({role: WhoamiRoleEnum.STAFF_MEMBER});
+    cy.mockLogin({role: WhoamiRoleEnum.STAFF_MEMBER});
   });
 
   it("can view his own profile as staff", () => {
@@ -152,7 +152,7 @@ describe("Staff profile test", () => {
 
 describe("Organizer profile test", () => {
   beforeEach(() => {
-    cy.login({role: WhoamiRoleEnum.ORGANIZER});
+    cy.mockLogin({role: WhoamiRoleEnum.ORGANIZER});
   });
 
   it("can view his own profile as organizer", () => {

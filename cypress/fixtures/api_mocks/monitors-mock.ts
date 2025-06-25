@@ -42,7 +42,7 @@ export const monitorsMock: Monitor[] = [
 
 export const createdMonitor = {
   id: "monitor1_id_created",
-  ref: "MTR210030",
+  ref: "MTR210030A",
   first_name: "Monitor create",
   last_name: "One love",
   sex: Sex.M,

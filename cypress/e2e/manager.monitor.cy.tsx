@@ -34,12 +34,14 @@ describe("Manager.Monitors", () => {
     cy.intercept("PUT", `/monitors/${monitor1Mock.id}`, updatedInfo).as(
       "putUpdate"
     );
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `/students?page=1&page_size=500`, studentsMock).as(
       "getStudentsPage1"
     );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `/students?page=2&page_size=500`, studentsMock).as(
       "getStudentsPage2"
     );
+
+    cy.intercept("PUT", "/monitors", createdMonitor).as("createdmonitor");
 
     cy.getByTestid("monitors-menu").click();
     cy.wait("@getMonitors");
@@ -78,7 +80,7 @@ describe("Manager.Monitors", () => {
     cy.get("@editButton").click();
   });
 
-  it.only("Can create a new monitor", () => {
+  it("Can create a new monitor", () => {
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.get("#ref").type(createdMonitor.ref);
@@ -92,5 +94,12 @@ describe("Manager.Monitors", () => {
       .type(createdMonitor.entrance_datetime.toISOString().slice(0, 10));
     cy.get("#student_refs").click();
     cy.wait("@getStudentsPage1");
+    cy.contains("STD21111").click();
+    cy.get("#student_refs").click();
+    cy.contains("STD00025").click();
+    cy.get("#student_refs").click();
+    cy.contains("STD123365").click();
+    cy.contains("Enregistrer").click();
+    cy.wait("@createdmonitor").its("response.statusCode").should("eq", 200);
   });
 });
