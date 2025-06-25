@@ -43,7 +43,7 @@ describe("Transcript.Docs", () => {
       workDoc1
     );
 
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.getByTestid("docs").click();
   });
 
@@ -92,7 +92,7 @@ describe("Work.Docs", () => {
       workDoc1
     );
 
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.getByTestid("docs").click();
   });
 
@@ -141,7 +141,7 @@ describe("Other.Docs", () => {
       workDoc1
     );
 
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.getByTestid("docs").click();
   });
 

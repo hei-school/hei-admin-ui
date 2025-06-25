@@ -10,7 +10,7 @@ const _path = "cypress/fixtures/students_import";
 
 describe("Manager create multiple students", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"

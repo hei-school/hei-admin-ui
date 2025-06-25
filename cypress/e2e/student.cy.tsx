@@ -4,7 +4,7 @@ import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Student", () => {
   beforeEach(() => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,

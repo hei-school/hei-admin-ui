@@ -14,7 +14,7 @@ const testLettersFunctionality = (
   letterMocks: any
 ) => {
   beforeEach(() => {
-    cy.login({role});
+    cy.mockLogin({role});
 
     const userId = id;
     expect(userId).to.exist;
@@ -67,7 +67,7 @@ describe("Teacher.Letters", () => {
 
 describe("Manager.Letters.student", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"

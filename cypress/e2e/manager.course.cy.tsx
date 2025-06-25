@@ -17,7 +17,7 @@ const NEW_COURSE: Required<Course> = {
 
 describe("Manager.Courses", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.intercept("GET", `/courses?page=1&page_size=10`, courseMocks).as(
       "getCoursesPage1"
     );

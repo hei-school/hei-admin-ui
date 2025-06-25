@@ -16,7 +16,7 @@ let createdStudent = {
 };
 describe("Notifications on error when create, e.g: StudentCreate", () => {
   it("notifies when there is error", () => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
@@ -86,7 +86,7 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
 });
 describe("Notifications on error when edit, e.g: TeacherEdit", () => {
   it("notifies when there is error", () => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.intercept("GET", "/teachers?page=1&page_size=10", teachersMock).as(
       "getTeachers"
     );

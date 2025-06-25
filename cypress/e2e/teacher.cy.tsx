@@ -3,7 +3,7 @@ import {teacher1Mock} from "../fixtures/api_mocks/teachers-mocks";
 
 describe("Teacher", () => {
   beforeEach(() => {
-    cy.login({role: "TEACHER"});
+    cy.mockLogin({role: "TEACHER"});
   });
 
   it("lands on profile page if succeeds", () => {

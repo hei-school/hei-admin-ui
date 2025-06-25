@@ -29,7 +29,7 @@ describe("Manager.Work.Docs.Download", () => {
       newWorkerDoc
     );
 
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
@@ -90,7 +90,7 @@ describe("Student.Transcript.Docs.Download", () => {
       workDoc1
     );
 
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.getByTestid("docs").click();
   });
 
@@ -140,7 +140,7 @@ describe("Student.Work.Docs.Download", () => {
       workDoc1
     );
 
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.getByTestid("docs").click();
   });
 
@@ -190,7 +190,7 @@ describe("Student.Other.Docs.Download", () => {
       workDoc1
     );
 
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.getByTestid("docs").click();
   });
 

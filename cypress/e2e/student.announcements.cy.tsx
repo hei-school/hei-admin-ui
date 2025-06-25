@@ -6,7 +6,7 @@ import {
 
 describe("Student announcements", () => {
   beforeEach(() => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
 
     cy.intercept("POST", `/announcements`, createdAnnouncement);
     cy.intercept(

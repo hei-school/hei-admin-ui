@@ -25,7 +25,7 @@ const importFile = ({file, message, middleware}: ImportArgs) => {
 
 describe("Manager import fees for one students", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"

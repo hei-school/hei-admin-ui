@@ -32,7 +32,7 @@ const LEAVE_API: UpdatePromotionSGroup = {
 
 describe("Manager.Promotions", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.intercept("GET", `/groups?*`, groupsMock).as("getGroups");
     cy.intercept("GET", `/promotions?page=1&page_size=10`, promotionsMock).as(
       "getPromotionsPage1"

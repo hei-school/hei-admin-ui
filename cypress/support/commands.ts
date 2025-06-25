@@ -108,3 +108,42 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
   }
 });
+
+Cypress.Commands.add("mockLogin", (options: LoginConfig) => {
+  const {role} = options;
+  const defaultUserConnected = getUserConnected(role);
+  const user = options.user || defaultUserConnected.user;
+
+  const whoami: Whoami = {
+    id: user.id,
+    bearer: "dummy",
+    role,
+  };
+
+  cy.intercept(
+    {
+      url: /.*awswaf.*telemetry.*/,
+      method: "POST",
+    },
+    {
+      statusCode: 200,
+      body: {
+        token: "dummy_token",
+        next_interval: 100,
+        awswaf_session_storage: "awswaf_dummy_session_storage_key",
+      },
+    }
+  ).as("awsWafTelemetry");
+
+  cy.intercept("GET", `**/${role.toLowerCase()}s/${user.id}`, user).as(
+    "getProfile"
+  );
+  cy.intercept("**/health/db", "OK").as("getHealthDb");
+
+  cy.intercept("**/whoami", whoami).as("getWhoami");
+  cy.intercept("https://www.google-analytics.com/g/**", {statusCode: 200}).as(
+    "analytics"
+  );
+
+  cy.visit("/");
+});

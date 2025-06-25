@@ -9,7 +9,7 @@ const pageAssertions = () => {
 
 describe("ExamParticipantList", () => {
   beforeEach(() => {
-    cy.login({role: "TEACHER"});
+    cy.mockLogin({role: "TEACHER"});
   });
 
   it("should return no exams", () => {

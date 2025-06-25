@@ -9,7 +9,7 @@ const ITEM_PER_LIST2 = 13;
 
 describe("Student.Comments", () => {
   beforeEach(() => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/comments?page=2&page_size=10`,
@@ -64,11 +64,11 @@ describe("Global.Comments", () => {
   });
 
   it("manager can list global comments", () => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
   });
 
   it("teacher can list global comments", () => {
-    cy.login({role: "TEACHER"});
+    cy.mockLogin({role: "TEACHER"});
   });
 
   afterEach(() => {

@@ -70,7 +70,7 @@ describe("Manager.Fee", () => {
     cy.intercept("PUT", `/fees`, feesMock).as("createFees");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();

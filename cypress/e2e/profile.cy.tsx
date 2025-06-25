@@ -9,7 +9,7 @@ import {teacher1Mock} from "../fixtures/api_mocks/teachers-mocks";
 
 describe("Admin profile test", () => {
   beforeEach(() => {
-    cy.login({role: WhoamiRoleEnum.ADMIN});
+    cy.mockLogin({role: "MANAGER"});
   });
 
   it("can view his own profile as admin", () => {

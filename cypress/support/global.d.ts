@@ -10,6 +10,7 @@ export declare global {
   namespace Cypress {
     interface Chainable {
       login(options: LoginConfig): Chainable;
+      mockLogin(options: LoginConfig): Chainable;
       getByTestid<Subject>(testid: string): Chainable<Subject>;
       routePathnameEq(to: string): Chainable;
       attachFileToDropZone(
