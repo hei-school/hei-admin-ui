@@ -4,7 +4,7 @@ import {HaDataProviderType} from "./HaDataProviderType";
 
 const receiptProvider: HaDataProviderType = {
   getList() {
-    throw new Error("Function not implemented.");
+    throw new Error("Not Implemented");
   },
 
   async getOne(id: string, meta: any) {
@@ -30,7 +30,7 @@ const receiptProvider: HaDataProviderType = {
   },
 
   delete() {
-    throw new Error("Function not implemented.");
+    throw new Error("Not Implemented");
   },
 };
 
