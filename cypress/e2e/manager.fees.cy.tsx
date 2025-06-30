@@ -76,8 +76,8 @@ describe("Manager.Fee", () => {
     cy.get('a[href="/students"]').click();
     cy.wait("@getStudents");
     cy.get("body").click(200, 0);
-    cy.contains("Page :1");
-    cy.contains(`Taille :${feesMock.length > 10 ? 10 : feesMock.length}`);
+    cy.contains("Page: 1");
+    cy.contains(`Taille: ${feesMock.length > 10 ? 10 : feesMock.length}`);
     cy.get('td input[type="checkbox"]').should("not.exist");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();

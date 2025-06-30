@@ -93,17 +93,17 @@ describe("Manager edit students", () => {
 
     cy.get('[href="/students"]').click();
     cy.get("body").click(200, 0); //note(uncover-menu)
-    cy.contains("Page :1");
-    cy.contains(`Taille :${studentsMock.length}`);
+    cy.contains("Page: 1");
+    cy.contains(`Taille: ${studentsMock.length}`);
     cy.get("#next-button").click();
-    cy.contains("Page :2");
+    cy.contains("Page: 2");
 
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
-    cy.contains("Page :1");
-    cy.contains("Taille :1");
+    cy.contains("Page: 1");
+    cy.contains("Taille: 1");
     cy.contains(student1Mock.first_name).click();
     cy.get('[aria-label="Éditer"]').click(); //éditer
     cy.get("#first_name").click().clear().type(newFirstName);
@@ -198,8 +198,8 @@ describe("Manager creates students", () => {
 
     cy.get('[href="/students"]').click();
     cy.get("body").click(200, 0); //note(uncover-menu)
-    cy.contains("Page :1");
-    cy.contains(`Taille :${studentsMock.length}`);
+    cy.contains("Page: 1");
+    cy.contains(`Taille: ${studentsMock.length}`);
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.intercept("PUT", "/students", [createdStudent]).as("createStudent");
