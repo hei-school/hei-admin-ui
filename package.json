@@ -32,7 +32,7 @@
     "date-fns": "^4.1.0",
     "date-fns-tz": "^3.2.0",
     "dayjs": "^1.11.13",
-    "dom-to-image": "^2.6.0",
+    "dom-to-image-more": "^3.6.0",
     "dotenv": "^16.4.5",
     "jspdf": "^2.5.2",
     "lucide-react": "^0.487.0",

@@ -126,7 +126,9 @@ export const EventCalendar = () => {
               id: event.id,
               title: `[${event.groups?.map((group) => group.ref).join(", ")} | ${event.title}] ${
                 event.type === "OTHER"
-                  ? event.description
+                  ? event.description != null
+                    ? event.description
+                    : EVENT_TYPE_VALUE[event.type!]
                   : (event.course?.code ?? EVENT_TYPE_VALUE[event.type!])
               }
  `,
