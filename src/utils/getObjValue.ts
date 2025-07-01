@@ -13,3 +13,8 @@ export function getObjValue(obj: Record<string, any>, path: string): unknown {
       {...obj}
     );
 }
+
+if (typeof window !== "undefined") {
+  // @ts-ignore
+  window.getObjValue = getObjValue;
+}
