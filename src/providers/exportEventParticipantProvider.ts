@@ -22,3 +22,7 @@ const exportEventParticipantProvider: HaDataProviderType = {
 };
 
 export default exportEventParticipantProvider;
+if (typeof window !== "undefined") {
+  (window as any).exportEventParticipantProvider =
+    exportEventParticipantProvider;
+}

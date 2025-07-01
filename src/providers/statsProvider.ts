@@ -56,3 +56,7 @@ const statsProvider: HaDataProviderType = {
 };
 
 export default statsProvider;
+
+if (typeof window !== "undefined") {
+  (window as any).statsProvider = statsProvider;
+}
