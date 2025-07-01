@@ -10,7 +10,7 @@ describe("Student receipt", () => {
     const interceptedFeeMock = feesMock.find(
       (fee) => fee.remaining_amount === fee1Mock.remaining_amount
     );
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=*`,
@@ -59,7 +59,7 @@ describe("Manager receipt", () => {
     const interceptedFeeMock = feesMock.find(
       (fee) => fee.remaining_amount === fee1Mock.remaining_amount
     );
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudents"
@@ -122,7 +122,9 @@ describe("Manager receipt", () => {
     cy.contains(student1Mock.first_name).click();
     cy.getByTestid("fees-tab").click();
     cy.wait("@getFees");
-    cy.get("#main-content tbody tr").first().click();
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
     cy.wait("@getFee1");
     cy.getByTestid("get-receipt-btn").click();
     cy.wait("@downloadReceipt").its("response.statusCode").should("eq", 200);

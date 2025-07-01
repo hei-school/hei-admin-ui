@@ -4,7 +4,7 @@ import {teacher1Mock, teachersMock} from "../fixtures/api_mocks/teachers-mocks";
 
 describe("Admin Teacher Doc", () => {
   beforeEach(() => {
-    cy.login({role: WhoamiRoleEnum.ADMIN});
+    cy.mockLogin({role: WhoamiRoleEnum.ADMIN});
   });
 
   it("can create a teacher document", () => {

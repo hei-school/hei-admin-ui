@@ -3,7 +3,7 @@ import {teacher1Mock} from "../fixtures/api_mocks/teachers-mocks";
 
 describe("Teacher", () => {
   beforeEach(() => {
-    cy.login({role: "TEACHER"});
+    cy.mockLogin({role: "TEACHER"});
   });
 
   it("lands on profile page if succeeds", () => {
@@ -67,21 +67,21 @@ describe("Teacher", () => {
     cy.wait("@getStudentsPage2");
     cy.get("body").click(200, 0); //note(uncover-menu)
     cy.window().scrollTo("bottom");
-    cy.contains("Page :1");
-    cy.contains(`Taille :${studentsMock.length}`);
+    cy.contains("Page: 1");
+    cy.contains(`Taille: ${studentsMock.length}`);
     cy.get('td input[type="checkbox"]').should("not.exist");
     cy.get("td a").should("not.contain", "ÉDITER");
     cy.get(".RaList-main>").should("not.contain", "CRÉER");
 
     cy.get("#next-button").click();
     cy.wait("@getStudentsPage2");
-    cy.contains("Page :2");
+    cy.contains("Page: 2");
 
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.get('[data-testid="apply-filter"]').click();
     cy.wait("@getStudentByFirstName");
-    cy.contains("Page :1");
+    cy.contains("Page: 1");
   });
 });

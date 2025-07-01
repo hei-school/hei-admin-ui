@@ -1,6 +1,6 @@
 describe("Aws waf handler", () => {
   it("should display captcha dialog on status: 405", () => {
-    cy.login({
+    cy.mockLogin({
       role: "MANAGER",
     });
 

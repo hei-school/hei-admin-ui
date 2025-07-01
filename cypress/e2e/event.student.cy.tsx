@@ -7,7 +7,7 @@ import {
 
 describe("Student.event", () => {
   beforeEach(() => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.intercept("GET", `/events?page=1&page_size=10`, eventsMock).as(
       "getEventsPage1"
     );

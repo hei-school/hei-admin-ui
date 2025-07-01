@@ -184,8 +184,6 @@ const RecurrenceFields = () => {
     if (isRecurrent) {
       setValue("recurrent.startTime", startDate.toTimeString().slice(0, 5));
       setValue("recurrent.endTime", endDate.toTimeString().slice(0, 5));
-    } else {
-      undefined;
     }
   }, [isRecurrent, watch, setValue]);
 

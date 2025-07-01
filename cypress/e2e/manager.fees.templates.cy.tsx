@@ -15,7 +15,7 @@ const feesTemplate1Updated: Required<FeeTemplate> = {
 
 describe("Manager.feesTemplates", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.intercept(
       "GET",
       "/fees/templates?page=1&page_size=10",

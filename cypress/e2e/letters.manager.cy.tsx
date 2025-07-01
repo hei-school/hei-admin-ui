@@ -12,7 +12,7 @@ describe("Manager.Letters", () => {
   beforeEach(() => {
     cy.clearCookies();
     cy.clearLocalStorage();
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.intercept("GET", `/students/letters/stats`, statsMocks).as("getStats");
     cy.intercept(

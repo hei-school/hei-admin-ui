@@ -66,8 +66,8 @@ export function CommentItem({comment, studentId, close}) {
                   gap: 1,
                 }}
               >
-                <span>{observer.last_name && observer.last_name}</span>
-                <span>{observer.first_name && observer.first_name}</span>
+                <span>{observer.last_name}</span>
+                <span>{observer.first_name}</span>
               </Typography>
               <Typography
                 color={PALETTE_COLORS.black}

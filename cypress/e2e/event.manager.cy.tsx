@@ -10,7 +10,7 @@ import {missingParticipantsMock} from "../fixtures/api_mocks/missing-participant
 
 describe("Manager.event", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.intercept("GET", `/events*`, eventsMock).as("getEventsPage1");
     cy.intercept("GET", `/events/${event1mock.id}`, event1mock);
     cy.intercept("PUT", `/events/${event1mock.id}`, {
