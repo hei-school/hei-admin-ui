@@ -13,3 +13,9 @@ export function getObjValue(obj: Record<string, any>, path: string): unknown {
       {...obj}
     );
 }
+
+// Expose for Cypress E2E test only
+if (typeof window !== "undefined") {
+  // @ts-ignore
+  window.getObjValue = getObjValue;
+}
