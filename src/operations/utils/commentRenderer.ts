@@ -13,3 +13,7 @@ export const commentRenderer = (
     return null;
   }
 };
+
+if (typeof window !== "undefined") {
+  (window as any).commentRenderer = commentRenderer;
+}

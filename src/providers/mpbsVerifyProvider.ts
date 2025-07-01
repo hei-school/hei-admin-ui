@@ -26,3 +26,7 @@ const mpbsVerifyProvider: HaDataProviderType = {
 };
 
 export default mpbsVerifyProvider;
+
+if (typeof window !== "undefined") {
+  (window as any).mpbsVerifyProvider = mpbsVerifyProvider;
+}

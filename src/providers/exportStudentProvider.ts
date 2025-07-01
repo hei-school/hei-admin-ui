@@ -30,3 +30,7 @@ const exportStudentProvider: HaDataProviderType = {
 };
 
 export default exportStudentProvider;
+
+if (typeof window !== "undefined") {
+  (window as any).exportStudentProvider = exportStudentProvider;
+}
