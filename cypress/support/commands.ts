@@ -125,4 +125,32 @@ Cypress.Commands.add("mockLogin", (options: LoginConfig) => {
   setupLoginMocks(user, role);
 
   cy.visit("/");
+  cy.intercept("GET", "/students/letters/stats", {
+    pending: 0,
+    received: 0,
+    rejected: 0,
+  });
+  cy.intercept("GET", "/students/stats", {
+    total_students: 0,
+    students_alternating: {
+      total: 0,
+      working: 0,
+      have_been_working: 0,
+      not_working: 0,
+      will_work: 0,
+    },
+    men: {
+      total: 0,
+      disabled: 0,
+      enabled: 0,
+      suspended: 0,
+    },
+    women: {
+      total: 0,
+      disabled: 0,
+      enabled: 0,
+      suspended: 0,
+    },
+    total_groups: 0,
+  });
 });

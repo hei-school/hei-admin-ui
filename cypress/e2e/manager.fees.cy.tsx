@@ -108,7 +108,9 @@ describe("Manager.Fee", () => {
     ).as("getPaymentsOfOneFee2");
     cy.get('[data-testid="fees-tab"]').click();
     cy.wait("@getFees");
-    cy.get("#main-content tbody tr").first().click();
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
     cy.wait("@getFee1");
     cy.get("#main-content")
       .should("contain", `${interceptedFeeMock!.remaining_amount!} Ar`)

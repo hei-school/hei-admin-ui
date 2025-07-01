@@ -37,6 +37,7 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
       listProps={{
         filterDefaultValues: {studentId},
         storeKey: "fees",
+        className: "manager-fee-list",
       }}
       datagridProps={{
         rowClick: (id) => `/fees/${id}/show`,

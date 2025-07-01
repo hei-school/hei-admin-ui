@@ -122,7 +122,9 @@ describe("Manager receipt", () => {
     cy.contains(student1Mock.first_name).click();
     cy.getByTestid("fees-tab").click();
     cy.wait("@getFees");
-    cy.get("#main-content tbody tr").first().click();
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
     cy.wait("@getFee1");
     cy.getByTestid("get-receipt-btn").click();
     cy.wait("@downloadReceipt").its("response.statusCode").should("eq", 200);
