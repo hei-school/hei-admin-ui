@@ -131,6 +131,7 @@ export const ExportEventFile: FC<{open: boolean; onclose: () => void}> = ({
         <Button
           variant="contained"
           startIcon={<Download />}
+          data-testid="export-calendar-button"
           onClick={handleExport}
           label="Exporter le calendrier"
           sx={{

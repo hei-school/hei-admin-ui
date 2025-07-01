@@ -37,6 +37,8 @@ describe("Student.event", () => {
     cy.intercept("GET", `/events/${event1mock.id}`, event1mock).as("getEvent1");
     cy.intercept("PUT", "/events", eventsMock);
     cy.getByTestid("event-menu").click();
+    cy.intercept("GET", "/events?page=1&page_size=500**", eventsMock);
+    cy.intercept("GET", "/events?page=2&page_size=500**", eventsMock);
   });
 
   it("student can list event", () => {
@@ -71,5 +73,19 @@ describe("Student.event", () => {
         cy.getByTestid("PRESENT").should("have.class", "MuiChip-filled");
       });
     cy.contains("Enregistrer").should("not.exist");
+  });
+
+  it("student can export calendar", () => {
+    cy.getByTestid("menu-list-action").click();
+    cy.contains("Export").click();
+    cy.getByTestid("export-calendar-button").click();
+    const downloadedFile = "cypress/downloads/calendar_week.jpg";
+    cy.readFile(downloadedFile, "binary", {timeout: 5000}).should((buffer) => {
+      expect(buffer.length).to.be.gt(0);
+    });
+  });
+
+  it("calendar is display", () => {
+    cy.get("#calendar_content").should("exist");
   });
 });
