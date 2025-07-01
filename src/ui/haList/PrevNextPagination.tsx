@@ -17,17 +17,15 @@ import {
 
 const PAGE_SIZE_OPTIONS = [10, 25, 50, 100];
 
-export let pageSize = 10;
+let pageSize = 10;
 
 const updatePageSize = (newSize: number) => {
   pageSize = newSize;
-  // Store in localStorage for persistence
   if (typeof window !== "undefined") {
     localStorage.setItem("pageSize", newSize.toString());
   }
 };
 
-// Load saved page size on module load
 if (typeof window !== "undefined") {
   const savedSize = localStorage.getItem("pageSize");
   if (savedSize) {
@@ -151,7 +149,6 @@ export const PrevNextPagination = () => {
     setPerPage,
   } = useListContext();
 
-  // Synchronise l'état local avec le contexte (utile si la pagination change ailleurs)
   const [localPageSize, setLocalPageSize] = useState(perPage ?? pageSize);
 
   useEffect(() => {
@@ -162,7 +159,7 @@ export const PrevNextPagination = () => {
     if (localPageSize !== perPage) {
       updatePageSize(localPageSize);
       setPerPage(localPageSize);
-      setPage(1); // Reset to first page when changing page size
+      setPage(1);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [localPageSize]);

@@ -126,7 +126,7 @@ export const EventCalendar = () => {
               id: event.id,
               title: `[${event.groups?.map((group) => group.ref).join(", ") ?? ""}] ${event.title} ${
                 event.type === "OTHER"
-                  ? (event.description ?? EVENT_TYPE_VALUE[event.type!])
+                  ? (event.description ?? EVENT_TYPE_VALUE[event.type])
                   : (event.course?.code ?? EVENT_TYPE_VALUE[event.type!])
               }`,
               start: event.begin_datetime,
