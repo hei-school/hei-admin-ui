@@ -36,3 +36,8 @@ export const transformApiDataToCalendarEvents = (data: any) => {
       };
     });
 };
+
+if (typeof window !== "undefined") {
+  (window as any).transformApiDataToCalendarEvents =
+    transformApiDataToCalendarEvents;
+}

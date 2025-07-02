@@ -6,3 +6,7 @@ export const dayPropGetter = (date: Date) => {
     },
   };
 };
+
+if (typeof window !== "undefined") {
+  (window as any).dayPropGetter = dayPropGetter;
+}

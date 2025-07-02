@@ -1,7 +1,7 @@
 import {useState} from "react";
 import {useNotify} from "react-admin";
 import authProvider from "../providers/authProvider";
-import {checkPassword, CustomSubmitButton, CustomTextField} from "./utils";
+import {CustomSubmitButton, CustomTextField} from "./utils";
 
 const ForgotPassword = ({username, setOpenModal}) => {
   const [password, setPassword] = useState("");
@@ -26,17 +26,6 @@ const ForgotPassword = ({username, setOpenModal}) => {
           autoHideDuration: "2000",
         })
       );
-  };
-
-  const handleSubmit = () => {
-    if (checkPassword(password, confirmPassword) == true) {
-      return forgotPasswordSumbmit();
-    } else {
-      notify(checkPassword(password, confirmPassword), {
-        type: "error",
-        autoHideDuration: "10000",
-      });
-    }
   };
 
   return (

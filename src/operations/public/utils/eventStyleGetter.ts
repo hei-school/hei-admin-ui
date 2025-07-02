@@ -11,3 +11,7 @@ export const eventStyleGetter = (event: any) => {
     style,
   };
 };
+
+if (typeof window !== "undefined") {
+  (window as any).eventStyleGetter = eventStyleGetter;
+}

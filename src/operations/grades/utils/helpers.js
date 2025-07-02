@@ -15,3 +15,8 @@ const transformGradeData = (data) =>
   }));
 
 export const transformGradesData = (data) => [[[], transformGradeData(data)]];
+
+if (typeof window !== "undefined") {
+  window.validateGradeData = validateGradeData;
+  window.transformGradesData = transformGradesData;
+}

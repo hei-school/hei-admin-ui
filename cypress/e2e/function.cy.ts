@@ -237,3 +237,120 @@ describe("renderMoney utility function", () => {
       });
   });
 });
+
+describe("dayPropGetter basic coverage", () => {
+  it("should cover dayPropGetter function", () => {
+    cy.visit("/");
+
+    cy.window()
+      .should("have.property", "dayPropGetter")
+      .then((dayPropGetter: any) => {
+        const sunday = new Date("2024-06-30");
+        const res1 = dayPropGetter(sunday);
+        expect(res1.style.display).to.eq("none");
+
+        const monday = new Date("2024-07-01");
+        const res2 = dayPropGetter(monday);
+        expect(res2.style.display).to.eq("block");
+      });
+  });
+});
+
+describe("eventStyleGetter basic coverage", () => {
+  it("should fully cover eventStyleGetter logic", () => {
+    cy.visit("/");
+
+    cy.window()
+      .should("have.property", "eventStyleGetter")
+      .then((eventStyleGetter: any) => {
+        const eventWithColor = {color: "#FF0000"};
+        const res1 = eventStyleGetter(eventWithColor);
+        expect(res1).to.have.property("style");
+        expect(res1.style.backgroundColor).to.eq("#FF0000");
+        expect(res1.style.borderRadius).to.eq("10px");
+        expect(res1.style.border).to.eq("2px solid white");
+        expect(res1.style.fontWeight).to.eq("bold");
+        expect(res1.style.color).to.eq("white");
+
+        const eventWithoutColor = {};
+        const res2 = eventStyleGetter(eventWithoutColor);
+        expect(res2.style.backgroundColor).to.eq("defaultColor");
+        expect(res2.style.borderRadius).to.eq("10px");
+        expect(res2.style.border).to.eq("2px solid white");
+        expect(res2.style.fontWeight).to.eq("bold");
+        expect(res2.style.color).to.eq("white");
+
+        const eventUndefinedColor = {color: undefined};
+        const res3 = eventStyleGetter(eventUndefinedColor);
+        expect(res3.style.backgroundColor).to.eq("defaultColor");
+      });
+  });
+});
+
+describe("transformApiDataToCalendarEvents basic coverage", () => {
+  it("should cover transformApiDataToCalendarEvents logic", () => {
+    cy.visit("/");
+
+    cy.window()
+      .should("have.property", "transformApiDataToCalendarEvents")
+      .then((transformApiDataToCalendarEvents: any) => {
+        const res1 = transformApiDataToCalendarEvents("not-an-array");
+        expect(res1).to.deep.eq([]);
+
+        const res2 = transformApiDataToCalendarEvents([]);
+        expect(res2).to.deep.eq([]);
+
+        const res3 = transformApiDataToCalendarEvents([null, undefined]);
+        expect(res3).to.deep.eq([]);
+
+        const eventCourse = {
+          id: "evt1",
+          type: "COURSE",
+          course: {code: "CS101"},
+          groups: [{ref: "G1", name: "Groupe 1"}],
+          title: "Introduction",
+          begin_datetime: "2024-07-01T08:00:00.000Z",
+          end_datetime: "2024-07-01T10:00:00.000Z",
+          description: "Cours d'introduction",
+          color: "#123456",
+        };
+
+        const res4 = transformApiDataToCalendarEvents([eventCourse]);
+        expect(res4).to.have.length(1);
+        expect(res4[0]).to.include({
+          id: "evt1",
+          description: "Cours d'introduction",
+          groupName: "Groupe 1",
+          color: "#123456",
+        });
+        expect(res4[0].title).to.contain("[G1] Cours (CS101) - Introduction");
+
+        expect(new Date(res4[0].start).toISOString()).to.eq(
+          "2024-07-01T08:00:00.000Z"
+        );
+        expect(new Date(res4[0].end).toISOString()).to.eq(
+          "2024-07-01T10:00:00.000Z"
+        );
+
+        const eventOther = {
+          id: "evt2",
+          type: "EXAM",
+          groups: [],
+          title: "Final Exam",
+          begin_datetime: null,
+          end_datetime: null,
+          description: "",
+          color: "#654321",
+        };
+
+        const res5 = transformApiDataToCalendarEvents([eventOther]);
+        expect(res5).to.have.length(1);
+        expect(res5[0].title).to.contain("Examen - Final Exam");
+        expect(res5[0].start).to.be.null;
+        expect(res5[0].end).to.be.null;
+        expect(res5[0].description).to.eq("Pas de description");
+        expect(res5[0].groupName).to.eq("Pas de groupe");
+        expect(res5[0].color).to.eq("#654321");
+      });
+  });
+});
