@@ -47,4 +47,5 @@ if (typeof window !== "undefined") {
   window.validateData = validateData;
   window.importHeaders = importHeaders;
   window.minimalImportHeaders = minimalImportHeaders;
+  window.transformUserData = transformUserData;
 }

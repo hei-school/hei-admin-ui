@@ -68,3 +68,10 @@ export function getUserRoleInFr(userRole, sex) {
       throw new Error("Unknown user role");
   }
 }
+
+if (typeof window !== "undefined") {
+  window.getGenderInFr = getGenderInFr;
+  window.getUserStatusInFr = getUserStatusInFr;
+  window.getFeesStatusInFr = getFeesStatusInFr;
+  window.getUserRoleInFr = getUserRoleInFr;
+}
