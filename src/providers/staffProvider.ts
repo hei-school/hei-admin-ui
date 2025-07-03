@@ -37,7 +37,3 @@ const staffProvider: HaDataProviderType = {
 };
 
 export default staffProvider;
-
-if (typeof window !== "undefined") {
-  (window as any).staffProvider = staffProvider;
-}
