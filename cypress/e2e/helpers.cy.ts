@@ -27,3 +27,24 @@ describe("Grades Data Utils coverage", () => {
     });
   });
 });
+
+describe("getCurrentWeekRange coverage", () => {
+  it("should compute the current week range", () => {
+    cy.visit("/");
+
+    cy.window()
+      .should("have.property", "getCurrentWeekRange")
+      .then((getCurrentWeekRange: any) => {
+        const {monday, saturday} = getCurrentWeekRange(new Date("2024-07-01"));
+
+        const mondayDate = new Date(monday);
+        const saturdayDate = new Date(saturday);
+
+        expect(mondayDate).to.be.instanceOf(Date);
+        expect(mondayDate.getDay()).to.eq(1); // Lundi
+
+        expect(saturdayDate).to.be.instanceOf(Date);
+        expect(saturdayDate.getDay()).to.eq(6);
+      });
+  });
+});

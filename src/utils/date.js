@@ -49,3 +49,22 @@ export const get27thOfMonth = (year, month) => {
 //export const TurnsYearMonthDayIntoDate = ({year, month, day}) => {
 //   return new Date(year, month - 1, day).toISOString();
 // };
+
+export const getCurrentWeekRange = (currentDate = new Date()) => {
+  const dayOfWeek = currentDate.getDay();
+  const mondayOffset = dayOfWeek === 0 ? -6 : 1 - dayOfWeek;
+
+  const monday = new Date(currentDate);
+  monday.setDate(currentDate.getDate() + mondayOffset);
+  monday.setHours(0, 0, 0, 0);
+
+  const saturday = new Date(monday);
+  saturday.setDate(monday.getDate() + 5);
+  saturday.setHours(0, 0, 0, 0);
+
+  return {monday, saturday};
+};
+
+if (typeof window !== "undefined") {
+  window.getCurrentWeekRange = getCurrentWeekRange;
+}
