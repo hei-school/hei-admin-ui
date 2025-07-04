@@ -64,3 +64,7 @@ export const getCurrentWeekRange = (currentDate = new Date()) => {
 
   return {monday, saturday};
 };
+
+if (typeof window !== "undefined") {
+  window.getCurrentWeekRange = getCurrentWeekRange;
+}
