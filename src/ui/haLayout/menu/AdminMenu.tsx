@@ -1,5 +1,5 @@
-import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
-import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
+import { HeiListMenuItem } from "@/ui/haLayout/menu/common";
+import { ListMenu, ListMenuItem, SingleMenu } from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
   Inventory as DocsIcon,
@@ -12,14 +12,15 @@ import {
   LibraryBooksOutlined as LibraryIcon,
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
+  AssignmentInd as StaffIcon,
   School as StudentIcon,
   People as StudentListIcon,
   Work as TeachersIcon,
   CurrencyExchange as TransactionsIcon,
 } from "@mui/icons-material";
-import {Box} from "@mui/material";
+import { Box } from "@mui/material";
 
-function ManagerMenu() {
+function AdminMenu() {
 
   return (
     <Box>
@@ -96,8 +97,9 @@ function ManagerMenu() {
           icon={<EventBusy />}
         />
       </ListMenu>
+      <SingleMenu to="/staffmembers" label="Staff" icon={<StaffIcon />} />
     </Box>
   );
 }
 
-export default ManagerMenu;
+export default AdminMenu;
