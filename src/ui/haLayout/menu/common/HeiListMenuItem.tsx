@@ -4,9 +4,8 @@ import {Home as HeiDocsIcon} from "@mui/icons-material";
 import {CircularProgress} from "@mui/material";
 import {useEffect, useState} from "react";
 import {ListMenuItem} from "../utils";
-import {trackNavClick} from "@/utils/gtm";
 
-export const HeiListMenuItem = () => {
+export const HeiListMenuItem = ({ onClick }: { onClick?: () => void }) => {
   const [file, setFile] = useState<ShareInfo | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -33,7 +32,7 @@ export const HeiListMenuItem = () => {
       data-testid="hei-docs"
       label="HEI"
       icon={<HeiDocsIcon />}
-      onClick={() => trackNavClick("hei_docs", "manager")} // TODO: Make role dynamic
+      onClick={onClick}
     />
   );
 };
