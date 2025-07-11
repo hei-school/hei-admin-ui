@@ -25,6 +25,7 @@ import {AnnouncementCard} from "@/operations/announcements/components/Annoucemen
 import {EmptyList3D} from "@/operations/common/components/EmptyList";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
+import {CATEGORY} from "@/operations/fees/constants";
 import {commentFunctionRenderer} from "@/operations/utils";
 import {NOOP_ID} from "@/utils/constants";
 import {
@@ -133,6 +134,7 @@ export const AdminWelcome: FC = () => {
                 exporter={false}
                 hasCreate={false}
                 actions={false}
+                title=" "
                 resource="fees"
                 empty={<EmptyList3D />}
                 filter={{
@@ -173,6 +175,7 @@ export const AdminWelcome: FC = () => {
                   width={"100%"}
                 >
                   <TextField source="student_ref" label="Référence" />
+
                   <TextField source="student_first_name" label="Prénom" />
                   <DateField
                     source="due_datetime"
@@ -183,6 +186,16 @@ export const AdminWelcome: FC = () => {
                     source="comment"
                     render={commentFunctionRenderer}
                     label="Commentaire"
+                  />
+                  <FunctionField
+                    source="category"
+                    label="Catégorie"
+                    render={(record: any) => {
+                      const cat = CATEGORY.find(
+                        (c) => c.value === record.category
+                      );
+                      return cat ? cat.label : record.category;
+                    }}
                   />
                   <FunctionField
                     label="Reste à payer"
@@ -291,6 +304,7 @@ export const AdminWelcome: FC = () => {
               <List
                 exporter={false}
                 hasCreate={false}
+                title=" "
                 actions={false}
                 empty={<EmptyList3D />}
                 resource="students"
