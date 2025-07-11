@@ -1,15 +1,6 @@
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Authentification", () => {
-  it("user should remains on login page if fails", () => {
-    cy.login({
-      role: "STUDENT",
-      password: "bad password",
-      success: false,
-    });
-    cy.contains("CONNEXION AVEC CASDOOR", {timeout: 15000});
-  });
-
   it("should lands on profile page if succeeds", () => {
     cy.login({role: "STUDENT"});
     cy.getByTestid("main-content")

@@ -13,3 +13,7 @@ export const StatusRadioButton = (props) => (
     ]}
   />
 );
+
+if (typeof window !== "undefined") {
+  window.StatusRadioButton = StatusRadioButton;
+}

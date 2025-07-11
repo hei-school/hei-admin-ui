@@ -10,7 +10,7 @@ import {
 import {mapToChoices} from "@/utils";
 import {Add, Download} from "@mui/icons-material";
 import {Box, MenuItem, Select, Typography} from "@mui/material";
-import domtoimage from "dom-to-image";
+import domtoimage from "dom-to-image-more";
 import jsPDF from "jspdf";
 import {FC, useCallback, useState} from "react";
 import {Button, useRedirect} from "react-admin";
@@ -131,6 +131,7 @@ export const ExportEventFile: FC<{open: boolean; onclose: () => void}> = ({
         <Button
           variant="contained"
           startIcon={<Download />}
+          data-testid="export-calendar-button"
           onClick={handleExport}
           label="Exporter le calendrier"
           sx={{

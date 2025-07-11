@@ -3,7 +3,7 @@ import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Monitors", () => {
   beforeEach(() => {
-    cy.login({role: "MONITOR"});
+    cy.mockLogin({role: "MONITOR"});
   });
 
   it("lands on profile page if succeeds", () => {

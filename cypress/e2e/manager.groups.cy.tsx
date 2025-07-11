@@ -14,7 +14,7 @@ describe("Manager.Group", () => {
   beforeEach(() => {
     cy.intercept("GET", "/groups?*", groupsMock);
 
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
 
     cy.get('[href="/groups"]').click();
   });

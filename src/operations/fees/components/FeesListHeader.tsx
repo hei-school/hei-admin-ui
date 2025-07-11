@@ -5,7 +5,6 @@ import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 import {Dialog} from "@/ui/components";
 import {NOOP_ID} from "@/utils/constants";
 import {formatDate} from "@/utils/date";
-import {AdvancedFeesStatistics} from "@haapi/typescript-client";
 import {Box, Button as ImportButton, Typography} from "@mui/material";
 import {
   AlertTriangle,
@@ -23,20 +22,19 @@ import {
   useRefresh,
 } from "react-admin";
 import {v4 as uuid} from "uuid";
+import {FeeStats} from "../types";
 import {CardFeesContent, FeesStatsHeader} from "./FeeStatsHeader";
+import {StatsStatus} from "./StatsStatus";
 
 export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
   title,
   isMpbs = false,
 }) => {
   const {filterValues} = useListContext();
-  const {data: stats} = useGetOne<AdvancedFeesStatistics & {id: string}>(
-    "stats",
-    {
-      id: NOOP_ID,
-      meta: {resource: "fees_stats", filters: filterValues},
-    }
-  );
+  const {data: stats} = useGetOne<FeeStats>("stats", {
+    id: NOOP_ID,
+    meta: {resource: "fees_stats", filters: filterValues},
+  });
 
   const headerCardContent: CardFeesContent[] = [
     {
@@ -86,6 +84,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
       annual: stats?.late_fees_count?.yearly,
     },
   ];
+
   const [open, setOpen] = useState(false);
 
   return (
@@ -132,7 +131,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
               </Typography>
             )}
           </Box>
-          {isMpbs && (
+          {isMpbs ? (
             <ImportButton
               onClick={() => setOpen(true)}
               variant="contained"
@@ -140,6 +139,8 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
             >
               Vérifier des transactions
             </ImportButton>
+          ) : (
+            <StatsStatus stats={stats} />
           )}
           <ImportDialog onShow={open} onClose={() => setOpen(false)} />
         </Box>

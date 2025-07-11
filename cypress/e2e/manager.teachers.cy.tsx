@@ -3,7 +3,7 @@ import {updatedInfo} from "./utils";
 
 describe("Manager.Teachers", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.intercept(
       "GET",
       /teachers\?page=1&page_size=10&(first_name|ref|last_name)=/,

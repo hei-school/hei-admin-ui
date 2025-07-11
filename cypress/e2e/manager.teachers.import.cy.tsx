@@ -10,7 +10,7 @@ const _path = "cypress/fixtures/teachers_import";
 
 describe("Manager create multiple teachers", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.intercept("GET", `/teachers?page=1&page_size=10`, teachersMock).as(
       "getTeachersPage1"
     );
@@ -29,7 +29,7 @@ describe("Manager create multiple teachers", () => {
       [student1Mock]
     ).as("getTeachersByName2");
 
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami");
     cy.get('[href="/teachers"]').click();
   });
 

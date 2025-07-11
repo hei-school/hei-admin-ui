@@ -13,21 +13,21 @@ export const getCommonListHeaderContent = (stats) => {
     {
       title: "Étudiants",
       icon: <StudentIcon fontSize="large" />,
-      total: isNaN(totalStudents) ? "..." : totalStudents,
+      total: isNaN(totalStudents) ? 0 : totalStudents,
       statDetails: [
         {
           icon: <EnabledIcon fontSize="small" color="success" />,
-          total: stats.women.enabled + stats.men.enabled ?? "...",
+          total: (stats.women.enabled ?? 0) + (stats.men.enabled ?? 0),
           title: "Actif.ve.s",
         },
         {
           icon: <SuspendedIcon fontSize="small" color="warning" />,
-          total: stats.women.suspended + stats.men.suspended ?? "...",
+          total: (stats.women.suspended ?? 0) + (stats.men.suspended ?? 0),
           title: "Suspendu.e.s",
         },
         {
           icon: <DisabledIcon fontSize="small" color="error" />,
-          total: stats.women.disabled + stats.men.disabled ?? "...",
+          total: (stats.women.disabled ?? 0) + (stats.men.disabled ?? 0),
           title: "Quitté.e.s",
         },
       ],

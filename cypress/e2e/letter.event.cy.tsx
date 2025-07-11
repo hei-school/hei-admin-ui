@@ -29,7 +29,7 @@ describe("Letter.event", () => {
   });
 
   it("student can upload letter", () => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.visit(`/events/${event1mock.id}/participants`);
 
     cy.getByTestid(`attach-file`).last().click();
@@ -46,7 +46,7 @@ describe("Letter.event", () => {
   });
 
   it("student can view uploaded letter", () => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.visit(`/events/${event1mock.id}/participants`);
 
     cy.getByTestid("view-file").first().click();

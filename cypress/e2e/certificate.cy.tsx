@@ -11,7 +11,7 @@ describe("Student Ceritificate", () => {
   });
 
   it("Should notify error if blob.byteLength is < 0", () => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/scholarship_certificate/raw`,
@@ -26,7 +26,7 @@ describe("Student Ceritificate", () => {
   });
 
   it("student can get his certificate", () => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
 
     cy.getByTestid("download-button").click();
     cy.wait("@downloadCertificate");
@@ -35,7 +35,8 @@ describe("Student Ceritificate", () => {
   });
 
   it("manager can get student's certificate", () => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
+    cy.visit("/profile");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );

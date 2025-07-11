@@ -34,8 +34,6 @@ export const validateData = (data, headers) => {
     message = "Il n'y a pas d'élément à insérer";
   } else if (!isEqual(Object.keys(data[0]), minimalImportHeaders)) {
     message = "Veuillez re-vérifier les en-têtes de votre fichier";
-  } else if (!isEqual(Object.keys(data[0]), minimalImportHeaders)) {
-    message = "Veuillez re-vérifier les en-têtes de votre fichier";
   } else if (data.length >= 20) {
     message = "Vous ne pouvez importer que 20 éléments à la fois.";
   } else {
@@ -44,3 +42,9 @@ export const validateData = (data, headers) => {
 
   return {isValid: isValid, message};
 };
+
+if (typeof window !== "undefined") {
+  window.validateData = validateData;
+  window.importHeaders = importHeaders;
+  window.minimalImportHeaders = minimalImportHeaders;
+}

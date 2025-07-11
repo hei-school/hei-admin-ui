@@ -15,7 +15,8 @@ const createPayment = createPaymentWithAmountMock(amount);
 
 describe("Manager.Payment", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
+    cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
@@ -110,7 +111,7 @@ describe("Manager.Payment", () => {
       "have.length",
       1
     );
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
+    cy.get('td input[type="checkbox"]').should("not.exist");
   });
 
   it("can add mobile money payment to a fee", () => {

@@ -87,3 +87,8 @@ export const transformUserData = (data) => {
     return element;
   });
 };
+
+if (typeof window !== "undefined") {
+  window.validateUserData = validateUserData;
+  window.transformUserData = transformUserData;
+}

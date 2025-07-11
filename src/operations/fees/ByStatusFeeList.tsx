@@ -10,6 +10,7 @@ import {renderMoney} from "../common/utils/money";
 import {commentFunctionRenderer} from "../utils";
 import {FeesListHeader} from "./components";
 import {FeesFilters} from "./components/FeesFilter";
+import {CATEGORY} from "./constants";
 import {rowStyle} from "./utils";
 import {FeesExport} from "./utils/FeesExport";
 
@@ -79,6 +80,14 @@ const ByStatusFeeList = () => {
           source="comment"
           render={commentFunctionRenderer}
           label="Commentaire"
+        />
+        <FunctionField
+          source="category"
+          label="Catégorie"
+          render={(record: any) => {
+            const cat = CATEGORY.find((c) => c.value === record.category);
+            return cat ? cat.label : record.category;
+          }}
         />
         <FunctionField
           label="Reste à payer"

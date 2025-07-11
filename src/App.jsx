@@ -32,6 +32,7 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
 function AppBase() {
@@ -42,6 +43,7 @@ function AppBase() {
       dataProvider={dataProvider}
       i18nProvider={polyglotI18nProvider(() => frenchMessages, "fr")}
       loginPage={HaLoginPage}
+      dashboard={DashboardContent}
       theme={mainTheme}
       layout={HaLayout}
       requireAuth
@@ -253,7 +255,7 @@ function AppBase() {
         <Route
           exact
           path="/exams/:id/grades"
-          element={<grades.examGradeList />}
+          element={<grades.examParticipantList />}
         />
       </CustomRoutes>
     </Admin>

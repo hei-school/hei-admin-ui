@@ -26,7 +26,7 @@ export const importFile = (file: string, message: string, _path: string) => {
   cy.getByTestid("inputFile").selectFile(_mockFile, {force: true});
 
   cy.contains("Confirmer").click();
-  cy.contains(message, {timeout: 7000});
+  cy.contains(message);
 };
 
 export const assertFeeMatchesTemplate = (feeToCreate: any, template: any) => {

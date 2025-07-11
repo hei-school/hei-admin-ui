@@ -34,6 +34,7 @@ const ActionsOnShow: FC = () => {
       />
       {isAdmin() ? (
         <Button
+          data-testid="teacher-docs-button"
           startIcon={<Inventory />}
           label="Documents"
           size="medium"

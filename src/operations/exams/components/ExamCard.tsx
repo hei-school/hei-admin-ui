@@ -18,6 +18,28 @@ import {Clock} from "lucide-react";
 import {CSSProperties, FC, ReactNode} from "react";
 import {Link} from "react-admin";
 
+type ExamDetailsProps = {
+  exam: ExamInfo;
+};
+
+type InfoRowProps = {
+  icon: ReactNode;
+  label: string;
+  value?: string;
+  color?: string;
+  textColor?: string;
+};
+
+type ExamTagProps = {
+  label: string;
+  color: string;
+};
+
+type ExamCardProps = {
+  exam: ExamInfo;
+  isLoading: boolean;
+};
+
 const cardStyle: CSSProperties = {
   minWidth: "300px",
   marginTop: "50px",
@@ -29,7 +51,7 @@ const cardStyle: CSSProperties = {
   boxShadow: "0 0 10px rgb(182, 182, 182)",
 };
 
-const ExamDetails: FC<{exam: ExamInfo}> = ({exam}) => (
+const ExamDetails: FC<ExamDetailsProps> = ({exam}) => (
   <Stack direction="column" spacing={1} mt={2}>
     <InfoRow
       label="Cours:"
@@ -53,13 +75,13 @@ const ExamDetails: FC<{exam: ExamInfo}> = ({exam}) => (
   </Stack>
 );
 
-const InfoRow: FC<{
-  icon: ReactNode;
-  label: string;
-  value?: string;
-  color?: string;
-  textColor?: string;
-}> = ({icon, label, value, color = "primary.light", textColor = "white"}) => (
+const InfoRow: FC<InfoRowProps> = ({
+  icon,
+  label,
+  value,
+  color = "primary.light",
+  textColor = "white",
+}) => (
   <Box display="flex" justifyContent="space-between">
     <Typography display="flex" alignItems="center">
       {icon} {label}
@@ -84,7 +106,7 @@ const InfoRow: FC<{
   </Box>
 );
 
-const ExamTag: FC<{label: string; color: string}> = ({label, color}) => (
+const ExamTag: FC<ExamTagProps> = ({label, color}) => (
   <Box
     py="3px"
     color="white"
@@ -103,10 +125,7 @@ const ExamTag: FC<{label: string; color: string}> = ({label, color}) => (
   </Box>
 );
 
-export const ExamCard: FC<{exam: ExamInfo; isLoading: boolean}> = ({
-  exam,
-  isLoading,
-}) => (
+export const ExamCard: FC<ExamCardProps> = ({exam, isLoading}) => (
   <Link
     to={`/exams/${exam.id}/grades`}
     sx={{

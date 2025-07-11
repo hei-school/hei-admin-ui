@@ -8,10 +8,6 @@ const docsProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, _filter: any, meta: any) {
     if (!meta) return {data: []};
     switch (meta.owner) {
-      case OwnerType.SCHOOL:
-        return filesApi()
-          .getSchoolRegulations(page, perPage)
-          .then((result) => ({data: result.data}));
       case OwnerType.STUDENT:
         if (meta.type === "WORK_DOCUMENT") {
           return filesApi()
@@ -24,7 +20,6 @@ const docsProvider: HaDataProviderType = {
             .then((result) => ({data: result.data}));
         }
         return {data: []};
-      case OwnerType.STAFF_MEMBER:
       case OwnerType.TEACHER:
         if (meta.type === "OTHER") {
           return filesApi()
@@ -39,10 +34,6 @@ const docsProvider: HaDataProviderType = {
   async getOne(id: string, meta: any) {
     if (!meta) return [];
     switch (meta.owner) {
-      case OwnerType.SCHOOL:
-        return filesApi()
-          .getSchoolRegulationById(id)
-          .then((result) => result.data);
       case OwnerType.STUDENT:
         if (meta.type === "WORK_DOCUMENT") {
           return filesApi()
@@ -69,11 +60,6 @@ const docsProvider: HaDataProviderType = {
 
     switch (doc.owner) {
       case OwnerType.SCHOOL:
-        return filesApi()
-          .uploadSchoolFile(FileType.DOCUMENT, doc.title, raw.rawFile, {
-            headers: MULTIPART_HEADERS,
-          })
-          .then((result) => [result.data]);
       case OwnerType.STUDENT:
         if (doc.type === "WORK_DOCUMENT") {
           return filesApi()
@@ -97,7 +83,6 @@ const docsProvider: HaDataProviderType = {
             .then((result) => [result.data]);
         }
         return [];
-      case OwnerType.STAFF_MEMBER:
       case OwnerType.TEACHER:
         if (doc.type in FileType) {
           return filesApi()

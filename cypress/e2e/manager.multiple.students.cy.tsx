@@ -10,7 +10,8 @@ const _path = "cypress/fixtures/students_import";
 
 describe("Manager create multiple students", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
+    cy.visit("/profile");
     cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
       "getStudentsPage1"
     );
@@ -29,7 +30,7 @@ describe("Manager create multiple students", () => {
     ).as("getStudentsByName2");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
     cy.intercept("GET", `/students/letters/stats`, {}).as("getStats");
-    cy.wait("@getWhoami", {timeout: 10000});
+    cy.wait("@getWhoami");
     cy.wait("@getStats");
     cy.getByTestid("students-menu").click();
     cy.get('[href="/students"]').click();
@@ -66,7 +67,7 @@ describe("Manager create multiple students", () => {
       "Importation effectuée avec succès",
       _path
     );
-    cy.contains("Importation effectuée avec succès", {timeout: 20000});
+    cy.contains("Importation effectuée avec succès");
   });
 
   it("can create multiple students with the correct file and minimum infos", () => {
@@ -78,7 +79,7 @@ describe("Manager create multiple students", () => {
       "Importation effectuée avec succès",
       _path
     );
-    cy.contains("Importation effectuée avec succès", {timeout: 20000});
+    cy.contains("Importation effectuée avec succès");
   });
 
   it("notifies if the multiple students creation failed", () => {

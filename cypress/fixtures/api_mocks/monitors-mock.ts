@@ -40,4 +40,23 @@ export const monitorsMock: Monitor[] = [
   },
 ];
 
+export const createdMonitor = {
+  id: "monitor1_id_created",
+  ref: "MTR210030A",
+  first_name: "Monitor create",
+  last_name: "One love",
+  sex: Sex.M,
+  nic: "121239494949",
+  birth_place: "Analamahintsy",
+  birth_date: "2000-01-01",
+  address: "Adr 1",
+  phone: "0322411123",
+  email: "test+monitor1@hei.school",
+  entrance_datetime: new Date("2021-11-08T00:00:00Z"),
+  status: EnableStatus.ENABLED,
+  coordinates: {
+    longitude: -123.123,
+    latitude: 123.0,
+  },
+} as Required<Monitor>;
 export const monitor1Mock = monitorsMock[0] as Required<Monitor>;

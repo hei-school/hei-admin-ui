@@ -1,11 +1,9 @@
 import {useNotify} from "@/hooks";
 import {
-  Box,
   Button,
   Card,
   CardContent,
   Grid,
-  Modal,
   Typography,
   useMediaQuery,
 } from "@mui/material";
@@ -15,8 +13,6 @@ import {mainTheme} from "../haTheme";
 import authProvider from "../providers/authProvider";
 import CasdoorLoginCard from "./CasdoorLoginCard";
 import CompletePasswordPage from "./CompletePasswordPage";
-import ConfirmForgotPassword from "./ConfirmForgotPassword";
-import ForgotPassword from "./ForgotPassword";
 
 const aCard = (title, subtitle, description1, description2, course) => {
   const syllabus =
@@ -121,10 +117,11 @@ const HaLoginPage = () => {
 
   const notify = useNotify();
   const navigate = useNavigate();
+
   useEffect(() => {
     try {
       authProvider.checkAuth().catch((e) => {
-        notify("Authentication check failed", {type: "error"});
+        console.error("Authentication check failed : ", e);
       });
       const id = authProvider.getCachedWhoami().id;
       if (id) {
@@ -133,7 +130,7 @@ const HaLoginPage = () => {
     } catch (error) {
       notify("Authentication check failed", {type: "error"});
     }
-  }, [navigate]);
+  }, [navigate, notify]);
 
   return (
     <div
@@ -147,19 +144,6 @@ const HaLoginPage = () => {
         height: "100%",
       }}
     >
-      <Modal open={openModal} onClose={() => setOpenModal(false)}>
-        <Box sx={style}>
-          {confirm ? (
-            <ConfirmForgotPassword
-              username={username}
-              setUsername={setUsername}
-              setConfirm={setConfirm}
-            />
-          ) : (
-            <ForgotPassword username={username} setOpenModal={setOpenModal} />
-          )}
-        </Box>
-      </Modal>
       {displayFull ? (
         <Grid
           container

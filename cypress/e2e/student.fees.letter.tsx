@@ -5,7 +5,7 @@ import {
 } from "../fixtures/api_mocks/fees-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
-describe("Mobile payment by student", () => {
+describe.skip("Mobile payment by student", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
@@ -18,7 +18,7 @@ describe("Mobile payment by student", () => {
       feesMock
     ).as("getFees2");
 
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
   });
 

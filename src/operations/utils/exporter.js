@@ -13,3 +13,8 @@ export const exportData = (data, headers, fileName) => {
 
   writeFile(workbook, `${fileName}.xlsx`, {compression: true});
 };
+
+if (typeof window !== "undefined") {
+  window.exportData = exportData;
+  window.exportHeaders = exportHeaders;
+}

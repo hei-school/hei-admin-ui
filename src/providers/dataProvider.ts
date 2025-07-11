@@ -38,11 +38,10 @@ import statsProvider from "@/providers/statsProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
-import {DataProvider} from "react-admin";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
-const providerMap: Record<string, HaDataProviderType> = {
+const providerMap = {
   "profile": profileProvider,
   "announcements": announcementProvider,
   "students": studentProvider,
@@ -82,9 +81,11 @@ const providerMap: Record<string, HaDataProviderType> = {
   "staffs-export": staffExportProvider,
   "mpbs-verify": mpbsVerifyProvider,
   "exam-grades": examGradeProvider,
-};
+} as const;
 
-const getProvider = (resourceType: string): HaDataProviderType => {
+const getProvider = (
+  resourceType: keyof typeof providerMap
+): HaDataProviderType => {
   const provider = providerMap[resourceType];
   if (!provider) {
     throw new Error("Unexpected resourceType: " + resourceType);
@@ -93,7 +94,7 @@ const getProvider = (resourceType: string): HaDataProviderType => {
 };
 
 const getHasNextPageInfo = async (
-  resource: string,
+  resource: keyof typeof providerMap,
   page: number,
   perPage: number,
   filter: any,
@@ -114,8 +115,8 @@ const getHasNextPageInfo = async (
 
   return response.data.length > 0;
 };
-const dataProvider: DataProvider = {
-  async getList(resourceType: string, params: any) {
+const dataProvider = {
+  async getList(resourceType: keyof typeof providerMap, params: any) {
     const {pagination, meta, filter} = params;
 
     const page = pagination.page === 0 ? 1 : pagination.page;
@@ -159,14 +160,14 @@ const dataProvider: DataProvider = {
       },
     };
   },
-  async getOne(resourceType: string, params: any) {
+  async getOne(resourceType: keyof typeof providerMap, params: any) {
     const result = await getProvider(resourceType).getOne(
       params.id,
       params.meta
     );
     return {data: result};
   },
-  async update(resourceType: string, params: any) {
+  async update(resourceType: keyof typeof providerMap, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate(
       [params.data].flat(),
       {
@@ -176,7 +177,7 @@ const dataProvider: DataProvider = {
     );
     return {data: result[0]};
   },
-  async create(resourceType: string, params) {
+  async create(resourceType: keyof typeof providerMap, params: any) {
     const result = await getProvider(resourceType).saveOrUpdate(
       resourceType === "students" ||
         resourceType === "teachers" ||
@@ -187,7 +188,7 @@ const dataProvider: DataProvider = {
     );
     return {data: result[0]};
   },
-  async delete(resourceType: string, params: any) {
+  async delete(resourceType: keyof typeof providerMap, params: any) {
     const result = await getProvider(resourceType).delete(params.id);
     return {data: result};
   },

@@ -209,8 +209,12 @@ export const fee1MockMpbs = {
   amount: 0,
   creation_datetime: new Date("2024-04-17"),
   student_id: fee1Mock.student_id,
+  id: "reference orange no 1",
   fee_id: fee1Mock.id,
-  psp_id: "reference orange no 1",
+  psp_id: "MP240726.1541.D88429",
+  successfully_verified_on: "",
+  last_datetime_verification: "",
+  psp_own_datetime_verification: "",
   psp_type: "ORANGE",
   status: "PENDING",
 };

@@ -8,7 +8,7 @@ import {advancedStats} from "../fixtures/api_mocks/fees-stats";
 
 describe("Mobile payment by student", () => {
   beforeEach(() => {
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
     cy.getByTestid("students-menu").click();
   });
 

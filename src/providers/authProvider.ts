@@ -17,9 +17,9 @@ Amplify.configure(awsConfig);
 const ID_ITEM = "ha_id";
 const ROLE_ITEM = "ha_role";
 const BEARER_ITEM = "ha_bearer";
-const paramIsTemporaryPassword = "t";
+const paramIsTemporaryKey = "t";
 const paramUsername = "u";
-const paramTemporaryPassword = "p";
+const paramTemporaryKey = "p";
 const paramLocalAmplifyBoolean = "amplify-signin-with-hostedUI";
 
 let isRefreshing = false;
@@ -122,7 +122,7 @@ const authProvider = {
       const encodedUsername = encodeURIComponent(btoa(username as string));
       const encodedPassword = encodeURIComponent(btoa(password as string));
       window.location.replace(
-        `/login?${paramIsTemporaryPassword}=true&${paramUsername}=${encodedUsername}&${paramTemporaryPassword}=${encodedPassword}`
+        `/login?${paramIsTemporaryKey}=true&${paramUsername}=${encodedUsername}&${paramTemporaryKey}=${encodedPassword}`
       );
       return;
     }
@@ -178,7 +178,7 @@ const authProvider = {
   isTemporaryPassword: (): boolean => {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    return urlParams.get(paramIsTemporaryPassword) === "true";
+    return urlParams.get(paramIsTemporaryKey) === "true";
   },
 
   forgotPassword: async (username: string): Promise<void> => {
@@ -204,7 +204,7 @@ const authProvider = {
       decodeURIComponent(urlParams.get(paramUsername) as string)
     );
     const temporaryPassword = atob(
-      decodeURIComponent(urlParams.get(paramTemporaryPassword) as string)
+      decodeURIComponent(urlParams.get(paramTemporaryKey) as string)
     );
 
     const signInResponse = await signIn({

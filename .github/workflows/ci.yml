@@ -65,7 +65,7 @@ jobs:
         run: npm run format:check
 
   test-e2e:
-    timeout-minutes: 45
+    timeout-minutes: 35
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -117,15 +117,19 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           start: npm run dev
+          command: npx cypress run --env coverage=true
 
-      - name: Log test reports
-        if: always()
-        run: cat ./dist/cypress-sonarqube-reports.all.xml
-
-      - name: Locate lcov.info
+      ## Generate Lcov report ##
+      - name: Generate Lcov report
         if: always()
         run: |
-          cat coverage/lcov.info | wc -l
+          npx nyc report --reporter=lcov
+
+      ## Merge test reports ##
+      - name: Merge test reports
+        if: always()
+        run: |
+          npm run test:merge:reports
 
       ## SonarQube Cloud Scan ##
       - name: SonarQube Cloud Scan
@@ -136,6 +140,8 @@ jobs:
         run: |
           sonar-scanner \
             -Dsonar.projectVersion=${{ steps.read-version.outputs.version }} \
+            -Dsonar.branch.name=${{ github.ref_name }} \
+            -Dsonar.host.url=https://sonarcloud.io \
 
   build:
     timeout-minutes: 30

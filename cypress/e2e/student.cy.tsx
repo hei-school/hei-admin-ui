@@ -4,7 +4,7 @@ import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Student", () => {
   beforeEach(() => {
-    cy.login({role: "STUDENT"});
+    cy.mockLogin({role: "STUDENT"});
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
@@ -61,8 +61,8 @@ describe("Student", () => {
       .and("contain", student1Mock.email)
       .and("contain", student1Mock.phone);
     cy.get("#ha-menu")
-      .should("not.contain", "Enseignants", {timeout: 50})
-      .and("not.contain", "Étudiants", {timeout: 50})
+      .should("not.contain", "Enseignants")
+      .and("not.contain", "Étudiants")
       .and("contain", "Frais");
   });
 
@@ -74,16 +74,16 @@ describe("Student", () => {
     ).as("getFees");
     cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
     cy.wait("@getFees");
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
-    cy.get("td a").should("not.contain", "ÉDITER", {timeout: 50});
+    cy.get('td input[type="checkbox"]').should("not.exist");
+    cy.get("td a").should("not.contain", "ÉDITER");
     cy.get("body").click(200, 0); //note(uncover-menu)
     cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`).click({
       force: true,
     });
     cy.get("#main-content").should("contain", "Paiements");
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
-    cy.get("td").should("not.contain", "ÉDITER", {timeout: 50});
-    cy.get(".RaList-main").should("not.contain", "CRÉER", {timeout: 50});
+    cy.get('td input[type="checkbox"]').should("not.exist");
+    cy.get("td").should("not.contain", "ÉDITER");
+    cy.get(".RaList-main").should("not.contain", "CRÉER");
     cy.contains("En retard");
   });
 

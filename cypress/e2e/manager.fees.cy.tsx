@@ -70,14 +70,15 @@ describe("Manager.Fee", () => {
     cy.intercept("PUT", `/fees`, feesMock).as("createFees");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
-    cy.login({role: "MANAGER"});
+    cy.mockLogin({role: "MANAGER"});
+    cy.visit("/profile");
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.wait("@getStudents");
     cy.get("body").click(200, 0);
-    cy.contains("Page :1");
-    cy.contains(`Taille :${feesMock.length > 10 ? 10 : feesMock.length}`);
-    cy.get('td input[type="checkbox"]', {timeout: 50}).should("not.exist");
+    cy.contains("Page: 1");
+    cy.contains(`Taille: ${feesMock.length > 10 ? 10 : feesMock.length}`);
+    cy.get('td input[type="checkbox"]').should("not.exist");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
@@ -107,7 +108,9 @@ describe("Manager.Fee", () => {
     ).as("getPaymentsOfOneFee2");
     cy.get('[data-testid="fees-tab"]').click();
     cy.wait("@getFees");
-    cy.get("#main-content tbody tr").first().click();
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
     cy.wait("@getFee1");
     cy.get("#main-content")
       .should("contain", `${interceptedFeeMock!.remaining_amount!} Ar`)

@@ -6,7 +6,7 @@ import {
 
 describe("Manager announcements", () => {
   beforeEach(() => {
-    cy.login({role: "TEACHER"});
+    cy.mockLogin({role: "TEACHER"});
 
     cy.intercept("POST", `/announcements`, createdAnnouncement);
     cy.intercept(
