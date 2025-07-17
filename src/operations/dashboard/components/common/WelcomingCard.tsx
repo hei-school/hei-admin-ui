@@ -6,7 +6,10 @@ import {alpha, Box, Typography} from "@mui/material";
 import {FC} from "react";
 import {useGetOne} from "react-admin";
 
-export const WelcomingCard: FC<{animate: boolean}> = ({animate}) => {
+export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
+  animate,
+  isLarge,
+}) => {
   const {data: user} = useGetOne("profile", {
     id: authProvider.getCachedWhoami().id,
   });
@@ -16,11 +19,12 @@ export const WelcomingCard: FC<{animate: boolean}> = ({animate}) => {
     if (hour < 18) return "Bon après-midi";
     return "Bonsoir";
   };
+
   return (
     <Box
       sx={{
         "width": "100%",
-        "height": {xs: "25vh", md: "30vh"},
+        "height": {xs: "25vh", md: isLarge ? "30vh" : "35vh"},
         "position": "relative",
         "borderRadius": "1.5rem",
         "backgroundColor": alpha(PALETTE_COLORS.primary, 0.95),
@@ -48,7 +52,7 @@ export const WelcomingCard: FC<{animate: boolean}> = ({animate}) => {
       >
         <Typography
           variant="h2"
-          fontSize={{xs: "1.8rem", md: "2.5rem"}}
+          fontSize={{xs: "1.8rem", md: isLarge ? "2.5rem" : "2rem"}}
           fontWeight="bold"
           color={PALETTE_COLORS.white}
           sx={{
@@ -60,7 +64,7 @@ export const WelcomingCard: FC<{animate: boolean}> = ({animate}) => {
         </Typography>
         <Typography
           variant="h4"
-          fontSize={{xs: "1.2rem", md: "1.5rem"}}
+          fontSize={{xs: "1.2rem", md: isLarge ? "1.5rem" : "1.3rem"}}
           fontWeight="bold"
           color={PALETTE_COLORS.yellow}
           sx={{textShadow: "0 2px 8px rgba(0,0,0,0.3)"}}
@@ -79,7 +83,7 @@ export const WelcomingCard: FC<{animate: boolean}> = ({animate}) => {
         </Typography>
         <Typography
           width={{xs: "100%", md: "50%"}}
-          fontSize={{xs: "1rem", md: "1.2rem"}}
+          fontSize={{xs: "1rem", md: isLarge ? "1.2rem" : "1.1rem"}}
           marginTop="1rem"
           color={PALETTE_COLORS.white}
           sx={{opacity: 0.85}}
@@ -96,7 +100,7 @@ export const WelcomingCard: FC<{animate: boolean}> = ({animate}) => {
           position: "absolute",
           bottom: -23,
           right: {xs: "-5vw", md: "2vw"},
-          width: {xs: "15rem", md: "19.8rem"},
+          width: {xs: "15rem", md: isLarge ? "19.8rem" : "18rem"},
           objectFit: "cover",
           zIndex: 10,
           opacity: animate ? 1 : 0,

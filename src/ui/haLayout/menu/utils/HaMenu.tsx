@@ -38,6 +38,7 @@ const Separator = styled("div")({
 export function HaMenuBase({sx = {}}) {
   const [open] = useSidebarState();
   const isSmall = useMediaQuery("(max-width:920px)");
+  const isLarge = useMediaQuery("(min-width:1700px)");
   const {isMonitor, isStudent, isAdmin, isManager} = useRole();
 
   const logout = async () => {
@@ -45,6 +46,8 @@ export function HaMenuBase({sx = {}}) {
     window.location.reload();
   };
   const isShown = !isSmall || open;
+
+  const bottomBoxHeight = isMonitor() || isStudent() ? 200 : 110;
 
   return (
     <Box
@@ -62,23 +65,24 @@ export function HaMenuBase({sx = {}}) {
       <Box
         sx={{
           "width": "100%",
-          "height": isSmall ? "100%" : "calc(100% - 200px)",
+          "height": isSmall
+            ? `calc(100% - ${bottomBoxHeight + 50}px)`
+            : `calc(100% - ${bottomBoxHeight}px)`,
           "overflowY": "auto",
+          "overflowX": "hidden",
           "paddingTop": "2.5vh",
           "&::-webkit-scrollbar": {
-            width: "0px",
+            width: "4px",
             background: "transparent",
-            display: "none",
           },
           "&::-webkit-scrollbar-thumb": {
-            background: "transparent",
-            display: "none",
+            background: "rgb(255, 255, 255)",
+            borderRadius: "4px",
           },
           "&::-webkit-scrollbar-track": {
             background: "transparent",
-            display: "none",
           },
-          "scrollbarWidth": "none",
+          "scrollbarWidth": "thin",
           "-ms-overflow-style": "none",
         }}
       >
@@ -121,8 +125,8 @@ export function HaMenuBase({sx = {}}) {
       {isMonitor() || isStudent() ? (
         <Box
           sx={{
-            width: "100%",
-            height: "200px",
+            width: isSmall ? "90%" : "100%",
+            height: `${bottomBoxHeight}px`,
             borderTop: "1px solid rgba(255, 255, 255, 0.28)",
             shadow: "0 0 10px rgba(0, 0, 0, 0.2)",
             position: "absolute",
@@ -236,11 +240,11 @@ export function HaMenuBase({sx = {}}) {
                   justifyContent: "center",
                 }}
               >
-                <PhoneCall size={24} />
+                <PhoneCall size={isLarge ? 24 : 18} />
               </Box>
               <Typography
                 sx={{
-                  fontSize: "1.1rem",
+                  fontSize: isLarge ? "1.1rem" : "0.9rem",
                   fontWeight: 600,
                   letterSpacing: "0.5px",
                 }}
@@ -253,7 +257,7 @@ export function HaMenuBase({sx = {}}) {
               sx={{
                 "display": "flex",
                 "alignItems": "center",
-                "gap": 2,
+                "gap": isLarge ? 2 : 0.5,
                 "padding": "5px",
                 "background": "rgba(255,255,255,0.08)",
                 "borderRadius": "12px",
@@ -270,13 +274,13 @@ export function HaMenuBase({sx = {}}) {
                 sx={{
                   background: "rgba(255,255,255,0.15)",
                   borderRadius: "50%",
-                  padding: "10px",
+                  padding: isLarge ? "12px" : "10px",
                   display: "flex",
                   alignItems: "center",
                   justifyContent: "center",
                 }}
               >
-                <MailQuestion size={24} />
+                <MailQuestion size={isLarge ? 24 : 18} />
               </Box>
               <a
                 href="mailto:contact@mail.hei.school"
@@ -284,7 +288,7 @@ export function HaMenuBase({sx = {}}) {
                 style={{
                   color: "white",
                   textDecoration: "none",
-                  fontSize: "1.1rem",
+                  fontSize: isLarge ? "1.1rem" : "0.8rem",
                   fontWeight: 600,
                   letterSpacing: "0.5px",
                 }}
@@ -298,6 +302,7 @@ export function HaMenuBase({sx = {}}) {
         <Box
           sx={{
             width: "100%",
+            height: `${bottomBoxHeight}px`,
             borderTop: "1px solid rgba(255, 255, 255, 0.28)",
             shadow: "0 0 10px rgba(0, 0, 0, 0.2)",
             position: "absolute",
