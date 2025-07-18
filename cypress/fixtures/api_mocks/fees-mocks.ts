@@ -33,6 +33,7 @@ export const unpaidFeeMock: Fee = {
   total_amount: 250000,
   creation_datetime: new Date("2022-11-08"),
   due_datetime: new Date("2022-12-08"),
+  category: "L3",
 };
 
 export const feesMock: Fee[] = [
