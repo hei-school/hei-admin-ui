@@ -121,6 +121,7 @@ export const ListContent = ({eventId}: {eventId: string}) => {
         title="Listes des participants"
         icon={<EventIcon />}
         listProps={{
+          perPage: 50,
           title: "Présence",
           queryOptions: {
             meta: {eventId},

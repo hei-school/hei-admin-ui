@@ -19,12 +19,12 @@ describe("Manager.event", () => {
     });
     cy.intercept(
       "GET",
-      `/events/${event1mock.id}/participants?page=1&page_size=10`,
+      `/events/${event1mock.id}/participants?page=1&page_size=50`,
       eventParticipantsMock
     ).as("getEventParticipantPage1");
     cy.intercept(
       "GET",
-      `/events/${event1mock.id}/participants?page=2&page_size=10`,
+      `/events/${event1mock.id}/participants?page=2&page_size=50`,
       eventParticipantsMock
     ).as("getEventParticipantPage2");
     cy.intercept(

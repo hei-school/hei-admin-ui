@@ -7,6 +7,7 @@ import {
   Grid,
   Stack,
   Typography,
+  useMediaQuery,
 } from "@mui/material";
 import {FC, useEffect, useState} from "react";
 import {
@@ -60,16 +61,18 @@ export const AdminWelcome: FC = () => {
     setAnimate(true);
   }, []);
 
+  const isLarge = useMediaQuery("(min-width:1700px)");
+
   return (
     <Box sx={{p: {xs: 1, md: 2}, overflow: "hidden", bgcolor: "#F9FAFB"}}>
-      <WelcomingCard animate={animate} />
+      <WelcomingCard animate={animate} isLarge={isLarge} />
       <RecentLetters animate={animate} />
 
       <Grid
         container
         spacing={3}
         sx={{
-          gap: {xs: 2, md: 3},
+          gap: {xs: 2, md: 2},
         }}
       >
         <Grid item xs={12} lg={7.5}>
@@ -150,6 +153,7 @@ export const AdminWelcome: FC = () => {
                 sx={{
                   "padding": "0 !important",
                   "width": "100%",
+                  "fontSize": isLarge ? "1rem" : "0.9rem !important",
                   "overflowY": "auto",
                   "height": "90%",
                   "&::-webkit-scrollbar": {
