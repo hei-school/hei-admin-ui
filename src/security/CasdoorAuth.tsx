@@ -1,10 +1,11 @@
-import {FC, useEffect, useRef} from "react";
+import {Card} from "@mui/material";
+import {useEffect, useRef} from "react";
 import {LoadingPage} from "react-admin";
 import {useNavigate} from "react-router-dom";
 import authProvider from "../providers/authProvider";
 import {SERVER_URL} from "./casdoorSetting";
 
-const CasdoorAuthCallback: FC = () => {
+const CasdoorAuthCallback = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
   const state = urlParams.get("state");
@@ -12,7 +13,7 @@ const CasdoorAuthCallback: FC = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
+    (async () => {
       if (code && state && !isExchanged.current && SERVER_URL) {
         isExchanged.current = true;
         try {
@@ -24,16 +25,24 @@ const CasdoorAuthCallback: FC = () => {
           navigate("/");
         }
       }
-    };
-
-    fetchData();
-  }, [code, state]);
+    })();
+  }, [code, navigate, state]);
 
   return (
-    <LoadingPage
-      loadingPrimary="Chargement"
-      loadingSecondary="La page est en cours de chargement, merci de bien vouloir patienter."
-    />
+    <Card
+      sx={{
+        width: "100%",
+        height: "100vh",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      <LoadingPage
+        loadingPrimary="Chargement"
+        loadingSecondary="La page est en cours de chargement, merci de bien vouloir patienter."
+      />
+    </Card>
   );
 };
 

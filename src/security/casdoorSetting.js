@@ -1,5 +1,4 @@
 import axios from "axios";
-import Sdk from "casdoor-js-sdk";
 
 export const SERVER_URL = process.env.REACT_APP_API_URL;
 
@@ -10,8 +9,6 @@ const SDK_CONFIG = {
   organizationName: process.env.REACT_APP_CASDOOR_SDK_ORGANIZATION_NAME,
   redirectPath: process.env.REACT_APP_CASDOOR_SDK_REDIRECT_PATH,
 };
-
-export const CasdoorSDK = new Sdk(SDK_CONFIG);
 
 export const goToExternalURL = (link) => {
   window.location.href = link;

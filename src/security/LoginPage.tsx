@@ -1,6 +1,7 @@
 import heroImage from "@/assets/hei-tribe.jpg";
 import logo from "@/assets/menu-logo.png";
 import {useNotify, UseNotifyOptions} from "@/hooks";
+import authProvider from "@/providers/authProvider.ts";
 import {getRedirectUrl, goToExternalURL} from "@/security/casdoorSetting";
 import {
   AttachMoney,
@@ -21,7 +22,8 @@ import {
   Typography,
 } from "@mui/material";
 import {createTheme, ThemeProvider} from "@mui/material/styles";
-import {ReactNode} from "react";
+import {ReactNode, useEffect} from "react";
+import {useNavigate} from "react-router-dom";
 
 const theme = createTheme({
   palette: {
@@ -261,6 +263,7 @@ const LoginCard = () => {
             "transition": "all 0.3s ease",
           }}
           startIcon={<LoginIcon />}
+          data-testid="casdoor-login-btn"
         >
           Se connecter avec Casdoor
         </Button>
@@ -302,6 +305,23 @@ const LoginCard = () => {
 };
 
 export default function HaLoginPage() {
+  const notify = useNotify();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    try {
+      authProvider.checkAuth().catch((e) => {
+        console.error("Authentication check failed : ", e);
+      });
+      const id = authProvider.getCachedWhoami().id;
+      if (id) {
+        navigate("/profile");
+      }
+    } catch (error) {
+      notify("Authentication check failed", {type: "error"});
+    }
+  }, [navigate, notify]);
+
   return (
     <ThemeProvider theme={theme}>
       <Box
