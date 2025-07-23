@@ -1,3 +1,4 @@
+import {MonthToFilter} from "@/operations/fees/utils/MonthToFilter";
 import {useRole} from "@/security/hooks";
 import {
   DateTimeFilter,
@@ -5,36 +6,12 @@ import {
   SelectInputFilter,
   TextFilter,
 } from "@/ui/haToolbar";
-import useHaToolbarContext from "@/ui/haToolbar/useHaToolbarContext";
 import {Box, Divider, Typography} from "@mui/material";
-import {useEffect} from "react";
 import {
   FEE_STATUS_CHOICES,
   FEES_TYPES_CHOICES,
   MPBS_CHOICES,
 } from "../constants";
-
-const MonthToFilter = () => {
-  const {currentFilter, setOneFilter} = useHaToolbarContext();
-  const {monthFrom} = currentFilter;
-  const date = new Date(monthFrom);
-
-  useEffect(() => {
-    setOneFilter(
-      "monthTo",
-      new Date(date.getFullYear(), date.getMonth() + 1, 0)?.toISOString()
-    );
-  }, [monthFrom]);
-
-  return (
-    <DateTimeFilter
-      label="Fin"
-      source="monthTo"
-      value={currentFilter?.monthFrom}
-      disabled
-    />
-  );
-};
 
 export const FeesFilters = () => {
   const {isManager, isAdmin} = useRole();
