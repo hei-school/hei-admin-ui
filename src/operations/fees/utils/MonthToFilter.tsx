@@ -16,6 +16,8 @@ export const MonthToFilter = () => {
 
   return (
     <DateTimeFilter
+      format="MM/YYYY"
+      view={["month", "year"]}
       label="Fin"
       source="monthTo"
       value={currentFilter?.monthFrom}

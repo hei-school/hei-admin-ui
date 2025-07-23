@@ -51,11 +51,16 @@ export const FeesFilters = () => {
         variant="body2"
         fontWeight="bold"
         color="#B4B5B7"
-        sx={{mt: 2, mb: 1}}
+        sx={{mb: 1}}
       >
         Filtre par mois de limite de paiement
       </Typography>
-      <DateTimeFilter label="Début" source="monthFrom" />
+      <DateTimeFilter
+        label="Début"
+        source="monthFrom"
+        view={["month", "year"]}
+        format="MM/YYYY"
+      />
       <MonthToFilter />
     </FilterForm>
   );
