@@ -2,6 +2,7 @@ import authProvider from "@/providers/authProvider";
 import {SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
+  Event,
   Logout as LogoutIcon,
   School as StudentIcon,
 } from "@mui/icons-material";
@@ -16,11 +17,17 @@ function MonitorMenu() {
   };
 
   return (
-    <Box>
+    <Box sx={{position: "relative"}} height="calc(100% - 100px)">
       <SingleMenu
         to={`/monitors/${monitorId}/students`}
         label="Étudiants"
         icon={<StudentIcon />}
+      />
+      <SingleMenu
+        data-testid="event-menu"
+        to="/events"
+        label="Présences"
+        icon={<Event />}
       />
       <SingleMenu
         to="/announcements"

@@ -1,3 +1,4 @@
+import {useRole} from "@/security/hooks";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {Event} from "@haapi/typescript-client";
@@ -9,6 +10,8 @@ import {EventCalendar} from "./EventCalendar";
 
 export function EventList() {
   const [tabValue, setTab] = useState<string>("calendar");
+  const {isMonitor} = useRole();
+
   return (
     <>
       <Tabs
@@ -17,7 +20,7 @@ export function EventList() {
         sx={{bgcolor: "white"}}
       >
         <Tab value="calendar" label="Calendrier" />
-        <Tab value="list" label="Listes" />
+        {!isMonitor() && <Tab value="list" label="Listes" />}
       </Tabs>
       {tabValue === "list" && (
         <List
