@@ -1,14 +1,14 @@
 import menuLogo from "@/assets/menu-logo.png";
-import { PALETTE_COLORS } from "@/haTheme";
+import {PALETTE_COLORS} from "@/haTheme";
 import authProvider from "@/providers/authProvider";
-import { useRole } from "@/security/hooks";
-import { HaMenuContent } from "@/ui/haLayout/menu/HaMenuContent";
-import { SingleMenu } from "@/ui/haLayout/menu/utils/SingleMenu";
-import { trackNavClick } from "@/utils/gtm";
-import { AccountCircle, Dashboard, Logout } from "@mui/icons-material";
-import { Box, Drawer, Typography, styled, useMediaQuery } from "@mui/material";
-import { MailQuestion, PhoneCall, Settings } from "lucide-react";
-import { useSidebarState } from "react-admin";
+import {useRole} from "@/security/hooks";
+import {HaMenuContent} from "@/ui/haLayout/menu/HaMenuContent";
+import {SingleMenu} from "@/ui/haLayout/menu/utils/SingleMenu";
+import {trackNavClick} from "@/utils/gtm";
+import {AccountCircle, Dashboard, Logout} from "@mui/icons-material";
+import {Box, Drawer, Typography, styled, useMediaQuery} from "@mui/material";
+import {MailQuestion, PhoneCall, Settings} from "lucide-react";
+import {useSidebarState} from "react-admin";
 
 //TODO: create hook useIsSmall
 
@@ -36,11 +36,11 @@ const Separator = styled("div")({
   transform: "translateX(-50%)",
 });
 
-export function HaMenuBase({ sx = {} }) {
-  const { role } = useRole();
+export function HaMenuBase({sx = {}}) {
+  const {role} = useRole();
   const [open] = useSidebarState();
   const isSmall = useMediaQuery("(max-width:920px)");
-  const { isMonitor, isStudent, isAdmin, isManager } = useRole();
+  const {isMonitor, isStudent, isAdmin, isManager} = useRole();
 
   const logout = async () => {
     await authProvider.logout();
@@ -95,7 +95,7 @@ export function HaMenuBase({ sx = {} }) {
                 gap: 2,
               }}
             >
-              <img alt="hei" src={menuLogo} style={{ width: 40, height: 27 }} />
+              <img alt="hei" src={menuLogo} style={{width: 40, height: 27}} />
               <Typography
                 variant="h1"
                 sx={{
@@ -177,15 +177,15 @@ export function HaMenuBase({ sx = {} }) {
               <Box
                 sx={{
                   "@keyframes slide": {
-                    "0%": { transform: "translateY(0)" },
-                    "20%": { transform: "translateY(0)" },
-                    "25%": { transform: "translateY(-40px)" },
-                    "45%": { transform: "translateY(-40px)" },
-                    "50%": { transform: "translateY(-80px)" },
-                    "70%": { transform: "translateY(-80px)" },
-                    "75%": { transform: "translateY(-120px)" },
-                    "95%": { transform: "translateY(-120px)" },
-                    "100%": { transform: "translateY(0)" },
+                    "0%": {transform: "translateY(0)"},
+                    "20%": {transform: "translateY(0)"},
+                    "25%": {transform: "translateY(-40px)"},
+                    "45%": {transform: "translateY(-40px)"},
+                    "50%": {transform: "translateY(-80px)"},
+                    "70%": {transform: "translateY(-80px)"},
+                    "75%": {transform: "translateY(-120px)"},
+                    "95%": {transform: "translateY(-120px)"},
+                    "100%": {transform: "translateY(0)"},
                   },
                   "animation": "slide 16s infinite",
                   "position": "absolute",
@@ -216,7 +216,7 @@ export function HaMenuBase({ sx = {} }) {
             </Box>
           </Box>
 
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1 }}>
+          <Box sx={{display: "flex", flexDirection: "column", gap: 1}}>
             <Box
               sx={{
                 "display": "flex",
@@ -347,7 +347,7 @@ export function HaMenu() {
       anchor="left"
       open={open}
       onClose={() => setOpen(false)}
-      sx={{ width: "250px" }}
+      sx={{width: "250px"}}
     >
       <HaMenuBase />
     </Drawer>

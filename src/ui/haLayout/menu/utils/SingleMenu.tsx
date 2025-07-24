@@ -30,7 +30,6 @@ export const SingleMenuBase: FC<{
       ? PALETTE_COLORS.yellow
       : "inherit";
 
-
   const handlerClick = () => {
     onClick?.();
     if (to && isSmall) setOpen(!open);

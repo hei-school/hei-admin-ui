@@ -5,7 +5,7 @@ import {CircularProgress} from "@mui/material";
 import {useEffect, useState} from "react";
 import {ListMenuItem} from "../utils";
 
-export const HeiListMenuItem = ({ onClick }: { onClick?: () => void }) => {
+export const HeiListMenuItem = ({onClick}: {onClick?: () => void}) => {
   const [file, setFile] = useState<ShareInfo | null>(null);
   const [loading, setLoading] = useState(true);
 

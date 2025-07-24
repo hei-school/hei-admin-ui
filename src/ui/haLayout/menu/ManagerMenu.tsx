@@ -20,7 +20,6 @@ import {
 import {Box} from "@mui/material";
 
 function ManagerMenu() {
-
   return (
     <Box>
       <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />

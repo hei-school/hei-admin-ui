@@ -1,7 +1,7 @@
-import { useRole } from "@/security/hooks";
-import { HeiListMenuItem } from "@/ui/haLayout/menu/common";
-import { ListMenu, ListMenuItem, SingleMenu } from "@/ui/haLayout/menu/utils";
-import { trackNavClick } from "@/utils/gtm";
+import {useRole} from "@/security/hooks";
+import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
+import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
+import {trackNavClick} from "@/utils/gtm";
 import {
   Newspaper as AnnouncementIcon,
   Inventory as DocsIcon,
@@ -20,10 +20,10 @@ import {
   Work as TeachersIcon,
   CurrencyExchange as TransactionsIcon,
 } from "@mui/icons-material";
-import { Box } from "@mui/material";
+import {Box} from "@mui/material";
 
 function AdminMenu() {
-  const { role } = useRole();
+  const {role} = useRole();
 
   return (
     <Box>
@@ -88,7 +88,7 @@ function AdminMenu() {
         icon={<GradeIcon />}
         onClick={() => trackNavClick("exams", role)}
       />
-       <SingleMenu
+      <SingleMenu
         to="/groups"
         label="Groupes"
         icon={<GroupIcon />}
