@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {advanceStatsMocks} from "../fixtures/api_mocks/advanceStats-mocks";
 import {announcementsMock} from "../fixtures/api_mocks/announcement-mocks";
 import {commentMocks} from "../fixtures/api_mocks/comment-mocks";
 import {unpaidFeeMock} from "../fixtures/api_mocks/fees-mocks";
@@ -47,59 +48,9 @@ describe("AdminWelcome Page", () => {
       commentMocks.slice(0, ITEM_PER_LIST)
     ).as("getCommentsPage2");
 
-    cy.intercept("GET", `advanced-stats**`, {
-      total_expected_fees_count: {
-        first_grade: 0,
-        second_grade: 0,
-        third_grade: 0,
-        other: 0,
-        unknown_grade: 0,
-        work_study: 0,
-        monthly: 0,
-        yearly: 0,
-        unknown_frequency: 0,
-      },
-      paid_fees_count: {
-        first_grade: 0,
-        second_grade: 0,
-        third_grade: 0,
-        other: 0,
-        unknown_grade: 0,
-        work_study: 0,
-        monthly: 0,
-        yearly: 0,
-        unknown_frequency: 0,
-        remedial_fees_count: 0,
-        mobile_money: 0,
-        bank_fees: 0,
-      },
-      pending_fees_count: {
-        first_grade: 0,
-        second_grade: 0,
-        third_grade: 0,
-        other: 0,
-        unknown_grade: 0,
-        work_study: 0,
-        monthly: 0,
-        yearly: 0,
-        unknown_frequency: 0,
-        remedial_fees_count: 0,
-      },
-      late_fees_count: {
-        first_grade: 0,
-        second_grade: 0,
-        third_grade: 0,
-        other: 0,
-        unknown_grade: 0,
-        work_study: 0,
-        monthly: 0,
-        yearly: 0,
-        unknown_frequency: 0,
-        remedial_fees_count: 0,
-      },
-      update_datetime: "2025-07-18T13:15:07.462Z",
-      expired: true,
-    }).as("getAdvancedStats");
+    cy.intercept("GET", `advanced-stats**`, advanceStatsMocks).as(
+      "getAdvancedStats"
+    );
 
     cy.intercept(
       "GET",

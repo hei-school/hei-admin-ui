@@ -1,4 +1,8 @@
 import {
+  calendarMock,
+  nextcalendarMock,
+} from "../fixtures/api_mocks/calendar-mock";
+import {
   event1mock,
   eventparticipant1mock,
   eventParticipantsMock,
@@ -10,6 +14,9 @@ describe("Student.event", () => {
     cy.mockLogin({role: "STUDENT"});
     cy.intercept("GET", `/events?page=1&page_size=10`, eventsMock).as(
       "getEventsPage1"
+    );
+    cy.intercept("GET", "events?page=1&page_size=100**", calendarMock).as(
+      "getEvents"
     );
     cy.intercept("GET", `/events?page=2&page_size=10`, eventsMock).as(
       "getEventsPage2"
@@ -84,8 +91,39 @@ describe("Student.event", () => {
       expect(buffer.length).to.be.gt(0);
     });
   });
+});
 
+describe("Student.event participant", () => {
+  beforeEach(() => {
+    cy.mockLogin({role: "STUDENT"});
+    cy.intercept("GET", "events**", calendarMock).as("getEvents");
+    cy.getByTestid("event-menu").click();
+  });
   it("calendar is display", () => {
     cy.get("#calendar_content").should("exist");
+    it("displays initial events", () => {
+      cy.get(".rbc-event").should("have.length.at.least", 1);
+      cy.contains("F").should("exist");
+    });
+  });
+
+  it("handles range change with Date array (week view navigation)", () => {
+    cy.intercept("GET", "events?**", nextcalendarMock).as("getNextWeekEvents");
+    cy.get(".fc-next-button > .fc-icon").click();
+    cy.wait("@getNextWeekEvents");
+    cy.get(".fc").should("have.length.at.least", 1);
+  });
+
+  it("calendar event click and popover actions are covered", () => {
+    cy.get("#calendar_content").should("exist");
+    cy.contains(calendarMock[0].course?.code!).click();
+    cy.get("[role='presentation']").should("be.visible");
+    cy.get("[role='presentation']").should("contain.text", "[");
+    cy.get("[role='presentation']").should("contain.text", "Présence");
+    cy.get("body").type("{esc}");
+    cy.getByTestid("menu-list-action").click();
+    cy.contains("Export").click();
+    cy.getByTestid("export-calendar-button").click();
+    cy.get("body").type("{esc}");
   });
 });
