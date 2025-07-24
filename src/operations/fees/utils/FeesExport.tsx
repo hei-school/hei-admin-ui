@@ -6,9 +6,9 @@ import {mapToChoices} from "@/utils";
 import {NOOP_ID} from "@/utils/constants";
 import {toUTC} from "@/utils/date";
 import {Download} from "@mui/icons-material";
-import {Box} from "@mui/material";
-import {FC} from "react";
-import {DateInput, required, SelectInput, SimpleForm} from "react-admin";
+import {Box, TextField} from "@mui/material";
+import {FC, useEffect, useState} from "react";
+import {required, SelectInput, SimpleForm} from "react-admin";
 import {useFormContext} from "react-hook-form";
 import {FEE_STATUS} from "../constants";
 
@@ -61,6 +61,64 @@ export const FileDownloaderWrapper = () => {
     />
   );
 };
+
+const MonthRangeInputs = () => {
+  const {setValue, watch} = useFormContext();
+  const [selectedMonth, setSelectedMonth] = useState("");
+
+  const monthFrom = watch("monthFrom");
+  const monthTo = watch("monthTo");
+
+  useEffect(() => {
+    if (monthFrom && !selectedMonth) {
+      const date = new Date(monthFrom);
+      setSelectedMonth(
+        `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`
+      );
+    }
+  }, [monthFrom, selectedMonth]);
+
+  const handleMonthChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSelectedMonth(value);
+    if (value) {
+      const [year, month] = value.split("-").map(Number);
+      const firstDay = new Date(year, month - 1, 1);
+      const lastDay = new Date(year, month, 0);
+      setValue("monthFrom", firstDay.toISOString(), {shouldValidate: true});
+      setValue("monthTo", lastDay.toISOString(), {shouldValidate: true});
+    } else {
+      setValue("monthFrom", "", {shouldValidate: true});
+      setValue("monthTo", "", {shouldValidate: true});
+    }
+  };
+
+  return (
+    <Box width="100%" display="flex" gap="2vw">
+      <TextField
+        label="Mois"
+        type="month"
+        value={selectedMonth}
+        onChange={handleMonthChange}
+        sx={{flex: 1}}
+        inputProps={{min: "2000-01", max: "2100-12"}}
+      />
+      <TextField
+        label="Date de début"
+        value={monthFrom ? new Date(monthFrom).toLocaleDateString("fr-FR") : ""}
+        sx={{flex: 1}}
+        disabled
+      />
+      <TextField
+        label="Date de fin"
+        value={monthTo ? new Date(monthTo).toLocaleDateString("fr-FR") : ""}
+        sx={{flex: 1}}
+        disabled
+      />
+    </Box>
+  );
+};
+
 export const FeesExport: FC<{onClose: () => void; open: boolean}> = ({
   onClose,
   open,
@@ -82,22 +140,7 @@ export const FeesExport: FC<{onClose: () => void; open: boolean}> = ({
           choices={mapToChoices(FEE_STATUS)}
           validate={required()}
         />
-        <Box width="100%" display="flex" gap="2vw">
-          <DateInput
-            source="monthFrom"
-            sx={{
-              flex: 1,
-            }}
-            label="Date de début"
-          />
-          <DateInput
-            source="monthTo"
-            sx={{
-              flex: 1,
-            }}
-            label="Date de fin"
-          />
-        </Box>
+        <MonthRangeInputs />
       </SimpleForm>
     </Dialog>
   );
