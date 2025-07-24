@@ -1,5 +1,6 @@
 import authProvider from "@/providers/authProvider";
 import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import AdminMenu from "./AdminMenu";
 import ManagerMenu from "./ManagerMenu";
 import MonitorMenu from "./MonitorMenu";
 import {OrganizerMenu} from "./OrganizerMenu";
@@ -14,6 +15,7 @@ export function HaMenuContent() {
     case WhoamiRoleEnum.STUDENT:
       return <StudentMenu />;
     case WhoamiRoleEnum.ADMIN:
+      return <AdminMenu />;
     case WhoamiRoleEnum.MANAGER:
       return <ManagerMenu />;
     case WhoamiRoleEnum.TEACHER:
