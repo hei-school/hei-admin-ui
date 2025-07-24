@@ -175,7 +175,7 @@ type ActionProps = {
 };
 
 const EventAction = ({event, toggleEdit, handleClosePopover}: ActionProps) => {
-  const {isManager, isAdmin, isOrganizer} = useRole();
+  const {isManager, isAdmin, isOrganizer, isMonitor} = useRole();
   return (
     <Box
       sx={{
@@ -189,14 +189,16 @@ const EventAction = ({event, toggleEdit, handleClosePopover}: ActionProps) => {
     >
       <Box fontWeight="bold">{event?.title}</Box>
       <StatCard stats={event?.count || {}} />
-      <Link to={`/events/${event?.id}/participants`} width="100%">
-        <Button
-          size="small"
-          sx={{textTransform: "revert", width: "100%"}}
-          variant="outlined"
-          label="Présence"
-        />
-      </Link>
+      {!isMonitor() && (
+        <Link to={`/events/${event?.id}/participants`} width="100%">
+          <Button
+            size="small"
+            sx={{textTransform: "revert", width: "100%"}}
+            variant="outlined"
+            label="Présence"
+          />
+        </Link>
+      )}
 
       {(isAdmin() || isManager() || isOrganizer()) && (
         <>

@@ -1,0 +1,58 @@
+import {AdvancedFeesStatistics} from "@haapi/typescript-client";
+
+export const advanceStatsMocks: AdvancedFeesStatistics & {
+  update_datetime: Date;
+  expired: boolean;
+} = {
+  total_expected_fees_count: {
+    first_grade: 25,
+    second_grade: 32,
+    third_grade: 28,
+    other: 10,
+    unknown_grade: 2,
+    work_study: 6,
+    monthly: 80,
+    yearly: 15,
+    unknown_frequency: 4,
+  },
+  paid_fees_count: {
+    first_grade: 20,
+    second_grade: 25,
+    third_grade: 22,
+    other: 8,
+    unknown_grade: 1,
+    work_study: 5,
+    monthly: 65,
+    yearly: 12,
+    unknown_frequency: 3,
+    remedial_fees_count: 7,
+    mobile_money: 50,
+    bank_fees: 30,
+  },
+  pending_fees_count: {
+    first_grade: 3,
+    second_grade: 5,
+    third_grade: 4,
+    other: 1,
+    unknown_grade: 1,
+    work_study: 1,
+    monthly: 10,
+    yearly: 2,
+    unknown_frequency: 1,
+    remedial_fees_count: 2,
+  },
+  late_fees_count: {
+    first_grade: 2,
+    second_grade: 2,
+    third_grade: 2,
+    other: 1,
+    unknown_grade: 0,
+    work_study: 0,
+    monthly: 5,
+    yearly: 1,
+    unknown_frequency: 1,
+    remedial_fees_count: 1,
+  },
+  update_datetime: new Date("2024-07-01T12:00:00Z"),
+  expired: true,
+};

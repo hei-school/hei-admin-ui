@@ -6,6 +6,7 @@ export const ListMenuItem: FC<{
   icon: ReactNode;
   to: string;
   target?: React.HTMLAttributeAnchorTarget;
+  onClick?: () => void;
 }> = ({label, icon, to, target, ...rest}) => (
   <SingleMenu {...{label, to, icon, menu: false, target, ...rest}} />
 );

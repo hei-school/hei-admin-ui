@@ -4,6 +4,7 @@ import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {HaMenuContent} from "@/ui/haLayout/menu/HaMenuContent";
 import {SingleMenu} from "@/ui/haLayout/menu/utils/SingleMenu";
+import {trackNavClick} from "@/utils/gtm";
 import {AccountCircle, Dashboard, Logout} from "@mui/icons-material";
 import {Box, Drawer, Typography, styled, useMediaQuery} from "@mui/material";
 import {MailQuestion, PhoneCall, Settings} from "lucide-react";
@@ -36,6 +37,7 @@ const Separator = styled("div")({
 });
 
 export function HaMenuBase({sx = {}}) {
+  const {role} = useRole();
   const [open] = useSidebarState();
   const isSmall = useMediaQuery("(max-width:920px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
@@ -117,8 +119,14 @@ export function HaMenuBase({sx = {}}) {
           to="/"
           exact={true}
           icon={<Dashboard />}
+          onClick={() => trackNavClick("dashboard", role)}
         />
-        <SingleMenu label="Profil" to="/profile" icon={<AccountCircle />} />
+        <SingleMenu
+          label="Profil"
+          to="/profile"
+          icon={<AccountCircle />}
+          onClick={() => trackNavClick("profile", role)}
+        />
         <HaMenuContent />
       </Box>
 
