@@ -14,7 +14,7 @@ const style = {
 export const SingleMenuBase: FC<{
   label: string;
   icon: ReactNode;
-  to: string;
+  to?: string;
   menu?: boolean;
   exact?: boolean;
   sx?: any;
@@ -68,7 +68,7 @@ export const SingleMenuBase: FC<{
 export const SingleMenu: FC<{
   label: string;
   icon: ReactNode;
-  to: string;
+  to?: string;
   menu?: boolean;
   exact?: boolean;
   target?: React.HTMLAttributeAnchorTarget;
