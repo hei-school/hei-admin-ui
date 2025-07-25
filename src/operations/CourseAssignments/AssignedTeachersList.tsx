@@ -3,9 +3,10 @@ import {CourseAssignmentsCreate} from "@/operations/CourseAssignments/CourseAssi
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {Group} from "@haapi/typescript-client";
 import {Add as AddIcon, Person as PersonIcon} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {TextField} from "react-admin";
+import {FunctionField, TextField} from "react-admin";
 
 export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
   const [showCreate, _set, toggleShowCreate] = useToggle();
@@ -39,7 +40,14 @@ export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
         <TextField source="main_teacher.last_name" label="Nom" />
         <TextField source="main_teacher.first_name" label="Prénom" />
         <TextField source="main_teacher.email" label="Email" />
-        <TextField source="group.ref" label="Groupe" />
+        <FunctionField
+          label="Groupe"
+          render={(record) => {
+            return record.groups
+              ? record.groups.map((group: Group) => group.ref).join(", ")
+              : "Groupe non assigné";
+          }}
+        />
       </HaList>
       <Dialog
         title="Affilier un cours à un enseignant"

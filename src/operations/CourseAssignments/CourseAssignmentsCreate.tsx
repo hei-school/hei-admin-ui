@@ -3,6 +3,7 @@ import {useMemo} from "react";
 import {
   Create,
   required,
+  SelectArrayInput,
   SelectInput,
   SimpleForm,
   useGetList,
@@ -63,9 +64,9 @@ export const CourseAssignmentsCreate = ({
             width: "100%",
           }}
         />
-        <SelectInput
+        <SelectArrayInput
           data-testid="group-select"
-          source="group_id"
+          source="group_ids"
           label="Groupe"
           choices={groupChoices}
           optionValue="id"
