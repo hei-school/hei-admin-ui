@@ -2,6 +2,7 @@ import {Create} from "@/operations/common/components";
 import {Course} from "@haapi/typescript-client";
 import {
   CreateProps,
+  SelectInput,
   SimpleForm,
   TextInput,
   minValue,
@@ -9,6 +10,7 @@ import {
   required,
 } from "react-admin";
 import {v4 as uuid} from "uuid";
+import {LEVELS_CHOICES} from "./utils/constants";
 
 export function CourseCreate(props: Partial<CreateProps>) {
   return (
@@ -34,8 +36,17 @@ export function CourseCreate(props: Partial<CreateProps>) {
         <TextInput
           source="total_hours"
           label="Heure total"
+          required
           validate={[number(), minValue(1)]}
           fullWidth
+        />
+        <SelectInput
+          data-testId="course-level-select"
+          fullWidth
+          source="level"
+          label="Niveau"
+          validate={required()}
+          choices={LEVELS_CHOICES}
         />
       </SimpleForm>
     </Create>

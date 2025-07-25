@@ -3,6 +3,7 @@ import {DateTimeField} from "@/operations/common/components/fields";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {AutocompleteInput} from "@/ui/components/inputs";
+import {Group} from "@haapi/typescript-client/dist/api";
 import {Box} from "@mui/material";
 import {useMemo, useState} from "react";
 import {
@@ -44,7 +45,7 @@ export const ExamCreate = () => {
     () =>
       CourseAssignments.map(({id, course, groups}) => ({
         id,
-        courseName: `${course.code} - ${groups.ref}`,
+        courseName: `${course.code} - ${groups.map((g: Group) => g.ref).join(", ")}`,
       })),
     [CourseAssignments]
   );
@@ -89,7 +90,7 @@ export const ExamCreate = () => {
             {selectedTeacherId && (
               <AutocompleteInput
                 data-testId="course_assignments-input"
-                source="course_assignments_id"
+                source="course_assignment_id"
                 label="Cours associé à un groupe"
                 choices={courseChoices}
                 optionText="courseName"

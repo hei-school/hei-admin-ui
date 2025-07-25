@@ -18,6 +18,7 @@ const NEW_COURSE: Required<Course> = {
 describe("Manager.Courses", () => {
   beforeEach(() => {
     cy.mockLogin({role: "MANAGER"});
+    cy.visit("/profile");
     cy.intercept("GET", `/courses?page=1&page_size=10`, courseMocks).as(
       "getCoursesPage1"
     );
@@ -44,6 +45,11 @@ describe("Manager.Courses", () => {
       `/course_assignments?course_id=${courseMock1.id}&page=1&page_size=10`,
       [CourseAssignment1Mock]
     ).as("getTeacherCourseAssignment");
+    cy.intercept(
+      "GET",
+      `/course_assignments?course_id=${courseMock1.id}&page=2&page_size=10`,
+      [CourseAssignment1Mock]
+    ).as("getTeacherCourseAssignment");
   });
 
   it("can list all courses", () => {
@@ -68,6 +74,8 @@ describe("Manager.Courses", () => {
     cy.get("#name").type(NEW_COURSE.name);
     cy.get("#code").type(NEW_COURSE.code);
     cy.get("#total_hours").type(NEW_COURSE.total_hours.toString());
+    cy.getByTestid("course-level-select").click();
+    cy.get("li").contains(NEW_COURSE.level).click();
     cy.get("#credits").type(NEW_COURSE.credits.toString());
     cy.get(".RaToolbar-defaultToolbar > .MuiButtonBase-root")
       .as("saveButton")
@@ -106,14 +114,25 @@ describe("Manager.Courses", () => {
     cy.getByTestid("show-button").first().click();
     cy.wait("@getCourses1");
     cy.wait("@getTeacherCourseAssignment");
+    cy.get(
+      ".teacher-assigned-list .MuiTableRow-root.MuiTableRow-hover.RaDatagrid-row.RaDatagrid-rowEven.RaDatagrid-selectable.css-fdcvim-MuiTableRow-root"
+    ).contains(`${CourseAssignment1Mock.main_teacher.first_name}`);
+    cy.get(
+      ".teacher-assigned-list .MuiTableRow-root.MuiTableRow-hover.RaDatagrid-row.RaDatagrid-rowEven.RaDatagrid-selectable.css-fdcvim-MuiTableRow-root"
+    ).contains(`${CourseAssignment1Mock.main_teacher.last_name}`);
+    cy.get(
+      ".teacher-assigned-list .MuiTableRow-root.MuiTableRow-hover.RaDatagrid-row.RaDatagrid-rowEven.RaDatagrid-selectable.css-fdcvim-MuiTableRow-root"
+    ).contains(`${CourseAssignment1Mock.main_teacher.email}`);
+    cy.get(
+      ".teacher-assigned-list .MuiTableRow-root.MuiTableRow-hover.RaDatagrid-row.RaDatagrid-rowEven.RaDatagrid-selectable.css-fdcvim-MuiTableRow-root"
+    ).contains(CourseAssignment1Mock.groups.map((g) => g.ref).join(", "));
   });
-
   it("can assign teacher to course", () => {
     cy.intercept("GET", "/teachers*", teachersMock).as("getTeachers");
     cy.intercept("GET", `/groups*`, groupsMock).as("getGroups");
-    cy.intercept("PUT", `/teachers/${teacher1Mock.id}/course_assignments`, [
-      createCourseAssignment,
-    ]).as("createCourseAssignment");
+    cy.intercept("PUT", `/course_assignments`, [createCourseAssignment]).as(
+      "createCourseAssignment"
+    );
     cy.get("tbody tr").should("have.length", courseMocks.length);
     cy.getByTestid("show-button").first().click();
     cy.wait("@getCourses1");
@@ -134,7 +153,11 @@ describe("Manager.Courses", () => {
       cy.get("li").contains(`${group.ref}`).should("exist");
     });
     cy.get("li").contains(groupsMock[0].ref).click();
+    cy.get("body").type("{esc}");
     cy.contains("Enregistrer").click();
-    cy.wait("@createCourseAssignment");
+    cy.wait("@createCourseAssignment")
+      .its("response.statusCode")
+      .should("eq", 200);
+    cy.contains("Élément créer avec succès");
   });
 });

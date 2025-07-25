@@ -19,6 +19,7 @@ export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
         resource="course-assignments"
         listProps={{
           filterDefaultValues: {courseId: courseId},
+          className: "teacher-assigned-list",
         }}
         actions={
           <Box>

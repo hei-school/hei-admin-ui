@@ -62,7 +62,10 @@ const ExamDetails: FC<ExamDetailsProps> = ({exam}) => (
     />
     <InfoRow
       label="Groupe:"
-      value={exam?.course_assignment?.groups?.[0]?.ref}
+      value={
+        exam?.course_assignment?.groups?.map((group) => group.ref).join(", ") ||
+        "non défini"
+      }
       icon={<GroupIcon sx={{fontSize: "1.5rem", mr: "5px"}} />}
     />
 
@@ -70,7 +73,7 @@ const ExamDetails: FC<ExamDetailsProps> = ({exam}) => (
       label="Enseignant:"
       color="#f4e1ac"
       textColor={PALETTE_COLORS.black}
-      value={`${exam?.course_assignment?.main_teacher?.first_name ?? ""} ${exam?.course_assignment?.main_teacher?.last_name ?? ""}`}
+      value={`${exam?.course_assignment?.main_teacher?.first_name ?? exam?.course_assignment?.main_teacher?.last_name ?? "non défini"}`}
       icon={<PersonIcon sx={{fontSize: "1.5rem", mr: "5px"}} />}
     />
   </Stack>

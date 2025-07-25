@@ -108,7 +108,10 @@ const ExamDetails = ({exam}) => {
       <ExamDetailChip
         icon={<GroupIcon />}
         tooltip="Groupe"
-        label={`Groupe ${CourseAssignment?.group?.ref}`}
+        label={`Groupe ${
+          CourseAssignment?.groups?.map((group) => group.ref).join(", ") ||
+          "non défini"
+        }`}
       />
       <ExamDetailChip
         icon={<PersonIcon />}
