@@ -1,7 +1,7 @@
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
-import awardedCourses from "@/operations/awardedCourses";
 import course from "@/operations/course";
+import CourseAssignments from "@/operations/CourseAssignments";
 import staffDocs from "@/operations/docs/staffs/index";
 import studentDocs from "@/operations/docs/students";
 import teachersDocs from "@/operations/docs/teachers";
@@ -68,8 +68,8 @@ function AppBase() {
       <Resource name="users-letters" />
       <Resource name="letters" />
       <Resource
-        name="awarded-courses"
-        {...awardedCourses}
+        name="course-assignments"
+        {...CourseAssignments}
         options={{label: " "}}
       />
       <Resource name="exams" {...exams} />

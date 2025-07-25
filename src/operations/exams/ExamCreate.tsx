@@ -23,10 +23,11 @@ export const ExamCreate = () => {
   const [selectedTeacherId, setSelectedTeacherId] = useState("");
 
   const {data: teachers = []} = useGetList("teachers");
-  const {data: awardedCourses = []} = useGetList("awarded-courses", {
+  const {data: CourseAssignments = []} = useGetList("course-assignments", {
     filter: {teacherId: selectedTeacherId},
   });
-  const {data: teacherAwarded = []} = useGetList("awarded-courses", {
+
+  const {data: teacherassignments = []} = useGetList("course-assignments", {
     filter: {teacherId: userId},
   });
 
@@ -41,20 +42,20 @@ export const ExamCreate = () => {
 
   const courseChoices = useMemo(
     () =>
-      awardedCourses.map(({id, course, group}) => ({
+      CourseAssignments.map(({id, course, groups}) => ({
         id,
-        courseName: `${course.code} - ${group.ref}`,
+        courseName: `${course.code} - ${groups.ref}`,
       })),
-    [awardedCourses]
+    [CourseAssignments]
   );
 
-  const teacherAwardedChoices = useMemo(
+  const teacherassignmentsChoices = useMemo(
     () =>
-      teacherAwarded.map(({id, course, group}) => ({
+      teacherassignments.map(({id, course, group}) => ({
         id,
         courseName: `${course.code} - ${group.ref}`,
       })),
-    [teacherAwarded]
+    [teacherassignments]
   );
 
   const handleTeacherChange = (value: string) => {
@@ -87,8 +88,8 @@ export const ExamCreate = () => {
             />
             {selectedTeacherId && (
               <AutocompleteInput
-                data-testId="awarded-course-input"
-                source="awarded_course_id"
+                data-testId="course_assignments-input"
+                source="course_assignments_id"
                 label="Cours associé à un groupe"
                 choices={courseChoices}
                 optionText="courseName"
@@ -99,9 +100,9 @@ export const ExamCreate = () => {
           </Box>
         ) : (
           <AutocompleteInput
-            source="awarded_course_id"
+            source="course_assignments_id"
             label="Cours associé à un groupe"
-            choices={teacherAwardedChoices}
+            choices={teacherassignmentsChoices}
             optionText="courseName"
             optionValue="id"
             validate={required()}

@@ -1,9 +1,6 @@
 import {AdvancedFeesStatistics} from "@haapi/typescript-client";
 
-export const advanceStatsMocks: AdvancedFeesStatistics & {
-  update_datetime: Date;
-  expired: boolean;
-} = {
+export const advanceStatsMocks: AdvancedFeesStatistics = {
   total_expected_fees_count: {
     first_grade: 25,
     second_grade: 32,

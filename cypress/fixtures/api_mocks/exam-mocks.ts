@@ -1,13 +1,13 @@
-import {EnableStatus, ExamInfo, Sex} from "@haapi/typescript-client";
+import {EnableStatus, Exam, Sex} from "@haapi/typescript-client";
 
-export const examMocks: ExamInfo[] = [
+export const examMocks: Exam[] = [
   {
     id: "exam1_id",
     coefficient: 1.5,
     title: "Introduction to Programming",
     examination_date: new Date("2025-05-10"),
-    awarded_course: {
-      id: "awarded_course1_id",
+    course_assignment: {
+      id: "course_assignment1_id",
       main_teacher: {
         id: "teacher1_id",
         ref: "TCR21001",
@@ -36,14 +36,16 @@ export const examMocks: ExamInfo[] = [
         credits: 3,
         total_hours: 45,
       },
-      group: {
-        id: "group1_id",
-        name: "CS First Year",
-        ref: "CS101",
-        creation_datetime: new Date("2024-09-01"),
-        size: 30,
-        attributed_color: "blue",
-      },
+      groups: [
+        {
+          id: "group1_id",
+          name: "CS First Year",
+          ref: "CS101",
+          creation_datetime: new Date("2024-09-01"),
+          size: 30,
+          attributed_color: "blue",
+        },
+      ],
     },
   },
   {
@@ -51,8 +53,8 @@ export const examMocks: ExamInfo[] = [
     coefficient: 2.0,
     title: "Database Fundamentals",
     examination_date: new Date("2025-05-15"),
-    awarded_course: {
-      id: "awarded_course2_id",
+    course_assignment: {
+      id: "course_assignment2_id",
       main_teacher: {
         id: "teacher2_id",
         ref: "TCR21002",
@@ -81,14 +83,16 @@ export const examMocks: ExamInfo[] = [
         credits: 4,
         total_hours: 60,
       },
-      group: {
-        id: "group2_id",
-        name: "CS Second Year",
-        ref: "CS201",
-        creation_datetime: new Date("2024-09-01"),
-        size: 25,
-        attributed_color: "red",
-      },
+      groups: [
+        {
+          id: "group2_id",
+          name: "CS Second Year",
+          ref: "CS201",
+          creation_datetime: new Date("2024-09-01"),
+          size: 25,
+          attributed_color: "red",
+        },
+      ],
     },
   },
   {
@@ -96,8 +100,8 @@ export const examMocks: ExamInfo[] = [
     coefficient: 1.0,
     title: "Web Development Basics",
     examination_date: new Date("2025-05-20"),
-    awarded_course: {
-      id: "awarded_course3_id",
+    course_assignment: {
+      id: "course_assignment3_id",
       main_teacher: {
         id: "teacher3_id",
         ref: "TCR21003",
@@ -126,14 +130,16 @@ export const examMocks: ExamInfo[] = [
         credits: 3,
         total_hours: 40,
       },
-      group: {
-        id: "group3_id",
-        name: "CS Third Year",
-        ref: "CS301",
-        creation_datetime: new Date("2024-09-01"),
-        size: 20,
-        attributed_color: "green",
-      },
+      groups: [
+        {
+          id: "group3_id",
+          name: "CS Third Year",
+          ref: "CS301",
+          creation_datetime: new Date("2024-09-01"),
+          size: 20,
+          attributed_color: "green",
+        },
+      ],
     },
   },
 ];

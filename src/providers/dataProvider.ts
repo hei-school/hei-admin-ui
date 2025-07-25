@@ -1,7 +1,7 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
-import awardedCoursesProvider from "@/providers/awardedCoursesProvider";
 import commentProvider from "@/providers/commentProvider";
+import CourseAssignmentsProvider from "@/providers/courseAssignmentsProvider";
 import courseProvider from "@/providers/courseProvider";
 import docsProvider from "@/providers/docsProvider";
 import eventParticipantProvider from "@/providers/eventParticipantProvider";
@@ -66,7 +66,7 @@ const providerMap = {
   "letters": lettersProvider,
   "letters-stats": lettersStatsProvider,
   "receipts": receiptProvider,
-  "awarded-courses": awardedCoursesProvider,
+  "course-assignments": CourseAssignmentsProvider,
   "events": eventProvider,
   "missing-event": missingListProvider,
   "events-participants-export": exportEventParticipantProvider,

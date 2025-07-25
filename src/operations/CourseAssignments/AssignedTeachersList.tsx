@@ -1,5 +1,5 @@
 import {useToggle} from "@/hooks";
-import {AwardedCoursesCreate} from "@/operations/awardedCourses/AwardedCourseCreate";
+import {CourseAssignmentsCreate} from "@/operations/CourseAssignments/CourseAssignmentsCreate";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
@@ -15,7 +15,7 @@ export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
       <HaList
         icon={<PersonIcon />}
         title="Enseignants"
-        resource="awarded-courses"
+        resource="course-assignments"
         listProps={{
           filterDefaultValues: {courseId: courseId},
         }}
@@ -46,7 +46,7 @@ export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
         onClose={toggleShowCreate}
         open={showCreate}
       >
-        <AwardedCoursesCreate toggleShowCreate={toggleShowCreate} />
+        <CourseAssignmentsCreate toggleShowCreate={toggleShowCreate} />
       </Dialog>
     </Box>
   );

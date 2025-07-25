@@ -1,4 +1,4 @@
-import {teachingApi} from "./api";
+import {groupsApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const exportGroupProvider: HaDataProviderType = {
@@ -7,7 +7,7 @@ const exportGroupProvider: HaDataProviderType = {
   },
 
   async getOne(id: string) {
-    return teachingApi()
+    return groupsApi()
       .generateStudentsGroupInXlsx(id, {responseType: "arraybuffer"})
       .then((res) => ({id, file: res.data}));
   },

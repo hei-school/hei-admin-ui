@@ -1,6 +1,6 @@
 import {CrupdatePromotion} from "@haapi/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
-import {promotionApi, teachingApi} from "./api";
+import {groupsApi, promotionApi} from "./api";
 
 const promotionGroupsProvider: HaDataProviderType = {
   async getList(_page: number, _perPage: number, _filter: any, meta: any) {
@@ -9,7 +9,7 @@ const promotionGroupsProvider: HaDataProviderType = {
       .then((result) => ({data: result.data.groups ?? []}));
   },
   async getOne(groupId: string) {
-    return teachingApi()
+    return groupsApi()
       .getGroupById(groupId)
       .then((response) => response.data);
   },

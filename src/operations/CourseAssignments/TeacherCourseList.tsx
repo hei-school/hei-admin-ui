@@ -12,7 +12,7 @@ export const TeacherCourseList = () => {
     <HaList
       icon={<BookIcon />}
       title="Cours"
-      resource="awarded-courses"
+      resource="course-assignments"
       actions={false}
       listProps={{
         filter: {teacherId: teacherId},

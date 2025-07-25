@@ -9,13 +9,13 @@ import {
 } from "react-admin";
 import {useParams} from "react-router-dom";
 
-export interface AwardedCoursesCreateProps {
+export interface CourseAssignmentsCreateProps {
   toggleShowCreate: () => void;
 }
 
-export const AwardedCoursesCreate = ({
+export const CourseAssignmentsCreate = ({
   toggleShowCreate,
-}: AwardedCoursesCreateProps) => {
+}: CourseAssignmentsCreateProps) => {
   const {data: teachers = []} = useGetList("teachers");
   const {data: groups = []} = useGetList("groups");
 
@@ -40,7 +40,7 @@ export const AwardedCoursesCreate = ({
 
   return (
     <Create
-      resource="awarded-courses"
+      resource="course-assignments"
       title=" "
       redirect={() => `course/${courseId}/show`}
       mutationOptions={{

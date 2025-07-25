@@ -3,10 +3,10 @@ import {Box} from "@mui/material";
 import {ShowButton, TextField, useNotify} from "react-admin";
 //TODO: refactor, this CourseLIst facade
 import {useToggle} from "@/hooks";
-import {TeacherCourseList} from "@/operations/awardedCourses/TeacherCourseList";
 import {CourseListFilter} from "@/operations/course/components";
 import {CourseCreate} from "@/operations/course/CourseCreate";
 import {CourseEditButton} from "@/operations/course/CourseEditButton";
+import {TeacherCourseList} from "@/operations/CourseAssignments/TeacherCourseList";
 import {useRole} from "@/security/hooks";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";

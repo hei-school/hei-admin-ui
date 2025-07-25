@@ -1,11 +1,11 @@
-import {teachingApi} from "./api";
+import {examApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const examsProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}, _meta) => {
-    return teachingApi()
+    return examApi()
       .getAllExams(
-        filter?.awarded_course_id,
+        filter?.course_assignments_id,
         filter?.title,
         filter?.course_code,
         filter?.group_ref,
@@ -17,13 +17,13 @@ const examsProvider: HaDataProviderType = {
       .then((result) => ({data: result.data}));
   },
   getOne: async (id: string) => {
-    return teachingApi()
+    return examApi()
       .getExamOneExamById(id)
       .then((response) => response.data);
   },
   saveOrUpdate: async (payloads: any) => {
     const payload = payloads[0];
-    return teachingApi()
+    return examApi()
       .createOrUpdateExamsInfos(payload)
       .then((response) => [response.data]);
   },

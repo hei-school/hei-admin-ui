@@ -1,4 +1,4 @@
-import {awardedCourse1Mock} from "../fixtures/api_mocks/awarded-course-mocks";
+import {CourseAssignment1Mock} from "../fixtures/api_mocks/course-assignment-mocks";
 import {courseMock1} from "../fixtures/api_mocks/course-mocks";
 import {student1LettersMocks} from "../fixtures/api_mocks/letters-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
@@ -20,18 +20,18 @@ describe("Teacher course", () => {
     cy.getByTestid("course-menu").click();
     cy.intercept(
       "GET",
-      `/awarded_courses?teacher_id=${teacher1Mock.id}&page=1&page_size=10`,
-      [awardedCourse1Mock]
-    ).as("getTeacherAwardedCourse");
+      `/course_assignments?teacher_id=${teacher1Mock.id}&page=1&page_size=10`,
+      [CourseAssignment1Mock]
+    ).as("getTeacherCourseAssignment");
     cy.intercept(
       "GET",
-      `/awarded_courses?teacher_id=${teacher1Mock.id}&page=2&page_size=10`,
-      [awardedCourse1Mock]
-    ).as("getTeacherAwardedCourse2");
+      `/course_assignments?teacher_id=${teacher1Mock.id}&page=2&page_size=10`,
+      [CourseAssignment1Mock]
+    ).as("getTeacherCourseAssignment2");
   });
 
   it("can get courses assigned to teacher", () => {
-    cy.wait("@getTeacherAwardedCourse");
+    cy.wait("@getTeacherCourseAssignment");
     cy.contains(courseMock1.name);
   });
 });

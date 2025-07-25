@@ -1,8 +1,8 @@
 import {Course} from "@haapi/typescript-client";
 import {
-  awardedCourse1Mock,
-  createAwardedCourse,
-} from "../fixtures/api_mocks/awarded-course-mocks";
+  CourseAssignment1Mock,
+  createCourseAssignment,
+} from "../fixtures/api_mocks/course-assignment-mocks";
 import {courseMock1, courseMocks} from "../fixtures/api_mocks/course-mocks";
 import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
 import {teacher1Mock, teachersMock} from "../fixtures/api_mocks/teachers-mocks";
@@ -41,9 +41,9 @@ describe("Manager.Courses", () => {
     cy.wait("@getCoursesPage1");
     cy.intercept(
       "GET",
-      `/awarded_courses?course_id=${courseMock1.id}&page=1&page_size=10`,
-      [awardedCourse1Mock]
-    ).as("getTeacherAwardedCourse");
+      `/course_assignments?course_id=${courseMock1.id}&page=1&page_size=10`,
+      [CourseAssignment1Mock]
+    ).as("getTeacherCourseAssignment");
   });
 
   it("can list all courses", () => {
@@ -105,19 +105,19 @@ describe("Manager.Courses", () => {
     cy.get("tbody tr").should("have.length", courseMocks.length);
     cy.getByTestid("show-button").first().click();
     cy.wait("@getCourses1");
-    cy.wait("@getTeacherAwardedCourse");
+    cy.wait("@getTeacherCourseAssignment");
   });
 
   it("can assign teacher to course", () => {
     cy.intercept("GET", "/teachers*", teachersMock).as("getTeachers");
     cy.intercept("GET", `/groups*`, groupsMock).as("getGroups");
-    cy.intercept("PUT", `/teachers/${teacher1Mock.id}/awarded_courses`, [
-      createAwardedCourse,
-    ]).as("createAwardedCourse");
+    cy.intercept("PUT", `/teachers/${teacher1Mock.id}/course_assignments`, [
+      createCourseAssignment,
+    ]).as("createCourseAssignment");
     cy.get("tbody tr").should("have.length", courseMocks.length);
     cy.getByTestid("show-button").first().click();
     cy.wait("@getCourses1");
-    cy.wait("@getTeacherAwardedCourse");
+    cy.wait("@getTeacherCourseAssignment");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("teacher-select").click();
@@ -135,6 +135,6 @@ describe("Manager.Courses", () => {
     });
     cy.get("li").contains(groupsMock[0].ref).click();
     cy.contains("Enregistrer").click();
-    cy.wait("@createAwardedCourse");
+    cy.wait("@createCourseAssignment");
   });
 });

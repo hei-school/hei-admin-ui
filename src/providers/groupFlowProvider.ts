@@ -1,5 +1,5 @@
 import {HaDataProviderType} from "./HaDataProviderType";
-import {teachingApi} from "./api";
+import {groupsApi} from "./api";
 
 const groupFlowProvider: HaDataProviderType = {
   async getList(_page: number, _perPage: number, _filter: any) {
@@ -9,7 +9,7 @@ const groupFlowProvider: HaDataProviderType = {
     throw new Error("Function not implemented.");
   },
   async saveOrUpdate(payload: any) {
-    return await teachingApi()
+    return await groupsApi()
       .moveOrDeleteStudentInGroup(payload[0].student_id, payload)
       .then((result) => [result.data]);
   },
