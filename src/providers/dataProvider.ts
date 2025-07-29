@@ -38,6 +38,7 @@ import statsProvider from "@/providers/statsProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
+import {courseAssignmentsByTeacherProvider} from "./courseAssignementbyTeacher";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -66,6 +67,7 @@ const providerMap = {
   "letters": lettersProvider,
   "letters-stats": lettersStatsProvider,
   "receipts": receiptProvider,
+  "courses-assignements": courseAssignmentsByTeacherProvider,
   "course-assignments": CourseAssignmentsProvider,
   "events": eventProvider,
   "missing-event": missingListProvider,
