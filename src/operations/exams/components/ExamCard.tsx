@@ -132,6 +132,7 @@ const ExamTag: FC<ExamTagProps> = ({label, color}) => (
 export const ExamCard: FC<ExamCardProps> = ({exam, isLoading}) => (
   <Link
     to={`/exams/${exam.id}/grades`}
+    data-testid="exam-card"
     sx={{
       ...cardStyle,
       "width": "100%",

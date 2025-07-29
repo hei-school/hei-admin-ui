@@ -18,16 +18,10 @@ describe("Teacher course", () => {
       student1LettersMocks.slice(0, 10)
     ).as("getStudent1LettersPage2");
     cy.getByTestid("course-menu").click();
-    cy.intercept(
-      "GET",
-      `/course_assignments?teacher_id=${teacher1Mock.id}&page=1&page_size=10`,
-      [CourseAssignment1Mock]
-    ).as("getTeacherCourseAssignment");
-    cy.intercept(
-      "GET",
-      `/course_assignments?teacher_id=${teacher1Mock.id}&page=2&page_size=10`,
-      [CourseAssignment1Mock]
-    ).as("getTeacherCourseAssignment2");
+
+    cy.intercept("GET", `/teachers/${teacher1Mock.id}/course_assignments?**`, [
+      CourseAssignment1Mock,
+    ]).as("getTeacherCourseAssignment");
   });
 
   it("can get courses assigned to teacher", () => {

@@ -198,6 +198,7 @@ const ParticipantsDataGrid = ({examId}) => (
     listProps={{
       queryOptions: {meta: {examId}},
       title: "Notes des participants",
+      className: "participants-list",
     }}
     actions={<ExamGradeListActions examId={examId} />}
     data-testid="participants-list"

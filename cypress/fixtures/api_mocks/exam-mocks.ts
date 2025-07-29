@@ -1,11 +1,14 @@
 import {EnableStatus, Exam, Sex} from "@haapi/typescript-client";
+import {courseMocks} from "./course-mocks";
+import {group1Mock} from "./groups-mocks";
+import {teachersMock} from "./teachers-mocks";
 
 export const examMocks: Exam[] = [
   {
     id: "exam1_id",
     coefficient: 1.5,
     title: "Introduction to Programming",
-    examination_date: new Date("2025-05-10"),
+    examination_date: new Date("2025-05-10T08:08:00"),
     course_assignment: {
       id: "course_assignment1_id",
       main_teacher: {
@@ -141,5 +144,63 @@ export const examMocks: Exam[] = [
         },
       ],
     },
+  },
+];
+
+export const gradesMocks = [
+  {
+    grade: {
+      id: "151be181-9628-41c8-88c8-bd0537d20f40",
+      exam: null,
+      score: 13.5,
+      created_at: "2025-04-02T08:37:09.069174Z",
+      update_date: "2025-04-02T08:37:09.069174Z",
+    },
+    student: {
+      specialization_field: "TN",
+      professional_experience: null,
+      work_study_status: "NOT_WORKING",
+      commitment_begin_date: null,
+      commitment_end_date: null,
+      profile_picture: null,
+      groups: [
+        {
+          id: "5c921a56-c513-4869-aee1-b6408f189e47",
+          name: "Groupe d'élites",
+          ref: "G12",
+          creation_datetime: "2024-04-09T00:00:00Z",
+          size: 7,
+          attributed_color: "#46eb00",
+        },
+      ],
+      is_repeating_year: false,
+      id: "29510316-aee5-441d-bf94-4bd947020a1b",
+      ref: "STD999999999",
+      first_name: "Ilo",
+      last_name: "rrrrr",
+      email: "test@gmail.com",
+      nic: null,
+      sex: "F",
+      birth_date: "1970-01-01",
+      birth_place: null,
+      address: null,
+      phone: "1234567788",
+      entrance_datetime: "2024-08-10T00:00:00Z",
+      coordinates: {
+        longitude: 0.0,
+        latitude: 0.0,
+      },
+      high_school_origin: null,
+      status: "SUSPENDED",
+    },
+  },
+];
+
+export const courseAssignmentMocks = [
+  {
+    id: "string",
+    main_teacher: teachersMock[0],
+    course: courseMocks[0],
+    groups: [group1Mock],
   },
 ];
