@@ -79,8 +79,8 @@ const ExamDetailChip = ({icon, tooltip, label}) => (
 );
 
 const ExamDetails = ({exam}) => {
-  const awardedCourse = exam?.awarded_course;
-  const mainTeacher = awardedCourse?.main_teacher;
+  const CourseAssignment = exam?.course_assignment;
+  const mainTeacher = CourseAssignment?.main_teacher;
 
   return (
     <Paper
@@ -103,12 +103,15 @@ const ExamDetails = ({exam}) => {
       <ExamDetailChip
         icon={<BookIcon />}
         tooltip="Cours"
-        label={`Cours de ${awardedCourse?.course?.code}`}
+        label={`Cours de ${CourseAssignment?.course?.code}`}
       />
       <ExamDetailChip
         icon={<GroupIcon />}
         tooltip="Groupe"
-        label={`Groupe ${awardedCourse?.group?.ref}`}
+        label={`Groupe ${
+          CourseAssignment?.groups?.map((group) => group.ref).join(", ") ||
+          "non défini"
+        }`}
       />
       <ExamDetailChip
         icon={<PersonIcon />}
@@ -195,6 +198,7 @@ const ParticipantsDataGrid = ({examId}) => (
     listProps={{
       queryOptions: {meta: {examId}},
       title: "Notes des participants",
+      className: "participants-list",
     }}
     actions={<ExamGradeListActions examId={examId} />}
     data-testid="participants-list"

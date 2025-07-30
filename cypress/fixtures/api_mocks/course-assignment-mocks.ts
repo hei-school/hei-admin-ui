@@ -1,6 +1,6 @@
-import {AwardedCourse, EnableStatus, Sex} from "@haapi/typescript-client";
+import {CourseAssignment, EnableStatus, Sex} from "@haapi/typescript-client";
 
-export const awardedCourseMock: Required<AwardedCourse>[] = [
+export const CourseAssignmentMock: Required<CourseAssignment>[] = [
   {
     id: "string",
     main_teacher: {
@@ -25,13 +25,15 @@ export const awardedCourseMock: Required<AwardedCourse>[] = [
       credits: 5,
       total_hours: 5,
     },
-    group: {
-      id: "group_id1",
-      name: "group_name1",
-      ref: "group_ref1",
-      size: 4,
-      creation_datetime: new Date("2024-01-28"),
-    },
+    groups: [
+      {
+        id: "group_id1",
+        name: "group_name1",
+        ref: "group_ref1",
+        size: 4,
+        creation_datetime: new Date("2024-01-28"),
+      },
+    ],
   },
   {
     id: "string",
@@ -57,19 +59,21 @@ export const awardedCourseMock: Required<AwardedCourse>[] = [
       credits: 6,
       total_hours: 6,
     },
-    group: {
-      id: "group_id2",
-      name: "group_name2",
-      ref: "group_ref2",
-      size: 4,
-      creation_datetime: new Date("2023-02-28"),
-    },
+    groups: [
+      {
+        id: "group_id2",
+        name: "group_name2",
+        ref: "group_ref2",
+        size: 4,
+        creation_datetime: new Date("2023-02-28"),
+      },
+    ],
   },
 ];
 
-export const awardedCourse1Mock = awardedCourseMock[0];
+export const CourseAssignment1Mock = CourseAssignmentMock[0];
 
-export const createAwardedCourse: AwardedCourse = {
+export const createCourseAssignment: CourseAssignment = {
   id: "string",
   main_teacher: {
     id: "teacher2_id",
@@ -93,11 +97,13 @@ export const createAwardedCourse: AwardedCourse = {
     credits: 6,
     total_hours: 6,
   },
-  group: {
-    id: "group_id2",
-    name: "group_name2",
-    ref: "group_ref2",
-    size: 4,
-    creation_datetime: new Date("2023-02-28"),
-  },
+  groups: [
+    {
+      id: "group_id2",
+      name: "group_name2",
+      ref: "group_ref2",
+      size: 4,
+      creation_datetime: new Date("2023-02-28"),
+    },
+  ],
 };

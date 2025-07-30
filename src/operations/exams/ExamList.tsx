@@ -9,7 +9,7 @@ import {ResponsiveGrid} from "@/ui/components";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateButton} from "@/ui/haToolbar";
-import {ExamInfo} from "@haapi/typescript-client";
+import {Exam} from "@haapi/typescript-client";
 
 export const ExamList = () => {
   const {isManager, isAdmin, isTeacher} = useRole();
@@ -73,7 +73,7 @@ const ExamsGridContent = () => {
 
   return (
     <ResponsiveGrid gap="1.5rem">
-      {exams.map((exam: ExamInfo) => (
+      {exams.map((exam: Exam) => (
         <ExamCard
           data-testId="exam-card"
           key={exam.id}

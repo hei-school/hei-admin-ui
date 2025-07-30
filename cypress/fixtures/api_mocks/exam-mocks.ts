@@ -1,13 +1,16 @@
-import {EnableStatus, ExamInfo, Sex} from "@haapi/typescript-client";
+import {EnableStatus, Exam, Sex} from "@haapi/typescript-client";
+import {courseMocks} from "./course-mocks";
+import {group1Mock} from "./groups-mocks";
+import {teachersMock} from "./teachers-mocks";
 
-export const examMocks: ExamInfo[] = [
+export const examMocks: Exam[] = [
   {
     id: "exam1_id",
     coefficient: 1.5,
     title: "Introduction to Programming",
-    examination_date: new Date("2025-05-10"),
-    awarded_course: {
-      id: "awarded_course1_id",
+    examination_date: new Date("2025-05-10T08:08:00"),
+    course_assignment: {
+      id: "course_assignment1_id",
       main_teacher: {
         id: "teacher1_id",
         ref: "TCR21001",
@@ -36,14 +39,16 @@ export const examMocks: ExamInfo[] = [
         credits: 3,
         total_hours: 45,
       },
-      group: {
-        id: "group1_id",
-        name: "CS First Year",
-        ref: "CS101",
-        creation_datetime: new Date("2024-09-01"),
-        size: 30,
-        attributed_color: "blue",
-      },
+      groups: [
+        {
+          id: "group1_id",
+          name: "CS First Year",
+          ref: "CS101",
+          creation_datetime: new Date("2024-09-01"),
+          size: 30,
+          attributed_color: "blue",
+        },
+      ],
     },
   },
   {
@@ -51,8 +56,8 @@ export const examMocks: ExamInfo[] = [
     coefficient: 2.0,
     title: "Database Fundamentals",
     examination_date: new Date("2025-05-15"),
-    awarded_course: {
-      id: "awarded_course2_id",
+    course_assignment: {
+      id: "course_assignment2_id",
       main_teacher: {
         id: "teacher2_id",
         ref: "TCR21002",
@@ -81,14 +86,16 @@ export const examMocks: ExamInfo[] = [
         credits: 4,
         total_hours: 60,
       },
-      group: {
-        id: "group2_id",
-        name: "CS Second Year",
-        ref: "CS201",
-        creation_datetime: new Date("2024-09-01"),
-        size: 25,
-        attributed_color: "red",
-      },
+      groups: [
+        {
+          id: "group2_id",
+          name: "CS Second Year",
+          ref: "CS201",
+          creation_datetime: new Date("2024-09-01"),
+          size: 25,
+          attributed_color: "red",
+        },
+      ],
     },
   },
   {
@@ -96,8 +103,8 @@ export const examMocks: ExamInfo[] = [
     coefficient: 1.0,
     title: "Web Development Basics",
     examination_date: new Date("2025-05-20"),
-    awarded_course: {
-      id: "awarded_course3_id",
+    course_assignment: {
+      id: "course_assignment3_id",
       main_teacher: {
         id: "teacher3_id",
         ref: "TCR21003",
@@ -126,14 +133,74 @@ export const examMocks: ExamInfo[] = [
         credits: 3,
         total_hours: 40,
       },
-      group: {
-        id: "group3_id",
-        name: "CS Third Year",
-        ref: "CS301",
-        creation_datetime: new Date("2024-09-01"),
-        size: 20,
-        attributed_color: "green",
-      },
+      groups: [
+        {
+          id: "group3_id",
+          name: "CS Third Year",
+          ref: "CS301",
+          creation_datetime: new Date("2024-09-01"),
+          size: 20,
+          attributed_color: "green",
+        },
+      ],
     },
+  },
+];
+
+export const gradesMocks = [
+  {
+    grade: {
+      id: "151be181-9628-41c8-88c8-bd0537d20f40",
+      exam: null,
+      score: 13.5,
+      created_at: "2025-04-02T08:37:09.069174Z",
+      update_date: "2025-04-02T08:37:09.069174Z",
+    },
+    student: {
+      specialization_field: "TN",
+      professional_experience: null,
+      work_study_status: "NOT_WORKING",
+      commitment_begin_date: null,
+      commitment_end_date: null,
+      profile_picture: null,
+      groups: [
+        {
+          id: "5c921a56-c513-4869-aee1-b6408f189e47",
+          name: "Groupe d'élites",
+          ref: "G12",
+          creation_datetime: "2024-04-09T00:00:00Z",
+          size: 7,
+          attributed_color: "#46eb00",
+        },
+      ],
+      is_repeating_year: false,
+      id: "29510316-aee5-441d-bf94-4bd947020a1b",
+      ref: "STD999999999",
+      first_name: "Ilo",
+      last_name: "rrrrr",
+      email: "test@gmail.com",
+      nic: null,
+      sex: "F",
+      birth_date: "1970-01-01",
+      birth_place: null,
+      address: null,
+      phone: "1234567788",
+      entrance_datetime: "2024-08-10T00:00:00Z",
+      coordinates: {
+        longitude: 0.0,
+        latitude: 0.0,
+      },
+      high_school_origin: null,
+      status: "SUSPENDED",
+    },
+  },
+];
+
+export const courseAssignmentMocks = [
+  {
+    id: "string",
+    main_teacher: teachersMock[0],
+    course: courseMocks[0],
+    groups: [group1Mock],
   },
 ];

@@ -1,7 +1,8 @@
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
+import {Group} from "@haapi/typescript-client";
 import {MenuBook as BookIcon} from "@mui/icons-material";
-import {TextField} from "react-admin";
+import {FunctionField, TextField} from "react-admin";
 
 export const TeacherCourseList = () => {
   const teacher = authProvider.getCachedWhoami();
@@ -12,7 +13,7 @@ export const TeacherCourseList = () => {
     <HaList
       icon={<BookIcon />}
       title="Cours"
-      resource="awarded-courses"
+      resource="courses-assignements"
       actions={false}
       listProps={{
         filter: {teacherId: teacherId},
@@ -23,7 +24,12 @@ export const TeacherCourseList = () => {
     >
       <TextField source="course.code" label="Code" />
       <TextField source="course.name" label="Nom" />
-      <TextField source="group.ref" label="Groupe" />
+      <FunctionField
+        label="Groupe"
+        render={(record) =>
+          record.groups.map((group: Group) => group.ref).join(", ")
+        }
+      />
     </HaList>
   );
 };

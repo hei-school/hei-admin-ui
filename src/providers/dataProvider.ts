@@ -1,7 +1,7 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
-import awardedCoursesProvider from "@/providers/awardedCoursesProvider";
 import commentProvider from "@/providers/commentProvider";
+import CourseAssignmentsProvider from "@/providers/courseAssignmentsProvider";
 import courseProvider from "@/providers/courseProvider";
 import docsProvider from "@/providers/docsProvider";
 import eventParticipantProvider from "@/providers/eventParticipantProvider";
@@ -38,6 +38,7 @@ import statsProvider from "@/providers/statsProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
+import {courseAssignmentsByTeacherProvider} from "./courseAssignementbyTeacher";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -66,7 +67,8 @@ const providerMap = {
   "letters": lettersProvider,
   "letters-stats": lettersStatsProvider,
   "receipts": receiptProvider,
-  "awarded-courses": awardedCoursesProvider,
+  "courses-assignements": courseAssignmentsByTeacherProvider,
+  "course-assignments": CourseAssignmentsProvider,
   "events": eventProvider,
   "missing-event": missingListProvider,
   "events-participants-export": exportEventParticipantProvider,

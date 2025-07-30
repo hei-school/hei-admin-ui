@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {formatDate} from "@/utils/date";
-import {ExamInfo} from "@haapi/typescript-client";
+import {Exam} from "@haapi/typescript-client";
 import {
   ImportContactsOutlined as BookIcon,
   PeopleOutline as GroupIcon,
@@ -19,7 +19,7 @@ import {CSSProperties, FC, ReactNode} from "react";
 import {Link} from "react-admin";
 
 type ExamDetailsProps = {
-  exam: ExamInfo;
+  exam: Exam;
 };
 
 type InfoRowProps = {
@@ -36,7 +36,7 @@ type ExamTagProps = {
 };
 
 type ExamCardProps = {
-  exam: ExamInfo;
+  exam: Exam;
   isLoading: boolean;
 };
 
@@ -57,19 +57,23 @@ const ExamDetails: FC<ExamDetailsProps> = ({exam}) => (
       label="Cours:"
       color="#f4e1ac"
       textColor={PALETTE_COLORS.black}
-      value={exam?.awarded_course?.course?.code}
+      value={exam?.course_assignment?.course?.code}
       icon={<BookIcon sx={{fontSize: "1.5rem", mr: "5px"}} />}
     />
     <InfoRow
       label="Groupe:"
-      value={exam?.awarded_course?.group?.ref}
+      value={
+        exam?.course_assignment?.groups?.map((group) => group.ref).join(", ") ||
+        "non défini"
+      }
       icon={<GroupIcon sx={{fontSize: "1.5rem", mr: "5px"}} />}
     />
+
     <InfoRow
       label="Enseignant:"
       color="#f4e1ac"
       textColor={PALETTE_COLORS.black}
-      value={`${exam?.awarded_course?.main_teacher?.first_name ?? ""} ${exam?.awarded_course?.main_teacher?.last_name ?? ""}`}
+      value={`${exam?.course_assignment?.main_teacher?.first_name ?? exam?.course_assignment?.main_teacher?.last_name ?? "non défini"}`}
       icon={<PersonIcon sx={{fontSize: "1.5rem", mr: "5px"}} />}
     />
   </Stack>
@@ -128,6 +132,7 @@ const ExamTag: FC<ExamTagProps> = ({label, color}) => (
 export const ExamCard: FC<ExamCardProps> = ({exam, isLoading}) => (
   <Link
     to={`/exams/${exam.id}/grades`}
+    data-testid="exam-card"
     sx={{
       ...cardStyle,
       "width": "100%",
