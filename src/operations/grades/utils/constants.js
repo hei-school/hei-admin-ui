@@ -5,3 +5,14 @@ export const GRADE_HEADERS = {
   ],
   optional: [],
 };
+
+export const COURSE_STATUS_LABELS = {
+  VALIDATED: "Validé",
+  IN_PROGRESS: "En cours",
+  INCOMPLETE: "Incomplet",
+  NOT_STARTED: "Non commencé",
+};
+
+export const getCourseStatusLabel = (status) => {
+  return COURSE_STATUS_LABELS[status] || status;
+};

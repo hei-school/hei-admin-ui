@@ -2,10 +2,9 @@ import {Download} from "@mui/icons-material";
 import {Box, Typography} from "@mui/material";
 import {FC} from "react";
 import {Button} from "react-admin";
+import {useParams} from "react-router-dom";
 import {CoursesListView} from "./components/CoursesListView";
 import {TranscriptOverview} from "./components/TranscriptOverview";
-import {useParams} from "react-router-dom";
-
 
 export const GradesOverview: FC = () => {
   const {id: studentId} = useParams();
@@ -40,6 +39,7 @@ export const GradesOverview: FC = () => {
         </Box>
         <TranscriptOverview studentLevel="L1" studentId={studentId!} />
       </Box>
+      <CoursesListView studentLevel="L1" studentId={studentId!} />
     </Box>
   );
 };
