@@ -2,6 +2,7 @@ import {formatDate} from "@/utils/date";
 import {courseMocks} from "../fixtures/api_mocks/course-mocks";
 import {
   courseAssignmentMocks,
+  examCreateMock,
   examMocks,
 } from "../fixtures/api_mocks/exam-mocks";
 import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
@@ -18,11 +19,12 @@ describe("ExamParticipantList", () => {
   beforeEach(() => {
     cy.mockLogin({role: "TEACHER"});
     cy.intercept("GET", "/exams?*", [examMocks[0]]).as("getExamsAfterUpdate");
-    cy.intercept("PUT", "/exams", {
-      req: (req: any) => {
-        req.reply({statusCode: 200});
-      },
+    cy.intercept("PUT", "/exams", (req) => {
+      const actual = req.body;
+      expect(actual).to.deep.eq(examCreateMock);
+      req.reply({statusCode: 200, body: examMocks[0]});
     }).as("putExam");
+
     cy.intercept("GET", "/exams?page=1&page_size=12", []).as("getNoExams");
     cy.intercept("GET", "/exams?page=2&page_size=12", []).as("NoExams2");
     cy.intercept("GET", "/teachers?**", teachersMock).as("getTeachers");
@@ -93,8 +95,8 @@ describe("ExamParticipantList", () => {
         `${courseAssignmentMocks[0].course.code} - ${courseAssignmentMocks[0].groups.map((group) => group.ref).join(", ")}`
       )
       .click();
-    cy.get('input[name="examination_date"]').clear().type("2025-05-10 08:00");
+    cy.get('input[name="examination_date"]').type("01-08-2025 08:30:00");
     cy.get('button[type="submit"]').click();
-    cy.wait("@putExam");
+    cy.contains("Élément créé");
   });
 });
