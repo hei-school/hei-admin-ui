@@ -1,6 +1,7 @@
 import {useTabManager} from "@/hooks/useTabManager";
 import {CommentList} from "@/operations/comments/CommentList";
 import FeeList from "@/operations/fees/FeeList";
+import {GradesOverview} from "@/operations/grades/GradesDashboard";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
 import {useRole} from "@/security/hooks";
@@ -160,6 +161,14 @@ export const Informations: FC<{
         !isStaffProfil &&
         (role.isAdmin() || role.isManager()),
       content: <LettersList stats={letterStats} />,
+    },
+    {
+      id: "grades",
+      label: "Notes",
+      show:
+        isStudentProfile &&
+        (role.isMonitor() || role.isAdmin() || role.isManager()),
+      content: <GradesOverview />,
     },
   ];
 
