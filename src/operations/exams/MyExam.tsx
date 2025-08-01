@@ -1,6 +1,6 @@
 import {MenuBook} from "@mui/icons-material";
 import {Box, Card, CardContent, Container, Typography} from "@mui/material";
-import {ExamItem} from "./components";
+import {ExamItem, GradeDetailsTable} from "./components";
 
 /* Use to simulate the data that should be passed */
 const exams = [
@@ -21,6 +21,27 @@ const exams = [
     refCours: "ALGO3",
     groupes: ["G3", "G4", "G5"],
     avancement: 90,
+  },
+];
+
+const students = [
+  {
+    std: "STD21xx RAKOTO",
+    nom: "Doe",
+    prenom: "John",
+    note: 17,
+  },
+  {
+    std: "STD21yy RABE",
+    nom: "Smith",
+    prenom: "Jane",
+    note: 14,
+  },
+  {
+    std: "STD21zz RADO",
+    nom: "Johnson",
+    prenom: "Bob",
+    note: 11,
   },
 ];
 
@@ -57,6 +78,7 @@ export const MyExam = () => {
             </Box>
           </CardContent>
         </Card>
+        <GradeDetailsTable students={students} />
       </Container>
     </Box>
   );
