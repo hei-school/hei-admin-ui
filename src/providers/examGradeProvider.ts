@@ -10,7 +10,7 @@ const examGradeProvider: HaDataProviderType = {
     meta: Record<string, any> = {}
   ) {
     return gradesApi()
-      .getParticipantsGradeForExam(meta?.examId, page, perPage)
+      .getStudentGradesForExam(meta?.examId, page, perPage)
       .then(({data = []}) => ({
         data: data.map((value) => ({...value, id: value?.grade?.id})),
       }));
