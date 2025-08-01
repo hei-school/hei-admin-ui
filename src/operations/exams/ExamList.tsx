@@ -1,8 +1,9 @@
 import {ImportContactsOutlined as BookIcon} from "@mui/icons-material";
-import {Box, LinearProgress, Typography} from "@mui/material";
+import {Box, Button, LinearProgress, Typography} from "@mui/material";
 import {List, useListContext} from "react-admin";
 
 import EmptyBox from "@/assets/empty-box.webp";
+import {PALETTE_COLORS} from "@/haTheme";
 import {ExamCard, ExamFilter} from "@/operations/exams/components";
 import {useRole} from "@/security/hooks";
 import {ResponsiveGrid} from "@/ui/components";
@@ -10,9 +11,11 @@ import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateButton} from "@/ui/haToolbar";
 import {Exam} from "@haapi/typescript-client";
+import {useNavigate} from "react-router-dom";
 
 export const ExamList = () => {
   const {isManager, isAdmin, isTeacher} = useRole();
+  const navigate = useNavigate();
 
   return (
     <List
@@ -37,9 +40,25 @@ export const ExamList = () => {
         icon={<BookIcon />}
         actions={(isManager() || isAdmin() || isTeacher()) && <ExamActions />}
       />
-      <Typography marginInline={5}>
-        Veuillez trouver ci-joint la liste des différents examens.
-      </Typography>
+      <Box marginInline={5} display="flex" flexDirection="column" gap="1vh">
+        <Typography>
+          Veuillez trouver ci-joint la liste des différents examens.
+        </Typography>
+        <Button
+          startIcon={<BookIcon />}
+          size="medium"
+          variant="outlined"
+          sx={{
+            backgroundColor: PALETTE_COLORS.white,
+            colors: PALETTE_COLORS.primary,
+            padding: "0.5rem 1.5rem",
+            borderRadius: "0.4rem",
+          }}
+          onClick={() => navigate("/my-exam")}
+        >
+          Voir mes examens
+        </Button>
+      </Box>
       <ExamsGridContent />
     </List>
   );
