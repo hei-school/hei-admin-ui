@@ -25,6 +25,13 @@ export const CoursesListView: FC<{
           resource="grades"
           datagridProps={{
             rowClick: false,
+            rowStyle: () => ({
+              "overflowX": "auto",
+              "& .RaDatagrid-table": {
+                minWidth: 800,
+                padding: "1rem",
+              },
+            }),
           }}
           title="Mes Cours et Notes"
           icon={<BookOpenText />}

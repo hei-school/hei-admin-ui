@@ -1,6 +1,5 @@
 import {getGradeColor} from "@/operations/grades/utils/getGradeColor";
 import {StudentLevel} from "@haapi/typescript-client";
-import {HourglassEmpty, School} from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -13,7 +12,9 @@ import {
 } from "@mui/material";
 import {FC} from "react";
 import {useGetOne} from "react-admin";
+import {getStatusChipProps} from "../utils/getStatusChipProps";
 
+import {School} from "@mui/icons-material";
 export const TranscriptOverview: FC<{
   studentLevel: StudentLevel;
   studentId: string;
@@ -24,6 +25,8 @@ export const TranscriptOverview: FC<{
       studentLevel,
     },
   });
+
+  const chipProps = getStatusChipProps(result?.status || "NOT_STARTED");
 
   return (
     <Card
@@ -71,11 +74,11 @@ export const TranscriptOverview: FC<{
             </Box>
 
             <Chip
-              icon={<HourglassEmpty sx={{fontSize: 16}} />}
-              label="Moyenne Provisoire"
+              icon={chipProps.icon}
+              label={chipProps.label}
               size="small"
-              color="warning"
-              variant="outlined"
+              color={chipProps.color}
+              variant={chipProps.variant}
               sx={{mb: 2, fontWeight: "medium"}}
             />
 
@@ -100,7 +103,7 @@ export const TranscriptOverview: FC<{
                 <Typography variant="h6" fontWeight="bold" color="text.primary">
                   {result?.obtained_credits}{" "}
                   <span style={{fontSize: "0.8rem", color: "#666"}}>
-                    / {"total Credits"}
+                    / {result?.total_credits}
                   </span>
                 </Typography>
               </Box>
@@ -134,7 +137,7 @@ export const TranscriptOverview: FC<{
                 size={170}
                 thickness={5}
                 sx={{
-                  color: getGradeColor(12),
+                  color: getGradeColor(result?.weighted_average!),
                   position: "absolute",
                   top: 0,
                   left: 0,
@@ -163,7 +166,7 @@ export const TranscriptOverview: FC<{
                     lineHeight: 1,
                   }}
                 >
-                  {result?.weighted_average}
+                  {result?.weighted_average ? result?.weighted_average : "0"}
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
                   / 20

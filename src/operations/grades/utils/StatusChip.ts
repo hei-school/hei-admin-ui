@@ -9,22 +9,22 @@ interface StatusChipProps {
 
 const STATUS_COLORS = {
   VALIDATED: {
-    main: "#4caf50", // vert
+    main: "#4caf50",
     light: "rgba(76, 175, 80, 0.1)",
     name: "Validé",
   },
   IN_PROGRESS: {
-    main: "#ffc107", // jaune
+    main: "#ffc107",
     light: "rgba(255, 193, 7, 0.08)",
     name: "En cours",
   },
   INCOMPLETE: {
-    main: "#f44336", // rouge
+    main: "#f44336",
     light: "rgba(244, 67, 54, 0.08)",
     name: "Incomplet",
   },
   NOT_STARTED: {
-    main: "#bdbdbd", // gris
+    main: "#bdbdbd",
     light: "rgba(189, 189, 189, 0.15)",
     name: "Non commencé",
   },
