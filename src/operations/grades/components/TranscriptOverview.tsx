@@ -1,5 +1,4 @@
 import {getGradeColor} from "@/operations/grades/utils/getGradeColor";
-import {StudentLevel} from "@haapi/typescript-client";
 import {
   Box,
   Card,
@@ -11,20 +10,48 @@ import {
   Typography,
 } from "@mui/material";
 import {FC} from "react";
-import {useGetOne} from "react-admin";
+
+import {YearlyResult} from "@haapi/typescript-client";
+import {School} from "@mui/icons-material";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
 
-import {School} from "@mui/icons-material";
 export const TranscriptOverview: FC<{
-  studentLevel: StudentLevel;
-  studentId: string;
-}> = ({studentId, studentLevel}) => {
-  const {data: result} = useGetOne("grades", {
-    id: studentId,
-    meta: {
-      studentLevel,
-    },
-  });
+  result: YearlyResult;
+  isLoading: boolean;
+  error: unknown;
+}> = ({result, error, isLoading}) => {
+  if (isLoading) {
+    return (
+      <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight={200}
+        >
+          <CircularProgress />
+        </Box>
+      </Card>
+    );
+  }
+
+  if (error) {
+    return (
+      <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
+        <Typography color="error">
+          Erreur lors du chargement des données: {String(error)}
+        </Typography>
+      </Card>
+    );
+  }
+
+  if (!result) {
+    return (
+      <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
+        <Typography>Aucune donnée disponible</Typography>
+      </Card>
+    );
+  }
 
   const chipProps = getStatusChipProps(result?.status || "NOT_STARTED");
 
@@ -87,7 +114,12 @@ export const TranscriptOverview: FC<{
                 mt: 2,
                 pl: 1,
                 borderLeft: "3px solid",
-                borderColor: getGradeColor(result?.weighted_average!),
+                borderColor: getGradeColor(
+                  result?.total_credits
+                    ? ((result.obtained_credits ?? 0) / result.total_credits) *
+                        20
+                    : 0
+                ),
                 paddingLeft: 2,
               }}
             >
@@ -101,9 +133,9 @@ export const TranscriptOverview: FC<{
                   Crédits ECTS
                 </Typography>
                 <Typography variant="h6" fontWeight="bold" color="text.primary">
-                  {result?.obtained_credits}{" "}
+                  {result?.obtained_credits ? result?.obtained_credits : 0}{" "}
                   <span style={{fontSize: "0.8rem", color: "#666"}}>
-                    / {result?.total_credits}
+                    / {result?.total_credits ? result?.total_credits : 0}
                   </span>
                 </Typography>
               </Box>

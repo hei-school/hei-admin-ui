@@ -1,3 +1,5 @@
+import {StudentLevel} from "@haapi/typescript-client";
+
 export const GRADE_HEADERS = {
   minimal: [
     {id: 1, label: "Référence", value: "student_ref", disabled: true},
@@ -16,3 +18,11 @@ export const COURSE_STATUS_LABELS = {
 export const getCourseStatusLabel = (status) => {
   return COURSE_STATUS_LABELS[status] || status;
 };
+
+export const levelChoices = [
+  {id: StudentLevel.L1, name: "Licence 1"},
+  {id: StudentLevel.L2, name: "Licence 2"},
+  {id: StudentLevel.L3, name: "Licence 3"},
+  {id: StudentLevel.M1, name: "Master 1 "},
+  {id: StudentLevel.M2, name: "Master 2"},
+];
