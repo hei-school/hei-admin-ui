@@ -5,6 +5,7 @@ import {
   Student,
   Teacher,
 } from "@haapi/typescript-client";
+import {Identifier} from "react-admin";
 
 export interface Doc {
   id: string;
@@ -19,3 +20,5 @@ export interface Doc {
 }
 
 export type User = Student | Teacher | Manager | Monitor | Admin;
+
+export type ToRaRecord<T> = T & {id: Identifier};
