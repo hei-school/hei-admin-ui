@@ -1,4 +1,9 @@
-import {Cancel, CheckCircle, HourglassEmpty} from "@mui/icons-material";
+import {
+  Cancel,
+  CheckCircle,
+  ErrorOutline,
+  HourglassEmpty,
+} from "@mui/icons-material";
 
 export const getStatusChipProps = (status: string) => {
   switch (status) {
@@ -28,6 +33,13 @@ export const getStatusChipProps = (status: string) => {
         icon: <HourglassEmpty sx={{fontSize: 16}} />,
         label: "Non Commencé",
         color: "default" as const,
+        variant: "outlined" as const,
+      };
+    case "INCOMPLETE":
+      return {
+        icon: <ErrorOutline sx={{fontSize: 16}} />,
+        label: "Incomplet",
+        color: "warning" as const,
         variant: "outlined" as const,
       };
     default:

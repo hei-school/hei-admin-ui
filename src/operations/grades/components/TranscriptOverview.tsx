@@ -198,7 +198,9 @@ export const TranscriptOverview: FC<{
                     lineHeight: 1,
                   }}
                 >
-                  {result?.weighted_average ? result?.weighted_average : "0"}
+                  {result?.weighted_average
+                    ? result?.weighted_average.toFixed(2)
+                    : "0"}
                 </Typography>
                 <Typography variant="body1" color="text.secondary">
                   / 20
