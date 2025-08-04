@@ -16,6 +16,8 @@ import exportTeacherProvider from "@/providers/exportTeacherProvider";
 import feeProvider from "@/providers/feeProvider";
 import feesExportProvider from "@/providers/feesExportProvider";
 import feesTemplatesProvider from "@/providers/feesTemplatesProvider";
+import gradeProvider from "@/providers/gradeProvider";
+import gradesDetailsProvider from "@/providers/gradesDetailsProvider";
 import groupFlowProvider from "@/providers/groupFlowProvider";
 import groupProvider from "@/providers/groupProvider";
 import groupStudentProvider from "@/providers/groupStudentProvider";
@@ -83,6 +85,8 @@ const providerMap = {
   "staffs-export": staffExportProvider,
   "mpbs-verify": mpbsVerifyProvider,
   "exam-grades": examGradeProvider,
+  "grades": gradeProvider,
+  "grades-details": gradesDetailsProvider,
 } as const;
 
 const getProvider = (
