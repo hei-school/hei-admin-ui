@@ -30,6 +30,9 @@ export default function MultipleStudentFeesCreate(
       throw error;
     } finally {
       setIsSubmitting(false);
+      /*TODO : search for another solution because this looks shitty */
+      setStudentsIds([]);
+      localStorage.removeItem("RaStore.students.selectedIds");
     }
   };
 
