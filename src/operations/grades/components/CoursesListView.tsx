@@ -1,80 +1,161 @@
-import {HaList} from "@/ui/haList";
-import {Chip, Typography} from "@mui/material";
-
+import {ToRaRecord} from "@/providers/types";
 import {CourseResult, StudentLevel} from "@haapi/typescript-client";
-import {BookOpenText} from "lucide-react";
+import {Search} from "@mui/icons-material";
+import {
+  Box,
+  Card,
+  CardContent,
+  Divider,
+  Grid,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Typography,
+} from "@mui/material";
 import {FC} from "react";
-import {FunctionField, TextField} from "react-admin";
+import {ListBase, useListContext} from "react-admin";
+import {v4} from "uuid";
+import {ViewType} from "../GradesDashboard";
 import {StatusChip} from "../utils/StatusChip";
-import {getCourseStatusLabel} from "../utils/constants";
-import {getGradeColor} from "../utils/getGradeColor";
+import {GradesDetails} from "./GradesDetails";
 
 export const CoursesListView: FC<{
   studentId: string;
   studentLevel: StudentLevel;
-}> = ({studentLevel, studentId}) => {
+  viewType: ViewType;
+}> = ({studentLevel, studentId, viewType}) => {
   return (
-    <HaList
-      listProps={{
-        filter: {studentId, studentLevel},
-        pagination: false,
-      }}
-      filterIndicator={false}
-      resource="grades"
-      datagridProps={{
-        rowClick: false,
-        rowStyle: () => ({
-          "overflowX": "auto",
-          "& .RaDatagrid-table": {
-            minWidth: 800,
-            padding: "1rem",
-          },
-        }),
-      }}
-      title="Mes Cours et Notes"
-      icon={<BookOpenText />}
-      actions={null}
-      wrapperSx={{
-        marginTop: -1,
-      }}
-    >
-      <TextField source="course.name" label="Matière" />
-      <TextField source="course.code" label="Code" />
-      <TextField source="course.credits" label="Crédits" />
-      <FunctionField
-        source="weighted_average"
-        label="Moyenne"
-        render={(record: CourseResult) => {
-          return (
-            <Typography
-              variant="body1"
-              sx={{
-                textAlign: "center",
-                color: () => getGradeColor(record.weighted_average!),
-                fontWeight: "bold",
-              }}
-            >
-              {record.weighted_average?.toFixed(2) || "non défini"}/20
+    <ListBase filter={{studentId, studentLevel}} resource="grades">
+      <CoursesListViewContent studentId={studentId} viewType={viewType} />
+    </ListBase>
+  );
+};
+
+const CoursesListViewContent: FC<{
+  viewType: ViewType;
+  studentId: string;
+}> = ({viewType, studentId}) => {
+  const {data = []} = useListContext();
+
+  if (viewType === "GRID") {
+    return (
+      <>
+        {data.map((l) => (
+          <GradesDetails key={v4()} studentId={studentId} courseResult={l} />
+        ))}
+      </>
+    );
+  }
+
+  return <CoursesListViewList />;
+};
+
+const CoursesListViewList = () => {
+  const {data: courseResults = []} = useListContext<ToRaRecord<CourseResult>>();
+
+  return (
+    <Grid container spacing={3}>
+      <Grid item xs={12}>
+        <Card elevation={3} sx={{borderRadius: 2}}>
+          <CardContent>
+            <Typography variant="h6" sx={{fontWeight: "bold", mb: 2}}>
+              Mes Cours et Notes
             </Typography>
-          );
-        }}
-      />
-      <FunctionField
-        label="Statut"
-        render={(record: CourseResult) => (
-          <StatusChip
-            label={getCourseStatusLabel(record.status)}
-            size="small"
-            status={record.status!}
-          />
-        )}
-      />
-      <Chip
-        label="Voir détails"
-        size="small"
-        color="primary"
-        variant="outlined"
-      />
-    </HaList>
+            <Divider sx={{mb: 3}} />
+            <TableContainer component={Paper} elevation={0}>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <strong>Matière</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Code</strong>
+                    </TableCell>
+                    <TableCell align="right">
+                      <strong>Crédits</strong>
+                    </TableCell>
+                    <TableCell align="right">
+                      <strong>Moyenne</strong>
+                    </TableCell>
+                    <TableCell align="center">
+                      <strong>Statut</strong>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  {courseResults.length === 0 ? (
+                    <TableRow>
+                      <TableCell colSpan={6} align="center" sx={{py: 4}}>
+                        <Box textAlign="center">
+                          <Search
+                            sx={{
+                              fontSize: 48,
+                              color: "text.secondary",
+                              mb: 1,
+                            }}
+                          />
+                          <Typography variant="h6" color="textSecondary">
+                            Aucun cours trouvé
+                          </Typography>
+                          <Typography variant="body2" color="textSecondary">
+                            Essayez de modifier vos critères de recherche
+                          </Typography>
+                        </Box>
+                      </TableCell>
+                    </TableRow>
+                  ) : (
+                    courseResults.map((courseResult) => (
+                      <TableRow
+                        key={courseResult?.id}
+                        hover
+                        sx={{
+                          "&:last-child td, &:last-child th": {border: 0},
+                          "cursor": "pointer",
+                        }}
+                        onClick={() => {}}
+                      >
+                        <TableCell component="th" scope="row">
+                          <Typography fontWeight="medium">
+                            {courseResult?.course?.name}
+                          </Typography>
+                        </TableCell>
+                        <TableCell>{courseResult?.course?.code}</TableCell>
+                        <TableCell align="right">
+                          {courseResult?.course?.credits}
+                        </TableCell>
+                        <TableCell align="right">
+                          <Typography
+                            fontWeight="bold"
+                            color={
+                              (courseResult?.weighted_average ?? 0 >= 10)
+                                ? "success.main"
+                                : "error.main"
+                            }
+                          >
+                            {courseResult?.weighted_average?.toFixed(2)}/20
+                          </Typography>
+                        </TableCell>
+                        <TableCell align="center">
+                          <StatusChip
+                            label={courseResult?.status?.toUpperCase()}
+                            size="small"
+                            status={courseResult?.status!}
+                          />
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  )}
+                </TableBody>
+              </Table>
+            </TableContainer>
+          </CardContent>
+        </Card>
+      </Grid>
+    </Grid>
   );
 };

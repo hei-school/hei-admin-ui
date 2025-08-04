@@ -1,9 +1,14 @@
 import {StudentLevel} from "@haapi/typescript-client";
-import {Download} from "@mui/icons-material";
+import {
+  Apps as AppsIcon,
+  Download,
+  List as ListIcon,
+} from "@mui/icons-material";
 import {
   Box,
   Chip,
   FormControl,
+  IconButton,
   InputLabel,
   MenuItem,
   Select,
@@ -17,12 +22,17 @@ import {TranscriptOverview} from "./components/TranscriptOverview";
 import {levelChoices} from "./utils";
 import {getGradeColor} from "./utils/getGradeColor";
 
+export type ViewType = "GRID" | "LIST";
+
 export const GradesOverview: FC = () => {
   const {id: studentId} = useParams();
 
   const [selectedLevel, setSelectedLevel] = useState<StudentLevel>(
     StudentLevel.L1
   );
+  const [viewType, setViewType] = useState<ViewType>("GRID");
+  const toggleViewType = () =>
+    setViewType((prev) => (prev === "GRID" ? "LIST" : "GRID"));
 
   const {
     data: result,
@@ -80,6 +90,9 @@ export const GradesOverview: FC = () => {
           flexWrap="wrap"
         >
           <Box flex={2}></Box>
+          <IconButton onClick={toggleViewType}>
+            {viewType === "GRID" ? <ListIcon /> : <AppsIcon />}
+          </IconButton>
           <FormControl variant="outlined" size="small" sx={{minWidth: 200}}>
             <InputLabel id="level-select-label">Filtrer par niveau</InputLabel>
             <Select
@@ -119,7 +132,11 @@ export const GradesOverview: FC = () => {
           </Box>
         </Box>
       </Box>
-      <CoursesListView studentLevel={selectedLevel} studentId={studentId!} />
+      <CoursesListView
+        studentLevel={selectedLevel}
+        studentId={studentId!}
+        viewType={viewType}
+      />
     </Box>
   );
 };
