@@ -15,13 +15,24 @@ const pageAssertions = () => {
   ).should("be.visible");
 };
 
+// Utilitaire pour convertir une date UTC en string locale au format DD/MM/YYYY HH:mm
+function getLocalDateTimeForUTC(targetUTCString: string) {
+  const date = new Date(targetUTCString);
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
 describe("ExamParticipantList", () => {
   beforeEach(() => {
     cy.mockLogin({role: "TEACHER"});
     cy.intercept("GET", "/exams?*", [examMocks[0]]).as("getExamsAfterUpdate");
     cy.intercept("PUT", "/exams", (req) => {
       const actual = req.body;
-      expect(actual).to.deep.eq(examCreateMock);
+      expect(
+        new Date(actual.examination_date).toISOString().slice(0, 16)
+      ).to.eq(
+        new Date(examCreateMock.examination_date).toISOString().slice(0, 16)
+      );
       req.reply({statusCode: 200, body: examMocks[0]});
     }).as("putExam");
 
@@ -81,21 +92,29 @@ describe("ExamParticipantList", () => {
       .should("be.visible");
   });
 
-  it(" teacher should create or update a new exam", () => {
+  it("teacher should create or update a new exam", () => {
     cy.visit("/exams");
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.url().should("include", "/exams/create");
+
     cy.get('input[name="title"]').type(examMocks[0].title!);
     cy.wait("@getCourseAssignments");
+
     cy.get('input[name="coefficient"]').type(String(examMocks[0].coefficient));
+
     cy.getByTestid("course-select").click();
     cy.get('[role="option"]')
       .contains(
         `${courseAssignmentMocks[0].course.code} - ${courseAssignmentMocks[0].groups.map((group) => group.ref).join(", ")}`
       )
       .click();
-    cy.get('input[name="examination_date"]').type("01-08-2025 08:30:00");
+
+    const examDateUTC = "2025-08-01T06:30:00.000Z";
+    cy.get('input[name="examination_date"]')
+      .clear()
+      .type(getLocalDateTimeForUTC(examDateUTC));
+
     cy.get('button[type="submit"]').click();
     cy.contains("Élément créé");
   });

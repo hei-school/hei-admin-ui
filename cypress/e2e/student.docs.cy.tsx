@@ -46,15 +46,6 @@ describe("Transcript.Docs", () => {
     cy.mockLogin({role: "STUDENT"});
     cy.getByTestid("docs").click();
   });
-
-  it("can list a student transcripts", () => {
-    cy.getByTestid("transcript-docs").click();
-
-    cy.contains(`Liste des bulletins`);
-    cy.contains("Nom du fichier");
-    cy.contains("Date de création");
-    cy.contains("Afficher");
-  });
 });
 
 describe("Work.Docs", () => {

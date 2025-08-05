@@ -208,6 +208,6 @@ export const courseAssignmentMocks = [
 export const examCreateMock = {
   coefficient: 1.5,
   title: "Introduction to Programming",
-  examination_date: "2025-08-01T05:00:00.000Z",
+  examination_date: "2025-08-01T06:30:00.000Z",
   course_assignment_id: "course_assignment1_id",
 };
