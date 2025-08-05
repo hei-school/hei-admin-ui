@@ -5,6 +5,7 @@ import {
   Box,
   Card,
   CardContent,
+  CircularProgress,
   Divider,
   Grid,
   Paper,
@@ -39,13 +40,32 @@ const CoursesListViewContent: FC<{
   viewType: ViewType;
   studentId: string;
 }> = ({viewType, studentId}) => {
-  const {data = []} = useListContext();
+  const {data = [], isFetching} = useListContext();
+
+  if (isFetching) {
+    return (
+      <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight={200}
+        >
+          <CircularProgress />
+        </Box>
+      </Card>
+    );
+  }
 
   if (viewType === "GRID") {
     return (
       <>
-        {data.map((l) => (
-          <GradesDetails key={v4()} studentId={studentId} courseResult={l} />
+        {data.map((details) => (
+          <GradesDetails
+            key={v4()}
+            studentId={studentId}
+            courseResult={details}
+          />
         ))}
       </>
     );
@@ -55,7 +75,23 @@ const CoursesListViewContent: FC<{
 };
 
 const CoursesListViewList = () => {
-  const {data: courseResults = []} = useListContext<ToRaRecord<CourseResult>>();
+  const {data: courseResults = [], isFetching} =
+    useListContext<ToRaRecord<CourseResult>>();
+
+  if (isFetching) {
+    return (
+      <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight={200}
+        >
+          <CircularProgress />
+        </Box>
+      </Card>
+    );
+  }
 
   return (
     <Grid container spacing={3}>

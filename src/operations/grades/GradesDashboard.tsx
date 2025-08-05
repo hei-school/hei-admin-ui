@@ -1,17 +1,15 @@
 import {StudentLevel} from "@haapi/typescript-client";
-import {
-  Apps as AppsIcon,
-  Download,
-  List as ListIcon,
-} from "@mui/icons-material";
+import {Apps, Download, List, School} from "@mui/icons-material";
 import {
   Box,
   Chip,
   FormControl,
-  IconButton,
   InputLabel,
   MenuItem,
+  Paper,
   Select,
+  ToggleButton,
+  ToggleButtonGroup,
   Typography,
 } from "@mui/material";
 import {FC, useState} from "react";
@@ -31,8 +29,15 @@ export const GradesOverview: FC = () => {
     StudentLevel.L1
   );
   const [viewType, setViewType] = useState<ViewType>("GRID");
-  const toggleViewType = () =>
-    setViewType((prev) => (prev === "GRID" ? "LIST" : "GRID"));
+
+  const handleViewType = (
+    _: React.MouseEvent<HTMLElement>,
+    newViewType: ViewType | null
+  ) => {
+    if (newViewType !== null) {
+      setViewType(newViewType);
+    }
+  };
 
   const {
     data: result,
@@ -47,27 +52,33 @@ export const GradesOverview: FC = () => {
 
   return (
     <Box sx={{p: 3}}>
-      <Box>
+      <Paper
+        elevation={0}
+        sx={{
+          p: 3,
+          mb: 3,
+          borderRadius: 4,
+          border: "1px solid",
+          borderColor: "grey.300",
+          bgcolor: "grey.50",
+        }}
+      >
         <Box
           display="flex"
           justifyContent="space-between"
-          alignItems="center"
-          mb={3}
+          alignItems="flex-start"
+          mb={2}
         >
           <Typography
             variant="h4"
-            sx={{fontWeight: "bold", color: "primary.main", fontSize: "2rem"}}
+            sx={{fontWeight: "bold", color: "primary.main"}}
           >
             Tableau de Bord des Notes
           </Typography>
-
           <Button
             variant="contained"
             color="primary"
             size="medium"
-            sx={{
-              padding: "0.5rem 1rem",
-            }}
             startIcon={<Download />}
             onClick={() => null}
             label="Télécharger le relevé"
@@ -82,56 +93,81 @@ export const GradesOverview: FC = () => {
 
         <Box
           display="flex"
-          gap={2}
+          justifyContent="space-between"
           alignItems="center"
-          justifyContent="right"
-          paddingInline={2}
-          mb={3}
-          flexWrap="wrap"
+          mt={3}
+          pt={2}
+          borderTop={1}
+          borderColor="divider"
         >
-          <Box flex={2}></Box>
-          <IconButton onClick={toggleViewType}>
-            {viewType === "GRID" ? <ListIcon /> : <AppsIcon />}
-          </IconButton>
-          <FormControl variant="outlined" size="small" sx={{minWidth: 200}}>
-            <InputLabel id="level-select-label">Filtrer par niveau</InputLabel>
-            <Select
-              labelId="level-select-label"
-              value={selectedLevel}
-              onChange={(e) => setSelectedLevel(e.target.value as StudentLevel)}
-              label="Filtrer par niveau"
-              sx={{borderRadius: 2}}
+          <Chip
+            icon={<School color="inherit" />}
+            label={`Crédits validés: ${result?.obtained_credits ?? 0} / ${result?.total_credits ?? 0}`}
+            variant="outlined"
+            sx={{
+              fontWeight: "bold",
+              color: getGradeColor(
+                result?.total_credits
+                  ? ((result.obtained_credits ?? 0) / result.total_credits) * 20
+                  : 0
+              ),
+              borderColor: getGradeColor(
+                result?.total_credits
+                  ? ((result.obtained_credits ?? 0) / result.total_credits) * 20
+                  : 0
+              ),
+            }}
+          />
+          <Box
+            display="flex"
+            gap={2}
+            alignItems="center"
+            sx={{
+              bgcolor: "grey.50",
+              p: 1,
+              borderRadius: 2,
+              border: "1px solid",
+              borderColor: "grey.200",
+            }}
+          >
+            <FormControl variant="outlined" size="small" sx={{minWidth: 200}}>
+              <InputLabel id="level-select-label">
+                Filtrer par niveau
+              </InputLabel>
+              <Select
+                labelId="level-select-label"
+                value={selectedLevel}
+                onChange={(e) =>
+                  setSelectedLevel(e.target.value as StudentLevel)
+                }
+                label="Filtrer par niveau"
+                sx={{borderRadius: 2}}
+              >
+                {levelChoices.map((choice) => (
+                  <MenuItem key={choice.id} value={choice.id}>
+                    {choice.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+            <ToggleButtonGroup
+              size="small"
+              value={viewType}
+              exclusive
+              onChange={handleViewType}
+              aria-label="view type"
             >
-              {levelChoices.map((choice) => (
-                <MenuItem key={choice.id} value={choice.id}>
-                  {choice.name}
-                </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-          <Box display="flex" gap={1} ml="auto">
-            <Chip
-              label={`${result?.obtained_credits ? result?.obtained_credits : 0} / ${result?.total_credits ? result?.total_credits : 0} crédits`}
-              variant="outlined"
-              sx={{
-                fontWeight: "bold",
-                color: getGradeColor(
-                  result?.total_credits
-                    ? ((result.obtained_credits ?? 0) / result.total_credits) *
-                        20
-                    : 0
-                ),
-                borderColor: getGradeColor(
-                  result?.total_credits
-                    ? ((result.obtained_credits ?? 0) / result.total_credits) *
-                        20
-                    : 0
-                ),
-              }}
-            />
+              <ToggleButton value="GRID" aria-label="grid view">
+                <Apps />
+              </ToggleButton>
+              <ToggleButton value="LIST" aria-label="list view">
+                <List />
+              </ToggleButton>
+            </ToggleButtonGroup>
           </Box>
         </Box>
-      </Box>
+      </Paper>
+
       <CoursesListView
         studentLevel={selectedLevel}
         studentId={studentId!}
