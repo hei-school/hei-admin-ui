@@ -1,6 +1,6 @@
+import {EmptyListComponent} from "@/operations/common/components/EmptyListComponent";
 import {ToRaRecord} from "@/providers/types";
 import {CourseResult, StudentLevel} from "@haapi/typescript-client";
-import {Search} from "@mui/icons-material";
 import {
   Box,
   Card,
@@ -61,6 +61,12 @@ const CoursesListViewContent: FC<{
   if (viewType === "GRID") {
     return (
       <>
+        {data.length === 0 && (
+          <EmptyListComponent
+            title="Aucun cours trouvé"
+            message="Il n'y a pas de cours ou de notes disponibles pour ce niveau."
+          />
+        )}
         {data.map((details) => (
           <GradesDetails
             key={v4()}
@@ -132,20 +138,18 @@ const CoursesListViewList = () => {
                   {courseResults.length === 0 ? (
                     <TableRow>
                       <TableCell colSpan={6} align="center" sx={{py: 4}}>
-                        <Box textAlign="center">
-                          <Search
-                            sx={{
-                              fontSize: 48,
-                              color: "text.secondary",
-                              mb: 1,
-                            }}
+                        <Box
+                          sx={{
+                            height: "100%",
+                            display: "flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                          }}
+                        >
+                          <EmptyListComponent
+                            title="Aucun cours trouvé"
+                            message="Il n'y a pas de cours ou de notes disponibles pour ce niveau."
                           />
-                          <Typography variant="h6" color="textSecondary">
-                            Aucun cours trouvé
-                          </Typography>
-                          <Typography variant="body2" color="textSecondary">
-                            Essayez de modifier vos critères de recherche
-                          </Typography>
                         </Box>
                       </TableCell>
                     </TableRow>
