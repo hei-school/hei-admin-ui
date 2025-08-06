@@ -130,12 +130,13 @@ export const GradesOverview: FC = () => {
               borderColor: "grey.200",
             }}
           >
-            <FormControl variant="outlined" size="small" sx={{minWidth: 200}}>
+            <FormControl variant="outlined" size="small" sx={{minWidth: 120}}>
               <InputLabel id="level-select-label">
                 Filtrer par niveau
               </InputLabel>
               <Select
                 labelId="level-select-label"
+                data-testid="level-select"
                 value={selectedLevel}
                 onChange={(e) =>
                   setSelectedLevel(e.target.value as StudentLevel)

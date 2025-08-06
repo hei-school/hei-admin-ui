@@ -4,7 +4,6 @@ import {
   YearlyResult,
 } from "@haapi/typescript-client";
 
-// Mock pour YearlyResult (format exact du spec)
 export const yearlyResultMock: YearlyResult = {
   weighted_average: 14.5,
   obtained_credits: 45,
@@ -100,7 +99,6 @@ export const yearlyResultL3Mock: YearlyResult = {
   ],
 };
 
-// Mock pour les grades (format exact du spec) - utilisé par gradesDetailsProvider
 export const gradesMock = [
   {
     id: "grade_1",
@@ -212,7 +210,6 @@ export const gradesMock = [
   },
 ];
 
-// Mock pour les grades de physique
 export const gradesPhysicsMock = [
   {
     id: "grade_3",
@@ -270,7 +267,6 @@ export const gradesPhysicsMock = [
   },
 ];
 
-// Mock pour les grades d'informatique
 export const gradesInformaticsMock = [
   {
     id: "grade_4",
@@ -328,7 +324,6 @@ export const gradesInformaticsMock = [
   },
 ];
 
-// Mock pour les résultats de cours (utilisé pour CoursesListView)
 export const courseResultsMock: CourseResult[] = [
   {
     id: "course_result_1",

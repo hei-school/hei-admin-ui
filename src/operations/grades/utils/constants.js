@@ -20,7 +20,7 @@ export const getCourseStatusLabel = (status) => {
 };
 
 export const levelChoices = [
-  {id: StudentLevel.L1, name: "Licence 1"},
-  {id: StudentLevel.L2, name: "Licence 2"},
-  {id: StudentLevel.L3, name: "Licence 3"},
+  {id: StudentLevel.L1, name: "L1"},
+  {id: StudentLevel.L2, name: "L2"},
+  {id: StudentLevel.L3, name: "L3"},
 ];
