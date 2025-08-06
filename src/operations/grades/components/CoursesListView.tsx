@@ -21,6 +21,7 @@ import {FC} from "react";
 import {ListBase, useListContext} from "react-admin";
 import {v4} from "uuid";
 import {ViewType} from "../GradesDashboard";
+import {getCourseStatusLabel} from "../utils";
 import {StatusChip} from "../utils/StatusChip";
 import {GradesDetails} from "./GradesDetails";
 
@@ -40,9 +41,9 @@ const CoursesListViewContent: FC<{
   viewType: ViewType;
   studentId: string;
 }> = ({viewType, studentId}) => {
-  const {data = [], isFetching} = useListContext();
+  const {data = [], isLoading} = useListContext();
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
         <Box
@@ -75,10 +76,10 @@ const CoursesListViewContent: FC<{
 };
 
 const CoursesListViewList = () => {
-  const {data: courseResults = [], isFetching} =
+  const {data: courseResults = [], isLoading} =
     useListContext<ToRaRecord<CourseResult>>();
 
-  if (isFetching) {
+  if (isLoading) {
     return (
       <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
         <Box
@@ -96,7 +97,11 @@ const CoursesListViewList = () => {
   return (
     <Grid container spacing={3}>
       <Grid item xs={12}>
-        <Card elevation={3} sx={{borderRadius: 2}}>
+        <Card
+          elevation={3}
+          sx={{borderRadius: 2}}
+          data-testid="courses-list-view"
+        >
           <CardContent>
             <Typography variant="h6" sx={{fontWeight: "bold", mb: 2}}>
               Mes Cours et Notes
@@ -149,11 +154,11 @@ const CoursesListViewList = () => {
                       <TableRow
                         key={courseResult?.id}
                         hover
+                        data-testid="course-row"
                         sx={{
                           "&:last-child td, &:last-child th": {border: 0},
                           "cursor": "pointer",
                         }}
-                        onClick={() => {}}
                       >
                         <TableCell component="th" scope="row">
                           <Typography fontWeight="medium">
@@ -178,7 +183,7 @@ const CoursesListViewList = () => {
                         </TableCell>
                         <TableCell align="center">
                           <StatusChip
-                            label={courseResult?.status?.toUpperCase()}
+                            label={getCourseStatusLabel(courseResult?.status!)}
                             size="small"
                             status={courseResult?.status!}
                           />

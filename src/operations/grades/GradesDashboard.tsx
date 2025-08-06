@@ -160,7 +160,11 @@ export const GradesOverview: FC = () => {
               <ToggleButton value="GRID" aria-label="grid view">
                 <Apps />
               </ToggleButton>
-              <ToggleButton value="LIST" aria-label="list view">
+              <ToggleButton
+                value="LIST"
+                aria-label="list view"
+                data-testid="list-view-toggle"
+              >
                 <List />
               </ToggleButton>
             </ToggleButtonGroup>

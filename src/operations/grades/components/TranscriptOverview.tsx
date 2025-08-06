@@ -67,6 +67,7 @@ export const TranscriptOverview: FC<{
         boxShadow: "8px 8px 16px #d9dbde, -8px -8px 16px #ffffff",
         overflow: "hidden",
       }}
+      data-testid="transcript-overview"
     >
       <CardContent sx={{position: "relative", zIndex: 1, p: 3}}>
         <Grid container spacing={3} alignItems="center">
@@ -94,13 +95,18 @@ export const TranscriptOverview: FC<{
                 >
                   Moyenne Générale
                 </Typography>
-                <Typography variant="body2" sx={{color: "text.secondary"}}>
+                <Typography
+                  variant="body2"
+                  sx={{color: "text.secondary"}}
+                  data-testid="level"
+                >
                   Niveau {result?.level}
                 </Typography>
               </Box>
             </Box>
 
             <Chip
+              data-testid="status-chip"
               icon={chipProps.icon}
               label={chipProps.label}
               size="small"
@@ -132,7 +138,12 @@ export const TranscriptOverview: FC<{
                 <Typography variant="body1" color="text.secondary">
                   Crédits ECTS
                 </Typography>
-                <Typography variant="h6" fontWeight="bold" color="text.primary">
+                <Typography
+                  variant="h6"
+                  fontWeight="bold"
+                  color="text.primary"
+                  data-testid="credits"
+                >
                   {result?.obtained_credits ? result?.obtained_credits : 0}{" "}
                   <span style={{fontSize: "0.8rem", color: "#666"}}>
                     / {result?.total_credits ? result?.total_credits : 0}
@@ -197,6 +208,7 @@ export const TranscriptOverview: FC<{
                     color: "text.primary",
                     lineHeight: 1,
                   }}
+                  data-testid="average-display"
                 >
                   {result?.weighted_average
                     ? result?.weighted_average.toFixed(2)

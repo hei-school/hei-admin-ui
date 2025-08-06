@@ -36,7 +36,7 @@ export const GradesDetails: FC<{
   const chipProps = getStatusChipProps(courseResult?.status || "NOT_STARTED");
 
   return (
-    <Grid item xs={12} mt={4}>
+    <Grid item xs={12} mt={4} data-testid="course-result-card">
       <Card
         elevation={0}
         sx={{

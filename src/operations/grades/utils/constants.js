@@ -23,6 +23,4 @@ export const levelChoices = [
   {id: StudentLevel.L1, name: "Licence 1"},
   {id: StudentLevel.L2, name: "Licence 2"},
   {id: StudentLevel.L3, name: "Licence 3"},
-  {id: StudentLevel.M1, name: "Master 1 "},
-  {id: StudentLevel.M2, name: "Master 2"},
 ];
