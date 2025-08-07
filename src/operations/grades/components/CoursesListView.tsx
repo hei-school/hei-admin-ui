@@ -1,6 +1,6 @@
 import {EmptyListComponent} from "@/operations/common/components/EmptyListComponent";
 import {ToRaRecord} from "@/providers/types";
-import {CourseResult, StudentLevel} from "@haapi/typescript-client";
+import {CourseResult} from "@haapi/typescript-client";
 import {
   Box,
   Card,
@@ -20,7 +20,7 @@ import {
 import {FC} from "react";
 import {ListBase, useListContext} from "react-admin";
 import {v4} from "uuid";
-import {ViewType} from "../GradesDashboard";
+import {StudentLevel, ViewType} from "../types/types";
 import {getCourseStatusLabel} from "../utils";
 import {StatusChip} from "../utils/StatusChip";
 import {GradesDetails} from "./GradesDetails";

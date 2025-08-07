@@ -39,7 +39,7 @@ export const TranscriptOverview: FC<{
     return (
       <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
         <Typography color="error">
-          Erreur lors du chargement des données: {String(error)}
+          Erreur lors du chargement des données
         </Typography>
       </Card>
     );

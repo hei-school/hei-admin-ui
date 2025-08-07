@@ -96,8 +96,8 @@ export const GradesDetails: FC<{
               <Box
                 sx={{
                   height: "100%",
-                  width: `${(courseResult!.weighted_average! / 20) * 100}%`,
-                  background: `linear-gradient(90deg, ${getGradeColor(courseResult!.weighted_average! - 2)}, ${getGradeColor(courseResult.weighted_average!)})`,
+                  width: `${(courseResult.weighted_average! / 20) * 100}%`,
+                  background: `linear-gradient(90deg, ${getGradeColor(courseResult.weighted_average! - 2)}, ${getGradeColor(courseResult.weighted_average!)})`,
                   borderRadius: 4,
                   transition: "width 0.5s ease-in-out",
                 }}
@@ -213,7 +213,7 @@ const GradesList: FC<{
                 </TableCell>
                 <TableCell align="center">
                   {courseDetail?.update_date
-                    ? new Date(courseDetail?.update_date!).toLocaleDateString(
+                    ? new Date(courseDetail.update_date!).toLocaleDateString(
                         "fr-FR"
                       )
                     : "non modifié"}

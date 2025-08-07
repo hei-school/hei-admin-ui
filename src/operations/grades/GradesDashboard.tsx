@@ -1,4 +1,3 @@
-import {StudentLevel} from "@haapi/typescript-client";
 import {Apps, Download, List, School} from "@mui/icons-material";
 import {
   Box,
@@ -17,10 +16,9 @@ import {Button, useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
 import {CoursesListView} from "./components/CoursesListView";
 import {TranscriptOverview} from "./components/TranscriptOverview";
+import {StudentLevel, ViewType} from "./types/types";
 import {levelChoices} from "./utils";
 import {getGradeColor} from "./utils/getGradeColor";
-
-export type ViewType = "GRID" | "LIST";
 
 export const GradesOverview: FC = () => {
   const {id: studentId} = useParams();

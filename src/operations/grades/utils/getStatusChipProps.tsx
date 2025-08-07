@@ -28,13 +28,6 @@ export const getStatusChipProps = (status: string) => {
         color: "warning" as const,
         variant: "outlined" as const,
       };
-    case "NOT_STARTED":
-      return {
-        icon: <HourglassEmpty sx={{fontSize: 16}} />,
-        label: "Non Commencé",
-        color: "default" as const,
-        variant: "outlined" as const,
-      };
     case "INCOMPLETE":
       return {
         icon: <ErrorOutline sx={{fontSize: 16}} />,
@@ -45,8 +38,8 @@ export const getStatusChipProps = (status: string) => {
     default:
       return {
         icon: <HourglassEmpty sx={{fontSize: 16}} />,
-        label: "Moyenne Provisoire",
-        color: "warning" as const,
+        label: "Non Commencé",
+        color: "default" as const,
         variant: "outlined" as const,
       };
   }

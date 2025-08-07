@@ -47,18 +47,12 @@ describe("GradesDashboard Component - Extended Tests", () => {
       `/students/${studentLinkedToMonitorMock[0].id!}/yearly_results/L3`,
       yearlyResultL3Mock
     ).as("getYearlyResults3");
-    cy.intercept(
-      "GET",
-      `/students/${studentLinkedToMonitorMock[0].id!}/yearly_results/L1`,
-      emptyYearlyResultMock
-    ).as("emptyYearlyResults");
     cy.intercept("GET", `/grades?*`, {data: courseResultsMock}).as(
       "getCourseResults"
     );
   });
   describe("Test all view for monitor for Level 1", () => {
     it("should display transcript overview card with all required information", () => {
-      cy.wait("@getYearlyResults");
       cy.getByTestid("transcript-overview").should("be.visible");
       cy.getByTestid("level").should(
         "contain",
@@ -196,7 +190,14 @@ describe("GradesDashboard Component - Extended Tests", () => {
     });
   });
 
-  describe.only("display for empty course results", () => {
+  describe("display for empty course results", () => {
+    beforeEach(() => {
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id!}/yearly_results/L1`,
+        emptyYearlyResultMock
+      ).as("emptyYearlyResults");
+    });
     it("should display empty state when no course results are available on grid view", () => {
       cy.getByTestid("course-result-card").should("not.exist");
 
