@@ -93,16 +93,6 @@ describe("Student.Transcript.Docs.Download", () => {
     cy.mockLogin({role: "STUDENT"});
     cy.getByTestid("docs").click();
   });
-
-  it("can download a transcript", () => {
-    cy.getByTestid("transcript-docs").click();
-
-    cy.contains("Afficher").click();
-
-    cy.contains("Document : " + transcript1.name);
-
-    cy.getByTestid("download-link").and("have.attr", "href");
-  });
 });
 
 describe("Student.Work.Docs.Download", () => {

@@ -105,16 +105,6 @@ function AppBase() {
 
         <Route
           exact
-          path="/docs/students/TRANSCRIPT"
-          element={<studentDocs.list />}
-        />
-        <Route
-          exact
-          path="/docs/students/TRANSCRIPT/:id"
-          element={<studentDocs.show />}
-        />
-        <Route
-          exact
           path="/docs/students/OTHER"
           element={<studentDocs.list />}
         />
@@ -167,11 +157,6 @@ function AppBase() {
         />
         <Route exact path="/event_participants" element={<events.missing />} />
         <Route exact path="/events/new" element={<events.new />} />
-        <Route
-          exact
-          path="/docs/students/TRANSCRIPT/:id"
-          element={<studentDocs.show />}
-        />
         <Route
           exact
           path="/students/:userId/docs/students/OTHER/:id"

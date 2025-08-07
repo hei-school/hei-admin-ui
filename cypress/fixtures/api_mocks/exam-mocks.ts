@@ -8,7 +8,7 @@ export const examMocks: Exam[] = [
     id: "exam1_id",
     coefficient: 1.5,
     title: "Introduction to Programming",
-    examination_date: new Date("2025-05-10T08:08:00"),
+    examination_date: new Date("2025-08-01T08:30:00.000Z"),
     course_assignment: {
       id: "course_assignment1_id",
       main_teacher: {
@@ -198,9 +198,16 @@ export const gradesMocks = [
 
 export const courseAssignmentMocks = [
   {
-    id: "string",
+    id: "course_assignment1_id",
     main_teacher: teachersMock[0],
     course: courseMocks[0],
     groups: [group1Mock],
   },
 ];
+
+export const examCreateMock = {
+  coefficient: 1.5,
+  title: "Introduction to Programming",
+  examination_date: "2025-08-01T06:30:00.000Z",
+  course_assignment_id: "course_assignment1_id",
+};
