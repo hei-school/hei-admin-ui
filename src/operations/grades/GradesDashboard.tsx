@@ -1,4 +1,4 @@
-import {Apps, Download, List, School} from "@mui/icons-material";
+import {Apps, List, School} from "@mui/icons-material";
 import {
   Box,
   Chip,
@@ -12,7 +12,7 @@ import {
   Typography,
 } from "@mui/material";
 import {FC, useState} from "react";
-import {Button, useGetOne} from "react-admin";
+import {useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
 import {CoursesListView} from "./components/CoursesListView";
 import {TranscriptOverview} from "./components/TranscriptOverview";
@@ -41,12 +41,16 @@ export const GradesOverview: FC = () => {
     data: result,
     isLoading,
     error,
-  } = useGetOne("grades", {
-    id: studentId || "",
-    meta: {
-      studentLevel: selectedLevel,
+  } = useGetOne(
+    "grades",
+    {
+      id: studentId || "",
+      meta: {
+        studentLevel: selectedLevel,
+      },
     },
-  });
+    {refetchOnWindowFocus: false}
+  );
 
   return (
     <Box sx={{p: 3}}>
@@ -73,14 +77,14 @@ export const GradesOverview: FC = () => {
           >
             Tableau de Bord des Notes
           </Typography>
-          <Button
+          {/* <Button
             variant="contained"
             color="primary"
             size="medium"
             startIcon={<Download />}
             onClick={() => null}
             label="Télécharger le relevé"
-          />
+          /> */}
         </Box>
 
         <TranscriptOverview

@@ -2,6 +2,7 @@ import {WhoamiRoleEnum} from "@haapi/typescript-client";
 import {
   courseResultsMock,
   emptyYearlyResultMock,
+  gradesInformaticsMock,
   yearlyResultL2Mock,
   yearlyResultL3Mock,
   yearlyResultMock,
@@ -214,5 +215,126 @@ describe("GradesDashboard Component - Extended Tests", () => {
         "Il n'y a pas de cours ou de notes disponibles pour ce niveau."
       ).should("exist");
     });
+  });
+
+  describe("display for empty yearly result", () => {
+    beforeEach(() => {
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id!}/yearly_results/L1`,
+        {}
+      ).as("emptyYearlyResults");
+    });
+    it("should display empty state when no course results are available on grid view", () => {
+      cy.getByTestid("transcript-overview").should("be.visible");
+      cy.getByTestid("level").should("contain", `Niveau`);
+      cy.getByTestid("status-chip").should("contain", "Non Commencé");
+      cy.getByTestid("credits").should("contain", `0 / 0`);
+      cy.getByTestid("average-display").should("contain", "0");
+      cy.getByTestid("course-result-card").should("not.exist");
+      cy.contains("Aucun cours trouvé").should("exist");
+      cy.contains(
+        "Il n'y a pas de cours ou de notes disponibles pour ce niveau."
+      ).should("exist");
+    });
+  });
+
+  describe("display grades details", () => {
+    beforeEach(() => {
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id!}/courses/${courseResultsMock[0].course?.id!}/grades`,
+        gradesInformaticsMock
+      ).as("getCourseResults");
+    });
+    it("should display grades details", () => {
+      cy.getByTestid("toggle-details-button").first().click();
+      cy.getByTestid("grades-details").should("be.visible");
+      cy.getByTestid("grades-details-row").should(
+        "have.length",
+        gradesInformaticsMock.length
+      );
+      cy.getByTestid("grades-details-row")
+        .first()
+        .contains(`${gradesInformaticsMock[0].exam.title}`);
+      cy.getByTestid("grades-details-row")
+        .first()
+        .contains(`${gradesInformaticsMock[0].score.toFixed(2)}/20`);
+      cy.getByTestid("grades-details-row")
+        .first()
+        .contains(`${gradesInformaticsMock[0].exam.coefficient}`);
+      cy.getByTestid("grades-details-row")
+        .first()
+        .contains(
+          new Date(
+            gradesInformaticsMock[0].exam.examination_date
+          ).toLocaleDateString("fr-FR")
+        );
+
+      cy.getByTestid("grades-details-row")
+        .first()
+        .contains(
+          new Date(gradesInformaticsMock[0].update_date).toLocaleDateString(
+            "fr-FR"
+          )
+        );
+      const examStatus =
+        gradesInformaticsMock[0].score >= 10 ? "Validé" : "Non Validé";
+      cy.getByTestid("grades-details-row").first().contains(examStatus);
+    });
+  });
+  // describe.only("display grades details with no grades", () => {
+  //   beforeEach(() => {
+  //     cy.intercept(
+  //       "GET",
+  //       `/students/${studentLinkedToMonitorMock[0].id!}/courses/${courseResultsMock[0].course?.id!}/grades`,
+  //       []
+  //     ).as("getCourseResults");
+  //   });
+  //   it("should display empty state when no grades are available", () => {
+  //     cy.getByTestid("toggle-details-button").first().click();
+  //     cy.wait("@getCourseResults");
+  //     cy.contains("Aucune note trouvée");
+  //   });
+  // });
+});
+
+describe("display error on overview card", () => {
+  beforeEach(() => {
+    cy.mockLogin({role: WhoamiRoleEnum.MONITOR});
+    cy.intercept(
+      "GET",
+      `/monitors/${monitor1Mock.id}/students?page=1&page_size=10`,
+      studentLinkedToMonitorMock
+    ).as("getStudents");
+    cy.intercept(
+      "GET",
+      `/monitors/${monitor1Mock.id}/students?page=1&page_size=15`,
+      studentLinkedToMonitorMock
+    ).as("getStudentOne");
+    cy.intercept(
+      "GET",
+      `/monitors/${monitor1Mock.id}/students?page=2&page_size=10`,
+
+      studentLinkedToMonitorMock
+    ).as("getStudents2");
+    cy.get('[href="/monitors/monitor1_id/students"]').click();
+    cy.wait("@getStudents");
+    cy.contains(studentLinkedToMonitorMock[0].first_name!).click();
+    cy.getByTestid("grades-tab").click();
+    cy.intercept(
+      "GET",
+      `/students/${studentLinkedToMonitorMock[0].id!}/yearly_results/L1`,
+      {
+        statusCode: 500,
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: {message: "Internal Server Error"},
+      }
+    ).as("getYearlyResults");
+  });
+  it("should display error message when fetching yearly results fails", () => {
+    cy.contains("Erreur lors du chargement des données").should("exist");
   });
 });

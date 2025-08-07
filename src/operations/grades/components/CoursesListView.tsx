@@ -31,7 +31,11 @@ export const CoursesListView: FC<{
   viewType: ViewType;
 }> = ({studentLevel, studentId, viewType}) => {
   return (
-    <ListBase filter={{studentId, studentLevel}} resource="grades">
+    <ListBase
+      queryOptions={{refetchOnWindowFocus: false}}
+      filter={{studentId, studentLevel}}
+      resource="grades"
+    >
       <CoursesListViewContent studentId={studentId} viewType={viewType} />
     </ListBase>
   );

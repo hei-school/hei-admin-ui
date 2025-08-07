@@ -21,9 +21,15 @@ import {
 } from "@mui/material";
 import {FC, useState} from "react";
 import {useGetList} from "react-admin";
-import {StatusChip} from "../utils/StatusChip";
 import {getGradeColor} from "../utils/getGradeColor";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
+import {StatusChip} from "../utils/StatusChip";
+import {TableMessageRow} from "../utils/TableMessageRow";
+
+interface GradesListProps {
+  studentId: string;
+  courseId: string;
+}
 
 export const GradesDetails: FC<{
   studentId: string;
@@ -121,6 +127,7 @@ export const GradesDetails: FC<{
         <Button
           fullWidth
           onClick={toggleShowDetails}
+          data-testid="toggle-details-button"
           sx={{
             justifyContent: "space-between",
             p: 2,
@@ -149,92 +156,93 @@ export const GradesDetails: FC<{
   );
 };
 
-const GradesList: FC<{
-  studentId: string;
-  courseId: string;
-}> = ({courseId, studentId}) => {
-  const {data: courseDetails = []} = useGetList<ToRaRecord<Grade>>(
+const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
+  const {data: grades = [], isLoading} = useGetList<ToRaRecord<Grade>>(
     "grades-details",
     {
-      filter: {
-        studentId,
-        courseId,
-      },
+      filter: {studentId, courseId},
     },
-    {
-      refetchOnWindowFocus: false,
-    }
+    {refetchOnWindowFocus: false}
   );
+
+  const renderGradeScore = (score: number) => (
+    <Typography
+      fontWeight="bold"
+      color={score >= 10 ? "success.main" : "error.main"}
+    >
+      {score.toFixed(2)}/20
+    </Typography>
+  );
+
+  const renderStatusChip = (score: number) => (
+    <Chip
+      label={score >= 10 ? "Validé" : "Non validé"}
+      size="small"
+      color={score >= 10 ? "success" : "error"}
+      variant="outlined"
+    />
+  );
+
+  const renderDate = (dateString?: string) =>
+    dateString
+      ? new Date(dateString).toLocaleDateString("fr-FR")
+      : "non modifié";
+
+  if (isLoading) {
+    return (
+      <TableMessageRow message="Chargement des détails..." type="loading" />
+    );
+  }
+
+  if (!Array.isArray(grades) || grades.length === 0) {
+    return <TableMessageRow message="Aucune note trouvée" type="empty" />;
+  }
 
   return (
     <TableContainer
       component={Paper}
       elevation={0}
       sx={{mt: 2, border: "1px solid #e0e2e5", borderRadius: 2}}
+      data-testid="grades-details"
     >
       <Table size="small">
         <TableHead>
           <TableRow>
             <TableCell>Évaluation</TableCell>
             <TableCell align="right">Note</TableCell>
-            <TableCell align="right">Pondération</TableCell>
-            <TableCell align="right">Date</TableCell>
-            <TableCell align="center">Dernière Modification</TableCell>
+            <TableCell align="right">Coefficient</TableCell>
+            <TableCell align="right">Date de l'examen</TableCell>
+            <TableCell align="center">
+              Date de la dernière modification
+            </TableCell>
             <TableCell align="center">Statut</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {Array.isArray(courseDetails) && courseDetails.length > 0 ? (
-            courseDetails.map((courseDetail) => (
-              <TableRow
-                key={courseDetail.id}
-                sx={{"&:last-child td, &:last-child th": {border: 0}}}
-              >
-                <TableCell component="th" scope="row">
-                  {courseDetail.exam?.course_assignment?.course?.name}
-                </TableCell>
-                <TableCell align="right">
-                  <Typography
-                    fontWeight="bold"
-                    color={
-                      courseDetail?.score >= 10 ? "success.main" : "error.main"
-                    }
-                  >
-                    {courseDetail.score.toFixed(2)}/20
-                  </Typography>
-                </TableCell>
-                <TableCell align="right">
-                  {courseDetail.exam?.coefficient!}%
-                </TableCell>
-                <TableCell align="right">
-                  {new Date(courseDetail?.created_at!).toLocaleDateString(
-                    "fr-FR"
-                  )}
-                </TableCell>
-                <TableCell align="center">
-                  {courseDetail?.update_date
-                    ? new Date(courseDetail.update_date!).toLocaleDateString(
-                        "fr-FR"
-                      )
-                    : "non modifié"}
-                </TableCell>
-                <TableCell align="center">
-                  <Chip
-                    label={courseDetail?.score >= 10 ? "Validé" : "Non validé"}
-                    size="small"
-                    color={courseDetail?.score >= 10 ? "success" : "error"}
-                    variant="outlined"
-                  />
-                </TableCell>
-              </TableRow>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={6} align="center">
-                Aucun détail disponible pour ce cours.
+          {grades.map((grade) => (
+            <TableRow
+              key={grade.id}
+              sx={{"&:last-child td, &:last-child th": {border: 0}}}
+              data-testid="grades-details-row"
+            >
+              <TableCell component="th" scope="row">
+                {grade.exam?.title}
+              </TableCell>
+              <TableCell align="right">
+                {renderGradeScore(grade.score)}
+              </TableCell>
+              <TableCell align="right">{grade.exam?.coefficient}</TableCell>
+              <TableCell align="right">
+                {renderDate(grade?.created_at?.toString())}
+              </TableCell>
+              <TableCell align="center">
+                {renderDate(grade?.update_date?.toString())}
+              </TableCell>
+              <TableCell align="center">
+                {renderStatusChip(grade.score)}
               </TableCell>
             </TableRow>
-          )}
+          ))}
         </TableBody>
       </Table>
     </TableContainer>
