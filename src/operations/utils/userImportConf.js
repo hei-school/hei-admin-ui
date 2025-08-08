@@ -64,26 +64,31 @@ export const validateUserData = (data) => {
 
 export const transformUserData = (data) => {
   return data.map((element) => {
-    element.entrance_datetime &&
-      (element.entrance_datetime = excelDateToJsDate(
-        element.entrance_datetime
-      ));
-    element.birth_date &&
-      element.birth_date &&
-      (element.birth_date = excelDateToJsDate(element.birth_date));
-    element["status"] = EnableStatus.ENABLED;
-    element["specialization_field"] = SpecializationField.COMMON_CORE;
-    element["coordinates"] = {longitude: 0, latitude: 0};
-    if (element["payment_frequency"] === "mensuel") {
-      element["payment_frequency"] = "MONTHLY";
-    } else if (element["payment_frequency"] === "annuel") {
-      element["payment_frequency"] = "YEARLY";
+    element.entrance_datetime = element.entrance_datetime
+      ? excelDateToJsDate(element.entrance_datetime)
+      : element.entrance_datetime;
+
+    element.birth_date = element.birth_date
+      ? excelDateToJsDate(element.birth_date)
+      : element.birth_date;
+
+    element.status = EnableStatus.ENABLED;
+    element.specialization_field = SpecializationField.COMMON_CORE;
+    element.coordinates = {longitude: 0, latitude: 0};
+
+    const paymentFreq = element.payment_frequency
+      ?.toString()
+      .trim()
+      .toLowerCase();
+
+    if (["mensuel", "mensuelle", "menusel", "mensuel"].includes(paymentFreq)) {
+      element.payment_frequency = "MONTHLY";
+    } else if (
+      ["annuel", "annuelle", "anuel", "annuel"].includes(paymentFreq)
+    ) {
+      element.payment_frequency = "YEARLY";
     }
-    if (element["student_refs"]) {
-      element["student_refs"] = element["student_refs"]
-        .split(",")
-        .map((ref) => ref.trim());
-    }
+
     return element;
   });
 };

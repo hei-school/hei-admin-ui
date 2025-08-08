@@ -1,35 +1,43 @@
 import {Group} from "@haapi/typescript-client";
 
-const typeTranslations: {[key: string]: string} = {
+const typeTranslations: Record<string, string> = {
   COURSE: "Cours",
   INTEGRATION: "Intégration",
   SEMINAR: "Séminaire",
   SUPPORT_SESSION: "Entraide",
   EXAM: "Examen",
-  OTHERS: "Autres",
+  OTHER: "Autres",
 };
 
-export const transformApiDataToCalendarEvents = (data: any) => {
+export const transformApiDataToCalendarEvents = (data: unknown) => {
   if (!Array.isArray(data)) {
-    console.error("Attendu un tableau mais reçu :", data);
+    console.error("Expected an array but received:", data);
     return [];
   }
 
   return data
-    .filter((event) => event != null)
+    .filter((event): event is NonNullable<typeof event> => event != null)
     .map((event) => {
       const isCourse = event.type === "COURSE";
       const courseCode = isCourse && event.course ? event.course.code : "";
       const translatedType = typeTranslations[event.type] || event.type;
-      const groupe = event.groups?.map((group: Group) => group.ref).join(", ");
+      const groupList = event.groups
+        ?.map((group: Group) => group.ref)
+        .join(", ");
+
+      let title: string;
+      if (isCourse) {
+        title = `[${groupList}] ${translatedType} (${courseCode}) - ${event.title}`;
+      } else {
+        const groupPrefix = groupList ? `[${groupList}] ` : "";
+        title = `${groupPrefix}${translatedType} - ${event.title}`;
+      }
+
       return {
         id: event.id,
-        title: isCourse
-          ? `[${groupe}] ${translatedType} (${courseCode}) - ${event.title}`
-          : ` ${groupe ? `[${groupe}] ` : ""} ${translatedType} - ${event.title}` ||
-            "Événement sans titre",
-        start: event?.begin_datetime ? new Date(event.begin_datetime) : null,
-        end: event?.end_datetime ? new Date(event.end_datetime) : null,
+        title: title || "Événement sans titre",
+        start: event.begin_datetime ? new Date(event.begin_datetime) : null,
+        end: event.end_datetime ? new Date(event.end_datetime) : null,
         description: event.description || "Pas de description",
         groupName: event.groups?.[0]?.name || "Pas de groupe",
         color: event.color,
@@ -37,6 +45,7 @@ export const transformApiDataToCalendarEvents = (data: any) => {
     });
 };
 
+// Optional: Export to window if needed (e.g., for debugging)
 if (typeof window !== "undefined") {
   (window as any).transformApiDataToCalendarEvents =
     transformApiDataToCalendarEvents;
