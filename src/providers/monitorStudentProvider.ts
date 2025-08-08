@@ -20,16 +20,9 @@ const monitorStudentProvider: HaDataProviderType = {
 
   async getOne(id: string) {
     const monitorId = authProvider.getCachedWhoami().id;
-    if (!monitorId) {
-      throw new Error("Monitor ID is required.");
-    }
-
-    const result = await monitoringApi().getLinkedStudentsByMonitorId(
-      monitorId,
-      1,
-      15
-    );
-    return result.data.find((student) => student.id === id);
+    return monitoringApi()
+      .getLinkedStudentByIdAndMonitorId(monitorId!, id)
+      .then((response) => response.data);
   },
 
   async saveOrUpdate(students) {
