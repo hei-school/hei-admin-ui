@@ -72,6 +72,12 @@ export const transformUserData = (data) => {
       ? excelDateToJsDate(element.birth_date)
       : element.birth_date;
 
+    if (element.student_refs) {
+      element.student_refs = element.student_refs
+        .split(",")
+        .map((ref) => ref.trim())
+        .filter((ref) => ref.length > 0);
+    }
     element.status = EnableStatus.ENABLED;
     element.specialization_field = SpecializationField.COMMON_CORE;
     element.coordinates = {longitude: 0, latitude: 0};
