@@ -15,7 +15,6 @@ const pageAssertions = () => {
   ).should("be.visible");
 };
 
-// Utilitaire pour convertir une date UTC en string locale au format DD/MM/YYYY HH:mm
 function getLocalDateTimeForUTC(targetUTCString: string) {
   const date = new Date(targetUTCString);
   const pad = (n: number) => n.toString().padStart(2, "0");
