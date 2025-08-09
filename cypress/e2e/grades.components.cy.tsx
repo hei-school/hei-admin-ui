@@ -20,8 +20,8 @@ describe("GradesDashboard Component - Extended Tests", () => {
     ).as("getStudents");
     cy.intercept(
       "GET",
-      `/monitors/${monitor1Mock.id}/students?page=1&page_size=15`,
-      studentLinkedToMonitorMock
+      `/monitors/${monitor1Mock.id}/students/${studentLinkedToMonitorMock[0].id!}`,
+      studentLinkedToMonitorMock[0]
     ).as("getStudentOne");
     cy.intercept(
       "GET",
@@ -283,20 +283,20 @@ describe("GradesDashboard Component - Extended Tests", () => {
       cy.getByTestid("grades-details-row").first().contains(examStatus);
     });
   });
-  // describe.only("display grades details with no grades", () => {
-  //   beforeEach(() => {
-  //     cy.intercept(
-  //       "GET",
-  //       `/students/${studentLinkedToMonitorMock[0].id!}/courses/${courseResultsMock[0].course?.id!}/grades`,
-  //       []
-  //     ).as("getCourseResults");
-  //   });
-  //   it("should display empty state when no grades are available", () => {
-  //     cy.getByTestid("toggle-details-button").first().click();
-  //     cy.wait("@getCourseResults");
-  //     cy.contains("Aucune note trouvée");
-  //   });
-  // });
+  describe("display grades details with no grades", () => {
+    beforeEach(() => {
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id!}/courses/${courseResultsMock[0].course?.id!}/grades`,
+        []
+      ).as("getCourseResults");
+    });
+    it("should display empty state when no grades are available", () => {
+      cy.getByTestid("toggle-details-button").first().click();
+      cy.wait("@getCourseResults");
+      cy.contains("Aucune note trouvée");
+    });
+  });
 });
 
 describe("display error on overview card", () => {
@@ -309,8 +309,8 @@ describe("display error on overview card", () => {
     ).as("getStudents");
     cy.intercept(
       "GET",
-      `/monitors/${monitor1Mock.id}/students?page=1&page_size=15`,
-      studentLinkedToMonitorMock
+      `/monitors/${monitor1Mock.id}/students/${studentLinkedToMonitorMock[0].id!}`,
+      studentLinkedToMonitorMock[0]
     ).as("getStudentOne");
     cy.intercept(
       "GET",
