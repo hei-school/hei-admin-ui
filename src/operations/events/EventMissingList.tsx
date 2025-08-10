@@ -76,6 +76,9 @@ export const EventMissingList: FC = () => {
         actions={<EventMissingFilter />}
         resource="missing-event"
         icon={<ClipboardList />}
+        listProps={{
+          className: "event-missing-list",
+        }}
         mainSearch={{label: "Références", source: "studentRef"}}
         datagridProps={{
           rowClick: false,
@@ -215,9 +218,18 @@ const DateTooltip: FC = () => {
                 record.event?.title
               : otherEventTypeLabel}
           </Typography>
-          <Box display="grid" gridTemplateColumns="1fr 1fr" gap="0.5rem">
+          <Box
+            display="grid"
+            gridTemplateColumns="1fr 1fr"
+            gap="0.5rem"
+            className="test"
+          >
             <Box sx={BOX_STYLE}>
-              <Typography variant="subtitle2" fontWeight="bold">
+              <Typography
+                variant="subtitle2"
+                fontWeight="bold"
+                data-testid="event-start-date"
+              >
                 Début
               </Typography>
               <DateField
@@ -236,7 +248,11 @@ const DateTooltip: FC = () => {
               />
             </Box>
             <Box sx={BOX_STYLE}>
-              <Typography variant="subtitle2" fontWeight="bold">
+              <Typography
+                variant="subtitle2"
+                fontWeight="bold"
+                data-testid="event-end-date"
+              >
                 Fin
               </Typography>
               <DateField

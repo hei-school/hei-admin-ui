@@ -194,19 +194,13 @@ export const missingParticipantsMock: EventAttendanceWithId[] = [
     },
     event: {
       id: "event_2",
-      type: "COURSE",
-      title: "Final Exam PROG1",
+      type: "OTHER",
+      title: "Réunion spéciale",
       color: "#he5733",
-      description: "Final examination for Algorithmics course.",
+      description: "Réunion spéciale pour le cours d'Algorithmique.",
       begin_datetime: new Date("2025-04-10T08:00:00Z"),
       end_datetime: new Date("2025-04-10T10:00:00Z"),
-      course: {
-        id: "course_1",
-        code: "WEB2",
-        name: "Algorithmics",
-        credits: 6,
-        total_hours: 60,
-      },
+      course: {},
       planner: {
         id: "planner_1",
         ref: "PLN001",

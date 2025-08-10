@@ -1,3 +1,4 @@
+import {EVENT_TYPE_VALUE} from "@/operations/events/utils";
 import {courseMocks} from "../fixtures/api_mocks/course-mocks";
 import {
   event1mock,
@@ -51,16 +52,12 @@ describe("Manager.event", () => {
       late: 0,
       total: 40,
     }).as("getEventStats");
-    cy.intercept(
-      "GET",
-      `/event_participants?page=1&page_size=10*`,
-      missingParticipantsMock
-    ).as("getMissingParticipantsPage1");
-    cy.intercept(
-      "GET",
-      `event_participants?page=2&page_size=10&*`,
-      missingParticipantsMock
-    ).as("getMissingParticipantsPage2");
+    cy.intercept("GET", `/event_participants?**`, missingParticipantsMock).as(
+      "getMissingParticipants"
+    );
+    cy.intercept("GET", "/missing-event", {
+      body: [null],
+    });
     cy.intercept("PUT", "/events", eventsMock);
     cy.getByTestid("event-point").click();
   });
@@ -140,9 +137,50 @@ describe("Manager.event", () => {
     });
     cy.contains("Groupe ajouté avec succès");
   });
-  it("manager can list missing participants", () => {
-    cy.getByTestid("event-missing").click();
+  it("manager can list missing participants with all details", () => {
+    cy.visit("/event_participants");
+
     cy.wait("@getEventStats");
-    cy.wait("@getMissingParticipantsPage1");
+    cy.wait("@getMissingParticipants");
+    cy.get(
+      ".event-missing-list .MuiTableBody-root.datagrid-body.RaDatagrid-tbody"
+    )
+      .first()
+      .within(() => {
+        cy.contains(missingParticipantsMock[0].event_participant?.ref!).should(
+          "be.visible"
+        );
+
+        cy.contains(
+          missingParticipantsMock[0].event_participant?.first_name!
+        ).should("be.visible");
+
+        cy.contains(
+          missingParticipantsMock[0].event_participant?.last_name!
+        ).should("be.visible");
+
+        cy.contains(missingParticipantsMock[0]?.event?.groups?.[0].ref!).should(
+          "be.visible"
+        );
+
+        if (missingParticipantsMock[0].event?.type === "COURSE") {
+          cy.contains(missingParticipantsMock[0].event?.course?.code!).should(
+            "be.visible"
+          );
+        }
+
+        cy.contains(
+          EVENT_TYPE_VALUE[missingParticipantsMock[0].event?.type!]
+        ).should("be.visible");
+
+        const eventDate = new Date(
+          missingParticipantsMock[0].event?.begin_datetime!
+        ).toLocaleDateString("fr-FR", {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+        cy.contains(eventDate).should("be.visible");
+      });
   });
 });

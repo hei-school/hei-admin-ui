@@ -12,7 +12,6 @@ import {useNavigate} from "react-router-dom";
 import {mainTheme} from "../haTheme";
 import authProvider from "../providers/authProvider";
 import CasdoorLoginCard from "./CasdoorLoginCard";
-import CompletePasswordPage from "./CompletePasswordPage";
 
 const aCard = (title, subtitle, description1, description2, course) => {
   const syllabus =
@@ -105,9 +104,7 @@ const HaLoginPage = () => {
       </Grid>
     );
   };
-  const ResponsiveCompletePassword = () => (
-    <CompletePasswordPage style={{backgroundImage: "inherit"}} />
-  );
+  const ResponsiveCompletePassword = () => <Grid container item xs={12} />;
   const PasswordChangeableLogin = () =>
     authProvider.isTemporaryPassword() ? (
       <ResponsiveCompletePassword />
