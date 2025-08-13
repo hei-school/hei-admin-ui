@@ -25,7 +25,7 @@ export const GlassCard = styled(Paper)(({theme}) => ({
 export const GradientButton = styled(Button)(({theme}) => ({
   "background": `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.primary.dark} 100%)`,
   "color": theme.palette.common.white,
-  "padding": theme.spacing(1.5, 3),
+  "padding": theme.spacing(1, 3),
   "borderRadius": theme.shape.borderRadius * 2,
   "textTransform": "none",
   "fontWeight": theme.typography.fontWeightBold,

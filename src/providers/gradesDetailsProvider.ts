@@ -12,8 +12,10 @@ const gradesDetailsProvider: HaDataProviderType = {
       .getCourseGrades(filter.studentId, filter.courseId)
       .then((result) => ({data: result.data}));
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
+  getOne: async (id: string, meta = {}) => {
+    return gradesApi()
+      .getYearlyResultTranscript(id, meta.studentLevel)
+      .then((result) => result.data);
   },
   saveOrUpdate: () => {
     throw new Error("Function not implemented.");

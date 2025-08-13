@@ -3,7 +3,10 @@ import {TranscriptOverview} from "@/operations/grades/components/TranscriptOverv
 import {StudentLevel, ViewType} from "@/operations/grades/types/types";
 import {levelChoices} from "@/operations/grades/utils";
 import {getGradeColor} from "@/operations/grades/utils/getGradeColor";
-import {Apps, List, School} from "@mui/icons-material";
+import dataProvider from "@/providers/dataProvider";
+import {ToRaRecord} from "@/providers/types";
+import {YearlyResult} from "@haapi/typescript-client";
+import {Apps, Download, List, School} from "@mui/icons-material";
 import {
   Box,
   Chip,
@@ -17,14 +20,13 @@ import {
 } from "@mui/material";
 import {FC, useState} from "react";
 import {useGetOne} from "react-admin";
-import {useParams} from "react-router-dom";
+import {GradientButton} from "../utils/utils";
 
-export const YearlyView: FC = () => {
-  const {id: studentId} = useParams();
-
+export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
   const [selectedLevel, setSelectedLevel] = useState<StudentLevel>(
     StudentLevel.L1
   );
+  const [loading, setLoading] = useState(false);
   const [viewType, setViewType] = useState<ViewType>("GRID");
 
   const handleViewType = (
@@ -36,11 +38,28 @@ export const YearlyView: FC = () => {
     }
   };
 
+  const downloadFile = async (
+    url: string,
+    filename = "Relevé de notes L1.pdf"
+  ) => {
+    const response = await fetch(url);
+    const blob = await response.blob();
+    const downloadUrl = URL.createObjectURL(blob);
+
+    const a = document.createElement("a");
+    a.href = downloadUrl;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(downloadUrl);
+  };
+
   const {
     data: result,
     isLoading,
     error,
-  } = useGetOne(
+  } = useGetOne<ToRaRecord<YearlyResult>>(
     "grades",
     {
       id: studentId || "",
@@ -50,6 +69,42 @@ export const YearlyView: FC = () => {
     },
     {refetchOnWindowFocus: false}
   );
+
+  const checkFileStatus = async () => {
+    const res = await dataProvider.getOne("grades-details", {
+      id: studentId || "",
+      meta: {studentLevel: selectedLevel},
+    });
+    return res;
+  };
+
+  const tryDownload = async () => {
+    const res = await checkFileStatus();
+    const status = res.data?.status;
+    const link = res.data?.link;
+
+    if (status === "AVAILABLE" && link) {
+      await downloadFile(link, `Relevé des notes ${selectedLevel}.pdf`);
+      return true;
+    }
+    return false;
+  };
+
+  const handleDownload = async () => {
+    setLoading(true);
+    const success = await tryDownload();
+    if (!success) {
+      const interval = setInterval(async () => {
+        const ready = await tryDownload();
+        if (ready) {
+          clearInterval(interval);
+          setLoading(false);
+        }
+      }, 2000);
+    } else {
+      setLoading(false);
+    }
+  };
 
   return (
     <Box>
@@ -130,6 +185,29 @@ export const YearlyView: FC = () => {
                 ))}
               </Select>
             </FormControl>
+            <Box
+              display="flex"
+              justifyContent="right"
+              alignItems="flex-end"
+              marginBottom={2}
+              marginTop={1}
+            >
+              <GradientButton
+                variant="contained"
+                size="large"
+                startIcon={<Download />}
+                onClick={handleDownload}
+                disabled={loading}
+                sx={{
+                  width: {xs: "100%", sm: "auto"},
+                  color: "whitesmoke !important",
+                }}
+              >
+                {loading
+                  ? "Préparation du fichier..."
+                  : `Relevé ${selectedLevel}`}
+              </GradientButton>
+            </Box>
             <ToggleButtonGroup
               size="small"
               value={viewType}
