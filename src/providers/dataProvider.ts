@@ -34,6 +34,7 @@ import profileProvider from "@/providers/profileProvider";
 import promotionGroupsProvider from "@/providers/promotionGroupsProvider";
 import promotionProvider from "@/providers/promotionProvider";
 import receiptProvider from "@/providers/receiptProvider";
+import resultSummaryProvider from "@/providers/resultSummaryProvider";
 import staffExportProvider from "@/providers/staffExportProvider";
 import staffProvider from "@/providers/staffProvider";
 import statsProvider from "@/providers/statsProvider";
@@ -87,6 +88,7 @@ const providerMap = {
   "exam-grades": examGradeProvider,
   "grades": gradeProvider,
   "grades-details": gradesDetailsProvider,
+  "summary": resultSummaryProvider,
 } as const;
 
 const getProvider = (
