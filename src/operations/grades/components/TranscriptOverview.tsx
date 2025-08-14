@@ -16,7 +16,7 @@ import {School} from "@mui/icons-material";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
 
 export const TranscriptOverview: FC<{
-  result: YearlyResult;
+  result: YearlyResult | undefined;
   isLoading: boolean;
   error: unknown;
 }> = ({result, error, isLoading}) => {

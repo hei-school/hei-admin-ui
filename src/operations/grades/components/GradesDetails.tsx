@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import {FC, useState} from "react";
 import {useGetList} from "react-admin";
+import {getCourseStatusLabel} from "../utils";
 import {getGradeColor} from "../utils/getGradeColor";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
 import {StatusChip} from "../utils/StatusChip";
@@ -69,7 +70,7 @@ export const GradesDetails: FC<{
                   sx={{fontWeight: "medium"}}
                 />
                 <StatusChip
-                  label={chipProps.label}
+                  label={getCourseStatusLabel(courseResult?.status!)}
                   size="small"
                   status={courseResult?.status!}
                   color={chipProps.color}

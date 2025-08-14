@@ -1,4 +1,6 @@
+import {GlobalSummaryView} from "@/operations/grades/components/GlobalSummaryView";
 import {YearlyView} from "@/operations/grades/components/YearlyView";
+import {NewViewType} from "@/operations/grades/types/types";
 import {
   GlassCard,
   StyledToggleButton,
@@ -7,11 +9,12 @@ import {
 import {AutoGraph, School} from "@mui/icons-material";
 import {Box, Fade, Typography} from "@mui/material";
 import {FC, useEffect, useState} from "react";
-import {NewViewType} from "./types/types";
+import {useParams} from "react-router-dom";
 
 export const GradesOverview: FC = () => {
   const [view, setView] = useState<NewViewType>("YEARLY");
   const [mounted, setMounted] = useState(false);
+  const {id: studentId} = useParams();
 
   useEffect(() => {
     setMounted(true);
@@ -87,16 +90,11 @@ export const GradesOverview: FC = () => {
           <Box>
             {view === "YEARLY" ? (
               <Box key="yearly-view">
-                <YearlyView />
+                <YearlyView studentId={studentId!} />
               </Box>
             ) : (
               <Box key="global-view">
-                <Typography variant="h4" mb={2}>
-                  Vue Annuelle des Notes
-                </Typography>
-                <Typography variant="body1" color="text.secondary">
-                  Contenu de la vue annuelle des notes à venir...
-                </Typography>
+                <GlobalSummaryView studentId={studentId!} />
               </Box>
             )}
           </Box>

@@ -10,6 +10,7 @@ export const GRADE_HEADERS = {
 
 export const COURSE_STATUS_LABELS = {
   VALIDATED: "Validé",
+  INVALIDATED: "Non validé",
   IN_PROGRESS: "En cours",
   INCOMPLETE: "Incomplet",
   NOT_STARTED: "Non commencé",
