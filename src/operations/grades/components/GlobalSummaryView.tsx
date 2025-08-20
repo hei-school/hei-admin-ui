@@ -23,14 +23,29 @@ import {useGetOne} from "react-admin";
 import {getCourseStatusLabel} from "../utils";
 import {getGradeColor} from "../utils/getGradeColor";
 import {StatusChips} from "../utils/StatusChip";
+import {ResultSummaryTimeline} from "./ResultTimeline";
 
 export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
-  const {data: summary_result} = useGetOne<ToRaRecord<ResultSummary>>(
-    "summary",
-    {
-      id: studentId!,
-    }
-  );
+  const {data: summary_result, isLoading} = useGetOne<
+    ToRaRecord<ResultSummary>
+  >("summary", {
+    id: studentId!,
+  });
+
+  if (isLoading) {
+    return (
+      <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>
+        <Box
+          display="flex"
+          justifyContent="center"
+          alignItems="center"
+          minHeight={200}
+        >
+          <CircularProgress />
+        </Box>
+      </Card>
+    );
+  }
 
   return (
     <Box>
@@ -218,6 +233,12 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
           </Grid>
         </CardContent>
       </Card>
+      <Typography variant="h5" sx={{mb: 2, fontWeight: "bold"}}>
+        Parcours Académique
+      </Typography>
+      <ResultSummaryTimeline
+        yearlyResult={summary_result?.yearly_results || []}
+      />
     </Box>
   );
 };
