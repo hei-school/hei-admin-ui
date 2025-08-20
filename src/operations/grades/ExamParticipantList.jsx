@@ -18,6 +18,7 @@ import {
   SaveButton,
   SimpleForm,
   TextField,
+  TextInput,
   Toolbar,
   useGetOne,
   useNotify,
@@ -33,7 +34,8 @@ import {
   ExamGradeListActions,
   ExamLoadError,
 } from "@/operations/grades/components";
-import gradeProvider from "@/providers/gradeProvider";
+import correctGradeProvider from "@/providers/correctGradeProvider";
+import createGradeProvider from "@/providers/createGradeProvider";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {formatDate} from "@/utils/date";
@@ -123,13 +125,32 @@ const ExamDetails = ({exam}) => {
   );
 };
 
-const GradeEditForm = ({onSubmit, isLoading, onClose}) => (
-  <Dialog title="Modification d'une note" open={true} onClose={onClose}>
+const GradeEditForm = ({
+  onSubmit,
+  isLoading,
+  onClose,
+  isEditing,
+  initialComment,
+}) => (
+  <Dialog
+    title={isEditing ? "Modifier la note" : "Attribuer une note"}
+    open
+    onClose={onClose}
+    fullWidth
+    maxWidth="sm"
+  >
     <SimpleForm
       onSubmit={onSubmit}
+      defaultValues={
+        isEditing ? {grade: {score: undefined}, comment: initialComment} : {}
+      }
       toolbar={
         <Toolbar>
-          <SaveButton saving={isLoading} disabled={isLoading} />
+          <SaveButton
+            saving={isLoading}
+            disabled={isLoading}
+            label="Enregistrer"
+          />
         </Toolbar>
       }
     >
@@ -137,8 +158,11 @@ const GradeEditForm = ({onSubmit, isLoading, onClose}) => (
         source="grade.score"
         label="Note"
         fullWidth
-        validate={[required(), number(), maxValue(20), minValue(0)]}
+        validate={[required(), number(), minValue(0), maxValue(20)]}
       />
+      {isEditing && (
+        <TextInput source="comment" label="Commentaire" fullWidth multiline />
+      )}
     </SimpleForm>
   </Dialog>
 );
@@ -148,22 +172,45 @@ const GradeEditButton = ({examId, record}) => {
   const [isDialogOpen, , toggleDialog] = useToggle(false);
   const notify = useNotify();
   const refresh = useRefresh();
-  const {
-    student: {id: studentId},
-  } = useRecordContext();
+  const {student: {id: studentId} = {}} = useRecordContext();
+
+  const isEditing = record?.grade?.score != null;
+  const buttonLabel = isEditing ? "ÉDITER" : "ATTRIBUER";
 
   const handleGradeSubmit = async (formValues) => {
+    console.log("Form Values:", formValues);
     setIsLoading(true);
     try {
-      await gradeProvider.saveOrUpdate(
-        {score: formValues.grade?.score},
-        {examId, studentId}
+      const gradeData = {
+        score: formValues.grade?.score,
+        ...(isEditing && {comment: formValues.comment}),
+      };
+      console.log("Sending gradeData:", gradeData);
+      const provider = isEditing ? correctGradeProvider : createGradeProvider;
+      console.log(
+        "Using provider:",
+        provider === correctGradeProvider
+          ? "correctGradeProvider"
+          : "createGradeProvider"
       );
-      notify("Note mise à jour avec succès", {type: "success"});
+      await provider.saveOrUpdate(gradeData, {examId, studentId});
+
+      notify("Note enregistrée avec succès", {
+        type: "success",
+        messageArgs: {_: "Note enregistrée avec succès"},
+      });
       toggleDialog();
       refresh();
     } catch (error) {
-      notify("Erreur lors de la mise à jour de la note", {type: "error"});
+      console.error("Error saving grade:", {
+        message: error.message,
+        stack: error.stack,
+        details: error,
+      });
+      notify("Erreur lors de la mise à jour de la note", {
+        type: "error",
+        messageArgs: {_: "Erreur lors de la mise à jour de la note"},
+      });
     } finally {
       setIsLoading(false);
     }
@@ -172,18 +219,21 @@ const GradeEditButton = ({examId, record}) => {
   return (
     <Box>
       <Button
-        label={record?.grade?.score ? "ÉDITER" : "ATTRIBUER"}
+        label={buttonLabel}
         variant="text"
         data-testid="edit-button"
         onClick={toggleDialog}
         sx={{py: "5px", color: PALETTE_COLORS.yellow}}
         startIcon={<EditIcon />}
+        disabled={!record || !studentId}
       />
       {isDialogOpen && (
         <GradeEditForm
           onSubmit={handleGradeSubmit}
           isLoading={isLoading}
           onClose={() => toggleDialog(false)}
+          isEditing={isEditing}
+          initialComment={record?.grade?.comment}
         />
       )}
     </Box>
@@ -212,7 +262,10 @@ const ParticipantsDataGrid = ({examId}) => (
       render={(record) => record?.grade?.score ?? "Non définie"}
     />
     <DateField source="grade.update_date" label="Mis à jour le" />
-    <GradeEditButton examId={examId} />
+    <FunctionField
+      label="Actions"
+      render={(record) => <GradeEditButton examId={examId} record={record} />}
+    />
   </HaList>
 );
 
