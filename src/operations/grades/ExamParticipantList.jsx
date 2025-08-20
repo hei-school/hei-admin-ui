@@ -8,7 +8,8 @@ import {
 import {Box, Chip, Divider, Paper, Tooltip, Typography} from "@mui/material";
 import {Clock, InfoIcon} from "lucide-react";
 import {
-  Button, FunctionField,
+  Button,
+  FunctionField,
   maxValue,
   minValue,
   number,
@@ -142,7 +143,7 @@ const GradeEditForm = ({onSubmit, isLoading, onClose}) => (
   </Dialog>
 );
 
-const GradeEditButton = ({examId}) => {
+const GradeEditButton = ({examId, record}) => {
   const [isLoading, setIsLoading] = useState(false);
   const [isDialogOpen, , toggleDialog] = useToggle(false);
   const notify = useNotify();
@@ -171,7 +172,7 @@ const GradeEditButton = ({examId}) => {
   return (
     <Box>
       <Button
-        label="ÉDITER"
+        label={record?.grade?.score ? "ÉDITER" : "ATTRIBUER"}
         variant="text"
         data-testid="edit-button"
         onClick={toggleDialog}
