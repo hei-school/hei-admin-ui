@@ -8,7 +8,7 @@ import {
 import {Box, Chip, Divider, Paper, Tooltip, Typography} from "@mui/material";
 import {Clock, InfoIcon} from "lucide-react";
 import {
-  Button,
+  Button, FunctionField,
   maxValue,
   minValue,
   number,
@@ -206,7 +206,10 @@ const ParticipantsDataGrid = ({examId}) => (
     <TextField source="student.ref" label="Référence" />
     <TextField source="student.last_name" label="Nom" />
     <TextField source="student.first_name" label="Prénom(s)" />
-    <TextField source="grade.score" label="Note" />
+    <FunctionField
+      label="Note"
+      render={(record) => record?.grade?.score ?? "Non définie"}
+    />
     <DateField source="grade.update_date" label="Mis à jour le" />
     <GradeEditButton examId={examId} />
   </HaList>
