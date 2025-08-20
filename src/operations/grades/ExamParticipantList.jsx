@@ -172,27 +172,24 @@ const GradeEditButton = ({examId, record}) => {
   const [isDialogOpen, , toggleDialog] = useToggle(false);
   const notify = useNotify();
   const refresh = useRefresh();
-  const {student: {id: studentId} = {}} = useRecordContext();
+  const {student: {id: studentId, ref: studentRef} = {}} = useRecordContext();
 
   const isEditing = record?.grade?.score != null;
   const buttonLabel = isEditing ? "ÉDITER" : "ATTRIBUER";
 
   const handleGradeSubmit = async (formValues) => {
-    console.log("Form Values:", formValues);
     setIsLoading(true);
     try {
       const gradeData = {
-        score: formValues.grade?.score,
-        ...(isEditing && {comment: formValues.comment}),
+        grade: {
+          score: formValues.grade?.score,
+          student_id: studentId,
+        },
+        student_ref: studentRef,
+        ...(isEditing && {comment: formValues.comment || ""}),
       };
-      console.log("Sending gradeData:", gradeData);
       const provider = isEditing ? correctGradeProvider : createGradeProvider;
-      console.log(
-        "Using provider:",
-        provider === correctGradeProvider
-          ? "correctGradeProvider"
-          : "createGradeProvider"
-      );
+
       await provider.saveOrUpdate(gradeData, {examId, studentId});
 
       notify("Note enregistrée avec succès", {
