@@ -17,11 +17,7 @@ const correctGradeProvider: HaDataProviderType = {
     }
 
     return gradesApi()
-      .correctParticipantGrade(examId, studentId, {
-        grade: {score: payload.grade?.score},
-        student_ref: studentId,
-        comment: payload.comment,
-      })
+      .correctParticipantGrade(examId, studentId, payload)
       .then(({data}) => ({data}));
   },
   delete() {
