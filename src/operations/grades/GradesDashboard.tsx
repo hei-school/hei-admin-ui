@@ -69,13 +69,21 @@ export const GradesOverview: FC = () => {
             onChange={handleViewChange}
             aria-label="view selection"
           >
-            <StyledToggleButton value="YEARLY" aria-label="yearly view">
+            <StyledToggleButton
+              value="YEARLY"
+              aria-label="yearly view"
+              data-testid="yearly-view-toggle"
+            >
               <Box display="flex" alignItems="center" gap={1}>
                 <AutoGraph fontSize="small" />
                 Annuelle
               </Box>
             </StyledToggleButton>
-            <StyledToggleButton value="GLOBAL" aria-label="global view">
+            <StyledToggleButton
+              value="GLOBAL"
+              aria-label="global view"
+              data-testid="global-view-toggle"
+            >
               <Box display="flex" alignItems="center" gap={1}>
                 <AutoGraph fontSize="small" />
                 Globale

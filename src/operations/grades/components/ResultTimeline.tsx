@@ -95,7 +95,12 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
                 />
               )}
             </Grid>
-            <Grid item xs={11} sx={{pl: 2}}>
+            <Grid
+              item
+              xs={11}
+              sx={{pl: 2}}
+              data-testid="yearly-result-accordion"
+            >
               <Accordion
                 disabled={isLocked}
                 sx={{
@@ -110,6 +115,7 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
                 }}
               >
                 <AccordionSummary
+                  data-testid="accordion-summary-button"
                   sx={{
                     gap: 2,
                   }}
@@ -151,12 +157,12 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
                 <AccordionDetails>
                   <Grid container spacing={2} sx={{mb: 2}}>
                     <Grid item xs={6}>
-                      <Typography>
+                      <Typography data-testid="yearly-result-average">
                         Moyenne: {details?.weighted_average!.toFixed(2)}
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                      <Typography>
+                      <Typography data-testid="yearly-result-credits">
                         {`Crédits: ${details?.obtained_credits} / ${details?.total_credits}`}
                       </Typography>
                     </Grid>
@@ -186,8 +192,14 @@ const CourseList: FC<{courses: CourseResult[]}> = ({courses}) => {
         </TableHead>
         <TableBody>
           {courses.map((course) => (
-            <TableRow key={course.id}>
-              <TableCell>{course?.course?.name}</TableCell>
+            <TableRow
+              sx={{"&:last-child td, &:last-child th": {border: 0}}}
+              key={course.id}
+              data-testid="courses-lists-row"
+            >
+              <TableCell component="th" scope="row">
+                {course?.course?.name}
+              </TableCell>
               <TableCell align="right">
                 {course?.weighted_average?.toFixed(2)}
               </TableCell>

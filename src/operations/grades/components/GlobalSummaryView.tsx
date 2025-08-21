@@ -50,7 +50,7 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
   return (
     <Box>
       <Card sx={{mb: 3, boxShadow: 3, borderRadius: 2}}>
-        <CardContent>
+        <CardContent data-testid="global-summary-card">
           <Typography variant="h5" sx={{mb: 2, fontWeight: "bold"}}>
             Synthèse Globale
           </Typography>
@@ -76,7 +76,11 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
                 <School sx={{fontSize: 40, mr: 2, color: "primary.main"}} />
                 <Box>
                   <Typography fontWeight={"bold"}>Moyenne Pondérée</Typography>
-                  <Typography variant="h4" sx={{fontWeight: "bold"}}>
+                  <Typography
+                    variant="h4"
+                    sx={{fontWeight: "bold"}}
+                    data-testid="global-summary-weighted-average"
+                  >
                     {summary_result?.weighted_average
                       ? summary_result?.weighted_average?.toFixed(2)
                       : 0}
@@ -140,7 +144,7 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
                       if (ratio >= 1) {
                         return (
                           <CheckCircleOutline
-                            sx={{fontSize: 30, color: "success.main"}}
+                            sx={{fontSize: 30, color: "primary.main"}}
                           />
                         );
                       } else if (ratio >= 0.5) {
@@ -161,7 +165,11 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
                 </Box>
                 <Box>
                   <Typography fontWeight={"bold"}>Crédits Obtenus</Typography>
-                  <Typography variant="h4" sx={{fontWeight: "bold"}}>
+                  <Typography
+                    variant="h4"
+                    sx={{fontWeight: "bold"}}
+                    data-testid="global-summary-obtained-credits"
+                  >
                     {summary_result?.obtained_credits
                       ? summary_result?.obtained_credits
                       : 0}
@@ -218,6 +226,7 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
                 <Box>
                   <Typography fontWeight={"bold"}>Statut</Typography>
                   <StatusChips
+                    data-testid="global-summary-status-chip"
                     variant="filled"
                     status={summary_result?.status!}
                     label={getCourseStatusLabel(summary_result?.status!)}

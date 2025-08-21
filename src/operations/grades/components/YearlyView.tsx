@@ -38,10 +38,7 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
     }
   };
 
-  const downloadFile = async (
-    url: string,
-    filename = "Relevé de notes L1.pdf"
-  ) => {
+  const downloadFile = async (url: string, filename: string) => {
     const response = await fetch(url);
     const blob = await response.blob();
     const downloadUrl = URL.createObjectURL(blob);
@@ -193,6 +190,7 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
               marginTop={1}
             >
               <GradientButton
+                className="download-button"
                 variant="contained"
                 size="large"
                 startIcon={<Download />}
@@ -203,9 +201,7 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
                   color: "whitesmoke !important",
                 }}
               >
-                {loading
-                  ? "Préparation du fichier..."
-                  : `Relevé ${selectedLevel}`}
+                {loading ? "Patientez..." : `Relevé ${selectedLevel}`}
               </GradientButton>
             </Box>
             <ToggleButtonGroup
