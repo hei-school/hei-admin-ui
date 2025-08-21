@@ -65,7 +65,7 @@ export const GradesDetails: FC<{
               </Typography>
               <Box display="flex" alignItems="center" gap={2} mt={1}>
                 <Chip
-                  label={`${courseResult.course?.credits!} crédits ECTS`}
+                  label={`${courseResult.course?.credits!} crédits`}
                   size="small"
                   sx={{fontWeight: "medium"}}
                 />

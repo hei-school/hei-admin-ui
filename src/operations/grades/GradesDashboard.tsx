@@ -44,7 +44,7 @@ export const GradesOverview: FC = () => {
             variant="h4"
             sx={{fontWeight: "bold", color: "primary.main"}}
           >
-            Tableau de Bord des Notes
+            Tableau de bord des notes
           </Typography>
           <Typography
             variant="body1"

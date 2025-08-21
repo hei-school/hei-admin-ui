@@ -93,7 +93,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
         .contains(`${courseResultsMock[0]?.weighted_average?.toFixed(2)}/20`);
       cy.getByTestid("course-result-card")
         .first()
-        .contains(`${courseResultsMock[0]?.course?.credits} crédits ECTS`);
+        .contains(`${courseResultsMock[0]?.course?.credits} crédits`);
     });
 
     it("should handle course list view ", () => {
@@ -156,7 +156,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       cy.getByTestid("course-result-card")
         .first()
         .contains(
-          `${yearlyResultL2Mock?.course_results?.[0]?.course?.credits} crédits ECTS`
+          `${yearlyResultL2Mock?.course_results?.[0]?.course?.credits} crédits`
         );
     });
 
@@ -186,7 +186,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       cy.getByTestid("course-result-card")
         .first()
         .contains(
-          `${yearlyResultL3Mock?.course_results?.[0]?.course?.credits} crédits ECTS`
+          `${yearlyResultL3Mock?.course_results?.[0]?.course?.credits} crédits`
         );
     });
   });

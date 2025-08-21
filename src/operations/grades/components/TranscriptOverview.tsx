@@ -136,7 +136,7 @@ export const TranscriptOverview: FC<{
                 alignItems="center"
               >
                 <Typography variant="body1" color="text.secondary">
-                  Crédits ECTS
+                  Crédits
                 </Typography>
                 <Typography
                   variant="h6"
