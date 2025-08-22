@@ -1,5 +1,9 @@
 import {mapToChoices} from "@/utils";
-import {FeeCategory, FeeFrequency, FeeTypeEnum} from "@haapi/typescript-client";
+import {
+  FeeCategory,
+  FeeFrequency,
+  FeeTypeEnum,
+} from "@haapi-b0fc7615/typescript-client";
 
 export const FEE_STATUS = {
   LATE: "En retard",

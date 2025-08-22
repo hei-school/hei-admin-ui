@@ -3,7 +3,10 @@ import {useEffect, useState} from "react";
 import {paymentTypes} from "@/conf";
 import {useToggle} from "@/hooks/useToggle";
 import {studentIdFromRaId} from "@/providers/feeProvider";
-import {MobileMoneyType, PaymentTypeEnum} from "@haapi/typescript-client";
+import {
+  MobileMoneyType,
+  PaymentTypeEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {
   BooleanInput,
   Create,

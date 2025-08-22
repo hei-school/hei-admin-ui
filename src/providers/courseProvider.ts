@@ -1,10 +1,10 @@
-import {Course} from "@haapi/typescript-client";
+import {Course} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
-import {teachingApi} from "./api";
+import {coursesApi} from "./api";
 
 const courseProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    return teachingApi()
+    return coursesApi()
       .getCourses(
         filter.code,
         filter.name,
@@ -19,12 +19,12 @@ const courseProvider: HaDataProviderType = {
       .then((result) => ({data: result.data}));
   },
   async getOne(id: string) {
-    return teachingApi()
+    return coursesApi()
       .getCourseById(id)
       .then((response) => response.data);
   },
   async saveOrUpdate(payload: Course[]) {
-    return teachingApi()
+    return coursesApi()
       .createOrUpdateCourses(payload)
       .then((response) => response.data);
   },

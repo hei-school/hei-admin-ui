@@ -1,11 +1,12 @@
 import {useNotify, useToggle} from "@/hooks";
 import {Edit} from "@/operations/common/components";
 import {Dialog} from "@/ui/components";
-import {Course} from "@haapi/typescript-client";
+import {Course} from "@haapi-b0fc7615/typescript-client";
 import {Create as EditIcon} from "@mui/icons-material";
 import {
   Button,
   SaveButton,
+  SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
@@ -14,6 +15,7 @@ import {
   required,
   useRecordContext,
 } from "react-admin";
+import {LEVELS_CHOICES} from "./utils/constants";
 
 export function CourseEditButton() {
   const {id} = useRecordContext();
@@ -83,6 +85,14 @@ export function CourseEditButton() {
               label="Heure total"
               validate={[required(), number(), minValue(1)]}
               fullWidth
+            />
+            <SelectInput
+              data-testId="course-level-select"
+              fullWidth
+              source="level"
+              label="Niveau"
+              validate={required()}
+              choices={LEVELS_CHOICES}
             />
           </SimpleForm>
         </Edit>

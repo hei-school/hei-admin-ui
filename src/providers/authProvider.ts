@@ -6,7 +6,11 @@ import {
   signIn,
   signOut,
 } from "@aws-amplify/auth";
-import {Configuration, SecurityApi, Whoami} from "@haapi/typescript-client";
+import {
+  Configuration,
+  SecurityApi,
+  Whoami,
+} from "@haapi-b0fc7615/typescript-client";
 import {Amplify} from "aws-amplify";
 import axios, {AxiosResponse} from "axios";
 import {getPermissions} from "../security/permissions";

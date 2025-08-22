@@ -1,4 +1,4 @@
-import {UpdatePromotionSGroup} from "@haapi/typescript-client";
+import {UpdatePromotionSGroup} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {promotionApi} from "./api";
 

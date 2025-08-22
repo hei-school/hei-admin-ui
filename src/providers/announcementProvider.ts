@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {announcementsApi} from "./api";
 import authProvider from "./authProvider";

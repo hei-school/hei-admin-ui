@@ -1,5 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {LetterStats, LetterStatus} from "@haapi/typescript-client";
+import {LetterStats, LetterStatus} from "@haapi-b0fc7615/typescript-client";
 import {
   alpha,
   Box,

@@ -43,13 +43,15 @@ const paymentProvider: HaDataProviderType = {
       }
     });
 
-    await payingApi().crupdateMpbs(studentId, feeId, {
-      id: uuid(),
-      student_id: studentId,
-      fee_id: feeId,
-      psp_id: payments[0].psp_id,
-      psp_type: payments[0].psp_type,
-    });
+    if (payments[0].psp_id) {
+      await payingApi().crupdateMpbs(studentId, feeId, {
+        id: uuid(),
+        student_id: studentId,
+        fee_id: feeId,
+        psp_id: payments[0].psp_id,
+        psp_type: payments[0].psp_type,
+      });
+    }
 
     const result = await payingApi().createStudentPayments(
       studentId,

@@ -1,5 +1,5 @@
 import {usersApi} from "@/providers/api";
-import {Monitor} from "@haapi/typescript-client";
+import {Monitor} from "@haapi-b0fc7615/typescript-client";
 
 const monitorProvider = {
   async getList(page: number, perPage: number, filter: any) {

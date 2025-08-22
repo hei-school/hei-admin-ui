@@ -1,7 +1,7 @@
 import {Box, Stack, Typography} from "@mui/material";
 import {FC} from "react";
 
-import {EventStats} from "@haapi/typescript-client";
+import {EventStats} from "@haapi-b0fc7615/typescript-client";
 import {AccessTime, People, PersonOff} from "@mui/icons-material";
 import SvgIcon from "@mui/material/SvgIcon";
 

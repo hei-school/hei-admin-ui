@@ -1,4 +1,4 @@
-import {Teacher} from "@haapi/typescript-client";
+import {Teacher} from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 

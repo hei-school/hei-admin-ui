@@ -1,7 +1,7 @@
 import {useNotify} from "@/hooks";
 import {FeeInputs} from "@/operations/fees/components";
 import {createFeesApi} from "@/operations/fees/utils/feeFactory";
-import {Fee} from "@haapi/typescript-client";
+import {Fee} from "@haapi-b0fc7615/typescript-client";
 import SaveIcon from "@mui/icons-material/Save";
 import {useState} from "react";
 import {Create, SimpleForm} from "react-admin";
@@ -30,6 +30,9 @@ export default function MultipleStudentFeesCreate(
       throw error;
     } finally {
       setIsSubmitting(false);
+      /*TODO : search for another solution because this looks shitty */
+      setStudentsIds([]);
+      localStorage.removeItem("RaStore.students.selectedIds");
     }
   };
 

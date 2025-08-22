@@ -3,7 +3,7 @@ import {
   FileType,
   ProfessionalExperienceFileTypeEnum,
   WorkDocumentInfo,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 
 export const newDoc: FileInfo = {
   id: "new_doc1_id",

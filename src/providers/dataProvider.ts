@@ -1,7 +1,7 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
-import awardedCoursesProvider from "@/providers/awardedCoursesProvider";
 import commentProvider from "@/providers/commentProvider";
+import CourseAssignmentsProvider from "@/providers/courseAssignmentsProvider";
 import courseProvider from "@/providers/courseProvider";
 import docsProvider from "@/providers/docsProvider";
 import eventParticipantProvider from "@/providers/eventParticipantProvider";
@@ -16,6 +16,8 @@ import exportTeacherProvider from "@/providers/exportTeacherProvider";
 import feeProvider from "@/providers/feeProvider";
 import feesExportProvider from "@/providers/feesExportProvider";
 import feesTemplatesProvider from "@/providers/feesTemplatesProvider";
+import gradeProvider from "@/providers/gradeProvider";
+import gradesDetailsProvider from "@/providers/gradesDetailsProvider";
 import groupFlowProvider from "@/providers/groupFlowProvider";
 import groupProvider from "@/providers/groupProvider";
 import groupStudentProvider from "@/providers/groupStudentProvider";
@@ -32,12 +34,14 @@ import profileProvider from "@/providers/profileProvider";
 import promotionGroupsProvider from "@/providers/promotionGroupsProvider";
 import promotionProvider from "@/providers/promotionProvider";
 import receiptProvider from "@/providers/receiptProvider";
+import resultSummaryProvider from "@/providers/resultSummaryProvider";
 import staffExportProvider from "@/providers/staffExportProvider";
 import staffProvider from "@/providers/staffProvider";
 import statsProvider from "@/providers/statsProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
+import {courseAssignmentsByTeacherProvider} from "./courseAssignementbyTeacher";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -66,7 +70,8 @@ const providerMap = {
   "letters": lettersProvider,
   "letters-stats": lettersStatsProvider,
   "receipts": receiptProvider,
-  "awarded-courses": awardedCoursesProvider,
+  "courses-assignements": courseAssignmentsByTeacherProvider,
+  "course-assignments": CourseAssignmentsProvider,
   "events": eventProvider,
   "missing-event": missingListProvider,
   "events-participants-export": exportEventParticipantProvider,
@@ -81,6 +86,9 @@ const providerMap = {
   "staffs-export": staffExportProvider,
   "mpbs-verify": mpbsVerifyProvider,
   "exam-grades": examGradeProvider,
+  "grades": gradeProvider,
+  "grades-details": gradesDetailsProvider,
+  "summary": resultSummaryProvider,
 } as const;
 
 const getProvider = (

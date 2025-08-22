@@ -1,4 +1,4 @@
-import {AdvancedFeesStatistics} from "@haapi/typescript-client";
+import {AdvancedFeesStatistics} from "@haapi-b0fc7615/typescript-client";
 
 export type FeeStats = AdvancedFeesStatistics & {
   id: string;

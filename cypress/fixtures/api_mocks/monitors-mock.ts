@@ -1,4 +1,4 @@
-import {EnableStatus, Monitor, Sex} from "@haapi/typescript-client";
+import {EnableStatus, Monitor, Sex} from "@haapi-b0fc7615/typescript-client";
 
 export const monitorsMock: Monitor[] = [
   {

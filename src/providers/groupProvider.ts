@@ -1,15 +1,15 @@
 import {toUTC} from "@/utils/date";
 import {HaDataProviderType} from "./HaDataProviderType";
-import {teachingApi} from "./api";
+import {groupsApi} from "./api";
 
 const groupProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter: any) {
-    return await teachingApi()
+    return await groupsApi()
       .getGroups(filter.ref, filter.student_ref, page, perPage)
       .then((result) => ({data: result.data}));
   },
   async getOne(id: string) {
-    return await teachingApi()
+    return await groupsApi()
       .getGroupById(id)
       .then((result) => result.data);
   },
@@ -21,7 +21,7 @@ const groupProvider: HaDataProviderType = {
       ...group,
     };
 
-    return await teachingApi()
+    return await groupsApi()
       .createOrUpdateGroups([createGroup])
       .then((result) => result.data);
   },

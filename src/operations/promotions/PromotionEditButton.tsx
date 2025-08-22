@@ -1,6 +1,6 @@
 import {useNotify, useToggle} from "@/hooks";
 import {Dialog} from "@/ui/components";
-import {CrupdatePromotion, Promotion} from "@haapi/typescript-client";
+import {CrupdatePromotion, Promotion} from "@haapi-b0fc7615/typescript-client";
 import {Create as EditIcon} from "@mui/icons-material";
 import {
   Button,

@@ -1,4 +1,12 @@
-import {examMocks} from "../fixtures/api_mocks/exam-mocks";
+import {formatDate} from "@/utils/date";
+import {courseMocks} from "../fixtures/api_mocks/course-mocks";
+import {
+  courseAssignmentMocks,
+  examCreateMock,
+  examMocks,
+} from "../fixtures/api_mocks/exam-mocks";
+import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
+import {teachersMock} from "../fixtures/api_mocks/teachers-mocks";
 
 const pageAssertions = () => {
   cy.contains("Liste des examens").should("be.visible");
@@ -7,13 +15,39 @@ const pageAssertions = () => {
   ).should("be.visible");
 };
 
+function getLocalDateTimeForUTC(targetUTCString: string) {
+  const date = new Date(targetUTCString);
+  const pad = (n: number) => n.toString().padStart(2, "0");
+  return `${pad(date.getDate())}/${pad(date.getMonth() + 1)}/${date.getFullYear()} ${pad(date.getHours())}:${pad(date.getMinutes())}`;
+}
+
 describe("ExamParticipantList", () => {
   beforeEach(() => {
     cy.mockLogin({role: "TEACHER"});
+    cy.intercept("GET", "/exams?*", [examMocks[0]]).as("getExamsAfterUpdate");
+    cy.intercept("PUT", "/exams", (req) => {
+      const actual = req.body;
+      expect(
+        new Date(actual.examination_date).toISOString().slice(0, 16)
+      ).to.eq(
+        new Date(examCreateMock.examination_date).toISOString().slice(0, 16)
+      );
+      req.reply({statusCode: 200, body: examMocks[0]});
+    }).as("putExam");
+
+    cy.intercept("GET", "/exams?page=1&page_size=12", []).as("getNoExams");
+    cy.intercept("GET", "/exams?page=2&page_size=12", []).as("NoExams2");
+    cy.intercept("GET", "/teachers?**", teachersMock).as("getTeachers");
+    cy.intercept("GET", "/courses?**", courseMocks).as("getCourses");
+    cy.intercept("GET", "/groups?**", groupsMock).as("getGroups");
+    cy.intercept(
+      "GET",
+      `teachers/${teachersMock[0].id}/course_assignments?**`,
+      courseAssignmentMocks
+    ).as("getCourseAssignments");
   });
 
   it("should return no exams", () => {
-    cy.intercept("GET", "/exams?*", []).as("getNoExams");
     cy.visit("/exams");
     cy.wait("@getNoExams");
     pageAssertions();
@@ -22,38 +56,65 @@ describe("ExamParticipantList", () => {
   });
 
   it("should return list of exams", () => {
-    cy.intercept("GET", "/exams?*", examMocks).as("getExams");
+    cy.intercept("GET", "/exams?page=1&page_size=12", examMocks).as("getExams");
+    cy.intercept("GET", "/exams?page=2&page_size=12", examMocks).as(
+      "getExams2"
+    );
     cy.visit("/exams");
     cy.wait("@getExams");
     pageAssertions();
-    cy.get('[data-testid="exam-card"]').should("not.exist");
+    cy.getByTestid("exam-card")
+      .first()
+      .contains(examMocks[0].title ?? "")
+      .should("be.visible");
+    cy.getByTestid("exam-card")
+      .first()
+      .contains(`Coef. ${examMocks[0].coefficient}`)
+      .should("be.visible");
+    cy.getByTestid("exam-card")
+      .first()
+      .contains(`${examMocks[0].course_assignment?.course?.code}`)
+      .should("be.visible");
+    cy.getByTestid("exam-card")
+      .first()
+      .contains(
+        `${examMocks[0].course_assignment?.groups?.map((group) => group.ref).join(", ")}`
+      )
+      .should("be.visible");
+    cy.getByTestid("exam-card")
+      .first()
+      .contains(`${examMocks[0].course_assignment?.main_teacher?.first_name}`)
+      .should("be.visible");
+    cy.getByTestid("exam-card")
+      .first()
+      .contains(`${formatDate(examMocks[0].examination_date)}`)
+      .should("be.visible");
   });
 
-  // fix me
-  it.skip("should create or update a new exam", () => {
-    const updatedExam = {
-      id: "exam-001",
-      teacher: "Mr Fiantso",
-      title: "Math Final",
-      coefficient: 3,
-      date: "2025-06-20",
-    };
-
-    cy.intercept("PUT", "/exams", (req) => {
-      expect(req.body).to.deep.equal(updatedExam);
-      req.reply({statusCode: 200, body: updatedExam});
-    }).as("putExam");
-    cy.intercept("GET", "/exams?*", [updatedExam]).as("getExamsAfterUpdate");
+  it("teacher should create or update a new exam", () => {
     cy.visit("/exams");
-    cy.getByTestid("exam-actions-btn").click();
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("create-button").click();
     cy.url().should("include", "/exams/create");
-    cy.get('input[name="teacher"]').type(updatedExam.title);
-    cy.get('input[name="title"]').type(updatedExam.title);
-    cy.get('input[name="coefficient"]').type(String(updatedExam.coefficient));
-    cy.get('input[name="examination_date"]').type(updatedExam.date);
+
+    cy.get('input[name="title"]').type(examMocks[0].title!);
+    cy.wait("@getCourseAssignments");
+
+    cy.get('input[name="coefficient"]').type(String(examMocks[0].coefficient));
+
+    cy.getByTestid("course-select").click();
+    cy.get('[role="option"]')
+      .contains(
+        `${courseAssignmentMocks[0].course.code} - ${courseAssignmentMocks[0].groups.map((group) => group.ref).join(", ")}`
+      )
+      .click();
+
+    const examDateUTC = "2025-08-01T06:30:00.000Z";
+    cy.get('input[name="examination_date"]')
+      .clear()
+      .type(getLocalDateTimeForUTC(examDateUTC));
+
     cy.get('button[type="submit"]').click();
-    cy.wait("@putExam");
-    cy.wait("@getExamsAfterUpdate");
-    cy.contains(updatedExam.title).should("be.visible");
+    cy.contains("Élément créé");
   });
 });

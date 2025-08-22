@@ -1,11 +1,12 @@
 import {useToggle} from "@/hooks";
-import {AwardedCoursesCreate} from "@/operations/awardedCourses/AwardedCourseCreate";
+import {CourseAssignmentsCreate} from "@/operations/CourseAssignments/CourseAssignmentsCreate";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {Group} from "@haapi-b0fc7615/typescript-client";
 import {Add as AddIcon, Person as PersonIcon} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {TextField} from "react-admin";
+import {FunctionField, TextField} from "react-admin";
 
 export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
   const [showCreate, _set, toggleShowCreate] = useToggle();
@@ -15,9 +16,10 @@ export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
       <HaList
         icon={<PersonIcon />}
         title="Enseignants"
-        resource="awarded-courses"
+        resource="course-assignments"
         listProps={{
           filterDefaultValues: {courseId: courseId},
+          className: "teacher-assigned-list",
         }}
         actions={
           <Box>
@@ -39,14 +41,21 @@ export const AssignedTeachersList = ({courseId}: {courseId: string}) => {
         <TextField source="main_teacher.last_name" label="Nom" />
         <TextField source="main_teacher.first_name" label="Prénom" />
         <TextField source="main_teacher.email" label="Email" />
-        <TextField source="group.ref" label="Groupe" />
+        <FunctionField
+          label="Groupe"
+          render={(record) => {
+            return record.groups
+              ? record.groups.map((group: Group) => group.ref).join(", ")
+              : "Groupe non assigné";
+          }}
+        />
       </HaList>
       <Dialog
         title="Affilier un cours à un enseignant"
         onClose={toggleShowCreate}
         open={showCreate}
       >
-        <AwardedCoursesCreate toggleShowCreate={toggleShowCreate} />
+        <CourseAssignmentsCreate toggleShowCreate={toggleShowCreate} />
       </Dialog>
     </Box>
   );

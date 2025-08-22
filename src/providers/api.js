@@ -2,16 +2,19 @@ import {getAxiosInstance} from "@/config/axios";
 import {
   AnnouncementsApi,
   CommentsApi,
+  CoursesApi,
   EventsApi,
+  ExamsApi,
   FilesApi,
+  GradesApi,
+  GroupsApi,
   HealthApi,
   LettersApi,
   MonitoringApi,
   PayingApi,
   PromotionsApi,
-  TeachingApi,
   UsersApi,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import authProvider from "./authProvider";
 
 export const usersApi = () =>
@@ -28,8 +31,18 @@ export const commentApi = () =>
     undefined,
     getAxiosInstance()
   );
-export const teachingApi = () =>
-  new TeachingApi(
+export const examApi = () =>
+  new ExamsApi(authProvider.getCachedAuthConf(), undefined, getAxiosInstance());
+
+export const gradesApi = () =>
+  new GradesApi(
+    authProvider.getCachedAuthConf(),
+    undefined,
+    getAxiosInstance()
+  );
+
+export const coursesApi = () =>
+  new CoursesApi(
     authProvider.getCachedAuthConf(),
     undefined,
     getAxiosInstance()
@@ -38,6 +51,12 @@ export const filesApi = () =>
   new FilesApi(authProvider.getCachedAuthConf(), undefined, getAxiosInstance());
 export const healthApi = () =>
   new HealthApi(
+    authProvider.getCachedAuthConf(),
+    undefined,
+    getAxiosInstance()
+  );
+export const groupsApi = () =>
+  new GroupsApi(
     authProvider.getCachedAuthConf(),
     undefined,
     getAxiosInstance()

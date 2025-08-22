@@ -1,5 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {AssignedTeachersList} from "@/operations/awardedCourses/AssignedTeachersList";
+import {AssignedTeachersList} from "@/operations/CourseAssignments/AssignedTeachersList";
 import {Show} from "@/operations/common/components";
 import {
   AccessTime as AccessTimeIcon,

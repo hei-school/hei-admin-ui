@@ -160,7 +160,7 @@ const PdfViewer = (props) => {
             flexDirection="row"
             sx={{alignItems: "center", padding: "0.2rem 0.2rem 0 0"}}
           >
-            {url && isLoadingPdf && (
+            {url && !isLoadingPdf && pages.last && (
               <HorizontalPagination
                 activeStep={pages.current}
                 maxSteps={pages.last}

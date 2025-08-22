@@ -1,7 +1,7 @@
 import {
   CrupdatePromotion,
   UpdatePromotionSGroup,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {groupsMock} from "../fixtures/api_mocks/groups-mocks";
 import {
   promotion1Mock,

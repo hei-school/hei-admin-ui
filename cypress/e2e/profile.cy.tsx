@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {admin1Mock} from "../fixtures/api_mocks/admins-mock";
 import {manager1Mock} from "../fixtures/api_mocks/managers-mocks";
 import {monitor1Mock} from "../fixtures/api_mocks/monitors-mock";

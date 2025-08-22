@@ -7,7 +7,7 @@ import {
   AttendanceStatus,
   EventParticipant,
   EventParticipantLetter,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {AttachFile, Visibility} from "@mui/icons-material";
 import {IconButton, Stack, Tooltip} from "@mui/material";
 import {FC, useState} from "react";

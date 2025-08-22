@@ -1,4 +1,4 @@
-import {CreateEvent} from "@haapi/typescript-client";
+import {CreateEvent} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {eventsApi} from "./api";
 

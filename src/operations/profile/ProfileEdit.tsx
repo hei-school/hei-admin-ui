@@ -1,5 +1,10 @@
+import authProvider from "@/providers/authProvider";
 import {User} from "@/providers/types";
-import {StaffMember, Student} from "@haapi/typescript-client";
+import {
+  StaffMember,
+  Student,
+  WhoamiRoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {FC} from "react";
 import {DateInput, SimpleForm, TextInput, maxLength} from "react-admin";
 import {useRole} from "../../security/hooks";
@@ -16,12 +21,12 @@ const userToUserApi = ({
   ...data
 }: User & Required<Student>["coordinates"] & Required<StaffMember>) => {
   const {latitude, longitude} = coordinates;
-  const {isStaffMember} = useRole();
+  const {role} = authProvider.getCachedWhoami();
+  const isStaffMember = role === WhoamiRoleEnum.STAFF_MEMBER;
 
-  if (isStaffMember() && data.ending_service) {
+  if (isStaffMember && data.ending_service) {
     data.ending_service = toUTC(new Date(data.ending_service!));
   }
-
   return {
     ...data,
     birth_date: toUTC(new Date(birth_date!)).toISOString(),

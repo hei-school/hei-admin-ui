@@ -6,7 +6,6 @@ import {
   AttachMoney as FeesIcon,
   Logout as LogoutIcon,
   Work as OtherDocsIcon,
-  CollectionsBookmark as TranscriptIcon,
   LibraryAddCheck as WorkStudyDocsIcon,
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
@@ -31,12 +30,7 @@ function StudentMenu() {
       />
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem />
-        <ListMenuItem
-          to="/docs/students/TRANSCRIPT"
-          data-testid="transcript-docs"
-          label="Bulletins"
-          icon={<TranscriptIcon />}
-        />
+
         <ListMenuItem
           to="/docs/students/WORK_DOCUMENT"
           label="Validations d'expériences professionnelles"

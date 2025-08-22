@@ -6,7 +6,7 @@ import {
   FileType,
   WhoamiRoleEnum,
   WorkDocumentInfo,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {AddOutlined, RemoveRedEye} from "@mui/icons-material";
 import {Button, Chip} from "@mui/material";
 import {FC} from "react";

@@ -1,4 +1,4 @@
-import {Admin, EnableStatus, Sex} from "@haapi/typescript-client";
+import {Admin, EnableStatus, Sex} from "@haapi-b0fc7615/typescript-client";
 
 export const adminMock: Admin[] = [
   {

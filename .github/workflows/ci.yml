@@ -14,6 +14,7 @@ env:
   REACT_APP_TEST_TEACHER1_PASSWORD: ${{ secrets.TEACHER1_PASSWORD }}
   REACT_APP_TEST_MANAGER1_PASSWORD: ${{ secrets.MANAGER1_PASSWORD }}
   REACT_APP_TEST_MONITOR1_PASSWORD: ${{ secrets.MONITOR1_PASSWORD }}
+  REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL}}
   REACT_APP_AWS_REGION: eu-west-3
   REACT_APP_USERPOOL_ID: ${{ vars.PREPROD_USERPOOL_ID }}
   REACT_APP_WEBCLIENT_ID: ${{ vars.PREPROD_WEBCLIENT_ID }}
@@ -65,7 +66,7 @@ jobs:
         run: npm run format:check
 
   test-e2e:
-    timeout-minutes: 35
+    timeout-minutes: 37
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

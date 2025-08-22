@@ -1,7 +1,7 @@
 import logoBlue from "@/assets/logo-blue.jpg";
 import logo from "@/assets/logo.jpg";
 import {PALETTE_COLORS} from "@/haTheme";
-import {Scope} from "@haapi/typescript-client";
+import {Scope} from "@haapi-b0fc7615/typescript-client";
 
 export const getBgImg = (scope: string) => {
   switch (scope) {

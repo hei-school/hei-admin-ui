@@ -3,7 +3,7 @@ import {
   Sex,
   SpecializationField,
   Student,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 
 export const studentsMock: Student[] = [
   {
@@ -421,5 +421,59 @@ export const liteCreatedStudents: Student[] = [
     status: EnableStatus.ENABLED,
     nic: "123456789012",
     birth_place: "Antananarivo",
+  },
+];
+
+export const studentLinkedToMonitorMock: Student[] = [
+  {
+    id: "student1_id",
+    ref: "STD21111",
+    first_name: "Ryan",
+    last_name: "Doe",
+    sex: Sex.M,
+    birth_date: "2000-01-01",
+    specialization_field: SpecializationField.COMMON_CORE,
+    address: "Adr 1",
+    groups: [
+      {
+        id: "group_id1",
+        name: "group_name1",
+        ref: "group_ref1",
+        size: 4,
+        creation_datetime: new Date("2024-01-28"),
+        attributed_color: "#ffffff",
+      },
+    ],
+    phone: "0322411123",
+    email: "test+ryan@hei.school",
+    entrance_datetime: new Date("2021-11-08T08:25:24Z"),
+    status: EnableStatus.ENABLED,
+    nic: "123456789012",
+    birth_place: "Antananarivo",
+  },
+  {
+    id: "student2_id",
+    ref: "STD00025",
+    first_name: "Twenty",
+    last_name: "Student",
+    email: "userSTD000025@hei.school",
+    sex: Sex.M,
+    birth_date: "08-06-05",
+    address: "address",
+    phone: "236542132",
+    entrance_datetime: new Date("2023-03-03"),
+    status: EnableStatus.ENABLED,
+    nic: "901234567890",
+    birth_place: "Antananarivo",
+    groups: [
+      {
+        id: "group_id2",
+        name: "group_name2",
+        ref: "group_ref2",
+        size: 4,
+        creation_datetime: new Date("2024-01-28"),
+        attributed_color: "#fe0000",
+      },
+    ],
   },
 ];

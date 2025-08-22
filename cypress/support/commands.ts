@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import {Whoami, WhoamiRoleEnum} from "@haapi/typescript-client";
+import {Whoami, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import "cypress-file-upload";
 import {getUserConnected} from "../fixtures/api_mocks/authentification-mocks";
 import {LoginConfig} from "./global";
