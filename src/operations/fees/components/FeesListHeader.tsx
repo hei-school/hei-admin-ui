@@ -190,14 +190,14 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
           <FileInput
             source="mpbsFile"
             label=" "
-            accept=".xlsx, .xls,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+            accept=".xls,application/vnd.ms-excel"
             sx={FILE_FIELD_STYLE}
             options={{
               onDropAccepted: () => setFileUploaded(true),
               onDropRejected: () => {
                 setFileUploaded(false);
                 notify(
-                  "Mauvais format de fichier. Seuls les fichiers .xlsx et .xls sont acceptés.",
+                  "Mauvais format de fichier. Seuls les fichiers .xls sont acceptés.",
                   {type: "warning"}
                 );
               },
