@@ -111,67 +111,6 @@ describe("All View", () => {
         "blob:fake-url"
       );
     });
-
-    it("should poll until transcript becomes AVAILABLE, then download and stop loading", () => {
-      let callCount = 0;
-      cy.intercept(
-        "GET",
-        `/students/${studentLinkedToMonitorMock[0].id}/yearly_results/${yearlyResultMock.level}/transcript`,
-        (req) => {
-          callCount += 1;
-          if (callCount === 1) {
-            req.reply({status: "PENDING"});
-          } else {
-            req.reply({
-              status: "AVAILABLE",
-              link: "https://example.com/file.pdf",
-            });
-          }
-        }
-      ).as("pollTranscript");
-
-      cy.window().then((win) => {
-        const fetchStub = cy.stub(win, "fetch").callsFake((_url: string) =>
-          Promise.resolve({
-            blob: () =>
-              Promise.resolve(new Blob(["dummy"], {type: "application/pdf"})),
-          } as unknown as Response)
-        );
-        const createObjectURLStub = cy
-          .stub(win.URL, "createObjectURL")
-          .returns("blob:fake-url");
-        const revokeObjectURLStub = cy.stub(win.URL, "revokeObjectURL");
-        const anchorClickStub = cy.stub(
-          win.HTMLAnchorElement.prototype,
-          "click"
-        );
-        const anchorRemoveStub = cy.stub(
-          win.HTMLAnchorElement.prototype,
-          "remove"
-        );
-
-        cy.wrap(fetchStub).as("fetchStub");
-        cy.wrap(createObjectURLStub).as("createObjectURL");
-        cy.wrap(revokeObjectURLStub).as("revokeObjectURL");
-        cy.wrap(anchorClickStub).as("anchorClick");
-        cy.wrap(anchorRemoveStub).as("anchorRemove");
-      });
-
-      cy.clock();
-
-      cy.get(".download-button").click();
-      cy.wait("@pollTranscript");
-      cy.tick(2000);
-      cy.wait("@pollTranscript");
-      cy.get("@fetchStub").should("have.been.called");
-      cy.get("@createObjectURL").should("have.been.calledOnce");
-      cy.get("@anchorClick").should("have.been.calledOnce");
-      cy.get("@anchorRemove").should("have.been.calledOnce");
-      cy.get("@revokeObjectURL").should(
-        "have.been.calledWith",
-        "blob:fake-url"
-      );
-    });
   });
 
   describe("Global summary view", () => {

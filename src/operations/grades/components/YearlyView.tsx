@@ -202,7 +202,11 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
               onChange={handleViewType}
               aria-label="view type"
             >
-              <ToggleButton value="GRID" aria-label="grid view">
+              <ToggleButton
+                value="GRID"
+                aria-label="grid view"
+                data-testid="grid-view-toggle"
+              >
                 <Apps />
               </ToggleButton>
               <ToggleButton
