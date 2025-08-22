@@ -5,7 +5,7 @@ import {Box, Typography, useMediaQuery} from "@mui/material";
 import {PALETTE_COLORS} from "@/haTheme";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
-import {Group, RoleParamEnum} from "@haapi/typescript-client";
+import {Group, RoleParamEnum} from "@haapi-b0fc7615/typescript-client";
 import {FC} from "react";
 import {Informations} from "./profilContent/InformationContent";
 import {ProfileCardAvatar} from "./profilContent/ProfilCardAvatar";

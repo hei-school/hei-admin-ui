@@ -28,7 +28,7 @@ import {
   StaffMember,
   Student,
   Teacher,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 
 const HEI_CALENDAR_URL = `https://admin.hei.school/calendar`;
 

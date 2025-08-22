@@ -1,7 +1,7 @@
 import {
   CourseResultStatus,
   ResultOverviewStatus,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {Chip, keyframes} from "@mui/material";
 import {styled} from "@mui/material/styles";
 

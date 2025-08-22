@@ -4,7 +4,11 @@ import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {AutocompleteArrayInput} from "@/ui/components/inputs";
 import {mapToChoices} from "@/utils";
 import {EventInput} from "@fullcalendar/react";
-import {EventType, Group, GroupIdentifier} from "@haapi/typescript-client";
+import {
+  EventType,
+  Group,
+  GroupIdentifier,
+} from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {FC, useEffect} from "react";
 import {

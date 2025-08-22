@@ -1,5 +1,5 @@
 import {ToRaRecord} from "@/providers/types";
-import {ResultSummary} from "@haapi/typescript-client";
+import {ResultSummary} from "@haapi-b0fc7615/typescript-client";
 import {
   Cancel,
   CheckCircleOutline,

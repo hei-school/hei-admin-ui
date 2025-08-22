@@ -1,4 +1,4 @@
-import {Announcement, Scope} from "@haapi/typescript-client";
+import {Announcement, Scope} from "@haapi-b0fc7615/typescript-client";
 
 export const announcementsMock: Announcement[] = [
   {

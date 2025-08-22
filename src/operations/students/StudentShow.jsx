@@ -3,7 +3,7 @@ import {Show} from "@/operations/common/components/Show";
 import {DocMenu} from "@/operations/students/components/DocMenu";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Edit as EditIcon} from "@mui/icons-material";
 import {EditButton, useRecordContext} from "react-admin";
 

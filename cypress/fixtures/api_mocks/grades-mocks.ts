@@ -2,7 +2,7 @@ import {
   CourseResult,
   StudentLevel,
   YearlyResult,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 
 export const yearlyResultMock: YearlyResult = {
   weighted_average: 14.5,

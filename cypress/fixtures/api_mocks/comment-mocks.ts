@@ -1,4 +1,4 @@
-import {Comment} from "@haapi/typescript-client";
+import {Comment} from "@haapi-b0fc7615/typescript-client";
 import {manager1Mock, managersMock} from "./managers-mocks";
 import {student1Mock, studentsMock} from "./students-mocks";
 import {teacher1Mock, teachersMock} from "./teachers-mocks";

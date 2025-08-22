@@ -1,4 +1,4 @@
-import {CourseResult, YearlyResult} from "@haapi/typescript-client";
+import {CourseResult, YearlyResult} from "@haapi-b0fc7615/typescript-client";
 import {ExpandMore, Lock, Star} from "@mui/icons-material";
 import {
   Accordion,
@@ -21,12 +21,6 @@ import {FC} from "react";
 import {getCourseStatusLabel} from "../utils";
 import {StatusChips} from "../utils/StatusChip";
 
-const LOCKING = {
-  L1: 2,
-  L2: 3,
-  L3: 4,
-};
-
 export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
   yearlyResult,
 }) => {
@@ -39,10 +33,7 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
   return (
     <Box>
       {yearlyResult.map((details, index) => {
-        const lockKey = `L${details.level}` as keyof typeof LOCKING;
-        const isLocked =
-          yearlyResult.length === 0 || yearlyResult.length < LOCKING[lockKey];
-
+        const isLocked = details?.status === "NOT_STARTED";
         return (
           <Grid
             container
@@ -158,7 +149,7 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
                   <Grid container spacing={2} sx={{mb: 2}}>
                     <Grid item xs={6}>
                       <Typography data-testid="yearly-result-average">
-                        Moyenne: {details?.weighted_average!.toFixed(2)}
+                        Moyenne: {details?.weighted_average?.toFixed(2)}
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>

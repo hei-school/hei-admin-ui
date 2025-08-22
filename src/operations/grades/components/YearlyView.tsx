@@ -1,3 +1,4 @@
+import {useNotify} from "@/hooks";
 import {CoursesListView} from "@/operations/grades/components/CoursesListView";
 import {TranscriptOverview} from "@/operations/grades/components/TranscriptOverview";
 import {StudentLevel, ViewType} from "@/operations/grades/types/types";
@@ -5,7 +6,7 @@ import {levelChoices} from "@/operations/grades/utils";
 import {getGradeColor} from "@/operations/grades/utils/getGradeColor";
 import dataProvider from "@/providers/dataProvider";
 import {ToRaRecord} from "@/providers/types";
-import {YearlyResult} from "@haapi/typescript-client";
+import {YearlyResult} from "@haapi-b0fc7615/typescript-client";
 import {Apps, Download, List, School} from "@mui/icons-material";
 import {
   Box,
@@ -27,7 +28,8 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
     StudentLevel.L1
   );
   const [loading, setLoading] = useState(false);
-  const [viewType, setViewType] = useState<ViewType>("GRID");
+  const [viewType, setViewType] = useState<ViewType>("LIST");
+  const notify = useNotify();
 
   const handleViewType = (
     _: React.MouseEvent<HTMLElement>,
@@ -67,38 +69,27 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
     {refetchOnWindowFocus: false}
   );
 
-  const checkFileStatus = async () => {
-    const res = await dataProvider.getOne("grades-details", {
-      id: studentId || "",
-      meta: {studentLevel: selectedLevel},
-    });
-    return res;
-  };
-
-  const tryDownload = async () => {
-    const res = await checkFileStatus();
-    const status = res.data?.status;
-    const link = res.data?.link;
-
-    if (status === "AVAILABLE" && link) {
-      await downloadFile(link, `Relevé des notes ${selectedLevel}.pdf`);
-      return true;
-    }
-    return false;
-  };
-
   const handleDownload = async () => {
     setLoading(true);
-    const success = await tryDownload();
-    if (!success) {
-      const interval = setInterval(async () => {
-        const ready = await tryDownload();
-        if (ready) {
-          clearInterval(interval);
-          setLoading(false);
-        }
-      }, 2000);
-    } else {
+
+    try {
+      const res = await dataProvider.getOne("grades-details", {
+        id: studentId || "",
+        meta: {studentLevel: selectedLevel},
+      });
+
+      const status = res.data?.status;
+      const link = res.data?.link;
+
+      if (status === "AVAILABLE" && link) {
+        await downloadFile(link, `Relevé des notes ${selectedLevel}.pdf`);
+      } else {
+        notify("Le fichier n'est pas disponible", {type: "warning"});
+      }
+    } catch (error) {
+      console.error("Download error:", error);
+      notify("Erreur lors du téléchargement", {type: "error"});
+    } finally {
       setLoading(false);
     }
   };

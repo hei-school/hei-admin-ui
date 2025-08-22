@@ -1,4 +1,4 @@
-import {Event} from "@haapi/typescript-client";
+import {Event} from "@haapi-b0fc7615/typescript-client";
 import {courseMock1} from "./course-mocks";
 export const calendarMock: Event[] = [
   {

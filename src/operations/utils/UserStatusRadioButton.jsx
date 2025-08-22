@@ -1,4 +1,4 @@
-import {EnableStatus} from "@haapi/typescript-client";
+import {EnableStatus} from "@haapi-b0fc7615/typescript-client";
 import {RadioButtonGroupInput} from "react-admin";
 
 export const StatusRadioButton = (props) => (

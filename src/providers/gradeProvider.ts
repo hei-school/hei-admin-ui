@@ -1,6 +1,5 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {gradesApi} from "@/providers/api";
-import {CrupdateGrade} from "@haapi/typescript-client";
 import {v4 as uuid} from "uuid";
 
 const gradeProvider: HaDataProviderType = {
@@ -13,16 +12,12 @@ const gradeProvider: HaDataProviderType = {
   },
   getOne: async (id: string, meta = {}) => {
     const {studentLevel} = meta;
-    const studentId = id;
-
     return gradesApi()
-      .getYearlyResult(studentId, studentLevel)
+      .getYearlyResult(id, studentLevel)
       .then((response) => ({id: uuid(), ...response.data}));
   },
-  async saveOrUpdate(payload: CrupdateGrade, meta: Record<string, any> = {}) {
-    return gradesApi()
-      .crupdateParticipantGrade(meta?.examId, meta?.studentId, payload)
-      .then(({data}) => ({data}));
+  saveOrUpdate() {
+    throw new Error("Not implemented");
   },
   delete() {
     throw new Error("Not implemented");

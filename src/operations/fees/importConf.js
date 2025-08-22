@@ -1,4 +1,8 @@
-import {FeeCategory, FeeFrequency, FeeTypeEnum} from "@haapi/typescript-client";
+import {
+  FeeCategory,
+  FeeFrequency,
+  FeeTypeEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {excelDateToJsDate, validateData} from "../../ui/haToolbar";
 
 export const minimalFeesHeaders = [

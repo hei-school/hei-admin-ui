@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {formatDate} from "@/utils/date";
-import {Exam} from "@haapi/typescript-client";
+import {Exam} from "@haapi-b0fc7615/typescript-client";
 import {
   ImportContactsOutlined as BookIcon,
   PeopleOutline as GroupIcon,

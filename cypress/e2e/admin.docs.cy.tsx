@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {newOtherrDoc, otherDocsMocks} from "../fixtures/api_mocks/docs-mocks";
 import {teacher1Mock, teachersMock} from "../fixtures/api_mocks/teachers-mocks";
 

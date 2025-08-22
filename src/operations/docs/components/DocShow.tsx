@@ -3,7 +3,7 @@ import PdfViewer from "@/operations/common/components/PdfViewer";
 import {ToRaRecord} from "@/operations/common/utils/types.ts";
 import {useViewType} from "@/operations/docs/hooks/useViewType";
 import type {OwnerType} from "@/operations/docs/types";
-import {FileInfo} from "@haapi/typescript-client";
+import {FileInfo} from "@haapi-b0fc7615/typescript-client";
 import {Container} from "@mui/material";
 import {FC} from "react";
 import {useGetOne} from "react-admin";

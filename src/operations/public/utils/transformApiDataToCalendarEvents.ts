@@ -1,4 +1,4 @@
-import {Group} from "@haapi/typescript-client";
+import {Group} from "@haapi-b0fc7615/typescript-client";
 
 const typeTranslations: Record<string, string> = {
   COURSE: "Cours",

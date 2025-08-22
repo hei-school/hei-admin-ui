@@ -1,5 +1,5 @@
 import {ToRaRecord} from "@/providers/types";
-import {CourseResult, Grade} from "@haapi/typescript-client";
+import {CourseResult, Grade} from "@haapi-b0fc7615/typescript-client";
 import {ExpandMore as ExpandMoreIcon} from "@mui/icons-material";
 import {
   Box,

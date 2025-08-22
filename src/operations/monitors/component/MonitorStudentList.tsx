@@ -2,7 +2,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
 import {CreateButton} from "@/ui/haToolbar";
-import {Group} from "@haapi/typescript-client";
+import {Group} from "@haapi-b0fc7615/typescript-client";
 import {GroupOutlined} from "@mui/icons-material";
 import {Avatar} from "@mui/material";
 import {FunctionField, ShowButton, TextField} from "react-admin";

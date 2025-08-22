@@ -1,6 +1,6 @@
 import {EmptyListComponent} from "@/operations/common/components/EmptyListComponent";
 import {ToRaRecord} from "@/providers/types";
-import {CourseResult} from "@haapi/typescript-client";
+import {CourseResult} from "@haapi-b0fc7615/typescript-client";
 import {
   Box,
   Card,

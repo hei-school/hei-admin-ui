@@ -16,7 +16,7 @@ import {
 } from "react-admin";
 import {useFormContext} from "react-hook-form";
 
-import {FeeCategory, FeeFrequency} from "@haapi/typescript-client";
+import {FeeCategory, FeeFrequency} from "@haapi-b0fc7615/typescript-client";
 import {useStudentRef} from "../../hooks/useStudentRef";
 import {payingApi} from "../../providers/api";
 import {toApiIds} from "../../providers/feeProvider";

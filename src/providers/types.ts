@@ -4,7 +4,7 @@ import {
   Monitor,
   Student,
   Teacher,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {Identifier} from "react-admin";
 
 export interface Doc {

@@ -1,4 +1,4 @@
-import {ResultSummary} from "@haapi/typescript-client";
+import {ResultSummary} from "@haapi-b0fc7615/typescript-client";
 import {yearlyResultL2Mock, yearlyResultMock} from "./grades-mocks";
 
 export const summaryResultMocks: ResultSummary = {

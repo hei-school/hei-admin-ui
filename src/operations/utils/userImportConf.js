@@ -1,4 +1,7 @@
-import {EnableStatus, SpecializationField} from "@haapi/typescript-client";
+import {
+  EnableStatus,
+  SpecializationField,
+} from "@haapi-b0fc7615/typescript-client";
 import {excelDateToJsDate, validateData} from "../../ui/haToolbar";
 
 export const minimalUserHeaders = [

@@ -1,5 +1,5 @@
 import {toISO} from "@/utils/date";
-import {StaffMember} from "@haapi/typescript-client";
+import {StaffMember} from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
 import {Create, CreateGeoLocalisation} from "../common/components";

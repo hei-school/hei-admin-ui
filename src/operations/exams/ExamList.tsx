@@ -9,7 +9,7 @@ import {ResponsiveGrid} from "@/ui/components";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateButton} from "@/ui/haToolbar";
-import {Exam} from "@haapi/typescript-client";
+import {Exam} from "@haapi-b0fc7615/typescript-client";
 
 export const ExamList = () => {
   const {isManager, isAdmin, isTeacher} = useRole();

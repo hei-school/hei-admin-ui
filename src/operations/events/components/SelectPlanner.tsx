@@ -1,7 +1,7 @@
 import authProvider from "@/providers/authProvider";
 import dataProvider, {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {AutocompleteInput} from "@/ui/components/inputs";
-import {Teacher} from "@haapi/typescript-client";
+import {Teacher} from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
 import {BooleanInput, required} from "react-admin";

@@ -3,7 +3,7 @@ import {ResponsiveGrid} from "@/ui/components";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {CreateButton} from "@/ui/haToolbar";
-import {Announcement, Scope} from "@haapi/typescript-client";
+import {Announcement, Scope} from "@haapi-b0fc7615/typescript-client";
 import {
   Newspaper as AnnouncementIcon,
   FilterList,

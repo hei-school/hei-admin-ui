@@ -27,7 +27,7 @@ import {
   LetterStatus,
   MobileMoneyType,
   MpbsStatus,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {
   AddCard as AddMbpsIcon,
   Payment as PayIcon,
