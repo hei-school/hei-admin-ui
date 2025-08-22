@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {
   courseResultsMock,
   emptyYearlyResultMock,
@@ -82,6 +82,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
     });
 
     it("should handle course grid view ", () => {
+      cy.getByTestid("grid-view-toggle").click();
       cy.getByTestid("course-result-card").should("exist");
       cy.getByTestid("course-result-card")
         .first()
@@ -93,7 +94,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
         .contains(`${courseResultsMock[0]?.weighted_average?.toFixed(2)}/20`);
       cy.getByTestid("course-result-card")
         .first()
-        .contains(`${courseResultsMock[0]?.course?.credits} crédits ECTS`);
+        .contains(`${courseResultsMock[0]?.course?.credits} crédits`);
     });
 
     it("should handle course list view ", () => {
@@ -131,6 +132,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
 
   describe("Test level filter and view type toggle", () => {
     it("should filter courses to L2", () => {
+      cy.getByTestid("grid-view-toggle").click();
       cy.getByTestid("level-select").click();
       cy.get('[data-value="L2"]').click();
       cy.wait("@getYearlyResults2");
@@ -156,11 +158,13 @@ describe("GradesDashboard Component - Extended Tests", () => {
       cy.getByTestid("course-result-card")
         .first()
         .contains(
-          `${yearlyResultL2Mock?.course_results?.[0]?.course?.credits} crédits ECTS`
+          `${yearlyResultL2Mock?.course_results?.[0]?.course?.credits} crédits`
         );
     });
 
     it("should filter courses to L3", () => {
+      cy.getByTestid("grid-view-toggle").click();
+
       cy.getByTestid("level-select").click();
       cy.get('[data-value="L3"]').click();
       cy.wait("@getYearlyResults3");
@@ -186,7 +190,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       cy.getByTestid("course-result-card")
         .first()
         .contains(
-          `${yearlyResultL3Mock?.course_results?.[0]?.course?.credits} crédits ECTS`
+          `${yearlyResultL3Mock?.course_results?.[0]?.course?.credits} crédits`
         );
     });
   });
@@ -248,6 +252,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       ).as("getCourseResults");
     });
     it("should display grades details", () => {
+      cy.getByTestid("grid-view-toggle").click();
       cy.getByTestid("toggle-details-button").first().click();
       cy.getByTestid("grades-details").should("be.visible");
       cy.getByTestid("grades-details-row").should(
@@ -292,6 +297,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       ).as("getCourseResults");
     });
     it("should display empty state when no grades are available", () => {
+      cy.getByTestid("grid-view-toggle").click();
       cy.getByTestid("toggle-details-button").first().click();
       cy.wait("@getCourseResults");
       cy.contains("Aucune note trouvée");

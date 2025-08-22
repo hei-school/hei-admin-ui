@@ -33,7 +33,7 @@ import {
   AdvancedFeesStatistics,
   Announcement,
   Fee,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {BadgeDollarSign, BellDot, ExternalLink, UserRoundX} from "lucide-react";
 import {CommentContent} from "./common/CommentContent";

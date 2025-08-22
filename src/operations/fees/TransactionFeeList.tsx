@@ -2,7 +2,7 @@ import {getMonthFilters} from "@/providers/utils";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {formatDate} from "@/utils/date";
-import {Fee} from "@haapi/typescript-client";
+import {Fee} from "@haapi-b0fc7615/typescript-client";
 import {Download, CurrencyExchange as Money} from "@mui/icons-material";
 import {Box, Chip} from "@mui/material";
 import {useState} from "react";

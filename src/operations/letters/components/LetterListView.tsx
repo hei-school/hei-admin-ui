@@ -1,7 +1,7 @@
 import {BulkActions, LetterItem} from "@/operations/letters/components";
 import {useRole} from "@/security/hooks";
 import {EmptyList, ResponsiveGrid} from "@/ui/components";
-import {Letter} from "@haapi/typescript-client";
+import {Letter} from "@haapi-b0fc7615/typescript-client";
 import {Box, CircularProgress} from "@mui/material";
 import {FC, useState} from "react";
 import {useListContext} from "react-admin";

@@ -1,4 +1,4 @@
-import {EnableStatus, Exam, Sex} from "@haapi/typescript-client";
+import {EnableStatus, Exam, Sex} from "@haapi-b0fc7615/typescript-client";
 import {courseMocks} from "./course-mocks";
 import {group1Mock} from "./groups-mocks";
 import {teachersMock} from "./teachers-mocks";

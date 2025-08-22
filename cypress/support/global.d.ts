@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {UserConnected} from "../fixtures/authentification-mocks";
 
 export type LoginConfig = Partial<UserConnected> & {

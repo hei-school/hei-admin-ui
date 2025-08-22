@@ -14,7 +14,7 @@ import {
   PayingApi,
   PromotionsApi,
   UsersApi,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import authProvider from "./authProvider";
 
 export const usersApi = () =>

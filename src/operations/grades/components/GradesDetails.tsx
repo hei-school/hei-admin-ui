@@ -1,5 +1,5 @@
 import {ToRaRecord} from "@/providers/types";
-import {CourseResult, Grade} from "@haapi/typescript-client";
+import {CourseResult, Grade} from "@haapi-b0fc7615/typescript-client";
 import {ExpandMore as ExpandMoreIcon} from "@mui/icons-material";
 import {
   Box,
@@ -21,6 +21,7 @@ import {
 } from "@mui/material";
 import {FC, useState} from "react";
 import {useGetList} from "react-admin";
+import {getCourseStatusLabel} from "../utils";
 import {getGradeColor} from "../utils/getGradeColor";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
 import {StatusChip} from "../utils/StatusChip";
@@ -64,12 +65,12 @@ export const GradesDetails: FC<{
               </Typography>
               <Box display="flex" alignItems="center" gap={2} mt={1}>
                 <Chip
-                  label={`${courseResult.course?.credits!} crédits ECTS`}
+                  label={`${courseResult.course?.credits!} crédits`}
                   size="small"
                   sx={{fontWeight: "medium"}}
                 />
                 <StatusChip
-                  label={chipProps.label}
+                  label={getCourseStatusLabel(courseResult?.status!)}
                   size="small"
                   status={courseResult?.status!}
                   color={chipProps.color}

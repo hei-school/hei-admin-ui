@@ -1,4 +1,8 @@
-import {EnableStatus, Sex, StudentGrade} from "@haapi/typescript-client";
+import {
+  EnableStatus,
+  Sex,
+  StudentGrade,
+} from "@haapi-b0fc7615/typescript-client";
 
 export const examGradeMocks: StudentGrade[] = [
   {

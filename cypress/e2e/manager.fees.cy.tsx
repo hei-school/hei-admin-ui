@@ -1,4 +1,4 @@
-import {FeeTypeEnum} from "@haapi/typescript-client";
+import {FeeTypeEnum} from "@haapi-b0fc7615/typescript-client";
 import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
 import {
   annual1xTemplate,

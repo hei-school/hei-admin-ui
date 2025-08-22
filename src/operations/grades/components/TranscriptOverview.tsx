@@ -11,12 +11,12 @@ import {
 } from "@mui/material";
 import {FC} from "react";
 
-import {YearlyResult} from "@haapi/typescript-client";
+import {YearlyResult} from "@haapi-b0fc7615/typescript-client";
 import {School} from "@mui/icons-material";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
 
 export const TranscriptOverview: FC<{
-  result: YearlyResult;
+  result: YearlyResult | undefined;
   isLoading: boolean;
   error: unknown;
 }> = ({result, error, isLoading}) => {
@@ -136,7 +136,7 @@ export const TranscriptOverview: FC<{
                 alignItems="center"
               >
                 <Typography variant="body1" color="text.secondary">
-                  Crédits ECTS
+                  Crédits
                 </Typography>
                 <Typography
                   variant="h6"

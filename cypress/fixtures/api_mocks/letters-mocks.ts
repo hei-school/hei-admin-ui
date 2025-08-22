@@ -1,4 +1,8 @@
-import {Letter, LetterStats, LetterStatus} from "@haapi/typescript-client";
+import {
+  Letter,
+  LetterStats,
+  LetterStatus,
+} from "@haapi-b0fc7615/typescript-client";
 import {teacher1Mock} from "../api_mocks/teachers-mocks";
 import {student1Mock, studentsMock} from "./students-mocks";
 

@@ -1,4 +1,4 @@
-import {StaffMember, WhoamiRoleEnum} from "@haapi/typescript-client";
+import {StaffMember, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {lettersMocks, statsMocks} from "../fixtures/api_mocks/letters-mocks";
 import {
   staffCreatedMock,

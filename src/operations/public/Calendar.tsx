@@ -17,7 +17,7 @@ import {
 } from "@/operations/public/utils";
 
 import {toISO} from "@/utils/date";
-import {Event} from "@haapi/typescript-client";
+import {Event} from "@haapi-b0fc7615/typescript-client";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import axios from "axios";
 import "react-big-calendar/lib/css/react-big-calendar.css";

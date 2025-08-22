@@ -1,4 +1,4 @@
-import {StudentLevel} from "@haapi/typescript-client";
+import {StudentLevel} from "@haapi-b0fc7615/typescript-client";
 
 export const LEVELS_CHOICES = [
   {id: StudentLevel.L1, name: "L1"},

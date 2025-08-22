@@ -1,4 +1,4 @@
-import {Promotion} from "@haapi/typescript-client";
+import {Promotion} from "@haapi-b0fc7615/typescript-client";
 import {groupsMock} from "./groups-mocks";
 
 export const promotionsMock: Required<Promotion>[] = [

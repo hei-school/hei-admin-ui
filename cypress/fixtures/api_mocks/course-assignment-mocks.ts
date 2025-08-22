@@ -1,4 +1,8 @@
-import {CourseAssignment, EnableStatus, Sex} from "@haapi/typescript-client";
+import {
+  CourseAssignment,
+  EnableStatus,
+  Sex,
+} from "@haapi-b0fc7615/typescript-client";
 
 export const CourseAssignmentMock: Required<CourseAssignment>[] = [
   {

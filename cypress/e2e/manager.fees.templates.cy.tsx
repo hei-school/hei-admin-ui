@@ -1,4 +1,4 @@
-import {FeeTemplate} from "@haapi/typescript-client";
+import {FeeTemplate} from "@haapi-b0fc7615/typescript-client";
 import {
   feesTemplates1Mock,
   feesTemplatesMocks,

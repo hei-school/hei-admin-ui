@@ -1,4 +1,4 @@
-import {StaffMember as Staff} from "@haapi/typescript-client";
+import {StaffMember as Staff} from "@haapi-b0fc7615/typescript-client";
 
 export const staffMock: Staff[] = [
   {

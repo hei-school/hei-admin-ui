@@ -1,6 +1,6 @@
 import {getMonthFilters} from "@/providers/utils";
 import {HaList} from "@/ui/haList/HaList";
-import {Fee, FeeStatusEnum} from "@haapi/typescript-client";
+import {Fee, FeeStatusEnum} from "@haapi-b0fc7615/typescript-client";
 import {Download} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {useState} from "react";

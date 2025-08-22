@@ -1,4 +1,4 @@
-import {EventAttendance} from "@haapi/typescript-client";
+import {EventAttendance} from "@haapi-b0fc7615/typescript-client";
 
 type EventAttendanceWithId = EventAttendance & {id: string};
 

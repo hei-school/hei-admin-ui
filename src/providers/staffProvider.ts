@@ -1,4 +1,4 @@
-import {StaffMember} from "@haapi/typescript-client";
+import {StaffMember} from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 

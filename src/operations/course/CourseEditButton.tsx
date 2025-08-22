@@ -1,7 +1,7 @@
 import {useNotify, useToggle} from "@/hooks";
 import {Edit} from "@/operations/common/components";
 import {Dialog} from "@/ui/components";
-import {Course} from "@haapi/typescript-client";
+import {Course} from "@haapi-b0fc7615/typescript-client";
 import {Create as EditIcon} from "@mui/icons-material";
 import {
   Button,

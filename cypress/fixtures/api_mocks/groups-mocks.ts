@@ -4,7 +4,7 @@ import {
   GroupFlow,
   GroupFlowMoveTypeEnum,
   Student,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {studentsMock} from "./students-mocks";
 
 export const groupsMock: Required<Group>[] = [

@@ -3,7 +3,7 @@ import {
   FeeStatusEnum,
   Sex,
   WhoamiRoleEnum,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 
 export function getGenderInFr(sex) {
   switch (sex) {

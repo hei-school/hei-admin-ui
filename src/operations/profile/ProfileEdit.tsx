@@ -1,6 +1,10 @@
 import authProvider from "@/providers/authProvider";
 import {User} from "@/providers/types";
-import {StaffMember, Student, WhoamiRoleEnum} from "@haapi/typescript-client";
+import {
+  StaffMember,
+  Student,
+  WhoamiRoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {FC} from "react";
 import {DateInput, SimpleForm, TextInput, maxLength} from "react-admin";
 import {useRole} from "../../security/hooks";

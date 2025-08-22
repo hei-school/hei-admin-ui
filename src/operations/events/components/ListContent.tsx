@@ -5,7 +5,10 @@ import dataProvider from "@/providers/dataProvider";
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
 import {ButtonBase} from "@/ui/haToolbar";
-import {AttendanceStatus, EventParticipant} from "@haapi/typescript-client";
+import {
+  AttendanceStatus,
+  EventParticipant,
+} from "@haapi-b0fc7615/typescript-client";
 import {
   Add,
   CheckCircleOutline,

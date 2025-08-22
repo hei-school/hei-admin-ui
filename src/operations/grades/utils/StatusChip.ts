@@ -1,9 +1,12 @@
-import {CourseResultStatus} from "@haapi/typescript-client";
-import {Chip} from "@mui/material";
+import {
+  CourseResultStatus,
+  ResultOverviewStatus,
+} from "@haapi-b0fc7615/typescript-client";
+import {Chip, keyframes} from "@mui/material";
 import {styled} from "@mui/material/styles";
 
 interface StatusChipProps {
-  status: CourseResultStatus;
+  status: CourseResultStatus | ResultOverviewStatus | string;
   label?: string;
 }
 
@@ -51,5 +54,46 @@ export const StatusChip = styled(Chip, {
     "& .MuiChip-label": {
       padding: "0 8px",
     },
+  };
+});
+
+const pulse = keyframes`
+  0% { box-shadow: 0 0 0 0 rgba(255, 142, 83, 0.7); }
+  70% { box-shadow: 0 0 0 10px rgba(255, 142, 83, 0); }
+  100% { box-shadow: 0 0 0 0 rgba(255, 142, 83, 0); }
+`;
+
+export const StatusChips = styled(Chip, {
+  shouldForwardProp: (prop) => prop !== "status",
+})<StatusChipProps>(({theme, status}) => {
+  let styles = {
+    backgroundColor: theme.palette.grey[300],
+    color: theme.palette.grey[800],
+    animation: `${pulse} 2s infinite`,
+  };
+
+  if (status === "VALIDATED") {
+    styles = {
+      backgroundColor: theme.palette.success.light,
+      color: "white",
+      animation: `${pulse} 2s infinite`,
+    };
+  } else if (status === "IN_PROGRESS") {
+    styles = {
+      backgroundColor: theme.palette.warning.light,
+      color: "white",
+      animation: `${pulse} 2s infinite`,
+    };
+  } else if (status === "INVALIDATED") {
+    styles = {
+      backgroundColor: theme.palette.error.light,
+      color: "white",
+      animation: `${pulse} 2s infinite`,
+    };
+  }
+
+  return {
+    ...styles,
+    fontWeight: "bold",
   };
 });

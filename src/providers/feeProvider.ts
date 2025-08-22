@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import authProvider from "./authProvider";

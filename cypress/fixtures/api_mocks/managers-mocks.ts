@@ -1,4 +1,4 @@
-import {EnableStatus, Manager, Sex} from "@haapi/typescript-client";
+import {EnableStatus, Manager, Sex} from "@haapi-b0fc7615/typescript-client";
 
 export const managersMock: Manager[] = [
   {

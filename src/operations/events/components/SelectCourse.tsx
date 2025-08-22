@@ -1,6 +1,6 @@
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {AutocompleteInput} from "@/ui/components/inputs";
-import {EventType} from "@haapi/typescript-client";
+import {EventType} from "@haapi-b0fc7615/typescript-client";
 import {required, useGetList} from "react-admin";
 import {useWatch} from "react-hook-form";
 

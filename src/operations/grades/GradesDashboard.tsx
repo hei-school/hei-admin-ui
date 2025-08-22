@@ -1,185 +1,113 @@
-import {Apps, List, School} from "@mui/icons-material";
+import {GlobalSummaryView} from "@/operations/grades/components/GlobalSummaryView";
+import {YearlyView} from "@/operations/grades/components/YearlyView";
+import {NewViewType} from "@/operations/grades/types/types";
 import {
-  Box,
-  Chip,
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Paper,
-  Select,
-  ToggleButton,
-  ToggleButtonGroup,
-  Typography,
-} from "@mui/material";
-import {FC, useState} from "react";
-import {useGetOne} from "react-admin";
+  GlassCard,
+  StyledToggleButton,
+  StyledToggleButtonGroup,
+} from "@/operations/grades/utils/utils";
+import {AutoGraph, School} from "@mui/icons-material";
+import {Box, Fade, Typography} from "@mui/material";
+import {FC, useEffect, useState} from "react";
 import {useParams} from "react-router-dom";
-import {CoursesListView} from "./components/CoursesListView";
-import {TranscriptOverview} from "./components/TranscriptOverview";
-import {StudentLevel, ViewType} from "./types/types";
-import {levelChoices} from "./utils";
-import {getGradeColor} from "./utils/getGradeColor";
 
 export const GradesOverview: FC = () => {
+  const [view, setView] = useState<NewViewType>("YEARLY");
+  const [mounted, setMounted] = useState(false);
   const {id: studentId} = useParams();
 
-  const [selectedLevel, setSelectedLevel] = useState<StudentLevel>(
-    StudentLevel.L1
-  );
-  const [viewType, setViewType] = useState<ViewType>("GRID");
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
-  const handleViewType = (
+  const handleViewChange = (
     _: React.MouseEvent<HTMLElement>,
-    newViewType: ViewType | null
+    newView: NewViewType | null
   ) => {
-    if (newViewType !== null) {
-      setViewType(newViewType);
+    if (newView !== null) {
+      setView(newView);
     }
   };
 
-  const {
-    data: result,
-    isLoading,
-    error,
-  } = useGetOne(
-    "grades",
-    {
-      id: studentId || "",
-      meta: {
-        studentLevel: selectedLevel,
-      },
-    },
-    {refetchOnWindowFocus: false}
-  );
-
   return (
-    <Box sx={{p: 3}}>
-      <Paper
-        elevation={0}
-        sx={{
-          p: 3,
-          mb: 3,
-          borderRadius: 4,
-          border: "1px solid",
-          borderColor: "grey.300",
-          bgcolor: "grey.50",
-        }}
+    <GlassCard>
+      <Box
+        display="flex"
+        justifyContent="space-between"
+        alignItems={{xs: "flex-start", sm: "center"}}
+        flexDirection={{xs: "column", sm: "row"}}
+        gap={3}
+        sx={{mb: 3}}
       >
-        <Box
-          display="flex"
-          justifyContent="space-between"
-          alignItems="flex-start"
-          mb={2}
-        >
+        <Box>
           <Typography
             variant="h4"
             sx={{fontWeight: "bold", color: "primary.main"}}
           >
-            Tableau de Bord des Notes
+            Tableau de bord des notes
           </Typography>
-          {/* <Button
-            variant="contained"
-            color="primary"
-            size="medium"
-            startIcon={<Download />}
-            onClick={() => null}
-            label="Télécharger le relevé"
-          /> */}
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            sx={{display: "flex", alignItems: "center", gap: 1}}
+          >
+            <School fontSize="small" color="primary" />
+            Suivi académique et analyse des performances
+          </Typography>
         </Box>
-
-        <TranscriptOverview
-          error={error}
-          isLoading={isLoading}
-          result={result}
-        />
 
         <Box
           display="flex"
-          justifyContent="space-between"
           alignItems="center"
-          mt={3}
-          pt={2}
-          borderTop={1}
-          borderColor="divider"
+          gap={2}
+          flexDirection={{xs: "column", sm: "row"}}
+          width={{xs: "100%", sm: "auto"}}
         >
-          <Chip
-            icon={<School color="inherit" />}
-            label={`Crédits validés: ${result?.obtained_credits ?? 0} / ${result?.total_credits ?? 0}`}
-            variant="outlined"
-            sx={{
-              fontWeight: "bold",
-              color: getGradeColor(
-                result?.total_credits
-                  ? ((result.obtained_credits ?? 0) / result.total_credits) * 20
-                  : 0
-              ),
-              borderColor: getGradeColor(
-                result?.total_credits
-                  ? ((result.obtained_credits ?? 0) / result.total_credits) * 20
-                  : 0
-              ),
-            }}
-          />
-          <Box
-            display="flex"
-            gap={2}
-            alignItems="center"
-            sx={{
-              bgcolor: "grey.50",
-              p: 1,
-              borderRadius: 2,
-              border: "1px solid",
-              borderColor: "grey.200",
-            }}
+          <StyledToggleButtonGroup
+            value={view}
+            exclusive
+            onChange={handleViewChange}
+            aria-label="view selection"
           >
-            <FormControl variant="outlined" size="small" sx={{minWidth: 120}}>
-              <InputLabel id="level-select-label">
-                Filtrer par niveau
-              </InputLabel>
-              <Select
-                labelId="level-select-label"
-                data-testid="level-select"
-                value={selectedLevel}
-                onChange={(e) =>
-                  setSelectedLevel(e.target.value as StudentLevel)
-                }
-                label="Filtrer par niveau"
-                sx={{borderRadius: 2}}
-              >
-                {levelChoices.map((choice) => (
-                  <MenuItem key={choice.id} value={choice.id}>
-                    {choice.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
-            <ToggleButtonGroup
-              size="small"
-              value={viewType}
-              exclusive
-              onChange={handleViewType}
-              aria-label="view type"
+            <StyledToggleButton
+              value="YEARLY"
+              aria-label="yearly view"
+              data-testid="yearly-view-toggle"
             >
-              <ToggleButton value="GRID" aria-label="grid view">
-                <Apps />
-              </ToggleButton>
-              <ToggleButton
-                value="LIST"
-                aria-label="list view"
-                data-testid="list-view-toggle"
-              >
-                <List />
-              </ToggleButton>
-            </ToggleButtonGroup>
-          </Box>
+              <Box display="flex" alignItems="center" gap={1}>
+                <AutoGraph fontSize="small" />
+                Annuelle
+              </Box>
+            </StyledToggleButton>
+            <StyledToggleButton
+              value="GLOBAL"
+              aria-label="global view"
+              data-testid="global-view-toggle"
+            >
+              <Box display="flex" alignItems="center" gap={1}>
+                <AutoGraph fontSize="small" />
+                Globale
+              </Box>
+            </StyledToggleButton>
+          </StyledToggleButtonGroup>
         </Box>
-      </Paper>
+      </Box>
 
-      <CoursesListView
-        studentLevel={selectedLevel}
-        studentId={studentId!}
-        viewType={viewType}
-      />
-    </Box>
+      {mounted && (
+        <Fade in timeout={500}>
+          <Box>
+            {view === "YEARLY" ? (
+              <Box key="yearly-view">
+                <YearlyView studentId={studentId!} />
+              </Box>
+            ) : (
+              <Box key="global-view">
+                <GlobalSummaryView studentId={studentId!} />
+              </Box>
+            )}
+          </Box>
+        </Fade>
+      )}
+    </GlassCard>
   );
 };

@@ -3,7 +3,7 @@ import {
   Sex,
   SpecializationField,
   Student,
-} from "@haapi/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 
 export const studentsMock: Student[] = [
   {

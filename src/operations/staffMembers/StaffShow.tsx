@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {Show} from "@/operations/common/components/Show";
-import {WhoamiRoleEnum} from "@haapi/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Edit as EditIcon, Inventory} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {FC} from "react";
