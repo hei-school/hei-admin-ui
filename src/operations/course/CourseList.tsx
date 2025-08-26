@@ -48,6 +48,7 @@ export function CourseList() {
       >
         <TextField source="code" label="Code" />
         <TextField source="name" label="Nom" />
+        <TextField source="level" label="Niveau" />
         <TextField source="credits" label="Credits" />
         <TextField source="total_hours" label="Heure total" />
         <CourseEditButton />
