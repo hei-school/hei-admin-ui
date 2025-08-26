@@ -1,6 +1,7 @@
 import dataProvider from "@/providers/dataProvider";
 import {Download, WorkOutlined} from "@mui/icons-material";
-import {EditButton, TextField} from "react-admin";
+import {Avatar} from "@mui/material";
+import {EditButton, FunctionField, TextField} from "react-admin";
 import teacherProvider from "../../providers/teacherProvider";
 import {HaList} from "../../ui/haList";
 import {CreateButton, ImportButton} from "../../ui/haToolbar";
@@ -61,6 +62,12 @@ function TeacherList() {
         </>
       }
     >
+      <FunctionField
+        render={(record) => (
+          <Avatar src={record.profile_picture} alt={record.first_name} />
+        )}
+        label="Profil"
+      />
       <TextField source="ref" label="Référence" />
       <TextField source="first_name" label="Prénom·s" />
       <TextField source="last_name" label="Nom·s" />
