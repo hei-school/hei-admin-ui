@@ -13,15 +13,8 @@ import {useState} from "react";
 import {EditButton} from "react-admin";
 
 const ProfileShow = () => {
-  const {
-    isStudent,
-    isTeacher,
-    isMonitor,
-    isManager,
-    isAdmin,
-    isOrganizer,
-    role,
-  } = useRole();
+  const {isStudent, isTeacher, isMonitor, isAdmin, isOrganizer, role} =
+    useRole();
   const {id} = authProvider.getCachedWhoami();
   const [showComments, , toggleShowComments] = useToggle(false);
   const [openDialog, setOpenDialog] = useState(false);
@@ -48,7 +41,7 @@ const ProfileShow = () => {
             data-testid="profile-edit-button"
             {...(COMMON_OUTLINED_BUTTON_PROPS as any)}
           />
-          {(isAdmin() || isManager()) && (
+          {isAdmin() && (
             <Button
               startIcon={<CloudDownload />}
               onClick={() => setOpenDialog(true)}

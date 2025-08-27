@@ -9,7 +9,7 @@ const missingListProvider: HaDataProviderType = {
         perPage,
         filter.from,
         filter.to,
-        filter.attendanceStatus,
+        "MISSING",
         filter.groupRef,
         filter.studentRef,
         filter.studentName

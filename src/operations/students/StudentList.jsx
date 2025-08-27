@@ -21,11 +21,12 @@ import {
   WorkHistory as WillWorking,
   Work as WorkIcon,
 } from "@mui/icons-material";
-import {Box} from "@mui/material";
+import {Avatar, Box} from "@mui/material";
 import {useState} from "react";
 import {
   Button,
   EditButton,
+  FunctionField,
   CreateButton as RaCreateButton,
   ShowButton,
   TextField,
@@ -179,6 +180,12 @@ function StudentList() {
         mainSearch={{label: "Prénom·s", source: "first_name"}}
         actions={<ListActions />}
       >
+        <FunctionField
+          render={(record) => (
+            <Avatar src={record.profile_picture} alt={record.first_name} />
+          )}
+          label="Profil"
+        />
         <TextField source="ref" label="Référence" />
         <TextField source="first_name" label="Prénom·s" />
         <TextField source="last_name" label="Nom·s" />
