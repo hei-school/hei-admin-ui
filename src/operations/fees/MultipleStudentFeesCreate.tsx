@@ -64,7 +64,7 @@ export default function MultipleStudentFeesCreate(
               )
           }
           isLoading={isSubmitting}
-          disabled={studentsIds.length === 0}
+          disabled={studentsIds.length === 0 || isSubmitting}
           count={studentsIds.length}
           countLabel={(count) =>
             `étudiant${count > 1 ? "s" : ""} sélectionné${count > 1 ? "s" : ""}`
