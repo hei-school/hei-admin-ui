@@ -89,6 +89,7 @@ export const GradeEditButton = ({examId, record}: GradeEditButtonProps) => {
           onClose={() => toggleHistory()}
           studentId={studentId}
           examId={examId}
+          gradeId={record?.grade?.id}
         />
       )}
     </Box>

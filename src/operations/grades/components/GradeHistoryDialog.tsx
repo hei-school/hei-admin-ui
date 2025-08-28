@@ -1,4 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
+import correctGradeProvider from "@/providers/correctGradeProvider";
 import {Dialog} from "@/ui/components";
 import {GradeHistory} from "@haapi-b0fc7615/typescript-client";
 import {History as HistoryIcon} from "@mui/icons-material";
@@ -10,56 +11,56 @@ interface GradeHistoryDialogProps {
   onClose: () => void;
   studentId: string;
   examId: string;
+  gradeId?: string;
 }
 
 export const GradeHistoryDialog = ({
   onClose,
   studentId,
   examId,
+  gradeId,
 }: GradeHistoryDialogProps) => {
   const [historyData, setHistoryData] = useState<GradeHistory[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // FIXME: Use the API to fetch the history
   useEffect(() => {
     const fetchHistory = async () => {
+      if (!gradeId) {
+        setError("ID de note manquant pour récupérer l'historique");
+        setIsLoading(false);
+        return;
+      }
       try {
         setIsLoading(true);
-        await new Promise((resolve) => setTimeout(resolve, 1000));
-        const mockData: GradeHistory[] = [
-          {
-            created_at: new Date("2025-08-28T06:25:53.812Z"),
-            score: 12.5,
-            comment: "Bonne compréhension des concepts de base...",
-          },
-          {
-            created_at: new Date("2025-08-27T14:30:22.156Z"),
-            score: 10.0,
-            comment: "Première correction - travail à améliorer",
-          },
-          {
-            created_at: new Date("2025-08-26T09:15:45.789Z"),
-            score: 8.5,
-            comment: "Note initiale",
-          },
-        ];
-        setHistoryData(
-          mockData.sort((a, b) => {
-            const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
-            const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
-            return +dateB - +dateA;
-          })
+        console.log("Fetching grade history for gradeId:", gradeId);
+        const response = await correctGradeProvider.getList(
+          1,
+          50,
+          {},
+          {gradeId}
         );
-      } catch {
-        setError("Erreur lors du chargement de l'historique");
+        console.log("Grade history response:", response);
+
+        const sortedData = response.data.sort((a, b) => {
+          const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
+          const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
+          return +dateB - +dateA;
+        });
+
+        setHistoryData(sortedData);
+      } catch (error) {
+        console.error("Error fetching grade history:", error);
+        const errorMessage =
+          error instanceof Error ? error.message : String(error);
+        setError(`Erreur lors du chargement de l'historique: ${errorMessage}`);
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchHistory();
-  }, [studentId, examId]);
+  }, [studentId, examId, gradeId]);
 
   return (
     <Dialog
@@ -93,7 +94,7 @@ export const GradeHistoryDialog = ({
         <Box p={2}>
           {historyData.map((item, index) => (
             <GradeHistoryItem
-              key={item.created_at?.toISOString() ?? `history-${index}`}
+              key={`history-${index}`}
               historyItem={item}
               isLatest={index === 0}
               isLast={index === historyData.length - 1}

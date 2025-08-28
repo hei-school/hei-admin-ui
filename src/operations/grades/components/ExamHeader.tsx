@@ -1,7 +1,7 @@
 import {PALETTE_COLORS} from "@/haTheme";
+import {Exam} from "@haapi-b0fc7615/typescript-client";
 import {Box, Chip, Typography} from "@mui/material";
 import {InfoIcon} from "lucide-react";
-import {Exam} from "../typess";
 
 interface ExamHeaderProps {
   exam: Exam;

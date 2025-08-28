@@ -8,7 +8,6 @@ import {
   ExamLoadError,
   ParticipantsDataGrid,
 } from "@/operations/grades/components";
-import {Exam} from "./typess";
 
 export const ExamParticipantList = () => {
   const {id: examId} = useParams<{id: string}>();
@@ -17,11 +16,7 @@ export const ExamParticipantList = () => {
     return <Typography>ID d'examen manquant</Typography>;
   }
 
-  const {
-    data: exam,
-    isLoading,
-    isError,
-  } = useGetOne<Exam>("exams", {id: examId});
+  const {data: exam, isLoading, isError} = useGetOne("exams", {id: examId});
 
   if (isLoading) return <Typography>Chargement des données...</Typography>;
   if (isError) return <ExamLoadError />;

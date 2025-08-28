@@ -3,8 +3,23 @@ import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {UpdateGrade} from "@haapi-b0fc7615/typescript-client";
 
 const correctGradeProvider: HaDataProviderType = {
-  getList() {
-    throw new Error("Not implemented");
+  async getList(
+    page: number,
+    perPage: number,
+    filter = {},
+    meta: Record<string, any> = {}
+  ) {
+    const {gradeId} = meta;
+    return gradesApi()
+      .getOrderedGradeHistory(
+        gradeId,
+        page,
+        perPage,
+        filter?.from,
+        filter?.to,
+        filter?.comment
+      )
+      .then(({data}) => ({data}));
   },
   getOne() {
     throw new Error("Not implemented");
