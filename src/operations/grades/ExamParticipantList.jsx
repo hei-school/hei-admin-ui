@@ -180,34 +180,33 @@ const GradeEditButton = ({examId, record}) => {
   const handleGradeSubmit = async (formValues) => {
     setIsLoading(true);
     try {
-      const gradeData = {
-        grade: {
+      if (!studentId) throw new Error("Identifiant de l'étudiant manquant");
+
+      if (isEditing) {
+        const gradeData = {
+          grade: {
+            score: formValues.grade?.score,
+            student_id: studentId,
+          },
+          student_ref: studentRef,
+          comment: formValues.comment || "",
+        };
+
+        await correctGradeProvider.saveOrUpdate(gradeData, {examId, studentId});
+      } else {
+        const gradeData = {
           score: formValues.grade?.score,
           student_id: studentId,
-        },
-        student_ref: studentRef,
-        ...(isEditing && {comment: formValues.comment || ""}),
-      };
-      const provider = isEditing ? correctGradeProvider : createGradeProvider;
+        };
 
-      await provider.saveOrUpdate(gradeData, {examId, studentId});
+        await createGradeProvider.saveOrUpdate(gradeData, {examId, studentId});
+      }
 
-      notify("Note enregistrée avec succès", {
-        type: "success",
-        messageArgs: {_: "Note enregistrée avec succès"},
-      });
+      notify("Note enregistrée avec succès", {type: "success"});
       toggleDialog();
       refresh();
     } catch (error) {
-      console.error("Error saving grade:", {
-        message: error.message,
-        stack: error.stack,
-        details: error,
-      });
-      notify("Erreur lors de la mise à jour de la note", {
-        type: "error",
-        messageArgs: {_: "Erreur lors de la mise à jour de la note"},
-      });
+      notify("Erreur lors de la mise à jour de la note", {type: "error"});
     } finally {
       setIsLoading(false);
     }
@@ -256,7 +255,10 @@ const ParticipantsDataGrid = ({examId}) => (
     <TextField source="student.first_name" label="Prénom(s)" />
     <FunctionField
       label="Note"
-      render={(record) => record?.grade?.score ?? "Non définie"}
+      render={(record) => {
+        const score = record?.grade?.score;
+        return score !== null && score !== undefined ? score : "Non définie";
+      }}
     />
     <DateField source="grade.update_date" label="Mis à jour le" />
     <FunctionField

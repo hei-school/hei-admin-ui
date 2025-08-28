@@ -1,6 +1,6 @@
 import {gradesApi} from "@/providers/api";
-import {HaDataProviderType} from "@/providers/HaDataProviderType.ts";
-import {UpdateGrade} from "@haapi/typescript-client";
+import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {UpdateGrade} from "@haapi-b0fc7615/typescript-client";
 
 const correctGradeProvider: HaDataProviderType = {
   getList() {
@@ -11,6 +11,10 @@ const correctGradeProvider: HaDataProviderType = {
   },
   async saveOrUpdate(payload: UpdateGrade, meta: Record<string, any> = {}) {
     const {examId, studentId} = meta;
+
+    if (!examId || !studentId) {
+      throw new Error("examId and studentId are required in meta");
+    }
 
     if (!payload.comment) {
       throw new Error("Comment is required to correct a grade");
