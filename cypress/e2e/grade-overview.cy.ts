@@ -219,5 +219,19 @@ describe("All View", () => {
       cy.contains("Synthèse Globale").should("be.visible");
       cy.contains("12.45").should("be.visible");
     });
+
+    it("show display empty component when there are no results", () => {
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id}/results_summary`,
+        {}
+      ).as("getGlobalSummaryEmpty");
+
+      cy.getByTestid("global-view-toggle").click();
+      cy.wait("@getGlobalSummaryEmpty");
+
+      cy.getByTestid("global-summary-card").should("not.exist");
+      cy.getByTestid("empty-block").should("be.visible");
+    });
   });
 });

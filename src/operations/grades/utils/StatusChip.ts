@@ -90,6 +90,12 @@ export const StatusChips = styled(Chip, {
       color: "white",
       animation: `${pulse} 2s infinite`,
     };
+  } else {
+    styles = {
+      backgroundColor: theme.palette.grey[300],
+      color: theme.palette.grey[800],
+      animation: `${pulse} 2s infinite`,
+    };
   }
 
   return {

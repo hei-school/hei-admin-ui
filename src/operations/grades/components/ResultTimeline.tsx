@@ -1,3 +1,4 @@
+import {EmptyList3D} from "@/operations/common/components/EmptyList";
 import {CourseResult, YearlyResult} from "@haapi-b0fc7615/typescript-client";
 import {ExpandMore, Lock, Star} from "@mui/icons-material";
 import {
@@ -30,6 +31,25 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
   70% { box-shadow: 0 0 0 10px rgba(255, 142, 83, 0); }
   100% { box-shadow: 0 0 0 0 rgba(255, 142, 83, 0); }
 `;
+
+  if (yearlyResult.length === 0) {
+    return (
+      <Box
+        data-testid="empty-block"
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          maxHeight: "25rem",
+          maxWidth: "25rem",
+          marginLeft: "35%",
+        }}
+      >
+        <EmptyList3D />
+      </Box>
+    );
+  }
+
   return (
     <Box>
       {yearlyResult.map((details, index) => {
