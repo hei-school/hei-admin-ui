@@ -22,7 +22,7 @@ const STATUS_COLORS = {
   REJECTED: {
     main: "#f44336",
     light: "rgba(244, 67, 54, 0.08)",
-    name: "Rejeté",
+    name: "Invalide",
   },
   PENDING: {
     main: PALETTE_COLORS.yellow,
@@ -125,7 +125,7 @@ export const HeaderLetterList: FC<{stats: LetterStats & {total?: number}}> = ({
         />
         <LetterStatusField
           count={stats?.rejected!}
-          value="Refusé"
+          value="Invalide"
           status="REJECTED"
         />
       </Box>
@@ -255,7 +255,7 @@ export const LetterStatusFilter: FC<{
     {label: "Tous", value: null, onClick: handleResetFilters},
     {label: "En cours", value: LetterStatus.PENDING},
     {label: "Accepté", value: LetterStatus.RECEIVED},
-    {label: "Refusé", value: LetterStatus.REJECTED},
+    {label: "Invalide", value: LetterStatus.REJECTED},
   ] as const;
 
   return (

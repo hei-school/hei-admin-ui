@@ -44,7 +44,7 @@ const STATUS_COLORS = {
     main: "#f44336",
     light: "rgba(244, 67, 54, 0.08)",
     gradient: "linear-gradient(135deg, #f44336, #d32f2f)",
-    name: "Rejeté",
+    name: "Invalide",
   },
   PENDING: {
     main: PALETTE_COLORS.yellow,
