@@ -34,7 +34,7 @@
     "dayjs": "^1.11.13",
     "dom-to-image-more": "^3.6.0",
     "dotenv": "^16.4.5",
-    "jspdf": "^2.5.2",
+    "jspdf": "^3.0.2",
     "lucide-react": "^0.487.0",
     "mime": "^4.0.3",
     "nyc": "^17.1.0",
