@@ -5,7 +5,6 @@ import {GradesOverview} from "@/operations/grades/GradesDashboard";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
 import {useRole} from "@/security/hooks";
-import {StudentParticipationList} from "./StudentParticipationList";
 import {
   Badge,
   Box,
@@ -20,6 +19,7 @@ import {useGetOne, useRecordContext} from "react-admin";
 import {Contact} from "./ContactDetails";
 import {PersonalDetails} from "./PersonalDetails";
 import {PersonalInfos} from "./PersonalInfos";
+import {StudentParticipationList} from "./StudentParticipationList";
 
 interface TabPanelProps {
   children?: React.ReactNode;

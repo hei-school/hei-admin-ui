@@ -1,34 +1,34 @@
 import {formatDate, getTime, isSameDay} from "@/utils/date";
+import {AttendanceStatus} from "@haapi-b0fc7615/typescript-client";
 import {
+  Clear,
   EventAvailable,
   EventBusy,
+  FilterList,
   HelpOutline,
   Schedule,
-  FilterList,
-  Clear,
 } from "@mui/icons-material";
 import {
   Alert,
   Box,
+  Button,
   Card,
   CardContent,
   Chip,
   CircularProgress,
   Grid,
-  Stack,
-  Typography,
-  TextField,
   MenuItem,
-  Button,
   Paper,
-  Collapse,
-  IconButton,
+  Stack,
+  TextField,
+  Typography,
 } from "@mui/material";
-import {useState} from "react";
+import {useMemo, useState} from "react";
+import {useGetList, useRecordContext} from "react-admin";
 
 interface AttendanceRecord {
-  id: string | number;
-  attendanceStatus: "MISSING" | "LATE" | "PRESENT" | "UNCHECKED";
+  id: string;
+  attendanceStatus: AttendanceStatus;
   beginDatetime: string;
   endDatetime: string;
   eventType: string;
@@ -66,79 +66,42 @@ const STATUS_CONFIG = {
 interface FilterState {
   dateFrom: string;
   dateTo: string;
-  status: string;
+  status: AttendanceStatus;
   eventType: string;
 }
 
 export function StudentParticipationList() {
+  const profile = useRecordContext();
   const [filters, setFilters] = useState<FilterState>({
-    dateFrom: "",
+    dateFrom: "2025-04-01",
     dateTo: "",
-    status: "",
+    status: AttendanceStatus.MISSING,
     eventType: "",
   });
-  const [showFilters, setShowFilters] = useState(false);
-  
-  // const { data: studentsAttendance, isLoading } = useGetList(
-  //   'student-participation',
-  //   {
-  //     pagination: { page: 1, perPage: 100 },
-  //     sort: { field: 'beginDatetime', order: 'DESC' },
-  //     filter: {
-  //       from: filters.dateFrom || '2022-01-01T00:00:00.000Z',
-  //       to: filters.dateTo || '2022-12-31T23:59:59.999Z'
-  //     },
-  //     meta: { id: 'student-id' }
-  //   }
-  // );
 
-  const allAttendance: AttendanceRecord[] = [
-    {
-      id: "1",
-      attendanceStatus: "MISSING",
-      beginDatetime: "2022-02-03T08:00:00.000Z",
-      endDatetime: "2022-02-03T12:00:00.000Z",
-      eventType: "COURS",
-      eventTitle: "PROG1",
-      eventDescription: "Examen",
-    },
-    {
-      id: "2",
-      attendanceStatus: "LATE",
-      beginDatetime: "2022-02-05T14:00:00.000Z",
-      endDatetime: "2022-02-05T16:00:00.000Z",
-      eventType: "TD",
-      eventTitle: "PROG2",
-      eventDescription: "Travaux dirigés",
-    },
-    {
-      id: "3",
-      attendanceStatus: "PRESENT",
-      beginDatetime: "2022-02-07T09:00:00.000Z",
-      endDatetime: "2022-02-07T11:00:00.000Z",
-      eventType: "COURS",
-      eventTitle: "MATH1",
-      eventDescription: "Cours magistral",
-    },
-    {
-      id: "4",
-      attendanceStatus: "UNCHECKED",
-      beginDatetime: "2022-02-10T10:00:00.000Z",
-      endDatetime: "2022-02-10T12:00:00.000Z",
-      eventType: "TP",
-      eventTitle: "PROG1",
-      eventDescription: "Travaux pratiques",
-    },
-    {
-      id: "5",
-      attendanceStatus: "MISSING",
-      beginDatetime: "2022-02-12T08:00:00.000Z",
-      endDatetime: "2022-02-12T10:00:00.000Z",
-      eventType: "COURS",
-      eventTitle: "ALGO1",
-      eventDescription: "Algorithmes",
-    },
-  ];
+  const queryParams = useMemo(
+    () => ({
+      filter: {
+        from: filters.dateFrom
+          ? `${filters.dateFrom}T00:00:00.000Z`
+          : "2025-04-01T00:00:00.000Z",
+        to: filters.dateTo
+          ? `${filters.dateTo}T23:59:59.999Z`
+          : new Date().toISOString(),
+        attendanceStatus: filters.status || undefined,
+      },
+      meta: {id: profile?.id},
+    }),
+    [filters.dateFrom, filters.dateTo, filters.status, profile?.id]
+  );
+
+  const {
+    data: rawAttendance = [],
+    isLoading,
+    error,
+  } = useGetList("student-participation", queryParams);
+
+  const allAttendance = rawAttendance;
 
   const filteredAttendance = allAttendance.filter((record) => {
     const recordDate = new Date(record.beginDatetime);
@@ -148,32 +111,38 @@ export function StudentParticipationList() {
     if (fromDate && recordDate < fromDate) return false;
     if (toDate && recordDate > toDate) return false;
 
-    if (filters.status && record.attendanceStatus !== filters.status) return false;
+    if (record.attendanceStatus !== filters.status) return false;
 
-    if (filters.eventType && record.eventType !== filters.eventType) return false;
+    if (filters.eventType && record.eventType !== filters.eventType)
+      return false;
 
     return true;
   });
 
   const studentsAttendance = filteredAttendance;
-  const isLoading = false;
 
   const handleFilterChange = (field: keyof FilterState, value: string) => {
-    setFilters(prev => ({ ...prev, [field]: value }));
+    setFilters((prev) => ({...prev, [field]: value}));
   };
 
   const clearFilters = () => {
     setFilters({
-      dateFrom: "",
+      dateFrom: "2025-04-01",
       dateTo: "",
-      status: "",
+      status: AttendanceStatus.MISSING,
       eventType: "",
     });
   };
 
-  const hasActiveFilters = Object.values(filters).some(value => value !== "");
+  const hasActiveFilters =
+    filters.dateFrom !== "2025-04-01" ||
+    filters.dateTo !== "" ||
+    filters.status !== AttendanceStatus.MISSING ||
+    filters.eventType !== "";
 
-  const eventTypes = [...new Set(allAttendance.map(record => record.eventType))];
+  const eventTypes = [
+    ...new Set(allAttendance.map((record) => record.eventType)),
+  ];
 
   if (isLoading) {
     return (
@@ -183,22 +152,46 @@ export function StudentParticipationList() {
     );
   }
 
+  if (error) {
+    return (
+      <Alert severity="error" sx={{m: 2}}>
+        <Typography variant="h6" gutterBottom>
+          Erreur de chargement
+        </Typography>
+        <Typography variant="body2">
+          Impossible de charger les données de participation. Veuillez
+          réessayer.
+        </Typography>
+      </Alert>
+    );
+  }
+
   return (
     <Box p={2}>
       <Typography variant="h5" gutterBottom sx={{fontWeight: "bold", mb: 2}}>
         Participation aux événements ({studentsAttendance.length})
       </Typography>
-      <Paper sx={{ p: 2, mb: 3, borderRadius: 2 }}>
-        <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
-          <IconButton
-            onClick={() => setShowFilters(!showFilters)}
-            sx={{ color: "primary.main" }}
-          >
-            <FilterList />
-          </IconButton>
-          <Typography variant="h6" sx={{ fontWeight: "bold" }}>
-            Filtres
-          </Typography>
+      <Paper sx={{p: 2, mb: 3, borderRadius: 2, bgcolor: "background.paper"}}>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          sx={{mb: 2}}
+        >
+          <Stack direction="row" alignItems="center" spacing={2}>
+            <FilterList sx={{color: "primary.main"}} />
+            <Typography variant="h6" sx={{fontWeight: "bold"}}>
+              Filtres
+            </Typography>
+            {hasActiveFilters && (
+              <Chip
+                size="small"
+                label={`${Object.values(filters).filter((v) => v !== "").length} actif(s)`}
+                color="primary"
+                variant="outlined"
+              />
+            )}
+          </Stack>
           {hasActiveFilters && (
             <Button
               startIcon={<Clear />}
@@ -207,12 +200,12 @@ export function StudentParticipationList() {
               variant="outlined"
               color="secondary"
             >
-              Effacer
+              Réinitialiser
             </Button>
           )}
         </Stack>
-        <Collapse in={showFilters}>
-          <Grid container spacing={2}>
+        <Box sx={{bgcolor: "grey.50", p: 2, borderRadius: 1}}>
+          <Grid container spacing={3}>
             <Grid item xs={12} sm={6} md={3}>
               <TextField
                 label="Date de début"
@@ -221,7 +214,9 @@ export function StudentParticipationList() {
                 fullWidth
                 value={filters.dateFrom}
                 onChange={(e) => handleFilterChange("dateFrom", e.target.value)}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
+                helperText="Défaut: 1er avril 2025"
+                sx={{bgcolor: "white"}}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -232,23 +227,27 @@ export function StudentParticipationList() {
                 fullWidth
                 value={filters.dateTo}
                 onChange={(e) => handleFilterChange("dateTo", e.target.value)}
-                InputLabelProps={{ shrink: true }}
+                InputLabelProps={{shrink: true}}
+                helperText="Optionnel"
+                sx={{bgcolor: "white"}}
               />
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
               <TextField
                 select
-                label="Statut"
+                label="Statut de présence"
                 size="small"
                 fullWidth
                 value={filters.status}
                 onChange={(e) => handleFilterChange("status", e.target.value)}
+                sx={{bgcolor: "white"}}
               >
-                <MenuItem value="">Tous les statuts</MenuItem>
-                <MenuItem value="MISSING">Absent</MenuItem>
-                <MenuItem value="LATE">En retard</MenuItem>
-                <MenuItem value="PRESENT">Présent</MenuItem>
-                <MenuItem value="UNCHECKED">Non vérifié</MenuItem>
+                <MenuItem value={AttendanceStatus.MISSING}>🔴 Absent</MenuItem>
+                <MenuItem value={AttendanceStatus.LATE}>🟡 En retard</MenuItem>
+                <MenuItem value={AttendanceStatus.PRESENT}>🟢 Présent</MenuItem>
+                <MenuItem value={AttendanceStatus.UNCHECKED}>
+                  ⚪ Non vérifié
+                </MenuItem>
               </TextField>
             </Grid>
             <Grid item xs={12} sm={6} md={3}>
@@ -258,7 +257,10 @@ export function StudentParticipationList() {
                 size="small"
                 fullWidth
                 value={filters.eventType}
-                onChange={(e) => handleFilterChange("eventType", e.target.value)}
+                onChange={(e) =>
+                  handleFilterChange("eventType", e.target.value)
+                }
+                sx={{bgcolor: "white"}}
               >
                 <MenuItem value="">Tous les types</MenuItem>
                 {eventTypes.map((type) => (
@@ -269,10 +271,10 @@ export function StudentParticipationList() {
               </TextField>
             </Grid>
           </Grid>
-        </Collapse>
+        </Box>
       </Paper>
       {studentsAttendance.length === 0 ? (
-        <Alert severity="info" sx={{ borderRadius: 2 }}>
+        <Alert severity="info" sx={{borderRadius: 2}}>
           <Typography variant="h6" gutterBottom>
             Aucun résultat trouvé
           </Typography>

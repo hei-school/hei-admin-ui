@@ -9,11 +9,19 @@ const StudentParticipationProvider: HaDataProviderType = {
     meta: Record<string, any> = {}
   ) => {
     const {id} = meta;
-    const {from, to} = filter;
+    const {from, to, attendanceStatus} = filter;
 
     return attendanceApi()
-      .getStudentAttendance(from, to, id)
-      .then(({data}) => ({data}));
+      .getStudentAttendance(from, to, id, attendanceStatus)
+      .then(({data}) => ({
+        data: data.map((record: any, index: number) => ({
+          ...record,
+          id:
+            record.id ||
+            record._id ||
+            `${record.beginDatetime || Date.now()}-${index}`,
+        })),
+      }));
   },
   getOne: () => {
     throw new Error("Not implemented");
