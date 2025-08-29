@@ -5,6 +5,7 @@ import {GradesOverview} from "@/operations/grades/GradesDashboard";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
 import {useRole} from "@/security/hooks";
+import {StudentParticipationList} from "./StudentParticipationList";
 import {
   Badge,
   Box,
@@ -169,6 +170,12 @@ export const Informations: FC<{
         isStudentProfile &&
         (role.isMonitor() || role.isAdmin() || role.isManager()),
       content: <GradesOverview />,
+    },
+    {
+      id: "participation",
+      label: "Participation",
+      show: isStudentProfile,
+      content: <StudentParticipationList />,
     },
   ];
 
