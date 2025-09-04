@@ -5,6 +5,8 @@ import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 import {Dialog} from "@/ui/components";
 import {NOOP_ID} from "@/utils/constants";
 import {formatDate} from "@/utils/date";
+import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client";
+import {AccountBalance, Payments} from "@mui/icons-material";
 import {Box, Button as ImportButton, Typography} from "@mui/material";
 import {
   AlertTriangle,
@@ -31,9 +33,15 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
   isMpbs = false,
 }) => {
   const {filterValues} = useListContext();
+  const [viewMode, setViewMode] =
+    useState<AdvancedFeeStatisticsType>("ACCOUNTING");
+  const mergedFilters = {
+    ...(filterValues || {}),
+    viewMode,
+  };
   const {data: stats} = useGetOne<FeeStats>("stats", {
     id: NOOP_ID,
-    meta: {resource: "fees_stats", filters: filterValues},
+    meta: {resource: "fees_stats", filters: mergedFilters},
   });
 
   const headerCardContent: CardFeesContent[] = [
@@ -93,7 +101,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
       title={
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           <Box>
-            <Typography variant="h6" fontWeight="bold">
+            <Typography variant="h6" fontWeight="bold" maxWidth="40vw">
               {title}
             </Typography>
             {filterValues?.monthFrom && filterValues?.monthTo && (
@@ -132,15 +140,37 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
             )}
           </Box>
           {isMpbs ? (
-            <ImportButton
-              onClick={() => setOpen(true)}
-              variant="contained"
-              sx={{bgcolor: PALETTE_COLORS.primary, height: "fit-content"}}
+            <Box
+              position="relative"
+              display="flex"
+              flexDirection="column"
+              gap={2}
             >
-              Vérifier des transactions
-            </ImportButton>
+              <ViewModeToggle
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+              />
+              <ImportButton
+                onClick={() => setOpen(true)}
+                variant="contained"
+                sx={{bgcolor: PALETTE_COLORS.primary, height: "fit-content"}}
+              >
+                Vérifier des transactions
+              </ImportButton>
+            </Box>
           ) : (
-            <StatsStatus stats={stats} />
+            <Box
+              position="relative"
+              display="flex"
+              flexDirection="column"
+              gap={2}
+            >
+              <ViewModeToggle
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+              />
+              <StatsStatus stats={stats} />
+            </Box>
           )}
           <ImportDialog onShow={open} onClose={() => setOpen(false)} />
         </Box>
@@ -208,5 +238,82 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
         </SimpleForm>
       </Create>
     </Dialog>
+  );
+};
+
+const ViewModeToggle: FC<{
+  viewMode: AdvancedFeeStatisticsType;
+  onViewModeChange: (mode: AdvancedFeeStatisticsType) => void;
+}> = ({viewMode, onViewModeChange}) => {
+  return (
+    <Box display="flex" flexDirection="row">
+      <Box
+        sx={{
+          top: 10,
+          right: "50%",
+          zIndex: 1,
+          display: "flex",
+          gap: "10px",
+        }}
+      >
+        <Box
+          onClick={() => onViewModeChange("ACCOUNTING")}
+          sx={{
+            "p": "8px 16px",
+            "bgcolor":
+              viewMode === "ACCOUNTING" ? "white" : "rgba(255,255,255,0.1)",
+            "color":
+              viewMode === "ACCOUNTING" ? PALETTE_COLORS.primary : "white",
+            "borderRadius": "12px",
+            "cursor": "pointer",
+            "display": "flex",
+            "alignItems": "center",
+            "gap": "8px",
+            "transition": "all 0.3s ease",
+            "backdropFilter": "blur(10px)",
+            "border": "1px solid rgba(255,255,255,0.2)",
+            "boxShadow":
+              viewMode === "ACCOUNTING" ? "0 4px 15px rgba(0,0,0,0.1)" : "none",
+            "&:hover": {
+              transform: "translateY(-2px)",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
+            },
+          }}
+        >
+          <AccountBalance sx={{fontSize: "1.1rem"}} />
+          <Typography fontWeight="600" fontSize="0.9rem">
+            Comptable
+          </Typography>
+        </Box>
+        <Box
+          onClick={() => onViewModeChange("RECEIPT")}
+          sx={{
+            "p": "8px 16px",
+            "bgcolor":
+              viewMode === "RECEIPT" ? "white" : "rgba(255,255,255,0.1)",
+            "color": viewMode === "RECEIPT" ? PALETTE_COLORS.primary : "white",
+            "borderRadius": "12px",
+            "cursor": "pointer",
+            "display": "flex",
+            "alignItems": "center",
+            "gap": "8px",
+            "transition": "all 0.3s ease",
+            "backdropFilter": "blur(10px)",
+            "border": "1px solid rgba(255,255,255,0.2)",
+            "boxShadow":
+              viewMode === "RECEIPT" ? "0 4px 15px rgba(0,0,0,0.1)" : "none",
+            "&:hover": {
+              transform: "translateY(-2px)",
+              boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
+            },
+          }}
+        >
+          <Payments sx={{fontSize: "1.1rem"}} />
+          <Typography fontWeight="600" fontSize="0.9rem">
+            Encaissement
+          </Typography>
+        </Box>
+      </Box>
+    </Box>
   );
 };
