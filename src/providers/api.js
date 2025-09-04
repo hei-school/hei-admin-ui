@@ -1,6 +1,7 @@
 import {getAxiosInstance} from "@/config/axios";
 import {
   AnnouncementsApi,
+  AttendanceApi,
   CommentsApi,
   CoursesApi,
   EventsApi,
@@ -33,14 +34,12 @@ export const commentApi = () =>
   );
 export const examApi = () =>
   new ExamsApi(authProvider.getCachedAuthConf(), undefined, getAxiosInstance());
-
 export const gradesApi = () =>
   new GradesApi(
     authProvider.getCachedAuthConf(),
     undefined,
     getAxiosInstance()
   );
-
 export const coursesApi = () =>
   new CoursesApi(
     authProvider.getCachedAuthConf(),
@@ -87,6 +86,12 @@ export const eventsApi = () =>
   );
 export const monitoringApi = () =>
   new MonitoringApi(
+    authProvider.getCachedAuthConf(),
+    undefined,
+    getAxiosInstance()
+  );
+export const attendanceApi = () =>
+  new AttendanceApi(
     authProvider.getCachedAuthConf(),
     undefined,
     getAxiosInstance()
