@@ -42,6 +42,7 @@ import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
 import {courseAssignmentsByTeacherProvider} from "./courseAssignementbyTeacher";
+import StudentParticipationProvider from "./studentParticipationProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -89,6 +90,7 @@ const providerMap = {
   "grades": gradeProvider,
   "grades-details": gradesDetailsProvider,
   "summary": resultSummaryProvider,
+  "student-participation": StudentParticipationProvider,
 } as const;
 
 const getProvider = (

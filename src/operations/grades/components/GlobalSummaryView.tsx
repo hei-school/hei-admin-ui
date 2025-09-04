@@ -1,13 +1,15 @@
 import {ToRaRecord} from "@/providers/types";
 import {ResultSummary} from "@haapi-b0fc7615/typescript-client";
 import {
-  Cancel,
-  CheckCircleOutline,
-  HourglassEmpty,
+  Autorenew,
+  Block,
+  DoNotDisturbOn,
+  HourglassDisabled,
+  MilitaryTech,
   School,
-  ThumbDown,
-  ThumbUp,
-  Warning,
+  TrendingUp,
+  Verified,
+  WorkspacePremium,
 } from "@mui/icons-material";
 import {
   Box,
@@ -140,24 +142,29 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
                       const ratio =
                         summary_result?.obtained_credits! /
                         summary_result?.total_credits!;
-
                       if (ratio >= 1) {
                         return (
-                          <CheckCircleOutline
-                            sx={{fontSize: 30, color: "primary.main"}}
+                          <WorkspacePremium
+                            sx={{fontSize: 30, color: "success.main"}}
                           />
                         );
                       } else if (ratio >= 0.5) {
                         return (
-                          <ThumbUp sx={{fontSize: 30, color: "info.main"}} />
+                          <MilitaryTech
+                            sx={{fontSize: 30, color: "info.main"}}
+                          />
                         );
                       } else if (ratio > 0) {
                         return (
-                          <Warning sx={{fontSize: 30, color: "warning.main"}} />
+                          <TrendingUp
+                            sx={{fontSize: 30, color: "warning.main"}}
+                          />
                         );
                       } else {
                         return (
-                          <ThumbDown sx={{fontSize: 30, color: "error.main"}} />
+                          <DoNotDisturbOn
+                            sx={{fontSize: 30, color: "error.main"}}
+                          />
                         );
                       }
                     })()}
@@ -203,24 +210,28 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
                   switch (summary_result?.status) {
                     case "VALIDATED":
                       return (
-                        <CheckCircleOutline
+                        <Verified
                           sx={{fontSize: 40, mr: 2, color: "success.main"}}
                         />
                       );
                     case "IN_PROGRESS":
                       return (
-                        <HourglassEmpty
+                        <Autorenew
                           sx={{fontSize: 40, mr: 2, color: "warning.main"}}
                         />
                       );
                     case "INVALIDATED":
                       return (
-                        <Cancel
+                        <Block
                           sx={{fontSize: 40, mr: 2, color: "error.main"}}
                         />
                       );
                     default:
-                      return null;
+                      return (
+                        <HourglassDisabled
+                          sx={{fontSize: 40, mr: 2, color: "grey.500"}}
+                        />
+                      );
                   }
                 })()}
                 <Box>
@@ -229,7 +240,9 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
                     data-testid="global-summary-status-chip"
                     variant="filled"
                     status={summary_result?.status!}
-                    label={getCourseStatusLabel(summary_result?.status!)}
+                    label={getCourseStatusLabel(
+                      summary_result?.status || "NOT_STARTED"
+                    )}
                     sx={{
                       height: "auto",
                       p: "8px 12px",

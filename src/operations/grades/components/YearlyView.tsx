@@ -115,12 +115,14 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
 
         <Box
           display="flex"
+          flexDirection={{xs: "column", sm: "row"}}
           justifyContent="space-between"
-          alignItems="center"
+          alignItems={{xs: "stretch", sm: "center"}}
           mt={3}
           pt={2}
           borderTop={1}
           borderColor="divider"
+          gap={2}
         >
           <Chip
             icon={<School color="inherit" />}
@@ -138,21 +140,29 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
                   ? ((result.obtained_credits ?? 0) / result.total_credits) * 20
                   : 0
               ),
+              mb: {xs: 2, sm: 0},
+              width: {xs: "100%", sm: "auto"},
             }}
           />
           <Box
             display="flex"
+            flexDirection={{xs: "column", sm: "row"}}
             gap={2}
-            alignItems="center"
+            alignItems={{xs: "stretch", sm: "center"}}
             sx={{
               bgcolor: "grey.50",
               p: 1,
               borderRadius: 2,
               border: "1px solid",
               borderColor: "grey.200",
+              width: {xs: "100%", sm: "auto"},
             }}
           >
-            <FormControl variant="outlined" size="small" sx={{minWidth: 120}}>
+            <FormControl
+              variant="outlined"
+              size="small"
+              sx={{minWidth: 120, width: {xs: "100%", sm: "auto"}}}
+            >
               <InputLabel id="level-select-label">
                 Filtrer par niveau
               </InputLabel>
@@ -164,7 +174,7 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
                   setSelectedLevel(e.target.value as StudentLevel)
                 }
                 label="Filtrer par niveau"
-                sx={{borderRadius: 2}}
+                sx={{borderRadius: 2, width: {xs: "100%", sm: "auto"}}}
               >
                 {levelChoices.map((choice) => (
                   <MenuItem key={choice.id} value={choice.id}>
@@ -175,10 +185,11 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
             </FormControl>
             <Box
               display="flex"
-              justifyContent="right"
+              justifyContent={{xs: "stretch", sm: "right"}}
               alignItems="flex-end"
-              marginBottom={2}
-              marginTop={1}
+              mb={{xs: 0, sm: 2}}
+              mt={{xs: 1, sm: 0}}
+              width={{xs: "100%", sm: "auto"}}
             >
               <GradientButton
                 className="download-button"
@@ -201,11 +212,18 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
               exclusive
               onChange={handleViewType}
               aria-label="view type"
+              sx={{
+                "width": {xs: "100%", sm: "auto"},
+                ".MuiToggleButton-root": {
+                  flex: 1,
+                },
+              }}
             >
               <ToggleButton
                 value="GRID"
                 aria-label="grid view"
                 data-testid="grid-view-toggle"
+                sx={{width: {xs: "50%", sm: "auto"}}}
               >
                 <Apps />
               </ToggleButton>
@@ -213,6 +231,7 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
                 value="LIST"
                 aria-label="list view"
                 data-testid="list-view-toggle"
+                sx={{width: {xs: "50%", sm: "auto"}}}
               >
                 <List />
               </ToggleButton>
