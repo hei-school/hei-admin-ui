@@ -32,7 +32,7 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
         "backgroundPosition": "left top",
         "backgroundSize": "cover",
         "backgroundRepeat": "no-repeat",
-        "padding": {xs: "1.5rem", md: "2.5rem"},
+        "padding": {xs: "1rem", md: "2.5rem"},
         "boxShadow": "0 10px 30px rgba(0, 25, 72, 0.15)",
         "transition": "all 0.3s ease-in-out",
         "mb": 3,
@@ -51,8 +51,9 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
         }}
       >
         <Typography
+          data-testid="welcoming-greeting"
           variant="h2"
-          fontSize={{xs: "1.8rem", md: isLarge ? "2.5rem" : "2rem"}}
+          fontSize={{xs: "1.4rem", md: isLarge ? "2.5rem" : "2rem"}}
           fontWeight="bold"
           color={PALETTE_COLORS.white}
           sx={{
@@ -63,8 +64,9 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
           {getGreeting()} {user?.first_name ?? user?.last_name} 👋
         </Typography>
         <Typography
+          data-testid="welcoming-tagline"
           variant="h4"
-          fontSize={{xs: "1.2rem", md: isLarge ? "1.5rem" : "1.3rem"}}
+          fontSize={{xs: "1rem", md: isLarge ? "1.5rem" : "1.3rem"}}
           fontWeight="bold"
           color={PALETTE_COLORS.yellow}
           sx={{textShadow: "0 2px 8px rgba(0,0,0,0.3)"}}
@@ -75,6 +77,7 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
           color={PALETTE_COLORS.white}
           sx={{
             opacity: 0.9,
+            fontSize: {xs: "0.7rem"},
             fontStyle: "italic",
             mt: 1,
           }}
@@ -83,7 +86,7 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
         </Typography>
         <Typography
           width={{xs: "100%", md: "50%"}}
-          fontSize={{xs: "1rem", md: isLarge ? "1.2rem" : "1.1rem"}}
+          fontSize={{xs: "0.7rem", md: isLarge ? "1.2rem" : "1.1rem"}}
           marginTop="1rem"
           color={PALETTE_COLORS.white}
           sx={{opacity: 0.85}}
@@ -95,9 +98,12 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
 
       <Box
         component="img"
+        data-testid="welcoming-manager-img"
+        alt="manager"
         src={managerImg}
         sx={{
           position: "absolute",
+          display: {xs: "none", md: "block"},
           bottom: -23,
           right: {xs: "-5vw", md: "2vw"},
           width: {xs: "15rem", md: isLarge ? "19.8rem" : "18rem"},
@@ -110,8 +116,10 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
       />
 
       <Box
+        data-testid="welcoming-radial-1"
         sx={{
           position: "absolute",
+          display: {xs: "none", md: "block"},
           top: "10%",
           right: "30%",
           width: "150px",
@@ -122,8 +130,10 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
         }}
       />
       <Box
+        data-testid="welcoming-radial-2"
         sx={{
           position: "absolute",
+          display: {xs: "none", md: "block"},
           bottom: "20%",
           left: "10%",
           width: "100px",
