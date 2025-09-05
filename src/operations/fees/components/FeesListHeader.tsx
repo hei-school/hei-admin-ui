@@ -7,7 +7,12 @@ import {NOOP_ID} from "@/utils/constants";
 import {formatDate} from "@/utils/date";
 import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client";
 import {AccountBalance, Payments} from "@mui/icons-material";
-import {Box, Button as ImportButton, Typography} from "@mui/material";
+import {
+  Box,
+  Button as ImportButton,
+  Typography,
+  useMediaQuery,
+} from "@mui/material";
 import {
   AlertTriangle,
   BadgeDollarSign,
@@ -43,6 +48,8 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
     id: NOOP_ID,
     meta: {resource: "fees_stats", filters: mergedFilters},
   });
+
+  const isXSmall = useMediaQuery("max-width:768px");
 
   const headerCardContent: CardFeesContent[] = [
     {
@@ -99,23 +106,38 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
     <FeesStatsHeader
       cardContents={headerCardContent}
       title={
-        <Box display="flex" flexDirection="row" justifyContent="space-between">
-          <Box>
-            <Typography variant="h6" fontWeight="bold" maxWidth="40vw">
+        <Box
+          display="flex"
+          flexDirection={{xs: "column", sm: "row"}}
+          justifyContent="space-between"
+          gap={2}
+          width="100%"
+        >
+          <Box flex={1} minWidth={0}>
+            <Typography
+              variant="h6"
+              fontWeight="bold"
+              sx={{
+                wordBreak: "break-word",
+                fontSize: {xs: "1.1rem", sm: "1.25rem"},
+              }}
+            >
               {title}
             </Typography>
             {filterValues?.monthFrom && filterValues?.monthTo && (
               <Typography
                 sx={{
                   "display": "inline-flex",
-                  "alignItems": "center",
-                  "gap": "8px",
+                  "flexDirection": "row",
+                  "width": "fit-content",
+                  "alignItems": {xs: "flex-start", sm: "center"},
+                  "gap": {xs: "4px", sm: "8px"},
                   "background":
                     "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 100%)",
                   "backdropFilter": "blur(10px)",
-                  "padding": "8px 16px",
+                  "padding": {xs: "6px 12px", sm: "8px 16px"},
                   "borderRadius": "12px",
-                  "fontSize": "0.875rem",
+                  "fontSize": {xs: "0.75rem", sm: "0.875rem"},
                   "color": "text.secondary",
                   "margin": "12px 0",
                   "border": "1px solid rgba(255,255,255,0.1)",
@@ -128,50 +150,48 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
                   "& span": {
                     fontWeight: 600,
                     color: "primary.main",
-                    padding: "2px 8px",
+                    padding: "2px 6px",
                     borderRadius: "6px",
                     background: "rgba(0,0,0,0.03)",
+                    display: "inline-block",
+                    margin: {xs: "2px 0", sm: "0 4px"},
                   },
                 }}
               >
-                Du <span>{formatDate(filterValues?.monthFrom, false)}</span> au
-                <span>{formatDate(filterValues?.monthTo, false)}</span>
+                Du <span>{formatDate(filterValues?.monthFrom, false)}</span>
+                au <span>{formatDate(filterValues?.monthTo, false)}</span>
               </Typography>
             )}
           </Box>
-          {isMpbs ? (
-            <Box
-              position="relative"
-              display="flex"
-              flexDirection="column"
-              gap={2}
-            >
-              <ViewModeToggle
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-              />
+          <Box
+            display="flex"
+            flexDirection={{xs: "column"}}
+            gap={2}
+            alignItems={{xs: "stretch", sm: "center"}}
+            width={{xs: "100%", sm: "auto"}}
+          >
+            <ViewModeToggle
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+            />
+            {isMpbs ? (
               <ImportButton
                 onClick={() => setOpen(true)}
                 variant="contained"
-                sx={{bgcolor: PALETTE_COLORS.primary, height: "fit-content"}}
+                size={isXSmall ? "small" : "medium"}
+                sx={{
+                  bgcolor: PALETTE_COLORS.primary,
+                  height: "fit-content",
+                  whiteSpace: {xs: "normal", sm: "nowrap"},
+                  fontSize: {xs: "0.75rem", sm: "0.875rem"},
+                }}
               >
                 Vérifier des transactions
               </ImportButton>
-            </Box>
-          ) : (
-            <Box
-              position="relative"
-              display="flex"
-              flexDirection="column"
-              gap={2}
-            >
-              <ViewModeToggle
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-              />
+            ) : (
               <StatsStatus stats={stats} />
-            </Box>
-          )}
+            )}
+          </Box>
           <ImportDialog onShow={open} onClose={() => setOpen(false)} />
         </Box>
       }
@@ -186,6 +206,7 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
   const notify = useNotify();
   const refresh = useRefresh();
   const [fileUploaded, setFileUploaded] = useState(false);
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   return (
     <Dialog
@@ -194,6 +215,8 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
       title={
         "Importer les transactions venant de Orange Money (sous format excel)"
       }
+      maxWidth={isMobile ? "sm" : "md"}
+      fullWidth
     >
       <Create
         title=" "
@@ -245,74 +268,75 @@ const ViewModeToggle: FC<{
   viewMode: AdvancedFeeStatisticsType;
   onViewModeChange: (mode: AdvancedFeeStatisticsType) => void;
 }> = ({viewMode, onViewModeChange}) => {
+  const isXSmall = useMediaQuery("(max-width:480px)");
+
   return (
-    <Box display="flex" flexDirection="row">
+    <Box
+      display="flex"
+      flexDirection={isXSmall ? "column" : "row"}
+      gap={1}
+      width={isXSmall ? "100%" : "auto"}
+    >
       <Box
+        onClick={() => onViewModeChange("ACCOUNTING")}
         sx={{
-          top: 10,
-          right: "50%",
-          zIndex: 1,
-          display: "flex",
-          gap: "10px",
+          "p": {xs: "6px 12px", sm: "8px 16px"},
+          "bgcolor":
+            viewMode === "ACCOUNTING" ? "white" : "rgba(255,255,255,0.1)",
+          "color": viewMode === "ACCOUNTING" ? PALETTE_COLORS.primary : "white",
+          "borderRadius": "12px",
+          "cursor": "pointer",
+          "display": "flex",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "gap": "6px",
+          "transition": "all 0.3s ease",
+          "backdropFilter": "blur(10px)",
+          "border": "1px solid rgba(255,255,255,0.2)",
+          "boxShadow":
+            viewMode === "ACCOUNTING" ? "0 4px 15px rgba(0,0,0,0.1)" : "none",
+          "flex": isXSmall ? 1 : "none",
+          "minWidth": isXSmall ? "100%" : "auto",
+          "&:hover": {
+            transform: "translateY(-2px)",
+            boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
+          },
         }}
       >
-        <Box
-          onClick={() => onViewModeChange("ACCOUNTING")}
-          sx={{
-            "p": "8px 16px",
-            "bgcolor":
-              viewMode === "ACCOUNTING" ? "white" : "rgba(255,255,255,0.1)",
-            "color":
-              viewMode === "ACCOUNTING" ? PALETTE_COLORS.primary : "white",
-            "borderRadius": "12px",
-            "cursor": "pointer",
-            "display": "flex",
-            "alignItems": "center",
-            "gap": "8px",
-            "transition": "all 0.3s ease",
-            "backdropFilter": "blur(10px)",
-            "border": "1px solid rgba(255,255,255,0.2)",
-            "boxShadow":
-              viewMode === "ACCOUNTING" ? "0 4px 15px rgba(0,0,0,0.1)" : "none",
-            "&:hover": {
-              transform: "translateY(-2px)",
-              boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
-            },
-          }}
-        >
-          <AccountBalance sx={{fontSize: "1.1rem"}} />
-          <Typography fontWeight="600" fontSize="0.9rem">
-            Comptable
-          </Typography>
-        </Box>
-        <Box
-          onClick={() => onViewModeChange("RECEIPT")}
-          sx={{
-            "p": "8px 16px",
-            "bgcolor":
-              viewMode === "RECEIPT" ? "white" : "rgba(255,255,255,0.1)",
-            "color": viewMode === "RECEIPT" ? PALETTE_COLORS.primary : "white",
-            "borderRadius": "12px",
-            "cursor": "pointer",
-            "display": "flex",
-            "alignItems": "center",
-            "gap": "8px",
-            "transition": "all 0.3s ease",
-            "backdropFilter": "blur(10px)",
-            "border": "1px solid rgba(255,255,255,0.2)",
-            "boxShadow":
-              viewMode === "RECEIPT" ? "0 4px 15px rgba(0,0,0,0.1)" : "none",
-            "&:hover": {
-              transform: "translateY(-2px)",
-              boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
-            },
-          }}
-        >
-          <Payments sx={{fontSize: "1.1rem"}} />
-          <Typography fontWeight="600" fontSize="0.9rem">
-            Encaissement
-          </Typography>
-        </Box>
+        <AccountBalance sx={{fontSize: "1rem"}} />
+        <Typography fontWeight="600" fontSize={{xs: "0.8rem", sm: "0.9rem"}}>
+          Comptable
+        </Typography>
+      </Box>
+      <Box
+        onClick={() => onViewModeChange("RECEIPT")}
+        sx={{
+          "p": {xs: "6px 12px", sm: "8px 16px"},
+          "bgcolor": viewMode === "RECEIPT" ? "white" : "rgba(255,255,255,0.1)",
+          "color": viewMode === "RECEIPT" ? PALETTE_COLORS.primary : "white",
+          "borderRadius": "12px",
+          "cursor": "pointer",
+          "display": "flex",
+          "alignItems": "center",
+          "justifyContent": "center",
+          "gap": "6px",
+          "transition": "all 0.3s ease",
+          "backdropFilter": "blur(10px)",
+          "border": "1px solid rgba(255,255,255,0.2)",
+          "boxShadow":
+            viewMode === "RECEIPT" ? "0 4px 15px rgba(0,0,0,0.1)" : "none",
+          "flex": isXSmall ? 1 : "none",
+          "minWidth": isXSmall ? "100%" : "auto",
+          "&:hover": {
+            transform: "translateY(-2px)",
+            boxShadow: "0 6px 20px rgba(0,0,0,0.15)",
+          },
+        }}
+      >
+        <Payments sx={{fontSize: "1rem"}} />
+        <Typography fontWeight="600" fontSize={{xs: "0.8rem", sm: "0.9rem"}}>
+          Encaissement
+        </Typography>
       </Box>
     </Box>
   );
