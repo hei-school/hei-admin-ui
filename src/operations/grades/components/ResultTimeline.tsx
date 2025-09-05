@@ -21,6 +21,7 @@ import {
 import {FC} from "react";
 import {getCourseStatusLabel} from "../utils";
 import {StatusChips} from "../utils/StatusChip";
+import {renderWeightedAverage} from "./utils";
 
 export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
   yearlyResult,
@@ -202,17 +203,17 @@ const CourseList: FC<{courses: CourseResult[]}> = ({courses}) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {courses.map((course) => (
+          {courses.map((course, index) => (
             <TableRow
               sx={{"&:last-child td, &:last-child th": {border: 0}}}
-              key={course.id}
+              key={course.id || index}
               data-testid="courses-lists-row"
             >
               <TableCell component="th" scope="row">
                 {course?.course?.name}
               </TableCell>
               <TableCell align="right">
-                {course?.weighted_average?.toFixed(2)}
+                {renderWeightedAverage(course?.weighted_average)}
               </TableCell>
               <TableCell align="right">{course?.course?.credits}</TableCell>
               <TableCell align="right">

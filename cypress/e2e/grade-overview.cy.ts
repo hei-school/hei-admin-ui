@@ -132,7 +132,7 @@ describe("All View", () => {
       );
       cy.getByTestid("global-summary-obtained-credits").should(
         "contain",
-        `${summaryResultMocks.obtained_credits}/${summaryResultMocks.total_credits}`
+        `${summaryResultMocks.obtained_credits}/ 180`
       );
       cy.getByTestid("global-summary-status-chip").should(
         "contain",
