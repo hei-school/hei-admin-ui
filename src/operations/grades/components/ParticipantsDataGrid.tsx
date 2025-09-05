@@ -27,6 +27,7 @@ export const ParticipantsDataGrid = ({examId}: {examId: string}) => {
         className: "participants-list",
       }}
       actions={<ExamGradeListActions examId={examId} />}
+      mainSearch={{label: "Référence d'un étudiant", source: "student_ref"}}
     >
       <TextField source="student.ref" label="Référence" />
       <TextField source="student.last_name" label="Nom" />
