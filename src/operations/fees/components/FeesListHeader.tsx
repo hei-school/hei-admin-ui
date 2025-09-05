@@ -278,6 +278,7 @@ const ViewModeToggle: FC<{
       width={isXSmall ? "100%" : "auto"}
     >
       <Box
+        data-testid="viewmode-accounting"
         onClick={() => onViewModeChange("ACCOUNTING")}
         sx={{
           "p": {xs: "6px 12px", sm: "8px 16px"},
@@ -309,6 +310,7 @@ const ViewModeToggle: FC<{
         </Typography>
       </Box>
       <Box
+        data-testid="viewmode-receipt"
         onClick={() => onViewModeChange("RECEIPT")}
         sx={{
           "p": {xs: "6px 12px", sm: "8px 16px"},

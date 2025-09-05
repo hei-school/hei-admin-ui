@@ -123,4 +123,29 @@ describe("AdminWelcome Page", () => {
     cy.contains("Reste à payer").should("exist");
     cy.contains(unpaidFeeMock.remaining_amount!).should("exist");
   });
+
+  it("should hide manager image on small screens and show on desktop with a non-empty src", () => {
+    cy.viewport(375, 812);
+    cy.get('[data-testid="welcoming-manager-img"]').should("not.be.visible");
+
+    cy.viewport(1280, 800);
+    cy.get('[data-testid="welcoming-manager-img"]')
+      .should("be.visible")
+      .and(($img) => {
+        const src = $img.attr("src");
+        expect(src).to.be.a("string").and.not.be.empty;
+      });
+  });
+
+  it("should render radial gradient decorations with radial-gradient in background", () => {
+    cy.viewport(1280, 800);
+    cy.get('[data-testid="welcoming-radial-1"]')
+      .should("exist")
+      .and("have.css", "background-image")
+      .and("match", /radial-gradient/);
+    cy.get('[data-testid="welcoming-radial-2"]')
+      .should("exist")
+      .and("have.css", "background-image")
+      .and("match", /radial-gradient/);
+  });
 });

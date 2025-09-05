@@ -51,6 +51,7 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
         }}
       >
         <Typography
+          data-testid="welcoming-greeting"
           variant="h2"
           fontSize={{xs: "1.4rem", md: isLarge ? "2.5rem" : "2rem"}}
           fontWeight="bold"
@@ -63,6 +64,7 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
           {getGreeting()} {user?.first_name ?? user?.last_name} 👋
         </Typography>
         <Typography
+          data-testid="welcoming-tagline"
           variant="h4"
           fontSize={{xs: "1rem", md: isLarge ? "1.5rem" : "1.3rem"}}
           fontWeight="bold"
@@ -96,6 +98,8 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
 
       <Box
         component="img"
+        data-testid="welcoming-manager-img"
+        alt="manager"
         src={managerImg}
         sx={{
           position: "absolute",
@@ -112,6 +116,7 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
       />
 
       <Box
+        data-testid="welcoming-radial-1"
         sx={{
           position: "absolute",
           display: {xs: "none", md: "block"},
@@ -125,6 +130,7 @@ export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
         }}
       />
       <Box
+        data-testid="welcoming-radial-2"
         sx={{
           position: "absolute",
           display: {xs: "none", md: "block"},
