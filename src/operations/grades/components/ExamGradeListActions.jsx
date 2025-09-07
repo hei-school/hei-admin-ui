@@ -12,6 +12,7 @@ import {useRole} from "@/security/hooks";
 import {ButtonBase, ImportButton} from "@/ui/haToolbar";
 import {Download} from "@mui/icons-material";
 import {
+  Alert,
   Box,
   Dialog,
   DialogContent,
@@ -25,11 +26,13 @@ import * as XLSX from "xlsx";
 
 export const ExamGradeListActions = ({examId}) => {
   const [isImporting, setIsImporting] = useState(false);
+  const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
   const [importProgress, setImportProgress] = useState({
     current: 0,
     total: 0,
     message: "",
   });
+  const [validationErrors, setValidationErrors] = useState([]);
   const [participants, setParticipants] = useState([]);
   const {isManager, isAdmin, isTeacher} = useRole();
   const hasPermission = isManager() || isAdmin() || isTeacher();
@@ -63,11 +66,19 @@ export const ExamGradeListActions = ({examId}) => {
   const handleImport = async (data) => {
     try {
       setIsImporting(true);
+      setValidationErrors([]);
       setImportProgress({
         current: 0,
         total: 0,
         message: "Préparation de l'import...",
       });
+
+      const validation = validateGradeData(data);
+      if (!validation.isValid) {
+        setValidationErrors([validation.message]);
+        setIsImporting(false);
+        return;
+      }
 
       const transformedData = data[1] || [];
       const processedItems = transformedData
@@ -170,10 +181,9 @@ export const ExamGradeListActions = ({examId}) => {
       refresh();
       return results;
     } catch (error) {
-      notify(
+      setValidationErrors([
         `Erreur d'import: ${error.response?.data?.message || error.message}`,
-        {type: "error"}
-      );
+      ]);
       throw error;
     } finally {
       setIsImporting(false);
@@ -182,52 +192,80 @@ export const ExamGradeListActions = ({examId}) => {
   };
 
   const downloadTemplate = async () => {
-    let currentParticipants = participants;
+    try {
+      setIsDownloadingTemplate(true);
+      let currentParticipants = participants;
 
-    if (!currentParticipants || currentParticipants.length === 0) {
-      try {
-        const result = await examGradeProvider.getList(
-          1,
-          MAX_ITEM_PER_PAGE,
-          {},
-          {examId}
-        );
-        currentParticipants = result.data || [];
-      } catch (error) {
-        console.error("Error fetching participants for template:", error);
-        currentParticipants = [];
+      if (!currentParticipants || currentParticipants.length === 0) {
+        try {
+          const result = await examGradeProvider.getList(
+            1,
+            MAX_ITEM_PER_PAGE,
+            {},
+            {examId}
+          );
+          currentParticipants = result.data || [];
+        } catch (error) {
+          console.error("Error fetching participants for template:", error);
+          currentParticipants = [];
+        }
       }
+
+      const headers = ["student_ref", "score", "comment"];
+      const participantRows =
+        currentParticipants && currentParticipants.length > 0
+          ? currentParticipants.map((participant) => {
+              const student = participant.student || {};
+              const grade = participant.grade || {};
+              return [student.ref ?? "", grade.score ?? "", ""];
+            })
+          : [["STD12345", "", ""]];
+
+      const worksheet = XLSX.utils.aoa_to_sheet([
+        headers,
+        ...participantRows,
+        ["# student_ref est obligatoire"],
+        ["# Laisser score vide pour ne pas modifier la note existante"],
+        ["# Le champ comment est optionnel"],
+      ]);
+      const workbook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(workbook, worksheet, "Notes Examen");
+
+      XLSX.writeFile(
+        workbook,
+        `notes_examen_${new Date().toISOString().split("T")[0]}.xlsx`
+      );
+
+      notify("Modèle téléchargé avec succès", {type: "success"});
+    } catch (error) {
+      console.error("Error downloading template:", error);
+      notify("Erreur lors du téléchargement du modèle", {type: "error"});
+    } finally {
+      setIsDownloadingTemplate(false);
     }
-
-    const headers = ["student_ref", "score", "comment"];
-    const participantRows =
-      currentParticipants && currentParticipants.length > 0
-        ? currentParticipants.map((participant) => {
-            const student = participant.student || {};
-            const grade = participant.grade || {};
-            return [student.ref ?? "", grade.score ?? "", ""];
-          })
-        : [["STD12345", "", ""]];
-
-    const worksheet = XLSX.utils.aoa_to_sheet([
-      headers,
-      ...participantRows,
-      ["# student_ref est obligatoire"],
-      ["# Laisser score vide pour ne pas modifier la note existante"],
-      ["# Le champ comment est optionnel"],
-    ]);
-    const workbook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(workbook, worksheet, "Notes Examen");
-
-    XLSX.writeFile(
-      workbook,
-      `notes_examen_${new Date().toISOString().split("T")[0]}.xlsx`
-    );
   };
 
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center">
+        {validationErrors.length > 0 && (
+          <Box sx={{mb: 2, width: "100%", maxWidth: 600}}>
+            {validationErrors.map((error, index) => (
+              <Alert
+                key={index}
+                severity="error"
+                sx={{mb: 1}}
+                onClose={() =>
+                  setValidationErrors((errors) =>
+                    errors.filter((_, i) => i !== index)
+                  )
+                }
+              >
+                {error}
+              </Alert>
+            ))}
+          </Box>
+        )}
         <ImportButton
           validateData={validateGradeData}
           resource="notes"
@@ -238,13 +276,19 @@ export const ExamGradeListActions = ({examId}) => {
           disabled={isImporting}
           title="Importer des notes"
           description="Sélectionnez un fichier Excel contenant les notes des étudiants"
+          hideNewTemplate={true}
         />
-        <ButtonBase startIcon={<Download />} onClick={downloadTemplate}>
+        <ButtonBase
+          startIcon={<Download />}
+          onClick={downloadTemplate}
+          disabled={isImporting || isDownloadingTemplate}
+          sx={{mt: 1}}
+        >
           Modèle
         </ButtonBase>
       </Box>
       <Dialog
-        open={isImporting}
+        open={isImporting || isDownloadingTemplate}
         disableEscapeKeyDown
         PaperProps={{
           sx: {minWidth: 400, p: 2},
@@ -253,15 +297,21 @@ export const ExamGradeListActions = ({examId}) => {
         <DialogTitle>
           <Box display="flex" alignItems="center" gap={2}>
             <Loader size={24} />
-            <Typography variant="h6">Import des notes en cours</Typography>
+            <Typography variant="h6">
+              {isDownloadingTemplate
+                ? "Téléchargement du modèle"
+                : "Import des notes en cours"}
+            </Typography>
           </Box>
         </DialogTitle>
         <DialogContent>
           <Box sx={{mt: 2, mb: 3}}>
             <Typography variant="body2" color="text.secondary" gutterBottom>
-              {importProgress.message}
+              {isDownloadingTemplate
+                ? "Génération et téléchargement du modèle Excel..."
+                : importProgress.message}
             </Typography>
-            {importProgress.total > 0 && (
+            {!isDownloadingTemplate && importProgress.total > 0 && (
               <>
                 <Box sx={{mt: 2, mb: 1}}>
                   <LinearProgress
@@ -277,6 +327,11 @@ export const ExamGradeListActions = ({examId}) => {
                   terminées
                 </Typography>
               </>
+            )}
+            {isDownloadingTemplate && (
+              <Box sx={{mt: 2, mb: 1}}>
+                <LinearProgress sx={{height: 8, borderRadius: 4}} />
+              </Box>
             )}
           </Box>
         </DialogContent>

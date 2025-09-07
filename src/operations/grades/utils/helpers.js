@@ -8,6 +8,15 @@ export const validateGradeData = (data) => {
   const customValidator = (row) => {
     const errors = {};
 
+    if (row.score !== undefined && row.score !== "" && row.score !== null) {
+      const score = parseFloat(row.score);
+      if (isNaN(score)) {
+        errors.score = `La note "${row.score}" n'est pas un nombre valide`;
+      } else if (score < 0 || score > 20) {
+        errors.score = `La note doit être comprise entre 0 et 20 (reçu: ${score})`;
+      }
+    }
+
     if (row.score !== undefined && row.score !== "" && !row.comment) {
       errors.comment =
         "Le commentaire est obligatoire lorsque une note est fournie";
