@@ -15,6 +15,7 @@ export interface ExamGradeRecord {
 export const ParticipantsDataGrid = ({examId}: {examId: string}) => {
   const {isTeacher, isAdmin} = useRole();
 
+  // FIXME: Fix the main search
   return (
     <HaList
       icon={<Book />}
@@ -26,7 +27,10 @@ export const ParticipantsDataGrid = ({examId}: {examId: string}) => {
         title: "Notes des participants",
         className: "participants-list",
       }}
-      actions={<ExamGradeListActions examId={examId} />}
+      actions={
+        (isTeacher() || isAdmin()) && <ExamGradeListActions examId={examId} />
+      }
+      mainSearch={{label: "Référence d'un étudiant", source: "student_ref"}}
     >
       <TextField source="student.ref" label="Référence" />
       <TextField source="student.last_name" label="Nom" />

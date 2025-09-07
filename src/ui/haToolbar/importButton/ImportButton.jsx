@@ -14,6 +14,7 @@ export function ImportButton({
   minimalHeaders,
   transformData,
   resource,
+  hideNewTemplate = false,
 }) {
   const notify = useNotify();
   const [isOpen, , toggle] = useToggle();
@@ -92,9 +93,11 @@ export function ImportButton({
           A partir d'un template existant{" "}
           <ImportInputFile mutationRequest={doImport} ref={buttonRef} />
         </MenuItem>
-        <MenuItem onClick={toggle} sx={{color: "#4a4a48"}}>
-          A partir d'un nouveau template
-        </MenuItem>
+        {!hideNewTemplate && (
+          <MenuItem onClick={toggle} sx={{color: "#4a4a48"}}>
+            A partir d'un nouveau template
+          </MenuItem>
+        )}
       </Popover>
       <ImportDialog
         resource={resource}
