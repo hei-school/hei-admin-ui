@@ -16,12 +16,7 @@ export const validateGradeData = (data) => {
     return Object.keys(errors).length > 0 ? errors : null;
   };
 
-  return validateData(
-    data,
-    minimalHeaders,
-    optionalHeaders,
-    customValidator
-  );
+  return validateData(data, minimalHeaders, optionalHeaders, customValidator);
 };
 
 const transformGradeData = (data) =>

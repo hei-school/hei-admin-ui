@@ -169,7 +169,7 @@ export const ExamCard: FC<ExamCardProps> = ({exam, isLoading}) => (
             {exam.title}
           </Typography>
           <ExamTag
-            label={`Coef. ${exam.coefficient}`}
+            label={`Coef. ${exam.coefficient?.numerator}/${exam.coefficient?.denominator}`}
             color={PALETTE_COLORS.yellow}
           />
         </Stack>

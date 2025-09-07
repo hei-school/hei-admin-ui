@@ -50,7 +50,7 @@ export const ExamGradeListActions = ({examId}) => {
       setIsImporting(true);
 
       const flattened = data.flatMap((entry) => entry[1]);
-      
+
       const payload = flattened.map((row) => ({
         grade: {
           score: row.score ?? null,
@@ -59,7 +59,7 @@ export const ExamGradeListActions = ({examId}) => {
         student_ref: row.student_ref,
         comment: row.comment ?? null,
       }));
-      
+
       console.log("Payload to send:", payload);
 
       const result = await examGradeProvider.saveOrUpdate(payload, {examId});
@@ -69,7 +69,10 @@ export const ExamGradeListActions = ({examId}) => {
       console.error("Import error details:", error);
       console.error("Error response:", error.response?.data);
       console.error("Error status:", error.response?.status);
-      notify(`Erreur d'import: ${error.response?.data?.message || error.message}`, {type: "error"});
+      notify(
+        `Erreur d'import: ${error.response?.data?.message || error.message}`,
+        {type: "error"}
+      );
       throw error;
     } finally {
       setIsImporting(false);
@@ -94,18 +97,13 @@ export const ExamGradeListActions = ({examId}) => {
       }
     }
 
-    // Headers in the exact order they appear in Excel
     const headers = ["student_ref", "score", "comment"];
     const participantRows =
       currentParticipants && currentParticipants.length > 0
         ? currentParticipants.map((participant) => {
             const student = participant.student || {};
             const grade = participant.grade || {};
-            return [
-              student.ref ?? "",
-              grade.score ?? "",
-              "",
-            ];
+            return [student.ref ?? "", grade.score ?? "", ""];
           })
         : [["STD12345", "", ""]];
 

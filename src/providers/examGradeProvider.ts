@@ -6,11 +6,11 @@ const examGradeProvider: HaDataProviderType = {
   async getList(
     page: number,
     perPage: number = 10,
-    _filter?: any,
+    filter?: any,
     meta: Record<string, any> = {}
   ) {
     return gradesApi()
-      .getStudentGradesForExam(meta?.examId, page, perPage)
+      .getStudentGradesForExam(meta?.examId, page, perPage, filter?.student_ref)
       .then(({data = []}) => ({
         data: data.map((value) => ({...value, id: value?.grade?.id})),
       }));

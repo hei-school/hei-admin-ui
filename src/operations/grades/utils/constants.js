@@ -5,9 +5,7 @@ export const GRADE_HEADERS = {
     {id: 1, label: "student_ref", value: "student_ref", disabled: true},
     {id: 2, label: "score", value: "score"},
   ],
-  optional: [
-    {id: 3, label: "comment", value: "comment"},
-  ],
+  optional: [{id: 3, label: "comment", value: "comment"}],
 };
 
 export const COURSE_STATUS_LABELS = {

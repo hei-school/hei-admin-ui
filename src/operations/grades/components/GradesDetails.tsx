@@ -189,6 +189,18 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
       ? new Date(dateString).toLocaleDateString("fr-FR")
       : "non modifié";
 
+  const renderCoefficient = (coefficient: any) => {
+    if (
+      coefficient &&
+      typeof coefficient === "object" &&
+      coefficient.numerator !== undefined &&
+      coefficient.denominator !== undefined
+    ) {
+      return `${coefficient.numerator}/${coefficient.denominator}`;
+    }
+    return coefficient || "N/A";
+  };
+
   if (isLoading) {
     return (
       <TableMessageRow message="Chargement des détails..." type="loading" />
@@ -232,7 +244,9 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
               <TableCell align="right">
                 {renderGradeScore(grade.score)}
               </TableCell>
-              <TableCell align="right">{grade.exam?.coefficient}</TableCell>
+              <TableCell align="right">
+                {renderCoefficient(grade.exam?.coefficient)}
+              </TableCell>
               <TableCell align="right">
                 {renderDate(grade?.created_at?.toString())}
               </TableCell>

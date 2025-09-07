@@ -28,7 +28,7 @@ export const ExamHeader = ({exam}: ExamHeaderProps) => (
       Détails de l'examen {exam.title}
     </Typography>
     <Chip
-      label={`Coef. ${exam.coefficient}`}
+      label={`Coef. ${exam.coefficient?.numerator}/${exam.coefficient?.denominator}`}
       sx={{
         py: "3px",
         fontSize: "14px",
