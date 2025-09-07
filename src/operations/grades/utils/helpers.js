@@ -2,18 +2,13 @@ import {GRADE_HEADERS} from "@/operations/grades/utils/constants";
 import {validateData} from "@/ui/haToolbar";
 
 export const validateGradeData = (data) => {
-  const requiredFields = GRADE_HEADERS.minimal
-    .filter((header) => header.required)
-    .map((header) => header.value);
+  const minimalHeaders = GRADE_HEADERS.minimal.map((header) => header.value);
+  const optionalHeaders = GRADE_HEADERS.optional.map((header) => header.value);
 
   const customValidator = (row) => {
     const errors = {};
 
-    if (
-      row["grade.score"] !== undefined &&
-      row["grade.score"] !== "" &&
-      !row.comment
-    ) {
+    if (row.score !== undefined && row.score !== "" && !row.comment) {
       errors.comment =
         "Le commentaire est obligatoire lorsque une note est fournie";
     }
@@ -23,39 +18,27 @@ export const validateGradeData = (data) => {
 
   return validateData(
     data,
-    requiredFields,
-    GRADE_HEADERS.optional.map((el) => el.value),
+    minimalHeaders,
+    optionalHeaders,
     customValidator
   );
 };
 
 const transformGradeData = (data) =>
-  data.map(
-    ({"grade.score": score, comment, student_ref, student = {}, ...rest}) => {
-      const studentFields = Object.entries(rest).reduce((acc, [key, value]) => {
-        if (key.startsWith("student.")) {
-          const field = key.split(".")[1];
-          acc[field] = value;
-        }
-        return acc;
-      }, {});
-
-      return {
-        student_ref,
-        ...(score !== undefined && {
+  data.map((row) => {
+    return {
+      student_ref: row.student_ref,
+      ...(row.score !== undefined &&
+        row.score !== "" &&
+        row.score !== null && {
           grade: {
-            score: parseFloat(score),
-            comment: comment || "",
+            score: parseFloat(row.score),
+            student_id: null,
           },
         }),
-        student: {
-          ...student,
-          ...studentFields,
-          ref: student_ref,
-        },
-      };
-    }
-  );
+      comment: row.comment || "",
+    };
+  });
 
 export const transformGradesData = (data) => {
   if (!data || !Array.isArray(data)) {

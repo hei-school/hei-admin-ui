@@ -50,6 +50,7 @@ export const ExamGradeListActions = ({examId}) => {
       setIsImporting(true);
 
       const flattened = data.flatMap((entry) => entry[1]);
+      
       const payload = flattened.map((row) => ({
         grade: {
           score: row.score ?? null,
@@ -58,13 +59,17 @@ export const ExamGradeListActions = ({examId}) => {
         student_ref: row.student_ref,
         comment: row.comment ?? null,
       }));
+      
+      console.log("Payload to send:", payload);
 
       const result = await examGradeProvider.saveOrUpdate(payload, {examId});
       notify("Import réussi", {type: "success"});
       return result;
     } catch (error) {
-      console.error("Import error:", error);
-      notify("Une erreur est survenue lors de l'import", {type: "error"});
+      console.error("Import error details:", error);
+      console.error("Error response:", error.response?.data);
+      console.error("Error status:", error.response?.status);
+      notify(`Erreur d'import: ${error.response?.data?.message || error.message}`, {type: "error"});
       throw error;
     } finally {
       setIsImporting(false);
@@ -89,13 +94,8 @@ export const ExamGradeListActions = ({examId}) => {
       }
     }
 
-    const headers = [
-      "student_ref",
-      "last_name",
-      "first_name",
-      "score",
-      "comment",
-    ];
+    // Headers in the exact order they appear in Excel
+    const headers = ["student_ref", "score", "comment"];
     const participantRows =
       currentParticipants && currentParticipants.length > 0
         ? currentParticipants.map((participant) => {
@@ -103,21 +103,18 @@ export const ExamGradeListActions = ({examId}) => {
             const grade = participant.grade || {};
             return [
               student.ref ?? "",
-              student.last_name ?? "",
-              student.first_name ?? "",
               grade.score ?? "",
               "",
             ];
           })
-        : [["STD12345", "Doe", "John", "", ""]];
+        : [["STD12345", "", ""]];
 
     const worksheet = XLSX.utils.aoa_to_sheet([
       headers,
       ...participantRows,
       ["# student_ref est obligatoire"],
       ["# Laisser score vide pour ne pas modifier la note existante"],
-      ["# Le champ comment est requis seulement si aucune note n'existe"],
-      ["# last_name et first_name sont uniquement pour information"],
+      ["# Le champ comment est optionnel"],
     ]);
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, worksheet, "Notes Examen");

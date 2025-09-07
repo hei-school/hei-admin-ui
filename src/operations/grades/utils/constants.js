@@ -2,13 +2,11 @@ import {StudentLevel} from "@haapi-b0fc7615/typescript-client";
 
 export const GRADE_HEADERS = {
   minimal: [
-    {id: 1, label: "Référence", value: "student_ref", disabled: true},
-    {id: 2, label: "Note", value: "grade.score", required: true},
-    {id: 3, label: "Commentaire", value: "comment", required: true},
+    {id: 1, label: "student_ref", value: "student_ref", disabled: true},
+    {id: 2, label: "score", value: "score"},
   ],
   optional: [
-    {id: 4, label: "Nom", value: "student.last_name"},
-    {id: 5, label: "Prénom(s)", value: "student.first_name"},
+    {id: 3, label: "comment", value: "comment"},
   ],
 };
 
