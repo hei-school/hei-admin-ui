@@ -5,7 +5,10 @@ import {examMocks, gradesMocks} from "../fixtures/api_mocks/exam-mocks";
 const baseExam: Exam = {
   id: "exam-001",
   title: "Math Final",
-  coefficient: 3,
+  coefficient: {
+    numerator: 3,
+    denominator: 1,
+  },
   examination_date: new Date("2025-06-20"),
   course_assignment: {
     course: {code: "MATH101"},

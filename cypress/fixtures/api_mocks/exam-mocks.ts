@@ -6,7 +6,10 @@ import {teachersMock} from "./teachers-mocks";
 export const examMocks: Exam[] = [
   {
     id: "exam1_id",
-    coefficient: 1.5,
+    coefficient: {
+      numerator: 3,
+      denominator: 2,
+    },
     title: "Introduction to Programming",
     examination_date: new Date("2025-08-01T08:30:00.000Z"),
     course_assignment: {
@@ -53,7 +56,10 @@ export const examMocks: Exam[] = [
   },
   {
     id: "exam2_id",
-    coefficient: 2.0,
+    coefficient: {
+      numerator: 2,
+      denominator: 1,
+    } as any,
     title: "Database Fundamentals",
     examination_date: new Date("2025-05-15"),
     course_assignment: {
@@ -100,7 +106,10 @@ export const examMocks: Exam[] = [
   },
   {
     id: "exam3_id",
-    coefficient: 1.0,
+    coefficient: {
+      numerator: 1,
+      denominator: 1,
+    } as any,
     title: "Web Development Basics",
     examination_date: new Date("2025-05-20"),
     course_assignment: {
@@ -206,7 +215,10 @@ export const courseAssignmentMocks = [
 ];
 
 export const examCreateMock = {
-  coefficient: 1.5,
+  coefficient: {
+    numerator: 3,
+    denominator: 2,
+  },
   title: "Introduction to Programming",
   examination_date: "2025-08-01T06:30:00.000Z",
   course_assignment_id: "course_assignment1_id",
