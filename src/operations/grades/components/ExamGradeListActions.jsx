@@ -1,25 +1,40 @@
 import {useNotify} from "@/hooks";
+import {Loader} from "@/operations/common/components/Loader";
 import {
   GRADE_HEADERS,
   transformGradesData,
   validateGradeData,
 } from "@/operations/grades/utils";
+import createGradeProvider from "@/providers/createGradeProvider";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import examGradeProvider from "@/providers/examGradeProvider";
 import {useRole} from "@/security/hooks";
 import {ButtonBase, ImportButton} from "@/ui/haToolbar";
 import {Download} from "@mui/icons-material";
-import {Box} from "@mui/material";
+import {
+  Box,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  LinearProgress,
+  Typography,
+} from "@mui/material";
 import {useEffect, useState} from "react";
-import {useGetList} from "react-admin";
+import {useGetList, useRefresh} from "react-admin";
 import * as XLSX from "xlsx";
 
 export const ExamGradeListActions = ({examId}) => {
-  const {isManager, isAdmin, isTeacher} = useRole();
-  const notify = useNotify();
   const [isImporting, setIsImporting] = useState(false);
+  const [importProgress, setImportProgress] = useState({
+    current: 0,
+    total: 0,
+    message: "",
+  });
   const [participants, setParticipants] = useState([]);
+  const {isManager, isAdmin, isTeacher} = useRole();
   const hasPermission = isManager() || isAdmin() || isTeacher();
+  const notify = useNotify();
+  const refresh = useRefresh();
 
   const {data: participantsData} = useGetList("exam-grades", {
     pagination: {page: 1, perPage: MAX_ITEM_PER_PAGE},
@@ -48,27 +63,113 @@ export const ExamGradeListActions = ({examId}) => {
   const handleImport = async (data) => {
     try {
       setIsImporting(true);
+      setImportProgress({
+        current: 0,
+        total: 0,
+        message: "Préparation de l'import...",
+      });
 
-      const flattened = data.flatMap((entry) => entry[1]);
+      const transformedData = data[1] || [];
+      const processedItems = transformedData
+        .map((row) => {
+          const participant = participants.find(
+            (p) => p.student?.ref === row.student_ref
+          );
+          const studentId = participant?.student?.id || null;
+          const hasExistingGrade = participant?.grade?.id != null;
 
-      const payload = flattened.map((row) => ({
-        grade: {
-          score: row.score ?? null,
-          student_id: row.student_id ?? null,
-        },
-        student_ref: row.student_ref,
-        comment: row.comment ?? null,
-      }));
+          let score = row.grade?.score ?? null;
+          if (score !== null && score !== undefined) {
+            score = Math.max(0, Math.min(20, score));
+          }
 
-      console.log("Payload to send:", payload);
+          const hasScore = score !== null && score !== undefined;
+          const comment =
+            row.comment || (hasScore ? "Note modifiée via import" : "");
 
-      const result = await examGradeProvider.saveOrUpdate(payload, {examId});
+          return {
+            student_ref: row.student_ref,
+            comment: comment,
+            grade: {
+              score: hasScore ? score : null,
+              student_id: studentId,
+            },
+            hasExistingGrade,
+          };
+        })
+        .filter((item) => item.grade.student_id !== null);
+
+      if (processedItems.length === 0) {
+        notify("Aucun étudiant trouvé pour l'import des notes", {
+          type: "warning",
+        });
+        return;
+      }
+
+      const itemsToCreate = processedItems.filter(
+        (item) => !item.hasExistingGrade
+      );
+      const itemsToUpdate = processedItems
+        .filter((item) => item.hasExistingGrade)
+        .map(({hasExistingGrade, ...item}) => item);
+
+      const totalOperations =
+        itemsToCreate.length + (itemsToUpdate.length > 0 ? 1 : 0);
+      setImportProgress({
+        current: 0,
+        total: totalOperations,
+        message: `Traitement de ${processedItems.length} note(s)...`,
+      });
+
+      const results = [];
+      let completed = 0;
+
+      for (const item of itemsToCreate) {
+        try {
+          setImportProgress({
+            current: completed,
+            total: totalOperations,
+            message: `Création de la note pour ${item.student_ref}...`,
+          });
+
+          const result = await createGradeProvider.saveOrUpdate(
+            {score: item.grade.score},
+            {examId, studentId: item.grade.student_id}
+          );
+          results.push(result);
+          completed++;
+        } catch (error) {
+          console.error(
+            `Error creating grade for student ${item.student_ref}:`,
+            error
+          );
+          throw error;
+        }
+      }
+
+      if (itemsToUpdate.length > 0) {
+        setImportProgress({
+          current: completed,
+          total: totalOperations,
+          message: `Mise à jour de ${itemsToUpdate.length} note(s) existante(s)...`,
+        });
+
+        const result = await examGradeProvider.saveOrUpdate(itemsToUpdate, {
+          examId,
+        });
+        results.push(result);
+        completed++;
+      }
+
+      setImportProgress({
+        current: totalOperations,
+        total: totalOperations,
+        message: "Finalisation de l'import...",
+      });
       notify("Import réussi", {type: "success"});
-      return result;
+      refresh();
+      return results;
     } catch (error) {
-      console.error("Import error details:", error);
-      console.error("Error response:", error.response?.data);
-      console.error("Error status:", error.response?.status);
       notify(
         `Erreur d'import: ${error.response?.data?.message || error.message}`,
         {type: "error"}
@@ -76,6 +177,7 @@ export const ExamGradeListActions = ({examId}) => {
       throw error;
     } finally {
       setIsImporting(false);
+      setImportProgress({current: 0, total: 0, message: ""});
     }
   };
 
@@ -124,21 +226,61 @@ export const ExamGradeListActions = ({examId}) => {
   };
 
   return (
-    <Box display="flex" flexDirection="column" alignItems="center">
-      <ImportButton
-        validateData={validateGradeData}
-        resource="notes"
-        provider={handleImport}
-        transformData={transformGradesData}
-        minimalHeaders={GRADE_HEADERS.minimal}
-        optionalHeaders={GRADE_HEADERS.optional}
-        disabled={isImporting}
-        title="Importer des notes"
-        description="Sélectionnez un fichier Excel contenant les notes des étudiants"
-      />
-      <ButtonBase startIcon={<Download />} onClick={downloadTemplate}>
-        Modèle
-      </ButtonBase>
-    </Box>
+    <>
+      <Box display="flex" flexDirection="column" alignItems="center">
+        <ImportButton
+          validateData={validateGradeData}
+          resource="notes"
+          provider={handleImport}
+          transformData={transformGradesData}
+          minimalHeaders={GRADE_HEADERS.minimal}
+          optionalHeaders={GRADE_HEADERS.optional}
+          disabled={isImporting}
+          title="Importer des notes"
+          description="Sélectionnez un fichier Excel contenant les notes des étudiants"
+        />
+        <ButtonBase startIcon={<Download />} onClick={downloadTemplate}>
+          Modèle
+        </ButtonBase>
+      </Box>
+      <Dialog
+        open={isImporting}
+        disableEscapeKeyDown
+        PaperProps={{
+          sx: {minWidth: 400, p: 2},
+        }}
+      >
+        <DialogTitle>
+          <Box display="flex" alignItems="center" gap={2}>
+            <Loader size={24} />
+            <Typography variant="h6">Import des notes en cours</Typography>
+          </Box>
+        </DialogTitle>
+        <DialogContent>
+          <Box sx={{mt: 2, mb: 3}}>
+            <Typography variant="body2" color="text.secondary" gutterBottom>
+              {importProgress.message}
+            </Typography>
+            {importProgress.total > 0 && (
+              <>
+                <Box sx={{mt: 2, mb: 1}}>
+                  <LinearProgress
+                    variant="determinate"
+                    value={
+                      (importProgress.current / importProgress.total) * 100
+                    }
+                    sx={{height: 8, borderRadius: 4}}
+                  />
+                </Box>
+                <Typography variant="caption" color="text.secondary">
+                  {importProgress.current} / {importProgress.total} opérations
+                  terminées
+                </Typography>
+              </>
+            )}
+          </Box>
+        </DialogContent>
+      </Dialog>
+    </>
   );
 };
