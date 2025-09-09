@@ -12,7 +12,15 @@ export interface ExamGradeRecord {
   grade?: Grade;
 }
 
-export const ParticipantsDataGrid = ({examId}: {examId: string}) => {
+interface ParticipantsDataGridProps {
+  examId: string;
+  examName: string;
+}
+
+export const ParticipantsDataGrid = ({
+  examId,
+  examName,
+}: ParticipantsDataGridProps) => {
   const {isTeacher, isAdmin} = useRole();
 
   return (
@@ -27,7 +35,9 @@ export const ParticipantsDataGrid = ({examId}: {examId: string}) => {
         className: "participants-list",
       }}
       actions={
-        (isTeacher() || isAdmin()) && <ExamGradeListActions examId={examId} />
+        (isTeacher() || isAdmin()) && (
+          <ExamGradeListActions examName={examName} examId={examId} />
+        )
       }
     >
       <TextField source="student.ref" label="Référence" />

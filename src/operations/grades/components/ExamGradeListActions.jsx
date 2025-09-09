@@ -5,6 +5,7 @@ import {
   transformGradesData,
   validateGradeData,
 } from "@/operations/grades/utils";
+import {exportGradeTemplate} from "@/operations/grades/utils/xlsxExport";
 import createGradeProvider from "@/providers/createGradeProvider";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import examGradeProvider from "@/providers/examGradeProvider";
@@ -22,9 +23,8 @@ import {
 } from "@mui/material";
 import {useEffect, useState} from "react";
 import {useGetList, useRefresh} from "react-admin";
-import * as XLSX from "xlsx";
 
-export const ExamGradeListActions = ({examId}) => {
+export const ExamGradeListActions = ({examId, examName}) => {
   const [isImporting, setIsImporting] = useState(false);
   const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
   const [importProgress, setImportProgress] = useState({
@@ -211,30 +211,9 @@ export const ExamGradeListActions = ({examId}) => {
         }
       }
 
-      const headers = ["student_ref", "score", "comment"];
-      const participantRows =
-        currentParticipants && currentParticipants.length > 0
-          ? currentParticipants.map((participant) => {
-              const student = participant.student || {};
-              const grade = participant.grade || {};
-              return [student.ref ?? "", grade.score ?? "", ""];
-            })
-          : [["STD12345", "", ""]];
+      const fileName = `Notes ${examName}`;
 
-      const worksheet = XLSX.utils.aoa_to_sheet([
-        headers,
-        ...participantRows,
-        ["# student_ref est obligatoire"],
-        ["# Laisser score vide pour ne pas modifier la note existante"],
-        ["# Le champ comment est optionnel"],
-      ]);
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Notes Examen");
-
-      XLSX.writeFile(
-        workbook,
-        `notes_examen_${new Date().toISOString().split("T")[0]}.xlsx`
-      );
+      exportGradeTemplate(currentParticipants, fileName);
 
       notify("Modèle téléchargé avec succès", {type: "success"});
     } catch (error) {
@@ -279,12 +258,16 @@ export const ExamGradeListActions = ({examId}) => {
           hideNewTemplate={true}
         />
         <ButtonBase
-          startIcon={<Download />}
+          startIcon={
+            isDownloadingTemplate ? <Loader size={16} /> : <Download />
+          }
           onClick={downloadTemplate}
           disabled={isImporting || isDownloadingTemplate}
           sx={{mt: 1}}
         >
-          Modèle
+          {isDownloadingTemplate
+            ? "Téléchargement..."
+            : "Télécharger le modèle"}
         </ButtonBase>
       </Box>
       <Dialog
