@@ -6,24 +6,68 @@ describe("Grades Data Utils coverage", () => {
       expect(win).to.have.property("validateGradeData");
       expect(win).to.have.property("transformGradesData");
 
-      const data = [
-        {"grade.score": 15, "id": "student1", "name": "Alice"},
-        {"grade.score": null, "id": "student2", "name": "Bob"},
+      const validData = [
+        {student_ref: "STD001", score: 15, comment: "Excellent work"},
+        {student_ref: "STD002", score: 12.5, comment: "Good effort"},
+        {student_ref: "STD003", score: "", comment: ""},
       ];
 
-      const transformed = win.transformGradesData(data);
-      expect(transformed).to.have.length(1);
-      expect(transformed[0][1]).to.have.length(2);
+      const invalidData = [
+        {student_ref: "STD004", score: 25, comment: "Out of range"},
+        {student_ref: "STD005", score: -5, comment: "Negative score"},
+        {student_ref: "STD006", score: "abc", comment: "Not a number"},
+        {student_ref: "STD007", score: 15, comment: ""},
+      ];
 
-      expect(transformed[0][1][0].grade.score).to.eq(15);
-      expect(transformed[0][1][0].id).to.eq("student1");
-      expect(transformed[0][1][0].name).to.eq("Alice");
+      const transformed = win.transformGradesData(validData);
+      expect(transformed).to.have.length(2);
+      expect(transformed[0]).to.deep.equal([]);
+      expect(transformed[1]).to.have.length(3);
 
-      expect(transformed[0][1][1].grade.score).to.eq(0);
-      expect(transformed[0][1][1].id).to.eq("student2");
+      expect(transformed[1][0]).to.deep.equal({
+        student_ref: "STD001",
+        grade: {
+          score: 15,
+          student_id: null,
+        },
+        comment: "Excellent work",
+      });
 
-      const valid = win.validateGradeData(data);
-      expect(valid).to.exist;
+      expect(transformed[1][1]).to.deep.equal({
+        student_ref: "STD002",
+        grade: {
+          score: 12.5,
+          student_id: null,
+        },
+        comment: "Good effort",
+      });
+
+      expect(transformed[1][2]).to.deep.equal({
+        student_ref: "STD003",
+        comment: "",
+      });
+
+      const validationResult = win.validateGradeData(validData);
+      expect(validationResult).to.have.property("isValid", true);
+      expect(validationResult).to.have.property("errors");
+      expect(validationResult.errors).to.be.empty;
+
+      const invalidValidationResult = win.validateGradeData(invalidData);
+      expect(invalidValidationResult).to.have.property("isValid", false);
+      expect(invalidValidationResult).to.have.property("errors");
+      expect(invalidValidationResult.errors).to.not.be.empty;
+
+      const emptyData: Array<{
+        student_ref: string;
+        score: number | string;
+        comment: string;
+      }> = [];
+      const emptyTransformed = win.transformGradesData(emptyData);
+      expect(emptyTransformed).to.deep.equal([[], []]);
+
+      const nullData = null;
+      const nullTransformed = win.transformGradesData(nullData);
+      expect(nullTransformed).to.deep.equal([[], []]);
     });
   });
 });

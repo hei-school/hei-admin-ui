@@ -1,7 +1,12 @@
 export const excelType =
   "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel";
 
-export const validateData = (data, minimalHeaders, optionalHeaders) => {
+export const validateData = (
+  data,
+  minimalHeaders,
+  optionalHeaders,
+  customValidator
+) => {
   const result = {isValid: false, message: ""};
 
   const isAllValid = (data1) => {
@@ -13,14 +18,76 @@ export const validateData = (data, minimalHeaders, optionalHeaders) => {
   };
   if (data.length === 0) {
     result.message = "Il n'y a pas d'élément à insérer";
-  } else if (data.length > 1000) {
-    result.message = "Vous ne pouvez importer que 1000 éléments à la fois.";
+  } else if (data.length > 20) {
+    result.message = "Vous ne pouvez importer que 20 éléments à la fois.";
   } else {
     const isValid = isAllValid(Object.keys(data[0]));
     if (!isValid.areValidHeader) {
       result.message = "Veuillez re-vérifier les en-têtes de votre fichier";
     } else if (!isValid.includeMinimal) {
       result.message = "Quelques en-têtes obligatoire sont manquantes";
+    } else if (customValidator) {
+      const customErrors = [];
+      for (let i = 0; i < data.length; i++) {
+        const rowErrors = customValidator(data[i]);
+        if (rowErrors) {
+          Object.entries(rowErrors).forEach(([field, error]) => {
+            customErrors.push(`Ligne ${i + 2}: ${error}`);
+          });
+        }
+      }
+      if (customErrors.length > 0) {
+        result.message = customErrors.join("; ");
+      } else {
+        result.isValid = true;
+      }
+    } else {
+      result.isValid = true;
+    }
+  }
+
+  return result;
+};
+
+export const validateGradeData = (
+  data,
+  minimalHeaders,
+  optionalHeaders,
+  customValidator
+) => {
+  const result = {isValid: false, message: ""};
+
+  const isAllValid = (data1) => {
+    const areValidHeader = data1.every((el) =>
+      [...minimalHeaders, ...optionalHeaders].includes(el)
+    );
+    const includeMinimal = minimalHeaders.every((el) => data1.includes(el));
+    return {areValidHeader, includeMinimal};
+  };
+
+  if (data.length === 0) {
+    result.message = "Il n'y a pas d'élément à insérer";
+  } else {
+    const isValid = isAllValid(Object.keys(data[0]));
+    if (!isValid.areValidHeader) {
+      result.message = "Veuillez re-vérifier les en-têtes de votre fichier";
+    } else if (!isValid.includeMinimal) {
+      result.message = "Quelques en-têtes obligatoire sont manquantes";
+    } else if (customValidator) {
+      const customErrors = [];
+      for (let i = 0; i < data.length; i++) {
+        const rowErrors = customValidator(data[i]);
+        if (rowErrors) {
+          Object.entries(rowErrors).forEach(([field, error]) => {
+            customErrors.push(`Ligne ${i + 2}: ${error}`);
+          });
+        }
+      }
+      if (customErrors.length > 0) {
+        result.message = customErrors.join("; ");
+      } else {
+        result.isValid = true;
+      }
     } else {
       result.isValid = true;
     }
