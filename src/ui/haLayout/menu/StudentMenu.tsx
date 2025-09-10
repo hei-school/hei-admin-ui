@@ -20,7 +20,7 @@ function StudentMenu() {
   };
 
   return (
-    <Box sx={{position: "relative"}} height="calc(100% - 100px)">
+    <Box sx={{position: "relative"}}>
       <SingleMenu
         to={
           whoamiId ? `/students/${authProvider.getCachedWhoami().id}/fees` : "/"
@@ -54,22 +54,12 @@ function StudentMenu() {
         label="Présences"
         icon={<EventIcon />}
       />
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 1,
-        }}
-      >
-        <SingleMenu
-          label="Se déconnecter"
-          icon={<LogoutIcon />}
-          onClick={() => logout()}
-        />
-      </Box>
+
+      <SingleMenu
+        label="Se déconnecter"
+        icon={<LogoutIcon />}
+        onClick={() => logout()}
+      />
     </Box>
   );
 }
