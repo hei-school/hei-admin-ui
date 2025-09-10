@@ -69,7 +69,9 @@ describe("ExamParticipantList", () => {
       .should("be.visible");
     cy.getByTestid("exam-card")
       .first()
-      .contains(`Coef. ${examMocks[0].coefficient}`)
+      .contains(
+        `Coef. ${examMocks[0].coefficient?.numerator}/${examMocks[0].coefficient?.denominator}`
+      )
       .should("be.visible");
     cy.getByTestid("exam-card")
       .first()
@@ -100,7 +102,15 @@ describe("ExamParticipantList", () => {
     cy.get('input[name="title"]').type(examMocks[0].title!);
     cy.wait("@getCourseAssignments");
 
-    cy.get('input[name="coefficient"]').type(String(examMocks[0].coefficient));
+    cy.getByTestid("coefficient-numerator-input").type(
+      String(examMocks[0].coefficient?.numerator)
+    );
+    cy.getByTestid("coefficient-numerator-input").type(
+      String(examMocks[0].coefficient?.numerator)
+    );
+    cy.getByTestid("coefficient-denominator-input").type(
+      String(examMocks[0].coefficient?.denominator)
+    );
 
     cy.getByTestid("course-select").click();
     cy.get('[role="option"]')
