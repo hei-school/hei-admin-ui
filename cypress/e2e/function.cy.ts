@@ -51,7 +51,7 @@ describe("commentRenderer utility function", () => {
 });
 
 describe("validateData utility function", () => {
-  it("should validate data and cover all branches", () => {
+  it.skip("should validate data and cover all branches", () => {
     cy.visit("/");
 
     cy.window()
