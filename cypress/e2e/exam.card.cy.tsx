@@ -34,7 +34,14 @@ describe("ExamCard test", () => {
   it("should render all exam info", () => {
     cy.getByTestid("exam-card").should("exist");
     cy.contains(examMocks[0].title ?? "").should("be.visible");
-    cy.contains(`Coef. ${examMocks[0].coefficient}`).should("be.visible");
+
+    const coefficient = examMocks[0].coefficient;
+    const coefficientText =
+      coefficient?.denominator === 1
+        ? `Coef. ${coefficient.numerator}`
+        : `Coef. ${coefficient?.numerator}/${coefficient?.denominator}`;
+    cy.contains(coefficientText).should("be.visible");
+
     cy.contains(`${examMocks[0].course_assignment?.course?.code}`).should(
       "be.visible"
     );

@@ -173,7 +173,6 @@ export const ExamCard: FC<ExamCardProps> = ({exam, isLoading}) => (
             color={PALETTE_COLORS.yellow}
           />
         </Stack>
-
         <Box sx={{px: "1rem", pb: "1rem"}}>
           <Stack direction="row" alignItems="center" spacing={1} mb={2}>
             <Clock width={20} />
