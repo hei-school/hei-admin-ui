@@ -21,7 +21,8 @@ const statsProvider: HaDataProviderType = {
         return payingApi()
           .getAdvancedFeesStats(
             formatDateToLocalTimeZone(monthFrom),
-            formatDateToLocalTimeZone(monthTo)
+            formatDateToLocalTimeZone(monthTo),
+            filter.viewMode
           )
           .then((result) => ({id, ...result.data}));
       case "fees":

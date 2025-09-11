@@ -92,4 +92,37 @@ describe("Mobile payment by student", () => {
 
     cy.contains("Paiement échoué");
   });
+  // desabled for now so remove it when needed
+  it.skip("should toggle view mode between Comptable and Encaissement in FeesListHeader", () => {
+    cy.viewport(1280, 800);
+
+    cy.intercept("GET", `/fees?*`, {
+      data: feesMpbsMock,
+      statistics: {},
+    }).as("getFees");
+    cy.intercept("GET", `/fees/advanced-stats?month_from=*`, advancedStats).as(
+      "getFeesStats"
+    );
+
+    cy.get(`[href="/transactions"]`).click();
+
+    cy.wait("@getFees");
+    cy.wait("@getFeesStats");
+
+    cy.get('[data-testid="viewmode-accounting"]').should("exist");
+    cy.get('[data-testid="viewmode-receipt"]').should("exist");
+
+    cy.get('[data-testid="viewmode-receipt"]').click();
+    cy.get('[data-testid="viewmode-receipt"]').should(
+      "have.css",
+      "background-color",
+      "rgb(255, 255, 255)"
+    );
+
+    cy.get('[data-testid="viewmode-accounting"]').should(
+      "not.have.css",
+      "background-color",
+      "rgb(255, 255, 255)"
+    );
+  });
 });

@@ -24,6 +24,7 @@ import {StudentLevel, ViewType} from "../types/types";
 import {getCourseStatusLabel} from "../utils";
 import {StatusChip} from "../utils/StatusChip";
 import {GradesDetails} from "./GradesDetails";
+import {renderWeightedAverage} from "./utils";
 
 export const CoursesListView: FC<{
   studentId: string;
@@ -158,9 +159,12 @@ const CoursesListViewList = () => {
                       </TableCell>
                     </TableRow>
                   ) : (
-                    courseResults.map((courseResult) => (
+                    courseResults.map((courseResult, index) => (
                       <TableRow
-                        key={courseResult?.id}
+                        key={
+                          courseResult?.id ??
+                          `${courseResult?.course?.code ?? "course"}-${index}`
+                        }
                         hover
                         data-testid="course-row"
                         sx={{
@@ -178,16 +182,9 @@ const CoursesListViewList = () => {
                           {courseResult?.course?.credits}
                         </TableCell>
                         <TableCell align="right">
-                          <Typography
-                            fontWeight="bold"
-                            color={
-                              (courseResult?.weighted_average ?? 0 >= 10)
-                                ? "success.main"
-                                : "error.main"
-                            }
-                          >
-                            {courseResult?.weighted_average?.toFixed(2)}/20
-                          </Typography>
+                          {renderWeightedAverage(
+                            courseResult?.weighted_average
+                          )}
                         </TableCell>
                         <TableCell align="center">
                           <StatusChip

@@ -20,7 +20,7 @@ export const LettersFilter: FC = () => {
         choices={[
           {id: LetterStatus.PENDING, name: "En attente"},
           {id: LetterStatus.RECEIVED, name: "Acceptée"},
-          {id: LetterStatus.REJECTED, name: "Refusée"},
+          {id: LetterStatus.REJECTED, name: "Invalide"},
         ]}
       />
       <TextFilter

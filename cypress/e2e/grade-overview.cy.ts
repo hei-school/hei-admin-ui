@@ -132,7 +132,7 @@ describe("All View", () => {
       );
       cy.getByTestid("global-summary-obtained-credits").should(
         "contain",
-        `${summaryResultMocks.obtained_credits}/${summaryResultMocks.total_credits}`
+        `${summaryResultMocks.obtained_credits}/ 180`
       );
       cy.getByTestid("global-summary-status-chip").should(
         "contain",
@@ -232,6 +232,146 @@ describe("All View", () => {
 
       cy.getByTestid("global-summary-card").should("not.exist");
       cy.getByTestid("empty-block").should("be.visible");
+    });
+
+    it("should render locked accordion when yearly status is NOT_STARTED", () => {
+      const lockedSummary = {
+        weighted_average: 0,
+        obtained_credits: 0,
+        total_credits: 180,
+        status: "NOT_STARTED",
+        yearly_results: [
+          {
+            level: "L1",
+            status: "NOT_STARTED",
+            weighted_average: 0,
+            obtained_credits: 0,
+            total_credits: 60,
+            course_results: [],
+          },
+        ],
+      };
+
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id}/results_summary`,
+        lockedSummary
+      ).as("getGlobalSummaryLocked");
+
+      cy.getByTestid("global-view-toggle").click();
+      cy.wait("@getGlobalSummaryLocked");
+
+      cy.getByTestid("yearly-result-accordion")
+        .first()
+        .within(() => {
+          cy.contains("Non commencé");
+          cy.contains(lockedSummary.yearly_results[0].level);
+        });
+    });
+
+    it("should display VALIDATED status chip when yearly status is VALIDATED", () => {
+      const validatedSummary = {
+        weighted_average: 14.5,
+        obtained_credits: 60,
+        total_credits: 180,
+        status: "VALIDATED",
+        yearly_results: [
+          {
+            level: "L2",
+            status: "VALIDATED",
+            weighted_average: 14.5,
+            obtained_credits: 60,
+            total_credits: 60,
+            course_results: [
+              {
+                id: "c1",
+                status: "VALIDATED",
+                weighted_average: 15,
+                course: {name: "Cours A", credits: 6},
+              },
+            ],
+          },
+        ],
+      };
+
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id}/results_summary`,
+        validatedSummary
+      ).as("getGlobalSummaryValidated");
+
+      cy.getByTestid("global-view-toggle").click();
+      cy.wait("@getGlobalSummaryValidated");
+
+      cy.getByTestid("yearly-result-accordion")
+        .first()
+        .within(() => {
+          cy.contains(getCourseStatusLabel("VALIDATED"));
+          cy.getByTestid("accordion-summary-button").click();
+          cy.getByTestid("yearly-result-average").should(
+            "contain",
+            validatedSummary.yearly_results[0].weighted_average!.toFixed(2)
+          );
+          cy.getByTestid("courses-lists-row").should(
+            "have.length",
+            validatedSummary.yearly_results[0].course_results.length
+          );
+        });
+    });
+
+    it("should display PROGRESS status chip when yearly status includes PROGRESS", () => {
+      const progressSummary = {
+        weighted_average: 12.0,
+        obtained_credits: 30,
+        total_credits: 180,
+        status: "IN_PROGRESS",
+        yearly_results: [
+          {
+            level: "L3",
+            status: "IN_PROGRESS",
+            weighted_average: 12.0,
+            obtained_credits: 30,
+            total_credits: 60,
+            course_results: [
+              {
+                id: "c2",
+                status: "IN_PROGRESS",
+                weighted_average: 12.0,
+                course: {name: "Cours B", credits: 6},
+              },
+            ],
+          },
+        ],
+      };
+
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id}/results_summary`,
+        progressSummary
+      ).as("getGlobalSummaryProgress");
+
+      cy.getByTestid("global-view-toggle").click();
+      cy.wait("@getGlobalSummaryProgress");
+
+      cy.getByTestid("yearly-result-accordion")
+        .first()
+        .within(() => {
+          cy.contains(getCourseStatusLabel("IN_PROGRESS"));
+          cy.getByTestid("accordion-summary-button").click();
+          cy.getByTestid("courses-lists-row")
+            .first()
+            .within(() => {
+              cy.contains(
+                progressSummary.yearly_results[0].course_results[0].course?.name
+              );
+              cy.contains(
+                progressSummary.yearly_results[0].course_results[0].weighted_average!.toFixed(
+                  2
+                )
+              );
+              cy.contains(getCourseStatusLabel("IN_PROGRESS"));
+            });
+        });
     });
   });
 });

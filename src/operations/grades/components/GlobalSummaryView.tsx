@@ -180,10 +180,7 @@ export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
                     {summary_result?.obtained_credits
                       ? summary_result?.obtained_credits
                       : 0}
-                    /
-                    {summary_result?.total_credits
-                      ? summary_result?.total_credits
-                      : 0}
+                    / 180
                   </Typography>
                 </Box>
               </Paper>

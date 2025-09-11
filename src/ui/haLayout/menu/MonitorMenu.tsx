@@ -17,7 +17,7 @@ function MonitorMenu() {
   };
 
   return (
-    <Box sx={{position: "relative"}} height="calc(100% - 100px)">
+    <Box sx={{position: "relative", overflowY: "auto"}}>
       <SingleMenu
         to={`/monitors/${monitorId}/students`}
         label="Étudiants"
@@ -34,22 +34,11 @@ function MonitorMenu() {
         label="Annonces"
         icon={<AnnouncementIcon />}
       />
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          padding: 1,
-        }}
-      >
-        <SingleMenu
-          label="Se déconnecter"
-          icon={<LogoutIcon />}
-          onClick={() => logout()}
-        />
-      </Box>
+      <SingleMenu
+        label="Se déconnecter"
+        icon={<LogoutIcon />}
+        onClick={() => logout()}
+      />
     </Box>
   );
 }

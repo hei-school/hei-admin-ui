@@ -11,12 +11,16 @@ import {
 
 export const ExamParticipantList = () => {
   const {id: examId} = useParams<{id: string}>();
+  const {
+    data: exam,
+    isLoading,
+    isError,
+  } = useGetOne("exams", {id: examId || ""});
 
   if (!examId) {
     return <Typography>ID d'examen manquant</Typography>;
   }
-
-  const {data: exam, isLoading, isError} = useGetOne("exams", {id: examId});
+  const examName = exam?.title;
 
   if (isLoading) return <Typography>Chargement des données...</Typography>;
   if (isError) return <ExamLoadError />;
@@ -33,7 +37,7 @@ export const ExamParticipantList = () => {
       <ExamHeader exam={exam} />
       <ExamDetails exam={exam} />
       <Divider sx={{mt: 1, mb: 1, width: "90%", mx: "auto"}} />
-      <ParticipantsDataGrid examId={examId!} />
+      <ParticipantsDataGrid examName={examName!} examId={examId!} />
     </Box>
   );
 };

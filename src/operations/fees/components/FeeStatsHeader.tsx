@@ -68,7 +68,7 @@ const BoxItem: FC<
       <Box
         sx={{
           height: 40,
-          width: 40,
+          minWidth: 40,
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
@@ -82,12 +82,18 @@ const BoxItem: FC<
       <Box
         sx={{
           color: "white",
+          overflow: "hidden",
         }}
       >
-        <Typography variant="body2" fontSize="1rem">
+        <Typography variant="body2" fontSize="0.9rem" noWrap>
           {title}
         </Typography>
-        <Typography variant="subtitle2" fontWeight="800" fontSize="1rem">
+        <Typography
+          variant="subtitle2"
+          fontWeight="800"
+          fontSize="0.9rem"
+          noWrap
+        >
           {value}
         </Typography>
       </Box>
@@ -101,12 +107,12 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
   action,
 }) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
+  const isMobile = useMediaQuery("(max-width:768px)");
 
   return (
     <Box
-      width="calc(100% - 20px)"
+      width="100%"
       mx="auto"
-      marginTop={3}
       display="flex"
       flexDirection="column"
       position="relative"
@@ -118,32 +124,53 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
         bgcolor="#f1C16B"
         display="flex"
         justifyContent="space-between"
-        px={5}
+        px={{xs: 2, md: 5}}
         paddingTop={5}
+        width="100%"
         borderRadius="20px 20px 0px 0px"
         paddingBottom={15}
       >
-        <Box width="100%">
-          <Typography variant="h5" fontWeight="bolder">
-            {title}
-          </Typography>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: isMobile ? "flex-start" : "center",
+            gap: isSmall ? 1 : 2,
+            width: "100%",
+            justifyContent: "space-between",
+          }}
+        >
+          <Box width="100%">
+            <Typography
+              variant="h5"
+              fontWeight="bolder"
+              fontSize={{xs: "1.2rem", md: "1.5rem"}}
+            >
+              {title}
+            </Typography>
+          </Box>
+          <Box>{action}</Box>
         </Box>
-        <Box>{action}</Box>
       </Box>
       <Box
         display="grid"
-        gridTemplateColumns={`repeat(${isSmall ? "auto-fill" : cardContents.length}, minmax(11.25rem, 1fr))`}
-        gridTemplateRows="auto"
-        width="98%"
-        m="auto"
-        marginTop="-1rem"
+        gridTemplateColumns={{
+          xs: "1fr",
+          sm: "repeat(2, 1fr)",
+          lg: `repeat(${cardContents.length > 3 ? 3 : cardContents.length}, 1fr)`,
+          xl: `repeat(${cardContents.length}, 1fr)`,
+        }}
+        gap={2}
+        width="fit-content"
+        mx="auto"
+        marginTop="-130px"
+        px={2}
       >
         {cardContents.map((card) => (
           <Box
             key={card.title}
             sx={{
               background: `url(${cardBackground}), linear-gradient(120deg, #001948 0%, #001B4E 12%, #003CAE 86%)`,
-              m: "-80px 5px 5px 5px",
               backgroundSize: "cover",
               backgroundPosition: "right",
               borderRadius: "10px",
@@ -151,8 +178,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
               flexDirection: "column",
               justifyContent: "center",
               gap: "1vh",
-              paddingBlock: "10px",
-              minWidth: "300px",
+              padding: "15px",
             }}
           >
             <Box
@@ -176,6 +202,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
                   color: "white",
                   borderRadius: "50%",
                   background: "rgba(167,167,167, 0.54)",
+                  flexShrink: 0,
                 }}
               >
                 {card.icon}
@@ -183,17 +210,18 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
               <Typography
                 variant="h5"
                 color="white"
-                fontSize="1.4rem"
+                fontSize={{xs: "1.1rem", md: "1.4rem"}}
                 fontWeight="700"
+                noWrap
+                flex={1}
+                minWidth={0}
               >
                 {card.title}
               </Typography>
               {card.bank_fees !== undefined &&
                 card.mobile_money !== undefined && (
                   <Box
-                    position="absolute"
                     sx={{
-                      right: "10px",
                       height: 40,
                       width: 40,
                       display: "flex",
@@ -202,6 +230,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
                       color: "white",
                       borderRadius: "50%",
                       background: "rgba(167,167,167, 0.54)",
+                      flexShrink: 0,
                     }}
                   >
                     <CardInfos
@@ -211,22 +240,12 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
                   </Box>
                 )}
             </Box>
-            <Box
-              display="grid"
-              gridTemplateColumns="1fr 1fr 1fr "
-              gap="10px"
-              paddingInline="15px"
-            >
+            <Box display="grid" gridTemplateColumns="repeat(3, 1fr)" gap="10px">
               <BoxItem value={card.L1} title="L1" icon={<GraduationCap />} />
               <BoxItem value={card.L2} title=" L2" icon={<GraduationCap />} />
               <BoxItem value={card.L3} title=" L3" icon={<GraduationCap />} />
             </Box>
-            <Box
-              display="grid"
-              gridTemplateColumns="1fr 1fr"
-              gap="10px"
-              paddingInline="15px"
-            >
+            <Box display="grid" gridTemplateColumns="repeat(2, 1fr)" gap="10px">
               <BoxItem
                 value={card.A}
                 title="Alternants"
@@ -240,12 +259,11 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
             </Box>
             <Box
               display="grid"
-              gridTemplateColumns="1fr 1fr"
+              gridTemplateColumns="repeat(2, 1fr)"
+              gap="10px"
               sx={{
-                marginInline: "10px",
-                gap: "10px",
-                borderTop: "1px solid rgba(167,167,167, 0.4)",
                 paddingTop: "5px",
+                borderTop: "1px solid rgba(167,167,167, 0.4)",
               }}
             >
               <BoxItem
@@ -298,11 +316,9 @@ const CardInfos: FC<{mobile_money: number; bank_fees: number}> = ({
   return (
     <div>
       <Tooltip title="Transactions">
-        <IconButton aria-describedby={id} onClick={handleClick}>
+        <IconButton aria-describedby={id} onClick={handleClick} size="small">
           <AccountBalance
-            width="5px"
-            height="5px"
-            sx={{color: PALETTE_COLORS.white}}
+            sx={{color: PALETTE_COLORS.white, fontSize: "1.2rem"}}
           />
         </IconButton>
       </Tooltip>

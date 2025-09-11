@@ -72,30 +72,36 @@ export const StatusChips = styled(Chip, {
     animation: `${pulse} 2s infinite`,
   };
 
-  if (status === "VALIDATED") {
-    styles = {
-      backgroundColor: theme.palette.success.light,
-      color: "white",
-      animation: `${pulse} 2s infinite`,
-    };
-  } else if (status === "IN_PROGRESS") {
-    styles = {
-      backgroundColor: theme.palette.warning.light,
-      color: "white",
-      animation: `${pulse} 2s infinite`,
-    };
-  } else if (status === "INVALIDATED") {
-    styles = {
-      backgroundColor: theme.palette.error.light,
-      color: "white",
-      animation: `${pulse} 2s infinite`,
-    };
-  } else {
-    styles = {
-      backgroundColor: theme.palette.grey[300],
-      color: theme.palette.grey[800],
-      animation: `${pulse} 2s infinite`,
-    };
+  switch (status) {
+    case "VALIDATED":
+      styles = {
+        backgroundColor: theme.palette.success.light,
+        color: "white",
+        animation: `${pulse} 2s infinite`,
+      };
+      break;
+    case "IN_PROGRESS":
+      styles = {
+        backgroundColor: theme.palette.warning.light,
+        color: "white",
+        animation: `${pulse} 2s infinite`,
+      };
+      break;
+    case "INVALIDATED":
+    case "INCOMPLETE":
+      styles = {
+        backgroundColor: theme.palette.error.light,
+        color: "white",
+        animation: `${pulse} 2s infinite`,
+      };
+      break;
+    default:
+      styles = {
+        backgroundColor: theme.palette.grey[300],
+        color: theme.palette.grey[800],
+        animation: `${pulse} 2s infinite`,
+      };
+      break;
   }
 
   return {

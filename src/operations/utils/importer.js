@@ -34,8 +34,8 @@ export const validateData = (data, headers) => {
     message = "Il n'y a pas d'élément à insérer";
   } else if (!isEqual(Object.keys(data[0]))) {
     message = "Veuillez re-vérifier les en-têtes de votre fichier";
-  } else if (data.length >= 20) {
-    message = "Vous ne pouvez importer que 20 éléments à la fois.";
+  } else if (data.length >= 1000) {
+    message = "Vous ne pouvez importer que 1000 éléments à la fois.";
   } else {
     isValid = true;
   }
