@@ -285,6 +285,7 @@ const MenuContent = () => {
     <Box
       sx={{
         "width": "100%",
+        "position": "relative",
         "height": "calc(100% - 110px)",
         "overflowY": "auto",
         "overflowX": "hidden",

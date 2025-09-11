@@ -17,7 +17,7 @@ function MonitorMenu() {
   };
 
   return (
-    <Box sx={{position: "relative"}}>
+    <Box sx={{position: "relative", overflowY: "auto"}}>
       <SingleMenu
         to={`/monitors/${monitorId}/students`}
         label="Étudiants"
