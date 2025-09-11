@@ -1,6 +1,5 @@
 import {DateField} from "@/operations/common/components/fields";
 import {ExamGradeListActions} from "@/operations/grades/components";
-import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
 import {Grade, Student} from "@haapi-b0fc7615/typescript-client";
 import {Book} from "@mui/icons-material";
@@ -12,10 +11,15 @@ export interface ExamGradeRecord {
   grade?: Grade;
 }
 
-export const ParticipantsDataGrid = ({examId}: {examId: string}) => {
-  const {isTeacher, isAdmin} = useRole();
+interface ParticipantsDataGridProps {
+  examId: string;
+  examName: string;
+}
 
-  // FIXME: Fix the main search
+export const ParticipantsDataGrid = ({
+  examId,
+  examName,
+}: ParticipantsDataGridProps) => {
   return (
     <HaList
       icon={<Book />}
@@ -27,10 +31,7 @@ export const ParticipantsDataGrid = ({examId}: {examId: string}) => {
         title: "Notes des participants",
         className: "participants-list",
       }}
-      actions={
-        (isTeacher() || isAdmin()) && <ExamGradeListActions examId={examId} />
-      }
-      mainSearch={{label: "Référence d'un étudiant", source: "student_ref"}}
+      actions={<ExamGradeListActions examName={examName} examId={examId} />}
     >
       <TextField source="student.ref" label="Référence" />
       <TextField source="student.last_name" label="Nom" />
@@ -42,14 +43,12 @@ export const ParticipantsDataGrid = ({examId}: {examId: string}) => {
         }
       />
       <DateField source="grade.update_date" label="Mis à jour le" />
-      {(isTeacher() || isAdmin()) && (
-        <FunctionField
-          label="Actions"
-          render={(record: ExamGradeRecord) => (
-            <GradeEditButton examId={examId} record={record} />
-          )}
-        />
-      )}
+      <FunctionField
+        label="Actions"
+        render={(record: ExamGradeRecord) => (
+          <GradeEditButton examId={examId} record={record} />
+        )}
+      />
     </HaList>
   );
 };

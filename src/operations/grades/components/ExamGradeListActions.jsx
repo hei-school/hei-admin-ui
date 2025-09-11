@@ -12,7 +12,6 @@ import {useRole} from "@/security/hooks";
 import {ButtonBase, ImportButton} from "@/ui/haToolbar";
 import {Download} from "@mui/icons-material";
 import {
-  Alert,
   Box,
   Dialog,
   DialogContent,
@@ -24,7 +23,7 @@ import {useEffect, useState} from "react";
 import {useGetList, useRefresh} from "react-admin";
 import * as XLSX from "xlsx";
 
-export const ExamGradeListActions = ({examId}) => {
+export const ExamGradeListActions = ({examId, examName}) => {
   const [isImporting, setIsImporting] = useState(false);
   const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
   const [importProgress, setImportProgress] = useState({
@@ -32,7 +31,6 @@ export const ExamGradeListActions = ({examId}) => {
     total: 0,
     message: "",
   });
-  const [validationErrors, setValidationErrors] = useState([]);
   const [participants, setParticipants] = useState([]);
   const {isManager, isAdmin, isTeacher} = useRole();
   const hasPermission = isManager() || isAdmin() || isTeacher();
@@ -66,19 +64,11 @@ export const ExamGradeListActions = ({examId}) => {
   const handleImport = async (data) => {
     try {
       setIsImporting(true);
-      setValidationErrors([]);
       setImportProgress({
         current: 0,
         total: 0,
         message: "Préparation de l'import...",
       });
-
-      const validation = validateGradeData(data);
-      if (!validation.isValid) {
-        setValidationErrors([validation.message]);
-        setIsImporting(false);
-        return;
-      }
 
       const transformedData = data[1] || [];
       const processedItems = transformedData
@@ -181,9 +171,10 @@ export const ExamGradeListActions = ({examId}) => {
       refresh();
       return results;
     } catch (error) {
-      setValidationErrors([
+      notify(
         `Erreur d'import: ${error.response?.data?.message || error.message}`,
-      ]);
+        {type: "error"}
+      );
       throw error;
     } finally {
       setIsImporting(false);
@@ -194,6 +185,11 @@ export const ExamGradeListActions = ({examId}) => {
   const downloadTemplate = async () => {
     try {
       setIsDownloadingTemplate(true);
+      notify("Téléchargement du modèle en cours...", {
+        type: "info",
+        autoHideDuration: 100000,
+      });
+
       let currentParticipants = participants;
 
       if (!currentParticipants || currentParticipants.length === 0) {
@@ -228,18 +224,22 @@ export const ExamGradeListActions = ({examId}) => {
         ["# Laisser score vide pour ne pas modifier la note existante"],
         ["# Le champ comment est optionnel"],
       ]);
+
       const workbook = XLSX.utils.book_new();
       XLSX.utils.book_append_sheet(workbook, worksheet, "Notes Examen");
 
-      XLSX.writeFile(
-        workbook,
-        `notes_examen_${new Date().toISOString().split("T")[0]}.xlsx`
-      );
+      XLSX.writeFile(workbook, `Note ${examName || "Examen"}.xlsx`);
 
-      notify("Modèle téléchargé avec succès", {type: "success"});
+      notify("Modèle téléchargé avec succès", {
+        type: "success",
+        autoHideDuration: 20000,
+      });
     } catch (error) {
       console.error("Error downloading template:", error);
-      notify("Erreur lors du téléchargement du modèle", {type: "error"});
+      notify("Erreur lors du téléchargement du modèle", {
+        type: "error",
+        autoHideDuration: 20000,
+      });
     } finally {
       setIsDownloadingTemplate(false);
     }
@@ -248,24 +248,6 @@ export const ExamGradeListActions = ({examId}) => {
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center">
-        {validationErrors.length > 0 && (
-          <Box sx={{mb: 2, width: "100%", maxWidth: 600}}>
-            {validationErrors.map((error, index) => (
-              <Alert
-                key={index}
-                severity="error"
-                sx={{mb: 1}}
-                onClose={() =>
-                  setValidationErrors((errors) =>
-                    errors.filter((_, i) => i !== index)
-                  )
-                }
-              >
-                {error}
-              </Alert>
-            ))}
-          </Box>
-        )}
         <ImportButton
           validateData={validateGradeData}
           resource="notes"
@@ -276,19 +258,17 @@ export const ExamGradeListActions = ({examId}) => {
           disabled={isImporting}
           title="Importer des notes"
           description="Sélectionnez un fichier Excel contenant les notes des étudiants"
-          hideNewTemplate={true}
         />
         <ButtonBase
           startIcon={<Download />}
           onClick={downloadTemplate}
-          disabled={isImporting || isDownloadingTemplate}
-          sx={{mt: 1}}
+          disabled={isDownloadingTemplate}
         >
-          Modèle
+          {isDownloadingTemplate ? "Téléchargement..." : "Modèle"}
         </ButtonBase>
       </Box>
       <Dialog
-        open={isImporting || isDownloadingTemplate}
+        open={isImporting}
         disableEscapeKeyDown
         PaperProps={{
           sx: {minWidth: 400, p: 2},
@@ -297,21 +277,15 @@ export const ExamGradeListActions = ({examId}) => {
         <DialogTitle>
           <Box display="flex" alignItems="center" gap={2}>
             <Loader size={24} />
-            <Typography variant="h6">
-              {isDownloadingTemplate
-                ? "Téléchargement du modèle"
-                : "Import des notes en cours"}
-            </Typography>
+            <Typography variant="h6">Import des notes en cours</Typography>
           </Box>
         </DialogTitle>
         <DialogContent>
           <Box sx={{mt: 2, mb: 3}}>
             <Typography variant="body2" color="text.secondary" gutterBottom>
-              {isDownloadingTemplate
-                ? "Génération et téléchargement du modèle Excel..."
-                : importProgress.message}
+              {importProgress.message}
             </Typography>
-            {!isDownloadingTemplate && importProgress.total > 0 && (
+            {importProgress.total > 0 && (
               <>
                 <Box sx={{mt: 2, mb: 1}}>
                   <LinearProgress
@@ -327,11 +301,6 @@ export const ExamGradeListActions = ({examId}) => {
                   terminées
                 </Typography>
               </>
-            )}
-            {isDownloadingTemplate && (
-              <Box sx={{mt: 2, mb: 1}}>
-                <LinearProgress sx={{height: 8, borderRadius: 4}} />
-              </Box>
             )}
           </Box>
         </DialogContent>
