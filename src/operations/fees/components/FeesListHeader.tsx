@@ -310,6 +310,8 @@ const ViewModeToggle: FC<{
         </Typography>
       </Box>
       <Box
+        component="button"
+        disabled
         data-testid="viewmode-receipt"
         onClick={() => onViewModeChange("RECEIPT")}
         sx={{
@@ -318,7 +320,8 @@ const ViewModeToggle: FC<{
           "color": viewMode === "RECEIPT" ? PALETTE_COLORS.primary : "white",
           "borderRadius": "12px",
           "cursor": "pointer",
-          "display": "flex",
+          "display": "none", // Disabled for now
+          // "display": "flex",
           "alignItems": "center",
           "justifyContent": "center",
           "gap": "6px",

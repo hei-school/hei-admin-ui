@@ -20,7 +20,7 @@ function StudentMenu() {
   };
 
   return (
-    <Box sx={{position: "relative"}}>
+    <Box sx={{position: "relative", overflowY: "auto", height: "80%"}}>
       <SingleMenu
         to={
           whoamiId ? `/students/${authProvider.getCachedWhoami().id}/fees` : "/"
