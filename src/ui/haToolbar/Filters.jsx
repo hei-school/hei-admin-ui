@@ -27,7 +27,7 @@ export function TextFilter({label, source, ...rest}) {
 }
 
 export const SelectInputFilter = ({choices, label, source, ...props}) => {
-  const {currentFilter, setOneFilter} = useHaToolbarContext();
+  const {currentFilter = {}, setOneFilter} = useHaToolbarContext();
   const isSmall = useMediaQuery("(max-width:900px)");
 
   return (

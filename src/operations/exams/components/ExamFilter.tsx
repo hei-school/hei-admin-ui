@@ -8,15 +8,15 @@ export const ExamFilter = () => {
   const {data: courses = []} = useGetList("course");
 
   const groupChoices = useMemo(() => {
-    return groups.map(({id, ref = ""}) => ({
-      id,
+    return groups.map(({ref = ""}) => ({
+      id: ref,
       name: ref,
     }));
   }, [groups]);
 
   const courseChoices = useMemo(() => {
-    return courses.map(({id, code = ""}) => ({
-      id,
+    return courses.map(({code = ""}) => ({
+      id: code,
       name: code,
     }));
   }, [courses]);
@@ -26,6 +26,7 @@ export const ExamFilter = () => {
       <FilterForm>
         <SelectInputFilter
           label="Groupe"
+          name="ref"
           source="group_ref"
           choices={groupChoices}
         />
@@ -33,7 +34,7 @@ export const ExamFilter = () => {
           source="course_code"
           label="Cours"
           choices={courseChoices}
-          optionValue="name"
+          optionValue="code"
           optionText="name"
           helperText={false}
           fullWidth
