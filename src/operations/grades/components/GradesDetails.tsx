@@ -84,7 +84,10 @@ export const GradesDetails: FC<{
                 fontWeight="bold"
                 sx={{color: getGradeColor(courseResult?.weighted_average!)}}
               >
-                {courseResult?.weighted_average!.toFixed(2)}/20
+                {courseResult?.weighted_average
+                  ? courseResult?.weighted_average!.toFixed(2)
+                  : 0}
+                /20
               </Typography>
             </Box>
           </Box>

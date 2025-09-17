@@ -27,7 +27,7 @@ export function TextFilter({label, source, ...rest}) {
 }
 
 export const SelectInputFilter = ({choices, label, source, ...props}) => {
-  const {currentFilter, setOneFilter} = useHaToolbarContext();
+  const {currentFilter = {}, setOneFilter} = useHaToolbarContext();
   const isSmall = useMediaQuery("(max-width:900px)");
 
   return (
@@ -47,7 +47,11 @@ export const SelectInputFilter = ({choices, label, source, ...props}) => {
         {...props}
       >
         {choices.map((choice) => (
-          <MenuItem key={choice.id} value={choice.id}>
+          <MenuItem
+            key={choice.id}
+            value={choice.id}
+            data-testid={`option-${choice.id}`}
+          >
             {choice.name}
           </MenuItem>
         ))}
