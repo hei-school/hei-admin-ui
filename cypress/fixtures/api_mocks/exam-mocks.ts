@@ -14,44 +14,9 @@ export const examMocks: Exam[] = [
     examination_date: new Date("2025-08-01T08:30:00.000Z"),
     course_assignment: {
       id: "course_assignment1_id",
-      main_teacher: {
-        id: "teacher1_id",
-        ref: "TCR21001",
-        first_name: "John",
-        last_name: "Doe",
-        email: "john@doe.com",
-        nic: "111111111111",
-        sex: Sex.M,
-        birth_date: "1985-03-15",
-        birth_place: "New York",
-        address: "123 Main St",
-        phone: "+12025550123",
-        entrance_datetime: new Date("2010-09-01"),
-        coordinates: {
-          longitude: -74.006,
-          latitude: 40.7128,
-        },
-        high_school_origin: "Central High School",
-        status: EnableStatus.ENABLED,
-        profile_picture: "john_doe.jpg",
-      },
-      course: {
-        id: "course1_id",
-        code: "PROG101",
-        name: "Introduction to Programming",
-        credits: 3,
-        total_hours: 45,
-      },
-      groups: [
-        {
-          id: "group1_id",
-          name: "CS First Year",
-          ref: "CS101",
-          creation_datetime: new Date("2024-09-01"),
-          size: 30,
-          attributed_color: "blue",
-        },
-      ],
+      main_teacher: teachersMock[0],
+      course: courseMocks[0],
+      groups: [group1Mock],
     },
   },
   {
@@ -155,6 +120,8 @@ export const examMocks: Exam[] = [
     },
   },
 ];
+
+export const examMocksfiltered: Exam[] = [examMocks[0]];
 
 export const gradesMocks = [
   {

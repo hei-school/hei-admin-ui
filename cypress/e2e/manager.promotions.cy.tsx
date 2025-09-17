@@ -127,7 +127,7 @@ describe("Manager.Promotions", () => {
     });
   });
 
-  it.skip("can remove one group from promotion", () => {
+  it("can remove one group from promotion", () => {
     cy.get("tbody tr")
       .should("have.length", promotionsMock.length)
       .first()
@@ -175,7 +175,7 @@ describe("Manager.Promotions", () => {
     );
   });
 
-  it.skip("can insert new groups to the promotion", () => {
+  it("can insert new groups to the promotion", () => {
     cy.get("tbody tr")
       .should("have.length", promotionsMock?.length!)
       .first()

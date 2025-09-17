@@ -84,11 +84,14 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
       if (status === "AVAILABLE" && link) {
         await downloadFile(link, `Relevé des notes ${selectedLevel}.pdf`);
       } else {
-        notify("Le fichier n'est pas disponible", {type: "warning"});
+        //notify("Le fichier n'est pas disponible", {type: "warning"});
+        notify("Fichier généré dans documents et bulletins.", {
+          type: "warning",
+        });
       }
     } catch (error) {
       console.error("Download error:", error);
-      notify("Erreur lors du téléchargement", {type: "error"});
+      notify("Relevé non disponible – niveau non commencé.", {type: "error"});
     } finally {
       setLoading(false);
     }
@@ -126,7 +129,7 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
         >
           <Chip
             icon={<School color="inherit" />}
-            label={`Crédits validés: ${result?.obtained_credits ?? 0} / ${result?.total_credits ?? 0}`}
+            label={`Crédits validés: ${result?.obtained_credits ?? 0} / 60`}
             variant="outlined"
             sx={{
               fontWeight: "bold",

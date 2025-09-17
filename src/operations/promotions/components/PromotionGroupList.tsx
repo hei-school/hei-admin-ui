@@ -16,7 +16,7 @@ import {
 import {useParams} from "react-router-dom";
 
 function ActionsPromotionsGroups() {
-  const listContext = useListContext<Required<Group>>();
+  const {data: groupsList = []} = useListContext<Required<Group>>();
   const {id} = useParams();
   const dataProvider = useDataProvider();
 
@@ -32,7 +32,7 @@ function ActionsPromotionsGroups() {
   return (
     <>
       <InsertButton<Required<Group>>
-        excludes={listContext.data.map((el) => el.id)}
+        excludes={groupsList.map((el) => el.id)}
         dialogProps={{
           showField: "ref",
           title: "Sélectionner les groupes à insérer",

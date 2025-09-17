@@ -233,7 +233,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       cy.getByTestid("transcript-overview").should("be.visible");
       cy.getByTestid("level").should("contain", `Niveau`);
       cy.getByTestid("status-chip").should("contain", "Non Commencé");
-      cy.getByTestid("credits").should("contain", `0 / 0`);
+      cy.getByTestid("credits").should("contain", `0 / 60`);
       cy.getByTestid("average-display").should("contain", "0");
       cy.getByTestid("course-result-card").should("not.exist");
       cy.contains("Aucun cours trouvé").should("exist");
