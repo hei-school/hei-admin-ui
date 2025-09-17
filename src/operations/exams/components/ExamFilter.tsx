@@ -1,3 +1,4 @@
+import {useRole} from "@/security/hooks";
 import {DateTimeFilter, FilterForm, SelectInputFilter} from "@/ui/haToolbar";
 import {Box, Divider, Typography} from "@mui/material";
 import {useMemo} from "react";
@@ -6,6 +7,8 @@ import {useGetList} from "react-admin";
 export const ExamFilter = () => {
   const {data: groups = []} = useGetList("groups");
   const {data: courses = []} = useGetList("course");
+  const {data: teachers = []} = useGetList("teachers");
+  const {isAdmin, isManager} = useRole();
 
   const groupChoices = useMemo(() => {
     return groups.map(({ref = ""}) => ({
@@ -21,16 +24,34 @@ export const ExamFilter = () => {
     }));
   }, [courses]);
 
+  const teacherChoices = useMemo(() => {
+    return teachers.map(({id = "", first_name = "", last_name = ""}) => ({
+      id,
+      name: first_name + " " + (last_name ?? ""),
+    }));
+  }, [teachers]);
+
   return (
     <Box>
       <FilterForm>
+        {(isAdmin() || isManager()) && (
+          <SelectInputFilter
+            data-testid="teacher-filter"
+            label="Enseignant"
+            name="teacher_id"
+            source="teacher_id"
+            choices={teacherChoices}
+          />
+        )}
         <SelectInputFilter
+          data-testid="group-filter"
           label="Groupe"
           name="ref"
           source="group_ref"
           choices={groupChoices}
         />
         <SelectInputFilter
+          data-testid="course-filter"
           source="course_code"
           label="Cours"
           choices={courseChoices}

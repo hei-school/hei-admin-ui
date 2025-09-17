@@ -47,7 +47,11 @@ export const SelectInputFilter = ({choices, label, source, ...props}) => {
         {...props}
       >
         {choices.map((choice) => (
-          <MenuItem key={choice.id} value={choice.id}>
+          <MenuItem
+            key={choice.id}
+            value={choice.id}
+            data-testid={`option-${choice.id}`}
+          >
             {choice.name}
           </MenuItem>
         ))}
