@@ -26,6 +26,7 @@ export const ParticipantsDataGrid = ({
       resource="exam-grades"
       title="Liste des participants"
       datagridProps={{rowClick: false}}
+      mainSearch={{label: "Référence", source: "student_ref"}}
       listProps={{
         queryOptions: {meta: {examId}},
         title: "Notes des participants",
