@@ -43,7 +43,7 @@ const feeProvider: HaDataProviderType = {
         .then(({data: {data: fees}}) => fees!);
     };
 
-    const fees = await doGetFees();
+    const fees: Fee[] = await doGetFees();
 
     return {
       data: fees.map((fee: Fee) => ({
