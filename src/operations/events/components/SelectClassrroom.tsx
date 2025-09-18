@@ -1,10 +1,11 @@
+import {RoomEnum} from "@haapi-b0fc7615/typescript-client";
 import {required, SelectInput, TextInput} from "react-admin";
 import {useWatch} from "react-hook-form";
 import {CLASSROOM_CHOICES} from "../utils";
 
 export const SelectClassroom = () => {
   const selectedClassroom = useWatch({
-    name: "title",
+    name: "location.room",
     defaultValue: CLASSROOM_CHOICES[0].value,
   });
 
@@ -13,15 +14,15 @@ export const SelectClassroom = () => {
       <SelectInput
         fullWidth
         label="Salle"
-        source="title"
-        data-testid="event-title"
+        source="location.room"
+        data-testid="event-location"
         optionText="label"
         optionValue="value"
         defaultValue={CLASSROOM_CHOICES[0].value}
         choices={CLASSROOM_CHOICES}
         validate={required()}
       />
-      {selectedClassroom === "autre" && (
+      {selectedClassroom === RoomEnum.UNKNOWN && (
         <TextInput
           fullWidth
           label="Préciser la salle"

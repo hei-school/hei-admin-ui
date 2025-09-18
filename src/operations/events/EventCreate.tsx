@@ -28,7 +28,11 @@ import {stringifyObj} from "../common/utils/strinfigy-obj";
 import {ToRaRecord} from "../common/utils/types";
 import {SelectCourse, SelectPlanner} from "./components";
 import {SelectClassroom} from "./components/SelectClassrroom";
-import {EVENT_TYPE_VALUE, RECURRENCE_TYPE_CHOICES} from "./utils";
+import {
+  EVENT_TYPE_VALUE,
+  PLACE_CHOICES,
+  RECURRENCE_TYPE_CHOICES,
+} from "./utils";
 
 const validateGroups = (value: any, allValues: any) => {
   const eventType = allValues.event_type;
@@ -82,6 +86,23 @@ export function EventCreate() {
     >
       <SimpleForm>
         <SelectClassroom />
+        <SelectInput
+          fullWidth
+          label="Lieu"
+          source="location.place"
+          data-testid="event-location"
+          optionText="label"
+          optionValue="value"
+          defaultValue={PLACE_CHOICES[0].value}
+          choices={PLACE_CHOICES}
+          validate={required()}
+        />
+        <TextInput
+          label="Titre"
+          source="title"
+          data-testid="event-title"
+          fullWidth
+        />
         <TextInput
           label="Description"
           source="description"
