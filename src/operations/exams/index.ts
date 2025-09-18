@@ -1,5 +1,13 @@
-import {ExamCreate} from "./ExamCreate.tsx";
-import {ExamList} from "./ExamList.tsx";
+import {ExamCreate} from "./ExamCreate";
+import {ExamList} from "./ExamList";
+
+export * from "./components";
+export * from "./hooks";
+export * from "./utils";
+
+export {ExamCreate} from "./ExamCreate";
+export {ExamEditDialog} from "./ExamEdit";
+export {ExamList} from "./ExamList";
 
 const exams = {
   list: ExamList,
