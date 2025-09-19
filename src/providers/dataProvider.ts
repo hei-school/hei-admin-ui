@@ -43,7 +43,6 @@ import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
 import {courseAssignmentsByTeacherProvider} from "./courseAssignementbyTeacher";
 import retakeExamProvider from "./retakeExamProvider";
-import retakeExamSessionProvider from "./retakeExamSessionProvider";
 import StudentParticipationProvider from "./studentParticipationProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
@@ -90,7 +89,6 @@ const providerMap = {
   "mpbs-verify": mpbsVerifyProvider,
   "exam-grades": examGradeProvider,
   "retakeExams": retakeExamProvider,
-  "retakeExams-session": retakeExamSessionProvider,
   "grades": gradeProvider,
   "grades-details": gradesDetailsProvider,
   "summary": resultSummaryProvider,
