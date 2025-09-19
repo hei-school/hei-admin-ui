@@ -1,4 +1,5 @@
 import {mapToChoices} from "@/utils";
+import {PlaceEnum, RoomEnum} from "@haapi-b0fc7615/typescript-client";
 
 export const EVENT_TYPE_VALUE = {
   COURSE: "Cours",
@@ -28,16 +29,19 @@ export const ATTENDANCE_STATUS_COLOR = {
 };
 
 export const CLASSROOM_CHOICES = [
-  {label: "Salle F", value: "F"},
-  {label: "Salle R", value: "R"},
-  {label: "Salle Pi", value: "Pi"},
-  {label: " Salle Sigma", value: "Sigma"},
-  {label: "Salle Algebre", value: "Algebre"},
-  {label: "Salle B", value: "B"},
-  {label: "Salle NP", value: "NP"},
-  {label: "Autre", value: "autre"},
+  {label: "Salle Pi", value: RoomEnum.PI},
+  {label: " Salle Sigma", value: RoomEnum.SIGMA},
+  {label: "Salle Algebre", value: RoomEnum.ALGEBRE},
+  {label: "Salle B", value: RoomEnum.B},
+  {label: "Salle NP", value: RoomEnum.NP},
+  {label: "Autre", value: RoomEnum.UNKNOWN},
 ];
 
+export const PLACE_CHOICES = [
+  {label: "Ivandry", value: PlaceEnum.IVANDRY},
+  {label: "Andraharo", value: PlaceEnum.ANDRAHARO},
+  {label: "Autre", value: PlaceEnum.UNKNOWN},
+];
 export const RECURRENCE_TYPE_CHOICES = [
   {value: "MONDAY", label: "  Lundis"},
   {value: "TUESDAY", label: "Mardis"},

@@ -7,11 +7,13 @@ import {
   Edit,
   required,
   SaveButton,
+  SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
 } from "react-admin";
 import {SelectClassroom} from "./components/SelectClassrroom";
+import {PLACE_CHOICES} from "./utils";
 
 interface EditProps {
   eventId: string;
@@ -55,12 +57,24 @@ export const EventEditDialog: FC<EditProps> = ({
             }
           >
             <SelectClassroom />
+            <SelectInput
+              fullWidth
+              label="Lieu"
+              source="location.place"
+              id="event-location"
+              optionText="label"
+              optionValue="value"
+              defaultValue={PLACE_CHOICES[0].value}
+              choices={PLACE_CHOICES}
+              validate={required()}
+            />
             <TextInput
               label="Description"
               source="description"
               multiline
               fullWidth
             />
+            <TextInput label="title" source="title" fullWidth />
             <Box
               sx={{
                 display: "flex",

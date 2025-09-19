@@ -368,6 +368,8 @@ const AdminManagerFooter = () => {
     window.location.reload();
   };
 
+  const {isAdmin, isManager} = useRole();
+
   return (
     <Box
       sx={{
@@ -387,11 +389,13 @@ const AdminManagerFooter = () => {
         backgroundColor: "#001948",
       }}
     >
-      <SingleMenu
-        label="Frais prédéfinis"
-        to="/fees-templates"
-        icon={<Settings />}
-      />
+      {(isAdmin() || isManager()) && (
+        <SingleMenu
+          label="Frais prédéfinis"
+          to="/fees-templates"
+          icon={<Settings />}
+        />
+      )}
       <SingleMenu
         to=""
         label="Se déconnecter"

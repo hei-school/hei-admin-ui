@@ -145,9 +145,7 @@ export const TranscriptOverview: FC<{
                   data-testid="credits"
                 >
                   {result?.obtained_credits ? result?.obtained_credits : 0}{" "}
-                  <span style={{fontSize: "0.8rem", color: "#666"}}>
-                    / {result?.total_credits ? result?.total_credits : 0}
-                  </span>
+                  <span style={{fontSize: "0.8rem", color: "#666"}}>/ 60</span>
                 </Typography>
               </Box>
             </Box>

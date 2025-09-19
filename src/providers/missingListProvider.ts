@@ -1,3 +1,4 @@
+import {EventAttendance} from "@haapi-b0fc7615/typescript-client";
 import {eventsApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
@@ -15,7 +16,7 @@ const missingListProvider: HaDataProviderType = {
         filter.studentName
       )
       .then((result) => ({
-        data: result.data.map((item) => ({
+        data: result.data.map((item: EventAttendance) => ({
           id: item.event?.id,
           ...item,
         })),

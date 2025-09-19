@@ -1,3 +1,4 @@
+import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {Dialog} from "@/ui/components";
 import {
@@ -12,8 +13,8 @@ import {Add, Download} from "@mui/icons-material";
 import {Box, MenuItem, Select, Typography} from "@mui/material";
 import domtoimage from "dom-to-image-more";
 import jsPDF from "jspdf";
-import {FC, useCallback, useState} from "react";
-import {Button, useRedirect} from "react-admin";
+import {FC, useCallback, useMemo, useState} from "react";
+import {Button, useGetList, useGetOne, useRedirect} from "react-admin";
 import {EVENT_TYPE_VALUE} from "../utils";
 
 export const EventListAction: FC<{
@@ -21,8 +22,35 @@ export const EventListAction: FC<{
   onclose?: () => void;
   open?: boolean;
 }> = ({withDate = true, onclose, open}) => {
-  const {isManager, isAdmin, isOrganizer} = useRole();
+  const {isManager, isAdmin, isOrganizer, isTeacher} = useRole();
   const redirect = useRedirect();
+  const {id} = authProvider.getCachedWhoami();
+  const {data: teachers = []} = useGetList("teachers", undefined, {
+    enabled: isAdmin() || isManager(),
+  });
+  const {data: userProfile} = useGetOne(
+    "profile",
+    {id},
+    {
+      enabled: isTeacher(),
+    }
+  );
+
+  const teacherChoices = useMemo(() => {
+    if (isTeacher() && userProfile) {
+      return [
+        {
+          id,
+          name: userProfile.first_name + " " + (userProfile.last_name ?? ""),
+        },
+      ];
+    }
+
+    return teachers.map(({id = "", first_name = "", last_name = ""}) => ({
+      id,
+      name: first_name + " " + (last_name ?? ""),
+    }));
+  }, [teachers, userProfile, id, isTeacher]);
 
   return (
     <Box>
@@ -38,6 +66,13 @@ export const EventListAction: FC<{
       )}
       <FilterForm>
         <TextFilter label="Titre" source="title" />
+        <SelectInputFilter
+          data-testid="teacher-filter"
+          label="Enseignant"
+          name="teacher_id"
+          source="teacher_id"
+          choices={teacherChoices}
+        />
         <SelectInputFilter
           choices={mapToChoices(EVENT_TYPE_VALUE, "id", "name")}
           label="Types"

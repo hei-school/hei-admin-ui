@@ -1,4 +1,4 @@
-import {UpdateGrade} from "@haapi-b0fc7615/typescript-client";
+import {StudentGrade, UpdateGrade} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {gradesApi} from "./api";
 
@@ -11,8 +11,11 @@ const examGradeProvider: HaDataProviderType = {
   ) {
     return gradesApi()
       .getStudentGradesForExam(meta?.examId, page, perPage, filter?.student_ref)
-      .then(({data = []}) => ({
-        data: data.map((value) => ({...value, id: value?.grade?.id})),
+      .then(({data = []}: {data?: StudentGrade[]}) => ({
+        data: data.map((value: StudentGrade) => ({
+          ...value,
+          id: value?.grade?.id,
+        })),
       }));
   },
   async saveOrUpdate(payload: UpdateGrade[], meta: Record<string, any> = {}) {
