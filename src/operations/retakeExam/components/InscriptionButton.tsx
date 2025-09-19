@@ -1,7 +1,7 @@
 import authProvider from "@/providers/authProvider";
-import { EventAvailable, EventBusy, HowToReg } from "@mui/icons-material";
-import { Box, Button, Chip, CircularProgress } from "@mui/material";
-import { useEffect, useState, useMemo } from "react";
+import {EventAvailable, EventBusy, HowToReg} from "@mui/icons-material";
+import {Box, Button, Chip, CircularProgress} from "@mui/material";
+import {useEffect, useMemo, useState} from "react";
 import {
   Confirm,
   useCreate,
@@ -14,11 +14,11 @@ interface InscriptionButtonProps {
   onSuccess?: (record: any) => void;
 }
 
-export const InscriptionButton = ({ onSuccess }: InscriptionButtonProps) => {
+export const InscriptionButton = ({onSuccess}: InscriptionButtonProps) => {
   const record = useRecordContext();
   const notify = useNotify();
   const refresh = useRefresh();
-  const [create, { isLoading }] = useCreate();
+  const [create, {isLoading}] = useCreate();
   const whoami = authProvider.getCachedWhoami();
 
   const [isRegistered, setIsRegistered] = useState(false);
@@ -84,11 +84,11 @@ export const InscriptionButton = ({ onSuccess }: InscriptionButtonProps) => {
       setIsProcessed(true);
       setIsRegistered(true);
 
-      notify("Inscription réussie ! Frais non payés", { type: "info" });
+      notify("Inscription réussie ! Frais non payés", {type: "info"});
       onSuccess?.(record);
       refresh();
     } catch (e: any) {
-      notify(`Erreur : ${e.message}`, { type: "error" });
+      notify(`Erreur : ${e.message}`, {type: "error"});
     }
   };
 
@@ -99,7 +99,7 @@ export const InscriptionButton = ({ onSuccess }: InscriptionButtonProps) => {
         label="Rattrapage terminé"
         variant="outlined"
         size="small"
-        sx={{ fontSize: 11, height: 24 }}
+        sx={{fontSize: 11, height: 24}}
       />
     );
   }
@@ -113,7 +113,7 @@ export const InscriptionButton = ({ onSuccess }: InscriptionButtonProps) => {
           color="success"
           variant="outlined"
           size="small"
-          sx={{ mr: 1, fontSize: 11, height: 24 }}
+          sx={{mr: 1, fontSize: 11, height: 24}}
         />
       </Box>
     );
@@ -140,14 +140,14 @@ export const InscriptionButton = ({ onSuccess }: InscriptionButtonProps) => {
         disabled={isLoading || isProcessed}
         type="button"
         sx={{
-          textTransform: "none",
-          fontSize: 12,
-          px: 1.8,
-          py: 0.5,
-          minHeight: 28,
-          borderRadius: 1.5,
-          boxShadow: "0 1px 2px rgba(0,0,0,0.08)",
-          "&:hover": { boxShadow: "0 2px 5px rgba(0,0,0,0.12)" },
+          "textTransform": "none",
+          "fontSize": 12,
+          "px": 1.8,
+          "py": 0.5,
+          "minHeight": 28,
+          "borderRadius": 1.5,
+          "boxShadow": "0 1px 2px rgba(0,0,0,0.08)",
+          "&:hover": {boxShadow: "0 2px 5px rgba(0,0,0,0.12)"},
         }}
       >
         {isLoading ? "Traitement..." : "S'inscrire"}

@@ -34,7 +34,6 @@ import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
-import {retakeExamSession} from "./operations/RetakeExamSession/index.ts";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
 function AppBase() {
@@ -95,7 +94,7 @@ function AppBase() {
         <Route exact path="/fees" element={<fees.listByStatus />} />
 
         <Route exact path="/retakeExam" element={<retakeExam.list />} />
-        
+
         <Route exact path="/fees/:feeId/payments" element={<payments.list />} />
         <Route
           exact

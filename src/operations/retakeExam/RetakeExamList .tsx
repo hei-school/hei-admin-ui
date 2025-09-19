@@ -1,25 +1,25 @@
-import { useWhoami } from "@/security/hooks/useWhoami";
-import { HaList } from "@/ui/haList";
-import { Box } from "@mui/material";
-import { BookOpenIcon } from "lucide-react";
-import { useEffect, useState } from "react";
-import { DateField, TextField } from "react-admin";
-import { InscriptionButton } from "./components/InscriptionButton";
-import { SuccessCard } from "./components/SuccesCard";
+import {useWhoami} from "@/security/hooks/useWhoami";
+import {HaList} from "@/ui/haList";
+import {Box} from "@mui/material";
+import {BookOpenIcon} from "lucide-react";
+import {useEffect, useState} from "react";
+import {DateField, TextField} from "react-admin";
+import {InscriptionButton} from "./components/InscriptionButton";
+import {SuccessCard} from "./components/SuccesCard";
 
 const listSx = {
   "& .RaList-content": {
     "& .MuiTableRow-root": {
       "cursor": "default !important",
       "pointerEvents": "none",
-      "&:hover": { backgroundColor: "transparent !important" },
-      "&.Mui-selected": { backgroundColor: "transparent !important" },
-      "& .MuiButton-root, & button": { pointerEvents: "auto" },
+      "&:hover": {backgroundColor: "transparent !important"},
+      "&.Mui-selected": {backgroundColor: "transparent !important"},
+      "& .MuiButton-root, & button": {pointerEvents: "auto"},
     },
     "& .MuiTableCell-root": {
       "cursor": "default !important",
-      "&:hover": { backgroundColor: "transparent !important" },
-      "& .MuiButton-root, & button": { pointerEvents: "auto" },
+      "&:hover": {backgroundColor: "transparent !important"},
+      "& .MuiButton-root, & button": {pointerEvents: "auto"},
     },
   },
   "& .MuiTableCell-root": {
@@ -34,7 +34,7 @@ const successCardContainerSx = {
   "mt": 3,
   "overflowX": "auto",
   "pb": 1,
-  "&::-webkit-scrollbar": { height: 6 },
+  "&::-webkit-scrollbar": {height: 6},
   "&::-webkit-scrollbar-track": {
     backgroundColor: "#f1f1f1",
     borderRadius: 10,
@@ -42,12 +42,12 @@ const successCardContainerSx = {
   "&::-webkit-scrollbar-thumb": {
     "backgroundColor": "#c1c1c1",
     "borderRadius": 10,
-    "&:hover": { backgroundColor: "#a8a8a8" },
+    "&:hover": {backgroundColor: "#a8a8a8"},
   },
 };
 
 export const RetakeExamList = () => {
-  const { id: whoamiId } = useWhoami();
+  const {id: whoamiId} = useWhoami();
 
   const [inscribedRecords, setInscribedRecords] = useState(() => {
     const saved = localStorage.getItem("inscribed-retake-exams");
