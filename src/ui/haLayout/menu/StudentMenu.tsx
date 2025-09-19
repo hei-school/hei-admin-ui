@@ -6,6 +6,7 @@ import {
   AttachMoney as FeesIcon,
   Logout as LogoutIcon,
   Work as OtherDocsIcon,
+  PublishedWithChanges as RemedialIcon,
   LibraryAddCheck as WorkStudyDocsIcon,
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
@@ -53,6 +54,13 @@ function StudentMenu() {
         to="/events"
         label="Présences"
         icon={<EventIcon />}
+      />
+
+      <SingleMenu
+        data-testid="remedial-menu"
+        to="/RetakeExam"
+        label="Rattrapages"
+        icon={<RemedialIcon />}
       />
 
       <SingleMenu

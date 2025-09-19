@@ -18,6 +18,7 @@ import payments from "@/operations/payments";
 import profile from "@/operations/profile";
 import promotions from "@/operations/promotions";
 import publicContent from "@/operations/public";
+import {retakeExam} from "@/operations/retakeExam";
 import staffMembers from "@/operations/staffMembers";
 import students from "@/operations/students";
 import teachers from "@/operations/teachers";
@@ -33,6 +34,7 @@ import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
+import {retakeExamSession} from "./operations/RetakeExamSession/index.ts";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
 function AppBase() {
@@ -67,6 +69,8 @@ function AppBase() {
       <Resource name="events" {...events} />
       <Resource name="users-letters" />
       <Resource name="letters" />
+      <Resource name="retakeExam" {...retakeExam} />
+      <Resource name="retakeExams-session" {...retakeExamSession} />
       <Resource
         name="course-assignments"
         {...CourseAssignments}
@@ -90,6 +94,8 @@ function AppBase() {
         <Route exact path="/fees/:feeId/show" element={<fees.show />} />
         <Route exact path="/fees" element={<fees.listByStatus />} />
 
+        <Route exact path="/retakeExam" element={<retakeExam.list />} />
+        
         <Route exact path="/fees/:feeId/payments" element={<payments.list />} />
         <Route
           exact
