@@ -2,7 +2,13 @@ import authProvider from "@/providers/authProvider";
 import {EventAvailable, EventBusy, HowToReg} from "@mui/icons-material";
 import {Box, Button, Chip, CircularProgress} from "@mui/material";
 import {useEffect, useState} from "react";
-import {useCreate, useNotify, useRecordContext, useRefresh} from "react-admin";
+import {
+  Confirm,
+  useCreate,
+  useNotify,
+  useRecordContext,
+  useRefresh,
+} from "react-admin";
 
 interface InscriptionButtonProps {
   onSuccess?: (record: any) => void;
@@ -17,6 +23,7 @@ export const InscriptionButton = ({onSuccess}: InscriptionButtonProps) => {
   const [isRegistered, setIsRegistered] = useState(false);
   const [isPast, setIsPast] = useState(false);
   const [isProcessed, setIsProcessed] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
 
   useEffect(() => {
     if (record) {
@@ -42,10 +49,7 @@ export const InscriptionButton = ({onSuccess}: InscriptionButtonProps) => {
 
   if (!record) return null;
 
-  const handleInscription = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-
+  const handleInscription = async () => {
     try {
       await create("retakeExams", {
         data: {
@@ -108,34 +112,48 @@ export const InscriptionButton = ({onSuccess}: InscriptionButtonProps) => {
   }
 
   return (
-    <Button
-      variant="contained"
-      color="primary"
-      size="small"
-      startIcon={
-        isLoading ? (
-          <CircularProgress size={12} />
-        ) : (
-          <HowToReg fontSize="small" />
-        )
-      }
-      onClick={handleInscription}
-      disabled={isLoading || isProcessed}
-      type="button"
-      sx={{
-        "textTransform": "none",
-        "fontSize": 12,
-        "paddingX": 1.8,
-        "paddingY": 0.5,
-        "minHeight": 28,
-        "borderRadius": 1.5,
-        "boxShadow": "0 1px 2px rgba(0,0,0,0.08)",
-        "&:hover": {
-          boxShadow: "0 2px 5px rgba(0,0,0,0.12)",
-        },
-      }}
-    >
-      {isLoading ? "Traitement..." : "S'inscrire"}
-    </Button>
+    <>
+      <Button
+        variant="contained"
+        color="primary"
+        size="small"
+        startIcon={
+          isLoading ? (
+            <CircularProgress size={12} />
+          ) : (
+            <HowToReg fontSize="small" />
+          )
+        }
+        onClick={(e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          setOpenConfirm(true);
+        }}
+        disabled={isLoading || isProcessed}
+        type="button"
+        sx={{
+          "textTransform": "none",
+          "fontSize": 12,
+          "paddingX": 1.8,
+          "paddingY": 0.5,
+          "minHeight": 28,
+          "borderRadius": 1.5,
+          "boxShadow": "0 1px 2px rgba(0,0,0,0.08)",
+          "&:hover": {
+            boxShadow: "0 2px 5px rgba(0,0,0,0.12)",
+          },
+        }}
+      >
+        {isLoading ? "Traitement..." : "S'inscrire"}
+      </Button>
+
+      <Confirm
+        isOpen={openConfirm}
+        title="Confirmation"
+        content={`Voulez-vous vraiment vous inscrire au rattrapage de "${record.course?.name}" (${record.session?.title || "Session"}) ?`}
+        onConfirm={handleInscription}
+        onClose={() => setOpenConfirm(false)}
+      />
+    </>
   );
 };
