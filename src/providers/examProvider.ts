@@ -1,11 +1,21 @@
+import {useRole} from "@/security/hooks";
 import {examApi} from "./api";
+import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const examsProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}, _meta) => {
+    const {isAdmin, isManager, isTeacher} = useRole();
+
+    const teacher_id =
+      isAdmin() || isManager()
+        ? filter.teacher_id
+        : isTeacher()
+          ? authProvider.getCachedWhoami().id
+          : undefined;
     return examApi()
       .getAllExams(
-        filter?.course_assignments_id,
+        teacher_id,
         filter?.title,
         filter?.course_code,
         filter?.group_ref,

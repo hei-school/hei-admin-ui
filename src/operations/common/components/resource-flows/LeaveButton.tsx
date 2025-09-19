@@ -37,10 +37,13 @@ function LeaveDialog<
     childGetOneOptions = {},
   } = useResourceFlowsContext<Child, Parent>();
   const {id: childId} = useRecordContext();
-  const {data: child} = useGetOne(childResource, {
-    id: childId,
-    ...childGetOneOptions,
-  });
+  const {data: child, isLoading: isLoadingChildResource} = useGetOne(
+    childResource,
+    {
+      id: childId,
+      ...childGetOneOptions,
+    }
+  );
   const args: ResourceFlowsArgsType<Child, Parent> = {
     type: "LEAVE",
     resources: [child],
@@ -51,6 +54,8 @@ function LeaveDialog<
   ) => {
     await submit({args, onSuccess: () => confirmProps.onClose(event)});
   };
+
+  if (isLoadingChildResource || !child) return "loading";
 
   return (
     <Confirm

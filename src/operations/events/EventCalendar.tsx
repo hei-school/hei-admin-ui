@@ -124,7 +124,7 @@ export const EventCalendar = () => {
             locale: frLocale,
             convertToEvent: (event: Event & {color: string}) => ({
               id: event.id,
-              title: `[${event.groups?.map((group) => group.ref).join(", ") ?? ""}] ${event.title} ${
+              title: `[${event.groups?.map((group) => group.ref).join(", ") ?? ""}] ${event.location?.room && `${String(event.location.room).trim()}` !== "" ? event.location.room : event.title} ${
                 event.type === "OTHER"
                   ? (event.description ?? EVENT_TYPE_VALUE[event.type])
                   : (event.course?.code ?? EVENT_TYPE_VALUE[event.type!])

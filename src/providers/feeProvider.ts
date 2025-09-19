@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {Fee, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import authProvider from "./authProvider";
@@ -43,10 +43,10 @@ const feeProvider: HaDataProviderType = {
         .then(({data: {data: fees}}) => fees!);
     };
 
-    const fees = await doGetFees();
+    const fees: Fee[] = await doGetFees();
 
     return {
-      data: fees.map((fee) => ({
+      data: fees.map((fee: Fee) => ({
         ...fee,
         id: toRaId(fee.student_id!, fee.id!),
       })),
