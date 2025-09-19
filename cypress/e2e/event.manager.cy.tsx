@@ -67,9 +67,12 @@ describe("Manager.event", () => {
     cy.contains("Listes").click();
     cy.getByTestid("menu-list-action").click();
     cy.contains("Créer").click();
-    cy.getByTestid("event-title").click();
-    cy.get('[data-value="Pi"]').click();
-    cy.getByTestid("event-description").type("Test for event");
+    cy.get("#event-classroom").click();
+    cy.get('[data-value="SIGMA"]').click();
+    cy.get("#event-location").click();
+    cy.get('[data-value="ANDRAHARO"]').click();
+    cy.getByTestid("event-title").type(event1mock?.title!);
+    cy.getByTestid("event-description").type(event1mock?.description!);
     cy.get("[name=start]").type("101020240800");
     cy.get("[name=end]").type("101020241000");
     cy.getByTestid("event-type").click();
@@ -98,8 +101,10 @@ describe("Manager.event", () => {
     cy.getByTestid("event-menu").click();
     cy.contains("Listes").click();
     cy.contains("Editer").first().click();
-    cy.getByTestid("event-title").click();
-    cy.get('[data-value="Pi"]').click();
+    cy.get("#event-classroom").click();
+    cy.get('[data-value="SIGMA"]').click();
+    cy.get("#event-location").click();
+    cy.get('[data-value="ANDRAHARO"]').click();
     cy.contains("Enregistrer").click();
   });
 

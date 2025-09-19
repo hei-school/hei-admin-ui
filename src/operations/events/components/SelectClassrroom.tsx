@@ -12,10 +12,10 @@ export const SelectClassroom = () => {
   return (
     <>
       <SelectInput
+        id="event-classroom"
         fullWidth
         label="Salle"
         source="location.room"
-        data-testid="event-location"
         optionText="label"
         optionValue="value"
         defaultValue={CLASSROOM_CHOICES[0].value}

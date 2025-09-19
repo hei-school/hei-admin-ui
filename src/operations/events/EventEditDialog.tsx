@@ -61,7 +61,7 @@ export const EventEditDialog: FC<EditProps> = ({
               fullWidth
               label="Lieu"
               source="location.place"
-              data-testid="event-location"
+              id="event-location"
               optionText="label"
               optionValue="value"
               defaultValue={PLACE_CHOICES[0].value}
