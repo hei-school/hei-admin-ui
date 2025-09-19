@@ -2,6 +2,7 @@ import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
+import {Payment} from "@haapi-b0fc7615/typescript-client";
 import {toApiIds as toApiFeeIds} from "./feeProvider";
 
 const raSeparator = "--";
@@ -23,7 +24,7 @@ const paymentProvider: HaDataProviderType = {
       perPage
     );
     return {
-      data: result.data.map((payment) => ({
+      data: result.data.map((payment: Payment) => ({
         ...payment,
         id: toRaId(studentId, feeId, payment.id as string),
       })),
