@@ -1,5 +1,5 @@
-import {RetakeExamCreate} from "./RetakeExamCreate";
+import {RetakeExamList} from "./RetakeExamList ";
 
 export const retakeExam = {
-  create: RetakeExamCreate,
+  list: RetakeExamList,
 };
