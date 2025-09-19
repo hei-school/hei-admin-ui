@@ -85,8 +85,8 @@ export const RetakeExamList = () => {
           perPage: 10,
           queryOptions: {
             meta: {
-              studentId: "STD3393443586",
-              sessionId: "session-2025-1",
+              studentId: whoamiId,
+              sessionId: "default_session",
             },
           },
           disableRowClick: true,
