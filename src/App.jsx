@@ -69,7 +69,6 @@ function AppBase() {
       <Resource name="users-letters" />
       <Resource name="letters" />
       <Resource name="retakeExam" {...retakeExam} />
-      <Resource name="retakeExams-session" {...retakeExamSession} />
       <Resource
         name="course-assignments"
         {...CourseAssignments}
