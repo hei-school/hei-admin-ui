@@ -1,4 +1,4 @@
-import {RetakeExamList} from "./RetakeExamList ";
+import {RetakeExamList} from "./RetakeExamList";
 
 const retakeExams = {
   list: RetakeExamList,

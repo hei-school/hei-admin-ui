@@ -1,24 +1,24 @@
-import { HaList } from "@/ui/haList";
-import { Box } from "@mui/material";
-import { BookOpenIcon } from "lucide-react";
-import { DateField, TextField, useStore } from "react-admin";
-import { EnrollButton } from "./components/EnrollButton";
-import { RetakeExamSuccessCard } from "./components/RetakeExamSuccessCard";
 import authProvider from "@/providers/authProvider";
+import {HaList} from "@/ui/haList";
+import {Box} from "@mui/material";
+import {BookOpenIcon} from "lucide-react";
+import {DateField, TextField, useStore} from "react-admin";
+import {EnrollButton} from "./components/EnrollButton";
+import {RetakeExamSuccessCard} from "./components/RetakeExamSuccessCard";
 
 const RETAKE_EXAM_LIST_SX = {
   "& .RaList-content": {
     "& .MuiTableRow-root": {
       "cursor": "default !important",
       "pointerEvents": "none",
-      "&:hover": { backgroundColor: "transparent !important" },
-      "&.Mui-selected": { backgroundColor: "transparent !important" },
-      "& .MuiButton-root, & button": { pointerEvents: "auto" },
+      "&:hover": {backgroundColor: "transparent !important"},
+      "&.Mui-selected": {backgroundColor: "transparent !important"},
+      "& .MuiButton-root, & button": {pointerEvents: "auto"},
     },
     "& .MuiTableCell-root": {
       "cursor": "default !important",
-      "&:hover": { backgroundColor: "transparent !important" },
-      "& .MuiButton-root, & button": { pointerEvents: "auto" },
+      "&:hover": {backgroundColor: "transparent !important"},
+      "& .MuiButton-root, & button": {pointerEvents: "auto"},
     },
   },
   "& .MuiTableCell-root": {
@@ -33,7 +33,7 @@ export const SUCCESS_CARD_CONTAINER_SX = {
   "mt": 3,
   "overflowX": "auto",
   "pb": 1,
-  "&::-webkit-scrollbar": { height: 6 },
+  "&::-webkit-scrollbar": {height: 6},
   "&::-webkit-scrollbar-track": {
     backgroundColor: "#f1f1f1",
     borderRadius: 10,
@@ -41,18 +41,18 @@ export const SUCCESS_CARD_CONTAINER_SX = {
   "&::-webkit-scrollbar-thumb": {
     "backgroundColor": "#c1c1c1",
     "borderRadius": 10,
-    "&:hover": { backgroundColor: "#a8a8a8" },
+    "&:hover": {backgroundColor: "#a8a8a8"},
   },
 };
 
 export const RetakeExamList = () => {
-  const whoami = authProvider.getCachedWhoami()
+  const whoami = authProvider.getCachedWhoami();
   const storeKey = `inscribed-retake-exams-${whoami?.id}`;
   const [inscribedRecords, setInscribedRecords] = useStore<any[]>(storeKey, []);
 
   const handleInscriptionSuccess = (record: {
-    session: { id: string };
-    course: { code: string };
+    session: {id: string};
+    course: {code: string};
   }) => {
     const isAlreadyInscribed = inscribedRecords.some(
       (item) =>
