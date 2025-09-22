@@ -57,8 +57,8 @@ function StudentMenu() {
       />
 
       <SingleMenu
-        data-testid="remedial-menu"
-        to="/RetakeExam"
+        data-testid="retakeExam-menu"
+        to="/retakeexams"
         label="Rattrapages"
         icon={<RemedialIcon />}
       />

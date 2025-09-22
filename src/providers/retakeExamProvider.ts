@@ -1,39 +1,27 @@
-import {HaDataProviderType} from "./HaDataProviderType";
-import {retakeExamApi} from "./api";
+import { HaDataProviderType } from "@/providers/HaDataProviderType";
+import { retakeExamApi } from "@/providers/api";
 
+// TODO: shared utility fn to unwrap axios apiClient data as .then(res => ({data: res.data})) gets repeated a million times 
 const retakeExamProvider: HaDataProviderType = {
-  getList: async (_page, _perPage, _filter, meta = {}) => {
-    const {studentId, sessionId} = meta;
-    if (!studentId || !sessionId) {
-      throw new Error("studentId and sessionId are required in meta");
-    }
-
+  getList: async (_page, _perPage, filter, _meta = {}) => {
+    const { studentId, sessionId } = filter;
     return retakeExamApi()
       .getStudentRetakeExamBySession(studentId, sessionId)
       .then((response) => ({
         data: response.data,
-        total: response.data.length,
       }));
   },
-
   getOne: async (_id, _meta) => {
-    return Error("Function not implemented");
+    throw new Error("Not implemented")
   },
-
-  saveOrUpdate: async (payloads: any, _meta) => {
-    const exams = Array.isArray(payloads) ? payloads : [payloads];
-    const sessionId = exams[0].session_id;
-    if (!sessionId) {
-      throw new Error("session_id est required in payload");
-    }
+  saveOrUpdate: async (sessionId: string, payloads) => {
+    const payload = payloads[0]
     return retakeExamApi()
-      .createOrUpdateRetakeExam(sessionId, exams)
-      .then((response) => ({data: response.data}));
+      .createOrUpdateRetakeExam(sessionId, payload)
+      .then((response) => [response.data]);
   },
-
-  delete: async (_id: string) => {
-    return Error("Function not implemented");
+  delete: async () => {
+    throw new Error("Not implemented")
   },
 };
-
 export default retakeExamProvider;
