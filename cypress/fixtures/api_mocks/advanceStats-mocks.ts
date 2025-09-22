@@ -1,4 +1,4 @@
-import {AdvancedFeesStatistics} from "@haapi-b0fc7615/typescript-client";
+import { AdvancedFeesStatistics } from "@haapi-b0fc7615/typescript-client";
 
 export const advanceStatsMocks: AdvancedFeesStatistics = {
   total_expected_fees_count: {
@@ -22,7 +22,7 @@ export const advanceStatsMocks: AdvancedFeesStatistics = {
     monthly: 65,
     yearly: 12,
     unknown_frequency: 3,
-    remedial_fees_count: 7,
+    retakeExam_fees_count: 7,
     mobile_money: 50,
     bank_fees: 30,
   },
@@ -36,7 +36,7 @@ export const advanceStatsMocks: AdvancedFeesStatistics = {
     monthly: 10,
     yearly: 2,
     unknown_frequency: 1,
-    remedial_fees_count: 2,
+    retakeExam_fees_count: 2,
   },
   late_fees_count: {
     first_grade: 2,
@@ -48,7 +48,7 @@ export const advanceStatsMocks: AdvancedFeesStatistics = {
     monthly: 5,
     yearly: 1,
     unknown_frequency: 1,
-    remedial_fees_count: 1,
+    retakeExam_fees_count: 1,
   },
   update_datetime: new Date("2024-07-01T12:00:00Z"),
   expired: true,

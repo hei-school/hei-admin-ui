@@ -1,12 +1,12 @@
-import {PALETTE_COLORS} from "@/haTheme";
-import {useNotify} from "@/hooks";
-import {Create} from "@/operations/common/components";
-import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
-import {Dialog} from "@/ui/components";
-import {NOOP_ID} from "@/utils/constants";
-import {formatDate} from "@/utils/date";
-import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client";
-import {AccountBalance, Payments} from "@mui/icons-material";
+import { PALETTE_COLORS } from "@/haTheme";
+import { useNotify } from "@/hooks";
+import { Create } from "@/operations/common/components";
+import { FILE_FIELD_STYLE } from "@/operations/letters/CreateLetters";
+import { Dialog } from "@/ui/components";
+import { NOOP_ID } from "@/utils/constants";
+import { formatDate } from "@/utils/date";
+import { AdvancedFeeStatisticsType } from "@haapi-b0fc7615/typescript-client";
+import { AccountBalance, Payments } from "@mui/icons-material";
 import {
   Box,
   Button as ImportButton,
@@ -19,7 +19,7 @@ import {
   CircleCheckBig,
   RefreshCw,
 } from "lucide-react";
-import {FC, useState} from "react";
+import { FC, useState } from "react";
 import {
   FileField,
   FileInput,
@@ -28,25 +28,25 @@ import {
   useListContext,
   useRefresh,
 } from "react-admin";
-import {v4 as uuid} from "uuid";
-import {FeeStats} from "../types";
-import {CardFeesContent, FeesStatsHeader} from "./FeeStatsHeader";
-import {StatsStatus} from "./StatsStatus";
+import { v4 as uuid } from "uuid";
+import { FeeStats } from "../types";
+import { CardFeesContent, FeesStatsHeader } from "./FeeStatsHeader";
+import { StatsStatus } from "./StatsStatus";
 
-export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
+export const FeesListHeader: FC<{ title: string; isMpbs: boolean }> = ({
   title,
   isMpbs = false,
 }) => {
-  const {filterValues} = useListContext();
+  const { filterValues } = useListContext();
   const [viewMode, setViewMode] =
     useState<AdvancedFeeStatisticsType>("ACCOUNTING");
   const mergedFilters = {
     ...(filterValues || {}),
     viewMode,
   };
-  const {data: stats} = useGetOne<FeeStats>("stats", {
+  const { data: stats } = useGetOne<FeeStats>("stats", {
     id: NOOP_ID,
-    meta: {resource: "fees_stats", filters: mergedFilters},
+    meta: { resource: "fees_stats", filters: mergedFilters },
   });
 
   const isXSmall = useMediaQuery("max-width:768px");
@@ -69,7 +69,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
       L1: stats?.paid_fees_count?.first_grade,
       L2: stats?.paid_fees_count?.second_grade,
       L3: stats?.paid_fees_count?.third_grade,
-      R: stats?.paid_fees_count?.remedial_fees_count,
+      R: stats?.paid_fees_count?.retakeExam_fees_count,
       A: stats?.paid_fees_count?.work_study,
       mensual: stats?.paid_fees_count?.monthly,
       annual: stats?.paid_fees_count?.yearly,
@@ -83,7 +83,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
       L2: stats?.pending_fees_count?.second_grade,
       L3: stats?.pending_fees_count?.third_grade,
       A: stats?.pending_fees_count?.work_study,
-      R: stats?.pending_fees_count?.remedial_fees_count,
+      R: stats?.pending_fees_count?.retakeExam_fees_count,
       mensual: stats?.pending_fees_count?.monthly,
       annual: stats?.pending_fees_count?.yearly,
     },
@@ -93,7 +93,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
       L1: stats?.late_fees_count?.first_grade,
       L2: stats?.late_fees_count?.second_grade,
       L3: stats?.late_fees_count?.third_grade,
-      R: stats?.late_fees_count?.remedial_fees_count,
+      R: stats?.late_fees_count?.retakeExam_fees_count,
       A: stats?.late_fees_count?.work_study,
       mensual: stats?.late_fees_count?.monthly,
       annual: stats?.late_fees_count?.yearly,
@@ -108,7 +108,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
       title={
         <Box
           display="flex"
-          flexDirection={{xs: "column", sm: "row"}}
+          flexDirection={{ xs: "column", sm: "row" }}
           justifyContent="space-between"
           gap={2}
           width="100%"
@@ -119,7 +119,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
               fontWeight="bold"
               sx={{
                 wordBreak: "break-word",
-                fontSize: {xs: "1.1rem", sm: "1.25rem"},
+                fontSize: { xs: "1.1rem", sm: "1.25rem" },
               }}
             >
               {title}
@@ -130,14 +130,14 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
                   "display": "inline-flex",
                   "flexDirection": "row",
                   "width": "fit-content",
-                  "alignItems": {xs: "flex-start", sm: "center"},
-                  "gap": {xs: "4px", sm: "8px"},
+                  "alignItems": { xs: "flex-start", sm: "center" },
+                  "gap": { xs: "4px", sm: "8px" },
                   "background":
                     "linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.2) 100%)",
                   "backdropFilter": "blur(10px)",
-                  "padding": {xs: "6px 12px", sm: "8px 16px"},
+                  "padding": { xs: "6px 12px", sm: "8px 16px" },
                   "borderRadius": "12px",
-                  "fontSize": {xs: "0.75rem", sm: "0.875rem"},
+                  "fontSize": { xs: "0.75rem", sm: "0.875rem" },
                   "color": "text.secondary",
                   "margin": "12px 0",
                   "border": "1px solid rgba(255,255,255,0.1)",
@@ -154,7 +154,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
                     borderRadius: "6px",
                     background: "rgba(0,0,0,0.03)",
                     display: "inline-block",
-                    margin: {xs: "2px 0", sm: "0 4px"},
+                    margin: { xs: "2px 0", sm: "0 4px" },
                   },
                 }}
               >
@@ -165,10 +165,10 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
           </Box>
           <Box
             display="flex"
-            flexDirection={{xs: "column"}}
+            flexDirection={{ xs: "column" }}
             gap={2}
-            alignItems={{xs: "stretch", sm: "center"}}
-            width={{xs: "100%", sm: "auto"}}
+            alignItems={{ xs: "stretch", sm: "center" }}
+            width={{ xs: "100%", sm: "auto" }}
           >
             <ViewModeToggle
               viewMode={viewMode}
@@ -182,8 +182,8 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
                 sx={{
                   bgcolor: PALETTE_COLORS.primary,
                   height: "fit-content",
-                  whiteSpace: {xs: "normal", sm: "nowrap"},
-                  fontSize: {xs: "0.75rem", sm: "0.875rem"},
+                  whiteSpace: { xs: "normal", sm: "nowrap" },
+                  fontSize: { xs: "0.75rem", sm: "0.875rem" },
                 }}
               >
                 Vérifier des transactions
@@ -199,7 +199,7 @@ export const FeesListHeader: FC<{title: string; isMpbs: boolean}> = ({
   );
 };
 
-const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
+const ImportDialog: FC<{ onShow: boolean; onClose: () => void }> = ({
   onShow: onShow,
   onClose,
 }) => {
@@ -224,7 +224,7 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
         resource="mpbs-verify"
         mutationOptions={{
           onSuccess: () => {
-            notify("Transactions importées.", {type: "success"});
+            notify("Transactions importées.", { type: "success" });
             onClose();
             refresh();
           },
@@ -237,7 +237,7 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
         }}
       >
         <SimpleForm
-          onSubmit={fileUploaded ? undefined : () => {}}
+          onSubmit={fileUploaded ? undefined : () => { }}
           disabled={!fileUploaded}
         >
           <FileInput
@@ -251,7 +251,7 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
                 setFileUploaded(false);
                 notify(
                   "Mauvais format de fichier. Seuls les fichiers .xls et .xlsx sont acceptés.",
-                  {type: "warning"}
+                  { type: "warning" }
                 );
               },
             }}
@@ -267,7 +267,7 @@ const ImportDialog: FC<{onShow: boolean; onClose: () => void}> = ({
 const ViewModeToggle: FC<{
   viewMode: AdvancedFeeStatisticsType;
   onViewModeChange: (mode: AdvancedFeeStatisticsType) => void;
-}> = ({viewMode, onViewModeChange}) => {
+}> = ({ viewMode, onViewModeChange }) => {
   const isXSmall = useMediaQuery("(max-width:480px)");
 
   return (
@@ -281,7 +281,7 @@ const ViewModeToggle: FC<{
         data-testid="viewmode-accounting"
         onClick={() => onViewModeChange("ACCOUNTING")}
         sx={{
-          "p": {xs: "6px 12px", sm: "8px 16px"},
+          "p": { xs: "6px 12px", sm: "8px 16px" },
           "bgcolor":
             viewMode === "ACCOUNTING" ? "white" : "rgba(255,255,255,0.1)",
           "color": viewMode === "ACCOUNTING" ? PALETTE_COLORS.primary : "white",
@@ -304,8 +304,8 @@ const ViewModeToggle: FC<{
           },
         }}
       >
-        <AccountBalance sx={{fontSize: "1rem"}} />
-        <Typography fontWeight="600" fontSize={{xs: "0.8rem", sm: "0.9rem"}}>
+        <AccountBalance sx={{ fontSize: "1rem" }} />
+        <Typography fontWeight="600" fontSize={{ xs: "0.8rem", sm: "0.9rem" }}>
           Comptable
         </Typography>
       </Box>
@@ -313,7 +313,7 @@ const ViewModeToggle: FC<{
         data-testid="viewmode-receipt"
         onClick={() => onViewModeChange("RECEIPT")}
         sx={{
-          "p": {xs: "6px 12px", sm: "8px 16px"},
+          "p": { xs: "6px 12px", sm: "8px 16px" },
           "bgcolor": viewMode === "RECEIPT" ? "white" : "rgba(255,255,255,0.1)",
           "color": viewMode === "RECEIPT" ? PALETTE_COLORS.primary : "white",
           "borderRadius": "12px",
@@ -335,8 +335,8 @@ const ViewModeToggle: FC<{
           },
         }}
       >
-        <Payments sx={{fontSize: "1rem"}} />
-        <Typography fontWeight="600" fontSize={{xs: "0.8rem", sm: "0.9rem"}}>
+        <Payments sx={{ fontSize: "1rem" }} />
+        <Typography fontWeight="600" fontSize={{ xs: "0.8rem", sm: "0.9rem" }}>
           Encaissement
         </Typography>
       </Box>
