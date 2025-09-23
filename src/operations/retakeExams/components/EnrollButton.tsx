@@ -1,11 +1,10 @@
 import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
-import retakeExamProvider from "@/providers/retakeExamProvider";
 import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {CheckCircle, HowToReg} from "@mui/icons-material";
 import {Button, Chip, CircularProgress} from "@mui/material";
 import {useState} from "react";
-import {Confirm, useNotify, useRecordContext} from "react-admin";
+import {Confirm, useCreate, useNotify, useRecordContext} from "react-admin";
 
 const BUTTON_STYLE = {
   textTransform: "none",
@@ -19,8 +18,8 @@ const BUTTON_STYLE = {
 const CHIP_STYLE = {fontSize: 11, height: 24} as const;
 
 type EnrollButtonProps = {
-  onSuccess: (record: RetakeExam) => void;
-  alreadyInscribed: (record: RetakeExam) => boolean;
+  onSuccess: (retakeExam: RetakeExam) => void;
+  alreadyInscribed: (retakeExam: RetakeExam) => boolean;
 };
 
 export const EnrollButton = ({
@@ -28,72 +27,91 @@ export const EnrollButton = ({
   alreadyInscribed,
 }: EnrollButtonProps) => {
   const {id: currentUserId} = authProvider.getCachedWhoami();
-  const record = useRecordContext<RetakeExam>();
+  const retakeExam = useRecordContext<RetakeExam>();
   const notify = useNotify();
+  const [create] = useCreate();
 
   const [loading, setLoading] = useState(false);
   const [confirmOpen, setConfirmOpen] = useToggle(false);
 
-  if (!record) return null;
+  if (!retakeExam) return null;
+
   const handleEnroll = async () => {
-    if (!record || currentUserId) return;
-    const payload = [
-      {
-        ...(record.id ? {id: record.id} : {}),
-        course_id: record.course?.id ?? "",
-        session_id: record.session?.id ?? "",
-        student_id: currentUserId,
-      },
-    ];
+    if (!retakeExam || !currentUserId) return;
+    const payload = {
+      course_id: retakeExam.course?.id ?? "",
+      session_id: retakeExam.session?.id ?? "",
+      student_id: currentUserId,
+    };
     try {
       setLoading(true);
-      await retakeExamProvider.saveOrUpdate(record.session?.id ?? "", payload);
-      notify("Inscription réussie !", {type: "info"});
+      await create(
+        "retakeExams",
+        {data: payload},
+        {
+          onSuccess: () => {
+            notify("Inscription réussie !", {type: "info"});
+            onSuccess(retakeExam);
+            setConfirmOpen(false);
+          },
+          onError: () => {
+            notify(
+              "Une erreur est survenue lors de l'inscription. Merci de réessayer plus tard.",
+              {type: "error"}
+            );
+          },
+          onSettled: () => setLoading(false),
+        }
+      );
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        console.error("Erreur lors de l'inscription :", error.message);
+      } else {
+        console.error("Erreur inattendue :", error);
+      }
 
-      onSuccess(record);
-      setConfirmOpen(false);
-    } catch (error) {
-      notify(`Erreur : ${(error as Error).message || String(error)}`, {
-        type: "error",
-      });
-    } finally {
+      notify(
+        "Une erreur est survenue lors de l'inscription. Merci de réessayer plus tard.",
+        {type: "error"}
+      );
       setLoading(false);
     }
-  };
-  if (alreadyInscribed(record)) {
+
+    if (alreadyInscribed(retakeExam)) {
+      return (
+        <Chip
+          icon={<CheckCircle />}
+          label="Déjà inscrit"
+          color="success"
+          variant="outlined"
+          size="small"
+          sx={CHIP_STYLE}
+        />
+      );
+    }
     return (
-      <Chip
-        icon={<CheckCircle />}
-        label="Déjà inscrit"
-        color="success"
-        variant="outlined"
-        size="small"
-        sx={CHIP_STYLE}
-      />
+      <>
+        <Button
+          variant="contained"
+          size="small"
+          startIcon={<HowToReg fontSize="small" />}
+          onClick={(e) => {
+            e.stopPropagation();
+            setConfirmOpen(true);
+          }}
+          sx={BUTTON_STYLE}
+          disabled={loading}
+        >
+          {loading ? <CircularProgress size={14} /> : "S'inscrire"}
+        </Button>
+        <Confirm
+          isOpen={confirmOpen}
+          title="Confirmation"
+          content={`Voulez-vous vraiment vous inscrire au rattrapage de "${retakeExam.course?.name}" (${retakeExam.session?.title || "Session"}) ?`}
+          onConfirm={handleEnroll}
+          onClose={() => setConfirmOpen(false)}
+        />
+      </>
     );
-  }
-  return (
-    <>
-      <Button
-        variant="contained"
-        size="small"
-        startIcon={<HowToReg fontSize="small" />}
-        onClick={(e) => {
-          e.stopPropagation();
-          setConfirmOpen(true);
-        }}
-        sx={BUTTON_STYLE}
-        disabled={loading}
-      >
-        {loading ? <CircularProgress size={14} /> : "S'inscrire"}
-      </Button>
-      <Confirm
-        isOpen={confirmOpen}
-        title="Confirmation"
-        content={`Voulez-vous vraiment vous inscrire au rattrapage de "${record.course?.name}" (${record.session?.title || "Session"}) ?`}
-        onConfirm={handleEnroll}
-        onClose={() => setConfirmOpen(false)}
-      />
-    </>
-  );
+  };
 };

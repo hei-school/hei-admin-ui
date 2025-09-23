@@ -47,24 +47,24 @@ const SUCCESS_CARD_CONTAINER_SX = {
 };
 
 export const RetakeExamList = () => {
-  const {id: whoamiId} = authProvider.getCachedWhoami();
-  const storeKey = `inscribed-retake-exams-${whoamiId}`;
-  const [inscribedRecords, setInscribedRecords] = useStore<RetakeExam[]>(
-    storeKey,
-    []
-  );
+  const userId = authProvider.getCachedWhoami()?.id;
+  const storeKey = `inscribed-retake-exams-${userId}`;
+  const [inscribedRetakeExams, setInscribedRetakeExams] = useStore<
+    RetakeExam[]
+  >(storeKey, []);
 
-  const isRecordInscribed = (record: RetakeExam) =>
-    inscribedRecords.some(
-      (item) =>
-        item.session?.id === record.session?.id &&
-        item.course?.id === record.course?.id
+  const sessionId = (retakeExam: RetakeExam) => {
+    return retakeExam.session?.id;
+  };
+
+  const isRetakeExamInscribed = (retakeExam: RetakeExam) =>
+    inscribedRetakeExams.some(
+      (item) => item.course?.id === retakeExam.course?.id
     );
 
-  const handleInscriptionSuccess = (record: RetakeExam) => {
-    if (!isRecordInscribed(record)) {
-      setInscribedRecords((prev) => [...prev, record]);
-    }
+  const handleInscriptionSuccess = (retakeExam: RetakeExam) => {
+    if (isRetakeExamInscribed(retakeExam)) return;
+    setInscribedRetakeExams((prev) => [...prev, retakeExam]);
   };
 
   return (
@@ -72,14 +72,12 @@ export const RetakeExamList = () => {
       <HaList
         title="Listes de mes rattrapages"
         resource="retakeExams"
-        actions={undefined}
         icon={<BookOpenIcon />}
         listProps={{
           title: "Rattrapages",
-          perPage: 10,
           filter: {
-            studentId: whoamiId,
-            sessionId: "default_session",
+            studentId: userId,
+            sessionId: sessionId,
           },
           disableRowClick: true,
           rowClick: false,
@@ -93,16 +91,16 @@ export const RetakeExamList = () => {
 
         <EnrollButton
           onSuccess={handleInscriptionSuccess}
-          alreadyInscribed={isRecordInscribed}
+          alreadyInscribed={isRetakeExamInscribed}
         />
       </HaList>
 
-      {``.length > 0 && (
+      {inscribedRetakeExams.length > 0 && (
         <Box sx={SUCCESS_CARD_CONTAINER_SX}>
-          {inscribedRecords.map((record, index) => (
+          {inscribedRetakeExams.map((retakeExam, index) => (
             <RetakeExamSuccessCard
-              key={`${record.course?.code}-${record.session?.id || index}`}
-              record={record}
+              key={`${retakeExam.course?.code}-${retakeExam.session?.id || index}`}
+              retakeExam={retakeExam}
             />
           ))}
         </Box>

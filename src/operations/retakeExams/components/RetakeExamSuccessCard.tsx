@@ -4,23 +4,23 @@ import {CheckCircle, Payment} from "@mui/icons-material";
 import {Alert, Card, CardContent, Typography} from "@mui/material";
 
 interface RetakeExamSuccessCardProps {
-  record?: RetakeExam;
+  retakeExam?: RetakeExam;
 }
 
 export function RetakeExamSuccessCard({
-  record,
+  retakeExam,
 }: Readonly<RetakeExamSuccessCardProps>) {
-  if (!record) return null;
+  if (!retakeExam) return null;
 
   const courseInfo =
-    record.course?.code && record.course?.name
-      ? `${record.course.code} - ${record.course.name}`
+    retakeExam.course?.code && retakeExam.course?.name
+      ? `${retakeExam.course.code} - ${retakeExam.course.name}`
       : "—";
 
   const sessionInfo =
-    record.session?.date_from && record.session?.date_to
-      ? `Du ${formatDate(record.session.date_from)} au ${formatDate(
-          record.session.date_to
+    retakeExam.session?.date_from && retakeExam.session?.date_to
+      ? `Du ${formatDate(retakeExam.session.date_from)} au ${formatDate(
+          retakeExam.session.date_to
         )}`
       : "—";
 
@@ -64,14 +64,15 @@ export function RetakeExamSuccessCard({
             "borderRadius": 1,
           }}
         >
-          <strong>Important :</strong> frais de rattrapage non encore payés
+          <strong>Important :</strong> frais de rattrapage pas encore payés
         </Alert>
-        {record.id && (
+
+        {retakeExam.id && (
           <Typography
             variant="caption"
             sx={{display: "block", mt: 1.5, color: "text.secondary"}}
           >
-            ID d’inscription : {record.id}
+            ID d’inscription : {retakeExam.id}
           </Typography>
         )}
       </CardContent>

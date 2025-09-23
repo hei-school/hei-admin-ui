@@ -41,7 +41,7 @@ const DatagridWrapper = styled("div")({
 
 export function HaList({
   title,
-  actions,
+  actions = undefined,
   resource,
   wrapperSx = {},
   children,
