@@ -1,3 +1,4 @@
+import {SuspendedStudentAlert} from "@/operations/common/components/resource-flows/components/SuspendedStudentAlert";
 import {GlobalSummaryView} from "@/operations/grades/components/GlobalSummaryView";
 import {YearlyView} from "@/operations/grades/components/YearlyView";
 import {NewViewType} from "@/operations/grades/types/types";
@@ -6,16 +7,28 @@ import {
   StyledToggleButton,
   StyledToggleButtonGroup,
 } from "@/operations/grades/utils/utils";
+import {useRole} from "@/security/hooks";
+import {Student} from "@haapi-b0fc7615/typescript-client";
 import {AutoGraph, School} from "@mui/icons-material";
 import {Box, Fade, Typography} from "@mui/material";
 import {FC, useEffect, useState} from "react";
+import {useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
 
 export const GradesOverview: FC = () => {
   const [view, setView] = useState<NewViewType>("YEARLY");
   const [mounted, setMounted] = useState(false);
+  const {isMonitor} = useRole();
   const {id: studentId} = useParams();
+  const {data: student} = useGetOne<Student & {id: string}>(
+    "students",
+    {id: studentId!},
+    {
+      enabled: isMonitor(),
+    }
+  );
 
+  const isSuspended = student?.status === "SUSPENDED";
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -92,8 +105,17 @@ export const GradesOverview: FC = () => {
           </StyledToggleButtonGroup>
         </Box>
       </Box>
-
-      {mounted && (
+      {isMonitor() && isSuspended && (
+        <SuspendedStudentAlert
+          studentName={
+            student?.first_name
+              ? `${student.first_name} ${student.last_name}`
+              : "Cet élève"
+          }
+          contactInfo="Veuillez contacter l'administration pour plus d'informations sur cette suspension"
+        />
+      )}
+      {mounted && !isSuspended && (
         <Fade in timeout={500}>
           <Box>
             {view === "YEARLY" ? (

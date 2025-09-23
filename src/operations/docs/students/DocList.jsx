@@ -1,4 +1,5 @@
 import {useStudentRef} from "@/hooks";
+import {SuspendedStudentAlert} from "@/operations/common/components/resource-flows/components/SuspendedStudentAlert";
 import {
   DocList as CommonDocList,
   DocListAction,
@@ -6,8 +7,6 @@ import {
 import {useViewType} from "@/operations/docs/hooks/useViewType";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
-import WarningAmberIcon from "@mui/icons-material/WarningAmber";
-import {Box, Typography} from "@mui/material";
 import {useGetOne} from "react-admin";
 import {useLocation, useParams} from "react-router-dom";
 import {getDocListTitle} from "../utils/doc-list-title";
@@ -16,7 +15,7 @@ export const DocList = () => {
   const params = useParams();
   const location = useLocation();
   const type = useViewType("LIST");
-  const {isStudent, isManager, isAdmin} = useRole();
+  const {isStudent, isManager, isAdmin, isMonitor} = useRole();
   const getStudentRef = useStudentRef("userId");
   const studentRef = isManager() || isAdmin() ? getStudentRef?.studentRef : "";
 
@@ -27,24 +26,19 @@ export const DocList = () => {
   const {data: studentData} = useGetOne("students", {id: userId});
   const isSuspended = studentData?.status === "SUSPENDED";
 
-  return isStudent() && isSuspended ? (
-    <Box
-      sx={{
-        marginTop: "20px",
-        margin: "3em",
-        padding: "20px",
-        border: "1px solid",
-        borderColor: "rgb(239 68 68)",
-        color: "rgb(239 68 68)",
-        borderRadius: "10px",
-        backgroundColor: "background.paper",
-      }}
-    >
-      <Typography sx={{display: "flex", alignItems: "center"}}>
-        <WarningAmberIcon sx={{marginRight: "1em"}} />
-        L'accès à ce document vous est interdit car vous êtes suspendu.
-      </Typography>
-    </Box>
+  return (isStudent() || isMonitor()) && isSuspended ? (
+    <SuspendedStudentAlert
+      studentName={
+        isMonitor()
+          ? `${studentData.first_name} ${studentData.last_name} est`
+          : "vous êtes"
+      }
+      restrictionMessage={
+        isMonitor()
+          ? `Vous n'avez pas accès à ces documents.`
+          : "Vous n'avez pas accès à la liste des documents."
+      }
+    />
   ) : (
     <CommonDocList
       type={type}
