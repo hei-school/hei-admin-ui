@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@haapi-b0fc7615/typescript-client": "^1.118.1",
-    "@haapi/typescript-client": "^1.110.0",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-calendar": "^4.0.1",
     "@react-admin/ra-enterprise": "^7.0.0",
@@ -53,7 +52,7 @@
     "@cypress/code-coverage": "^3.12.34",
     "@skodaflow/sonar-report-merger": "^1.0.2",
     "@types/dom-to-image": "^2.6.7",
-    "@types/node": "^20.19.13",
+    "@types/node": "^20.12.7",
     "@types/react": "^18.2.15",
     "@types/react-big-calendar": "^1.16.1",
     "@types/react-dom": "^18.2.7",
