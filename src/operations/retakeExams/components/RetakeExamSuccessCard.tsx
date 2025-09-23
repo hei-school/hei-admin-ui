@@ -1,11 +1,10 @@
+import {formatDate} from "@/utils/date";
+import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {CheckCircle, Payment} from "@mui/icons-material";
 import {Alert, Card, CardContent, Typography} from "@mui/material";
 
 interface RetakeExamSuccessCardProps {
-  record?: {
-    course?: {code: string; name: string};
-    session?: {date_from: string; date_to: string};
-  };
+  record?: RetakeExam;
 }
 
 export function RetakeExamSuccessCard({
@@ -13,24 +12,30 @@ export function RetakeExamSuccessCard({
 }: Readonly<RetakeExamSuccessCardProps>) {
   if (!record) return null;
 
-  const courseInfo = record.course
-    ? `${record.course.code} - ${record.course.name}`
-    : "—";
-  const sessionInfo = record.session
-    ? `Du ${new Date(record.session.date_from).toLocaleDateString()} au ${new Date(record.session.date_to).toLocaleDateString()}`
-    : "—";
+  const courseInfo =
+    record.course?.code && record.course?.name
+      ? `${record.course.code} - ${record.course.name}`
+      : "—";
+
+  const sessionInfo =
+    record.session?.date_from && record.session?.date_to
+      ? `Du ${formatDate(record.session.date_from)} au ${formatDate(
+          record.session.date_to
+        )}`
+      : "—";
 
   return (
     <Card
       sx={{
-        border: "1px solid #e8f5e8",
-        backgroundColor: "#f8fffe",
-        boxShadow: "0 2px 8px rgba(76,175,80,0.15)",
+        border: "1px solid #c8e6c9",
+        backgroundColor: "#f9fff9",
+        boxShadow: "0 2px 6px rgba(76,175,80,0.15)",
         minWidth: 300,
-        maxWidth: 350,
+        maxWidth: 360,
+        borderRadius: 2,
       }}
     >
-      <CardContent sx={{p: 2}}>
+      <CardContent sx={{p: 2.5}}>
         <Typography
           variant="h6"
           sx={{
@@ -41,24 +46,34 @@ export function RetakeExamSuccessCard({
             mb: 2,
           }}
         >
-          <CheckCircle sx={{color: "#4caf50", mr: 1.5}} />
+          <CheckCircle sx={{color: "#4caf50", mr: 1.2}} />
           Inscription confirmée
         </Typography>
-
-        <Typography variant="body2" sx={{mb: 1}}>
-          <strong>Matière:</strong> {courseInfo}
+        <Typography variant="body2" sx={{mb: 1.2}}>
+          <strong>Matière :</strong> {courseInfo}
         </Typography>
         <Typography variant="body2" sx={{mb: 2}}>
-          <strong>Session:</strong> {sessionInfo}
+          <strong>Session :</strong> {sessionInfo}
         </Typography>
-
         <Alert
           icon={<Payment />}
           severity="warning"
-          sx={{"fontSize": 14, "& .MuiAlert-icon": {fontSize: 20}}}
+          sx={{
+            "fontSize": 14,
+            "& .MuiAlert-icon": {fontSize: 20},
+            "borderRadius": 1,
+          }}
         >
-          <strong>Important:</strong> Frais de rattrapage pas encore payés.
+          <strong>Important :</strong> frais de rattrapage non encore payés
         </Alert>
+        {record.id && (
+          <Typography
+            variant="caption"
+            sx={{display: "block", mt: 1.5, color: "text.secondary"}}
+          >
+            ID d’inscription : {record.id}
+          </Typography>
+        )}
       </CardContent>
     </Card>
   );

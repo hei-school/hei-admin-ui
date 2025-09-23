@@ -1,10 +1,11 @@
+import {EnrollButton} from "@/operations/retakeExams/components/EnrollButton";
+import {RetakeExamSuccessCard} from "@/operations/retakeExams/components/RetakeExamSuccessCard";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
+import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {BookOpenIcon} from "lucide-react";
 import {DateField, TextField, useStore} from "react-admin";
-import {EnrollButton} from "./components/EnrollButton";
-import {RetakeExamSuccessCard} from "./components/RetakeExamSuccessCard";
 
 const RETAKE_EXAM_LIST_SX = {
   "& .RaList-content": {
@@ -27,7 +28,7 @@ const RETAKE_EXAM_LIST_SX = {
   },
 };
 
-export const SUCCESS_CARD_CONTAINER_SX = {
+const SUCCESS_CARD_CONTAINER_SX = {
   "display": "flex",
   "gap": 2,
   "mt": 3,
@@ -46,22 +47,23 @@ export const SUCCESS_CARD_CONTAINER_SX = {
 };
 
 export const RetakeExamList = () => {
-  const whoami = authProvider.getCachedWhoami();
-  const storeKey = `inscribed-retake-exams-${whoami?.id}`;
-  const [inscribedRecords, setInscribedRecords] = useStore<any[]>(storeKey, []);
+  const {id: whoamiId} = authProvider.getCachedWhoami();
+  const storeKey = `inscribed-retake-exams-${whoamiId}`;
+  const [inscribedRecords, setInscribedRecords] = useStore<RetakeExam[]>(
+    storeKey,
+    []
+  );
 
-  const handleInscriptionSuccess = (record: {
-    session: {id: string};
-    course: {code: string};
-  }) => {
-    const isAlreadyInscribed = inscribedRecords.some(
+  const isRecordInscribed = (record: RetakeExam) =>
+    inscribedRecords.some(
       (item) =>
         item.session?.id === record.session?.id &&
-        item.course?.code === record.course?.code
+        item.course?.id === record.course?.id
     );
 
-    if (!isAlreadyInscribed) {
-      setInscribedRecords([...inscribedRecords, record]);
+  const handleInscriptionSuccess = (record: RetakeExam) => {
+    if (!isRecordInscribed(record)) {
+      setInscribedRecords((prev) => [...prev, record]);
     }
   };
 
@@ -76,7 +78,7 @@ export const RetakeExamList = () => {
           title: "Rattrapages",
           perPage: 10,
           filter: {
-            studentId: whoami?.id,
+            studentId: whoamiId,
             sessionId: "default_session",
           },
           disableRowClick: true,
@@ -88,12 +90,16 @@ export const RetakeExamList = () => {
         <TextField source="course.name" label="Nom du cours" />
         <DateField source="session.date_from" label="Début" />
         <DateField source="session.date_to" label="Fin" />
-        <EnrollButton onSuccess={handleInscriptionSuccess} />
+
+        <EnrollButton
+          onSuccess={handleInscriptionSuccess}
+          alreadyInscribed={isRecordInscribed}
+        />
       </HaList>
 
-      {inscribedRecords.length > 0 && (
+      {``.length > 0 && (
         <Box sx={SUCCESS_CARD_CONTAINER_SX}>
-          {inscribedRecords.map((record: any, index: number) => (
+          {inscribedRecords.map((record, index) => (
             <RetakeExamSuccessCard
               key={`${record.course?.code}-${record.session?.id || index}`}
               record={record}

@@ -11,16 +11,15 @@ const retakeExamProvider: HaDataProviderType = {
         data: response.data,
       }));
   },
-  getOne: async (_id, _meta) => {
+  getOne: () => {
     throw new Error("Not implemented");
   },
   saveOrUpdate: async (sessionId: string, payloads) => {
-    const payload = payloads[0];
     return retakeExamApi()
-      .createOrUpdateRetakeExam(sessionId, payload)
-      .then((response) => [response.data]);
+      .createOrUpdateRetakeExam(sessionId, payloads)
+      .then((response) => ({data: response.data}));
   },
-  delete: async () => {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

@@ -1,146 +1,98 @@
+import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
-import {EventAvailable, EventBusy, HowToReg} from "@mui/icons-material";
-import {Box, Button, Chip, CircularProgress} from "@mui/material";
-import {useEffect} from "react";
-import {
-  Confirm,
-  useCreate,
-  useNotify,
-  useRecordContext,
-  useStore,
-} from "react-admin";
-import {useQueryClient} from "react-query";
-import {useToggle} from "../../../hooks";
+import retakeExamProvider from "@/providers/retakeExamProvider";
+import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
+import {CheckCircle, HowToReg} from "@mui/icons-material";
+import {Button, Chip, CircularProgress} from "@mui/material";
+import {useState} from "react";
+import {Confirm, useNotify, useRecordContext} from "react-admin";
 
-interface EnrollButtonProps {
-  onSuccess?: (record: any) => void;
-}
+const BUTTON_STYLE = {
+  textTransform: "none",
+  fontSize: 12,
+  px: 1.8,
+  py: 0.5,
+  minHeight: 28,
+  borderRadius: 1.5,
+} as const;
 
-const ENROLL_BUTTON_SX = {
-  "textTransform": "none",
-  "fontSize": 12,
-  "px": 1.8,
-  "py": 0.5,
-  "minHeight": 28,
-  "borderRadius": 1.5,
-  "boxShadow": "0 1px 2px rgba(0,0,0,0.08)",
-  "&:hover": {boxShadow: "0 2px 5px rgba(0,0,0,0.12)"},
+const CHIP_STYLE = {fontSize: 11, height: 24} as const;
+
+type EnrollButtonProps = {
+  onSuccess: (record: RetakeExam) => void;
+  alreadyInscribed: (record: RetakeExam) => boolean;
 };
 
-const CHIP_PAST_SX = {fontSize: 11, height: 24};
-const CHIP_REGISTERED_SX = {mr: 1, fontSize: 11, height: 24};
-
-export const EnrollButton = ({onSuccess}: EnrollButtonProps) => {
-  const whoami = authProvider.getCachedWhoami();
-  const record = useRecordContext();
+export const EnrollButton = ({
+  onSuccess,
+  alreadyInscribed,
+}: EnrollButtonProps) => {
+  const {id: currentUserId} = authProvider.getCachedWhoami();
+  const record = useRecordContext<RetakeExam>();
   const notify = useNotify();
-  const queryClient = useQueryClient();
-  const [create, {isLoading}] = useCreate();
 
-  const [isRegistered, setIsRegistered] = useToggle(false);
-  const [isPast, setIsPast] = useToggle(false);
-  const [openConfirm, setOpenConfirm] = useToggle(false);
-
-  const storageKey = `inscribed-retake-exams-${whoami?.id}`;
-  const [enrolledExams, setEnrolledExams] = useStore<any[]>(storageKey, []);
+  const [loading, setLoading] = useState(false);
+  const [confirmOpen, setConfirmOpen] = useToggle(false);
 
   if (!record) return null;
-
-  useEffect(() => {
-    const examDate = new Date(record.session?.date_to);
-    setIsPast(examDate < new Date());
-
-    const alreadyRegistered =
-      enrolledExams.some(
-        (item: any) =>
-          item.course?.code === record.course?.code &&
-          item.session?.id === record.session?.id
-      ) || record.EnrollButton?.includes(whoami?.id);
-
-    setIsRegistered(alreadyRegistered);
-  }, [record, enrolledExams, whoami?.id, setIsPast, setIsRegistered]);
-
-  const saveEnroll = (newRecord: any) =>
-    setEnrolledExams([...enrolledExams, newRecord]);
-
-  const enrollInRetakeExam = async () => {
+  const handleEnroll = async () => {
+    if (!record || currentUserId) return;
+    const payload = [
+      {
+        ...(record.id ? {id: record.id} : {}),
+        course_id: record.course?.id ?? "",
+        session_id: record.session?.id ?? "",
+        student_id: currentUserId,
+      },
+    ];
     try {
-      await create("retakeExams", {
-        data: {
-          course_id: record.course.id,
-          session_id: record.session.id,
-          student_id: whoami?.id,
-        },
-      });
+      setLoading(true);
+      await retakeExamProvider.saveOrUpdate(record.session?.id ?? "", payload);
+      notify("Inscription réussie !", {type: "info"});
 
-      saveEnroll(record);
-      setIsRegistered(true);
-      queryClient.invalidateQueries({queryKey: ["retakeExams"]});
-      if (record?.id) {
-        queryClient.invalidateQueries({
-          queryKey: [record.resource, "getOne", {id: record.id}],
-        });
-      }
-      notify("Inscription réussie ! Frais non payés", {type: "info"});
-      onSuccess?.(record);
-    } catch (error: any) {
-      notify(`Erreur : ${error.message}`, {type: "error"});
+      onSuccess(record);
+      setConfirmOpen(false);
+    } catch (error) {
+      notify(`Erreur : ${(error as Error).message || String(error)}`, {
+        type: "error",
+      });
+    } finally {
+      setLoading(false);
     }
   };
-
-  if (isPast) {
+  if (alreadyInscribed(record)) {
     return (
       <Chip
-        icon={<EventBusy />}
-        label="Rattrapage terminé"
+        icon={<CheckCircle />}
+        label="Déjà inscrit"
+        color="success"
         variant="outlined"
         size="small"
-        sx={CHIP_PAST_SX}
+        sx={CHIP_STYLE}
       />
     );
   }
-
-  if (isRegistered) {
-    return (
-      <Box display="flex" alignItems="center">
-        <Chip
-          icon={<EventAvailable />}
-          label="Déjà inscrit"
-          color="success"
-          variant="outlined"
-          size="small"
-          sx={CHIP_REGISTERED_SX}
-        />
-      </Box>
-    );
-  }
-
   return (
     <>
       <Button
         variant="contained"
-        color="primary"
         size="small"
-        startIcon={
-          isLoading ? (
-            <CircularProgress size={12} />
-          ) : (
-            <HowToReg fontSize="small" />
-          )
-        }
-        onClick={() => setOpenConfirm(true)}
-        disabled={isLoading}
-        sx={ENROLL_BUTTON_SX}
+        startIcon={<HowToReg fontSize="small" />}
+        onClick={(e) => {
+          e.stopPropagation();
+          setConfirmOpen(true);
+        }}
+        sx={BUTTON_STYLE}
+        disabled={loading}
       >
-        {isLoading ? "Traitement..." : "S'inscrire"}
+        {loading ? <CircularProgress size={14} /> : "S'inscrire"}
       </Button>
-
       <Confirm
-        isOpen={openConfirm}
+        isOpen={confirmOpen}
         title="Confirmation"
         content={`Voulez-vous vraiment vous inscrire au rattrapage de "${record.course?.name}" (${record.session?.title || "Session"}) ?`}
-        onConfirm={enrollInRetakeExam}
-        onClose={() => setOpenConfirm(false)}
+        onConfirm={handleEnroll}
+        onClose={() => setConfirmOpen(false)}
       />
     </>
   );

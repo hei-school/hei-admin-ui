@@ -244,7 +244,7 @@ function AppBase() {
           path="/exams/:id/grades"
           element={<grades.examParticipantList />}
         />
-        <Route exact path="/retakeExams" element={<retakeExams.list />} />
+        <Route exact path="/retake-exams" element={<retakeExams.list />} />
       </CustomRoutes>
     </Admin>
   );
