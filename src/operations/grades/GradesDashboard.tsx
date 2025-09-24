@@ -1,4 +1,4 @@
-import {SuspendedStudentAlert} from "@/operations/common/components/resource-flows/components/SuspendedStudentAlert";
+import {SuspendedStudentAlert} from "@/operations/common/components/SuspendedStudentAlert";
 import {GlobalSummaryView} from "@/operations/grades/components/GlobalSummaryView";
 import {YearlyView} from "@/operations/grades/components/YearlyView";
 import {NewViewType} from "@/operations/grades/types/types";
@@ -109,7 +109,7 @@ export const GradesOverview: FC = () => {
         <SuspendedStudentAlert
           studentName={
             student?.first_name
-              ? `${student.first_name} ${student.last_name}`
+              ? `${student.first_name} ${student.last_name} est`
               : "Cet élève"
           }
           contactInfo="Veuillez contacter l'administration pour plus d'informations sur cette suspension"

@@ -1,5 +1,5 @@
 import {useStudentRef} from "@/hooks";
-import {SuspendedStudentAlert} from "@/operations/common/components/resource-flows/components/SuspendedStudentAlert";
+import {SuspendedStudentAlert} from "@/operations/common/components/SuspendedStudentAlert";
 import {
   DocList as CommonDocList,
   DocListAction,

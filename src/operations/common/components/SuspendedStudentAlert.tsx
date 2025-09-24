@@ -150,6 +150,7 @@ export const SuspendedStudentAlert: React.FC<SuspendedStudentAlertProps> = ({
 
             <Tooltip title="Plus d'informations">
               <IconButton
+                data-testid="toggle-details-button"
                 onClick={handleToggleDetails}
                 sx={{
                   "background": alpha(theme.palette.primary.main, 0.1),
