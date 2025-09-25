@@ -1,5 +1,6 @@
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
+import cor from "@/operations/cor/index.ts";
 import course from "@/operations/course";
 import CourseAssignments from "@/operations/CourseAssignments";
 import staffDocs from "@/operations/docs/staffs/index";
@@ -66,6 +67,7 @@ function AppBase() {
       <Resource name="promotions" {...promotions} />
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
+      <Resource name="cor" {...cor} />
       <Resource name="events" {...events} />
       <Resource name="users-letters" />
       <Resource name="letters" />

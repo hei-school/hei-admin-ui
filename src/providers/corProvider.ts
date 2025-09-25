@@ -15,10 +15,10 @@ const corProvider: HaDataProviderType = {
       )
       .then((response) => ({data: response.data}));
   },
-  getOne: async (id: string, meta?: any) => {
+  getOne: async () => {
     throw new Error("Function not implemented.");
   },
-  saveOrUpdate: async (resources: any, meta?: any) => {
+  saveOrUpdate: async () => {
     throw new Error("Function not implemented.");
   },
   delete: () => {

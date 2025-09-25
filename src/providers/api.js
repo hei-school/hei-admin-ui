@@ -3,6 +3,7 @@ import {
   AnnouncementsApi,
   AttendanceApi,
   CommentsApi,
+  CorApi,
   CoursesApi,
   EventsApi,
   ExamsApi,
@@ -104,3 +105,6 @@ export const retakeExamApi = () =>
     undefined,
     getAxiosInstance()
   );
+
+export const corApi = () =>
+  new CorApi(authProvider.getCachedAuthConf(), undefined, getAxiosInstance());
