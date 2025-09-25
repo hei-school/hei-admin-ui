@@ -11,7 +11,9 @@ const eventProvider: HaDataProviderType = {
         filter.from,
         filter.to,
         filter.event_type,
-        filter.title
+        filter.title,
+        filter.group,
+        filter.teacher_id
       )
       .then((response) => ({data: response.data}));
   },

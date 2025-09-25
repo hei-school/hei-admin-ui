@@ -4,8 +4,7 @@ import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {Box, Typography} from "@mui/material";
 import {NumberInput, required, SimpleForm, TextInput} from "react-admin";
-import {SelectCourseAssignment} from "./components/SelectCourseAssignment";
-import {SelectTeacher} from "./components/SelectTeacher";
+import {SelectCourseAssignment, SelectTeacher} from "./components/selectors";
 
 export const ExamCreate = () => {
   const {id: userId} = authProvider.getCachedWhoami();
@@ -26,7 +25,6 @@ export const ExamCreate = () => {
         ) : (
           <SelectCourseAssignment defaultTeacherId={userId!} />
         )}
-
         <TextInput
           source="title"
           label="Titre"
