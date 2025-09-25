@@ -1,11 +1,9 @@
 import {EnrollButton} from "@/operations/retakeExams/components/EnrollButton";
-import {RetakeExamSuccessCard} from "@/operations/retakeExams/components/RetakeExamSuccessCard";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
 import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
-import {Box} from "@mui/material";
 import {BookOpenIcon} from "lucide-react";
-import {DateField, TextField, useStore} from "react-admin";
+import {DateField, TextField, useGetList} from "react-admin";
 
 const RETAKE_EXAM_LIST_SX = {
   "& .RaList-content": {
@@ -28,83 +26,42 @@ const RETAKE_EXAM_LIST_SX = {
   },
 };
 
-const SUCCESS_CARD_CONTAINER_SX = {
-  "display": "flex",
-  "gap": 2,
-  "mt": 3,
-  "overflowX": "auto",
-  "pb": 1,
-  "&::-webkit-scrollbar": {height: 6},
-  "&::-webkit-scrollbar-track": {
-    backgroundColor: "#f1f1f1",
-    borderRadius: 10,
-  },
-  "&::-webkit-scrollbar-thumb": {
-    "backgroundColor": "#c1c1c1",
-    "borderRadius": 10,
-    "&:hover": {backgroundColor: "#a8a8a8"},
-  },
-};
-
 export const RetakeExamList = () => {
-  const userId = authProvider.getCachedWhoami()?.id;
-  const storeKey = `inscribed-retake-exams-${userId}`;
-  const [inscribedRetakeExams, setInscribedRetakeExams] = useStore<
-    RetakeExam[]
-  >(storeKey, []);
-
-  const sessionId = (retakeExam: RetakeExam) => {
-    return retakeExam.session?.id;
-  };
+  const studentId = authProvider.getCachedWhoami()?.id;
+  const {data: session, isLoading} = useGetList("retakeExams-sessions");
+  const sessionId = session?.[0]?.id;
 
   const isRetakeExamInscribed = (retakeExam: RetakeExam) =>
-    inscribedRetakeExams.some(
-      (item) => item.course?.id === retakeExam.course?.id
-    );
+    Boolean(retakeExam.registration_date);
 
-  const handleInscriptionSuccess = (retakeExam: RetakeExam) => {
-    if (isRetakeExamInscribed(retakeExam)) return;
-    setInscribedRetakeExams((prev) => [...prev, retakeExam]);
-  };
-
-  return (
-    <Box>
+  if (isLoading) {
+    return <div>Chargement en cours...</div>;
+  } else {
+    return (
       <HaList
         title="Listes de mes rattrapages"
         resource="retakeExams"
         icon={<BookOpenIcon />}
         listProps={{
           title: "Rattrapages",
-          filter: {
-            studentId: userId,
-            sessionId: sessionId,
-          },
+          filter: {studentId, sessionId},
           disableRowClick: true,
           rowClick: false,
           sx: RETAKE_EXAM_LIST_SX,
         }}
+        actions={undefined}
       >
         <TextField source="course.code" label="Matière" />
         <TextField source="course.name" label="Nom du cours" />
         <DateField source="session.date_from" label="Début" />
         <DateField source="session.date_to" label="Fin" />
-
-        <EnrollButton
-          onSuccess={handleInscriptionSuccess}
-          alreadyInscribed={isRetakeExamInscribed}
+        <DateField
+          source="registration_date"
+          label="Inscrit le"
+          emptyText="Non défini"
         />
+        <EnrollButton alreadyInscribed={isRetakeExamInscribed} />
       </HaList>
-
-      {inscribedRetakeExams.length > 0 && (
-        <Box sx={SUCCESS_CARD_CONTAINER_SX}>
-          {inscribedRetakeExams.map((retakeExam, index) => (
-            <RetakeExamSuccessCard
-              key={`${retakeExam.course?.code}-${retakeExam.session?.id || index}`}
-              retakeExam={retakeExam}
-            />
-          ))}
-        </Box>
-      )}
-    </Box>
-  );
+    );
+  }
 };

@@ -14,7 +14,7 @@ const retakeExamProvider: HaDataProviderType = {
   getOne: () => {
     throw new Error("Not implemented");
   },
-  saveOrUpdate: async (sessionId: string, payloads) => {
+  saveOrUpdate: async (sessionId: string, payloads: any[]) => {
     return retakeExamApi()
       .createOrUpdateRetakeExam(sessionId, payloads)
       .then((response) => ({data: response.data}));

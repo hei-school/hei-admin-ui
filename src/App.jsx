@@ -19,6 +19,7 @@ import profile from "@/operations/profile";
 import promotions from "@/operations/promotions";
 import publicContent from "@/operations/public";
 import retakeExams from "@/operations/retakeExams";
+import retakeExamSessions from "@/operations/RetakeExamSessions";
 import staffMembers from "@/operations/staffMembers";
 import students from "@/operations/students";
 import teachers from "@/operations/teachers";
@@ -69,6 +70,7 @@ function AppBase() {
       <Resource name="users-letters" />
       <Resource name="letters" />
       <Resource name="retakeExams" {...retakeExams} />
+      <Resource name="retakeExams-sessions" {...retakeExamSessions} />
       <Resource
         name="course-assignments"
         {...CourseAssignments}
