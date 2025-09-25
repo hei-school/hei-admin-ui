@@ -14,6 +14,7 @@ import {
   LibraryBooksOutlined as LibraryIcon,
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
+  PublishedWithChanges as RemedialIcon,
   AssignmentInd as StaffIcon,
   School as StudentIcon,
   People as StudentListIcon,
@@ -87,6 +88,13 @@ function AdminMenu() {
         data-testid="exams-menu"
         icon={<GradeIcon />}
         onClick={() => trackNavClick("exams", role)}
+      />
+      <SingleMenu
+        to="/retakeExams-sessions"
+        label="Rattrapages"
+        data-testid="retakeExamsSessions-menu"
+        icon={<RemedialIcon />}
+        onClick={() => trackNavClick("retakeExamsSessions", role)}
       />
       <SingleMenu
         to="/groups"
