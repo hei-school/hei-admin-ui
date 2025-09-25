@@ -26,42 +26,43 @@ const RETAKE_EXAM_LIST_SX = {
   },
 };
 
+// TODO: add session list before rattrapage list for specific students
 export const RetakeExamList = () => {
   const studentId = authProvider.getCachedWhoami()?.id;
-  const {data: session, isLoading} = useGetList("retakeExams-sessions");
-  const sessionId = session?.[0]?.id;
+  const {data: sessions, isLoading} = useGetList("retakeExams-sessions");
+  const sessionId = sessions?.[0]?.id;
 
   const isRetakeExamInscribed = (retakeExam: RetakeExam) =>
     Boolean(retakeExam.registration_date);
 
   if (isLoading) {
     return <div>Chargement en cours...</div>;
-  } else {
-    return (
-      <HaList
-        title="Listes de mes rattrapages"
-        resource="retakeExams"
-        icon={<BookOpenIcon />}
-        listProps={{
-          title: "Rattrapages",
-          filter: {studentId, sessionId},
-          disableRowClick: true,
-          rowClick: false,
-          sx: RETAKE_EXAM_LIST_SX,
-        }}
-        actions={undefined}
-      >
-        <TextField source="course.code" label="Matière" />
-        <TextField source="course.name" label="Nom du cours" />
-        <DateField source="session.date_from" label="Début" />
-        <DateField source="session.date_to" label="Fin" />
-        <DateField
-          source="registration_date"
-          label="Inscrit le"
-          emptyText="Non défini"
-        />
-        <EnrollButton alreadyInscribed={isRetakeExamInscribed} />
-      </HaList>
-    );
   }
+
+  return (
+    <HaList
+      title="Listes de mes rattrapages"
+      resource="retakeExams"
+      icon={<BookOpenIcon />}
+      listProps={{
+        title: "Rattrapages",
+        filter: {studentId, sessionId},
+        disableRowClick: true,
+        rowClick: false,
+        sx: RETAKE_EXAM_LIST_SX,
+      }}
+      actions={undefined}
+    >
+      <TextField source="course.code" label="Matière" />
+      <TextField source="course.name" label="Nom du cours" />
+      <DateField source="session.date_from" label="Début" />
+      <DateField source="session.date_to" label="Fin" />
+      <DateField
+        source="registration_date"
+        label="Inscrit le"
+        emptyText="Non défini"
+      />
+      <EnrollButton alreadyInscribed={isRetakeExamInscribed} />
+    </HaList>
+  );
 };
