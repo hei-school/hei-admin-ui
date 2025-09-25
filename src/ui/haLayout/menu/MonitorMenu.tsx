@@ -19,6 +19,7 @@ function MonitorMenu() {
   return (
     <Box sx={{position: "relative", overflowY: "auto"}}>
       <SingleMenu
+        data-testid="students-menu"
         to={`/monitors/${monitorId}/students`}
         label="Étudiants"
         icon={<StudentIcon />}
