@@ -9,14 +9,15 @@ const retakeExamSessionProvider: HaDataProviderType = {
         data: response.data,
       }));
   },
+  // TODO: show all students for one session
   getOne: () => {
     throw new Error("Not impemented");
   },
   saveOrUpdate: async (payload) => {
-    console.log(payload);
+    const payloads = payload[0];
     return retakeExamApi()
-      .createOrUpdateRetakeExamSessions(payload)
-      .then((response) => ({data: response.data}));
+      .createOrUpdateRetakeExamSessions(payloads)
+      .then((response) => [response.data]);
   },
 
   async delete() {
