@@ -12,6 +12,7 @@ import {
   LibraryBooksOutlined as LibraryIcon,
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
+  PublishedWithChanges as RemedialIcon,
   School as StudentIcon,
   People as StudentListIcon,
   Work as TeachersIcon,
@@ -70,6 +71,12 @@ function ManagerMenu() {
         label="Examens"
         data-testid="exams-menu"
         icon={<GradeIcon />}
+      />
+      <SingleMenu
+        to="/retakeExams-sessions"
+        label="Rattrapages"
+        data-testid="retakeExamsSessions-menu"
+        icon={<RemedialIcon />}
       />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu
