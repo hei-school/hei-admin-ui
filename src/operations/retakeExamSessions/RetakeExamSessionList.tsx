@@ -18,6 +18,7 @@ export const RetakeExamessionList = () => {
         title="Listes des sessions de rattrapages"
         resource="retakeExams-sessions"
         icon={<BookOpenIcon />}
+        //TODO : on rowClick it should show the retakeExam lists from this session
         datagridProps={{
           rowClick: false,
         }}
@@ -49,7 +50,7 @@ export const RetakeExamessionList = () => {
           redirect={false}
           mutationOptions={{
             onSuccess: () => {
-              notify("Session de rattrapage créé avec succès");
+              notify("Session de rattrapage créée avec succès");
               toggleShowCreate();
             },
           }}

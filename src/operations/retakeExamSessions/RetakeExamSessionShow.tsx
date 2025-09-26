@@ -9,11 +9,11 @@ export const RetakeExamSessionShow = () => {
       resource="retakeExams-sessions"
       icon={<BookOpenCheckIcon />}
       listProps={{
-        title: "Listes des élèves souscrit",
+        title: "Liste des élèves inscrits à cette session de rattrapage",
       }}
       actions={undefined}
     >
-      <TextField source="session.title" label="Titre du session" />
+      <TextField source="session.title" label="Titre de la session" />
       <TextField source="student_identifier.first_name" label="Nom" />
       <TextField source="student_identifier.last_name" label="Prénom" />
       <TextField source="student_identifier.ref" label="STD" />

@@ -13,14 +13,16 @@ const retakeExamSessionProvider: HaDataProviderType = {
   getOne: () => {
     throw new Error("Not impemented");
   },
-  saveOrUpdate: async (payload) => {
-    const payloads = payload[0];
+  saveOrUpdate: async (payload = []) => {
+    if (payload.length === 0) {
+      return [];
+    }
+    const firstRetakeExam = payload[0];
     return retakeExamApi()
-      .createOrUpdateRetakeExamSessions(payloads)
+      .createOrUpdateRetakeExamSessions(firstRetakeExam)
       .then((response) => [response.data]);
   },
-
-  async delete() {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };
