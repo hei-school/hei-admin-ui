@@ -31,10 +31,12 @@ export const EnrollButton = ({
   const notify = useNotify();
   const [confirmOpen, setConfirmOpen] = useToggle(false);
   const [isLoading, setIsLoading] = useToggle(false);
+  const [enrolled, setEnrolled] = useToggle(false);
 
   if (!retakeExam) return null;
 
-  const isInscribed = alreadyInscribed(retakeExam);
+  const isInscribed = enrolled || alreadyInscribed(retakeExam);
+
   if (isInscribed) {
     return (
       <Chip
@@ -64,6 +66,7 @@ export const EnrollButton = ({
         payloadArray
       );
       notify("Inscription réussie !", {type: "info"});
+      setEnrolled(true);
       onSuccess?.(retakeExam);
       setConfirmOpen(false);
     } catch (error) {
@@ -81,7 +84,13 @@ export const EnrollButton = ({
       <Button
         variant="contained"
         size="small"
-        startIcon={<HowToReg fontSize="small" />}
+        startIcon={
+          isLoading ? (
+            <CircularProgress size={14} />
+          ) : (
+            <HowToReg fontSize="small" />
+          )
+        }
         onClick={(e) => {
           e.stopPropagation();
           setConfirmOpen(true);
@@ -89,7 +98,7 @@ export const EnrollButton = ({
         sx={BUTTON_STYLE}
         disabled={isLoading || isInscribed}
       >
-        {isLoading ? <CircularProgress size={14} /> : "S'inscrire"}
+        {isLoading ? "En cours de vérification..." : "S'inscrire"}
       </Button>
 
       <Confirm
