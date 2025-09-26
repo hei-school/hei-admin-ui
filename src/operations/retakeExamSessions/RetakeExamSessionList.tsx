@@ -15,7 +15,7 @@ export const RetakeExamessionList = () => {
   return (
     <Box>
       <HaList
-        title="Listes des sessions de rattrapages"
+        title="Liste des sessions de rattrapage"
         resource="retakeExams-sessions"
         icon={<BookOpenIcon />}
         //TODO : on rowClick it should show the retakeExam lists from this session
@@ -23,7 +23,7 @@ export const RetakeExamessionList = () => {
           rowClick: false,
         }}
         listProps={{
-          title: "Listes des sessions de rattrapages",
+          title: "Liste des sessions de rattrapage",
         }}
         actions={
           <HaActionWrapper>
