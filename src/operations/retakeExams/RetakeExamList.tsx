@@ -29,15 +29,17 @@ const RETAKE_EXAM_LIST_SX = {
 // TODO: add session list before rattrapage list for specific students
 export const RetakeExamList = () => {
   const studentId = authProvider.getCachedWhoami()?.id;
-  const {data: sessions, isLoading} = useGetList("retakeExams-sessions");
-  const sessionId = sessions?.[0]?.id;
-
-  const isRetakeExamInscribed = (retakeExam: RetakeExam) =>
-    Boolean(retakeExam.registration_date);
+  const {data: sessions = [], isLoading} = useGetList("retakeExams-sessions");
 
   if (isLoading) {
     return <div>Chargement en cours...</div>;
   }
+
+  if (!sessions.length) {
+    return <div>Aucune session de rattrapage disponible pour le moment.</div>;
+  }
+
+  const sessionId = sessions[0].id;
 
   return (
     <HaList
@@ -62,7 +64,11 @@ export const RetakeExamList = () => {
         label="Inscrit le"
         emptyText="Non défini"
       />
-      <EnrollButton alreadyInscribed={isRetakeExamInscribed} />
+      <EnrollButton
+        alreadyInscribed={(retakeExam: RetakeExam) =>
+          Boolean(retakeExam.registration_date)
+        }
+      />
     </HaList>
   );
 };
