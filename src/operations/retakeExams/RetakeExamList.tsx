@@ -66,7 +66,7 @@ export const RetakeExamList = () => {
       />
       <EnrollButton
         alreadyInscribed={(retakeExam: RetakeExam) =>
-          !!(retakeExam.registration_date)
+          !!retakeExam.registration_date
         }
       />
     </HaList>
