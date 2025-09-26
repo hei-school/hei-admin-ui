@@ -9,17 +9,20 @@ const retakeExamSessionProvider: HaDataProviderType = {
         data: response.data,
       }));
   },
+  // TODO: show all students for one session
   getOne: () => {
     throw new Error("Not impemented");
   },
-  saveOrUpdate: async (payload) => {
-    console.log(payload);
+  saveOrUpdate: async (payload = []) => {
+    if (payload.length === 0) {
+      return [];
+    }
+    const firstRetakeExam = payload[0];
     return retakeExamApi()
-      .createOrUpdateRetakeExamSessions(payload)
-      .then((response) => ({data: response.data}));
+      .createOrUpdateRetakeExamSessions(firstRetakeExam)
+      .then((response) => [response.data]);
   },
-
-  async delete() {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };
