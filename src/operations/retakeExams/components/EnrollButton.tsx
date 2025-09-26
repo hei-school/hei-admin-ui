@@ -4,7 +4,7 @@ import retakeExamProvider from "@/providers/retakeExamProvider";
 import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {CheckCircle, HowToReg} from "@mui/icons-material";
 import {Button, Chip, CircularProgress} from "@mui/material";
-import {Confirm, useNotify, useRecordContext} from "react-admin";
+import {Confirm, useNotify, useRecordContext, useRefresh} from "react-admin";
 
 const BUTTON_STYLE = {
   textTransform: "none",
@@ -29,6 +29,7 @@ export const EnrollButton = ({
   const userId = authProvider.getCachedWhoami()?.id;
   const retakeExam = useRecordContext<RetakeExam>();
   const notify = useNotify();
+  const refresh = useRefresh();
   const [confirmOpen, setConfirmOpen] = useToggle(false);
   const [isLoading, setIsLoading] = useToggle(false);
   const [enrolled, setEnrolled] = useToggle(false);
@@ -68,6 +69,7 @@ export const EnrollButton = ({
       notify("Inscription réussie !", {type: "info"});
       setEnrolled(true);
       onSuccess?.(retakeExam);
+      refresh();
       setConfirmOpen(false);
     } catch (error) {
       console.error("Erreur lors de l'inscription :", error);
