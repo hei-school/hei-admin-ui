@@ -55,26 +55,26 @@ const STATUS_MAP: Record<
   },
 };
 
-const Chips = styled(Chip)<{statusConfig: any; chipSize: string}>(
-  ({statusConfig, chipSize}) => ({
-    "height": chipSize === "small" ? 32 : 36,
+const Chips = styled(Chip)<{statusconfig: any; chipsize: string}>(
+  ({statusconfig, chipsize}) => ({
+    "height": chipsize === "small" ? 32 : 36,
     "borderRadius": 20,
-    "background": `linear-gradient(135deg, ${statusConfig.from}15, ${statusConfig.to}08)`,
+    "background": `linear-gradient(135deg, ${statusconfig.from}15, ${statusconfig.to}08)`,
     "backdropFilter": "blur(12px) saturate(180%)",
-    "border": `1px solid ${statusConfig.from}25`,
-    "color": statusConfig.accent,
+    "border": `1px solid ${statusconfig.from}25`,
+    "color": statusconfig.accent,
     "fontWeight": 600,
-    "fontSize": chipSize === "small" ? "0.78rem" : "0.85rem",
+    "fontSize": chipsize === "small" ? "0.78rem" : "0.85rem",
     "letterSpacing": "0.02em",
     "position": "relative",
     "overflow": "hidden",
     "cursor": "pointer",
 
     "& .MuiChip-label": {
-      padding: chipSize === "small" ? "0 16px" : "0 20px",
+      padding: chipsize === "small" ? "0 16px" : "0 20px",
       position: "relative",
       zIndex: 3,
-      textShadow: `0 1px 2px ${statusConfig.shadow}15`,
+      textShadow: `0 1px 2px ${statusconfig.shadow}15`,
     },
 
     "&::before": {
@@ -82,7 +82,7 @@ const Chips = styled(Chip)<{statusConfig: any; chipSize: string}>(
       position: "absolute",
       inset: -2,
       padding: 2,
-      background: `conic-gradient(from 0deg, ${statusConfig.from}, ${statusConfig.to}, ${statusConfig.from})`,
+      background: `conic-gradient(from 0deg, ${statusconfig.from}, ${statusconfig.to}, ${statusconfig.from})`,
       borderRadius: 22,
       mask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
       maskComposite: "xor",
@@ -98,7 +98,7 @@ const Chips = styled(Chip)<{statusConfig: any; chipSize: string}>(
       position: "absolute",
       inset: 0,
       borderRadius: 20,
-      background: `radial-gradient(circle at 50% 0%, ${statusConfig.from}20, transparent 70%)`,
+      background: `radial-gradient(circle at 50% 0%, ${statusconfig.from}20, transparent 70%)`,
       opacity: 0,
       transition: "opacity 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
     },
@@ -114,14 +114,14 @@ const Chips = styled(Chip)<{statusConfig: any; chipSize: string}>(
 
     "@keyframes pulse": {
       "0%, 100%": {
-        boxShadow: `0 0 0 0 ${statusConfig.shadow}40`,
+        boxShadow: `0 0 0 0 ${statusconfig.shadow}40`,
       },
       "50%": {
-        boxShadow: `0 0 0 8px ${statusConfig.shadow}00`,
+        boxShadow: `0 0 0 8px ${statusconfig.shadow}00`,
       },
     },
     "boxShadow": `
-      0 4px 14px ${statusConfig.shadow}12,
+      0 4px 14px ${statusconfig.shadow}12,
       inset 0 1px 0 rgba(255, 255, 255, 0.1)
     `,
 
@@ -129,10 +129,10 @@ const Chips = styled(Chip)<{statusConfig: any; chipSize: string}>(
 
     "&:hover": {
       "transform": "translateY(-2px) scale(1.02)",
-      "background": `linear-gradient(135deg, ${statusConfig.from}25, ${statusConfig.to}15)`,
+      "background": `linear-gradient(135deg, ${statusconfig.from}25, ${statusconfig.to}15)`,
       "boxShadow": `
-        0 12px 32px ${statusConfig.shadow}25,
-        0 2px 8px ${statusConfig.shadow}20,
+        0 12px 32px ${statusconfig.shadow}25,
+        0 2px 8px ${statusconfig.shadow}20,
         inset 0 1px 0 rgba(255, 255, 255, 0.2)
       `,
       "animation": "float 2s ease-in-out infinite",
@@ -170,8 +170,8 @@ const Chips = styled(Chip)<{statusConfig: any; chipSize: string}>(
     "animation": "chipEntrance 0.6s cubic-bezier(0.34, 1.56, 0.64, 1)",
 
     "@media (max-width: 600px)": {
-      height: chipSize === "small" ? 30 : 34,
-      fontSize: chipSize === "small" ? "0.75rem" : "0.8rem",
+      height: chipsize === "small" ? 30 : 34,
+      fontSize: chipsize === "small" ? "0.75rem" : "0.8rem",
     },
   })
 );
@@ -181,7 +181,7 @@ export default function StatusChip({
   labelOverride,
   size = "small",
 }: StatusChipProps) {
-  const statusConfig = (status && STATUS_MAP[status]) || {
+  const statusconfig = (status && STATUS_MAP[status]) || {
     label: labelOverride ?? status ?? "—",
     from: "#e5e7eb",
     to: "#9ca3af",
@@ -189,14 +189,14 @@ export default function StatusChip({
     accent: "#6b7280",
   };
 
-  const label = labelOverride ?? statusConfig.label;
+  const label = labelOverride ?? statusconfig.label;
 
   return (
     <Chips
       label={label}
       size={size}
-      statusConfig={statusConfig}
-      chipSize={size}
+      statusconfig={statusconfig}
+      chipsize={size}
     />
   );
 }

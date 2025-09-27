@@ -26,16 +26,12 @@ export const CorList = () => {
       <DateField source="creation_datetime" label="Créé le" />
       <FunctionField<Cor>
         label="Statut"
-        render={(record?: Cor) => {
-          if (!record) return null;
-          return <StatusChip status={record.status} />;
+        render={(cor) => {
+          if (!cor) return null;
+          return <StatusChip status={cor.status} />;
         }}
       />
-      <FunctionField<Cor>
-        label="Actions"
-        render={() => <CorButtonAction />}
-        sx={{textAlign: "right"}}
-      />
+      <CorButtonAction />
     </HaList>
   );
 };
