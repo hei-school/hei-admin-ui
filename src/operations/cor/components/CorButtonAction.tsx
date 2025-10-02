@@ -1,31 +1,28 @@
-import {AddComment, Edit, SafetyDivider} from "@mui/icons-material";
+import {AddComment, SafetyDivider} from "@mui/icons-material";
 import {alpha, Box, IconButton, Tooltip, Typography} from "@mui/material";
 import {ShowDialog} from "@react-admin/ra-form-layout";
 import {ShowButton} from "react-admin";
 import {CorDetails} from "./CorDetails";
+import {CorEditButton} from "./CorEditButton";
 
 export const CorButtonAction = () => {
   return (
     <>
       <Box sx={{display: "flex", gap: 1, justifyContent: "flex-end"}}>
         <ShowButton
+          data-testid="show-button"
           label=" "
           sx={{
             fontSize: 5,
           }}
         />
-        <Tooltip title="Éditer">
-          <IconButton size="small">
-            <Edit fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <CorEditButton />
         <Tooltip title="Ajouter un commentaire">
           <IconButton size="small">
             <AddComment fontSize="small" />
           </IconButton>
         </Tooltip>
       </Box>
-
       <ShowDialog
         title={<ShowDialogTitle title="Détails du COR" />}
         PaperProps={{
