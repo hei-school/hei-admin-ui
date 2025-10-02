@@ -6,7 +6,7 @@ import {Dialog} from "@/ui/components";
 import {NOOP_ID} from "@/utils/constants";
 import {formatDate} from "@/utils/date";
 import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client";
-import {AccountBalance} from "@mui/icons-material";
+import {AccountBalance, Payments} from "@mui/icons-material";
 import {
   Box,
   Button as ImportButton,
@@ -309,7 +309,7 @@ const ViewModeToggle: FC<{
           Comptable
         </Typography>
       </Box>
-      {/* <Box
+      <Box
         data-testid="viewmode-receipt"
         onClick={() => onViewModeChange("RECEIPT")}
         sx={{
@@ -339,7 +339,7 @@ const ViewModeToggle: FC<{
         <Typography fontWeight="600" fontSize={{xs: "0.8rem", sm: "0.9rem"}}>
           Encaissement
         </Typography>
-      </Box> */}
+      </Box>
     </Box>
   );
 };
