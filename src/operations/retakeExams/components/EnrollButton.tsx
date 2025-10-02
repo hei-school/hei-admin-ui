@@ -4,6 +4,7 @@ import retakeExamProvider from "@/providers/retakeExamProvider";
 import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {CheckCircle, HowToReg} from "@mui/icons-material";
 import {Button, Chip, CircularProgress} from "@mui/material";
+import {useState} from "react";
 import {Confirm, useNotify, useRecordContext, useRefresh} from "react-admin";
 
 const BUTTON_STYLE = {
@@ -21,7 +22,6 @@ type EnrollButtonProps = {
   onSuccess?: (retakeExam: RetakeExam) => void;
   alreadyInscribed: (retakeExam: RetakeExam) => boolean;
 };
-
 export const EnrollButton = ({
   onSuccess,
   alreadyInscribed,
@@ -32,12 +32,10 @@ export const EnrollButton = ({
   const refresh = useRefresh();
   const [confirmOpen, setConfirmOpen] = useToggle(false);
   const [isLoading, setIsLoading] = useToggle(false);
-  const [enrolled, setEnrolled] = useToggle(false);
+  const [isEnrolled, setIsEnrolled] = useState(false);
 
   if (!retakeExam) return null;
-
-  const isInscribed = enrolled || alreadyInscribed(retakeExam);
-
+  const isInscribed = alreadyInscribed(retakeExam) || isEnrolled;
   if (isInscribed) {
     return (
       <Chip
@@ -52,7 +50,6 @@ export const EnrollButton = ({
   }
   const handleEnroll = async () => {
     if (!retakeExam || !userId) return;
-
     const payloadArray = [
       {
         course_id: retakeExam.course?.id ?? "",
@@ -66,8 +63,8 @@ export const EnrollButton = ({
         retakeExam.session?.id ?? "",
         payloadArray
       );
+      setIsEnrolled(true);
       notify("Inscription réussie !", {type: "info"});
-      setEnrolled(true);
       onSuccess?.(retakeExam);
       refresh();
       setConfirmOpen(false);
@@ -98,7 +95,7 @@ export const EnrollButton = ({
           setConfirmOpen(true);
         }}
         sx={BUTTON_STYLE}
-        disabled={isLoading || isInscribed}
+        disabled={isLoading}
       >
         {isLoading ? "En cours de vérification..." : "S'inscrire"}
       </Button>
