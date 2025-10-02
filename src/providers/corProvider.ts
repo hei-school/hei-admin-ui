@@ -1,10 +1,11 @@
+import {CrupdateCor} from "@haapi-b0fc7615/typescript-client";
 import {corApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const corProvider: HaDataProviderType = {
   getList: async (page: number, perPage: number, filter: any) => {
     return corApi()
-      .getCor(
+      .getCors(
         page,
         perPage,
         filter.from,
@@ -15,11 +16,17 @@ const corProvider: HaDataProviderType = {
       )
       .then((response) => ({data: response.data}));
   },
-  getOne: async () => {
-    throw new Error("Function not implemented.");
+  getOne: async (id: string) => {
+    return corApi()
+      .getCorById(id)
+      .then((response) => response.data);
   },
-  saveOrUpdate: async () => {
-    throw new Error("Function not implemented.");
+
+  saveOrUpdate: async (payload: CrupdateCor[]) => {
+    const {concerned_student_id} = payload[0];
+    return corApi()
+      .crupdateStudentCors(concerned_student_id!, payload[0])
+      .then((response) => [response.data]);
   },
   delete: () => {
     throw new Error("Function not implemented.");
