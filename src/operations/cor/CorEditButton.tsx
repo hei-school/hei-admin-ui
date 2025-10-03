@@ -21,6 +21,7 @@ export const CorEditButton = () => {
   return (
     <>
       <Tooltip
+        data-testid="edit-cor"
         title="Éditer"
         onClick={toggleEdit}
         sx={{cursor: "pointer", mx: 1}}

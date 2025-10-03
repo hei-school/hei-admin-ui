@@ -23,7 +23,11 @@ export const AddCorComment: FC<{islist?: boolean}> = ({islist}) => {
   return (
     <Box>
       {islist ? (
-        <Tooltip title="Ajouter un commentaire" onClick={toggleAddComment}>
+        <Tooltip
+          title="Ajouter un commentaire"
+          onClick={toggleAddComment}
+          data-testid="add-cor-comment"
+        >
           <IconButton>
             <AddComment />
           </IconButton>
@@ -62,6 +66,7 @@ export const AddCorComment: FC<{islist?: boolean}> = ({islist}) => {
         >
           <SimpleForm>
             <SelectInput
+              data-testid="cor-status"
               source="status"
               choices={COR_STATUS_CHOICES}
               optionText="name"

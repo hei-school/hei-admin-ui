@@ -83,6 +83,7 @@ export const StudentAutocompleteInput = (
 
   return (
     <Autocomplete
+      data-testid="student-autocomplete"
       options={options}
       loading={loading}
       inputValue={inputValue}

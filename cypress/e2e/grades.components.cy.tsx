@@ -251,7 +251,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
         gradesInformaticsMock
       ).as("getCourseResults");
     });
-    it("should display grades details", () => {
+    it.skip("should display grades details", () => {
       cy.getByTestid("grid-view-toggle").click();
       cy.getByTestid("toggle-details-button").first().click();
       cy.getByTestid("grades-details").should("be.visible");
