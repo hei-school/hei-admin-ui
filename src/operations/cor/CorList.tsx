@@ -37,7 +37,7 @@ export const CorList = () => {
           </HaActionWrapper>
         }
         datagridProps={{
-          rowClick: toggleShowCreate,
+          rowClick: false,
         }}
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
       >

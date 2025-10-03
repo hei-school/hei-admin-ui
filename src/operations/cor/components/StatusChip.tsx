@@ -68,7 +68,7 @@ const Chips = styled(Chip)<{statusconfig: any; chipsize: string}>(
     "letterSpacing": "0.02em",
     "position": "relative",
     "overflow": "hidden",
-    "cursor": "pointer",
+    "cursor": "default",
 
     "& .MuiChip-label": {
       padding: chipsize === "small" ? "0 16px" : "0 20px",

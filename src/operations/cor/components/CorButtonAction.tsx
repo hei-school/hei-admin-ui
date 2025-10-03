@@ -1,7 +1,8 @@
-import {AddComment, SafetyDivider} from "@mui/icons-material";
-import {alpha, Box, IconButton, Tooltip, Typography} from "@mui/material";
+import {SafetyDivider} from "@mui/icons-material";
+import {alpha, Box, Typography} from "@mui/material";
 import {ShowDialog} from "@react-admin/ra-form-layout";
 import {ShowButton} from "react-admin";
+import {AddCorComment} from "./AddCorComment";
 import {CorDetails} from "./CorDetails";
 import {CorEditButton} from "./CorEditButton";
 
@@ -17,17 +18,15 @@ export const CorButtonAction = () => {
           }}
         />
         <CorEditButton />
-        <Tooltip title="Ajouter un commentaire">
-          <IconButton size="small">
-            <AddComment fontSize="small" />
-          </IconButton>
-        </Tooltip>
+        <AddCorComment islist={true} />
       </Box>
       <ShowDialog
+        maxWidth="md"
         title={<ShowDialogTitle title="Détails du COR" />}
         PaperProps={{
           sx: {
             background: "#f9f6fd",
+            width: "70vw",
           },
         }}
       >

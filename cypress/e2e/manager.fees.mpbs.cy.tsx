@@ -92,7 +92,7 @@ describe("Mobile payment by student", () => {
 
     cy.contains("Paiement échoué");
   });
-  it.skip("should toggle view mode between Comptable and Encaissement in FeesListHeader", () => {
+  it("should toggle Acconting view mode and receipt view mode in FeesListHeader", () => {
     cy.viewport(1280, 800);
 
     cy.intercept("GET", `/fees?*`, {

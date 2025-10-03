@@ -5,6 +5,7 @@ import {Box, Typography} from "@mui/material";
 import {IdCard, Mail, MessageSquare, User} from "lucide-react";
 import {FC, ReactNode} from "react";
 import {useRecordContext} from "react-admin";
+import {AddCorComment} from "./AddCorComment";
 import StatusChip from "./StatusChip";
 
 const BOXSTYLE = {
@@ -98,10 +99,20 @@ export const CorDetails = () => {
         </Box>
       </Box>
       <Box sx={BOXSTYLE}>
-        <DetailTitle
-          title={`Commentaires (${cor?.comments?.length})`}
-          icon={<MessageSquare />}
-        />
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+          }}
+        >
+          <DetailTitle
+            title={`Commentaires (${cor?.comments?.length})`}
+            icon={<MessageSquare />}
+          />
+          <AddCorComment islist={false} />
+        </Box>
+
         <Box
           sx={{
             marginTop: "10px",

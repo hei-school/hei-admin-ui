@@ -2,6 +2,7 @@ import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
 import commentProvider from "@/providers/commentProvider";
 import corProvider from "@/providers/corProvider";
+import corStudentProvider from "@/providers/corStudentProvider";
 import {courseAssignmentsByTeacherProvider} from "@/providers/courseAssignementbyTeacher";
 import CourseAssignmentsProvider from "@/providers/courseAssignmentsProvider";
 import courseProvider from "@/providers/courseProvider";
@@ -97,6 +98,7 @@ const providerMap = {
   "summary": resultSummaryProvider,
   "student-participation": StudentParticipationProvider,
   "cor": corProvider,
+  "student-cor": corStudentProvider,
 } as const;
 
 const getProvider = (
