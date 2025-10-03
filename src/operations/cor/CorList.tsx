@@ -19,6 +19,7 @@ export const CorList = () => {
       <HaList
         resource="cor"
         title="Liste des COR"
+        emptyListMessage="La liste des COR est vide"
         icon={<SafetyDivider />}
         listProps={{
           className: "cor-list",
@@ -36,7 +37,7 @@ export const CorList = () => {
           </HaActionWrapper>
         }
         datagridProps={{
-          rowClick: false,
+          rowClick: toggleShowCreate,
         }}
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
       >
