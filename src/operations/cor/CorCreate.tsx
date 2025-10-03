@@ -2,7 +2,7 @@ import {Create} from "@/operations/common/components";
 import {Cor} from "@haapi-b0fc7615/typescript-client";
 import {CreateProps, DateTimeInput, SimpleForm, TextInput} from "react-admin";
 import {v4 as uuid} from "uuid";
-import {StudentAutocompleteInput} from "./StudentAutocompleteInput";
+import {StudentAutocompleteInput} from "./components/StudentAutocompleteInput";
 
 export const CorCreate = (props: Partial<CreateProps>) => {
   return (

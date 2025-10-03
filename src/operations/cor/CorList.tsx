@@ -9,7 +9,7 @@ import {Cor} from "@haapi-b0fc7615/typescript-client";
 import {Add as AddIcon, SafetyDivider} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {FunctionField, TextField} from "react-admin";
-import {CorCreate} from "./components/CorCreate";
+import {CorCreate} from "./CorCreate";
 
 export const CorList = () => {
   const [showCreate, _set, toggleShowCreate] = useToggle();

@@ -2,9 +2,9 @@ import {SafetyDivider} from "@mui/icons-material";
 import {alpha, Box, Typography} from "@mui/material";
 import {ShowDialog} from "@react-admin/ra-form-layout";
 import {ShowButton} from "react-admin";
+import {CorDetails} from "../CorDetails";
+import {CorEditButton} from "../CorEditButton";
 import {AddCorComment} from "./AddCorComment";
-import {CorDetails} from "./CorDetails";
-import {CorEditButton} from "./CorEditButton";
 
 export const CorButtonAction = () => {
   return (
