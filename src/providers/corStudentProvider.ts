@@ -1,13 +1,19 @@
 import {CorCommentInfo} from "@haapi-b0fc7615/typescript-client";
 import {corApi} from "./api";
+import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const corStudentProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Function not implemented.");
+  getList: async (page: number, perPage: number) => {
+    const {id: studentId} = authProvider.getCachedWhoami();
+    return corApi()
+      .getStudentCors(studentId!, page, perPage)
+      .then((response) => ({data: response.data}));
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
+  getOne: async (id: string) => {
+    return corApi()
+      .getCorById(id)
+      .then((response) => response.data);
   },
 
   saveOrUpdate: async (payload: (CorCommentInfo & {id: string})[]) => {

@@ -1,4 +1,5 @@
 import {ToRaRecord} from "@/providers/types";
+import {useRole} from "@/security/hooks";
 import {formatDate} from "@/utils/date";
 import {Cor} from "@haapi-b0fc7615/typescript-client";
 import {Box, Typography, keyframes} from "@mui/material";
@@ -40,7 +41,7 @@ const DetailCard: FC<{children: ReactNode; sx?: object}> = ({children, sx}) => (
 
 export const CorDetails = () => {
   const cor = useRecordContext<ToRaRecord<Cor>>();
-
+  const {isStudent} = useRole();
   return (
     <Box
       sx={{
@@ -152,7 +153,7 @@ export const CorDetails = () => {
             title={`Commentaires (${cor?.comments?.length})`}
             icon={<MessageSquare />}
           />
-          <AddCorComment islist={false} />
+          {!isStudent() && <AddCorComment islist={false} />}
         </Box>
 
         <Box

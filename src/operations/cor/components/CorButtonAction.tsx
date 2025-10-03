@@ -1,3 +1,4 @@
+import {useRole} from "@/security/hooks";
 import {SafetyDivider} from "@mui/icons-material";
 import {alpha, Box, Typography} from "@mui/material";
 import {ShowDialog} from "@react-admin/ra-form-layout";
@@ -7,6 +8,7 @@ import {CorEditButton} from "../CorEditButton";
 import {AddCorComment} from "./AddCorComment";
 
 export const CorButtonAction = () => {
+  const {isStudent} = useRole();
   return (
     <>
       <Box sx={{display: "flex", gap: 1, justifyContent: "flex-end"}}>
@@ -17,8 +19,8 @@ export const CorButtonAction = () => {
             fontSize: 5,
           }}
         />
-        <CorEditButton />
-        <AddCorComment islist={true} />
+        {!isStudent() && <CorEditButton />}
+        {!isStudent() && <AddCorComment islist={true} />}
       </Box>
       <ShowDialog
         maxWidth="md"

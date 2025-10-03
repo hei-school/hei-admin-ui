@@ -35,6 +35,7 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
+import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
@@ -68,6 +69,7 @@ function AppBase() {
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
       <Resource name="cor" {...cor} />
+      <Resource name="student-cor" {...studentCor} />
       <Resource name="events" {...events} />
       <Resource name="users-letters" />
       <Resource name="letters" />
