@@ -32,6 +32,10 @@ export const transformApiDataToCalendarEvents = (data: unknown) => {
         const groupPrefix = groupList ? `[${groupList}] ` : "";
         title = `${groupPrefix}${translatedType} - ${event.title}`;
       }
+      if (event.title === "Rattrapage") {
+        const groupPrefix = groupList ? `[${groupList}] ` : "";
+        title = `${groupPrefix} ${event.description} - ${event.title}`;
+      }
 
       return {
         id: event.id,
