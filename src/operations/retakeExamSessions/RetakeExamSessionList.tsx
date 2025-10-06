@@ -18,10 +18,6 @@ export const RetakeExamessionList = () => {
         title="Liste des sessions de rattrapage"
         resource="retakeExams-sessions"
         icon={<BookOpenIcon />}
-        //TODO : on rowClick it should show the retakeExam lists from this session
-        datagridProps={{
-          rowClick: false,
-        }}
         listProps={{
           title: "Liste des sessions de rattrapage",
         }}

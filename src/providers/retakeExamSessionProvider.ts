@@ -9,9 +9,8 @@ const retakeExamSessionProvider: HaDataProviderType = {
         data: response.data,
       }));
   },
-  // TODO: show all students for one session
   getOne: () => {
-    throw new Error("Not impemented");
+    throw new Error("Not implemented");
   },
   saveOrUpdate: async (payload = []) => {
     if (payload.length === 0) {
