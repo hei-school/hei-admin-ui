@@ -3,10 +3,23 @@ import {retakeExamApi} from "@/providers/api";
 
 const retakeExamParticipantProvider: HaDataProviderType = {
   getList: async (_page: number, _perPage: number, filter: any) => {
-    const {sessionId} = filter;
-    return retakeExamApi()
-      .getRetakeExamCoursesBySessionId(sessionId)
-      .then((response) => ({data: response.data}));
+    const {sessionId, courseId} = filter;
+    if (sessionId && !courseId) {
+      return retakeExamApi()
+        .getRetakeExamCoursesBySessionId(sessionId)
+        .then((response) => ({
+          data: response.data,
+        }));
+    }
+    if (sessionId && courseId) {
+      console.log(sessionId, courseId);
+      return retakeExamApi()
+        .getRetakeExamParticipantByCourseIdAndSessionId(sessionId, courseId)
+        .then((response) => ({
+          data: response.data,
+        }));
+    }
+    return {data: []};
   },
   getOne: () => {
     throw new Error("Not implemented");

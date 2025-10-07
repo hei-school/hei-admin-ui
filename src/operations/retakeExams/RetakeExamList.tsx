@@ -26,7 +26,6 @@ const RETAKE_EXAM_LIST_SX = {
   },
 };
 
-// TODO: add session list before rattrapage list for specific students
 export const RetakeExamList = () => {
   const studentId = authProvider.getCachedWhoami()?.id;
   const {data: sessions = [], isLoading} = useGetList("retakeExams-sessions");

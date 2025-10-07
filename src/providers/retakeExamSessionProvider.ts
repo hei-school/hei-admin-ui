@@ -2,9 +2,10 @@ import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
 
 const retakeExamSessionProvider: HaDataProviderType = {
-  getList: async () => {
+  getList: async (page: number, perPage: number, filter: any) => {
+    const {title} = filter;
     return retakeExamApi()
-      .getRetakeExamSessions()
+      .getRetakeExamSessions(title)
       .then((response) => ({
         data: response.data,
       }));
