@@ -46,7 +46,7 @@ export const RetakeExamSessionList = () => {
         <DateField source="date_to" label="Fin" />
         <FunctionField
           label="Voir détail"
-          render={(record: any, source?: string): ReactNode => (
+          render={(record: any, _source?: string): ReactNode => (
             <Box
               sx={{display: "flex", justifyContent: "center", width: "0.15"}}
             >
