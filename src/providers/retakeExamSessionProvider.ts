@@ -10,8 +10,10 @@ const retakeExamSessionProvider: HaDataProviderType = {
         data: response.data,
       }));
   },
-  getOne: () => {
-    throw new Error("Not implemented");
+  getOne: async (idSession) => {
+    return retakeExamApi()
+      .getRetakeExamSessionById(idSession)
+      .then((response) => response.data);
   },
   saveOrUpdate: async (payload = []) => {
     if (payload.length === 0) {

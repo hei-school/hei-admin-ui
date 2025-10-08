@@ -1,8 +1,8 @@
 import {RetakeExamCourseList} from "./RetakeExamCourseList";
-import {RetakeExamParicipantShow} from "./RetakeExamParicipantShow";
+import {RetakeExamParticipantShow} from "./RetakeExamParticipantShow";
 
 const retakeExamParticipant = {
   list: RetakeExamCourseList,
-  show: RetakeExamParicipantShow,
+  show: RetakeExamParticipantShow,
 };
 export default retakeExamParticipant;

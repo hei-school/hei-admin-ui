@@ -1,5 +1,5 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
-import {retakeExamApi} from "@/providers/api";
+import {coursesApi, retakeExamApi} from "@/providers/api";
 
 const retakeExamParticipantProvider: HaDataProviderType = {
   getList: async (_page: number, _perPage: number, filter: any) => {
@@ -12,7 +12,6 @@ const retakeExamParticipantProvider: HaDataProviderType = {
         }));
     }
     if (sessionId && courseId) {
-      console.log(sessionId, courseId);
       return retakeExamApi()
         .getRetakeExamParticipantByCourseIdAndSessionId(sessionId, courseId)
         .then((response) => ({
@@ -21,8 +20,10 @@ const retakeExamParticipantProvider: HaDataProviderType = {
     }
     return {data: []};
   },
-  getOne: () => {
-    throw new Error("Not implemented");
+  async getOne(courseId: string) {
+    return coursesApi()
+      .getCourseById(courseId)
+      .then((response) => response.data);
   },
   saveOrUpdate: () => {
     throw new Error("Not implemented");

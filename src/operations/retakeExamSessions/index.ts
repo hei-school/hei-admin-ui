@@ -1,8 +1,8 @@
-import {RetakeExamessionList} from "./RetakeExamSessionList";
+import {RetakeExamSessionList} from "./RetakeExamSessionList";
 import {RetakeExamSessionShow} from "./RetakeExamSessionShow";
 
 const retakeExamSessions = {
-  list: RetakeExamessionList,
+  list: RetakeExamSessionList,
   show: RetakeExamSessionShow,
 };
 

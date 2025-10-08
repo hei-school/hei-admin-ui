@@ -21,10 +21,10 @@ export const RetakeExamCourseList = () => {
       }}
       mainSearch={{
         source: "title",
-        label: "Cours ex:Prog2",
+        label: "Cours ex:prog2",
       }}
       listProps={{
-        title: "Matières",
+        title: " ",
         filter: {sessionId},
       }}
       actions={undefined}

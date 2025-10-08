@@ -1,7 +1,7 @@
-import {HaList} from "@/ui/haList";
-import {BookOpenCheckIcon} from "lucide-react";
-import {FunctionField, TextField} from "react-admin";
-import {useLocation, useParams} from "react-router-dom";
+import { HaList } from "@/ui/haList";
+import { BookOpenCheckIcon } from "lucide-react";
+import { FunctionField, TextField } from "react-admin";
+import { useLocation, useParams } from "react-router-dom";
 
 export const RetakeExamParticipantList = () => {
   const courseId = useParams()?.id;
@@ -15,8 +15,12 @@ export const RetakeExamParticipantList = () => {
       datagridProps={{
         rowClick: false,
       }}
+      mainSearch={{
+        source: "ref",
+        label: "Référence (STD)",
+      }}
       listProps={{
-        title: "Liste des étudiants",
+        title: "Détails de la matière",
         filter: {
           courseId,
           sessionId,
@@ -29,7 +33,7 @@ export const RetakeExamParticipantList = () => {
       <TextField source="ref" label="STD" />
       <FunctionField
         label="Groupe"
-        render={(groupeRef: any) => groupeRef?.groups?.[0]?.ref || "-"}
+        render={(groupeRef) => groupeRef?.groups?.[0]?.ref || "-"}
       />
       <TextField source="email" label="Email" />
     </HaList>
