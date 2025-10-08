@@ -1,7 +1,7 @@
-import { HaList } from "@/ui/haList";
-import { BookOpenCheckIcon } from "lucide-react";
-import { FunctionField, TextField } from "react-admin";
-import { useLocation, useParams } from "react-router-dom";
+import {HaList} from "@/ui/haList";
+import {BookOpenCheckIcon} from "lucide-react";
+import {FunctionField, TextField} from "react-admin";
+import {useLocation, useParams} from "react-router-dom";
 
 export const RetakeExamParticipantList = () => {
   const courseId = useParams()?.id;

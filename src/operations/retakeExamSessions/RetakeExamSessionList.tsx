@@ -1,13 +1,13 @@
-import { useNotify, useToggle } from "@/hooks";
-import { RetakeExamSessionCreate } from "@/operations/retakeExamSessions/RetakeExamSessionCreate";
-import { Dialog } from "@/ui/components";
-import { HaList } from "@/ui/haList";
-import { ButtonBase, HaActionWrapper } from "@/ui/haToolbar";
-import { Add } from "@mui/icons-material";
-import { Box } from "@mui/material";
-import { BookOpenIcon } from "lucide-react";
-import { ReactNode } from "react";
-import { DateField, FunctionField, ShowButton, TextField } from "react-admin";
+import {useNotify, useToggle} from "@/hooks";
+import {RetakeExamSessionCreate} from "@/operations/retakeExamSessions/RetakeExamSessionCreate";
+import {Dialog} from "@/ui/components";
+import {HaList} from "@/ui/haList";
+import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {Add} from "@mui/icons-material";
+import {Box} from "@mui/material";
+import {BookOpenIcon} from "lucide-react";
+import {ReactNode} from "react";
+import {DateField, FunctionField, ShowButton, TextField} from "react-admin";
 
 export const RetakeExamSessionList = () => {
   const [showCreate, _set, toggleShowCreate] = useToggle();
@@ -47,7 +47,9 @@ export const RetakeExamSessionList = () => {
         <FunctionField
           label="Voir détail"
           render={(record: any, source?: string): ReactNode => (
-            <Box sx={{ display: "flex", justifyContent: "center", width:"0.15" }}>
+            <Box
+              sx={{display: "flex", justifyContent: "center", width: "0.15"}}
+            >
               <ShowButton record={record} />
             </Box>
           )}
