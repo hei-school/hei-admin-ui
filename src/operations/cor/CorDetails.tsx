@@ -184,7 +184,6 @@ export const CorDetails = () => {
                     marginBottom: "8px",
                   }}
                 >
-                  <StatusChip status={el.status} />
                   <Typography variant="body2" color="textSecondary">
                     {formatDate(el.creation_date, true)}
                   </Typography>

@@ -17,7 +17,6 @@ export const corMock: Cor[] = [
     status: "IN_PROGRESS",
     comments: [
       {
-        status: "IN_PROGRESS",
         comment: "Étudiant convoqué pour absence répétée.",
         creation_date: new Date("2025-10-02T09:00:00.000Z"),
       },
@@ -39,7 +38,6 @@ export const corMock: Cor[] = [
     status: "LEAVE",
     comments: [
       {
-        status: "LEAVE",
         comment: "Signalement initial après le cours de mathématiques.",
         creation_date: new Date("2025-10-03T09:15:00.000Z"),
       },
@@ -61,7 +59,6 @@ export const corMock: Cor[] = [
     status: "CANCELED",
     comments: [
       {
-        status: "CANCELED",
         comment: "L'étudiant a justifié ses retards.",
         creation_date: new Date("2025-10-04T11:00:00.000Z"),
       },
@@ -83,7 +80,6 @@ export const corMock: Cor[] = [
     status: "NO_SHOW",
     comments: [
       {
-        status: "NO_SHOW",
         comment: "Cas signalé par le surveillant général.",
         creation_date: new Date("2025-10-05T12:30:00.000Z"),
       },
@@ -105,7 +101,6 @@ export const corMock: Cor[] = [
     status: "IN_PROGRESS",
     comments: [
       {
-        status: "IN_PROGRESS",
         comment:
           "Professeur de physique a signalé plusieurs devoirs manquants.",
         creation_date: new Date("2025-10-06T14:00:00.000Z"),
@@ -128,7 +123,6 @@ export const corMock: Cor[] = [
     status: "STAY",
     comments: [
       {
-        status: "STAY",
         comment: "Le problème a été résolu après un entretien.",
         creation_date: new Date("2025-10-07T17:00:00.000Z"),
       },
