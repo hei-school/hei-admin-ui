@@ -8,12 +8,10 @@ import {FC} from "react";
 import {
   Button,
   required,
-  SelectInput,
   SimpleForm,
   TextInput,
   useRecordContext,
 } from "react-admin";
-import {COR_STATUS_CHOICES} from "../utils/constants";
 
 export const AddCorComment: FC<{islist?: boolean}> = ({islist}) => {
   const [showAddComment, _set, toggleAddComment] = useToggle();
@@ -65,15 +63,6 @@ export const AddCorComment: FC<{islist?: boolean}> = ({islist}) => {
           }}
         >
           <SimpleForm>
-            <SelectInput
-              data-testid="cor-status"
-              source="status"
-              choices={COR_STATUS_CHOICES}
-              optionText="name"
-              optionValue="id"
-              validate={required()}
-              fullWidth
-            />
             <TextInput
               source="comment"
               label="Commentaire"

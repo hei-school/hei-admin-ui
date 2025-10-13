@@ -3,7 +3,7 @@ import {useRole} from "@/security/hooks";
 import {formatDate} from "@/utils/date";
 import {Cor} from "@haapi-b0fc7615/typescript-client";
 import {Box, Typography, keyframes} from "@mui/material";
-import {IdCard, Mail, MessageSquare, User} from "lucide-react";
+import {IdCard, Mail, MessageSquare, User, Users} from "lucide-react";
 import {FC, ReactNode} from "react";
 import {useRecordContext} from "react-admin";
 import {AddCorComment} from "./components/AddCorComment";
@@ -136,6 +136,65 @@ export const CorDetails = () => {
             title="Email"
             icon={<Mail size={18} />}
           />
+        </Box>
+      </DetailCard>
+
+      <DetailCard>
+        <Box
+          sx={{
+            padding: "15px 20px",
+            backgroundColor: "#f8f9fa",
+            borderBottom: "1px solid #dee2e6",
+          }}
+        >
+          <DetailTitle title="Intervenants" icon={<Users size={22} />} />
+        </Box>
+        <Box sx={{padding: "20px"}}>
+          {cor?.interviewers && cor.interviewers.length > 0 ? (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {xs: "1fr", sm: "repeat(2, 1fr)"},
+                gap: 3,
+              }}
+            >
+              {cor.interviewers.map((interviewer) => (
+                <Box
+                  key={interviewer.id}
+                  sx={{
+                    padding: "15px",
+                    borderRadius: "10px",
+                    backgroundColor: "#f8f9fa",
+                    border: "1px solid #dee2e6",
+                  }}
+                >
+                  <SectionITem
+                    content={`${interviewer.first_name} ${interviewer.last_name}`}
+                    title="Nom"
+                    icon={<User size={18} />}
+                  />
+                  <Box sx={{mt: 2}}>
+                    <SectionITem
+                      content={interviewer.ref!}
+                      title="Référence"
+                      icon={<IdCard size={18} />}
+                    />
+                  </Box>
+                  <Box sx={{mt: 2}}>
+                    <SectionITem
+                      content={interviewer.email!}
+                      title="Email"
+                      icon={<Mail size={18} />}
+                    />
+                  </Box>
+                </Box>
+              ))}
+            </Box>
+          ) : (
+            <Typography sx={{color: "#6c757d", textAlign: "center"}}>
+              Aucun intervenant pour le moment.
+            </Typography>
+          )}
         </Box>
       </DetailCard>
 

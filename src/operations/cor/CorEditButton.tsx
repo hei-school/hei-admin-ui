@@ -6,12 +6,15 @@ import {Edit as EditIcon} from "@mui/icons-material";
 import {IconButton, Tooltip} from "@mui/material";
 import {
   DateTimeInput,
+  required,
   SaveButton,
+  SelectInput,
   SimpleForm,
   TextInput,
   Toolbar,
   useRecordContext,
 } from "react-admin";
+import {COR_STATUS_CHOICES} from "./utils/constants";
 
 export const CorEditButton = () => {
   const [showEdit, _set, toggleEdit] = useToggle();
@@ -62,6 +65,15 @@ export const CorEditButton = () => {
             }
           >
             <TextInput source="description" label="Déscription" fullWidth />
+            <SelectInput
+              data-testid="cor-status"
+              source="status"
+              choices={COR_STATUS_CHOICES}
+              optionText="name"
+              optionValue="id"
+              validate={required()}
+              fullWidth
+            />
             <DateTimeInput
               source="interview_date"
               label="Date d'entretien"

@@ -1,3 +1,4 @@
+import {Student} from "@haapi-b0fc7615/typescript-client";
 import {Autocomplete, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useDataProvider, useInput} from "react-admin";
@@ -26,10 +27,10 @@ export const StudentAutocompleteInput = (
   const dataProvider = useDataProvider();
   const {field} = useInput({source});
 
-  const [options, setOptions] = useState<any[]>([]);
+  const [options, setOptions] = useState<Student[]>([]);
   const [loading, setLoading] = useState(false);
   const [inputValue, setInputValue] = useState("");
-  const [selectedStudent, setSelectedStudent] = useState<any>(null);
+  const [selectedStudent, setSelectedStudent] = useState<Student | null>(null);
 
   useEffect(() => {
     if (field.value) {
