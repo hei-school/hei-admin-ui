@@ -125,6 +125,7 @@ export const CustomAutocompleteArrayInput = (props: Props) => {
 
   return (
     <Autocomplete
+      data-testid="custom-autocomplete-array-input"
       multiple
       options={options}
       loading={loading}

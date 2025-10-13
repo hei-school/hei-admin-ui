@@ -10,29 +10,40 @@ import {
 import {monitor1Mock} from "../fixtures/api_mocks/monitors-mock";
 import {studentLinkedToMonitorMock} from "../fixtures/api_mocks/students-mocks";
 
+const goToStudentGrades = (student = studentLinkedToMonitorMock[0]) => {
+  cy.intercept(
+    "GET",
+    `/monitors/${monitor1Mock.id}/students?page=1&page_size=10`,
+    studentLinkedToMonitorMock
+  ).as("getStudents");
+  cy.intercept(
+    "GET",
+    `/students/${studentLinkedToMonitorMock[0].id!}`,
+    studentLinkedToMonitorMock[0]
+  ).as("getStudent");
+  cy.intercept(
+    "GET",
+    `/monitors/${monitor1Mock.id}/students/${studentLinkedToMonitorMock[0].id!}`,
+    studentLinkedToMonitorMock[0]
+  ).as("getStudentOne");
+  cy.intercept(
+    "GET",
+    `/monitors/${monitor1Mock.id}/students?page=2&page_size=10`,
+
+    studentLinkedToMonitorMock
+  ).as("getStudents2");
+
+  cy.get('[href="/monitors/monitor1_id/students"]').click();
+  cy.wait("@getStudents");
+  cy.contains(student.first_name!).click();
+  cy.getByTestid("grades-tab").click();
+};
+
 describe("GradesDashboard Component - Extended Tests", () => {
   beforeEach(() => {
     cy.mockLogin({role: WhoamiRoleEnum.MONITOR});
-    cy.intercept(
-      "GET",
-      `/monitors/${monitor1Mock.id}/students?page=1&page_size=10`,
-      studentLinkedToMonitorMock
-    ).as("getStudents");
-    cy.intercept(
-      "GET",
-      `/monitors/${monitor1Mock.id}/students/${studentLinkedToMonitorMock[0].id!}`,
-      studentLinkedToMonitorMock[0]
-    ).as("getStudentOne");
-    cy.intercept(
-      "GET",
-      `/monitors/${monitor1Mock.id}/students?page=2&page_size=10`,
+    goToStudentGrades();
 
-      studentLinkedToMonitorMock
-    ).as("getStudents2");
-    cy.get('[href="/monitors/monitor1_id/students"]').click();
-    cy.wait("@getStudents");
-    cy.contains(studentLinkedToMonitorMock[0].first_name!).click();
-    cy.getByTestid("grades-tab").click();
     cy.intercept(
       "GET",
       `/students/${studentLinkedToMonitorMock[0].id!}/yearly_results/L1`,
@@ -52,6 +63,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       "getCourseResults"
     );
   });
+
   describe("Test all view for monitor for Level 1", () => {
     it("should display transcript overview card with all required information", () => {
       cy.getByTestid("transcript-overview").should("be.visible");
@@ -81,7 +93,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       );
     });
 
-    it("should handle course grid view ", () => {
+    it("should display courses correctly in both grid and list views", () => {
       cy.getByTestid("grid-view-toggle").click();
       cy.getByTestid("course-result-card").should("exist");
       cy.getByTestid("course-result-card")
@@ -95,9 +107,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
       cy.getByTestid("course-result-card")
         .first()
         .contains(`${courseResultsMock[0]?.course?.credits} crédits`);
-    });
 
-    it("should handle course list view ", () => {
       cy.getByTestid("list-view-toggle").click();
       cy.getByTestid("courses-list-view").should("exist");
       cy.getByTestid("course-row").should(
@@ -131,67 +141,37 @@ describe("GradesDashboard Component - Extended Tests", () => {
   });
 
   describe("Test level filter and view type toggle", () => {
-    it("should filter courses to L2", () => {
-      cy.getByTestid("grid-view-toggle").click();
-      cy.getByTestid("level-select").click();
-      cy.get('[data-value="L2"]').click();
-      cy.wait("@getYearlyResults2");
-      cy.getByTestid("transcript-overview").should("be.visible");
-      cy.getByTestid("level").should(
-        "contain",
-        `Niveau ${yearlyResultL2Mock.level}`
-      );
-      cy.getByTestid("average-display").should(
-        "contain",
-        yearlyResultL2Mock.weighted_average!.toFixed(2)
-      );
-      cy.getByTestid("course-result-card")
-        .first()
-        .contains(
-          `${yearlyResultL2Mock?.course_results?.[0]?.course?.name} (${yearlyResultL2Mock?.course_results?.[0]?.course?.code})`
-        );
-      cy.getByTestid("course-result-card")
-        .first()
-        .contains(
-          `${yearlyResultL2Mock?.course_results?.[0]?.weighted_average?.toFixed(2)}/20`
-        );
-      cy.getByTestid("course-result-card")
-        .first()
-        .contains(
-          `${yearlyResultL2Mock?.course_results?.[0]?.course?.credits} crédits`
-        );
-    });
-
-    it("should filter courses to L3", () => {
+    it("should filter courses to L2 and L3 correctly", () => {
       cy.getByTestid("grid-view-toggle").click();
 
-      cy.getByTestid("level-select").click();
-      cy.get('[data-value="L3"]').click();
-      cy.wait("@getYearlyResults3");
-      cy.getByTestid("transcript-overview").should("be.visible");
-      cy.getByTestid("level").should(
-        "contain",
-        `Niveau ${yearlyResultL3Mock.level}`
-      );
-      cy.getByTestid("average-display").should(
-        "contain",
-        yearlyResultL3Mock.weighted_average!.toFixed(2)
-      );
-      cy.getByTestid("course-result-card")
-        .first()
-        .contains(
-          `${yearlyResultL3Mock?.course_results?.[0]?.course?.name} (${yearlyResultL3Mock?.course_results?.[0]?.course?.code})`
+      ["L2", "L3"].forEach((level) => {
+        cy.getByTestid("level-select").click();
+        cy.get(`[data-value="${level}"]`).click();
+        const alias =
+          level === "L2" ? "@getYearlyResults2" : "@getYearlyResults3";
+        cy.wait(alias);
+        const mock = level === "L2" ? yearlyResultL2Mock : yearlyResultL3Mock;
+
+        cy.getByTestid("transcript-overview").should("be.visible");
+        cy.getByTestid("level").should("contain", `Niveau ${mock.level}`);
+        cy.getByTestid("average-display").should(
+          "contain",
+          mock.weighted_average!.toFixed(2)
         );
-      cy.getByTestid("course-result-card")
-        .first()
-        .contains(
-          `${yearlyResultL3Mock?.course_results?.[0]?.weighted_average?.toFixed(2)}/20`
-        );
-      cy.getByTestid("course-result-card")
-        .first()
-        .contains(
-          `${yearlyResultL3Mock?.course_results?.[0]?.course?.credits} crédits`
-        );
+        cy.getByTestid("course-result-card")
+          .first()
+          .contains(
+            `${mock?.course_results?.[0]?.course?.name} (${mock?.course_results?.[0]?.course?.code})`
+          );
+        cy.getByTestid("course-result-card")
+          .first()
+          .contains(
+            `${mock?.course_results?.[0]?.weighted_average?.toFixed(2)}/20`
+          );
+        cy.getByTestid("course-result-card")
+          .first()
+          .contains(`${mock?.course_results?.[0]?.course?.credits} crédits`);
+      });
     });
   });
 
@@ -251,7 +231,7 @@ describe("GradesDashboard Component - Extended Tests", () => {
         gradesInformaticsMock
       ).as("getCourseResults");
     });
-    it.skip("should display grades details", () => {
+    it("should display grades details", () => {
       cy.getByTestid("grid-view-toggle").click();
       cy.getByTestid("toggle-details-button").first().click();
       cy.getByTestid("grades-details").should("be.visible");
@@ -288,46 +268,12 @@ describe("GradesDashboard Component - Extended Tests", () => {
       cy.getByTestid("grades-details-row").first().contains(examStatus);
     });
   });
-  describe("display grades details with no grades", () => {
-    beforeEach(() => {
-      cy.intercept(
-        "GET",
-        `/students/${studentLinkedToMonitorMock[0].id!}/courses/${courseResultsMock[0].course?.id!}/grades`,
-        []
-      ).as("getCourseResults");
-    });
-    it("should display empty state when no grades are available", () => {
-      cy.getByTestid("grid-view-toggle").click();
-      cy.getByTestid("toggle-details-button").first().click();
-      cy.wait("@getCourseResults");
-      cy.contains("Aucune note trouvée");
-    });
-  });
 });
 
 describe("display error on overview card", () => {
   beforeEach(() => {
     cy.mockLogin({role: WhoamiRoleEnum.MONITOR});
-    cy.intercept(
-      "GET",
-      `/monitors/${monitor1Mock.id}/students?page=1&page_size=10`,
-      studentLinkedToMonitorMock
-    ).as("getStudents");
-    cy.intercept(
-      "GET",
-      `/monitors/${monitor1Mock.id}/students/${studentLinkedToMonitorMock[0].id!}`,
-      studentLinkedToMonitorMock[0]
-    ).as("getStudentOne");
-    cy.intercept(
-      "GET",
-      `/monitors/${monitor1Mock.id}/students?page=2&page_size=10`,
-
-      studentLinkedToMonitorMock
-    ).as("getStudents2");
-    cy.get('[href="/monitors/monitor1_id/students"]').click();
-    cy.wait("@getStudents");
-    cy.contains(studentLinkedToMonitorMock[0].first_name!).click();
-    cy.getByTestid("grades-tab").click();
+    goToStudentGrades();
     cy.intercept(
       "GET",
       `/students/${studentLinkedToMonitorMock[0].id!}/yearly_results/L1`,

@@ -1,10 +1,11 @@
+import {PALETTE_COLORS} from "@/haTheme";
 import {DateField} from "@/operations/common/components/fields";
 import {CorButtonAction} from "@/operations/cor/components/CorButtonAction";
 import StatusChip from "@/operations/cor/components/StatusChip";
 import {HaList} from "@/ui/haList";
 import {Cor} from "@haapi-b0fc7615/typescript-client";
 import {SafetyDivider} from "@mui/icons-material";
-import {Chip} from "@mui/material";
+import {alpha, Chip} from "@mui/material";
 import {FC, ReactNode} from "react";
 import {FunctionField, TextField} from "react-admin";
 
@@ -40,6 +41,16 @@ export const CorFields: FC<{
         }
         return cor.interviewers?.map((interviewer) => (
           <Chip
+            variant="outlined"
+            data-testid="interviewer-chip"
+            sx={{
+              backgroundColor: alpha(PALETTE_COLORS.yellow, 0.1),
+              borderColor: PALETTE_COLORS.yellow,
+              color: PALETTE_COLORS.yellow,
+              fontWeight: "bold",
+              mr: 1,
+              mb: 1,
+            }}
             key={interviewer.id}
             label={`${interviewer.first_name}`}
             color="primary"

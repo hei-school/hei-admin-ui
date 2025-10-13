@@ -1,4 +1,6 @@
 import {Cor} from "@haapi-b0fc7615/typescript-client";
+import {manager1Mock} from "./managers-mocks";
+import {teacher1Mock} from "./teachers-mocks";
 
 export const corMock: Cor[] = [
   {
@@ -14,6 +16,7 @@ export const corMock: Cor[] = [
       nic: "123456789",
     },
     creation_datetime: new Date("2025-10-02T08:44:57.554Z"),
+    interviewers: [teacher1Mock, manager1Mock],
     status: "IN_PROGRESS",
     comments: [
       {
@@ -34,6 +37,8 @@ export const corMock: Cor[] = [
       email: "fara.andrianina@example.com",
       nic: "987654321",
     },
+    interviewers: [teacher1Mock, manager1Mock],
+
     creation_datetime: new Date("2025-10-03T09:00:00.000Z"),
     status: "LEAVE",
     comments: [
@@ -55,6 +60,7 @@ export const corMock: Cor[] = [
       email: "hery.randrianarivelo@example.com",
       nic: "192837465",
     },
+    interviewers: [teacher1Mock, manager1Mock],
     creation_datetime: new Date("2025-10-04T08:30:00.000Z"),
     status: "CANCELED",
     comments: [
@@ -76,6 +82,7 @@ export const corMock: Cor[] = [
       email: "lova.rasolonjatovo@example.com",
       nic: "564738291",
     },
+    interviewers: [teacher1Mock, manager1Mock],
     creation_datetime: new Date("2025-10-05T12:15:00.000Z"),
     status: "NO_SHOW",
     comments: [
@@ -97,6 +104,7 @@ export const corMock: Cor[] = [
       email: "tiana.randriamanana@example.com",
       nic: "019283746",
     },
+    interviewers: [teacher1Mock, manager1Mock],
     creation_datetime: new Date("2025-10-06T13:45:00.000Z"),
     status: "IN_PROGRESS",
     comments: [
@@ -119,6 +127,7 @@ export const corMock: Cor[] = [
       email: "soa.andriambelo@example.com",
       nic: "675849302",
     },
+    interviewers: [teacher1Mock, manager1Mock],
     creation_datetime: new Date("2025-10-07T15:00:00.000Z"),
     status: "STAY",
     comments: [
