@@ -46,11 +46,11 @@ export const RetakeExamSessionList = () => {
         <DateField source="date_to" label="Fin" />
         <FunctionField
           label="Voir détail"
-          render={(record: any, _source?: string): ReactNode => (
+          render={(): ReactNode => (
             <Box
               sx={{display: "flex", justifyContent: "center", width: "0.15"}}
             >
-              <ShowButton record={record} />
+              <ShowButton />
             </Box>
           )}
         />

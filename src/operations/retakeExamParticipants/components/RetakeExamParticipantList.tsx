@@ -32,8 +32,14 @@ export const RetakeExamParticipantList = () => {
       <TextField source="last_name" label="Prénom" />
       <TextField source="ref" label="STD" />
       <FunctionField
-        label="Groupe"
-        render={(groupeRef) => groupeRef?.groups?.[0]?.ref || "-"}
+        label="Groupes"
+        render={(groupeRef) =>
+          groupeRef?.groups && groupeRef.groups.length > 0
+            ? groupeRef.groups
+                .map((groupe: {ref: string}) => groupe.ref)
+                .join(", ")
+            : "-"
+        }
       />
       <TextField source="email" label="Email" />
     </HaList>

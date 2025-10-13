@@ -1,8 +1,8 @@
 import {RetakeExamCourseList} from "./RetakeExamCourseList";
 import {RetakeExamParticipantShow} from "./RetakeExamParticipantShow";
 
-const retakeExamParticipant = {
+const retakeExamParticipants = {
   list: RetakeExamCourseList,
   show: RetakeExamParticipantShow,
 };
-export default retakeExamParticipant;
+export default retakeExamParticipants;

@@ -1,12 +1,12 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {RetakeExamCourseList} from "@/operations/retakeExamParticipant/RetakeExamCourseList";
+import {DateField, FieldLabel} from "@/operations/common/components/fields";
+import {RetakeExamCourseList} from "@/operations/retakeExamParticipants/RetakeExamCourseList";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {Event as CalendarIcon} from "@mui/icons-material";
 import {Box, useMediaQuery} from "@mui/material";
 import {CodeIcon} from "lucide-react";
 import {Show, SimpleShowLayout, TextField} from "react-admin";
 import {useParams} from "react-router-dom";
-import {DateField, FieldLabel} from "../common/components/fields";
 
 const styleSx = (isSmall: boolean) => ({
   "& .css-jfdv4h-MuiStack-root > *": {marginTop: "0px"},
