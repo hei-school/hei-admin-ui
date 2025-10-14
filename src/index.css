@@ -54,3 +54,7 @@ html {
   font-weight: 700;
   font-size: 1rem;
 }
+
+.MuiBackdrop-root {
+  background-color: #00000030 !important;
+}
