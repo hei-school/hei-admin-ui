@@ -8,7 +8,7 @@ import {CodeIcon} from "lucide-react";
 import {Show, SimpleShowLayout, TextField} from "react-admin";
 import {useParams} from "react-router-dom";
 
-const styleSx = (isSmall: boolean) => ({
+const getShowLayoutStyle = (isSmall: boolean) => ({
   "& .css-jfdv4h-MuiStack-root > *": {marginTop: "0px"},
   "margin": "1em",
   "& .RaSimpleShowLayout-row": {
@@ -32,10 +32,14 @@ const styleSx = (isSmall: boolean) => ({
   },
 });
 
+const commonTextFieldProps = {
+  sx: {fontFamily: "Inter, Arial", fontWeight: 500},
+  emptyText: EMPTY_TEXT,
+};
+
 export const RetakeExamSessionShow = () => {
   const sessionId = useParams()?.id;
   const isSmall = useMediaQuery("(max-width:900px)");
-
   return (
     <Box>
       <Show
@@ -43,30 +47,26 @@ export const RetakeExamSessionShow = () => {
         title="Détails de la session"
         resource="retakeExams-sessions"
       >
-        <SimpleShowLayout sx={styleSx(isSmall)}>
+        <SimpleShowLayout sx={getShowLayoutStyle(isSmall)}>
           <TextField
             source="title"
             label={<FieldLabel icon={<CodeIcon />}>Session</FieldLabel>}
-            emptyText={EMPTY_TEXT}
-            sx={{fontFamily: "Inter, Arial", fontWeight: 500}}
+            {...commonTextFieldProps}
           />
           <DateField
             source="date_from"
             label={
               <FieldLabel icon={<CalendarIcon />}>Date du début</FieldLabel>
             }
-            emptyText={EMPTY_TEXT}
-            sx={{fontFamily: "Inter, Arial", fontWeight: 500}}
+            {...commonTextFieldProps}
           />
           <DateField
             source="date_to"
             label={<FieldLabel icon={<CalendarIcon />}>Date de fin</FieldLabel>}
-            emptyText={EMPTY_TEXT}
-            sx={{fontFamily: "Inter, Arial", fontWeight: 500}}
+            {...commonTextFieldProps}
           />
         </SimpleShowLayout>
       </Show>
-
       <RetakeExamCourseList />
     </Box>
   );

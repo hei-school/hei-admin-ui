@@ -6,20 +6,16 @@ import {
   Layers as LevelIcon,
   PermIdentity as NameIcon,
 } from "@mui/icons-material";
-import {Box, Typography} from "@mui/material";
+import {useMediaQuery} from "@mui/material";
+import {useMemo} from "react";
 import {
   Loading,
   SimpleShowLayout,
   TextField,
-  useRecordContext,
   useShowContext,
 } from "react-admin";
 
-type CourseInfoProps = {
-  isSmall: boolean;
-};
-
-const getStyleSx = (isSmall: boolean) => ({
+const getShowLayoutStyle = (isSmall: boolean) => ({
   "& .css-jfdv4h-MuiStack-root > *": {marginTop: "0px"},
   "margin": "1em",
   "& .RaSimpleShowLayout-row": {
@@ -43,40 +39,37 @@ const getStyleSx = (isSmall: boolean) => ({
   },
 });
 
-export const CourseInfo = ({isSmall}: CourseInfoProps) => {
-  const {isLoading, error} = useShowContext();
-  const course = useRecordContext();
+const commonTextFieldProps = {
+  sx: {fontFamily: "Inter, Arial", fontWeight: 500},
+  emptyText: EMPTY_TEXT,
+};
+
+export const CourseInfo = () => {
+  const {isLoading, error, record: course} = useShowContext();
+  const isSmall = useMediaQuery("(max-width:900px)");
+
+  const sx = useMemo(() => getShowLayoutStyle(isSmall), [isSmall]);
 
   if (isLoading) return <Loading />;
-  if (error)
-    return (
-      <Box p={2}>
-        <Typography color="error">
-          Erreur lors du chargement des informations du cours.
-        </Typography>
-      </Box>
-    );
+  if (error) return <>Erreur lors du chargement des informations du cours.</>;
   if (!course) return <>Aucune information sur le cours disponible.</>;
 
   return (
-    <SimpleShowLayout sx={getStyleSx(isSmall)} record={course}>
+    <SimpleShowLayout sx={sx} record={course}>
       <TextField
         source="code"
         label={<FieldLabel icon={<CodeIcon />}>Matière</FieldLabel>}
-        emptyText={EMPTY_TEXT}
-        sx={{fontFamily: "Inter, Arial", fontWeight: 500}}
+        {...commonTextFieldProps}
       />
       <TextField
         source="name"
         label={<FieldLabel icon={<NameIcon />}>Nom</FieldLabel>}
-        emptyText={EMPTY_TEXT}
-        sx={{fontFamily: "Inter, Arial", fontWeight: 500}}
+        {...commonTextFieldProps}
       />
       <TextField
         source="level"
         label={<FieldLabel icon={<LevelIcon />}>Niveau</FieldLabel>}
-        emptyText={EMPTY_TEXT}
-        sx={{fontFamily: "Inter, Arial", fontWeight: 500}}
+        {...commonTextFieldProps}
       />
     </SimpleShowLayout>
   );

@@ -20,7 +20,7 @@ export const RetakeExamCourseList = () => {
         rowClick: false,
       }}
       mainSearch={{
-        source: "title",
+        source: "code",
         label: "Cours ex:prog2",
       }}
       listProps={{

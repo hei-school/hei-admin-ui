@@ -2,7 +2,7 @@ import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
 
 const retakeExamSessionProvider: HaDataProviderType = {
-  getList: async (_page: number, _perPage: number, filter: any) => {
+  getList: async (_page: number, _perPage: number, filter: {title: string}) => {
     const {title} = filter;
     return retakeExamApi()
       .getRetakeExamSessions(title)
@@ -10,9 +10,9 @@ const retakeExamSessionProvider: HaDataProviderType = {
         data: response.data,
       }));
   },
-  getOne: async (idSession) => {
+  getOne: async (id) => {
     return retakeExamApi()
-      .getRetakeExamSessionById(idSession)
+      .getRetakeExamSessionById(id)
       .then((response) => response.data);
   },
   saveOrUpdate: async (payload = []) => {

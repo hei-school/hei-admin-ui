@@ -45,7 +45,6 @@ import StudentParticipationProvider from "@/providers/studentParticipationProvid
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
-import {courseAssignmentsByTeacherProvider} from "./courseAssignementbyTeacher";
 import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";

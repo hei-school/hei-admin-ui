@@ -6,8 +6,7 @@ import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Add} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {BookOpenIcon} from "lucide-react";
-import {ReactNode} from "react";
-import {DateField, FunctionField, ShowButton, TextField} from "react-admin";
+import {DateField, ShowButton, TextField} from "react-admin";
 
 export const RetakeExamSessionList = () => {
   const [showCreate, _set, toggleShowCreate] = useToggle();
@@ -44,16 +43,7 @@ export const RetakeExamSessionList = () => {
         <TextField source="title" label="Non du session" />
         <DateField source="date_from" label="Début" />
         <DateField source="date_to" label="Fin" />
-        <FunctionField
-          label="Voir détail"
-          render={(): ReactNode => (
-            <Box
-              sx={{display: "flex", justifyContent: "center", width: "0.15"}}
-            >
-              <ShowButton />
-            </Box>
-          )}
-        />
+        <ShowButton />
       </HaList>
       <Dialog
         title="Création d'une session de rattrapage"
