@@ -14,10 +14,11 @@ const retakeExamProvider: HaDataProviderType = {
   getOne: () => {
     throw new Error("Not implemented");
   },
-  saveOrUpdate: async (sessionId: string, payloads: any[]) => {
+  saveOrUpdate: async (sessionId: string, payloads) => {
+    const payload = [payloads.data];
     return retakeExamApi()
-      .createOrUpdateRetakeExam(sessionId, payloads)
-      .then((response) => ({data: response.data}));
+      .createOrUpdateRetakeExam(sessionId, payload)
+      .then((response) => response.data);
   },
   delete: () => {
     throw new Error("Not implemented");

@@ -1,7 +1,6 @@
-import {EnrollButton} from "@/operations/retakeExams/components/EnrollButton";
+import {Buttons} from "@/operations/retakeExams/components/Buttons";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
-import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {BookOpenIcon} from "lucide-react";
 import {DateField, TextField, useGetList} from "react-admin";
 
@@ -63,11 +62,7 @@ export const RetakeExamList = () => {
         label="Inscrit le"
         emptyText="Non défini"
       />
-      <EnrollButton
-        alreadyInscribed={(retakeExam: RetakeExam) =>
-          !!retakeExam.registration_date
-        }
-      />
+      <Buttons />
     </HaList>
   );
 };
