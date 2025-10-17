@@ -3,17 +3,17 @@ import {BookOpenCheckIcon} from "lucide-react";
 import {ShowButton, TextField, useRecordContext} from "react-admin";
 import {useParams} from "react-router-dom";
 
-const ShowButtonWithSession = () => {
-  const sessionId = useParams()?.id;
+const ShowButtonWithSession = ({sessionId}: {sessionId?: string}) => {
   const course = useRecordContext();
   return <ShowButton record={course} state={{sessionId}} />;
 };
 
 export const RetakeExamCourseList = () => {
-  const sessionId = useParams()?.id;
+  const {id: sessionId} = useParams<{id: string}>();
+
   return (
     <HaList
-      title="Liste des matières a rattraper"
+      title="Liste des matières à rattraper"
       resource="retakeExams-participants"
       icon={<BookOpenCheckIcon />}
       datagridProps={{
@@ -21,7 +21,7 @@ export const RetakeExamCourseList = () => {
       }}
       mainSearch={{
         source: "code",
-        label: "Cours ex:prog2",
+        label: "Cours ex: prog2",
       }}
       listProps={{
         title: " ",
@@ -33,7 +33,7 @@ export const RetakeExamCourseList = () => {
       <TextField source="name" label="Titre" />
       <TextField source="level" label="Niveau" />
       <TextField source="credits" label="Crédits" />
-      <ShowButtonWithSession />
+      <ShowButtonWithSession sessionId={sessionId} />
     </HaList>
   );
 };

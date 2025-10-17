@@ -5,7 +5,7 @@ import {FC} from "react";
 import {FunctionField, TextField} from "react-admin";
 import {useLocation, useParams} from "react-router-dom";
 
-const GroupeMapping: FC<{groups: {ref?: string}[]}> = ({groups}) => {
+const GroupeTable: FC<{groups: {ref?: string}[]}> = ({groups}) => {
   const refs = groups.flatMap((g) => (g.ref ? [g.ref] : []));
   return <span>{refs.length ? refs.join(", ") : "Aucun groupe"}</span>;
 };
@@ -31,7 +31,7 @@ export const RetakeExamParticipantList = () => {
       <TextField source="ref" label="STD" />
       <FunctionField<Student>
         label="Groupes"
-        render={(student) => <GroupeMapping groups={student.groups ?? []} />}
+        render={(student) => <GroupeTable groups={student.groups ?? []} />}
       />
       <TextField source="email" label="Email" />
     </HaList>
