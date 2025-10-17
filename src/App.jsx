@@ -37,6 +37,7 @@ import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
+import retakeExamParticipants from "./operations/retakeExamParticipants";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
 function AppBase() {
@@ -75,6 +76,7 @@ function AppBase() {
       <Resource name="letters" />
       <Resource name="retakeExams" {...retakeExams} />
       <Resource name="retakeExams-sessions" {...retakeExamSessions} />
+      <Resource name="retakeExams-participants" {...retakeExamParticipants} />
       <Resource
         name="course-assignments"
         {...CourseAssignments}

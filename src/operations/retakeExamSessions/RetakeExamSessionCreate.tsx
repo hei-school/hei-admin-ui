@@ -10,7 +10,6 @@ import {
 import {v4 as uuid} from "uuid";
 import {Create} from "../common/components";
 
-//TODO : ameliorate this
 const validateDateTo = (value: string, allValues: any) => {
   if (!value) return "⚠ La date de fin est obligatoire";
   if (allValues?.date_from && new Date(value) < new Date(allValues.date_from)) {

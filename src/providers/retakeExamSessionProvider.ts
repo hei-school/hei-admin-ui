@@ -2,16 +2,18 @@ import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
 
 const retakeExamSessionProvider: HaDataProviderType = {
-  getList: async () => {
+  getList: async (_page: number, _perPage: number, filter: {title: string}) => {
+    const {title} = filter;
     return retakeExamApi()
-      .getRetakeExamSessions()
+      .getRetakeExamSessions(title)
       .then((response) => ({
         data: response.data,
       }));
   },
-  // TODO: show all students for one session
-  getOne: () => {
-    throw new Error("Not impemented");
+  getOne: async (id) => {
+    return retakeExamApi()
+      .getRetakeExamSessionById(id)
+      .then((response) => response.data);
   },
   saveOrUpdate: async (payload = []) => {
     if (payload.length === 0) {

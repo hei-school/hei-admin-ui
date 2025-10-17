@@ -45,6 +45,7 @@ import StudentParticipationProvider from "@/providers/studentParticipationProvid
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
+import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
 
@@ -93,6 +94,7 @@ const providerMap = {
   "exam-grades": examGradeProvider,
   "retakeExams": retakeExamProvider,
   "retakeExams-sessions": retakeExamSessionProvider,
+  "retakeExams-participants": retakeExamParticipantProvider,
   "grades": gradeProvider,
   "grades-details": gradesDetailsProvider,
   "summary": resultSummaryProvider,
