@@ -224,7 +224,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
       return (
         feeDueDate < targetDueDate &&
         fee.status !== FeeStatusEnum.PAID &&
-        !fee.comment?.includes("Rattrapage")
+        !fee.comment?.toLowerCase()?.includes("rattrapage")
       );
     });
   }, [fees, due_datetime]);
