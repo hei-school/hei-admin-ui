@@ -9,10 +9,11 @@ const StudentParticipationProvider: HaDataProviderType = {
     meta: Record<string, any> = {}
   ) => {
     const {id} = meta;
-    const {from, to, attendanceStatus} = filter;
+    const {from, to, attendanceStatus, title} = filter;
+    const titleParam = title && title.length > 0 ? title : [""];
 
     return attendanceApi()
-      .getStudentAttendance(from, to, id, attendanceStatus)
+      .getStudentAttendance(from, to, id, attendanceStatus, titleParam)
       .then(({data}) => ({
         data: data.map((record: any, index: number) => ({
           ...record,
@@ -20,6 +21,7 @@ const StudentParticipationProvider: HaDataProviderType = {
             record.id ||
             record._id ||
             `${record.beginDatetime || Date.now()}-${index}`,
+          location: record.location || undefined,
         })),
       }));
   },

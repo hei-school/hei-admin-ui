@@ -25,6 +25,7 @@ import {
 } from "@mui/material";
 import {useMemo, useState} from "react";
 import {useGetList, useRecordContext} from "react-admin";
+import {AbsenceDetailDialog} from "./AbsenceDetailDialog";
 
 interface AttendanceRecord {
   id: string;
@@ -34,6 +35,10 @@ interface AttendanceRecord {
   eventType: string;
   eventTitle: string;
   eventDescription: string;
+  location?: {
+    room?: string;
+    place?: string;
+  };
 }
 
 const STATUS_CONFIG = {
@@ -78,6 +83,8 @@ export function StudentParticipationList() {
     status: AttendanceStatus.MISSING,
     eventType: "",
   });
+  const [selectedAbsence, setSelectedAbsence] =
+    useState<AttendanceRecord | null>(null);
 
   const queryParams = useMemo(
     () => ({
@@ -89,6 +96,7 @@ export function StudentParticipationList() {
           ? `${filters.dateTo}T23:59:59.999Z`
           : new Date().toISOString(),
         attendanceStatus: filters.status || undefined,
+        title: [],
       },
       meta: {id: profile?.id},
     }),
@@ -286,10 +294,30 @@ export function StudentParticipationList() {
         <Grid container spacing={2}>
           {studentsAttendance.map((record, index) => (
             <Grid item xs={12} md={6} key={index}>
-              <AttendanceCard record={record} />
+              <AttendanceCard
+                record={record}
+                onClick={() => setSelectedAbsence(record)}
+              />
             </Grid>
           ))}
         </Grid>
+      )}
+      {selectedAbsence && (
+        <AbsenceDetailDialog
+          open={!!selectedAbsence}
+          onClose={() => setSelectedAbsence(null)}
+          absence={{
+            id: selectedAbsence.id,
+            title: selectedAbsence.eventTitle,
+            description: selectedAbsence.eventDescription,
+            beginDatetime: selectedAbsence.beginDatetime,
+            endDatetime: selectedAbsence.endDatetime,
+            eventType: selectedAbsence.eventType,
+            attendanceStatus: selectedAbsence.attendanceStatus,
+            location: selectedAbsence.location,
+          }}
+          studentId={String(profile?.id)}
+        />
       )}
     </Box>
   );
@@ -313,12 +341,19 @@ function AttendanceCard({record}: {record: AttendanceRecord}) {
 
   return (
     <Card
+      onClick={onClick}
       sx={{
-        height: "100%",
-        borderRadius: 2,
-        boxShadow: "0 2px 8px rgba(0,0,0,0.1)",
-        border: `2px solid ${statusConfig.color === "error" ? "#f44336" : "#e0e0e0"}`,
-        backgroundColor: statusConfig.bgColor,
+        "height": "100%",
+        "borderRadius": 2,
+        "boxShadow": "0 2px 8px rgba(0,0,0,0.1)",
+        "border": `2px solid ${statusConfig.color === "error" ? "#f44336" : "#e0e0e0"}`,
+        "backgroundColor": statusConfig.bgColor,
+        "cursor": "pointer",
+        "transition": "all 0.3s ease",
+        "&:hover": {
+          transform: "translateY(-4px)",
+          boxShadow: "0 8px 16px rgba(0,0,0,0.15)",
+        },
       }}
     >
       <CardContent
