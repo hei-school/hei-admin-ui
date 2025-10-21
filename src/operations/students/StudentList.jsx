@@ -1,5 +1,4 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import studentProvider from "@/providers/studentProvider";
 import {useRole} from "@/security/hooks";
 import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {HaList} from "@/ui/haList";
@@ -8,10 +7,9 @@ import {
   CreateButton,
   ExportButton,
   HaActionWrapper,
-  ImportButton,
 } from "@/ui/haToolbar";
+import {NewImportButton} from "@/ui/haToolbar/importButton/NewImportButton";
 import {NOOP_ID} from "@/utils/constants";
-import {get27thOfMonth} from "@/utils/date";
 import {
   Add as AddIcon,
   Download,
@@ -37,12 +35,6 @@ import {ListHeader} from "../common/components";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
 import {ProfileFilters} from "../profile/components/ProfileFilters";
 import {exportData, importHeaders} from "../utils";
-import {
-  minimalUserHeaders,
-  optionalUserHeaders,
-  validateUserData,
-} from "../utils/userImportConf";
-import {transformUsersData} from "./importConf";
 import {StudentFilterExport} from "./utils/StudentFilterExport";
 
 const ListActions = () => {
@@ -77,23 +69,7 @@ const ListActions = () => {
             label="Template"
             icon={<UploadFileIcon />}
           />
-          <ImportButton
-            validateData={validateUserData}
-            resource="étudiants"
-            provider={(data) => {
-              return studentProvider.saveOrUpdate(data, {
-                meta: {
-                  dueDatetime: get27thOfMonth(
-                    date.getFullYear(),
-                    date.getMonth()
-                  ),
-                },
-              });
-            }}
-            transformData={transformUsersData}
-            minimalHeaders={minimalUserHeaders}
-            optionalHeaders={optionalUserHeaders}
-          />
+          <NewImportButton />
         </Box>
       )}
       <Button
