@@ -3,10 +3,10 @@ import {DateField, FieldLabel} from "@/operations/common/components/fields";
 import {RetakeExamCourseList} from "@/operations/retakeExamParticipants/RetakeExamCourseList";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {Event as CalendarIcon} from "@mui/icons-material";
-import {Box, useMediaQuery} from "@mui/material";
+import {Box, Breadcrumbs, Link, Typography, useMediaQuery} from "@mui/material";
 import {CodeIcon} from "lucide-react";
 import {Show, SimpleShowLayout, TextField} from "react-admin";
-import {useParams} from "react-router-dom";
+import {Link as RouterLink, useParams} from "react-router-dom";
 
 const getShowLayoutStyle = (isSmall: boolean) => ({
   "& .css-jfdv4h-MuiStack-root > *": {marginTop: "0px"},
@@ -42,6 +42,14 @@ export const RetakeExamSessionShow = () => {
   const isSmall = useMediaQuery("(max-width:900px)");
   return (
     <Box>
+      <Box sx={{px: 2, mt: 2}}>
+        <Breadcrumbs sx={{mb: 2}}>
+          <Link component={RouterLink} to="/retakeExams-sessions">
+            Sessions de rattrapage
+          </Link>
+          <Typography color="text.primary">Matières à rattraper</Typography>
+        </Breadcrumbs>
+      </Box>
       <Show
         id={sessionId}
         title="Détails de la session"

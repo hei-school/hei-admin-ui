@@ -1,22 +1,21 @@
 import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
 import {RetakeExam, RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {useCreate, useNotify, useRefresh} from "react-admin";
+import {v4 as uuidv4} from "uuid";
 
-export function computeEnrollmentStatus(
-  retakeExam: RetakeExam
+function computeEnrollmentStatus(
+  retakeExam: RetakeExam | null
 ): RetakeExamStatus | null {
-  if (!retakeExam || !retakeExam.registration_date) return null;
-  if (retakeExam.status === "TO_CANCEL") return "TO_CANCEL";
-  if (retakeExam.status === "CANCELED") return "CANCELED";
-  return "REGISTERED";
+  if (!retakeExam?.registration_date) return null;
+  return retakeExam.status ?? null;
 }
 
-export const ButtonActions = (
-  retakeExam: RetakeExam,
+export function useButtonActions(
+  retakeExam: RetakeExam | null,
   onSuccess?: (retakeExam: RetakeExam) => void
-) => {
+) {
   const userId = authProvider.getCachedWhoami()?.id;
   const notify = useNotify();
   const refresh = useRefresh();
@@ -24,51 +23,53 @@ export const ButtonActions = (
 
   const [confirmOpen, setConfirmOpen] = useToggle(false);
   const [cancelConfirmOpen, setCancelConfirmOpen] = useToggle(false);
+  const [adminCancelConfirmOpen, setAdminCancelConfirmOpen] = useToggle(false);
+
   const [isLoading, setIsLoading] = useState(false);
   const [localStatus, setLocalStatus] = useState<
     RetakeExamStatus | "LOADING" | null
   >(null);
-
   const [pendingStatus, setPendingStatus] = useState<RetakeExamStatus | null>(
     null
   );
+
+  const examId = useMemo(() => retakeExam?.id ?? uuidv4(), [retakeExam?.id]);
+
   useEffect(() => {
     if (!retakeExam) return;
+    const backendStatus = computeEnrollmentStatus(retakeExam);
 
-    const currentBackendStatus = computeEnrollmentStatus(retakeExam);
-
-    if (isLoading && pendingStatus && currentBackendStatus === pendingStatus) {
+    if (isLoading && pendingStatus && backendStatus === pendingStatus) {
       setIsLoading(false);
       setPendingStatus(null);
-    }
-    if (!isLoading) {
-      setLocalStatus(currentBackendStatus);
+    } else if (!isLoading) {
+      setLocalStatus(backendStatus);
     }
   }, [retakeExam, isLoading, pendingStatus]);
 
-  const handleSave = async (
-    newStatus: RetakeExamStatus,
-    successMsg: string
+  const handleAction = async (
+    status: RetakeExamStatus,
+    successMsg: string,
+    onClose: () => void
   ) => {
     if (!retakeExam || !userId) return;
 
     setIsLoading(true);
-    setPendingStatus(newStatus);
+    setPendingStatus(status);
     setLocalStatus("LOADING");
 
     const payload = {
-      id: retakeExam.id,
+      id: examId,
       course_id: retakeExam.course?.id ?? "",
       session_id: retakeExam.session?.id ?? "",
       student_id: userId,
-      status: newStatus,
+      status,
     };
-
     create(
       "retakeExams",
       {data: payload},
       {
-        onSuccess: async () => {
+        onSuccess: () => {
           notify(successMsg, {type: "success"});
           onSuccess?.(retakeExam);
           refresh();
@@ -81,11 +82,25 @@ export const ButtonActions = (
           setPendingStatus(null);
           setLocalStatus(computeEnrollmentStatus(retakeExam));
         },
-        onSettled: () => {
-          setConfirmOpen(false);
-          setCancelConfirmOpen(false);
-        },
+        onSettled: onClose,
       }
+    );
+  };
+
+  const handleRegister = () =>
+    handleAction("REGISTERED", "Inscription au rattrapage réussie.", () =>
+      setConfirmOpen(false)
+    );
+
+  const handleRequestCancel = () =>
+    handleAction("TO_CANCEL", "Demande d'annulation envoyée avec succès.", () =>
+      setCancelConfirmOpen(false)
+    );
+
+  const handleValidateCancel = (canValidate: boolean) => {
+    if (!canValidate) return;
+    handleAction("CANCELED", "Rattrapage annulé avec succès.", () =>
+      setAdminCancelConfirmOpen(false)
     );
   };
 
@@ -94,8 +109,12 @@ export const ButtonActions = (
     isLoading,
     confirmOpen,
     cancelConfirmOpen,
+    adminCancelConfirmOpen,
     setConfirmOpen,
     setCancelConfirmOpen,
-    handleSave,
+    setAdminCancelConfirmOpen,
+    handleRegister,
+    handleRequestCancel,
+    handleValidateCancel,
   };
-};
+}

@@ -1,49 +1,50 @@
 import {useNotify, useToggle} from "@/hooks";
 import {RetakeExamSessionCreate} from "@/operations/retakeExamSessions/RetakeExamSessionCreate";
+import {useRole} from "@/security/hooks";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {Add} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {BookOpenIcon} from "lucide-react";
-import {DateField, ShowButton, TextField} from "react-admin";
+import {DateField, TextField} from "react-admin";
+import {PendingCancellationBar, RoleBasedShowButton} from "./components";
 
 export const RetakeExamSessionList = () => {
+  const {isAdmin, isManager} = useRole();
   const [showCreate, _set, toggleShowCreate] = useToggle();
   const notify = useNotify();
-
   return (
     <Box>
+      <Box>{(isAdmin() || isManager()) && <PendingCancellationBar />}</Box>
       <HaList
         title="Liste des sessions de rattrapage"
         resource="retakeExams-sessions"
         icon={<BookOpenIcon />}
-        datagridProps={{
-          rowClick: false,
-        }}
+        datagridProps={{rowClick: false}}
         mainSearch={{
           source: "title",
           label: "Nom du session",
         }}
-        listProps={{
-          title: "Liste des sessions de rattrapage",
-        }}
+        listProps={{title: "Liste des sessions de rattrapage"}}
         actions={
-          <HaActionWrapper>
-            <ButtonBase
-              data-testid="create-button"
-              icon={<Add />}
-              onClick={toggleShowCreate}
-            >
-              Créer
-            </ButtonBase>
-          </HaActionWrapper>
+          (isManager() || isAdmin()) && (
+            <HaActionWrapper>
+              <ButtonBase
+                data-testid="create-button"
+                icon={<Add />}
+                onClick={toggleShowCreate}
+              >
+                Créer
+              </ButtonBase>
+            </HaActionWrapper>
+          )
         }
       >
-        <TextField source="title" label="Non du session" />
+        <TextField source="title" label="Nom du session" />
         <DateField source="date_from" label="Début" />
         <DateField source="date_to" label="Fin" />
-        <ShowButton />
+        <RoleBasedShowButton />
       </HaList>
       <Dialog
         title="Création d'une session de rattrapage"

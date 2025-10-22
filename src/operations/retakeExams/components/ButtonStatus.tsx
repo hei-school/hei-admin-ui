@@ -24,8 +24,7 @@ const CHIP_STYLE = {
 type EnrollStatusProps = {
   status: RetakeExamStatus | "LOADING" | null;
 };
-
-export const EnrollStatus = ({status}: EnrollStatusProps) => {
+export const ButtonStatus = ({status}: EnrollStatusProps) => {
   switch (status) {
     case "REGISTERED":
       return (

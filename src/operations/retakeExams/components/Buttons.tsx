@@ -1,9 +1,10 @@
+import {useRole} from "@/security/hooks";
 import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
-import {Cancel, HowToReg} from "@mui/icons-material";
-import {Button, Stack} from "@mui/material";
+import {Cancel, CheckCircle, HowToReg} from "@mui/icons-material";
+import {Box, Button, Stack} from "@mui/material";
 import {Confirm, useRecordContext} from "react-admin";
-import {ButtonActions} from "./ButtonActions";
-import {EnrollStatus} from "./EnrollStatus";
+import {useButtonActions} from "./ButtonActions";
+import {ButtonStatus} from "./ButtonStatus";
 
 const BUTTON_STYLE = {
   "height": 28,
@@ -31,53 +32,83 @@ type EnrollButtonProps = {
 export const Buttons = ({onSuccess}: EnrollButtonProps) => {
   const retakeExam = useRecordContext<RetakeExam>();
   if (!retakeExam) return null;
-
+  const {isAdmin, isManager} = useRole();
+  const canValidateCancel = isAdmin() || isManager();
   const {
     status,
     isLoading,
     confirmOpen,
     cancelConfirmOpen,
+    adminCancelConfirmOpen,
     setConfirmOpen,
     setCancelConfirmOpen,
-    handleSave,
-  } = ButtonActions(retakeExam, onSuccess);
-
-  if (status === "TO_CANCEL" || status === "CANCELED" || status === "LOADING") {
-    return <EnrollStatus status={status} />;
+    setAdminCancelConfirmOpen,
+    handleRegister,
+    handleRequestCancel,
+    handleValidateCancel,
+  } = useButtonActions(retakeExam, onSuccess);
+  if (status === "CANCELED" || status === "TO_CANCEL" || status === "LOADING") {
+    return <ButtonStatus status={status} />;
   }
   const isRegistered = status === "REGISTERED";
-  const action = isRegistered
-    ? {
-        label: "Annuler",
-        color: "error" as const,
-        icon: <Cancel />,
-        confirmTitle: "Annulation de l'inscription",
-        confirmContent: `Êtes-vous sûr de vouloir annuler votre inscription au rattrapage de "${retakeExam.course?.name}" (${retakeExam.session?.title || "Session"}) ?`,
-        confirmButton: "Annuler l'inscription",
-        open: cancelConfirmOpen,
-        setOpen: setCancelConfirmOpen,
-        nextStatus: "TO_CANCEL" as const,
-        successMsg: "Demande d'annulation envoyée.",
-        variant: "outlined" as const,
-      }
-    : {
-        label: "S'inscrire",
-        color: "primary" as const,
-        icon: <HowToReg />,
-        confirmTitle: "Confirmation d'inscription",
-        confirmContent: `Voulez-vous vraiment vous inscrire au rattrapage de "${retakeExam.course?.name}" (${retakeExam.session?.title || "Session"}) ?`,
-        confirmButton: "Confirmer l'inscription",
-        open: confirmOpen,
-        setOpen: setConfirmOpen,
-        nextStatus: "REGISTERED" as const,
-        successMsg: "Inscription réussie !",
-        variant: "contained" as const,
-      };
 
+  let action: {
+    label: string;
+    color: "primary" | "error" | "success";
+    icon: JSX.Element;
+    confirmTitle: string;
+    confirmContent: string;
+    confirmButton: string;
+    open: boolean;
+    setOpen: (value: boolean) => void;
+    onConfirm: () => void;
+    variant: "contained" | "outlined";
+  };
+
+  if (canValidateCancel) {
+    action = {
+      label: "Valider l'annulation",
+      color: "success",
+      icon: <CheckCircle />,
+      confirmTitle: "Validation d'une annulation",
+      confirmContent: `Souhaitez-vous valider la demande d'annulation de ce rattrapage ?`,
+      confirmButton: "Valider",
+      open: adminCancelConfirmOpen,
+      setOpen: setAdminCancelConfirmOpen,
+      onConfirm: () => handleValidateCancel(canValidateCancel),
+      variant: "contained",
+    };
+  } else if (isRegistered) {
+    action = {
+      label: "Annuler",
+      color: "error",
+      icon: <Cancel />,
+      confirmTitle: "Demande d'annulation",
+      confirmContent: `Souhaitez-vous demander l'annulation de votre inscription au rattrapage de "${retakeExam.course?.name}" (${retakeExam.session?.title || "Session"}) ?`,
+      confirmButton: "Confirmer la demande",
+      open: cancelConfirmOpen,
+      setOpen: setCancelConfirmOpen,
+      onConfirm: handleRequestCancel,
+      variant: "outlined",
+    };
+  } else {
+    action = {
+      label: "S'inscrire",
+      color: "primary",
+      icon: <HowToReg />,
+      confirmTitle: "Confirmation d'inscription",
+      confirmContent: `Voulez-vous vous inscrire au rattrapage de "${retakeExam.course?.name}" (${retakeExam.session?.title || "Session"}) ?`,
+      confirmButton: "Confirmer l'inscription",
+      open: confirmOpen,
+      setOpen: setConfirmOpen,
+      onConfirm: handleRegister,
+      variant: "contained",
+    };
+  }
   return (
-    <>
+    <Box>
       <Stack direction="row" spacing={1} alignItems="center">
-        {isRegistered && <EnrollStatus status="REGISTERED" />}
+        {isRegistered && <ButtonStatus status="REGISTERED" />}
         <Button
           variant={action.variant}
           color={action.color}
@@ -98,9 +129,9 @@ export const Buttons = ({onSuccess}: EnrollButtonProps) => {
         title={action.confirmTitle}
         content={action.confirmContent}
         confirm={action.confirmButton}
-        onConfirm={() => handleSave(action.nextStatus, action.successMsg)}
+        onConfirm={action.onConfirm}
         onClose={() => action.setOpen(false)}
       />
-    </>
+    </Box>
   );
 };

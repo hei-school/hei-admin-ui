@@ -4,7 +4,14 @@ import {retakeExamApi} from "@/providers/api";
 // TODO: shared utility fn to unwrap axios apiClient data as .then(res => ({data: res.data})) gets repeated a million times
 const retakeExamProvider: HaDataProviderType = {
   getList: async (_page, _perPage, filter, _meta = {}) => {
-    const {studentId, sessionId} = filter;
+    const {studentId, sessionId, status} = filter;
+    if (!studentId || !sessionId) {
+      return retakeExamApi()
+        .getAllRetakeExams(status)
+        .then((response) => ({
+          data: response.data,
+        }));
+    }
     return retakeExamApi()
       .getStudentRetakeExamBySession(studentId, sessionId)
       .then((response) => ({

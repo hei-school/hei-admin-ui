@@ -253,6 +253,11 @@ function AppBase() {
           element={<grades.examParticipantList />}
         />
         <Route exact path="/retake-exams" element={<retakeExams.list />} />
+        <Route
+          exact
+          path="/retake-exams/annulation"
+          element={<retakeExams.cancellation />}
+        />
       </CustomRoutes>
     </Admin>
   );
