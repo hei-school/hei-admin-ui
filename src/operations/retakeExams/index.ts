@@ -1,9 +1,9 @@
+import {RetakeExamSessionList} from "../retakeExamSessions/RetakeExamSessionList";
 import {CancellationRetakeExam} from "./CancellationRetakeExam";
 import {RetakeExamListShow} from "./RetakeExamListShow";
-import {RetakeExamSessionLists} from "./RetakeExamSessionLists";
 
 const retakeExams = {
-  list: RetakeExamSessionLists,
+  list: RetakeExamSessionList,
   show: RetakeExamListShow,
   cancellation: CancellationRetakeExam,
 };

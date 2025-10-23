@@ -6,9 +6,9 @@ import {CourseInfo, RetakeExamParticipantList} from "./components";
 export const RetakeExamParticipantShow = () => {
   const {id: courseId} = useParams();
   const location = useLocation();
-  const sessionId = (location.state as {sessionId?: string})?.sessionId;
+  const sessionId = location.state?.sessionId;
   return (
-    <Box sx={{padding: "1em"}}>
+    <Box sx={{p: 2}}>
       <Breadcrumbs sx={{mb: 2}}>
         <Link component={RouterLink} to="/retakeExams-sessions">
           Sessions de rattrapage
@@ -25,7 +25,6 @@ export const RetakeExamParticipantShow = () => {
         )}
         <Typography color="text.primary">Détails du cours</Typography>
       </Breadcrumbs>
-
       <Show id={courseId} title=" " resource="course">
         <CourseInfo />
       </Show>

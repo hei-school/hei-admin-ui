@@ -26,12 +26,16 @@ const RETAKE_EXAM_LIST_SX = {
   },
 };
 
+interface RetakeExamListShowContentProps {
+  studentId?: string;
+  sessionId?: string;
+}
+
 export const RetakeExamListShow = () => {
   const studentId = authProvider.getCachedWhoami()?.id;
   const {id: sessionId} = useParams();
-  if (!studentId || !sessionId) {
-    return null;
-  }
+  if (!studentId || !sessionId) return null;
+
   return (
     <RetakeExamListShowContent studentId={studentId} sessionId={sessionId} />
   );
@@ -40,20 +44,15 @@ export const RetakeExamListShow = () => {
 const RetakeExamListShowContent = ({
   studentId,
   sessionId,
-}: {
-  studentId?: string;
-  sessionId?: string;
-}) => {
-  const {data: session} = useGetOne("retakeExams-sessions", {
-    id: sessionId,
-  });
+}: RetakeExamListShowContentProps) => {
+  const {data: session} = useGetOne("retakeExams-sessions", {id: sessionId});
   return (
     <HaList
       title={`Rattrapages – ${session?.title ?? "Session"}`}
       icon={<BookOpenIcon />}
       resource="retakeExams"
       listProps={{
-        title: "Liste de mes rattrapages ",
+        title: "Liste de mes rattrapages",
         filter: {studentId, sessionId},
         disableRowClick: true,
         rowClick: false,

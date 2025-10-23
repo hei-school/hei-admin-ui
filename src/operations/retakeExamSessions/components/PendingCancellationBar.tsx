@@ -1,3 +1,4 @@
+import {RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {motion} from "framer-motion";
 import {AlertCircle} from "lucide-react";
@@ -14,10 +15,10 @@ export const PendingCancellationBar = ({
   const navigate = useNavigate();
 
   const {data: retakeExams = []} = useGetList("retakeExams", {
-    filter: {status: "TO_CANCEL"},
+    filter: {status: RetakeExamStatus.TO_CANCEL},
   });
 
-  let count = retakeExams.length;
+  const count = retakeExams.length;
   if (count === 0) return null;
 
   return (
@@ -109,7 +110,6 @@ export const PendingCancellationBar = ({
           </svg>
         </div>
       </motion.div>
-
       <style>
         {`
           @keyframes pulse {
