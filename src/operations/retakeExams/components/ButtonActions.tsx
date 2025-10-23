@@ -1,120 +1,127 @@
 import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
 import {RetakeExam, RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
-import {useEffect, useMemo, useState} from "react";
-import {useCreate, useNotify, useRefresh} from "react-admin";
-import {v4 as uuidv4} from "uuid";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import {useCreate, useNotify} from "react-admin";
 
-function computeEnrollmentStatus(
+const computeEnrollmentStatus = (
   retakeExam: RetakeExam | null
-): RetakeExamStatus | null {
+): RetakeExamStatus | null => {
   if (!retakeExam?.registration_date) return null;
   return retakeExam.status ?? null;
-}
+};
 
-export function useButtonActions(
+export const ButtonActions = (
   retakeExam: RetakeExam | null,
   onSuccess?: (retakeExam: RetakeExam) => void
-) {
+) => {
   const userId = authProvider.getCachedWhoami()?.id;
   const notify = useNotify();
-  const refresh = useRefresh();
   const [create] = useCreate();
 
-  const [confirmOpen, setConfirmOpen] = useToggle(false);
-  const [cancelConfirmOpen, setCancelConfirmOpen] = useToggle(false);
-  const [adminCancelConfirmOpen, setAdminCancelConfirmOpen] = useToggle(false);
+  const [isRegistering, setIsRegistering] = useToggle(false);
+  const [isCanceling, setIsCanceling] = useToggle(false);
+  const [isValidatingCancel, setIsValidatingCancel] = useToggle(false);
 
   const [isLoading, setIsLoading] = useState(false);
-  const [localStatus, setLocalStatus] = useState<
-    RetakeExamStatus | "LOADING" | null
-  >(null);
-  const [pendingStatus, setPendingStatus] = useState<RetakeExamStatus | null>(
-    null
+  const [localStatus, setLocalStatus] = useState<RetakeExamStatus | null>(null);
+  const [optimisticStatus, setOptimisticStatus] =
+    useState<RetakeExamStatus | null>(null);
+
+  const examId = useMemo(
+    () => retakeExam?.id ?? `temp-${retakeExam?.course?.id}`,
+    [retakeExam?.id, retakeExam?.course?.id]
   );
 
-  const examId = useMemo(() => retakeExam?.id ?? uuidv4(), [retakeExam?.id]);
+  useEffect(() => {
+    setIsLoading(false);
+    setOptimisticStatus(null);
+  }, [examId]);
 
   useEffect(() => {
     if (!retakeExam) return;
     const backendStatus = computeEnrollmentStatus(retakeExam);
 
-    if (isLoading && pendingStatus && backendStatus === pendingStatus) {
-      setIsLoading(false);
-      setPendingStatus(null);
-    } else if (!isLoading) {
+    if (!isLoading) {
       setLocalStatus(backendStatus);
     }
-  }, [retakeExam, isLoading, pendingStatus]);
+    if (isLoading && backendStatus === optimisticStatus) {
+      setIsLoading(false);
+      setOptimisticStatus(null);
+    }
+  }, [retakeExam, isLoading, optimisticStatus]);
 
-  const handleAction = async (
-    status: RetakeExamStatus,
-    successMsg: string,
-    onClose: () => void
-  ) => {
-    if (!retakeExam || !userId) return;
+  const updateStatus = useCallback(
+    async (
+      status: RetakeExamStatus,
+      successMsg: string,
+      onClose: () => void
+    ) => {
+      if (!retakeExam || !userId) return;
+      setIsLoading(true);
+      setOptimisticStatus(status);
 
-    setIsLoading(true);
-    setPendingStatus(status);
-    setLocalStatus("LOADING");
+      const payload = {
+        id: examId,
+        course_id: retakeExam.course?.id ?? "",
+        session_id: retakeExam.session?.id ?? "",
+        student_id: userId,
+        status,
+      };
 
-    const payload = {
-      id: examId,
-      course_id: retakeExam.course?.id ?? "",
-      session_id: retakeExam.session?.id ?? "",
-      student_id: userId,
-      status,
-    };
-    create(
-      "retakeExams",
-      {data: payload},
-      {
-        onSuccess: () => {
-          notify(successMsg, {type: "success"});
-          onSuccess?.(retakeExam);
-          refresh();
-        },
-        onError: () => {
-          notify("Une erreur est survenue. Merci de réessayer plus tard.", {
-            type: "error",
-          });
-          setIsLoading(false);
-          setPendingStatus(null);
-          setLocalStatus(computeEnrollmentStatus(retakeExam));
-        },
-        onSettled: onClose,
-      }
+      create(
+        "retakeExams",
+        {data: payload},
+        {
+          onSuccess: () => {
+            notify(successMsg, {type: "success"});
+            onSuccess?.({...retakeExam, status});
+            onClose();
+          },
+          onError: () => {
+            notify("Une erreur est survenue. Merci de réessayer.", {
+              type: "error",
+            });
+            setIsLoading(false);
+            setOptimisticStatus(null);
+            onClose();
+          },
+        }
+      );
+    },
+    [create, retakeExam, examId, notify, onSuccess, userId]
+  );
+  const handleRegister = useCallback(() => {
+    updateStatus("REGISTERED", "Inscription réussie.", () =>
+      setIsRegistering(false)
     );
-  };
-
-  const handleRegister = () =>
-    handleAction("REGISTERED", "Inscription au rattrapage réussie.", () =>
-      setConfirmOpen(false)
+  }, [updateStatus, setIsRegistering]);
+  const handleRequestCancel = useCallback(() => {
+    updateStatus("TO_CANCEL", "Demande d'annulation envoyée.", () =>
+      setIsCanceling(false)
     );
-
-  const handleRequestCancel = () =>
-    handleAction("TO_CANCEL", "Demande d'annulation envoyée avec succès.", () =>
-      setCancelConfirmOpen(false)
+  }, [updateStatus, setIsCanceling]);
+  const handleValidateCancel = useCallback(() => {
+    updateStatus("CANCELED", "Annulation validée.", () =>
+      setIsValidatingCancel(false)
     );
-
-  const handleValidateCancel = (canValidate: boolean) => {
-    if (!canValidate) return;
-    handleAction("CANCELED", "Rattrapage annulé avec succès.", () =>
-      setAdminCancelConfirmOpen(false)
-    );
-  };
+  }, [updateStatus, setIsValidatingCancel]);
 
   return {
     status: isLoading ? "LOADING" : localStatus,
+    optimisticStatus,
     isLoading,
-    confirmOpen,
-    cancelConfirmOpen,
-    adminCancelConfirmOpen,
-    setConfirmOpen,
-    setCancelConfirmOpen,
-    setAdminCancelConfirmOpen,
+
+    isRegistering,
+    isCanceling,
+    isValidatingCancel,
+
+    setIsRegistering,
+    setIsCanceling,
+    setIsValidatingCancel,
+
     handleRegister,
     handleRequestCancel,
     handleValidateCancel,
   };
-}
+};

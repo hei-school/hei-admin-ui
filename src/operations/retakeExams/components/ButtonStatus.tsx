@@ -21,56 +21,56 @@ const CHIP_STYLE = {
   },
 } as const;
 
+type ExtendedStatus = RetakeExamStatus | "LOADING";
+
+const STATUS_TEXTS: Record<ExtendedStatus, string> = {
+  REGISTERED: "Inscrit",
+  TO_CANCEL: "Annulation en attente",
+  CANCELED: "Annulé",
+  LOADING: "Traitement...",
+  INVALIDATE: "Invalidé",
+  VALIDATE: "Validé",
+};
+
+const STATUS_ICONS: Record<ExtendedStatus, JSX.Element> = {
+  REGISTERED: <CheckCircle />,
+  TO_CANCEL: <HourglassEmpty />,
+  CANCELED: <Cancel />,
+  LOADING: <Search />,
+  INVALIDATE: <Cancel />,
+  VALIDATE: <CheckCircle />,
+};
+
+const STATUS_COLORS: Record<
+  ExtendedStatus,
+  "success" | "warning" | "error" | "info"
+> = {
+  REGISTERED: "success",
+  TO_CANCEL: "warning",
+  CANCELED: "error",
+  LOADING: "info",
+  INVALIDATE: "error",
+  VALIDATE: "success",
+};
+
 type EnrollStatusProps = {
   status: RetakeExamStatus | "LOADING" | null;
 };
+
 export const ButtonStatus = ({status}: EnrollStatusProps) => {
-  switch (status) {
-    case "REGISTERED":
-      return (
-        <Chip
-          icon={<CheckCircle />}
-          label="Inscrit"
-          color="success"
-          variant="outlined"
-          sx={CHIP_STYLE}
-        />
-      );
+  if (!status) return null;
 
-    case "TO_CANCEL":
-      return (
-        <Chip
-          icon={<HourglassEmpty />}
-          label="Annulation en attente"
-          color="warning"
-          variant="outlined"
-          sx={CHIP_STYLE}
-        />
-      );
+  const label = STATUS_TEXTS[status];
+  const icon = STATUS_ICONS[status];
+  const color = STATUS_COLORS[status];
 
-    case "CANCELED":
-      return (
-        <Chip
-          icon={<Cancel />}
-          label="Annulé"
-          color="error"
-          variant="outlined"
-          sx={CHIP_STYLE}
-        />
-      );
-
-    case "LOADING":
-      return (
-        <Chip
-          icon={<Search />}
-          label="Traitement..."
-          color="info"
-          variant="outlined"
-          sx={CHIP_STYLE}
-        />
-      );
-
-    default:
-      return null;
-  }
+  return (
+    <Chip
+      icon={icon}
+      label={label}
+      color={color}
+      variant="outlined"
+      sx={CHIP_STYLE}
+    />
+  );
 };

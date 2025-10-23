@@ -45,9 +45,8 @@ export const RetakeExamListShow = () => {
 export const RetakeExamListShow = () => {
   const studentId = authProvider.getCachedWhoami()?.id;
   const {id: sessionId} = useParams();
-  if (!studentId || !sessionId) {
-    return null;
-  }
+  if (!studentId || !sessionId) return null;
+
   return (
     <RetakeExamListShowContent studentId={studentId} sessionId={sessionId} />
   );

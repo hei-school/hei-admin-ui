@@ -111,7 +111,7 @@ export const PendingCancellationBar = ({
   const count = retakeExams.length;
 =======
   const {data: retakeExams = []} = useGetList("retakeExams", {
-    filter: {status: "TO_CANCEL"},
+    filter: {status: RetakeExamStatus.TO_CANCEL},
   });
 
   let count = retakeExams.length;
@@ -234,7 +234,6 @@ export const PendingCancellationBar = ({
           </svg>
         </div>
       </motion.div>
-
       <style>
         {`
           @keyframes pulse {
