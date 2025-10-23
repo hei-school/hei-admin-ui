@@ -7,7 +7,9 @@ import {
   CalendarClock,
   CalendarDays,
   CalendarX,
+  ClipboardCheck,
   ClipboardList,
+  ClipboardX,
 } from "lucide-react";
 import {FC, useState} from "react";
 import {
@@ -37,9 +39,14 @@ export const EventMissingList: FC = () => {
 
   const {
     data: stats = {
-      present: "0",
-      late: "0",
-      total: "0",
+      missed_stats: {
+        total: 0,
+        justified: 0,
+        unjustified: 0,
+      },
+      present: 0,
+      late: 0,
+      total: 0,
     },
   } = useGetOne("stats", {
     id: NOOP_ID,
@@ -50,22 +57,34 @@ export const EventMissingList: FC = () => {
     {
       title: "Absents",
       icon: <CalendarX size="2.1rem" />,
-      total: stats.missing,
+      total: stats.missed_stats?.total || 0,
+      statDetails: [
+        {
+          icon: <ClipboardCheck size="1rem" color="#4caf50" />,
+          total: stats.missed_stats?.justified || 0,
+          title: "Absences justifiées",
+        },
+        {
+          icon: <ClipboardX size="1rem" color="#f44336" />,
+          total: stats.missed_stats?.unjustified || 0,
+          title: "Absences non justifiées",
+        },
+      ],
     },
     {
       title: "Présents",
       icon: <CalendarCheck2 size="2.1rem" />,
-      total: stats.present,
+      total: stats.present || 0,
     },
     {
       title: "En retard",
       icon: <CalendarClock size="2.1rem" />,
-      total: stats.late,
+      total: stats.late || 0,
     },
     {
       title: "Total",
       icon: <CalendarDays size="2.1rem" />,
-      total: stats.total,
+      total: stats.total || 0,
     },
   ];
 
