@@ -182,7 +182,7 @@ export const FileUploadDialog: FC<FileUploadDialogProps> = ({
     create(
       resource,
       {
-        data: formRef.current,
+        data: formRef?.current!,
         meta,
       },
       {
@@ -228,6 +228,7 @@ export const FileUploadDialog: FC<FileUploadDialogProps> = ({
         {children}
 
         <FileInput
+          data-testid="file-input"
           isRequired
           resource={resource}
           source="file"

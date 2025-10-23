@@ -16,7 +16,11 @@ export const eventsMock: Event[] = [
     planner: manager1Mock,
     count: {
       present: 5,
-      missing: 2,
+      missed_stats: {
+        total: 2,
+        justified: 1,
+        unjustified: 1,
+      },
       late: 3,
       total: 10,
     },
@@ -32,7 +36,11 @@ export const eventsMock: Event[] = [
     planner: manager1Mock,
     count: {
       present: 0,
-      missing: 10,
+      missed_stats: {
+        total: 10,
+        justified: 0,
+        unjustified: 0,
+      },
       late: 0,
       total: 10,
     },

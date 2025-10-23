@@ -6,6 +6,7 @@ const missingListProvider: HaDataProviderType = {
   getList: async (page, perPage, filter = {}) => {
     return eventsApi()
       .getAllEventParticipants(
+        filter.courseId,
         page,
         perPage,
         filter.from,

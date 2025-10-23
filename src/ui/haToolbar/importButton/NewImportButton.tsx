@@ -46,7 +46,9 @@ export const NewImportButton: FC = () => {
       if (missing.length > 0) {
         return {
           isValid: false,
-          errorMessage: `En-têtes manquants : ${missing.join(", ")}. En-têtes attendus : ${EXPECTED_HEADERS.join(", ")}.`,
+          errorMessage:
+            `En-têtes manquants : ${missing.join(", ")}. ` +
+            "Veuillez utiliser le modèle dans template",
         };
       }
 
@@ -77,6 +79,7 @@ export const NewImportButton: FC = () => {
   return (
     <>
       <Button
+        data-testid="import-students-button"
         startIcon={<Upload />}
         sx={{
           width: "100%",
@@ -106,9 +109,11 @@ export const NewImportButton: FC = () => {
         meta={{rows: parsedRows}}
       >
         <DateInput
-          source="dueDatetime"
+          data-testid="due-datetime-input"
+          source="due_datetime"
           label="Date d'échéance"
           sx={{width: "100%"}}
+          required
         />
       </FileUploadDialog>
     </>

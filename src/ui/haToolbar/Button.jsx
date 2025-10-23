@@ -11,7 +11,7 @@ export const HaActionWrapper = styled("div")({
     width: "100%",
     justifyContent: "start",
     gap: 7,
-    paddingLeft: "20px",
+    paddingLeft: "15px",
     paddingTop: "7px",
     paddingBottom: "7px",
     color: "#474645",
