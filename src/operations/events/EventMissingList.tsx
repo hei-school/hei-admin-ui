@@ -9,7 +9,7 @@ import {
   CalendarX,
   ClipboardList,
 } from "lucide-react";
-import {FC} from "react";
+import {FC, useState} from "react";
 import {
   DateField,
   FunctionField,
@@ -18,6 +18,7 @@ import {
   useRecordContext,
 } from "react-admin";
 import {ListHeader} from "../common/components";
+import {AbsenceDetailDialogForStaff} from "./components/AbsenceDetailDialogForStaff";
 import {EventMissingFilter} from "./components/EventMissingFilter";
 import {EVENT_TYPE_VALUE} from "./utils";
 
@@ -31,6 +32,9 @@ const TOOLTIP_STYLE = {
 };
 
 export const EventMissingList: FC = () => {
+  const [selectedAbsence, setSelectedAbsence] =
+    useState<EventAttendance | null>(null);
+
   const {
     data: stats = {
       present: "0",
@@ -81,12 +85,16 @@ export const EventMissingList: FC = () => {
         }}
         mainSearch={{label: "Références", source: "studentRef"}}
         datagridProps={{
-          rowClick: false,
+          rowClick: (_id: any, _resource: string, record: EventAttendance) => {
+            setSelectedAbsence(record);
+            return false;
+          },
           rowStyle: (record: any) => ({
             borderLeft: "5px solid",
             padding: "0 !important",
             borderLeftColor:
               record?.event?.groups[0]?.attributed_color ?? "#0000FF",
+            cursor: "pointer",
           }),
         }}
       >
@@ -102,6 +110,13 @@ export const EventMissingList: FC = () => {
         />
         <FunctionField render={() => <DateTooltip />} label="Date" />
       </HaList>
+      {selectedAbsence && (
+        <AbsenceDetailDialogForStaff
+          open={!!selectedAbsence}
+          onClose={() => setSelectedAbsence(null)}
+          absence={selectedAbsence}
+        />
+      )}
     </Box>
   );
 };
