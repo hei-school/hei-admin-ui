@@ -3,8 +3,8 @@ import {retakeExamApi} from "@/providers/api";
 
 const retakeExamParticipantProvider: HaDataProviderType = {
   getList: async (
-    _page: number,
-    _perPage: number,
+    page: number,
+    perPage: number,
     filter: {sessionId: string; courseId: string; code: string; ref: string}
   ) => {
     const {sessionId, courseId, code, ref} = filter;
@@ -13,13 +13,19 @@ const retakeExamParticipantProvider: HaDataProviderType = {
     }
     if (!courseId) {
       return retakeExamApi()
-        .getRetakeExamCoursesBySessionId(sessionId, code)
+        .getRetakeExamCoursesBySessionId(sessionId, code, page, perPage)
         .then((response) => ({
           data: response.data,
         }));
     }
     return retakeExamApi()
-      .getRetakeExamParticipantByCourseIdAndSessionId(sessionId, courseId, ref)
+      .getRetakeExamParticipantByCourseIdAndSessionId(
+        sessionId,
+        courseId,
+        ref,
+        page,
+        perPage
+      )
       .then((response) => ({
         data: response.data,
       }));
