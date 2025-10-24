@@ -383,26 +383,3 @@ describe("Manager creates students", () => {
     cy.contains("Élément créé");
   });
 });
-
-describe.only("Manager can import students ", () => {
-  beforeEach(() => {
-    cy.mockLogin({role: "MANAGER"});
-    cy.visit("/students");
-    cy.intercept("GET", `/students?page=*&page_size=*`, studentsMock).as(
-      "getStudents"
-    );
-    cy.getByTestid("menu-list-action").click();
-    cy.getByTestid("import-students-button").click();
-    cy.getByTestid("due-datetime-input").clear().type("2024-12-31");
-  });
-
-  it('imports students from "template.xlsx" file', () => {
-    cy.getByTestid("file-input").attachFileToDropZone(
-      "../fixtures/students_import/template_students.xlsx",
-      {
-        blobType:
-          "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-      }
-    );
-  });
-});

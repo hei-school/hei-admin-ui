@@ -255,7 +255,7 @@ export const FileUploadDialog: FC<FileUploadDialogProps> = ({
             handleFileChange(fileObj);
           }}
         >
-          <FileField source="src" title="title" />
+          <FileField source="src" title="title" data-testid="file-field" />
         </FileInput>
 
         {fileInfo && (
