@@ -23,13 +23,17 @@ export const StatCard = ({stats}: {stats: EventStats}) => {
       <StatBox
         Icon={PersonOff}
         label="Absent"
-        value={stats.missing || 0}
+        value={stats.missed_stats?.total || 0}
         color="#f4d2d2"
       />
       <StatBox
         Icon={AccessTime}
         label="Non défini"
-        value={stats.total! - (stats.present || 0) - (stats.missing || 0) || 0}
+        value={
+          stats.total! -
+            (stats.present || 0) -
+            (stats.missed_stats?.total || 0) || 0
+        }
         color="#f2f4d2"
       />
     </Stack>

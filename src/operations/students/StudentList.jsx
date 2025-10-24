@@ -1,17 +1,10 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import studentProvider from "@/providers/studentProvider";
 import {useRole} from "@/security/hooks";
 import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {HaList} from "@/ui/haList";
-import {
-  ButtonBase,
-  CreateButton,
-  ExportButton,
-  HaActionWrapper,
-  ImportButton,
-} from "@/ui/haToolbar";
+import {ButtonBase, CreateButton, HaActionWrapper} from "@/ui/haToolbar";
+import {NewImportButton} from "@/ui/haToolbar/importButton/NewImportButton";
 import {NOOP_ID} from "@/utils/constants";
-import {get27thOfMonth} from "@/utils/date";
 import {
   Add as AddIcon,
   Download,
@@ -36,13 +29,6 @@ import {
 import {ListHeader} from "../common/components";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
 import {ProfileFilters} from "../profile/components/ProfileFilters";
-import {exportData, importHeaders} from "../utils";
-import {
-  minimalUserHeaders,
-  optionalUserHeaders,
-  validateUserData,
-} from "../utils/userImportConf";
-import {transformUsersData} from "./importConf";
 import {StudentFilterExport} from "./utils/StudentFilterExport";
 
 const ListActions = () => {
@@ -72,28 +58,33 @@ const ListActions = () => {
               Ajouter des frais
             </ButtonBase>
           </HaActionWrapper>
-          <ExportButton
-            onExport={() => exportData([], importHeaders, "template_students")}
-            label="Template"
-            icon={<UploadFileIcon />}
-          />
-          <ImportButton
-            validateData={validateUserData}
-            resource="étudiants"
-            provider={(data) => {
-              return studentProvider.saveOrUpdate(data, {
-                meta: {
-                  dueDatetime: get27thOfMonth(
-                    date.getFullYear(),
-                    date.getMonth()
-                  ),
-                },
-              });
+          <Button
+            startIcon={
+              <UploadFileIcon
+                sx={{
+                  fontSize: "1.5rem",
+                }}
+              />
+            }
+            sx={{
+              width: "100%",
+              justifyContent: "start",
+              paddingLeft: "20px",
+              paddingTop: "7px",
+              paddingBottom: "7px",
+              color: "#474645",
+              textTransform: "none",
             }}
-            transformData={transformUsersData}
-            minimalHeaders={minimalUserHeaders}
-            optionalHeaders={optionalUserHeaders}
+            label="Template"
+            onClick={() => {
+              const link = document.createElement("a");
+              link.href = "public/template.xlsx";
+              document.body.appendChild(link);
+              link.click();
+              document.body.removeChild(link);
+            }}
           />
+          <NewImportButton />
         </Box>
       )}
       <Button

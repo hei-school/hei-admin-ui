@@ -41,6 +41,7 @@ import resultSummaryProvider from "@/providers/resultSummaryProvider";
 import staffExportProvider from "@/providers/staffExportProvider";
 import staffProvider from "@/providers/staffProvider";
 import statsProvider from "@/providers/statsProvider";
+import studentImportProvider from "@/providers/studentImportProvider";
 import StudentParticipationProvider from "@/providers/studentParticipationProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
@@ -101,6 +102,7 @@ const providerMap = {
   "student-participation": StudentParticipationProvider,
   "cor": corProvider,
   "student-cor": corStudentProvider,
+  "import-students": studentImportProvider,
 } as const;
 
 const getProvider = (
