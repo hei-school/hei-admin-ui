@@ -97,6 +97,28 @@ export const Buttons = ({onSuccess}: ButtonsProps) => {
                 Annulé
               </Button>
             )}
+
+            {status === RetakeExamStatus.INVALIDATE && (
+              <Button
+                variant="outlined"
+                color="warning"
+                disabled
+                sx={BUTTON_STYLE}
+              >
+                Invalidé
+              </Button>
+            )}
+
+            {status === RetakeExamStatus.VALIDATE && (
+              <Button
+                variant="outlined"
+                color="success"
+                disabled
+                sx={BUTTON_STYLE}
+              >
+                Validé
+              </Button>
+            )}
           </>
         )}
 
