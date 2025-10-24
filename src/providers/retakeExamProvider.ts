@@ -13,7 +13,7 @@ const retakeExamProvider: HaDataProviderType = {
         }));
     }
     return retakeExamApi()
-      .getStudentRetakeExamBySession(studentId, sessionId)
+      .getStudentRetakeExamBySession(studentId, sessionId, page, perPage)
       .then((response) => ({
         data: response.data,
       }));

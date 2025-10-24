@@ -2,7 +2,7 @@ import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
 import {RetakeExam, RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 import {useCallback, useEffect, useMemo, useState} from "react";
-import {useCreate, useNotify} from "react-admin";
+import {useCreate, useGetList, useNotify} from "react-admin";
 
 const computeEnrollmentStatus = (
   retakeExam: RetakeExam | null
@@ -18,6 +18,9 @@ export const ButtonActions = (
   const userId = authProvider.getCachedWhoami()?.id;
   const notify = useNotify();
   const [create] = useCreate();
+  const {data: retakeExams = []} = useGetList("retakeExams", {
+    filter: {status: RetakeExamStatus.TO_CANCEL},
+  });
 
   const [isRegistering, setIsRegistering] = useToggle(false);
   const [isCanceling, setIsCanceling] = useToggle(false);
@@ -57,7 +60,12 @@ export const ButtonActions = (
       successMsg: string,
       onClose: () => void
     ) => {
-      if (!retakeExam || !userId) return;
+      if (!retakeExam) return;
+
+      const matchingExam =
+        retakeExams.find((exam) => exam.id === retakeExam.id) ?? retakeExam;
+      const studentId = matchingExam.student_identifier?.id ?? userId;
+
       setIsLoading(true);
       setOptimisticStatus(status);
 
@@ -65,7 +73,7 @@ export const ButtonActions = (
         id: examId,
         course_id: retakeExam.course?.id ?? "",
         session_id: retakeExam.session?.id ?? "",
-        student_id: userId,
+        student_id: studentId,
         status,
       };
 
@@ -89,7 +97,7 @@ export const ButtonActions = (
         }
       );
     },
-    [create, retakeExam, examId, notify, onSuccess, userId]
+    [create, retakeExam, examId, notify, onSuccess, userId, retakeExams]
   );
   const handleRegister = useCallback(() => {
     updateStatus("REGISTERED", "Inscription réussie.", () =>
