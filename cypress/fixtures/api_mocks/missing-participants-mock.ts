@@ -57,7 +57,11 @@ export const missingParticipantsMock: EventAttendanceWithId[] = [
         },
       ],
       count: {
-        missing: 15,
+        missed_stats: {
+          total: 15,
+          justified: 12,
+          unjustified: 3,
+        },
         present: 10,
         late: 0,
         total: 25,
@@ -110,7 +114,11 @@ export const missingParticipantsMock: EventAttendanceWithId[] = [
         },
       ],
       count: {
-        missing: 15,
+        missed_stats: {
+          total: 15,
+          justified: 12,
+          unjustified: 3,
+        },
         present: 10,
         late: 0,
         total: 25,
@@ -171,7 +179,11 @@ export const missingParticipantsMock: EventAttendanceWithId[] = [
         },
       ],
       count: {
-        missing: 15,
+        missed_stats: {
+          total: 15,
+          justified: 12,
+          unjustified: 3,
+        },
         present: 10,
         late: 0,
         total: 25,
@@ -218,7 +230,11 @@ export const missingParticipantsMock: EventAttendanceWithId[] = [
         },
       ],
       count: {
-        missing: 15,
+        missed_stats: {
+          total: 15,
+          justified: 12,
+          unjustified: 3,
+        },
         present: 10,
         late: 0,
         total: 25,

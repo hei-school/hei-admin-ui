@@ -15,6 +15,7 @@ import {
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
   PublishedWithChanges as RemedialIcon,
+  SafetyDivider,
   AssignmentInd as StaffIcon,
   School as StudentIcon,
   People as StudentListIcon,
@@ -95,6 +96,12 @@ function AdminMenu() {
         data-testid="retakeExamsSessions-menu"
         icon={<RemedialIcon />}
         onClick={() => trackNavClick("retakeExamsSessions", role)}
+      />
+      <SingleMenu
+        to="/cor"
+        label="COR"
+        icon={<SafetyDivider />}
+        onClick={() => trackNavClick("cor", role)}
       />
       <SingleMenu
         to="/groups"

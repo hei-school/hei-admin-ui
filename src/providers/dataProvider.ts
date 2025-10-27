@@ -1,6 +1,9 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
 import commentProvider from "@/providers/commentProvider";
+import corProvider from "@/providers/corProvider";
+import corStudentProvider from "@/providers/corStudentProvider";
+import {courseAssignmentsByTeacherProvider} from "@/providers/courseAssignementbyTeacher";
 import CourseAssignmentsProvider from "@/providers/courseAssignmentsProvider";
 import courseProvider from "@/providers/courseProvider";
 import docsProvider from "@/providers/docsProvider";
@@ -38,13 +41,14 @@ import resultSummaryProvider from "@/providers/resultSummaryProvider";
 import staffExportProvider from "@/providers/staffExportProvider";
 import staffProvider from "@/providers/staffProvider";
 import statsProvider from "@/providers/statsProvider";
+import studentImportProvider from "@/providers/studentImportProvider";
+import StudentParticipationProvider from "@/providers/studentParticipationProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
-import {courseAssignmentsByTeacherProvider} from "./courseAssignementbyTeacher";
+import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
-import StudentParticipationProvider from "./studentParticipationProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -91,10 +95,14 @@ const providerMap = {
   "exam-grades": examGradeProvider,
   "retakeExams": retakeExamProvider,
   "retakeExams-sessions": retakeExamSessionProvider,
+  "retakeExams-participants": retakeExamParticipantProvider,
   "grades": gradeProvider,
   "grades-details": gradesDetailsProvider,
   "summary": resultSummaryProvider,
   "student-participation": StudentParticipationProvider,
+  "cor": corProvider,
+  "student-cor": corStudentProvider,
+  "import-students": studentImportProvider,
 } as const;
 
 const getProvider = (

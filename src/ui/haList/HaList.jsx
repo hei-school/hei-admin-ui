@@ -1,4 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
+import {EmptyList3D} from "@/operations/common/components/EmptyList";
 import {Box, styled} from "@mui/material";
 import {Datagrid, List} from "react-admin";
 import {HaListTitle} from "./HaListTitle";
@@ -46,6 +47,7 @@ export function HaList({
   wrapperSx = {},
   children,
   icon,
+  emptyListMessage = "Il n'y a pas de données à afficher",
   header = <></>,
   hasDatagrid = true,
   listProps = {},
@@ -81,6 +83,18 @@ export function HaList({
               <Datagrid
                 bulkActionButtons={false}
                 rowClick="show"
+                empty={
+                  <Box
+                    sx={{
+                      height: "45vh",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <EmptyList3D message={emptyListMessage} />
+                  </Box>
+                }
                 {...datagridProps}
               >
                 {children}

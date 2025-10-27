@@ -296,7 +296,18 @@ export function StudentParticipationList() {
 }
 
 function AttendanceCard({record}: {record: AttendanceRecord}) {
-  const statusConfig = STATUS_CONFIG[record.attendanceStatus];
+  const statusConfig =
+    (
+      STATUS_CONFIG as Record<
+        string,
+        {
+          color: "error" | "warning" | "success" | "default";
+          icon: JSX.Element;
+          label: string;
+          bgColor: string;
+        }
+      >
+    )[record.attendanceStatus] ?? STATUS_CONFIG.UNCHECKED;
   const beginDate = new Date(record.beginDatetime);
   const endDate = new Date(record.endDatetime);
 

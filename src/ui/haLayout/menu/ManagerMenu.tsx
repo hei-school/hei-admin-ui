@@ -2,6 +2,7 @@ import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
+  SafetyDivider as CorIcon,
   Inventory as DocsIcon,
   EditCalendar,
   EventBusy,
@@ -77,6 +78,12 @@ function ManagerMenu() {
         label="Rattrapages"
         data-testid="retakeExamsSessions-menu"
         icon={<RemedialIcon />}
+      />
+      <SingleMenu
+        data-testid="event-cor"
+        to="/cor"
+        label="Liste des COR"
+        icon={<CorIcon />}
       />
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu

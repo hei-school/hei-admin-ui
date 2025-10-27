@@ -206,8 +206,16 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
 };
 
 const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
-  const {id, total_amount, mpbs, letter, status, due_datetime, student_id} =
-    useRecordContext();
+  const {
+    id,
+    total_amount,
+    mpbs,
+    letter,
+    status,
+    due_datetime,
+    student_id,
+    comment,
+  } = useRecordContext();
   const {data: fees = []} = useGetList("fees", {
     pagination: {page: 1, perPage: 100},
     filter: {studentId: student_id},
@@ -224,7 +232,7 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
       return (
         feeDueDate < targetDueDate &&
         fee.status !== FeeStatusEnum.PAID &&
-        !fee.comment?.includes("Rattrapage")
+        !fee.comment?.toLowerCase()?.includes("rattrapage")
       );
     });
   }, [fees, due_datetime]);
@@ -238,8 +246,9 @@ const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
           title="Mobile Money"
           disabled={
             (letter && letter.status !== LetterStatus.REJECTED) ||
-            status === FeeStatusEnum.PAID ||
-            !!prevUnpaidFee
+            (status === FeeStatusEnum.PAID && !!prevUnpaidFee) ||
+            (status === FeeStatusEnum.PAID &&
+              !comment?.toLowerCase()?.includes("rattrapage"))
           }
         >
           <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />

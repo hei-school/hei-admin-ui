@@ -1,6 +1,7 @@
 import authProvider from "@/providers/authProvider";
 import {
   Newspaper as AnnouncementIcon,
+  SafetyDivider as CorIcon,
   Inventory as DocsIcon,
   CalendarMonth as EventIcon,
   AttachMoney as FeesIcon,
@@ -61,6 +62,13 @@ function StudentMenu() {
         to="/retake-exams"
         label="Rattrapages"
         icon={<RemedialIcon />}
+      />
+
+      <SingleMenu
+        data-testid="cor-menu"
+        to="/student-cor"
+        label="Mes Cor"
+        icon={<CorIcon />}
       />
 
       <SingleMenu

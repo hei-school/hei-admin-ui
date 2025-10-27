@@ -35,7 +35,11 @@ export const calendarMock: Event[] = [
       },
     ],
     count: {
-      missing: 0,
+      missed_stats: {
+        total: 0,
+        justified: 0,
+        unjustified: 0,
+      },
       present: 0,
       late: 0,
       total: 23,
@@ -81,7 +85,11 @@ export const calendarMock: Event[] = [
       },
     ],
     count: {
-      missing: 0,
+      missed_stats: {
+        total: 0,
+        justified: 0,
+        unjustified: 0,
+      },
       present: 0,
       late: 0,
       total: 0,
@@ -126,7 +134,11 @@ export const nextcalendarMock: Event[] = [
       },
     ],
     count: {
-      missing: 0,
+      missed_stats: {
+        total: 0,
+        justified: 0,
+        unjustified: 0,
+      },
       present: 0,
       late: 0,
       total: 23,
@@ -168,7 +180,11 @@ export const nextcalendarMock: Event[] = [
       },
     ],
     count: {
-      missing: 0,
+      missed_stats: {
+        total: 0,
+        justified: 0,
+        unjustified: 0,
+      },
       present: 0,
       late: 0,
       total: 23,
@@ -216,7 +232,11 @@ export const nextcalendarMock: Event[] = [
       },
     ],
     count: {
-      missing: 0,
+      missed_stats: {
+        total: 0,
+        justified: 0,
+        unjustified: 0,
+      },
       present: 0,
       late: 0,
       total: 0,

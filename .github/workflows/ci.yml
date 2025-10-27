@@ -66,7 +66,7 @@ jobs:
         run: npm run format:check
 
   test-e2e:
-    timeout-minutes: 37
+    timeout-minutes: 42
     runs-on: ubuntu-latest
     steps:
       - name: Checkout

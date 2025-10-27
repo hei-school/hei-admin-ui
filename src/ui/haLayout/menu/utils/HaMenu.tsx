@@ -47,7 +47,6 @@ const useMenuState = () => {
 const MENU_STYLE = {
   boxSizing: "border-box",
   paddingLeft: "20px",
-  zIndex: 9999,
   transition: "all .3s ease-in-out",
   overflowX: "hidden",
   overflowY: "auto",
