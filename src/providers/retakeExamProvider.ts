@@ -3,10 +3,17 @@ import {retakeExamApi} from "@/providers/api";
 
 // TODO: shared utility fn to unwrap axios apiClient data as .then(res => ({data: res.data})) gets repeated a million times
 const retakeExamProvider: HaDataProviderType = {
-  getList: async (_page, _perPage, filter, _meta = {}) => {
-    const {studentId, sessionId} = filter;
+  getList: async (page, perPage, filter, _meta = {}) => {
+    const {studentId, sessionId, status} = filter;
+    if (!studentId || !sessionId) {
+      return retakeExamApi()
+        .getAllRetakeExams(status, undefined, undefined, page, perPage)
+        .then((response) => ({
+          data: response.data,
+        }));
+    }
     return retakeExamApi()
-      .getStudentRetakeExamBySession(studentId, sessionId)
+      .getStudentRetakeExamBySession(studentId, sessionId, page, perPage)
       .then((response) => ({
         data: response.data,
       }));
@@ -14,10 +21,11 @@ const retakeExamProvider: HaDataProviderType = {
   getOne: () => {
     throw new Error("Not implemented");
   },
-  saveOrUpdate: async (sessionId: string, payloads: any[]) => {
+  saveOrUpdate: async (sessionId: string, payloads) => {
+    const payload = [payloads.data];
     return retakeExamApi()
-      .createOrUpdateRetakeExam(sessionId, payloads)
-      .then((response) => ({data: response.data}));
+      .createOrUpdateRetakeExam(sessionId, payload)
+      .then((response) => response.data);
   },
   delete: () => {
     throw new Error("Not implemented");
