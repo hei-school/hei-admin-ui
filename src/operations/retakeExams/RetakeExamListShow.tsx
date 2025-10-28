@@ -3,7 +3,7 @@ import {HaList} from "@/ui/haList";
 import {BookOpenIcon} from "lucide-react";
 import {DateField, TextField, useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
-import {Buttons} from "./components";
+import {RetakeExamButtons} from "./components";
 
 const RETAKE_EXAM_LIST_SX = {
   "& .RaList-content": {
@@ -69,7 +69,7 @@ const RetakeExamListShowContent = ({
         label="Inscrit le"
         emptyText="Non défini"
       />
-      <Buttons />
+      <RetakeExamButtons />
     </HaList>
   );
 };

@@ -11,7 +11,7 @@ const computeEnrollmentStatus = (
   return retakeExam.status ?? null;
 };
 
-export const ButtonActions = (
+export const useButtonActions = (
   retakeExam: RetakeExam | null,
   onSuccess?: (retakeExam: RetakeExam) => void
 ) => {

@@ -5,19 +5,9 @@ const retakeExamParticipantProvider: HaDataProviderType = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {sessionId: string; courseId: string; code: string; ref: string}
+    filter: {sessionId: string; courseId: string; ref: string}
   ) => {
-    const {sessionId, courseId, code, ref} = filter;
-    if (!sessionId) {
-      return {data: []};
-    }
-    if (!courseId) {
-      return retakeExamApi()
-        .getRetakeExamCoursesBySessionId(sessionId, code, page, perPage)
-        .then((response) => ({
-          data: response.data,
-        }));
-    }
+    const {sessionId, courseId, ref} = filter;
     return retakeExamApi()
       .getRetakeExamParticipantByCourseIdAndSessionId(
         sessionId,

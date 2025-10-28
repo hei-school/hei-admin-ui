@@ -5,7 +5,7 @@ import {Box, CircularProgress, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
 import {TextField, useGetList} from "react-admin";
 import {useNavigate} from "react-router-dom";
-import {Buttons} from "./components/Buttons";
+import {RetakeExamButtons} from "./components/RetakeExamButtons";
 
 export const CancellationRetakeExam = () => {
   const navigate = useNavigate();
@@ -20,10 +20,7 @@ export const CancellationRetakeExam = () => {
   useEffect(() => {
     if (!isLoading && count === 0) {
       setRedirecting(true);
-      const timeout = setTimeout(() => {
-        navigate("/retakeExams-sessions");
-      }, 1500);
-      return () => clearTimeout(timeout);
+      navigate("/retakeExams-sessions");
     }
   }, [count, isLoading, navigate]);
 
@@ -64,7 +61,7 @@ export const CancellationRetakeExam = () => {
       <TextField source="student_identifier.ref" label="STD" />
       <TextField source="course.code" label="Matière" />
       <TextField source="session.title" label="Session" />
-      <Buttons />
+      <RetakeExamButtons />
     </HaList>
   );
 };

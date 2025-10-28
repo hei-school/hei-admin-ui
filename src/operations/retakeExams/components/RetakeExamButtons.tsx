@@ -3,8 +3,8 @@ import {RetakeExam, RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 import {Cancel, CheckCircle, HowToReg} from "@mui/icons-material";
 import {Box, Button, Stack} from "@mui/material";
 import {Confirm, useRecordContext} from "react-admin";
-import {ButtonActions} from "./ButtonActions";
-import {ButtonStatus} from "./ButtonStatus";
+import {RetakeExamButtonStatus} from "./RetakeExamButtonStatus";
+import {useButtonActions} from "./useButtonActions";
 
 const BUTTON_STYLE = {
   "height": 28,
@@ -29,7 +29,7 @@ type ButtonsProps = {
   onSuccess?: (retakeExam: RetakeExam) => void;
 };
 
-export const Buttons = ({onSuccess}: ButtonsProps) => {
+export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
   const retakeExam = useRecordContext<RetakeExam>();
   if (!retakeExam) return null;
   const {isAdmin, isManager} = useRole();
@@ -45,7 +45,7 @@ export const Buttons = ({onSuccess}: ButtonsProps) => {
     handleRegister,
     handleRequestCancel,
     handleValidateCancel,
-  } = ButtonActions(retakeExam, onSuccess);
+  } = useButtonActions(retakeExam, onSuccess);
 
   const status = (rawStatus ?? null) as RetakeExamStatus | "LOADING" | null;
 
@@ -53,11 +53,11 @@ export const Buttons = ({onSuccess}: ButtonsProps) => {
     <Box>
       <Stack direction="row" spacing={1} alignItems="center">
         {!(canValidateCancel && status === RetakeExamStatus.TO_CANCEL) && (
-          <ButtonStatus status={status} />
+          <RetakeExamButtonStatus status={status} />
         )}
         {!canValidateCancel && (
           <>
-            {status === null && (
+            {!status && (
               <Button
                 variant="contained"
                 color="primary"
@@ -84,39 +84,6 @@ export const Buttons = ({onSuccess}: ButtonsProps) => {
                 }}
               >
                 Annuler
-              </Button>
-            )}
-
-            {status === RetakeExamStatus.CANCELED && (
-              <Button
-                variant="outlined"
-                color="secondary"
-                disabled
-                sx={BUTTON_STYLE}
-              >
-                Annulé
-              </Button>
-            )}
-
-            {status === RetakeExamStatus.INVALIDATE && (
-              <Button
-                variant="outlined"
-                color="warning"
-                disabled
-                sx={BUTTON_STYLE}
-              >
-                Invalidé
-              </Button>
-            )}
-
-            {status === RetakeExamStatus.VALIDATE && (
-              <Button
-                variant="outlined"
-                color="success"
-                disabled
-                sx={BUTTON_STYLE}
-              >
-                Validé
               </Button>
             )}
           </>

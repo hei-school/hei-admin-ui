@@ -2,7 +2,7 @@ import {RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 import {Cancel, CheckCircle, HourglassEmpty, Search} from "@mui/icons-material";
 import {Chip} from "@mui/material";
 
-const COMMON_SIZE = {
+const CHIP_STYLE = {
   "height": 28,
   "borderRadius": 50,
   "fontSize": 12.5,
@@ -12,52 +12,43 @@ const COMMON_SIZE = {
     fontSize: 16,
     marginRight: 0.5,
   },
-} as const;
-
-const CHIP_STYLE = {
-  ...COMMON_SIZE,
   "& .MuiChip-label": {
     px: 0.5,
   },
-} as const;
+};
 
-type ExtendedStatus = RetakeExamStatus | "LOADING";
-
-const STATUS_TEXTS: Record<ExtendedStatus, string> = {
+const STATUS_TEXTS = {
   REGISTERED: "Inscrit",
   TO_CANCEL: "Annulation en attente",
   CANCELED: "Annulé",
   LOADING: "Traitement...",
   INVALIDATE: "Invalidé",
   VALIDATE: "Validé",
-};
+} as const;
 
-const STATUS_ICONS: Record<ExtendedStatus, JSX.Element> = {
+const STATUS_ICONS = {
   REGISTERED: <CheckCircle />,
   TO_CANCEL: <HourglassEmpty />,
   CANCELED: <Cancel />,
   LOADING: <Search />,
   INVALIDATE: <Cancel />,
   VALIDATE: <CheckCircle />,
-};
+} as const;
 
-const STATUS_COLORS: Record<
-  ExtendedStatus,
-  "success" | "warning" | "error" | "info"
-> = {
+const STATUS_COLORS = {
   REGISTERED: "success",
   TO_CANCEL: "warning",
   CANCELED: "error",
   LOADING: "info",
   INVALIDATE: "error",
   VALIDATE: "success",
-};
+} as const;
 
 type EnrollStatusProps = {
   status: RetakeExamStatus | "LOADING" | null;
 };
 
-export const ButtonStatus = ({status}: EnrollStatusProps) => {
+export const RetakeExamButtonStatus = ({status}: EnrollStatusProps) => {
   if (!status) return null;
 
   const label = STATUS_TEXTS[status];
