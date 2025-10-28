@@ -22,9 +22,11 @@ export const EventListAction: FC<{
   onclose?: () => void;
   open?: boolean;
 }> = ({withDate = true, onclose, open}) => {
-  const {isManager, isAdmin, isOrganizer, isTeacher} = useRole();
+  const {isManager, isAdmin, isOrganizer, isTeacher, isStudent, isMonitor} =
+    useRole();
   const redirect = useRedirect();
   const {id} = authProvider.getCachedWhoami();
+  const {data: groups = []} = useGetList("groups");
   const {data: teachers = []} = useGetList("teachers", undefined, {
     enabled: isAdmin() || isManager(),
   });
@@ -35,6 +37,13 @@ export const EventListAction: FC<{
       enabled: isTeacher(),
     }
   );
+
+  const groupChoices = useMemo(() => {
+    return groups.map(({id = "", ref = ""}) => ({
+      id,
+      name: ref,
+    }));
+  }, [groups]);
 
   const teacherChoices = useMemo(() => {
     if (isTeacher() && userProfile) {
@@ -66,18 +75,27 @@ export const EventListAction: FC<{
       )}
       <FilterForm>
         <TextFilter label="Titre" source="title" />
-        <SelectInputFilter
-          data-testid="teacher-filter"
-          label="Enseignant"
-          name="teacher_id"
-          source="teacher_id"
-          choices={teacherChoices}
-        />
+        {!isMonitor() && !isStudent() && (
+          <SelectInputFilter
+            data-testid="teacher-filter"
+            label="Enseignant"
+            name="teacher_id"
+            source="teacher_id"
+            choices={teacherChoices}
+          />
+        )}
         <SelectInputFilter
           choices={mapToChoices(EVENT_TYPE_VALUE, "id", "name")}
           label="Types"
           source="event_type"
         />
+        {!isStudent() && (
+          <SelectInputFilter
+            source="group"
+            choices={groupChoices}
+            label="Groupe"
+          />
+        )}
         {withDate && (
           <>
             <Typography
