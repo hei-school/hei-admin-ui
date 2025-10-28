@@ -151,58 +151,20 @@ export const PendingCancellationBar = ({
         initial={{opacity: 0, y: -10}}
         animate={{opacity: 1, y: 0}}
         transition={{duration: 0.3}}
-        onClick={() =>
-          onClick ? onClick() : navigate("/retake-exams/annulation")
-        }
-        style={{
-          background: "linear-gradient(135deg, #ffb36bff 0%, #eeae5aff 100%)",
-          color: "white",
-          padding: "18px 24px",
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          cursor: "pointer",
-          transition: "all 0.3s ease",
-          position: "relative",
-          overflow: "hidden",
-          borderRadius: "8px 8px 0 0",
-        }}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.background =
-            "linear-gradient(135deg, #ffa652ff 0%, #e09c4eff 100%)";
-          e.currentTarget.style.boxShadow =
-            "0 4px 12px rgba(255, 107, 107, 0.4)";
-          e.currentTarget.style.transform = "translateY(-1px)";
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.background =
-            "linear-gradient(135deg, #ffba6bff 0%, #eeae5aff 100%)";
-          e.currentTarget.style.boxShadow = "none";
-          e.currentTarget.style.transform = "translateY(0)";
-        }}
+        onClick={handleClick}
+        sx={CONTAINER_STYLE}
       >
-        <div style={{display: "flex", alignItems: "center", gap: "14px"}}>
-          <AlertCircle
-            size={24}
-            style={{
-              animation: "pulse 2s ease-in-out infinite",
-            }}
-          />
-          <div style={{display: "flex", flexDirection: "column", gap: "2px"}}>
-            <span style={{fontSize: "15px", fontWeight: 600}}>
+        <Box sx={CONTENT_WRAPPER_STYLE}>
+          <AlertCircle size={24} className="pulse-icon" />
+          <Box sx={TEXT_WRAPPER_STYLE}>
+            <Box component="span" sx={TITLE_STYLE}>
               Demandes d'annulation de rattrapage en attente
-            </span>
-            <span
-              style={{
-                fontSize: "12px",
-                fontWeight: 400,
-                opacity: 0.9,
-              }}
-            >
+            </Box>
+            <Box component="span" sx={SUBTITLE_STYLE}>
               Cliquez pour voir la liste complète
-            </span>
-          </div>
-        </div>
+            </Box>
+          </Box>
+        </Box>
 
         <div style={{display: "flex", alignItems: "center", gap: "12px"}}>
           <div
