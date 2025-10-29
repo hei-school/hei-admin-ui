@@ -2,11 +2,16 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {DateField, FieldLabel} from "@/operations/common/components/fields";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {Event as CalendarIcon} from "@mui/icons-material";
-import {Box, Breadcrumbs, Link, Typography, useMediaQuery} from "@mui/material";
-import {CodeIcon} from "lucide-react";
+import {Box, useMediaQuery} from "@mui/material";
+import {Calendar, CodeIcon, Home} from "lucide-react";
+import {useMemo} from "react";
 import {Show, SimpleShowLayout, TextField} from "react-admin";
 import {Link as RouterLink, useParams} from "react-router-dom";
 import {RetakeExamCourseList} from "../retakeExamCourses/retakeExamCourseList";
+import {CustomBreadcrumbs} from "../utils/CustomBreadcrumbs";
+
+const containerSx = {minHeight: "100vh", pb: 4, bgcolor: "#f8fafc"};
+const headerSx = {px: 2, pt: 2, pb: 1, borderBottom: "1px solid #e2e8f0"};
 
 const getShowLayoutStyle = (isSmall: boolean) => ({
   "& .css-jfdv4h-MuiStack-root > *": {marginTop: "0px"},
@@ -15,13 +20,16 @@ const getShowLayoutStyle = (isSmall: boolean) => ({
     "marginBottom": "1em",
     "borderColor": PALETTE_COLORS.grey,
     "padding": "1.5em",
-    "borderRadius": "20px",
+    "borderRadius": "16px",
     "backgroundColor": PALETTE_COLORS.primary,
     "color": "white",
     "flexBasis": isSmall ? "100%" : "32%",
-    "boxShadow": "0 4px 10px rgba(0,0,0,0.15)",
-    "transition": "transform 0.2s ease-in-out",
-    "&:hover": {transform: "scale(1.02)"},
+    "boxShadow": "0 4px 12px rgba(0,0,0,0.1)",
+    "transition": "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+    "&:hover": {
+      transform: "translateY(-4px) scale(1.01)",
+      boxShadow: "0 8px 24px rgba(0,0,0,0.15)",
+    },
   },
   "& .RaSimpleShowLayout-stack": {
     display: "flex",
@@ -37,28 +45,45 @@ const commonTextFieldProps = {
   emptyText: EMPTY_TEXT,
 };
 
+const breadcrumbItems = [
+  {
+    label: "Sessions de rattrapage",
+    href: "/retakeExams-sessions",
+    component: RouterLink,
+    to: "/retakeExams-sessions",
+    icon: <Home size={16} />,
+  },
+  {
+    label: "Matières à rattraper",
+    isActive: true,
+    icon: <Calendar size={16} />,
+  },
+];
+
 export const RetakeExamSessionShow = () => {
-  const sessionId = useParams()?.id;
+  const {id: sessionId} = useParams();
   const isSmall = useMediaQuery("(max-width:900px)");
+  const showLayoutStyle = useMemo(() => getShowLayoutStyle(isSmall), [isSmall]);
   return (
-    <Box>
-      <Box sx={{px: 2, mt: 2}}>
-        <Breadcrumbs sx={{mb: 2}}>
-          <Link component={RouterLink} to="/retakeExams-sessions">
-            Sessions de rattrapage
-          </Link>
-          <Typography color="text.primary">Matières à rattraper</Typography>
-        </Breadcrumbs>
+    <Box sx={containerSx}>
+      <Box sx={headerSx}>
+        <CustomBreadcrumbs
+          items={breadcrumbItems}
+          sx={{mb: 2}}
+          variant="default"
+        />
       </Box>
       <Show
         id={sessionId}
         title="Détails de la session"
         resource="retakeExams-sessions"
       >
-        <SimpleShowLayout sx={getShowLayoutStyle(isSmall)}>
+        <SimpleShowLayout sx={showLayoutStyle}>
           <TextField
             source="title"
-            label={<FieldLabel icon={<CodeIcon />}>Session</FieldLabel>}
+            label={
+              <FieldLabel icon={<CodeIcon size={18} />}>Session</FieldLabel>
+            }
             {...commonTextFieldProps}
           />
           <DateField
