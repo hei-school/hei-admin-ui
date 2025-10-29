@@ -84,6 +84,18 @@ const STATUS_CONFIG = {
     label: "Non vérifié",
     icon: <AccessTimeOutlined />,
   },
+  JUSTIFIED_ABSENCE: {
+    color: "#3f51b5",
+    bgColor: "#e8eaf6",
+    label: "Absence justifiée",
+    icon: <Description />,
+  },
+  UNJUSTIFIED_ABSENCE: {
+    color: "#f44336",
+    bgColor: "#ffebee",
+    label: "Absence non justifiée",
+    icon: <EventBusy />,
+  },
 };
 
 const LETTER_STATUS_CONFIG = {
@@ -166,10 +178,8 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
           <Close />
         </IconButton>
       </DialogTitle>
-
-      <DialogContent sx={{p: 3, bgcolor: "#fafafa"}}>
+      <DialogContent sx={{p: 3, my: 3, bgcolor: "#fafafa"}}>
         <Grid container spacing={3}>
-          {/* Event Details Section */}
           <Grid item xs={12} md={6}>
             <Paper
               elevation={2}
@@ -195,7 +205,6 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                 Informations de l'événement
               </Typography>
               <Divider sx={{mb: 2}} />
-
               <Stack spacing={2}>
                 <Box>
                   <Typography
@@ -209,7 +218,6 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                     {absence.title}
                   </Typography>
                 </Box>
-
                 {absence.description && (
                   <Box>
                     <Typography
@@ -224,7 +232,6 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                     </Typography>
                   </Box>
                 )}
-
                 <Box>
                   <Typography
                     variant="caption"
@@ -239,7 +246,6 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                     sx={{mt: 0.5, textTransform: "capitalize"}}
                   />
                 </Box>
-
                 <Box>
                   <Typography
                     variant="caption"
@@ -260,7 +266,6 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                     />
                   </Box>
                 </Box>
-
                 <Box>
                   <Typography
                     variant="caption"
@@ -271,14 +276,13 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                   </Typography>
                   <Stack spacing={0.5} sx={{mt: 0.5}}>
                     <Typography variant="body2">
-                      📅 Début: {formatDate(absence.beginDatetime, true)}
+                      Début: {formatDate(absence.beginDatetime, true)}
                     </Typography>
                     <Typography variant="body2">
-                      📅 Fin: {formatDate(absence.endDatetime, true)}
+                      Fin: {formatDate(absence.endDatetime, true)}
                     </Typography>
                   </Stack>
                 </Box>
-
                 {absence.location && (
                   <Box>
                     <Typography

@@ -284,10 +284,14 @@ export function StudentParticipationList() {
       {studentsAttendance.length === 0 ? (
         <Alert severity="info" sx={{borderRadius: 2}}>
           <Typography variant="h6" gutterBottom>
-            Aucun résultat trouvé
+            {filters.status === AttendanceStatus.MISSING
+              ? "Aucune absence enregistrée"
+              : "Aucun résultat trouvé"}
           </Typography>
           <Typography variant="body2">
-            Aucun événement ne correspond aux critères de filtrage sélectionnés.
+            {filters.status === AttendanceStatus.MISSING
+              ? "Cet étudiant n'a aucune absence pour la période sélectionnée. 🎉"
+              : "Aucun événement ne correspond aux critères de filtrage sélectionnés."}
           </Typography>
         </Alert>
       ) : (
@@ -323,7 +327,13 @@ export function StudentParticipationList() {
   );
 }
 
-function AttendanceCard({record}: {record: AttendanceRecord}) {
+function AttendanceCard({
+  record,
+  onClick,
+}: {
+  record: AttendanceRecord;
+  onClick: () => void;
+}) {
   const statusConfig =
     (
       STATUS_CONFIG as Record<
@@ -399,7 +409,7 @@ function AttendanceCard({record}: {record: AttendanceRecord}) {
                   variant="body2"
                   sx={{fontWeight: "bold", fontSize: "0.85rem"}}
                 >
-                  📅 {formatDate(record.beginDatetime, false)}
+                  {formatDate(record.beginDatetime, false)}
                 </Typography>
                 <Typography variant="body2" sx={{fontSize: "0.8rem"}}>
                   {getTime(record.beginDatetime)} -{" "}
@@ -423,6 +433,25 @@ function AttendanceCard({record}: {record: AttendanceRecord}) {
               </Stack>
             )}
           </Box>
+          {record.location && (record.location.room || record.location.place) && (
+            <Box
+              sx={{
+                backgroundColor: "rgba(255,255,255,0.7)",
+                p: 1,
+                borderRadius: 1,
+                display: "flex",
+                alignItems: "center",
+                gap: 0.5,
+              }}
+            >
+              <Typography
+                variant="body2"
+                sx={{fontSize: "0.8rem", fontWeight: "500"}}
+              >
+                📍 {record.location.room || record.location.place}
+              </Typography>
+            </Box>
+          )}
           {record.eventDescription && (
             <Typography
               variant="body2"
