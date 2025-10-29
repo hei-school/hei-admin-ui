@@ -18,7 +18,7 @@
     "test:merge:reports": "srm ./dist/test-reports.xml \"./dist/**/!(*test-reports).xml\""
   },
   "dependencies": {
-    "@haapi-b0fc7615/typescript-client": "^1.129.1",
+    "@haapi-b0fc7615/typescript-client": "^1.131.1",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-calendar": "^4.0.1",
     "@react-admin/ra-enterprise": "^7.0.0",
@@ -34,6 +34,7 @@
     "dayjs": "^1.11.13",
     "dom-to-image-more": "^3.6.0",
     "dotenv": "^16.4.5",
+    "framer-motion": "^12.23.24",
     "jspdf": "^2.5.2",
     "lucide-react": "^0.487.0",
     "mime": "^4.0.3",

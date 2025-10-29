@@ -1,9 +1,9 @@
-import {EnrollButton} from "@/operations/retakeExams/components/EnrollButton";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
-import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {BookOpenIcon} from "lucide-react";
-import {DateField, TextField, useGetList} from "react-admin";
+import {DateField, TextField, useGetOne} from "react-admin";
+import {useParams} from "react-router-dom";
+import {RetakeExamButtons} from "./components";
 
 const RETAKE_EXAM_LIST_SX = {
   "& .RaList-content": {
@@ -26,35 +26,41 @@ const RETAKE_EXAM_LIST_SX = {
   },
 };
 
-export const RetakeExamList = () => {
+interface RetakeExamListShowContentProps {
+  studentId?: string;
+  sessionId?: string;
+}
+
+export const RetakeExamListShow = () => {
   const studentId = authProvider.getCachedWhoami()?.id;
-  const {data: sessions = [], isLoading} = useGetList("retakeExams-sessions");
-
-  if (isLoading) {
-    return <div>Chargement en cours...</div>;
-  }
-
-  if (!sessions.length) {
-    return <div>Aucune session de rattrapage disponible pour le moment.</div>;
-  }
-
-  const sessionId = sessions[0].id;
+  const {id: sessionId} = useParams();
+  if (!studentId || !sessionId) return null;
 
   return (
+    <RetakeExamListShowContent studentId={studentId} sessionId={sessionId} />
+  );
+};
+
+const RetakeExamListShowContent = ({
+  studentId,
+  sessionId,
+}: RetakeExamListShowContentProps) => {
+  const {data: session} = useGetOne("retakeExams-sessions", {id: sessionId});
+  return (
     <HaList
-      title="Listes de mes rattrapages"
-      resource="retakeExams"
+      title={`Rattrapages – ${session?.title ?? "Session"}`}
       icon={<BookOpenIcon />}
+      resource="retakeExams"
       listProps={{
-        title: "Rattrapages",
+        title: "Liste de mes rattrapages",
         filter: {studentId, sessionId},
         disableRowClick: true,
         rowClick: false,
         sx: RETAKE_EXAM_LIST_SX,
       }}
-      actions={undefined}
+      actions={false}
     >
-      <TextField source="course.code" label="Matière" />
+      <TextField source="course.code" label="Code matière" />
       <TextField source="course.name" label="Nom du cours" />
       <DateField source="session.date_from" label="Début" />
       <DateField source="session.date_to" label="Fin" />
@@ -63,11 +69,7 @@ export const RetakeExamList = () => {
         label="Inscrit le"
         emptyText="Non défini"
       />
-      <EnrollButton
-        alreadyInscribed={(retakeExam: RetakeExam) =>
-          !!retakeExam.registration_date
-        }
-      />
+      <RetakeExamButtons />
     </HaList>
   );
 };
