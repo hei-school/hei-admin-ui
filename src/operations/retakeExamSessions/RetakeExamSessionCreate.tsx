@@ -17,7 +17,6 @@ const validateDateTo = (value: string, allValues: any) => {
   }
   return undefined;
 };
-
 export const RetakeExamSessionCreate = (props: Partial<CreateProps>) => {
   return (
     <Create
