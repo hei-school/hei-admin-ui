@@ -1,3 +1,4 @@
+import {getAxiosInstance} from "@/config/axios";
 import {PALETTE_COLORS} from "@/haTheme";
 import {
   DownloadForOffline,
@@ -17,7 +18,6 @@ import {
   Typography,
   useTheme,
 } from "@mui/material";
-import axios from "axios";
 import "pdfjs-dist/build/pdf.min.mjs";
 import "pdfjs-dist/build/pdf.worker.min.mjs";
 import {useEffect, useRef, useState} from "react";
@@ -127,7 +127,8 @@ const PdfViewer = (props) => {
     const retrievePdf = async () => {
       setLoadingBinary(true);
       try {
-        const res = await axios.get(url, {
+        const axiosInstance = getAxiosInstance();
+        const res = await axiosInstance.get(url, {
           headers: {"Content-Type": "application/pdf"},
           responseType: "blob",
         });
@@ -136,7 +137,10 @@ const PdfViewer = (props) => {
           setBinary(res.data);
         }
       } catch (e) {
-        notify("An error occurred while loading the pdf.", {type: "error"});
+        console.error("Error loading PDF:", e);
+        notify("Une erreur est survenue lors du chargement du PDF.", {
+          type: "error",
+        });
       } finally {
         setLoadingBinary(false);
       }
