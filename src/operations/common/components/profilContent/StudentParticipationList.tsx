@@ -290,7 +290,7 @@ export function StudentParticipationList() {
           </Typography>
           <Typography variant="body2">
             {filters.status === AttendanceStatus.MISSING
-              ? "Cet étudiant n'a aucune absence pour la période sélectionnée. 🎉"
+              ? "Cet étudiant n'a aucune absence pour la période sélectionnée."
               : "Aucun événement ne correspond aux critères de filtrage sélectionnés."}
           </Typography>
         </Alert>
@@ -448,7 +448,7 @@ function AttendanceCard({
                 variant="body2"
                 sx={{fontSize: "0.8rem", fontWeight: "500"}}
               >
-                📍 {record.location.room || record.location.place}
+                {record.location.room || record.location.place}
               </Typography>
             </Box>
           )}

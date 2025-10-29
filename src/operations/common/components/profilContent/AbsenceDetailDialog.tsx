@@ -126,7 +126,7 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
   const {isManager, isAdmin} = useRole();
 
   const {
-    data: letters = [],
+    data: allLetters = [],
     isLoading: lettersLoading,
     refetch: refetchLetters,
   } = useGetList(
@@ -137,6 +137,22 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
     },
     {enabled: open}
   ) as {data: Letter[]; isLoading: boolean; refetch: () => void};
+
+  // Filter letters to show only those related to this specific absence
+  // We consider a letter related if it was created within 7 days before or after the event
+  const letters = allLetters.filter((letter) => {
+    if (!letter.creation_datetime) return false;
+    
+    const letterDate = new Date(letter.creation_datetime);
+    const eventDate = new Date(absence.beginDatetime);
+    
+    // Calculate the difference in days
+    const diffTime = Math.abs(letterDate.getTime() - eventDate.getTime());
+    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    
+    // Show letters created within 7 days of the event
+    return diffDays <= 7;
+  });
 
   const refresh = useRefresh();
 
@@ -321,20 +337,52 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                 border: "2px solid #2196f3",
               }}
             >
-              <Typography
-                variant="h6"
-                fontWeight="bold"
-                gutterBottom
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1,
-                  color: "#2196f3",
-                }}
-              >
-                <Description />
-                Pièces justificatives
-              </Typography>
+              <Stack spacing={1}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                  }}
+                >
+                  <Typography
+                    variant="h6"
+                    fontWeight="bold"
+                    sx={{
+                      display: "flex",
+                      alignItems: "center",
+                      gap: 1,
+                      color: "#2196f3",
+                    }}
+                  >
+                    <Description />
+                    Pièces justificatives
+                  </Typography>
+                  {!lettersLoading && letters.length > 0 && (
+                    <Chip
+                      label={`${letters.length}`}
+                      size="small"
+                      sx={{
+                        bgcolor: "#2196f3",
+                        color: "white",
+                        fontWeight: "bold",
+                      }}
+                    />
+                  )}
+                </Box>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: "text.secondary",
+                    fontStyle: "italic",
+                    display: "block",
+                    mb: 1,
+                  }}
+                >
+                  Affichage des justificatifs soumis dans les 7 jours autour de
+                  cette absence
+                </Typography>
+              </Stack>
               <Divider sx={{mb: 2}} />
               {lettersLoading ? (
                 <Box display="flex" justifyContent="center" py={4}>
@@ -342,8 +390,13 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                 </Box>
               ) : letters.length === 0 ? (
                 <Alert severity="info" sx={{borderRadius: 2}}>
-                  <Typography variant="body2">
-                    Aucun justificatif n'a été soumis pour cette absence.
+                  <Typography variant="body2" gutterBottom>
+                    Aucun justificatif trouvé pour cette absence.
+                  </Typography>
+                  <Typography variant="caption" sx={{color: "text.secondary"}}>
+                    {allLetters.length > 0
+                      ? `L'étudiant a ${allLetters.length} justificatif(s) au total, mais aucun ne correspond à la période de cette absence.`
+                      : "L'étudiant n'a soumis aucun justificatif."}
                   </Typography>
                 </Alert>
               ) : (
