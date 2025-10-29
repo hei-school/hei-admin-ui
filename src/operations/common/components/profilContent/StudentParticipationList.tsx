@@ -433,25 +433,26 @@ function AttendanceCard({
               </Stack>
             )}
           </Box>
-          {record.location && (record.location.room || record.location.place) && (
-            <Box
-              sx={{
-                backgroundColor: "rgba(255,255,255,0.7)",
-                p: 1,
-                borderRadius: 1,
-                display: "flex",
-                alignItems: "center",
-                gap: 0.5,
-              }}
-            >
-              <Typography
-                variant="body2"
-                sx={{fontSize: "0.8rem", fontWeight: "500"}}
+          {record.location &&
+            (record.location.room || record.location.place) && (
+              <Box
+                sx={{
+                  backgroundColor: "rgba(255,255,255,0.7)",
+                  p: 1,
+                  borderRadius: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.5,
+                }}
               >
-                {record.location.room || record.location.place}
-              </Typography>
-            </Box>
-          )}
+                <Typography
+                  variant="body2"
+                  sx={{fontSize: "0.8rem", fontWeight: "500"}}
+                >
+                  {record.location.room || record.location.place}
+                </Typography>
+              </Box>
+            )}
           {record.eventDescription && (
             <Typography
               variant="body2"

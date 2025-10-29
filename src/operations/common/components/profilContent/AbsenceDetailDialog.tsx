@@ -142,14 +142,14 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
   // We consider a letter related if it was created within 7 days before or after the event
   const letters = allLetters.filter((letter) => {
     if (!letter.creation_datetime) return false;
-    
+
     const letterDate = new Date(letter.creation_datetime);
     const eventDate = new Date(absence.beginDatetime);
-    
+
     // Calculate the difference in days
     const diffTime = Math.abs(letterDate.getTime() - eventDate.getTime());
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    
+
     // Show letters created within 7 days of the event
     return diffDays <= 7;
   });
