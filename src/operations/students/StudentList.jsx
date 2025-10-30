@@ -58,32 +58,27 @@ const ListActions = () => {
               Ajouter des frais
             </ButtonBase>
           </HaActionWrapper>
-          <Button
-            startIcon={
-              <UploadFileIcon
-                sx={{
-                  fontSize: "1.5rem",
-                }}
-              />
-            }
-            sx={{
-              width: "100%",
-              justifyContent: "start",
-              paddingLeft: "20px",
-              paddingTop: "7px",
-              paddingBottom: "7px",
-              color: "#474645",
-              textTransform: "none",
-            }}
-            label="Template"
-            onClick={() => {
-              const link = document.createElement("a");
-              link.href = "public/template.xlsx";
-              document.body.appendChild(link);
-              link.click();
-              document.body.removeChild(link);
-            }}
-          />
+          <a href="/template.xlsx" download>
+            <Button
+              startIcon={
+                <UploadFileIcon
+                  sx={{
+                    fontSize: "1.5rem",
+                  }}
+                />
+              }
+              sx={{
+                width: "100%",
+                justifyContent: "start",
+                paddingLeft: "20px",
+                paddingTop: "7px",
+                paddingBottom: "7px",
+                color: "#474645",
+                textTransform: "none",
+              }}
+              label="Template"
+            />
+          </a>
           <NewImportButton />
         </Box>
       )}
