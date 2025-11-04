@@ -18,17 +18,17 @@ import {useParams} from "react-router-dom";
 export const GradesOverview: FC = () => {
   const [view, setView] = useState<NewViewType>("YEARLY");
   const [mounted, setMounted] = useState(false);
-  const {isMonitor} = useRole();
+  const {isMonitor, isAdmin, isManager} = useRole();
   const {id: studentId} = useParams();
   const {data: student} = useGetOne<Student & {id: string}>(
     "students",
     {id: studentId!},
     {
-      enabled: isMonitor(),
+      enabled: isMonitor() || isAdmin() || isManager(),
     }
   );
 
-  const isSuspended = student?.status === "SUSPENDED";
+  const isSuspended = student?.status === "SUSPENDED" && isMonitor();
   useEffect(() => {
     setMounted(true);
   }, []);
@@ -105,7 +105,7 @@ export const GradesOverview: FC = () => {
           </StyledToggleButtonGroup>
         </Box>
       </Box>
-      {isMonitor() && isSuspended && (
+      {isSuspended && (
         <SuspendedStudentAlert
           studentName={
             student?.first_name
