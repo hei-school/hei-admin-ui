@@ -1,14 +1,15 @@
-import {toUTC} from "@/utils/date";
-import {RetakeExamSession} from "@haapi-b0fc7615/typescript-client";
+import { toUTC } from "@/utils/date";
+import { RetakeExamSession, StudentLevel } from "@haapi-b0fc7615/typescript-client";
 import {
   CreateProps,
   DateInput,
   SimpleForm,
   TextInput,
+  SelectArrayInput,
   required,
 } from "react-admin";
-import {v4 as uuid} from "uuid";
-import {Create} from "../common/components";
+import { v4 as uuid } from "uuid";
+import { Create } from "../common/components";
 
 const validateDateTo = (value: string, allValues: any) => {
   if (!value) return "⚠ La date de fin est obligatoire";
@@ -17,19 +18,33 @@ const validateDateTo = (value: string, allValues: any) => {
   }
   return undefined;
 };
+const levelChoices = [
+  { id: "ALL", name: "Tous les niveaux" },
+  { id: StudentLevel.L1, name: "L1" },
+  { id: StudentLevel.L2, name: "L2" },
+  { id: StudentLevel.L3, name: "L3" },
+  { id: StudentLevel.M1, name: "M1" },
+  { id: StudentLevel.M2, name: "M2" },
+];
 export const RetakeExamSessionCreate = (props: Partial<CreateProps>) => {
   return (
     <Create
       title=" "
-      transform={(session: RetakeExamSession) => ({
-        ...session,
-        id: uuid(),
-        date_from:
-          session?.date_from &&
-          toUTC(new Date(session.date_from))?.toISOString(),
-        date_to:
-          session?.date_to && toUTC(new Date(session.date_to))?.toISOString(),
-      })}
+      transform={(session: RetakeExamSession & { levels?: string[] }) => {
+        const selectedLevels = session.levels?.includes("ALL")
+          ? [StudentLevel.L1, StudentLevel.L2, StudentLevel.L3, StudentLevel.M1, StudentLevel.M2]
+          : session.levels?.filter(level => level !== "ALL");
+        return {
+          ...session,
+          id: uuid(),
+          levels: selectedLevels,
+          date_from:
+            session?.date_from &&
+            toUTC(new Date(session.date_from))?.toISOString(),
+          date_to:
+            session?.date_to && toUTC(new Date(session.date_to))?.toISOString(),
+        };
+      }}
       {...props}
     >
       <SimpleForm>
@@ -49,6 +64,13 @@ export const RetakeExamSessionCreate = (props: Partial<CreateProps>) => {
           source="date_to"
           label="Date de fin de la session"
           validate={[required(), validateDateTo]}
+          fullWidth
+        />
+        <SelectArrayInput
+          source="student_levels"
+          label="Niveau"
+          choices={levelChoices}
+          validate={required()}
           fullWidth
         />
       </SimpleForm>
