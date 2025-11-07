@@ -50,6 +50,10 @@ export const CancellationRetakeExam = () => {
       title="Demandes d'annulation de rattrapage"
       actions={undefined}
       datagridProps={{rowClick: false}}
+      mainSearch={{
+        source: "student_identifier.ref",
+        label: "Référence étudiant",
+      }}
       listProps={{
         title: "Rattrapages à annuler",
         filter: {status: RetakeExamStatus.TO_CANCEL},
