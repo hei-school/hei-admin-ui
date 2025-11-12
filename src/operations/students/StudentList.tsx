@@ -1,6 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
-import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, CreateButton, HaActionWrapper} from "@/ui/haToolbar";
 import {NewImportButton} from "@/ui/haToolbar/importButton/NewImportButton";
@@ -35,7 +34,6 @@ const ListActions = () => {
   const {isManager, isAdmin} = useRole();
   const [openDialog, setOpenDialog] = useState(false);
   const redirect = useRedirect();
-  const date = new Date();
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -48,7 +46,7 @@ const ListActions = () => {
     <Box>
       {(isManager() || isAdmin()) && (
         <Box>
-          <CreateButton />
+          <CreateButton resource=" " />
           <HaActionWrapper>
             <ButtonBase
               data-testid="create-fees-button"
@@ -104,7 +102,7 @@ const ListActions = () => {
   );
 };
 
-function StudentList() {
+export const StudentList = () => {
   const {isManager, isAdmin} = useRole();
 
   const {
@@ -151,16 +149,21 @@ function StudentList() {
         action={
           (isManager() || isAdmin()) && (
             <RaCreateButton
-              {...COMMON_BUTTON_PROPS}
               size="medium"
-              SX={{
-                m: "0px",
+              variant="contained"
+              style={{
+                margin: "0px",
+                backgroundColor: PALETTE_COLORS.primary,
+                color: PALETTE_COLORS.white,
+                marginTop: "15px",
+                marginLeft: "5px",
               }}
             />
           )
         }
       />
       <HaList
+        resource="students"
         icon={<SchoolIcon />}
         title={"Liste des étudiants"}
         mainSearch={{label: "Prénom·s", source: "first_name"}}
@@ -183,6 +186,4 @@ function StudentList() {
       </HaList>
     </Box>
   );
-}
-
-export default StudentList;
+};
