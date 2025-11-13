@@ -81,7 +81,6 @@ export const Informations: FC<{
     !isAdminProfil &&
     !isManagerProfil;
 
-  // FIXME: Student participation need to be fixed
   const allTabs = [
     {
       id: "profile",
@@ -172,14 +171,12 @@ export const Informations: FC<{
         (role.isMonitor() || role.isAdmin() || role.isManager()),
       content: <GradesOverview />,
     },
-    /*
-    {
-      id: "participation",
-      label: "Participation",
-      show: isStudentProfile,
-      content: <StudentParticipationList />,
-    },
-    */
+    // {
+    //   id: "participation",
+    //   label: "Participation",
+    //   show: isStudentProfile,
+    //   content: <StudentParticipationList />,
+    // },
   ];
 
   const tabValues = allTabs.map((tab) => tab.id);

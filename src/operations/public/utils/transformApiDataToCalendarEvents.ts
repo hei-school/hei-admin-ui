@@ -1,15 +1,7 @@
-import {Group} from "@haapi-b0fc7615/typescript-client";
+import {EventTitle} from "@/operations/events/utils";
+import {Event} from "@haapi-b0fc7615/typescript-client";
 
-const typeTranslations: Record<string, string> = {
-  COURSE: "Cours",
-  INTEGRATION: "Intégration",
-  SEMINAR: "Séminaire",
-  SUPPORT_SESSION: "Entraide",
-  EXAM: "Examen",
-  OTHER: "Autres",
-};
-
-export const transformApiDataToCalendarEvents = (data: unknown) => {
+export const transformApiDataToCalendarEvents = (data: Event[]) => {
   if (!Array.isArray(data)) {
     console.error("Expected an array but received:", data);
     return [];
@@ -18,28 +10,9 @@ export const transformApiDataToCalendarEvents = (data: unknown) => {
   return data
     .filter((event): event is NonNullable<typeof event> => event != null)
     .map((event) => {
-      const isCourse = event.type === "COURSE";
-      const courseCode = isCourse && event.course ? event.course.code : "";
-      const translatedType = typeTranslations[event.type] || event.type;
-      const groupList = event.groups
-        ?.map((group: Group) => group.ref)
-        .join(", ");
-
-      let title: string;
-      if (isCourse) {
-        title = `[${groupList}] ${translatedType} (${courseCode}) - ${event.title}`;
-      } else {
-        const groupPrefix = groupList ? `[${groupList}] ` : "";
-        title = `${groupPrefix}${translatedType} - ${event.title}`;
-      }
-      if (event.title === "Rattrapage") {
-        const groupPrefix = groupList ? `[${groupList}] ` : "";
-        title = `${groupPrefix} ${event.description} - ${event.title}`;
-      }
-
       return {
         id: event.id,
-        title: title || "Événement sans titre",
+        title: EventTitle({event}),
         start: event.begin_datetime ? new Date(event.begin_datetime) : null,
         end: event.end_datetime ? new Date(event.end_datetime) : null,
         description: event.description || "Pas de description",

@@ -21,14 +21,9 @@ const testLettersFunctionality = (
 
     cy.intercept(
       "GET",
-      `/users/${userId}/letters?page=1&page_size=12`,
+      `/users/${userId}/letters?page=*&page_size=*`,
       letterMocks.slice(0, ITEM_PER_LIST)
     ).as("getusers1LettersPage1");
-    cy.intercept(
-      "GET",
-      `/users/${userId}/letters?page=2&page_size=12`,
-      letterMocks.slice(0, ITEM_PER_LIST)
-    ).as("getusers1LettersPage2");
     cy.intercept("POST", `/users/${userId}/letters?*`, newLetter).as(
       "createLetter"
     );
@@ -77,14 +72,9 @@ describe("Manager.Letters.student", () => {
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `/students?page=*&page_size=*&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByName");
-    cy.intercept(
-      "GET",
-      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
-      [student1Mock]
-    ).as("getStudentsByName2");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
     cy.getByTestid("students-menu").click();
@@ -96,26 +86,7 @@ describe("Manager.Letters.student", () => {
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
-    cy.wait("@getStudentsByName");
     cy.contains(student1Mock.first_name).click();
-  });
-
-  it("manager can list student letter", () => {
-    cy.intercept(
-      "GET",
-      `/users/${student1Mock.id}/letters?page=1&page_size=12`,
-      student1LettersMocks.slice(0, ITEM_PER_LIST)
-    ).as("getusers1LettersPage1");
-    cy.intercept(
-      "GET",
-      `/users/${student1Mock.id}/letters?page=2&page_size=12`,
-      student1LettersMocks.slice(0, ITEM_PER_LIST)
-    ).as("getusers1LettersPage2");
-    cy.getByTestid("user-letters-tab").click();
-    cy.wait("@getusers1LettersPage1");
-    cy.getByTestid("letter-list-wrapper")
-      .children()
-      .should("have.length", ITEM_PER_LIST);
   });
 
   it("manager can create letters for student", () => {

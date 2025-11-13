@@ -100,6 +100,7 @@ export function EventCreate() {
         <TextInput
           label="Titre"
           source="title"
+          validate={required()}
           data-testid="event-title"
           fullWidth
         />

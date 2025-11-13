@@ -13,12 +13,13 @@ type Params = {
   };
 };
 const usersLettersProvider: HaDataProviderType = {
-  getList: async (page, _perPage, filter, meta) => {
-    const {userId} = meta;
+  getList: async (page, perPage, filter, meta) => {
+    const {userId, userName} = meta;
     const {status} = filter;
+    const pageSize = perPage || LETTER_PER_PAGE;
 
     return lettersApi()
-      .getLettersByUserId(userId, page, LETTER_PER_PAGE, status)
+      .getLettersByUserId(userId, page, pageSize, status, userName)
       .then((result) => ({data: result.data}));
   },
   getOne: async (id: string) => {

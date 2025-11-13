@@ -17,7 +17,7 @@ import {EventListAction, ExportEventFile, StatCard} from "./components";
 import {EventLoaderCalendar} from "./components/EventLoaderCalendar";
 import {EventCreate} from "./EventCreate";
 import {EventEditDialog} from "./EventEditDialog";
-import {EVENT_TYPE_VALUE} from "./utils";
+import {EventTitle} from "./utils";
 
 export const EventCalendar = () => {
   const calendarRef = useRef(null);
@@ -124,11 +124,7 @@ export const EventCalendar = () => {
             locale: frLocale,
             convertToEvent: (event: Event & {color: string}) => ({
               id: event.id,
-              title: `[${event.groups?.map((group) => group.ref).join(", ") ?? ""}] ${event.location?.room && `${String(event.location.room).trim()}` !== "" ? event.location.room : event.title} ${
-                event.type === "OTHER"
-                  ? (event.description ?? EVENT_TYPE_VALUE[event.type])
-                  : (event.course?.code ?? EVENT_TYPE_VALUE[event.type!])
-              }`,
+              title: EventTitle({event}) as string,
               start: event.begin_datetime,
               end: event.end_datetime,
               backgroundColor: event?.color ?? "#54544f",
