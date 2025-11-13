@@ -46,7 +46,7 @@ const ListActions = () => {
     <Box>
       {(isManager() || isAdmin()) && (
         <Box>
-          <CreateButton resource=" " />
+          <CreateButton resource="students" />
           <HaActionWrapper>
             <ButtonBase
               data-testid="create-fees-button"

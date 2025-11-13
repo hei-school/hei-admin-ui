@@ -324,8 +324,6 @@ describe("transformApiDataToCalendarEvents basic coverage", () => {
           groupName: "Groupe 1",
           color: "#123456",
         });
-        // Title format may vary depending on EventTitle implementation.
-        // Assert it is a string and contains dynamic pieces we expect.
         expect(res4[0].title).to.be.a("string");
         expect(res4[0].title).to.contain("Introduction");
         expect(res4[0].title).to.contain("CS101");
@@ -350,7 +348,6 @@ describe("transformApiDataToCalendarEvents basic coverage", () => {
 
         const res5 = transformApiDataToCalendarEvents([eventOther]);
         expect(res5).to.have.length(1);
-        // Title localized/format may differ; ensure it includes the original title and is a string
         expect(res5[0].title).to.be.a("string");
         expect(res5[0].title).to.contain("Final Exam");
         expect(res5[0].start).to.be.null;
