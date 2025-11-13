@@ -29,11 +29,7 @@ export const StatCard = ({stats}: {stats: EventStats}) => {
       <StatBox
         Icon={AccessTime}
         label="Non défini"
-        value={
-          stats.total! -
-            (stats.present || 0) -
-            (stats.missed_stats?.total || 0) || 0
-        }
+        value={stats.unchecked || 0}
         color="#f2f4d2"
       />
     </Stack>

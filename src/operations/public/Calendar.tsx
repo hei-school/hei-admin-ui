@@ -28,7 +28,7 @@ const localizer = momentLocalizer(moment);
 
 const API_URL = process.env.REACT_APP_API_URL;
 
-export default function CalendarView() {
+export const CalendarView = () => {
   const ITEM_PER_PAGE = 100;
   const [view, setView] = useState<View>(Views.WEEK);
   const [events, setEvents] = useState<Event[]>([]);
@@ -128,4 +128,4 @@ export default function CalendarView() {
       />
     </Box>
   );
-}
+};

@@ -1,4 +1,4 @@
-import CalendarView from "./Calendar";
+import {CalendarView} from "./Calendar";
 
 const publicContent = {
   calendar: CalendarView,
