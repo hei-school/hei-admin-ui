@@ -191,7 +191,7 @@ export const StudentList = () => {
         resource="students"
         icon={<SchoolIcon />}
         title={"Liste des étudiants"}
-        mainSearch={{label: "Prénom·s", source: "first_name"}}
+        mainSearch={{label: "Référence étudiant", source: "ref"}}
         actions={<ListActions />}
       >
         <FunctionField
