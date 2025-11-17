@@ -35,14 +35,9 @@ describe("Manager import fees for one students", () => {
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `/students?page=*&page_size=*&ref=${student1Mock.ref}`,
       [student1Mock]
-    ).as("getStudentsByFirstName");
-    cy.intercept(
-      "GET",
-      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
-      [student1Mock]
-    ).as("getStudentsByFirstName2");
+    ).as("getStudentsByRef");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
@@ -65,8 +60,8 @@ describe("Manager import fees for one students", () => {
     );
     cy.getByTestid("students-menu").click();
     cy.get('[href="/students"]').click();
-    cy.getByTestid("main-search-filter").type(student1Mock.first_name);
-    cy.wait("@getStudentsByFirstName");
+    cy.getByTestid("main-search-filter").type(student1Mock.ref);
+    cy.wait("@getStudentsByRef");
     cy.contains(student1Mock.first_name).click();
     cy.wait("@getStudent1");
     cy.getByTestid("fees-tab").click();

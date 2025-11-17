@@ -1,3 +1,4 @@
+import {NOOP_ID} from "@/utils/constants";
 import {v4 as uuidv4} from "uuid";
 import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
@@ -6,8 +7,10 @@ const studentImportProvider: HaDataProviderType = {
   getList: () => {
     throw new Error("Function not implemented.");
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
+  getOne: async () => {
+    return usersApi()
+      .getStudentImportTemplateURL()
+      .then((response) => ({id: NOOP_ID, data: response.data}));
   },
   saveOrUpdate: async (resources) => {
     const {due_datetime, file} = resources[0];
