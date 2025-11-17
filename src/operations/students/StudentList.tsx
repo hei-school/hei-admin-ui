@@ -1,4 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, CreateButton, HaActionWrapper} from "@/ui/haToolbar";
@@ -34,12 +35,36 @@ const ListActions = () => {
   const {isManager, isAdmin} = useRole();
   const [openDialog, setOpenDialog] = useState(false);
   const redirect = useRedirect();
+  const notify = useNotify();
+
+  const {refetch, isLoading, isFetching} = useGetOne(
+    "import-students",
+    {id: NOOP_ID},
+    {
+      enabled: false,
+      onSuccess: (data) => {
+        if (data?.data) {
+          const link = document.createElement("a");
+          link.href = data.data;
+          link.download = true as any;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
+        } else {
+          notify("URL du template non trouvée", {type: "warning"});
+        }
+      },
+    }
+  );
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
   const handleCloseDialog = () => {
     setOpenDialog(false);
+  };
+  const handleDownloadTemplate = () => {
+    refetch();
   };
 
   return (
@@ -56,27 +81,27 @@ const ListActions = () => {
               Ajouter des frais
             </ButtonBase>
           </HaActionWrapper>
-          <a href="/template.xlsx" download>
-            <Button
-              startIcon={
-                <UploadFileIcon
-                  sx={{
-                    fontSize: "1.5rem",
-                  }}
-                />
-              }
-              sx={{
-                width: "100%",
-                justifyContent: "start",
-                paddingLeft: "20px",
-                paddingTop: "7px",
-                paddingBottom: "7px",
-                color: "#474645",
-                textTransform: "none",
-              }}
-              label="Template"
-            />
-          </a>
+          <Button
+            startIcon={
+              <UploadFileIcon
+                sx={{
+                  fontSize: "1.5rem",
+                }}
+              />
+            }
+            onClick={handleDownloadTemplate}
+            sx={{
+              width: "100%",
+              justifyContent: "start",
+              paddingLeft: "20px",
+              paddingTop: "7px",
+              paddingBottom: "7px",
+              color: "#474645",
+              textTransform: "none",
+            }}
+            label="Template"
+            disabled={isLoading || isFetching}
+          />
           <NewImportButton />
         </Box>
       )}
