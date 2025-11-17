@@ -89,6 +89,7 @@ const ListActions = () => {
                 }}
               />
             }
+            data-testid="download-template-button"
             onClick={handleDownloadTemplate}
             sx={{
               width: "100%",

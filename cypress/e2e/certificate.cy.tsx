@@ -40,15 +40,12 @@ describe("Student Ceritificate", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `/students?page=*&page_size=*`, studentsMock).as(
       "getStudents"
-    );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
-      "getStudents2"
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10?first_name=${student1Mock.first_name}`,
+      `/students?page=*&page_size=*&ref=${student1Mock.ref}`,
       [student1Mock]
     ).as("getFilteredStudent");
     cy.intercept(
@@ -61,7 +58,7 @@ describe("Student Ceritificate", () => {
     cy.get('[href="/students"]').click();
     cy.wait("@getStudents");
 
-    cy.getByTestid("main-search-filter").type(student1Mock.first_name);
+    cy.getByTestid("main-search-filter").type(student1Mock.ref);
     cy.wait("@getFilteredStudent");
 
     cy.contains(student1Mock.first_name).click();
