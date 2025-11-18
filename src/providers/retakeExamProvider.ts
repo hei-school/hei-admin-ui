@@ -7,7 +7,14 @@ const retakeExamProvider: HaDataProviderType = {
     const {studentId, sessionId, student_ref, status} = filter;
     if (!studentId || !sessionId) {
       return retakeExamApi()
-        .getAllRetakeExams(status, student_ref, undefined, undefined, page, perPage)
+        .getAllRetakeExams(
+          status,
+          student_ref,
+          undefined,
+          undefined,
+          page,
+          perPage
+        )
         .then((response) => ({
           data: response.data,
         }));
