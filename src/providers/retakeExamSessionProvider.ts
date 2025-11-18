@@ -8,7 +8,6 @@ const retakeExamSessionProvider: HaDataProviderType = {
     filter: {title: string; student_level: []}
   ) => {
     const {title, student_level} = filter;
-    console.log(student_level);
     return retakeExamApi()
       .getRetakeExamSessions(
         title,
