@@ -5,11 +5,19 @@ const retakeExamSessionProvider: HaDataProviderType = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {title: string; to: Date}
+    filter: {title: string; student_level: []}
   ) => {
-    const {title, to} = filter;
+    const {title, student_level} = filter;
+    console.log(student_level);
     return retakeExamApi()
-      .getRetakeExamSessions(title, undefined, undefined, to, page, perPage)
+      .getRetakeExamSessions(
+        title,
+        student_level,
+        undefined,
+        undefined,
+        page,
+        perPage
+      )
       .then((response) => ({
         data: response.data,
       }));
@@ -32,5 +40,4 @@ const retakeExamSessionProvider: HaDataProviderType = {
     throw new Error("Not implemented");
   },
 };
-
 export default retakeExamSessionProvider;
