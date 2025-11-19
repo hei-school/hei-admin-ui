@@ -62,6 +62,7 @@ const CustomLevelSelect = () => {
       choices={LEVEL_CHOICES}
       fullWidth
       parse={handleParse}
+      validate={required()}
     />
   );
 };
