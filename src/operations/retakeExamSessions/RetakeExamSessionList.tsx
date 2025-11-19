@@ -63,16 +63,18 @@ export const RetakeExamSessionList = () => {
       </Box>
     );
   }
-
   if (error) {
+    const message = error instanceof Error ? error.message : "Erreur inconnue";
+
     return (
       <Box sx={SX_ERROR_CONTAINER}>
         <Box sx={SX_EMPTY_LIST_WRAPPER}>
-          <EmptyList3D message="Aucune session trouvée" />
+          <EmptyList3D message={message} />
         </Box>
       </Box>
     );
   }
+
   return (
     <Box>
       {(isAdmin() || isManager()) && <PendingCancellationBar />}

@@ -21,29 +21,50 @@ const LEVEL_CHOICES = [
   ...ALL_STUDENT_LEVELS.map((level) => ({id: level, name: level})),
 ];
 type LevelValue = StudentLevel | "ALL";
-
 const validateDateTo = (value: string, allValues: Record<string, unknown>) => {
   if (!value) return "⚠ La date de fin est obligatoire";
   const from = allValues?.date_from as string | undefined;
   if (from && new Date(value) < new Date(from)) {
     return "⚠ La date de fin doit être postérieure à la date de début";
   }
+
   return undefined;
 };
 
-const validateLevels = (value?: string[]) =>
-  !value || value.length === 0
-    ? "⚠ Veuillez sélectionner au moins un niveau"
-    : undefined;
+const REQUIRED_INPUT_PROPS = {
+  validate: required(),
+  fullWidth: true,
+};
 
-const CustomLevelSelect = () => {
+const REQUIRED_END_DATE_PROPS = {
+  validate: [required(), validateDateTo],
+  fullWidth: true,
+};
+
+const transformRetakeExamSession = (session: RetakeExamSession) => {
+  const levels = (session.student_levels || []) as LevelValue[];
+
+  return {
+    ...session,
+    id: uuid(),
+    student_levels: levels.includes("ALL")
+      ? ALL_STUDENT_LEVELS
+      : (levels as StudentLevel[]),
+
+    date_from:
+      session.date_from && toUTC(new Date(session.date_from))?.toISOString(),
+
+    date_to: session.date_to && toUTC(new Date(session.date_to))?.toISOString(),
+  };
+};
+const SelectLevel = () => {
   const {
     field: {value},
   } = useInput({
     source: "student_levels",
-    validate: validateLevels,
     defaultValue: [],
   });
+
   const handleParse = (newValue: string[]) => {
     const previous = value as LevelValue[];
     const next = newValue as LevelValue[];
@@ -55,60 +76,40 @@ const CustomLevelSelect = () => {
     }
     return next;
   };
+
   return (
     <SelectArrayInput
       source="student_levels"
       label="Niveaux concernés"
       choices={LEVEL_CHOICES}
-      fullWidth
       parse={handleParse}
-      validate={required()}
+      {...REQUIRED_INPUT_PROPS}
     />
   );
 };
-
 export const RetakeExamSessionCreate = (props: Partial<CreateProps>) => (
   <Create
     title="Créer une session de rattrapage"
-    transform={(session: RetakeExamSession) => {
-      const levels = (session.student_levels || []) as LevelValue[];
-      return {
-        ...session,
-        id: uuid(),
-        student_levels: levels.includes("ALL")
-          ? ALL_STUDENT_LEVELS
-          : (levels as StudentLevel[]),
-
-        date_from:
-          session.date_from &&
-          toUTC(new Date(session.date_from))?.toISOString(),
-
-        date_to:
-          session.date_to && toUTC(new Date(session.date_to))?.toISOString(),
-      };
-    }}
+    transform={transformRetakeExamSession}
     {...props}
   >
     <SimpleForm>
       <TextInput
         source="title"
         label="Nom de la session de rattrapage"
-        validate={required()}
-        fullWidth
+        {...REQUIRED_INPUT_PROPS}
       />
       <DateInput
         source="date_from"
         label="Date de début de la session"
-        validate={required()}
-        fullWidth
+        {...REQUIRED_INPUT_PROPS}
       />
       <DateInput
         source="date_to"
         label="Date de fin de la session"
-        validate={[required(), validateDateTo]}
-        fullWidth
+        {...REQUIRED_END_DATE_PROPS}
       />
-      <CustomLevelSelect />
+      <SelectLevel />
     </SimpleForm>
   </Create>
 );
