@@ -1,22 +1,23 @@
 import {RetakeExamSession} from "@haapi-b0fc7615/typescript-client";
-import {Create} from "react-admin";
+import {Edit} from "react-admin";
 import {
   RetakeExamSessionForm,
   transformRetakeExamSession,
 } from "./components/RetakeExamSessionForm";
 
-interface RetakeExamSessionCreateProps extends Partial<RetakeExamSession> {
+interface RetakeExamSessionEditProps extends RetakeExamSession {
   onSuccess?: () => void;
 }
 
-export const RetakeExamSessionCreate = ({
+export const RetakeExamSessionEdit = ({
   onSuccess,
   ...props
-}: RetakeExamSessionCreateProps) => (
-  <Create
-    redirect={false}
-    title="Créer une session de rattrapage"
+}: RetakeExamSessionEditProps) => (
+  <Edit
+    title="Modifier la session de rattrapage"
     transform={transformRetakeExamSession}
+    actions={<></>}
+    mutationMode="pessimistic"
     mutationOptions={{
       onSuccess: () => {
         onSuccess?.();
@@ -25,5 +26,5 @@ export const RetakeExamSessionCreate = ({
     {...props}
   >
     <RetakeExamSessionForm />
-  </Create>
+  </Edit>
 );
