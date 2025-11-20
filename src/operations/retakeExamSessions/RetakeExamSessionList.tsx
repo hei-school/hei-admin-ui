@@ -1,20 +1,19 @@
-import {useNotify, useToggle} from "@/hooks";
-import {RetakeExamSessionCreate} from "@/operations/retakeExamSessions/RetakeExamSessionCreate";
+import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
-import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
-import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
-import {
-  RetakeExamSession,
-  StudentLevel,
-} from "@haapi-b0fc7615/typescript-client";
-import {Add} from "@mui/icons-material";
+import {RetakeExamSession} from "@haapi-b0fc7615/typescript-client";
 import {Box, CircularProgress} from "@mui/material";
 import {BookOpenIcon} from "lucide-react";
+import {useState} from "react";
 import {DateField, FunctionField, TextField, useGetOne} from "react-admin";
 import {EmptyList3D} from "../common/components/EmptyList";
 import {PendingCancellationBar, RoleBasedShowButton} from "./components";
+import {
+  CreateSessionButton,
+  EditSessionButton,
+  RetakeExamSessionActions,
+} from "./components/RetakeExamSessionActions";
 
 const SX_LOADING_CONTAINER = {
   display: "flex",
@@ -38,14 +37,17 @@ const SX_EMPTY_LIST_WRAPPER = {
   width: "110%",
 };
 
-const formatLevels = (level: RetakeExamSession) =>
-  level.student_levels?.join(", ") || "-";
+const formatLevels = (record: RetakeExamSession) =>
+  record.student_levels?.join(", ") || "-";
 
 export const RetakeExamSessionList = () => {
   const {isAdmin, isManager, isStudent} = useRole();
   const [showCreate, _set, toggleShowCreate] = useToggle();
-  const notify = useNotify();
+  const [showEdit, setShowEdit] = useState(false);
+  const [selectedSession, setSelectedSession] =
+    useState<RetakeExamSession | null>(null);
   const StudentId = authProvider.getCachedWhoami().id;
+
   const {
     data: studentData,
     isLoading,
@@ -55,6 +57,16 @@ export const RetakeExamSessionList = () => {
     {id: StudentId || ""},
     {enabled: isStudent() && !!StudentId}
   );
+
+  const handleEdit = (record: RetakeExamSession) => {
+    setSelectedSession(record);
+    setShowEdit(true);
+  };
+
+  const handleCloseEdit = () => {
+    setShowEdit(false);
+    setSelectedSession(null);
+  };
   if (isLoading) {
     return (
       <Box sx={SX_LOADING_CONTAINER}>
@@ -89,45 +101,25 @@ export const RetakeExamSessionList = () => {
         }}
         listProps={{
           title: "Liste des sessions de rattrapage",
-          filter: isStudent()
-            ? {student_level: studentData?.level}
-            : StudentLevel,
+          filter: isStudent() ? {student_level: studentData?.level} : {},
         }}
-        actions={
-          (isManager() || isAdmin()) && (
-            <HaActionWrapper>
-              <ButtonBase
-                data-testid="create-button"
-                icon={<Add />}
-                onClick={toggleShowCreate}
-              >
-                Créer
-              </ButtonBase>
-            </HaActionWrapper>
-          )
-        }
+        actions={<CreateSessionButton onClick={toggleShowCreate} />}
       >
         <TextField source="title" label="Nom de la session" />
         <DateField source="date_from" label="Début" />
         <DateField source="date_to" label="Fin" />
         <FunctionField label="Niveaux" render={formatLevels} />
+        <EditSessionButton onEdit={handleEdit} />
         <RoleBasedShowButton />
       </HaList>
-      <Dialog
-        title="Création d'une session de rattrapage"
-        open={showCreate}
-        onClose={toggleShowCreate}
-      >
-        <RetakeExamSessionCreate
-          redirect={false}
-          mutationOptions={{
-            onSuccess: () => {
-              notify("Session de rattrapage créée avec succès");
-              toggleShowCreate();
-            },
-          }}
-        />
-      </Dialog>
+
+      <RetakeExamSessionActions
+        showCreate={showCreate}
+        onCloseCreate={toggleShowCreate}
+        showEdit={showEdit}
+        onCloseEdit={handleCloseEdit}
+        selectedSession={selectedSession}
+      />
     </Box>
   );
 };
