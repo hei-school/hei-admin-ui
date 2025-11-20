@@ -10,20 +10,16 @@ import {RetakeExamButtons} from "./components/RetakeExamButtons";
 export const CancellationRetakeExam = () => {
   const navigate = useNavigate();
   const [redirecting, setRedirecting] = useState(false);
-
   const {data: retakeExams = [], isLoading} = useGetList("retakeExams", {
     filter: {status: RetakeExamStatus.TO_CANCEL},
   });
-
   const count = retakeExams.length;
-
   useEffect(() => {
     if (!isLoading && count === 0) {
       setRedirecting(true);
       navigate("/retakeExams-sessions");
     }
   }, [count, isLoading, navigate]);
-
   if (redirecting) {
     return (
       <Box
@@ -43,13 +39,16 @@ export const CancellationRetakeExam = () => {
       </Box>
     );
   }
-
   return (
     <HaList
       resource="retakeExams"
       title="Demandes d'annulation de rattrapage"
       actions={undefined}
       datagridProps={{rowClick: false}}
+      mainSearch={{
+        source: "student_ref",
+        label: "Référence étudiant",
+      }}
       listProps={{
         title: "Rattrapages à annuler",
         filter: {status: RetakeExamStatus.TO_CANCEL},

@@ -111,7 +111,7 @@ export const NewImportButton: FC = () => {
         <DateInput
           data-testid="due-datetime-input"
           source="due_datetime"
-          label="Date d'échéance"
+          label="Date limite de payement"
           sx={{width: "100%"}}
           required
         />

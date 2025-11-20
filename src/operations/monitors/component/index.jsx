@@ -1,8 +1,8 @@
-import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import ProfileEdit from "@/operations/profile/ProfileEdit";
 import StudentShow from "@/operations/students/StudentShow";
 import {Group} from "@mui/icons-material";
 import {InsertStudentToMonitor} from "./InsertStudentToMonitor";
+import {MonitorStudentList} from "./MonitorStudentList";
 
 const monitorStudent = {
   list: MonitorStudentList,

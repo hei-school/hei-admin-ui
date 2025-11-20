@@ -14,7 +14,6 @@ import grades from "@/operations/grades";
 import groups from "@/operations/groups";
 import monitors from "@/operations/monitors";
 import monitorStudent from "@/operations/monitors/component";
-import MonitorStudentList from "@/operations/monitors/component/MonitorStudentList";
 import payments from "@/operations/payments";
 import profile from "@/operations/profile";
 import promotions from "@/operations/promotions";
@@ -37,6 +36,7 @@ import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
+import {MonitorStudentList} from "./operations/monitors/component/MonitorStudentList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
