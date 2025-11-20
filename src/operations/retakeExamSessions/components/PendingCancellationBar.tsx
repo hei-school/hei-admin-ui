@@ -1,5 +1,5 @@
 import {RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
-import {Box, CircularProgress} from "@mui/material";
+import {Box} from "@mui/material";
 import {motion} from "framer-motion";
 import {AlertCircle, ChevronRight} from "lucide-react";
 import {useCallback} from "react";
@@ -78,6 +78,50 @@ const COUNT_BADGE_STYLE = {
   backdropFilter: "blur(10px)",
 };
 
+const LOADER_CONTAINER_STYLE = {
+  display: "flex",
+  alignItems: "center",
+  gap: "8px",
+  px: 2,
+  mb: -3,
+  mt: 2,
+};
+
+const DOT_STYLE = {
+  width: "8px",
+  height: "8px",
+  borderRadius: "50%",
+  backgroundColor: "#140557ff",
+};
+
+const DOT_ANIMATION = {
+  scale: [1, 1.5, 1],
+  opacity: [1, 0.5, 1],
+};
+
+const DOT_TRANSITION_BASE = {
+  duration: 1.2,
+  repeat: Infinity,
+  ease: "easeInOut" as const,
+};
+
+const CustomLoader = () => (
+  <Box sx={LOADER_CONTAINER_STYLE}>
+    {[0, 0.2, 0.4].map((delay, index) => (
+      <Box
+        key={index}
+        component={motion.div}
+        sx={DOT_STYLE}
+        animate={DOT_ANIMATION}
+        transition={{
+          ...DOT_TRANSITION_BASE,
+          delay,
+        }}
+      />
+    ))}
+  </Box>
+);
+
 export const PendingCancellationBar = ({
   onClick,
 }: PendingCancellationBarProps) => {
@@ -95,7 +139,7 @@ export const PendingCancellationBar = ({
     onClick?.() ?? navigate("/retake-exams/cancellation");
   }, [onClick, navigate]);
 
-  if (isLoading) return <CircularProgress size={12} thickness={4} />;
+  if (isLoading) return <CustomLoader />;
   if (isError) return <div>Aucune donnée récupérée</div>;
 
   const count = retakeExams.length;

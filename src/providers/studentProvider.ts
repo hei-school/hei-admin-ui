@@ -3,7 +3,7 @@ import {payingApi, usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const studentProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+  getList: async (page: number, perPage: number, filter: any) => {
     return usersApi()
       .getStudents(
         page,
@@ -20,14 +20,20 @@ const studentProvider: HaDataProviderType = {
       )
       .then((result) => ({data: result.data}));
   },
-  async getOne(id: string) {
-    const result = await usersApi().getStudentById(id);
-    return result.data;
+  getOne: async (id: string) => {
+    const [studentResult, levelResult] = await Promise.all([
+      usersApi().getStudentById(id),
+      usersApi().getStudentLevel(id),
+    ]);
+    return {
+      ...studentResult.data,
+      level: levelResult.data,
+    };
   },
-  async saveOrUpdate(
+  saveOrUpdate: async (
     payload: any,
     Params = {isUpdate: true, dueDatetime: Date}
-  ) {
+  ) => {
     if (Params.isUpdate) {
       const [student] = payload;
       const result = await usersApi().updateStudent(student.id, student);
@@ -51,7 +57,7 @@ const studentProvider: HaDataProviderType = {
     }
     return studentResponse;
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };
