@@ -12,6 +12,9 @@ describe("Transcript.Docs", () => {
   beforeEach(() => {
     cy.intercept("GET", `/students?*`, studentsMock);
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
     cy.intercept(
       "GET",
       `/users/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
@@ -52,6 +55,9 @@ describe("Work.Docs", () => {
   beforeEach(() => {
     cy.intercept("GET", `/students?*`, studentsMock);
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
     cy.intercept(
       "GET",
       `/users/${student1Mock.id}/files?file_type=TRANSCRIPT*`,
@@ -101,6 +107,9 @@ describe("Other.Docs", () => {
   beforeEach(() => {
     cy.intercept("GET", `/students?*`, studentsMock);
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
     cy.intercept(
       "GET",
       `/users/${student1Mock.id}/files?file_type=TRANSCRIPT*`,

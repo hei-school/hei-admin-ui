@@ -70,6 +70,9 @@ describe("Manager receipt", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,

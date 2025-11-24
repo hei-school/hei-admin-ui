@@ -1,8 +1,9 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {MoreVert, SearchOutlined} from "@mui/icons-material";
-import {Box, IconButton, Popover, styled, Typography} from "@mui/material";
+import {Box, Popover, styled, Typography} from "@mui/material";
 import {useListFilterContext} from "ra-core";
 import {createContext, useState} from "react";
+import {Button} from "react-admin";
 import {HaMainSearch} from "./HaMainSearch";
 
 const TitleContainer = styled("div")({
@@ -82,9 +83,13 @@ export function HaListTitle({
             data-testid="menu-list-action"
             sx={isFilterApplied && filterIndicator ? showIndication : undefined}
           >
-            <IconButton onClick={(event) => setShowAction(event.currentTarget)}>
-              <MoreVert sx={{color: PALETTE_COLORS.primary}} />
-            </IconButton>
+            <Button
+              variant="contained"
+              startIcon={<MoreVert />}
+              padding={1}
+              onClick={(event) => setShowAction(event.currentTarget)}
+              label="Actions"
+            />
           </Box>
         )}
       </Box>

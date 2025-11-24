@@ -18,30 +18,17 @@ describe("Manager.Fee", () => {
   beforeEach(() => {
     cy.intercept(
       "GET",
-      `/fees/templates?page=1&page_size=25`,
+      `/fees/templates?page=*&page_size=*`,
       feesTemplatesMocks
     ).as("getFeesTemplates");
-    cy.intercept(
-      "GET",
-      `/fees/templates?page=2&page_size=25`,
-      feesTemplatesMocks
-    ).as("getFeesTemplates2");
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `/students?page=*&page_size=*`, studentsMock).as(
       "getStudents"
     );
-    cy.intercept("GET", `/students?page=2&page_size=10`, studentsMock).as(
-      "getStudents2"
-    );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `/students?page=*&page_size=*&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByName");
-    cy.intercept(
-      "GET",
-      `/students?page=2&page_size=10&first_name=${student1Mock.first_name}`,
-      [student1Mock]
-    ).as("getStudentsByName2");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`,
@@ -69,6 +56,9 @@ describe("Manager.Fee", () => {
     ).as("getFee1");
     cy.intercept("PUT", `/fees`, feesMock).as("createFees");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
 
     cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
@@ -83,7 +73,6 @@ describe("Manager.Fee", () => {
     cy.getByTestid("add-filter").click();
     cy.getByTestid("filter-profile-first_name").type(student1Mock.first_name);
     cy.getByTestid("apply-filter").click();
-    cy.wait("@getStudentsByName");
     cy.contains(student1Mock.first_name).click();
   });
 

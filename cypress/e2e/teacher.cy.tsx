@@ -28,6 +28,9 @@ describe("Teacher", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent1"
     );
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
     cy.get('a[href="/students"]').click(); // Étudiants menu
     cy.wait("@getStudents");
     cy.get("body").click(200, 0); //note(uncover-menu)

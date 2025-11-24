@@ -120,8 +120,8 @@ export const ListContent = ({eventId}: {eventId: string}) => {
     <Stack>
       <HaList
         resource="event-participants"
-        mainSearch={{label: "Références étudiant(e)s", source: "studentRef"}}
-        title="Listes des participants"
+        mainSearch={{label: "Référence étudiant", source: "studentRef"}}
+        title="Liste des participants"
         icon={<EventIcon />}
         listProps={{
           perPage: 50,
@@ -156,7 +156,7 @@ export const ListContent = ({eventId}: {eventId: string}) => {
               <Box>
                 <FileDownloader
                   downloadFunction={downloadFile}
-                  fileName="Listes des participants"
+                  fileName="Liste des participants"
                   startIcon={<Download />}
                   fullWidth
                   sx={{

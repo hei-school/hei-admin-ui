@@ -8,6 +8,9 @@ describe("Student Ceritificate", () => {
       `/students/${student1Mock.id}/scholarship_certificate/raw`,
       {fixture: "/students/certificate.pdf"}
     ).as("downloadCertificate");
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
   });
 
   it("Should notify error if blob.byteLength is < 0", () => {
