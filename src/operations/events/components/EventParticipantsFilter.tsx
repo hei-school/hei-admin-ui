@@ -8,7 +8,7 @@ export const EventParticipantsFilter: FC = () => {
     <Box>
       <FilterForm>
         <TextFilter label="Références des groupes " source="groupRef" />
-        <TextFilter label="Références étudiant(e)s" source="studentRef" />
+        <TextFilter label="Référence étudiant" source="studentRef" />
         <TextFilter label="Nom ou prénom de l'étudiant" source="name" />
         <SelectInputFilter
           label="Status"

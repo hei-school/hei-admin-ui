@@ -33,7 +33,7 @@ export const ExamList = () => {
       <HaListTitle
         filterIndicator
         title="Liste des examens"
-        mainSearch={{source: "", label: ""}}
+        mainSearch={{source: "course_code", label: "Code de cours"}}
         icon={<BookIcon />}
         actions={(isManager() || isAdmin() || isTeacher()) && <ExamActions />}
       />
