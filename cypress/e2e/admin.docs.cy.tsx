@@ -71,6 +71,9 @@ describe("Monitor Student", () => {
       `/monitors/${monitor1Mock.id}/students?page=*&page_size=*`,
       [student1Mock]
     ).as("getStudents");
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
   });
 
   describe("Monitor Student Documents", () => {

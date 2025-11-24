@@ -85,6 +85,9 @@ describe("Manager edit students", () => {
 
   it("can edit students", () => {
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
     cy.intercept("PUT", `/students/${student1Mock.id}`, updatedStudent).as(
       "modifyStudent"
     );

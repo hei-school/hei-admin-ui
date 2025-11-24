@@ -76,6 +76,9 @@ describe("Manager.Letters.student", () => {
       [student1Mock]
     ).as("getStudentsByName");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
 
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();

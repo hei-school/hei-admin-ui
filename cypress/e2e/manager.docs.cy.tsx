@@ -31,6 +31,10 @@ describe("Manager.Transcript.Docs", () => {
       newTranscript
     );
 
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
+
     cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
     cy.getByTestid("students-menu").click();
@@ -84,6 +88,9 @@ describe("Manager.Work.Docs", () => {
       "POST",
       `/students/${student1Mock.id}/work_files/raw?*`,
       newWorkerDoc
+    );
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
     );
 
     cy.mockLogin({role: "MANAGER"});
@@ -147,6 +154,9 @@ describe("Manager.Other.Docs", () => {
       "POST",
       `/users/${student1Mock.id}/files/raw?file_type=OTHER&filename=${newOtherrDoc.name}`,
       newOtherrDoc
+    );
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
     );
 
     cy.mockLogin({role: "MANAGER"});
