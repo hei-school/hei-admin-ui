@@ -23,7 +23,7 @@ const ProfileShow = () => {
     if (isStudent()) {
       return (
         <GetCertificate
-          studentId={id}
+          studentId={id!}
           variant="outlined"
           data-testid="get-certificate-btn"
         />

@@ -2,7 +2,7 @@ import {useNotify} from "@/hooks";
 import {filesApi} from "@/providers/api";
 import {Download} from "@mui/icons-material";
 import {Button} from "@mui/material";
-import {FC} from "react";
+import {FC, useRef} from "react";
 import {useRecordContext} from "react-admin";
 import {isOver18} from "../utils/isOver18";
 
@@ -21,6 +21,7 @@ export const GetCertificate: FC<{
 }> = ({studentId, variant = "outlined"}) => {
   const notify = useNotify();
   const record = useRecordContext();
+  const linkRef = useRef<HTMLAnchorElement | null>(null);
 
   const handleClick = async () => {
     const missingFields = record
@@ -60,14 +61,23 @@ export const GetCertificate: FC<{
       );
 
       const blob = new Blob([response.data], {type: "application/pdf"});
+
+      if (blob.size === 0) {
+        notify("Échec de téléchargement. Veuillez réessayer", {type: "error"});
+        return;
+      }
+
       const url = window.URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = FILE_NAME;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
+
+      if (!linkRef.current) {
+        linkRef.current = document.createElement("a");
+        linkRef.current.dataset.testid = "file-link";
+        document.body.appendChild(linkRef.current);
+      }
+
+      linkRef.current.href = url;
+      linkRef.current.download = FILE_NAME;
+      linkRef.current.click();
 
       notify("Certificat téléchargé avec succès !", {type: "success"});
     } catch (error) {
@@ -78,20 +88,24 @@ export const GetCertificate: FC<{
   };
 
   return (
-    <Button
-      variant={variant}
-      startIcon={<Download sx={{fontSize: "1.5rem !important"}} />}
-      onClick={handleClick}
-      sx={{
-        width: "100%",
-        justifyContent: "flex-start",
-        textTransform: "none",
-        fontWeight: 500,
-      }}
-      color="inherit"
-      data-testid="get-certificate-btn"
-    >
-      Certificat
-    </Button>
+    <>
+      <Button
+        variant={variant}
+        startIcon={<Download sx={{fontSize: "1.5rem !important"}} />}
+        onClick={handleClick}
+        sx={{
+          width: "100%",
+          justifyContent: "flex-start",
+          textTransform: "none",
+          fontWeight: 500,
+        }}
+        color="inherit"
+        data-testid="get-certificate-btn"
+      >
+        Certificat
+      </Button>
+
+      <a ref={linkRef} data-testid="file-link" style={{display: "none"}} />
+    </>
   );
 };
