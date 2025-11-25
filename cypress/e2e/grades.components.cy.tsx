@@ -230,6 +230,11 @@ describe("GradesDashboard Component - Extended Tests", () => {
         `/students/${studentLinkedToMonitorMock[0].id!}/courses/${courseResultsMock[0].course?.id!}/grades`,
         gradesInformaticsMock
       ).as("getCourseResults");
+      cy.intercept(
+        "GET",
+        `/students/${studentLinkedToMonitorMock[0].id!}/level`,
+        "L1"
+      ).as("getStudentLevel");
     });
     it("should display grades details", () => {
       cy.getByTestid("grid-view-toggle").click();
