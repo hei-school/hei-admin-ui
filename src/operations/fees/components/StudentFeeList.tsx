@@ -36,8 +36,7 @@ import {
 } from "@mui/icons-material";
 import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
 import {AxiosError} from "axios";
-
-import {FC, useMemo} from "react";
+import {FC, useMemo, useState} from "react";
 import {
   FormDataConsumer,
   FunctionField,
@@ -47,7 +46,6 @@ import {
   SimpleForm,
   TextInput,
   useGetList,
-  useRecordContext,
   useRefresh,
 } from "react-admin";
 import {FeesDialog} from "./FeesDialog";
@@ -57,17 +55,20 @@ interface CreateProps {
   onSuccess: () => void;
 }
 
-interface TransformData {
-  psp_id?: string;
-  psp_type?: MobileMoneyType;
+interface MpbsCreateProps {
+  onSuccess: () => void;
+  fee: Fee;
 }
+
+const isCatchUp = (fee: Fee): boolean => {
+  return fee.type === FeeTypeEnum.REMEDIAL_COSTS;
+};
 
 const DefaultInfos = () => {
   return (
     <FormDataConsumer>
       {({formData}) => {
         const {course_list = []} = formData;
-
         return (
           <Box width="100%">
             <MuiTextInput
@@ -111,14 +112,10 @@ const CatchupFeesCreate: FC<CreateProps> = ({onSuccess}) => {
           onSuccess();
         },
       }}
-      transform={(
-        data: {
-          course_list: Course[];
-        } = {course_list: []}
-      ) => {
+      transform={(data: {course_list: Course[]} = {course_list: []}) => {
         return data.course_list.map((course: Course) => ({
           type: FeeTypeEnum.REMEDIAL_COSTS,
-          comment: `Rattrapage ${course}`,
+          comment: `Rattrapage ${course.code}`,
           total_amount: DEFAULT_REMEDIAL_COSTS_AMOUNT,
           student_id,
           due_datetime: DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
@@ -145,23 +142,18 @@ const CatchupFeesCreate: FC<CreateProps> = ({onSuccess}) => {
   );
 };
 
-const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
-  onSuccess,
-  feeToPay,
-}) => {
+const MpbsCreate: FC<MpbsCreateProps> = ({onSuccess, fee}) => {
   const notify = useNotify();
-
-  const {id: fee_id = "", mpbs = []} = feeToPay;
   const {id: student_id} = authProvider.getCachedWhoami();
+  const lastMpbs =
+    fee.mpbs && fee.mpbs.length > 0 ? fee.mpbs[fee.mpbs.length - 1] : undefined;
 
   const handleError = (error: AxiosError) => {
     if (!error.response) return;
-
     const messages: Record<number, string> = {
       500: "Cette référence de transaction existe déjà",
       404: "Transaction non trouvée chez Orange",
     };
-
     const message =
       messages[error.response.status] || "Une erreur inattendue s'est produite";
     notify(message, {type: "error"});
@@ -174,16 +166,16 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
       redirect={false}
       mutationOptions={{
         onSuccess: () => {
-          notify("Frais créés avec succès", {type: "success"});
+          notify("Paiement enregistré avec succès", {type: "success"});
           onSuccess();
         },
-        onError: (error: AxiosError) => handleError(error),
+        onError: handleError,
       }}
-      transform={(data: TransformData = {}) => ({
+      transform={(data: any = {}) => ({
         ...data,
         student_id,
-        fee_id,
-        mpbs_id: mpbs[mpbs.length - 1]?.id,
+        fee_id: fee.id,
+        mpbs_id: lastMpbs?.id,
       })}
     >
       <SimpleForm>
@@ -205,129 +197,57 @@ const MpbsCreate: FC<CreateProps & {feeToPay: Fee}> = ({
   );
 };
 
-const ListActionButtons: FC<{studentId: string}> = ({studentId}) => {
-  const {
-    id,
-    total_amount,
-    mpbs,
-    letter,
-    status,
-    due_datetime,
-    student_id,
-    comment,
-  } = useRecordContext();
-  const {data: fees = []} = useGetList("fees", {
-    pagination: {page: 1, perPage: 100},
-    filter: {studentId: student_id},
-  });
-  const refresh = useRefresh();
-  const [show3, , toggle3] = useToggle();
-  const [show4, , toggle4] = useToggle();
-
-  const prevUnpaidFee = useMemo(() => {
-    return fees.find((fee) => {
-      const feeDueDate = new Date(fee.due_datetime);
-      const targetDueDate = new Date(due_datetime);
-
-      return (
-        feeDueDate < targetDueDate &&
-        fee.status !== FeeStatusEnum.PAID &&
-        !fee.comment?.toLowerCase()?.includes("rattrapage")
-      );
-    });
-  }, [fees, due_datetime]);
-
-  return (
-    <Box>
-      {mpbs?.at(-1)?.status === (MpbsStatus.PENDING || MpbsStatus.SUCCESS) ? (
-        <MpbsStatusIcon />
-      ) : (
-        <IconButtonWithTooltip
-          title="Mobile Money"
-          disabled={
-            (letter && letter.status !== LetterStatus.REJECTED) ||
-            (status === FeeStatusEnum.PAID && !!prevUnpaidFee) ||
-            (status === FeeStatusEnum.PAID &&
-              !comment?.toLowerCase()?.includes("rattrapage"))
-          }
-        >
-          <AddMbpsIcon onClick={toggle3} data-testid={`addMobileMoney-${id}`} />
-        </IconButtonWithTooltip>
-      )}
-      <Link to={`/fees/${id}/show`} data-testid={`showButton-${id}`}>
-        <IconButtonWithTooltip title="Afficher">
-          <ShowIcon />
-        </IconButtonWithTooltip>
-      </Link>
-      <FeesDialog
-        title="Paiement de mon frais par Mobile Money"
-        show={show3}
-        toggle={toggle3}
-      >
-        <MpbsCreate
-          onSuccess={toggle3}
-          feeToPay={{id: id.toString(), mpbs: mpbs[mpbs.length - 1]}}
-        />
-      </FeesDialog>
-      <CreateLettersDialog
-        isOpen={show4}
-        onClose={() => {
-          toggle4();
-          refresh();
-        }}
-        userId={studentId}
-        feeAmount={total_amount}
-        feeId={id}
-        title="Payer mon frais par ajout d'un bordereau"
-      />
-    </Box>
-  );
-};
-
 export const StudentFeeList = () => {
   const notify = useNotify();
   const {studentRef, studentId} = useStudentRef("studentId");
-  const [showCatchupFees, _set, toggleCatchupFees] = useToggle();
-  const [showRightFee, _set3, toggleRightFee] = useToggle();
+  const refresh = useRefresh();
+
+  const [showCatchupFees, , toggleCatchupFees] = useToggle();
+  const [feeToPay, setFeeToPay] = useState<Fee | null>(null);
+  const [feeForLetter, setFeeForLetter] = useState<Fee | null>(null);
 
   const {data: fees = []} = useGetList("fees", {
     pagination: {page: 1, perPage: 100},
     filter: {studentId},
+    sort: {field: "due_datetime", order: "ASC"},
   });
 
-  const sortedFees = useMemo(
-    () =>
-      [...fees].sort(
-        (a, b) =>
-          new Date(a.due_datetime!).getTime() -
-          new Date(b.due_datetime!).getTime()
-      ),
-    [fees]
-  );
+  const firstUnpaidNormalFee = useMemo(() => {
+    const sorted = [...fees].sort((a, b) => {
+      const dateA = new Date(a.due_datetime!).getTime();
+      const dateB = new Date(b.due_datetime!).getTime();
+      return dateA - dateB;
+    });
 
-  const nextFeeToPay = useMemo(
-    () =>
-      sortedFees.find(
-        (fee, i) =>
-          fee.status === FeeStatusEnum.UNPAID &&
-          sortedFees
-            .slice(0, i)
-            .every(
-              (prevFee) =>
-                prevFee.status === FeeStatusEnum.PAID &&
-                !fee.comment?.includes("Rattrapage")
-            )
-      ),
-    [fees, sortedFees]
-  );
+    return sorted.find(
+      (fee) => fee.status !== FeeStatusEnum.PAID && !isCatchUp(fee)
+    );
+  }, [fees]);
+
+  const isFirstFeePending = useMemo(() => {
+    if (!firstUnpaidNormalFee) return false;
+    const lastMpbs = firstUnpaidNormalFee.mpbs?.at(-1);
+    return lastMpbs?.status === MpbsStatus.PENDING;
+  }, [firstUnpaidNormalFee]);
+
+  const canPayFee = (currentFee: Fee) => {
+    if (currentFee.status === FeeStatusEnum.PAID) return false;
+    if (isCatchUp(currentFee)) return true;
+    if (!firstUnpaidNormalFee) return true;
+
+    const currentFeeDate = new Date(currentFee.due_datetime!).getTime();
+    const blockingFeeDate = new Date(
+      firstUnpaidNormalFee.due_datetime!
+    ).getTime();
+
+    return currentFeeDate <= blockingFeeDate;
+  };
 
   return (
     <Box>
       <OrangeMoneyHeader />
       <HaList
-        wrapperSx={{
-          marginTop: 2,
-        }}
+        wrapperSx={{marginTop: 2}}
         icon={<WarningOutlined />}
         title={`Frais de ${studentRef}`}
         resource={"fees"}
@@ -343,14 +263,24 @@ export const StudentFeeList = () => {
             <HaActionWrapper>
               <ButtonBase
                 icon={<PayIcon />}
+                disabled={!firstUnpaidNormalFee}
                 onClick={() => {
-                  if (!nextFeeToPay) {
-                    notify("Vous n'avez plus de frais à payer", {
-                      type: "error",
+                  if (!firstUnpaidNormalFee || isFirstFeePending) {
+                    notify("Vous êtes à jour dans vos écolages", {
+                      type: "info",
                     });
                     return;
                   }
-                  toggleRightFee();
+
+                  if (isFirstFeePending) {
+                    notify(
+                      "Le paiement de ce frais est déjà en cours de vérification.",
+                      {type: "warning"}
+                    );
+                    return;
+                  }
+
+                  setFeeToPay(firstUnpaidNormalFee);
                 }}
                 style={{
                   backgroundColor: PALETTE_COLORS.red,
@@ -370,63 +300,123 @@ export const StudentFeeList = () => {
         />
         <FunctionField
           label="Reste à payer"
-          render={(record: {remaining_amount: number}) =>
-            renderMoney(record.remaining_amount)
-          }
+          render={(record: Fee) => renderMoney(record.remaining_amount!)}
         />
         <FunctionField
           source="comment"
           render={commentFunctionRenderer}
           label="Commentaire"
         />
+
         <FunctionField
-          render={(fee) => formatDate(fee?.mpbs?.at(-1)?.creation_datetime)}
+          render={(fee: Fee) =>
+            formatDate(fee?.mpbs?.at(-1)?.creation_datetime)
+          }
           label="Ajout de la référence de transaction"
         />
         <FunctionField
-          render={(fee) =>
+          render={(fee: Fee) =>
             formatDate(fee?.mpbs?.at(-1)?.last_datetime_verification)
           }
           label="Dernière vérification par HEI"
         />
         <FunctionField
-          render={(fee) =>
+          render={(fee: Fee) =>
             formatDate(fee?.mpbs?.at(-1)?.psp_own_datetime_verification)
           }
           label="Vérification par PSP"
         />
         <FunctionField
-          render={(fee) =>
+          render={(fee: Fee) =>
             formatDate(fee?.mpbs?.at(-1)?.successfully_verified_on)
           }
           label="Vérification réussie"
         />
-        <ListActionButtons studentId={studentId} />
+
+        <FunctionField
+          label="Actions"
+          render={(fee: Fee) => {
+            const isPayable = canPayFee(fee);
+            const lastMpbs = fee.mpbs?.at(-1);
+            const isPendingOrSuccess =
+              lastMpbs &&
+              (lastMpbs.status === MpbsStatus.PENDING ||
+                lastMpbs.status === MpbsStatus.SUCCESS);
+
+            const isRejectedLetter =
+              fee.letter && fee.letter.status === LetterStatus.REJECTED;
+            const hasLetter = fee.letter && !isRejectedLetter;
+
+            return (
+              <Box display="flex" alignItems="center">
+                {isPendingOrSuccess ? (
+                  <MpbsStatusIcon />
+                ) : (
+                  <IconButtonWithTooltip
+                    title={
+                      isPayable
+                        ? "Mobile Money"
+                        : "Veuillez payer les frais précédents d'abord"
+                    }
+                    disabled={!isPayable || hasLetter}
+                  >
+                    <AddMbpsIcon
+                      onClick={() => setFeeToPay(fee)}
+                      color={!isPayable || hasLetter ? "disabled" : undefined}
+                      data-testid={`addMobileMoney-${fee.id}`}
+                    />
+                  </IconButtonWithTooltip>
+                )}
+
+                <Link
+                  to={`/fees/${fee.id}/show`}
+                  data-testid={`showButton-${fee.id}`}
+                >
+                  <IconButtonWithTooltip title="Afficher">
+                    <ShowIcon />
+                  </IconButtonWithTooltip>
+                </Link>
+              </Box>
+            );
+          }}
+        />
       </HaList>
+
       <FeesDialog
         title="Créer mon/mes frais de rattrapage"
-        children={<CatchupFeesCreate onSuccess={toggleCatchupFees} />}
         show={showCatchupFees}
         toggle={toggleCatchupFees}
-      />
-      <FeesDialog
-        title="Payer votre écolage"
-        children={
-          <Box py={2}>
-            <Typography
-              align="center"
-              variant="h6"
-              sx={{color: PALETTE_COLORS.red}}
-            >
-              Vous allez payer le frais intitulé {nextFeeToPay?.comment} d'une
-              valeur de <strong>{nextFeeToPay?.total_amount} ariary.</strong>
-            </Typography>
-            <MpbsCreate onSuccess={toggleRightFee} feeToPay={nextFeeToPay} />
-          </Box>
-        }
-        show={showRightFee}
-        toggle={toggleRightFee}
-      />
+      >
+        <CatchupFeesCreate onSuccess={toggleCatchupFees} />
+      </FeesDialog>
+
+      {feeToPay && (
+        <FeesDialog
+          title={`Paiement de mon frais par Mobile Money`}
+          show={!!feeToPay}
+          toggle={() => setFeeToPay(null)}
+        >
+          <MpbsCreate
+            key={feeToPay.id}
+            fee={feeToPay}
+            onSuccess={() => setFeeToPay(null)}
+          />
+        </FeesDialog>
+      )}
+
+      {feeForLetter && (
+        <CreateLettersDialog
+          isOpen={!!feeForLetter}
+          onClose={() => {
+            setFeeForLetter(null);
+            refresh();
+          }}
+          userId={studentId}
+          feeAmount={feeForLetter.total_amount}
+          feeId={feeForLetter.id}
+          title="Payer mon frais par ajout d'un bordereau"
+        />
+      )}
     </Box>
   );
 };
