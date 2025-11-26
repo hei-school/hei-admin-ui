@@ -18,6 +18,9 @@ describe("Mobile payment by student", () => {
       `/students/${student1Mock.id}/fees?page=2&page_size=*`,
       feesMock
     ).as("getFees2");
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
 
     cy.mockLogin({role: "STUDENT"});
     cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
@@ -64,12 +67,8 @@ describe("Mobile payment by student", () => {
     cy.get("#psp_id").click().type("MP240726.1541.D88429");
     cy.contains("Enregistrer").click();
 
-    cy.contains("Frais créés avec succès");
+    cy.contains("Paiement enregistré avec succès");
 
     cy.wait("@getMpbsFees");
-
-    // cy.getByTestid(`pspTypeIcon-${fee1Mock.student_id}--${fee1Mock.id}`).should(
-    //   "exist"
-    // );
   });
 });
