@@ -1,16 +1,21 @@
-import {useNotify} from "@/hooks";
-import {Loader} from "@/operations/common/components/Loader";
+import { useNotify } from "@/hooks";
+import ExcelIcon from "@/assets/xls.png";
+import { Loader } from "@/operations/common/components/Loader";
 import {
   GRADE_HEADERS,
   transformGradesData,
   validateGradeData,
 } from "@/operations/grades/utils";
 import createGradeProvider from "@/providers/createGradeProvider";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
+import { MAX_ITEM_PER_PAGE } from "@/providers/dataProvider";
 import examGradeProvider from "@/providers/examGradeProvider";
-import {useRole} from "@/security/hooks";
-import {ButtonBase, ImportButton} from "@/ui/haToolbar";
-import {Download} from "@mui/icons-material";
+import { useRole } from "@/security/hooks";
+import { ButtonBase, ImportButton } from "@/ui/haToolbar";
+import { Download } from "@mui/icons-material";
+import { useToggle } from "@/hooks";
+import { FileUploadDialog } from "@/operations/common/components/FileUploadDialog";
+import { Upload } from "@mui/icons-material";
+import { Button } from "@mui/material";
 import {
   Box,
   Dialog,
@@ -19,11 +24,12 @@ import {
   LinearProgress,
   Typography,
 } from "@mui/material";
-import {useEffect, useState} from "react";
-import {useGetList, useRefresh} from "react-admin";
+import { useEffect, useState } from "react";
+import { useGetList, useRefresh } from "react-admin";
 import * as XLSX from "xlsx";
 
-export const ExamGradeListActions = ({examId, examName}) => {
+export const ExamGradeListActions = ({ examId, examName }) => {
+  const [isOpen, , toggle] = useToggle();
   const [isImporting, setIsImporting] = useState(false);
   const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
   const [importProgress, setImportProgress] = useState({
@@ -32,155 +38,18 @@ export const ExamGradeListActions = ({examId, examName}) => {
     message: "",
   });
   const [participants, setParticipants] = useState([]);
-  const {isManager, isAdmin, isTeacher} = useRole();
+  const { isManager, isAdmin, isTeacher } = useRole();
   const hasPermission = isManager() || isAdmin() || isTeacher();
   const notify = useNotify();
   const refresh = useRefresh();
 
-  const {data: participantsData} = useGetList("exam-grades", {
-    pagination: {page: 1, perPage: MAX_ITEM_PER_PAGE},
-    meta: {examId},
+  const { data: participantsData } = useGetList("exam-grades", {
+    pagination: { page: 1, perPage: MAX_ITEM_PER_PAGE },
+    meta: { examId },
   });
 
-  useEffect(() => {
-    if (participantsData && participantsData.length > 0) {
-      setParticipants(participantsData);
-    } else if (examId) {
-      examGradeProvider
-        .getList(1, MAX_ITEM_PER_PAGE, {}, {examId})
-        .then((result) => {
-          if (result.data && result.data.length > 0) {
-            setParticipants(result.data);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching participants:", err);
-        });
-    }
-  }, [participantsData, examId]);
 
   if (!hasPermission) return null;
-
-  const handleImport = async (data) => {
-    try {
-      setIsImporting(true);
-      setImportProgress({
-        current: 0,
-        total: 0,
-        message: "Préparation de l'import...",
-      });
-
-      const transformedData = data[1] || [];
-      const processedItems = transformedData
-        .map((row) => {
-          const participant = participants.find(
-            (p) => p.student?.ref === row.student_ref
-          );
-          const studentId = participant?.student?.id || null;
-          const hasExistingGrade = participant?.grade?.id != null;
-
-          let score = row.grade?.score ?? null;
-          if (score !== null && score !== undefined) {
-            score = Math.max(0, Math.min(20, score));
-          }
-
-          const hasScore = score !== null && score !== undefined;
-          const comment =
-            row.comment || (hasScore ? "Note modifiée via import" : "");
-
-          return {
-            student_ref: row.student_ref,
-            comment: comment,
-            grade: {
-              score: hasScore ? score : null,
-              student_id: studentId,
-            },
-            hasExistingGrade,
-          };
-        })
-        .filter((item) => item.grade.student_id !== null);
-
-      if (processedItems.length === 0) {
-        notify("Aucun étudiant trouvé pour l'import des notes", {
-          type: "warning",
-        });
-        return;
-      }
-
-      const itemsToCreate = processedItems.filter(
-        (item) => !item.hasExistingGrade
-      );
-      const itemsToUpdate = processedItems
-        .filter((item) => item.hasExistingGrade)
-        .map(({hasExistingGrade, ...item}) => item);
-
-      const totalOperations =
-        itemsToCreate.length + (itemsToUpdate.length > 0 ? 1 : 0);
-      setImportProgress({
-        current: 0,
-        total: totalOperations,
-        message: `Traitement de ${processedItems.length} note(s)...`,
-      });
-
-      const results = [];
-      let completed = 0;
-
-      for (const item of itemsToCreate) {
-        try {
-          setImportProgress({
-            current: completed,
-            total: totalOperations,
-            message: `Création de la note pour ${item.student_ref}...`,
-          });
-
-          const result = await createGradeProvider.saveOrUpdate(
-            {score: item.grade.score},
-            {examId, studentId: item.grade.student_id}
-          );
-          results.push(result);
-          completed++;
-        } catch (error) {
-          console.error(
-            `Error creating grade for student ${item.student_ref}:`,
-            error
-          );
-          throw error;
-        }
-      }
-
-      if (itemsToUpdate.length > 0) {
-        setImportProgress({
-          current: completed,
-          total: totalOperations,
-          message: `Mise à jour de ${itemsToUpdate.length} note(s) existante(s)...`,
-        });
-
-        const result = await examGradeProvider.saveOrUpdate(itemsToUpdate, {
-          examId,
-        });
-        results.push(result);
-        completed++;
-      }
-
-      setImportProgress({
-        current: totalOperations,
-        total: totalOperations,
-        message: "Finalisation de l'import...",
-      });
-      notify("Import réussi", {type: "success"});
-      refresh();
-      return results;
-    } catch (error) {
-      notify(
-        `Erreur d'import: ${error.response?.data?.message || error.message}`,
-        {type: "error"}
-      );
-      throw error;
-    } finally {
-      setIsImporting(false);
-      setImportProgress({current: 0, total: 0, message: ""});
-    }
-  };
 
   const downloadTemplate = async () => {
     try {
@@ -198,7 +67,7 @@ export const ExamGradeListActions = ({examId, examName}) => {
             1,
             MAX_ITEM_PER_PAGE,
             {},
-            {examId}
+            { examId }
           );
           currentParticipants = result.data || [];
         } catch (error) {
@@ -207,15 +76,15 @@ export const ExamGradeListActions = ({examId, examName}) => {
         }
       }
 
-      const headers = ["student_ref", "score", "comment"];
+      const headers = ["ref", "score"];
       const participantRows =
         currentParticipants && currentParticipants.length > 0
           ? currentParticipants.map((participant) => {
-              const student = participant.student || {};
-              const grade = participant.grade || {};
-              return [student.ref ?? "", grade.score ?? "", ""];
-            })
-          : [["STD12345", "", ""]];
+            const student = participant.student || {};
+            const grade = participant.grade || {};
+            return [student.ref ?? "", grade.score ?? ""];
+          })
+          : [["STD12345", ""]];
 
       const worksheet = XLSX.utils.aoa_to_sheet([
         headers,
@@ -248,17 +117,34 @@ export const ExamGradeListActions = ({examId, examName}) => {
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center">
-        <ImportButton
-          validateData={validateGradeData}
-          resource="notes"
-          provider={handleImport}
-          transformData={transformGradesData}
-          minimalHeaders={GRADE_HEADERS.minimal}
-          optionalHeaders={GRADE_HEADERS.optional}
-          disabled={isImporting}
-          title="Importer des notes"
-          description="Sélectionnez un fichier Excel contenant les notes des étudiants"
-        />
+        <Button
+          data-testid="import-grades-button"
+          startIcon={<Upload />}
+          sx={{
+            width: "100%",
+            justifyContent: "start",
+            paddingLeft: "20px",
+            paddingTop: "7px",
+            paddingBottom: "7px",
+            color: "#474645",
+            textTransform: "none",
+          }}
+          onClick={toggle}
+        >
+          Importer
+        </Button>
+        <FileUploadDialog
+          isOpen={isOpen}
+          onClose={toggle}
+          title="Importer les notes"
+          resource="import-grades"
+          accept=".xlsx, .xls, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          fileIcon={ExcelIcon}
+          fileIconAlt="Excel"
+          saveButtonLabel="Lancer l'import"
+          confirmContent="Êtes-vous certain de vouloir lancer l'import avec le fichier sélectionné ?"
+        >
+        </FileUploadDialog>
         <ButtonBase
           startIcon={<Download />}
           onClick={downloadTemplate}
@@ -271,7 +157,7 @@ export const ExamGradeListActions = ({examId, examName}) => {
         open={isImporting}
         disableEscapeKeyDown
         PaperProps={{
-          sx: {minWidth: 400, p: 2},
+          sx: { minWidth: 400, p: 2 },
         }}
       >
         <DialogTitle>
@@ -281,19 +167,19 @@ export const ExamGradeListActions = ({examId, examName}) => {
           </Box>
         </DialogTitle>
         <DialogContent>
-          <Box sx={{mt: 2, mb: 3}}>
+          <Box sx={{ mt: 2, mb: 3 }}>
             <Typography variant="body2" color="text.secondary" gutterBottom>
               {importProgress.message}
             </Typography>
             {importProgress.total > 0 && (
               <>
-                <Box sx={{mt: 2, mb: 1}}>
+                <Box sx={{ mt: 2, mb: 1 }}>
                   <LinearProgress
                     variant="determinate"
                     value={
                       (importProgress.current / importProgress.total) * 100
                     }
-                    sx={{height: 8, borderRadius: 4}}
+                    sx={{ height: 8, borderRadius: 4 }}
                   />
                 </Box>
                 <Typography variant="caption" color="text.secondary">
