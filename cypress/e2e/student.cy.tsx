@@ -49,6 +49,9 @@ describe("Student", () => {
       `/students/${student1Mock.id}/fees/${feesMock[0].id}`,
       feesMock[0]
     ).as("getFee2");
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
   });
 
   it("lands on profile page if succeeds", () => {

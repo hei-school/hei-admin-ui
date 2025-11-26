@@ -41,6 +41,9 @@ describe("Student receipt", () => {
       `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments/${payment1Mock.id}/receipt/raw`,
       {fixture: "/students/reçu.pdf"}
     ).as("downloadReceipt");
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
+    );
   });
 
   it("Student can get receipt", () => {
