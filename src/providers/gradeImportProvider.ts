@@ -11,11 +11,11 @@ const gradeImportProvider: HaDataProviderType = {
     throw new Error("Function not implement.");
   },
 
-  saveOrUpdate: async (resources) => {
-    const {exam_id, file} = resources[0];
-
+  saveOrUpdate: async (resources, params) => {
+    const examId = params.meta.examId;
+    const {file} = resources[0];
     return gradesApi()
-      .importStudentsExamGrade(exam_id, file.rawFile)
+      .importStudentsExamGrade(examId, file.rawFile)
       .then((response) => [{id: uuidv4(), ...response.data}]);
   },
 

@@ -46,6 +46,7 @@ import StudentParticipationProvider from "@/providers/studentParticipationProvid
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
+import gradeImportProvider from "./gradeImportProvider";
 import retakeExamCoursesProvider from "./retakeExamCoursesProvider";
 import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
@@ -105,6 +106,7 @@ const providerMap = {
   "cor": corProvider,
   "student-cor": corStudentProvider,
   "import-students": studentImportProvider,
+  "import-grades": gradeImportProvider,
 } as const;
 
 const getProvider = (

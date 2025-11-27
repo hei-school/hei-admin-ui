@@ -40,6 +40,8 @@ export const ExamGradeListActions = ({examId, examName}) => {
     meta: {examId},
   });
 
+  console.log(examId);
+
   if (!hasPermission) return null;
 
   const downloadTemplate = async () => {
@@ -125,6 +127,7 @@ export const ExamGradeListActions = ({examId, examName}) => {
           Importer
         </Button>
         <FileUploadDialog
+          meta={{examId}}
           isOpen={isOpen}
           onClose={toggle}
           title="Importer les notes"
