@@ -137,7 +137,7 @@ export const ExamGradeListActions = ({examId, examName}) => {
           fileIconAlt="Excel"
           saveButtonLabel="Lancer l'import"
           confirmContent="Êtes-vous certain de vouloir lancer l'import avec le fichier sélectionné ?"
-        ></FileUploadDialog>
+        />
         <ButtonBase
           startIcon={<Download />}
           onClick={downloadTemplate}
