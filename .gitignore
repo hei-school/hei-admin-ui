@@ -56,5 +56,6 @@ cypress/screenshots/*
 dist
 .nyc_output
 coverage
-
+heigen.sh
+clientgen.sh
 .env

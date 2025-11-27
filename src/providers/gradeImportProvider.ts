@@ -1,6 +1,6 @@
-import { v4 as uuidv4 } from "uuid";
-import { gradesApi } from "./api";
-import { HaDataProviderType } from "./HaDataProviderType";
+import {v4 as uuidv4} from "uuid";
+import {gradesApi} from "./api";
+import {HaDataProviderType} from "./HaDataProviderType";
 
 const gradeImportProvider: HaDataProviderType = {
   getList: () => {
@@ -8,17 +8,15 @@ const gradeImportProvider: HaDataProviderType = {
   },
 
   getOne: async () => {
-    throw new Error("Function not implement.")
+    throw new Error("Function not implement.");
   },
 
   saveOrUpdate: async (resources) => {
-    const { exam_id, file } = resources[0];
+    const {exam_id, file} = resources[0];
 
     return gradesApi()
       .importStudentsExamGrade(exam_id, file.rawFile)
-      .then((response) => [
-        { id: uuidv4(), ...response.data },
-      ]);
+      .then((response) => [{id: uuidv4(), ...response.data}]);
   },
 
   delete: () => {
@@ -27,4 +25,3 @@ const gradeImportProvider: HaDataProviderType = {
 };
 
 export default gradeImportProvider;
-

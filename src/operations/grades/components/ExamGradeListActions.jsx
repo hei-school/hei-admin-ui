@@ -1,34 +1,26 @@
-import { useNotify } from "@/hooks";
 import ExcelIcon from "@/assets/xls.png";
-import { Loader } from "@/operations/common/components/Loader";
-import {
-  GRADE_HEADERS,
-  transformGradesData,
-  validateGradeData,
-} from "@/operations/grades/utils";
-import createGradeProvider from "@/providers/createGradeProvider";
-import { MAX_ITEM_PER_PAGE } from "@/providers/dataProvider";
+import {useNotify, useToggle} from "@/hooks";
+import {FileUploadDialog} from "@/operations/common/components/FileUploadDialog";
+import {Loader} from "@/operations/common/components/Loader";
+import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import examGradeProvider from "@/providers/examGradeProvider";
-import { useRole } from "@/security/hooks";
-import { ButtonBase, ImportButton } from "@/ui/haToolbar";
-import { Download } from "@mui/icons-material";
-import { useToggle } from "@/hooks";
-import { FileUploadDialog } from "@/operations/common/components/FileUploadDialog";
-import { Upload } from "@mui/icons-material";
-import { Button } from "@mui/material";
+import {useRole} from "@/security/hooks";
+import {ButtonBase} from "@/ui/haToolbar";
+import {Download, Upload} from "@mui/icons-material";
 import {
   Box,
+  Button,
   Dialog,
   DialogContent,
   DialogTitle,
   LinearProgress,
   Typography,
 } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useGetList, useRefresh } from "react-admin";
+import {useState} from "react";
+import {useGetList, useRefresh} from "react-admin";
 import * as XLSX from "xlsx";
 
-export const ExamGradeListActions = ({ examId, examName }) => {
+export const ExamGradeListActions = ({examId, examName}) => {
   const [isOpen, , toggle] = useToggle();
   const [isImporting, setIsImporting] = useState(false);
   const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
@@ -38,16 +30,15 @@ export const ExamGradeListActions = ({ examId, examName }) => {
     message: "",
   });
   const [participants, setParticipants] = useState([]);
-  const { isManager, isAdmin, isTeacher } = useRole();
+  const {isManager, isAdmin, isTeacher} = useRole();
   const hasPermission = isManager() || isAdmin() || isTeacher();
   const notify = useNotify();
   const refresh = useRefresh();
 
-  const { data: participantsData } = useGetList("exam-grades", {
-    pagination: { page: 1, perPage: MAX_ITEM_PER_PAGE },
-    meta: { examId },
+  const {data: participantsData} = useGetList("exam-grades", {
+    pagination: {page: 1, perPage: MAX_ITEM_PER_PAGE},
+    meta: {examId},
   });
-
 
   if (!hasPermission) return null;
 
@@ -67,7 +58,7 @@ export const ExamGradeListActions = ({ examId, examName }) => {
             1,
             MAX_ITEM_PER_PAGE,
             {},
-            { examId }
+            {examId}
           );
           currentParticipants = result.data || [];
         } catch (error) {
@@ -80,10 +71,10 @@ export const ExamGradeListActions = ({ examId, examName }) => {
       const participantRows =
         currentParticipants && currentParticipants.length > 0
           ? currentParticipants.map((participant) => {
-            const student = participant.student || {};
-            const grade = participant.grade || {};
-            return [student.ref ?? "", grade.score ?? ""];
-          })
+              const student = participant.student || {};
+              const grade = participant.grade || {};
+              return [student.ref ?? "", grade.score ?? ""];
+            })
           : [["STD12345", ""]];
 
       const worksheet = XLSX.utils.aoa_to_sheet([
@@ -143,8 +134,7 @@ export const ExamGradeListActions = ({ examId, examName }) => {
           fileIconAlt="Excel"
           saveButtonLabel="Lancer l'import"
           confirmContent="Êtes-vous certain de vouloir lancer l'import avec le fichier sélectionné ?"
-        >
-        </FileUploadDialog>
+        ></FileUploadDialog>
         <ButtonBase
           startIcon={<Download />}
           onClick={downloadTemplate}
@@ -157,7 +147,7 @@ export const ExamGradeListActions = ({ examId, examName }) => {
         open={isImporting}
         disableEscapeKeyDown
         PaperProps={{
-          sx: { minWidth: 400, p: 2 },
+          sx: {minWidth: 400, p: 2},
         }}
       >
         <DialogTitle>
@@ -167,19 +157,19 @@ export const ExamGradeListActions = ({ examId, examName }) => {
           </Box>
         </DialogTitle>
         <DialogContent>
-          <Box sx={{ mt: 2, mb: 3 }}>
+          <Box sx={{mt: 2, mb: 3}}>
             <Typography variant="body2" color="text.secondary" gutterBottom>
               {importProgress.message}
             </Typography>
             {importProgress.total > 0 && (
               <>
-                <Box sx={{ mt: 2, mb: 1 }}>
+                <Box sx={{mt: 2, mb: 1}}>
                   <LinearProgress
                     variant="determinate"
                     value={
                       (importProgress.current / importProgress.total) * 100
                     }
-                    sx={{ height: 8, borderRadius: 4 }}
+                    sx={{height: 8, borderRadius: 4}}
                   />
                 </Box>
                 <Typography variant="caption" color="text.secondary">
