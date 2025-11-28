@@ -40,8 +40,6 @@ export const ExamGradeListActions = ({examId, examName}) => {
     meta: {examId},
   });
 
-  console.log(examId);
-
   if (!hasPermission) return null;
 
   const downloadTemplate = async () => {

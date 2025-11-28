@@ -1,4 +1,6 @@
+import {ExamGradeListActions} from "@/operations/grades/components/ExamGradeListActions";
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import * as XLSX from "xlsx";
 import {
   courseResultsMock,
   emptyYearlyResultMock,
@@ -293,5 +295,46 @@ describe("display error on overview card", () => {
   });
   it("should display error message when fetching yearly results fails", () => {
     cy.contains("Erreur lors du chargement des données").should("exist");
+  });
+});
+
+describe("ExamGradeListActions component", () => {
+  const examId = "exam-123";
+  const examName = "Maths Test";
+
+  beforeEach(() => {
+    // Stub des participants
+    cy.intercept("GET", "/exam-grades*", {fixture: "participants.json"}).as(
+      "getParticipants"
+    );
+
+    // Stub des fonctions XLSX avant de monter le composant
+    cy.stub(XLSX.utils, "book_new").returns({});
+    cy.stub(XLSX.utils, "book_append_sheet");
+    cy.stub(XLSX, "writeFile").as("writeFileStub");
+
+    cy.mount(<ExamGradeListActions examId={examId} examName={examName} />);
+  });
+
+  it("should open FileUploadDialog when clicking 'Importer'", () => {
+    cy.get("[data-testid='import-grades-button']").click();
+    cy.get("[role='dialog']").should("be.visible");
+    cy.contains("Importer les notes").should("exist");
+  });
+
+  it("should trigger template download when clicking 'Modèle'", () => {
+    cy.contains("Modèle").click();
+    cy.get("@writeFileStub").should(
+      "have.been.calledWith",
+      `Note ${examName}.xlsx`
+    );
+
+    // Vérifie que le bouton affiche "Téléchargement..."
+    cy.contains("Téléchargement...").should("exist");
+  });
+
+  it("should disable 'Modèle' button while downloading", () => {
+    cy.contains("Modèle").click();
+    cy.contains("Téléchargement...").should("be.disabled");
   });
 });
