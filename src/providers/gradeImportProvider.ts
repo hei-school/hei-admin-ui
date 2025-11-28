@@ -14,6 +14,7 @@ const gradeImportProvider: HaDataProviderType = {
   saveOrUpdate: async (resources, params) => {
     const examId = params.meta.examId;
     const {file} = resources[0];
+    console.log(examId);
     return gradesApi()
       .importStudentsExamGrade(examId, file.rawFile)
       .then((response) => [{id: uuidv4(), ...response.data}]);
