@@ -98,6 +98,19 @@ export const EventCalendar = () => {
             initialView: "timeGridWeek",
             hiddenDays: [0],
             height: "auto",
+            eventContent: (arg) => {
+              const event = arg.event.extendedProps as Event;
+              const onlineIcon = event.is_online ? "💻 " : "";
+              return (
+                <div className="fc-event-main-frame">
+                  <div className="fc-event-time">
+                    <span style={{fontSize: "1.3em"}}>{onlineIcon}</span>
+                    {arg.timeText}
+                  </div>
+                  <div className="fc-event-title">{arg.event.title}</div>
+                </div>
+              );
+            },
             getFilterValueFromInterval: (dateInfo) => {
               setFilter((prevFilter) => {
                 const newFilter = {
