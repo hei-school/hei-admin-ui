@@ -28,6 +28,7 @@ import {stringifyObj} from "../common/utils/strinfigy-obj";
 import {ToRaRecord} from "../common/utils/types";
 import {SelectCourse, SelectPlanner} from "./components";
 import {SelectClassroom} from "./components/SelectClassrroom";
+import {SelectIsOnline} from "./components/SelectIsOnline";
 import {
   EVENT_TYPE_VALUE,
   PLACE_CHOICES,
@@ -111,6 +112,7 @@ export function EventCreate() {
           multiline
           fullWidth
         />
+        <SelectIsOnline />
         <SelectPlanner />
         <Box
           sx={{display: "flex", alignItems: "center", gap: 1, width: "100%"}}
