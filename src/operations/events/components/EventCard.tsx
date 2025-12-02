@@ -3,7 +3,7 @@ import {useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {formatDate, getTime, isSameDay} from "@/utils/date";
 import {Event} from "@haapi-b0fc7615/typescript-client";
-import {CalendarMonthOutlined, MenuBook} from "@mui/icons-material";
+import {CalendarMonthOutlined, Computer, MenuBook} from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -53,11 +53,23 @@ export function EventCard({event}: EventCardPropsType) {
       <Box sx={{width: "100%"}}>
         <CardContent>
           <Stack direction="row" justifyContent="space-between">
-            <Chip
-              label={EVENT_TYPE_VALUE[event.type]}
-              size="small"
-              color={event.type == "COURSE" ? "primary" : "default"}
-            />
+            <Stack direction="row" gap={1}>
+              <Chip
+                label={EVENT_TYPE_VALUE[event.type]}
+                size="small"
+                color={event.type == "COURSE" ? "primary" : "default"}
+              />
+              {event.is_online === true && (
+                <Box sx={{display: "flex", justifyContent: "center"}}>
+                  <Chip
+                    icon={<Computer fontSize="small" />}
+                    label="En ligne"
+                    size="small"
+                    color="success"
+                  />
+                </Box>
+              )}
+            </Stack>
             {event.type == "COURSE" && (
               <Chip avatar={<MenuBook />} label={course?.code} size="small" />
             )}

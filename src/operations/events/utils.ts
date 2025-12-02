@@ -53,7 +53,8 @@ export const RECURRENCE_TYPE_CHOICES = [
 ];
 
 export const EventTitle: FC<{event: Event}> = ({event}) => {
-  return `[${
+  return `
+  [${
     event.groups?.length
       ? event.groups.map((group) => group.ref).join(", ")
       : EVENT_TYPE_VALUE[event.type!]
