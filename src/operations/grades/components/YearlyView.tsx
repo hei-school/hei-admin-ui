@@ -6,11 +6,12 @@ import {levelChoices} from "@/operations/grades/utils";
 import {getGradeColor} from "@/operations/grades/utils/getGradeColor";
 import dataProvider from "@/providers/dataProvider";
 import {ToRaRecord} from "@/providers/types";
-import {YearlyResult} from "@haapi-b0fc7615/typescript-client";
+import {Student, YearlyResult} from "@haapi-b0fc7615/typescript-client";
 import {Apps, Download, List, School} from "@mui/icons-material";
 import {
   Box,
   Chip,
+  CircularProgress,
   FormControl,
   InputLabel,
   MenuItem,
@@ -19,17 +20,38 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
-import {FC, useState} from "react";
+import {FC, useEffect, useState} from "react";
 import {useGetOne} from "react-admin";
 import {GradientButton} from "../utils/utils";
 
 export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
-  const [selectedLevel, setSelectedLevel] = useState<StudentLevel>(
-    StudentLevel.L1
+  const {data: Student, isLoading: studentsLoading} = useGetOne<
+    ToRaRecord<Student & {level: StudentLevel}>
+  >("students", {id: studentId || ""}, {enabled: !!studentId});
+
+  const rawLevel = Student?.level;
+  const studentLevel: StudentLevel =
+    rawLevel === "M1" || rawLevel === "M2" || rawLevel === "L3"
+      ? "L3"
+      : rawLevel || "L1";
+
+  const [selectedLevel, setSelectedLevel] = useState<StudentLevel & string>(
+    studentLevel
   );
   const [loading, setLoading] = useState(false);
   const [viewType, setViewType] = useState<ViewType>("LIST");
   const notify = useNotify();
+
+  useEffect(() => {
+    if (Student && Student.level) {
+      const newRawLevel = Student.level;
+      const realLevel =
+        newRawLevel === "M1" || newRawLevel === "M2" || newRawLevel === "L3"
+          ? "L3"
+          : newRawLevel || "L1";
+      setSelectedLevel(realLevel);
+    }
+  }, [Student]);
 
   const handleViewType = (
     _: React.MouseEvent<HTMLElement>,
@@ -84,7 +106,6 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
       if (status === "AVAILABLE" && link) {
         await downloadFile(link, `Relevé des notes ${selectedLevel}.pdf`);
       } else {
-        //notify("Le fichier n'est pas disponible", {type: "warning"});
         notify("Fichier généré dans documents et bulletins.", {
           type: "warning",
         });
@@ -97,7 +118,9 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
     }
   };
 
-  return (
+  return studentsLoading ? (
+    <CircularProgress />
+  ) : (
     <Box>
       <Paper
         elevation={0}
@@ -115,132 +138,134 @@ export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
           isLoading={isLoading}
           result={result}
         />
-
-        <Box
-          display="flex"
-          flexDirection={{xs: "column", sm: "row"}}
-          justifyContent="space-between"
-          alignItems={{xs: "stretch", sm: "center"}}
-          mt={3}
-          pt={2}
-          borderTop={1}
-          borderColor="divider"
-          gap={2}
-        >
-          <Chip
-            icon={<School color="inherit" />}
-            label={`Crédits validés: ${result?.obtained_credits ?? 0} / 60`}
-            variant="outlined"
-            sx={{
-              fontWeight: "bold",
-              color: getGradeColor(
-                result?.total_credits
-                  ? ((result.obtained_credits ?? 0) / result.total_credits) * 20
-                  : 0
-              ),
-              borderColor: getGradeColor(
-                result?.total_credits
-                  ? ((result.obtained_credits ?? 0) / result.total_credits) * 20
-                  : 0
-              ),
-              mb: {xs: 2, sm: 0},
-              width: {xs: "100%", sm: "auto"},
-            }}
-          />
+        {!studentsLoading && (
           <Box
             display="flex"
             flexDirection={{xs: "column", sm: "row"}}
-            gap={2}
+            justifyContent="space-between"
             alignItems={{xs: "stretch", sm: "center"}}
-            sx={{
-              bgcolor: "grey.50",
-              p: 1,
-              borderRadius: 2,
-              border: "1px solid",
-              borderColor: "grey.200",
-              width: {xs: "100%", sm: "auto"},
-            }}
+            mt={3}
+            pt={2}
+            borderTop={1}
+            borderColor="divider"
+            gap={2}
           >
-            <FormControl
+            <Chip
+              icon={<School color="inherit" />}
+              label={`Crédits validés: ${result?.obtained_credits ?? 0} / 60`}
               variant="outlined"
-              size="small"
-              sx={{minWidth: 120, width: {xs: "100%", sm: "auto"}}}
-            >
-              <InputLabel id="level-select-label">
-                Filtrer par niveau
-              </InputLabel>
-              <Select
-                labelId="level-select-label"
-                data-testid="level-select"
-                value={selectedLevel}
-                onChange={(e) =>
-                  setSelectedLevel(e.target.value as StudentLevel)
-                }
-                label="Filtrer par niveau"
-                sx={{borderRadius: 2, width: {xs: "100%", sm: "auto"}}}
-              >
-                {levelChoices.map((choice) => (
-                  <MenuItem key={choice.id} value={choice.id}>
-                    {choice.name}
-                  </MenuItem>
-                ))}
-              </Select>
-            </FormControl>
+              sx={{
+                fontWeight: "bold",
+                color: getGradeColor(
+                  result?.total_credits
+                    ? ((result.obtained_credits ?? 0) / result.total_credits) *
+                        20
+                    : 0
+                ),
+                borderColor: getGradeColor(
+                  result?.total_credits
+                    ? ((result.obtained_credits ?? 0) / result.total_credits) *
+                        20
+                    : 0
+                ),
+                mb: {xs: 2, sm: 0},
+                width: {xs: "100%", sm: "auto"},
+              }}
+            />
             <Box
               display="flex"
-              justifyContent={{xs: "stretch", sm: "right"}}
-              alignItems="flex-end"
-              mb={{xs: 0, sm: 2}}
-              mt={{xs: 1, sm: 0}}
-              width={{xs: "100%", sm: "auto"}}
-            >
-              <GradientButton
-                className="download-button"
-                variant="contained"
-                size="large"
-                startIcon={<Download />}
-                onClick={handleDownload}
-                disabled={loading}
-                sx={{
-                  width: {xs: "100%", sm: "auto"},
-                  color: "whitesmoke !important",
-                }}
-              >
-                {loading ? "Patientez..." : `Relevé ${selectedLevel}`}
-              </GradientButton>
-            </Box>
-            <ToggleButtonGroup
-              size="small"
-              value={viewType}
-              exclusive
-              onChange={handleViewType}
-              aria-label="view type"
+              flexDirection={{xs: "column", sm: "row"}}
+              gap={2}
+              alignItems={{xs: "stretch", sm: "center"}}
               sx={{
-                "width": {xs: "100%", sm: "auto"},
-                ".MuiToggleButton-root": {
-                  flex: 1,
-                },
+                bgcolor: "grey.50",
+                p: 1,
+                borderRadius: 2,
+                border: "1px solid",
+                borderColor: "grey.200",
+                width: {xs: "100%", sm: "auto"},
               }}
             >
-              <ToggleButton
-                value="GRID"
-                aria-label="grid view"
-                data-testid="grid-view-toggle"
-                sx={{width: {xs: "50%", sm: "auto"}}}
+              <FormControl
+                variant="outlined"
+                size="small"
+                sx={{minWidth: 120, width: {xs: "100%", sm: "auto"}}}
               >
-                <Apps />
-              </ToggleButton>
-              <ToggleButton
-                value="LIST"
-                aria-label="list view"
-                data-testid="list-view-toggle"
-                sx={{width: {xs: "50%", sm: "auto"}}}
+                <InputLabel id="level-select-label">
+                  Filtrer par niveau
+                </InputLabel>
+                <Select
+                  labelId="level-select-label"
+                  data-testid="level-select"
+                  value={selectedLevel}
+                  onChange={(e) =>
+                    setSelectedLevel(e.target.value as StudentLevel)
+                  }
+                  label="Filtrer par niveau"
+                  sx={{borderRadius: 2, width: {xs: "100%", sm: "auto"}}}
+                >
+                  {levelChoices.map((choice) => (
+                    <MenuItem key={choice.id} value={choice.id}>
+                      {choice.name}
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
+              <Box
+                display="flex"
+                justifyContent={{xs: "stretch", sm: "right"}}
+                alignItems="flex-end"
+                mt={{xs: 1, sm: 0}}
+                width={{xs: "100%", sm: "auto"}}
               >
-                <List />
-              </ToggleButton>
-            </ToggleButtonGroup>
+                <GradientButton
+                  className="download-button"
+                  variant="contained"
+                  startIcon={<Download />}
+                  onClick={handleDownload}
+                  disabled={loading}
+                  sx={{
+                    width: {xs: "100%", sm: "auto"},
+                    color: "whitesmoke !important",
+                    padding: "10px 16px",
+                  }}
+                >
+                  {loading ? "Patientez..." : `Relevé ${selectedLevel}`}
+                </GradientButton>
+              </Box>
+              <ToggleButtonGroup
+                size="small"
+                value={viewType}
+                exclusive
+                onChange={handleViewType}
+                aria-label="view type"
+                sx={{
+                  "width": {xs: "100%", sm: "auto"},
+                  ".MuiToggleButton-root": {
+                    flex: 1,
+                  },
+                }}
+              >
+                <ToggleButton
+                  value="GRID"
+                  aria-label="grid view"
+                  data-testid="grid-view-toggle"
+                  sx={{width: {xs: "50%", sm: "auto"}}}
+                >
+                  <Apps />
+                </ToggleButton>
+                <ToggleButton
+                  value="LIST"
+                  aria-label="list view"
+                  data-testid="list-view-toggle"
+                  sx={{width: {xs: "50%", sm: "auto"}}}
+                >
+                  <List />
+                </ToggleButton>
+              </ToggleButtonGroup>
+            </Box>
           </Box>
-        </Box>
+        )}
       </Paper>
 
       <CoursesListView
