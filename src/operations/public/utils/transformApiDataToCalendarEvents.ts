@@ -10,14 +10,16 @@ export const transformApiDataToCalendarEvents = (data: Event[]) => {
   return data
     .filter((event): event is NonNullable<typeof event> => event != null)
     .map((event) => {
+      const baseTitle = EventTitle({event});
       return {
         id: event.id,
-        title: EventTitle({event}),
+        title: baseTitle,
         start: event.begin_datetime ? new Date(event.begin_datetime) : null,
         end: event.end_datetime ? new Date(event.end_datetime) : null,
         description: event.description || "Pas de description",
         groupName: event.groups?.[0]?.name || "Pas de groupe",
         color: event.color,
+        isOnline: event.is_online,
       };
     });
 };
