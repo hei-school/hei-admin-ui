@@ -85,6 +85,23 @@ export const CalendarView = () => {
 
   const calendarEvents = transformApiDataToCalendarEvents(events);
 
+  const customFormats = {
+    ...dateFormats,
+    eventTimeRangeFormat: (
+      {start, end}: {start: Date; end: Date},
+      culture?: string,
+      localizer?: any
+    ) => {
+      const event = calendarEvents.find(
+        (e) => e.start?.getTime() === start.getTime()
+      );
+      const onlineIcon = event?.isOnline ? "💻 " : "";
+      const startFormatted = `${localizer.format(start, "hh:mm", culture)} AM`;
+      const endFormatted = `${localizer.format(end, "hh:mm", culture)} AM`;
+      return `${onlineIcon}${startFormatted} - ${endFormatted}`;
+    },
+  };
+
   return (
     <Box>
       {loading && (
@@ -124,7 +141,7 @@ export const CalendarView = () => {
         eventPropGetter={eventStyleGetter}
         dayPropGetter={dayPropGetter}
         messages={frenchMessages}
-        formats={dateFormats}
+        formats={customFormats}
       />
     </Box>
   );
