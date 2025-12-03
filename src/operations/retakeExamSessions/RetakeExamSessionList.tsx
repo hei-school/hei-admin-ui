@@ -103,13 +103,19 @@ export const RetakeExamSessionList = () => {
           title: "Liste des sessions de rattrapage",
           filter: isStudent() ? {student_level: studentData?.level} : {},
         }}
-        actions={<CreateSessionButton onClick={toggleShowCreate} />}
+        actions={
+          (isAdmin() || isManager()) && (
+            <CreateSessionButton onClick={toggleShowCreate} />
+          )
+        }
       >
         <TextField source="title" label="Nom de la session" />
         <DateField source="date_from" label="Début" />
         <DateField source="date_to" label="Fin" />
         <FunctionField label="Niveaux" render={formatLevels} />
-        <EditSessionButton onEdit={handleEdit} />
+        {(isAdmin() || isManager()) && (
+          <EditSessionButton onEdit={handleEdit} label="Éditer" />
+        )}
         <RoleBasedShowButton />
       </HaList>
 

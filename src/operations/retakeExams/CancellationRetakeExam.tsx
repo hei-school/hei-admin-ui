@@ -3,9 +3,21 @@ import {RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 import {AssignmentLate} from "@mui/icons-material";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import {useEffect, useState} from "react";
-import {TextField, useGetList} from "react-admin";
+import {TextField, useGetList, useListContext} from "react-admin";
 import {useNavigate} from "react-router-dom";
 import {RetakeExamButtons} from "./components/RetakeExamButtons";
+
+const ConditionalRejectionField = () => {
+  const {data, isLoading} = useListContext();
+  if (isLoading || !data || data.length === 0) return null;
+  const hasRejectionReason = data.some(
+    (retakeExam) =>
+      retakeExam.rejection_reason && retakeExam.rejection_reason.trim() !== ""
+  );
+  if (!hasRejectionReason) return null;
+
+  return <TextField source="rejection_reason" label="Raison du rejet" />;
+};
 
 export const CancellationRetakeExam = () => {
   const navigate = useNavigate();
@@ -60,6 +72,8 @@ export const CancellationRetakeExam = () => {
       <TextField source="student_identifier.ref" label="STD" />
       <TextField source="course.code" label="Matière" />
       <TextField source="session.title" label="Session" />
+      <TextField source="cancel_reason" label="Raison de la demande" />
+      <ConditionalRejectionField />
       <RetakeExamButtons />
     </HaList>
   );

@@ -6,7 +6,9 @@ export const RoleBasedShowButton = () => {
   const {isAdmin, isManager} = useRole();
   if (!parents) return null;
   if (isAdmin() || isManager()) {
-    return <ShowButton record={parents} />;
+    return <ShowButton record={parents} label="Afficher" />;
   }
-  return <ShowButton resource="retakeExams" record={parents} />;
+  return (
+    <ShowButton resource="retakeExams" record={parents} label="Afficher" />
+  );
 };

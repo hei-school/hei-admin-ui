@@ -1,7 +1,8 @@
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
+import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {BookOpenIcon} from "lucide-react";
-import {DateField, TextField, useGetOne} from "react-admin";
+import {DateField, TextField, useGetList, useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
 import {RetakeExamButtons} from "./components";
 
@@ -27,8 +28,8 @@ const RETAKE_EXAM_LIST_SX = {
 };
 
 interface RetakeExamListShowContentProps {
-  studentId?: string;
-  sessionId?: string;
+  studentId: string;
+  sessionId: string;
 }
 
 export const RetakeExamListShow = () => {
@@ -46,6 +47,19 @@ const RetakeExamListShowContent = ({
   sessionId,
 }: RetakeExamListShowContentProps) => {
   const {data: session} = useGetOne("retakeExams-sessions", {id: sessionId});
+  const {data: retakeExams = []} = useGetList("retakeExams", {
+    filter: {studentId, sessionId},
+  });
+  const hasCancelReason = retakeExams.some(
+    (retakeExam: RetakeExam) =>
+      retakeExam.cancel_reason && retakeExam.cancel_reason.trim() !== ""
+  );
+
+  const hasRejectionReason = retakeExams.some(
+    (retakeExam: RetakeExam) =>
+      retakeExam.rejection_reason && retakeExam.rejection_reason.trim() !== ""
+  );
+
   return (
     <HaList
       title={`Rattrapages – ${session?.title ?? "Session"}`}
@@ -69,6 +83,20 @@ const RetakeExamListShowContent = ({
         label="Inscrit le"
         emptyText="Non défini"
       />
+      {hasCancelReason && (
+        <TextField
+          source="cancel_reason"
+          label="Raison de la demande"
+          emptyText="-"
+        />
+      )}
+      {hasRejectionReason && (
+        <TextField
+          source="rejection_reason"
+          label="Raison du rejet"
+          emptyText="-"
+        />
+      )}
       <RetakeExamButtons />
     </HaList>
   );
