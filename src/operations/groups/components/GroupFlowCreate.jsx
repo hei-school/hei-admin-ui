@@ -144,7 +144,7 @@ export const MoveStudentDialog = ({toggle, isOpen}) => {
 
   useEffect(() => {
     dataProvider
-      .getList("groups", {filter: {ref}, pagination: {page: 1, perPage: 10}})
+      .getList("groups", {filter: {ref}, pagination: {page: 1, perPage: 100}})
       .then((result) => setGroups(result?.data));
   }, [ref]);
 
