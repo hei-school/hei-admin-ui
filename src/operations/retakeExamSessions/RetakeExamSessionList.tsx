@@ -114,7 +114,7 @@ export const RetakeExamSessionList = () => {
         <DateField source="date_to" label="Fin" />
         <FunctionField label="Niveaux" render={formatLevels} />
         {(isAdmin() || isManager()) && (
-          <EditSessionButton onEdit={handleEdit} label="Éditer" />
+          <EditSessionButton onEdit={handleEdit} />
         )}
         <RoleBasedShowButton />
       </HaList>

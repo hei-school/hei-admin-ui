@@ -5,7 +5,7 @@ import {Dialog} from "@/ui/components";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {RetakeExamSession} from "@haapi-b0fc7615/typescript-client";
 import {Add, Edit as EditIcon} from "@mui/icons-material";
-import {IconButton} from "@mui/material";
+import {Box, IconButton} from "@mui/material";
 import {FunctionField} from "react-admin";
 
 export const CreateSessionButton = ({onClick}: {onClick: () => void}) => {
@@ -58,7 +58,7 @@ export const RetakeExamSessionActions = ({
   selectedSession,
 }: RetakeExamSessionActionsProps) => {
   return (
-    <>
+    <Box>
       <Dialog
         title="Création d'une session de rattrapage"
         open={showCreate}
@@ -66,7 +66,6 @@ export const RetakeExamSessionActions = ({
       >
         <RetakeExamSessionCreate onSuccess={onCloseCreate} />
       </Dialog>
-
       <Dialog
         title="Modifier la session de rattrapage"
         open={showEdit}
@@ -76,6 +75,6 @@ export const RetakeExamSessionActions = ({
           <RetakeExamSessionEdit {...selectedSession} onSuccess={onCloseEdit} />
         )}
       </Dialog>
-    </>
+    </Box>
   );
 };

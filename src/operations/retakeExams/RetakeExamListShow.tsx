@@ -32,6 +32,16 @@ interface RetakeExamListShowContentProps {
   sessionId: string;
 }
 
+const hasReasonField = (
+  retakeExams: RetakeExam[],
+  reasonKey: keyof RetakeExam
+): boolean => {
+  return retakeExams.some((exam) => {
+    const value = exam[reasonKey];
+    return typeof value === "string" && value.trim() !== "";
+  });
+};
+
 export const RetakeExamListShow = () => {
   const studentId = authProvider.getCachedWhoami()?.id;
   const {id: sessionId} = useParams();
@@ -50,15 +60,9 @@ const RetakeExamListShowContent = ({
   const {data: retakeExams = []} = useGetList("retakeExams", {
     filter: {studentId, sessionId},
   });
-  const hasCancelReason = retakeExams.some(
-    (retakeExam: RetakeExam) =>
-      retakeExam.cancel_reason && retakeExam.cancel_reason.trim() !== ""
-  );
 
-  const hasRejectionReason = retakeExams.some(
-    (retakeExam: RetakeExam) =>
-      retakeExam.rejection_reason && retakeExam.rejection_reason.trim() !== ""
-  );
+  const hasCancelReason = hasReasonField(retakeExams, "cancel_reason");
+  const hasRejectionReason = hasReasonField(retakeExams, "rejection_reason");
 
   return (
     <HaList
