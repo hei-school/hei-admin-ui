@@ -1,7 +1,8 @@
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
+import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {BookOpenIcon} from "lucide-react";
-import {DateField, TextField, useGetOne} from "react-admin";
+import {DateField, TextField, useGetList, useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
 import {RetakeExamButtons} from "./components";
 
@@ -27,9 +28,19 @@ const RETAKE_EXAM_LIST_SX = {
 };
 
 interface RetakeExamListShowContentProps {
-  studentId?: string;
-  sessionId?: string;
+  studentId: string;
+  sessionId: string;
 }
+
+const hasReasonField = (
+  retakeExams: RetakeExam[],
+  reasonKey: keyof RetakeExam
+): boolean => {
+  return retakeExams.some((exam) => {
+    const value = exam[reasonKey];
+    return typeof value === "string" && value.trim() !== "";
+  });
+};
 
 export const RetakeExamListShow = () => {
   const studentId = authProvider.getCachedWhoami()?.id;
@@ -46,6 +57,13 @@ const RetakeExamListShowContent = ({
   sessionId,
 }: RetakeExamListShowContentProps) => {
   const {data: session} = useGetOne("retakeExams-sessions", {id: sessionId});
+  const {data: retakeExams = []} = useGetList("retakeExams", {
+    filter: {studentId, sessionId},
+  });
+
+  const hasCancelReason = hasReasonField(retakeExams, "cancel_reason");
+  const hasRejectionReason = hasReasonField(retakeExams, "rejection_reason");
+
   return (
     <HaList
       title={`Rattrapages – ${session?.title ?? "Session"}`}
@@ -69,6 +87,20 @@ const RetakeExamListShowContent = ({
         label="Inscrit le"
         emptyText="Non défini"
       />
+      {hasCancelReason && (
+        <TextField
+          source="cancel_reason"
+          label="Raison de la demande"
+          emptyText="-"
+        />
+      )}
+      {hasRejectionReason && (
+        <TextField
+          source="rejection_reason"
+          label="Raison du rejet"
+          emptyText="-"
+        />
+      )}
       <RetakeExamButtons />
     </HaList>
   );

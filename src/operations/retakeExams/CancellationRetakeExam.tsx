@@ -60,6 +60,12 @@ export const CancellationRetakeExam = () => {
       <TextField source="student_identifier.ref" label="STD" />
       <TextField source="course.code" label="Matière" />
       <TextField source="session.title" label="Session" />
+      <TextField source="cancel_reason" label="Raison de la demande" />
+      <TextField
+        source="rejection_reason"
+        label="Raison du rejet"
+        emptyText="-"
+      />
       <RetakeExamButtons />
     </HaList>
   );

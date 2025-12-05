@@ -15,7 +15,7 @@ export const RetakeExamSessionCreate = ({
 }: RetakeExamSessionCreateProps) => (
   <Create
     redirect={false}
-    title="Créer une session de rattrapage"
+    title=" "
     transform={transformRetakeExamSession}
     mutationOptions={{
       onSuccess: () => {

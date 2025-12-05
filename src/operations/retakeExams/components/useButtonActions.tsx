@@ -18,13 +18,14 @@ export const useButtonActions = (
   const userId = authProvider.getCachedWhoami()?.id;
   const notify = useNotify();
   const [create] = useCreate();
-  const {data: retakeExams = []} = useGetList("retakeExams", {
+  const {data: retakeExams = [], refetch} = useGetList("retakeExams", {
     filter: {status: RetakeExamStatus.TO_CANCEL},
   });
 
   const [isRegistering, setIsRegistering] = useToggle(false);
   const [isCanceling, setIsCanceling] = useToggle(false);
   const [isValidatingCancel, setIsValidatingCancel] = useToggle(false);
+  const [isRejectingCancel, setIsRejectingCancel] = useToggle(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [localStatus, setLocalStatus] = useState<RetakeExamStatus | null>(null);
@@ -56,37 +57,57 @@ export const useButtonActions = (
 
   const updateStatus = useCallback(
     async (
-      status: RetakeExamStatus,
+      targetStatus: RetakeExamStatus,
       successMsg: string,
-      onClose: () => void
+      onClose: () => void,
+      reason?: string
     ) => {
       if (!retakeExam) return;
 
       const matchingExam =
         retakeExams.find((exam) => exam.id === retakeExam.id) ?? retakeExam;
       const studentId = matchingExam.student_identifier?.id ?? userId;
+      const currentStatus = localStatus;
 
       setIsLoading(true);
-      setOptimisticStatus(status);
+      setOptimisticStatus(targetStatus);
 
-      const payload = {
-        id: examId,
-        course_id: retakeExam.course?.id ?? "",
-        session_id: retakeExam.session?.id ?? "",
-        student_id: studentId,
-        status,
-      };
+      const isInitialRegistration = !retakeExam.id || !currentStatus;
+
+      const payload = isInitialRegistration
+        ? {
+            id: examId,
+            course_id: retakeExam.course?.id ?? "",
+            session_id: retakeExam.session?.id ?? "",
+            student_id: studentId,
+            status: targetStatus,
+          }
+        : {
+            id: retakeExam.id,
+            currentStatus: currentStatus,
+            status: targetStatus,
+            ...(reason && {reason}),
+          };
+
+      const resourceId = isInitialRegistration
+        ? (retakeExam.session?.id ?? "")
+        : currentStatus;
 
       create(
         "retakeExams",
-        {data: payload},
+        {
+          data: payload,
+          meta: {resourceId},
+        },
         {
           onSuccess: () => {
             notify(successMsg, {type: "success"});
-            onSuccess?.({...retakeExam, status});
+            onSuccess?.({...retakeExam, status: targetStatus});
+            refetch();
             onClose();
           },
-          onError: () => {
+          onError: (error) => {
+            console.error("Error updating retake exam:", error);
             notify("Une erreur est survenue. Merci de réessayer.", {
               type: "error",
             });
@@ -97,23 +118,53 @@ export const useButtonActions = (
         }
       );
     },
-    [create, retakeExam, examId, notify, onSuccess, userId, retakeExams]
+    [
+      create,
+      retakeExam,
+      examId,
+      notify,
+      onSuccess,
+      userId,
+      retakeExams,
+      localStatus,
+      refetch,
+    ]
   );
   const handleRegister = useCallback(() => {
-    updateStatus("REGISTERED", "Inscription réussie.", () =>
+    updateStatus(RetakeExamStatus.REGISTERED, "Inscription réussie.", () =>
       setIsRegistering(false)
     );
   }, [updateStatus, setIsRegistering]);
-  const handleRequestCancel = useCallback(() => {
-    updateStatus("TO_CANCEL", "Demande d'annulation envoyée.", () =>
-      setIsCanceling(false)
-    );
-  }, [updateStatus, setIsCanceling]);
+
+  const handleRequestCancel = useCallback(
+    (reason: string) => {
+      updateStatus(
+        RetakeExamStatus.TO_CANCEL,
+        "Demande d'annulation envoyée.",
+        () => setIsCanceling(false),
+        reason
+      );
+    },
+    [updateStatus, setIsCanceling]
+  );
+
   const handleValidateCancel = useCallback(() => {
-    updateStatus("CANCELED", "Annulation validée.", () =>
+    updateStatus(RetakeExamStatus.CANCELED, "Annulation validée.", () =>
       setIsValidatingCancel(false)
     );
   }, [updateStatus, setIsValidatingCancel]);
+
+  const handleRejectCancel = useCallback(
+    (reason: string) => {
+      updateStatus(
+        RetakeExamStatus.REGISTERED,
+        "Demande d'annulation rejetée.",
+        () => setIsRejectingCancel(false),
+        reason
+      );
+    },
+    [updateStatus, setIsRejectingCancel]
+  );
 
   return {
     status: isLoading ? "LOADING" : localStatus,
@@ -123,13 +174,16 @@ export const useButtonActions = (
     isRegistering,
     isCanceling,
     isValidatingCancel,
+    isRejectingCancel,
 
     setIsRegistering,
     setIsCanceling,
     setIsValidatingCancel,
+    setIsRejectingCancel,
 
     handleRegister,
     handleRequestCancel,
     handleValidateCancel,
+    handleRejectCancel,
   };
 };
