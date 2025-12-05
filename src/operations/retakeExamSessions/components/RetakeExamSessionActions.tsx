@@ -5,13 +5,10 @@ import {Dialog} from "@/ui/components";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {RetakeExamSession} from "@haapi-b0fc7615/typescript-client";
 import {Add, Edit as EditIcon} from "@mui/icons-material";
-import {IconButton} from "@mui/material";
+import {Box, IconButton} from "@mui/material";
 import {FunctionField} from "react-admin";
 
 export const CreateSessionButton = ({onClick}: {onClick: () => void}) => {
-  const {isAdmin, isManager} = useRole();
-  if (!isAdmin() && !isManager()) return null;
-
   return (
     <HaActionWrapper>
       <ButtonBase data-testid="create-button" icon={<Add />} onClick={onClick}>
@@ -23,15 +20,19 @@ export const CreateSessionButton = ({onClick}: {onClick: () => void}) => {
 
 interface EditSessionButtonProps {
   onEdit: (record: RetakeExamSession) => void;
+  label?: string;
 }
 
-export const EditSessionButton = ({onEdit}: EditSessionButtonProps) => {
+export const EditSessionButton = ({
+  onEdit,
+  label = "Éditer",
+}: EditSessionButtonProps) => {
   const {isAdmin, isManager} = useRole();
   if (!isAdmin() && !isManager()) return null;
 
   return (
     <FunctionField
-      label="Actions"
+      label={label}
       render={(record: RetakeExamSession) => (
         <IconButton size="small" onClick={() => onEdit(record)} color="primary">
           <EditIcon />
@@ -57,7 +58,7 @@ export const RetakeExamSessionActions = ({
   selectedSession,
 }: RetakeExamSessionActionsProps) => {
   return (
-    <>
+    <Box>
       <Dialog
         title="Création d'une session de rattrapage"
         open={showCreate}
@@ -65,7 +66,6 @@ export const RetakeExamSessionActions = ({
       >
         <RetakeExamSessionCreate onSuccess={onCloseCreate} />
       </Dialog>
-
       <Dialog
         title="Modifier la session de rattrapage"
         open={showEdit}
@@ -75,6 +75,6 @@ export const RetakeExamSessionActions = ({
           <RetakeExamSessionEdit {...selectedSession} onSuccess={onCloseEdit} />
         )}
       </Dialog>
-    </>
+    </Box>
   );
 };

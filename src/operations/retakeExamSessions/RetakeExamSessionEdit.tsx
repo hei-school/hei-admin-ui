@@ -14,7 +14,7 @@ export const RetakeExamSessionEdit = ({
   ...props
 }: RetakeExamSessionEditProps) => (
   <Edit
-    title="Modifier la session de rattrapage"
+    title=" "
     transform={transformRetakeExamSession}
     actions={<></>}
     mutationMode="pessimistic"

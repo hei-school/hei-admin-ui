@@ -24,6 +24,7 @@ const STATUS_TEXTS = {
   LOADING: "Traitement...",
   INVALIDATE: "Invalidé",
   VALIDATE: "Validé",
+  REJECT: "Rejeté",
 } as const;
 
 const STATUS_ICONS = {
@@ -33,6 +34,7 @@ const STATUS_ICONS = {
   LOADING: <Search />,
   INVALIDATE: <Cancel />,
   VALIDATE: <CheckCircle />,
+  REJECT: <CheckCircle />,
 } as const;
 
 const STATUS_COLORS = {
@@ -42,6 +44,7 @@ const STATUS_COLORS = {
   LOADING: "info",
   INVALIDATE: "error",
   VALIDATE: "success",
+  REJECT: "warning",
 } as const;
 
 type EnrollStatusProps = {

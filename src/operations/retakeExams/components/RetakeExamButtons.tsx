@@ -1,7 +1,17 @@
 import {useRole} from "@/security/hooks";
 import {RetakeExam, RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
-import {Cancel, CheckCircle, HowToReg} from "@mui/icons-material";
-import {Box, Button, Stack} from "@mui/material";
+import {Block, Cancel, CheckCircle, HowToReg} from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  Stack,
+  TextField,
+} from "@mui/material";
+import {useState} from "react";
 import {Confirm, useRecordContext} from "react-admin";
 import {RetakeExamButtonStatus} from "./RetakeExamButtonStatus";
 import {useButtonActions} from "./useButtonActions";
@@ -34,20 +44,36 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
   if (!retakeExam) return null;
   const {isAdmin, isManager} = useRole();
   const canValidateCancel = isAdmin() || isManager();
+  const [cancelReason, setCancelReason] = useState("");
+  const [rejectReason, setRejectReason] = useState("");
   const {
     status: rawStatus,
     isRegistering,
     isCanceling,
     isValidatingCancel,
+    isRejectingCancel,
     setIsRegistering,
     setIsCanceling,
     setIsValidatingCancel,
+    setIsRejectingCancel,
     handleRegister,
     handleRequestCancel,
     handleValidateCancel,
+    handleRejectCancel,
   } = useButtonActions(retakeExam, onSuccess);
-
   const status = (rawStatus ?? null) as RetakeExamStatus | "LOADING" | null;
+  const handleCancelSubmit = () => {
+    if (cancelReason.trim()) {
+      handleRequestCancel(cancelReason);
+      setCancelReason("");
+    }
+  };
+  const handleRejectSubmit = () => {
+    if (rejectReason.trim()) {
+      handleRejectCancel(rejectReason);
+      setRejectReason("");
+    }
+  };
 
   return (
     <Box>
@@ -72,39 +98,53 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
               </Button>
             )}
 
-            {status === RetakeExamStatus.REGISTERED && (
-              <Button
-                variant="outlined"
-                color="error"
-                startIcon={<Cancel />}
-                sx={BUTTON_STYLE}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  setIsCanceling(true);
-                }}
-              >
-                Annuler
-              </Button>
-            )}
+            {status === RetakeExamStatus.REGISTERED &&
+              !retakeExam.rejection_reason && (
+                <Button
+                  variant="outlined"
+                  color="error"
+                  startIcon={<Cancel />}
+                  sx={BUTTON_STYLE}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsCanceling(true);
+                  }}
+                >
+                  Annuler
+                </Button>
+              )}
           </>
         )}
-
         {canValidateCancel && status === RetakeExamStatus.TO_CANCEL && (
-          <Button
-            variant="contained"
-            color="success"
-            startIcon={<CheckCircle />}
-            sx={BUTTON_STYLE}
-            onClick={(e) => {
-              e.stopPropagation();
-              setIsValidatingCancel(true);
-            }}
-          >
-            Valider l'annulation
-          </Button>
+          <>
+            <Button
+              variant="contained"
+              color="success"
+              startIcon={<CheckCircle />}
+              sx={BUTTON_STYLE}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsValidatingCancel(true);
+              }}
+            >
+              Valider
+            </Button>
+
+            <Button
+              variant="contained"
+              color="warning"
+              startIcon={<Block />}
+              sx={BUTTON_STYLE}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsRejectingCancel(true);
+              }}
+            >
+              Rejeter
+            </Button>
+          </>
         )}
       </Stack>
-
       <Confirm
         isOpen={isRegistering}
         title="Confirmation d'inscription"
@@ -113,16 +153,58 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
         onConfirm={handleRegister}
         onClose={() => setIsRegistering(false)}
       />
-
-      <Confirm
-        isOpen={isCanceling}
-        title="Demande d'annulation"
-        content={`Souhaitez-vous demander l'annulation de votre inscription au rattrapage de "${retakeExam.course?.name}" (${retakeExam.session?.title || "Session"}) ?`}
-        confirm="Confirmer la demande"
-        onConfirm={handleRequestCancel}
-        onClose={() => setIsCanceling(false)}
-      />
-
+      <Dialog
+        open={isCanceling}
+        onClose={() => {
+          setIsCanceling(false);
+          setCancelReason("");
+        }}
+        onClick={(e) => e.stopPropagation()}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Demande d'annulation</DialogTitle>
+        <DialogContent>
+          <Box sx={{pt: 1}}>
+            <TextField
+              autoFocus
+              fullWidth
+              multiline
+              rows={4}
+              label="Raison de l'annulation"
+              placeholder="Veuillez indiquer la raison de votre demande d'annulation..."
+              value={cancelReason}
+              onChange={(e) => setCancelReason(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              required
+              helperText="Ce champ est obligatoire"
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsCanceling(false);
+              setCancelReason("");
+            }}
+          >
+            Annuler
+          </Button>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleCancelSubmit();
+            }}
+            variant="contained"
+            color="primary"
+            disabled={!cancelReason.trim()}
+          >
+            Confirmer la demande
+          </Button>
+        </DialogActions>
+      </Dialog>
       <Confirm
         isOpen={isValidatingCancel}
         title="Validation d'une annulation"
@@ -131,6 +213,58 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
         onConfirm={handleValidateCancel}
         onClose={() => setIsValidatingCancel(false)}
       />
+      <Dialog
+        open={isRejectingCancel}
+        onClose={() => {
+          setIsRejectingCancel(false);
+          setRejectReason("");
+        }}
+        onClick={(e) => e.stopPropagation()}
+        maxWidth="sm"
+        fullWidth
+      >
+        <DialogTitle>Rejet de la demande d'annulation</DialogTitle>
+        <DialogContent>
+          <Box sx={{pt: 1}}>
+            <TextField
+              autoFocus
+              fullWidth
+              multiline
+              rows={4}
+              label="Raison du rejet"
+              placeholder="Veuillez indiquer la raison du rejet de cette demande..."
+              value={rejectReason}
+              onChange={(e) => setRejectReason(e.target.value)}
+              onClick={(e) => e.stopPropagation()}
+              onMouseDown={(e) => e.stopPropagation()}
+              required
+              helperText="Ce champ est obligatoire"
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsRejectingCancel(false);
+              setRejectReason("");
+            }}
+          >
+            Annuler
+          </Button>
+          <Button
+            onClick={(e) => {
+              e.stopPropagation();
+              handleRejectSubmit();
+            }}
+            variant="contained"
+            color="warning"
+            disabled={!rejectReason.trim()}
+          >
+            Confirmer le rejet
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
