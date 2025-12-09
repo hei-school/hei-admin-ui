@@ -119,7 +119,7 @@ export const EventCalendar = () => {
                       marginBottom: -4,
                     }}
                   />
-                  <span>En ligne</span>
+                  <span>Meet</span>
                 </Box>
               ) : null;
 

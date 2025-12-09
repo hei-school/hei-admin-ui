@@ -50,7 +50,7 @@ const CustomEvent = ({event}: {event: any}) => {
         alt=""
         style={{width: 16, height: 16, marginRight: 4}}
       />
-      <span>En ligne</span>
+      <span>Meet</span>
     </Box>
   ) : null;
 
@@ -124,11 +124,9 @@ export const CalendarView = () => {
 
   const customFormats = {
     ...dateFormats,
-    // Retourner une string vide pour cacher l'affichage automatique de l'heure
     eventTimeRangeFormat: () => "",
   };
 
-  // Composants personnalisés
   const components: Components = {
     event: CustomEvent,
   };
