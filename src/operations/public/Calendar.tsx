@@ -1,13 +1,3 @@
-import moment from "moment";
-import {useEffect, useState} from "react";
-import {
-  Calendar,
-  DateRange,
-  momentLocalizer,
-  View,
-  Views,
-} from "react-big-calendar";
-
 import {
   dateFormats,
   dayPropGetter,
@@ -15,18 +5,65 @@ import {
   frenchMessages,
   transformApiDataToCalendarEvents,
 } from "@/operations/public/utils";
-
 import {toISO} from "@/utils/date";
 import {Event} from "@haapi-b0fc7615/typescript-client";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import axios from "axios";
+import moment from "moment";
+import {useEffect, useState} from "react";
+import {
+  Calendar,
+  Components,
+  DateRange,
+  momentLocalizer,
+  View,
+  Views,
+} from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import "./style/calendar.css";
 
 moment.locale("fr");
 const localizer = momentLocalizer(moment);
-
 const API_URL = process.env.REACT_APP_API_URL;
+
+const CustomEvent = ({event}: {event: any}) => {
+  const timeFormat = `${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")}`;
+
+  const onlineIcon = event.isOnline ? (
+    <Box
+      component="div"
+      title="Événement en ligne"
+      sx={{
+        backgroundColor: "white",
+        padding: "2px 6px",
+        color: "black",
+        display: "inline-flex",
+        alignItems: "center",
+        borderRadius: "4px",
+        fontSize: "0.75em",
+        marginBottom: "4px",
+        width: "fit-content",
+      }}
+    >
+      <img
+        src="/icons8-google-meet-48.png"
+        alt=""
+        style={{width: 16, height: 16, marginRight: 4}}
+      />
+      <span>Meet</span>
+    </Box>
+  ) : null;
+
+  return (
+    <div style={{height: "100%", overflow: "hidden", padding: "4px"}}>
+      {onlineIcon}
+      <div style={{fontSize: "0.9em", fontWeight: 600, marginBottom: "2px"}}>
+        {timeFormat}
+      </div>
+      <div style={{fontWeight: 500, fontSize: "0.95em"}}>{event.title}</div>
+    </div>
+  );
+};
 
 export const CalendarView = () => {
   const ITEM_PER_PAGE = 100;
@@ -87,19 +124,11 @@ export const CalendarView = () => {
 
   const customFormats = {
     ...dateFormats,
-    eventTimeRangeFormat: (
-      {start, end}: {start: Date; end: Date},
-      culture?: string,
-      localizer?: any
-    ) => {
-      const event = calendarEvents.find(
-        (e) => e.start?.getTime() === start.getTime()
-      );
-      const onlineIcon = event?.isOnline ? "💻 " : "";
-      const startFormatted = `${localizer.format(start, "hh:mm", culture)} AM`;
-      const endFormatted = `${localizer.format(end, "hh:mm", culture)} AM`;
-      return `${onlineIcon}${startFormatted} - ${endFormatted}`;
-    },
+    eventTimeRangeFormat: () => "",
+  };
+
+  const components: Components = {
+    event: CustomEvent,
   };
 
   return (
@@ -142,6 +171,7 @@ export const CalendarView = () => {
         dayPropGetter={dayPropGetter}
         messages={frenchMessages}
         formats={customFormats}
+        components={components}
       />
     </Box>
   );

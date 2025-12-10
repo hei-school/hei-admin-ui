@@ -100,11 +100,33 @@ export const EventCalendar = () => {
             height: "auto",
             eventContent: (arg) => {
               const event = arg.event.extendedProps as Event;
-              const onlineIcon = event.is_online ? "💻 " : "";
+
+              const onlineIcon = event.is_online ? (
+                <Box
+                  title="Événement en ligne"
+                  sx={{
+                    backgroundColor: "white",
+                    padding: "2px",
+                    color: "black",
+                  }}
+                >
+                  <img
+                    src="/icons8-google-meet-48.png"
+                    style={{
+                      width: 20,
+                      height: 20,
+                      marginRight: 4,
+                      marginBottom: -4,
+                    }}
+                  />
+                  <span>Meet</span>
+                </Box>
+              ) : null;
+
               return (
                 <div className="fc-event-main-frame">
                   <div className="fc-event-time">
-                    <span style={{fontSize: "1.3em"}}>{onlineIcon}</span>
+                    {onlineIcon}
                     {arg.timeText}
                   </div>
                   <div className="fc-event-title">{arg.event.title}</div>

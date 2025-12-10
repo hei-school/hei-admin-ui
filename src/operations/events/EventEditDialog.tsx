@@ -13,6 +13,7 @@ import {
   Toolbar,
 } from "react-admin";
 import {SelectClassroom} from "./components/SelectClassrroom";
+import {SelectIsOnline} from "./components/SelectIsOnline";
 import {PLACE_CHOICES} from "./utils";
 
 interface EditProps {
@@ -94,6 +95,7 @@ export const EventEditDialog: FC<EditProps> = ({
                 validate={required()}
               />
             </Box>
+            <SelectIsOnline />
           </SimpleForm>
         </Edit>
       </Dialog>
