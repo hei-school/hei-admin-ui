@@ -1,3 +1,4 @@
+import {hexToRgba} from "@/operations/common/components/hexToRgba";
 import {EventTitle} from "@/operations/events/utils";
 import {Event} from "@haapi-b0fc7615/typescript-client";
 
@@ -18,7 +19,15 @@ export const transformApiDataToCalendarEvents = (data: Event[]) => {
         end: event.end_datetime ? new Date(event.end_datetime) : null,
         description: event.description || "Pas de description",
         groupName: event.groups?.[0]?.name || "Pas de groupe",
-        color: event.color,
+        color: event.is_online
+          ? `repeating-linear-gradient(
+               45deg,
+               ${event.color},
+               ${event.color} 12px,
+               ${hexToRgba(event.color!, 0.8)} 12px,
+               ${hexToRgba(event.color!, 0.8)} 24px
+             )`
+          : event.color,
         isOnline: event.is_online,
       };
     });

@@ -12,6 +12,7 @@ import {Button, Link} from "react-admin";
 import {ButtonBase} from "@/ui/haToolbar";
 import {useRef, useState} from "react";
 import {DeleteWithConfirm} from "../common/components";
+import {hexToRgba} from "../common/components/hexToRgba";
 import {stringifyObj} from "../common/utils/strinfigy-obj";
 import {EventListAction, ExportEventFile, StatCard} from "./components";
 import {EventLoaderCalendar} from "./components/EventLoaderCalendar";
@@ -100,14 +101,17 @@ export const EventCalendar = () => {
             height: "auto",
             eventContent: (arg) => {
               const event = arg.event.extendedProps as Event;
-
+              const baseColor = event?.color ?? "#54544f";
               const onlineIcon = event.is_online ? (
                 <Box
                   title="Événement en ligne"
                   sx={{
                     backgroundColor: "white",
-                    padding: "2px",
+                    padding: "4px",
+                    margin: "5px",
                     color: "black",
+                    width: "fit-content",
+                    borderRadius: "4px",
                   }}
                 >
                   <img
@@ -123,8 +127,22 @@ export const EventCalendar = () => {
                 </Box>
               ) : null;
 
+              const onlineStyle = event.is_online
+                ? {
+                    background: `repeating-linear-gradient(
+                  45deg,
+                  ${baseColor},
+                  ${baseColor} 10px,
+                  ${hexToRgba(baseColor, 0.7)} 8px,
+                  ${hexToRgba(baseColor, 0.7)} 15px
+                )`,
+                    height: "100%",
+                    width: "100%",
+                    borderRadius: "4px",
+                  }
+                : {};
               return (
-                <div className="fc-event-main-frame">
+                <div className="fc-event-main-frame" style={onlineStyle}>
                   <div className="fc-event-time">
                     {onlineIcon}
                     {arg.timeText}
@@ -162,7 +180,9 @@ export const EventCalendar = () => {
               title: EventTitle({event}) as string,
               start: event.begin_datetime,
               end: event.end_datetime,
-              backgroundColor: event?.color ?? "#54544f",
+              backgroundColor: event.is_online
+                ? "transparent"
+                : (event?.color ?? "#54544f"),
               borderColor: "#ffffff",
               extendedProps: event,
               className: "font-size-event",
