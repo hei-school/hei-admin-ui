@@ -1,9 +1,21 @@
-import {CreateEvent} from "@haapi-b0fc7615/typescript-client";
+import {CreateEvent, EventType} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {eventsApi} from "./api";
 
 const eventProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+  getList: async (
+    page: number,
+    perPage: number,
+    filter: {
+      from?: Date;
+      to?: Date;
+      event_type?: EventType;
+      title?: string;
+      group?: string;
+      teacher_id?: string;
+      group_ref?: [];
+    }
+  ) => {
     return eventsApi()
       .getEvents(
         page,
@@ -13,18 +25,19 @@ const eventProvider: HaDataProviderType = {
         filter.event_type,
         filter.title,
         filter.group,
-        filter.teacher_id
+        filter.teacher_id,
+        filter.group_ref
       )
       .then((response) => ({data: response.data}));
   },
-  async getOne(id: string) {
+  getOne: async (id: string) => {
     return eventsApi()
       .getEventById(id)
       .then((response) => response.data);
   },
-  async saveOrUpdate(
+  saveOrUpdate: async (
     events: Array<CreateEvent & {recurrent: Record<string, any>}>
-  ) {
+  ) => {
     const {recurrent, ...event} = events[0];
     return eventsApi()
       .crupdateEvents(
@@ -36,7 +49,7 @@ const eventProvider: HaDataProviderType = {
       )
       .then((response) => response.data);
   },
-  async delete(id: string) {
+  delete: async (id: string) => {
     return eventsApi()
       .deleteEventById(id)
       .then((response) => response.data);

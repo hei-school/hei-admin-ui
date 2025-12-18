@@ -96,6 +96,16 @@ export const EventListAction: FC<{
             label="Groupe"
           />
         )}
+        {isStudent() && (
+          <SelectInputFilter
+            source="group_ref"
+            choices={groupChoices.map((choice) => ({
+              id: choice.name,
+              name: choice.name,
+            }))}
+            label="Groupe ref ex: J1"
+          />
+        )}
         {withDate && (
           <>
             <Typography
