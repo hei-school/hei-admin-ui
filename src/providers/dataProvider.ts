@@ -50,6 +50,7 @@ import retakeExamCoursesProvider from "./retakeExamCoursesProvider";
 import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
+import gradeImportProvider from "./gradeImportProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
 
@@ -105,6 +106,7 @@ const providerMap = {
   "cor": corProvider,
   "student-cor": corStudentProvider,
   "import-students": studentImportProvider,
+  "import-grades": gradeImportProvider,
 } as const;
 
 const getProvider = (
