@@ -1,7 +1,6 @@
 import ExcelIcon from "@/assets/xls.png";
 import {useNotify, useToggle} from "@/hooks";
 import {FileUploadDialog} from "@/operations/common/components/FileUploadDialog";
-import {Loader} from "@/operations/common/components/Loader";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import examGradeProvider from "@/providers/examGradeProvider";
 import {useRole} from "@/security/hooks";
@@ -12,7 +11,6 @@ import {
   Dialog,
   DialogContent,
   DialogTitle,
-  LinearProgress,
   Typography,
 } from "@mui/material";
 import {useEffect, useState} from "react";
@@ -41,7 +39,8 @@ export const ExamGradeListActions = ({examId, examName}) => {
   const hasPermission = isManager() || isAdmin() || isTeacher();
   const notify = useNotify();
   const refresh = useRefresh();
-
+  const [importResult, setImportResult] = useState(null);
+  const [isResultOpen, setIsResultOpen] = useState(false);
   const {data: participantsData} = useGetList("exam-grades", {
     pagination: {page: 1, perPage: MAX_ITEM_PER_PAGE},
     meta: {examId},
@@ -96,20 +95,20 @@ export const ExamGradeListActions = ({examId, examName}) => {
         }
       }
 
-      const headers = ["student_ref", "score", "comment"];
+      const headers = ["ref", "score"];
       const participantRows =
         currentParticipants && currentParticipants.length > 0
           ? currentParticipants.map((participant) => {
               const student = participant.student || {};
               const grade = participant.grade || {};
-              return [student.ref ?? "", grade.score ?? "", ""];
+              return [student.ref ?? "", grade.score ?? ""];
             })
-          : [["STD12345", "", ""]];
+          : [["STD12345", ""]];
 
       const worksheet = XLSX.utils.aoa_to_sheet([
         headers,
         ...participantRows,
-        ["# student_ref est obligatoire"],
+        ["# ref est obligatoire"],
         ["# Laisser score vide pour ne pas modifier la note existante"],
         ["# Le champ comment est optionnel"],
       ]);
@@ -161,6 +160,11 @@ export const ExamGradeListActions = ({examId, examName}) => {
           saveButtonLabel="Lancer l'import"
           confirmContent="Êtes-vous certain de vouloir lancer l'import avec le fichier sélectionné ?"
           meta={{examId}}
+          onSubmitSuccess={(response) => {
+            console.log(response);
+            setImportResult(response);
+            setIsResultOpen(true);
+          }}
         >
           <SelectInput
             source="mode"
@@ -194,41 +198,58 @@ export const ExamGradeListActions = ({examId, examName}) => {
         </ButtonBase>
       </Box>
       <Dialog
-        open={isImporting}
-        disableEscapeKeyDown
-        PaperProps={{
-          sx: {minWidth: 400, p: 2},
-        }}
+        open={isResultOpen}
+        onClose={() => setIsResultOpen(false)}
+        maxWidth="md"
+        fullWidth
       >
-        <DialogTitle>
-          <Box display="flex" alignItems="center" gap={2}>
-            <Loader size={24} />
-            <Typography variant="h6">Import des notes en cours</Typography>
-          </Box>
-        </DialogTitle>
+        <DialogTitle>Résultat de l'import</DialogTitle>
         <DialogContent>
-          <Box sx={{mt: 2, mb: 3}}>
-            <Typography variant="body2" color="text.secondary" gutterBottom>
-              {importProgress.message}
-            </Typography>
-            {importProgress.total > 0 && (
-              <>
-                <Box sx={{mt: 2, mb: 1}}>
-                  <LinearProgress
-                    variant="determinate"
-                    value={
-                      (importProgress.current / importProgress.total) * 100
-                    }
-                    sx={{height: 8, borderRadius: 4}}
-                  />
-                </Box>
-                <Typography variant="caption" color="text.secondary">
-                  {importProgress.current} / {importProgress.total} opérations
-                  terminées
-                </Typography>
-              </>
-            )}
-          </Box>
+          {importResult && (
+            <>
+              <Typography>
+                <strong>Total:</strong>{" "}
+                {importResult.importGradeStats.totalRows} |{" "}
+                <strong>Valides:</strong>{" "}
+                {importResult.importGradeStats.validRows} |{" "}
+                <strong>Invalides:</strong>{" "}
+                {importResult.importGradeStats.invalidRows}
+              </Typography>
+
+              <Box sx={{mt: 2, maxHeight: 400, overflowY: "auto"}}>
+                <table style={{width: "100%", borderCollapse: "collapse"}}>
+                  <thead>
+                    <tr>
+                      <th style={{border: "1px solid #ddd", padding: "8px"}}>
+                        Référence
+                      </th>
+                      <th style={{border: "1px solid #ddd", padding: "8px"}}>
+                        Note
+                      </th>
+                      <th style={{border: "1px solid #ddd", padding: "8px"}}>
+                        Raison
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {importResult.invalidGrades.map((grade, idx) => (
+                      <tr key={idx}>
+                        <td style={{border: "1px solid #ddd", padding: "8px"}}>
+                          {grade.ref}
+                        </td>
+                        <td style={{border: "1px solid #ddd", padding: "8px"}}>
+                          {grade.score !== null ? grade.score : "N/A"}
+                        </td>
+                        <td style={{border: "1px solid #ddd", padding: "8px"}}>
+                          {grade.reason}
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </Box>
+            </>
+          )}
         </DialogContent>
       </Dialog>
     </>

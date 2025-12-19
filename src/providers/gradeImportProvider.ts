@@ -9,8 +9,6 @@ const gradeImportProvider: HaDataProviderType = {
 
     let response;
 
-    console.log(meta);
-
     if (mode === "UPDATE") {
       response = await gradesApi().importStudentsExamGradeUpdated(
         examId,
