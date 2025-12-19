@@ -29,6 +29,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
+import {Home} from "lucide-react";
 import {FC, ReactElement, ReactNode, useEffect, useState} from "react";
 import {
   EditButton,
@@ -37,7 +38,8 @@ import {
   TopToolbar,
   useDataProvider,
 } from "react-admin";
-import {useParams} from "react-router-dom";
+import {Link as RouterLink, useParams} from "react-router-dom";
+import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
 import {PSP_COLORS, PSP_VALUES} from "./utils";
 
 type LabeledFieldProps = {
@@ -54,22 +56,6 @@ type FeeLayoutProps = {
 type AccordionProps = {
   title: string;
   children: ReactNode;
-};
-
-const dateTimeRenderer = (data: Fee) => {
-  return data.updated_at == null ? (
-    <DateField
-      label="Date et heure de dernière modification"
-      source="creation_datetime"
-      showTime
-    />
-  ) : (
-    <DateField
-      source="updated_at"
-      label="Date et heure de dernière modification"
-      showTime
-    />
-  );
 };
 
 const LabeledField: FC<LabeledFieldProps> = ({label, icon, children}) => (
@@ -111,6 +97,22 @@ const AccordionBase: FC<AccordionProps> = ({title, children}) => (
     <AccordionDetails>{children}</AccordionDetails>
   </Accordion>
 );
+
+const dateTimeRenderer = (data: Fee) => {
+  return data.updated_at == null ? (
+    <DateField
+      label="Date et heure de dernière modification"
+      source="creation_datetime"
+      showTime
+    />
+  ) : (
+    <DateField
+      source="updated_at"
+      label="Date et heure de dernière modification"
+      showTime
+    />
+  );
+};
 
 const FeePaymentDetails = () => (
   <Box>
@@ -166,20 +168,12 @@ const FeePaymentDetails = () => (
 export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const styles = GRID_STYLE(isSmall);
+
   return (
-    <Box
-      m={isSmall ? 2 : 6}
-      sx={{
-        width: isSmall ? "100%" : "auto ",
-      }}
-    >
+    <Box m={isSmall ? 2 : 6} sx={{width: isSmall ? "100%" : "auto"}}>
       <Typography
         variant="h4"
-        sx={{
-          fontSize: "1.5em",
-          fontWeight: "bold",
-          mb: "2em",
-        }}
+        sx={{fontSize: "1.5em", fontWeight: "bold", mb: "1em", mt: "1em"}}
         gutterBottom
       >
         Détails du frais
@@ -223,10 +217,7 @@ export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
               source="remaining_amount"
               render={(record: Fee) => renderMoney(record.remaining_amount!)}
               textAlign="right"
-              sx={{
-                ...styles.font,
-                color: PALETTE_COLORS.yellow,
-              }}
+              sx={{...styles.font, color: PALETTE_COLORS.yellow}}
             />
           </LabeledField>
           <LabeledField label="Total à payer">
@@ -234,10 +225,7 @@ export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
               source="total_amount"
               render={(record: Fee) => renderMoney(record.total_amount!)}
               textAlign="right"
-              sx={{
-                ...styles.font,
-                color: PALETTE_COLORS.primary,
-              }}
+              sx={{...styles.font, color: PALETTE_COLORS.primary}}
             />
           </LabeledField>
           <Box
@@ -297,10 +285,7 @@ export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
               source="due_datetime"
               label=" "
               showTime={false}
-              sx={{
-                ...styles.font,
-                color: PALETTE_COLORS.yellow,
-              }}
+              sx={{...styles.font, color: PALETTE_COLORS.yellow}}
             />
           </LabeledField>
           <LabeledField label="Date de création">
@@ -308,10 +293,7 @@ export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
               source="creation_datetime"
               label=" "
               showTime={false}
-              sx={{
-                ...styles.font,
-                color: PALETTE_COLORS.primary,
-              }}
+              sx={{...styles.font, color: PALETTE_COLORS.primary}}
             />
           </LabeledField>
           <LabeledField label="Statut">
@@ -324,6 +306,7 @@ export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
           </LabeledField>
         </Grid>
       </Grid>
+
       <Grid item xs={12} sx={{margin: "1em 0"}}>
         <Typography sx={{...styles.box, color: "#495057"}}>
           <AccessTimeOutlined sx={{marginRight: "0.2em"}} />
@@ -340,10 +323,7 @@ export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
         <Divider sx={{mt: 3, mb: 2}} />
         <Typography
           variant="h4"
-          sx={{
-            fontSize: "1.5em",
-            fontWeight: "bold",
-          }}
+          sx={{fontSize: "1.5em", fontWeight: "bold"}}
           gutterBottom
         >
           Paiements
@@ -356,11 +336,12 @@ export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
 
 const FeeShow = () => {
   const role = useRole();
-  const params = useParams();
-  const feeId = params.feeId;
-  const studentId = studentIdFromRaId(feeId!);
+  const params = useParams<{feeId: string}>();
+  const feeId = params.feeId!;
+  const studentId = studentIdFromRaId(feeId);
   const dataProvider = useDataProvider();
   const [studentRef, setStudentRef] = useState("...");
+  const isSmall = useMediaQuery("(max-width:900px)");
 
   useEffect(() => {
     const doEffect = async () => {
@@ -368,31 +349,47 @@ const FeeShow = () => {
       setStudentRef(student.data.ref);
     };
     doEffect();
-    // eslint-disable-next-line
-  }, [studentId]);
+  }, [studentId, dataProvider]);
+
+  const breadcrumbItems = [
+    {
+      label: "Étudiant",
+      component: RouterLink,
+      to: `/students/${studentId}/show`,
+      icon: <Home size={16} />,
+    },
+    {
+      label: "Frais",
+    },
+  ];
 
   return (
-    <Show
-      id={feeId}
-      resource="fees"
-      actions={
-        (role.isManager() || role.isAdmin()) && (
-          <TopToolbar>
-            <EditButton />
-            <DeleteWithConfirm
-              resourceType="fees"
-              redirect={`/students/${studentId}/fees`}
-              confirmTitle="Suppression de frais"
-              confirmContent="Confirmez-vous la suppression de la ressource ?"
-            />
-          </TopToolbar>
-        )
-      }
-      basePath={`/fees/${feeId}/show`}
-      title={`Frais de ${studentRef}`}
-    >
-      <FeeLayout feeId={feeId!} studentId={studentId} />
-    </Show>
+    <>
+      <Show
+        id={feeId}
+        resource="fees"
+        actions={
+          (role.isManager() || role.isAdmin()) && (
+            <TopToolbar>
+              <Box sx={{flexGrow: 1, ml: isSmall ? 0 : 2}}>
+                <CustomBreadcrumbs items={breadcrumbItems} />
+              </Box>
+              <EditButton />
+              <DeleteWithConfirm
+                resourceType="fees"
+                redirect={`/students/${studentId}/fees`}
+                confirmTitle="Suppression de frais"
+                confirmContent="Confirmez-vous la suppression de la ressource ?"
+              />
+            </TopToolbar>
+          )
+        }
+        basePath={`/fees/${feeId}/show`}
+        title={`Frais de ${studentRef}`}
+      >
+        <FeeLayout feeId={feeId} studentId={studentId} />
+      </Show>
+    </>
   );
 };
 
