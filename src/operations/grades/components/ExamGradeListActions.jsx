@@ -1,16 +1,12 @@
-import {useNotify} from "@/hooks";
+import ExcelIcon from "@/assets/xls.png";
+import {useNotify, useToggle} from "@/hooks";
+import {FileUploadDialog} from "@/operations/common/components/FileUploadDialog";
 import {Loader} from "@/operations/common/components/Loader";
-import {
-  GRADE_HEADERS,
-  transformGradesData,
-  validateGradeData,
-} from "@/operations/grades/utils";
-import createGradeProvider from "@/providers/createGradeProvider";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import examGradeProvider from "@/providers/examGradeProvider";
 import {useRole} from "@/security/hooks";
-import {ButtonBase, ImportButton} from "@/ui/haToolbar";
-import {Download} from "@mui/icons-material";
+import {ButtonBase} from "@/ui/haToolbar";
+import {Download, Upload} from "@mui/icons-material";
 import {
   Box,
   Dialog,
@@ -20,7 +16,14 @@ import {
   Typography,
 } from "@mui/material";
 import {useEffect, useState} from "react";
-import {useGetList, useRefresh} from "react-admin";
+import {
+  Button,
+  FormDataConsumer,
+  SelectInput,
+  TextInput,
+  useGetList,
+  useRefresh,
+} from "react-admin";
 import * as XLSX from "xlsx";
 
 export const ExamGradeListActions = ({examId, examName}) => {
@@ -33,6 +36,8 @@ export const ExamGradeListActions = ({examId, examName}) => {
   });
   const [participants, setParticipants] = useState([]);
   const {isManager, isAdmin, isTeacher} = useRole();
+
+  const [isOpen, , toggle] = useToggle();
   const hasPermission = isManager() || isAdmin() || isTeacher();
   const notify = useNotify();
   const refresh = useRefresh();
@@ -41,6 +46,11 @@ export const ExamGradeListActions = ({examId, examName}) => {
     pagination: {page: 1, perPage: MAX_ITEM_PER_PAGE},
     meta: {examId},
   });
+
+  const importChoices = [
+    {id: "IMPORT", name: "Nouvelles notes"},
+    {id: "UPDATE", name: "Mettre à jours les notes"},
+  ];
 
   useEffect(() => {
     if (participantsData && participantsData.length > 0) {
@@ -60,127 +70,6 @@ export const ExamGradeListActions = ({examId, examName}) => {
   }, [participantsData, examId]);
 
   if (!hasPermission) return null;
-
-  const handleImport = async (data) => {
-    try {
-      setIsImporting(true);
-      setImportProgress({
-        current: 0,
-        total: 0,
-        message: "Préparation de l'import...",
-      });
-
-      const transformedData = data[1] || [];
-      const processedItems = transformedData
-        .map((row) => {
-          const participant = participants.find(
-            (p) => p.student?.ref === row.student_ref
-          );
-          const studentId = participant?.student?.id || null;
-          const hasExistingGrade = participant?.grade?.id != null;
-
-          let score = row.grade?.score ?? null;
-          if (score !== null && score !== undefined) {
-            score = Math.max(0, Math.min(20, score));
-          }
-
-          const hasScore = score !== null && score !== undefined;
-          const comment =
-            row.comment || (hasScore ? "Note modifiée via import" : "");
-
-          return {
-            student_ref: row.student_ref,
-            comment: comment,
-            grade: {
-              score: hasScore ? score : null,
-              student_id: studentId,
-            },
-            hasExistingGrade,
-          };
-        })
-        .filter((item) => item.grade.student_id !== null);
-
-      if (processedItems.length === 0) {
-        notify("Aucun étudiant trouvé pour l'import des notes", {
-          type: "warning",
-        });
-        return;
-      }
-
-      const itemsToCreate = processedItems.filter(
-        (item) => !item.hasExistingGrade
-      );
-      const itemsToUpdate = processedItems
-        .filter((item) => item.hasExistingGrade)
-        .map(({hasExistingGrade, ...item}) => item);
-
-      const totalOperations =
-        itemsToCreate.length + (itemsToUpdate.length > 0 ? 1 : 0);
-      setImportProgress({
-        current: 0,
-        total: totalOperations,
-        message: `Traitement de ${processedItems.length} note(s)...`,
-      });
-
-      const results = [];
-      let completed = 0;
-
-      for (const item of itemsToCreate) {
-        try {
-          setImportProgress({
-            current: completed,
-            total: totalOperations,
-            message: `Création de la note pour ${item.student_ref}...`,
-          });
-
-          const result = await createGradeProvider.saveOrUpdate(
-            {score: item.grade.score},
-            {examId, studentId: item.grade.student_id}
-          );
-          results.push(result);
-          completed++;
-        } catch (error) {
-          console.error(
-            `Error creating grade for student ${item.student_ref}:`,
-            error
-          );
-          throw error;
-        }
-      }
-
-      if (itemsToUpdate.length > 0) {
-        setImportProgress({
-          current: completed,
-          total: totalOperations,
-          message: `Mise à jour de ${itemsToUpdate.length} note(s) existante(s)...`,
-        });
-
-        const result = await examGradeProvider.saveOrUpdate(itemsToUpdate, {
-          examId,
-        });
-        results.push(result);
-        completed++;
-      }
-
-      setImportProgress({
-        current: totalOperations,
-        total: totalOperations,
-        message: "Finalisation de l'import...",
-      });
-      notify("Import réussi", {type: "success"});
-      refresh();
-      return results;
-    } catch (error) {
-      notify(
-        `Erreur d'import: ${error.response?.data?.message || error.message}`,
-        {type: "error"}
-      );
-      throw error;
-    } finally {
-      setIsImporting(false);
-      setImportProgress({current: 0, total: 0, message: ""});
-    }
-  };
 
   const downloadTemplate = async () => {
     try {
@@ -248,17 +137,54 @@ export const ExamGradeListActions = ({examId, examName}) => {
   return (
     <>
       <Box display="flex" flexDirection="column" alignItems="center">
-        <ImportButton
-          validateData={validateGradeData}
-          resource="notes"
-          provider={handleImport}
-          transformData={transformGradesData}
-          minimalHeaders={GRADE_HEADERS.minimal}
-          optionalHeaders={GRADE_HEADERS.optional}
-          disabled={isImporting}
-          title="Importer des notes"
-          description="Sélectionnez un fichier Excel contenant les notes des étudiants"
+        <Button
+          startIcon={<Upload />}
+          sx={{
+            width: "100%",
+            justifyContent: "flex-start",
+            pl: 2,
+            color: "#474645",
+            textTransform: "none",
+          }}
+          onClick={toggle}
+          label="importer"
         />
+
+        <FileUploadDialog
+          isOpen={isOpen}
+          onClose={toggle}
+          title="Importer les notes"
+          resource="import-grades"
+          accept=".xlsx, .xls, .csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+          fileIcon={ExcelIcon}
+          fileIconAlt="Excel"
+          saveButtonLabel="Lancer l'import"
+          confirmContent="Êtes-vous certain de vouloir lancer l'import avec le fichier sélectionné ?"
+          meta={{examId}}
+        >
+          <SelectInput
+            source="mode"
+            label="Type d'import"
+            choices={importChoices}
+            optionValue="id"
+            optionText="name"
+            fullWidth
+            required
+          />
+
+          <FormDataConsumer>
+            {({formData}) =>
+              formData.mode === "UPDATE" && (
+                <TextInput
+                  source="comment"
+                  label="Commentaire"
+                  fullWidth
+                  required
+                />
+              )
+            }
+          </FormDataConsumer>
+        </FileUploadDialog>
         <ButtonBase
           startIcon={<Download />}
           onClick={downloadTemplate}
