@@ -1,5 +1,3 @@
-import {useEffect, useState} from "react";
-
 import {paymentTypes} from "@/conf";
 import {useToggle} from "@/hooks/useToggle";
 import {studentIdFromRaId} from "@/providers/feeProvider";
@@ -7,6 +5,9 @@ import {
   MobileMoneyType,
   PaymentTypeEnum,
 } from "@haapi-b0fc7615/typescript-client";
+import {Box} from "@mui/material";
+import {Home, Wallet} from "lucide-react";
+import {useEffect, useState} from "react";
 import {
   BooleanInput,
   Create,
@@ -21,8 +22,9 @@ import {
   useDataProvider,
   useNotify,
 } from "react-admin";
-import {useParams} from "react-router-dom";
+import {Link as RouterLink, useParams} from "react-router-dom";
 import {pspIdValidationContraints} from "../utils";
+import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
 
 const PaymentCreate = (props) => {
   const params = useParams();
@@ -46,7 +48,25 @@ const PaymentCreate = (props) => {
       setStudentRef(student.data.ref);
     };
     doEffect();
-  });
+  }, [studentId, dataProvider]);
+
+  const breadcrumbItems = [
+    {
+      label: "Étudiant",
+      component: RouterLink,
+      to: `/students/${studentId}/show`,
+      icon: <Home size={16} />,
+    },
+    {
+      label: "Frais",
+      component: RouterLink,
+      to: `/fees/${feeId}/show`,
+      icon: <Wallet size={16} />,
+    },
+    {
+      label: "Créer un paiement",
+    },
+  ];
 
   const notifyError = (error) => {
     let message = "Une erreur s`'est produite";
@@ -89,78 +109,81 @@ const PaymentCreate = (props) => {
   };
 
   return (
-    <Create
-      mutationOptions={{onError: notifyError}}
-      title={`Paiement de ${studentRef}`}
-      resource="payments"
-      redirect={(_basePath, _id, _data) => `fees/${feeId}/show`}
-      transform={paymentConfToPaymentApi}
-      {...props}
-    >
-      <SimpleForm>
-        <RadioButtonGroupInput
-          {...props}
-          source="type"
-          label="Type"
-          validate={required()}
-          choices={paymentTypes}
-          defaultValue={PaymentTypeEnum.BANK_TRANSFER}
-          onChange={(event) => setPaymentChoice(event.target.value)}
-        />
-        {paymentChoice === PaymentTypeEnum.BANK_TRANSFER && (
+    <Box m={2}>
+      <CustomBreadcrumbs items={breadcrumbItems} />
+      <Create
+        mutationOptions={{onError: notifyError}}
+        title={`Paiement de ${studentRef}`}
+        resource="payments"
+        redirect={(_basePath, _id, _data) => `fees/${feeId}/show`}
+        transform={paymentConfToPaymentApi}
+        {...props}
+      >
+        <SimpleForm>
+          <RadioButtonGroupInput
+            {...props}
+            source="type"
+            label="Type"
+            validate={required()}
+            choices={paymentTypes}
+            defaultValue={PaymentTypeEnum.BANK_TRANSFER}
+            onChange={(event) => setPaymentChoice(event.target.value)}
+          />
+          {paymentChoice === PaymentTypeEnum.BANK_TRANSFER && (
+            <TextInput
+              source="ref"
+              label="Réference"
+              fullWidth
+              validate={required()}
+            />
+          )}
+          {isMobileMoney && (
+            <TextInput
+              source="psp_id"
+              label="Réference de la transaction"
+              fullWidth
+              validate={pspIdValidationContraints}
+            />
+          )}
+          {isMobileMoney && (
+            <SelectInput
+              source="psp_type"
+              label="Type de transaction"
+              defaultValue={MobileMoneyType.ORANGE_MONEY}
+              choices={[{id: MobileMoneyType.ORANGE_MONEY, name: "Orange"}]}
+              validate={required()}
+              fullWidth
+            />
+          )}
           <TextInput
-            source="ref"
-            label="Réference"
+            source="amount"
+            label="Montant du paiement"
             fullWidth
-            validate={required()}
+            validate={[required(), number(), minValue(1)]}
           />
-        )}
-        {isMobileMoney && (
           <TextInput
-            source="psp_id"
-            label="Réference de la transaction"
+            source="comment"
+            label="Commentaire"
             fullWidth
-            validate={pspIdValidationContraints}
+            validate={isCommentNecessary && required()}
           />
-        )}
-        {isMobileMoney && (
-          <SelectInput
-            source="psp_type"
-            label="Type de transaction"
-            defaultValue={MobileMoneyType.ORANGE_MONEY}
-            choices={[{id: MobileMoneyType.ORANGE_MONEY, name: "Orange"}]}
-            validate={required()}
-            fullWidth
+          <BooleanInput
+            source="specify-date"
+            label={"Date de paiement aujourd'hui"}
+            name="create"
+            defaultValue={notSpecifiedDate}
+            onChange={({target: {checked}}) => setSpecifyDate(checked)}
           />
-        )}
-        <TextInput
-          source="amount"
-          label="Montant du paiement"
-          fullWidth
-          validate={[required(), number(), minValue(1)]}
-        />
-        <TextInput
-          source="comment"
-          label="Commentaire"
-          fullWidth
-          validate={isCommentNecessary && required()}
-        />
-        <BooleanInput
-          source="specify-date"
-          label={"Date de paiement aujourd'hui"}
-          name="create"
-          defaultValue={notSpecifiedDate}
-          onChange={({target: {checked}}) => setSpecifyDate(checked)}
-        />
-        {!notSpecifiedDate && (
-          <DateInput
-            source="creation_datetime"
-            label="Date de paiement"
-            validate={required()}
-          />
-        )}
-      </SimpleForm>
-    </Create>
+          {!notSpecifiedDate && (
+            <DateInput
+              source="creation_datetime"
+              label="Date de paiement"
+              validate={required()}
+            />
+          )}
+        </SimpleForm>
+      </Create>
+    </Box>
   );
 };
 
