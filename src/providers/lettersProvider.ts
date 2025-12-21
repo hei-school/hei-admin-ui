@@ -1,3 +1,4 @@
+import {RoleParamEnum} from "@haapi-b0fc7615/typescript-client";
 import {lettersApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
@@ -28,7 +29,9 @@ const lettersProvider: HaDataProviderType = {
         .then((result) => ({data: result.data}));
     } else if (role === "ADMIN") {
       const roleFilter =
-        filter.role !== undefined ? filter.role : ["TEACHER", "STAFF_MEMBER"];
+        filter.role !== undefined
+          ? filter.role
+          : [RoleParamEnum.STAFF_MEMBER, RoleParamEnum.TEACHER];
 
       return lettersApi()
         .getLetters(
