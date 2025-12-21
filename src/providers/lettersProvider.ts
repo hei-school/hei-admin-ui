@@ -3,6 +3,7 @@ import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 export const LETTER_PER_PAGE = 12;
+
 const lettersProvider: HaDataProviderType = {
   getList: async (page, _perPage, filter = {}) => {
     const {role} = authProvider.getCachedWhoami();
@@ -11,6 +12,7 @@ const lettersProvider: HaDataProviderType = {
       ADMIN: false,
       ALL: null,
     };
+
     if (role === "MANAGER") {
       return lettersApi()
         .getStudentsLetters(
@@ -25,6 +27,9 @@ const lettersProvider: HaDataProviderType = {
         )
         .then((result) => ({data: result.data}));
     } else if (role === "ADMIN") {
+      const roleFilter =
+        filter.role !== undefined ? filter.role : ["TEACHER", "STAFF_MEMBER"];
+
       return lettersApi()
         .getLetters(
           page,
@@ -35,7 +40,7 @@ const lettersProvider: HaDataProviderType = {
           filter.student_name,
           filter.fee_id,
           LETTER_TYPE[filter?.is_linked_with_fee],
-          filter.role
+          roleFilter
         )
         .then((result) => ({data: result.data}));
     }
