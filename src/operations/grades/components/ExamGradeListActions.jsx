@@ -6,11 +6,13 @@ import examGradeProvider from "@/providers/examGradeProvider";
 import {useRole} from "@/security/hooks";
 import {ButtonBase} from "@/ui/haToolbar";
 import {Download, Upload} from "@mui/icons-material";
+import CloseIcon from "@mui/icons-material/Close";
 import {
   Box,
   Dialog,
   DialogContent,
   DialogTitle,
+  IconButton,
   Typography,
 } from "@mui/material";
 import {useEffect, useState} from "react";
@@ -138,15 +140,17 @@ export const ExamGradeListActions = ({examId, examName}) => {
       <Box display="flex" flexDirection="column" alignItems="center">
         <Button
           startIcon={<Upload />}
+          onClick={toggle}
+          label="Importer"
           sx={{
             width: "100%",
             justifyContent: "flex-start",
-            pl: 2,
-            color: "#474645",
+            gap: "7px",
+            padding: "7px 8px 7px 15px",
+            minWidth: 0,
             textTransform: "none",
+            color: "#474645",
           }}
-          onClick={toggle}
-          label="importer"
         />
 
         <FileUploadDialog
@@ -161,7 +165,6 @@ export const ExamGradeListActions = ({examId, examName}) => {
           confirmContent="Êtes-vous certain de vouloir lancer l'import avec le fichier sélectionné ?"
           meta={{examId}}
           onSubmitSuccess={(response) => {
-            console.log(response);
             setImportResult(response);
             setIsResultOpen(true);
           }}
@@ -174,6 +177,7 @@ export const ExamGradeListActions = ({examId, examName}) => {
             optionText="name"
             fullWidth
             required
+            emptyText="--Type d'import--"
           />
 
           <FormDataConsumer>
@@ -197,61 +201,89 @@ export const ExamGradeListActions = ({examId, examName}) => {
           {isDownloadingTemplate ? "Téléchargement..." : "Modèle"}
         </ButtonBase>
       </Box>
-      <Dialog
-        open={isResultOpen}
-        onClose={() => setIsResultOpen(false)}
-        maxWidth="md"
-        fullWidth
-      >
-        <DialogTitle>Résultat de l'import</DialogTitle>
-        <DialogContent>
-          {importResult && (
-            <>
-              <Typography>
-                <strong>Total:</strong>{" "}
-                {importResult.importGradeStats.totalRows} |{" "}
-                <strong>Valides:</strong>{" "}
-                {importResult.importGradeStats.validRows} |{" "}
-                <strong>Invalides:</strong>{" "}
-                {importResult.importGradeStats.invalidRows}
-              </Typography>
+      {importResult?.importGradeStats?.invalidRows > 0 && (
+        <Dialog
+          open={isResultOpen}
+          onClose={() => setIsResultOpen(false)}
+          maxWidth="md"
+          fullWidth
+          PaperProps={{
+            sx: {
+              borderRadius: 2,
+              overflow: "hidden",
+            },
+          }}
+        >
+          <DialogTitle
+            sx={{
+              m: 0,
+              p: 2,
+              bgcolor: "#001948",
+              color: "white",
+              fontWeight: "bold",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+            }}
+          >
+            Résultat de l'import
+            <IconButton
+              aria-label="close"
+              onClick={() => setIsResultOpen(false)}
+              sx={{
+                color: "white",
+                p: 0,
+                ml: 2,
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+          </DialogTitle>
 
-              <Box sx={{mt: 2, maxHeight: 400, overflowY: "auto"}}>
-                <table style={{width: "100%", borderCollapse: "collapse"}}>
-                  <thead>
-                    <tr>
-                      <th style={{border: "1px solid #ddd", padding: "8px"}}>
-                        Référence
-                      </th>
-                      <th style={{border: "1px solid #ddd", padding: "8px"}}>
-                        Note
-                      </th>
-                      <th style={{border: "1px solid #ddd", padding: "8px"}}>
-                        Raison
-                      </th>
+          <DialogContent sx={{p: 3, bgcolor: "#f9f9f9"}}>
+            <Typography sx={{mb: 2}}>
+              <strong>Total:</strong> {importResult.importGradeStats.totalRows}{" "}
+              | <strong>Valides:</strong>{" "}
+              {importResult.importGradeStats.validRows} |{" "}
+              <strong>Invalides:</strong>{" "}
+              {importResult.importGradeStats.invalidRows}
+            </Typography>
+
+            <Box sx={{maxHeight: 400, overflowY: "auto", borderRadius: 1}}>
+              <table style={{width: "100%", borderCollapse: "collapse"}}>
+                <thead>
+                  <tr style={{backgroundColor: "#e0e0e0"}}>
+                    <th
+                      style={{padding: "8px", borderBottom: "1px solid #ccc"}}
+                    >
+                      Référence
+                    </th>
+                    <th
+                      style={{padding: "8px", borderBottom: "1px solid #ccc"}}
+                    >
+                      Note
+                    </th>
+                    <th
+                      style={{padding: "8px", borderBottom: "1px solid #ccc"}}
+                    >
+                      Raison
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {importResult.invalidGrades.map((grade, idx) => (
+                    <tr key={idx} style={{borderBottom: "1px solid #eee"}}>
+                      <td style={{padding: "8px"}}>{grade.ref}</td>
+                      <td style={{padding: "8px"}}>{grade.score ?? "N/A"}</td>
+                      <td style={{padding: "8px"}}>{grade.reason}</td>
                     </tr>
-                  </thead>
-                  <tbody>
-                    {importResult.invalidGrades.map((grade, idx) => (
-                      <tr key={idx}>
-                        <td style={{border: "1px solid #ddd", padding: "8px"}}>
-                          {grade.ref}
-                        </td>
-                        <td style={{border: "1px solid #ddd", padding: "8px"}}>
-                          {grade.score !== null ? grade.score : "N/A"}
-                        </td>
-                        <td style={{border: "1px solid #ddd", padding: "8px"}}>
-                          {grade.reason}
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </Box>
-            </>
-          )}
-        </DialogContent>
-      </Dialog>
+                  ))}
+                </tbody>
+              </table>
+            </Box>
+          </DialogContent>
+        </Dialog>
+      )}
     </>
   );
 };
