@@ -4,6 +4,7 @@ import FeeList from "@/operations/fees/FeeList";
 import {GradesOverview} from "@/operations/grades/GradesDashboard";
 import {LettersList} from "@/operations/letters/LettersList";
 import {UserLettersList} from "@/operations/letters/UserLettersList";
+import {MonitorStudentList} from "@/operations/monitors/component/MonitorStudentList";
 import {useRole} from "@/security/hooks";
 import {
   Badge,
@@ -177,6 +178,12 @@ export const Informations: FC<{
     //   show: isStudentProfile,
     //   content: <StudentParticipationList />,
     // },
+    {
+      id: "monitor-students",
+      label: "Étudiants liés",
+      show: isMonitorProfile,
+      content: <MonitorStudentList />,
+    },
   ];
 
   const tabValues = allTabs.map((tab) => tab.id);
