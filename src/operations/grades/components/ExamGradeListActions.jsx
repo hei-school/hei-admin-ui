@@ -8,11 +8,20 @@ import {ButtonBase} from "@/ui/haToolbar";
 import {Download, Upload} from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
 import {
+  Alert,
+  AlertTitle,
   Box,
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
   Typography,
 } from "@mui/material";
 import {useEffect, useState} from "react";
@@ -188,6 +197,18 @@ export const ExamGradeListActions = ({examId, examName}) => {
                   label="Commentaire"
                   fullWidth
                   required
+                  multiline
+                  rows={1}
+                  sx={{
+                    "& .MuiInputBase-root": {
+                      minHeight: "120px",
+                      alignItems: "flex-start",
+                    },
+                    "& textarea": {
+                      resize: "vertical",
+                      minHeight: "100px",
+                    },
+                  }}
                 />
               )
             }
@@ -207,80 +228,62 @@ export const ExamGradeListActions = ({examId, examName}) => {
           onClose={() => setIsResultOpen(false)}
           maxWidth="md"
           fullWidth
-          PaperProps={{
-            sx: {
-              borderRadius: 2,
-              overflow: "hidden",
-            },
-          }}
         >
           <DialogTitle
-            sx={{
-              m: 0,
-              p: 2,
-              bgcolor: "#001948",
-              color: "white",
-              fontWeight: "bold",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "space-between",
-            }}
+            sx={{bgcolor: "#001948", color: "white", fontSize: "18px"}}
           >
-            Résultat de l'import
+            Les import invalides
             <IconButton
-              aria-label="close"
               onClick={() => setIsResultOpen(false)}
-              sx={{
-                color: "white",
-                p: 0,
-                ml: 2,
-              }}
+              sx={{position: "absolute", right: 8, top: 8, color: "white"}}
             >
               <CloseIcon />
             </IconButton>
           </DialogTitle>
 
-          <DialogContent sx={{p: 3, bgcolor: "#f9f9f9"}}>
-            <Typography sx={{mb: 2}}>
-              <strong>Total:</strong> {importResult.importGradeStats.totalRows}{" "}
-              | <strong>Valides:</strong>{" "}
-              {importResult.importGradeStats.validRows} |{" "}
-              <strong>Invalides:</strong>{" "}
-              {importResult.importGradeStats.invalidRows}
-            </Typography>
+          <DialogContent sx={{mt: 2}}>
+            <Alert severity="warning" sx={{mb: 2}}>
+              <AlertTitle>Attention</AlertTitle>
+              {importResult.importGradeStats.invalidRows} ligne(s) invalide(s)
+              sur {importResult.importGradeStats.totalRows}
+            </Alert>
 
-            <Box sx={{maxHeight: 400, overflowY: "auto", borderRadius: 1}}>
-              <table style={{width: "100%", borderCollapse: "collapse"}}>
-                <thead>
-                  <tr style={{backgroundColor: "#e0e0e0"}}>
-                    <th
-                      style={{padding: "8px", borderBottom: "1px solid #ccc"}}
-                    >
-                      Référence
-                    </th>
-                    <th
-                      style={{padding: "8px", borderBottom: "1px solid #ccc"}}
-                    >
-                      Note
-                    </th>
-                    <th
-                      style={{padding: "8px", borderBottom: "1px solid #ccc"}}
-                    >
-                      Raison
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
+            <TableContainer component={Paper}>
+              <Table size="small">
+                <TableHead>
+                  <TableRow>
+                    <TableCell>
+                      <strong>Référence</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Note</strong>
+                    </TableCell>
+                    <TableCell>
+                      <strong>Erreur</strong>
+                    </TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
                   {importResult.invalidGrades.map((grade, idx) => (
-                    <tr key={idx} style={{borderBottom: "1px solid #eee"}}>
-                      <td style={{padding: "8px"}}>{grade.ref}</td>
-                      <td style={{padding: "8px"}}>{grade.score ?? "N/A"}</td>
-                      <td style={{padding: "8px"}}>{grade.reason}</td>
-                    </tr>
+                    <TableRow key={idx}>
+                      <TableCell>{grade.ref}</TableCell>
+                      <TableCell>{grade.score ?? "-"}</TableCell>
+                      <TableCell sx={{color: "error.main"}}>
+                        {grade.reason}
+                      </TableCell>
+                    </TableRow>
                   ))}
-                </tbody>
-              </table>
-            </Box>
+                </TableBody>
+              </Table>
+            </TableContainer>
+
+            <Typography
+              variant="caption"
+              sx={{display: "block", mt: 2, color: "text.secondary"}}
+            >
+              {importResult.importGradeStats.validRows} ligne(s) valide(s) ont
+              été importées avec succès.
+            </Typography>
           </DialogContent>
         </Dialog>
       )}
