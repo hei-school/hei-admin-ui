@@ -22,7 +22,7 @@ export interface FileUploadDialogProps {
   resource: string;
   accept?: string;
   maxSize?: number;
-  onSubmitSuccess?: () => void;
+  onSubmitSuccess?: (data?: any) => void;
   onSubmitError?: () => void;
   meta?: Record<string, any>;
   children?: ReactNode;
@@ -186,12 +186,12 @@ export const FileUploadDialog: FC<FileUploadDialogProps> = ({
         meta,
       },
       {
-        onSuccess: () => {
+        onSuccess: (result) => {
           notify("Opération effectuée avec succès", {type: "success"});
           setFileInfo(null);
           setFileError(null);
           setIsFileValid(false);
-          onSubmitSuccess?.();
+          onSubmitSuccess?.(result);
           onClose();
         },
         onError: () => {
