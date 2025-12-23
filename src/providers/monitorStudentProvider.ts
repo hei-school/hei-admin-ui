@@ -25,10 +25,9 @@ const monitorStudentProvider: HaDataProviderType = {
       .then((response) => response.data);
   },
 
-  async saveOrUpdate(students) {
-    const {id} = authProvider.getCachedWhoami();
+  async saveOrUpdate(students, {meta}) {
     return monitoringApi()
-      .linkStudentsByMonitorId(id!, students[0])
+      .linkStudentsByMonitorId(meta.monitorId, students[0])
       .then((result) => result.data);
   },
 
