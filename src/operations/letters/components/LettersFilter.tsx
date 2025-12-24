@@ -1,6 +1,6 @@
 import {useRole} from "@/security/hooks";
 import {FilterForm, SelectInputFilter, TextFilter} from "@/ui/haToolbar";
-import {LetterStatus, RoleParamEnum} from "@haapi-b0fc7615/typescript-client";
+import {LetterStatus, RoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {FC} from "react";
 
 export const LettersFilter: FC = () => {
@@ -40,9 +40,9 @@ export const LettersFilter: FC = () => {
       {isAdmin() ? (
         <SelectInputFilter
           choices={[
-            {id: RoleParamEnum.TEACHER, name: "Enseignant(e)"},
-            {id: RoleParamEnum.STUDENT, name: "Étudiant(e)"},
-            {id: RoleParamEnum.STAFF_MEMBER, name: "Membre du staff"},
+            {id: RoleEnum.TEACHER, name: "Enseignant(e)"},
+            {id: RoleEnum.STUDENT, name: "Étudiant(e)"},
+            {id: RoleEnum.STAFF_MEMBER, name: "Membre du staff"},
           ]}
           label="Utilisateurs"
           source="role"

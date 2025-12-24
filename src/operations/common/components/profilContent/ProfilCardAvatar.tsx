@@ -4,7 +4,7 @@ import {useToggle} from "@/hooks";
 import {Create} from "@/operations/common/components/Create";
 import {useRole} from "@/security/hooks";
 import {NOOP_FN} from "@/utils/noop";
-import {RoleParamEnum} from "@haapi-b0fc7615/typescript-client";
+import {RoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {
   Badge,
   Dialog,
@@ -28,7 +28,7 @@ const UploadPictureButton = ({
   role,
   onUpload = NOOP_FN,
 }: {
-  role: RoleParamEnum;
+  role: RoleEnum;
   onUpload?: () => void;
 }) => {
   const [isOpen, , toggle] = useToggle();
@@ -93,7 +93,7 @@ const UploadPictureButton = ({
   );
 };
 
-export const ProfileCardAvatar: FC<{role: RoleParamEnum}> = ({role}) => {
+export const ProfileCardAvatar: FC<{role: RoleEnum}> = ({role}) => {
   const {isStudent, isMonitor} = useRole();
 
   const user = useRecordContext();

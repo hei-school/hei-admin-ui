@@ -1,4 +1,4 @@
-import {RoleParamEnum} from "@haapi-b0fc7615/typescript-client";
+import {RoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {lettersApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
@@ -31,7 +31,7 @@ const lettersProvider: HaDataProviderType = {
       const roleFilter =
         filter.role !== undefined
           ? filter.role
-          : [RoleParamEnum.STAFF_MEMBER, RoleParamEnum.TEACHER];
+          : [RoleEnum.STAFF_MEMBER, RoleEnum.TEACHER];
 
       return lettersApi()
         .getLetters(
