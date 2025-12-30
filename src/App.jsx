@@ -37,6 +37,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
 import {MonitorStudentList} from "./operations/monitors/component/MonitorStudentList.tsx";
+import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
@@ -211,6 +212,11 @@ function AppBase() {
           exact
           path="/monitors/:monitorId/students"
           element={<MonitorStudentList />}
+        />
+        <Route
+          exact
+          path="/monitors/unlinked-students"
+          element={<UnlinkedStudentsList />}
         />
         <Route
           exact
