@@ -15,8 +15,9 @@ import {
   Download,
   Event as EventIcon,
   Upload,
+  Warning,
 } from "@mui/icons-material";
-import {Box, Stack} from "@mui/material";
+import {Box, Chip, Stack, Tooltip, keyframes} from "@mui/material";
 import {useCallback, useState} from "react";
 import {
   Datagrid,
@@ -30,6 +31,15 @@ import {LetterActions, StatusActionStatus} from "./Actions";
 import {AddGroupDialog} from "./AddGroup";
 import {EventParticipantsFilter} from "./EventParticipantsFilter";
 import {ImportStatusDialog} from "./ImportStatusDialog";
+
+const pulse = keyframes`
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(211, 47, 47, 0.7);
+  }
+  50% {
+    box-shadow: 0 0 0 8px rgba(211, 47, 47, 0);
+  }
+`;
 
 export const ListContent = ({eventId}: {eventId: string}) => {
   const [participants, setParticipants] = useState<
@@ -191,22 +201,60 @@ export const ListContent = ({eventId}: {eventId: string}) => {
           <TextField source="last_name" label="Nom" />
           <TextField source="group_name" label="Nom du groupe" />
           <FunctionField
-            render={(record: EventParticipant) => (
-              <StatusActionStatus
-                participant={record}
-                changeStatus={changeChipStatus}
-                localStatus={
-                  statusMap.get(record.id!) ??
-                  record.event_status ??
-                  "UNCHECKED"
-                }
-              />
-            )}
+            render={(record: EventParticipant) => {
+              if (record.student_status === "SUSPENDED") {
+                return (
+                  <Tooltip
+                    title="Étudiant suspendu - Absent par défaut. Passez au bureau pour plus d'informations."
+                    arrow
+                    placement="top"
+                  >
+                    <Chip
+                      icon={<Warning color="error" />}
+                      label="Suspendu - Bureau requis"
+                      color="error"
+                      variant="outlined"
+                      sx={{
+                        "fontWeight": "700",
+                        "fontSize": "0.875rem",
+                        "animation": `${pulse} 2s infinite`,
+                        "cursor": "pointer",
+                        "transition": "all 0.3s ease",
+                        "&:hover": {
+                          transform: "scale(1.05)",
+                          boxShadow: "0 4px 12px rgba(211, 47, 47, 0.4)",
+                        },
+                        "& .MuiChip-icon": {
+                          fontSize: "1.2rem",
+                        },
+                        "& .MuiChip-deleteIcon": {
+                          display: "none",
+                        },
+                      }}
+                    />
+                  </Tooltip>
+                );
+              }
+              return (
+                <StatusActionStatus
+                  participant={record}
+                  changeStatus={changeChipStatus}
+                  localStatus={
+                    statusMap.get(record.id!) ??
+                    record.event_status ??
+                    "UNCHECKED"
+                  }
+                />
+              );
+            }}
             label="Status"
           />
           <FunctionField
             label="Justificatif"
             render={(record: EventParticipant) => {
+              if (record.student_status === "SUSPENDED") {
+                return null;
+              }
               return (statusMap.get(record.id!) || record.event_status) ===
                 "MISSING" ? (
                 <LetterActions
