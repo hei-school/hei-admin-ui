@@ -35,7 +35,7 @@
     "dom-to-image-more": "^3.6.0",
     "dotenv": "^16.4.5",
     "framer-motion": "^12.23.24",
-    "jspdf": "^2.5.2",
+    "jspdf": "^4.0.0",
     "lucide-react": "^0.487.0",
     "mime": "^4.0.3",
     "nyc": "^17.1.0",
