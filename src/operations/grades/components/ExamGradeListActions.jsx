@@ -2,11 +2,12 @@ import ExcelIcon from "@/assets/xls.png";
 import {useNotify, useToggle} from "@/hooks";
 import {FileUploadDialog} from "@/operations/common/components/FileUploadDialog";
 import {useRole} from "@/security/hooks";
-import {ButtonBase} from "@/ui/haToolbar";
-import {NOOP_ID} from "@/utils/constants";
 import {Download, Upload} from "@mui/icons-material";
 import CloseIcon from "@mui/icons-material/Close";
+import {IMPORT_CHOICES} from "../utils";
 
+import {FileDownloader} from "@/operations/common/components";
+import dataProvider from "@/providers/dataProvider";
 import {
   Alert,
   AlertTitle,
@@ -30,7 +31,6 @@ import {
   FormDataConsumer,
   SelectInput,
   TextInput,
-  useGetOne,
   useRefresh,
 } from "react-admin";
 
@@ -42,34 +42,13 @@ export const ExamGradeListActions = ({examId, examName}) => {
   const refresh = useRefresh();
   const [importResult, setImportResult] = useState(null);
   const [isResultOpen, setIsResultOpen] = useState(false);
-  const importChoices = [
-    {id: "IMPORT", name: "Nouvelles notes"},
-    {id: "UPDATE", name: "Mettre à jours les notes"},
-  ];
-  const {refetch, isFetching} = useGetOne(
-    "import-grades",
-    {id: NOOP_ID, meta: {examId}},
-    {
-      enabled: false,
-      onSuccess: (data) => {
-        if (data?.data) {
-          const blob = new Blob([data.data], {
-            type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-          });
-          const url = window.URL.createObjectURL(blob);
-          const link = document.createElement("a");
-          link.href = url;
-          link.download = `template_${examId}.xlsx`;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-          window.URL.revokeObjectURL(url);
-        } else {
-          notify("URL du template non trouvée", {type: "warning"});
-        }
-      },
-    }
-  );
+
+  const downloadFile = async () => {
+    const {data} = await dataProvider.getOne("import-grades", {
+      meta: {examId},
+    });
+    return data;
+  };
 
   return (
     <>
@@ -79,13 +58,12 @@ export const ExamGradeListActions = ({examId, examName}) => {
           onClick={toggle}
           label="Importer"
           sx={{
-            width: "100%",
-            justifyContent: "flex-start",
-            gap: "7px",
-            padding: "7px 8px 7px 15px",
-            minWidth: 0,
             textTransform: "none",
-            color: "#474645",
+            color: "inherit",
+            opacity: "0.8",
+            padding: "0.5rem 1.1rem",
+            fontSize: "1rem",
+            gap: "0.8rem",
           }}
         />
 
@@ -108,14 +86,13 @@ export const ExamGradeListActions = ({examId, examName}) => {
           <SelectInput
             source="mode"
             label="Type d'import"
-            choices={importChoices}
+            choices={IMPORT_CHOICES}
             optionValue="id"
             optionText="name"
             fullWidth
             required
             emptyText="--Type d'import--"
           />
-
           <FormDataConsumer>
             {({formData}) =>
               formData.mode === "UPDATE" && (
@@ -127,28 +104,37 @@ export const ExamGradeListActions = ({examId, examName}) => {
                   multiline
                   rows={1}
                   sx={{
-                    "& .MuiInputBase-root": {
-                      minHeight: "120px",
-                      alignItems: "flex-start",
-                    },
-                    "& textarea": {
-                      resize: "vertical",
-                      minHeight: "100px",
-                    },
+                    width: "100%",
+                    justifyContent: "flex-center",
+                    gap: "7px",
+                    padding: "7px 8px 7px 15px",
+                    minWidth: 0,
+                    textTransform: "none",
+                    color: "#474645",
                   }}
                 />
               )
             }
           </FormDataConsumer>
         </FileUploadDialog>
-        <ButtonBase
+
+        <FileDownloader
+          downloadFunction={downloadFile}
+          sx={{
+            fontSize: "1rem",
+            textTransform: "none",
+            color: "inherit",
+            opacity: "0.8",
+            padding: "0.5rem 1.1rem",
+            gap: "0.8rem",
+          }}
           startIcon={<Download />}
-          onClick={() => refetch()}
-          disabled={isFetching}
-          closeAction={false}
-        >
-          {isFetching ? "Téléchargement..." : "Modèle"}
-        </ButtonBase>
+          fileName="Liste des notes"
+          buttonText="Exporter"
+          successMessage="Exportation en cours..."
+          errorMessage="Erreur lors de l'exportation du fichier."
+          fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        />
       </Box>
       {importResult?.importGradeStats?.invalidRows > 0 && (
         <Dialog

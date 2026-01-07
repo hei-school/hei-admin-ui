@@ -1,4 +1,3 @@
-import {PALETTE_COLORS} from "@/haTheme";
 import {FileDownloader} from "@/operations/common/components";
 import dataProvider from "@/providers/dataProvider";
 import {Dialog} from "@/ui/components";

@@ -25,3 +25,8 @@ export const levelChoices = [
   {id: StudentLevel.L2, name: "L2"},
   {id: StudentLevel.L3, name: "L3"},
 ];
+
+export const IMPORT_CHOICES = [
+  {id: "IMPORT", name: "Nouvelles notes"},
+  {id: "UPDATE", name: "Mettre à jours les notes"},
+];
