@@ -13,6 +13,7 @@ import {
 } from "@mui/material";
 import {useMemo} from "react";
 import {Loading, useGetList} from "react-admin";
+import {LinkActions} from "./component/LinkActions";
 
 export const UnlinkedStudentsList = () => {
   const {data: links, isLoading} =
@@ -176,6 +177,11 @@ export const UnlinkedStudentsList = () => {
                           {req.student.email}
                         </Typography>
                       </Box>
+                      <LinkActions
+                        linkId={req.id}
+                        monitorId={group.monitor.id}
+                        studentId={req.student.id}
+                      />
                     </Box>
                   ))}
                 </Stack>
