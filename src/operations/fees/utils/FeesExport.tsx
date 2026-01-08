@@ -10,6 +10,7 @@ import {FC, useEffect, useState} from "react";
 import {required, SelectInput, SimpleForm} from "react-admin";
 import {useFormContext} from "react-hook-form";
 import {FEE_STATUS} from "../constants";
+import { PALETTE_COLORS } from "@/haTheme";
 
 export const FileDownloaderWrapper = () => {
   const {watch} = useFormContext();
