@@ -1,146 +1,46 @@
 import ExcelIcon from "@/assets/xls.png";
 import {useNotify, useToggle} from "@/hooks";
+import {FileDownloader} from "@/operations/common/components";
 import {FileUploadDialog} from "@/operations/common/components/FileUploadDialog";
-import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
-import examGradeProvider from "@/providers/examGradeProvider";
 import {useRole} from "@/security/hooks";
-import {ButtonBase} from "@/ui/haToolbar";
 import {Download, Upload} from "@mui/icons-material";
-import CloseIcon from "@mui/icons-material/Close";
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
-import {useEffect, useState} from "react";
+import {IMPORT_CHOICES} from "../utils";
+import {ImportResultDialog} from "./ImportResultDialog";
+
+import {Box} from "@mui/material";
+import {useState} from "react";
 import {
   Button,
   FormDataConsumer,
   SelectInput,
   TextInput,
-  useGetList,
+  useDataProvider,
   useRefresh,
 } from "react-admin";
-import * as XLSX from "xlsx";
 
 export const ExamGradeListActions = ({examId, examName}) => {
-  const [isImporting, setIsImporting] = useState(false);
-  const [isDownloadingTemplate, setIsDownloadingTemplate] = useState(false);
-  const [importProgress, setImportProgress] = useState({
-    current: 0,
-    total: 0,
-    message: "",
-  });
-  const [participants, setParticipants] = useState([]);
   const {isManager, isAdmin, isTeacher} = useRole();
-
   const [isOpen, , toggle] = useToggle();
   const hasPermission = isManager() || isAdmin() || isTeacher();
   const notify = useNotify();
   const refresh = useRefresh();
   const [importResult, setImportResult] = useState(null);
   const [isResultOpen, setIsResultOpen] = useState(false);
-  const {data: participantsData} = useGetList("exam-grades", {
-    pagination: {page: 1, perPage: MAX_ITEM_PER_PAGE},
-    meta: {examId},
-  });
+  const dataProvider = useDataProvider();
 
-  const importChoices = [
-    {id: "IMPORT", name: "Nouvelles notes"},
-    {id: "UPDATE", name: "Mettre à jours les notes"},
-  ];
-
-  useEffect(() => {
-    if (participantsData && participantsData.length > 0) {
-      setParticipants(participantsData);
-    } else if (examId) {
-      examGradeProvider
-        .getList(1, MAX_ITEM_PER_PAGE, {}, {examId})
-        .then((result) => {
-          if (result.data && result.data.length > 0) {
-            setParticipants(result.data);
-          }
-        })
-        .catch((err) => {
-          console.error("Error fetching participants:", err);
-        });
-    }
-  }, [participantsData, examId]);
-
-  if (!hasPermission) return null;
-
-  const downloadTemplate = async () => {
+  const downloadFile = async () => {
     try {
-      setIsDownloadingTemplate(true);
-      notify("Téléchargement du modèle en cours...", {
-        type: "info",
-        autoHideDuration: 100000,
+      const {data} = await dataProvider.getOne("import-grades", {
+        meta: {examId},
       });
-
-      let currentParticipants = participants;
-
-      if (!currentParticipants || currentParticipants.length === 0) {
-        try {
-          const result = await examGradeProvider.getList(
-            1,
-            MAX_ITEM_PER_PAGE,
-            {},
-            {examId}
-          );
-          currentParticipants = result.data || [];
-        } catch (error) {
-          console.error("Error fetching participants for template:", error);
-          currentParticipants = [];
-        }
+      if (!data) {
+        notify("Aucun modèle à télécharger !!!");
+        return;
+      } else {
+        return data;
       }
-
-      const headers = ["ref", "score"];
-      const participantRows =
-        currentParticipants && currentParticipants.length > 0
-          ? currentParticipants.map((participant) => {
-              const student = participant.student || {};
-              const grade = participant.grade || {};
-              return [student.ref ?? "", grade.score ?? ""];
-            })
-          : [["STD12345", ""]];
-
-      const worksheet = XLSX.utils.aoa_to_sheet([
-        headers,
-        ...participantRows,
-        ["# ref est obligatoire"],
-        ["# Laisser score vide pour ne pas modifier la note existante"],
-        ["# Le champ comment est optionnel"],
-      ]);
-
-      const workbook = XLSX.utils.book_new();
-      XLSX.utils.book_append_sheet(workbook, worksheet, "Notes Examen");
-
-      XLSX.writeFile(workbook, `Note ${examName || "Examen"}.xlsx`);
-
-      notify("Modèle téléchargé avec succès", {
-        type: "success",
-        autoHideDuration: 20000,
-      });
     } catch (error) {
-      console.error("Error downloading template:", error);
-      notify("Erreur lors du téléchargement du modèle", {
-        type: "error",
-        autoHideDuration: 20000,
-      });
-    } finally {
-      setIsDownloadingTemplate(false);
+      notify("Error lors du téléchargement !!!");
     }
   };
 
@@ -152,13 +52,14 @@ export const ExamGradeListActions = ({examId, examName}) => {
           onClick={toggle}
           label="Importer"
           sx={{
-            width: "100%",
-            justifyContent: "flex-start",
-            gap: "7px",
-            padding: "7px 8px 7px 15px",
-            minWidth: 0,
+            fontSize: "1rem",
             textTransform: "none",
-            color: "#474645",
+            fontSize: "1.1rem",
+            color: "inherit",
+            opacity: "0.8",
+            padding: "0.7rem 1.1rem",
+            gap: "0.4rem",
+            width: "80%",
           }}
         />
 
@@ -181,14 +82,13 @@ export const ExamGradeListActions = ({examId, examName}) => {
           <SelectInput
             source="mode"
             label="Type d'import"
-            choices={importChoices}
+            choices={IMPORT_CHOICES}
             optionValue="id"
             optionText="name"
             fullWidth
             required
             emptyText="--Type d'import--"
           />
-
           <FormDataConsumer>
             {({formData}) =>
               formData.mode === "UPDATE" && (
@@ -214,79 +114,31 @@ export const ExamGradeListActions = ({examId, examName}) => {
             }
           </FormDataConsumer>
         </FileUploadDialog>
-        <ButtonBase
+
+        <FileDownloader
+          downloadFunction={downloadFile}
+          sx={{
+            fontSize: "1rem",
+            textTransform: "none",
+            color: "inherit",
+            opacity: "0.8",
+            padding: "0.5rem 1.1rem",
+            gap: "0.8rem",
+          }}
           startIcon={<Download />}
-          onClick={downloadTemplate}
-          disabled={isDownloadingTemplate}
-        >
-          {isDownloadingTemplate ? "Téléchargement..." : "Modèle"}
-        </ButtonBase>
+          fileName="Liste des notes"
+          buttonText="Modèle"
+          successMessage="Téléchargement en cours..."
+          errorMessage="Erreur lors du téléchargement du fichier."
+          fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        />
       </Box>
-      {importResult?.importGradeStats?.invalidRows > 0 && (
-        <Dialog
-          open={isResultOpen}
-          onClose={() => setIsResultOpen(false)}
-          maxWidth="md"
-          fullWidth
-        >
-          <DialogTitle
-            sx={{bgcolor: "#001948", color: "white", fontSize: "18px"}}
-          >
-            Les import invalides
-            <IconButton
-              onClick={() => setIsResultOpen(false)}
-              sx={{position: "absolute", right: 8, top: 8, color: "white"}}
-            >
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
 
-          <DialogContent sx={{mt: 2}}>
-            <Alert severity="warning" sx={{mb: 2}}>
-              <AlertTitle>Attention</AlertTitle>
-              {importResult.importGradeStats.invalidRows} ligne(s) invalide(s)
-              sur {importResult.importGradeStats.totalRows}
-            </Alert>
-
-            <TableContainer component={Paper}>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Référence</strong>
-                    </TableCell>
-                    <TableCell>
-                      <strong>Note</strong>
-                    </TableCell>
-                    <TableCell>
-                      <strong>Erreur</strong>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {importResult.invalidGrades.map((grade, idx) => (
-                    <TableRow key={idx}>
-                      <TableCell>{grade.ref}</TableCell>
-                      <TableCell>{grade.score ?? "-"}</TableCell>
-                      <TableCell sx={{color: "error.main"}}>
-                        {grade.reason}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            <Typography
-              variant="caption"
-              sx={{display: "block", mt: 2, color: "text.secondary"}}
-            >
-              {importResult.importGradeStats.validRows} ligne(s) valide(s) ont
-              été importées avec succès.
-            </Typography>
-          </DialogContent>
-        </Dialog>
-      )}
+      <ImportResultDialog
+        open={isResultOpen}
+        onClose={() => setIsResultOpen(false)}
+        importResult={importResult}
+      />
     </>
   );
 };
