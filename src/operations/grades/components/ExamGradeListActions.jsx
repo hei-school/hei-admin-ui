@@ -1,36 +1,20 @@
 import ExcelIcon from "@/assets/xls.png";
 import {useNotify, useToggle} from "@/hooks";
+import {FileDownloader} from "@/operations/common/components";
 import {FileUploadDialog} from "@/operations/common/components/FileUploadDialog";
 import {useRole} from "@/security/hooks";
 import {Download, Upload} from "@mui/icons-material";
-import CloseIcon from "@mui/icons-material/Close";
 import {IMPORT_CHOICES} from "../utils";
+import {ImportResultDialog} from "./ImportResultDialog";
 
-import {FileDownloader} from "@/operations/common/components";
-import dataProvider from "@/providers/dataProvider";
-import {
-  Alert,
-  AlertTitle,
-  Box,
-  Dialog,
-  DialogContent,
-  DialogTitle,
-  IconButton,
-  Paper,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
-  Typography,
-} from "@mui/material";
+import {Box} from "@mui/material";
 import {useState} from "react";
 import {
   Button,
   FormDataConsumer,
   SelectInput,
   TextInput,
+  useDataProvider,
   useRefresh,
 } from "react-admin";
 
@@ -42,12 +26,22 @@ export const ExamGradeListActions = ({examId, examName}) => {
   const refresh = useRefresh();
   const [importResult, setImportResult] = useState(null);
   const [isResultOpen, setIsResultOpen] = useState(false);
+  const dataProvider = useDataProvider();
 
   const downloadFile = async () => {
-    const {data} = await dataProvider.getOne("import-grades", {
-      meta: {examId},
-    });
-    return data;
+    try {
+      const {data} = await dataProvider.getOne("import-grades", {
+        meta: {examId},
+      });
+      if (!data) {
+        notify("Aucun modèle à télécharger !!!");
+        return;
+      } else {
+        return data;
+      }
+    } catch (error) {
+      notify("Error lors du téléchargement !!!");
+    }
   };
 
   return (
@@ -58,12 +52,14 @@ export const ExamGradeListActions = ({examId, examName}) => {
           onClick={toggle}
           label="Importer"
           sx={{
+            fontSize: "1rem",
             textTransform: "none",
+            fontSize: "1.1rem",
             color: "inherit",
             opacity: "0.8",
-            padding: "0.5rem 1.1rem",
-            fontSize: "1rem",
-            gap: "0.8rem",
+            padding: "0.7rem 1.1rem",
+            gap: "0.4rem",
+            width: "80%",
           }}
         />
 
@@ -104,13 +100,14 @@ export const ExamGradeListActions = ({examId, examName}) => {
                   multiline
                   rows={1}
                   sx={{
-                    width: "100%",
-                    justifyContent: "flex-center",
-                    gap: "7px",
-                    padding: "7px 8px 7px 15px",
-                    minWidth: 0,
-                    textTransform: "none",
-                    color: "#474645",
+                    "& .MuiInputBase-root": {
+                      minHeight: "120px",
+                      alignItems: "flex-start",
+                    },
+                    "& textarea": {
+                      resize: "vertical",
+                      minHeight: "100px",
+                    },
                   }}
                 />
               )
@@ -130,77 +127,18 @@ export const ExamGradeListActions = ({examId, examName}) => {
           }}
           startIcon={<Download />}
           fileName="Liste des notes"
-          buttonText="Exporter"
-          successMessage="Exportation en cours..."
-          errorMessage="Erreur lors de l'exportation du fichier."
+          buttonText="Modèle"
+          successMessage="Téléchargement en cours..."
+          errorMessage="Erreur lors du téléchargement du fichier."
           fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
         />
       </Box>
-      {importResult?.importGradeStats?.invalidRows > 0 && (
-        <Dialog
-          open={isResultOpen}
-          onClose={() => setIsResultOpen(false)}
-          maxWidth="md"
-          fullWidth
-        >
-          <DialogTitle
-            sx={{bgcolor: "#001948", color: "white", fontSize: "18px"}}
-          >
-            Les import invalides
-            <IconButton
-              onClick={() => setIsResultOpen(false)}
-              sx={{position: "absolute", right: 8, top: 8, color: "white"}}
-            >
-              <CloseIcon />
-            </IconButton>
-          </DialogTitle>
 
-          <DialogContent sx={{mt: 2}}>
-            <Alert severity="warning" sx={{mb: 2}}>
-              <AlertTitle>Attention</AlertTitle>
-              {importResult.importGradeStats.invalidRows} ligne(s) invalide(s)
-              sur {importResult.importGradeStats.totalRows}
-            </Alert>
-
-            <TableContainer component={Paper}>
-              <Table size="small">
-                <TableHead>
-                  <TableRow>
-                    <TableCell>
-                      <strong>Référence</strong>
-                    </TableCell>
-                    <TableCell>
-                      <strong>Note</strong>
-                    </TableCell>
-                    <TableCell>
-                      <strong>Erreur</strong>
-                    </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>
-                  {importResult.invalidGrades.map((grade, idx) => (
-                    <TableRow key={idx}>
-                      <TableCell>{grade.ref}</TableCell>
-                      <TableCell>{grade.score ?? "-"}</TableCell>
-                      <TableCell sx={{color: "error.main"}}>
-                        {grade.reason}
-                      </TableCell>
-                    </TableRow>
-                  ))}
-                </TableBody>
-              </Table>
-            </TableContainer>
-
-            <Typography
-              variant="caption"
-              sx={{display: "block", mt: 2, color: "text.secondary"}}
-            >
-              {importResult.importGradeStats.validRows} ligne(s) valide(s) ont
-              été importées avec succès.
-            </Typography>
-          </DialogContent>
-        </Dialog>
-      )}
+      <ImportResultDialog
+        open={isResultOpen}
+        onClose={() => setIsResultOpen(false)}
+        importResult={importResult}
+      />
     </>
   );
 };
