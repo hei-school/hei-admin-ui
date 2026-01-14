@@ -1,4 +1,5 @@
 import {
+  School as AlumniIcon,
   PersonOff as DisabledIcon,
   CheckCircle as EnabledIcon,
   Female as FemaleIcon,
@@ -30,6 +31,11 @@ export const getCommonListHeaderContent = (stats) => {
           total: (stats.women.disabled ?? 0) + (stats.men.disabled ?? 0),
           title: "Quitté.e.s",
         },
+        {
+          icon: <AlumniIcon fontSize="small" color="info" />,
+          total: (stats.women.alumni ?? 0) + (stats.men.alumni ?? 0),
+          title: "Alumni",
+        },
       ],
     },
     {
@@ -52,6 +58,11 @@ export const getCommonListHeaderContent = (stats) => {
           total: stats.women.disabled,
           title: "Quitté.e.s",
         },
+        {
+          icon: <AlumniIcon fontSize="small" color="info" />,
+          total: stats.women.alumni,
+          title: "Alumni",
+        },
       ],
     },
     {
@@ -73,6 +84,11 @@ export const getCommonListHeaderContent = (stats) => {
           icon: <DisabledIcon fontSize="small" color="error" />,
           total: stats.men.disabled,
           title: "Quitté.e.s",
+        },
+        {
+          icon: <AlumniIcon fontSize="small" color="info" />,
+          total: stats.men.alumni,
+          title: "Alumni",
         },
       ],
     },
