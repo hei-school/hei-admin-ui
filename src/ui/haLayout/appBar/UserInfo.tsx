@@ -39,11 +39,9 @@ const StyledUserInfo = styled("div")({
 });
 
 const MAIL_REPORT_DESTINATIONS = [
-  "hei.mayah.3@gmail.com",
-  "hei.jean.3@gmail.com",
-  "hei.tendry@gmail.com",
-  "hei.fiantso@gmail.com",
-  "hei.tolojanahary@gmail.com",
+  "toky@mail.hei.school",
+  "manitra@mail.hei.school",
+  "freddy@mail.hei.school",
 ];
 
 const LastComments = () => {
