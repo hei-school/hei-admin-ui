@@ -10,6 +10,7 @@ export const StatusRadioButton = (props) => (
       {id: EnableStatus.ENABLED, name: "Actif·ve"},
       {id: EnableStatus.DISABLED, name: "Quitté.e"},
       {id: EnableStatus.SUSPENDED, name: "Suspendu.e"},
+      {id: EnableStatus.ALUMNI, name: "Alumni"},
     ]}
   />
 );
