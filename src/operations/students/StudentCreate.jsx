@@ -29,7 +29,7 @@ const StudentCreate = () => {
         }
       >
         <TextInput source="ref" label="Référence" fullWidth required />
-        <TextInput source="first_name" label="Prénoms" fullWidth required />
+        <TextInput source="first_name" label="Prénoms" fullWidth />
         <TextInput source="last_name" label="Nom" fullWidth required />
         <SexRadioButton />
         <TextInput source="phone" label="Téléphone" fullWidth />
