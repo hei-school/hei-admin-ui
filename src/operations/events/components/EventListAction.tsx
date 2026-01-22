@@ -16,6 +16,7 @@ import jsPDF from "jspdf";
 import {FC, useCallback, useMemo, useState} from "react";
 import {Button, useGetList, useGetOne, useRedirect} from "react-admin";
 import {EVENT_TYPE_VALUE} from "../utils";
+import {MultiCheckboxFilter} from "./MultiCheckBoxFilter";
 
 export const EventListAction: FC<{
   withDate?: boolean;
@@ -90,20 +91,23 @@ export const EventListAction: FC<{
           source="event_type"
         />
         {!isStudent() && (
-          <SelectInputFilter
-            source="group"
-            choices={groupChoices}
-            label="Groupe"
-          />
-        )}
-        {isStudent() && (
-          <SelectInputFilter
+          <MultiCheckboxFilter
             source="group_ref"
+            label="Groupe ref ex: J1"
             choices={groupChoices.map((choice) => ({
               id: choice.name,
               name: choice.name,
             }))}
+          />
+        )}
+        {isStudent() && (
+          <MultiCheckboxFilter
+            source="group_ref"
             label="Groupe ref ex: J1"
+            choices={groupChoices.map((choice) => ({
+              id: choice.name,
+              name: choice.name,
+            }))}
           />
         )}
         {withDate && (
