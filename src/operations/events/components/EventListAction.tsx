@@ -22,7 +22,7 @@ export const EventListAction: FC<{
   withDate?: boolean;
   onclose?: () => void;
   open?: boolean;
-}> = ({withDate = true, onclose, open}) => {
+}> = ({withDate = true}) => {
   const {isManager, isAdmin, isOrganizer, isTeacher, isStudent, isMonitor} =
     useRole();
   const redirect = useRedirect();
