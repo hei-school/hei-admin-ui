@@ -28,6 +28,7 @@ export const EventListAction: FC<{
   const redirect = useRedirect();
   const {id} = authProvider.getCachedWhoami();
   const {data: groups = []} = useGetList("groups");
+  const [exportOpen, setExportOpen] = useState(false);
   const {data: teachers = []} = useGetList("teachers", undefined, {
     enabled: isAdmin() || isManager(),
   });
@@ -125,7 +126,14 @@ export const EventListAction: FC<{
           </>
         )}
       </FilterForm>
-      <ExportEventFile open={open!} onclose={onclose!} />
+      <ButtonBase
+        label="Exporter"
+        icon={<Download />}
+        closeAction={false}
+        onClick={() => setExportOpen(true)}
+        children={<></>}
+      />
+      <ExportEventFile open={exportOpen} onclose={() => setExportOpen(false)} />
     </Box>
   );
 };
