@@ -4,17 +4,15 @@ import {HaListTitle} from "@/ui/haList";
 import frLocale from "@fullcalendar/core/locales/fr";
 import {EventClickArg, EventInput} from "@fullcalendar/react";
 import {Event} from "@haapi-b0fc7615/typescript-client";
-import {Download} from "@mui/icons-material";
 import {Box, Popover} from "@mui/material";
 import {CompleteCalendar} from "@react-admin/ra-calendar";
 import {Button, Link} from "react-admin";
 
-import {ButtonBase} from "@/ui/haToolbar";
 import {useRef, useState} from "react";
 import {DeleteWithConfirm} from "../common/components";
 import {hexToRgba} from "../common/components/hexToRgba";
 import {stringifyObj} from "../common/utils/strinfigy-obj";
-import {EventListAction, ExportEventFile, StatCard} from "./components";
+import {EventListAction, StatCard} from "./components";
 import {EventLoaderCalendar} from "./components/EventLoaderCalendar";
 import {EventCreate} from "./EventCreate";
 import {EventEditDialog} from "./EventEditDialog";
@@ -35,7 +33,7 @@ export const EventCalendar = () => {
     open: false,
   });
   const [filter, setFilter] = useState<{[key: string]: any}>();
-  const [exportOpen, setExportOpen] = useState(false);
+  // const [exportOpen, setExportOpen] = useState(false);
 
   return (
     <>
@@ -70,12 +68,12 @@ export const EventCalendar = () => {
                         onclose={() => setAnchor({top: 0, left: 0, open: true})}
                         open={anchor.open}
                       />
-                      <ButtonBase
+                      {/* <ButtonBase
                         icon={<Download />}
                         onClick={() => setExportOpen(true)}
                         label="Export"
                         children={<></>}
-                      />
+                      /> */}
                     </>
                   }
                   mainSearch={{label: "Titre", source: "title"}}
@@ -208,7 +206,7 @@ export const EventCalendar = () => {
         />
       </Popover>
 
-      <ExportEventFile open={exportOpen} onclose={() => setExportOpen(false)} />
+      {/* <ExportEventFile open={exportOpen} onclose={() => setExportOpen(false)} /> */}
 
       <EventEditDialog
         eventId={currentEvent?.id || ""}
