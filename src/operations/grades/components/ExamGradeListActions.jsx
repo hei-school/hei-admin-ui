@@ -52,7 +52,6 @@ export const ExamGradeListActions = ({examId, examName}) => {
           onClick={toggle}
           label="Importer"
           sx={{
-            fontSize: "1rem",
             textTransform: "none",
             fontSize: "1.1rem",
             color: "inherit",
