@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {useEffect, useRef, useState} from "react";
+import {useEffect, useState} from "react";
 import {useDataProvider} from "react-admin";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
@@ -20,6 +20,7 @@ import {StudentComments} from "@/operations/comments";
 import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
+import GlobalSearch from "@/ui/haLayout/appBar/GlobalSearch";
 import {
   Admin,
   Manager,
@@ -29,6 +30,7 @@ import {
   Student,
   Teacher,
 } from "@haapi-b0fc7615/typescript-client";
+import {ProfilePicture} from "./component/ProfilePicture";
 
 const HEI_CALENDAR_URL = `https://admin.hei.school/calendar`;
 
@@ -106,8 +108,8 @@ const FeedbackInfos = () => {
             <br />
             <strong>[HEI-ADMIN]: FEEDBACK UTILISATEUR</strong> :
             <ul>
-              {MAIL_REPORT_DESTINATIONS.map((mail, index) => (
-                <li key={index}>
+              {MAIL_REPORT_DESTINATIONS.map((mail) => (
+                <li key={mail}>
                   <a href={`mailto:${mail}`}>{mail}</a>
                 </li>
               ))}
@@ -125,7 +127,6 @@ function UserInfo() {
     Teacher | Student | Manager | Organizer | StaffMember | Admin | Monitor
   >();
   const {isManager, isAdmin, isTeacher} = useRole();
-  const imgRef = useRef<HTMLImageElement | null>(null);
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = authProvider.getCachedWhoami().role;
   const id = authProvider.getCachedWhoami().id;
@@ -162,41 +163,11 @@ function UserInfo() {
     );
   }
 
-  const ProfilePicture = () => (
-    <>
-      <Box
-        sx={{
-          position: "relative",
-          display: "inline-block",
-        }}
-      >
-        <img
-          alt="profile"
-          data-testid="appbar-profile-pic"
-          ref={imgRef}
-          src={profilePictureSrc}
-          onError={() => {
-            if (imgRef.current) {
-              imgRef.current.src = defaultProfilePicture;
-            }
-          }}
-          style={{
-            objectFit: "cover",
-            height: 40,
-            width: 40,
-            border: `2px solid ${PALETTE_COLORS.primary}`,
-            borderRadius: "50%",
-            transition: "box-shadow 0.2s",
-          }}
-        />
-      </Box>
-    </>
-  );
-
   return (
     <StyledUserInfo>
       {!isSmall && (
         <>
+          {(isAdmin() || isManager()) && <GlobalSearch />}
           <a href={HEI_CALENDAR_URL} rel="noreferrer" target="_blank">
             <CalendarMonth
               sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
@@ -235,7 +206,12 @@ function UserInfo() {
           </Box>
         </>
       )}
-      <ProfilePicture />
+      <ProfilePicture
+        src={profilePictureSrc}
+        firstName={first_name}
+        lastName={user?.last_name}
+        size={40}
+      />
     </StyledUserInfo>
   );
 }
