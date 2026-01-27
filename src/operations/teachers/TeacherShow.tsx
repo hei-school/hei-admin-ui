@@ -7,11 +7,19 @@ import {Inventory} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {FC} from "react";
 import {Button, EditButton, useRecordContext, useRedirect} from "react-admin";
+import {useParams} from "react-router-dom";
 
-const ActionsOnShow: FC = () => {
-  const {id: teacherId} = useRecordContext();
-  const navigate = useRedirect();
+interface ActionsOnShowProps {
+  teacherId?: string;
+}
+
+const ActionsOnShow: FC<ActionsOnShowProps> = ({teacherId}) => {
+  const record = useRecordContext();
+  const redirect = useRedirect();
   const {isAdmin} = useRole();
+
+  const resolvedTeacherId = teacherId ?? record?.id;
+
   return (
     <Box
       sx={{
@@ -32,7 +40,8 @@ const ActionsOnShow: FC = () => {
           width: "100%",
         }}
       />
-      {isAdmin() ? (
+
+      {isAdmin() && resolvedTeacherId && (
         <Button
           data-testid="teacher-docs-button"
           startIcon={<Inventory />}
@@ -46,32 +55,44 @@ const ActionsOnShow: FC = () => {
             borderRadius: "0.4rem",
             width: "100%",
           }}
-          onClick={() => {
-            navigate(`/teachers/${teacherId}/docs/teachers/OTHER`);
-          }}
+          onClick={() =>
+            redirect(`/teachers/${resolvedTeacherId}/docs/teachers/OTHER`)
+          }
         />
-      ) : (
-        ""
       )}
     </Box>
   );
 };
 
-const TeacherShow = () => {
+export const TeacherShow = () => {
+  const {id: teacherId} = useParams();
+
+  if (!teacherId) return null;
+
+  return <TeacherShowContent teacherId={teacherId} />;
+};
+
+interface TeacherShowContentProps {
+  teacherId: string;
+}
+
+const TeacherShowContent = ({teacherId}: TeacherShowContentProps) => {
   return (
     <Show
+      resource="teachers"
+      id={teacherId}
+      title="Enseignants"
+      actions={false}
       sx={{
         "& .RaShow-card": {
           backgroundColor: "transparent",
           boxShadow: "none",
         },
       }}
-      actions={false}
-      title="Enseignants"
     >
       <ProfileLayout
         role={WhoamiRoleEnum.TEACHER}
-        actions={<ActionsOnShow />}
+        actions={<ActionsOnShow teacherId={teacherId} />}
         isTeacherProfile
       />
     </Show>
