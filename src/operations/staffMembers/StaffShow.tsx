@@ -5,11 +5,20 @@ import {Edit as EditIcon, Inventory} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {FC} from "react";
 import {Button, EditButton, useRecordContext, useRedirect} from "react-admin";
+import {useParams} from "react-router-dom";
 import {ProfileLayout} from "../common/components/ProfileLayout";
 
-export const ActionsOnShow: FC = () => {
-  const {id} = useRecordContext();
-  const navigate = useRedirect();
+interface ActionsOnShowProps {
+  staffId?: string;
+}
+
+const ActionsOnShow: FC<ActionsOnShowProps> = ({staffId}) => {
+  const record = useRecordContext();
+  const redirect = useRedirect();
+
+  const resolvedStaffId = staffId ?? record?.id;
+
+  if (!resolvedStaffId) return null;
 
   return (
     <Box
@@ -21,7 +30,7 @@ export const ActionsOnShow: FC = () => {
       }}
     >
       <EditButton
-        to={`/staffmembers/${id}/edit`}
+        to={`/staffmembers/${resolvedStaffId}/edit`}
         startIcon={<EditIcon />}
         data-testid="profile-edit-button"
         variant="outlined"
@@ -37,12 +46,10 @@ export const ActionsOnShow: FC = () => {
           width: "100%",
         }}
       />
+
       <Button
         startIcon={<Inventory />}
         label="Documents"
-        onClick={() => {
-          navigate(`/staff/${id}/docs/staff/OTHER`);
-        }}
         size="medium"
         variant="outlined"
         sx={{
@@ -52,17 +59,45 @@ export const ActionsOnShow: FC = () => {
           borderRadius: "0.4rem",
           width: "100%",
         }}
+        onClick={() => redirect(`/staff/${resolvedStaffId}/docs/staff/OTHER`)}
       />
     </Box>
   );
 };
-const StaffShow = () => (
-  <Show title="Membre staff" actions={false}>
-    <ProfileLayout
-      role={WhoamiRoleEnum.STAFF_MEMBER}
-      isStaffProfil
-      actions={<ActionsOnShow />}
-    />
-  </Show>
-);
+
+export const StaffShow = () => {
+  const {id: staffId} = useParams();
+
+  if (!staffId) return null;
+
+  return <StaffShowContent staffId={staffId} />;
+};
+
+interface StaffShowContentProps {
+  staffId: string;
+}
+
+const StaffShowContent: FC<StaffShowContentProps> = ({staffId}) => {
+  return (
+    <Show
+      resource="staffmembers"
+      id={staffId}
+      title="Membre staff"
+      actions={false}
+      sx={{
+        "& .RaShow-card": {
+          backgroundColor: "transparent",
+          boxShadow: "none",
+        },
+      }}
+    >
+      <ProfileLayout
+        role={WhoamiRoleEnum.STAFF_MEMBER}
+        isStaffProfil
+        actions={<ActionsOnShow staffId={staffId} />}
+      />
+    </Show>
+  );
+};
+
 export default StaffShow;

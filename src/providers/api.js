@@ -16,6 +16,7 @@ import {
   PayingApi,
   PromotionsApi,
   RetakeExamApi,
+  SearchApi,
   UsersApi,
 } from "@haapi-b0fc7615/typescript-client";
 import authProvider from "./authProvider";
@@ -101,6 +102,13 @@ export const attendanceApi = () =>
 
 export const retakeExamApi = () =>
   new RetakeExamApi(
+    authProvider.getCachedAuthConf(),
+    undefined,
+    getAxiosInstance()
+  );
+
+export const searchApi = () =>
+  new SearchApi(
     authProvider.getCachedAuthConf(),
     undefined,
     getAxiosInstance()
