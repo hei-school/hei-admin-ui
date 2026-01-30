@@ -27,12 +27,19 @@ export type NormalizedSearchResults = {
   staffMembers: StaffMember[];
 };
 
+type ApiUserIdentity = {
+  firstName?: string;
+  lastName?: string;
+  profilePicture?: string;
+  avatar?: string;
+};
+
 export const adaptSearchResultsUser = (
-  raw?: Partial<Record<string, any>>
+  raw?: Partial<Record<string, UserType[]>>
 ): SearchResultsUser | undefined => {
   if (!raw) return undefined;
 
-  const normalizeUser = (u: any) => ({
+  const normalizeUser = <T extends UserType & ApiUserIdentity>(u: T) => ({
     ...u,
     first_name: u.firstName,
     last_name: u.lastName,
@@ -68,7 +75,7 @@ export const normalizeSearchResults = (
       }
     : EMPTY_RESULTS;
 
-export const mapUserToSearchUser = (
+const mapUserToSearchUser = (
   user: UserType,
   role: SearchUser["role"]
 ): SearchUser => ({

@@ -31,25 +31,25 @@ const COLORS = {
   },
 } as const;
 
-const fadeIn = {
+const FADE_IN = {
   hidden: {opacity: 0, y: -8},
   visible: {opacity: 1, y: 0, transition: {duration: 0.2}},
   exit: {opacity: 0, y: -4},
 };
 
-const listItem = {
+const LIST_ITEM = {
   hidden: {opacity: 0, x: -16},
   visible: {opacity: 1, x: 0},
   hover: {scale: 1.02, x: 4},
 };
 
-const chip = {
+const CHIP = {
   hover: {scale: 1.05},
   tap: {scale: 0.95},
   selected: {scale: 1.1},
 };
 
-const scrollbarStyles = {
+const SCROLL_BAR_STYLES = {
   "&::-webkit-scrollbar": {width: 8},
   "&::-webkit-scrollbar-thumb": {
     background: alpha(COLORS.primary, 0.25),
@@ -58,8 +58,17 @@ const scrollbarStyles = {
   "scrollbarWidth": "thin" as const,
 };
 
-const getRoleColor = (role?: string): string =>
+const getRoleColor = (role?: string) =>
   COLORS.role[role as keyof typeof COLORS.role] ?? COLORS.accent;
+
+interface SearchResultsProps {
+  anchorEl?: HTMLElement | null;
+  open: boolean;
+  users: SearchUser[];
+  isLoading: boolean;
+  isFetched: boolean;
+  onUserClick: (id?: string) => void;
+}
 
 interface SearchResultItemProps {
   user: SearchUser;
@@ -67,12 +76,19 @@ interface SearchResultItemProps {
   onClick: () => void;
 }
 
+interface ResultsContentProps {
+  isLoading: boolean;
+  isEmpty: boolean;
+  users: SearchUser[];
+  onUserClick: (id?: string) => void;
+}
+
 const SearchResultItem = ({user, index, onClick}: SearchResultItemProps) => {
   const roleColor = getRoleColor(user.role);
 
   return (
     <motion.div
-      variants={listItem}
+      variants={LIST_ITEM}
       initial="hidden"
       animate="visible"
       whileHover="hover"
@@ -144,14 +160,50 @@ const SearchResultItem = ({user, index, onClick}: SearchResultItemProps) => {
   );
 };
 
-interface SearchResultsProps {
-  anchorEl?: HTMLElement | null;
-  open: boolean;
-  users: SearchUser[];
-  isLoading: boolean;
-  isFetched: boolean;
-  onUserClick: (id?: string) => void;
-}
+const SearchResultsContent = ({
+  isLoading,
+  isEmpty,
+  users,
+  onUserClick,
+}: ResultsContentProps) => {
+  if (isLoading) {
+    return (
+      <Box maxHeight={320} p={1.5} sx={SCROLL_BAR_STYLES}>
+        <Stack alignItems="center" py={4}>
+          <CircularProgress size={24} />
+        </Stack>
+      </Box>
+    );
+  }
+
+  if (isEmpty) {
+    return (
+      <Box maxHeight={320} p={1.5} sx={SCROLL_BAR_STYLES}>
+        <Stack alignItems="center" py={4}>
+          <SearchIcon sx={{fontSize: 32, opacity: 0.5}} />
+          <Typography fontSize={14} color="text.secondary">
+            Aucun résultat
+          </Typography>
+        </Stack>
+      </Box>
+    );
+  }
+
+  return (
+    <Box maxHeight={320} p={1.5} sx={SCROLL_BAR_STYLES}>
+      <Stack spacing={0.75}>
+        {users.map((user, index) => (
+          <SearchResultItem
+            key={user.id}
+            user={user}
+            index={index}
+            onClick={() => onUserClick(user.id)}
+          />
+        ))}
+      </Stack>
+    </Box>
+  );
+};
 
 export const SearchResults = ({
   anchorEl,
@@ -161,28 +213,28 @@ export const SearchResults = ({
   isFetched,
   onUserClick,
 }: SearchResultsProps) => {
+  if (!open || !anchorEl) return <div>Sorry</div>;
+  if (!isLoading && !isFetched && users.length === 0) return null;
+
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
 
-  const canOpen = Boolean(open && anchorEl);
-  const width = anchorEl?.getBoundingClientRect().width;
-
-  const roleCounts = useMemo<Record<string, number>>(() => {
-    return users.reduce(
-      (acc, user) => {
+  const roleCounts = useMemo(
+    () =>
+      users.reduce<Record<string, number>>((acc, user) => {
         acc[user.role] = (acc[user.role] || 0) + 1;
         return acc;
-      },
-      {} as Record<string, number>
-    );
-  }, [users]);
+      }, {}),
+    [users]
+  );
 
   const filteredUsers = useMemo(() => {
-    return selectedRole ? users.filter((u) => u.role === selectedRole) : users;
+    if (!selectedRole) return users;
+    return users.filter((u) => u.role === selectedRole);
   }, [users, selectedRole]);
 
   const isEmpty = !isLoading && isFetched && filteredUsers.length === 0;
 
-  if (!canOpen) return null;
+  const width = anchorEl.getBoundingClientRect().width;
 
   return (
     <Popper
@@ -193,14 +245,15 @@ export const SearchResults = ({
     >
       <AnimatePresence>
         <motion.div
-          variants={fadeIn}
+          variants={FADE_IN}
           initial="hidden"
           animate="visible"
           exit="exit"
         >
           <Paper
             sx={{
-              borderRadius: 1,
+              mt: 1,
+              borderRadius: 3,
               border: `1px solid ${COLORS.border}`,
               background: alpha(COLORS.background, 0.95),
               overflow: "hidden",
@@ -212,77 +265,49 @@ export const SearchResults = ({
                   <Stack direction="row" spacing={1} alignItems="center">
                     <SearchIcon fontSize="small" color="primary" />
                     <Typography fontSize={13} fontWeight={600}>
-                      {users.length} résultat
-                      {users.length > 1 && "s"}
+                      {users.length} résultat{users.length > 1 && "s"}
                     </Typography>
                   </Stack>
                   <FilterListIcon fontSize="small" />
                 </Stack>
 
                 <Stack direction="row" flexWrap="wrap" gap={0.5}>
-                  {Object.entries(roleCounts).map(
-                    ([role, count]: [string, number]) => {
-                      const selected = selectedRole === role;
-                      const color = getRoleColor(role);
+                  {Object.entries(roleCounts).map(([role, count]) => {
+                    const selected = selectedRole === role;
+                    const color = getRoleColor(role);
 
-                      return (
-                        <motion.div
-                          key={role}
-                          variants={chip}
-                          animate={selected ? "selected" : undefined}
+                    return (
+                      <motion.div key={role} variants={CHIP}>
+                        <Box
+                          onClick={() =>
+                            setSelectedRole(selected ? null : role)
+                          }
+                          sx={{
+                            px: 1.5,
+                            py: 0.5,
+                            borderRadius: 1,
+                            cursor: "pointer",
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: selected ? "#fff" : color,
+                            background: selected ? color : alpha(color, 0.1),
+                          }}
                         >
-                          <Box
-                            onClick={() => setSelectedRole(role)}
-                            sx={{
-                              px: 1.5,
-                              py: 0.5,
-                              borderRadius: 1,
-                              cursor: "pointer",
-                              fontSize: 12,
-                              fontWeight: 600,
-                              color: selected ? "#fff" : color,
-                              background: selected ? color : alpha(color, 0.1),
-                            }}
-                          >
-                            {role} ({count})
-                          </Box>
-                        </motion.div>
-                      );
-                    }
-                  )}
+                          {role} ({count})
+                        </Box>
+                      </motion.div>
+                    );
+                  })}
                 </Stack>
               </Box>
             )}
 
-            <Box maxHeight={320} overflow="auto" p={1.5} sx={scrollbarStyles}>
-              {isLoading && (
-                <Stack alignItems="center" py={4}>
-                  <CircularProgress size={24} />
-                </Stack>
-              )}
-
-              {isEmpty && (
-                <Stack alignItems="center" py={4}>
-                  <SearchIcon sx={{fontSize: 32, opacity: 0.5}} />
-                  <Typography fontSize={14} color="text.secondary">
-                    Aucun résultat
-                  </Typography>
-                </Stack>
-              )}
-
-              {!isLoading && !isEmpty && (
-                <Stack spacing={0.75}>
-                  {filteredUsers.map((user, index) => (
-                    <SearchResultItem
-                      key={user.id}
-                      user={user}
-                      index={index}
-                      onClick={() => onUserClick(user.id)}
-                    />
-                  ))}
-                </Stack>
-              )}
-            </Box>
+            <SearchResultsContent
+              isLoading={isLoading}
+              isEmpty={isEmpty}
+              users={filteredUsers}
+              onUserClick={onUserClick}
+            />
           </Paper>
         </motion.div>
       </AnimatePresence>
