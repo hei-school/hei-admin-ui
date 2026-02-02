@@ -46,11 +46,15 @@ const LIST_ITEM = {
 const CHIP = {
   hover: {scale: 1.05},
   tap: {scale: 0.95},
-  selected: {scale: 1.1},
 };
 
-const SCROLL_BAR_STYLES = {
-  "&::-webkit-scrollbar": {width: 8},
+const SCROLL_CONTAINER = {
+  "maxHeight": 320,
+  "overflowY": "auto",
+  "overflowX": "hidden",
+  "&::-webkit-scrollbar": {
+    width: 8,
+  },
   "&::-webkit-scrollbar-thumb": {
     background: alpha(COLORS.primary, 0.25),
     borderRadius: 4,
@@ -168,7 +172,7 @@ const SearchResultsContent = ({
 }: ResultsContentProps) => {
   if (isLoading) {
     return (
-      <Box maxHeight={320} p={1.5} sx={SCROLL_BAR_STYLES}>
+      <Box p={1.5} sx={SCROLL_CONTAINER}>
         <Stack alignItems="center" py={4}>
           <CircularProgress size={24} />
         </Stack>
@@ -178,7 +182,7 @@ const SearchResultsContent = ({
 
   if (isEmpty) {
     return (
-      <Box maxHeight={320} p={1.5} sx={SCROLL_BAR_STYLES}>
+      <Box p={1.5} sx={SCROLL_CONTAINER}>
         <Stack alignItems="center" py={4}>
           <SearchIcon sx={{fontSize: 32, opacity: 0.5}} />
           <Typography fontSize={14} color="text.secondary">
@@ -190,7 +194,7 @@ const SearchResultsContent = ({
   }
 
   return (
-    <Box maxHeight={320} p={1.5} sx={SCROLL_BAR_STYLES}>
+    <Box p={1.5} sx={SCROLL_CONTAINER}>
       <Stack spacing={0.75}>
         {users.map((user, index) => (
           <SearchResultItem
@@ -204,7 +208,6 @@ const SearchResultsContent = ({
     </Box>
   );
 };
-
 export const SearchResults = ({
   anchorEl,
   open,
@@ -213,7 +216,7 @@ export const SearchResults = ({
   isFetched,
   onUserClick,
 }: SearchResultsProps) => {
-  if (!open || !anchorEl) return <div>Sorry</div>;
+  if (!open || !anchorEl) return null;
   if (!isLoading && !isFetched && users.length === 0) return null;
 
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
@@ -233,7 +236,6 @@ export const SearchResults = ({
   }, [users, selectedRole]);
 
   const isEmpty = !isLoading && isFetched && filteredUsers.length === 0;
-
   const width = anchorEl.getBoundingClientRect().width;
 
   return (
