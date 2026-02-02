@@ -3,6 +3,7 @@ import {Box, CircularProgress, InputBase} from "@mui/material";
 import {AnimatePresence, motion} from "framer-motion";
 import React, {useEffect, useMemo, useRef, useState} from "react";
 import {useNavigate} from "react-router-dom";
+
 import {useGlobalSearch} from "./component";
 import {
   COLORS,
@@ -164,8 +165,8 @@ const GlobalSearch = () => {
   const {searchValue, setSearchValue, users, isLoading, isFetched} =
     useGlobalSearch();
 
-  const isResultsOpen = debouncedValue.trim().length > 0;
-  const isActive = isFocused || isResultsOpen;
+  const isActive = isFocused;
+  const isResultsOpen = isActive && debouncedValue.trim().length > 0;
 
   useEffect(() => {
     const t = setTimeout(() => setDebouncedValue(searchValue), 300);
@@ -196,8 +197,9 @@ const GlobalSearch = () => {
   };
 
   const handleClose = () => {
-    setIsFocused(false);
     setSearchValue("");
+    setDebouncedValue("");
+    setIsFocused(false);
   };
 
   const handleUserClick = (userId?: string) => {
@@ -266,14 +268,16 @@ const GlobalSearch = () => {
             onChange={setSearchValue}
             isLoading={isLoading}
           >
-            <SearchResults
-              anchorEl={activeInputRef.current}
-              open={isResultsOpen}
-              users={users}
-              isLoading={isLoading}
-              isFetched={isFetched}
-              onUserClick={handleUserClick}
-            />
+            {isResultsOpen && (
+              <SearchResults
+                anchorEl={activeInputRef.current}
+                open
+                users={users}
+                isLoading={isLoading}
+                isFetched={isFetched}
+                onUserClick={handleUserClick}
+              />
+            )}
           </ActiveSearchContainer>
         )}
       </AnimatePresence>
