@@ -15,8 +15,6 @@ const searchProvider: HaDataProviderType = {
   getList: async (_page, _perPage, filter: {word: string}) => {
     const {word} = filter;
     const response = await searchApi().globalSearchUserGet(word);
-
-    console.log("Search response:", response);
     return {
       data: [
         {
