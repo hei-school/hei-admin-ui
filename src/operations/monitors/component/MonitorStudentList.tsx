@@ -98,6 +98,7 @@ export const MonitorStudentList = () => {
             meta: {
               monitorId,
             },
+            className: "monitor-students-list",
           },
         }}
       >
@@ -119,7 +120,12 @@ export const MonitorStudentList = () => {
             );
           }}
         />
-        {isMonitor() && <ShowButton sx={{color: PALETTE_COLORS.yellow}} />}
+        {isMonitor() && (
+          <ShowButton
+            sx={{color: PALETTE_COLORS.yellow}}
+            data-testid="show-monitor-student"
+          />
+        )}
       </HaList>
       <Dialog
         title="insert students"
