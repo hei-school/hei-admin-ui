@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import {FC, ReactElement, ReactNode, useState} from "react";
 import cardBackground from "../../../assets/shape-square.svg";
+import {useFeeStatistics} from "./useFeeStatistics";
 
 export interface CardFeesContent {
   title: string;
@@ -108,6 +109,7 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
 }) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
   const isMobile = useMediaQuery("(max-width:768px)");
+  const {openStatistics} = useFeeStatistics();
 
   return (
     <Box
@@ -268,25 +270,31 @@ export const FeesStatsHeader: FC<ListHeaderProps> = ({
             >
               <BoxItem
                 title="Mensuel"
-                sx={{
-                  borderRadius: "40px",
-                  color: "white !important",
-                  background: "rgba(114, 113, 113, 0.64)",
-                  fontWeight: "900",
-                }}
-                icon={<ChartColumn color="white" />}
                 value={card.mensual}
+                icon={<ChartColumn color="white" />}
+                onClick={() => openStatistics(card.title, "MONTH")}
+                sx={{
+                  "borderRadius": "40px",
+                  "color": "white !important",
+                  "background": "rgba(114, 113, 113, 0.64)",
+                  "fontWeight": "900",
+                  "cursor": "pointer",
+                  "&:hover": {background: "rgba(114, 113, 113, 0.64)"},
+                }}
               />
               <BoxItem
-                sx={{
-                  borderRadius: "40px",
-                  color: "white !important",
-                  background: "rgba(114, 113, 113, 0.64)",
-                  fontWeight: "900",
-                }}
                 title="Annuel"
-                icon={<CalendarRange color="white" />}
                 value={card.annual}
+                icon={<CalendarRange color="white" />}
+                onClick={() => openStatistics(card.title, "YEAR")}
+                sx={{
+                  "borderRadius": "40px",
+                  "color": "white !important",
+                  "background": "rgba(114, 113, 113, 0.64)",
+                  "fontWeight": "900",
+                  "cursor": "pointer",
+                  "&:hover": {background: "rgba(114, 113, 113, 0.64)"},
+                }}
               />
             </Box>
           </Box>
