@@ -20,9 +20,19 @@ describe("All View", () => {
     ).as("getStudents");
     cy.intercept(
       "GET",
+      `/students/${studentLinkedToMonitorMock[0].id!}/level`,
+      "L1"
+    ).as("getStudentLevel");
+    cy.intercept(
+      "GET",
       `/monitors/${monitor1Mock.id}/students/${studentLinkedToMonitorMock[0].id!}`,
       studentLinkedToMonitorMock[0]
     ).as("getStudentOne");
+    cy.intercept(
+      "GET",
+      `/students/${studentLinkedToMonitorMock[0].id!}`,
+      studentLinkedToMonitorMock[0]
+    ).as("getStudentDetails");
     cy.intercept(
       "GET",
       `/monitors/${monitor1Mock.id}/students?page=2&page_size=10`,
@@ -31,7 +41,7 @@ describe("All View", () => {
     ).as("getStudents2");
     cy.get('[href="/monitors/monitor1_id/students"]').click();
     cy.wait("@getStudents");
-    cy.contains(studentLinkedToMonitorMock[0].first_name!).click();
+    cy.getByTestid("show-monitor-student").first().click();
     cy.getByTestid("grades-tab").click();
     cy.intercept(
       "GET",

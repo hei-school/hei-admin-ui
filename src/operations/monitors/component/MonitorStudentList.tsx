@@ -4,6 +4,7 @@ import {useToggle} from "@/hooks/useToggle";
 
 import CustomAutocompleteArrayInput from "@/operations/cor/components/CustomAutocompleteArrayInput";
 import authProvider from "@/providers/authProvider";
+import {useRole} from "@/security/hooks";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {Group} from "@haapi-b0fc7615/typescript-client";
@@ -33,9 +34,12 @@ import {
   useCreate,
 } from "react-admin";
 import {useWatch} from "react-hook-form";
+import {useParams} from "react-router-dom";
 
 export const MonitorStudentList = () => {
-  const {id: monitorId} = authProvider.getCachedWhoami();
+  const {isMonitor} = useRole();
+  const params = useParams();
+  const monitorId = isMonitor() ? authProvider.getCachedWhoami().id : params.id;
   const [showCreate, _set, toggleShowCreate] = useToggle();
   const [create] = useCreate();
   const notify = useNotify();
@@ -46,6 +50,9 @@ export const MonitorStudentList = () => {
       {
         data: {
           students_ids,
+        },
+        meta: {
+          monitorId,
         },
       },
       {
@@ -83,11 +90,15 @@ export const MonitorStudentList = () => {
             }}
           />
         }
+        datagridProps={{
+          rowClick: isMonitor() ? true : false,
+        }}
         listProps={{
           queryOptions: {
             meta: {
               monitorId,
             },
+            className: "monitor-students-list",
           },
         }}
       >
@@ -109,7 +120,12 @@ export const MonitorStudentList = () => {
             );
           }}
         />
-        <ShowButton sx={{color: PALETTE_COLORS.yellow}} />
+        {isMonitor() && (
+          <ShowButton
+            sx={{color: PALETTE_COLORS.yellow}}
+            data-testid="show-monitor-student"
+          />
+        )}
       </HaList>
       <Dialog
         title="insert students"

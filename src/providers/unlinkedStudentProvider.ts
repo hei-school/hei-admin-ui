@@ -1,0 +1,24 @@
+import {UpdateMonitorStudentLinkStatusRequest} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType} from "./HaDataProviderType";
+import {monitoringApi} from "./api";
+
+const unlikedStudentProvider: HaDataProviderType = {
+  getList: async (page: number, perPage: number) => {
+    return monitoringApi()
+      .getLinkStudentRequests(page, perPage)
+      .then((response) => ({data: response.data}));
+  },
+  getOne: function () {
+    throw new Error("Function not implemented.");
+  },
+  saveOrUpdate: async (resources: UpdateMonitorStudentLinkStatusRequest[]) => {
+    return monitoringApi()
+      .updateMonitorStudentLinkStatus(resources[0])
+      .then((response) => response.data);
+  },
+  delete: function () {
+    throw new Error("Function not implemented.");
+  },
+};
+
+export default unlikedStudentProvider;

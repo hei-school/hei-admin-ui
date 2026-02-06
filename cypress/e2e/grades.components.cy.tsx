@@ -10,7 +10,7 @@ import {
 import {monitor1Mock} from "../fixtures/api_mocks/monitors-mock";
 import {studentLinkedToMonitorMock} from "../fixtures/api_mocks/students-mocks";
 
-const goToStudentGrades = (student = studentLinkedToMonitorMock[0]) => {
+const goToStudentGrades = () => {
   cy.intercept(
     "GET",
     `/monitors/${monitor1Mock.id}/students?page=1&page_size=10`,
@@ -35,7 +35,7 @@ const goToStudentGrades = (student = studentLinkedToMonitorMock[0]) => {
 
   cy.get('[href="/monitors/monitor1_id/students"]').click();
   cy.wait("@getStudents");
-  cy.contains(student.first_name!).click();
+  cy.getByTestid("show-monitor-student").first().click();
   cy.getByTestid("grades-tab").click();
 };
 

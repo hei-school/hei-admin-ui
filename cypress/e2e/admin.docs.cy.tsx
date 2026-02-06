@@ -92,7 +92,7 @@ describe("Monitor Student", () => {
       });
       it("can view a student document", () => {
         cy.getByTestid("students-menu").click();
-        cy.contains(student1Mock.ref).click();
+        cy.getByTestid("show-monitor-student").first().click();
         cy.getByTestid("docs-button").click();
         cy.contains("Bulletins").click();
         cy.contains(transcriptsMock[0]?.name!);
@@ -113,7 +113,7 @@ describe("Monitor Student", () => {
           status: EnableStatus.SUSPENDED,
         }).as("getSuspendedStudentDetails");
         cy.getByTestid("students-menu").click();
-        cy.contains(student1Mock.ref).click();
+        cy.getByTestid("show-monitor-student").first().click();
       });
       it(`can't view student documents and sees suspended alert`, () => {
         cy.intercept(
