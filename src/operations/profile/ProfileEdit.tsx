@@ -83,6 +83,11 @@ const ProfileEdit: FC<{
           fullWidth
           readOnly={isOwnProfile}
         />
+        <TextInput
+          source="high_school_origin"
+          label="Lycée de provenance"
+          fullWidth
+        />
         {isStaffProfil && (
           <>
             <TextInput source="cnaps" label="Cnaps" fullWidth />

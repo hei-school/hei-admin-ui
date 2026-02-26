@@ -32,6 +32,7 @@ export function ProfileFilters({resource}) {
           {id: EnableStatus.ENABLED, name: "Actif.ve"},
           {id: EnableStatus.SUSPENDED, name: "Suspendu.e"},
           {id: EnableStatus.DISABLED, name: "Quitté.e"},
+          {id: EnableStatus.ALUMNI, name: "Alumni"},
           {id: null, name: "Aucune valeur"},
         ]}
       />
