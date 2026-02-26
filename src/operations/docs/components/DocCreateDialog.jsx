@@ -115,6 +115,7 @@ export const DocCreateDialog = ({
               <DateInput
                 source="commitment_end_date"
                 label="Date du fin de l'expérience professionnelle"
+                required
                 fullWidth
               />
             </Box>
