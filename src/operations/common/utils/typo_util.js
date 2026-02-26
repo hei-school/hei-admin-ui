@@ -27,6 +27,8 @@ export const getUserStatusInFr = (status, sex) => {
       return isWoman ? "Suspendue" : "Suspendu";
     case EnableStatus.DISABLED:
       return isWoman ? "Quittée" : "Quitté";
+    case EnableStatus.ALUMNI:
+      return isWoman ? "Alumnie" : "Alumni";
     default:
       throw new Error("Unknown user status");
   }
