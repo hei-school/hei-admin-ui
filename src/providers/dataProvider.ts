@@ -46,7 +46,6 @@ import StudentParticipationProvider from "@/providers/studentParticipationProvid
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
-import feeUrlStatisticProvider from "./feeUrlStatisticProvider";
 import gradeImportProvider from "./gradeImportProvider";
 import retakeExamCoursesProvider from "./retakeExamCoursesProvider";
 import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
@@ -112,7 +111,6 @@ const providerMap = {
   "import-students": studentImportProvider,
   "import-grades": gradeImportProvider,
   "searchs": searchProvider,
-  "feeUrlStatistics": feeUrlStatisticProvider,
 } as const;
 
 const getProvider = (
