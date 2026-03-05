@@ -8,6 +8,8 @@ export const promotionsMock: Required<Promotion>[] = [
     name: "promotion_name1",
     creation_datetime: new Date("2021-11-08T08:25:24Z"),
     groups: [groupsMock[0], groupsMock[1]],
+    cycle: "BACHELOR",
+    studentLevels: [],
   },
   {
     id: "promotion_id2",
@@ -15,6 +17,8 @@ export const promotionsMock: Required<Promotion>[] = [
     name: "promotion_name2",
     creation_datetime: new Date("2025-11-08T08:25:24Z"),
     groups: [groupsMock[2], groupsMock[3]],
+    cycle: "BACHELOR",
+    studentLevels: [],
   },
 ];
 
