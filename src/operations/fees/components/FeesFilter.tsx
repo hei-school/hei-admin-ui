@@ -8,6 +8,7 @@ import {
 } from "@/ui/haToolbar";
 import {Box, Divider, Typography} from "@mui/material";
 import {
+  CATEGORY_CHOICES,
   FEE_STATUS_CHOICES,
   FEES_TYPES_CHOICES,
   MPBS_CHOICES,
@@ -43,6 +44,12 @@ export const FeesFilters = () => {
             label="Statut des transactions"
             source="transaction_status"
             choices={MPBS_CHOICES}
+          />
+          <SelectInputFilter
+            data-testid="filter-fees-category"
+            label="Catégorie de frais"
+            source="category"
+            choices={CATEGORY_CHOICES}
           />
         </Box>
       )}
