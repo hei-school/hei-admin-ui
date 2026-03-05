@@ -5,16 +5,17 @@ import {Dialog} from "@/ui/components";
 import {mapToChoices} from "@/utils";
 import {NOOP_ID} from "@/utils/constants";
 import {toUTC} from "@/utils/date";
+import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client/dist/api";
 import {Download} from "@mui/icons-material";
 import {Box, TextField} from "@mui/material";
 import {FC, useEffect, useState} from "react";
 import {required, SelectInput, SimpleForm} from "react-admin";
-import {useFormContext} from "react-hook-form";
-import {FEE_STATUS} from "../constants";
+import {useFormContext, useWatch} from "react-hook-form";
+import {FEE_STATUS, FEE_STATUS_CHOICES} from "../constants";
 
 export const FileDownloaderWrapper = () => {
   const {watch} = useFormContext();
-  const {monthFrom, monthTo, status} = watch();
+  const {monthFrom, monthTo, status, type} = watch();
 
   const downloadFile = async () => {
     try {
@@ -24,6 +25,7 @@ export const FileDownloaderWrapper = () => {
         id: NOOP_ID,
         meta: {
           status: status,
+          type: type,
           fromDueDatetime: monthFrom
             ? toUTC(new Date(monthFrom)).toISOString()
             : null,
@@ -119,6 +121,31 @@ const MonthRangeInputs = () => {
   );
 };
 
+const ConditionalStatisticsTypeInput = () => {
+  const {control} = useFormContext();
+  const status = useWatch({
+    name: "status",
+    control,
+  });
+
+  if (status !== "ALL") {
+    return null;
+  }
+
+  return (
+    <SelectInput
+      fullWidth
+      label="Type de statistiques"
+      source="type"
+      optionText="label"
+      optionValue="value"
+      defaultValue={AdvancedFeeStatisticsType.ACCOUNTING}
+      choices={mapToChoices(AdvancedFeeStatisticsType)}
+      emptyValue={false}
+    />
+  );
+};
+
 export const FeesExport: FC<{onClose: () => void; open: boolean}> = ({
   onClose,
   open,
@@ -134,12 +161,13 @@ export const FeesExport: FC<{onClose: () => void; open: boolean}> = ({
           fullWidth
           label="Statut des frais"
           source="status"
-          optionText="label"
-          optionValue="value"
-          defaultValue={FEE_STATUS.LATE}
-          choices={mapToChoices(FEE_STATUS)}
+          choices={FEE_STATUS_CHOICES}
+          optionValue="id"
+          optionText="name"
+          defaultValue="LATE"
           validate={required()}
         />
+        <ConditionalStatisticsTypeInput />
         <MonthRangeInputs />
       </SimpleForm>
     </Dialog>
