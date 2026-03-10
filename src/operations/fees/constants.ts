@@ -1,5 +1,6 @@
 import {mapToChoices} from "@/utils";
 import {
+  AdvancedFeeStatisticsType,
   FeeCategory,
   FeeFrequency,
   FeeTypeEnum,
@@ -10,6 +11,7 @@ export const FEE_STATUS = {
   PAID: "Payés",
   UNPAID: "En cours",
   PENDING: "En cours de vérification",
+  ALL: "Tous",
 } as const;
 
 export const MPBS_STATUS_LABEL = {
@@ -58,3 +60,8 @@ export const FEES_FREQUENCY_CHOICES = FEES_FREQUENCY.map((choice) => ({
   name: choice.label,
   id: choice.value,
 }));
+
+export const ADVANCED_FEE_STATISTICS_TYPE_CHOICES = [
+  {label: "Comptable", value: AdvancedFeeStatisticsType.ACCOUNTING},
+  {label: "Encaissement", value: AdvancedFeeStatisticsType.RECEIPT},
+];

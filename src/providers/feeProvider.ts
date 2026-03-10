@@ -1,4 +1,11 @@
-import {Fee, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {
+  Fee,
+  FeeCategory,
+  FeeStatusEnum,
+  FeeTypeEnum,
+  MpbsStatus,
+  WhoamiRoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import authProvider from "./authProvider";
@@ -19,20 +26,33 @@ export const studentIdFromRaId = (raId: string): string =>
 export const feeIdFromRaId = (raId: string): string => toApiIds(raId).feeId;
 
 const feeProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+  getList: async (
+    page: number,
+    perPage: number,
+    filter: {
+      transaction_status?: MpbsStatus;
+      type?: FeeTypeEnum;
+      status?: FeeStatusEnum;
+      category?: FeeCategory;
+      monthFrom?: Date;
+      monthTo?: Date;
+      isMpbs?: boolean;
+      student_ref?: string;
+      studentId?: string;
+    }
+  ) => {
     const doGetFees = async () => {
       if (filter.studentId) {
-        return await payingApi()
+        return payingApi()
           .getStudentFees(filter.studentId, page, perPage, filter.status)
           .then(({data}) => data);
       }
-
-      //TODO : redundance
-      return await payingApi()
+      return payingApi()
         .getFees(
           filter.transaction_status,
           filter.type,
           filter.status,
+          filter.category,
           filter.monthFrom,
           filter.monthTo,
           page,
@@ -53,13 +73,17 @@ const feeProvider: HaDataProviderType = {
     };
   },
 
-  async getOne(raId: string) {
+  getOne: async (raId: string) => {
     const {studentId, feeId} = toApiIds(raId);
-    const result = await payingApi().getStudentFeeById(studentId, feeId);
-    return {...result.data, id: raId};
+    return payingApi()
+      .getStudentFeeById(studentId, feeId)
+      .then((result) => ({
+        ...result.data,
+        id: raId,
+      }));
   },
 
-  async saveOrUpdate(resources: Array<any>) {
+  saveOrUpdate: async (resources) => {
     const payload = resources[0];
     const role = authProvider.getCachedRole();
 
@@ -74,24 +98,24 @@ const feeProvider: HaDataProviderType = {
         psp_type: payload?.psp_type,
       };
 
-      return await payingApi()
+      return payingApi()
         .crupdateMpbs(mpbs?.student_id, mpbs?.fee_id, mpbs)
         .then((result) => [{...result.data, ...payload}]);
     }
     if (role === WhoamiRoleEnum.STUDENT) {
-      return await payingApi()
+      return payingApi()
         .createStudentFees(payload[0].student_id, payload)
         .then((result) => result.data);
     }
     if (role === WhoamiRoleEnum.MANAGER || role === WhoamiRoleEnum.ADMIN) {
-      return await payingApi()
+      return payingApi()
         .crupdateStudentFees(payload)
         .then((result) => result.data);
     }
   },
-  async delete(raId: string) {
+  delete: async (raId: string) => {
     const {studentId, feeId} = toApiIds(raId);
-    return await payingApi()
+    return payingApi()
       .deleteStudentFeeById(feeId, studentId)
       .then((response) => response.data);
   },

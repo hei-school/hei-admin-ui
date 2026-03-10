@@ -5,10 +5,10 @@ import {MAX_ITEM_PER_PAGE} from "./dataProvider";
 import {getMonthFilters} from "./utils";
 
 const statsProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, _filter: any) {
+  getList: () => {
     throw new Error("Function not implemented.");
   },
-  async getOne(id: string, meta = {}) {
+  getOne: async (id: string, meta = {}) => {
     const filter = meta.filters ?? {};
     const {monthFrom, monthTo} = getMonthFilters(filter);
 
@@ -33,7 +33,8 @@ const statsProvider: HaDataProviderType = {
             filter.status,
             filter.monthFrom,
             filter.monthTo,
-            1,
+            filter.category,
+            filter.page ?? 1,
             MAX_ITEM_PER_PAGE,
             filter.isMpbs,
             filter.student_ref
@@ -48,10 +49,10 @@ const statsProvider: HaDataProviderType = {
         return;
     }
   },
-  async saveOrUpdate(_payload: any) {
+  saveOrUpdate: () => {
     throw new Error("Function not implemented.");
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };
