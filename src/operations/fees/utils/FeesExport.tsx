@@ -55,7 +55,7 @@ export const FileDownloaderWrapper = () => {
         "marginBottom": "1vh",
       }}
       startIcon={<Download />}
-      fileName={`Liste frais ${FEE_STATUS[status as keyof typeof FEE_STATUS] as string}`}
+      fileName={`Liste frais ${FEE_STATUS[status as keyof typeof FEE_STATUS] as string}_${monthFrom ? new Date(monthFrom).toLocaleDateString("fr-FR", {month: "2-digit", year: "numeric"}) : "toutes périodes"}.xlsx`}
       buttonText="Exporter"
       successMessage="Exportation en cours…"
       errorMessage="Une erreur est survenue lors de l'exportation du fichier."

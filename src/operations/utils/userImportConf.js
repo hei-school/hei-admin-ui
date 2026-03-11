@@ -82,6 +82,7 @@ export const transformUserData = (data) => {
         .filter((ref) => ref.length > 0);
     }
     element.status = EnableStatus.ENABLED;
+    element.status = EnableStatus.ALUMNI;
     element.specialization_field = SpecializationField.COMMON_CORE;
     element.coordinates = {longitude: 0, latitude: 0};
 

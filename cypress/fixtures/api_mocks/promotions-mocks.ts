@@ -10,6 +10,7 @@ export const promotionsMock: Required<Promotion>[] = [
     groups: [groupsMock[0], groupsMock[1]],
     cycle: "BACHELOR",
     studentLevels: [],
+    cycle_level: "BACHELOR",
   },
   {
     id: "promotion_id2",
@@ -19,6 +20,7 @@ export const promotionsMock: Required<Promotion>[] = [
     groups: [groupsMock[2], groupsMock[3]],
     cycle: "BACHELOR",
     studentLevels: [],
+    cycle_level: "BACHELOR",
   },
 ];
 
