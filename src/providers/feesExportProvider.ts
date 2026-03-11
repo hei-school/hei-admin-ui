@@ -22,10 +22,22 @@ const feesExportProvider: HaDataProviderType = {
     if (type) {
       return payingApi()
         .exportAllFees(type, fromDueDatetime, toDueDatetime)
-        .then((res) => ({
-          id,
-          file: res.data,
-        }));
+        .then(async (res) => {
+          const presignedUrl = res.data;
+          const fileResponse = await fetch(presignedUrl, {
+            method: "GET",
+          });
+          if (!fileResponse.ok) {
+            throw new Error(
+              `Failed to download file: ${fileResponse.statusText}`
+            );
+          }
+          const fileBlob = await fileResponse.blob();
+          return {
+            id,
+            file: fileBlob,
+          };
+        });
     }
     return payingApi()
       .generateFeesListAsXlsx(status, fromDueDatetime, toDueDatetime, {
