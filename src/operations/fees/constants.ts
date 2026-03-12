@@ -11,7 +11,7 @@ export const FEE_STATUS = {
   PAID: "Payés",
   UNPAID: "En cours",
   PENDING: "En cours de vérification",
-  ALL: "Brute",
+  ALL: "Tout les frais",
 } as const;
 
 export const MPBS_STATUS_LABEL = {

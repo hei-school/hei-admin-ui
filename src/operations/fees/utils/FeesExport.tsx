@@ -95,6 +95,25 @@ const MonthRangeInputs = () => {
     }
   };
 
+  const handleMonthToChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value) {
+      const date = new Date(value);
+      date.setMinutes(date.getMinutes() + date.getTimezoneOffset());
+      setValue("monthTo", date.toISOString(), {shouldValidate: true});
+    } else {
+      setValue("monthTo", "", {shouldValidate: true});
+    }
+  };
+
+  const monthToDateValue = monthTo
+    ? new Date(monthTo).toISOString().split("T")[0]
+    : "";
+
+  const monthFromDateValue = monthFrom
+    ? new Date(monthFrom).toISOString().split("T")[0]
+    : "";
+
   return (
     <Box width="100%" display="flex" gap="2vw">
       <TextField
@@ -109,13 +128,17 @@ const MonthRangeInputs = () => {
         label="Date de début"
         value={monthFrom ? new Date(monthFrom).toLocaleDateString("fr-FR") : ""}
         sx={{flex: 1}}
-        disabled
       />
       <TextField
         label="Date de fin"
-        value={monthTo ? new Date(monthTo).toLocaleDateString("fr-FR") : ""}
+        type="date"
+        value={monthToDateValue}
+        onChange={handleMonthToChange}
         sx={{flex: 1}}
-        disabled
+        required
+        inputProps={{
+          min: monthFromDateValue,
+        }}
       />
     </Box>
   );
@@ -141,7 +164,7 @@ const ConditionalStatisticsTypeInput = () => {
       optionValue="value"
       defaultValue={AdvancedFeeStatisticsType.ACCOUNTING}
       choices={mapToChoices(AdvancedFeeStatisticsType)}
-      emptyValue={false}
+      emptyText={"--Sélectionnez un type de statistiques--"}
     />
   );
 };
