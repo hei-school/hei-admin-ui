@@ -9,7 +9,7 @@ import {
 export const FEE_STATUS = {
   LATE: "En retard",
   PAID: "Payés",
-  UNPAID: "En cours",
+  UNPAID: "Non payés",
   PENDING: "En cours de vérification",
   ALL: "Tout les frais",
 } as const;

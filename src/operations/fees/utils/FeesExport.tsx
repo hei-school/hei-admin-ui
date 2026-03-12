@@ -164,7 +164,7 @@ const ConditionalStatisticsTypeInput = () => {
       optionValue="value"
       defaultValue={AdvancedFeeStatisticsType.ACCOUNTING}
       choices={mapToChoices(AdvancedFeeStatisticsType)}
-      emptyText={"--Sélectionnez un type de statistiques--"}
+      emptyText={"--Sélectionnez un type--"}
     />
   );
 };
