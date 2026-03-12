@@ -197,7 +197,7 @@ export const feesMock: Fee[] = [
   },
 ];
 
-let newLateFeesMock: Fee[] = [];
+const newLateFeesMock: Fee[] = [];
 
 export const unverifiedMpbsFee = feesMock[5];
 
@@ -221,7 +221,7 @@ export const fee1MockMpbs = {
 };
 
 feesMock.forEach((e) => {
-  let newE: Fee = {
+  const newE: Fee = {
     id: e.id,
     student_id: e.student_id,
     remaining_amount: e.total_amount ? e.total_amount / 2 : 10000,
@@ -240,7 +240,7 @@ export const UpdateFeeWithPaymentMock: (fee: Fee, payment: Payment) => Fee = (
   fee,
   payment
 ) => {
-  let newFee = fee;
+  const newFee = fee;
   newFee.remaining_amount = newFee.remaining_amount
     ? payment.amount
       ? newFee.remaining_amount - payment.amount
@@ -273,7 +273,7 @@ export const createFeeWithManualDataMock: (
   comment: string,
   monthsNumber: number
 ) => Fee[] = (date, amount, comment, monthsNumber) => {
-  let fees: Fee[] = [];
+  const fees: Fee[] = [];
   for (let i = 0; i < monthsNumber; i++) {
     fees.push({
       id: `new_fee_${i + 1}_id{}`,
