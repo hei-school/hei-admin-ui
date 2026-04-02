@@ -13,7 +13,13 @@ import {required, SelectInput, SimpleForm} from "react-admin";
 import {useFormContext, useWatch} from "react-hook-form";
 import {FEE_STATUS, FEE_STATUS_CHOICES} from "../constants";
 
-export const FileDownloaderWrapper = () => {
+type FileDownloaderWrapperProps = {
+  onClose: () => void;
+};
+
+export const FileDownloaderWrapper: FC<FileDownloaderWrapperProps> = ({
+  onClose,
+}) => {
   const {watch} = useFormContext();
   const {monthFrom, monthTo, status, type} = watch();
 
@@ -24,8 +30,8 @@ export const FileDownloaderWrapper = () => {
       } = await dataProvider.getOne("fees-export", {
         id: NOOP_ID,
         meta: {
-          status: status,
-          type: type,
+          status,
+          type,
           fromDueDatetime: monthFrom
             ? toUTC(new Date(monthFrom)).toISOString()
             : null,
@@ -34,9 +40,12 @@ export const FileDownloaderWrapper = () => {
             : null,
         },
       });
+      onClose();
       return {data: file};
     } catch (error) {
-      console.log(error);
+      throw new Error(
+        "Une erreur est survenue lors de l'exportation du fichier."
+      );
     }
   };
 
@@ -146,14 +155,9 @@ const MonthRangeInputs = () => {
 
 const ConditionalStatisticsTypeInput = () => {
   const {control} = useFormContext();
-  const status = useWatch({
-    name: "status",
-    control,
-  });
+  const status = useWatch({name: "status", control});
 
-  if (status !== "ALL") {
-    return null;
-  }
+  if (status !== "ALL") return null;
 
   return (
     <SelectInput
@@ -179,7 +183,7 @@ export const FeesExport: FC<{onClose: () => void; open: boolean}> = ({
       onClose={onClose}
       open={open}
     >
-      <SimpleForm toolbar={<FileDownloaderWrapper />}>
+      <SimpleForm toolbar={<FileDownloaderWrapper onClose={onClose} />}>
         <SelectInput
           fullWidth
           label="Statut des frais"
