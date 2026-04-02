@@ -1,77 +1,57 @@
 import {getMonthFilters} from "@/providers/utils";
 import {HaList} from "@/ui/haList/HaList";
 import {Fee, FeeStatusEnum} from "@haapi-b0fc7615/typescript-client";
-import {Download} from "@mui/icons-material";
+import {ReceiptLong} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {useState} from "react";
-import {Button, FunctionField, ShowButton, TextField} from "react-admin";
+import {FunctionField, ShowButton, TextField} from "react-admin";
 import {DateField} from "../common/components/fields";
 import {renderMoney} from "../common/utils/money";
 import {commentFunctionRenderer} from "../utils";
 import {FeesListHeader} from "./components";
-import {FeesFilters} from "./components/FeesFilter";
+import {StatusFilterButtons} from "./components/StatusFilterButtons";
 import {CATEGORY} from "./constants";
 import {rowStyle} from "./utils";
-import {FeesExport} from "./utils/FeesExport";
 
 const FEES_LIST_DEFAULT_FILTER = {
   status: FeeStatusEnum.LATE,
   ...getMonthFilters(),
 };
 
-const ByStatusFeeList = () => {
-  const [openDialog, setOpenDialog] = useState(false);
+const FILTER_SX = {
+  display: "flex",
+  justifyContent: "center",
+  mb: -7,
+};
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
+const ByStatusFeeList = () => {
   return (
     <Box>
       <HaList
-        title=" "
-        icon={""}
+        title="Liste des frais par statut"
+        icon={<ReceiptLong />}
         resource="fees"
         header={
-          <FeesListHeader
-            isMpbs={false}
-            title="Statistiques des frais filtrés par statut (en retard par défaut)"
-          />
+          <>
+            <FeesListHeader
+              isMpbs={false}
+              title="Statistiques des frais filtrés par statut (en retard par défaut)"
+            />
+            <Box sx={FILTER_SX}>
+              <StatusFilterButtons />
+            </Box>
+          </>
         }
         listProps={{
           filterDefaultValues: FEES_LIST_DEFAULT_FILTER,
           storeKey: "latefees",
         }}
-        actions={
-          <>
-            <FeesFilters />
-            <Button
-              startIcon={<Download />}
-              onClick={handleOpenDialog}
-              label="Exporter"
-              sx={{
-                color: "black",
-                opacity: "0.8",
-                padding: "0.5rem 1.1rem",
-                textTransform: "none",
-                gap: "0.8rem",
-                width: "100%",
-                justifyContent: "flex-start",
-              }}
-            />
-            {openDialog && (
-              <FeesExport open={openDialog} onClose={handleCloseDialog} />
-            )}
-          </>
-        }
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
         filterIndicator={true}
         datagridProps={{
-          rowClick: (id: any) => `/fees/${id}/show`,
+          rowClick: (id: string) => `/fees/${id}/show`,
           rowStyle,
         }}
+        actions={undefined}
       >
         <TextField source="student_ref" label="Référence de l'étudiant" />
         <TextField source="student_first_name" label="Prénom de l'étudiant" />
@@ -84,7 +64,7 @@ const ByStatusFeeList = () => {
         <FunctionField
           source="category"
           label="Catégorie"
-          render={(record: any) => {
+          render={(record) => {
             const cat = CATEGORY.find((c) => c.value === record.category);
             return cat ? cat.label : record.category;
           }}

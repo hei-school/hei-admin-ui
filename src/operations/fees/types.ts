@@ -5,3 +5,26 @@ export type FeeStats = AdvancedFeesStatistics & {
   expired: boolean;
   update_datetime: Date;
 };
+
+export type FeeType = "ALL" | "MONTH" | "YEAR" | "RATTRAPAGE" | "ALTERNANT";
+export type LevelType = "ALL" | "L1" | "L2" | "L3";
+
+export type FeeRow = {
+  label: string;
+  type: "MONTH" | "YEAR";
+  grade: string;
+  dotColor?: string;
+  unpaid: number;
+  paid: number;
+  pending: number;
+  late: number;
+  total: number;
+};
+
+export type RowTotals = {
+  unpaid: number;
+  paid: number;
+  pending: number;
+  late: number;
+  total: number;
+};

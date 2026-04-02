@@ -21,6 +21,7 @@ import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {formatDate, toUTC} from "@/utils/date";
 import {
   Course,
+  CrupdateFeeTemplate,
   Fee,
   FeeStatusEnum,
   FeeTypeEnum,
@@ -171,7 +172,7 @@ const MpbsCreate: FC<MpbsCreateProps> = ({onSuccess, fee}) => {
         },
         onError: handleError,
       }}
-      transform={(data: any = {}) => ({
+      transform={(data: CrupdateFeeTemplate = {}) => ({
         ...data,
         student_id,
         fee_id: fee.id,

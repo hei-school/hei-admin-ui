@@ -7,7 +7,7 @@ import {
   CircleCheckBig,
   RefreshCw,
 } from "lucide-react";
-import {FC} from "react";
+import React, {FC} from "react";
 import {FeeStats} from "../types";
 
 const spin = keyframes`
@@ -16,7 +16,7 @@ const spin = keyframes`
 `;
 
 const fadeIn = keyframes`
-  from { opacity: 0; transform: translateY(10px); }
+  from { opacity: 0; transform: translateY(4px); }
   to { opacity: 1; transform: translateY(0); }
 `;
 
@@ -36,7 +36,7 @@ const THEMES: Record<string, StatusTheme> = {
     border: "#16C60C",
     bgStart: "#B6FFB6",
     bgEnd: "#5CFF5C",
-    shadow: "rgba(22, 198, 12, 0.25)",
+    shadow: "rgba(22, 198, 12, 0.2)",
     timestampBg: "#E6FFE6",
     timestampText: "#16C60C",
   },
@@ -45,7 +45,7 @@ const THEMES: Record<string, StatusTheme> = {
     border: "#0078D4",
     bgStart: "#B3E0FF",
     bgEnd: "#4FC3F7",
-    shadow: "rgba(0, 120, 212, 0.25)",
+    shadow: "rgba(0, 120, 212, 0.2)",
     timestampBg: "#E3F2FD",
     timestampText: "#0078D4",
   },
@@ -54,11 +54,11 @@ const THEMES: Record<string, StatusTheme> = {
     border: "#FFB900",
     bgStart: "#FFF3CD",
     bgEnd: "#FFD966",
-    shadow: "rgba(255, 185, 0, 0.25)",
+    shadow: "rgba(255, 185, 0, 0.2)",
     timestampBg: "#FFF8E1",
     timestampText: "#FFB900",
   },
-};
+} as const;
 
 const SpinningRefreshCw = styled(RefreshCw)`
   animation: ${spin} 2s linear infinite;
@@ -67,18 +67,17 @@ const SpinningRefreshCw = styled(RefreshCw)`
 const StatusContainer = styled(Box)<{statusTheme: StatusTheme}>(
   ({statusTheme}) => ({
     "display": "inline-flex",
-    "flexDirection": "column",
-    "height": "fit-content",
-    "borderRadius": "10px",
+    "alignItems": "center",
+    "flexDirection": "row",
+    "borderRadius": "20px",
     "border": `1px solid ${statusTheme.border}`,
     "background": `linear-gradient(135deg, ${statusTheme.bgStart} 0%, ${statusTheme.bgEnd} 100%)`,
-    "boxShadow": `0 8px 32px 0 ${statusTheme.shadow}`,
-    "backdropFilter": "blur(10px)",
-    "transition": "all 0.3s ease-in-out",
+    "boxShadow": `0 4px 12px 0 ${statusTheme.shadow}`,
     "overflow": "hidden",
+    "transition": "all 0.2s ease-in-out",
     "&:hover": {
-      transform: "translateY(-2px) scale(1.02)",
-      boxShadow: `0 12px 40px 0 ${statusTheme.shadow}`,
+      transform: "translateY(-1px)",
+      boxShadow: `0 6px 18px 0 ${statusTheme.shadow}`,
     },
   })
 );
@@ -86,28 +85,27 @@ const StatusContainer = styled(Box)<{statusTheme: StatusTheme}>(
 const MainStatus = styled(Box)<{statusTheme: StatusTheme}>(({statusTheme}) => ({
   display: "flex",
   alignItems: "center",
-  gap: "16px",
-  padding: "12px 16px",
+  gap: "6px",
+  padding: "4px 10px",
   color: statusTheme.main,
-  fontWeight: "bold",
-  fontSize: "1rem",
+  fontWeight: 700,
+  fontSize: "0.78rem",
 }));
 
 const Timestamp = styled(Box)<{statusTheme: StatusTheme}>(({statusTheme}) => ({
   display: "flex",
   alignItems: "center",
-  gap: "8px",
-  padding: "6px 12px",
+  gap: "4px",
+  padding: "4px 10px",
+  borderLeft: `1px solid ${statusTheme.border}`,
   backgroundColor: statusTheme.timestampBg,
   color: statusTheme.timestampText,
-  fontSize: "0.75rem",
-  animation: `${fadeIn} 0.8s ease-out`,
+  fontSize: "0.72rem",
+  animation: `${fadeIn} 0.6s ease-out`,
 }));
 
 export const StatsStatus: FC<{stats?: FeeStats}> = ({stats}) => {
-  if (stats === undefined) {
-    return null;
-  }
+  if (stats === undefined) return null;
 
   const {
     expired,
@@ -124,19 +122,21 @@ export const StatsStatus: FC<{stats?: FeeStats}> = ({stats}) => {
     pending_fees_count === null &&
     late_fees_count === null;
 
-  let message, Icon, theme;
+  let message: string;
+  let Icon: React.ElementType;
+  let theme: StatusTheme;
 
   if (expired === false) {
-    message = "Statistiques à jour";
+    message = "À jour";
     Icon = CircleCheckBig;
     theme = THEMES.ok;
   } else if (expired === true) {
     if (areCountsNull) {
-      message = "Génération en cours...";
+      message = "Génération...";
       Icon = SpinningRefreshCw;
       theme = THEMES.loading;
     } else {
-      message = "Statistiques anciennes";
+      message = "Anciennes stats";
       Icon = AlertTriangle;
       theme = THEMES.warning;
     }
@@ -147,13 +147,13 @@ export const StatsStatus: FC<{stats?: FeeStats}> = ({stats}) => {
   return (
     <StatusContainer statusTheme={theme}>
       <MainStatus statusTheme={theme}>
-        <Icon size={18} />
+        <Icon size={13} />
         <span>{message}</span>
       </MainStatus>
       {update_datetime && (
         <Timestamp statusTheme={theme}>
-          <CalendarClock size={14} />
-          <span>{`Dernière MAJ: ${formatDate(update_datetime, true)}`}</span>
+          <CalendarClock size={11} />
+          <span>{`MAJ: ${formatDate(update_datetime, true)}`}</span>
         </Timestamp>
       )}
     </StatusContainer>

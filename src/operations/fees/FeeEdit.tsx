@@ -33,8 +33,8 @@ function EditToolbar() {
 
   const updateFee = async () => {
     const {feeId} = toApiIds(record.id);
-    const updated_at = new Date().toISOString() as any;
-    const due_datetime = new Date(record.due_datetime).toISOString() as any;
+    const updated_at = new Date();
+    const due_datetime = new Date(record.due_datetime);
     setPending(true);
 
     await payingApi()
