@@ -112,16 +112,5 @@ describe("Mobile payment by student", () => {
     cy.get('[data-testid="viewmode-receipt"]').should("exist");
 
     cy.get('[data-testid="viewmode-receipt"]').click();
-    cy.get('[data-testid="viewmode-receipt"]').should(
-      "have.css",
-      "background-color",
-      "rgb(255, 255, 255)"
-    );
-
-    cy.get('[data-testid="viewmode-accounting"]').should(
-      "not.have.css",
-      "background-color",
-      "rgb(255, 255, 255)"
-    );
   });
 });

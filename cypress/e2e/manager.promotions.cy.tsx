@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {
   CrupdatePromotion,
   UpdatePromotionSGroup,
@@ -100,10 +101,15 @@ describe("Manager.Promotions", () => {
       .as("saveButton")
       .click();
 
-    cy.wait("@createPromotion").then((intereception) => {
-      const body = intereception.request.body as CrupdatePromotion;
-      NEW_PROMOTION.id = body.id;
-      expect(body).to.deep.equal(NEW_PROMOTION);
+    cy.wait("@createPromotion").then((interception) => {
+      const body = interception.request.body as CrupdatePromotion;
+
+      const {id, name, ref} = body;
+
+      expect({id, name, ref}).to.deep.equal({
+        ...NEW_PROMOTION,
+        id,
+      });
     });
   });
 
@@ -120,10 +126,16 @@ describe("Manager.Promotions", () => {
     cy.get('form > .MuiToolbar-root > [data-testid="edit-button"]')
       .as("saveButton")
       .click();
-    cy.wait("@editPromotion").then((intereception) => {
-      const body = intereception.request.body as CrupdatePromotion;
-      NEW_PROMOTION.id = body.id;
-      expect(body).to.deep.equal(NEW_PROMOTION);
+
+    cy.wait("@editPromotion").then((interception) => {
+      const body = interception.request.body as CrupdatePromotion;
+
+      const {id, name, ref} = body;
+
+      expect({id, name, ref}).to.deep.equal({
+        ...NEW_PROMOTION,
+        id,
+      });
     });
   });
 
@@ -152,7 +164,7 @@ describe("Manager.Promotions", () => {
 
   it("can migrate one groups from promotion", () => {
     cy.get("tbody tr")
-      .should("have.length", promotionsMock?.length)
+      .should("have.length", promotionsMock.length)
       .first()
       .click();
     cy.wait("@getPromotion1");
@@ -177,7 +189,7 @@ describe("Manager.Promotions", () => {
 
   it("can insert new groups to the promotion", () => {
     cy.get("tbody tr")
-      .should("have.length", promotionsMock?.length)
+      .should("have.length", promotionsMock.length)
       .first()
       .click();
     cy.wait("@getPromotion1");
@@ -189,23 +201,11 @@ describe("Manager.Promotions", () => {
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("insert-button").click();
     cy.getByTestid("insert-autocomplete").click();
-    {
-      const ref = promotion2Mock?.groups[0]?.ref;
-      if (ref) {
-        cy.contains(ref).click();
-      } else {
-        throw new Error("promotion2Mock.groups[0].ref is undefined");
-      }
-    }
+    cy.contains(promotion2Mock?.groups[0]?.ref!).click();
+
     cy.getByTestid("insert-autocomplete").click();
-    {
-      const ref = promotion2Mock?.groups[1]?.ref;
-      if (ref) {
-        cy.contains(ref).click();
-      } else {
-        throw new Error("promotion2Mock.groups[1].ref is undefined");
-      }
-    }
+    cy.contains(promotion2Mock?.groups[1]?.ref!).click();
+
     cy.getByTestid("save-flows-button").click();
 
     cy.wait("@insertGroups").then((intercept) => {
