@@ -20,7 +20,7 @@ import {useGetOne, useRecordContext} from "react-admin";
 import {Contact} from "./ContactDetails";
 import {PersonalDetails} from "./PersonalDetails";
 import {PersonalInfos} from "./PersonalInfos";
-// import {StudentParticipationList} from "./StudentParticipationList";
+import {StudentParticipationList} from "./StudentParticipationList";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -172,12 +172,12 @@ export const Informations: FC<{
         (role.isMonitor() || role.isAdmin() || role.isManager()),
       content: <GradesOverview />,
     },
-    // {
-    //   id: "participation",
-    //   label: "Participation",
-    //   show: isStudentProfile,
-    //   content: <StudentParticipationList />,
-    // },
+    {
+      id: "participation",
+      label: "Participation",
+      show: isStudentProfile,
+      content: <StudentParticipationList />,
+    },
     {
       id: "monitor-students",
       label: "Étudiants liés",
