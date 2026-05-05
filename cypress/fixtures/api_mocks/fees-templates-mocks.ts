@@ -54,7 +54,7 @@ export const feesTemplatesMocks: FeeTemplate[] = [
   {
     id: "mno345",
     name: "Frais médical",
-    type: FeeTypeEnum.REMEDIAL_COSTS,
+    type: FeeTypeEnum.RETAKE_EXAM_COSTS,
     category: "OTHER",
     frequency: "MONTHLY",
     amount: 150,

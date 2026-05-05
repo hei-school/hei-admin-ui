@@ -2,9 +2,9 @@ import {AdvancedFeesStatistics} from "@haapi-b0fc7615/typescript-client";
 
 export const advanceStatsMocks: AdvancedFeesStatistics = {
   total_expected_fees_count: {
-    first_grade: 25,
-    second_grade: 32,
-    third_grade: 28,
+    first_grade_monthly: 25,
+    second_grade_monthly: 32,
+    third_grade_monthly: 28,
     other: 10,
     unknown_grade: 2,
     work_study: 6,
@@ -13,9 +13,9 @@ export const advanceStatsMocks: AdvancedFeesStatistics = {
     unknown_frequency: 4,
   },
   paid_fees_count: {
-    first_grade: 20,
-    second_grade: 25,
-    third_grade: 22,
+    first_grade_monthly: 20,
+    second_grade_monthly: 25,
+    third_grade_monthly: 22,
     other: 8,
     unknown_grade: 1,
     work_study: 5,
@@ -27,9 +27,9 @@ export const advanceStatsMocks: AdvancedFeesStatistics = {
     bank_fees: 30,
   },
   pending_fees_count: {
-    first_grade: 3,
-    second_grade: 5,
-    third_grade: 4,
+    first_grade_monthly: 3,
+    second_grade_monthly: 5,
+    third_grade_monthly: 4,
     other: 1,
     unknown_grade: 1,
     work_study: 1,
@@ -39,9 +39,9 @@ export const advanceStatsMocks: AdvancedFeesStatistics = {
     retakeExam_first_grade_count: 2,
   },
   late_fees_count: {
-    first_grade: 2,
-    second_grade: 2,
-    third_grade: 2,
+    first_grade_monthly: 2,
+    second_grade_monthly: 2,
+    third_grade_monthly: 2,
     other: 1,
     unknown_grade: 0,
     work_study: 0,

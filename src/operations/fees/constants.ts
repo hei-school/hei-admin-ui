@@ -26,7 +26,7 @@ export const FEESTEMPLATES_CHOICES = [
   {label: "Écolage", value: FeeTypeEnum.TUITION},
   {label: "Matériel", value: FeeTypeEnum.HARDWARE},
   {label: "Frais généraux", value: FeeTypeEnum.STUDENT_INSURANCE},
-  {label: "Rattrapage", value: FeeTypeEnum.REMEDIAL_COSTS},
+  {label: "Rattrapage", value: FeeTypeEnum.RETAKE_EXAM_COSTS},
 ] as const;
 
 export const FEES_TYPES_CHOICES = FEESTEMPLATES_CHOICES.map((choice) => ({

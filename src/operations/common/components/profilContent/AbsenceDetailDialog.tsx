@@ -124,35 +124,20 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
 }) => {
   const statusConfig = STATUS_CONFIG[absence.attendanceStatus];
   const {isManager, isAdmin} = useRole();
+  const eventId = absence.id;
 
   const {
-    data: allLetters = [],
+    data: letters = [],
     isLoading: lettersLoading,
     refetch: refetchLetters,
   } = useGetList(
     "users-letters",
     {
       meta: {userId: studentId},
-      filter: {},
+      filter: {eventId: eventId},
     },
     {enabled: open}
   ) as {data: Letter[]; isLoading: boolean; refetch: () => void};
-
-  // Filter letters to show only those related to this specific absence
-  // We consider a letter related if it was created within 7 days before or after the event
-  const letters = allLetters.filter((letter) => {
-    if (!letter.creation_datetime) return false;
-
-    const letterDate = new Date(letter.creation_datetime);
-    const eventDate = new Date(absence.beginDatetime);
-
-    // Calculate the difference in days
-    const diffTime = Math.abs(letterDate.getTime() - eventDate.getTime());
-    const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-    // Show letters created within 7 days of the event
-    return diffDays <= 7;
-  });
 
   const refresh = useRefresh();
 
@@ -370,18 +355,6 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                     />
                   )}
                 </Box>
-                <Typography
-                  variant="caption"
-                  sx={{
-                    color: "text.secondary",
-                    fontStyle: "italic",
-                    display: "block",
-                    mb: 1,
-                  }}
-                >
-                  Affichage des justificatifs soumis dans les 7 jours autour de
-                  cette absence
-                </Typography>
               </Stack>
               <Divider sx={{mb: 2}} />
               {lettersLoading ? (
@@ -390,13 +363,11 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                 </Box>
               ) : letters.length === 0 ? (
                 <Alert severity="info" sx={{borderRadius: 2}}>
-                  <Typography variant="body2" gutterBottom>
+                  <Typography variant="body2">
                     Aucun justificatif trouvé pour cette absence.
                   </Typography>
                   <Typography variant="caption" sx={{color: "text.secondary"}}>
-                    {allLetters.length > 0
-                      ? `L'étudiant a ${allLetters.length} justificatif(s) au total, mais aucun ne correspond à la période de cette absence.`
-                      : "L'étudiant n'a soumis aucun justificatif."}
+                    L'étudiant n'a soumis aucun justificatif.
                   </Typography>
                 </Alert>
               ) : (
