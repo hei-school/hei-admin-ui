@@ -62,7 +62,7 @@ interface MpbsCreateProps {
 }
 
 const isCatchUp = (fee: Fee): boolean => {
-  return fee.type === FeeTypeEnum.REMEDIAL_COSTS;
+  return fee.type === FeeTypeEnum.RETAKE_EXAM_COSTS;
 };
 
 const DefaultInfos = () => {
@@ -115,7 +115,7 @@ const CatchupFeesCreate: FC<CreateProps> = ({onSuccess}) => {
       }}
       transform={(data: {course_list: Course[]} = {course_list: []}) => {
         return data.course_list.map((course: Course) => ({
-          type: FeeTypeEnum.REMEDIAL_COSTS,
+          type: FeeTypeEnum.RETAKE_EXAM_COSTS,
           comment: `Rattrapage ${course.code}`,
           total_amount: DEFAULT_REMEDIAL_COSTS_AMOUNT,
           student_id,
