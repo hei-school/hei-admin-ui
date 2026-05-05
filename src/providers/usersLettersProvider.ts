@@ -14,12 +14,14 @@ type Params = {
 };
 const usersLettersProvider: HaDataProviderType = {
   getList: async (page, perPage, filter, meta) => {
-    const {userId, userName} = meta;
-    const {status} = filter;
+    const {userId} = meta;
+    const {status, eventId} = filter;
     const pageSize = perPage || LETTER_PER_PAGE;
 
+    console.log("Fetching letters for user:", userId, "with filter:", filter);
+
     return lettersApi()
-      .getLettersByUserId(userId, page, pageSize, status, userName)
+      .getLettersByUserId(userId, eventId, page, pageSize, status)
       .then((result) => ({data: result.data}));
   },
   getOne: async (id: string) => {
@@ -27,7 +29,7 @@ const usersLettersProvider: HaDataProviderType = {
       .getLetterById(id)
       .then((response) => response.data);
   },
-  saveOrUpdate: async (payload: any, {meta}: Params) => {
+  saveOrUpdate: async (payload, {meta}: Params) => {
     const {
       method,
       userId,
