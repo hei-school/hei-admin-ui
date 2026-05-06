@@ -17,9 +17,6 @@ const usersLettersProvider: HaDataProviderType = {
     const {userId} = meta;
     const {status, eventId} = filter;
     const pageSize = perPage || LETTER_PER_PAGE;
-
-    console.log("Fetching letters for user:", userId, "with filter:", filter);
-
     return lettersApi()
       .getLettersByUserId(userId, eventId, page, pageSize, status)
       .then((result) => ({data: result.data}));
