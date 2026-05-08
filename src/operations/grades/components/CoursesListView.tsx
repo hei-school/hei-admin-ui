@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {EmptyListComponent} from "@/operations/common/components/EmptyListComponent";
 import {ToRaRecord} from "@/providers/types";
 import {CourseResult} from "@haapi-b0fc7615/typescript-client";
