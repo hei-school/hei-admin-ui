@@ -3,12 +3,12 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {gradesApi} from "./api";
 
 const examGradeProvider: HaDataProviderType = {
-  async getList(
+  getList: async (
     page: number,
     perPage: number = 10,
     filter?: any,
     meta: Record<string, any> = {}
-  ) {
+  ) => {
     return gradesApi()
       .getStudentGradesForExam(meta?.examId, page, perPage, filter?.student_ref)
       .then(({data = []}: {data?: StudentGrade[]}) => ({
@@ -18,17 +18,21 @@ const examGradeProvider: HaDataProviderType = {
         })),
       }));
   },
-  async saveOrUpdate(payload: UpdateGrade[], meta: Record<string, any> = {}) {
+  saveOrUpdate: async (
+    payload: UpdateGrade[],
+    meta: Record<string, any> = {}
+  ) => {
+    const examId = meta?.meta?.examId ?? meta?.examId;
     return gradesApi()
-      .correctParticipantsGradeForExam(meta?.examId, payload)
-      .then(({data}) => ({data}));
+      .correctParticipantsGradeForExam(examId, payload)
+      .then(({data}) => [data]);
   },
-  async getOne(id: string, meta: Record<string, any>) {
+  getOne: async (id: string, meta: Record<string, any>) => {
     return gradesApi()
       .getParticipantGrade(id, meta?.studentId)
       .then(({data}) => ({data}));
   },
-  delete() {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

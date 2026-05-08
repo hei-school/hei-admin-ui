@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {ToRaRecord} from "@/providers/types";
-import {CourseResult, Grade} from "@haapi-b0fc7615/typescript-client";
+import {CourseResult, Fraction, Grade} from "@haapi-b0fc7615/typescript-client";
 import {ExpandMore as ExpandMoreIcon} from "@mui/icons-material";
 import {
   Box,
@@ -20,7 +21,8 @@ import {
   Typography,
 } from "@mui/material";
 import {FC, useState} from "react";
-import {useGetList} from "react-admin";
+import {useGetList, useGetOne, useUpdate} from "react-admin";
+import {GradeEditForm} from ".";
 import {getCourseStatusLabel} from "../utils";
 import {getGradeColor} from "../utils/getGradeColor";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
@@ -129,6 +131,8 @@ export const GradesDetails: FC<{
           </CardContent>
         </Collapse>
         <Button
+          disableFocusRipple
+          disableTouchRipple
           fullWidth
           onClick={toggleShowDetails}
           data-testid="toggle-details-button"
@@ -163,11 +167,51 @@ export const GradesDetails: FC<{
 const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
   const {data: grades = [], isLoading} = useGetList<ToRaRecord<Grade>>(
     "grades-details",
-    {
-      filter: {studentId, courseId},
-    },
+    {filter: {studentId, courseId}},
     {refetchOnWindowFocus: false}
   );
+
+  const {data: student} = useGetOne(
+    "students",
+    {id: studentId},
+    {
+      refetchOnMount: false,
+      refetchOnWindowFocus: false,
+    }
+  );
+
+  const [selectedGrade, setSelectedGrade] = useState<ToRaRecord<Grade> | null>(
+    null
+  );
+  const [update, {isLoading: isUpdating}] = useUpdate();
+  const handleOpenDialog = (grade: ToRaRecord<Grade>) => {
+    setSelectedGrade(grade);
+  };
+  const handleCloseDialog = () => {
+    setSelectedGrade(null);
+  };
+  const handleSubmit = async (payload: {
+    grade: {score: number};
+    comment: string;
+  }) => {
+    await update("exam-grades", {
+      id: selectedGrade!.id,
+      data: [
+        {
+          grade: {
+            score: payload.grade.score,
+            student_id: studentId,
+          },
+          student_ref: student.ref,
+          comment: payload.comment,
+        },
+      ],
+      meta: {
+        examId: selectedGrade!.exam?.id,
+      },
+      previousData: selectedGrade,
+    });
+  };
 
   const renderGradeScore = (score: number) => (
     <Typography
@@ -192,16 +236,15 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
       ? new Date(dateString).toLocaleDateString("fr-FR")
       : "non modifié";
 
-  const renderCoefficient = (coefficient: any) => {
+  const renderCoefficient = (coefficient: Fraction | undefined): string => {
     if (
       coefficient &&
-      typeof coefficient === "object" &&
       coefficient.numerator !== undefined &&
       coefficient.denominator !== undefined
     ) {
       return `${coefficient.numerator}/${coefficient.denominator}`;
     }
-    return coefficient || "N/A";
+    return "N/A";
   };
 
   if (isLoading) {
@@ -215,54 +258,78 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
   }
 
   return (
-    <TableContainer
-      component={Paper}
-      elevation={0}
-      sx={{mt: 2, border: "1px solid #e0e2e5", borderRadius: 2}}
-      data-testid="grades-details"
-    >
-      <Table size="small">
-        <TableHead>
-          <TableRow>
-            <TableCell>Évaluation</TableCell>
-            <TableCell align="right">Note</TableCell>
-            <TableCell align="right">Coefficient</TableCell>
-            <TableCell align="right">Date de l'examen</TableCell>
-            <TableCell align="center">
-              Date de la dernière modification
-            </TableCell>
-            <TableCell align="center">Statut</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {grades.map((grade) => (
-            <TableRow
-              key={grade.id}
-              sx={{"&:last-child td, &:last-child th": {border: 0}}}
-              data-testid="grades-details-row"
-            >
-              <TableCell component="th" scope="row">
-                {grade.exam?.title}
-              </TableCell>
-              <TableCell align="right">
-                {renderGradeScore(grade.score)}
-              </TableCell>
-              <TableCell align="right">
-                {renderCoefficient(grade.exam?.coefficient)}
-              </TableCell>
-              <TableCell align="right">
-                {renderDate(grade?.created_at?.toString())}
-              </TableCell>
+    <>
+      <TableContainer
+        component={Paper}
+        elevation={0}
+        sx={{mt: 2, border: "1px solid #e0e2e5", borderRadius: 2}}
+        data-testid="grades-details"
+      >
+        <Table size="small">
+          <TableHead>
+            <TableRow>
+              <TableCell>Évaluation</TableCell>
+              <TableCell align="right">Note</TableCell>
+              <TableCell align="right">Coefficient</TableCell>
+              <TableCell align="right">Date de l'examen</TableCell>
               <TableCell align="center">
-                {renderDate(grade?.update_date?.toString())}
+                Date de la dernière modification
               </TableCell>
-              <TableCell align="center">
-                {renderStatusChip(grade.score)}
-              </TableCell>
+              <TableCell align="center">Statut</TableCell>
+              <TableCell align="center">Modifier la note</TableCell>
             </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-    </TableContainer>
+          </TableHead>
+          <TableBody>
+            {grades.map((grade) => (
+              <TableRow
+                key={grade.id}
+                sx={{"&:last-child td, &:last-child th": {border: 0}}}
+                data-testid="grades-details-row"
+              >
+                <TableCell component="th" scope="row">
+                  {grade.exam?.title}
+                </TableCell>
+                <TableCell align="right">
+                  {renderGradeScore(grade.score)}
+                </TableCell>
+                <TableCell align="right">
+                  {renderCoefficient(grade.exam?.coefficient)}
+                </TableCell>
+                <TableCell align="right">
+                  {renderDate(grade?.created_at?.toString())}
+                </TableCell>
+                <TableCell align="center">
+                  {renderDate(grade?.update_date?.toString())}
+                </TableCell>
+                <TableCell align="center">
+                  {renderStatusChip(grade.score)}
+                </TableCell>
+                <TableCell align="center">
+                  <Button
+                    type="button"
+                    variant="text"
+                    color="primary"
+                    size="small"
+                    onClick={() => handleOpenDialog(grade)}
+                  >
+                    Modifier
+                  </Button>
+                </TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
+      </TableContainer>
+
+      {selectedGrade && (
+        <GradeEditForm
+          onSubmit={handleSubmit}
+          isLoading={isUpdating}
+          onClose={handleCloseDialog}
+          isEditing={selectedGrade.score !== undefined}
+          initialComment={""}
+        />
+      )}
+    </>
   );
 };
