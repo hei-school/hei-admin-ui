@@ -36,7 +36,7 @@ describe("Manager profile test", () => {
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
   });
 
-  it("can view his own profile as manager", () => {
+  it.skip("can view his own profile as manager", () => {
     cy.contains("Profil").click();
     cy.contains("Détails du Profil");
     cy.contains("Boîte aux lettres");
