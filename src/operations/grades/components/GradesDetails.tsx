@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {ToRaRecord} from "@/providers/types";
+import {useRole} from "@/security/hooks/useRole";
 import {CourseResult, Fraction, Grade} from "@haapi-b0fc7615/typescript-client";
 import {ExpandMore as ExpandMoreIcon} from "@mui/icons-material";
 import {
@@ -171,6 +172,8 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
     {refetchOnWindowFocus: false}
   );
 
+  const {isManager, isAdmin} = useRole();
+
   const {data: student} = useGetOne(
     "students",
     {id: studentId},
@@ -276,7 +279,10 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
                 Date de la dernière modification
               </TableCell>
               <TableCell align="center">Statut</TableCell>
-              <TableCell align="center">Modifier la note</TableCell>
+              {isManager() ||
+                (isAdmin() && (
+                  <TableCell align="center">Modifier la note</TableCell>
+                ))}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -305,15 +311,18 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
                   {renderStatusChip(grade.score)}
                 </TableCell>
                 <TableCell align="center">
-                  <Button
-                    type="button"
-                    variant="text"
-                    color="primary"
-                    size="small"
-                    onClick={() => handleOpenDialog(grade)}
-                  >
-                    Modifier
-                  </Button>
+                  {isManager() ||
+                    (isAdmin() && (
+                      <Button
+                        type="button"
+                        variant="text"
+                        color="primary"
+                        size="small"
+                        onClick={() => handleOpenDialog(grade)}
+                      >
+                        Modifier
+                      </Button>
+                    ))}
                 </TableCell>
               </TableRow>
             ))}
