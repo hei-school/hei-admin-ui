@@ -279,10 +279,9 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
                 Date de la dernière modification
               </TableCell>
               <TableCell align="center">Statut</TableCell>
-              {isManager() ||
-                (isAdmin() && (
-                  <TableCell align="center">Modifier la note</TableCell>
-                ))}
+              {(isManager() || isAdmin()) && (
+                <TableCell align="center">Modifier la note</TableCell>
+              )}
             </TableRow>
           </TableHead>
           <TableBody>
@@ -311,18 +310,17 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
                   {renderStatusChip(grade.score)}
                 </TableCell>
                 <TableCell align="center">
-                  {isManager() ||
-                    (isAdmin() && (
-                      <Button
-                        type="button"
-                        variant="text"
-                        color="primary"
-                        size="small"
-                        onClick={() => handleOpenDialog(grade)}
-                      >
-                        Modifier
-                      </Button>
-                    ))}
+                  {(isManager() || isAdmin()) && (
+                    <Button
+                      type="button"
+                      variant="text"
+                      color="primary"
+                      size="small"
+                      onClick={() => handleOpenDialog(grade)}
+                    >
+                      Modifier
+                    </Button>
+                  )}
                 </TableCell>
               </TableRow>
             ))}
