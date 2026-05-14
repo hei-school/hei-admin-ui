@@ -17,18 +17,12 @@ const toRaId = (studentId: string, feeId: string, paymentId: string): string =>
 
 const toApiPaymentId = (raId: string) => {
   const [studentId, feeId, paymentId] = raId.split(RA_SEPARATOR);
-
-  return {
-    studentId,
-    feeId,
-    paymentId,
-  };
+  return {studentId, feeId, paymentId};
 };
 
 const paymentProvider: HaDataProviderType = {
   getList: async (page: number, perPage: number, filter: {feeId: string}) => {
     const {studentId, feeId} = toApiFeeIds(filter.feeId);
-
     return payingApi()
       .getStudentPayments(studentId, feeId, page, perPage)
       .then((result) => ({
@@ -41,37 +35,33 @@ const paymentProvider: HaDataProviderType = {
   getOne: () => {
     throw new Error("Function not implemented.");
   },
-  saveOrUpdate: async (resources: PaymentResource[]) => {
-    if (!resources.length) {
+  saveOrUpdate: async (resources: PaymentResource[][]) => {
+    const payments: PaymentResource[] = resources[0];
+    if (!payments?.length) {
       return Promise.reject(new Error("No payments provided"));
     }
-    const raFeeId = resources[0].feeId;
+    const raFeeId = payments[0].feeId;
     const {studentId, feeId} = toApiFeeIds(raFeeId);
-    resources.forEach((payment) => {
+    payments.forEach((payment) => {
       if (payment.feeId !== raFeeId) {
         throw new Error("Creation of payments for multiple fees not supported");
       }
     });
-    const firstPayment = resources[0];
-    const createPayments = () =>
-      payingApi()
-        .createStudentPayments(studentId, feeId, resources)
-        .then((result) => ({
-          ...result.data,
-        }));
-    if (firstPayment.psp_id) {
-      return payingApi()
-        .crupdateMpbs(studentId, feeId, {
-          id: uuid(),
-          student_id: studentId,
-          fee_id: feeId,
-          psp_id: firstPayment.psp_id,
-          psp_type: firstPayment.psp_type,
-        })
-        .then(() => createPayments());
+    if (payments[0].psp_id) {
+      await payingApi().crupdateMpbs(studentId, feeId, {
+        id: uuid(),
+        student_id: studentId,
+        fee_id: feeId,
+        psp_id: payments[0].psp_id,
+        psp_type: payments[0].psp_type,
+      });
     }
-
-    return createPayments();
+    const result = await payingApi().createStudentPayments(
+      studentId,
+      feeId,
+      payments
+    );
+    return {...result.data};
   },
   delete: async (id: string) => {
     const {studentId, feeId, paymentId} = toApiPaymentId(id);
