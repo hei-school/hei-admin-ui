@@ -4,7 +4,7 @@ import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const examsProvider: HaDataProviderType = {
-  getList: async (page, perPage, filter = {}, _meta) => {
+  getList: async (page, perPage, filter = {}) => {
     const {isAdmin, isManager, isTeacher} = useRole();
 
     const teacher_id =
@@ -31,7 +31,7 @@ const examsProvider: HaDataProviderType = {
       .getExamOneExamById(id)
       .then((response) => response.data);
   },
-  saveOrUpdate: async (payloads: any) => {
+  saveOrUpdate: async (payloads) => {
     const payload = payloads[0];
     return examApi()
       .createOrUpdateExamsInfos(payload)

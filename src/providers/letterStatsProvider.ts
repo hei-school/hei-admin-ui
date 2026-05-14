@@ -13,7 +13,7 @@ const lettersStatsProvider: HaDataProviderType = {
   getList: () => {
     throw new Error("Function not implemented.");
   },
-  getOne: async (_id: string) => {
+  getOne: async () => {
     const {role} = authProvider.getCachedWhoami();
     if (role === "MANAGER") {
       return lettersApi()

@@ -3,35 +3,31 @@ import {monitoringApi} from "./api";
 import authProvider from "./authProvider";
 
 const monitorStudentProvider: HaDataProviderType = {
-  async getList(
+  getList: async (
     page: number,
     perPage: number,
-    _filter: any,
+    _filter,
     {monitorId}: {monitorId: string}
-  ) {
-    const result = await monitoringApi().getLinkedStudentsByMonitorId(
-      monitorId,
-      page,
-      perPage
-    );
-
-    return {data: result.data};
+  ) => {
+    return monitoringApi()
+      .getLinkedStudentsByMonitorId(monitorId, page, perPage)
+      .then((result) => ({data: result.data}));
   },
 
-  async getOne(id: string) {
+  getOne: async (id: string) => {
     const monitorId = authProvider.getCachedWhoami().id;
     return monitoringApi()
       .getLinkedStudentByIdAndMonitorId(monitorId!, id)
-      .then((response) => response.data);
+      .then((result) => result.data);
   },
 
-  async saveOrUpdate(students, {meta}) {
+  saveOrUpdate: async (students, {meta}) => {
     return monitoringApi()
       .linkStudentsByMonitorId(meta.monitorId, students[0])
       .then((result) => result.data);
   },
 
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

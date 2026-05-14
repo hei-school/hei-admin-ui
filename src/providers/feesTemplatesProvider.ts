@@ -2,7 +2,11 @@ import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const feesTemplatesProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+  async getList(
+    page: number,
+    perPage: number,
+    filter: {name?: string; amount?: number; numberOfPayments?: number}
+  ) {
     return payingApi()
       .getFeeTemplates(
         filter.name,
@@ -18,13 +22,13 @@ const feesTemplatesProvider: HaDataProviderType = {
       .getFeeTemplateById(id)
       .then((response) => response.data);
   },
-  async saveOrUpdate(payloads: any) {
+  async saveOrUpdate(payloads) {
     const payload = payloads[0];
     return payingApi()
       .crupdateFeeTemplate(payload.id, payload)
       .then((response) => [response.data]);
   },
-  async delete(_id: string) {
+  async delete() {
     throw new Error("Not implemented");
   },
 };

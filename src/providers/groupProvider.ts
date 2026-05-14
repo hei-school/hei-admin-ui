@@ -3,17 +3,21 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 
 const groupProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
-    return await groupsApi()
+  getList: async (
+    page: number,
+    perPage: number,
+    filter: {ref?: string; student_ref?: string}
+  ) => {
+    return groupsApi()
       .getGroups(filter.ref, filter.student_ref, page, perPage)
       .then((result) => ({data: result.data}));
   },
-  async getOne(id: string) {
-    return await groupsApi()
+  getOne: async (id: string) => {
+    return groupsApi()
       .getGroupById(id)
       .then((result) => result.data);
   },
-  async saveOrUpdate(payload: any) {
+  saveOrUpdate: async (payload) => {
     const {creation_datetime, ...group} = payload[0];
 
     const createGroup = {
@@ -21,11 +25,11 @@ const groupProvider: HaDataProviderType = {
       ...group,
     };
 
-    return await groupsApi()
+    return groupsApi()
       .createOrUpdateGroups([createGroup])
       .then((result) => result.data);
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

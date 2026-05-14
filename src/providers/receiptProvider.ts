@@ -3,11 +3,11 @@ import {payingApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const receiptProvider: HaDataProviderType = {
-  getList() {
+  getList: () => {
     throw new Error("Function not implemented.");
   },
 
-  async getOne(id: string, meta: any) {
+  getOne: async (id: string, meta: {paymentId: string}) => {
     const {paymentId: raId} = meta;
     const [, feeId, paymentId] = raId.split("--");
 
@@ -16,7 +16,9 @@ const receiptProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  async saveOrUpdate(payload: (GenerationReceiptsRequest & {id: string})[]) {
+  saveOrUpdate: async (
+    payload: (GenerationReceiptsRequest & {id: string})[]
+  ) => {
     if (Array.isArray(payload) && payload.length != 1) {
       throw new Error(
         "Unexpected payload was received, must be an array of one payload"
@@ -29,7 +31,7 @@ const receiptProvider: HaDataProviderType = {
       .then((res) => [{...res.data, id: receiptPayload.id}]);
   },
 
-  delete() {
+  delete: () => {
     throw new Error("Function not implemented.");
   },
 };

@@ -3,7 +3,7 @@ import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {CrupdateCourseAssignment} from "@haapi-b0fc7615/typescript-client";
 
 const CourseAssignmentsProvider: HaDataProviderType = {
-  getList: async (page, perPage, filter = {}, _meta) => {
+  getList: async (page, perPage, filter = {}) => {
     const {teacherId, courseId, groupId} = filter;
 
     return coursesApi()
@@ -16,12 +16,12 @@ const CourseAssignmentsProvider: HaDataProviderType = {
       )
       .then((result) => ({data: result.data}));
   },
-  async getOne(id: string) {
+  getOne: async (id: string) => {
     return coursesApi()
       .getCourseAssignmentByTeacherId(id)
       .then((response) => response.data);
   },
-  async saveOrUpdate(payload: CrupdateCourseAssignment[]) {
+  saveOrUpdate: async (payload: CrupdateCourseAssignment[]) => {
     const {main_teacher_id} = payload[0];
     if (!main_teacher_id) {
       throw new Error("Teacher ID is required");
@@ -32,7 +32,7 @@ const CourseAssignmentsProvider: HaDataProviderType = {
         return response.data;
       });
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

@@ -16,10 +16,10 @@ const gradeProvider: HaDataProviderType = {
       .getYearlyResult(id, studentLevel)
       .then((response) => ({id: uuid(), ...response.data}));
   },
-  saveOrUpdate() {
+  saveOrUpdate: () => {
     throw new Error("Not implemented");
   },
-  delete() {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

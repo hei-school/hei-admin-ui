@@ -1,9 +1,29 @@
-import {EnableStatus} from "@haapi-b0fc7615/typescript-client";
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+import {
+  EnableStatus,
+  Sex,
+  Student,
+  WorkStudyStatus,
+} from "@haapi-b0fc7615/typescript-client";
 import {payingApi, usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const studentProvider: HaDataProviderType = {
-  getList: async (page: number, perPage: number, filter: any) => {
+  getList: async (
+    page: number,
+    perPage: number,
+    filter: {
+      ref: string;
+      first_name: string;
+      last_name: string;
+      course_id: string;
+      status: EnableStatus;
+      sex: Sex;
+      work_study_status: WorkStudyStatus;
+      commitment_begin_date: Date;
+      exclude_groups: string[];
+    }
+  ) => {
     return usersApi()
       .getStudents(
         page,
@@ -31,7 +51,7 @@ const studentProvider: HaDataProviderType = {
     };
   },
   saveOrUpdate: async (
-    payload: any,
+    payload,
     Params = {isUpdate: true, dueDatetime: Date}
   ) => {
     if (Params.isUpdate) {
@@ -39,20 +59,20 @@ const studentProvider: HaDataProviderType = {
       const result = await usersApi().updateStudent(student.id, student);
       return [result.data];
     }
-    let [fees, students] = payload[0];
 
-    students = students.map((student: any) => ({
+    const [fees, students] = payload[0];
+    const formattedStudents = students.map((student: Student) => ({
       ...student,
       status: EnableStatus.ENABLED,
     }));
     const studentResponse = (
       await usersApi().createOrUpdateStudents(
-        students,
+        formattedStudents,
         Params.meta?.dueDatetime
       )
     ).data;
 
-    if (students.length <= 1 && fees.length > 0) {
+    if (formattedStudents.length <= 1 && fees.length > 0) {
       await payingApi().createStudentFees(studentResponse[0]?.id!, fees);
     }
     return studentResponse;

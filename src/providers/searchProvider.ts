@@ -24,16 +24,13 @@ const searchProvider: HaDataProviderType = {
       ],
     };
   },
-
-  getOne: async () => {
+  getOne: () => {
     throw new Error("Not implemented");
   },
-
-  saveOrUpdate: async () => {
+  saveOrUpdate: () => {
     throw new Error("Not implemented");
   },
-
-  delete: async () => {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

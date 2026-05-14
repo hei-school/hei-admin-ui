@@ -2,18 +2,23 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 
 const groupStudentProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any, meta: any) {
-    return await groupsApi()
+  getList: (
+    page: number,
+    perPage: number,
+    filter: {first_name: string},
+    meta: {groupId: string}
+  ) => {
+    return groupsApi()
       .getStudentsByGroupId(meta.groupId, page, perPage, filter.first_name)
       .then((result) => ({data: result.data}));
   },
-  async getOne(_id: string) {
+  getOne: () => {
     throw new Error("Function not implemented.");
   },
-  async saveOrUpdate(_payload: any) {
+  saveOrUpdate: () => {
     throw new Error("Function not implemented.");
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

@@ -1,20 +1,19 @@
-import {Course} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {filesApi} from "./api";
 
 const heiDocsProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, _filter: any) {
+  getList: () => {
     throw new Error("Not implemented");
   },
-  async getOne(_id: string, _meta: any) {
+  getOne: async () => {
     return filesApi()
       .getSchoolFilesShareLink("/HEI_DOCUMENTS")
       .then(({data}) => data);
   },
-  async saveOrUpdate(_payload: Course[]) {
+  saveOrUpdate: () => {
     throw new Error("Not implemented");
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

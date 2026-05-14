@@ -8,7 +8,7 @@ const unlikedStudentProvider: HaDataProviderType = {
       .getLinkStudentRequests(page, perPage)
       .then((response) => ({data: response.data}));
   },
-  getOne: function () {
+  getOne: () => {
     throw new Error("Function not implemented.");
   },
   saveOrUpdate: async (resources: UpdateMonitorStudentLinkStatusRequest[]) => {
@@ -16,7 +16,7 @@ const unlikedStudentProvider: HaDataProviderType = {
       .updateMonitorStudentLinkStatus(resources[0])
       .then((response) => response.data);
   },
-  delete: function () {
+  delete: () => {
     throw new Error("Function not implemented.");
   },
 };

@@ -9,7 +9,7 @@ const createGradeProvider: HaDataProviderType = {
   getOne() {
     throw new Error("Not implemented");
   },
-  async saveOrUpdate(payload: CreateGrade, meta: Record<string, any> = {}) {
+  async saveOrUpdate(payload: CreateGrade, meta = {}) {
     const {examId, studentId} = meta;
 
     if (!examId || !studentId) {

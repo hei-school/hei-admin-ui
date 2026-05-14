@@ -6,8 +6,10 @@ const examGradeProvider: HaDataProviderType = {
   getList: async (
     page: number,
     perPage: number = 10,
-    filter?: any,
-    meta: Record<string, any> = {}
+    filter: {
+      student_ref?: string;
+    },
+    meta = {}
   ) => {
     return gradesApi()
       .getStudentGradesForExam(meta?.examId, page, perPage, filter?.student_ref)
@@ -18,16 +20,13 @@ const examGradeProvider: HaDataProviderType = {
         })),
       }));
   },
-  saveOrUpdate: async (
-    payload: UpdateGrade[],
-    meta: Record<string, any> = {}
-  ) => {
+  saveOrUpdate: async (payload: UpdateGrade[], meta = {}) => {
     const examId = meta?.meta?.examId ?? meta?.examId;
     return gradesApi()
       .correctParticipantsGradeForExam(examId, payload)
       .then(({data}) => [data]);
   },
-  getOne: async (id: string, meta: Record<string, any>) => {
+  getOne: async (id: string, meta: {studentId: string}) => {
     return gradesApi()
       .getParticipantGrade(id, meta?.studentId)
       .then(({data}) => ({data}));

@@ -1,49 +1,52 @@
-import {Payment} from "@haapi-b0fc7615/typescript-client";
+import {MobileMoneyType, Payment} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
+import {toApiIds as toApiFeeIds} from "./feeProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
 
-import {toApiIds as toApiFeeIds} from "./feeProvider";
+const RA_SEPARATOR = "--";
 
-const raSeparator = "--";
+type PaymentResource = Payment & {
+  feeId: string;
+  psp_id?: string;
+  psp_type?: MobileMoneyType;
+};
+
 const toRaId = (studentId: string, feeId: string, paymentId: string): string =>
-  studentId + raSeparator + feeId + raSeparator + paymentId;
+  `${studentId}${RA_SEPARATOR}${feeId}${RA_SEPARATOR}${paymentId}`;
 
 const toApiPaymentId = (raId: string) => {
-  const [studentId, feeId, paymentId] = raId.split(raSeparator);
+  const [studentId, feeId, paymentId] = raId.split(RA_SEPARATOR);
   return {studentId, feeId, paymentId};
 };
 
 const paymentProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+  getList: async (page: number, perPage: number, filter: {feeId: string}) => {
     const {studentId, feeId} = toApiFeeIds(filter.feeId);
-    const result = await payingApi().getStudentPayments(
-      studentId,
-      feeId,
-      page,
-      perPage
-    );
-    return {
-      data: result.data.map((payment: Payment) => ({
-        ...payment,
-        id: toRaId(studentId, feeId, payment.id as string),
-      })),
-    };
+    return payingApi()
+      .getStudentPayments(studentId, feeId, page, perPage)
+      .then((result) => ({
+        data: result.data.map((payment: Payment) => ({
+          ...payment,
+          id: toRaId(studentId, feeId, payment.id as string),
+        })),
+      }));
   },
-  async getOne(_raId: string) {
+  getOne: () => {
     throw new Error("Function not implemented.");
   },
-  async saveOrUpdate(resources: Array<any>) {
-    const payments = resources[0];
+  saveOrUpdate: async (resources: PaymentResource[][]) => {
+    const payments: PaymentResource[] = resources[0];
+    if (!payments?.length) {
+      return Promise.reject(new Error("No payments provided"));
+    }
     const raFeeId = payments[0].feeId;
     const {studentId, feeId} = toApiFeeIds(raFeeId);
-
-    payments.forEach((payment: {feeId: string}) => {
+    payments.forEach((payment) => {
       if (payment.feeId !== raFeeId) {
         throw new Error("Creation of payments for multiple fees not supported");
       }
     });
-
     if (payments[0].psp_id) {
       await payingApi().crupdateMpbs(studentId, feeId, {
         id: uuid(),
@@ -53,7 +56,6 @@ const paymentProvider: HaDataProviderType = {
         psp_type: payments[0].psp_type,
       });
     }
-
     const result = await payingApi().createStudentPayments(
       studentId,
       feeId,
@@ -61,9 +63,9 @@ const paymentProvider: HaDataProviderType = {
     );
     return {...result.data};
   },
-  async delete(id: string) {
+  delete: async (id: string) => {
     const {studentId, feeId, paymentId} = toApiPaymentId(id);
-    return await payingApi()
+    return payingApi()
       .deleteStudentFeePaymentById(studentId, feeId, paymentId)
       .then((response) => response.data);
   },
