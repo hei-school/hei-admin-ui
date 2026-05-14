@@ -1,13 +1,12 @@
 import {gradesApi} from "./api";
-import {HaDataProviderType, HaListResponseType} from "./HaDataProviderType";
+import {HaDataProviderType} from "./HaDataProviderType";
 
 const gradesDetailsProvider: HaDataProviderType = {
   getList: async (
     _page: number,
     _perPage: number,
-    filter: any,
-    _meta?: any
-  ): Promise<HaListResponseType> => {
+    filter: {studentId: string; courseId: string}
+  ) => {
     return gradesApi()
       .getCourseGrades(filter.studentId, filter.courseId)
       .then((result) => ({data: result.data}));

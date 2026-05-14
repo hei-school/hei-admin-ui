@@ -1,9 +1,21 @@
-import {CrupdateCor} from "@haapi-b0fc7615/typescript-client";
+import {CorStatus, CrupdateCor} from "@haapi-b0fc7615/typescript-client";
 import {corApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const corProvider: HaDataProviderType = {
-  getList: async (page: number, perPage: number, filter: any) => {
+  getList: async (
+    page: number,
+    perPage: number,
+    filter: {
+      page: number;
+      perPage: number;
+      from: Date;
+      to: Date;
+      student_ref?: string;
+      group_ref?: string[];
+      cor_status?: CorStatus[];
+    }
+  ) => {
     return corApi()
       .getCors(
         page,

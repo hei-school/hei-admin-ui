@@ -4,7 +4,7 @@ import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 
 const profileProvider: HaDataProviderType = {
-  async getOne(id: string) {
+  getOne: async (id: string) => {
     const role = authProvider.getCachedRole();
 
     switch (role) {
@@ -40,10 +40,10 @@ const profileProvider: HaDataProviderType = {
         throw new Error("Role non supporté");
     }
   },
-  async getList() {
+  getList: () => {
     throw new Error("Function not implemented");
   },
-  async saveOrUpdate(payload) {
+  saveOrUpdate: async (payload) => {
     const role = authProvider.getCachedRole();
     const id = payload[0].id;
     const profileData = payload[0];
@@ -77,7 +77,7 @@ const profileProvider: HaDataProviderType = {
         throw new Error("Role non supporté");
     }
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

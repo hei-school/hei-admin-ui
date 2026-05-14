@@ -2,13 +2,13 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {payingApi} from "./api";
 
 const mpbsVerifyProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, _filter: any, _meta: any) {
+  getList: () => {
     throw new Error("Not implemented");
   },
-  async getOne(_id: string) {
+  getOne: () => {
     throw new Error("Not implemented");
   },
-  async saveOrUpdate(payload: any, _params: any) {
+  saveOrUpdate: async (payload) => {
     const {
       id,
       mpbsFile: {rawFile},
@@ -20,7 +20,7 @@ const mpbsVerifyProvider: HaDataProviderType = {
         return [{...result.data, id}];
       });
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

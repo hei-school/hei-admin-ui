@@ -20,7 +20,10 @@ const staffProvider: HaDataProviderType = {
       .getStaffMemberById(id)
       .then((result) => result.data);
   },
-  saveOrUpdate: async (staffs: Required<StaffMember>[], meta: any) => {
+  saveOrUpdate: async (
+    staffs: Required<StaffMember>[],
+    meta: {isUpdate: boolean}
+  ) => {
     if (meta?.isUpdate) {
       const [staff] = staffs;
       return usersApi()

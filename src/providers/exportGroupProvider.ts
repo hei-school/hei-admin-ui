@@ -2,21 +2,21 @@ import {groupsApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const exportGroupProvider: HaDataProviderType = {
-  async getList() {
+  getList: () => {
     throw new Error("Function not implemented.");
   },
 
-  async getOne(id: string) {
+  getOne: async (id: string) => {
     return groupsApi()
       .generateStudentsGroupInXlsx(id, {responseType: "arraybuffer"})
       .then((res) => ({id, file: res.data}));
   },
 
-  async saveOrUpdate() {
+  saveOrUpdate: () => {
     throw new Error("Function not implemented.");
   },
 
-  async delete() {
+  delete: () => {
     throw new Error("Function not implemented.");
   },
 };

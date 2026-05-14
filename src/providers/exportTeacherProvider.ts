@@ -2,21 +2,21 @@ import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const exportTeacherProvider: HaDataProviderType = {
-  async getList() {
+  getList: () => {
     throw new Error("Function not implemented.");
   },
 
-  async getOne(id: string) {
+  getOne: async (id: string) => {
     return usersApi()
       .generateTeachersInXlsx({responseType: "arraybuffer"})
       .then((res) => ({id, file: res.data}));
   },
 
-  async saveOrUpdate() {
+  saveOrUpdate: () => {
     throw new Error("Function not implemented.");
   },
 
-  async delete() {
+  delete: () => {
     throw new Error("Function not implemented.");
   },
 };

@@ -1,10 +1,20 @@
-import {Teacher} from "@haapi-b0fc7615/typescript-client";
+import {EnableStatus, Sex, Teacher} from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
 const teacherProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
-    return await usersApi()
+  getList: async (
+    page: number,
+    perPage: number,
+    filter: {
+      ref?: string;
+      first_name?: string;
+      last_name?: string;
+      status?: EnableStatus;
+      sex?: Sex;
+    }
+  ) => {
+    return usersApi()
       .getTeachers(
         page,
         perPage,
@@ -16,23 +26,25 @@ const teacherProvider: HaDataProviderType = {
       )
       .then((result) => ({data: result.data}));
   },
-  async getOne(id: string) {
-    const result = await usersApi().getTeacherById(id);
-    return result.data;
+  getOne: async (id: string) => {
+    return usersApi()
+      .getTeacherById(id)
+      .then((result) => result.data);
   },
-  async saveOrUpdate(
+  saveOrUpdate: async (
     teachers: Required<Teacher>[],
     meta?: {isUpdate?: boolean}
-  ) {
+  ) => {
     if (meta?.isUpdate) {
       const [teacher] = teachers;
       const result = await usersApi().updateTeacher(teacher.id, teacher);
       return [result.data];
     }
-    const result = await usersApi().createOrUpdateTeachers(teachers);
-    return result.data;
+    return usersApi()
+      .createOrUpdateTeachers(teachers)
+      .then((result) => result.data);
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

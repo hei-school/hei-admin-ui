@@ -23,13 +23,13 @@ const missingListProvider: HaDataProviderType = {
         })),
       }));
   },
-  getOne() {
+  getOne: () => {
     throw new Error("Not implemented");
   },
-  saveOrUpdate() {
+  saveOrUpdate: () => {
     throw new Error("Not implemented");
   },
-  delete() {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

@@ -3,16 +3,16 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {promotionApi} from "./api";
 
 const promotionFlowsProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, _filter: any, _meta: any) {
+  getList: () => {
     throw new Error("Not implemented");
   },
-  async getOne(_groupId: string) {
+  getOne: () => {
     throw new Error("Not implemented");
   },
-  async saveOrUpdate(
+  saveOrUpdate: async (
     payload: UpdatePromotionSGroup[],
     meta: {promotionId: string}
-  ) {
+  ) => {
     if (payload.length <= 0) {
       throw new Error("Cannot update empty list of promotions");
     }
@@ -20,7 +20,7 @@ const promotionFlowsProvider: HaDataProviderType = {
       .updatePromotionGroups(meta.promotionId, payload[0])
       .then((response) => [response.data]);
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

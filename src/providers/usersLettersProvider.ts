@@ -56,7 +56,7 @@ const usersLettersProvider: HaDataProviderType = {
       )
       .then((response) => [response.data]);
   },
-  delete() {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

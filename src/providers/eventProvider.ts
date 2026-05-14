@@ -1,4 +1,8 @@
-import {CreateEvent, EventType} from "@haapi-b0fc7615/typescript-client";
+import {
+  CreateEvent,
+  EventType,
+  FrequencyScopeDay,
+} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {eventsApi} from "./api";
 
@@ -36,7 +40,16 @@ const eventProvider: HaDataProviderType = {
       .then((response) => response.data);
   },
   saveOrUpdate: async (
-    events: Array<CreateEvent & {recurrent: Record<string, any>}>
+    events: Array<
+      CreateEvent & {
+        recurrent?: {
+          recurrenceType: FrequencyScopeDay;
+          frequency: number;
+          startTime: string;
+          endTime: string;
+        };
+      }
+    >
   ) => {
     const {recurrent, ...event} = events[0];
     return eventsApi()

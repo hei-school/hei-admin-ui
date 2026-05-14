@@ -8,15 +8,14 @@ const PIC_OPTIONS = {
 };
 
 const profilePicProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, _filter: any) {
+  getList: () => {
     throw new Error("Function not implemented.");
   },
-  async getOne(_id: string) {
+  getOne: () => {
     throw new Error("Function not implemented.");
   },
-  async saveOrUpdate(payload: any) {
+  saveOrUpdate: async (payload) => {
     const user = payload[0];
-
     switch (user?.role) {
       case WhoamiRoleEnum.STUDENT:
         return usersApi()
@@ -44,7 +43,7 @@ const profilePicProvider: HaDataProviderType = {
           .then((result) => [result.data]);
     }
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };

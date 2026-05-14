@@ -2,18 +2,18 @@ import {HaDataProviderType} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 
 const groupFlowProvider: HaDataProviderType = {
-  async getList(_page: number, _perPage: number, _filter: any) {
+  getList: () => {
     throw new Error("Function not implemented.");
   },
-  async getOne(_id: string) {
+  getOne: () => {
     throw new Error("Function not implemented.");
   },
-  async saveOrUpdate(payload: any) {
+  saveOrUpdate: async (payload) => {
     return await groupsApi()
       .moveOrDeleteStudentInGroup(payload[0].student_id, payload)
       .then((result) => [result.data]);
   },
-  async delete(_id: string) {
+  delete: () => {
     throw new Error("Not implemented");
   },
 };
