@@ -264,6 +264,10 @@ function AppBase() {
           path="/retake-exams/cancellation"
           element={<retakeExams.cancellation />}
         />
+        <Route
+          path="student/retake-exams"
+          element={<retakeExams.listMyRetakes />}
+        />
       </CustomRoutes>
     </Admin>
   );

@@ -8,7 +8,11 @@ import {BookOpenIcon} from "lucide-react";
 import {useState} from "react";
 import {DateField, FunctionField, TextField, useGetOne} from "react-admin";
 import {EmptyList3D} from "../common/components/EmptyList";
-import {PendingCancellationBar, RoleBasedShowButton} from "./components";
+import {
+  ListRetakeExamsForStudentSpecificBar,
+  PendingCancellationBar,
+  RoleBasedShowButton,
+} from "./components";
 import {
   CreateSessionButton,
   EditSessionButton,
@@ -90,6 +94,7 @@ export const RetakeExamSessionList = () => {
   return (
     <Box>
       {(isAdmin() || isManager()) && <PendingCancellationBar />}
+      {isStudent() && <ListRetakeExamsForStudentSpecificBar />}
       <HaList
         title="Liste des sessions de rattrapage"
         resource="retakeExams-sessions"
