@@ -86,7 +86,11 @@ function AppBase() {
       <Resource name="exams" {...exams} />
       <CustomRoutes>
         <Route exact path="/profile" element={<profile.show />} />
-
+        <Route
+          exact
+          path="/students/result-overviews"
+          element={<studentsResultOverviews.list />}
+        />
         <Route exact path="/students/:studentId/fees" element={<fees.list />} />
         <Route
           exact

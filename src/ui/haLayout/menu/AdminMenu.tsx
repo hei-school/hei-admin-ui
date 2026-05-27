@@ -54,6 +54,12 @@ function AdminMenu() {
           onClick={() => trackNavClick("students_list", role)}
         />
         <ListMenuItem
+          label="Liste des sortants"
+          icon={<StudentListIcon />}
+          to="/students/result-overviews"
+          onClick={() => trackNavClick("students_result_overviews", role)}
+        />
+        <ListMenuItem
           label="Transactions (Mobile Money)"
           icon={<TransactionsIcon />}
           to="/transactions"
