@@ -1,4 +1,4 @@
-import StudentsResultOverviews from "./studentsResultOvergviewList";
+import StudentsResultOverviews from "./studentsResultOverviewsList";
 
 const studentsResultOverviews = {
   list: StudentsResultOverviews,

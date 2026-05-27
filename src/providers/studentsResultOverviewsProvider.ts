@@ -9,7 +9,7 @@ const studentsResultOverviewProvider: HaDataProviderType = {
     filter: {status: ResultOverviewStatus; promotionId: string}
   ) => {
     const {promotionId, status} = filter;
-    return usersApi
+    return usersApi()
       .getStudentsResultOverviewsByStatus(promotionId, status)
       .then((response) => ({data: response.data}));
   },

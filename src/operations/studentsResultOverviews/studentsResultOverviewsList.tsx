@@ -5,7 +5,7 @@ import {TextField} from "react-admin";
 import {useParams} from "react-router-dom";
 
 const StudentsResultOverviews = () => {
-  const {id: sessionId, status: status} = useParams<{
+  const {id: promotionId, status: status} = useParams<{
     id: string;
     status: ResultOverviewStatus;
   }>();
@@ -22,7 +22,7 @@ const StudentsResultOverviews = () => {
         label: "Référence ex : STD23097",
       }}
       listProps={{
-        filter: {sessionId, status},
+        filter: {promotionId, status},
       }}
       actions={undefined}
     >
