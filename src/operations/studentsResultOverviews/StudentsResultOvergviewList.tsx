@@ -5,10 +5,10 @@ import {TextField} from "react-admin";
 import {useParams} from "react-router-dom";
 
 const StudentsResultOverviews = () => {
-  const {id: sessionId, status: status} = useParams<{
-    id: string;
-    status: ResultOverviewStatus;
-  }>();
+  const status = ResultOverviewStatus.VALIDATED;
+  const {promotionId} = useParams<{promotionId: string}>();
+  if (!promotionId) return null;
+
   return (
     <HaList
       title="Liste des sortants"
@@ -22,16 +22,16 @@ const StudentsResultOverviews = () => {
         label: "Référence ex : STD23097",
       }}
       listProps={{
-        filter: {sessionId, status},
+        filter: {promotionId, status},
       }}
       actions={undefined}
     >
       <TextField source="ref" label="Référence" />
-      <TextField source="first_name" label="Nom" />
-      <TextField source="last_name" label="Prénom(s)" />
+      <TextField source="last_name" label="Nom" />
+      <TextField source="first_name" label="Prénom(s)" />
       <TextField source="email" label="Email" />
       <TextField source="weighted_average" label="Moyenne générale" />
-      <TextField source="obtained_credits" label="Crédits obtenu" />
+      <TextField source="obtained_credits" label="Crédits obtenus" />
     </HaList>
   );
 };

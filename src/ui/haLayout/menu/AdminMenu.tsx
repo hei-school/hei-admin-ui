@@ -23,6 +23,7 @@ import {
   CurrencyExchange as TransactionsIcon,
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
+import {GraduationCap} from "lucide-react";
 
 function AdminMenu() {
   const {role} = useRole();
@@ -55,8 +56,8 @@ function AdminMenu() {
         />
         <ListMenuItem
           label="Liste des sortants"
-          icon={<StudentListIcon />}
-          to="/students/result-overviews"
+          icon={<GraduationCap />}
+          to="promotions/result-overviews"
           onClick={() => trackNavClick("students_result_overviews", role)}
         />
         <ListMenuItem

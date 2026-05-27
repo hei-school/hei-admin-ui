@@ -53,6 +53,7 @@ import retakeExamProvider from "./retakeExamProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
 import searchProvider from "./searchProvider";
 import studentRetakeExamsProvider from "./studentRetakeExamsProvider";
+import studentsResultOverviewProvider from "./studentsResultOverviewsProvider";
 import unlikedStudentProvider from "./unlinkedStudentProvider";
 
 export const MAX_ITEM_PER_PAGE = 500;
@@ -113,6 +114,7 @@ const providerMap = {
   "import-grades": gradeImportProvider,
   "searchs": searchProvider,
   "student-retake-exams": studentRetakeExamsProvider,
+  "students-result-overviews": studentsResultOverviewProvider,
 } as const;
 
 const getProvider = (

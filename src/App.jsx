@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
 import cor from "@/operations/cor/index.ts";
@@ -22,6 +23,7 @@ import retakeExams from "@/operations/retakeExams";
 import retakeExamSessions from "@/operations/retakeExamSessions";
 import staffMembers from "@/operations/staffMembers";
 import students from "@/operations/students";
+import studentsResultOverviews from "@/operations/studentsResultOverviews";
 import teachers from "@/operations/teachers";
 import authProvider from "@/providers/authProvider";
 import dataProvider from "@/providers/dataProvider";
@@ -78,6 +80,7 @@ function AppBase() {
       <Resource name="retakeExams" {...retakeExams} />
       <Resource name="retakeExams-sessions" {...retakeExamSessions} />
       <Resource name="retakeExams-courses" {...retakeExamCourses} />
+      <Resource name="students-result-overviews" {...studentsResultOverviews} />
       <Resource
         name="course-assignments"
         {...CourseAssignments}
@@ -88,8 +91,12 @@ function AppBase() {
         <Route exact path="/profile" element={<profile.show />} />
         <Route
           exact
-          path="/students/result-overviews"
+          path="promotions/result-overviews"
           element={<studentsResultOverviews.list />}
+        />
+        <Route
+          path="/promotions/:promotionId/show/students-result-overviews"
+          element={<studentsResultOverviews.show />}
         />
         <Route exact path="/students/:studentId/fees" element={<fees.list />} />
         <Route

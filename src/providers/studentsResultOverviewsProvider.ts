@@ -4,14 +4,14 @@ import {HaDataProviderType} from "./HaDataProviderType";
 
 const studentsResultOverviewProvider: HaDataProviderType = {
   getList: async (
-    _page: number,
-    _perPage: number,
+    page: number,
+    perPage: number,
     filter: {status: ResultOverviewStatus; promotionId: string}
   ) => {
     const {promotionId, status} = filter;
-    return usersApi
-      .getStudentsResultOverviewsByStatus(promotionId, status)
-      .then((response) => ({data: response.data}));
+    return usersApi()
+      .getStudentsResultOverviewsByStatus(promotionId, status, page, perPage)
+      .then((response) => response.data);
   },
   getOne: () => {
     throw new Error("  not implemented.");
