@@ -11,16 +11,16 @@ const studentsResultOverviewProvider: HaDataProviderType = {
     const {promotionId, status} = filter;
     return usersApi()
       .getStudentsResultOverviewsByStatus(promotionId, status, page, perPage)
-      .then((response) => response.data);
+      .then((response) => ({data: response.data}));
   },
   getOne: () => {
-    throw new Error("  not implemented.");
+    throw new Error("not implemented.");
   },
   saveOrUpdate: () => {
-    throw new Error("  not implemented.");
+    throw new Error("not implemented.");
   },
   delete: () => {
-    throw new Error("  not implemented.");
+    throw new Error("not implemented.");
   },
 };
 

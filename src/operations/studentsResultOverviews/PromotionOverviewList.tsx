@@ -2,6 +2,7 @@ import {HaList} from "@/ui/haList";
 import {GraduationCap} from "lucide-react";
 import {TextField} from "react-admin";
 import {useNavigate} from "react-router-dom";
+import {DateField} from "../common/components/fields";
 
 export const PromotionOverviewList = () => {
   const navigate = useNavigate();
@@ -21,7 +22,7 @@ export const PromotionOverviewList = () => {
     >
       <TextField source="name" label="Nom de la promotion" />
       <TextField source="ref" label="Référence de la promotion" />
-      <TextField source="creation_datetime" label="Date de création" />
+      <DateField source="creation_datetime" label="Date de création" />
     </HaList>
   );
 };
