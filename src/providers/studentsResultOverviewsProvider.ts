@@ -11,7 +11,12 @@ const studentsResultOverviewProvider: HaDataProviderType = {
     const {promotionId, status} = filter;
     return usersApi()
       .getStudentsResultOverviewsByStatus(promotionId, status, page, perPage)
-      .then((response) => ({data: response.data}));
+      .then((response) => ({
+        data: response.data.map((item, index) => ({
+          ...item,
+          id: item.id ?? item._id ?? item.studentId ?? index,
+        })),
+      }));
   },
   getOne: () => {
     throw new Error("not implemented.");

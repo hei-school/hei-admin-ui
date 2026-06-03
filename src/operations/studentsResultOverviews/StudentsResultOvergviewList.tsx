@@ -26,12 +26,18 @@ const StudentsResultOverviews = () => {
       }}
       actions={undefined}
     >
-      <TextField source="ref" label="Référence" />
-      <TextField source="last_name" label="Nom" />
-      <TextField source="first_name" label="Prénom(s)" />
-      <TextField source="email" label="Email" />
-      <TextField source="weighted_average" label="Moyenne générale" />
-      <TextField source="obtained_credits" label="Crédits obtenus" />
+      <TextField source="student.ref" label="Référence" />
+      <TextField source="student.last_name" label="Nom" />
+      <TextField source="student.first_name" label="Prénom(s)" />
+      <TextField source="student.email" label="Email" />
+      <TextField
+        source="results_overview.weighted_average"
+        label="Moyenne générale"
+      />
+      <TextField
+        source="results_overview.obtained_credits"
+        label="Crédits obtenus"
+      />
     </HaList>
   );
 };
