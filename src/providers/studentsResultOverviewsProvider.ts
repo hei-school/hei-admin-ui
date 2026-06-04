@@ -12,10 +12,15 @@ const studentsResultOverviewProvider: HaDataProviderType = {
     return usersApi()
       .getStudentsResultOverviewsByStatus(promotionId, status, page, perPage)
       .then((response) => ({
-        data: response.data.map((item, index) => ({
-          ...item,
-          id: item.id ?? item._id ?? item.studentId ?? index,
-        })),
+        data: response.data.map(
+          (
+            item: {id: string; _id: string; studentId: string},
+            index: number
+          ) => ({
+            ...item,
+            id: item.id ?? item._id ?? item.studentId ?? index,
+          })
+        ),
       }));
   },
   getOne: () => {
