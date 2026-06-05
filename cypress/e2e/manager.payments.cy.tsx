@@ -81,7 +81,7 @@ describe("Manager.Payment", () => {
     cy.getByTestid("fees-tab").click();
 
     cy.contains(unpaidFeeMock.comment as string).click();
-    cy.contains("En cours");
+    cy.contains("Non payé");
     cy.getByTestid("AddIcon").click();
     cy.intercept(
       "GET",
