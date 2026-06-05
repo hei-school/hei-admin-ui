@@ -66,7 +66,6 @@ export function ImportDialog({
   provider,
   transformData,
   isOpen,
-  toggle,
   resource,
 }) {
   const {closeAction} = useHaListContext();
