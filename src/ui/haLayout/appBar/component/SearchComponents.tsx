@@ -10,7 +10,9 @@ import {
   alpha,
 } from "@mui/material";
 import {AnimatePresence, motion} from "framer-motion";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
+
+import {EnableStatus} from "@haapi-b0fc7615/typescript-client";
 
 import {SearchUser} from "../utils/searchUtils";
 import {ProfilePicture} from "./ProfilePicture";
@@ -31,30 +33,44 @@ const COLORS = {
   },
 } as const;
 
+const STATUS_COLORS: Record<EnableStatus, string> = {
+  [EnableStatus.ENABLED]: "#10b981",
+  [EnableStatus.DISABLED]: "#bf2323",
+  [EnableStatus.SUSPENDED]: "#efbf44",
+  [EnableStatus.ALUMNI]: "#3b82f6",
+};
+
+const STATUS_LABELS: Record<EnableStatus, string> = {
+  [EnableStatus.ENABLED]: "Actif",
+  [EnableStatus.DISABLED]: "Quitté",
+  [EnableStatus.SUSPENDED]: "Suspendu",
+  [EnableStatus.ALUMNI]: "Ancien",
+};
+
+const getStatusColor = (status?: EnableStatus) =>
+  status
+    ? (STATUS_COLORS[status] ?? COLORS.textSecondary)
+    : COLORS.textSecondary;
+
+const getStatusLabel = (status?: EnableStatus) =>
+  status ? (STATUS_LABELS[status] ?? status) : "";
+
+const getRoleColor = (role?: string) =>
+  COLORS.role[role as keyof typeof COLORS.role] ?? COLORS.accent;
+
 const FADE_IN = {
   hidden: {opacity: 0, y: -8},
   visible: {opacity: 1, y: 0, transition: {duration: 0.2}},
   exit: {opacity: 0, y: -4},
 };
 
-const LIST_ITEM = {
-  hidden: {opacity: 0, x: -16},
-  visible: {opacity: 1, x: 0},
-  hover: {scale: 1.02, x: 4},
-};
+const CHIP = {hover: {scale: 1.05}, tap: {scale: 0.95}};
 
-const CHIP = {
-  hover: {scale: 1.05},
-  tap: {scale: 0.95},
-};
-
-const SCROLL_CONTAINER = {
+const SCROLL_CONTAINER_SX = {
   "maxHeight": 320,
   "overflowY": "auto",
   "overflowX": "hidden",
-  "&::-webkit-scrollbar": {
-    width: 8,
-  },
+  "&::-webkit-scrollbar": {width: 8},
   "&::-webkit-scrollbar-thumb": {
     background: alpha(COLORS.primary, 0.25),
     borderRadius: 4,
@@ -62,10 +78,125 @@ const SCROLL_CONTAINER = {
   "scrollbarWidth": "thin" as const,
 };
 
-const getRoleColor = (role?: string) =>
-  COLORS.role[role as keyof typeof COLORS.role] ?? COLORS.accent;
+const POPPER_BASE_SX = {zIndex: 15000};
 
-interface SearchResultsProps {
+const PAPER_SX = {
+  mt: 1,
+  borderRadius: 3,
+  border: `1px solid ${COLORS.border}`,
+  background: alpha(COLORS.background, 0.95),
+  overflow: "hidden",
+};
+
+const HEADER_BOX_SX = {
+  borderBottom: `1px solid ${COLORS.border}`,
+};
+
+const HEADER_ROW_SX = {mb: 1};
+
+const ROLE_CHIPS_ROW_SX = {flexWrap: "wrap" as const, gap: 0.5};
+
+const EMPTY_STATE_ICON_SX = {fontSize: 32, opacity: 0.5};
+
+const PROFILE_PICTURE_SIZE = 40;
+
+const STATUS_DOT_SX = {
+  width: 7,
+  height: 7,
+  borderRadius: "50%",
+  flexShrink: 0,
+};
+
+const ROLE_BADGE_SX = {
+  px: 1,
+  py: 0.25,
+  fontSize: 11,
+  fontWeight: 600,
+  borderRadius: 1,
+};
+
+const ACTIVE_KEY_HINT_SX = {
+  fontSize: 11,
+  px: 0.75,
+  py: 0.25,
+  borderRadius: 1,
+  border: `1px solid ${alpha(COLORS.primary, 0.3)}`,
+  color: COLORS.primary,
+  opacity: 0.7,
+  userSelect: "none" as const,
+  flexShrink: 0,
+};
+
+const ROLE_CHIP_SX = {
+  px: 1.5,
+  py: 0.5,
+  borderRadius: 1,
+  cursor: "pointer",
+  fontSize: 12,
+  fontWeight: 600,
+};
+
+const getResultItemSx = (isActive: boolean, statusColor: string) => ({
+  "p": 1.5,
+  "borderRadius": 1,
+  "cursor": "pointer",
+  "position": "relative" as const,
+  "border": "1px solid",
+  "borderColor": isActive ? alpha(COLORS.primary, 0.3) : "transparent",
+  "background": isActive ? alpha(COLORS.primary, 0.07) : COLORS.background,
+  "transition": "background 0.12s, border-color 0.12s",
+  "&::before": {
+    content: '""',
+    position: "absolute" as const,
+    left: 0,
+    top: 0,
+    bottom: 0,
+    width: 3,
+    background: isActive ? COLORS.primary : statusColor,
+    transition: "background 0.12s",
+  },
+  "&:hover": {
+    background: alpha(COLORS.primary, 0.07),
+    borderColor: alpha(COLORS.primary, 0.3),
+  },
+});
+
+const getRoleBadgeSx = (roleColor: string) => ({
+  ...ROLE_BADGE_SX,
+  background: alpha(roleColor, 0.1),
+  color: roleColor,
+});
+
+const getStatusDotSx = (statusColor: string) => ({
+  ...STATUS_DOT_SX,
+  background: statusColor,
+});
+
+const getRoleChipSx = (selected: boolean, color: string) => ({
+  ...ROLE_CHIP_SX,
+  color: selected ? "#fff" : color,
+  background: selected ? color : alpha(color, 0.1),
+});
+
+const useAnchorWidth = (anchorEl?: HTMLElement | null) => {
+  const [width, setWidth] = useState<number | undefined>(
+    anchorEl?.getBoundingClientRect().width
+  );
+
+  useEffect(() => {
+    if (!anchorEl) {
+      setWidth(undefined);
+      return;
+    }
+    const updateWidth = () => setWidth(anchorEl.getBoundingClientRect().width);
+    updateWidth();
+    window.addEventListener("resize", updateWidth);
+    return () => window.removeEventListener("resize", updateWidth);
+  }, [anchorEl]);
+
+  return width;
+};
+export interface SearchResultsProps {
   anchorEl?: HTMLElement | null;
   open: boolean;
   users: SearchUser[];
@@ -74,84 +205,53 @@ interface SearchResultsProps {
   onUserClick: (id?: string) => void;
 }
 
-interface SearchResultItemProps {
+const SearchResultItem = ({
+  user,
+  isActive,
+  onClick,
+  onMouseEnter,
+  itemRef,
+}: {
   user: SearchUser;
-  index: number;
+  isActive: boolean;
   onClick: () => void;
-}
-
-interface ResultsContentProps {
-  isLoading: boolean;
-  isEmpty: boolean;
-  users: SearchUser[];
-  onUserClick: (id?: string) => void;
-}
-
-const SearchResultItem = ({user, index, onClick}: SearchResultItemProps) => {
+  onMouseEnter: () => void;
+  itemRef: (el: HTMLDivElement | null) => void;
+}) => {
   const roleColor = getRoleColor(user.role);
+  const statusColor = getStatusColor(user.status);
+  const statusLabel = getStatusLabel(user.status);
 
   return (
-    <motion.div
-      variants={LIST_ITEM}
-      initial="hidden"
-      animate="visible"
-      whileHover="hover"
-      transition={{delay: index * 0.05}}
-    >
+    <div ref={itemRef}>
       <Stack
         direction="row"
         spacing={2}
         alignItems="center"
         onClick={onClick}
-        sx={{
-          "p": 1.5,
-          "borderRadius": 1,
-          "cursor": "pointer",
-          "position": "relative",
-          "border": "1px solid transparent",
-          "background": COLORS.background,
-          "&::before": {
-            content: '""',
-            position: "absolute",
-            left: 0,
-            top: 0,
-            bottom: 0,
-            width: 3,
-            background: roleColor,
-          },
-          "&:hover": {
-            background: COLORS.hover,
-            borderColor: COLORS.border,
-          },
-        }}
+        onMouseEnter={onMouseEnter}
+        sx={getResultItemSx(isActive, statusColor)}
       >
         <ProfilePicture
           src={user.profile_picture}
           firstName={user.first_name}
           lastName={user.last_name}
-          size={40}
+          size={PROFILE_PICTURE_SIZE}
         />
-
         <Box flex={1}>
           <Typography fontWeight={600} fontSize={14}>
             {user.first_name} {user.last_name}
           </Typography>
-
-          <Stack direction="row" spacing={1} mt={0.5}>
-            <Box
-              sx={{
-                px: 1,
-                py: 0.25,
-                fontSize: 11,
-                fontWeight: 600,
-                borderRadius: 1,
-                background: alpha(roleColor, 0.1),
-                color: roleColor,
-              }}
-            >
-              {user.role}
-            </Box>
-
+          <Stack direction="row" spacing={1} mt={0.5} alignItems="center">
+            <Box sx={getRoleBadgeSx(roleColor)}>{user.role}</Box>
+            {user.status && (
+              <Stack direction="row" spacing={0.5} alignItems="center">
+                <Box sx={getStatusDotSx(statusColor)} />
+                <Typography fontSize={11} fontWeight={600} color={statusColor}>
+                  {statusLabel}
+                </Typography>
+              </Stack>
+            )}
             {user.ref && (
               <Typography fontSize={12} color={COLORS.textSecondary}>
                 {user.ref}
@@ -159,55 +259,12 @@ const SearchResultItem = ({user, index, onClick}: SearchResultItemProps) => {
             )}
           </Stack>
         </Box>
+        {isActive && <Box sx={ACTIVE_KEY_HINT_SX}>↵</Box>}
       </Stack>
-    </motion.div>
+    </div>
   );
 };
 
-const SearchResultsContent = ({
-  isLoading,
-  isEmpty,
-  users,
-  onUserClick,
-}: ResultsContentProps) => {
-  if (isLoading) {
-    return (
-      <Box p={1.5} sx={SCROLL_CONTAINER}>
-        <Stack alignItems="center" py={4}>
-          <CircularProgress size={24} />
-        </Stack>
-      </Box>
-    );
-  }
-
-  if (isEmpty) {
-    return (
-      <Box p={1.5} sx={SCROLL_CONTAINER}>
-        <Stack alignItems="center" py={4}>
-          <SearchIcon sx={{fontSize: 32, opacity: 0.5}} />
-          <Typography fontSize={14} color="text.secondary">
-            Aucun résultat
-          </Typography>
-        </Stack>
-      </Box>
-    );
-  }
-
-  return (
-    <Box p={1.5} sx={SCROLL_CONTAINER}>
-      <Stack spacing={0.75}>
-        {users.map((user, index) => (
-          <SearchResultItem
-            key={user.id}
-            user={user}
-            index={index}
-            onClick={() => onUserClick(user.id)}
-          />
-        ))}
-      </Stack>
-    </Box>
-  );
-};
 export const SearchResults = ({
   anchorEl,
   open,
@@ -216,35 +273,73 @@ export const SearchResults = ({
   isFetched,
   onUserClick,
 }: SearchResultsProps) => {
-  if (!open || !anchorEl) return null;
-  if (!isLoading && !isFetched && users.length === 0) return null;
-
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
+  const [activeIndex, setActiveIndex] = useState(-1);
+  const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
+  const isKeyboardNav = useRef(false);
+  const anchorWidth = useAnchorWidth(anchorEl);
 
   const roleCounts = useMemo(
     () =>
-      users.reduce<Record<string, number>>((acc, user) => {
-        acc[user.role] = (acc[user.role] || 0) + 1;
+      users.reduce<Record<string, number>>((acc, u) => {
+        acc[u.role] = (acc[u.role] || 0) + 1;
         return acc;
       }, {}),
     [users]
   );
 
-  const filteredUsers = useMemo(() => {
-    if (!selectedRole) return users;
-    return users.filter((u) => u.role === selectedRole);
-  }, [users, selectedRole]);
+  const filteredUsers = useMemo(
+    () => (selectedRole ? users.filter((u) => u.role === selectedRole) : users),
+    [users, selectedRole]
+  );
+
+  useEffect(() => {
+    setActiveIndex(-1);
+  }, [filteredUsers]);
+
+  useEffect(() => {
+    if (activeIndex >= 0) {
+      itemRefs.current[activeIndex]?.scrollIntoView({
+        block: "nearest",
+        behavior: "smooth",
+      });
+    }
+  }, [activeIndex]);
+
+  useEffect(() => {
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (!filteredUsers.length) return;
+
+      if (e.key === "ArrowDown") {
+        e.preventDefault();
+        isKeyboardNav.current = true;
+        setActiveIndex((prev) => (prev + 1) % filteredUsers.length);
+      } else if (e.key === "ArrowUp") {
+        e.preventDefault();
+        isKeyboardNav.current = true;
+        setActiveIndex((prev) =>
+          prev <= 0 ? filteredUsers.length - 1 : prev - 1
+        );
+      } else if (e.key === "Enter") {
+        if (activeIndex >= 0 && activeIndex < filteredUsers.length) {
+          e.preventDefault();
+          onUserClick(filteredUsers[activeIndex].id);
+        }
+      }
+    };
+
+    window.addEventListener("keydown", onKeyDown);
+    return () => window.removeEventListener("keydown", onKeyDown);
+  }, [filteredUsers, activeIndex, onUserClick]);
+
+  if (!open || !anchorEl) return null;
+  if (!isLoading && !isFetched && users.length === 0) return null;
 
   const isEmpty = !isLoading && isFetched && filteredUsers.length === 0;
-  const width = anchorEl.getBoundingClientRect().width;
+  const popperSx = {...POPPER_BASE_SX, width: anchorWidth};
 
   return (
-    <Popper
-      open
-      anchorEl={anchorEl}
-      placement="bottom-start"
-      sx={{zIndex: 15000, width}}
-    >
+    <Popper open anchorEl={anchorEl} placement="bottom-start" sx={popperSx}>
       <AnimatePresence>
         <motion.div
           variants={FADE_IN}
@@ -252,48 +347,34 @@ export const SearchResults = ({
           animate="visible"
           exit="exit"
         >
-          <Paper
-            sx={{
-              mt: 1,
-              borderRadius: 3,
-              border: `1px solid ${COLORS.border}`,
-              background: alpha(COLORS.background, 0.95),
-              overflow: "hidden",
-            }}
-          >
+          <Paper sx={PAPER_SX}>
             {!!users.length && (
-              <Box p={1.5} borderBottom={`1px solid ${COLORS.border}`}>
-                <Stack direction="row" justifyContent="space-between" mb={1}>
+              <Box p={1.5} sx={HEADER_BOX_SX}>
+                <Stack
+                  direction="row"
+                  justifyContent="space-between"
+                  sx={HEADER_ROW_SX}
+                >
                   <Stack direction="row" spacing={1} alignItems="center">
                     <SearchIcon fontSize="small" color="primary" />
                     <Typography fontSize={13} fontWeight={600}>
-                      {users.length} résultat{users.length > 1 && "s"}
+                      {filteredUsers.length} résultat
+                      {filteredUsers.length > 1 && "s"}
                     </Typography>
                   </Stack>
                   <FilterListIcon fontSize="small" />
                 </Stack>
-
-                <Stack direction="row" flexWrap="wrap" gap={0.5}>
+                <Stack direction="row" sx={ROLE_CHIPS_ROW_SX}>
                   {Object.entries(roleCounts).map(([role, count]) => {
                     const selected = selectedRole === role;
                     const color = getRoleColor(role);
-
                     return (
                       <motion.div key={role} variants={CHIP}>
                         <Box
                           onClick={() =>
                             setSelectedRole(selected ? null : role)
                           }
-                          sx={{
-                            px: 1.5,
-                            py: 0.5,
-                            borderRadius: 1,
-                            cursor: "pointer",
-                            fontSize: 12,
-                            fontWeight: 600,
-                            color: selected ? "#fff" : color,
-                            background: selected ? color : alpha(color, 0.1),
-                          }}
+                          sx={getRoleChipSx(selected, color)}
                         >
                           {role} ({count})
                         </Box>
@@ -304,12 +385,43 @@ export const SearchResults = ({
               </Box>
             )}
 
-            <SearchResultsContent
-              isLoading={isLoading}
-              isEmpty={isEmpty}
-              users={filteredUsers}
-              onUserClick={onUserClick}
-            />
+            {isLoading ? (
+              <Box p={1.5} sx={SCROLL_CONTAINER_SX}>
+                <Stack alignItems="center" py={4}>
+                  <CircularProgress size={24} />
+                </Stack>
+              </Box>
+            ) : isEmpty ? (
+              <Box p={1.5} sx={SCROLL_CONTAINER_SX}>
+                <Stack alignItems="center" py={4}>
+                  <SearchIcon sx={EMPTY_STATE_ICON_SX} />
+                  <Typography fontSize={14} color="text.secondary">
+                    Aucun résultat
+                  </Typography>
+                </Stack>
+              </Box>
+            ) : (
+              <Box p={1.5} sx={SCROLL_CONTAINER_SX}>
+                <Stack spacing={0.75}>
+                  {filteredUsers.map((user, index) => (
+                    <SearchResultItem
+                      key={user.id}
+                      user={user}
+                      isActive={index === activeIndex}
+                      onClick={() => onUserClick(user.id)}
+                      onMouseEnter={() => {
+                        if (!isKeyboardNav.current) {
+                          setActiveIndex(index);
+                        }
+                      }}
+                      itemRef={(el) => {
+                        itemRefs.current[index] = el;
+                      }}
+                    />
+                  ))}
+                </Stack>
+              </Box>
+            )}
           </Paper>
         </motion.div>
       </AnimatePresence>

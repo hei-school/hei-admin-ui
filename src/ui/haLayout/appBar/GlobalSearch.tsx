@@ -15,30 +15,30 @@ import {
   SX_SEARCH_TRIGGER_PLACEHOLDER,
 } from "./component/SearchBarStyles";
 import {SearchResults as SearchResultsComponent} from "./component/SearchComponents";
-import {SearchUser} from "./utils/searchUtils";
 
 const isMacOS = (): boolean => {
   if (typeof navigator === "undefined") return false;
-
   if ("userAgentData" in navigator) {
-    const uaData = (navigator as any).userAgentData;
+    const uaData = (
+      navigator as Navigator & {userAgentData?: {platform?: string}}
+    ).userAgentData;
     if (uaData && typeof uaData.platform === "string") {
       return uaData.platform === "macOS";
     }
   }
-
   return /Mac/i.test(navigator.userAgent);
 };
 
 const isMac = isMacOS();
 const shortcutLabel = isMac ? "⌘ K" : "Ctrl + K";
 
-type BackdropProps = {
+const SearchBackdrop = ({
+  open,
+  onClose,
+}: {
   open: boolean;
   onClose: () => void;
-};
-
-const SearchBackdrop = ({open, onClose}: BackdropProps) => (
+}) => (
   <AnimatePresence>
     {open && (
       <Box
@@ -53,12 +53,13 @@ const SearchBackdrop = ({open, onClose}: BackdropProps) => (
   </AnimatePresence>
 );
 
-type SearchTriggerProps = {
+const SearchTrigger = ({
+  onClick,
+  searchRef,
+}: {
   onClick: () => void;
   searchRef: React.RefObject<HTMLDivElement>;
-};
-
-const SearchTrigger = ({onClick, searchRef}: SearchTriggerProps) => (
+}) => (
   <Box
     ref={searchRef}
     onClick={onClick}
@@ -73,7 +74,6 @@ const SearchTrigger = ({onClick, searchRef}: SearchTriggerProps) => (
       <Search sx={{color: COLORS.primary, mr: 1}} />
       <Box sx={SX_SEARCH_TRIGGER_PLACEHOLDER}>Rechercher…</Box>
     </Box>
-
     <Box
       sx={{
         fontSize: 12,
@@ -91,16 +91,6 @@ const SearchTrigger = ({onClick, searchRef}: SearchTriggerProps) => (
   </Box>
 );
 
-type ActiveSearchContainerProps = {
-  origin: {x: number; y: number};
-  inputRef: React.RefObject<HTMLInputElement>;
-  wrapperRef: React.RefObject<HTMLDivElement>;
-  value: string;
-  onChange: (value: string) => void;
-  isLoading: boolean;
-  children: React.ReactNode;
-};
-
 const ActiveSearchContainer = ({
   origin,
   inputRef,
@@ -109,7 +99,15 @@ const ActiveSearchContainer = ({
   onChange,
   isLoading,
   children,
-}: ActiveSearchContainerProps) => (
+}: {
+  origin: {x: number; y: number};
+  inputRef: React.RefObject<HTMLInputElement>;
+  wrapperRef: React.RefObject<HTMLDivElement>;
+  value: string;
+  onChange: (value: string) => void;
+  isLoading: boolean;
+  children: React.ReactNode;
+}) => (
   <Box
     component={motion.div}
     initial={{
@@ -178,16 +176,10 @@ const GlobalSearch = () => {
     [users]
   );
 
-  const getUserNavigationPath = (user: SearchUser) =>
-    USER_ROUTES[user.role]?.(user.id) ?? "#";
-
   const captureOrigin = () => {
     if (!searchRef.current) return;
     const rect = searchRef.current.getBoundingClientRect();
-    setOrigin({
-      x: rect.left + rect.width / 2,
-      y: rect.top + rect.height / 2,
-    });
+    setOrigin({x: rect.left + rect.width / 2, y: rect.top + rect.height / 2});
   };
 
   const handleFocus = () => {
@@ -204,11 +196,9 @@ const GlobalSearch = () => {
 
   const handleUserClick = (userId?: string) => {
     if (!userId) return;
-
     const user = usersById.get(userId);
     if (!user) return;
-
-    const path = getUserNavigationPath(user);
+    const path = USER_ROUTES[user.role]?.(user.id) ?? "#";
     if (path !== "#") {
       navigate(path);
       handleClose();
@@ -216,26 +206,22 @@ const GlobalSearch = () => {
   };
 
   useEffect(() => {
-    const onShortcut = (e: KeyboardEvent) => {
+    const onKeyDown = (e: KeyboardEvent) => {
       const isShortcutKey = isMac ? e.metaKey : e.ctrlKey;
-
       if (isShortcutKey && e.key.toLowerCase() === "k") {
         e.preventDefault();
         if (!isActive) handleFocus();
       }
-
       if (e.key === "Escape" && isActive) {
         handleClose();
       }
     };
-
-    document.addEventListener("keydown", onShortcut);
-    return () => document.removeEventListener("keydown", onShortcut);
+    document.addEventListener("keydown", onKeyDown);
+    return () => document.removeEventListener("keydown", onKeyDown);
   }, [isActive]);
 
   useEffect(() => {
     if (!isActive) return;
-
     const onClickOutside = (e: MouseEvent) => {
       if (
         activeInputRef.current &&
@@ -245,7 +231,6 @@ const GlobalSearch = () => {
         handleClose();
       }
     };
-
     document.addEventListener("mousedown", onClickOutside);
     return () => document.removeEventListener("mousedown", onClickOutside);
   }, [isActive, debouncedValue]);
