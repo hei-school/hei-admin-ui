@@ -1,6 +1,6 @@
 import {CourseResultStatus} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
-import {gradesApi} from "./api";
+import {retakeExamApi} from "./api";
 
 const studentRetakeExamsProvider: HaDataProviderType = {
   getList: async (
@@ -9,7 +9,7 @@ const studentRetakeExamsProvider: HaDataProviderType = {
     filter: {studentId: string; status: CourseResultStatus}
   ) => {
     const {studentId, status} = filter;
-    return gradesApi()
+    return retakeExamApi()
       .getListStudentRetakeExams(studentId, status)
       .then((response) => ({
         data: response.data,
