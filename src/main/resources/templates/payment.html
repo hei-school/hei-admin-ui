@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HEI Admin - Gestion des Paiements</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --tsinjo-blue: #1e3a8a;
+            --tsinjo-hover: #172554;
+            --bg-gradient: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+            --text-main: #334155;
+            --card-bg: #ffffff;
+        }
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+        .payment-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            padding: 30px;
+            box-sizing: border-box;
+            border-top: 6px solid var(--tsinjo-blue);
+            margin-bottom: 20px;
+        }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .brand-header h1 {
+            color: var(--tsinjo-blue);
+            margin: 0;
+            font-size: 24px;
+            font-weight: 800;
+        }
+        .brand-header p {
+            color: #64748b;
+            font-size: 13px;
+            margin: 5px 0 0 0;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 12px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+        }
+        .form-group label i {
+            margin-right: 5px;
+            color: var(--tsinjo-blue);
+        }
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 14px;
+            font-size: 15px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            box-sizing: border-box;
+            outline: none;
+            background-color: #f8fafc;
+        }
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--tsinjo-blue);
+            background-color: #ffffff;
+        }
+        .btn-primary {
+            display: block;
+            width: 100%;
+            background-color: var(--tsinjo-blue);
+            color: white;
+            border: none;
+            padding: 14px;
+            font-size: 16px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-primary:hover {
+            background-color: var(--tsinjo-hover);
+        }
+        .antonio-zone {
+            background: rgba(255, 255, 255, 0.8);
+            border: 2px dashed #cbd5e1;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            color: #64748b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="payment-card">
+        <div class="brand-header">
+            <h1><i class="fa-solid fa-wallet"></i> Portail Flux Financiers</h1>
+            <p>Enregistrement des transactions de l'écosystème HEI</p>
+        </div>
+
+        <form th:action="@{/payment/initiate}" method="POST">
+            <div class="form-group">
+                <label for="application"><i class="fa-solid fa-cubes"></i> Application Source</label>
+                <select id="application" name="application" required>
+                    <option value="klioba">Klioba (Gestion des Clubs)</option>
+                    <option value="tsinjo">Tsinjo (Suivi de Projets)</option>
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="amount"><i class="fa-solid fa-money-bill-wave"></i> Montant Transféré (MGA)</label>
+                <input type="number" id="amount" name="amount" min="1" placeholder="Ex: 25000" required>
+            </div>
+
+            <button type="submit" class="btn-primary">Enregistrer la transaction</button>
+        </form>
+    </div>
+
+    <div class="antonio-zone">
+        <i class="fa-solid fa-chart-line"></i> 
+        <strong>Espace Antonio :</strong> Visualisation de l'historique et bouton d'export CSV.
+    </div>
+</div>
+</body>
+</html>
