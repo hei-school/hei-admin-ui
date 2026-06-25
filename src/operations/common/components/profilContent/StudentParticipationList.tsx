@@ -24,8 +24,9 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import {useMemo, useState} from "react";
-import {useGetList, useRecordContext} from "react-admin";
+import {useEffect, useMemo, useState} from "react";
+import {useGetList, useGetOne, useRecordContext} from "react-admin";
+import {useParams} from "react-router-dom";
 import {AbsenceDetailDialog} from "./AbsenceDetailDialog";
 
 interface AttendanceRecord {
@@ -76,23 +77,30 @@ interface FilterState {
   eventType: string;
 }
 
-function getCurrentWeekMonday(): string {
-  const today = new Date();
-  const day = today.getDay();
-  const diff = day === 0 ? -6 : 1 - day;
-  const monday = new Date(today);
-  monday.setDate(today.getDate() + diff);
-  return monday.toISOString().split("T")[0];
-}
+const getToday = () => {
+  return new Date().toISOString().split("T")[0];
+};
+
+const toIsoDateTime = (dateOnly: string, endOfDay = false) => {
+  return `${dateOnly}T${endOfDay ? "23:59:59" : "00:00:00"}Z`;
+};
 
 const DEFAULT_FILTERS: FilterState = {
-  dateFrom: getCurrentWeekMonday(),
+  dateFrom: "",
   dateTo: "",
   status: AttendanceStatus.MISSING,
   eventType: "",
 };
 
-export function StudentParticipationList() {
+const useStudentEntranceDate = (studentId?: string) => {
+  const {data: student, isLoading: isStudentLoading} = useGetOne("students", {
+    id: studentId,
+  });
+  const entranceDate = student?.entrance_datetime?.split("T")[0];
+  return {entranceDate, isStudentLoading};
+};
+
+export const StudentParticipationList = () => {
   const profile = useRecordContext();
 
   const [pendingFilters, setPendingFilters] =
@@ -104,28 +112,38 @@ export function StudentParticipationList() {
   const [selectedAbsence, setSelectedAbsence] =
     useState<AttendanceRecord | null>(null);
 
+  const {id: studentId} = useParams<{id: string}>();
+
+  const {entranceDate, isStudentLoading} = useStudentEntranceDate(studentId);
+  useEffect(() => {
+    if (!entranceDate) return;
+    setPendingFilters((prev) =>
+      prev.dateFrom ? prev : {...prev, dateFrom: entranceDate}
+    );
+    setAppliedFilters((prev) =>
+      prev.dateFrom ? prev : {...prev, dateFrom: entranceDate}
+    );
+  }, [entranceDate]);
+
   const queryParams = useMemo(
     () => ({
       filter: {
-        from: appliedFilters.dateFrom
-          ? `${appliedFilters.dateFrom}T00:00:00.000Z`
-          : `${getCurrentWeekMonday()}T00:00:00.000Z`,
-        to: appliedFilters.dateTo
-          ? `${appliedFilters.dateTo}T23:59:59.999Z`
-          : new Date().toISOString(),
+        from: toIsoDateTime(appliedFilters.dateFrom || entranceDate),
+        to: toIsoDateTime(appliedFilters.dateTo || getToday(), true),
         attendanceStatus: appliedFilters.status || undefined,
-        title: [],
       },
       meta: {id: profile?.id},
     }),
-    [appliedFilters, profile?.id]
+    [appliedFilters, profile?.id, entranceDate]
   );
 
   const {
     data: rawAttendance = [],
     isLoading,
     error,
-  } = useGetList("student-participation", queryParams);
+  } = useGetList("student-participation", queryParams, {
+    enabled: !isStudentLoading,
+  });
 
   const filteredAttendance = rawAttendance.filter((record) => {
     if (
@@ -165,6 +183,14 @@ export function StudentParticipationList() {
     ...new Set(rawAttendance.map((record) => record.eventType)),
   ];
 
+  if (isStudentLoading) {
+    return (
+      <Box display="flex" justifyContent="center" p={4}>
+        <CircularProgress size={40} />
+      </Box>
+    );
+  }
+
   if (isLoading) {
     return (
       <Box display="flex" justifyContent="center" p={4}>
@@ -183,6 +209,11 @@ export function StudentParticipationList() {
           Impossible de charger les données de participation. Veuillez
           réessayer.
         </Typography>
+        <Typography
+          variant="caption"
+          component="pre"
+          sx={{mt: 1, whiteSpace: "pre-wrap", color: "text.secondary"}}
+        ></Typography>
       </Alert>
     );
   }
@@ -238,7 +269,7 @@ export function StudentParticipationList() {
                   handlePendingFilterChange("dateFrom", e.target.value)
                 }
                 InputLabelProps={{shrink: true}}
-                helperText="Défaut: lundi de cette semaine"
+                helperText="Défaut: date d'entrée de l'étudiant chez HEI"
                 sx={{bgcolor: "white"}}
               />
             </Grid>
@@ -253,7 +284,7 @@ export function StudentParticipationList() {
                   handlePendingFilterChange("dateTo", e.target.value)
                 }
                 InputLabelProps={{shrink: true}}
-                helperText="Optionnel"
+                helperText="Défaut: aujourd'hui"
                 sx={{bgcolor: "white"}}
               />
             </Grid>
@@ -329,8 +360,8 @@ export function StudentParticipationList() {
         </Alert>
       ) : (
         <Grid container spacing={2}>
-          {filteredAttendance.map((record, index) => (
-            <Grid item xs={12} md={6} key={index}>
+          {filteredAttendance.map((record) => (
+            <Grid item xs={12} md={6} key={record.id}>
               <AttendanceCard
                 record={record}
                 onClick={() => setSelectedAbsence(record)}
@@ -358,15 +389,15 @@ export function StudentParticipationList() {
       )}
     </Box>
   );
-}
+};
 
-function AttendanceCard({
+const AttendanceCard = ({
   record,
   onClick,
 }: {
   record: AttendanceRecord;
   onClick: () => void;
-}) {
+}) => {
   const statusConfig =
     (
       STATUS_CONFIG as Record<
@@ -507,4 +538,4 @@ function AttendanceCard({
       </CardContent>
     </Card>
   );
-}
+};
