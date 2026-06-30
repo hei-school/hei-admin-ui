@@ -93,11 +93,13 @@ const DEFAULT_FILTERS: FilterState = {
 };
 
 const useStudentEntranceDate = (studentId?: string) => {
-  const {data: student, isLoading: isStudentLoading} = useGetOne("students", {
-    id: studentId,
-  });
+  const {data: student, isLoading: isStudentLoading} = useGetOne(
+    "students",
+    {id: studentId},
+    {enabled: !!studentId}
+  );
   const entranceDate = student?.entrance_datetime?.split("T")[0];
-  return {entranceDate, isStudentLoading};
+  return {entranceDate, isStudentLoading: !!studentId && isStudentLoading};
 };
 
 export const StudentParticipationList = () => {
@@ -114,28 +116,34 @@ export const StudentParticipationList = () => {
 
   const {id: studentId} = useParams<{id: string}>();
 
-  const {entranceDate, isStudentLoading} = useStudentEntranceDate(studentId);
+  const effectiveStudentId =
+    studentId ?? (profile?.id != null ? String(profile.id) : undefined);
+
+  const {entranceDate, isStudentLoading} =
+    useStudentEntranceDate(effectiveStudentId);
+
   useEffect(() => {
-    if (!entranceDate) return;
-    setPendingFilters((prev) =>
-      prev.dateFrom ? prev : {...prev, dateFrom: entranceDate}
-    );
-    setAppliedFilters((prev) =>
-      prev.dateFrom ? prev : {...prev, dateFrom: entranceDate}
-    );
+    if (entranceDate) {
+      setPendingFilters((prev) =>
+        prev.dateFrom === "" ? {...prev, dateFrom: entranceDate} : prev
+      );
+      setAppliedFilters((prev) =>
+        prev.dateFrom === "" ? {...prev, dateFrom: entranceDate} : prev
+      );
+    }
   }, [entranceDate]);
 
-  const queryParams = useMemo(
-    () => ({
+  const queryParams = useMemo(() => {
+    const from = appliedFilters.dateFrom || entranceDate;
+    return {
       filter: {
-        from: toIsoDateTime(appliedFilters.dateFrom || entranceDate),
+        ...(from ? {from: toIsoDateTime(from)} : {}),
         to: toIsoDateTime(appliedFilters.dateTo || getToday(), true),
         attendanceStatus: appliedFilters.status || undefined,
       },
-      meta: {id: profile?.id},
-    }),
-    [appliedFilters, profile?.id, entranceDate]
-  );
+      meta: {id: profile?.id ?? effectiveStudentId},
+    };
+  }, [appliedFilters, profile?.id, entranceDate, effectiveStudentId]);
 
   const {
     data: rawAttendance = [],
