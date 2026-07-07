@@ -1,3 +1,12 @@
+console.log("AWS Config:", {
+  region: process.env.REACT_APP_AWS_REGION,
+  userPoolId: process.env.REACT_APP_USERPOOL_ID,
+  clientId: process.env.REACT_APP_WEBCLIENT_ID,
+  domain: process.env.REACT_APP_OAUTH_DOMAIN,
+})
+
+
+
 export const awsConfig = {
   aws_project_region: process.env.REACT_APP_AWS_REGION,
   aws_cognito_region: process.env.REACT_APP_AWS_REGION,
