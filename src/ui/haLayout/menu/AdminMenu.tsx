@@ -24,9 +24,7 @@ import {
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {GraduationCap} from "lucide-react";
-
-// FEES_ONLY : si true, seuls les menus liés aux frais sont visibles
-const FEES_ONLY = import.meta.env.VITE_FEES_ONLY === "true";
+import {FEES_ONLY} from "@/config/featureFlag";
 
 function AdminMenu() {
   const {role} = useRole();

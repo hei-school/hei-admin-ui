@@ -1,4 +1,5 @@
 import authProvider from "@/providers/authProvider";
+import {FEES_ONLY} from "@/config/featureFlag";
 import {SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
@@ -18,23 +19,29 @@ function MonitorMenu() {
 
   return (
     <Box sx={{position: "relative", overflowY: "auto"}}>
-      <SingleMenu
-        data-testid="students-menu"
-        to={`/monitors/${monitorId}/students`}
-        label="Étudiants"
-        icon={<StudentIcon />}
-      />
-      <SingleMenu
-        data-testid="event-menu"
-        to="/events"
-        label="Présences"
-        icon={<Event />}
-      />
-      <SingleMenu
-        to="/announcements"
-        label="Annonces"
-        icon={<AnnouncementIcon />}
-      />
+      {!FEES_ONLY && (
+        <SingleMenu
+          data-testid="students-menu"
+          to={`/monitors/${monitorId}/students`}
+          label="Étudiants"
+          icon={<StudentIcon />}
+        />
+      )}
+      {!FEES_ONLY && (
+        <SingleMenu
+          data-testid="event-menu"
+          to="/events"
+          label="Présences"
+          icon={<Event />}
+        />
+      )}
+      {!FEES_ONLY && (
+        <SingleMenu
+          to="/announcements"
+          label="Annonces"
+          icon={<AnnouncementIcon />}
+        />
+      )}
       <SingleMenu
         label="Se déconnecter"
         icon={<LogoutIcon />}

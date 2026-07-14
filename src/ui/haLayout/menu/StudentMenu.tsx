@@ -1,4 +1,5 @@
 import authProvider from "@/providers/authProvider";
+import {FEES_ONLY} from "@/config/featureFlag";
 import {
   Newspaper as AnnouncementIcon,
   SafetyDivider as CorIcon,
@@ -30,46 +31,54 @@ function StudentMenu() {
         label="Frais"
         icon={<FeesIcon />}
       />
-      <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-        <HeiListMenuItem />
+      {!FEES_ONLY && (
+        <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
+          <HeiListMenuItem />
 
-        <ListMenuItem
-          to="/docs/students/WORK_DOCUMENT"
-          label="Validations d'expériences professionnelles"
-          icon={<WorkStudyDocsIcon />}
+          <ListMenuItem
+            to="/docs/students/WORK_DOCUMENT"
+            label="Validations d'expériences professionnelles"
+            icon={<WorkStudyDocsIcon />}
+          />
+          <ListMenuItem
+            to="/docs/students/OTHER"
+            data-testid="other-docs"
+            label="Autres"
+            icon={<OtherDocsIcon />}
+          />
+        </ListMenu>
+      )}
+      {!FEES_ONLY && (
+        <SingleMenu
+          to="/announcements"
+          label="Annonces"
+          icon={<AnnouncementIcon />}
         />
-        <ListMenuItem
-          to="/docs/students/OTHER"
-          data-testid="other-docs"
-          label="Autres"
-          icon={<OtherDocsIcon />}
+      )}
+      {!FEES_ONLY && (
+        <SingleMenu
+          data-testid="event-menu"
+          to="/events"
+          label="Présences"
+          icon={<EventIcon />}
         />
-      </ListMenu>
-      <SingleMenu
-        to="/announcements"
-        label="Annonces"
-        icon={<AnnouncementIcon />}
-      />
-      <SingleMenu
-        data-testid="event-menu"
-        to="/events"
-        label="Présences"
-        icon={<EventIcon />}
-      />
-
-      <SingleMenu
-        data-testid="retakeExam-menu"
-        to="/retake-exams"
-        label="Rattrapages"
-        icon={<RemedialIcon />}
-      />
-
-      <SingleMenu
-        data-testid="cor-menu"
-        to="/student-cor"
-        label="Mes Cor"
-        icon={<CorIcon />}
-      />
+      )}
+      {!FEES_ONLY && (
+        <SingleMenu
+          data-testid="retakeExam-menu"
+          to="/retake-exams"
+          label="Rattrapages"
+          icon={<RemedialIcon />}
+        />
+      )}
+      {!FEES_ONLY && (
+        <SingleMenu
+          data-testid="cor-menu"
+          to="/student-cor"
+          label="Mes Cor"
+          icon={<CorIcon />}
+        />
+      )}
 
       <SingleMenu
         label="Se déconnecter"
