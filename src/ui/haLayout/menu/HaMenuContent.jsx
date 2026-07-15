@@ -8,6 +8,7 @@ import MonitorMenu from "./MonitorMenu";
 import {OrganizerMenu} from "./OrganizerMenu";
 import StaffMenu from "./StaffMenu";
 import StudentMenu from "./StudentMenu";
+import StudentMenuFeesOnly from "./StudentMenuFeesOnly";
 import TeacherMenu from "./TeacherMenu";
 
 export function HaMenuContent() {
@@ -19,6 +20,8 @@ export function HaMenuContent() {
       case WhoamiRoleEnum.ADMIN:
       case WhoamiRoleEnum.MANAGER:
         return <ManagerMenuFeesOnly />;
+      case WhoamiRoleEnum.STUDENT:
+        return <StudentMenuFeesOnly />;
       default:
         return null;
     }
