@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
 import cor from "@/operations/cor/index.ts";
@@ -27,7 +28,7 @@ import teachers from "@/operations/teachers";
 import authProvider from "@/providers/authProvider";
 import dataProvider from "@/providers/dataProvider";
 import HaLoginPage from "@/security/LoginPage";
-import {HumanVerification} from "@/security/waf";
+import {AwsWafCaptchaHandler, HumanVerification} from "@/security/waf";
 import {HaLayout} from "@/ui/haLayout";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -377,10 +378,12 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <BrowserRouter>
+      <AwsWafCaptchaHandler />
         <Routes>
           <Route
             path={
-              import.meta.env.VITE_CASDOOR_REDIRECT_PATH || "/auth/callback"
+              process.env.REACT_APP_CASDOOR_SDK_REDIRECT_PATH ||
+              "/auth/callback"
             }
             element={<CasdoorAuthCallback />}
           />
