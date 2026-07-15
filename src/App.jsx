@@ -42,7 +42,7 @@ import {MonitorStudentList} from "./operations/monitors/component/MonitorStudent
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
-import {FEES_ONLY} from "@/config/featureFlags";
+import {FEES_ONLY} from "@/config/featureFlag";
 
 
 

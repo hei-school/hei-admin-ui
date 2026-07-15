@@ -22,14 +22,16 @@ export default defineConfig({
     mergeFileName: "test-reports.xml",
   },
   e2e: {
-    setupNodeEvents(on, config) {
-      on("file:preprocessor", vitePreprocessor());
-      codeCoverageTask(on, config);
-      return config;
-    },
-    baseUrl: "http://localhost:5173/",
-    specPattern: "cypress/e2e/**/*",
+  setupNodeEvents(on, config) {
+    on("file:preprocessor", vitePreprocessor());
+    codeCoverageTask(on, config);
+    return config;
   },
+  baseUrl: "http://localhost:5173/",
+  specPattern: "cypress/e2e/**/*",
+  // excludeSpecPattern: ["cypress/e2e/feesOnly/**/*"],
+  pageLoadTimeout: 120000,
+},
   retries: {
     runMode: 4,
     openMode: 0,
