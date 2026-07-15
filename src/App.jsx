@@ -43,7 +43,7 @@ import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.t
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
-const FEES_ONLY = import.meta.env.VITE_FEES_ONLY === "true";
+const FEES_ONLY = process.env.REACT_APP_FEES_ONLY === "true";
 
 function AppBase() {
   return (

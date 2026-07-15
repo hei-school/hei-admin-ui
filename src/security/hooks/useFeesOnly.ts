@@ -1,3 +1,3 @@
 export const useFeesOnly = (): boolean => {
-  return (import.meta as any).env.VITE_FEES_ONLY === "true";
+  return process.env.REACT_APP_FEES_ONLY === "true";
 };
