@@ -2,4 +2,3 @@
 export * from "./useNotify";
 export * from "./useStudentRef";
 export * from "./useToggle";
-export * from "./useFeesOnly";
