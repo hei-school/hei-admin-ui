@@ -1,4 +1,4 @@
-/* eslint-disable no-undef */
+
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
 import cor from "@/operations/cor/index.ts";
@@ -28,6 +28,7 @@ import teachers from "@/operations/teachers";
 import authProvider from "@/providers/authProvider";
 import dataProvider from "@/providers/dataProvider";
 import HaLoginPage from "@/security/LoginPage";
+import {useFeesOnly} from "@/security/hooks/useFeesOnly";
 import {AwsWafCaptchaHandler, HumanVerification} from "@/security/waf";
 import {HaLayout} from "@/ui/haLayout";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
@@ -42,11 +43,10 @@ import {MonitorStudentList} from "./operations/monitors/component/MonitorStudent
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
-import {FEES_ONLY} from "@/config/featureFlag";
-
-
 
 function AppBase() {
+  const isFeesOnly = useFeesOnly();
+
   return (
     <Admin
       title="HEI Admin"
@@ -65,37 +65,42 @@ function AppBase() {
       <Resource name="fees-templates" {...feesTemplates} />
       <Resource name="payments" {...payments} />
 
-      {!FEES_ONLY && <Resource name="teachers" {...teachers} />}
-      {!FEES_ONLY && <Resource name="monitors" {...monitors} />}
-      {!FEES_ONLY && <Resource name="monitor-students" {...monitorStudent} />}
-      {!FEES_ONLY && <Resource name="groups" {...groups} />}
-      {!FEES_ONLY && <Resource name="staffmembers" {...staffMembers} />}
-      {!FEES_ONLY && <Resource name="docs" options={{label: "Documents"}} />}
-      {!FEES_ONLY && <Resource name="comments" />}
-      {!FEES_ONLY && <Resource name="promotions-groups" />}
-      {!FEES_ONLY && <Resource name="promotions" {...promotions} />}
-      {!FEES_ONLY && <Resource name="announcements" {...announcements} />}
-      {!FEES_ONLY && <Resource name="course" {...course} />}
-      {!FEES_ONLY && <Resource name="cor" {...cor} />}
-      {!FEES_ONLY && <Resource name="student-cor" {...studentCor} />}
-      {!FEES_ONLY && <Resource name="events" {...events} />}
-      {!FEES_ONLY && <Resource name="users-letters" />}
-      {!FEES_ONLY && <Resource name="letters" />}
-      {!FEES_ONLY && <Resource name="retakeExams" {...retakeExams} />}
-      {!FEES_ONLY && <Resource name="retakeExams-sessions" {...retakeExamSessions} />}
-      {!FEES_ONLY && <Resource name="retakeExams-courses" {...retakeExamCourses} />}
-      {!FEES_ONLY && <Resource name="students-result-overviews" {...studentsResultOverviews} />}
-      {!FEES_ONLY && (
-        <Resource
-          name="course-assignments"
-          {...CourseAssignments}
-          options={{label: " "}}
-        />
+      {!isFeesOnly && (
+        <>
+          <Resource name="teachers" {...teachers} />
+          <Resource name="monitors" {...monitors} />
+          <Resource name="monitor-students" {...monitorStudent} />
+          <Resource name="groups" {...groups} />
+          <Resource name="staffmembers" {...staffMembers} />
+          <Resource name="docs" options={{label: "Documents"}} />
+          <Resource name="comments" />
+          <Resource name="promotions-groups" />
+          <Resource name="promotions" {...promotions} />
+          <Resource name="announcements" {...announcements} />
+          <Resource name="course" {...course} />
+          <Resource name="cor" {...cor} />
+          <Resource name="student-cor" {...studentCor} />
+          <Resource name="events" {...events} />
+          <Resource name="users-letters" />
+          <Resource name="letters" />
+          <Resource name="retakeExams" {...retakeExams} />
+          <Resource name="retakeExams-sessions" {...retakeExamSessions} />
+          <Resource name="retakeExams-courses" {...retakeExamCourses} />
+          <Resource
+            name="students-result-overviews"
+            {...studentsResultOverviews}
+          />
+          <Resource
+            name="course-assignments"
+            {...CourseAssignments}
+            options={{label: " "}}
+          />
+          <Resource name="exams" {...exams} />
+        </>
       )}
-      {!FEES_ONLY && <Resource name="exams" {...exams} />}
 
       <CustomRoutes>
-        {/* ── Routes toujours disponibles ── */}
+      
         <Route exact path="/profile" element={<profile.show />} />
         <Route exact path="/students/:studentId/fees" element={<fees.list />} />
         <Route
@@ -121,245 +126,175 @@ function AppBase() {
           path="/transactions"
           element={<fees.listByTransactions />}
         />
-
-        {/* ── Routes disponibles UNIQUEMENT en mode complet ── */}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="promotions/result-overviews"
-            element={<studentsResultOverviews.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            path="/promotions/:promotionId/show/students-result-overviews"
-            element={<studentsResultOverviews.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/docs/students/OTHER"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/docs/teachers/OTHER"
-            element={<teachersDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route exact path="/docs/staff/OTHER" element={<staffDocs.list />} />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/docs/students/WORK_DOCUMENT"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/students/:userId/docs/students/OTHER"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/teachers/:userId/docs/teachers/OTHER"
-            element={<teachersDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/staff/:userId/docs/staff/OTHER"
-            element={<teachersDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/students/:userId/docs/students/WORK_DOCUMENT"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/students/:userId/docs/students/TRANSCRIPT"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/students/:userId/docs/students/TRANSCRIPT/:id"
-            element={<studentDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/events/:eventId/participants"
-            element={<events.participants />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/event_participants"
-            element={<events.missing />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route exact path="/events/new" element={<events.new />} />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/students/:userId/docs/students/OTHER/:id"
-            element={<studentDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/teachers/:userId/docs/teachers/OTHER/:id"
-            element={<teachersDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/staff/:userId/docs/staff/OTHER/:id"
-            element={<staffDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/docs/students/OTHER/:id"
-            element={<studentDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/docs/teachers/OTHER/:id"
-            element={<teachersDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/docs/staff/OTHER/:id"
-            element={<staffDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/students/:userId/docs/students/WORK_DOCUMENT/:id"
-            element={<studentDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/docs/students/WORK_DOCUMENT/:id"
-            element={<studentDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/monitors/:monitorId/students"
-            element={<MonitorStudentList />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/monitors/unlinked-students"
-            element={<UnlinkedStudentsList />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/monitor-students/:userId/docs/students/TRANSCRIPT"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/monitor-students/:userId/docs/students/TRANSCRIPT/:id"
-            element={<studentDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/monitor-students/:userId/docs/students/WORK_DOCUMENT"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/monitor-students/:userId/docs/students/WORK_DOCUMENT/:id"
-            element={<studentDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/monitor-students/:userId/docs/students/OTHER"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/teachers/:userId/files/OTHER"
-            element={<studentDocs.list />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/monitor-students/:userId/docs/students/OTHER/:id"
-            element={<studentDocs.show />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/exams/:id/grades"
-            element={<grades.examParticipantList />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route exact path="/retake-exams" element={<retakeExams.list />} />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            exact
-            path="/retake-exams/cancellation"
-            element={<retakeExams.cancellation />}
-          />
-        )}
-        {!FEES_ONLY && (
-          <Route
-            path="student/retake-exams"
-            element={<retakeExams.listMyRetakes />}
-          />
+        {!isFeesOnly && (
+          <>
+            <Route
+              exact
+              path="promotions/result-overviews"
+              element={<studentsResultOverviews.list />}
+            />
+            <Route
+              path="/promotions/:promotionId/show/students-result-overviews"
+              element={<studentsResultOverviews.show />}
+            />
+            <Route
+              exact
+              path="/docs/students/OTHER"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/docs/teachers/OTHER"
+              element={<teachersDocs.list />}
+            />
+            <Route exact path="/docs/staff/OTHER" element={<staffDocs.list />} />
+            <Route
+              exact
+              path="/docs/students/WORK_DOCUMENT"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/students/:userId/docs/students/OTHER"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/teachers/:userId/docs/teachers/OTHER"
+              element={<teachersDocs.list />}
+            />
+            <Route
+              exact
+              path="/staff/:userId/docs/staff/OTHER"
+              element={<teachersDocs.list />}
+            />
+            <Route
+              exact
+              path="/students/:userId/docs/students/WORK_DOCUMENT"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/students/:userId/docs/students/TRANSCRIPT"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/students/:userId/docs/students/TRANSCRIPT/:id"
+              element={<studentDocs.show />}
+            />
+            <Route
+              exact
+              path="/events/:eventId/participants"
+              element={<events.participants />}
+            />
+            <Route
+              exact
+              path="/event_participants"
+              element={<events.missing />}
+            />
+            <Route exact path="/events/new" element={<events.new />} />
+            <Route
+              exact
+              path="/students/:userId/docs/students/OTHER/:id"
+              element={<studentDocs.show />}
+            />
+            <Route
+              exact
+              path="/teachers/:userId/docs/teachers/OTHER/:id"
+              element={<teachersDocs.show />}
+            />
+            <Route
+              exact
+              path="/staff/:userId/docs/staff/OTHER/:id"
+              element={<staffDocs.show />}
+            />
+            <Route
+              exact
+              path="/docs/students/OTHER/:id"
+              element={<studentDocs.show />}
+            />
+            <Route
+              exact
+              path="/docs/teachers/OTHER/:id"
+              element={<teachersDocs.show />}
+            />
+            <Route
+              exact
+              path="/docs/staff/OTHER/:id"
+              element={<staffDocs.show />}
+            />
+            <Route
+              exact
+              path="/students/:userId/docs/students/WORK_DOCUMENT/:id"
+              element={<studentDocs.show />}
+            />
+            <Route
+              exact
+              path="/docs/students/WORK_DOCUMENT/:id"
+              element={<studentDocs.show />}
+            />
+            <Route
+              exact
+              path="/monitors/:monitorId/students"
+              element={<MonitorStudentList />}
+            />
+            <Route
+              exact
+              path="/monitors/unlinked-students"
+              element={<UnlinkedStudentsList />}
+            />
+            <Route
+              exact
+              path="/monitor-students/:userId/docs/students/TRANSCRIPT"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/monitor-students/:userId/docs/students/TRANSCRIPT/:id"
+              element={<studentDocs.show />}
+            />
+            <Route
+              exact
+              path="/monitor-students/:userId/docs/students/WORK_DOCUMENT"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/monitor-students/:userId/docs/students/WORK_DOCUMENT/:id"
+              element={<studentDocs.show />}
+            />
+            <Route
+              exact
+              path="/monitor-students/:userId/docs/students/OTHER"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/teachers/:userId/files/OTHER"
+              element={<studentDocs.list />}
+            />
+            <Route
+              exact
+              path="/monitor-students/:userId/docs/students/OTHER/:id"
+              element={<studentDocs.show />}
+            />
+            <Route
+              exact
+              path="/exams/:id/grades"
+              element={<grades.examParticipantList />}
+            />
+            <Route exact path="/retake-exams" element={<retakeExams.list />} />
+            <Route
+              exact
+              path="/retake-exams/cancellation"
+              element={<retakeExams.cancellation />}
+            />
+            <Route
+              path="student/retake-exams"
+              element={<retakeExams.listMyRetakes />}
+            />
+          </>
         )}
       </CustomRoutes>
     </Admin>

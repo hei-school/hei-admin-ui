@@ -1,3 +1,4 @@
+import {useFeesOnly} from "@/security/hooks/useFeesOnly";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
@@ -20,29 +21,28 @@ import {
   CurrencyExchange as TransactionsIcon,
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {FEES_ONLY} from "@/config/featureFlag";
 
 function ManagerMenu() {
+  const isFeesOnly = useFeesOnly();
+
   return (
     <Box>
-      {/* ── Masqués en mode FEES_ONLY ── */}
-      {!FEES_ONLY && (
-        <SingleMenu
-          to="/teachers"
-          label="Enseignants"
-          icon={<TeachersIcon />}
-        />
-      )}
-      {!FEES_ONLY && (
-        <SingleMenu
-          to="/monitors"
-          label="Moniteurs"
-          icon={<MonitorIcon />}
-          data-testid="monitors-menu"
-        />
+      {!isFeesOnly && (
+        <>
+          <SingleMenu
+            to="/teachers"
+            label="Enseignants"
+            icon={<TeachersIcon />}
+          />
+          <SingleMenu
+            to="/monitors"
+            label="Moniteurs"
+            icon={<MonitorIcon />}
+            data-testid="monitors-menu"
+          />
+        </>
       )}
 
-      {/* ── Étudiants : toujours visible mais contenu adapté ── */}
       <ListMenu
         label="Étudiants"
         icon={<StudentIcon />}
@@ -65,81 +65,66 @@ function ManagerMenu() {
         />
       </ListMenu>
 
-      {/* ── Masqués en mode FEES_ONLY ── */}
-      {!FEES_ONLY && (
-        <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-          <HeiListMenuItem />
-        </ListMenu>
-      )}
-      {!FEES_ONLY && (
-        <SingleMenu
-          to="/promotions"
-          label="Promotions"
-          data-testid="promotions-menu"
-          icon={<PromotionIcon />}
-        />
-      )}
-      {!FEES_ONLY && (
-        <SingleMenu
-          to="/course"
-          label="Cours"
-          data-testid="course-menu"
-          icon={<LibraryIcon />}
-        />
-      )}
-      {!FEES_ONLY && (
-        <SingleMenu
-          to="/exams"
-          label="Examens"
-          data-testid="exams-menu"
-          icon={<GradeIcon />}
-        />
-      )}
-      {!FEES_ONLY && (
-        <SingleMenu
-          to="/retakeExams-sessions"
-          label="Rattrapages"
-          data-testid="retakeExamsSessions-menu"
-          icon={<RemedialIcon />}
-        />
-      )}
-      {!FEES_ONLY && (
-        <SingleMenu
-          data-testid="event-cor"
-          to="/cor"
-          label="Liste des COR"
-          icon={<CorIcon />}
-        />
-      )}
-      {!FEES_ONLY && (
-        <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
-      )}
-      {!FEES_ONLY && (
-        <SingleMenu
-          to="/announcements"
-          label="Annonces"
-          icon={<AnnouncementIcon />}
-        />
-      )}
-      {!FEES_ONLY && (
-        <ListMenu
-          icon={<EditCalendar />}
-          label="Pointage"
-          data-testid="event-point"
-        >
-          <ListMenuItem
-            data-testid="event-menu"
-            to="/events"
-            label="Présences"
-            icon={<EventIcon />}
+      {!isFeesOnly && (
+        <>
+          <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
+            <HeiListMenuItem />
+          </ListMenu>
+          <SingleMenu
+            to="/promotions"
+            label="Promotions"
+            data-testid="promotions-menu"
+            icon={<PromotionIcon />}
           />
-          <ListMenuItem
-            data-testid="event-missing"
-            to="/event_participants"
-            label="Liste des absents"
-            icon={<EventBusy />}
+          <SingleMenu
+            to="/course"
+            label="Cours"
+            data-testid="course-menu"
+            icon={<LibraryIcon />}
           />
-        </ListMenu>
+          <SingleMenu
+            to="/exams"
+            label="Examens"
+            data-testid="exams-menu"
+            icon={<GradeIcon />}
+          />
+          <SingleMenu
+            to="/retakeExams-sessions"
+            label="Rattrapages"
+            data-testid="retakeExamsSessions-menu"
+            icon={<RemedialIcon />}
+          />
+          <SingleMenu
+            data-testid="event-cor"
+            to="/cor"
+            label="Liste des COR"
+            icon={<CorIcon />}
+          />
+          <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
+          <SingleMenu
+            to="/announcements"
+            label="Annonces"
+            icon={<AnnouncementIcon />}
+          />
+          <ListMenu
+            icon={<EditCalendar />}
+            label="Pointage"
+            data-testid="event-point"
+          >
+            <ListMenuItem
+              data-testid="event-menu"
+              to="/events"
+              label="Présences"
+              icon={<EventIcon />}
+            />
+            <ListMenuItem
+              data-testid="event-missing"
+              to="/event_participants"
+              label="Liste des absents"
+              icon={<EventBusy />}
+            />
+          </ListMenu>
+        </>
       )}
     </Box>
   );
