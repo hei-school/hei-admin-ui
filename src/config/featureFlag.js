@@ -1,1 +1,0 @@
-export const FEES_ONLY = import.meta.env.VITE_FEES_ONLY === "true";
