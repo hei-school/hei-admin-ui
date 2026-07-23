@@ -1,6 +1,13 @@
 import {useRole} from "@/security/hooks";
 import {RetakeExam, RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
-import {Block, Cancel, CheckCircle, HowToReg} from "@mui/icons-material";
+import {
+  Block,
+  Cancel,
+  CheckCircle,
+  DoDisturbOn,
+  HowToReg,
+  Verified,
+} from "@mui/icons-material";
 import {
   Box,
   Button,
@@ -41,9 +48,7 @@ type ButtonsProps = {
 
 export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
   const retakeExam = useRecordContext<RetakeExam>();
-  if (!retakeExam) return null;
   const {isAdmin, isManager} = useRole();
-  const canValidateCancel = isAdmin() || isManager();
   const [cancelReason, setCancelReason] = useState("");
   const [rejectReason, setRejectReason] = useState("");
   const {
@@ -52,16 +57,27 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
     isCanceling,
     isValidatingCancel,
     isRejectingCancel,
+    isValidate,
+    isInValidate,
     setIsRegistering,
     setIsCanceling,
     setIsValidatingCancel,
     setIsRejectingCancel,
+    setIsValidate,
+    setIsInValidate,
     handleRegister,
     handleRequestCancel,
     handleValidateCancel,
     handleRejectCancel,
+    handleInvalidate,
+    handleValidate,
   } = useButtonActions(retakeExam, onSuccess);
+
+  if (!retakeExam) return null;
+
+  const canValidateCancel = isAdmin() || isManager();
   const status = (rawStatus ?? null) as RetakeExamStatus | "LOADING" | null;
+
   const handleCancelSubmit = () => {
     if (cancelReason.trim()) {
       handleRequestCancel(cancelReason);
@@ -78,9 +94,11 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
   return (
     <Box>
       <Stack direction="row" spacing={1} alignItems="center">
-        {!(canValidateCancel && status === RetakeExamStatus.TO_CANCEL) && (
-          <RetakeExamButtonStatus status={status} />
-        )}
+        {!(
+          canValidateCancel &&
+          (status === RetakeExamStatus.TO_CANCEL ||
+            status === RetakeExamStatus.REGISTERED)
+        ) && <RetakeExamButtonStatus status={status} />}
         {!canValidateCancel && (
           <>
             {!status && (
@@ -144,7 +162,37 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
             </Button>
           </>
         )}
+        {canValidateCancel && status === RetakeExamStatus.REGISTERED && (
+          <>
+            <Button
+              variant="contained"
+              color="success"
+              startIcon={<Verified />}
+              sx={BUTTON_STYLE}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsValidate(true);
+              }}
+            >
+              Valider
+            </Button>
+
+            <Button
+              variant="contained"
+              color="error"
+              startIcon={<DoDisturbOn />}
+              sx={BUTTON_STYLE}
+              onClick={(e) => {
+                e.stopPropagation();
+                setIsInValidate(true);
+              }}
+            >
+              Invalider
+            </Button>
+          </>
+        )}
       </Stack>
+
       <Confirm
         isOpen={isRegistering}
         title="Confirmation d'inscription"
@@ -153,6 +201,7 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
         onConfirm={handleRegister}
         onClose={() => setIsRegistering(false)}
       />
+
       <Dialog
         open={isCanceling}
         onClose={() => {
@@ -205,6 +254,7 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
           </Button>
         </DialogActions>
       </Dialog>
+
       <Confirm
         isOpen={isValidatingCancel}
         title="Validation d'une annulation"
@@ -213,6 +263,7 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
         onConfirm={handleValidateCancel}
         onClose={() => setIsValidatingCancel(false)}
       />
+
       <Dialog
         open={isRejectingCancel}
         onClose={() => {
@@ -265,6 +316,24 @@ export const RetakeExamButtons = ({onSuccess}: ButtonsProps) => {
           </Button>
         </DialogActions>
       </Dialog>
+
+      <Confirm
+        isOpen={isValidate}
+        title="Validation de rattrapage"
+        content={`Voulez-vous valider le rattrapage de "${retakeExam.course?.name}" (${retakeExam.session?.title || "Session"}) ?`}
+        confirm="Valider"
+        onConfirm={handleValidate}
+        onClose={() => setIsValidate(false)}
+      />
+
+      <Confirm
+        isOpen={isInValidate}
+        title="Invalidation de rattrapage"
+        content={`Voulez-vous invalider le rattrapage de "${retakeExam.course?.name}" (${retakeExam.session?.title || "Session"}) ?`}
+        confirm="Invalider"
+        onConfirm={handleInvalidate}
+        onClose={() => setIsInValidate(false)}
+      />
     </Box>
   );
 };

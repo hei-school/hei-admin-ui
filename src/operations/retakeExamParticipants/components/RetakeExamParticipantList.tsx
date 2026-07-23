@@ -1,13 +1,32 @@
+import {RetakeExamButtons} from "@/operations/retakeExams/components/RetakeExamButtons";
 import {HaList} from "@/ui/haList";
-import {Student} from "@haapi-b0fc7615/typescript-client";
+import {RetakeExam, Student} from "@haapi-b0fc7615/typescript-client";
 import {BookOpenCheckIcon} from "lucide-react";
 import {FC} from "react";
-import {FunctionField, TextField} from "react-admin";
+import {
+  FieldProps,
+  RecordContextProvider,
+  TextField,
+  useRecordContext,
+  useRefresh,
+} from "react-admin";
 import {useLocation, useParams} from "react-router-dom";
 
-const GroupeTable: FC<{groups: {ref?: string}[]}> = ({groups}) => {
-  const refs = groups.flatMap((g) => (g.ref ? [g.ref] : []));
-  return <span>{refs.length ? refs.join(", ") : "Aucun groupe"}</span>;
+type ParticipantWithRetakeExam = Student & {retake_exam?: RetakeExam};
+
+const RetakeExamButtonsCell: FC<FieldProps> = () => {
+  const participant = useRecordContext<ParticipantWithRetakeExam>();
+  const refresh = useRefresh();
+  if (!participant) return null;
+
+  const retakeExam =
+    participant.retake_exam ?? (participant as unknown as RetakeExam);
+
+  return (
+    <RecordContextProvider value={retakeExam}>
+      <RetakeExamButtons onSuccess={() => refresh()} />
+    </RecordContextProvider>
+  );
 };
 
 export const RetakeExamParticipantList = () => {
@@ -19,21 +38,18 @@ export const RetakeExamParticipantList = () => {
       resource="retakeExams-participants"
       icon={<BookOpenCheckIcon />}
       datagridProps={{rowClick: false}}
-      mainSearch={{source: "ref", label: "Référence (STD)"}}
+      mainSearch={{source: "ref", label: "Référence (STDXXXXX)"}}
       listProps={{
         title: "Détails de la matière",
         filter: {courseId, sessionId},
       }}
       actions={undefined}
     >
-      <TextField source="first_name" label="Nom" />
-      <TextField source="last_name" label="Prénom" />
-      <TextField source="ref" label="STD" />
-      <FunctionField<Student>
-        label="Groupes"
-        render={(student) => <GroupeTable groups={student.groups ?? []} />}
-      />
-      <TextField source="email" label="Email" />
+      <TextField source="student_identifier.first_name" label="Nom" />
+      <TextField source="student_identifier.last_name" label="Prénom" />
+      <TextField source="student_identifier.ref" label="Référence" />
+      <TextField source="student_identifier.email" label="Email" />
+      <RetakeExamButtonsCell label="Actions" />
     </HaList>
   );
 };
