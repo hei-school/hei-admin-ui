@@ -26,6 +26,8 @@ export const useButtonActions = (
   const [isCanceling, setIsCanceling] = useToggle(false);
   const [isValidatingCancel, setIsValidatingCancel] = useToggle(false);
   const [isRejectingCancel, setIsRejectingCancel] = useToggle(false);
+  const [isValidate, setIsValidate] = useToggle(false);
+  const [isInValidate, setIsInValidate] = useToggle(false);
 
   const [isLoading, setIsLoading] = useState(false);
   const [localStatus, setLocalStatus] = useState<RetakeExamStatus | null>(null);
@@ -166,6 +168,18 @@ export const useButtonActions = (
     [updateStatus, setIsRejectingCancel]
   );
 
+  const handleValidate = useCallback(() => {
+    updateStatus(RetakeExamStatus.VALIDATE, "Rattrapage validé.", () =>
+      setIsValidate(false)
+    );
+  }, [updateStatus, setIsValidate]);
+
+  const handleInvalidate = useCallback(() => {
+    updateStatus(RetakeExamStatus.INVALIDATE, "Rattrapage invalidé.", () =>
+      setIsInValidate(false)
+    );
+  }, [updateStatus, setIsInValidate]);
+
   return {
     status: isLoading ? "LOADING" : localStatus,
     optimisticStatus,
@@ -175,15 +189,20 @@ export const useButtonActions = (
     isCanceling,
     isValidatingCancel,
     isRejectingCancel,
+    isValidate,
+    isInValidate,
 
     setIsRegistering,
     setIsCanceling,
     setIsValidatingCancel,
     setIsRejectingCancel,
-
+    setIsValidate,
+    setIsInValidate,
     handleRegister,
     handleRequestCancel,
     handleValidateCancel,
     handleRejectCancel,
+    handleValidate,
+    handleInvalidate,
   };
 };

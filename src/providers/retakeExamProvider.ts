@@ -34,6 +34,16 @@ const createTransitionHandler = (id: string, reason?: string) => ({
 
   [`${RetakeExamStatus.TO_CANCEL}_TO_${RetakeExamStatus.CANCELED}`]: () =>
     retakeExamApi().cancelRetakeExams([{retake_exam_id: id}]),
+
+  [`${RetakeExamStatus.REGISTERED}_TO_${RetakeExamStatus.VALIDATE}`]: () =>
+    retakeExamApi().updateRetakeExamsStatus([
+      {retake_exam_id: id, status: RetakeExamStatus.VALIDATE},
+    ]),
+
+  [`${RetakeExamStatus.REGISTERED}_TO_${RetakeExamStatus.INVALIDATE}`]: () =>
+    retakeExamApi().updateRetakeExamsStatus([
+      {retake_exam_id: id, status: RetakeExamStatus.INVALIDATE},
+    ]),
 });
 
 const getTransitionKey = (

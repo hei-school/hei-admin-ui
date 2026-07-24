@@ -44,7 +44,7 @@ const feeProvider: HaDataProviderType = {
     const doGetFees = async () => {
       if (filter.studentId) {
         return payingApi()
-          .getStudentFees(filter.studentId, page, perPage, filter.status)
+          .getFeesByStudentId(filter.studentId, page, perPage, filter.status)
           .then(({data}) => data);
       }
       return payingApi()

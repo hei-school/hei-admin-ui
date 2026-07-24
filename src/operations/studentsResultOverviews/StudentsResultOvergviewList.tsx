@@ -19,7 +19,7 @@ const StudentsResultOverviews = () => {
       }}
       mainSearch={{
         source: "ref",
-        label: "Référence ex : STD23097",
+        label: "Référence (STDXXXXX)",
       }}
       listProps={{
         filter: {promotionId, status},
