@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@haapi-b0fc7615/typescript-client": "^1.148.0",
-    "@haapi/typescript-client": "^1.110.0",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-calendar": "^4.0.1",
     "@react-admin/ra-enterprise": "^7.0.0",
