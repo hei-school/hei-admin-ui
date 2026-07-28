@@ -52,7 +52,7 @@ describe("Fees-only mode", () => {
   describe("Sidebar behavior by role", () => {
     describe("Student", () => {
       beforeEach(() => {
-        cy.mockLogin({ role: "STUDENT" });
+        cy.mockLogin({role: "STUDENT"});
       });
       it("montre Frais et Se déconnecter, cache le reste", () => {
         cy.contains("Frais").should("exist");
@@ -68,7 +68,7 @@ describe("Fees-only mode", () => {
 
     describe("Monitor", () => {
       beforeEach(() => {
-        cy.mockLogin({ role: "MONITOR" });
+        cy.mockLogin({role: "MONITOR"});
       });
       it("cache tous les liens métier, garde Se déconnecter", () => {
         cy.contains("Se déconnecter").should("exist");
@@ -80,7 +80,7 @@ describe("Fees-only mode", () => {
 
     describe("Teacher", () => {
       beforeEach(() => {
-        cy.mockLogin({ role: "TEACHER" });
+        cy.mockLogin({role: "TEACHER"});
       });
       it("cache tous les liens métier", () => {
         cy.contains("Étudiants").should("not.exist");
@@ -95,7 +95,7 @@ describe("Fees-only mode", () => {
 
     describe("Staff", () => {
       beforeEach(() => {
-        cy.mockLogin({ role: "STAFF_MEMBER" });
+        cy.mockLogin({role: "STAFF_MEMBER"});
       });
       it("cache le lien documents", () => {
         cy.getByTestid("other-docs").should("not.exist");
@@ -104,7 +104,7 @@ describe("Fees-only mode", () => {
 
     describe("Organizer", () => {
       beforeEach(() => {
-        cy.mockLogin({ role: "ORGANIZER" });
+        cy.mockLogin({role: "ORGANIZER"});
       });
       it("cache le lien événements", () => {
         cy.getByTestid("event-menu").should("not.exist");
