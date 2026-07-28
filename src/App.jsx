@@ -27,6 +27,7 @@ import studentsResultOverviews from "@/operations/studentsResultOverviews";
 import teachers from "@/operations/teachers";
 import authProvider from "@/providers/authProvider";
 import dataProvider from "@/providers/dataProvider";
+import {useFeesOnly} from "@/security/hooks";
 import HaLoginPage from "@/security/LoginPage";
 import {AwsWafCaptchaHandler, HumanVerification} from "@/security/waf";
 import {HaLayout} from "@/ui/haLayout";
@@ -42,7 +43,6 @@ import {MonitorStudentList} from "./operations/monitors/component/MonitorStudent
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
-import {useFeesOnly} from "@/security/hooks";
 
 function AppBase() {
   const feesOnly = useFeesOnly();
@@ -290,11 +290,7 @@ function AppBase() {
               path="/exams/:id/grades"
               element={<grades.examParticipantList />}
             />
-            <Route
-              exact
-              path="/retake-exams"
-              element={<retakeExams.list />}
-            />
+            <Route exact path="/retake-exams" element={<retakeExams.list />} />
             <Route
               exact
               path="/retake-exams/cancellation"
@@ -315,7 +311,7 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <BrowserRouter>
-      <AwsWafCaptchaHandler />
+        <AwsWafCaptchaHandler />
         <Routes>
           <Route
             path={

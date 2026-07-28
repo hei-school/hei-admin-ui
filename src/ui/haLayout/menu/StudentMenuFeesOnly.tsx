@@ -1,6 +1,9 @@
 import authProvider from "@/providers/authProvider";
 import {SingleMenu} from "@/ui/haLayout/menu/utils";
-import {AttachMoney as FeesIcon, Logout as LogoutIcon} from "@mui/icons-material";
+import {
+  AttachMoney as FeesIcon,
+  Logout as LogoutIcon,
+} from "@mui/icons-material";
 import {Box} from "@mui/material";
 
 function StudentMenuFeesOnly() {
