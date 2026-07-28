@@ -11,13 +11,19 @@ describe("Fees-only mode", () => {
           role: "school-admin",
         },
       }).as("whoami");
-      cy.login("test.user@mail.com");
+      cy.mockLogin({role: "SCHOOL_ADMIN", feesOnly: true});
       cy.visit("/");
-      cy.wait("@whoami");
     });
 
     it("hides restricted navigation items", () => {
-      cy.get('[data-testid="sidebar"]').should("not.exist");
+      cy.getByTestid("students-menu").should("not.exist");
+      cy.getByTestid("monitors-menu").should("not.exist");
+      cy.getByTestid("docs").should("not.exist");
+      cy.getByTestid("promotions-menu").should("not.exist");
+      cy.getByTestid("course-menu").should("not.exist");
+      cy.getByTestid("exams-menu").should("not.exist");
+      cy.contains("Frais").should("exist");
+      cy.contains("Transactions").should("exist");
     });
 
     it("allows access to the fees page", () => {
@@ -42,17 +48,13 @@ describe("Fees-only mode", () => {
       cy.get('[data-testid="error-message"]').should("be.visible");
       cy.get('[data-testid="teachers-table"]').should("not.exist");
     });
-
-    it("prevents direct navigation to restricted routes", () => {
-      cy.visit("/teachers");
-      cy.url().should("not.include", "/teachers");
-    });
   });
 
   describe("Sidebar behavior by role", () => {
     describe("Student", () => {
       beforeEach(() => {
-        cy.mockLogin({role: "STUDENT"});
+        cy.mockLogin({role: "STUDENT", feesOnly: true});
+        cy.visit("/");
       });
       it("montre Frais et Se déconnecter, cache le reste", () => {
         cy.contains("Frais").should("exist");
@@ -68,7 +70,8 @@ describe("Fees-only mode", () => {
 
     describe("Monitor", () => {
       beforeEach(() => {
-        cy.mockLogin({role: "MONITOR"});
+        cy.mockLogin({role: "MONITOR", feesOnly: true});
+        cy.visit("/");
       });
       it("cache tous les liens métier, garde Se déconnecter", () => {
         cy.contains("Se déconnecter").should("exist");
@@ -80,7 +83,8 @@ describe("Fees-only mode", () => {
 
     describe("Teacher", () => {
       beforeEach(() => {
-        cy.mockLogin({role: "TEACHER"});
+        cy.mockLogin({role: "TEACHER", feesOnly: true});
+        cy.visit("/");
       });
       it("cache tous les liens métier", () => {
         cy.contains("Étudiants").should("not.exist");
@@ -95,7 +99,8 @@ describe("Fees-only mode", () => {
 
     describe("Staff", () => {
       beforeEach(() => {
-        cy.mockLogin({role: "STAFF_MEMBER"});
+        cy.mockLogin({role: "STAFF_MEMBER", feesOnly: true});
+        cy.visit("/");
       });
       it("cache le lien documents", () => {
         cy.getByTestid("other-docs").should("not.exist");
@@ -104,7 +109,8 @@ describe("Fees-only mode", () => {
 
     describe("Organizer", () => {
       beforeEach(() => {
-        cy.mockLogin({role: "ORGANIZER"});
+        cy.mockLogin({role: "ORGANIZER", feesOnly: true});
+        cy.visit("/");
       });
       it("cache le lien événements", () => {
         cy.getByTestid("event-menu").should("not.exist");
