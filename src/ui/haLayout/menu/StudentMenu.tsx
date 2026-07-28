@@ -1,4 +1,5 @@
 import authProvider from "@/providers/authProvider";
+import {useFeesOnly} from "@/security/hooks/useFeesOnly";
 import {
   Newspaper as AnnouncementIcon,
   SafetyDivider as CorIcon,
@@ -15,6 +16,7 @@ import {HeiListMenuItem} from "./common";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
 function StudentMenu() {
+  const isFeesOnly = useFeesOnly();
   const whoamiId = authProvider.getCachedWhoami().id;
   const logout = async () => {
     await authProvider.logout();
@@ -30,46 +32,48 @@ function StudentMenu() {
         label="Frais"
         icon={<FeesIcon />}
       />
-      <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-        <HeiListMenuItem />
 
-        <ListMenuItem
-          to="/docs/students/WORK_DOCUMENT"
-          label="Validations d'expériences professionnelles"
-          icon={<WorkStudyDocsIcon />}
-        />
-        <ListMenuItem
-          to="/docs/students/OTHER"
-          data-testid="other-docs"
-          label="Autres"
-          icon={<OtherDocsIcon />}
-        />
-      </ListMenu>
-      <SingleMenu
-        to="/announcements"
-        label="Annonces"
-        icon={<AnnouncementIcon />}
-      />
-      <SingleMenu
-        data-testid="event-menu"
-        to="/events"
-        label="Présences"
-        icon={<EventIcon />}
-      />
-
-      <SingleMenu
-        data-testid="retakeExam-menu"
-        to="/retake-exams"
-        label="Rattrapages"
-        icon={<RemedialIcon />}
-      />
-
-      <SingleMenu
-        data-testid="cor-menu"
-        to="/student-cor"
-        label="Mes Cor"
-        icon={<CorIcon />}
-      />
+      {!isFeesOnly && (
+        <>
+          <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
+            <HeiListMenuItem />
+            <ListMenuItem
+              to="/docs/students/WORK_DOCUMENT"
+              label="Validations d'expériences professionnelles"
+              icon={<WorkStudyDocsIcon />}
+            />
+            <ListMenuItem
+              to="/docs/students/OTHER"
+              data-testid="other-docs"
+              label="Autres"
+              icon={<OtherDocsIcon />}
+            />
+          </ListMenu>
+          <SingleMenu
+            to="/announcements"
+            label="Annonces"
+            icon={<AnnouncementIcon />}
+          />
+          <SingleMenu
+            data-testid="event-menu"
+            to="/events"
+            label="Présences"
+            icon={<EventIcon />}
+          />
+          <SingleMenu
+            data-testid="retakeExam-menu"
+            to="/retake-exams"
+            label="Rattrapages"
+            icon={<RemedialIcon />}
+          />
+          <SingleMenu
+            data-testid="cor-menu"
+            to="/student-cor"
+            label="Mes Cor"
+            icon={<CorIcon />}
+          />
+        </>
+      )}
 
       <SingleMenu
         label="Se déconnecter"
