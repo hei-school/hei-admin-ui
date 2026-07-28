@@ -1,4 +1,3 @@
-
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
 import cor from "@/operations/cor/index.ts";
@@ -27,8 +26,8 @@ import studentsResultOverviews from "@/operations/studentsResultOverviews";
 import teachers from "@/operations/teachers";
 import authProvider from "@/providers/authProvider";
 import dataProvider from "@/providers/dataProvider";
-import HaLoginPage from "@/security/LoginPage";
 import {useFeesOnly} from "@/security/hooks/useFeesOnly";
+import HaLoginPage from "@/security/LoginPage";
 import {AwsWafCaptchaHandler, HumanVerification} from "@/security/waf";
 import {HaLayout} from "@/ui/haLayout";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
@@ -100,7 +99,6 @@ function AppBase() {
       )}
 
       <CustomRoutes>
-      
         <Route exact path="/profile" element={<profile.show />} />
         <Route exact path="/students/:studentId/fees" element={<fees.list />} />
         <Route
@@ -147,7 +145,11 @@ function AppBase() {
               path="/docs/teachers/OTHER"
               element={<teachersDocs.list />}
             />
-            <Route exact path="/docs/staff/OTHER" element={<staffDocs.list />} />
+            <Route
+              exact
+              path="/docs/staff/OTHER"
+              element={<staffDocs.list />}
+            />
             <Route
               exact
               path="/docs/students/WORK_DOCUMENT"
