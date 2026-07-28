@@ -42,10 +42,11 @@ import {MonitorStudentList} from "./operations/monitors/component/MonitorStudent
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
-
-const FEES_ONLY = process.env.REACT_APP_FEES_ONLY === "true";
+import {useFeesOnly} from "@/security/hooks";
 
 function AppBase() {
+  const feesOnly = useFeesOnly();
+
   return (
     <Admin
       title="HEI Admin"
@@ -64,7 +65,7 @@ function AppBase() {
       <Resource name="payments" {...payments} />
       <Resource name="students" {...students} />
 
-      {!FEES_ONLY && (
+      {!feesOnly && (
         <>
           <Resource name="teachers" {...teachers} />
           <Resource name="monitors" {...monitors} />
@@ -127,7 +128,7 @@ function AppBase() {
         />
 
         {/* Routes masquées en mode FEES_ONLY */}
-        {!FEES_ONLY && (
+        {!feesOnly && (
           <>
             <Route
               exact
