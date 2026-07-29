@@ -9,7 +9,10 @@ import {
   createPaymentWithAmountMock,
   payment1Mock,
 } from "../../fixtures/api_mocks/payments-mocks";
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 
 const amount = 1 + Math.floor(Math.random() * 100_000);
 const createPayment = createPaymentWithAmountMock(amount);

@@ -5,7 +5,10 @@ import {
 } from "../../fixtures/api_mocks/course-assignment-mocks";
 import {courseMock1, courseMocks} from "../../fixtures/api_mocks/course-mocks";
 import {groupsMock} from "../../fixtures/api_mocks/groups-mocks";
-import {teacher1Mock, teachersMock} from "../../fixtures/api_mocks/teachers-mocks";
+import {
+  teacher1Mock,
+  teachersMock,
+} from "../../fixtures/api_mocks/teachers-mocks";
 
 const NEW_COURSE: Required<Course> = {
   ...courseMock1,

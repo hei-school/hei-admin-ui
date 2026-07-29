@@ -6,7 +6,10 @@ import {
 } from "../../fixtures/api_mocks/docs-mocks";
 import {monitor1Mock} from "../../fixtures/api_mocks/monitors-mock";
 import {student1Mock} from "../../fixtures/api_mocks/students-mocks";
-import {teacher1Mock, teachersMock} from "../../fixtures/api_mocks/teachers-mocks";
+import {
+  teacher1Mock,
+  teachersMock,
+} from "../../fixtures/api_mocks/teachers-mocks";
 
 describe("Admin Teacher Doc", () => {
   beforeEach(() => {

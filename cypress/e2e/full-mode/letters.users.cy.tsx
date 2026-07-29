@@ -3,7 +3,10 @@ import {
   student1LettersMocks,
   teacher1LettersMocks,
 } from "../../fixtures/api_mocks/letters-mocks";
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 import {teacher1Mock} from "../../fixtures/api_mocks/teachers-mocks";
 
 const ITEM_PER_LIST = 12;

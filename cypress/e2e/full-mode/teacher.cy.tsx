@@ -1,4 +1,7 @@
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 import {teacher1Mock} from "../../fixtures/api_mocks/teachers-mocks";
 
 describe("Teacher", () => {

@@ -1,4 +1,7 @@
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 const MESSAGE_ERROR = "Échec de téléchargement. Veuillez réessayer";
 
 describe("Student Ceritificate", () => {

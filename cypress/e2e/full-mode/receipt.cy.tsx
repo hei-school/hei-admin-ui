@@ -3,7 +3,10 @@ import {
   createPaymentMock,
   payment1Mock,
 } from "../../fixtures/api_mocks/payments-mocks";
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 
 describe("Student receipt", () => {
   beforeEach(() => {

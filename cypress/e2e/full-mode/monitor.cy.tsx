@@ -1,5 +1,8 @@
 import {monitor1Mock} from "../../fixtures/api_mocks/monitors-mock";
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 
 describe("Monitors", () => {
   beforeEach(() => {

@@ -1,7 +1,10 @@
 import {feesMock} from "../../fixtures/api_mocks/fees-mocks";
 import {statsMocks} from "../../fixtures/api_mocks/letters-mocks";
 import {manager1Mock} from "../../fixtures/api_mocks/managers-mocks";
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 
 type ImportArgs = {
   file: string;

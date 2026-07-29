@@ -1,4 +1,7 @@
-import {teacher1Mock, teachersMock} from "../../fixtures/api_mocks/teachers-mocks";
+import {
+  teacher1Mock,
+  teachersMock,
+} from "../../fixtures/api_mocks/teachers-mocks";
 import {updatedInfo} from "../utils";
 
 describe("Manager.Teachers", () => {

@@ -7,7 +7,10 @@ import {
   workDoc1,
   workDocsMocks,
 } from "../../fixtures/api_mocks/docs-mocks";
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 
 describe("Manager.Work.Docs.Download", () => {
   beforeEach(() => {

@@ -6,7 +6,10 @@ import {
   feesTemplatesMocks,
 } from "../../fixtures/api_mocks/fees-templates-mocks";
 import {createPaymentMock} from "../../fixtures/api_mocks/payments-mocks";
-import {student1Mock, studentsMock} from "../../fixtures/api_mocks/students-mocks";
+import {
+  student1Mock,
+  studentsMock,
+} from "../../fixtures/api_mocks/students-mocks";
 import {assertFeeMatchesTemplate} from "../utils";
 
 /*Added this to make the test blackbox */
