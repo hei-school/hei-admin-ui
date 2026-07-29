@@ -125,12 +125,12 @@ jobs:
           REACT_APP_FEES_ONLY: "false"
 
       ## Run Cypress e2e tests (fees-only mode) ##
-      - name: Run e2e tests (fees-only mode)
+      - name: Run fees-only e2e tests
         uses: cypress-io/github-action@v6
         with:
-          start: npm run dev
-          wait-on: "http://localhost:5173"
-          command: npx cypress run --env coverage=true --spec "cypress/e2e/fees-only/**/*.cy.{js,jsx,ts,tsx}"
+          start: npm run dev -- --port 5180
+          wait-on: "http://localhost:5180"
+          command: npx cypress run --env coverage=true --spec "cypress/e2e/fees-only/**/*.cy.{js,jsx,ts,tsx}" --config baseUrl=http://localhost:5180
         env:
           REACT_APP_FEES_ONLY: "true"
 
