@@ -114,12 +114,25 @@ jobs:
           file: version.yml
           version: version
 
-      ## Run Cypress e2e tests ##
-      - name: Run e2e tests
+      ## Run Cypress e2e tests (full mode) ##
+      - name: Run e2e tests (full mode)
         uses: cypress-io/github-action@v6
         with:
           start: npm run dev
-          command: npx cypress run --env coverage=true
+          wait-on: "http://localhost:5173"
+          command: npx cypress run --env coverage=true --spec "cypress/e2e/{full-mode,shared}/**/*.cy.js"
+        env:
+          REACT_APP_FEES_ONLY: "false"
+
+      ## Run Cypress e2e tests (fees-only mode) ##
+      - name: Run e2e tests (fees-only mode)
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run dev
+          wait-on: "http://localhost:5173"
+          command: npx cypress run --env coverage=true --spec "cypress/e2e/fees-only/**/*.cy.js"
+        env:
+          REACT_APP_FEES_ONLY: "true"
 
       ## Generate Lcov report ##
       - name: Generate Lcov report
