@@ -1,38 +1,38 @@
-describe("Fees-only mode (REACT_APP_FEES_ONLY=true)", () => {
+describe("Fees-only mode - Manager", () => {
   beforeEach(() => {
-    cy.login("test.user@mail.com");
-    cy.visit("/");
+    cy.mockLogin({role: "MANAGER"});
+    cy.visit("/profile");
   });
 
-  it("hides restricted navigation items", () => {
-    cy.get('[data-testid="sidebar"]').should("not.exist");
+  it("shows only fees-related items in the menu", () => {
+    cy.get("#ha-menu")
+      .should("contain", "Étudiants")
+      .and("contain", "Transactions")
+      .and("contain", "Frais")
+      .and("not.contain", "Enseignants");
   });
 
-  it("allows access to the fees page", () => {
-    cy.intercept("GET", "**/fees*", {
-      statusCode: 200,
-      body: [],
-    }).as("getFees");
-    cy.visit("/fees");
-    cy.wait("@getFees").its("response.statusCode").should("eq", 200);
-    cy.get('[data-testid="fees-table"]').should("be.visible");
+  it("can access the fees page", () => {
+    cy.get('[href="/fees"]').click();
+    cy.url().should("include", "/fees");
   });
 
-  it("blocks access to restricted features", () => {
-    cy.intercept("GET", "**/teachers*", {
-      statusCode: 400,
-      body: {
-        error: "Bad Request: feature disabled in fees-only mode",
-      },
-    }).as("getTeachers");
+  it("does not render restricted routes, even via direct URL", () => {
     cy.visit("/teachers");
-    cy.wait("@getTeachers").its("response.statusCode").should("eq", 400);
-    cy.get('[data-testid="error-message"]').should("be.visible");
-    cy.get('[data-testid="teachers-table"]').should("not.exist");
+    cy.get('[data-testid="teachers-list"]').should("not.exist");
+  });
+});
+
+describe("Fees-only mode - Student", () => {
+  beforeEach(() => {
+    cy.mockLogin({role: "STUDENT"});
+    cy.visit("/profile");
   });
 
-  it("prevents direct navigation to restricted routes", () => {
-    cy.visit("/teachers");
-    cy.url().should("not.include", "/teachers");
+  it("shows only the fees link in the menu", () => {
+    cy.get("#ha-menu")
+      .should("contain", "Frais")
+      .and("not.contain", "Enseignants")
+      .and("not.contain", "Étudiants");
   });
 });

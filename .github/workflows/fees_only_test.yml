@@ -1,0 +1,69 @@
+name: Test fees-only (temp)
+
+on:
+  push:
+    branches:
+      - "*"
+  workflow_dispatch:
+
+env:
+  REACT_APP_TEST_STUDENT1_PASSWORD: ${{ secrets.STUDENT1_PASSWORD }}
+  REACT_APP_TEST_TEACHER1_PASSWORD: ${{ secrets.TEACHER1_PASSWORD }}
+  REACT_APP_TEST_MANAGER1_PASSWORD: ${{ secrets.MANAGER1_PASSWORD }}
+  REACT_APP_TEST_MONITOR1_PASSWORD: ${{ secrets.MONITOR1_PASSWORD }}
+  REACT_APP_API_URL: ${{secrets.REACT_APP_API_URL}}
+  REACT_APP_AWS_REGION: eu-west-3
+  REACT_APP_USERPOOL_ID: ${{ vars.PREPROD_USERPOOL_ID }}
+  REACT_APP_WEBCLIENT_ID: ${{ vars.PREPROD_WEBCLIENT_ID }}
+  REACT_APP_OAUTH_DOMAIN: ${{ vars.PREPROD_OAUTH_DOMAIN }}
+  WAF_JS_API_URL: ${{secrets.WAF_JS_API_URL}}
+  WAF_INTEGRATION_API_KEY: ${{secrets.WAF_INTEGRATION_API_KEY}}
+  REACT_APP_CASDOOR_SDK_SERVER_URL: ${{ secrets.REACT_APP_CASDOOR_SDK_SERVER_URL }}
+  REACT_APP_CASDOOR_SDK_CLIENT_ID: ${{ secrets.REACT_APP_CASDOOR_SDK_CLIENT_ID }}
+  REACT_APP_CASDOOR_SDK_APP_NAME: ${{ secrets.REACT_APP_CASDOOR_SDK_APP_NAME }}
+  REACT_APP_CASDOOR_SDK_ORGANIZATION_NAME: ${{ secrets.REACT_APP_CASDOOR_SDK_ORGANIZATION_NAME }}
+  REACT_APP_CASDOOR_SDK_REDIRECT_PATH: ${{ secrets.REACT_APP_CASDOOR_SDK_REDIRECT_PATH }}
+
+jobs:
+  test-fees-only:
+    timeout-minutes: 15
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.19.0
+
+      ## Connect to Numer Private Codeartifact Repository ##
+      - name: Configure prod AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
+      - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
+
+      ## Connect to Numer Private Codeartifact Repository ##
+      - name: Configure preprod AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          aws-access-key-id: ${{ secrets.PREPROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
+          unset-current-credentials: true
+      - run: sh ./initNpmrc.sh hei-store npm-hei-lab 057045785189
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      - name: Run fees-only e2e tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run dev
+          wait-on: "http://localhost:5173"
+          command: npx cypress run --spec "cypress/e2e/fees-only/**/*.cy.{js,jsx,ts,tsx}"
+        env:
+          REACT_APP_FEES_ONLY: "true"
