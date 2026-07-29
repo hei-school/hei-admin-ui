@@ -120,7 +120,7 @@ jobs:
         with:
           start: npm run dev
           wait-on: "http://localhost:5173"
-          command: npx cypress run --env coverage=true --spec "cypress/e2e/{full-mode,shared}/**/*.cy.js"
+          command: npx cypress run --env coverage=true --spec "cypress/e2e/{full-mode,shared}/**/*.cy.{js,jsx,ts,tsx}"
         env:
           REACT_APP_FEES_ONLY: "false"
 
@@ -130,7 +130,7 @@ jobs:
         with:
           start: npm run dev
           wait-on: "http://localhost:5173"
-          command: npx cypress run --env coverage=true --spec "cypress/e2e/fees-only/**/*.cy.js"
+          command: npx cypress run --env coverage=true --spec "cypress/e2e/fees-only/**/*.cy.{js,jsx,ts,tsx}"
         env:
           REACT_APP_FEES_ONLY: "true"
 

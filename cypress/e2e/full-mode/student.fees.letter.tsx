@@ -2,8 +2,8 @@ import {
   acceptedPaymentSlip,
   feesMock,
   rejectedPaymentSlip,
-} from "../fixtures/api_mocks/fees-mocks";
-import {student1Mock} from "../fixtures/api_mocks/students-mocks";
+} from "../../fixtures/api_mocks/fees-mocks";
+import {student1Mock} from "../../fixtures/api_mocks/students-mocks";
 
 describe.skip("Mobile payment by student", () => {
   beforeEach(() => {

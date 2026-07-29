@@ -1,4 +1,5 @@
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {getCourseStatusLabel} from "../../../src/operations/grades/utils/constants";
 import {
   courseResultsMock,
   yearlyResultL2Mock,
@@ -8,7 +9,6 @@ import {
 import {monitor1Mock} from "../../fixtures/api_mocks/monitors-mock";
 import {studentLinkedToMonitorMock} from "../../fixtures/api_mocks/students-mocks";
 import {summaryResultMocks} from "../../fixtures/api_mocks/summary-result-mocks";
-import {getCourseStatusLabel} from "../../src/operations/grades/utils/constants";
 
 describe("All View", () => {
   beforeEach(() => {
