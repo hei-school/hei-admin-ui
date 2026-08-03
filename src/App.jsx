@@ -43,6 +43,7 @@ import {MonitorStudentList} from "./operations/monitors/component/MonitorStudent
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
+import { Box } from "lucide-react";
 
 function AppBase() {
   const feesOnly = useFeesOnly();
@@ -66,7 +67,7 @@ function AppBase() {
       <Resource name="students" {...students} />
 
       {!feesOnly && (
-        <>
+        <Box>
           <Resource name="teachers" {...teachers} />
           <Resource name="monitors" {...monitors} />
           <Resource name="monitor-students" {...monitorStudent} />
@@ -96,7 +97,7 @@ function AppBase() {
             options={{label: " "}}
           />
           <Resource name="exams" {...exams} />
-        </>
+        </Box>
       )}
 
       <CustomRoutes>
@@ -129,7 +130,7 @@ function AppBase() {
 
         {/* Routes masquées en mode FEES_ONLY */}
         {!feesOnly && (
-          <>
+          <Box>
             <Route
               exact
               path="promotions/result-overviews"
@@ -300,7 +301,7 @@ function AppBase() {
               path="student/retake-exams"
               element={<retakeExams.listMyRetakes />}
             />
-          </>
+          </Box>
         )}
       </CustomRoutes>
     </Admin>
