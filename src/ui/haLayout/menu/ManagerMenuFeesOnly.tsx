@@ -7,7 +7,7 @@ import {
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
 
-function ManagerMenuFeesOnly() {
+const ManagerMenuFeesOnly = () => {
   return (
     <Box>
       <ListMenu label="Étudiants" icon={<StudentIcon />}>

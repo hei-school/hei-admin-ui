@@ -11,7 +11,7 @@ import StudentMenu from "./StudentMenu";
 import StudentMenuFeesOnly from "./StudentMenuFeesOnly";
 import TeacherMenu from "./TeacherMenu";
 
-export function HaMenuContent() {
+export const HaMenuContent = () => {
   const role = authProvider.getCachedWhoami().role;
   const feesOnly = useFeesOnly();
 
