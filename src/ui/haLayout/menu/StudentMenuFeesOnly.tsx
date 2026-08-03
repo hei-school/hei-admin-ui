@@ -7,15 +7,21 @@ import {
 import {Box} from "@mui/material";
 
 function StudentMenuFeesOnly() {
-  const whoamiId = authProvider.getCachedWhoami().id;
+  const { id: whoamiId } = authProvider.getCachedWhoami();
 
   const logout = async () => {
     await authProvider.logout();
     window.location.reload();
   };
 
+  const BOX_SX = {
+  position: "relative",
+  overflowY: "auto",
+  height: "80%",
+};
+
   return (
-    <Box sx={{position: "relative", overflowY: "auto", height: "80%"}}>
+    <Box sx={BOX_SX}>
       <SingleMenu
         to={whoamiId ? `/students/${whoamiId}/fees` : "/"}
         label="Frais"
