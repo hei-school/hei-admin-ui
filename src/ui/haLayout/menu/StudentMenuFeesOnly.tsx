@@ -7,7 +7,7 @@ import {
 import {Box} from "@mui/material";
 
 function StudentMenuFeesOnly() {
-  const { id: whoamiId } = authProvider.getCachedWhoami();
+  const {id: whoamiId} = authProvider.getCachedWhoami();
 
   const logout = async () => {
     await authProvider.logout();
@@ -15,10 +15,10 @@ function StudentMenuFeesOnly() {
   };
 
   const BOX_SX = {
-  position: "relative",
-  overflowY: "auto",
-  height: "80%",
-};
+    position: "relative",
+    overflowY: "auto",
+    height: "80%",
+  };
 
   return (
     <Box sx={BOX_SX}>

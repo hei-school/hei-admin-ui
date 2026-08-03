@@ -45,4 +45,4 @@ export const HaMenuContent = () => {
     default:
       return null;
   }
-}
+};

@@ -29,6 +29,6 @@ const ManagerMenuFeesOnly = () => {
       </ListMenu>
     </Box>
   );
-}
+};
 
 export default ManagerMenuFeesOnly;
