@@ -1,5 +1,6 @@
 import {useTabManager} from "@/hooks/useTabManager";
 import {CommentList} from "@/operations/comments/CommentList";
+import {CreditTransactionList} from "@/operations/fees/components/Credits/CreditTransactionList";
 import FeeList from "@/operations/fees/FeeList";
 import {GradesOverview} from "@/operations/grades/GradesDashboard";
 import {LettersList} from "@/operations/letters/LettersList";
@@ -177,6 +178,14 @@ export const Informations: FC<{
       label: "Participation",
       show: isStudentProfile,
       content: <StudentParticipationList />,
+    },
+    {
+      id: "credit-transactions",
+      label: "Crédits",
+      show:
+        isStudentProfile &&
+        (role.isManager() || role.isAdmin() || role.isMonitor()),
+      content: <CreditTransactionList studentId={String(profile?.id ?? "")} />,
     },
     {
       id: "monitor-students",

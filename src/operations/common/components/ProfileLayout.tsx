@@ -1,12 +1,12 @@
-import {useShowContext} from "react-admin";
-
 import {Box, Typography, useMediaQuery} from "@mui/material";
-
-import {PALETTE_COLORS} from "@/haTheme";
+import {FC} from "react";
+import {useGetOne, useShowContext} from "react-admin";
 
 import defaultCoverPicture from "@/assets/banner.jpg";
+import {PALETTE_COLORS} from "@/haTheme";
+
 import {Group, RoleEnum} from "@haapi-b0fc7615/typescript-client";
-import {FC} from "react";
+
 import {Informations} from "./profilContent/InformationContent";
 import {ProfileCardAvatar} from "./profilContent/ProfilCardAvatar";
 
@@ -28,7 +28,16 @@ export const ProfileLayout: FC<{
 }) => {
   const {record: profile = {}} = useShowContext();
   const isLarge = useMediaQuery("(min-width:1700px)");
+
   const {groups = []} = profile;
+
+  const {data: credit} = useGetOne(
+    "credits",
+    {id: profile.id},
+    {
+      enabled: isStudentProfile && !!profile.id,
+    }
+  );
 
   return (
     <Box
@@ -36,6 +45,7 @@ export const ProfileLayout: FC<{
       borderRadius="10px"
       position="relative"
     >
+      {/* Cover */}
       <Box
         height={isLarge ? "15rem" : "10rem"}
         width="100%"
@@ -45,7 +55,8 @@ export const ProfileLayout: FC<{
           backgroundSize: "cover",
           backgroundPosition: "center",
         }}
-      ></Box>
+      />
+
       <Box
         display="flex"
         alignItems="center"
@@ -61,10 +72,11 @@ export const ProfileLayout: FC<{
           display="flex"
           alignItems="center"
           gap={2}
-          position="relative"
           height="100%"
+          flexShrink={0}
         >
           <ProfileCardAvatar role={role} />
+
           <Box>
             <Typography
               fontWeight="600"
@@ -78,6 +90,7 @@ export const ProfileLayout: FC<{
             >
               {profile.first_name} {profile.last_name}
             </Typography>
+
             <Typography
               fontSize={{
                 xs: "0.8rem",
@@ -89,6 +102,7 @@ export const ProfileLayout: FC<{
             >
               {profile.ref}
             </Typography>
+
             {isStudentProfile && (
               <Typography
                 fontSize={{
@@ -104,8 +118,60 @@ export const ProfileLayout: FC<{
             )}
           </Box>
         </Box>
-        <Box>{actions}</Box>
+
+        {isStudentProfile && credit?.amount > 0 && (
+          <Box
+            flex={1}
+            display="flex"
+            alignItems="center"
+            justifyContent="center"
+            paddingInline={3}
+          >
+            <Box
+              textAlign="center"
+              sx={{
+                minWidth: {
+                  xs: "150px",
+                  sm: "180px",
+                  md: "220px",
+                },
+                padding: "0.8rem 1.5rem",
+                border: `1px solid ${PALETTE_COLORS.grey}`,
+                borderRadius: "12px",
+                backgroundColor: "#ffffff",
+              }}
+            >
+              <Typography
+                fontSize={{
+                  xs: "0.65rem",
+                  sm: "0.75rem",
+                  md: "0.85rem",
+                  lg: "0.9rem",
+                  xl: "1rem",
+                }}
+                fontWeight="500"
+              >
+                Solde actuel
+              </Typography>
+
+              <Typography
+                fontWeight="700"
+                fontSize={{
+                  xs: "0.9rem",
+                  sm: "1rem",
+                  md: "1.1rem",
+                  lg: "1.2rem",
+                  xl: "1.3rem",
+                }}
+              >
+                {credit.amount.toLocaleString("fr-FR")} Ar
+              </Typography>
+            </Box>
+          </Box>
+        )}
+        <Box flexShrink={0}>{actions}</Box>
       </Box>
+
       <Informations
         isStudentProfile={isStudentProfile}
         isTeacherProfile={isTeacherProfile}

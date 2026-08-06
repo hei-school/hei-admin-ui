@@ -52,6 +52,7 @@ import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
 import searchProvider from "./searchProvider";
+import studentCreditProvider from "./studentCreditProvider";
 import studentRetakeExamsProvider from "./studentRetakeExamsProvider";
 import studentsResultOverviewProvider from "./studentsResultOverviewsProvider";
 import unlikedStudentProvider from "./unlinkedStudentProvider";
@@ -115,6 +116,7 @@ const providerMap = {
   "searchs": searchProvider,
   "student-retake-exams": studentRetakeExamsProvider,
   "students-result-overviews": studentsResultOverviewProvider,
+  "credits": studentCreditProvider,
 } as const;
 
 const getProvider = (

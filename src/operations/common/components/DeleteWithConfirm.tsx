@@ -17,7 +17,7 @@ export const DeleteWithConfirm: FC<{
   onDelete?: () => void;
 }> = ({
   resourceType,
-  text = "Supprimer",
+  text,
   confirmTitle,
   confirmContent,
   id,
