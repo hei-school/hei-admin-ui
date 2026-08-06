@@ -83,7 +83,7 @@ const feeProvider: HaDataProviderType = {
       }));
   },
 
-  saveOrUpdate: async (resources) => {
+  saveOrUpdate: async (resources, raId) => {
     const payload = resources[0];
     const role = authProvider.getCachedRole();
 
