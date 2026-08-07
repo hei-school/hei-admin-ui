@@ -1,7 +1,6 @@
 import feeProvider from "@/providers/feeProvider";
-import {ImportButton} from "@/ui/haToolbar";
-import {Box} from "lucide-react";
-import {CreateButton} from "react-admin";
+import { Box } from "@mui/material";
+import {CreateButton, ImportButton} from "@/ui/haToolbar";
 import {
   minimalFeesHeaders,
   optionalFeesHeaders,
@@ -10,17 +9,21 @@ import {
 } from "../importConf";
 import {FeesFilters} from "./FeesFilter";
 
-const FeesActions = (id: string) => {
+type FeesActionsProps= {
+  studentId: string
+}
+
+const FeesActions = ({studentId}: FeesActionsProps) => {
   return (
     <Box>
-      <CreateButton resource={`students/${id}/fees`} />
+      <CreateButton resource={`students/${studentId}/fees`} />
       <ImportButton
         resource="frais"
         provider={feeProvider.saveOrUpdate}
         validateData={valideFeesData}
         optionalHeaders={optionalFeesHeaders}
         minimalHeaders={minimalFeesHeaders}
-        transformData={(data: any) => transformFeesData(data, id)}
+        transformData={(data: any) => transformFeesData(data, studentId)}
       />
       <FeesFilters />
     </Box>

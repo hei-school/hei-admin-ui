@@ -219,16 +219,32 @@ import {Link as RouterLink, useParams} from "react-router-dom";
 import {pspIdValidationContraints} from "../utils";
 import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
 
+const MINIMUM_CREDIT = 200000;
+
 const PaymentCreate = (props) => {
   const params = useParams();
   const notify = useNotify();
   const dataProvider = useDataProvider();
   const role = useRole();
+  const [credit, setCredit] = useState(null);
 
   const [studentRef, setStudentRef] = useState("...");
   const [paymentChoice, setPaymentChoice] = useState(
     PaymentTypeEnum.BANK_TRANSFER
   );
+
+  const validateCreditPayment = (amount) => {
+    if (!credit) return undefined; 
+
+    if (credit.amount < MINIMUM_CREDIT) {
+      return `Votre crédit est inférieur à ${MINIMUM_CREDIT}Ar.`;
+    }
+    if (Number(amount) > credit.amount) {
+      return "Le montant saisi est supérieur à votre crédit actuel.";
+    }
+    return undefined; 
+  };
+
   const [notSpecifiedDate, setSpecifyDate] = useToggle(true);
 
   const feeId = params.feeId;
@@ -238,14 +254,13 @@ const PaymentCreate = (props) => {
 
   const isCommentNecessary =
     isMobileMoney || paymentChoice === PaymentTypeEnum.BANK_TRANSFER;
+  
+  const isCreditPayment = paymentChoice === PaymentTypeEnum.CREDIT;
 
   useEffect(() => {
     const doEffect = async () => {
-      const student = await dataProvider.getOne("students", {
-        id: studentId,
-      });
-
-      setStudentRef(student.data.ref);
+      const credit = await dataProvider.getOne("credits", {id: studentId});
+      setCredit(credit.data);
     };
 
     doEffect();
@@ -278,7 +293,7 @@ const PaymentCreate = (props) => {
       } else {
         message = "Paiement pour date future non autorisé";
       }
-    }
+    }    
 
     notify(message, {
       type: "error",
@@ -305,6 +320,7 @@ const PaymentCreate = (props) => {
 
       return new Date(creation_datetime).toISOString();
     };
+
 
     const status =
       role.isManager() || role.isAdmin()
@@ -387,7 +403,17 @@ const PaymentCreate = (props) => {
             source="amount"
             label="Montant du paiement"
             fullWidth
-            validate={[required(), number(), minValue(1)]}
+            validate={[
+              required(),
+              number(),
+              minValue(1),
+              (value) => {
+                if (!isCreditPayment) {
+                  return undefined;
+                }
+                return validateCreditPayment(value);
+              },
+            ]}
           />
 
           <TextInput
