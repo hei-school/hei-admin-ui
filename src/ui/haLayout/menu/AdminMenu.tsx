@@ -3,6 +3,7 @@ import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {trackNavClick} from "@/utils/gtm";
 import {
+  AccountBalanceWallet as CreditPaymentsIcon,
   Newspaper as AnnouncementIcon,
   Inventory as DocsIcon,
   EditCalendar,
@@ -53,6 +54,12 @@ function AdminMenu() {
           icon={<StudentListIcon />}
           to="/students"
           onClick={() => trackNavClick("students_list", role)}
+        />
+        <ListMenuItem
+          label="Liste des paiements par crédit"
+          icon={<CreditPaymentsIcon />}
+          to="/credit-payments"
+          onClick={() => trackNavClick("payments_list", role)}
         />
         <ListMenuItem
           label="Liste des sortants"

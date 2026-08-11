@@ -192,6 +192,7 @@
 import {paymentTypes} from "@/conf";
 import {useToggle} from "@/hooks/useToggle";
 import {studentIdFromRaId} from "@/providers/feeProvider";
+import {useStudentCredit} from "@/operations/payments/utils/validateCredit";
 import {useRole} from "@/security/hooks";
 import {
   MobileMoneyType,
@@ -200,7 +201,7 @@ import {
 } from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {Home, Wallet} from "lucide-react";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {
   BooleanInput,
   Create,
@@ -212,59 +213,35 @@ import {
   SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider,
   useNotify,
 } from "react-admin";
 import {Link as RouterLink, useParams} from "react-router-dom";
 import {pspIdValidationContraints} from "../utils";
 import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
 
-const MINIMUM_CREDIT = 200000;
-
 const PaymentCreate = (props) => {
   const params = useParams();
   const notify = useNotify();
-  const dataProvider = useDataProvider();
   const role = useRole();
-  const [credit, setCredit] = useState(null);
 
   const [studentRef, setStudentRef] = useState("...");
   const [paymentChoice, setPaymentChoice] = useState(
     PaymentTypeEnum.BANK_TRANSFER
   );
 
-  const validateCreditPayment = (amount) => {
-    if (!credit) return undefined; 
-
-    if (credit.amount < MINIMUM_CREDIT) {
-      return `Votre crédit est inférieur à ${MINIMUM_CREDIT}Ar.`;
-    }
-    if (Number(amount) > credit.amount) {
-      return "Le montant saisi est supérieur à votre crédit actuel.";
-    }
-    return undefined; 
-  };
-
   const [notSpecifiedDate, setSpecifyDate] = useToggle(true);
 
   const feeId = params.feeId;
   const studentId = studentIdFromRaId(feeId);
 
+  const {validateCreditPayment} = useStudentCredit(studentId);
+
   const isMobileMoney = paymentChoice === PaymentTypeEnum.MOBILE_MONEY;
 
   const isCommentNecessary =
     isMobileMoney || paymentChoice === PaymentTypeEnum.BANK_TRANSFER;
-  
+
   const isCreditPayment = paymentChoice === PaymentTypeEnum.CREDIT;
-
-  useEffect(() => {
-    const doEffect = async () => {
-      const credit = await dataProvider.getOne("credits", {id: studentId});
-      setCredit(credit.data);
-    };
-
-    doEffect();
-  }, [studentId, dataProvider]);
 
   const breadcrumbItems = [
     {
@@ -322,8 +299,12 @@ const PaymentCreate = (props) => {
     };
 
 
+    // Les paiements par Mobile Money (Orange Money) sont validés
+    // automatiquement, quel que soit le rôle qui les crée.
     const status =
-      role.isManager() || role.isAdmin()
+      type === PaymentTypeEnum.MOBILE_MONEY ||
+      role.isManager() ||
+      role.isAdmin()
         ? PaymentStatus.VALIDATE
         : PaymentStatus.CREATED;
 

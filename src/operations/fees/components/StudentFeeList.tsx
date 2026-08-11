@@ -15,6 +15,7 @@ import {
   IconButtonWithTooltip,
   pspIdValidationContraints,
 } from "@/operations/utils";
+import {useStudentCredit} from "@/operations/payments/utils/validateCredit";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList/HaList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
@@ -28,6 +29,8 @@ import {
   LetterStatus,
   MobileMoneyType,
   MpbsStatus,
+  PaymentStatus,
+  PaymentTypeEnum,
 } from "@haapi-b0fc7615/typescript-client";
 import {
   AddCard as AddMbpsIcon,
@@ -35,13 +38,25 @@ import {
   Visibility as ShowIcon,
   WarningOutlined,
 } from "@mui/icons-material";
-import {Box, TextField as MuiTextInput, Typography} from "@mui/material";
+import {
+  Box,
+  FormControl,
+  FormControlLabel,
+  FormLabel,
+  Radio,
+  RadioGroup,
+  TextField as MuiTextInput,
+  Typography,
+} from "@mui/material";
 import {AxiosError} from "axios";
-import {FC, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import {
   FormDataConsumer,
   FunctionField,
   Link,
+  minValue,
+  number,
+  required,
   SelectArrayInput,
   SelectInput,
   SimpleForm,
@@ -59,6 +74,8 @@ interface CreateProps {
 interface MpbsCreateProps {
   onSuccess: () => void;
   fee: Fee;
+  canPayByCredit: boolean;
+  validateCreditPayment: (amount: number | string) => string | undefined;
 }
 
 const isCatchUp = (fee: Fee): boolean => {
@@ -95,7 +112,7 @@ const DefaultInfos = () => {
   );
 };
 
-const CatchupFeesCreate: FC<CreateProps> = ({onSuccess}) => {
+const CatchupFeesCreate = ({onSuccess}: CreateProps) => {
   const notify = useNotify();
   const {data: courses = []} = useGetList("course", {
     pagination: {perPage: 50, page: 1},
@@ -143,11 +160,21 @@ const CatchupFeesCreate: FC<CreateProps> = ({onSuccess}) => {
   );
 };
 
-const MpbsCreate: FC<MpbsCreateProps> = ({onSuccess, fee}) => {
+const MpbsCreate = ({
+  onSuccess,
+  fee,
+  canPayByCredit,
+  validateCreditPayment,
+}: MpbsCreateProps) => {
   const notify = useNotify();
   const {id: student_id} = authProvider.getCachedWhoami();
   const lastMpbs =
     fee.mpbs && fee.mpbs.length > 0 ? fee.mpbs[fee.mpbs.length - 1] : undefined;
+
+  const [paymentType, setPaymentType] = useState<PaymentTypeEnum>(
+    PaymentTypeEnum.MOBILE_MONEY
+  );
+  const isCreditPayment = paymentType === PaymentTypeEnum.CREDIT;
 
   const handleError = (error: AxiosError) => {
     if (!error.response) return;
@@ -160,16 +187,77 @@ const MpbsCreate: FC<MpbsCreateProps> = ({onSuccess, fee}) => {
     notify(message, {type: "error"});
   };
 
-  return (
+  const onPaymentSuccess = () => {
+    notify("Paiement enregistré avec succès", {type: "success"});
+    onSuccess();
+  };
+
+  const paymentModeSelector = canPayByCredit && (
+    <FormControl fullWidth sx={{mb: 2}}>
+      <FormLabel>Mode de paiement</FormLabel>
+      <RadioGroup
+        row
+        value={paymentType}
+        onChange={(event) =>
+          setPaymentType(event.target.value as PaymentTypeEnum)
+        }
+      >
+        <FormControlLabel
+          value={PaymentTypeEnum.MOBILE_MONEY}
+          control={<Radio />}
+          label="Mobile Money"
+        />
+        <FormControlLabel
+          value={PaymentTypeEnum.CREDIT}
+          control={<Radio />}
+          label="Crédit"
+        />
+      </RadioGroup>
+    </FormControl>
+  );
+
+  return isCreditPayment ? (
+    <Create
+      resource="payments"
+      title=" "
+      redirect={false}
+      mutationOptions={{
+        onSuccess: onPaymentSuccess,
+        onError: handleError,
+      }}
+      transform={(data: {amount?: number | string} = {}) => [
+        {
+          feeId: fee.id,
+          type: PaymentTypeEnum.CREDIT,
+          status: PaymentStatus.CREATED,
+          amount: data.amount,
+          comment: "Paiement par crédit",
+          creation_datetime: toUTC(new Date()),
+        },
+      ]}
+    >
+      <SimpleForm>
+        {paymentModeSelector}
+        <TextInput
+          source="amount"
+          label="Montant du paiement"
+          fullWidth
+          validate={[
+            required(),
+            number(),
+            minValue(1),
+            (value: number | string) => validateCreditPayment(value),
+          ]}
+        />
+      </SimpleForm>
+    </Create>
+  ) : (
     <Create
       resource="fees"
       title=" "
       redirect={false}
       mutationOptions={{
-        onSuccess: () => {
-          notify("Paiement enregistré avec succès", {type: "success"});
-          onSuccess();
-        },
+        onSuccess: onPaymentSuccess,
         onError: handleError,
       }}
       transform={(data: CrupdateFeeTemplate = {}) => ({
@@ -180,6 +268,7 @@ const MpbsCreate: FC<MpbsCreateProps> = ({onSuccess, fee}) => {
       })}
     >
       <SimpleForm>
+        {paymentModeSelector}
         <TextInput
           source="psp_id"
           label="Référence de la transaction"
@@ -201,6 +290,7 @@ const MpbsCreate: FC<MpbsCreateProps> = ({onSuccess, fee}) => {
 export const StudentFeeList = () => {
   const notify = useNotify();
   const {studentRef, studentId} = useStudentRef("studentId");
+  const {canPayByCredit, validateCreditPayment} = useStudentCredit(studentId);
   const refresh = useRefresh();
 
   const [showCatchupFees, , toggleCatchupFees] = useToggle();
@@ -253,6 +343,7 @@ export const StudentFeeList = () => {
         title={`Frais de ${studentRef}`}
         resource={"fees"}
         filterIndicator={false}
+        filterButtons={null}
         listProps={{
           filterDefaultValues: {studentId},
         }}
@@ -393,13 +484,15 @@ export const StudentFeeList = () => {
 
       {feeToPay && (
         <FeesDialog
-          title={`Paiement de mon frais par Mobile Money`}
+          title={`Paiement de mon frais`}
           show={!!feeToPay}
           toggle={() => setFeeToPay(null)}
         >
           <MpbsCreate
             key={feeToPay.id}
             fee={feeToPay}
+            canPayByCredit={canPayByCredit}
+            validateCreditPayment={validateCreditPayment}
             onSuccess={() => setFeeToPay(null)}
           />
         </FeesDialog>

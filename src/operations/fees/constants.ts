@@ -4,6 +4,7 @@ import {
   FeeCategory,
   FeeFrequency,
   FeeTypeEnum,
+  PaymentTypeEnum,
 } from "@haapi-b0fc7615/typescript-client";
 
 export const FEE_STATUS = {
@@ -65,3 +66,10 @@ export const ADVANCED_FEE_STATISTICS_TYPE_CHOICES = [
   {label: "Comptable", value: AdvancedFeeStatisticsType.ACCOUNTING},
   {label: "Encaissement", value: AdvancedFeeStatisticsType.RECEIPT},
 ];
+
+export const PAYMENT_TYPE = {
+  [PaymentTypeEnum.MOBILE_MONEY]: "MOBILE MONEY",
+  [PaymentTypeEnum.CREDIT]:"CREDIT",
+} as const;
+
+export const PAYMENT_TYPE_CHOICES = mapToChoices(PAYMENT_TYPE, "id", "name");

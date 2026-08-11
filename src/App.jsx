@@ -127,6 +127,12 @@ function AppBase() {
 
         <Route
           exact
+          path="/credit-payments"
+          element={<payments.listCreditPayments />}
+        />
+
+        <Route
+          exact
           path="/docs/students/OTHER"
           element={<studentDocs.list />}
         />

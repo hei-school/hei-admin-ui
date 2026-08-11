@@ -32,6 +32,7 @@ export function HaListTitle({
   actions,
   mainSearch,
   filterIndicator,
+  filterButtons = /** @type {import("react").ReactNode} */ (null),
 }) {
   const [showAction, setShowAction] = useState(null);
   const {filterValues} = useListFilterContext();
@@ -61,6 +62,7 @@ export function HaListTitle({
         <Typography sx={{fontSize: "1.15em", fontWeight: 500}}>
           {title}
         </Typography>
+        {filterButtons && <Box sx={{ml: 2}}>{filterButtons}</Box>}
       </Box>
       <Box sx={{display: "flex", alignItems: "center", gap: 1.5}}>
         {mainSearch.source !== "" && (

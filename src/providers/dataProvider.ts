@@ -6,6 +6,7 @@ import corStudentProvider from "@/providers/corStudentProvider";
 import {courseAssignmentsByTeacherProvider} from "@/providers/courseAssignementbyTeacher";
 import CourseAssignmentsProvider from "@/providers/courseAssignmentsProvider";
 import courseProvider from "@/providers/courseProvider";
+import creditPaymentProvider from "@/providers/creditPaymentProvider";
 import docsProvider from "@/providers/docsProvider";
 import eventParticipantProvider from "@/providers/eventParticipantProvider";
 import eventProvider from "@/providers/eventProvider";
@@ -66,6 +67,7 @@ const providerMap = {
   "students-export": exportStudentProvider,
   "fees": feeProvider,
   "payments": paymentProvider,
+  "credit-payments": creditPaymentProvider,
   "teachers": teacherProvider,
   "export-teachers": exportTeacherProvider,
   "docs": docsProvider,

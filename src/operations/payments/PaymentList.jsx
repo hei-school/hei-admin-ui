@@ -1,6 +1,7 @@
 import {DeleteWithConfirm} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
+import {PaymentStatusIcon} from "@/operations/payments/components/PaymentStatusIcon";
 import {GetReceipt} from "@/operations/students/components";
 import {paymentTypeRenderer} from "@/operations/utils/index";
 import {useRole} from "@/security/hooks/index";
@@ -47,6 +48,11 @@ const PaymentList = ({feeId, studentId}) => {
           label="Montant"
           render={(record) => renderMoney(record.amount)}
           textAlign="right"
+        />
+        <FunctionField
+          label="Statut"
+          render={() => <PaymentStatusIcon />}
+          textAlign="center"
         />
         <FunctionField
           label="Reçu"
