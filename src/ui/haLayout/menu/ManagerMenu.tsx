@@ -2,8 +2,8 @@ import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
-  AccountBalanceWallet as CreditPaymentsIcon,
   SafetyDivider as CorIcon,
+  AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
   EditCalendar,
   EventBusy,

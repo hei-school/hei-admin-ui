@@ -19,7 +19,7 @@ export type FileDownloaderProps = {
   fileType?: string;
   buttonProps?: ButtonProps;
   buttonText: string;
-} & Omit<ButtonProps, "children">;
+} & {"data-testid"?: string} & Omit<ButtonProps, "children">;
 
 export const FileDownloader: FC<FileDownloaderProps> = ({
   downloadFunction,
@@ -29,6 +29,7 @@ export const FileDownloader: FC<FileDownloaderProps> = ({
   errorMessage,
   buttonText,
   fileType = "application/pdf",
+  "data-testid": dataTestId = "download-button",
   ...raButtonProps
 }) => {
   const [isLoading, setIsLoading] = useState(false);
@@ -69,7 +70,7 @@ export const FileDownloader: FC<FileDownloaderProps> = ({
       {isSmall ? (
         <IconButton
           onClick={handleDownload}
-          data-testid="download-button"
+          data-testid={dataTestId}
           disabled={isLoading}
         >
           <Download
@@ -84,7 +85,7 @@ export const FileDownloader: FC<FileDownloaderProps> = ({
           {...raButtonProps}
           disabled={isLoading}
           onClick={handleDownload}
-          data-testid="download-button"
+          data-testid={dataTestId}
           startIcon={isLoading ? <CircularProgress size={20} /> : startIcon}
         >
           {buttonText}

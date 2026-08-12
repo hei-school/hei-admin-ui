@@ -1,6 +1,6 @@
+import {Credit} from "@haapi-b0fc7615/typescript-client";
 import {useCallback, useEffect, useState} from "react";
 import {useDataProvider} from "react-admin";
-import {Credit} from "@haapi-b0fc7615/typescript-client";
 
 export const MINIMUM_CREDIT = 200000;
 

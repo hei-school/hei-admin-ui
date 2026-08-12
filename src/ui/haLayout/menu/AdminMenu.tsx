@@ -3,8 +3,8 @@ import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {trackNavClick} from "@/utils/gtm";
 import {
-  AccountBalanceWallet as CreditPaymentsIcon,
   Newspaper as AnnouncementIcon,
+  AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
   EditCalendar,
   EventBusy,

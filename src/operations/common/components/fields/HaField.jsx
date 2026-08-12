@@ -37,6 +37,7 @@ export default function HaField({source, label, icon, render}) {
           label={
             <Typography
               variant="subtitle2"
+              component="span"
               sx={{
                 fontWeight: 600,
                 fontSize: isLarge ? "1.2rem" : "0.9rem",

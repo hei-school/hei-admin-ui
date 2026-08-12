@@ -80,7 +80,7 @@ const CardInfos: FC<CardInfosProps> = ({cardDetails = []}) => {
       >
         <List dense>
           {cardDetails.map(({icon, total, title}) => (
-            <ListItem>
+            <ListItem key={title}>
               <ListItemIcon sx={{minWidth: "30px"}}>{icon}</ListItemIcon>
               <ListItemText
                 primary={

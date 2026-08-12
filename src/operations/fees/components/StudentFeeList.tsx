@@ -10,12 +10,12 @@ import {
   MpbsStatusIcon,
 } from "@/operations/fees/utils";
 import {CreateLettersDialog} from "@/operations/letters/CreateLetters";
+import {useStudentCredit} from "@/operations/payments/utils/validateCredit";
 import {
   commentFunctionRenderer,
   IconButtonWithTooltip,
   pspIdValidationContraints,
 } from "@/operations/utils";
-import {useStudentCredit} from "@/operations/payments/utils/validateCredit";
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList/HaList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
@@ -43,9 +43,9 @@ import {
   FormControl,
   FormControlLabel,
   FormLabel,
+  TextField as MuiTextInput,
   Radio,
   RadioGroup,
-  TextField as MuiTextInput,
   Typography,
 } from "@mui/material";
 import {AxiosError} from "axios";

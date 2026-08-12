@@ -1,6 +1,6 @@
 import feeProvider from "@/providers/feeProvider";
-import { Box } from "@mui/material";
 import {CreateButton, ImportButton} from "@/ui/haToolbar";
+import {Box} from "@mui/material";
 import {
   minimalFeesHeaders,
   optionalFeesHeaders,
@@ -9,9 +9,9 @@ import {
 } from "../importConf";
 import {FeesFilters} from "./FeesFilter";
 
-type FeesActionsProps= {
-  studentId: string
-}
+type FeesActionsProps = {
+  studentId: string;
+};
 
 const FeesActions = ({studentId}: FeesActionsProps) => {
   return (

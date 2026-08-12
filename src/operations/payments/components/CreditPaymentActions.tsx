@@ -4,11 +4,8 @@ import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {Box, Button} from "@mui/material";
 import {Confirm, useNotify, useRecordContext, useRefresh} from "react-admin";
 
-// TODO: le rejet appelle actuellement le même endpoint que la validation
-// (`validateCreditPayments`) car aucun endpoint de rejet/invalidation n'existe
-// encore côté API. À corriger dès qu'un endpoint dédié sera disponible.
 const rejectCreditPayment = (paymentId: string) =>
-  payingApi().validateCreditPayments([paymentId]);
+  payingApi().rejectCreditPayments([paymentId]);
 
 const validateCreditPayment = (paymentId: string) =>
   payingApi().validateCreditPayments([paymentId]);
@@ -24,8 +21,6 @@ export const CreditPaymentActions = () => {
     return null;
   }
 
-  // Un paiement déjà résolu (validé ou rejeté) ne peut plus être rejoué :
-  // les boutons restent visibles pour garder la colonne lisible, mais désactivés.
   const isActionable = record.status === PaymentStatus.CREATED;
 
   const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) =>

@@ -69,7 +69,7 @@ export const ADVANCED_FEE_STATISTICS_TYPE_CHOICES = [
 
 export const PAYMENT_TYPE = {
   [PaymentTypeEnum.MOBILE_MONEY]: "MOBILE MONEY",
-  [PaymentTypeEnum.CREDIT]:"CREDIT",
+  [PaymentTypeEnum.CREDIT]: "CREDIT",
 } as const;
 
 export const PAYMENT_TYPE_CHOICES = mapToChoices(PAYMENT_TYPE, "id", "name");
