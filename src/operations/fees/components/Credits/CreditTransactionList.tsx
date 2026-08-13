@@ -32,33 +32,25 @@ export const CreditTransactionList = ({
             if (record.movement === "DEPOSIT") {
               return "Dépôt";
             }
-
             if (record.movement === "WITHDRAWAL") {
               return "Retrait";
             }
-
             return "Non défini";
           }}
         />
-
         <FunctionField
           label="Montant"
           render={(record) => renderMoney(record.amount)}
         />
-
-        <FunctionField
-          label="Frais"
-          render={(record) => record.fee?.comment ?? "Non défini"}
-        />
-
         <FunctionField
           label="Date"
           render={(record) => {
-            if (!record.date_time) {
+            const dateTime = record.date_time ?? record.creation_datetime;
+
+            if (!dateTime) {
               return "Non définie";
             }
-
-            return new Date(record.date_time).toLocaleString("fr-FR");
+            return new Date(dateTime).toLocaleString("fr-FR");
           }}
         />
       </HaList>

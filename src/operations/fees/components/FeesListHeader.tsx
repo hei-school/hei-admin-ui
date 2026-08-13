@@ -68,7 +68,6 @@ export const FeesListHeader: FC<Props> = ({title, isMpbs = false}) => {
               </Typography>
               <DateRangePopover />
             </Box>
-
             {isMpbs && (
               <Button
                 onClick={() => setImportOpen(true)}
@@ -82,7 +81,6 @@ export const FeesListHeader: FC<Props> = ({title, isMpbs = false}) => {
             )}
             {!isMpbs && <StatsStatus stats={stats} />}
           </Box>
-
           <ImportDialog
             open={importOpen}
             onClose={() => setImportOpen(false)}
@@ -97,7 +95,6 @@ export const FeesListHeader: FC<Props> = ({title, isMpbs = false}) => {
             onFeeTypeChange={setFeeType}
             onLevelChange={setLevel}
           />
-
           <FeeStatsTable
             rows={rows}
             totals={totals}

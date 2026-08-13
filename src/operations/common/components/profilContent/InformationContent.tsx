@@ -73,7 +73,6 @@ export const Informations: FC<{
       enabled: role.isManager() || role.isAdmin(),
     }
   );
-
   const adminView =
     !role.isMonitor() &&
     !role.isOrganizer() &&
@@ -82,7 +81,6 @@ export const Informations: FC<{
     !(role.isTeacher() && isStudentProfile) &&
     !isAdminProfil &&
     !isManagerProfil;
-
   const allTabs = [
     {
       id: "profile",
@@ -181,7 +179,7 @@ export const Informations: FC<{
     },
     {
       id: "credit-transactions",
-      label: "Crédits",
+      label: "Transactions",
       show:
         isStudentProfile &&
         (role.isManager() || role.isAdmin() || role.isMonitor()),
@@ -220,7 +218,6 @@ export const Informations: FC<{
       </Box>
     );
   }
-
   const visibleTabs = allTabs.filter((tab) => tab.show);
   const visibleTabIndexes = allTabs
     .map((tab, idx) => (tab.show ? idx : null))
@@ -228,7 +225,6 @@ export const Informations: FC<{
   const currentTabIndex = visibleTabIndexes.includes(tabIndex)
     ? visibleTabs.findIndex((_, i) => visibleTabIndexes[i] === tabIndex)
     : 0;
-
   return (
     <Box sx={{width: "100%"}}>
       <Tabs
@@ -242,7 +238,6 @@ export const Informations: FC<{
         sx={{
           "width": "100%",
           "borderBottom": "1px solid rgba(0, 0, 0, 0.12)",
-
           "& .MuiTab-root": {
             "textTransform": "none",
             "minWidth": 120,

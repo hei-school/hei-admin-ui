@@ -19,7 +19,6 @@ import {FunctionField, WrapperField} from "react-admin";
 
 export const ManagerFeeList = ({studentId, studentRef}) => {
   const role = useRole();
-
   return (
     <Box>
       <HaList
@@ -48,24 +47,20 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
           label="Limite de paiement du frais"
           showTime={false}
         />
-
         <FunctionField
           source="comment"
           render={commentFunctionRenderer}
           label="Commentaire"
         />
-
         <FunctionField
           label="Reste à payer"
           render={(record) => renderMoney(record.remaining_amount)}
         />
-
         <FunctionField
           render={(fee) => fee?.mpbs?.at(-1)?.psp_id}
           label="Référence de la transaction"
           emptyText={EMPTY_TEXT}
         />
-
         <FunctionField
           render={(fee) =>
             fee.mpbs ? (
@@ -80,13 +75,11 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
           label="Type de transaction"
           emptyText={EMPTY_TEXT}
         />
-
         <FunctionField
           render={(fee) => formatDate(fee?.mpbs?.at(-1)?.creation_datetime)}
           label="Ajout de la référence de transaction"
           emptyText={EMPTY_TEXT}
         />
-
         <FunctionField
           render={(fee) =>
             formatDate(fee?.mpbs?.at(-1)?.last_datetime_verification)
@@ -94,7 +87,6 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
           label="Dernière vérification par HEI"
           emptyText={EMPTY_TEXT}
         />
-
         <FunctionField
           render={(fee) =>
             formatDate(fee?.mpbs?.at(-1)?.psp_own_datetime_verification)
@@ -102,7 +94,6 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
           label="Vérification par PSP"
           emptyText={EMPTY_TEXT}
         />
-
         <FunctionField
           render={(fee) =>
             formatDate(fee?.mpbs?.at(-1)?.successfully_verified_on)
@@ -110,7 +101,6 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
           label="Vérification réussie"
           emptyText={EMPTY_TEXT}
         />
-
         {!role.isMonitor() && (
           <WrapperField label="Actions">
             <Box
@@ -126,7 +116,6 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
                 confirmTitle="Suppression de frais"
                 confirmContent="Confirmez-vous la suppression de ce frais ?"
               />
-
               <ArchiveWithConfirm
                 redirect={`/students/${studentId}/show/fees?tab=fees`}
                 confirmTitle="Archivage de frais"

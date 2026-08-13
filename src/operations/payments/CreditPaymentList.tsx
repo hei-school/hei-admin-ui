@@ -3,7 +3,7 @@ import {CreditPaymentActions} from "@/operations/payments/components/CreditPayme
 import {CreditPaymentStatusFilterButtons} from "@/operations/payments/components/CreditPaymentStatusFilterButtons";
 import {PaymentStatusIcon} from "@/operations/payments/components/PaymentStatusIcon";
 import {HaList} from "@/ui/haList/HaList";
-import {Payment} from "@haapi-b0fc7615/typescript-client";
+import {CreditPayment, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {AccountBalanceWallet as CreditIcon} from "@mui/icons-material";
 import {Box, Typography} from "@mui/material";
 import {FunctionField, TextField} from "react-admin";
@@ -20,11 +20,14 @@ const CreditPaymentList = () => {
         actions={undefined}
         filterIndicator={false}
         datagridProps={{rowClick: false}}
+        listProps={{
+          filterDefaultValues: {status: PaymentStatus.CREATED},
+        }}
       >
         <FunctionField
           label="Étudiant"
-          render={(payment: Payment & {student_ref?: string}) =>
-            payment.student_ref ?? "—"
+          render={(payment: CreditPayment) =>
+            payment.fee?.student_ref ?? payment.fee?.student_first_name ?? "—"
           }
         />
         <DateField
@@ -34,25 +37,11 @@ const CreditPaymentList = () => {
         />
         <FunctionField
           label="Montant"
-          render={(payment: Payment) => (
+          render={(payment: CreditPayment) => (
             <Typography variant="body2" fontWeight={600}>
               {renderMoney(payment.amount!)}
             </Typography>
           )}
-        />
-        <FunctionField
-          label="Crédit actuel de l'étudiant"
-          render={(payment: Payment & {student_credit?: number}) =>
-            payment.student_credit != null ? (
-              <Typography variant="body2" color="text.secondary">
-                {renderMoney(payment.student_credit)}
-              </Typography>
-            ) : (
-              <Typography variant="body2" color="text.disabled">
-                —
-              </Typography>
-            )
-          }
         />
         <TextField source="comment" label="Commentaire" />
         <FunctionField
