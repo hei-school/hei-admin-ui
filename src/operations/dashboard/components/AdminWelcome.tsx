@@ -9,7 +9,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {FC, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {
   ChipField,
   Datagrid,
@@ -41,7 +41,7 @@ import {PendingCreditPayments} from "./common/PendingCreditPayments";
 import {RecentLetters} from "./common/RecentLetters";
 import {WelcomingCard} from "./common/WelcomingCard";
 
-export const AdminWelcome: FC = () => {
+export const AdminWelcome = () => {
   const [animate, setAnimate] = useState(false);
   const {filterValues} = useListContext();
   const {data: stats} = useGetOne<AdvancedFeesStatistics & {id: string}>(
@@ -57,19 +57,15 @@ export const AdminWelcome: FC = () => {
       perPage: 4,
     },
   });
-
   useEffect(() => {
     setAnimate(true);
   }, []);
-
   const isLarge = useMediaQuery("(min-width:1700px)");
-
   return (
     <Box sx={{p: {xs: 1, md: 2}, overflow: "hidden", bgcolor: "#F9FAFB"}}>
       <WelcomingCard animate={animate} isLarge={isLarge} />
       <RecentLetters animate={animate} />
       <PendingCreditPayments animate={animate} />
-
       <Grid
         container
         spacing={3}
@@ -181,7 +177,6 @@ export const AdminWelcome: FC = () => {
                   width={"100%"}
                 >
                   <TextField source="student_ref" label="Référence" />
-
                   <TextField source="student_first_name" label="Prénom" />
                   <DateField
                     source="due_datetime"
@@ -268,7 +263,6 @@ export const AdminWelcome: FC = () => {
                 </Button>
               </Box>
             </Box>
-
             <Box
               sx={{
                 opacity: animate ? 1 : 0,
@@ -348,7 +342,6 @@ export const AdminWelcome: FC = () => {
                   <TextField source="ref" label="Référence" />
                   <TextField source="first_name" label="Prénom" />
                   <TextField source="last_name" label="Nom" />
-
                   <FunctionField
                     label="groupe"
                     render={() => {
@@ -424,11 +417,9 @@ export const AdminWelcome: FC = () => {
                 </Button>
               </Box>
             </Box>
-
             <CommentContent animate={animate} />
           </Stack>
         </Grid>
-
         <Grid
           item
           xs={12}

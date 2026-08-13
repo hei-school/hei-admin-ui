@@ -13,7 +13,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import React, {FC, ReactElement, ReactNode, useState} from "react";
+import React, {ReactElement, ReactNode, useState} from "react";
 
 export interface StatDetail {
   icon: ReactElement;
@@ -38,20 +38,16 @@ interface CardInfosProps {
   cardDetails: StatDetail[];
 }
 
-const CardInfos: FC<CardInfosProps> = ({cardDetails = []}) => {
+const CardInfos = ({cardDetails = []}: CardInfosProps) => {
   const [anchorEl, setAnchorEl] = useState(null);
-
   const handleClick = (event: any) => {
     setAnchorEl(event.currentTarget);
   };
-
   const handleClose = () => {
     setAnchorEl(null);
   };
-
   const open = Boolean(anchorEl);
   const id = open ? "simple-popover" : undefined;
-
   return (
     <div
       style={{
@@ -101,7 +97,7 @@ interface IconWithShadowProps {
   icon: React.ReactElement<SvgIconProps>;
 }
 
-export const IconWithShadow: React.FC<IconWithShadowProps> = ({icon}) => {
+export const IconWithShadow = ({icon}: IconWithShadowProps) => {
   return (
     <Box sx={{position: "relative", display: "inline-block"}}>
       {React.cloneElement(icon, {
@@ -126,13 +122,8 @@ export const IconWithShadow: React.FC<IconWithShadowProps> = ({icon}) => {
   );
 };
 
-export const ListHeader: FC<ListHeaderProps> = ({
-  title,
-  action,
-  cardContents,
-}) => {
+export const ListHeader = ({title, action, cardContents}: ListHeaderProps) => {
   const isSmall = useMediaQuery("(max-width:1200px)");
-
   return (
     <Box
       width="calc(100% - 20px)"

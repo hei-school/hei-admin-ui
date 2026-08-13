@@ -38,7 +38,6 @@ export function HaListTitle({
   const {filterValues} = useListFilterContext();
   const closeAction = () => setShowAction(null);
   const isFilterApplied = Object.keys(filterValues).length;
-
   const showIndication = {
     "position": "relative",
     "display": "block !important",
@@ -54,7 +53,6 @@ export function HaListTitle({
       right: "5px",
     },
   };
-
   return (
     <TitleContainer>
       <Box sx={{display: "flex", alignItems: "center", gap: 2.5}}>

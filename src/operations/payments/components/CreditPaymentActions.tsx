@@ -1,4 +1,4 @@
-import {useToggle} from "@/hooks";
+import {useToggle} from "@/hooks/useToggle";
 import {payingApi} from "@/providers/api";
 import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {Box, Button} from "@mui/material";
@@ -16,19 +16,14 @@ export const CreditPaymentActions = () => {
   const [showRejectConfirm, , toggleRejectConfirm] = useToggle();
   const notify = useNotify();
   const refresh = useRefresh();
-
   if (!record) {
     return null;
   }
-
   const isActionable = record.status === PaymentStatus.CREATED;
-
   const stopPropagation = (event: React.MouseEvent<HTMLButtonElement>) =>
     event.stopPropagation();
-
   const doValidate = async () => {
     toggleValidateConfirm();
-
     try {
       await validateCreditPayment(record.id as string);
       notify("Paiement validé avec succès.", {type: "success"});
@@ -40,10 +35,8 @@ export const CreditPaymentActions = () => {
       });
     }
   };
-
   const doReject = async () => {
     toggleRejectConfirm();
-
     try {
       await rejectCreditPayment(record.id as string);
       notify("Paiement rejeté avec succès.", {type: "success"});
@@ -55,7 +48,6 @@ export const CreditPaymentActions = () => {
       });
     }
   };
-
   return (
     <Box display="flex" gap={1} justifyContent="center">
       <Button
@@ -84,7 +76,6 @@ export const CreditPaymentActions = () => {
       >
         Rejeter
       </Button>
-
       <Confirm
         fullWidth
         sx={{zIndex: 99999}}

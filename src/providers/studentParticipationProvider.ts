@@ -21,7 +21,6 @@ const StudentParticipationProvider: HaDataProviderType = {
     const {id} = meta;
     const {from, to, attendanceStatus, title} = filter;
     const titleParam = title && title.length > 0 ? title : [""];
-
     return attendanceApi()
       .getStudentAttendance(from, to, id, attendanceStatus, titleParam)
       .then(({data}) => ({

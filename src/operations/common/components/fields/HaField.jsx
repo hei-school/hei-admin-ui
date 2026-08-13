@@ -4,11 +4,9 @@ import {FunctionField, SimpleShowLayout} from "react-admin";
 
 export default function HaField({source, label, icon, render}) {
   const isLarge = useMediaQuery("(min-width:1700px)");
-
   const getValue = (record) => {
     return render ? render(record) : record[source];
   };
-
   return (
     <Box
       sx={{

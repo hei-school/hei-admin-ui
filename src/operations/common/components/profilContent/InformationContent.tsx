@@ -16,7 +16,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {FC} from "react";
 import {useGetOne, useRecordContext} from "react-admin";
 import {Contact} from "./ContactDetails";
 import {PersonalDetails} from "./PersonalDetails";
@@ -42,16 +41,16 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
-export const Informations: FC<{
-  isStudentProfile: boolean;
-  isTeacherProfile: boolean;
-  isMonitorProfile: boolean;
-  isStaffProfil: boolean;
-}> = ({
+export const Informations = ({
   isStudentProfile,
   isTeacherProfile,
   isMonitorProfile,
   isStaffProfil,
+}: {
+  isStudentProfile: boolean;
+  isTeacherProfile: boolean;
+  isMonitorProfile: boolean;
+  isStaffProfil: boolean;
 }) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const profile = useRecordContext();
@@ -192,14 +191,11 @@ export const Informations: FC<{
       content: <MonitorStudentList />,
     },
   ];
-
   const tabValues = allTabs.map((tab) => tab.id);
-
   const {tabIndex, handleTabChange} = useTabManager({
     values: tabValues,
     defaultTabIndex: 0,
   });
-
   if (!profile) {
     return (
       <Box

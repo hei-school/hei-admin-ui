@@ -25,7 +25,6 @@ describe("AdminWelcome Page", () => {
       `/letters?page=2&page_size=12`,
       lettersMocks.slice(0, ITEM_PER_LIST)
     ).as("getAllLetters2");
-
     cy.intercept(
       "GET",
       `/students?page=1&page_size=10&status=SUSPENDED`,
@@ -36,23 +35,19 @@ describe("AdminWelcome Page", () => {
       `/students?page=2&page_size=10&status=SUSPENDED`,
       studentsMock
     ).as("getStudentsPage2");
-
     cy.intercept(
       "GET",
       `/comments?page=1&page_size=10`,
       commentMocks.slice(0, ITEM_PER_LIST)
     ).as("getCommentsPage1");
-
     cy.intercept(
       "GET",
       `/comments?page=2&page_size=10`,
       commentMocks.slice(0, ITEM_PER_LIST)
     ).as("getCommentsPage2");
-
     cy.intercept("GET", `advanced-stats**`, advanceStatsMocks).as(
       "getAdvancedStats"
     );
-
     cy.intercept(
       "GET",
       `/announcements?page=1&page_size=4`,
@@ -63,9 +58,7 @@ describe("AdminWelcome Page", () => {
       `/announcements?page=2&page_size=4`,
       announcementsMock.slice(0, 4)
     ).as("getAnnouncements2");
-
     cy.intercept("GET", `/fees**`, {data: [unpaidFeeMock]}).as("getFees");
-
     cy.intercept(
       "GET",
       `/students/credit-payments?status=CREATED&page=*&page_size=*`,
@@ -126,7 +119,6 @@ describe("AdminWelcome Page", () => {
   it("should display correct category and remaining amount in late fees list", () => {
     cy.contains("Catégorie").should("exist");
     cy.contains(unpaidFeeMock.category!).should("exist");
-
     cy.contains("Reste à payer").should("exist");
     cy.contains(unpaidFeeMock.remaining_amount!).should("exist");
   });
@@ -134,7 +126,6 @@ describe("AdminWelcome Page", () => {
   it("should hide manager image on small screens and show on desktop with a non-empty src", () => {
     cy.viewport(375, 812);
     cy.get('[data-testid="welcoming-manager-img"]').should("not.be.visible");
-
     cy.viewport(1280, 800);
     cy.get('[data-testid="welcoming-manager-img"]')
       .should("be.visible")
@@ -148,7 +139,6 @@ describe("AdminWelcome Page", () => {
     cy.wait("@getPendingCreditPayments");
     cy.contains("Paiements par crédit à valider").should("exist");
     cy.contains("1 en attente").should("exist");
-
     cy.contains("Voir tous les paiements").click();
     cy.url().should("include", "/credit-payments");
   });

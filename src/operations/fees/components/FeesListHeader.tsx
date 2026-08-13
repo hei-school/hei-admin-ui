@@ -2,7 +2,7 @@ import {NOOP_ID} from "@/utils/constants";
 import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client";
 import {Box, Button, Typography} from "@mui/material";
 import {Star} from "lucide-react";
-import {FC, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import {useGetOne, useListContext} from "react-admin";
 import {FeeStats, FeeType, LevelType} from "../types";
 import {DateRangePopover} from "../utils/DateRangePopover";
@@ -19,31 +19,26 @@ type Props = {
   isMpbs: boolean;
 };
 
-export const FeesListHeader: FC<Props> = ({title, isMpbs = false}) => {
+export const FeesListHeader = ({title, isMpbs = false}: Props) => {
   const {filterValues} = useListContext();
   const [viewMode, setViewMode] =
     useState<AdvancedFeeStatisticsType>("ACCOUNTING");
   const [feeType, setFeeType] = useState<FeeType>("MONTH");
   const [level, setLevel] = useState<LevelType>("ALL");
   const [importOpen, setImportOpen] = useState(false);
-
   const mergedFilters = useMemo(
     () => ({...(filterValues || {}), viewMode}),
     [filterValues, viewMode]
   );
-
   const {data: stats} = useGetOne<FeeStats>("stats", {
     id: NOOP_ID,
     meta: {resource: "fees_stats", filters: mergedFilters},
   });
-
   const rows = useMemo(
     () => buildRows(feeType, level, stats),
     [feeType, level, stats]
   );
-
   const totals = useMemo(() => computeTotals(rows), [rows]);
-
   return (
     <FeesStatsHeader
       cardContents={[]}

@@ -32,7 +32,6 @@ describe("Mobile payment by student", () => {
       `/students/${student1Mock.id}/fees?page=1&page_size=500`,
       []
     ).as("getFeesForCredit");
-
     cy.mockLogin({role: "STUDENT"});
     cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
   });
@@ -54,7 +53,6 @@ describe("Mobile payment by student", () => {
 
   it("can create a mpbs", () => {
     const [fee1Mock, ...fees] = feesMock;
-
     cy.intercept(
       "PUT",
       `/students/${fee1Mock.student_id}/fees/${fee1Mock.id}/mpbs`,
@@ -70,16 +68,12 @@ describe("Mobile payment by student", () => {
       `/students/${student1Mock.id}/fees?page=2&page_size=*`,
       [{mpbs: fee1MockMpbs, ...fee1Mock}, ...fees]
     ).as("getMpbsFees2");
-
     cy.getByTestid(
       `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
     ).click({force: true});
-
     cy.get("#psp_id").click().type("MP240726.1541.D88429");
     cy.contains("Enregistrer").click();
-
     cy.contains("Paiement enregistré avec succès");
-
     cy.wait("@getMpbsFees");
   });
 
@@ -89,34 +83,27 @@ describe("Mobile payment by student", () => {
       `/students/${fee1Mock.student_id}/fees/${fee1Mock.id}/payments`,
       [{id: "credit_payment_new_id"}]
     ).as("createCreditPayment");
-
     cy.wait("@getStudentCredit");
-
     cy.getByTestid(
       `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
     ).click({force: true});
-
     cy.contains("Crédit").click();
     cy.get("#amount").click().type("100000");
     cy.contains("Enregistrer").click();
-
     cy.contains("Paiement enregistré avec succès");
     cy.wait("@createCreditPayment");
   });
 
   it("cannot pay a fee by credit for more than the available credit", () => {
     cy.wait("@getStudentCredit");
-
     cy.getByTestid(
       `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
     ).click({force: true});
-
     cy.contains("Crédit").click();
     cy.get("#amount")
       .click()
       .type((studentCreditMock.amount + 1).toString());
     cy.contains("Enregistrer").click();
-
     cy.contains("Le montant saisi est supérieur à votre crédit actuel.");
   });
 });

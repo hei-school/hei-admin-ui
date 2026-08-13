@@ -15,7 +15,6 @@ const STATUS_FILTERS: {
 
 export const CreditPaymentStatusFilterButtons = () => {
   const {filterValues, setFilters} = useListContext();
-
   return (
     <Stack direction="row" spacing={1.5} alignItems="center">
       {STATUS_FILTERS.map((filter) => {
@@ -26,7 +25,6 @@ export const CreditPaymentStatusFilterButtons = () => {
           }
           setFilters(nextFilters, {});
         };
-
         return (
           <Button
             key={filter.label}

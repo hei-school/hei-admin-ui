@@ -3,14 +3,12 @@ import {useRole} from "@/security/hooks";
 import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {alpha, Box, Chip, Typography} from "@mui/material";
 import {MoveRight, Wallet} from "lucide-react";
-import {FC} from "react";
 import {Button, Link, useGetList} from "react-admin";
 
 const ACCENT_COLOR = "#10B981";
 
-export const PendingCreditPayments: FC<{animate: boolean}> = ({animate}) => {
+export const PendingCreditPayments = ({animate}: {animate: boolean}) => {
   const role = useRole();
-
   const {data: pendingPayments} = useGetList(
     "credit-payments",
     {
@@ -21,9 +19,7 @@ export const PendingCreditPayments: FC<{animate: boolean}> = ({animate}) => {
       enabled: role.isManager() || role.isAdmin(),
     }
   );
-
   const pendingCount = pendingPayments?.length ?? 0;
-
   return (
     <Box
       sx={{
@@ -64,7 +60,6 @@ export const PendingCreditPayments: FC<{animate: boolean}> = ({animate}) => {
           }}
         />
       </Box>
-
       <Box sx={{display: "flex", justifyContent: "center", mt: 2}}>
         <Button
           component={Link}

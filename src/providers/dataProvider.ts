@@ -144,22 +144,18 @@ const getHasNextPageInfo = async (
     filter,
     meta
   );
-
   if (!response || !response.data) {
     throw new Error(
       `Provider for resource ${resource} did not return a valid response with a data property.`
     );
   }
-
   return response.data.length > 0;
 };
 const dataProvider = {
   async getList(resourceType: keyof typeof providerMap, params: any) {
     const {pagination, meta, filter} = params;
-
     const page = pagination.page === 0 ? 1 : pagination.page;
     let perPage = pagination.perPage;
-
     if (perPage > MAX_ITEM_PER_PAGE) {
       if (process.env.NODE_ENV !== "production") {
         console.warn(
@@ -168,20 +164,17 @@ const dataProvider = {
       }
       perPage = MAX_ITEM_PER_PAGE;
     }
-
     const {data} = await getProvider(resourceType).getList(
       page,
       perPage,
       filter,
       meta
     );
-
     if (!data) {
       throw new Error(
         `Provider for resourceType ${resourceType} did not return a valid data property.`
       );
     }
-
     const hasNextPage = await getHasNextPageInfo(
       resourceType,
       page,
@@ -189,7 +182,6 @@ const dataProvider = {
       filter,
       meta
     );
-
     return {
       data,
       pageInfo: {

@@ -8,7 +8,6 @@ const FILE_NAME = "Reçu_paiement.pdf";
 export const GetReceipt = ({studentId, feeId, paymentId}) => {
   const formattedFeeId = feeIdFromRaId(feeId);
   const dataProvider = useDataProvider();
-
   const downloadReceipt = async () => {
     const {
       data: {file},
@@ -18,7 +17,6 @@ export const GetReceipt = ({studentId, feeId, paymentId}) => {
     });
     return {data: file};
   };
-
   return (
     <FileDownloader
       downloadFunction={downloadReceipt}

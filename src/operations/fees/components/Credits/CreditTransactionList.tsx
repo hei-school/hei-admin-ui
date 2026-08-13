@@ -46,7 +46,6 @@ export const CreditTransactionList = ({
           label="Date"
           render={(record) => {
             const dateTime = record.date_time ?? record.creation_datetime;
-
             if (!dateTime) {
               return "Non définie";
             }

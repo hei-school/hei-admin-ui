@@ -122,7 +122,6 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
                 confirmContent="Confirmez-vous l'archivage de ce frais ?"
                 onArchive={(record) => {
                   const {feeId} = toApiIds(record.id);
-
                   return payingApi().archiveStudentFee(studentId, feeId, {
                     method: "PATCH",
                   });

@@ -1,16 +1,19 @@
-import {Box, Typography, useMediaQuery} from "@mui/material";
-import {FC} from "react";
-import {useGetOne, useShowContext} from "react-admin";
-
 import defaultCoverPicture from "@/assets/banner.jpg";
 import {PALETTE_COLORS} from "@/haTheme";
-
 import {Group, RoleEnum} from "@haapi-b0fc7615/typescript-client";
-
+import {Box, Typography, useMediaQuery} from "@mui/material";
+import {useGetOne, useShowContext} from "react-admin";
 import {Informations} from "./profilContent/InformationContent";
 import {ProfileCardAvatar} from "./profilContent/ProfilCardAvatar";
 
-export const ProfileLayout: FC<{
+export const ProfileLayout = ({
+  role,
+  actions,
+  isTeacherProfile = false,
+  isStudentProfile = false,
+  isMonitorProfile = false,
+  isStaffProfil = false,
+}: {
   role: RoleEnum;
   actions: React.ReactNode;
   isTeacherProfile?: boolean;
@@ -18,19 +21,10 @@ export const ProfileLayout: FC<{
   isMonitorProfile?: boolean;
   isStaffProfil?: boolean;
   isAdminProfile?: boolean;
-}> = ({
-  role,
-  actions,
-  isTeacherProfile = false,
-  isStudentProfile = false,
-  isMonitorProfile = false,
-  isStaffProfil = false,
 }) => {
   const {record: profile = {}} = useShowContext();
   const isLarge = useMediaQuery("(min-width:1700px)");
-
   const {groups = []} = profile;
-
   const {data: credit} = useGetOne(
     "credits",
     {id: profile.id},
@@ -38,7 +32,6 @@ export const ProfileLayout: FC<{
       enabled: isStudentProfile && !!profile.id,
     }
   );
-
   return (
     <Box
       border={`1px solid ${PALETTE_COLORS.grey}`}
@@ -56,7 +49,6 @@ export const ProfileLayout: FC<{
           backgroundPosition: "center",
         }}
       />
-
       <Box
         display="flex"
         alignItems="center"
@@ -76,7 +68,6 @@ export const ProfileLayout: FC<{
           flexShrink={0}
         >
           <ProfileCardAvatar role={role} />
-
           <Box>
             <Typography
               fontWeight="600"
@@ -90,7 +81,6 @@ export const ProfileLayout: FC<{
             >
               {profile.first_name} {profile.last_name}
             </Typography>
-
             <Typography
               fontSize={{
                 xs: "0.8rem",
@@ -102,7 +92,6 @@ export const ProfileLayout: FC<{
             >
               {profile.ref}
             </Typography>
-
             {isStudentProfile && (
               <Typography
                 fontSize={{
@@ -118,7 +107,6 @@ export const ProfileLayout: FC<{
             )}
           </Box>
         </Box>
-
         {isStudentProfile && credit?.amount > 0 && (
           <Box
             flex={1}
@@ -153,7 +141,6 @@ export const ProfileLayout: FC<{
               >
                 Solde actuel
               </Typography>
-
               <Typography
                 fontWeight="700"
                 fontSize={{
@@ -171,7 +158,6 @@ export const ProfileLayout: FC<{
         )}
         <Box flexShrink={0}>{actions}</Box>
       </Box>
-
       <Informations
         isStudentProfile={isStudentProfile}
         isTeacherProfile={isTeacherProfile}

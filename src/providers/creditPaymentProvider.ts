@@ -27,7 +27,6 @@ const creditPaymentProvider: HaDataProviderType = {
         .getCreditPaymentsByStatus(filter.status, page, perPage)
         .then((response) => ({data: response.data}));
     }
-
     const responses = await Promise.all(
       ALL_STATUSES.map((status) =>
         payingApi().getCreditPaymentsByStatus(
@@ -37,12 +36,10 @@ const creditPaymentProvider: HaDataProviderType = {
         )
       )
     );
-
     const data = responses
       .flatMap((response) => response.data)
       .sort(byMostRecent)
       .slice((page - 1) * perPage, page * perPage);
-
     return {data};
   },
   getOne: () => {

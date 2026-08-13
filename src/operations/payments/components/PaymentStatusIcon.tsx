@@ -25,7 +25,6 @@ export const PAYMENT_STATUS_CHOICES = mapToChoices(
 export const PaymentStatusIcon = () => {
   const record = useRecordContext();
   const status = record?.status as PaymentStatus | undefined;
-
   return (
     <Tooltip
       title={status ? PAYMENT_STATUS_LABEL[status] : "Statut inconnu"}

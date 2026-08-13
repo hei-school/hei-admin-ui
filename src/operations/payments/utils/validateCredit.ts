@@ -15,49 +15,36 @@ export const validateAmountAgainstCredit = (
   if (!credit) {
     return undefined;
   }
-
   if (!hasEnoughCredit(credit)) {
     return `Votre crédit est inférieur à ${MINIMUM_CREDIT}Ar.`;
   }
-
   if (Number(amount) > (credit.amount ?? 0)) {
     return "Le montant saisi est supérieur à votre crédit actuel.";
   }
-
   return undefined;
 };
 
 export const useStudentCredit = (studentId: string | number) => {
   const dataProvider = useDataProvider();
-
   const [credit, setCredit] = useState<Credit | null>(null);
-
   const getStudentCredit = useCallback(async () => {
     if (!studentId) {
       setCredit(null);
       return null;
     }
-
     const result = await dataProvider.getOne("credits", {
       id: studentId,
     });
-
     const studentCredit = result.data as Credit;
-
     setCredit(studentCredit);
-
     return studentCredit;
   }, [studentId, dataProvider]);
-
   useEffect(() => {
     getStudentCredit();
   }, [getStudentCredit]);
-
   const canPayByCredit = hasEnoughCredit(credit);
-
   const validateCreditPayment = (amount: number | string) =>
     validateAmountAgainstCredit(amount, credit);
-
   return {
     credit,
     canPayByCredit,

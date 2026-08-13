@@ -118,7 +118,6 @@ const CatchupFeesCreate = ({onSuccess}: CreateProps) => {
     pagination: {perPage: 50, page: 1},
   });
   const {id: student_id} = authProvider.getCachedWhoami();
-
   return (
     <Create
       resource="fees"
@@ -170,12 +169,10 @@ const MpbsCreate = ({
   const {id: student_id} = authProvider.getCachedWhoami();
   const lastMpbs =
     fee.mpbs && fee.mpbs.length > 0 ? fee.mpbs[fee.mpbs.length - 1] : undefined;
-
   const [paymentType, setPaymentType] = useState<PaymentTypeEnum>(
     PaymentTypeEnum.MOBILE_MONEY
   );
   const isCreditPayment = paymentType === PaymentTypeEnum.CREDIT;
-
   const handleError = (error: AxiosError) => {
     if (!error.response) return;
     const messages: Record<number, string> = {
@@ -186,12 +183,10 @@ const MpbsCreate = ({
       messages[error.response.status] || "Une erreur inattendue s'est produite";
     notify(message, {type: "error"});
   };
-
   const onPaymentSuccess = () => {
     notify("Paiement enregistré avec succès", {type: "success"});
     onSuccess();
   };
-
   const paymentModeSelector = canPayByCredit && (
     <FormControl fullWidth sx={{mb: 2}}>
       <FormLabel>Mode de paiement</FormLabel>
@@ -215,7 +210,6 @@ const MpbsCreate = ({
       </RadioGroup>
     </FormControl>
   );
-
   return isCreditPayment ? (
     <Create
       resource="payments"
@@ -292,48 +286,39 @@ export const StudentFeeList = () => {
   const {studentRef, studentId} = useStudentRef("studentId");
   const {canPayByCredit, validateCreditPayment} = useStudentCredit(studentId);
   const refresh = useRefresh();
-
   const [showCatchupFees, , toggleCatchupFees] = useToggle();
   const [feeToPay, setFeeToPay] = useState<Fee | null>(null);
   const [feeForLetter, setFeeForLetter] = useState<Fee | null>(null);
-
   const {data: fees = []} = useGetList("fees", {
     pagination: {page: 1, perPage: 100},
     filter: {studentId},
     sort: {field: "due_datetime", order: "ASC"},
   });
-
   const firstUnpaidNormalFee = useMemo(() => {
     const sorted = [...fees].sort((a, b) => {
       const dateA = new Date(a.due_datetime!).getTime();
       const dateB = new Date(b.due_datetime!).getTime();
       return dateA - dateB;
     });
-
     return sorted.find(
       (fee) => fee.status !== FeeStatusEnum.PAID && !isCatchUp(fee)
     );
   }, [fees]);
-
   const isFirstFeePending = useMemo(() => {
     if (!firstUnpaidNormalFee) return false;
     const lastMpbs = firstUnpaidNormalFee.mpbs?.at(-1);
     return lastMpbs?.status === MpbsStatus.PENDING;
   }, [firstUnpaidNormalFee]);
-
   const canPayFee = (currentFee: Fee) => {
     if (currentFee.status === FeeStatusEnum.PAID) return false;
     if (isCatchUp(currentFee)) return true;
     if (!firstUnpaidNormalFee) return true;
-
     const currentFeeDate = new Date(currentFee.due_datetime!).getTime();
     const blockingFeeDate = new Date(
       firstUnpaidNormalFee.due_datetime!
     ).getTime();
-
     return currentFeeDate <= blockingFeeDate;
   };
-
   return (
     <Box>
       <OrangeMoneyHeader />
@@ -363,7 +348,6 @@ export const StudentFeeList = () => {
                     });
                     return;
                   }
-
                   if (isFirstFeePending) {
                     notify(
                       "Le paiement de ce frais est déjà en cours de vérification.",
@@ -371,7 +355,6 @@ export const StudentFeeList = () => {
                     );
                     return;
                   }
-
                   setFeeToPay(firstUnpaidNormalFee);
                 }}
                 style={{
@@ -399,7 +382,6 @@ export const StudentFeeList = () => {
           render={commentFunctionRenderer}
           label="Commentaire"
         />
-
         <FunctionField
           render={(fee: Fee) =>
             formatDate(fee?.mpbs?.at(-1)?.creation_datetime)
@@ -424,7 +406,6 @@ export const StudentFeeList = () => {
           }
           label="Vérification réussie"
         />
-
         <FunctionField
           label="Actions"
           render={(fee: Fee) => {
@@ -434,11 +415,9 @@ export const StudentFeeList = () => {
               lastMpbs &&
               (lastMpbs.status === MpbsStatus.PENDING ||
                 lastMpbs.status === MpbsStatus.SUCCESS);
-
             const isRejectedLetter =
               fee.letter && fee.letter.status === LetterStatus.REJECTED;
             const hasLetter = fee.letter && !isRejectedLetter;
-
             return (
               <Box display="flex" alignItems="center">
                 {isPendingOrSuccess ? (
@@ -459,7 +438,6 @@ export const StudentFeeList = () => {
                     />
                   </IconButtonWithTooltip>
                 )}
-
                 <Link
                   to={`/fees/${fee.id}/show`}
                   data-testid={`showButton-${fee.id}`}
@@ -473,7 +451,6 @@ export const StudentFeeList = () => {
           }}
         />
       </HaList>
-
       <FeesDialog
         title="Créer mon/mes frais de rattrapage"
         show={showCatchupFees}
@@ -481,7 +458,6 @@ export const StudentFeeList = () => {
       >
         <CatchupFeesCreate onSuccess={toggleCatchupFees} />
       </FeesDialog>
-
       {feeToPay && (
         <FeesDialog
           title={`Paiement de mon frais`}
@@ -497,7 +473,6 @@ export const StudentFeeList = () => {
           />
         </FeesDialog>
       )}
-
       {feeForLetter && (
         <CreateLettersDialog
           isOpen={!!feeForLetter}

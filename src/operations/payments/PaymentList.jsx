@@ -65,7 +65,6 @@ const PaymentList = ({feeId, studentId}) => {
           )}
           textAlign="right"
         />
-
         {(role.isManager() || role.isAdmin()) && (
           <DeleteWithConfirm
             resourceType="payments"

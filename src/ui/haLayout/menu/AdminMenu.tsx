@@ -28,7 +28,6 @@ import {GraduationCap} from "lucide-react";
 
 function AdminMenu() {
   const {role} = useRole();
-
   return (
     <Box>
       <SingleMenu

@@ -53,13 +53,11 @@ describe("Manager.Student.CreditTransactions", () => {
   it("lists the student's credit transactions", () => {
     cy.getByTestid("credit-transactions-tab").click();
     cy.wait("@getCreditTransactions");
-
     cy.get("table tbody tr")
       .eq(0)
       .should("contain", "Dépôt")
       .and("contain", "100000 Ar")
       .and("contain", fee1Mock.comment);
-
     cy.get("table tbody tr")
       .eq(1)
       .should("contain", "Retrait")

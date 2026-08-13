@@ -17,7 +17,6 @@ describe("Manager.Fee.Archive", () => {
     cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
       "getStudentLevel"
     );
-
     cy.getByTestid("students-menu").click();
     cy.get('a[href="/students"]').click();
     cy.wait("@getStudents");
@@ -44,20 +43,16 @@ describe("Manager.Fee.Archive", () => {
       `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
       {}
     ).as("archiveFee");
-
     cy.getByTestid("fees-tab").click();
     cy.wait("@getFees");
-
     cy.get(
       ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
     )
       .find('[data-testid="archive-button-confirm"]')
       .click();
-
     cy.get("#alert-dialog-title").should("contain", "Archivage de frais");
     cy.contains("Confirmez-vous l'archivage de ce frais ?");
     cy.get(".ra-confirm").click();
-
     cy.wait("@archiveFee");
     cy.contains("Frais archivé avec succès.");
   });
@@ -73,10 +68,8 @@ describe("Manager.Fee.Archive", () => {
       `/students/${student1Mock.id}/fees?page=2&page_size=10`,
       feesMock
     ).as("getFeesArchived2");
-
     cy.getByTestid("fees-tab").click();
     cy.wait("@getFeesArchived");
-
     cy.get(
       ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
     )
