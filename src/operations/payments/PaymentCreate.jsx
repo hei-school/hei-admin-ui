@@ -1,13 +1,16 @@
 import {paymentTypes} from "@/conf";
 import {useToggle} from "@/hooks/useToggle";
+import {useStudentCredit} from "@/operations/payments/utils/validateCredit";
 import {studentIdFromRaId} from "@/providers/feeProvider";
+import {useRole} from "@/security/hooks";
 import {
   MobileMoneyType,
+  PaymentStatus,
   PaymentTypeEnum,
 } from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {Home, Wallet} from "lucide-react";
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import {
   BooleanInput,
   Create,
@@ -19,7 +22,6 @@ import {
   SelectInput,
   SimpleForm,
   TextInput,
-  useDataProvider,
   useNotify,
 } from "react-admin";
 import {Link as RouterLink, useParams} from "react-router-dom";
@@ -29,27 +31,19 @@ import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
 const PaymentCreate = (props) => {
   const params = useParams();
   const notify = useNotify();
-  const dataProvider = useDataProvider();
+  const role = useRole();
   const [studentRef, setStudentRef] = useState("...");
   const [paymentChoice, setPaymentChoice] = useState(
     PaymentTypeEnum.BANK_TRANSFER
   );
   const [notSpecifiedDate, setSpecifyDate] = useToggle(true);
-
   const feeId = params.feeId;
   const studentId = studentIdFromRaId(feeId);
+  const {validateCreditPayment} = useStudentCredit(studentId);
   const isMobileMoney = paymentChoice === PaymentTypeEnum.MOBILE_MONEY;
   const isCommentNecessary =
     isMobileMoney || paymentChoice === PaymentTypeEnum.BANK_TRANSFER;
-
-  useEffect(() => {
-    const doEffect = async () => {
-      const student = await dataProvider.getOne("students", {id: studentId});
-      setStudentRef(student.data.ref);
-    };
-    doEffect();
-  }, [studentId, dataProvider]);
-
+  const isCreditPayment = paymentChoice === PaymentTypeEnum.CREDIT;
   const breadcrumbItems = [
     {
       label: "Étudiant",
@@ -67,15 +61,19 @@ const PaymentCreate = (props) => {
       label: "Créer un paiement",
     },
   ];
-
   const notifyError = (error) => {
-    let message = "Une erreur s`'est produite";
+    let message = "Une erreur s'est produite";
     if (error.response && error.response.status === 400) {
-      if (error.response.message.startsWith("Payment amount"))
+      if (error.response.message.startsWith("Payment amount")) {
         message = "Le paiement dépasse le montant restant du frais";
-      else message = "Paiement pour date future non autorisé";
+      } else {
+        message = "Paiement pour date future non autorisé";
+      }
     }
-    notify(message, {type: "error", autoHideDuration: 2500});
+    notify(message, {
+      type: "error",
+      autoHideDuration: 2500,
+    });
   };
   const paymentConfToPaymentApi = ({
     ref,
@@ -94,6 +92,14 @@ const PaymentCreate = (props) => {
       }
       return new Date(creation_datetime).toISOString();
     };
+    // Les paiements par Mobile Money (Orange Money) sont validés
+    // automatiquement, quel que soit le rôle qui les crée.
+    const status =
+      type === PaymentTypeEnum.MOBILE_MONEY ||
+      role.isManager() ||
+      role.isAdmin()
+        ? PaymentStatus.VALIDATE
+        : PaymentStatus.CREATED;
     return [
       {
         feeId,
@@ -103,11 +109,11 @@ const PaymentCreate = (props) => {
         ref,
         psp_id,
         psp_type,
+        status,
         creation_datetime: getDatetimeValue(),
       },
     ];
   };
-
   return (
     <Box m={2}>
       <CustomBreadcrumbs items={breadcrumbItems} />
@@ -150,7 +156,12 @@ const PaymentCreate = (props) => {
               source="psp_type"
               label="Type de transaction"
               defaultValue={MobileMoneyType.ORANGE_MONEY}
-              choices={[{id: MobileMoneyType.ORANGE_MONEY, name: "Orange"}]}
+              choices={[
+                {
+                  id: MobileMoneyType.ORANGE_MONEY,
+                  name: "Orange",
+                },
+              ]}
               validate={required()}
               fullWidth
             />
@@ -159,7 +170,17 @@ const PaymentCreate = (props) => {
             source="amount"
             label="Montant du paiement"
             fullWidth
-            validate={[required(), number(), minValue(1)]}
+            validate={[
+              required(),
+              number(),
+              minValue(1),
+              (value) => {
+                if (!isCreditPayment) {
+                  return undefined;
+                }
+                return validateCreditPayment(value);
+              },
+            ]}
           />
           <TextInput
             source="comment"
@@ -169,7 +190,7 @@ const PaymentCreate = (props) => {
           />
           <BooleanInput
             source="specify-date"
-            label={"Date de paiement aujourd'hui"}
+            label="Date de paiement aujourd'hui"
             name="create"
             defaultValue={notSpecifiedDate}
             onChange={({target: {checked}}) => setSpecifyDate(checked)}

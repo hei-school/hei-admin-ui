@@ -1,4 +1,7 @@
-import {ResultOverviewStatus} from "@haapi-b0fc7615/typescript-client";
+import {
+  ResultOverviewStatus,
+  StudentResultOverview,
+} from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
@@ -13,12 +16,9 @@ const studentsResultOverviewProvider: HaDataProviderType = {
       .getStudentsResultOverviewsByStatus(promotionId, status, page, perPage)
       .then((response) => ({
         data: response.data.map(
-          (
-            item: {id: string; _id: string; studentId: string},
-            index: number
-          ) => ({
+          (item: StudentResultOverview, index: number) => ({
             ...item,
-            id: item.id ?? item._id ?? item.studentId ?? index,
+            id: item.student?.id ?? item.student?.ref ?? index,
           })
         ),
       }));

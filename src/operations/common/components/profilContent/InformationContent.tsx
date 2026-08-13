@@ -1,5 +1,6 @@
 import {useTabManager} from "@/hooks/useTabManager";
 import {CommentList} from "@/operations/comments/CommentList";
+import {CreditTransactionList} from "@/operations/fees/components/Credits/CreditTransactionList";
 import FeeList from "@/operations/fees/FeeList";
 import {GradesOverview} from "@/operations/grades/GradesDashboard";
 import {LettersList} from "@/operations/letters/LettersList";
@@ -15,7 +16,6 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {FC} from "react";
 import {useGetOne, useRecordContext} from "react-admin";
 import {Contact} from "./ContactDetails";
 import {PersonalDetails} from "./PersonalDetails";
@@ -41,16 +41,16 @@ const TabPanel = (props: TabPanelProps) => {
   );
 };
 
-export const Informations: FC<{
-  isStudentProfile: boolean;
-  isTeacherProfile: boolean;
-  isMonitorProfile: boolean;
-  isStaffProfil: boolean;
-}> = ({
+export const Informations = ({
   isStudentProfile,
   isTeacherProfile,
   isMonitorProfile,
   isStaffProfil,
+}: {
+  isStudentProfile: boolean;
+  isTeacherProfile: boolean;
+  isMonitorProfile: boolean;
+  isStaffProfil: boolean;
 }) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const profile = useRecordContext();
@@ -72,7 +72,6 @@ export const Informations: FC<{
       enabled: role.isManager() || role.isAdmin(),
     }
   );
-
   const adminView =
     !role.isMonitor() &&
     !role.isOrganizer() &&
@@ -81,7 +80,6 @@ export const Informations: FC<{
     !(role.isTeacher() && isStudentProfile) &&
     !isAdminProfil &&
     !isManagerProfil;
-
   const allTabs = [
     {
       id: "profile",
@@ -179,20 +177,25 @@ export const Informations: FC<{
       content: <StudentParticipationList />,
     },
     {
+      id: "credit-transactions",
+      label: "Transactions",
+      show:
+        isStudentProfile &&
+        (role.isManager() || role.isAdmin() || role.isMonitor()),
+      content: <CreditTransactionList studentId={String(profile?.id ?? "")} />,
+    },
+    {
       id: "monitor-students",
       label: "Étudiants liés",
       show: isMonitorProfile,
       content: <MonitorStudentList />,
     },
   ];
-
   const tabValues = allTabs.map((tab) => tab.id);
-
   const {tabIndex, handleTabChange} = useTabManager({
     values: tabValues,
     defaultTabIndex: 0,
   });
-
   if (!profile) {
     return (
       <Box
@@ -211,7 +214,6 @@ export const Informations: FC<{
       </Box>
     );
   }
-
   const visibleTabs = allTabs.filter((tab) => tab.show);
   const visibleTabIndexes = allTabs
     .map((tab, idx) => (tab.show ? idx : null))
@@ -219,7 +221,6 @@ export const Informations: FC<{
   const currentTabIndex = visibleTabIndexes.includes(tabIndex)
     ? visibleTabs.findIndex((_, i) => visibleTabIndexes[i] === tabIndex)
     : 0;
-
   return (
     <Box sx={{width: "100%"}}>
       <Tabs
@@ -233,7 +234,6 @@ export const Informations: FC<{
         sx={{
           "width": "100%",
           "borderBottom": "1px solid rgba(0, 0, 0, 0.12)",
-
           "& .MuiTab-root": {
             "textTransform": "none",
             "minWidth": 120,

@@ -4,11 +4,9 @@ import {FunctionField, SimpleShowLayout} from "react-admin";
 
 export default function HaField({source, label, icon, render}) {
   const isLarge = useMediaQuery("(min-width:1700px)");
-
   const getValue = (record) => {
     return render ? render(record) : record[source];
   };
-
   return (
     <Box
       sx={{
@@ -37,6 +35,7 @@ export default function HaField({source, label, icon, render}) {
           label={
             <Typography
               variant="subtitle2"
+              component="span"
               sx={{
                 fontWeight: 600,
                 fontSize: isLarge ? "1.2rem" : "0.9rem",

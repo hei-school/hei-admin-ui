@@ -8,4 +8,5 @@ export const paymentTypes = [
   {name: "Virement Bancaire", id: PaymentTypeEnum.BANK_TRANSFER},
   {name: "Mobile money", id: PaymentTypeEnum.MOBILE_MONEY},
   {name: "Cash", id: PaymentTypeEnum.CASH},
+  {name: "Crédit", id: PaymentTypeEnum.CREDIT},
 ];

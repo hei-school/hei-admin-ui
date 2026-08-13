@@ -4,6 +4,7 @@ import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {trackNavClick} from "@/utils/gtm";
 import {
   Newspaper as AnnouncementIcon,
+  AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
   EditCalendar,
   EventBusy,
@@ -27,7 +28,6 @@ import {GraduationCap} from "lucide-react";
 
 function AdminMenu() {
   const {role} = useRole();
-
   return (
     <Box>
       <SingleMenu
@@ -53,6 +53,12 @@ function AdminMenu() {
           icon={<StudentListIcon />}
           to="/students"
           onClick={() => trackNavClick("students_list", role)}
+        />
+        <ListMenuItem
+          label="Liste des paiements par crédit"
+          icon={<CreditPaymentsIcon />}
+          to="/credit-payments"
+          onClick={() => trackNavClick("payments_list", role)}
         />
         <ListMenuItem
           label="Liste des sortants"

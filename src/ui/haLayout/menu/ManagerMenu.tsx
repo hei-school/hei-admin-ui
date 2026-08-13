@@ -3,6 +3,7 @@ import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
   SafetyDivider as CorIcon,
+  AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
   EditCalendar,
   EventBusy,
@@ -45,6 +46,11 @@ function ManagerMenu() {
           label="Transactions (Mobile Money)"
           icon={<TransactionsIcon />}
           to="/transactions"
+        />
+        <ListMenuItem
+          label="Liste des paiements par crédit"
+          icon={<CreditPaymentsIcon />}
+          to="/credit-payments"
         />
         <ListMenuItem
           label="Frais (en retard par défaut)"

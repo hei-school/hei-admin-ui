@@ -1,19 +1,10 @@
-import {AttendanceStatus} from "@haapi-b0fc7615/typescript-client";
+import {
+  AttendanceStatus,
+  StudentGlobalAttendance,
+} from "@haapi-b0fc7615/typescript-client";
 
 import {attendanceApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
-
-type AttendanceRecord = {
-  id?: string;
-  _id?: string;
-  attendance_status: AttendanceStatus;
-  begin_datetime: string;
-  end_datetime: string;
-  event_type: string;
-  title: string;
-  description?: string;
-  location?: string;
-};
 
 const StudentParticipationProvider: HaDataProviderType = {
   getList: async (
@@ -30,12 +21,11 @@ const StudentParticipationProvider: HaDataProviderType = {
     const {id} = meta;
     const {from, to, attendanceStatus, title} = filter;
     const titleParam = title && title.length > 0 ? title : [""];
-
     return attendanceApi()
       .getStudentAttendance(from, to, id, attendanceStatus, titleParam)
       .then(({data}) => ({
-        data: data.map((record: AttendanceRecord, index: number) => ({
-          id: record.id ?? record._id ?? `${record.begin_datetime}-${index}`,
+        data: data.map((record: StudentGlobalAttendance, index: number) => ({
+          id: record.id ?? `${record.begin_datetime}-${index}`,
           attendanceStatus: record.attendance_status,
           beginDatetime: record.begin_datetime,
           endDatetime: record.end_datetime,

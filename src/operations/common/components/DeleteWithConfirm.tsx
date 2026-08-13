@@ -3,10 +3,18 @@ import {Button, ButtonProps} from "@mui/material";
 import {Confirm, useDelete, useRecordContext, useRedirect} from "react-admin";
 
 import {NOOP_FN} from "@/utils/noop";
-import {FC} from "react";
 import {useNotify, useToggle} from "../../../hooks";
 
-export const DeleteWithConfirm: FC<{
+export const DeleteWithConfirm = ({
+  resourceType,
+  text,
+  confirmTitle,
+  confirmContent,
+  id,
+  redirect,
+  buttonProps = {},
+  onDelete = NOOP_FN,
+}: {
   resourceType: string;
   text?: string;
   confirmTitle: string;
@@ -15,15 +23,6 @@ export const DeleteWithConfirm: FC<{
   id?: string;
   buttonProps?: ButtonProps;
   onDelete?: () => void;
-}> = ({
-  resourceType,
-  text = "Supprimer",
-  confirmTitle,
-  confirmContent,
-  id,
-  redirect,
-  buttonProps = {},
-  onDelete = NOOP_FN,
 }) => {
   const [showConfirm, , toggleShowConfig] = useToggle();
   const record = useRecordContext();
@@ -38,7 +37,6 @@ export const DeleteWithConfirm: FC<{
     toggleShowConfig();
     event.stopPropagation();
   };
-
   const doDelete = () => {
     toggleShowConfig();
     deleteOne();
@@ -48,11 +46,9 @@ export const DeleteWithConfirm: FC<{
       doRedirect(redirect);
     }
   };
-
   if (error) {
     notify("Une erreur s'est produite lors de la suppression des ressources");
   }
-
   return (
     <div className="delete-button-wrapper">
       <Button
