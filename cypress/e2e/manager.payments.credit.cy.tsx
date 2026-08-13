@@ -25,7 +25,7 @@ describe("Manager.Payments.Flow", () => {
     );
     cy.intercept(
       "GET",
-      `/students?page=1&page_size=10&first_name=${student1Mock.first_name}`,
+      `/students?page=*&page_size=*&first_name=${student1Mock.first_name}`,
       [student1Mock]
     ).as("getStudentsByFirstName");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
@@ -103,6 +103,11 @@ describe("Manager.Payments.Flow", () => {
       `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments`,
       [createPayment]
     ).as("createPayment");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=500`,
+      []
+    ).as("getFeesForCredit");
 
     cy.getByTestid("fees-tab").click();
     cy.wait("@getFees");
@@ -114,6 +119,7 @@ describe("Manager.Payments.Flow", () => {
 
     cy.contains("Créer").click();
     cy.wait("@getStudentCredit");
+    cy.wait("@getFeesForCredit");
 
     cy.get("#type_CASH").click();
     cy.get("#amount").click().type(createPayment.amount!.toString());
@@ -122,6 +128,86 @@ describe("Manager.Payments.Flow", () => {
 
     cy.wait("@createPayment");
     cy.contains("Élément créé");
+  });
+
+  it("can create a credit payment for a fee within the student's credit", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
+      fee1Mock
+    ).as("getFee1");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`,
+      []
+    ).as("getPayments");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=500`,
+      []
+    ).as("getFeesForCredit");
+    cy.intercept(
+      "POST",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments`,
+      [creditPaymentValidatedMock]
+    ).as("createCreditPayment");
+
+    cy.getByTestid("fees-tab").click();
+    cy.wait("@getFees");
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
+    cy.wait("@getFee1");
+    cy.wait("@getPayments");
+
+    cy.contains("Créer").click();
+    cy.wait("@getStudentCredit");
+    cy.wait("@getFeesForCredit");
+
+    cy.get("#type_CREDIT").click();
+    cy.get("#amount").click().type("100000");
+    cy.contains("Enregistrer").click();
+
+    cy.wait("@createCreditPayment");
+    cy.contains("Élément créé");
+  });
+
+  it("cannot create a credit payment exceeding the student's credit", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
+      fee1Mock
+    ).as("getFee1");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=1&page_size=10`,
+      []
+    ).as("getPayments");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=500`,
+      []
+    ).as("getFeesForCredit");
+
+    cy.getByTestid("fees-tab").click();
+    cy.wait("@getFees");
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
+    cy.wait("@getFee1");
+    cy.wait("@getPayments");
+
+    cy.contains("Créer").click();
+    cy.wait("@getStudentCredit");
+    cy.wait("@getFeesForCredit");
+
+    cy.get("#type_CREDIT").click();
+    cy.get("#amount")
+      .click()
+      .type((studentCreditMock.amount + 1).toString());
+    cy.contains("Enregistrer").click();
+
+    cy.contains("Le montant saisi est supérieur à votre crédit actuel.");
   });
 });
 
@@ -142,12 +228,12 @@ describe("Manager.CreditPayments", () => {
     Object.values(PaymentStatus).forEach((status) => {
       cy.intercept(
         "GET",
-        `/students/credit-payments?status=${status}&page=1&page_size=500`,
+        `/students/credit-payments?status=${status}&page=*&page_size=500`,
         creditPaymentsByStatusMock[status]
       ).as(`getAllCreditPayments_${status}`);
       cy.intercept(
         "GET",
-        `/students/credit-payments?status=${status}&page=1&page_size=10`,
+        `/students/credit-payments?status=${status}&page=*&page_size=10`,
         creditPaymentsByStatusMock[status]
       ).as(`getFilteredCreditPayments_${status}`);
     });
@@ -163,7 +249,9 @@ describe("Manager.CreditPayments", () => {
 
     cy.get("table tbody tr")
       .eq(0)
-      .should("contain", creditPaymentPendingMock.comment);
+      .should("contain", creditPaymentPendingMock.comment)
+      .and("contain", student1Mock.ref)
+      .and("contain", `${studentCreditMock.amount} Ar`);
     cy.get("table tbody tr")
       .eq(1)
       .should("contain", creditPaymentValidatedMock.comment);
@@ -194,5 +282,52 @@ describe("Manager.CreditPayments", () => {
     cy.contains(creditPaymentPendingMock.comment!);
     cy.contains(creditPaymentValidatedMock.comment!);
     cy.contains(creditPaymentRejectedMock.comment!);
+  });
+
+  it("can validate a pending credit payment", () => {
+    cy.intercept("PATCH", `/students/payments/validate`, {}).as(
+      "validatePayment"
+    );
+
+    cy.wait("@getAllCreditPayments_CREATED");
+    cy.getByTestid(`validate-payment-${creditPaymentPendingMock.id}`).click();
+    cy.get("#alert-dialog-title").should("contain", "Valider le paiement");
+    cy.get(".ra-confirm").click();
+
+    cy.wait("@validatePayment")
+      .its("request.body")
+      .should("deep.equal", [creditPaymentPendingMock.id]);
+    cy.contains("Paiement validé avec succès.");
+  });
+
+  it("can reject a pending credit payment", () => {
+    cy.intercept("PATCH", `/students/payments/reject`, {}).as("rejectPayment");
+
+    cy.wait("@getAllCreditPayments_CREATED");
+    cy.getByTestid(`reject-payment-${creditPaymentPendingMock.id}`).click();
+    cy.get("#alert-dialog-title").should("contain", "Rejeter le paiement");
+    cy.get(".ra-confirm").click();
+
+    cy.wait("@rejectPayment")
+      .its("request.body")
+      .should("deep.equal", [creditPaymentPendingMock.id]);
+    cy.contains("Paiement rejeté avec succès.");
+  });
+
+  it("disables validate and reject actions for already processed payments", () => {
+    cy.wait("@getAllCreditPayments_CREATED");
+
+    cy.getByTestid(`validate-payment-${creditPaymentValidatedMock.id}`).should(
+      "be.disabled"
+    );
+    cy.getByTestid(`reject-payment-${creditPaymentValidatedMock.id}`).should(
+      "be.disabled"
+    );
+    cy.getByTestid(`validate-payment-${creditPaymentRejectedMock.id}`).should(
+      "be.disabled"
+    );
+    cy.getByTestid(`reject-payment-${creditPaymentRejectedMock.id}`).should(
+      "be.disabled"
+    );
   });
 });

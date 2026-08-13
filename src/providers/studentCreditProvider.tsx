@@ -1,23 +1,41 @@
-import {CreditMovement, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {
+  CreditMovement,
+  PaymentStatus,
+  PaymentTypeEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {payingApi} from "./api";
 
 const FETCH_ALL_PAGE_SIZE = 500;
 
+// Computed from the student's own fees/payments (instead of the
+// manager/admin-only "all credit payments" endpoint) so it can be used both
+// from a manager's view of a student and from the student's own view.
 const getPendingCreditAmount = async (studentId: string): Promise<number> => {
-  const [studentFees, pendingCreditPayments] = await Promise.all([
-    payingApi().getFeesByStudentId(studentId, 1, FETCH_ALL_PAGE_SIZE),
-    payingApi().getCreditPaymentsByStatus(
-      PaymentStatus.CREATED,
-      1,
-      FETCH_ALL_PAGE_SIZE
-    ),
-  ]);
+  const {data: studentFees} = await payingApi().getFeesByStudentId(
+    studentId,
+    1,
+    FETCH_ALL_PAGE_SIZE
+  );
 
-  const studentFeeIds = new Set(studentFees.data.map((fee) => fee.id));
+  const paymentsByFee = await Promise.all(
+    studentFees.map((fee) =>
+      payingApi().getStudentPayments(
+        studentId,
+        fee.id as string,
+        1,
+        FETCH_ALL_PAGE_SIZE
+      )
+    )
+  );
 
-  return pendingCreditPayments.data
-    .filter((payment) => studentFeeIds.has(payment.fee_id))
+  return paymentsByFee
+    .flatMap((result) => result.data)
+    .filter(
+      (payment) =>
+        payment.type === PaymentTypeEnum.CREDIT &&
+        payment.status === PaymentStatus.CREATED
+    )
     .reduce((total, payment) => total + (payment.amount ?? 0), 0);
 };
 

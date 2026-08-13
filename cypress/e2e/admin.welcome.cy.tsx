@@ -4,6 +4,7 @@ import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {advanceStatsMocks} from "../fixtures/api_mocks/advanceStats-mocks";
 import {announcementsMock} from "../fixtures/api_mocks/announcement-mocks";
 import {commentMocks} from "../fixtures/api_mocks/comment-mocks";
+import {creditPaymentPendingMock} from "../fixtures/api_mocks/credit-payments-mocks";
 import {unpaidFeeMock} from "../fixtures/api_mocks/fees-mocks";
 import {lettersMocks, statsMocks} from "../fixtures/api_mocks/letters-mocks";
 import {studentsMock} from "../fixtures/api_mocks/students-mocks";
@@ -64,6 +65,12 @@ describe("AdminWelcome Page", () => {
     ).as("getAnnouncements2");
 
     cy.intercept("GET", `/fees**`, {data: [unpaidFeeMock]}).as("getFees");
+
+    cy.intercept(
+      "GET",
+      `/students/credit-payments?status=CREATED&page=*&page_size=*`,
+      [creditPaymentPendingMock]
+    ).as("getPendingCreditPayments");
   });
 
   it("should display 'Bonjour' greeting in WelcomingCard", () => {
@@ -135,6 +142,15 @@ describe("AdminWelcome Page", () => {
         const src = $img.attr("src");
         expect(src).to.be.a("string").and.not.be.empty;
       });
+  });
+
+  it("should display the pending credit payments widget with the correct count", () => {
+    cy.wait("@getPendingCreditPayments");
+    cy.contains("Paiements par crédit à valider").should("exist");
+    cy.contains("1 en attente").should("exist");
+
+    cy.contains("Voir tous les paiements").click();
+    cy.url().should("include", "/credit-payments");
   });
 
   it("should render radial gradient decorations with radial-gradient in background", () => {

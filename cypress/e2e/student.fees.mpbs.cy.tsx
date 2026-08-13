@@ -1,3 +1,4 @@
+import {studentCreditMock} from "../fixtures/api_mocks/credit-payments-mocks";
 import {
   fee1Mock,
   fee1MockMpbs,
@@ -21,6 +22,16 @@ describe("Mobile payment by student", () => {
     cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
       "getStudentLevel"
     );
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/credit`,
+      studentCreditMock
+    ).as("getStudentCredit");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=500`,
+      []
+    ).as("getFeesForCredit");
 
     cy.mockLogin({role: "STUDENT"});
     cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
@@ -70,5 +81,42 @@ describe("Mobile payment by student", () => {
     cy.contains("Paiement enregistré avec succès");
 
     cy.wait("@getMpbsFees");
+  });
+
+  it("can pay a fee by credit when the student has enough credit", () => {
+    cy.intercept(
+      "POST",
+      `/students/${fee1Mock.student_id}/fees/${fee1Mock.id}/payments`,
+      [{id: "credit_payment_new_id"}]
+    ).as("createCreditPayment");
+
+    cy.wait("@getStudentCredit");
+
+    cy.getByTestid(
+      `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
+    ).click({force: true});
+
+    cy.contains("Crédit").click();
+    cy.get("#amount").click().type("100000");
+    cy.contains("Enregistrer").click();
+
+    cy.contains("Paiement enregistré avec succès");
+    cy.wait("@createCreditPayment");
+  });
+
+  it("cannot pay a fee by credit for more than the available credit", () => {
+    cy.wait("@getStudentCredit");
+
+    cy.getByTestid(
+      `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
+    ).click({force: true});
+
+    cy.contains("Crédit").click();
+    cy.get("#amount")
+      .click()
+      .type((studentCreditMock.amount + 1).toString());
+    cy.contains("Enregistrer").click();
+
+    cy.contains("Le montant saisi est supérieur à votre crédit actuel.");
   });
 });

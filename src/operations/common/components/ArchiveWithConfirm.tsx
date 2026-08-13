@@ -1,6 +1,5 @@
 import ArchiveIcon from "@mui/icons-material/Archive";
 import {Button, ButtonProps} from "@mui/material";
-import {FC} from "react";
 import {
   Confirm,
   RaRecord,
@@ -10,21 +9,23 @@ import {
 } from "react-admin";
 import {useToggle} from "../../../hooks";
 
-export const ArchiveWithConfirm: FC<{
+interface ArchiveWithConfirmProps {
   text?: string;
   confirmTitle: string;
   confirmContent: string;
   redirect?: string;
   buttonProps?: ButtonProps;
   onArchive: (record: RaRecord) => Promise<any>;
-}> = ({
+}
+
+export const ArchiveWithConfirm = ({
   text,
   confirmTitle,
   confirmContent,
   redirect,
   buttonProps = {},
   onArchive,
-}) => {
+}: ArchiveWithConfirmProps) => {
   const record = useRecordContext();
   const [showConfirm, , toggleShowConfirm] = useToggle();
   const notify = useNotify();
