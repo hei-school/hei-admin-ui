@@ -5,7 +5,7 @@ import {
   FeeTypeEnum,
   MpbsStatus,
   WhoamiRoleEnum,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import authProvider from "./authProvider";

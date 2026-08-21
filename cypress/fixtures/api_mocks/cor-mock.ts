@@ -1,4 +1,4 @@
-import {Cor} from "@haapi-b0fc7615/typescript-client";
+import {Cor} from "@haapi-3d601c85/typescript-client";
 import {manager1Mock} from "./managers-mocks";
 import {teacher1Mock} from "./teachers-mocks";
 

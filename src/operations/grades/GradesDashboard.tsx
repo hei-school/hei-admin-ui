@@ -8,7 +8,7 @@ import {
   StyledToggleButtonGroup,
 } from "@/operations/grades/utils/utils";
 import {useRole} from "@/security/hooks";
-import {Student} from "@haapi-b0fc7615/typescript-client";
+import {Student} from "@haapi-3d601c85/typescript-client";
 import {AutoGraph, School} from "@mui/icons-material";
 import {Box, Fade, Typography} from "@mui/material";
 import {FC, useEffect, useState} from "react";

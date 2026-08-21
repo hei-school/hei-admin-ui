@@ -1,7 +1,7 @@
 import {useNotify, useToggle} from "@/hooks";
 import {Create} from "@/operations/common/components";
 import {Dialog} from "@/ui/components";
-import {CorCommentInfo} from "@haapi-b0fc7615/typescript-client";
+import {CorCommentInfo} from "@haapi-3d601c85/typescript-client";
 import {Add, AddComment} from "@mui/icons-material";
 import {Box, IconButton, Tooltip} from "@mui/material";
 import {FC} from "react";

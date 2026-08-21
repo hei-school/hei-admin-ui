@@ -1,7 +1,7 @@
 import {useNotify, useToggle} from "@/hooks";
 import {Edit} from "@/operations/common/components";
 import {Dialog} from "@/ui/components";
-import {Cor} from "@haapi-b0fc7615/typescript-client";
+import {Cor} from "@haapi-3d601c85/typescript-client";
 import {Edit as EditIcon} from "@mui/icons-material";
 import {IconButton, Tooltip} from "@mui/material";
 import {

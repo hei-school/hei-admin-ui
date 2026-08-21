@@ -1,4 +1,4 @@
-import {EventAttendance} from "@haapi-b0fc7615/typescript-client";
+import {EventAttendance} from "@haapi-3d601c85/typescript-client";
 import {eventsApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 

@@ -18,7 +18,7 @@ import {
   RetakeExamApi,
   SearchApi,
   UsersApi,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import authProvider from "./authProvider";
 
 export const usersApi = () =>

@@ -1,4 +1,4 @@
-import {RoomEnum} from "@haapi-b0fc7615/typescript-client";
+import {RoomEnum} from "@haapi-3d601c85/typescript-client";
 import {required, SelectInput, TextInput} from "react-admin";
 import {useWatch} from "react-hook-form";
 import {CLASSROOM_CHOICES} from "../utils";
