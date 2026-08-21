@@ -1,5 +1,5 @@
 import {HaList} from "@/ui/haList";
-import {ResultOverviewStatus} from "@haapi-3d601c85/typescript-client";
+import {ResultOverviewStatus} from "@haapi-b0fc7615/typescript-client";
 import {BookOpenCheckIcon} from "lucide-react";
 import {TextField} from "react-admin";
 import {useParams} from "react-router-dom";

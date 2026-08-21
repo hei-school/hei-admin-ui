@@ -3,7 +3,7 @@ import {RetakeExamSessionEdit} from "@/operations/retakeExamSessions/RetakeExamS
 import {useRole} from "@/security/hooks";
 import {Dialog} from "@/ui/components";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
-import {RetakeExamSession} from "@haapi-3d601c85/typescript-client";
+import {RetakeExamSession} from "@haapi-b0fc7615/typescript-client";
 import {Add, Edit as EditIcon} from "@mui/icons-material";
 import {Box, IconButton} from "@mui/material";
 import {FunctionField} from "react-admin";

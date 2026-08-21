@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {formatDate} from "@/utils/date";
-import {GradeHistory} from "@haapi-3d601c85/typescript-client";
+import {GradeHistory} from "@haapi-b0fc7615/typescript-client";
 import {
   Comment as CommentIcon,
   History as HistoryIcon,

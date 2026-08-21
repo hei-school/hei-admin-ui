@@ -11,7 +11,7 @@ import {
   useEditController,
 } from "react-admin";
 
-import {FeeCategory, FeeFrequency} from "@haapi-3d601c85/typescript-client";
+import {FeeCategory, FeeFrequency} from "@haapi-b0fc7615/typescript-client";
 import {Edit} from "../common/components";
 import {
   CATEGORY_CHOICES,

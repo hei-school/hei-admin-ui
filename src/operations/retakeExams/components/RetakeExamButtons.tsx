@@ -1,5 +1,5 @@
 import {useRole} from "@/security/hooks";
-import {RetakeExam, RetakeExamStatus} from "@haapi-3d601c85/typescript-client";
+import {RetakeExam, RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 import {
   Block,
   Cancel,

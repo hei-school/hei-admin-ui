@@ -2,7 +2,7 @@ import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
-import {RetakeExamSession} from "@haapi-3d601c85/typescript-client";
+import {RetakeExamSession} from "@haapi-b0fc7615/typescript-client";
 import {Box, CircularProgress} from "@mui/material";
 import {BookOpenIcon} from "lucide-react";
 import {useState} from "react";

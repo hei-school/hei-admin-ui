@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@documenso/embed-react": "^0.6.2",
-    "@haapi-3d601c85/typescript-client": "^1.168.0",
+    "@haapi-b0fc7615/typescript-client": "^1.169.0",
     "@haapi/typescript-client": "^1.110.0",
     "@mui/x-date-pickers": "^7.21.0",
     "@react-admin/ra-calendar": "^4.0.1",

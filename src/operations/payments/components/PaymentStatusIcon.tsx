@@ -1,5 +1,5 @@
 import {mapToChoices} from "@/utils/mapToChoices";
-import {PaymentStatus} from "@haapi-3d601c85/typescript-client";
+import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {Cancel, CheckCircle, HourglassEmpty} from "@mui/icons-material";
 import {IconButton, Tooltip} from "@mui/material";
 import {useRecordContext} from "react-admin";

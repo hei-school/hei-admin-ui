@@ -1,6 +1,6 @@
 import {ReactNode} from "react";
 
-import {Letter} from "@haapi-3d601c85/typescript-client";
+import {Letter} from "@haapi-b0fc7615/typescript-client";
 import {Identifier} from "react-admin";
 
 export interface CreateLettersDialogProps {

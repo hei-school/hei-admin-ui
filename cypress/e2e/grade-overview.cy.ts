@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {getCourseStatusLabel} from "../../src/operations/grades/utils/constants";
 import {
   courseResultsMock,

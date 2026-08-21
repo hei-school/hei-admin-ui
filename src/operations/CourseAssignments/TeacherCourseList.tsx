@@ -1,6 +1,6 @@
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
-import {Group} from "@haapi-3d601c85/typescript-client";
+import {Group} from "@haapi-b0fc7615/typescript-client";
 import {MenuBook as BookIcon} from "@mui/icons-material";
 import {FunctionField, TextField} from "react-admin";
 

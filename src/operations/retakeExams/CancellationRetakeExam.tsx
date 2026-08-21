@@ -1,5 +1,5 @@
 import {HaList} from "@/ui/haList";
-import {RetakeExamStatus} from "@haapi-3d601c85/typescript-client";
+import {RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 import {AssignmentLate} from "@mui/icons-material";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import {useEffect, useState} from "react";

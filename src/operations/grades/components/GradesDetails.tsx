@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {ToRaRecord} from "@/providers/types";
 import {useRole} from "@/security/hooks/useRole";
-import {CourseResult, Fraction, Grade} from "@haapi-3d601c85/typescript-client";
+import {CourseResult, Fraction, Grade} from "@haapi-b0fc7615/typescript-client";
 import {ExpandMore as ExpandMoreIcon} from "@mui/icons-material";
 import {
   Box,

@@ -3,7 +3,7 @@ import {CourseAssignmentsCreate} from "@/operations/CourseAssignments/CourseAssi
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
-import {Group} from "@haapi-3d601c85/typescript-client";
+import {Group} from "@haapi-b0fc7615/typescript-client";
 import {Add as AddIcon, Person as PersonIcon} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {FunctionField, TextField} from "react-admin";

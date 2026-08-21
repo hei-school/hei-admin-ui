@@ -5,7 +5,7 @@ import {Dialog} from "@/ui/components";
 import {mapToChoices} from "@/utils";
 import {NOOP_ID} from "@/utils/constants";
 import {toUTC} from "@/utils/date";
-import {AdvancedFeeStatisticsType} from "@haapi-3d601c85/typescript-client/dist/api";
+import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client/dist/api";
 import {Download} from "@mui/icons-material";
 import {Box, TextField} from "@mui/material";
 import {FC, useEffect, useState} from "react";

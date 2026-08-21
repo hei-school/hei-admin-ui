@@ -1,6 +1,6 @@
 import {gradesApi} from "@/providers/api";
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
-import {UpdateGrade} from "@haapi-3d601c85/typescript-client";
+import {UpdateGrade} from "@haapi-b0fc7615/typescript-client";
 
 const correctGradeProvider: HaDataProviderType = {
   async getList(page: number, perPage: number, filter = {}, meta = {}) {

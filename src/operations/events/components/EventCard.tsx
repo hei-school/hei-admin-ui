@@ -2,7 +2,7 @@ import defaultPicture from "@/assets/blank-profile-photo.png";
 import {useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {formatDate, getTime, isSameDay} from "@/utils/date";
-import {Event} from "@haapi-3d601c85/typescript-client";
+import {Event} from "@haapi-b0fc7615/typescript-client";
 import {CalendarMonthOutlined, Computer, MenuBook} from "@mui/icons-material";
 import {
   Box,

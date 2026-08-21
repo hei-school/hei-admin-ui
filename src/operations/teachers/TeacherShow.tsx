@@ -2,7 +2,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
 import {Show} from "@/operations/common/components/Show";
 import {useRole} from "@/security/hooks";
-import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Inventory} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {FC} from "react";

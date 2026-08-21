@@ -1,6 +1,6 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {gradesApi} from "@/providers/api";
-import {CreateGrade} from "@haapi-3d601c85/typescript-client";
+import {CreateGrade} from "@haapi-b0fc7615/typescript-client";
 
 const createGradeProvider: HaDataProviderType = {
   getList() {

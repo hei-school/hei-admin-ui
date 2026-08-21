@@ -1,5 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {AdvancedFeeStatisticsType} from "@haapi-3d601c85/typescript-client";
+import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client";
 import {AccountBalance, FileDownload, Payments} from "@mui/icons-material";
 import {
   Box,
