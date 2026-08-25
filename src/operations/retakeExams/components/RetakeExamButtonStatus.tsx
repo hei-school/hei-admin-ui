@@ -1,4 +1,4 @@
-import {RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
+import {RetakeExamStatus} from "@haapi-3d601c85/typescript-client";
 import {Cancel, CheckCircle, HourglassEmpty, Search} from "@mui/icons-material";
 import {Chip} from "@mui/material";
 

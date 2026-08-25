@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import {FC} from "react";
 
-import {YearlyResult} from "@haapi-b0fc7615/typescript-client";
+import {YearlyResult} from "@haapi-3d601c85/typescript-client";
 import {School} from "@mui/icons-material";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
 

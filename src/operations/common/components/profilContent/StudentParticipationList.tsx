@@ -1,5 +1,5 @@
 import {formatDate, getTime, isSameDay} from "@/utils/date";
-import {AttendanceStatus} from "@haapi-b0fc7615/typescript-client";
+import {AttendanceStatus} from "@haapi-3d601c85/typescript-client";
 import {
   Clear,
   EventAvailable,

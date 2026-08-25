@@ -1,7 +1,7 @@
 import {WORK_TYPE_VALUE} from "@/operations/docs/components/SelectWorkType";
 import {User} from "@/providers/types";
 import {useRole} from "@/security/hooks";
-import {StaffMember, Student} from "@haapi-b0fc7615/typescript-client";
+import {StaffMember, Student} from "@haapi-3d601c85/typescript-client";
 import {
   CalendarTodayOutlined as CalendarIcon,
   CurrencyExchange,

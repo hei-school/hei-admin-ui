@@ -1,4 +1,4 @@
-import {CreditMovement} from "@haapi-b0fc7615/typescript-client";
+import {CreditMovement} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {payingApi} from "./api";
 

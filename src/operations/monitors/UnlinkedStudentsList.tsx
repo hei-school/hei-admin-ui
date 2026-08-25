@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {ToRaRecord} from "@/providers/types";
-import {MonitorStudentLink} from "@haapi-b0fc7615/typescript-client";
+import {MonitorStudentLink} from "@haapi-3d601c85/typescript-client";
 import {
   Avatar,
   Box,

@@ -1,7 +1,7 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import dataProvider from "@/providers/dataProvider";
 import groupFlowProvider from "@/providers/groupFlowProvider";
-import {GroupFlowMoveTypeEnum} from "@haapi-b0fc7615/typescript-client";
+import {GroupFlowMoveTypeEnum} from "@haapi-3d601c85/typescript-client";
 import {
   Button,
   Dialog,

@@ -2,7 +2,7 @@ import {
   FeeCategory,
   FeeFrequency,
   FeeTypeEnum,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {excelDateToJsDate, validateData} from "../../ui/haToolbar";
 
 export const minimalFeesHeaders = [

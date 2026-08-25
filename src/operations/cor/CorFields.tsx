@@ -3,7 +3,7 @@ import {DateField} from "@/operations/common/components/fields";
 import {CorButtonAction} from "@/operations/cor/components/CorButtonAction";
 import StatusChip from "@/operations/cor/components/StatusChip";
 import {HaList} from "@/ui/haList";
-import {Cor} from "@haapi-b0fc7615/typescript-client";
+import {Cor} from "@haapi-3d601c85/typescript-client";
 import {SafetyDivider} from "@mui/icons-material";
 import {alpha, Chip} from "@mui/material";
 import {FC, ReactNode} from "react";
