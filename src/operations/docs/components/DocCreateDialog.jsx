@@ -2,7 +2,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify} from "@/hooks";
 import {Create} from "@/operations/common/components";
 import {removeExtension} from "@/utils/files";
-import {FileType} from "@haapi-b0fc7615/typescript-client";
+import {FileType} from "@haapi-3d601c85/typescript-client";
 import {Box, Dialog, DialogTitle} from "@mui/material";
 import {
   DateInput,

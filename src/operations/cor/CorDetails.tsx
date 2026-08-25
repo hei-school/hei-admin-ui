@@ -1,7 +1,7 @@
 import {ToRaRecord} from "@/providers/types";
 import {useRole} from "@/security/hooks";
 import {formatDate} from "@/utils/date";
-import {Cor} from "@haapi-b0fc7615/typescript-client";
+import {Cor} from "@haapi-3d601c85/typescript-client";
 import {Box, Typography, keyframes} from "@mui/material";
 import {IdCard, Mail, MessageSquare, User, Users} from "lucide-react";
 import {FC, ReactNode} from "react";

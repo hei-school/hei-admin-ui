@@ -1,4 +1,4 @@
-import {CourseResultStatus} from "@haapi-b0fc7615/typescript-client";
+import {CourseResultStatus} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {retakeExamApi} from "./api";
 

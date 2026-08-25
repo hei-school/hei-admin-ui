@@ -6,7 +6,7 @@ import {
   LetterStatusFilter,
 } from "@/operations/letters/components";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import {Student, Teacher} from "@haapi-b0fc7615/typescript-client";
+import {Student, Teacher} from "@haapi-3d601c85/typescript-client";
 import {CloudUpload, Tune} from "@mui/icons-material";
 import {Box, Button} from "@mui/material";
 import {FC, useState} from "react";

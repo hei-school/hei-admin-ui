@@ -3,11 +3,15 @@ import {CreditPaymentActions} from "@/operations/payments/components/CreditPayme
 import {CreditPaymentStatusFilterButtons} from "@/operations/payments/components/CreditPaymentStatusFilterButtons";
 import {PaymentStatusIcon} from "@/operations/payments/components/PaymentStatusIcon";
 import {HaList} from "@/ui/haList/HaList";
-import {CreditPayment, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {Fee, Payment, PaymentStatus} from "@haapi-3d601c85/typescript-client";
 import {AccountBalanceWallet as CreditIcon} from "@mui/icons-material";
 import {Box, Typography} from "@mui/material";
 import {FunctionField, TextField} from "react-admin";
 import {DateField} from "../common/components/fields";
+
+// Le client généré ne modélise plus les paiements par crédit séparément :
+// l'endpoint type désormais sa réponse en Payment, qui ne déclare pas le fee imbriqué.
+type CreditPayment = Payment & {fee?: Fee};
 
 const CreditPaymentList = () => {
   return (

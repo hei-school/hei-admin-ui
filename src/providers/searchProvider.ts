@@ -1,4 +1,4 @@
-import {SearchResultsUser} from "@haapi-b0fc7615/typescript-client";
+import {SearchResultsUser} from "@haapi-3d601c85/typescript-client";
 import {searchApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 

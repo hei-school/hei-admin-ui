@@ -40,7 +40,7 @@ import {useNotify} from "@/hooks";
 import PdfViewer from "@/operations/common/components/PdfViewer";
 import {useRole} from "@/security/hooks";
 import {formatDate} from "@/utils/date";
-import {EventAttendance, Letter} from "@haapi-b0fc7615/typescript-client";
+import {EventAttendance, Letter} from "@haapi-3d601c85/typescript-client";
 
 interface AbsenceDetailDialogForStaffProps {
   open: boolean;
