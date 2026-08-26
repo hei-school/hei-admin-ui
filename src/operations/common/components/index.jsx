@@ -1,4 +1,3 @@
-export {ArchiveWithConfirm} from "./ArchiveWithConfirm";
 export * from "./ChipRadio";
 export * from "./Create";
 export {DeleteWithConfirm} from "./DeleteWithConfirm";

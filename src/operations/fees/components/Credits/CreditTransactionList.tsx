@@ -1,8 +1,15 @@
 import {renderMoney} from "@/operations/common/utils/money";
+import {CreditTransactionDetailsDialog} from "@/operations/fees/components/Credits/CreditTransactionDetails";
+import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
+import {
+  CreditMovement,
+  CreditTransaction,
+} from "@haapi-3d601c85/typescript-client";
 import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
 import {Box} from "@mui/material";
-import {FunctionField} from "react-admin";
+import {useState} from "react";
+import {FunctionField, RaRecord} from "react-admin";
 
 interface CreditTransactionListProps {
   studentId: string;
@@ -11,6 +18,8 @@ interface CreditTransactionListProps {
 export const CreditTransactionList = ({
   studentId,
 }: CreditTransactionListProps) => {
+  const [selected, setSelected] = useState<CreditTransaction | null>(null);
+
   return (
     <Box>
       <HaList
@@ -25,27 +34,33 @@ export const CreditTransactionList = ({
           },
           storeKey: `student-${studentId}-credit-transactions`,
         }}
+        datagridProps={{
+          rowClick: (_id: string, _resource: string, record: RaRecord) => {
+            setSelected(record as CreditTransaction);
+            return false;
+          },
+        }}
       >
         <FunctionField
           label="Mouvement"
-          render={(record) => {
-            if (record.movement === "DEPOSIT") {
-              return "Dépôt";
+          render={(record: CreditTransaction) => {
+            if (record.movement === CreditMovement.CREDIT) {
+              return "CREDIT";
             }
-            if (record.movement === "WITHDRAWAL") {
-              return "Retrait";
+            if (record.movement === CreditMovement.DEBIT) {
+              return "DÉBIT";
             }
-            return "Non défini";
+            return EMPTY_TEXT;
           }}
         />
         <FunctionField
           label="Montant"
-          render={(record) => renderMoney(record.amount)}
+          render={(record: CreditTransaction) => renderMoney(record.amount)}
         />
         <FunctionField
           label="Date"
-          render={(record) => {
-            const dateTime = record.date_time ?? record.creation_datetime;
+          render={(record: CreditTransaction) => {
+            const dateTime = record.date_time;
             if (!dateTime) {
               return "Non définie";
             }
@@ -53,6 +68,10 @@ export const CreditTransactionList = ({
           }}
         />
       </HaList>
+      <CreditTransactionDetailsDialog
+        transaction={selected}
+        onClose={() => setSelected(null)}
+      />
     </Box>
   );
 };
