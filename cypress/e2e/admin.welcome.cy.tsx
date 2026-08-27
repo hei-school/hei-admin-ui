@@ -157,7 +157,7 @@ describe("AdminWelcome Page", () => {
     cy.contains("Archivages de frais à valider").should("exist");
     cy.contains("1 en attente").should("exist");
     cy.contains("Voir les archivages à valider").click();
-    cy.url().should("include", "/fees/archive-validations");
+    cy.url().should("include", "/fees-archive-validations");
   });
 
   it("should render radial gradient decorations with radial-gradient in background", () => {

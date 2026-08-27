@@ -61,11 +61,11 @@ describe("Manager.Student.CreditTransactions", () => {
     cy.wait("@getCreditTransactions");
     cy.get("table tbody tr")
       .eq(0)
-      .should("contain", "Dépôt")
+      .should("contain", "CREDIT")
       .and("contain", "100000 Ar");
     cy.get("table tbody tr")
       .eq(1)
-      .should("contain", "Retrait")
+      .should("contain", "DÉBIT")
       .and("contain", "40000 Ar")
       .and("contain", "Non définie");
   });

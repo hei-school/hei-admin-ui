@@ -1,8 +1,32 @@
 import "@cypress/code-coverage/support";
 import "./commands";
 
+beforeEach(() => {
+  cy.intercept(
+    {url: /.*captcha-sdk\.awswaf\.com.*/},
+    {
+      statusCode: 200,
+      headers: {"content-type": "application/javascript"},
+      body: `
+        window.AwsWafCaptcha = window.AwsWafCaptcha || {
+          renderCaptcha: function (container) {
+            if (!container) return;
+            var el = document.createElement("div");
+            el.setAttribute("data-testid", "aws-waf-captcha-stub");
+            el.style.width = "100%";
+            el.style.height = "60px";
+            container.appendChild(el);
+          }
+        };
+        window.AwsWafIntegration = window.AwsWafIntegration || {
+          getToken: function () { return Promise.resolve("test-waf-token"); }
+        };
+      `,
+    }
+  ).as("awsWafCaptchaScript");
+});
+
 Cypress.on("uncaught:exception", (err, _runnable) => {
-  // FIXME: on the login when try to reset password
   if (err.message.includes("Cannot call an event handler while rendering.")) {
     return false;
   }

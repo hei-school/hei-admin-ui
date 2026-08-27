@@ -29,7 +29,7 @@ export const PendingFeeArchives = ({animate}: {animate: boolean}) => {
       accentColor={ACCENT_COLOR}
       title="Archivages de frais à valider"
       count={pendingCount}
-      to="/fees/archive-validations"
+      to="/fees-archive-validations"
       linkLabel="Voir les archivages à valider"
       transitionDelay="0.75s"
     />

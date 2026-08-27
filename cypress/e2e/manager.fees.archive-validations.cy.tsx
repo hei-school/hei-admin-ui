@@ -14,10 +14,10 @@ const feeToArchiveMock: Fee = {
 describe("Manager.Fees.ArchiveValidations", () => {
   beforeEach(() => {
     cy.mockLogin({role: "MANAGER"});
-    cy.intercept("GET", `/fees**`, {data: [feeToArchiveMock]}).as(
+    cy.intercept("GET", /\/fees\?/, {data: [feeToArchiveMock]}).as(
       "getFeesToArchive"
     );
-    cy.visit("/fees/archive-validations");
+    cy.visit("/fees-archive-validations");
     cy.wait("@getFeesToArchive");
   });
 
@@ -58,6 +58,9 @@ describe("Manager.Fees.ArchiveValidations", () => {
     ).as("getFeeShow");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock).as(
       "getStudent"
+    );
+    cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
+      "getStudentLevel"
     );
     cy.intercept("GET", `/fees/${feeToArchiveMock.id}/payments**`, {
       data: [],

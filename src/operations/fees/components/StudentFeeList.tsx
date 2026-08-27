@@ -21,6 +21,7 @@ import {HaList} from "@/ui/haList/HaList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 import {formatDate, toUTC} from "@/utils/date";
 import {
+  ArchiveStatusEnum,
   Course,
   CrupdateFeeTemplate,
   Fee,
@@ -34,6 +35,7 @@ import {
 } from "@haapi-3d601c85/typescript-client";
 import {
   AddCard as AddMbpsIcon,
+  Archive as ArchiveIcon,
   Payment as PayIcon,
   Visibility as ShowIcon,
   WarningOutlined,
@@ -418,9 +420,15 @@ export const StudentFeeList = () => {
             const isRejectedLetter =
               fee.letter && fee.letter.status === LetterStatus.REJECTED;
             const hasLetter = fee.letter && !isRejectedLetter;
+            const isArchived =
+              fee.archive_status === ArchiveStatusEnum.ARCHIVED;
             return (
               <Box display="flex" alignItems="center">
-                {isPendingOrSuccess ? (
+                {isArchived ? (
+                  <IconButtonWithTooltip title="Frais archivé" disabled>
+                    <ArchiveIcon data-testid={`archivedIcon-${fee.id}`} />
+                  </IconButtonWithTooltip>
+                ) : isPendingOrSuccess ? (
                   <MpbsStatusIcon />
                 ) : (
                   <IconButtonWithTooltip

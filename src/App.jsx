@@ -113,7 +113,7 @@ function AppBase() {
         <Route exact path="/fees" element={<fees.listByStatus />} />
         <Route
           exact
-          path="/fees/archive-validations"
+          path="/fees-archive-validations"
           element={<fees.listArchiveValidations />}
         />
         <Route exact path="/fees/:feeId/payments" element={<payments.list />} />

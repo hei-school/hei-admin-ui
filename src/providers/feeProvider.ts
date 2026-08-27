@@ -12,8 +12,6 @@ import {payingApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
 
-// The fees API has no server-side archive_status filter, so filtering by it
-// is done client-side over a broad, single page of fees.
 const MAX_FEES_FOR_ARCHIVE_STATUS_FILTER = 500;
 
 const raSeparator = "--";
@@ -92,10 +90,6 @@ const feeProvider: HaDataProviderType = {
     const fees: Fee[] = await doGetFees();
 
     return {
-      // A fee without an id or a student_id cannot produce a usable RA
-      // record id (needed for the show/edit/archive routes), so it is
-      // dropped rather than risk building a broken link that crashes on
-      // navigation. Logged so a backend/data issue can be spotted.
       data: fees
         .filter((fee: Fee) => {
           const isUsable = Boolean(fee.id) && Boolean(fee.student_id);
