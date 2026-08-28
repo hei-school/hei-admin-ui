@@ -1,4 +1,4 @@
-import {Course} from "@haapi-b0fc7615/typescript-client";
+import {Course} from "@haapi-3d601c85/typescript-client";
 
 export const courseMocks: Required<Course>[] = [
   {

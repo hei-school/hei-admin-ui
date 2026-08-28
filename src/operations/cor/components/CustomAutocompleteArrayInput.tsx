@@ -1,4 +1,4 @@
-import {Teacher} from "@haapi-b0fc7615/typescript-client";
+import {Teacher} from "@haapi-3d601c85/typescript-client";
 import {Autocomplete, TextField} from "@mui/material";
 import {useEffect, useState} from "react";
 import {useDataProvider, useInput} from "react-admin";

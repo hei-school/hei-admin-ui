@@ -1,3 +1,5 @@
+import {PALETTE_COLORS} from "@/haTheme";
+import {useNotify} from "@/hooks";
 import {Download} from "@mui/icons-material";
 import {
   Button,
@@ -6,10 +8,7 @@ import {
   IconButton,
   useMediaQuery,
 } from "@mui/material";
-import {FC, useRef, useState} from "react";
-
-import {PALETTE_COLORS} from "@/haTheme";
-import {useNotify} from "@/hooks";
+import {useRef, useState} from "react";
 
 export type FileDownloaderProps = {
   downloadFunction: () => Promise<any>;
@@ -19,9 +18,9 @@ export type FileDownloaderProps = {
   fileType?: string;
   buttonProps?: ButtonProps;
   buttonText: string;
-} & Omit<ButtonProps, "children">;
+} & {"data-testid"?: string} & Omit<ButtonProps, "children">;
 
-export const FileDownloader: FC<FileDownloaderProps> = ({
+export const FileDownloader = ({
   downloadFunction,
   fileName,
   successMessage,
@@ -29,17 +28,16 @@ export const FileDownloader: FC<FileDownloaderProps> = ({
   errorMessage,
   buttonText,
   fileType = "application/pdf",
+  "data-testid": dataTestId = "download-button",
   ...raButtonProps
-}) => {
+}: FileDownloaderProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const fileLinkRef = useRef<HTMLAnchorElement>(null);
   const notify = useNotify();
-
   const handleDownload = async () => {
     setIsLoading(true);
     const linkRef = fileLinkRef.current;
     notify(successMessage);
-
     try {
       const {data} = await downloadFunction();
       if (!data || data.byteLength <= 0) {
@@ -49,7 +47,6 @@ export const FileDownloader: FC<FileDownloaderProps> = ({
       if (linkRef === null) {
         return;
       }
-
       linkRef.href = window.URL.createObjectURL(
         new Blob([data], {type: fileType})
       );
@@ -62,14 +59,13 @@ export const FileDownloader: FC<FileDownloaderProps> = ({
     }
   };
   const isSmall = useMediaQuery("(max-width:900px)");
-
   return (
     <div style={{padding: 0, margin: 0}}>
       <a data-testid="file-link" ref={fileLinkRef} style={{display: "none"}} />
       {isSmall ? (
         <IconButton
           onClick={handleDownload}
-          data-testid="download-button"
+          data-testid={dataTestId}
           disabled={isLoading}
         >
           <Download
@@ -84,7 +80,7 @@ export const FileDownloader: FC<FileDownloaderProps> = ({
           {...raButtonProps}
           disabled={isLoading}
           onClick={handleDownload}
-          data-testid="download-button"
+          data-testid={dataTestId}
           startIcon={isLoading ? <CircularProgress size={20} /> : startIcon}
         >
           {buttonText}

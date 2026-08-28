@@ -1,4 +1,4 @@
-import {StudentGrade, UpdateGrade} from "@haapi-b0fc7615/typescript-client";
+import {StudentGrade, UpdateGrade} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {gradesApi} from "./api";
 

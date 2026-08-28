@@ -111,20 +111,22 @@ function AppBase() {
         />
         <Route exact path="/fees/:feeId/show" element={<fees.show />} />
         <Route exact path="/fees" element={<fees.listByStatus />} />
-
         <Route exact path="/fees/:feeId/payments" element={<payments.list />} />
         <Route
           exact
           path="/fees/:feeId/payments/create"
           element={<payments.create />}
         />
-
         <Route
           exact
           path="/transactions"
           element={<fees.listByTransactions />}
         />
-
+        <Route
+          exact
+          path="/credit-payments"
+          element={<payments.listCreditPayments />}
+        />
         <Route
           exact
           path="/docs/students/OTHER"
@@ -141,7 +143,6 @@ function AppBase() {
           path="/docs/students/WORK_DOCUMENT"
           element={<studentDocs.list />}
         />
-
         <Route
           exact
           path="/students/:userId/docs/students/OTHER"

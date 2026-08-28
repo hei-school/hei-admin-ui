@@ -54,6 +54,7 @@ export function HaList({
   datagridProps = {},
   mainSearch = {source: "", label: ""},
   filterIndicator = true,
+  filterButtons = /** @type {import("react").ReactNode} */ (null),
 }) {
   return (
     <ListWrapper sx={wrapperSx}>
@@ -77,6 +78,7 @@ export function HaList({
             title={title}
             icon={icon}
             mainSearch={mainSearch}
+            filterButtons={filterButtons}
           />
           <DatagridWrapper>
             {hasDatagrid ? (

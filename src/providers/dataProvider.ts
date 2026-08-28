@@ -6,6 +6,7 @@ import corStudentProvider from "@/providers/corStudentProvider";
 import {courseAssignmentsByTeacherProvider} from "@/providers/courseAssignementbyTeacher";
 import CourseAssignmentsProvider from "@/providers/courseAssignmentsProvider";
 import courseProvider from "@/providers/courseProvider";
+import creditPaymentProvider from "@/providers/creditPaymentProvider";
 import docsProvider from "@/providers/docsProvider";
 import eventParticipantProvider from "@/providers/eventParticipantProvider";
 import eventProvider from "@/providers/eventProvider";
@@ -52,6 +53,7 @@ import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
 import searchProvider from "./searchProvider";
+import studentCreditProvider from "./studentCreditProvider";
 import studentRetakeExamsProvider from "./studentRetakeExamsProvider";
 import studentsResultOverviewProvider from "./studentsResultOverviewsProvider";
 import unlikedStudentProvider from "./unlinkedStudentProvider";
@@ -65,6 +67,7 @@ const providerMap = {
   "students-export": exportStudentProvider,
   "fees": feeProvider,
   "payments": paymentProvider,
+  "credit-payments": creditPaymentProvider,
   "teachers": teacherProvider,
   "export-teachers": exportTeacherProvider,
   "docs": docsProvider,
@@ -115,6 +118,7 @@ const providerMap = {
   "searchs": searchProvider,
   "student-retake-exams": studentRetakeExamsProvider,
   "students-result-overviews": studentsResultOverviewProvider,
+  "credits": studentCreditProvider,
 } as const;
 
 const getProvider = (
@@ -140,22 +144,18 @@ const getHasNextPageInfo = async (
     filter,
     meta
   );
-
   if (!response || !response.data) {
     throw new Error(
       `Provider for resource ${resource} did not return a valid response with a data property.`
     );
   }
-
   return response.data.length > 0;
 };
 const dataProvider = {
   async getList(resourceType: keyof typeof providerMap, params: any) {
     const {pagination, meta, filter} = params;
-
     const page = pagination.page === 0 ? 1 : pagination.page;
     let perPage = pagination.perPage;
-
     if (perPage > MAX_ITEM_PER_PAGE) {
       if (process.env.NODE_ENV !== "production") {
         console.warn(
@@ -164,20 +164,17 @@ const dataProvider = {
       }
       perPage = MAX_ITEM_PER_PAGE;
     }
-
     const {data} = await getProvider(resourceType).getList(
       page,
       perPage,
       filter,
       meta
     );
-
     if (!data) {
       throw new Error(
         `Provider for resourceType ${resourceType} did not return a valid data property.`
       );
     }
-
     const hasNextPage = await getHasNextPageInfo(
       resourceType,
       page,
@@ -185,7 +182,6 @@ const dataProvider = {
       filter,
       meta
     );
-
     return {
       data,
       pageInfo: {

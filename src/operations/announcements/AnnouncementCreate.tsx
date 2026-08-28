@@ -1,7 +1,7 @@
 import {useState} from "react";
 
 import authProvider from "@/providers/authProvider";
-import {Scope} from "@haapi-b0fc7615/typescript-client";
+import {Scope} from "@haapi-3d601c85/typescript-client";
 import {Box, Typography} from "@mui/material";
 import {MarkdownInput} from "@react-admin/ra-markdown";
 import {SimpleForm, TextInput} from "react-admin";

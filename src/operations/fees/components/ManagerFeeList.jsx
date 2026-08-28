@@ -1,34 +1,30 @@
-import {DeleteWithConfirm} from "@/operations/common/components";
+import {
+  ArchiveWithConfirm,
+  DeleteWithConfirm,
+} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
-import {FeesFilters} from "@/operations/fees/components/FeesFilter";
-import {
-  minimalFeesHeaders,
-  optionalFeesHeaders,
-  transformFeesData,
-  valideFeesData,
-} from "@/operations/fees/importConf";
+import FeesActions from "@/operations/fees/components/FeesActions";
 import {PSP_COLORS, PSP_VALUES, rowStyle} from "@/operations/fees/utils";
 import {commentFunctionRenderer} from "@/operations/utils";
-import feeProvider from "@/providers/feeProvider";
+import {payingApi} from "@/providers/api";
+import {toApiIds} from "@/providers/feeProvider";
 import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
-import {CreateButton, ImportButton} from "@/ui/haToolbar";
 import {formatDate} from "@/utils/date";
 import {WarningOutlined} from "@mui/icons-material";
 import {Box, Chip} from "@mui/material";
-import {FunctionField} from "react-admin";
+import {FunctionField, WrapperField} from "react-admin";
 
 export const ManagerFeeList = ({studentId, studentRef}) => {
   const role = useRole();
-
   return (
     <Box>
       <HaList
         icon={<WarningOutlined />}
         title={`Frais de ${studentRef}`}
-        resource={"fees"}
+        resource="fees"
         filterIndicator={false}
         actions={
           role.isManager() || role.isAdmin() ? (
@@ -43,9 +39,6 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
         datagridProps={{
           rowClick: (id) => `/fees/${id}/show`,
           rowStyle,
-          rowProps: (record) => ({
-            "data-testid": `fee-row-${record.id}`,
-          }),
         }}
         editable={false}
       >
@@ -109,31 +102,35 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
           emptyText={EMPTY_TEXT}
         />
         {!role.isMonitor() && (
-          <DeleteWithConfirm
-            resourceType="fees"
-            redirect={`/students/${studentId}/show/fees?tab=fees`}
-            confirmTitle="Suppression de frais"
-            confirmContent="Confirmez-vous la suppression de ce frais ?"
-          />
+          <WrapperField label="Actions">
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 0.2,
+              }}
+            >
+              <DeleteWithConfirm
+                resourceType="fees"
+                redirect={`/students/${studentId}/show/fees?tab=fees`}
+                confirmTitle="Suppression de frais"
+                confirmContent="Confirmez-vous la suppression de ce frais ?"
+              />
+              <ArchiveWithConfirm
+                redirect={`/students/${studentId}/show/fees?tab=fees`}
+                confirmTitle="Archivage de frais"
+                confirmContent="Confirmez-vous l'archivage de ce frais ?"
+                onArchive={(record) => {
+                  const {feeId} = toApiIds(record.id);
+                  return payingApi().archiveStudentFee(studentId, feeId, {
+                    method: "PATCH",
+                  });
+                }}
+              />
+            </Box>
+          </WrapperField>
         )}
       </HaList>
     </Box>
   );
 };
-
-function FeesActions({studentId}) {
-  return (
-    <Box>
-      <CreateButton resource={`students/${studentId}/fees`} />
-      <ImportButton
-        resource="frais"
-        provider={feeProvider.saveOrUpdate}
-        validateData={valideFeesData}
-        optionalHeaders={optionalFeesHeaders}
-        minimalHeaders={minimalFeesHeaders}
-        transformData={(data) => transformFeesData(data, studentId)}
-      />
-      <FeesFilters />
-    </Box>
-  );
-}

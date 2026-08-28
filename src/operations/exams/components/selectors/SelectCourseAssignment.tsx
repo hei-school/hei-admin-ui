@@ -1,4 +1,4 @@
-import {Course, Group} from "@haapi-b0fc7615/typescript-client/dist/api";
+import {Course, Group} from "@haapi-3d601c85/typescript-client/dist/api";
 import {Typography} from "@mui/material";
 import {useMemo} from "react";
 import {SelectInput, required, useGetList} from "react-admin";
