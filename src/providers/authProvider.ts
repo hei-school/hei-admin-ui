@@ -150,7 +150,7 @@ const authProvider = {
         cacheWhoami(newWhoami);
       }
     } catch (error: any) {
-      if (error.status === 401) {
+      if (error.status === 401 || !error.status) {
         const cachedWhoami = getCachedWhoami();
         if (cachedWhoami.bearer) {
           try {
@@ -163,9 +163,6 @@ const authProvider = {
           throw new Error("Unauthorized - No cached token");
         }
       } else if (error.status === 405) {
-        return Promise.resolve();
-      } else if (!error.status) {
-        console.warn("checkAuth: whoami unreachable, keeping session", error);
         return Promise.resolve();
       } else {
         throw new Error("Unauthorized");
