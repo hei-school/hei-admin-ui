@@ -1,14 +1,10 @@
-import {
-  ArchiveWithConfirm,
-  DeleteWithConfirm,
-} from "@/operations/common/components";
+import {DeleteWithConfirm} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
+import {FeeArchiveActions} from "@/operations/fees/components/FeeArchiveActions";
 import FeesActions from "@/operations/fees/components/FeesActions";
 import {PSP_COLORS, PSP_VALUES, rowStyle} from "@/operations/fees/utils";
 import {commentFunctionRenderer} from "@/operations/utils";
-import {payingApi} from "@/providers/api";
-import {toApiIds} from "@/providers/feeProvider";
 import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
@@ -116,16 +112,9 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
                 confirmTitle="Suppression de frais"
                 confirmContent="Confirmez-vous la suppression de ce frais ?"
               />
-              <ArchiveWithConfirm
+              <FeeArchiveActions
+                studentId={studentId}
                 redirect={`/students/${studentId}/show/fees?tab=fees`}
-                confirmTitle="Archivage de frais"
-                confirmContent="Confirmez-vous l'archivage de ce frais ?"
-                onArchive={(record) => {
-                  const {feeId} = toApiIds(record.id);
-                  return payingApi().archiveStudentFee(studentId, feeId, {
-                    method: "PATCH",
-                  });
-                }}
               />
             </Box>
           </WrapperField>

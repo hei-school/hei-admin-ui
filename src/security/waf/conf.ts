@@ -16,12 +16,16 @@ export interface AwsWafScriptCDNLib {
   };
 }
 
+let awsWafScriptLoading: Promise<AwsWafScriptCDNLib> | null = null;
+
 export function loadAwsWafScript(): Promise<AwsWafScriptCDNLib> {
-  return new Promise((resolve) => {
-    if (isAwsWafScriptLoaded()) {
-      resolve(awsWafScriptLib());
-      return;
-    }
+  if (isAwsWafScriptLoaded()) {
+    return Promise.resolve(awsWafScriptLib());
+  }
+  if (awsWafScriptLoading) {
+    return awsWafScriptLoading;
+  }
+  awsWafScriptLoading = new Promise((resolve) => {
     document.getElementById(AWS_WAF_SCRIPT_ID)?.remove();
     const AwsWafScript = document.createElement("script");
     AwsWafScript.id = AWS_WAF_SCRIPT_ID;
@@ -32,10 +36,12 @@ export function loadAwsWafScript(): Promise<AwsWafScriptCDNLib> {
       resolve(awsWafScriptLib());
     };
     AwsWafScript.onerror = () => {
+      awsWafScriptLoading = null;
       window.location.reload();
     };
     document.head.appendChild(AwsWafScript);
   });
+  return awsWafScriptLoading;
 }
 
 export const awsWafScriptLib = (): AwsWafScriptCDNLib => ({

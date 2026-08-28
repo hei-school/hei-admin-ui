@@ -4,17 +4,23 @@ import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 const creditTransactionsMock = [
   {
     transaction_id: "transaction1_id",
-    movement: "DEPOSIT",
+    movement: "CREDIT",
     amount: 100000,
     date_time: new Date("2024-02-01T10:00:00Z"),
-    fee: {comment: fee1Mock.comment},
+    fee: {...fee1Mock, archive_status: "ARCHIVED", archived_by_ref: "MGR21001"},
   },
   {
     transaction_id: "transaction2_id",
-    movement: "WITHDRAWAL",
+    movement: "DEBIT",
     amount: 40000,
     date_time: null,
-    fee: null,
+    payment: {
+      amount: 40000,
+      status: "VALIDATE",
+      comment: "Paiement du reste par crédit",
+      validated_by_ref: "MGR21001",
+      creation_datetime: new Date("2024-02-05T08:00:00Z"),
+    },
   },
 ];
 
@@ -55,13 +61,45 @@ describe("Manager.Student.CreditTransactions", () => {
     cy.wait("@getCreditTransactions");
     cy.get("table tbody tr")
       .eq(0)
-      .should("contain", "Dépôt")
-      .and("contain", "100000 Ar")
-      .and("contain", fee1Mock.comment);
+      .should("contain", "CREDIT")
+      .and("contain", "100000 Ar");
     cy.get("table tbody tr")
       .eq(1)
-      .should("contain", "Retrait")
+      .should("contain", "DÉBIT")
       .and("contain", "40000 Ar")
-      .and("contain", "Non défini");
+      .and("contain", "Non définie");
+  });
+
+  it("opens a modal with the archived fee attached to a deposit", () => {
+    cy.getByTestid("credit-transactions-tab").click();
+    cy.wait("@getCreditTransactions");
+    cy.get("table tbody tr").eq(0).click();
+    cy.get(".MuiDialog-container").within(() => {
+      cy.contains("Archivage d'un frais");
+      cy.contains("Frais rattaché");
+      cy.contains(fee1Mock.comment ?? "");
+      cy.contains("Archivé");
+      cy.contains("MGR21001");
+    });
+  });
+
+  it("opens a modal with the payment attached to a withdrawal", () => {
+    cy.getByTestid("credit-transactions-tab").click();
+    cy.wait("@getCreditTransactions");
+    cy.get("table tbody tr").eq(1).click();
+    cy.get(".MuiDialog-container").within(() => {
+      cy.contains("Paiement d'un frais par crédit");
+      cy.contains("Paiement rattaché");
+      cy.contains("Paiement du reste par crédit");
+      cy.contains("MGR21001");
+    });
+  });
+
+  it("closes the modal", () => {
+    cy.getByTestid("credit-transactions-tab").click();
+    cy.wait("@getCreditTransactions");
+    cy.get("table tbody tr").eq(0).click();
+    cy.get(".MuiDialog-container").contains("Fermer").click();
+    cy.get(".MuiDialog-container").should("not.exist");
   });
 });

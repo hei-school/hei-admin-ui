@@ -231,6 +231,7 @@ describe("All View", () => {
     });
 
     it("show display empty component when there are no results", () => {
+      cy.getByTestid("yearly-view-toggle").click();
       cy.intercept(
         "GET",
         `/students/${studentLinkedToMonitorMock[0].id}/results_summary`,
@@ -262,6 +263,7 @@ describe("All View", () => {
         ],
       };
 
+      cy.getByTestid("yearly-view-toggle").click();
       cy.intercept(
         "GET",
         `/students/${studentLinkedToMonitorMock[0].id}/results_summary`,
@@ -304,6 +306,7 @@ describe("All View", () => {
         ],
       };
 
+      cy.getByTestid("yearly-view-toggle").click();
       cy.intercept(
         "GET",
         `/students/${studentLinkedToMonitorMock[0].id}/results_summary`,
@@ -354,6 +357,7 @@ describe("All View", () => {
         ],
       };
 
+      cy.getByTestid("yearly-view-toggle").click();
       cy.intercept(
         "GET",
         `/students/${studentLinkedToMonitorMock[0].id}/results_summary`,

@@ -58,7 +58,16 @@ describe("AdminWelcome Page", () => {
       `/announcements?page=2&page_size=4`,
       announcementsMock.slice(0, 4)
     ).as("getAnnouncements2");
-    cy.intercept("GET", `/fees**`, {data: [unpaidFeeMock]}).as("getFees");
+    cy.intercept("GET", `/fees**`, {
+      data: [
+        unpaidFeeMock,
+        {
+          ...unpaidFeeMock,
+          id: "fee_to_archive_id",
+          archive_status: "TO_ARCHIVE",
+        },
+      ],
+    }).as("getFees");
     cy.intercept(
       "GET",
       `/students/credit-payments?status=CREATED&page=*&page_size=*`,
@@ -141,6 +150,14 @@ describe("AdminWelcome Page", () => {
     cy.contains("1 en attente").should("exist");
     cy.contains("Voir tous les paiements").click();
     cy.url().should("include", "/credit-payments");
+  });
+
+  it("should display the pending fee archives widget with the correct count", () => {
+    cy.wait("@getFees");
+    cy.contains("Archivages de frais à valider").should("exist");
+    cy.contains("1 en attente").should("exist");
+    cy.contains("Voir les archivages à valider").click();
+    cy.url().should("include", "/fees-archive-validations");
   });
 
   it("should render radial gradient decorations with radial-gradient in background", () => {

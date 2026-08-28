@@ -1,4 +1,5 @@
 import {
+  ArchiveStatusEnum,
   Fee,
   FeeCategory,
   FeeStatusEnum,
@@ -10,6 +11,8 @@ import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";
+
+const MAX_FEES_FOR_ARCHIVE_STATUS_FILTER = 500;
 
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
@@ -39,6 +42,7 @@ const feeProvider: HaDataProviderType = {
       isMpbs?: boolean;
       student_ref?: string;
       studentId?: string;
+      archive_status?: ArchiveStatusEnum;
     }
   ) => {
     const doGetFees = async () => {
@@ -46,6 +50,26 @@ const feeProvider: HaDataProviderType = {
         return payingApi()
           .getFeesByStudentId(filter.studentId, page, perPage, filter.status)
           .then(({data}) => data);
+      }
+      if (filter.archive_status) {
+        const {
+          data: {data: allFees},
+        } = await payingApi().getFees(
+          filter.transaction_status,
+          filter.type,
+          filter.status,
+          filter.category,
+          filter.monthFrom,
+          filter.monthTo,
+          1,
+          MAX_FEES_FOR_ARCHIVE_STATUS_FILTER,
+          filter.isMpbs,
+          filter.student_ref
+        );
+        const matchingFees = (allFees ?? []).filter(
+          (fee) => fee.archive_status === filter.archive_status
+        );
+        return matchingFees.slice((page - 1) * perPage, page * perPage);
       }
       return payingApi()
         .getFees(
@@ -66,15 +90,31 @@ const feeProvider: HaDataProviderType = {
     const fees: Fee[] = await doGetFees();
 
     return {
-      data: fees.map((fee: Fee) => ({
-        ...fee,
-        id: toRaId(fee.student_id!, fee.id!),
-      })),
+      data: fees
+        .filter((fee: Fee) => {
+          const isUsable = Boolean(fee.id) && Boolean(fee.student_id);
+          if (!isUsable) {
+            console.warn(
+              "feeProvider: skipping a fee missing id or student_id",
+              fee
+            );
+          }
+          return isUsable;
+        })
+        .map((fee: Fee) => ({
+          ...fee,
+          id: toRaId(fee.student_id!, fee.id!),
+        })),
     };
   },
 
   getOne: async (raId: string) => {
     const {studentId, feeId} = toApiIds(raId);
+    if (!studentId || !feeId) {
+      throw new Error(
+        `Identifiant de frais invalide : "${raId}" (impossible d'en extraire l'étudiant et le frais).`
+      );
+    }
     return payingApi()
       .getStudentFeeById(studentId, feeId)
       .then((result) => ({
