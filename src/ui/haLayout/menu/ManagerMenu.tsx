@@ -1,3 +1,4 @@
+import {useFeesOnly} from "@/security/hooks/useFeesOnly";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
@@ -22,15 +23,26 @@ import {
 import {Box} from "@mui/material";
 
 function ManagerMenu() {
+  const isFeesOnly = useFeesOnly();
+
   return (
     <Box>
-      <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />
-      <SingleMenu
-        to="/monitors"
-        label="Moniteurs"
-        icon={<MonitorIcon />}
-        data-testid="monitors-menu"
-      />
+      {!isFeesOnly && (
+        <>
+          <SingleMenu
+            to="/teachers"
+            label="Enseignants"
+            icon={<TeachersIcon />}
+          />
+          <SingleMenu
+            to="/monitors"
+            label="Moniteurs"
+            icon={<MonitorIcon />}
+            data-testid="monitors-menu"
+          />
+        </>
+      )}
+
       <ListMenu
         label="Étudiants"
         icon={<StudentIcon />}
@@ -52,63 +64,68 @@ function ManagerMenu() {
           to="/fees"
         />
       </ListMenu>
-      <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-        <HeiListMenuItem />
-      </ListMenu>
-      <SingleMenu
-        to="/promotions"
-        label="Promotions"
-        data-testid="promotions-menu"
-        icon={<PromotionIcon />}
-      />
-      <SingleMenu
-        to="/course"
-        label="Cours"
-        data-testid="course-menu"
-        icon={<LibraryIcon />}
-      />
-      <SingleMenu
-        to="/exams"
-        label="Examens"
-        data-testid="exams-menu"
-        icon={<GradeIcon />}
-      />
-      <SingleMenu
-        to="/retakeExams-sessions"
-        label="Rattrapages"
-        data-testid="retakeExamsSessions-menu"
-        icon={<RemedialIcon />}
-      />
-      <SingleMenu
-        data-testid="event-cor"
-        to="/cor"
-        label="Liste des COR"
-        icon={<CorIcon />}
-      />
-      <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
-      <SingleMenu
-        to="/announcements"
-        label="Annonces"
-        icon={<AnnouncementIcon />}
-      />
-      <ListMenu
-        icon={<EditCalendar />}
-        label="Pointage"
-        data-testid="event-point"
-      >
-        <ListMenuItem
-          data-testid="event-menu"
-          to="/events"
-          label="Présences"
-          icon={<EventIcon />}
-        />
-        <ListMenuItem
-          data-testid="event-missing"
-          to="/event_participants"
-          label="Liste des absents"
-          icon={<EventBusy />}
-        />
-      </ListMenu>
+
+      {!isFeesOnly && (
+        <>
+          <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
+            <HeiListMenuItem />
+          </ListMenu>
+          <SingleMenu
+            to="/promotions"
+            label="Promotions"
+            data-testid="promotions-menu"
+            icon={<PromotionIcon />}
+          />
+          <SingleMenu
+            to="/course"
+            label="Cours"
+            data-testid="course-menu"
+            icon={<LibraryIcon />}
+          />
+          <SingleMenu
+            to="/exams"
+            label="Examens"
+            data-testid="exams-menu"
+            icon={<GradeIcon />}
+          />
+          <SingleMenu
+            to="/retakeExams-sessions"
+            label="Rattrapages"
+            data-testid="retakeExamsSessions-menu"
+            icon={<RemedialIcon />}
+          />
+          <SingleMenu
+            data-testid="event-cor"
+            to="/cor"
+            label="Liste des COR"
+            icon={<CorIcon />}
+          />
+          <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
+          <SingleMenu
+            to="/announcements"
+            label="Annonces"
+            icon={<AnnouncementIcon />}
+          />
+          <ListMenu
+            icon={<EditCalendar />}
+            label="Pointage"
+            data-testid="event-point"
+          >
+            <ListMenuItem
+              data-testid="event-menu"
+              to="/events"
+              label="Présences"
+              icon={<EventIcon />}
+            />
+            <ListMenuItem
+              data-testid="event-missing"
+              to="/event_participants"
+              label="Liste des absents"
+              icon={<EventBusy />}
+            />
+          </ListMenu>
+        </>
+      )}
     </Box>
   );
 }

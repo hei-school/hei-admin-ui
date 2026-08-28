@@ -1,4 +1,5 @@
-import {useRole} from "@/security/hooks";
+import {useFeesOnly} from "@/security/hooks/useFeesOnly";
+import {useRole} from "@/security/hooks/useRole";
 import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {trackNavClick} from "@/utils/gtm";
@@ -27,22 +28,27 @@ import {GraduationCap} from "lucide-react";
 
 function AdminMenu() {
   const {role} = useRole();
+  const isFeesOnly = useFeesOnly();
 
   return (
     <Box>
-      <SingleMenu
-        to="/teachers"
-        label="Enseignants"
-        icon={<TeachersIcon />}
-        onClick={() => trackNavClick("teachers", role)}
-      />
-      <SingleMenu
-        to="/monitors"
-        label="Moniteurs"
-        icon={<MonitorIcon />}
-        onClick={() => trackNavClick("monitors", role)}
-        data-testid="monitors-menu"
-      />
+      {!isFeesOnly && (
+        <>
+          <SingleMenu
+            to="/teachers"
+            label="Enseignants"
+            icon={<TeachersIcon />}
+            onClick={() => trackNavClick("teachers", role)}
+          />
+          <SingleMenu
+            to="/monitors"
+            label="Moniteurs"
+            icon={<MonitorIcon />}
+            onClick={() => trackNavClick("monitors", role)}
+            data-testid="monitors-menu"
+          />
+        </>
+      )}
       <ListMenu
         label="Étudiants"
         icon={<StudentIcon />}
@@ -54,12 +60,14 @@ function AdminMenu() {
           to="/students"
           onClick={() => trackNavClick("students_list", role)}
         />
-        <ListMenuItem
-          label="Liste des sortants"
-          icon={<GraduationCap />}
-          to="promotions/result-overviews"
-          onClick={() => trackNavClick("students_result_overviews", role)}
-        />
+        {!isFeesOnly && (
+          <ListMenuItem
+            label="Liste des sortants"
+            icon={<GraduationCap />}
+            to="promotions/result-overviews"
+            onClick={() => trackNavClick("students_result_overviews", role)}
+          />
+        )}
         <ListMenuItem
           label="Transactions (Mobile Money)"
           icon={<TransactionsIcon />}
@@ -73,81 +81,86 @@ function AdminMenu() {
           onClick={() => trackNavClick("fees", role)}
         />
       </ListMenu>
-      <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-        <HeiListMenuItem onClick={() => trackNavClick("hei_docs", role)} />
-      </ListMenu>
-      <SingleMenu
-        to="/promotions"
-        label="Promotions"
-        data-testid="promotions-menu"
-        icon={<PromotionIcon />}
-        onClick={() => trackNavClick("promotions", role)}
-      />
-      <SingleMenu
-        to="/course"
-        label="Cours"
-        data-testid="course-menu"
-        icon={<LibraryIcon />}
-        onClick={() => trackNavClick("courses", role)}
-      />
-      <SingleMenu
-        to="/exams"
-        label="Examens"
-        data-testid="exams-menu"
-        icon={<GradeIcon />}
-        onClick={() => trackNavClick("exams", role)}
-      />
-      <SingleMenu
-        to="/retakeExams-sessions"
-        label="Rattrapages"
-        data-testid="retakeExamsSessions-menu"
-        icon={<RemedialIcon />}
-        onClick={() => trackNavClick("retakeExamsSessions", role)}
-      />
-      <SingleMenu
-        to="/cor"
-        label="COR"
-        icon={<SafetyDivider />}
-        onClick={() => trackNavClick("cor", role)}
-      />
-      <SingleMenu
-        to="/groups"
-        label="Groupes"
-        icon={<GroupIcon />}
-        onClick={() => trackNavClick("groups", role)}
-      />
-      <SingleMenu
-        to="/announcements"
-        label="Annonces"
-        icon={<AnnouncementIcon />}
-        onClick={() => trackNavClick("announcements", role)}
-      />
-      <ListMenu
-        icon={<EditCalendar />}
-        label="Pointage"
-        data-testid="event-point"
-      >
-        <ListMenuItem
-          data-testid="event-menu"
-          to="/events"
-          label="Présences"
-          icon={<EventIcon />}
-          onClick={() => trackNavClick("events", role)}
-        />
-        <ListMenuItem
-          data-testid="event-missing"
-          to="/event_participants"
-          label="Liste des absents"
-          icon={<EventBusy />}
-          onClick={() => trackNavClick("event_participants", role)}
-        />
-      </ListMenu>
-      <SingleMenu
-        to="/staffmembers"
-        label="Staff"
-        icon={<StaffIcon />}
-        onClick={() => trackNavClick("staffmembers", role)}
-      />
+
+      {!isFeesOnly && (
+        <>
+          <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
+            <HeiListMenuItem onClick={() => trackNavClick("hei_docs", role)} />
+          </ListMenu>
+          <SingleMenu
+            to="/promotions"
+            label="Promotions"
+            data-testid="promotions-menu"
+            icon={<PromotionIcon />}
+            onClick={() => trackNavClick("promotions", role)}
+          />
+          <SingleMenu
+            to="/course"
+            label="Cours"
+            data-testid="course-menu"
+            icon={<LibraryIcon />}
+            onClick={() => trackNavClick("courses", role)}
+          />
+          <SingleMenu
+            to="/exams"
+            label="Examens"
+            data-testid="exams-menu"
+            icon={<GradeIcon />}
+            onClick={() => trackNavClick("exams", role)}
+          />
+          <SingleMenu
+            to="/retakeExams-sessions"
+            label="Rattrapages"
+            data-testid="retakeExamsSessions-menu"
+            icon={<RemedialIcon />}
+            onClick={() => trackNavClick("retakeExamsSessions", role)}
+          />
+          <SingleMenu
+            to="/cor"
+            label="COR"
+            icon={<SafetyDivider />}
+            onClick={() => trackNavClick("cor", role)}
+          />
+          <SingleMenu
+            to="/groups"
+            label="Groupes"
+            icon={<GroupIcon />}
+            onClick={() => trackNavClick("groups", role)}
+          />
+          <SingleMenu
+            to="/announcements"
+            label="Annonces"
+            icon={<AnnouncementIcon />}
+            onClick={() => trackNavClick("announcements", role)}
+          />
+          <ListMenu
+            icon={<EditCalendar />}
+            label="Pointage"
+            data-testid="event-point"
+          >
+            <ListMenuItem
+              data-testid="event-menu"
+              to="/events"
+              label="Présences"
+              icon={<EventIcon />}
+              onClick={() => trackNavClick("events", role)}
+            />
+            <ListMenuItem
+              data-testid="event-missing"
+              to="/event_participants"
+              label="Liste des absents"
+              icon={<EventBusy />}
+              onClick={() => trackNavClick("event_participants", role)}
+            />
+          </ListMenu>
+          <SingleMenu
+            to="/staffmembers"
+            label="Staff"
+            icon={<StaffIcon />}
+            onClick={() => trackNavClick("staffmembers", role)}
+          />
+        </>
+      )}
     </Box>
   );
 }

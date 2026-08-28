@@ -1,4 +1,5 @@
 import authProvider from "@/providers/authProvider";
+import {useFeesOnly} from "@/security/hooks/useFeesOnly";
 import {SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
@@ -9,6 +10,7 @@ import {
 import {Box} from "@mui/material";
 
 function MonitorMenu() {
+  const isFeesOnly = useFeesOnly();
   const monitorId = authProvider.getCachedWhoami().id;
 
   const logout = async () => {
@@ -18,23 +20,28 @@ function MonitorMenu() {
 
   return (
     <Box sx={{position: "relative", overflowY: "auto"}}>
-      <SingleMenu
-        data-testid="students-menu"
-        to={`/monitors/${monitorId}/students`}
-        label="Étudiants"
-        icon={<StudentIcon />}
-      />
-      <SingleMenu
-        data-testid="event-menu"
-        to="/events"
-        label="Présences"
-        icon={<Event />}
-      />
-      <SingleMenu
-        to="/announcements"
-        label="Annonces"
-        icon={<AnnouncementIcon />}
-      />
+      {!isFeesOnly && (
+        <>
+          <SingleMenu
+            data-testid="students-menu"
+            to={`/monitors/${monitorId}/students`}
+            label="Étudiants"
+            icon={<StudentIcon />}
+          />
+          <SingleMenu
+            data-testid="event-menu"
+            to="/events"
+            label="Présences"
+            icon={<Event />}
+          />
+          <SingleMenu
+            to="/announcements"
+            label="Annonces"
+            icon={<AnnouncementIcon />}
+          />
+        </>
+      )}
+
       <SingleMenu
         label="Se déconnecter"
         icon={<LogoutIcon />}
