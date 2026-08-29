@@ -32,12 +32,18 @@ export const useStudentCredit = (studentId: string | number) => {
       setCredit(null);
       return null;
     }
-    const result = await dataProvider.getOne("credits", {
-      id: studentId,
-    });
-    const studentCredit = result.data as Credit;
-    setCredit(studentCredit);
-    return studentCredit;
+    try {
+      const result = await dataProvider.getOne("credits", {
+        id: studentId,
+      });
+      const studentCredit = result.data as Credit;
+      setCredit(studentCredit);
+      return studentCredit;
+    } catch (error) {
+      console.warn("Crédit étudiant indisponible :", error);
+      setCredit(null);
+      return null;
+    }
   }, [studentId, dataProvider]);
   useEffect(() => {
     getStudentCredit();

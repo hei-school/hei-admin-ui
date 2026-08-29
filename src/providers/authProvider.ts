@@ -1,7 +1,6 @@
 import {
   confirmResetPassword,
   confirmSignIn,
-  fetchAuthSession,
   resetPassword,
   signIn,
   signOut,
@@ -24,10 +23,6 @@ const BEARER_ITEM = "ha_bearer";
 const paramIsTemporaryKey = "t";
 const paramUsername = "u";
 const paramTemporaryKey = "p";
-const paramLocalAmplifyBoolean = "amplify-signin-with-hostedUI";
-
-let isRefreshing = false;
-let refreshPromise: Promise<void> | null = null;
 
 const whoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
@@ -59,34 +54,12 @@ const getCachedAuthConf = (): Configuration => {
   return conf;
 };
 
-// Fonction pour tenter une reconnexion via rafraîchissement du token
-const attemptReconnectUser = async (): Promise<void> => {
-  if (isRefreshing) {
-    return refreshPromise!;
-  }
-
-  isRefreshing = true;
-  refreshPromise = new Promise<void>(async (resolve, reject) => {
-    try {
-      const session = await fetchAuthSession({forceRefresh: true});
-      if (!session.tokens?.idToken) {
-        throw new Error("No valid token found after refresh");
-      }
-      const newWhoami = await whoami();
-      cacheWhoami(newWhoami);
-      resolve();
-    } catch (error) {
-      console.error("Token refresh failed:", error);
-      sessionStorage.clear();
-      localStorage.clear();
-      reject(error);
-    } finally {
-      isRefreshing = false;
-      refreshPromise = null;
-    }
-  });
-
-  return refreshPromise;
+const isSessionInvalid = (error: unknown): boolean => {
+  const status = (error as {status?: number; response?: {status?: number}})
+    ?.status;
+  const responseStatus = (error as {response?: {status?: number}})?.response
+    ?.status;
+  return [status, responseStatus].some((s) => s === 401 || s === 403);
 };
 
 const getToken = async (serverURL: string, code: string, state: string) => {
@@ -116,7 +89,7 @@ const authProvider = {
       username: (username as string).trim(),
       password: password as string,
       options: {
-        clientMetadata: clientMetadata as any,
+        clientMetadata: clientMetadata as Record<string, string> | undefined,
       },
     });
 
@@ -135,38 +108,21 @@ const authProvider = {
 
   logout: async (): Promise<void> => {
     await signOut();
-    localStorage.clear(); // Amplify stores data in localStorage
+    localStorage.clear();
     sessionStorage.clear();
   },
 
   checkAuth: async (): Promise<void> => {
     try {
-      await whoami();
-      if (
-        !sessionStorage.getItem(BEARER_ITEM) ||
-        !localStorage.getItem(paramLocalAmplifyBoolean)
-      ) {
-        const newWhoami = await whoami();
-        cacheWhoami(newWhoami);
-      }
-    } catch (error: any) {
-      if (error.status === 401 || !error.status) {
-        const cachedWhoami = getCachedWhoami();
-        if (cachedWhoami.bearer) {
-          try {
-            await attemptReconnectUser();
-            return;
-          } catch (refreshError) {
-            throw new Error("Unauthorized after refresh attempt");
-          }
-        } else {
-          throw new Error("Unauthorized - No cached token");
-        }
-      } else if (error.status === 405) {
-        return Promise.resolve();
-      } else {
+      cacheWhoami(await whoami());
+    } catch (error) {
+      if (isSessionInvalid(error)) {
         throw new Error("Unauthorized");
       }
+      if (!getCachedWhoami().bearer) {
+        throw new Error("Unauthorized - No cached token");
+      }
+      console.warn("whoami indisponible, session conservée :", error);
     }
   },
 

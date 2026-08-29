@@ -29,11 +29,11 @@ export const CreditTransactionList = ({
         <FunctionField
           label="Mouvement"
           render={(record) => {
-            if (record.movement === "DEPOSIT") {
-              return "Dépôt";
+            if (record.movement === "CREDIT") {
+              return "Crédit";
             }
-            if (record.movement === "WITHDRAWAL") {
-              return "Retrait";
+            if (record.movement === "DEBIT") {
+              return "Débit";
             }
             return "Non défini";
           }}

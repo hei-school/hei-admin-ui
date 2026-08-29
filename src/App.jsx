@@ -28,7 +28,6 @@ import teachers from "@/operations/teachers";
 import authProvider from "@/providers/authProvider";
 import dataProvider from "@/providers/dataProvider";
 import HaLoginPage from "@/security/LoginPage";
-import {AwsWafCaptchaHandler, HumanVerification} from "@/security/waf";
 import {HaLayout} from "@/ui/haLayout";
 import {AdapterDayjs} from "@mui/x-date-pickers/AdapterDayjs";
 import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
@@ -289,7 +288,6 @@ function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
       <BrowserRouter>
-        <AwsWafCaptchaHandler />
         <Routes>
           <Route
             path={
@@ -299,7 +297,6 @@ function App() {
             element={<CasdoorAuthCallback />}
           />
           <Route path="/calendar" element={<publicContent.calendar />} />
-          <Route path="/human-verification" element={<HumanVerification />} />
           <Route path="*" element={<AppBase />} />
         </Routes>
       </BrowserRouter>

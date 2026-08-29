@@ -7,15 +7,5 @@ Cypress.on("uncaught:exception", (err, _runnable) => {
     return false;
   }
 
-  if (err.message.includes(`awswaf-captcha`)) {
-    return false;
-  }
-
   return true;
-});
-
-Cypress.on("uncaught:exception", (err) => {
-  return !err.message.includes(
-    `Failed to execute 'define' on 'CustomElementRegistry': the name "awswaf-captcha" has already been used with this registry`
-  );
 });
