@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
+import {studentCreditMock} from "../fixtures/api_mocks/credit-payments-mocks";
 import {
   UpdateFeeWithPaymentMock,
   feesMock,
@@ -40,6 +41,11 @@ describe("Manager.Payment", () => {
     cy.intercept("GET", `/students/${student1Mock.id}/level`, "L1").as(
       "getStudentLevel"
     );
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/credit`,
+      studentCreditMock
+    ).as("getStudentCredit");
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,

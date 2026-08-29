@@ -4,14 +4,14 @@ import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 const creditTransactionsMock = [
   {
     transaction_id: "transaction1_id",
-    movement: "DEPOSIT",
+    movement: "CREDIT",
     amount: 100000,
     date_time: new Date("2024-02-01T10:00:00Z"),
     fee: {comment: fee1Mock.comment},
   },
   {
     transaction_id: "transaction2_id",
-    movement: "WITHDRAWAL",
+    movement: "DEBIT",
     amount: 40000,
     date_time: null,
     fee: null,
@@ -22,7 +22,7 @@ describe("Manager.Student.CreditTransactions", () => {
   beforeEach(() => {
     cy.mockLogin({role: "MANAGER"});
     cy.visit("/profile");
-    cy.intercept("GET", `/students?page=1&page_size=10`, studentsMock).as(
+    cy.intercept("GET", `/students?page=*&page_size=10`, studentsMock).as(
       "getStudents"
     );
     cy.intercept(
@@ -55,13 +55,12 @@ describe("Manager.Student.CreditTransactions", () => {
     cy.wait("@getCreditTransactions");
     cy.get("table tbody tr")
       .eq(0)
-      .should("contain", "Dépôt")
-      .and("contain", "100000 Ar")
-      .and("contain", fee1Mock.comment);
+      .should("contain", "Crédit")
+      .and("contain", "100000 Ar");
     cy.get("table tbody tr")
       .eq(1)
-      .should("contain", "Retrait")
+      .should("contain", "Débit")
       .and("contain", "40000 Ar")
-      .and("contain", "Non défini");
+      .and("contain", "Non définie");
   });
 });

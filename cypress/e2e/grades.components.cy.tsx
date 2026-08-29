@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {
   courseResultsMock,
@@ -193,7 +194,8 @@ describe("GradesDashboard Component - Extended Tests", () => {
     });
     it("should not display course results when empty list view", () => {
       cy.getByTestid("list-view-toggle").click();
-      cy.getByTestid("courses-list-view").should("not.exist");
+      cy.getByTestid("courses-list-view").should("exist");
+      cy.getByTestid("course-row").should("not.exist");
       cy.contains("Aucun cours trouvé").should("exist");
       cy.contains(
         "Il n'y a pas de cours ou de notes disponibles pour ce niveau."

@@ -54,21 +54,6 @@ function setupLoginMocks(user: any, role: WhoamiRoleEnum) {
     role,
   };
 
-  cy.intercept(
-    {
-      url: /.*awswaf.*telemetry.*/,
-      method: "POST",
-    },
-    {
-      statusCode: 200,
-      body: {
-        token: "dummy_token",
-        next_interval: 100,
-        awswaf_session_storage: "awswaf_dummy_session_storage_key",
-      },
-    }
-  ).as("awsWafTelemetry");
-
   cy.intercept("GET", `**/${role.toLowerCase()}s/${user.id}`, user).as(
     "getProfile"
   );
@@ -77,10 +62,6 @@ function setupLoginMocks(user: any, role: WhoamiRoleEnum) {
   cy.intercept("https://www.google-analytics.com/g/**", {statusCode: 200}).as(
     "analytics"
   );
-  cy.intercept(
-    "https://14bc494aa88b.fca04fe8.eu-west-3.token.awswaf.com/**/**",
-    {statusCode: 200}
-  ).as("waf");
 }
 
 Cypress.Commands.add("login", (options: LoginConfig) => {
