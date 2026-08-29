@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {getCourseStatusLabel} from "../../src/operations/grades/utils/constants";
 import {
@@ -83,7 +84,7 @@ describe("All View", () => {
 
     it("should create an anchor and download when transcript is AVAILABLE immediately", () => {
       cy.window().then((win) => {
-        const fetchStub = cy.stub(win, "fetch").callsFake((_url: string) =>
+        const fetchStub = cy.stub(win, "fetch").callsFake(() =>
           Promise.resolve({
             blob: () =>
               Promise.resolve(new Blob(["dummy"], {type: "application/pdf"})),
@@ -237,10 +238,13 @@ describe("All View", () => {
         {}
       ).as("getGlobalSummaryEmpty");
 
+      cy.getByTestid("yearly-view-toggle").click();
       cy.getByTestid("global-view-toggle").click();
       cy.wait("@getGlobalSummaryEmpty");
 
-      cy.getByTestid("global-summary-card").should("not.exist");
+      // la carte de synthese reste affichee, avec ses compteurs a zero : c est le
+      // bloc vide de la timeline qui signale l absence de resultats
+      cy.getByTestid("global-summary-card").should("exist");
       cy.getByTestid("empty-block").should("be.visible");
     });
 
@@ -268,6 +272,7 @@ describe("All View", () => {
         lockedSummary
       ).as("getGlobalSummaryLocked");
 
+      cy.getByTestid("yearly-view-toggle").click();
       cy.getByTestid("global-view-toggle").click();
       cy.wait("@getGlobalSummaryLocked");
 
@@ -310,6 +315,7 @@ describe("All View", () => {
         validatedSummary
       ).as("getGlobalSummaryValidated");
 
+      cy.getByTestid("yearly-view-toggle").click();
       cy.getByTestid("global-view-toggle").click();
       cy.wait("@getGlobalSummaryValidated");
 
@@ -360,6 +366,7 @@ describe("All View", () => {
         progressSummary
       ).as("getGlobalSummaryProgress");
 
+      cy.getByTestid("yearly-view-toggle").click();
       cy.getByTestid("global-view-toggle").click();
       cy.wait("@getGlobalSummaryProgress");
 
