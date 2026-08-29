@@ -54,9 +54,6 @@ const getCachedAuthConf = (): Configuration => {
   return conf;
 };
 
-// Seuls ces statuts signifient que la session n'est plus valide. Un 429, un 5xx
-// ou une erreur réseau sont transitoires : ils ne doivent pas déconnecter
-// l'utilisateur.
 const isSessionInvalid = (error: unknown): boolean => {
   const status = (error as {status?: number; response?: {status?: number}})
     ?.status;
@@ -92,7 +89,7 @@ const authProvider = {
       username: (username as string).trim(),
       password: password as string,
       options: {
-        clientMetadata: clientMetadata as any,
+        clientMetadata: clientMetadata as Record<string, string> | undefined,
       },
     });
 
@@ -111,21 +108,17 @@ const authProvider = {
 
   logout: async (): Promise<void> => {
     await signOut();
-    localStorage.clear(); // Amplify stores data in localStorage
+    localStorage.clear();
     sessionStorage.clear();
   },
 
   checkAuth: async (): Promise<void> => {
     try {
-      // Un seul appel : le whoami renvoie un bearer frais, on le remet en cache
-      // directement au lieu de refaire une seconde requête pour l'obtenir.
       cacheWhoami(await whoami());
     } catch (error) {
       if (isSessionInvalid(error)) {
         throw new Error("Unauthorized");
       }
-      // Erreur transitoire (429, 5xx, réseau/CORS) : on garde la
-      // session tant qu'un bearer est en cache, au lieu de vider le stockage.
       if (!getCachedWhoami().bearer) {
         throw new Error("Unauthorized - No cached token");
       }
