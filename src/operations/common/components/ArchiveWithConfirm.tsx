@@ -1,3 +1,4 @@
+import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import {Button, ButtonProps, Tooltip} from "@mui/material";
 import {
@@ -92,7 +93,7 @@ export const ArchiveWithConfirm = ({
       )}
       <Confirm
         fullWidth
-        sx={{zIndex: 99999}}
+        sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
         isOpen={showConfirm}
         title={confirmTitle}
         content={confirmContent}

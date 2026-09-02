@@ -1,66 +1,27 @@
 import {renderMoney} from "@/operations/common/utils/money";
-import {CATEGORY, PAYMENT_TYPE} from "@/operations/fees/constants";
+import {
+  FeeSummarySection,
+  InfoRow,
+  SectionTitle,
+} from "@/operations/fees/components/FeeInfoSection";
+import {PAYMENT_TYPE} from "@/operations/fees/constants";
 import {
   PAYMENT_STATUS_ICON,
   PAYMENT_STATUS_LABEL,
 } from "@/operations/payments/components/PaymentStatusIcon";
 import {Dialog} from "@/ui/components";
-import {EMPTY_TEXT} from "@/ui/constants";
 import {formatDate} from "@/utils/date";
 import {
   CreditMovement,
   CreditTransaction,
   PaymentStatus,
 } from "@haapi-3d601c85/typescript-client";
-import {Box, Chip, Divider, Typography} from "@mui/material";
-import {ReactNode} from "react";
-
-const FEE_STATUS_LABEL: Record<string, string> = {
-  UNPAID: "Non payé",
-  PAID: "Payé",
-  LATE: "En retard",
-  PENDING: "En cours de vérification",
-};
+import {Box, Chip, Divider} from "@mui/material";
 
 const MOVEMENT_LABEL: Record<string, string> = {
   [CreditMovement.CREDIT]: "Crédit",
   [CreditMovement.DEBIT]: "Débit",
 };
-
-const ARCHIVE_STATUS_LABEL: Record<string, string> = {
-  TO_ARCHIVE: "En attente d'archivage",
-  ARCHIVED: "Archivé",
-  REJECTED: "Rejeté",
-};
-
-const InfoRow = ({label, value}: {label: string; value: ReactNode}) => (
-  <Box
-    sx={{
-      display: "grid",
-      gridTemplateColumns: "180px 1fr",
-      gap: 2,
-      py: 0.75,
-    }}
-  >
-    <Typography variant="body2" color="text.secondary" fontWeight={600}>
-      {label}
-    </Typography>
-    <Typography variant="body2">
-      {value === undefined || value === null || value === ""
-        ? EMPTY_TEXT
-        : value}
-    </Typography>
-  </Box>
-);
-
-const SectionTitle = ({children}: {children: ReactNode}) => (
-  <Typography
-    variant="overline"
-    sx={{fontWeight: 700, color: "text.secondary", letterSpacing: "0.06em"}}
-  >
-    {children}
-  </Typography>
-);
 
 interface CreditTransactionDetailsDialogProps {
   transaction: CreditTransaction;
@@ -181,59 +142,7 @@ export const CreditTransactionDetailsDialog = ({
           </>
         )}
 
-        {fee && (
-          <>
-            <Divider sx={{my: 2}} />
-            <SectionTitle>Frais concerné</SectionTitle>
-            <InfoRow label="Référence du frais" value={fee.id} />
-            <InfoRow
-              label="Étudiant"
-              value={[fee.student_ref, fee.student_first_name]
-                .filter(Boolean)
-                .join(" — ")}
-            />
-            <InfoRow
-              label="Catégorie"
-              value={
-                CATEGORY.find((c) => c.value === fee.category)?.label ??
-                fee.category
-              }
-            />
-            <InfoRow
-              label="Statut du frais"
-              value={
-                fee.status ? (FEE_STATUS_LABEL[fee.status] ?? fee.status) : null
-              }
-            />
-            <InfoRow
-              label="Reste à payer"
-              value={
-                fee.remaining_amount != null
-                  ? renderMoney(fee.remaining_amount)
-                  : null
-              }
-            />
-            <InfoRow
-              label="Échéance"
-              value={fee.due_datetime ? formatDate(fee.due_datetime) : null}
-            />
-            <InfoRow
-              label="Statut d'archivage"
-              value={
-                fee.archive_status
-                  ? (ARCHIVE_STATUS_LABEL[fee.archive_status] ??
-                    fee.archive_status)
-                  : null
-              }
-            />
-            <InfoRow
-              label="Archivage traité par"
-              value={[fee.archived_by_first_name, fee.archived_by_last_name]
-                .filter(Boolean)
-                .join(" ")}
-            />
-          </>
-        )}
+        {fee && <FeeSummarySection fee={fee} />}
       </Box>
     </Dialog>
   );

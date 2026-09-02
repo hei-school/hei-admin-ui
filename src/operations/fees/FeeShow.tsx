@@ -2,6 +2,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {DeleteWithConfirm, Show} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
+import {ARCHIVE_STATUS_LABEL} from "@/operations/fees/constants";
 import {GRID_STYLE} from "@/operations/fees/utils/gridStyle";
 import PaymentList from "@/operations/payments/PaymentList";
 import {commentFunctionRenderer, statusRenderer} from "@/operations/utils";
@@ -9,7 +10,7 @@ import {studentIdFromRaId} from "@/providers/feeProvider";
 import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {formatDate} from "@/utils/date";
-import {Fee} from "@haapi-b0fc7615/typescript-client";
+import {ArchiveStatusEnum, Fee} from "@haapi-b0fc7615/typescript-client";
 import {
   AccessTimeOutlined,
   ChatBubbleOutline,
@@ -99,13 +100,10 @@ const AccordionBase = ({title, children}: AccordionProps) => (
   </Accordion>
 );
 
-const ARCHIVE_STATUS_LABEL: Record<string, string> = {
-  TO_ARCHIVE: "En attente d'archivage",
-  ARCHIVED: "Archivé",
-  REJECTED: "Rejeté",
-};
-
-const ARCHIVE_STATUS_COLOR: Record<string, "warning" | "default" | "error"> = {
+const ARCHIVE_STATUS_COLOR: Record<
+  ArchiveStatusEnum,
+  "warning" | "default" | "error"
+> = {
   TO_ARCHIVE: "warning",
   ARCHIVED: "default",
   REJECTED: "error",

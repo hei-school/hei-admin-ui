@@ -1,31 +1,17 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {useRole} from "@/security/hooks";
-import {ArchiveStatusEnum, Fee} from "@haapi-3d601c85/typescript-client";
+import {useFeesToArchive} from "@/operations/fees/hooks/useFeesToArchive";
 import {alpha, Box, Chip, Typography} from "@mui/material";
 import {Archive, Hourglass, MoveRight, XCircle} from "lucide-react";
-import {Button, Link, useGetList} from "react-admin";
+import {Button, Link} from "react-admin";
 
 const ACCENT_COLOR = "#3B82F6";
-const TO_ARCHIVE_COLOR = "#B27B00";
+const TO_ARCHIVE_COLOR = PALETTE_COLORS.warning;
 const REJECTED_COLOR = PALETTE_COLORS.red;
 
 export const PendingFeeArchiving = ({animate}: {animate: boolean}) => {
-  const role = useRole();
-  const {data: fees} = useGetList(
-    "fees",
-    {
-      pagination: {page: 1, perPage: 500},
-    },
-    {enabled: role.isManager() || role.isAdmin()}
-  );
-  const toArchiveCount =
-    fees?.filter(
-      (fee: Fee) => fee.archive_status === ArchiveStatusEnum.TO_ARCHIVE
-    ).length ?? 0;
-  const rejectedCount =
-    fees?.filter(
-      (fee: Fee) => fee.archive_status === ArchiveStatusEnum.REJECTED
-    ).length ?? 0;
+  const {toArchiveFees, rejectedFees} = useFeesToArchive();
+  const toArchiveCount = toArchiveFees.length;
+  const rejectedCount = rejectedFees.length;
 
   return (
     <Box

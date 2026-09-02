@@ -1,8 +1,10 @@
 import {mapToChoices} from "@/utils";
 import {
   AdvancedFeeStatisticsType,
+  ArchiveStatusEnum,
   FeeCategory,
   FeeFrequency,
+  FeeStatusEnum,
   FeeTypeEnum,
   PaymentTypeEnum,
 } from "@haapi-b0fc7615/typescript-client";
@@ -73,3 +75,18 @@ export const PAYMENT_TYPE = {
 } as const;
 
 export const PAYMENT_TYPE_CHOICES = mapToChoices(PAYMENT_TYPE, "id", "name");
+
+// Typed against the generated enums so a new enum member fails to compile
+// here instead of silently falling back to the raw value at runtime.
+export const FEE_STATUS_LABEL: Record<FeeStatusEnum, string> = {
+  [FeeStatusEnum.UNPAID]: "Non payé",
+  [FeeStatusEnum.PAID]: "Payé",
+  [FeeStatusEnum.LATE]: "En retard",
+  [FeeStatusEnum.PENDING]: "En cours de vérification",
+};
+
+export const ARCHIVE_STATUS_LABEL: Record<ArchiveStatusEnum, string> = {
+  [ArchiveStatusEnum.TO_ARCHIVE]: "En attente d'archivage",
+  [ArchiveStatusEnum.ARCHIVED]: "Archivé",
+  [ArchiveStatusEnum.REJECTED]: "Rejeté",
+};

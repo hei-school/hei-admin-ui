@@ -1,10 +1,15 @@
+import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks/useToggle";
 import {renderMoney} from "@/operations/common/utils/money";
+import {
+  FeeRecord,
+  useFeesToArchive,
+} from "@/operations/fees/hooks/useFeesToArchive";
 import {payingApi} from "@/providers/api";
 import {toApiIds} from "@/providers/feeProvider";
-import {useRole} from "@/security/hooks";
+import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
 import {formatDate} from "@/utils/date";
-import {ArchiveStatusEnum, Fee} from "@haapi-3d601c85/typescript-client";
+import {ArchiveStatusEnum} from "@haapi-3d601c85/typescript-client";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import CancelIcon from "@mui/icons-material/Cancel";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
@@ -22,29 +27,45 @@ import {
 } from "@mui/material";
 import {Home} from "lucide-react";
 import {useState} from "react";
-import {Confirm, useGetList, useNotify} from "react-admin";
+import {Confirm, useNotify} from "react-admin";
 import {Link as RouterLink} from "react-router-dom";
 import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
 import {CATEGORY} from "./constants";
-
-type FeeRecord = Fee & {id: string};
-
-const TO_ARCHIVE_COLOR = "#B27B00";
-const REJECTED_COLOR = "#D32F2F";
 
 const TABS = [
   {
     key: ArchiveStatusEnum.TO_ARCHIVE,
     label: "À archiver",
-    color: TO_ARCHIVE_COLOR,
+    color: PALETTE_COLORS.warning,
   },
-  {key: ArchiveStatusEnum.REJECTED, label: "Rejetés", color: REJECTED_COLOR},
+  {
+    key: ArchiveStatusEnum.REJECTED,
+    label: "Rejetés",
+    color: PALETTE_COLORS.red,
+  },
 ] as const;
 
 type TabKey = (typeof TABS)[number]["key"];
 
 const categoryLabel = (fee: FeeRecord) =>
   CATEGORY.find((c) => c.value === fee.category)?.label ?? fee.category ?? "—";
+
+// Shared try/notify/refresh shape for the two archive-status mutations below.
+const runArchiveAction = async (
+  action: () => Promise<unknown>,
+  successMessage: string,
+  onDone: () => void,
+  notify: ReturnType<typeof useNotify>
+) => {
+  try {
+    await action();
+    notify(successMessage, {type: "success"});
+    onDone();
+  } catch (error) {
+    console.error(error);
+    notify("Une erreur s'est produite.", {type: "error"});
+  }
+};
 
 const FeeArchiveRowActions = ({
   fee,
@@ -61,30 +82,22 @@ const FeeArchiveRowActions = ({
   const [showReArchive, , toggleReArchive] = useToggle();
   const {studentId, feeId} = toApiIds(fee.id);
 
-  const doUpdate = async (
-    status: ArchiveStatusEnum,
-    successMessage: string
-  ) => {
-    try {
-      await payingApi().updateFeeArchiveStatus(studentId, feeId, {status});
-      notify(successMessage, {type: "success"});
-      onDone();
-    } catch (error) {
-      console.error(error);
-      notify("Une erreur s'est produite.", {type: "error"});
-    }
-  };
+  const doUpdate = (status: ArchiveStatusEnum, successMessage: string) =>
+    runArchiveAction(
+      () => payingApi().updateFeeArchiveStatus(studentId, feeId, {status}),
+      successMessage,
+      onDone,
+      notify
+    );
 
-  const doReArchive = async () => {
+  const doReArchive = () => {
     toggleReArchive();
-    try {
-      await payingApi().archiveStudentFee(studentId, feeId);
-      notify("Demande d'archivage renvoyée.", {type: "success"});
-      onDone();
-    } catch (error) {
-      console.error(error);
-      notify("Une erreur s'est produite.", {type: "error"});
-    }
+    runArchiveAction(
+      () => payingApi().archiveStudentFee(studentId, feeId),
+      "Demande d'archivage renvoyée.",
+      onDone,
+      notify
+    );
   };
 
   if (tab === ArchiveStatusEnum.TO_ARCHIVE) {
@@ -109,7 +122,7 @@ const FeeArchiveRowActions = ({
           Rejeter
         </Button>
         <Confirm
-          sx={{zIndex: 99999}}
+          sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
           isOpen={showValidate}
           title="Archivage de frais"
           content="Confirmez-vous l'archivage de ce frais ? Il ne pourra plus être payé ni modifié."
@@ -122,7 +135,7 @@ const FeeArchiveRowActions = ({
           confirm="Archiver"
         />
         <Confirm
-          sx={{zIndex: 99999}}
+          sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
           isOpen={showReject}
           title="Rejet de l'archivage"
           content="Confirmez-vous le rejet de cette demande d'archivage ?"
@@ -153,7 +166,7 @@ const FeeArchiveRowActions = ({
         Réarchiver
       </Button>
       <Confirm
-        sx={{zIndex: 99999}}
+        sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
         isOpen={showReArchive}
         title="Réarchivage de frais"
         content="Confirmez-vous l'envoi d'une nouvelle demande d'archivage pour ce frais ?"
@@ -167,26 +180,9 @@ const FeeArchiveRowActions = ({
 };
 
 const FeesToArchiveList = () => {
-  const role = useRole();
   const [tab, setTab] = useState<TabKey>(ArchiveStatusEnum.TO_ARCHIVE);
-  const isAllowed = role.isManager() || role.isAdmin();
-  const {
-    data: fees,
-    isLoading,
-    refetch,
-  } = useGetList<FeeRecord>(
-    "fees",
-    {pagination: {page: 1, perPage: 500}},
-    {enabled: isAllowed}
-  );
-
-  const toArchiveFees =
-    fees?.filter(
-      (fee) => fee.archive_status === ArchiveStatusEnum.TO_ARCHIVE
-    ) ?? [];
-  const rejectedFees =
-    fees?.filter((fee) => fee.archive_status === ArchiveStatusEnum.REJECTED) ??
-    [];
+  const {isAllowed, isLoading, toArchiveFees, rejectedFees, refetch} =
+    useFeesToArchive();
   const rows =
     tab === ArchiveStatusEnum.TO_ARCHIVE ? toArchiveFees : rejectedFees;
 
