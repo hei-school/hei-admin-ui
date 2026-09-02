@@ -2,7 +2,7 @@ import {Credit} from "@haapi-b0fc7615/typescript-client";
 import {useCallback, useEffect, useState} from "react";
 import {useDataProvider} from "react-admin";
 
-export const MINIMUM_CREDIT = 200000;
+export const MINIMUM_CREDIT = 60000;
 
 export const hasEnoughCredit = (credit: Credit | null | undefined): boolean => {
   return !!credit && (credit.amount ?? 0) >= MINIMUM_CREDIT;

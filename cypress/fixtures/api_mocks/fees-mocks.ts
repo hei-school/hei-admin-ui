@@ -1,4 +1,5 @@
 import {
+  ArchiveStatusEnum,
   Fee,
   FeeStatusEnum,
   FeeTypeEnum,
@@ -383,3 +384,40 @@ export const feesMpbsMock: Fee[] = [
 export const succeedMpbs1 = feesMpbsMock[1];
 export const pendingMpbs = feesMpbsMock[0];
 export const failedMpbs = feesMpbsMock[2];
+
+export const feeToArchiveMock: Fee = {
+  id: "fee_to_archive_id",
+  student_id: student1Mock.id,
+  student_ref: student1Mock.ref,
+  student_first_name: student1Mock.first_name,
+  remaining_amount: 0,
+  status: FeeStatusEnum.PAID,
+  type: FeeTypeEnum.TUITION,
+  comment: "Comment",
+  category: "L3",
+  total_amount: 400000,
+  archive_status: ArchiveStatusEnum.TO_ARCHIVE,
+  mpbs: [],
+  creation_datetime: new Date("2024-01-08"),
+  due_datetime: new Date("2024-02-08"),
+};
+
+export const feeArchiveRejectedMock: Fee = {
+  id: "fee_archive_rejected_id",
+  student_id: student1Mock.id,
+  student_ref: student1Mock.ref,
+  student_first_name: student1Mock.first_name,
+  remaining_amount: 0,
+  status: FeeStatusEnum.PAID,
+  type: FeeTypeEnum.TUITION,
+  comment: "Comment",
+  category: "L2",
+  total_amount: 300000,
+  archive_status: ArchiveStatusEnum.REJECTED,
+  archived_by_first_name: "Jane",
+  archived_by_last_name: "Admin",
+  archived_by_ref: "STF0001",
+  mpbs: [],
+  creation_datetime: new Date("2024-01-08"),
+  due_datetime: new Date("2024-02-08"),
+};

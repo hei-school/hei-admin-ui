@@ -7,7 +7,28 @@ const creditTransactionsMock = [
     movement: "CREDIT",
     amount: 100000,
     date_time: new Date("2024-02-01T10:00:00Z"),
-    fee: {comment: fee1Mock.comment},
+    fee: fee1Mock,
+    credit: {
+      id: "credit1_id",
+      amount: 500000,
+      student: {
+        ref: student1Mock.ref,
+        first_name: student1Mock.first_name,
+        last_name: "Doe",
+        email: "john@example.com",
+      },
+    },
+    payment: {
+      id: "payment1_id",
+      status: "VALIDATE",
+      amount: 100000,
+      type: "CREDIT",
+      comment: "Paiement initial",
+      creation_datetime: new Date("2024-02-01T09:00:00Z"),
+      validated_by_first_name: "Jane",
+      validated_by_last_name: "Admin",
+      validated_by_ref: "STF0001",
+    },
   },
   {
     transaction_id: "transaction2_id",
@@ -62,5 +83,35 @@ describe("Manager.Student.CreditTransactions", () => {
       .should("contain", "Débit")
       .and("contain", "40000 Ar")
       .and("contain", "Non définie");
+  });
+
+  it("shows full transaction details in a dialog when a row is clicked", () => {
+    cy.getByTestid("credit-transactions-tab").click();
+    cy.wait("@getCreditTransactions");
+    cy.get("table tbody tr").eq(0).click();
+    cy.get('[role="dialog"]').within(() => {
+      cy.contains("Détails de la transaction de crédit");
+      cy.contains("Crédit");
+      cy.contains("100000 Ar");
+      cy.contains("Doe");
+      cy.contains("500000 Ar");
+      cy.contains("Paiement lié");
+      cy.contains("Jane Admin");
+      cy.contains("STF0001");
+      cy.contains("Frais concerné");
+      cy.contains(fee1Mock.comment!);
+    });
+  });
+
+  it("hides the payment and fee sections when a transaction has none", () => {
+    cy.getByTestid("credit-transactions-tab").click();
+    cy.wait("@getCreditTransactions");
+    cy.get("table tbody tr").eq(1).click();
+    cy.get('[role="dialog"]').within(() => {
+      cy.contains("Détails de la transaction de crédit");
+      cy.contains("Débit");
+      cy.should("not.contain", "Paiement lié");
+      cy.should("not.contain", "Frais concerné");
+    });
   });
 });

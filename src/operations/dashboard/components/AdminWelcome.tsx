@@ -38,6 +38,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {BadgeDollarSign, BellDot, ExternalLink, UserRoundX} from "lucide-react";
 import {CommentContent} from "./common/CommentContent";
 import {PendingCreditPayments} from "./common/PendingCreditPayments";
+import {PendingFeeArchiving} from "./common/PendingFeeArchiving";
 import {RecentLetters} from "./common/RecentLetters";
 import {WelcomingCard} from "./common/WelcomingCard";
 
@@ -66,6 +67,7 @@ export const AdminWelcome = () => {
       <WelcomingCard animate={animate} isLarge={isLarge} />
       <RecentLetters animate={animate} />
       <PendingCreditPayments animate={animate} />
+      <PendingFeeArchiving animate={animate} />
       <Grid
         container
         spacing={3}

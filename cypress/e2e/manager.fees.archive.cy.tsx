@@ -1,3 +1,4 @@
+import {FeeStatusEnum} from "@haapi-3d601c85/typescript-client";
 import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
@@ -28,10 +29,11 @@ describe("Manager.Fee.Archive", () => {
   });
 
   it("can archive a fee", () => {
+    const paidFee1Mock = {...fee1Mock, status: FeeStatusEnum.PAID};
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,
-      feesMock
+      [paidFee1Mock, ...feesMock.slice(1)]
     ).as("getFees");
     cy.intercept(
       "GET",
@@ -55,6 +57,28 @@ describe("Manager.Fee.Archive", () => {
     cy.get(".ra-confirm").click();
     cy.wait("@archiveFee");
     cy.contains("Frais archivé avec succès.");
+  });
+
+  it("disables the archive button for an unpaid fee", () => {
+    // fee1Mock has status LATE (not PAID): a fee that isn't fully paid
+    // cannot be archived.
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      feesMock
+    ).as("getFeesUnpaid");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      feesMock
+    ).as("getFeesUnpaid2");
+    cy.getByTestid("fees-tab").click();
+    cy.wait("@getFeesUnpaid");
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    )
+      .find('[data-testid="archive-button-confirm"]')
+      .should("be.disabled");
   });
 
   it("disables the archive button for an already archived fee", () => {

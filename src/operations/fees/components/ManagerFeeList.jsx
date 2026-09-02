@@ -13,6 +13,7 @@ import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {formatDate} from "@/utils/date";
+import {FeeStatusEnum} from "@haapi-3d601c85/typescript-client";
 import {WarningOutlined} from "@mui/icons-material";
 import {Box, Chip} from "@mui/material";
 import {FunctionField, WrapperField} from "react-admin";
@@ -120,6 +121,11 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
                 redirect={`/students/${studentId}/show/fees?tab=fees`}
                 confirmTitle="Archivage de frais"
                 confirmContent="Confirmez-vous l'archivage de ce frais ?"
+                getDisabledReason={(record) =>
+                  record.status !== FeeStatusEnum.PAID
+                    ? "Un frais non payé ne peut pas être archivé."
+                    : undefined
+                }
                 onArchive={(record) => {
                   const {feeId} = toApiIds(record.id);
                   return payingApi().archiveStudentFee(studentId, feeId, {

@@ -37,6 +37,7 @@ import {
   SimpleShowLayout,
   TopToolbar,
   useDataProvider,
+  useRecordContext,
 } from "react-admin";
 import {Link as RouterLink, useParams} from "react-router-dom";
 import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
@@ -97,6 +98,62 @@ const AccordionBase = ({title, children}: AccordionProps) => (
     <AccordionDetails>{children}</AccordionDetails>
   </Accordion>
 );
+
+const ARCHIVE_STATUS_LABEL: Record<string, string> = {
+  TO_ARCHIVE: "En attente d'archivage",
+  ARCHIVED: "Archivé",
+  REJECTED: "Rejeté",
+};
+
+const ARCHIVE_STATUS_COLOR: Record<string, "warning" | "default" | "error"> = {
+  TO_ARCHIVE: "warning",
+  ARCHIVED: "default",
+  REJECTED: "error",
+};
+
+const ArchiveStatusField = () => {
+  const record = useRecordContext<Fee>();
+  if (!record?.archive_status) {
+    return null;
+  }
+  const treatedByName = [
+    record.archived_by_first_name,
+    record.archived_by_last_name,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  return (
+    <LabeledField label="Archivage">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "flex-end",
+          gap: 0.5,
+        }}
+      >
+        <Chip
+          size="small"
+          label={
+            ARCHIVE_STATUS_LABEL[record.archive_status] ?? record.archive_status
+          }
+          color={ARCHIVE_STATUS_COLOR[record.archive_status] ?? "default"}
+        />
+        {treatedByName && (
+          <Typography variant="caption" color="text.secondary">
+            {record.archive_status === "TO_ARCHIVE"
+              ? "Demandé"
+              : record.archive_status === "REJECTED"
+                ? "Rejeté"
+                : "Archivé"}{" "}
+            par {treatedByName}
+            {record.archived_by_ref ? ` (${record.archived_by_ref})` : ""}
+          </Typography>
+        )}
+      </Box>
+    </LabeledField>
+  );
+};
 
 const dateTimeRenderer = (data: Fee) => {
   return data.updated_at == null ? (
@@ -304,6 +361,7 @@ export const FeeLayout = ({feeId, studentId}: FeeLayoutProps) => {
               />
             </Box>
           </LabeledField>
+          <ArchiveStatusField />
         </Grid>
       </Grid>
 
