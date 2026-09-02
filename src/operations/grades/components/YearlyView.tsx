@@ -6,7 +6,7 @@ import {levelChoices} from "@/operations/grades/utils";
 import {getGradeColor} from "@/operations/grades/utils/getGradeColor";
 import dataProvider from "@/providers/dataProvider";
 import {ToRaRecord} from "@/providers/types";
-import {Student, YearlyResult} from "@haapi-3d601c85/typescript-client";
+import {Student, YearlyResult} from "@haapi-b0fc7615/typescript-client";
 import {Apps, Download, List, School} from "@mui/icons-material";
 import {
   Box,

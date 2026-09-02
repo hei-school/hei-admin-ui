@@ -1,6 +1,6 @@
 import {useToggle} from "@/hooks";
 import authProvider from "@/providers/authProvider";
-import {RetakeExam, RetakeExamStatus} from "@haapi-3d601c85/typescript-client";
+import {RetakeExam, RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 import {useCallback, useEffect, useMemo, useState} from "react";
 import {useCreate, useGetList, useNotify} from "react-admin";
 

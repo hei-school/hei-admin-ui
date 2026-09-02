@@ -7,7 +7,7 @@ import {
   MobileMoneyType,
   PaymentStatus,
   PaymentTypeEnum,
-} from "@haapi-3d601c85/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {Home, Wallet} from "lucide-react";
 import {useState} from "react";

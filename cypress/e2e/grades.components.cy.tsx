@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
-import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {
   courseResultsMock,
   emptyYearlyResultMock,

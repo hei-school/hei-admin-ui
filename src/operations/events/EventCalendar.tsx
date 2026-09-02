@@ -3,7 +3,7 @@ import {useRole} from "@/security/hooks";
 import {HaListTitle} from "@/ui/haList";
 import frLocale from "@fullcalendar/core/locales/fr";
 import {EventClickArg, EventInput} from "@fullcalendar/react";
-import {Event} from "@haapi-3d601c85/typescript-client";
+import {Event} from "@haapi-b0fc7615/typescript-client";
 import {Box, Popover} from "@mui/material";
 import {CompleteCalendar} from "@react-admin/ra-calendar";
 import {Button, Link} from "react-admin";

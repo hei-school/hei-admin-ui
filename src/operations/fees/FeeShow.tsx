@@ -9,7 +9,7 @@ import {studentIdFromRaId} from "@/providers/feeProvider";
 import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {formatDate} from "@/utils/date";
-import {Fee} from "@haapi-3d601c85/typescript-client";
+import {Fee} from "@haapi-b0fc7615/typescript-client";
 import {
   AccessTimeOutlined,
   ChatBubbleOutline,

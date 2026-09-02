@@ -6,7 +6,7 @@ import {Dialog} from "@/ui/components";
 import {
   AttendanceStatus,
   EventParticipant,
-} from "@haapi-3d601c85/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {Box, Button, Typography} from "@mui/material";
 import {FC, useState} from "react";
 import {FileInput, SimpleForm, Toolbar, useUpdate} from "react-admin";

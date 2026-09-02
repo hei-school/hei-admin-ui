@@ -1,4 +1,4 @@
-import {CorCommentInfo} from "@haapi-3d601c85/typescript-client";
+import {CorCommentInfo} from "@haapi-b0fc7615/typescript-client";
 import {corApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType} from "./HaDataProviderType";

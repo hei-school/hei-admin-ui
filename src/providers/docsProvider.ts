@@ -1,4 +1,4 @@
-import {FileType} from "@haapi-3d601c85/typescript-client";
+import {FileType} from "@haapi-b0fc7615/typescript-client";
 import {OwnerType} from "../operations/docs/types";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {filesApi} from "./api";

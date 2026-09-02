@@ -1,7 +1,7 @@
 import {
   AttendanceStatus,
   StudentGlobalAttendance,
-} from "@haapi-3d601c85/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 
 import {attendanceApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";

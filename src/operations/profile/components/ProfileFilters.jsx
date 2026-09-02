@@ -8,7 +8,7 @@ import {
   EnableStatus,
   Sex,
   WorkStudyStatus,
-} from "@haapi-3d601c85/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 
 export function ProfileFilters({resource}) {

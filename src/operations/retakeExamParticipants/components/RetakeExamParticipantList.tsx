@@ -1,6 +1,6 @@
 import {RetakeExamButtons} from "@/operations/retakeExams/components/RetakeExamButtons";
 import {HaList} from "@/ui/haList";
-import {RetakeExam, Student} from "@haapi-3d601c85/typescript-client";
+import {RetakeExam, Student} from "@haapi-b0fc7615/typescript-client";
 import {BookOpenCheckIcon} from "lucide-react";
 import {FC} from "react";
 import {

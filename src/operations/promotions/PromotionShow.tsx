@@ -7,7 +7,7 @@ import {
   Group,
   Promotion,
   UpdatePromotionSGroupTypeEnum,
-} from "@haapi-3d601c85/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {
   CalendarMonth as CreationDateIcon,
   PermIdentity as NameIcon,
