@@ -6,6 +6,7 @@ import {
   Newspaper as AnnouncementIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
+  HistoryEdu as DocumensoIcon,
   EditCalendar,
   EventBusy,
   CalendarMonth as EventIcon,
@@ -81,6 +82,13 @@ function AdminMenu() {
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem onClick={() => trackNavClick("hei_docs", role)} />
+        <SingleMenu
+          to="/documenso-documents"
+          label="Fiches à signer"
+          data-testid="documenso-documents-menu"
+          icon={<DocumensoIcon />}
+          onClick={() => trackNavClick("documenso_documents", role)}
+        />
       </ListMenu>
       <SingleMenu
         to="/promotions"
