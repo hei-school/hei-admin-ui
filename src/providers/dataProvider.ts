@@ -175,13 +175,14 @@ const dataProvider = {
         `Provider for resourceType ${resourceType} did not return a valid data property.`
       );
     }
-    const hasNextPage = await getHasNextPageInfo(
-      resourceType,
-      page,
-      perPage,
-      filter,
-      meta
-    );
+    // La sonde page + 1 ne peut rien ramener tant que la page courante n'est
+    // pas pleine : on ne la declenche que dans ce cas. Toutes les listes qui
+    // tiennent sur une page ne coutent plus qu'un seul appel API au lieu de
+    // deux (chaque appel = une invocation Lambda, plus son preflight).
+    const isPageFull = data.length >= perPage;
+    const hasNextPage =
+      isPageFull &&
+      (await getHasNextPageInfo(resourceType, page, perPage, filter, meta));
     return {
       data,
       pageInfo: {
