@@ -1,4 +1,3 @@
-import {getAxiosInstance} from "@/config/axios";
 import {
   confirmResetPassword,
   confirmSignIn,
@@ -27,36 +26,18 @@ const paramTemporaryKey = "p";
 
 const whoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
-  conf.accessToken = sessionStorage.getItem(BEARER_ITEM) as string;
-  return conf;
-};
-
-let pendingWhoami: Promise<Whoami> | null = null;
-
-const doWhoami = async (): Promise<Whoami> => {
-  const securityApi = new SecurityApi(
-    getCachedAuthConf(),
-    undefined,
-    getAxiosInstance()
-  );
+  const token = sessionStorage.getItem(BEARER_ITEM) || "";
+  conf.accessToken = token;
+  const securityApi = new SecurityApi(conf);
   return securityApi
     .whoami()
     .then((response: AxiosResponse<Whoami>) => response.data);
 };
 
-const whoami = async (): Promise<Whoami> => {
-  if (!pendingWhoami) {
-    pendingWhoami = doWhoami().finally(() => {
-      pendingWhoami = null;
-    });
-  }
-  return pendingWhoami;
-};
-
-const cacheWhoami = (whoami: Partial<Whoami>): void => {
-  if (whoami.id) sessionStorage.setItem(ID_ITEM, whoami.id);
-  if (whoami.role) sessionStorage.setItem(ROLE_ITEM, whoami.role);
-  if (whoami.bearer) sessionStorage.setItem(BEARER_ITEM, whoami.bearer);
+const cacheWhoami = (whoami: Whoami): void => {
+  sessionStorage.setItem(ID_ITEM, whoami.id as string);
+  sessionStorage.setItem(ROLE_ITEM, whoami.role as string);
+  sessionStorage.setItem(BEARER_ITEM, whoami.bearer as string);
 };
 
 const getCachedWhoami = () => ({
@@ -145,22 +126,9 @@ const authProvider = {
     }
   },
 
-  checkError: async (error: unknown): Promise<void> => {
-    if (statusOf(error) === 401) {
-      throw new Error("Unauthorized");
-    }
-    return Promise.resolve();
-  },
+  checkError: async () => Promise.resolve(),
 
-  getIdentity: async () => {
-    const cached = getCachedWhoami();
-    if (cached.id && cached.role) {
-      return cached;
-    }
-    const identity = await whoami();
-    cacheWhoami(identity);
-    return identity;
-  },
+  getIdentity: async () => await whoami(),
 
   getPermissions: async () =>
     Promise.resolve(getPermissions(getCachedRole() as string)),
