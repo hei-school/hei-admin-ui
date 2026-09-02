@@ -1,3 +1,4 @@
+import {getAxiosInstance} from "@/config/axios";
 import {
   confirmResetPassword,
   confirmSignIn,
@@ -29,10 +30,11 @@ let pendingWhoami: Promise<Whoami> | null = null;
 let lastWhoamiAt = 0;
 
 const fetchWhoami = async (): Promise<Whoami> => {
-  const conf = new Configuration();
-  const token = sessionStorage.getItem(BEARER_ITEM) || "";
-  conf.accessToken = token;
-  const securityApi = new SecurityApi(conf);
+  const securityApi = new SecurityApi(
+    getCachedAuthConf(),
+    undefined,
+    getAxiosInstance()
+  );
   return securityApi
     .whoami()
     .then((response: AxiosResponse<Whoami>) => response.data);
@@ -53,10 +55,10 @@ const whoami = async (): Promise<Whoami> => {
 const isWhoamiFresh = (): boolean =>
   lastWhoamiAt !== 0 && Date.now() - lastWhoamiAt < WHOAMI_TTL_MS;
 
-const cacheWhoami = (whoami: Whoami): void => {
-  sessionStorage.setItem(ID_ITEM, whoami.id as string);
-  sessionStorage.setItem(ROLE_ITEM, whoami.role as string);
-  sessionStorage.setItem(BEARER_ITEM, whoami.bearer as string);
+const cacheWhoami = (whoami: Partial<Whoami>): void => {
+  if (whoami.id) sessionStorage.setItem(ID_ITEM, whoami.id);
+  if (whoami.role) sessionStorage.setItem(ROLE_ITEM, whoami.role);
+  if (whoami.bearer) sessionStorage.setItem(BEARER_ITEM, whoami.bearer);
 };
 
 const cacheBearer = (bearer: string): void => {
@@ -167,7 +169,15 @@ const authProvider = {
     throw new Error("Unauthorized");
   },
 
-  getIdentity: async () => await whoami(),
+  getIdentity: async () => {
+    const cached = getCachedWhoami();
+    if (cached.id && cached.role) {
+      return cached;
+    }
+    const identity = await whoami();
+    cacheWhoami(identity);
+    return identity;
+  },
 
   getPermissions: async () =>
     Promise.resolve(getPermissions(getCachedRole() as string)),

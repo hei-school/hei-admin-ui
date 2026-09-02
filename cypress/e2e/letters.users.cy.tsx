@@ -1,3 +1,4 @@
+import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {
   newLetter,
   student1LettersMocks,
@@ -9,7 +10,7 @@ import {teacher1Mock} from "../fixtures/api_mocks/teachers-mocks";
 const ITEM_PER_LIST = 12;
 
 const testLettersFunctionality = (
-  role: string,
+  role: WhoamiRoleEnum,
   id: string,
   letterMocks: any
 ) => {
@@ -53,11 +54,19 @@ const testLettersFunctionality = (
 };
 
 describe("Student.Letters", () => {
-  testLettersFunctionality("STUDENT", student1Mock.id, student1LettersMocks);
+  testLettersFunctionality(
+    WhoamiRoleEnum.STUDENT,
+    student1Mock.id,
+    student1LettersMocks
+  );
 });
 
 describe("Teacher.Letters", () => {
-  testLettersFunctionality("TEACHER", teacher1Mock.id, teacher1LettersMocks);
+  testLettersFunctionality(
+    WhoamiRoleEnum.TEACHER,
+    teacher1Mock.id,
+    teacher1LettersMocks
+  );
 });
 
 describe("Manager.Letters.student", () => {
