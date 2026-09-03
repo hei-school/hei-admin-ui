@@ -126,6 +126,8 @@ const FeesToArchiveList = () => {
           }
           listProps={{
             filterDefaultValues: {archive_status: tab},
+            perPage: 500,
+            pagination: false,
             storeKey: false,
           }}
           datagridProps={{rowClick: false}}
