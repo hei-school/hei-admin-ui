@@ -1,5 +1,5 @@
 import {HaList} from "@/ui/haList";
-import {Promotion, TemplateDocumenso} from "@haapi-3d601c85/typescript-client";
+import {Promotion, TemplateDocumenso} from "@haapi-b0fc7615/typescript-client";
 import {Groups as PromotionIcon} from "@mui/icons-material";
 import {FunctionField, TextField, useRecordContext} from "react-admin";
 import {GenerateDocumensoDocumentsButton} from "./GenerateDocumensoDocumentsButton";

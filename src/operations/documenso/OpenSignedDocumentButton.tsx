@@ -1,5 +1,5 @@
 import {useNotify} from "@/hooks";
-import {DocumensoDocumentStatus} from "@haapi-3d601c85/typescript-client";
+import {DocumensoDocumentStatus} from "@haapi-b0fc7615/typescript-client";
 import {PictureAsPdf as PdfIcon} from "@mui/icons-material";
 import {useState} from "react";
 import {Button, useDataProvider, useRecordContext} from "react-admin";

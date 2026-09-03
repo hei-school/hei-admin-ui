@@ -1,7 +1,7 @@
 import {useNotify, useToggle} from "@/hooks";
 import {Dialog} from "@/ui/components";
 import {EmbedSignDocument} from "@documenso/embed-react";
-import {DocumensoDocumentStatus} from "@haapi-3d601c85/typescript-client";
+import {DocumensoDocumentStatus} from "@haapi-b0fc7615/typescript-client";
 import {Draw as SignIcon} from "@mui/icons-material";
 import {Alert, Box, Link} from "@mui/material";
 import {useEffect, useState} from "react";
@@ -18,14 +18,6 @@ const ALERT_SX = {mb: 2};
 
 const DOCUMENSO_HOST = process.env.REACT_APP_DOCUMENSO_URL;
 
-/*
- * Documenso rend ses erreurs de chargement dans l'iframe elle-même — un plan
- * sans signature intégrée répond 403 « embed-paywall ». Cette page n'émet aucun
- * postMessage : onDocumentError n'est jamais appelé et le dialogue reste sur un
- * cadre vide. On ne peut pas lire l'iframe (cross-origin), alors on se repose
- * sur onDocumentReady : passé ce délai sans signe de vie, on explique et on
- * propose la signature hors embed.
- */
 const EMBED_READY_TIMEOUT_MS = 10_000;
 
 export const SignDocumensoDocumentButton = () => {
@@ -78,11 +70,6 @@ export const SignDocumensoDocumentButton = () => {
     setOpen(false);
   };
 
-  /*
-   * The signature is recorded by Documenso, not by us: our own status only
-   * turns to COMPLETED once the webhook lands, so the list may still read
-   * "en attente" for a moment after this dialog closes.
-   */
   const onCompleted = () => {
     notify("Fiche signée. Sa mise à jour suit dans un instant.", {
       type: "success",
