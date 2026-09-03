@@ -1,4 +1,4 @@
-import {TemplateDocumenso} from "@haapi-3d601c85/typescript-client";
+import {TemplateDocumenso} from "@haapi-b0fc7615/typescript-client";
 import {ArrowBack as BackIcon} from "@mui/icons-material";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import {useState} from "react";

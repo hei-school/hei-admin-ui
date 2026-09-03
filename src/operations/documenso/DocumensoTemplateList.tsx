@@ -1,5 +1,5 @@
 import {HaList} from "@/ui/haList";
-import {TemplateDocumenso} from "@haapi-3d601c85/typescript-client";
+import {TemplateDocumenso} from "@haapi-b0fc7615/typescript-client";
 import {HistoryEdu as DocumensoIcon} from "@mui/icons-material";
 import {TextField} from "react-admin";
 

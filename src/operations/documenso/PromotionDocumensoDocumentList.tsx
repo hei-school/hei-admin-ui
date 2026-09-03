@@ -2,7 +2,7 @@ import {HaList} from "@/ui/haList";
 import {
   DocumensoDocumentStatus,
   StudentLevel,
-} from "@haapi-3d601c85/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {HistoryEdu as DocumensoIcon} from "@mui/icons-material";
 import {FunctionField, SelectInput, TextField} from "react-admin";
 import {DateField} from "../common/components/fields";
@@ -37,11 +37,6 @@ const FILTERS = [
   />,
 ];
 
-/*
- * templateTitle restreint la liste aux fiches d'un seul modèle. L'API ne sait
- * lister que par promotion : le tri est donc fait par le provider, après
- * pagination. Le nombre de lignes par page s'en trouve irrégulier.
- */
 export const PromotionDocumensoDocumentList = ({
   promotionId,
   templateTitle,
