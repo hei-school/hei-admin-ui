@@ -5,7 +5,7 @@ import {
 
 describe("Manager.Dashboard.PendingFeeArchiving", () => {
   it("shows the counts of fees pending archiving and rejected, and links to the archiving page", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=500`, {
+    cy.intercept("GET", `/fees?page=*&page_size=500`, {
       data: [
         feeToArchiveMock,
         {...feeToArchiveMock, id: "fee_to_archive_2_id"},
@@ -24,7 +24,7 @@ describe("Manager.Dashboard.PendingFeeArchiving", () => {
   });
 
   it("shows zero counts when there is no fee pending archiving or rejected", () => {
-    cy.intercept("GET", `/fees?page=1&page_size=500`, {
+    cy.intercept("GET", `/fees?page=*&page_size=500`, {
       data: [],
     }).as("getNoFeesToArchive");
     cy.mockLogin({role: "MANAGER"});

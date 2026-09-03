@@ -64,8 +64,6 @@ describe("Manager.Fee.Archive", () => {
   });
 
   it("disables the archive button for an unpaid fee", () => {
-    // fee1Mock has status LATE (not PAID): a fee that isn't fully paid
-    // cannot be archived.
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=10`,

@@ -4,12 +4,6 @@ import {useGetList} from "react-admin";
 
 export type FeeRecord = Fee & {id: string};
 
-/**
- * Single source of truth for the fees pending archiving / rejected: fetches
- * the fee list once (role-gated) and splits it by archive status. Shared by
- * the dashboard summary card and the full archiving list so they don't each
- * fire their own request and re-implement the same filtering.
- */
 export const useFeesToArchive = () => {
   const role = useRole();
   const isAllowed = role.isManager() || role.isAdmin();

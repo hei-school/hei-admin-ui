@@ -11,8 +11,6 @@ import {useState} from "react";
 import {FunctionField, Identifier, RaRecord, TextField} from "react-admin";
 import {DateField} from "../common/components/fields";
 
-// Le client généré ne modélise plus les paiements par crédit séparément :
-// l'endpoint type désormais sa réponse en Payment, qui ne déclare pas le fee imbriqué.
 type CreditPayment = Payment & {fee?: Fee};
 
 const CreditPaymentList = () => {

@@ -92,15 +92,11 @@ describe("Manager.Payments.Flow", () => {
       `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
       fee1Mock
     ).as("getFee1");
-    // Separate from the "getFees"/"getFees2" (page_size=10) aliases above:
-    // the pending-credit-payment check fetches the student's fees on its own.
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=1&page_size=100`,
       feesMock
     ).as("getFeesForPendingCheck");
-    // The data provider always probes the next page too, to know whether
-    // there's more to paginate through.
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees?page=2&page_size=100`,

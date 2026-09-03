@@ -36,9 +36,6 @@ describe("Mobile payment by student", () => {
       `/students/${student1Mock.id}/fees?page=1&page_size=500`,
       []
     ).as("getFeesForCredit");
-    // The earliest unpaid fee (fee1Mock) is checked for a credit payment
-    // awaiting validation, to keep its amount out of the student's spendable
-    // credit; empty by default here since these tests don't set one up.
     cy.intercept(
       "GET",
       `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=*&page_size=*`,
@@ -134,9 +131,6 @@ describe("Mobile payment by student", () => {
         },
       ]
     ).as("getFee1PendingPayment");
-    // The page already fetched (and cached) fee1's payments once in
-    // `beforeEach`, before this override was in place: reload so the list
-    // remounts and refetches against the now-pending response above.
     cy.reload();
     cy.wait("@getFee1PendingPayment");
     cy.getByTestid(
