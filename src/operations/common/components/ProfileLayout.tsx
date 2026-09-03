@@ -139,7 +139,7 @@ export const ProfileLayout = ({
                 }}
                 fontWeight="500"
               >
-                Solde actuel
+                Crédit actuel
               </Typography>
               <Typography
                 fontWeight="700"

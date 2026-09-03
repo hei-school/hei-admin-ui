@@ -1,3 +1,7 @@
+import {
+  PaymentStatus,
+  PaymentTypeEnum,
+} from "@haapi-3d601c85/typescript-client";
 import {studentCreditMock} from "../fixtures/api_mocks/credit-payments-mocks";
 import {
   fee1Mock,
@@ -32,6 +36,14 @@ describe("Mobile payment by student", () => {
       `/students/${student1Mock.id}/fees?page=1&page_size=500`,
       []
     ).as("getFeesForCredit");
+    // The earliest unpaid fee (fee1Mock) is checked for a credit payment
+    // awaiting validation, to keep its amount out of the student's spendable
+    // credit; empty by default here since these tests don't set one up.
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=*&page_size=*`,
+      []
+    ).as("getFee1Payments");
     cy.mockLogin({role: "STUDENT"});
     cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
   });
@@ -105,5 +117,36 @@ describe("Mobile payment by student", () => {
       .type((studentCreditMock.amount + 1).toString());
     cy.contains("Enregistrer").click();
     cy.contains("Le montant saisi est supérieur à votre crédit actuel.");
+  });
+
+  it("shows the fee as in progress and blocks paying it again while its credit payment is awaiting validation", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=*&page_size=*`,
+      [
+        {
+          id: "credit_payment_pending_id",
+          fee_id: fee1Mock.id,
+          type: PaymentTypeEnum.CREDIT,
+          status: PaymentStatus.CREATED,
+          amount: 100000,
+          comment: "Paiement par crédit",
+        },
+      ]
+    ).as("getFee1PendingPayment");
+    // The page already fetched (and cached) fee1's payments once in
+    // `beforeEach`, before this override was in place: reload so the list
+    // remounts and refetches against the now-pending response above.
+    cy.reload();
+    cy.wait("@getFee1PendingPayment");
+    cy.getByTestid(
+      `creditPendingIcon-${fee1Mock.student_id}--${fee1Mock.id}`
+    ).should("exist");
+    cy.getByTestid(
+      `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
+    ).should("not.exist");
+    cy.contains("button", "Payer mon écolage").should("be.disabled");
+    cy.contains("button", "Payer mon écolage").click({force: true});
+    cy.contains("Le paiement de ce frais est déjà en cours de vérification.");
   });
 });

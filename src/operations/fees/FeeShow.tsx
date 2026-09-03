@@ -5,12 +5,17 @@ import {renderMoney} from "@/operations/common/utils/money";
 import {ARCHIVE_STATUS_LABEL} from "@/operations/fees/constants";
 import {GRID_STYLE} from "@/operations/fees/utils/gridStyle";
 import PaymentList from "@/operations/payments/PaymentList";
+import {useReservedCredit} from "@/operations/payments/utils/validateCredit";
 import {commentFunctionRenderer, statusRenderer} from "@/operations/utils";
 import {studentIdFromRaId} from "@/providers/feeProvider";
 import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {formatDate} from "@/utils/date";
-import {ArchiveStatusEnum, Fee} from "@haapi-b0fc7615/typescript-client";
+import {
+  ArchiveStatusEnum,
+  Fee,
+  FeeStatusEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {
   AccessTimeOutlined,
   ChatBubbleOutline,
@@ -150,6 +155,18 @@ const ArchiveStatusField = () => {
         )}
       </Box>
     </LabeledField>
+  );
+};
+
+const FeeStatusField = ({studentId}: {studentId: string}) => {
+  const record = useRecordContext<Fee>();
+  const {pendingCreditFeeIds} = useReservedCredit(studentId);
+  const hasPendingCreditPayment =
+    !!record?.id &&
+    record.status !== FeeStatusEnum.PAID &&
+    pendingCreditFeeIds.has(record.id);
+  return statusRenderer(
+    hasPendingCreditPayment ? FeeStatusEnum.PENDING : record?.status
   );
 };
 
@@ -353,10 +370,7 @@ export const FeeLayout = ({feeId, studentId}: FeeLayoutProps) => {
           </LabeledField>
           <LabeledField label="Statut">
             <Box {...styles.box}>
-              <FunctionField
-                source="status"
-                render={(record: Fee) => statusRenderer(record.status)}
-              />
+              <FeeStatusField studentId={studentId} />
             </Box>
           </LabeledField>
           <ArchiveStatusField />

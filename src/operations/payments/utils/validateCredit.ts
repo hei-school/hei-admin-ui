@@ -1,6 +1,13 @@
-import {Credit} from "@haapi-b0fc7615/typescript-client";
-import {useCallback, useEffect, useState} from "react";
-import {useDataProvider} from "react-admin";
+import {payableUnpaidFees} from "@/operations/fees/utils/feeEligibility";
+import {
+  Credit,
+  Fee,
+  Payment,
+  PaymentStatus,
+  PaymentTypeEnum,
+} from "@haapi-b0fc7615/typescript-client";
+import {useCallback, useEffect, useMemo, useState} from "react";
+import {useDataProvider, useGetList} from "react-admin";
 
 export const MINIMUM_CREDIT = 60000;
 
@@ -24,12 +31,91 @@ export const validateAmountAgainstCredit = (
   return undefined;
 };
 
+const isPendingCreditPayment = (payment: Payment): boolean =>
+  payment.type === PaymentTypeEnum.CREDIT &&
+  payment.status === PaymentStatus.CREATED;
+
+type FeeRecord = Fee & {id: string};
+
+export const useReservedCredit = (studentId: string | number | undefined) => {
+  const dataProvider = useDataProvider();
+  const [reservedAmount, setReservedAmount] = useState(0);
+  const [pendingCreditFeeIds, setPendingCreditFeeIds] = useState<Set<string>>(
+    new Set()
+  );
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {data: fees = []} = useGetList<FeeRecord>(
+    "fees",
+    {filter: {studentId}, pagination: {page: 1, perPage: 100}},
+    {enabled: !!studentId}
+  );
+  const payableFeeIds = useMemo(
+    () => payableUnpaidFees(fees).map(({id}) => id),
+    [fees]
+  );
+
+  useEffect(() => {
+    let cancelled = false;
+    if (payableFeeIds.length === 0) {
+      setReservedAmount(0);
+      setPendingCreditFeeIds(new Set());
+      return;
+    }
+    setIsLoading(true);
+    Promise.all(
+      payableFeeIds.map((feeId) =>
+        dataProvider
+          .getList("payments", {
+            filter: {feeId},
+            pagination: {page: 1, perPage: 100},
+            sort: {field: "id", order: "ASC"},
+          })
+          .then((response) => ({
+            feeId,
+            payments: response.data as Payment[],
+          }))
+      )
+    )
+      .then((responses) => {
+        if (cancelled) return;
+        let amount = 0;
+        const feeIds = new Set<string>();
+        responses.forEach(({feeId, payments}) => {
+          const pending = payments.filter(isPendingCreditPayment);
+          if (pending.length > 0) {
+            feeIds.add(feeId);
+            amount += pending.reduce((sum, p) => sum + (p.amount ?? 0), 0);
+          }
+        });
+        setReservedAmount(amount);
+        setPendingCreditFeeIds(feeIds);
+      })
+      .catch((error) => {
+        console.warn("Crédit réservé indisponible :", error);
+        if (!cancelled) {
+          setReservedAmount(0);
+          setPendingCreditFeeIds(new Set());
+        }
+      })
+      .finally(() => {
+        if (!cancelled) setIsLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [payableFeeIds.join(","), dataProvider]);
+
+  return {reservedAmount, pendingCreditFeeIds, isLoading};
+};
+
 export const useStudentCredit = (studentId: string | number) => {
   const dataProvider = useDataProvider();
-  const [credit, setCredit] = useState<Credit | null>(null);
+  const [rawCredit, setRawCredit] = useState<Credit | null>(null);
+  const {reservedAmount, pendingCreditFeeIds} = useReservedCredit(studentId);
   const getStudentCredit = useCallback(async () => {
     if (!studentId) {
-      setCredit(null);
+      setRawCredit(null);
       return null;
     }
     try {
@@ -37,17 +123,21 @@ export const useStudentCredit = (studentId: string | number) => {
         id: studentId,
       });
       const studentCredit = result.data as Credit;
-      setCredit(studentCredit);
+      setRawCredit(studentCredit);
       return studentCredit;
     } catch (error) {
       console.warn("Crédit étudiant indisponible :", error);
-      setCredit(null);
+      setRawCredit(null);
       return null;
     }
   }, [studentId, dataProvider]);
   useEffect(() => {
     getStudentCredit();
   }, [getStudentCredit]);
+  const credit: Credit | null = rawCredit && {
+    ...rawCredit,
+    amount: Math.max(0, (rawCredit.amount ?? 0) - reservedAmount),
+  };
   const canPayByCredit = hasEnoughCredit(credit);
   const validateCreditPayment = (amount: number | string) =>
     validateAmountAgainstCredit(amount, credit);
@@ -55,6 +145,7 @@ export const useStudentCredit = (studentId: string | number) => {
     credit,
     canPayByCredit,
     getStudentCredit,
+    pendingCreditFeeIds,
     validateCreditPayment,
   };
 };

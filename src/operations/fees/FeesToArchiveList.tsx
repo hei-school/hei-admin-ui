@@ -50,7 +50,6 @@ type TabKey = (typeof TABS)[number]["key"];
 const categoryLabel = (fee: FeeRecord) =>
   CATEGORY.find((c) => c.value === fee.category)?.label ?? fee.category ?? "—";
 
-// Shared try/notify/refresh shape for the two archive-status mutations below.
 const runArchiveAction = async (
   action: () => Promise<unknown>,
   successMessage: string,

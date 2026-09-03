@@ -39,12 +39,6 @@ export const SectionTitle = ({children}: {children: ReactNode}) => (
   </Typography>
 );
 
-/**
- * The "Frais concerné" block shared by every dialog that shows a fee
- * alongside something else (a credit payment, a credit transaction, ...).
- * Includes its own leading Divider so callers just drop it in after their
- * own content.
- */
 export const FeeSummarySection = ({fee}: {fee: Fee}) => (
   <>
     <Divider sx={{my: 2}} />

@@ -23,6 +23,9 @@ export const MPBS_STATUS_LABEL = {
   PENDING: "Vérification en cours",
 } as const;
 
+export const PENDING_CREDIT_PAYMENT_TOOLTIP =
+  "Paiement par crédit en cours de vérification";
+
 export const FEE_STATUS_CHOICES = mapToChoices(FEE_STATUS, "id", "name");
 
 export const FEESTEMPLATES_CHOICES = [
@@ -76,8 +79,6 @@ export const PAYMENT_TYPE = {
 
 export const PAYMENT_TYPE_CHOICES = mapToChoices(PAYMENT_TYPE, "id", "name");
 
-// Typed against the generated enums so a new enum member fails to compile
-// here instead of silently falling back to the raw value at runtime.
 export const FEE_STATUS_LABEL: Record<FeeStatusEnum, string> = {
   [FeeStatusEnum.UNPAID]: "Non payé",
   [FeeStatusEnum.PAID]: "Payé",

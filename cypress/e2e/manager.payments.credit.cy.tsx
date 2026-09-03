@@ -1,4 +1,7 @@
-import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {
+  PaymentStatus,
+  PaymentTypeEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {
   creditPaymentPendingMock,
   creditPaymentRejectedMock,
@@ -81,6 +84,51 @@ describe("Manager.Payments.Flow", () => {
       .and("contain", "Paiements");
     cy.wait("@getPayments");
     cy.get("table").contains("Comment");
+  });
+
+  it("shows a fee as in progress on its details page when its credit payment is awaiting validation", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
+      fee1Mock
+    ).as("getFee1");
+    // Separate from the "getFees"/"getFees2" (page_size=10) aliases above:
+    // the pending-credit-payment check fetches the student's fees on its own.
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=100`,
+      feesMock
+    ).as("getFeesForPendingCheck");
+    // The data provider always probes the next page too, to know whether
+    // there's more to paginate through.
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=100`,
+      feesMock
+    ).as("getFeesForPendingCheck2");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=*&page_size=*`,
+      [
+        {
+          id: "credit_payment_pending_id",
+          fee_id: fee1Mock.id,
+          type: PaymentTypeEnum.CREDIT,
+          status: PaymentStatus.CREATED,
+          amount: 100000,
+          comment: "Paiement par crédit",
+        },
+      ]
+    ).as("getFee1PendingPayment");
+    cy.getByTestid("fees-tab").click();
+    cy.wait("@getFees");
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
+    cy.wait("@getFee1");
+    cy.wait("@getFee1PendingPayment");
+    cy.contains("En cours de vérification");
+    cy.contains("En retard").should("not.exist");
   });
 
   it("can create a cash payment for a fee", () => {
@@ -289,5 +337,55 @@ describe("Manager.CreditPayments", () => {
     cy.getByTestid(`reject-payment-${creditPaymentRejectedMock.id}`).should(
       "be.disabled"
     );
+  });
+
+  it("shows full payment details in a dialog when a row is clicked", () => {
+    cy.wait("@getFilteredCreditPayments_CREATED");
+    cy.contains("button", "Tous").click();
+    cy.wait("@getAllCreditPayments_CREATED");
+    cy.wait("@getAllCreditPayments_VALIDATE");
+    cy.wait("@getAllCreditPayments_INVALIDATE");
+    cy.get("table tbody tr")
+      .contains("td", creditPaymentValidatedMock.comment!)
+      .click();
+    cy.get('[role="dialog"]').within(() => {
+      cy.contains("Détails du paiement par crédit");
+      cy.contains("Paiement validé");
+      cy.contains(`${creditPaymentValidatedMock.amount} Ar`);
+      cy.contains("CREDIT");
+      cy.contains(creditPaymentValidatedMock.comment!);
+      cy.contains("Jane Admin");
+      cy.contains("STF0001");
+      cy.contains("Frais concerné");
+      cy.contains(fee1Mock.comment!);
+    });
+  });
+
+  it("hides the fee section and shows an empty validator when a payment has no fee", () => {
+    cy.intercept(
+      "GET",
+      `/students/credit-payments?status=${PaymentStatus.CREATED}&page=*&page_size=10`,
+      [{...creditPaymentPendingMock, fee: undefined}]
+    ).as("getFilteredCreditPayments_CREATED");
+    cy.wait("@getFilteredCreditPayments_CREATED");
+    cy.get("table tbody tr")
+      .contains("td", creditPaymentPendingMock.comment!)
+      .click();
+    cy.get('[role="dialog"]').within(() => {
+      cy.contains("Détails du paiement par crédit");
+      cy.contains("Paiement en attente de validation");
+      cy.contains("Non défini.e");
+      cy.should("not.contain", "Frais concerné");
+    });
+  });
+
+  it("closes the credit payment details dialog", () => {
+    cy.wait("@getFilteredCreditPayments_CREATED");
+    cy.get("table tbody tr")
+      .contains("td", creditPaymentPendingMock.comment!)
+      .click();
+    cy.get('[role="dialog"]').should("be.visible");
+    cy.get('[role="dialog"] .MuiDialogTitle-root button').click();
+    cy.get('[role="dialog"]').should("not.exist");
   });
 });

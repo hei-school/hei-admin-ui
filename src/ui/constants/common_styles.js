@@ -28,7 +28,4 @@ export const COMMON_FIELD_ATTRIBUTES = {
   color: PALETTE_COLORS.typography.grey,
 };
 
-// react-admin's <Confirm> renders below MUI's own AppBar/Drawer by default;
-// bump it above everything so confirm dialogs opened from a list row or a
-// toolbar action are never hidden behind them.
 export const CONFIRM_DIALOG_Z_INDEX = 99999;

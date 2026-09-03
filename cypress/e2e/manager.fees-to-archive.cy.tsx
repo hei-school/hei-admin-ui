@@ -75,4 +75,70 @@ describe("Manager.FeesToArchive", () => {
     cy.wait("@reArchiveFee");
     cy.contains("Demande d'archivage renvoyée.");
   });
+
+  it("shows an error notification when archiving a fee fails", () => {
+    cy.intercept(
+      "PATCH",
+      `/students/${student1Mock.id}/fees/${feeToArchiveMock.id}/archive-status`,
+      {statusCode: 500, body: {}}
+    ).as("updateArchiveStatus");
+    cy.get("table tbody tr").eq(0).contains("button", "Archiver").click();
+    cy.get(".ra-confirm").click();
+    cy.wait("@updateArchiveStatus");
+    cy.contains("Une erreur s'est produite.");
+  });
+
+  it("shows an error notification when rejecting a fee fails", () => {
+    cy.intercept(
+      "PATCH",
+      `/students/${student1Mock.id}/fees/${feeToArchiveMock.id}/archive-status`,
+      {statusCode: 500, body: {}}
+    ).as("updateArchiveStatus");
+    cy.get("table tbody tr").eq(0).contains("button", "Rejeter").click();
+    cy.get(".ra-confirm").click();
+    cy.wait("@updateArchiveStatus");
+    cy.contains("Une erreur s'est produite.");
+  });
+
+  it("shows an error notification when re-archiving a fee fails", () => {
+    cy.intercept(
+      "PATCH",
+      `/students/${student1Mock.id}/fees/${feeArchiveRejectedMock.id}`,
+      {statusCode: 500, body: {}}
+    ).as("reArchiveFee");
+    cy.contains("button", "Rejetés (1)").click();
+    cy.get("table tbody tr").eq(0).contains("button", "Réarchiver").click();
+    cy.get(".ra-confirm").click();
+    cy.wait("@reArchiveFee");
+    cy.contains("Une erreur s'est produite.");
+  });
+
+  it("shows an empty state when there is no fee pending archiving", () => {
+    cy.intercept("GET", `/fees?page=*&page_size=500`, {
+      data: [feeArchiveRejectedMock],
+    }).as("getFeesToArchiveOnly");
+    cy.visit("/fees-to-archive");
+    cy.wait("@getFeesToArchiveOnly");
+    cy.contains("Aucun frais en attente d'archivage.");
+  });
+
+  it("shows an empty state when there is no rejected fee", () => {
+    cy.intercept("GET", `/fees?page=*&page_size=500`, {
+      data: [feeToArchiveMock],
+    }).as("getRejectedFeesOnly");
+    cy.visit("/fees-to-archive");
+    cy.wait("@getRejectedFeesOnly");
+    cy.contains("button", "Rejetés (0)").click();
+    cy.contains("Aucun frais rejeté.");
+  });
+});
+
+describe("Manager.FeesToArchive.AccessControl", () => {
+  it("shows an access-denied message for a non-manager, non-admin role", () => {
+    cy.mockLogin({role: "STUDENT"});
+    cy.visit("/fees-to-archive");
+    cy.contains(
+      "Cette page est réservée aux gestionnaires et administrateurs."
+    );
+  });
 });
