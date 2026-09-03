@@ -223,6 +223,36 @@ describe("Manager.Payments.Flow", () => {
     cy.contains("Enregistrer").click();
     cy.contains("Le montant saisi est supérieur à votre crédit actuel.");
   });
+
+  it("cannot create a credit payment when the student's credit is below the minimum", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
+      fee1Mock
+    ).as("getFee1");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=*&page_size=10`,
+      []
+    ).as("getPayments");
+    cy.intercept("GET", `/students/${student1Mock.id}/credit`, {
+      ...studentCreditMock,
+      amount: 50000,
+    }).as("getLowStudentCredit");
+    cy.getByTestid("fees-tab").click();
+    cy.wait("@getFees");
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
+    cy.wait("@getFee1");
+    cy.wait("@getPayments");
+    cy.contains("Créer").click();
+    cy.wait("@getLowStudentCredit");
+    cy.get("#type_CREDIT").click();
+    cy.get("#amount").click().type("10000");
+    cy.contains("Enregistrer").click();
+    cy.contains("Votre crédit est inférieur à 60000Ar.");
+  });
 });
 
 describe("Manager.CreditPayments", () => {

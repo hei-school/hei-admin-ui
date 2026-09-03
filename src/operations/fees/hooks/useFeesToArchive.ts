@@ -1,5 +1,5 @@
 import {useRole} from "@/security/hooks";
-import {ArchiveStatusEnum, Fee} from "@haapi-3d601c85/typescript-client";
+import {ArchiveStatusEnum, Fee} from "@haapi-b0fc7615/typescript-client";
 import {useGetList} from "react-admin";
 
 export type FeeRecord = Fee & {id: string};

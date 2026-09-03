@@ -1,6 +1,6 @@
 import {renderMoney} from "@/operations/common/utils/money";
 import {HaList} from "@/ui/haList/HaList";
-import {CreditTransaction} from "@haapi-3d601c85/typescript-client";
+import {CreditTransaction} from "@haapi-b0fc7615/typescript-client";
 import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
 import {Box} from "@mui/material";
 import {useState} from "react";

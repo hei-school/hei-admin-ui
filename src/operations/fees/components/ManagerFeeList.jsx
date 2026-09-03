@@ -13,7 +13,7 @@ import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {HaList} from "@/ui/haList/HaList";
 import {formatDate} from "@/utils/date";
-import {FeeStatusEnum} from "@haapi-3d601c85/typescript-client";
+import {FeeStatusEnum} from "@haapi-b0fc7615/typescript-client";
 import {WarningOutlined} from "@mui/icons-material";
 import {Box, Chip} from "@mui/material";
 import {FunctionField, WrapperField} from "react-admin";

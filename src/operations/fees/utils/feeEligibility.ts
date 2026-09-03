@@ -2,7 +2,7 @@ import {
   Fee,
   FeeStatusEnum,
   FeeTypeEnum,
-} from "@haapi-3d601c85/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 
 export const isCatchUpFee = (fee: Fee): boolean =>
   fee.type === FeeTypeEnum.RETAKE_EXAM_COSTS;

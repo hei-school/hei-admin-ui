@@ -9,7 +9,7 @@ import {payingApi} from "@/providers/api";
 import {toApiIds} from "@/providers/feeProvider";
 import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
 import {formatDate} from "@/utils/date";
-import {ArchiveStatusEnum} from "@haapi-3d601c85/typescript-client";
+import {ArchiveStatusEnum} from "@haapi-b0fc7615/typescript-client";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import CancelIcon from "@mui/icons-material/Cancel";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";

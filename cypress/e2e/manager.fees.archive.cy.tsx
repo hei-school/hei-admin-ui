@@ -1,5 +1,9 @@
-import {FeeStatusEnum} from "@haapi-3d601c85/typescript-client";
-import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
+import {FeeStatusEnum} from "@haapi-b0fc7615/typescript-client";
+import {
+  fee1Mock,
+  feeArchiveRejectedMock,
+  feesMock,
+} from "../fixtures/api_mocks/fees-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
 describe("Manager.Fee.Archive", () => {
@@ -99,5 +103,37 @@ describe("Manager.Fee.Archive", () => {
     )
       .find('[data-testid="archive-button-confirm"]')
       .should("be.disabled");
+  });
+
+  it("shows the archive status and who processed it on the fee's detail page", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=10`,
+      [feeArchiveRejectedMock, ...feesMock.slice(1)]
+    ).as("getFeesWithArchiveStatus");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=10`,
+      feesMock
+    ).as("getFeesWithArchiveStatus2");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${feeArchiveRejectedMock.id}`,
+      feeArchiveRejectedMock
+    ).as("getArchivedFee");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${feeArchiveRejectedMock.id}/payments?page=*&page_size=10`,
+      []
+    ).as("getArchivedFeePayments");
+    cy.getByTestid("fees-tab").click();
+    cy.wait("@getFeesWithArchiveStatus");
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
+    cy.wait("@getArchivedFee");
+    cy.contains(
+      `Rejeté par ${feeArchiveRejectedMock.archived_by_first_name} ${feeArchiveRejectedMock.archived_by_last_name} (${feeArchiveRejectedMock.archived_by_ref})`
+    );
   });
 });

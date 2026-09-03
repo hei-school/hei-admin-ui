@@ -15,7 +15,7 @@ import {
   CreditMovement,
   CreditTransaction,
   PaymentStatus,
-} from "@haapi-3d601c85/typescript-client";
+} from "@haapi-b0fc7615/typescript-client";
 import {Box, Chip, Divider} from "@mui/material";
 
 const MOVEMENT_LABEL: Record<string, string> = {
