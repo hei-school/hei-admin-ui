@@ -1,4 +1,4 @@
-import {Fee, Payment, PaymentTypeEnum} from "@haapi-3d601c85/typescript-client";
+import {Fee, Payment, PaymentTypeEnum} from "@haapi-b0fc7615/typescript-client";
 import {fee1Mock} from "./fees-mocks";
 
 export const payment1Mock: Payment = {

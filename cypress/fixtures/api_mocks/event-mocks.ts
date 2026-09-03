@@ -1,4 +1,4 @@
-import {Event, EventParticipant} from "@haapi-3d601c85/typescript-client";
+import {Event, EventParticipant} from "@haapi-b0fc7615/typescript-client";
 import {courseMock1} from "./course-mocks";
 import {lettersMocks} from "./letters-mocks";
 import {manager1Mock} from "./managers-mocks";

@@ -5,10 +5,10 @@ import {Dialog} from "@/ui/components";
 import {mapToChoices} from "@/utils";
 import {NOOP_ID} from "@/utils/constants";
 import {toUTC} from "@/utils/date";
-import {AdvancedFeeStatisticsType} from "@haapi-3d601c85/typescript-client/dist/api";
+import {AdvancedFeeStatisticsType} from "@haapi-b0fc7615/typescript-client";
 import {Download} from "@mui/icons-material";
 import {Box, TextField} from "@mui/material";
-import {FC, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {required, SelectInput, SimpleForm} from "react-admin";
 import {useFormContext, useWatch} from "react-hook-form";
 import {FEE_STATUS, FEE_STATUS_CHOICES} from "../constants";
@@ -17,9 +17,9 @@ type FileDownloaderWrapperProps = {
   onClose: () => void;
 };
 
-export const FileDownloaderWrapper: FC<FileDownloaderWrapperProps> = ({
+export const FileDownloaderWrapper = ({
   onClose,
-}) => {
+}: FileDownloaderWrapperProps) => {
   const {watch} = useFormContext();
   const {monthFrom, monthTo, status, type} = watch();
 
@@ -173,9 +173,12 @@ const ConditionalStatisticsTypeInput = () => {
   );
 };
 
-export const FeesExport: FC<{onClose: () => void; open: boolean}> = ({
+export const FeesExport = ({
   onClose,
   open,
+}: {
+  onClose: () => void;
+  open: boolean;
 }) => {
   return (
     <Dialog

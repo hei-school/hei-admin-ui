@@ -1,7 +1,7 @@
 import {useRole} from "@/security/hooks";
 import {HaListTitle} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import {Event} from "@haapi-3d601c85/typescript-client";
+import {Event} from "@haapi-b0fc7615/typescript-client";
 import {Box, CircularProgress, Tab, Tabs} from "@mui/material";
 import {useState} from "react";
 import {List, useListContext} from "react-admin";

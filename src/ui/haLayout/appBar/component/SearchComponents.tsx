@@ -12,7 +12,7 @@ import {
 import {AnimatePresence, motion} from "framer-motion";
 import {useEffect, useMemo, useRef, useState} from "react";
 
-import {EnableStatus} from "@haapi-3d601c85/typescript-client";
+import {EnableStatus} from "@haapi-b0fc7615/typescript-client";
 
 import {SearchUser} from "../utils/searchUtils";
 import {ProfilePicture} from "./ProfilePicture";

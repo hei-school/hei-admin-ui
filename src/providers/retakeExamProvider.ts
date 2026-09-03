@@ -1,6 +1,6 @@
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
-import {RetakeExamStatus} from "@haapi-3d601c85/typescript-client";
+import {RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
 
 interface RetakeExamFilter {
   studentId?: string;

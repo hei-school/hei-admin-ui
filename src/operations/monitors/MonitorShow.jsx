@@ -2,7 +2,7 @@ import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
 import {Show} from "@/operations/common/components/Show";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
-import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {EditButton, useRecordContext} from "react-admin";
 
 const ActionsOnShow = ({basePath, data, resource}) => {

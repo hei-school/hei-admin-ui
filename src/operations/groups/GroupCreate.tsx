@@ -1,4 +1,4 @@
-import {Group} from "@haapi-3d601c85/typescript-client";
+import {Group} from "@haapi-b0fc7615/typescript-client";
 import {useState} from "react";
 import {DateInput, SimpleForm, TextInput} from "react-admin";
 import {Create, StudentListWithBulkActions} from "../common/components";

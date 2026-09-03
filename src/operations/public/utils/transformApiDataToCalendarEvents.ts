@@ -1,6 +1,6 @@
 import {hexToRgba} from "@/operations/common/components/hexToRgba";
 import {EventTitle} from "@/operations/events/utils";
-import {Event} from "@haapi-3d601c85/typescript-client";
+import {Event} from "@haapi-b0fc7615/typescript-client";
 
 export const transformApiDataToCalendarEvents = (data: Event[]) => {
   if (!Array.isArray(data)) {

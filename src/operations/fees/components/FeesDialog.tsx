@@ -1,12 +1,19 @@
 import {Dialog} from "@/ui/components";
-import {FC, ReactNode} from "react";
+import {ReactNode} from "react";
 
-export const FeesDialog: FC<{
+type FeesDialogProps = {
   children: ReactNode;
   title: string;
   show: boolean;
   toggle: () => void;
-}> = ({children, title, show, toggle}) => {
+};
+
+export const FeesDialog = ({
+  children,
+  title,
+  show,
+  toggle,
+}: FeesDialogProps) => {
   return (
     <Dialog title={title} open={show} onClose={toggle}>
       {children}

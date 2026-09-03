@@ -1,6 +1,6 @@
 import {useToggle} from "@/hooks/useToggle";
 import {payingApi} from "@/providers/api";
-import {PaymentStatus} from "@haapi-3d601c85/typescript-client";
+import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {Box, Button} from "@mui/material";
 import {Confirm, useNotify, useRecordContext, useRefresh} from "react-admin";
 

@@ -38,7 +38,7 @@ import {useNotify} from "@/hooks";
 import PdfViewer from "@/operations/common/components/PdfViewer";
 import {useRole} from "@/security/hooks";
 import {formatDate} from "@/utils/date";
-import {AttendanceStatus, Letter} from "@haapi-3d601c85/typescript-client";
+import {AttendanceStatus, Letter} from "@haapi-b0fc7615/typescript-client";
 
 interface AbsenceDetailDialogProps {
   open: boolean;

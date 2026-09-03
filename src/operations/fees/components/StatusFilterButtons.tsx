@@ -1,4 +1,4 @@
-import {FeeStatusEnum} from "@haapi-3d601c85/typescript-client";
+import {FeeStatusEnum} from "@haapi-b0fc7615/typescript-client";
 import {Button, Stack} from "@mui/material";
 import {useListContext} from "react-admin";
 

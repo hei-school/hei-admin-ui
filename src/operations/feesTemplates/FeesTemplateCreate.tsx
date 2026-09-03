@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 import {v4 as uuid} from "uuid";
 
-import {FeeCategory, FeeFrequency} from "@haapi-3d601c85/typescript-client";
+import {FeeCategory, FeeFrequency} from "@haapi-b0fc7615/typescript-client";
 import {
   CATEGORY_CHOICES,
   FEES_FREQUENCY_CHOICES,

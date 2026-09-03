@@ -3,7 +3,7 @@ import {Create} from "@/operations/common/components";
 import {FILE_FIELD_STYLE} from "@/operations/letters/CreateLetters";
 import {Dialog} from "@/ui/components";
 import {useMediaQuery} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {FileField, FileInput, SimpleForm, useRefresh} from "react-admin";
 import {v4 as uuid} from "uuid";
 
@@ -12,7 +12,7 @@ type Props = {
   onClose: () => void;
 };
 
-export const ImportDialog: FC<Props> = ({open, onClose}) => {
+export const ImportDialog = ({open, onClose}: Props) => {
   const notify = useNotify();
   const refresh = useRefresh();
   const [fileUploaded, setFileUploaded] = useState(false);

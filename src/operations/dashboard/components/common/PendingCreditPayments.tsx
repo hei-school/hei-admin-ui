@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
-import {PaymentStatus} from "@haapi-3d601c85/typescript-client";
+import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {alpha, Box, Chip, Typography} from "@mui/material";
 import {MoveRight, Wallet} from "lucide-react";
 import {Button, Link, useGetList} from "react-admin";

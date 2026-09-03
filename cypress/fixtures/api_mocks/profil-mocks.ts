@@ -1,4 +1,4 @@
-import {Manager} from "@haapi-3d601c85/typescript-client";
+import {Manager} from "@haapi-b0fc7615/typescript-client";
 import {manager1Mock} from "./managers-mocks";
 
 export const noPicManager = (): Manager => manager1Mock;

@@ -1,4 +1,4 @@
-import {MobileMoneyType, Payment} from "@haapi-3d601c85/typescript-client";
+import {MobileMoneyType, Payment} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import {toApiIds as toApiFeeIds} from "./feeProvider";

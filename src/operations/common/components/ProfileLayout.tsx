@@ -1,6 +1,6 @@
 import defaultCoverPicture from "@/assets/banner.jpg";
 import {PALETTE_COLORS} from "@/haTheme";
-import {Group, RoleEnum} from "@haapi-3d601c85/typescript-client";
+import {Group, RoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Box, Typography, useMediaQuery} from "@mui/material";
 import {useGetOne, useShowContext} from "react-admin";
 import {Informations} from "./profilContent/InformationContent";

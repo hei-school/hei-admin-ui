@@ -9,7 +9,7 @@ import {
 } from "@/operations/letters/components";
 import {HaListContext} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
-import {LetterStats} from "@haapi-3d601c85/typescript-client";
+import {LetterStats} from "@haapi-b0fc7615/typescript-client";
 import {MoreVert} from "@mui/icons-material";
 import {Box, IconButton, Popover, Stack} from "@mui/material";
 

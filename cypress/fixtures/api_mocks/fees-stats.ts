@@ -1,4 +1,4 @@
-import {AdvancedFeesStatistics} from "@haapi-3d601c85/typescript-client";
+import {AdvancedFeesStatistics} from "@haapi-b0fc7615/typescript-client";
 
 export const advancedStats: AdvancedFeesStatistics = {
   total_expected_fees_count: {

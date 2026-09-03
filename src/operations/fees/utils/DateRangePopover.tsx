@@ -2,30 +2,39 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {formatDate} from "@/utils/date";
 import {Button, Chip, Popover, TextField, Typography} from "@mui/material";
 import {CalendarDays} from "lucide-react";
-import {FC, useState} from "react";
+import {MouseEvent, useState} from "react";
 import {useListContext} from "react-admin";
-import {APPLY_BUTTON_SX, DATE_CHIP_SX} from "../components/StyleFeeStat";
-import {buildDateRange, toMonthInput} from "./FeeStatsUtils";
+import {
+  APPLY_BUTTON_SX,
+  DATE_CHIP_SX,
+  DATE_POPOVER_PAPER_SX,
+} from "../components/StyleFeeStat";
+import {buildDateRange, toMonthInput} from "./FeeDateRange";
 
-export const DateRangePopover: FC = () => {
+export const DateRangePopover = () => {
   const {filterValues, setFilters} = useListContext();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
-  const [tempFrom, setTempFrom] = useState("");
-  const [tempTo, setTempTo] = useState("");
+  const [monthFromInput, setMonthFromInput] = useState("");
+  const [monthToInput, setMonthToInput] = useState("");
 
-  const handleOpen = (e: React.MouseEvent<HTMLElement>) => {
-    setTempFrom(toMonthInput(filterValues?.monthFrom ?? ""));
-    setTempTo(toMonthInput(filterValues?.monthTo ?? ""));
-    setAnchor(e.currentTarget);
+  const openPopover = (event: MouseEvent<HTMLElement>) => {
+    setMonthFromInput(toMonthInput(filterValues?.monthFrom));
+    setMonthToInput(toMonthInput(filterValues?.monthTo));
+    setAnchor(event.currentTarget);
   };
 
-  const handleApply = () => {
-    const {monthFrom, monthTo} = buildDateRange(tempFrom, tempTo);
-    setFilters({...filterValues, monthFrom, monthTo}, {});
-    setAnchor(null);
+  const closePopover = () => setAnchor(null);
+
+  const applyDateRange = () => {
+    const dateRange = buildDateRange(monthFromInput, monthToInput);
+    setFilters({...filterValues, ...dateRange}, {});
+    closePopover();
   };
 
-  if (!filterValues?.monthFrom || !filterValues?.monthTo) return null;
+  const hasFilteredRange = Boolean(
+    filterValues?.monthFrom && filterValues?.monthTo
+  );
+  if (!hasFilteredRange) return null;
 
   return (
     <>
@@ -39,57 +48,38 @@ export const DateRangePopover: FC = () => {
           </span>
         }
         size="small"
-        onClick={handleOpen}
+        onClick={openPopover}
         sx={DATE_CHIP_SX}
       />
 
       <Popover
         open={Boolean(anchor)}
         anchorEl={anchor}
-        onClose={() => setAnchor(null)}
+        onClose={closePopover}
         anchorOrigin={{vertical: "bottom", horizontal: "left"}}
         transformOrigin={{vertical: "top", horizontal: "left"}}
-        PaperProps={{
-          sx: {
-            borderRadius: "12px",
-            p: 2,
-            display: "flex",
-            flexDirection: "column",
-            gap: 1.5,
-            minWidth: 260,
-            boxShadow: "0 8px 32px rgba(0,0,0,0.15)",
-          },
-        }}
+        slotProps={{paper: {sx: DATE_POPOVER_PAPER_SX}}}
       >
         <Typography fontWeight={700} fontSize="0.85rem" color="text.secondary">
           Modifier la période
         </Typography>
 
-        <TextField
+        <MonthInput
           label="Du"
-          type="month"
-          size="small"
-          value={tempFrom}
-          onChange={(e) => setTempFrom(e.target.value)}
-          InputLabelProps={{shrink: true}}
-          fullWidth
+          value={monthFromInput}
+          onChange={setMonthFromInput}
         />
-
-        <TextField
+        <MonthInput
           label="Au"
-          type="month"
-          size="small"
-          value={tempTo}
-          onChange={(e) => setTempTo(e.target.value)}
-          InputLabelProps={{shrink: true}}
-          fullWidth
+          value={monthToInput}
+          onChange={setMonthToInput}
         />
 
         <Button
           variant="contained"
           size="small"
-          disabled={!tempFrom || !tempTo}
-          onClick={handleApply}
+          disabled={!monthFromInput || !monthToInput}
+          onClick={applyDateRange}
           sx={APPLY_BUTTON_SX(PALETTE_COLORS.primary)}
         >
           Appliquer
@@ -98,3 +88,21 @@ export const DateRangePopover: FC = () => {
     </>
   );
 };
+
+type MonthInputProps = {
+  label: string;
+  value: string;
+  onChange: (month: string) => void;
+};
+
+const MonthInput = ({label, value, onChange}: MonthInputProps) => (
+  <TextField
+    label={label}
+    type="month"
+    size="small"
+    value={value}
+    onChange={(event) => onChange(event.target.value)}
+    InputLabelProps={{shrink: true}}
+    fullWidth
+  />
+);

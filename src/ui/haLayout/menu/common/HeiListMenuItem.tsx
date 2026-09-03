@@ -1,5 +1,5 @@
 import dataProvider from "@/providers/dataProvider";
-import {ShareInfo} from "@haapi-3d601c85/typescript-client";
+import {ShareInfo} from "@haapi-b0fc7615/typescript-client";
 import {Home as HeiDocsIcon} from "@mui/icons-material";
 import {CircularProgress} from "@mui/material";
 import {useEffect, useState} from "react";
