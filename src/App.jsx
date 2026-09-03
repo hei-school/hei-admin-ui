@@ -37,6 +37,10 @@ import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
+import {
+  DocumensoDocumentsPage,
+  MonitorDocumensoDocumentList,
+} from "./operations/documenso";
 import {MonitorStudentList} from "./operations/monitors/component/MonitorStudentList.tsx";
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
@@ -68,6 +72,11 @@ function AppBase() {
       <Resource name="docs" options={{label: "Documents"}} />
       <Resource name="comments" />
       <Resource name="promotions-groups" />
+      <Resource name="documenso-templates" />
+      <Resource name="promotions-documenso-documents" />
+      <Resource name="monitors-documenso-documents" />
+      <Resource name="documenso-file-urls" />
+      <Resource name="documenso-signing-tokens" />
       <Resource name="promotions" {...promotions} />
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
@@ -223,6 +232,16 @@ function AppBase() {
           exact
           path="/monitors/:monitorId/students"
           element={<MonitorStudentList />}
+        />
+        <Route
+          exact
+          path="/monitors/:monitorId/documenso-documents"
+          element={<MonitorDocumensoDocumentList />}
+        />
+        <Route
+          exact
+          path="/documenso-documents"
+          element={<DocumensoDocumentsPage />}
         />
         <Route
           exact
