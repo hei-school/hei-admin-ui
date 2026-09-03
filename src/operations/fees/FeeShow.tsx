@@ -30,7 +30,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import {Home} from "lucide-react";
-import {FC, ReactElement, ReactNode, useEffect, useState} from "react";
+import {ReactElement, ReactNode, useEffect, useState} from "react";
 import {
   EditButton,
   FunctionField,
@@ -58,7 +58,7 @@ type AccordionProps = {
   children: ReactNode;
 };
 
-const LabeledField: FC<LabeledFieldProps> = ({label, icon, children}) => (
+const LabeledField = ({label, icon, children}: LabeledFieldProps) => (
   <Grid
     item
     xs={12}
@@ -86,7 +86,7 @@ const LabeledField: FC<LabeledFieldProps> = ({label, icon, children}) => (
   </Grid>
 );
 
-const AccordionBase: FC<AccordionProps> = ({title, children}) => (
+const AccordionBase = ({title, children}: AccordionProps) => (
   <Accordion sx={{boxShadow: "rgba(149, 157, 165, 0.2) 0px 8px 24px"}}>
     <AccordionSummary expandIcon={<ExpandMore />}>
       <Info color="warning" sx={{mx: 1}} />
@@ -165,7 +165,7 @@ const FeePaymentDetails = () => (
   </Box>
 );
 
-export const FeeLayout: FC<FeeLayoutProps> = ({feeId, studentId}) => {
+export const FeeLayout = ({feeId, studentId}: FeeLayoutProps) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const styles = GRID_STYLE(isSmall);
 

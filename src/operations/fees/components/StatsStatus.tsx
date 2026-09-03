@@ -7,7 +7,7 @@ import {
   CircleCheckBig,
   RefreshCw,
 } from "lucide-react";
-import React, {FC} from "react";
+import {ElementType} from "react";
 import {FeeStats} from "../types";
 
 const spin = keyframes`
@@ -20,7 +20,7 @@ const fadeIn = keyframes`
   to { opacity: 1; transform: translateY(0); }
 `;
 
-interface StatusTheme {
+type StatusTheme = {
   main: string;
   border: string;
   bgStart: string;
@@ -28,9 +28,9 @@ interface StatusTheme {
   shadow: string;
   timestampBg: string;
   timestampText: string;
-}
+};
 
-const THEMES: Record<string, StatusTheme> = {
+const THEMES: Record<"ok" | "loading" | "warning", StatusTheme> = {
   ok: {
     main: "#16C60C",
     border: "#16C60C",
@@ -58,7 +58,7 @@ const THEMES: Record<string, StatusTheme> = {
     timestampBg: "#FFF8E1",
     timestampText: "#FFB900",
   },
-} as const;
+};
 
 const SpinningRefreshCw = styled(RefreshCw)`
   animation: ${spin} 2s linear infinite;
@@ -104,45 +104,11 @@ const Timestamp = styled(Box)<{statusTheme: StatusTheme}>(({statusTheme}) => ({
   animation: `${fadeIn} 0.6s ease-out`,
 }));
 
-export const StatsStatus: FC<{stats?: FeeStats}> = ({stats}) => {
-  if (stats === undefined) return null;
+export const StatsStatus = ({stats}: {stats?: FeeStats}) => {
+  const status = stats ? resolveStatus(stats) : undefined;
+  if (!status) return null;
 
-  const {
-    expired,
-    update_datetime,
-    total_expected_fees_count,
-    paid_fees_count,
-    pending_fees_count,
-    late_fees_count,
-  } = stats;
-
-  const areCountsNull =
-    total_expected_fees_count === null &&
-    paid_fees_count === null &&
-    pending_fees_count === null &&
-    late_fees_count === null;
-
-  let message: string;
-  let Icon: React.ElementType;
-  let theme: StatusTheme;
-
-  if (expired === false) {
-    message = "À jour";
-    Icon = CircleCheckBig;
-    theme = THEMES.ok;
-  } else if (expired === true) {
-    if (areCountsNull) {
-      message = "Génération...";
-      Icon = SpinningRefreshCw;
-      theme = THEMES.loading;
-    } else {
-      message = "Anciennes stats";
-      Icon = AlertTriangle;
-      theme = THEMES.warning;
-    }
-  } else {
-    return null;
-  }
+  const {message, Icon, theme} = status;
 
   return (
     <StatusContainer statusTheme={theme}>
@@ -150,12 +116,33 @@ export const StatsStatus: FC<{stats?: FeeStats}> = ({stats}) => {
         <Icon size={13} />
         <span>{message}</span>
       </MainStatus>
-      {update_datetime && (
+      {stats?.update_datetime && (
         <Timestamp statusTheme={theme}>
           <CalendarClock size={11} />
-          <span>{`MAJ: ${formatDate(update_datetime, true)}`}</span>
+          <span>{`MAJ: ${formatDate(stats.update_datetime, true)}`}</span>
         </Timestamp>
       )}
     </StatusContainer>
   );
 };
+
+type ResolvedStatus = {message: string; Icon: ElementType; theme: StatusTheme};
+
+const resolveStatus = (stats: FeeStats): ResolvedStatus | undefined => {
+  if (stats.expired === false)
+    return {message: "À jour", Icon: CircleCheckBig, theme: THEMES.ok};
+
+  if (stats.expired !== true) return undefined;
+
+  return isGenerating(stats)
+    ? {message: "Génération...", Icon: SpinningRefreshCw, theme: THEMES.loading}
+    : {message: "Anciennes stats", Icon: AlertTriangle, theme: THEMES.warning};
+};
+
+const isGenerating = (stats: FeeStats): boolean =>
+  [
+    stats.total_expected_fees_count,
+    stats.paid_fees_count,
+    stats.pending_fees_count,
+    stats.late_fees_count,
+  ].every((counts) => counts === null);
