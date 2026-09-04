@@ -39,55 +39,120 @@ export const SectionTitle = ({children}: {children: ReactNode}) => (
   </Typography>
 );
 
-export const FeeSummarySection = ({fee}: {fee: Fee}) => (
+export const ReceiptList = ({children}: {children: ReactNode}) => (
+  <Box sx={{display: "flex", flexDirection: "column", mt: 1}}>{children}</Box>
+);
+
+export const ReceiptRow = ({
+  label,
+  value,
+  fullWidth = false,
+}: {
+  label: string;
+  value: ReactNode;
+  fullWidth?: boolean;
+}) => {
+  const display =
+    value === undefined || value === null || value === "" ? EMPTY_TEXT : value;
+
+  if (fullWidth) {
+    return (
+      <Box sx={{py: 0.5}}>
+        <Typography variant="body2" color="text.secondary" component="span">
+          {label}:{" "}
+        </Typography>
+        <Typography
+          variant="body2"
+          component="span"
+          sx={{wordBreak: "break-word"}}
+        >
+          {display}
+        </Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <Box sx={{display: "flex", alignItems: "center", gap: 1, py: 0.5}}>
+      <Typography
+        variant="body2"
+        color="text.secondary"
+        sx={{whiteSpace: "nowrap"}}
+      >
+        {label}
+      </Typography>
+      <Box
+        sx={{
+          flex: 1,
+          borderBottom: "1px dotted",
+          borderColor: "divider",
+        }}
+      />
+      <Typography variant="body2" fontWeight={600} sx={{whiteSpace: "nowrap"}}>
+        {display}
+      </Typography>
+    </Box>
+  );
+};
+
+export const FeeSummarySection = ({
+  fee,
+  hideDivider = false,
+}: {
+  fee: Fee;
+  hideDivider?: boolean;
+}) => (
   <>
-    <Divider sx={{my: 2}} />
+    {!hideDivider && <Divider sx={{my: 2}} />}
     <SectionTitle>Frais concerné</SectionTitle>
-    <InfoRow label="Référence du frais" value={fee.id} />
-    <InfoRow
-      label="Étudiant"
-      value={[fee.student_ref, fee.student_first_name]
-        .filter(Boolean)
-        .join(" — ")}
-    />
-    <InfoRow
-      label="Catégorie"
-      value={
-        CATEGORY.find((c) => c.value === fee.category)?.label ?? fee.category
-      }
-    />
-    <InfoRow
-      label="Statut du frais"
-      value={fee.status ? (FEE_STATUS_LABEL[fee.status] ?? fee.status) : null}
-    />
-    <InfoRow
-      label="Montant total"
-      value={fee.total_amount != null ? renderMoney(fee.total_amount) : null}
-    />
-    <InfoRow
-      label="Reste à payer"
-      value={
-        fee.remaining_amount != null ? renderMoney(fee.remaining_amount) : null
-      }
-    />
-    <InfoRow
-      label="Échéance"
-      value={fee.due_datetime ? formatDate(fee.due_datetime) : null}
-    />
-    <InfoRow label="Commentaire du frais" value={fee.comment} />
-    <InfoRow
-      label="Statut d'archivage"
-      value={
-        fee.archive_status
-          ? (ARCHIVE_STATUS_LABEL[fee.archive_status] ?? fee.archive_status)
-          : null
-      }
-    />
-    <InfoRow
-      label="Archivage traité par"
-      value={[fee.archived_by_first_name, fee.archived_by_last_name]
-        .filter(Boolean)
-        .join(" ")}
-    />
+    <ReceiptList>
+      <ReceiptRow
+        label="Étudiant"
+        value={[fee.student_ref, fee.student_first_name]
+          .filter(Boolean)
+          .join(" — ")}
+      />
+      <ReceiptRow
+        label="Catégorie"
+        value={
+          CATEGORY.find((c) => c.value === fee.category)?.label ?? fee.category
+        }
+      />
+      <ReceiptRow
+        label="Statut du frais"
+        value={fee.status ? (FEE_STATUS_LABEL[fee.status] ?? fee.status) : null}
+      />
+      <ReceiptRow
+        label="Montant total"
+        value={fee.total_amount != null ? renderMoney(fee.total_amount) : null}
+      />
+      <ReceiptRow
+        label="Reste à payer"
+        value={
+          fee.remaining_amount != null
+            ? renderMoney(fee.remaining_amount)
+            : null
+        }
+      />
+      <ReceiptRow
+        label="Échéance"
+        value={fee.due_datetime ? formatDate(fee.due_datetime) : null}
+      />
+      <ReceiptRow
+        label="Statut d'archivage"
+        value={
+          fee.archive_status
+            ? (ARCHIVE_STATUS_LABEL[fee.archive_status] ?? fee.archive_status)
+            : null
+        }
+      />
+      <ReceiptRow
+        label="Archivage traité par"
+        value={[fee.archived_by_first_name, fee.archived_by_last_name]
+          .filter(Boolean)
+          .join(" ")}
+      />
+      <ReceiptRow label="Commentaire du frais" value={fee.comment} fullWidth />
+    </ReceiptList>
   </>
 );

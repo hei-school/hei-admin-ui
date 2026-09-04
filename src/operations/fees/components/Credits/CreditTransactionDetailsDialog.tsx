@@ -1,7 +1,8 @@
 import {renderMoney} from "@/operations/common/utils/money";
 import {
   FeeSummarySection,
-  InfoRow,
+  ReceiptList,
+  ReceiptRow,
   SectionTitle,
 } from "@/operations/fees/components/FeeInfoSection";
 import {PAYMENT_TYPE} from "@/operations/fees/constants";
@@ -16,11 +17,16 @@ import {
   CreditTransaction,
   PaymentStatus,
 } from "@haapi-b0fc7615/typescript-client";
-import {Box, Chip, Divider} from "@mui/material";
+import {Box, Chip} from "@mui/material";
 
 const MOVEMENT_LABEL: Record<string, string> = {
   [CreditMovement.CREDIT]: "Crédit",
   [CreditMovement.DEBIT]: "Débit",
+};
+
+const MOVEMENT_COLOR: Record<string, "success" | "error"> = {
+  [CreditMovement.CREDIT]: "success",
+  [CreditMovement.DEBIT]: "error",
 };
 
 interface CreditTransactionDetailsDialogProps {
@@ -32,7 +38,6 @@ export const CreditTransactionDetailsDialog = ({
   transaction,
   onClose,
 }: CreditTransactionDetailsDialogProps) => {
-  const student = transaction.credit?.student;
   const fee = transaction.fee;
   const payment = transaction.payment;
   const paymentStatus = payment?.status as PaymentStatus | undefined;
@@ -42,107 +47,119 @@ export const CreditTransactionDetailsDialog = ({
   ]
     .filter(Boolean)
     .join(" ");
+  const columnCount = 1 + [payment, fee].filter(Boolean).length;
+  const columnDivider = {
+    borderLeft: {xs: "none", md: "1px solid"},
+    borderColor: "divider",
+    pl: {xs: 0, md: 3},
+  };
 
   return (
     <Dialog
       title="Détails de la transaction de crédit"
       open
       onClose={onClose}
-      maxWidth="sm"
+      maxWidth="lg"
     >
-      <Box p={3}>
-        <SectionTitle>Transaction</SectionTitle>
-        <InfoRow label="Référence" value={transaction.transaction_id} />
-        <InfoRow
-          label="Mouvement"
-          value={
-            transaction.movement
-              ? (MOVEMENT_LABEL[transaction.movement] ?? transaction.movement)
-              : null
-          }
-        />
-        <InfoRow
-          label="Montant"
-          value={
-            transaction.amount != null ? renderMoney(transaction.amount) : null
-          }
-        />
-        <InfoRow
-          label="Date"
-          value={
-            transaction.date_time ? formatDate(transaction.date_time) : null
-          }
-        />
-
-        <Divider sx={{my: 2}} />
-        <SectionTitle>Étudiant</SectionTitle>
-        <InfoRow
-          label="Nom"
-          value={[student?.first_name, student?.last_name]
-            .filter(Boolean)
-            .join(" ")}
-        />
-        <InfoRow label="Référence" value={student?.ref} />
-        <InfoRow label="Email" value={student?.email} />
-        <InfoRow
-          label="Solde de crédit"
-          value={
-            transaction.credit?.amount != null
-              ? renderMoney(transaction.credit.amount)
-              : null
-          }
-        />
-
-        {payment && (
-          <>
-            <Divider sx={{my: 2}} />
-            <SectionTitle>Paiement lié</SectionTitle>
-            <InfoRow label="Référence" value={payment.id} />
-            <InfoRow
-              label="Statut"
+      <Box
+        p={2.5}
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {xs: "1fr", md: `repeat(${columnCount}, 1fr)`},
+          columnGap: 3,
+          rowGap: 2,
+          alignItems: "start",
+        }}
+      >
+        <Box>
+          <SectionTitle>Transaction</SectionTitle>
+          <ReceiptList>
+            <ReceiptRow
+              label="Mouvement"
               value={
-                paymentStatus && (
+                transaction.movement ? (
                   <Chip
                     size="small"
-                    icon={PAYMENT_STATUS_ICON[paymentStatus]}
-                    label={PAYMENT_STATUS_LABEL[paymentStatus]}
+                    color={MOVEMENT_COLOR[transaction.movement]}
+                    label={
+                      MOVEMENT_LABEL[transaction.movement] ??
+                      transaction.movement
+                    }
                   />
-                )
+                ) : null
               }
             />
-            <InfoRow
+            <ReceiptRow
               label="Montant"
               value={
-                payment.amount != null ? renderMoney(payment.amount) : null
-              }
-            />
-            <InfoRow
-              label="Type"
-              value={
-                payment.type
-                  ? ((PAYMENT_TYPE as Record<string, string>)[payment.type] ??
-                    payment.type)
+                transaction.amount != null
+                  ? renderMoney(transaction.amount)
                   : null
               }
             />
-            <InfoRow
-              label="Date de paiement"
+            <ReceiptRow
+              label="Date et heure"
               value={
-                payment.creation_datetime
-                  ? formatDate(payment.creation_datetime)
-                  : null
+                transaction.date_time ? formatDate(transaction.date_time) : null
               }
             />
-            <InfoRow label="Commentaire" value={payment.comment} />
-            <InfoRow label="Validé / rejeté par" value={validatedByName} />
-            <InfoRow
-              label="Référence du validateur"
-              value={payment.validated_by_ref}
-            />
-          </>
+          </ReceiptList>
+        </Box>
+
+        {payment && (
+          <Box sx={columnDivider}>
+            <SectionTitle>Paiement lié</SectionTitle>
+            <ReceiptList>
+              <ReceiptRow
+                label="Statut"
+                value={
+                  paymentStatus && (
+                    <Chip
+                      size="small"
+                      icon={PAYMENT_STATUS_ICON[paymentStatus]}
+                      label={PAYMENT_STATUS_LABEL[paymentStatus]}
+                    />
+                  )
+                }
+              />
+              <ReceiptRow
+                label="Montant"
+                value={
+                  payment.amount != null ? renderMoney(payment.amount) : null
+                }
+              />
+              <ReceiptRow
+                label="Type"
+                value={
+                  payment.type
+                    ? ((PAYMENT_TYPE as Record<string, string>)[payment.type] ??
+                      payment.type)
+                    : null
+                }
+              />
+              <ReceiptRow
+                label="Date de paiement"
+                value={
+                  payment.creation_datetime
+                    ? formatDate(payment.creation_datetime)
+                    : null
+                }
+              />
+              <ReceiptRow label="Validé par" value={validatedByName} />
+              <ReceiptRow
+                label="Commentaire"
+                value={payment.comment}
+                fullWidth
+              />
+            </ReceiptList>
+          </Box>
         )}
 
-        {fee && <FeeSummarySection fee={fee} />}
+        {fee && (
+          <Box sx={columnDivider}>
+            <FeeSummarySection fee={fee} hideDivider />
+          </Box>
+        )}
       </Box>
     </Dialog>
   );
