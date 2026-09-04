@@ -8,6 +8,7 @@ import {
   Logout as LogoutIcon,
   Work as OtherDocsIcon,
   PublishedWithChanges as RemedialIcon,
+  AccountBalanceWalletOutlined as WalletIcon,
   LibraryAddCheck as WorkStudyDocsIcon,
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
@@ -29,6 +30,15 @@ function StudentMenu() {
         }
         label="Frais"
         icon={<FeesIcon />}
+      />
+      <SingleMenu
+        to={
+          whoamiId
+            ? `/students/${authProvider.getCachedWhoami().id}/credit-transactions`
+            : "/"
+        }
+        label="Transactions de crédit"
+        icon={<WalletIcon />}
       />
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem />

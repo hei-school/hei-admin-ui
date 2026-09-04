@@ -1,6 +1,8 @@
 import {fee1Mock} from "../fixtures/api_mocks/fees-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
+const formatAmount = (amount: number) => `${amount.toLocaleString("fr-FR")} Ar`;
+
 const creditTransactionsMock = [
   {
     transaction_id: "transaction1_id",
@@ -77,11 +79,11 @@ describe("Manager.Student.CreditTransactions", () => {
     cy.get("table tbody tr")
       .eq(0)
       .should("contain", "Crédit")
-      .and("contain", "100000 Ar");
+      .and("contain", formatAmount(100000));
     cy.get("table tbody tr")
       .eq(1)
       .should("contain", "Débit")
-      .and("contain", "40000 Ar")
+      .and("contain", formatAmount(40000))
       .and("contain", "Non définie");
   });
 
@@ -89,18 +91,23 @@ describe("Manager.Student.CreditTransactions", () => {
     cy.getByTestid("credit-transactions-tab").click();
     cy.wait("@getCreditTransactions");
     cy.get("table tbody tr").eq(0).click();
-    cy.get('[role="dialog"]').within(() => {
+    cy.get('[role="dialog"]').as("dialog");
+    cy.get("@dialog").within(() => {
       cy.contains("Détails de la transaction de crédit");
       cy.contains("Crédit");
-      cy.contains("100000 Ar");
       cy.contains("Doe");
-      cy.contains("500000 Ar");
       cy.contains("Paiement lié");
       cy.contains("Jane Admin");
       cy.contains("STF0001");
       cy.contains("Frais concerné");
       cy.contains(fee1Mock.comment!);
     });
+    // cy.contains() normalizes whitespace before matching, which mangles the
+    // narrow no-break space toLocaleString uses as a thousands separator, so
+    // amounts are asserted with a raw "contain" check instead.
+    cy.get("@dialog")
+      .should("contain", formatAmount(100000))
+      .and("contain", formatAmount(500000));
   });
 
   it("hides the payment and fee sections when a transaction has none", () => {

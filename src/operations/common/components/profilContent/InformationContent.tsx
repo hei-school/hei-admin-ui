@@ -181,7 +181,10 @@ export const Informations = ({
       label: "Transactions",
       show:
         isStudentProfile &&
-        (role.isManager() || role.isAdmin() || role.isMonitor()),
+        (role.isManager() ||
+          role.isAdmin() ||
+          role.isMonitor() ||
+          role.isStudent()),
       content: <CreditTransactionList studentId={String(profile?.id ?? "")} />,
     },
     {

@@ -13,6 +13,8 @@ const get27thOfMonth = (year: number, month: number) => {
   return new Date(year, month, 27);
 };
 
+const formatAmount = (amount: number) => `${amount.toLocaleString("fr-FR")} Ar`;
+
 describe("Manager.Fee", () => {
   beforeEach(() => {
     cy.intercept(
@@ -101,8 +103,8 @@ describe("Manager.Fee", () => {
     ).click();
     cy.wait("@getFee1");
     cy.get("#main-content")
-      .should("contain", `${interceptedFeeMock!.remaining_amount!} Ar`)
-      .and("contain", `${interceptedFeeMock!.total_amount!} Ar`)
+      .should("contain", formatAmount(interceptedFeeMock!.remaining_amount!))
+      .and("contain", formatAmount(interceptedFeeMock!.total_amount!))
       .and("contain", interceptedFeeMock!.comment!)
       .and("contain", "Paiements");
   });
