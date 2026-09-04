@@ -30,6 +30,9 @@ export const creditPaymentValidatedMock: CreditPaymentMock = {
   status: PaymentStatus.VALIDATE,
   amount: 80000,
   comment: "Paiement par crédit validé",
+  validated_by_first_name: "Jane",
+  validated_by_last_name: "Admin",
+  validated_by_ref: "STF0001",
 };
 
 export const creditPaymentRejectedMock: CreditPaymentMock = {

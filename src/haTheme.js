@@ -28,4 +28,5 @@ export const PALETTE_COLORS = {
     black: "#323333",
   },
   red: "#D32F2F",
+  warning: "#B27B00",
 };

@@ -42,6 +42,7 @@ import resultSummaryProvider from "@/providers/resultSummaryProvider";
 import staffExportProvider from "@/providers/staffExportProvider";
 import staffProvider from "@/providers/staffProvider";
 import statsProvider from "@/providers/statsProvider";
+import studentGroupFlowProvider from "@/providers/studentGroupFlowProvider";
 import studentImportProvider from "@/providers/studentImportProvider";
 import StudentParticipationProvider from "@/providers/studentParticipationProvider";
 import studentProvider from "@/providers/studentProvider";
@@ -119,6 +120,7 @@ const providerMap = {
   "student-retake-exams": studentRetakeExamsProvider,
   "students-result-overviews": studentsResultOverviewProvider,
   "credits": studentCreditProvider,
+  "student-group-flows": studentGroupFlowProvider,
 } as const;
 
 const getProvider = (

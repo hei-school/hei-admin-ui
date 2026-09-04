@@ -9,7 +9,6 @@ import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 import {assertFeeMatchesTemplate} from "./utils";
 
-/*Added this to make the test blackbox */
 const get27thOfMonth = (year: number, month: number) => {
   return new Date(year, month, 27);
 };
@@ -174,7 +173,6 @@ describe("Manager.Fee", () => {
       expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
 
       requestBody.forEach((feeToCreate: any, index: number) => {
-        /* making sure that the month will not greater than number of month (11) */
         const is_valid_month = FIRST_MONTH + index <= 11;
         const year_value = is_valid_month ? FIRST_YEAR : FIRST_YEAR + 1;
         const month_value = is_valid_month

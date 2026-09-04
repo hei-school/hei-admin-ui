@@ -27,3 +27,5 @@ export const COMMON_FIELD_ATTRIBUTES = {
   variant: "caption",
   color: PALETTE_COLORS.typography.grey,
 };
+
+export const CONFIRM_DIALOG_Z_INDEX = 99999;
