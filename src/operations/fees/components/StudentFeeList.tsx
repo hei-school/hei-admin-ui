@@ -4,6 +4,7 @@ import {useStudentRef} from "@/hooks/useStudentRef";
 import {Create} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
+import {PENDING_CREDIT_PAYMENT_TOOLTIP} from "@/operations/fees/constants";
 import {
   DEFAULT_REMEDIAL_COSTS_AMOUNT,
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
@@ -34,6 +35,7 @@ import {
 } from "@haapi-b0fc7615/typescript-client";
 import {
   AddCard as AddMbpsIcon,
+  HourglassEmpty as CreditPendingIcon,
   Payment as PayIcon,
   Visibility as ShowIcon,
   WarningOutlined,
@@ -284,7 +286,8 @@ const MpbsCreate = ({
 export const StudentFeeList = () => {
   const notify = useNotify();
   const {studentRef, studentId} = useStudentRef("studentId");
-  const {canPayByCredit, validateCreditPayment} = useStudentCredit(studentId);
+  const {canPayByCredit, validateCreditPayment, pendingCreditFeeIds} =
+    useStudentCredit(studentId);
   const refresh = useRefresh();
   const [showCatchupFees, , toggleCatchupFees] = useToggle();
   const [feeToPay, setFeeToPay] = useState<Fee | null>(null);
@@ -307,8 +310,11 @@ export const StudentFeeList = () => {
   const isFirstFeePending = useMemo(() => {
     if (!firstUnpaidNormalFee) return false;
     const lastMpbs = firstUnpaidNormalFee.mpbs?.at(-1);
-    return lastMpbs?.status === MpbsStatus.PENDING;
-  }, [firstUnpaidNormalFee]);
+    return (
+      lastMpbs?.status === MpbsStatus.PENDING ||
+      pendingCreditFeeIds.has(firstUnpaidNormalFee.id!)
+    );
+  }, [firstUnpaidNormalFee, pendingCreditFeeIds]);
   const canPayFee = (currentFee: Fee) => {
     if (currentFee.status === FeeStatusEnum.PAID) return false;
     if (isCatchUp(currentFee)) return true;
@@ -340,9 +346,9 @@ export const StudentFeeList = () => {
             <HaActionWrapper>
               <ButtonBase
                 icon={<PayIcon />}
-                disabled={!firstUnpaidNormalFee}
+                disabled={!firstUnpaidNormalFee || isFirstFeePending}
                 onClick={() => {
-                  if (!firstUnpaidNormalFee || isFirstFeePending) {
+                  if (!firstUnpaidNormalFee) {
                     notify("Vous êtes à jour dans vos écolages", {
                       type: "info",
                     });
@@ -411,17 +417,25 @@ export const StudentFeeList = () => {
           render={(fee: Fee) => {
             const isPayable = canPayFee(fee);
             const lastMpbs = fee.mpbs?.at(-1);
-            const isPendingOrSuccess =
+            const isMpbsPendingOrSuccess =
               lastMpbs &&
               (lastMpbs.status === MpbsStatus.PENDING ||
                 lastMpbs.status === MpbsStatus.SUCCESS);
+            const isCreditPending = pendingCreditFeeIds.has(fee.id!);
             const isRejectedLetter =
               fee.letter && fee.letter.status === LetterStatus.REJECTED;
             const hasLetter = fee.letter && !isRejectedLetter;
             return (
               <Box display="flex" alignItems="center">
-                {isPendingOrSuccess ? (
+                {isMpbsPendingOrSuccess ? (
                   <MpbsStatusIcon />
+                ) : isCreditPending ? (
+                  <IconButtonWithTooltip title={PENDING_CREDIT_PAYMENT_TOOLTIP}>
+                    <CreditPendingIcon
+                      color="warning"
+                      data-testid={`creditPendingIcon-${fee.id}`}
+                    />
+                  </IconButtonWithTooltip>
                 ) : (
                   <IconButtonWithTooltip
                     title={

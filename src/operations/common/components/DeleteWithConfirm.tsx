@@ -2,6 +2,7 @@ import {Delete as DeleteIcon} from "@mui/icons-material";
 import {Button, ButtonProps} from "@mui/material";
 import {Confirm, useDelete, useRecordContext, useRedirect} from "react-admin";
 
+import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
 import {NOOP_FN} from "@/utils/noop";
 import {useNotify, useToggle} from "../../../hooks";
 
@@ -64,7 +65,7 @@ export const DeleteWithConfirm = ({
       </Button>
       <Confirm
         fullWidth
-        sx={{zIndex: 99999}}
+        sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
         isOpen={showConfirm}
         title={
           confirmTitle || "Confirmez-vous la suppression de la ressource ?"

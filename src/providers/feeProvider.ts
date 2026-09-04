@@ -1,4 +1,5 @@
 import {
+  ArchiveStatusEnum,
   Fee,
   FeeCategory,
   FeeStatusEnum,
@@ -39,6 +40,7 @@ const feeProvider: HaDataProviderType = {
       isMpbs?: boolean;
       student_ref?: string;
       studentId?: string;
+      archive_status?: ArchiveStatusEnum;
     }
   ) => {
     const doGetFees = async () => {
@@ -64,9 +66,12 @@ const feeProvider: HaDataProviderType = {
     };
 
     const fees: Fee[] = await doGetFees();
+    const filteredFees = filter.archive_status
+      ? fees.filter((fee) => fee.archive_status === filter.archive_status)
+      : fees;
 
     return {
-      data: fees.map((fee: Fee) => ({
+      data: filteredFees.map((fee: Fee) => ({
         ...fee,
         id: toRaId(fee.student_id!, fee.id!),
       })),
