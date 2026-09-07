@@ -1,42 +1,15 @@
 import {HaList} from "@/ui/haList";
-import {
-  DocumensoDocumentStatus,
-  StudentLevel,
-} from "@haapi-b0fc7615/typescript-client";
 import {HistoryEdu as DocumensoIcon} from "@mui/icons-material";
-import {FunctionField, SelectInput, TextField} from "react-admin";
+import {FunctionField, TextField} from "react-admin";
 import {DateField} from "../common/components/fields";
 import {DocumensoDocumentStatusField} from "./DocumensoDocumentStatusField";
+import {DocumensoStatusFilterButtons} from "./DocumensoStatusFilterButtons";
 import {OpenSignedDocumentButton} from "./OpenSignedDocumentButton";
 
-const LEVEL_CHOICES = Object.values(StudentLevel).map((level) => ({
-  id: level,
-  name: level,
-}));
-
-const STATUS_CHOICES = [
-  {id: DocumensoDocumentStatus.PENDING, name: "En attente de signature"},
-  {id: DocumensoDocumentStatus.COMPLETED, name: "Signée"},
-  {id: DocumensoDocumentStatus.REJECTED, name: "Refusée"},
-];
-
-const FILTERS = [
-  <SelectInput
-    key="level"
-    source="level"
-    label="Niveau"
-    choices={LEVEL_CHOICES}
-    alwaysOn
-  />,
-  <SelectInput
-    key="status"
-    source="status"
-    label="Statut"
-    choices={STATUS_CHOICES}
-    alwaysOn
-  />,
-];
-
+/*
+ * No level filter: the template reached to get this far already names one, so every fiche listed
+ * sits at it.
+ */
 export const PromotionDocumensoDocumentList = ({
   promotionId,
   templateTitle,
@@ -48,12 +21,13 @@ export const PromotionDocumensoDocumentList = ({
     resource="promotions-documenso-documents"
     title="Fiches à signer"
     icon={<DocumensoIcon />}
+    wrapperSx={{marginTop: 0}}
     emptyListMessage="Aucune fiche générée pour cette promotion"
     actions={undefined}
+    filterButtons={<DocumensoStatusFilterButtons />}
     datagridProps={{rowClick: false}}
     listProps={{
       title: " ",
-      filters: FILTERS,
       queryOptions: {meta: {promotionId, templateTitle}},
     }}
   >

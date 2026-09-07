@@ -6,7 +6,7 @@ import {Alert, Box} from "@mui/material";
 import {useState} from "react";
 import {Button, useRefresh} from "react-admin";
 
-const BUTTON_SX = {py: "5px"};
+const BUTTON_SX = {borderRadius: 5, textTransform: "none", px: 2};
 const ALERT_SX = {mb: 2};
 const ACTIONS_SX = {display: "flex", justifyContent: "flex-end", gap: 1};
 
@@ -33,7 +33,7 @@ export const GenerateDocumensoDocumentsButton = ({
           {promotionId}
         );
       notify(
-        `Génération lancée pour ${studentCount} étudiant(s). Les fiches apparaîtront au fur et à mesure.`,
+        `Génération lancée pour ${studentCount} étudiant(s) mensualisé(s). Les fiches apparaîtront au fur et à mesure.`,
         {type: "success"}
       );
       toggleOpen();
@@ -50,7 +50,7 @@ export const GenerateDocumensoDocumentsButton = ({
       <Button
         onClick={toggleOpen}
         startIcon={<GenerateIcon />}
-        label="GÉNÉRER"
+        label="Générer"
         data-testid="generate-documenso-documents-button"
         variant="contained"
         sx={BUTTON_SX}
@@ -62,18 +62,20 @@ export const GenerateDocumensoDocumentsButton = ({
       >
         <Alert severity="info" sx={ALERT_SX}>
           Une fiche <strong>{templateName}</strong> est créée pour chaque
-          étudiant de la promotion <strong>{promotionLabel}</strong>, puis
-          envoyée à son moniteur pour signature. Les étudiants qui en ont déjà
-          une sont ignorés : l&apos;opération peut être relancée sans risque.
+          étudiant <strong>mensualisé</strong> de la promotion{" "}
+          <strong>{promotionLabel}</strong>, puis envoyée à son moniteur pour
+          signature. Les étudiants au forfait annuel n&apos;en reçoivent pas, et
+          ceux qui en ont déjà une sont ignorés : l&apos;opération peut être
+          relancée sans risque.
         </Alert>
         <Box sx={ACTIONS_SX}>
           <Button
-            label="ANNULER"
+            label="Annuler"
             onClick={toggleOpen}
             disabled={isGenerating}
           />
           <Button
-            label="LANCER"
+            label="Lancer"
             startIcon={<GenerateIcon />}
             data-testid="launch-generation-button"
             variant="contained"

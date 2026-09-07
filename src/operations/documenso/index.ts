@@ -1,5 +1,6 @@
 export {DocumensoDocumentsPage} from "./DocumensoDocumentsPage";
 export {DocumensoDocumentStatusField} from "./DocumensoDocumentStatusField";
+export {DocumensoStatusFilterButtons} from "./DocumensoStatusFilterButtons";
 export {DocumensoTemplateList} from "./DocumensoTemplateList";
 export {GenerateDocumensoDocumentsButton} from "./GenerateDocumensoDocumentsButton";
 export {MonitorDocumensoDocumentList} from "./MonitorDocumensoDocumentList";

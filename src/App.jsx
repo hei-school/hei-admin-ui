@@ -79,6 +79,7 @@ function AppBase() {
       <Resource name="comments" />
       <Resource name="promotions-groups" />
       <Resource name="documenso-templates" />
+      <Resource name="template-promotions" />
       <Resource name="promotions-documenso-documents" />
       <Resource name="monitors-documenso-documents" />
       <Resource name="documenso-file-urls" />

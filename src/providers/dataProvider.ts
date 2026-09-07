@@ -52,6 +52,7 @@ import studentImportProvider from "@/providers/studentImportProvider";
 import StudentParticipationProvider from "@/providers/studentParticipationProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
+import templatePromotionsProvider from "@/providers/templatePromotionsProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
 import gradeImportProvider from "./gradeImportProvider";
 import retakeExamCoursesProvider from "./retakeExamCoursesProvider";
@@ -126,6 +127,7 @@ const providerMap = {
   "students-result-overviews": studentsResultOverviewProvider,
   "credits": studentCreditProvider,
   "documenso-templates": documensoTemplatesProvider,
+  "template-promotions": templatePromotionsProvider,
   "promotions-documenso-documents": promotionDocumensoDocumentsProvider,
   "monitors-documenso-documents": monitorDocumensoDocumentsProvider,
   "documenso-file-urls": documensoFileUrlProvider,

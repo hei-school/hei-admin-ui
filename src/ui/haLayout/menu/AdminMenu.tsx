@@ -82,7 +82,7 @@ function AdminMenu() {
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem onClick={() => trackNavClick("hei_docs", role)} />
-        <SingleMenu
+        <ListMenuItem
           to="/documenso-documents"
           label="Fiches à signer"
           data-testid="documenso-documents-menu"
