@@ -95,19 +95,15 @@ describe("Manager.Student.CreditTransactions", () => {
     cy.get("@dialog").within(() => {
       cy.contains("Détails de la transaction de crédit");
       cy.contains("Crédit");
-      cy.contains("Doe");
       cy.contains("Paiement lié");
       cy.contains("Jane Admin");
-      cy.contains("STF0001");
       cy.contains("Frais concerné");
       cy.contains(fee1Mock.comment!);
     });
     // cy.contains() normalizes whitespace before matching, which mangles the
     // narrow no-break space toLocaleString uses as a thousands separator, so
     // amounts are asserted with a raw "contain" check instead.
-    cy.get("@dialog")
-      .should("contain", formatAmount(100000))
-      .and("contain", formatAmount(500000));
+    cy.get("@dialog").should("contain", formatAmount(100000));
   });
 
   it("hides the payment and fee sections when a transaction has none", () => {

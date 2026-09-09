@@ -40,8 +40,6 @@ export const CreditTransactionDetailsDialog = ({
 }: CreditTransactionDetailsDialogProps) => {
   const fee = transaction.fee;
   const payment = transaction.payment;
-  const credit = transaction.credit;
-  const student = credit?.student;
   const paymentStatus = payment?.status as PaymentStatus | undefined;
   const validatedByName = [
     payment?.validated_by_first_name,
@@ -49,7 +47,7 @@ export const CreditTransactionDetailsDialog = ({
   ]
     .filter(Boolean)
     .join(" ");
-  const columnCount = 1 + [credit, payment, fee].filter(Boolean).length;
+  const columnCount = 1 + [payment, fee].filter(Boolean).length;
   const columnDivider = {
     borderLeft: {xs: "none", md: "1px solid"},
     borderColor: "divider",
@@ -76,7 +74,6 @@ export const CreditTransactionDetailsDialog = ({
         <Box>
           <SectionTitle>Transaction</SectionTitle>
           <ReceiptList>
-            <ReceiptRow label="Référence" value={transaction.transaction_id} />
             <ReceiptRow
               label="Mouvement"
               value={
@@ -109,33 +106,10 @@ export const CreditTransactionDetailsDialog = ({
           </ReceiptList>
         </Box>
 
-        {credit && (
-          <Box sx={columnDivider}>
-            <SectionTitle>Étudiant</SectionTitle>
-            <ReceiptList>
-              <ReceiptRow
-                label="Nom"
-                value={[student?.first_name, student?.last_name]
-                  .filter(Boolean)
-                  .join(" ")}
-              />
-              <ReceiptRow label="Référence" value={student?.ref} />
-              <ReceiptRow label="Email" value={student?.email} />
-              <ReceiptRow
-                label="Solde de crédit"
-                value={
-                  credit.amount != null ? renderMoney(credit.amount) : null
-                }
-              />
-            </ReceiptList>
-          </Box>
-        )}
-
         {payment && (
           <Box sx={columnDivider}>
             <SectionTitle>Paiement lié</SectionTitle>
             <ReceiptList>
-              <ReceiptRow label="Référence" value={payment.id} />
               <ReceiptRow
                 label="Statut"
                 value={
@@ -173,10 +147,6 @@ export const CreditTransactionDetailsDialog = ({
               />
               <ReceiptRow label="Commentaire" value={payment.comment} />
               <ReceiptRow label="Validé par" value={validatedByName} />
-              <ReceiptRow
-                label="Référence du validateur"
-                value={payment.validated_by_ref}
-              />
             </ReceiptList>
           </Box>
         )}

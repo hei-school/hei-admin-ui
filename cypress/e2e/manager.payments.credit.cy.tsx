@@ -388,7 +388,6 @@ describe("Manager.CreditPayments", () => {
       cy.contains("CREDIT");
       cy.contains(creditPaymentValidatedMock.comment!);
       cy.contains("Jane Admin");
-      cy.contains("STF0001");
       cy.contains("Frais concerné");
       cy.contains(fee1Mock.comment!);
     });

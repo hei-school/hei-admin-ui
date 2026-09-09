@@ -41,7 +41,6 @@ export const CreditPaymentDetailsDialog = ({
     >
       <Box p={3}>
         <SectionTitle>Paiement</SectionTitle>
-        <InfoRow label="Référence" value={payment.id} />
         <InfoRow
           label="Statut"
           value={
@@ -80,7 +79,6 @@ export const CreditPaymentDetailsDialog = ({
         <Divider sx={{my: 2}} />
         <SectionTitle>Validation</SectionTitle>
         <InfoRow label="Validé / rejeté par" value={validatedByName} />
-        <InfoRow label="Référence" value={payment.validated_by_ref} />
 
         {fee && <FeeSummarySection fee={fee} />}
       </Box>
