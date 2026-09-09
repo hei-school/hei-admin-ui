@@ -1,33 +1,57 @@
-import {FC, useEffect, useRef} from "react";
+import {useEffect} from "react";
 import {LoadingPage} from "react-admin";
 import {useNavigate} from "react-router-dom";
 import authProvider from "../providers/authProvider";
 import {SERVER_URL} from "./casdoorSetting";
 
-const CasdoorAuthCallback: FC = () => {
+const EXCHANGED_CODE_ITEM = "ha_casdoor_exchanged_code";
+
+let inFlightExchange: {code: string; promise: Promise<void>} | null = null;
+
+const exchangeCode = (serverUrl: string, code: string, state: string) => {
+  if (inFlightExchange?.code === code) return inFlightExchange.promise;
+
+  const promise = (async () => {
+    const bearer = await authProvider.getToken(serverUrl, code, state);
+    authProvider.cacheBearer(bearer);
+    authProvider.cacheWhoami(await authProvider.whoami());
+  })();
+
+  inFlightExchange = {code, promise};
+  return promise;
+};
+
+const CasdoorAuthCallback = () => {
   const urlParams = new URLSearchParams(window.location.search);
   const code = urlParams.get("code");
   const state = urlParams.get("state");
-  const isExchanged = useRef(false);
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (code && state && !isExchanged.current && SERVER_URL) {
-        isExchanged.current = true;
-        try {
-          const token = await authProvider.getToken(SERVER_URL, code, state);
-          authProvider.cacheWhoami({bearer: token});
-        } catch (error) {
-          console.error("Error during token fetching:", error);
-        } finally {
-          navigate("/");
-        }
-      }
-    };
+    const serverUrl = SERVER_URL;
+    if (!code || !state || !serverUrl) return;
 
-    fetchData();
-  }, [code, state]);
+    if (
+      sessionStorage.getItem(EXCHANGED_CODE_ITEM) === code &&
+      inFlightExchange?.code !== code
+    ) {
+      navigate("/", {replace: true});
+      return;
+    }
+    sessionStorage.setItem(EXCHANGED_CODE_ITEM, code);
+    window.history.replaceState({}, "", window.location.pathname);
+
+    let cancelled = false;
+    exchangeCode(serverUrl, code, state)
+      .catch((error) => console.error("Error during token fetching:", error))
+      .finally(() => {
+        if (!cancelled) navigate("/", {replace: true});
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [code, state, navigate]);
 
   return (
     <LoadingPage
