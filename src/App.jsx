@@ -34,6 +34,7 @@ import {LocalizationProvider} from "@mui/x-date-pickers/LocalizationProvider";
 import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
+import {QueryClient} from "react-query";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
@@ -43,10 +44,15 @@ import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.t
 import retakeExamCourses from "./operations/retakeExamCourses";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
+const queryClient = new QueryClient({
+  defaultOptions: {queries: {refetchOnWindowFocus: false}},
+});
+
 function AppBase() {
   return (
     <Admin
       title="HEI Admin"
+      queryClient={queryClient}
       authProvider={authProvider}
       dataProvider={dataProvider}
       i18nProvider={polyglotI18nProvider(() => frenchMessages, "fr")}

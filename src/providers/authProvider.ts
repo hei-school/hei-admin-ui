@@ -40,6 +40,10 @@ const cacheWhoami = (whoami: Whoami): void => {
   sessionStorage.setItem(BEARER_ITEM, whoami.bearer as string);
 };
 
+const cacheBearer = (bearer: string): void => {
+  sessionStorage.setItem(BEARER_ITEM, bearer);
+};
+
 const getCachedWhoami = () => ({
   id: sessionStorage.getItem(ID_ITEM),
   role: sessionStorage.getItem(ROLE_ITEM),
@@ -187,6 +191,7 @@ const authProvider = {
   getCachedRole: getCachedRole,
   getCachedAuthConf: getCachedAuthConf,
   cacheWhoami: cacheWhoami,
+  cacheBearer: cacheBearer,
   getToken: getToken,
 };
 
