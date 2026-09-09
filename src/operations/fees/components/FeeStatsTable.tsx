@@ -11,6 +11,7 @@ import {
 import {FeeCounts, FeeRow} from "../types";
 import {hasCount} from "../utils/FeeStatsRows";
 import {ColorDot} from "./ColorDot";
+import {CountSkeleton} from "./CountSkeleton";
 import {
   FEE_COUNT_COLUMNS,
   FeeCountColumn,
@@ -33,11 +34,14 @@ import {
 
 const COUNT_WEIGHT = {row: 700, total: 800} as const;
 
+const COUNT_SKELETON_WIDTH = 22;
+
 type FeeStatsTableProps = {
   rows: readonly FeeRow[];
   totals: FeeCounts;
   viewMode: AdvancedFeeStatisticsType;
   onViewModeChange: (viewMode: AdvancedFeeStatisticsType) => void;
+  isUpdating: boolean;
 };
 
 export const FeeStatsTable = ({
@@ -45,6 +49,7 @@ export const FeeStatsTable = ({
   totals,
   viewMode,
   onViewModeChange,
+  isUpdating,
 }: FeeStatsTableProps) => (
   <Box sx={TABLE_CONTAINER_SX}>
     <FeeStatsToolbar viewMode={viewMode} onViewModeChange={onViewModeChange} />
@@ -54,9 +59,13 @@ export const FeeStatsTable = ({
         <FeeStatsTableHead />
         <TableBody>
           {rows.map((row) => (
-            <FeeStatsTableRow key={row.label} row={row} />
+            <FeeStatsTableRow
+              key={row.label}
+              row={row}
+              isUpdating={isUpdating}
+            />
           ))}
-          <FeeStatsTotalRow totals={totals} />
+          <FeeStatsTotalRow totals={totals} isUpdating={isUpdating} />
         </TableBody>
       </Table>
     </Box>
@@ -84,7 +93,12 @@ const toHeaderCellSx = ({statusColors}: FeeCountColumn) =>
     ? [HEADER_CELL_SX, {color: statusColors.header}]
     : HEADER_CELL_SX;
 
-const FeeStatsTableRow = ({row}: {row: FeeRow}) => (
+type FeeStatsTableRowProps = {
+  row: FeeRow;
+  isUpdating: boolean;
+};
+
+const FeeStatsTableRow = ({row, isUpdating}: FeeStatsTableRowProps) => (
   <TableRow sx={ROW_HOVER_SX}>
     <TableCell sx={CELL_SX}>
       <Box display="flex" alignItems="center" gap={0.8}>
@@ -98,17 +112,24 @@ const FeeStatsTableRow = ({row}: {row: FeeRow}) => (
         column={column}
         count={row[column.key]}
         fontWeight={COUNT_WEIGHT.row}
+        isUpdating={isUpdating}
       />
     ))}
     <FeeProgressCell
       paid={row.paid}
       total={row.total}
       labelSx={PROGRESS_LABEL_SX}
+      isUpdating={isUpdating}
     />
   </TableRow>
 );
 
-const FeeStatsTotalRow = ({totals}: {totals: FeeCounts}) => (
+type FeeStatsTotalRowProps = {
+  totals: FeeCounts;
+  isUpdating: boolean;
+};
+
+const FeeStatsTotalRow = ({totals, isUpdating}: FeeStatsTotalRowProps) => (
   <TableRow sx={TOTAL_ROW_SX}>
     <TableCell sx={TOTAL_LABEL_SX}>TOTAL</TableCell>
     {FEE_COUNT_COLUMNS.map((column) => (
@@ -117,12 +138,14 @@ const FeeStatsTotalRow = ({totals}: {totals: FeeCounts}) => (
         column={column}
         count={totals[column.key]}
         fontWeight={COUNT_WEIGHT.total}
+        isUpdating={isUpdating}
       />
     ))}
     <FeeProgressCell
       paid={totals.paid}
       total={totals.total}
       labelSx={PROGRESS_TOTAL_LABEL_SX}
+      isUpdating={isUpdating}
     />
   </TableRow>
 );
@@ -131,9 +154,15 @@ type FeeCountCellProps = {
   column: FeeCountColumn;
   count: number;
   fontWeight: number;
+  isUpdating: boolean;
 };
 
-const FeeCountCell = ({column, count, fontWeight}: FeeCountCellProps) => (
+const FeeCountCell = ({
+  column,
+  count,
+  fontWeight,
+  isUpdating,
+}: FeeCountCellProps) => (
   <TableCell
     sx={[
       CELL_SX,
@@ -141,6 +170,13 @@ const FeeCountCell = ({column, count, fontWeight}: FeeCountCellProps) => (
       ...(column.statusColors ? [{color: column.statusColors.value}] : []),
     ]}
   >
-    {hasCount(count) ? count : MISSING_COUNT_LABEL}
+    {isUpdating ? (
+      <CountSkeleton width={COUNT_SKELETON_WIDTH} />
+    ) : (
+      toCountLabel(count)
+    )}
   </TableCell>
 );
+
+const toCountLabel = (count: number): number | string =>
+  hasCount(count) ? count : MISSING_COUNT_LABEL;
