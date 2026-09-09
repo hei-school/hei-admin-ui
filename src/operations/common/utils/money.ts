@@ -3,7 +3,8 @@ import {EMPTY_TEXT} from "@/ui/constants";
 const CURRENCY = "Ar";
 
 export const renderMoney = (amount: number): string => {
-  return `${amount ?? EMPTY_TEXT} ${CURRENCY}`;
+  if (amount == null) return EMPTY_TEXT;
+  return `${amount.toLocaleString("fr-FR")} ${CURRENCY}`;
 };
 
 if (typeof window !== "undefined") {

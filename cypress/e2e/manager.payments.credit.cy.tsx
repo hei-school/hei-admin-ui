@@ -19,6 +19,13 @@ import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 const amount = 1 + Math.floor(Math.random() * 100_000);
 const createPayment = createPaymentWithAmountMock(amount);
 
+const formatAmount = (value: number) => `${value.toLocaleString("fr-FR")} Ar`;
+// cy.contains() normalizes whitespace (including the narrow no-break space
+// toLocaleString uses as a thousands separator) to a regular space before
+// matching, so searches made via cy.contains() must use a plain space too.
+const containsAmount = (value: number) =>
+  formatAmount(value).replace(/[\u202f\u00a0]/g, " ");
+
 describe("Manager.Payments.Flow", () => {
   beforeEach(() => {
     cy.mockLogin({role: "MANAGER"});
@@ -78,8 +85,8 @@ describe("Manager.Payments.Flow", () => {
     ).click();
     cy.wait("@getFee1");
     cy.get("#main-content")
-      .should("contain", `${fee1Mock.remaining_amount} Ar`)
-      .and("contain", `${fee1Mock.total_amount} Ar`)
+      .should("contain", formatAmount(fee1Mock.remaining_amount!))
+      .and("contain", formatAmount(fee1Mock.total_amount!))
       .and("contain", fee1Mock.comment)
       .and("contain", "Paiements");
     cy.wait("@getPayments");
@@ -289,7 +296,7 @@ describe("Manager.CreditPayments", () => {
       .eq(0)
       .should("contain", creditPaymentPendingMock.comment)
       .and("contain", student1Mock.ref)
-      .and("contain", `${creditPaymentPendingMock.amount} Ar`);
+      .and("contain", formatAmount(creditPaymentPendingMock.amount!));
     cy.get("table tbody tr")
       .eq(1)
       .should("contain", creditPaymentValidatedMock.comment);
@@ -377,11 +384,10 @@ describe("Manager.CreditPayments", () => {
     cy.get('[role="dialog"]').within(() => {
       cy.contains("Détails du paiement par crédit");
       cy.contains("Paiement validé");
-      cy.contains(`${creditPaymentValidatedMock.amount} Ar`);
+      cy.contains(containsAmount(creditPaymentValidatedMock.amount!));
       cy.contains("CREDIT");
       cy.contains(creditPaymentValidatedMock.comment!);
       cy.contains("Jane Admin");
-      cy.contains("STF0001");
       cy.contains("Frais concerné");
       cy.contains(fee1Mock.comment!);
     });

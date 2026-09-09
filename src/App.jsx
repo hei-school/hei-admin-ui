@@ -37,6 +37,7 @@ import {Admin, CustomRoutes, Resource} from "react-admin";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
+import {StudentCreditTransactions} from "./operations/fees/components/Credits/StudentCreditTransactions.tsx";
 import {MonitorStudentList} from "./operations/monitors/component/MonitorStudentList.tsx";
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
@@ -98,6 +99,11 @@ function AppBase() {
           element={<studentsResultOverviews.show />}
         />
         <Route exact path="/students/:studentId/fees" element={<fees.list />} />
+        <Route
+          exact
+          path="/students/:studentId/credit-transactions"
+          element={<StudentCreditTransactions />}
+        />
         <Route
           exact
           path="/students/:studentId/fees/create"
