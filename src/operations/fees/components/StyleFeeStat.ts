@@ -282,3 +282,17 @@ export const STATS_TITLE_SX: SystemStyleObject<Theme> = {
   fontSize: {xs: "1.1rem", sm: "1.3rem"},
   letterSpacing: "-0.01em",
 } as const;
+
+export const UPDATE_STATS_BUTTON_SX: SystemStyleObject<Theme> = {
+  "borderColor": whiteAlpha(0.3),
+  "color": WHITE,
+  "fontWeight": 800,
+  "fontSize": "0.8rem",
+  "borderRadius": "8px",
+  "textTransform": "uppercase",
+  "px": 2,
+  "whiteSpace": "nowrap",
+  "flexShrink": 0,
+  "&:hover": {bgcolor: whiteAlpha(0.15), borderColor: WHITE},
+  "&.Mui-disabled": {color: whiteAlpha(0.5), borderColor: whiteAlpha(0.2)},
+} as const;

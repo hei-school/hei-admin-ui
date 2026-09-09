@@ -13,6 +13,7 @@ import {FeesStatsHeader} from "./FeeStatsHeader";
 import {FeeStatsTable} from "./FeeStatsTable";
 import {StatsStatus} from "./StatsStatus";
 import {STATS_TITLE_SX, VERIFY_BUTTON_SX} from "./StyleFeeStat";
+import {UpdateStatsButton} from "./UpdateStatsButton";
 
 const DEFAULT_FEE_TYPE: FeeType = "MONTH";
 const DEFAULT_LEVEL: LevelType = "ALL";
@@ -44,12 +45,22 @@ export const FeesListHeader = ({
       title={<StatsTitle title={title} isMpbs={isMpbs} stats={stats} />}
       action={
         <Box display="flex" flexDirection="column" gap={1.5}>
-          <FilterChips
-            feeType={feeType}
-            level={level}
-            onFeeTypeChange={setFeeType}
-            onLevelChange={setLevel}
-          />
+          <Box
+            display="flex"
+            flexDirection={{xs: "column", sm: "row"}}
+            alignItems={{xs: "flex-start", sm: "center"}}
+            justifyContent="space-between"
+            gap={1.5}
+            flexWrap="wrap"
+          >
+            <FilterChips
+              feeType={feeType}
+              level={level}
+              onFeeTypeChange={setFeeType}
+              onLevelChange={setLevel}
+            />
+            <UpdateStatsButton />
+          </Box>
           <FeeStatsTable
             rows={rows}
             totals={totals}
