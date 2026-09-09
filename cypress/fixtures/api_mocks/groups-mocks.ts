@@ -77,6 +77,31 @@ export const moveGroupFlow: GroupFlow[] = [
   },
 ];
 
+export const studentGroupFlowsMock: Required<GroupFlow>[] = [
+  {
+    id: "student_group_flow_2",
+    group_id: group2Mock.id,
+    move_type: GroupFlowMoveTypeEnum.JOIN,
+    student_id: group1Student1Mock.id,
+    flow_datetime: new Date("2024-02-01T08:00:00Z"),
+  },
+  {
+    id: "student_group_flow_1",
+    group_id: group1Mock.id,
+    move_type: GroupFlowMoveTypeEnum.LEAVE,
+    student_id: group1Student1Mock.id,
+    flow_datetime: new Date("2024-01-01T08:00:00Z"),
+  },
+] as Required<GroupFlow>[];
+
+export const updatedStudentGroupFlowMock: GroupFlow = {
+  id: studentGroupFlowsMock[0].id,
+  group_id: group1Mock.id,
+  move_type: GroupFlowMoveTypeEnum.JOIN,
+  student_id: group1Student1Mock.id,
+  flow_datetime: new Date("2024-03-15T08:00:00Z"),
+};
+
 export const groupCreate: CreateGroup = {
   creation_datetime: new Date("2023-04-01"),
   id: "group_3",
