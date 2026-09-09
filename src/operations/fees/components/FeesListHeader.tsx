@@ -8,12 +8,16 @@ import {FeeStats, FeeType, LevelType} from "../types";
 import {DateRangePopover} from "../utils/DateRangePopover";
 import {FilterChips} from "../utils/FeeFilterChips";
 import {ImportDialog} from "../utils/FeeImportDialog";
+import {isGeneratingStats} from "../utils/FeeStatsGeneration";
 import {buildRows, computeTotals} from "../utils/FeeStatsRows";
 import {FeesStatsHeader} from "./FeeStatsHeader";
 import {FeeStatsTable} from "./FeeStatsTable";
 import {StatsStatus} from "./StatsStatus";
 import {STATS_TITLE_SX, VERIFY_BUTTON_SX} from "./StyleFeeStat";
 import {UpdateStatsButton} from "./UpdateStatsButton";
+import {useUpdateFeeStats} from "./useUpdateFeeStats";
+
+const GENERATION_POLL_INTERVAL_MS = 4000;
 
 const DEFAULT_FEE_TYPE: FeeType = "MONTH";
 const DEFAULT_LEVEL: LevelType = "ALL";
@@ -39,6 +43,8 @@ export const FeesListHeader = ({
     [feeType, level, stats]
   );
   const totals = useMemo(() => computeTotals(rows), [rows]);
+  const {isUpdating, updateStats} = useUpdateFeeStats();
+  const isRefreshingCounts = isUpdating || isGeneratingStats(stats);
 
   return (
     <FeesStatsHeader
@@ -59,13 +65,14 @@ export const FeesListHeader = ({
               onFeeTypeChange={setFeeType}
               onLevelChange={setLevel}
             />
-            <UpdateStatsButton />
+            <UpdateStatsButton isUpdating={isUpdating} onUpdate={updateStats} />
           </Box>
           <FeeStatsTable
             rows={rows}
             totals={totals}
             viewMode={viewMode}
             onViewModeChange={setViewMode}
+            isUpdating={isRefreshingCounts}
           />
         </Box>
       }
@@ -82,10 +89,14 @@ const useFeeStats = (
     [filterValues, viewMode]
   );
 
-  const {data} = useGetOne<FeeStats>("stats", {
-    id: NOOP_ID,
-    meta: {resource: "fees_stats", filters},
-  });
+  const {data} = useGetOne<FeeStats>(
+    "stats",
+    {id: NOOP_ID, meta: {resource: "fees_stats", filters}},
+    {
+      refetchInterval: (stats) =>
+        isGeneratingStats(stats) ? GENERATION_POLL_INTERVAL_MS : false,
+    }
+  );
 
   return data;
 };

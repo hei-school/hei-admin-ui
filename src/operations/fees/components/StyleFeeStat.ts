@@ -296,3 +296,14 @@ export const UPDATE_STATS_BUTTON_SX: SystemStyleObject<Theme> = {
   "&:hover": {bgcolor: whiteAlpha(0.15), borderColor: WHITE},
   "&.Mui-disabled": {color: whiteAlpha(0.5), borderColor: whiteAlpha(0.2)},
 } as const;
+
+export const SKELETON_SX: SystemStyleObject<Theme> = {
+  "bgcolor": whiteAlpha(0.13),
+  "borderRadius": "4px",
+  "display": "inline-block",
+  "&::after": {
+    background: `linear-gradient(90deg, transparent, ${whiteAlpha(
+      0.22
+    )}, transparent)`,
+  },
+} as const;
