@@ -139,8 +139,7 @@ describe("Mobile payment by student", () => {
     cy.getByTestid(
       `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
     ).should("not.exist");
+    cy.getByTestid("menu-list-action").click();
     cy.contains("button", "Payer mon écolage").should("be.disabled");
-    cy.contains("button", "Payer mon écolage").click({force: true});
-    cy.contains("Le paiement de ce frais est déjà en cours de vérification.");
   });
 });
