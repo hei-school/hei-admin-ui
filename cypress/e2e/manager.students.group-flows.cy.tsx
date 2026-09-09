@@ -82,7 +82,7 @@ describe("Manager.Students.GroupFlows", () => {
     cy.get('[role="dialog"]').within(() => {
       cy.getByTestid("group-flow-group-select").click();
     });
-    cy.contains(group1Mock.ref!).click();
+    cy.get('ul[role="listbox"]').contains(group1Mock.ref!).click();
     cy.get("#flow_datetime").clear().type("2024-03-15T08:00");
     cy.contains("Enregistrer").click();
 
