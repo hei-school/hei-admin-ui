@@ -1,19 +1,22 @@
 import {renderMoney} from "@/operations/common/utils/money";
 import {CreditPaymentActions} from "@/operations/payments/components/CreditPaymentActions";
+import {CreditPaymentDetailsDialog} from "@/operations/payments/components/CreditPaymentDetailsDialog";
 import {CreditPaymentStatusFilterButtons} from "@/operations/payments/components/CreditPaymentStatusFilterButtons";
 import {PaymentStatusIcon} from "@/operations/payments/components/PaymentStatusIcon";
 import {HaList} from "@/ui/haList/HaList";
 import {Fee, Payment, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {AccountBalanceWallet as CreditIcon} from "@mui/icons-material";
 import {Box, Typography} from "@mui/material";
-import {FunctionField, TextField} from "react-admin";
+import {useState} from "react";
+import {FunctionField, Identifier, RaRecord, TextField} from "react-admin";
 import {DateField} from "../common/components/fields";
 
-// Le client généré ne modélise plus les paiements par crédit séparément :
-// l'endpoint type désormais sa réponse en Payment, qui ne déclare pas le fee imbriqué.
 type CreditPayment = Payment & {fee?: Fee};
 
 const CreditPaymentList = () => {
+  const [selectedPayment, setSelectedPayment] = useState<CreditPayment | null>(
+    null
+  );
   return (
     <Box>
       <HaList
@@ -23,7 +26,12 @@ const CreditPaymentList = () => {
         filterButtons={<CreditPaymentStatusFilterButtons />}
         actions={undefined}
         filterIndicator={false}
-        datagridProps={{rowClick: false}}
+        datagridProps={{
+          rowClick: (_id: Identifier, _resource: string, record: RaRecord) => {
+            setSelectedPayment(record as CreditPayment);
+            return false;
+          },
+        }}
         listProps={{
           filterDefaultValues: {status: PaymentStatus.CREATED},
         }}
@@ -59,6 +67,12 @@ const CreditPaymentList = () => {
           textAlign="center"
         />
       </HaList>
+      {selectedPayment && (
+        <CreditPaymentDetailsDialog
+          payment={selectedPayment}
+          onClose={() => setSelectedPayment(null)}
+        />
+      )}
     </Box>
   );
 };

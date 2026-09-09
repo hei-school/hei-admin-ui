@@ -1,5 +1,6 @@
 import {useToggle} from "@/hooks/useToggle";
 import {payingApi} from "@/providers/api";
+import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
 import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {Box, Button} from "@mui/material";
 import {Confirm, useNotify, useRecordContext, useRefresh} from "react-admin";
@@ -78,7 +79,7 @@ export const CreditPaymentActions = () => {
       </Button>
       <Confirm
         fullWidth
-        sx={{zIndex: 99999}}
+        sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
         isOpen={showValidateConfirm}
         title="Valider le paiement"
         content="Confirmez-vous la validation de ce paiement par crédit ?"
@@ -89,7 +90,7 @@ export const CreditPaymentActions = () => {
       />
       <Confirm
         fullWidth
-        sx={{zIndex: 99999}}
+        sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
         isOpen={showRejectConfirm}
         title="Rejeter le paiement"
         content="Confirmez-vous le rejet de ce paiement par crédit ?"

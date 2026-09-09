@@ -1,8 +1,10 @@
 import {mapToChoices} from "@/utils";
 import {
   AdvancedFeeStatisticsType,
+  ArchiveStatusEnum,
   FeeCategory,
   FeeFrequency,
+  FeeStatusEnum,
   FeeTypeEnum,
   PaymentTypeEnum,
 } from "@haapi-b0fc7615/typescript-client";
@@ -20,6 +22,9 @@ export const MPBS_STATUS_LABEL = {
   FAILED: "Paiement échoué",
   PENDING: "Vérification en cours",
 } as const;
+
+export const PENDING_CREDIT_PAYMENT_TOOLTIP =
+  "Paiement par crédit en cours de vérification";
 
 export const FEE_STATUS_CHOICES = mapToChoices(FEE_STATUS, "id", "name");
 
@@ -73,3 +78,16 @@ export const PAYMENT_TYPE = {
 } as const;
 
 export const PAYMENT_TYPE_CHOICES = mapToChoices(PAYMENT_TYPE, "id", "name");
+
+export const FEE_STATUS_LABEL: Record<FeeStatusEnum, string> = {
+  [FeeStatusEnum.UNPAID]: "Non payé",
+  [FeeStatusEnum.PAID]: "Payé",
+  [FeeStatusEnum.LATE]: "En retard",
+  [FeeStatusEnum.PENDING]: "En cours de vérification",
+};
+
+export const ARCHIVE_STATUS_LABEL: Record<ArchiveStatusEnum, string> = {
+  [ArchiveStatusEnum.TO_ARCHIVE]: "En attente d'archivage",
+  [ArchiveStatusEnum.ARCHIVED]: "Archivé",
+  [ArchiveStatusEnum.REJECTED]: "Rejeté",
+};

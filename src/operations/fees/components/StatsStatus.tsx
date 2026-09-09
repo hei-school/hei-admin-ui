@@ -9,6 +9,7 @@ import {
 } from "lucide-react";
 import {ElementType} from "react";
 import {FeeStats} from "../types";
+import {isGeneratingStats} from "../utils/FeeStatsGeneration";
 
 const spin = keyframes`
   from { transform: rotate(0deg); }
@@ -134,15 +135,7 @@ const resolveStatus = (stats: FeeStats): ResolvedStatus | undefined => {
 
   if (stats.expired !== true) return undefined;
 
-  return isGenerating(stats)
+  return isGeneratingStats(stats)
     ? {message: "Génération...", Icon: SpinningRefreshCw, theme: THEMES.loading}
     : {message: "Anciennes stats", Icon: AlertTriangle, theme: THEMES.warning};
 };
-
-const isGenerating = (stats: FeeStats): boolean =>
-  [
-    stats.total_expected_fees_count,
-    stats.paid_fees_count,
-    stats.pending_fees_count,
-    stats.late_fees_count,
-  ].every((counts) => counts === null);

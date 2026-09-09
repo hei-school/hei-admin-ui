@@ -9,10 +9,11 @@ import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 import {assertFeeMatchesTemplate} from "./utils";
 
-/*Added this to make the test blackbox */
 const get27thOfMonth = (year: number, month: number) => {
   return new Date(year, month, 27);
 };
+
+const formatAmount = (amount: number) => `${amount.toLocaleString("fr-FR")} Ar`;
 
 describe("Manager.Fee", () => {
   beforeEach(() => {
@@ -102,8 +103,8 @@ describe("Manager.Fee", () => {
     ).click();
     cy.wait("@getFee1");
     cy.get("#main-content")
-      .should("contain", `${interceptedFeeMock!.remaining_amount!} Ar`)
-      .and("contain", `${interceptedFeeMock!.total_amount!} Ar`)
+      .should("contain", formatAmount(interceptedFeeMock!.remaining_amount!))
+      .and("contain", formatAmount(interceptedFeeMock!.total_amount!))
       .and("contain", interceptedFeeMock!.comment!)
       .and("contain", "Paiements");
   });
@@ -174,7 +175,6 @@ describe("Manager.Fee", () => {
       expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
 
       requestBody.forEach((feeToCreate: any, index: number) => {
-        /* making sure that the month will not greater than number of month (11) */
         const is_valid_month = FIRST_MONTH + index <= 11;
         const year_value = is_valid_month ? FIRST_YEAR : FIRST_YEAR + 1;
         const month_value = is_valid_month

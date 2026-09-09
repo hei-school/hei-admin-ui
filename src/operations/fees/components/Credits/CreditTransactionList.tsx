@@ -1,8 +1,11 @@
 import {renderMoney} from "@/operations/common/utils/money";
 import {HaList} from "@/ui/haList/HaList";
+import {CreditTransaction} from "@haapi-b0fc7615/typescript-client";
 import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
 import {Box} from "@mui/material";
-import {FunctionField} from "react-admin";
+import {useState} from "react";
+import {FunctionField, Identifier, RaRecord} from "react-admin";
+import {CreditTransactionDetailsDialog} from "./CreditTransactionDetailsDialog";
 
 interface CreditTransactionListProps {
   studentId: string;
@@ -11,6 +14,8 @@ interface CreditTransactionListProps {
 export const CreditTransactionList = ({
   studentId,
 }: CreditTransactionListProps) => {
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<CreditTransaction | null>(null);
   return (
     <Box>
       <HaList
@@ -19,6 +24,12 @@ export const CreditTransactionList = ({
         actions={null}
         resource="credits"
         filterIndicator={false}
+        datagridProps={{
+          rowClick: (_id: Identifier, _resource: string, record: RaRecord) => {
+            setSelectedTransaction(record as CreditTransaction);
+            return false;
+          },
+        }}
         listProps={{
           filterDefaultValues: {
             studentId,
@@ -53,6 +64,12 @@ export const CreditTransactionList = ({
           }}
         />
       </HaList>
+      {selectedTransaction && (
+        <CreditTransactionDetailsDialog
+          transaction={selectedTransaction}
+          onClose={() => setSelectedTransaction(null)}
+        />
+      )}
     </Box>
   );
 };

@@ -1,4 +1,7 @@
-import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {
+  PaymentStatus,
+  PaymentTypeEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {
   creditPaymentPendingMock,
   creditPaymentRejectedMock,
@@ -15,6 +18,13 @@ import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
 const amount = 1 + Math.floor(Math.random() * 100_000);
 const createPayment = createPaymentWithAmountMock(amount);
+
+const formatAmount = (value: number) => `${value.toLocaleString("fr-FR")} Ar`;
+// cy.contains() normalizes whitespace (including the narrow no-break space
+// toLocaleString uses as a thousands separator) to a regular space before
+// matching, so searches made via cy.contains() must use a plain space too.
+const containsAmount = (value: number) =>
+  formatAmount(value).replace(/[\u202f\u00a0]/g, " ");
 
 describe("Manager.Payments.Flow", () => {
   beforeEach(() => {
@@ -75,12 +85,53 @@ describe("Manager.Payments.Flow", () => {
     ).click();
     cy.wait("@getFee1");
     cy.get("#main-content")
-      .should("contain", `${fee1Mock.remaining_amount} Ar`)
-      .and("contain", `${fee1Mock.total_amount} Ar`)
+      .should("contain", formatAmount(fee1Mock.remaining_amount!))
+      .and("contain", formatAmount(fee1Mock.total_amount!))
       .and("contain", fee1Mock.comment)
       .and("contain", "Paiements");
     cy.wait("@getPayments");
     cy.get("table").contains("Comment");
+  });
+
+  it("shows a fee as in progress on its details page when its credit payment is awaiting validation", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
+      fee1Mock
+    ).as("getFee1");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=1&page_size=100`,
+      feesMock
+    ).as("getFeesForPendingCheck");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees?page=2&page_size=100`,
+      feesMock
+    ).as("getFeesForPendingCheck2");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=*&page_size=*`,
+      [
+        {
+          id: "credit_payment_pending_id",
+          fee_id: fee1Mock.id,
+          type: PaymentTypeEnum.CREDIT,
+          status: PaymentStatus.CREATED,
+          amount: 100000,
+          comment: "Paiement par crédit",
+        },
+      ]
+    ).as("getFee1PendingPayment");
+    cy.getByTestid("fees-tab").click();
+    cy.wait("@getFees");
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
+    cy.wait("@getFee1");
+    cy.wait("@getFee1PendingPayment");
+    cy.contains("En cours de vérification");
+    cy.contains("En retard").should("not.exist");
   });
 
   it("can create a cash payment for a fee", () => {
@@ -175,6 +226,36 @@ describe("Manager.Payments.Flow", () => {
     cy.contains("Enregistrer").click();
     cy.contains("Le montant saisi est supérieur à votre crédit actuel.");
   });
+
+  it("cannot create a credit payment when the student's credit is below the minimum", () => {
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}`,
+      fee1Mock
+    ).as("getFee1");
+    cy.intercept(
+      "GET",
+      `/students/${student1Mock.id}/fees/${fee1Mock.id}/payments?page=*&page_size=10`,
+      []
+    ).as("getPayments");
+    cy.intercept("GET", `/students/${student1Mock.id}/credit`, {
+      ...studentCreditMock,
+      amount: 50000,
+    }).as("getLowStudentCredit");
+    cy.getByTestid("fees-tab").click();
+    cy.wait("@getFees");
+    cy.get(
+      ".manager-fee-list .RaDatagrid-clickableRow.MuiTableRow-root:nth-child(1)"
+    ).click();
+    cy.wait("@getFee1");
+    cy.wait("@getPayments");
+    cy.contains("Créer").click();
+    cy.wait("@getLowStudentCredit");
+    cy.get("#type_CREDIT").click();
+    cy.get("#amount").click().type("10000");
+    cy.contains("Enregistrer").click();
+    cy.contains("Votre crédit est inférieur à 60000Ar.");
+  });
 });
 
 describe("Manager.CreditPayments", () => {
@@ -215,7 +296,7 @@ describe("Manager.CreditPayments", () => {
       .eq(0)
       .should("contain", creditPaymentPendingMock.comment)
       .and("contain", student1Mock.ref)
-      .and("contain", `${creditPaymentPendingMock.amount} Ar`);
+      .and("contain", formatAmount(creditPaymentPendingMock.amount!));
     cy.get("table tbody tr")
       .eq(1)
       .should("contain", creditPaymentValidatedMock.comment);
@@ -289,5 +370,54 @@ describe("Manager.CreditPayments", () => {
     cy.getByTestid(`reject-payment-${creditPaymentRejectedMock.id}`).should(
       "be.disabled"
     );
+  });
+
+  it("shows full payment details in a dialog when a row is clicked", () => {
+    cy.wait("@getFilteredCreditPayments_CREATED");
+    cy.contains("button", "Tous").click();
+    cy.wait("@getAllCreditPayments_CREATED");
+    cy.wait("@getAllCreditPayments_VALIDATE");
+    cy.wait("@getAllCreditPayments_INVALIDATE");
+    cy.get("table tbody tr")
+      .contains("td", creditPaymentValidatedMock.comment!)
+      .click();
+    cy.get('[role="dialog"]').within(() => {
+      cy.contains("Détails du paiement par crédit");
+      cy.contains("Paiement validé");
+      cy.contains(containsAmount(creditPaymentValidatedMock.amount!));
+      cy.contains("CREDIT");
+      cy.contains(creditPaymentValidatedMock.comment!);
+      cy.contains("Jane Admin");
+      cy.contains("Frais concerné");
+      cy.contains(fee1Mock.comment!);
+    });
+  });
+
+  it("hides the fee section and shows an empty validator when a payment has no fee", () => {
+    cy.intercept(
+      "GET",
+      `/students/credit-payments?status=${PaymentStatus.CREATED}&page=*&page_size=10`,
+      [{...creditPaymentPendingMock, fee: undefined}]
+    ).as("getFilteredCreditPayments_CREATED");
+    cy.wait("@getFilteredCreditPayments_CREATED");
+    cy.get("table tbody tr")
+      .contains("td", creditPaymentPendingMock.comment!)
+      .click();
+    cy.get('[role="dialog"]').within(() => {
+      cy.contains("Détails du paiement par crédit");
+      cy.contains("Paiement en attente de validation");
+      cy.contains("Non défini.e");
+      cy.should("not.contain", "Frais concerné");
+    });
+  });
+
+  it("closes the credit payment details dialog", () => {
+    cy.wait("@getFilteredCreditPayments_CREATED");
+    cy.get("table tbody tr")
+      .contains("td", creditPaymentPendingMock.comment!)
+      .click();
+    cy.get('[role="dialog"]').should("be.visible");
+    cy.get('[role="dialog"] .MuiDialogTitle-root button').click();
+    cy.get('[role="dialog"]').should("not.exist");
   });
 });

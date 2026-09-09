@@ -18,6 +18,7 @@ import {
 } from "@mui/material";
 import {useGetOne, useRecordContext} from "react-admin";
 import {Contact} from "./ContactDetails";
+import {GroupFlowList} from "./GroupFlowList";
 import {PersonalDetails} from "./PersonalDetails";
 import {PersonalInfos} from "./PersonalInfos";
 import {StudentParticipationList} from "./StudentParticipationList";
@@ -181,8 +182,19 @@ export const Informations = ({
       label: "Transactions",
       show:
         isStudentProfile &&
-        (role.isManager() || role.isAdmin() || role.isMonitor()),
+        (role.isManager() ||
+          role.isAdmin() ||
+          role.isMonitor() ||
+          role.isStudent()),
       content: <CreditTransactionList studentId={String(profile?.id ?? "")} />,
+    },
+    {
+      id: "group-flows",
+      label: "Historique de groupes",
+      show:
+        isStudentProfile &&
+        (role.isManager() || role.isAdmin() || role.isMonitor()),
+      content: <GroupFlowList studentId={String(profile?.id ?? "")} />,
     },
     {
       id: "monitor-students",

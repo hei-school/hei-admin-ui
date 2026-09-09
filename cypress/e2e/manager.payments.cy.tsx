@@ -14,6 +14,7 @@ import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
 
 const amount = 1 + Math.floor(Math.random() * 100_000);
 const createPayment = createPaymentWithAmountMock(amount);
+const formattedAmount = amount.toLocaleString("fr-FR");
 
 describe("Manager.Payment", () => {
   beforeEach(() => {
@@ -117,7 +118,7 @@ describe("Manager.Payment", () => {
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(`.MuiTableCell-alignRight:contains(${amount} Ar)`).should(
+    cy.get(`.MuiTableCell-alignRight:contains(${formattedAmount} Ar)`).should(
       "have.length",
       1
     );
@@ -131,7 +132,7 @@ describe("Manager.Payment", () => {
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(`.MuiTableCell-alignRight:contains(${amount} Ar)`).should(
+    cy.get(`.MuiTableCell-alignRight:contains(${formattedAmount} Ar)`).should(
       "have.length",
       1
     );
@@ -153,7 +154,7 @@ describe("Manager.Payment", () => {
     cy.get("#creation_datetime").click().type("2023-11-24");
     cy.contains("Enregistrer").click();
     cy.contains("Élément créé");
-    cy.get(`.MuiTableCell-alignRight:contains(${amount} Ar)`).should(
+    cy.get(`.MuiTableCell-alignRight:contains(${formattedAmount} Ar)`).should(
       "have.length",
       1
     );
