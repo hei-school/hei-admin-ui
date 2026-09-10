@@ -9,13 +9,28 @@ import {
   DATE_CHIP_SX,
   DATE_POPOVER_PAPER_SX,
 } from "../components/StyleFeeStat";
-import {buildDateRange, toMonthInput} from "./FeeDateRange";
+import {
+  buildDateRange,
+  getMonthRangeError,
+  MonthRangeError,
+  toCurrentMonthInput,
+  toMonthInput,
+} from "./FeeDateRange";
+
+const RANGE_ERROR_MESSAGE: Record<MonthRangeError, string> = {
+  INCOMPLETE: "",
+  REVERSED: "Le mois de fin doit suivre le mois de début.",
+  IN_FUTURE: "Le mois de fin ne peut pas dépasser le mois en cours.",
+};
 
 export const DateRangePopover = () => {
   const {filterValues, setFilters} = useListContext();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
   const [monthFromInput, setMonthFromInput] = useState("");
   const [monthToInput, setMonthToInput] = useState("");
+
+  const currentMonth = toCurrentMonthInput();
+  const rangeError = getMonthRangeError(monthFromInput, monthToInput);
 
   const openPopover = (event: MouseEvent<HTMLElement>) => {
     setMonthFromInput(toMonthInput(filterValues?.monthFrom));
@@ -26,6 +41,7 @@ export const DateRangePopover = () => {
   const closePopover = () => setAnchor(null);
 
   const applyDateRange = () => {
+    if (rangeError) return;
     const dateRange = buildDateRange(monthFromInput, monthToInput);
     setFilters({...filterValues, ...dateRange}, {});
     closePopover();
@@ -68,17 +84,21 @@ export const DateRangePopover = () => {
           label="Du"
           value={monthFromInput}
           onChange={setMonthFromInput}
+          max={currentMonth}
         />
         <MonthInput
           label="Au"
           value={monthToInput}
           onChange={setMonthToInput}
+          min={monthFromInput}
+          max={currentMonth}
+          error={rangeError && RANGE_ERROR_MESSAGE[rangeError]}
         />
 
         <Button
           variant="contained"
           size="small"
-          disabled={!monthFromInput || !monthToInput}
+          disabled={Boolean(rangeError)}
           onClick={applyDateRange}
           sx={APPLY_BUTTON_SX(PALETTE_COLORS.primary)}
         >
@@ -93,9 +113,19 @@ type MonthInputProps = {
   label: string;
   value: string;
   onChange: (month: string) => void;
+  min?: string;
+  max?: string;
+  error?: string;
 };
 
-const MonthInput = ({label, value, onChange}: MonthInputProps) => (
+const MonthInput = ({
+  label,
+  value,
+  onChange,
+  min,
+  max,
+  error,
+}: MonthInputProps) => (
   <TextField
     label={label}
     type="month"
@@ -103,6 +133,9 @@ const MonthInput = ({label, value, onChange}: MonthInputProps) => (
     value={value}
     onChange={(event) => onChange(event.target.value)}
     InputLabelProps={{shrink: true}}
+    inputProps={{min, max}}
+    error={Boolean(error)}
+    helperText={error}
     fullWidth
   />
 );
