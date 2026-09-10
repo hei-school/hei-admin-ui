@@ -1,3 +1,4 @@
+import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList/HaList";
 import {GroupFlow} from "@haapi-b0fc7615/typescript-client";
 import {SwapHoriz} from "@mui/icons-material";
@@ -19,6 +20,9 @@ const GroupRefField = ({groupId}: {groupId?: string}) => {
 };
 
 export const GroupFlowList = ({studentId}: GroupFlowListProps) => {
+  const role = useRole();
+  const canEditGroupFlow = role.isAdmin() || role.isManager();
+
   return (
     <Box>
       <HaList
@@ -29,6 +33,7 @@ export const GroupFlowList = ({studentId}: GroupFlowListProps) => {
         filterIndicator={false}
         datagridProps={{rowClick: false}}
         listProps={{
+          title: " ",
           filterDefaultValues: {studentId},
           storeKey: `student-${studentId}-group-flows`,
         }}
@@ -60,12 +65,14 @@ export const GroupFlowList = ({studentId}: GroupFlowListProps) => {
           )}
         />
         <DateField source="flow_datetime" label="Date" showTime />
-        <FunctionField
-          label=""
-          render={(record: GroupFlow) => (
-            <GroupFlowEditButton record={record} />
-          )}
-        />
+        {canEditGroupFlow && (
+          <FunctionField
+            label=""
+            render={(record: GroupFlow) => (
+              <GroupFlowEditButton record={record} />
+            )}
+          />
+        )}
       </HaList>
     </Box>
   );
