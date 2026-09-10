@@ -1,22 +1,22 @@
-import {useNotify, UseNotifyOptions} from "@/hooks";
+import {useNotify} from "@/hooks";
 import {Button} from "@mui/material";
+import {useState} from "react";
 import {getRedirectUrl, goToExternalURL} from "./casdoorSetting";
-
-const loginWithCasdoor = (
-  notify: (message: string, config?: UseNotifyOptions) => void
-) => {
-  (async () => {
-    try {
-      const url = await getRedirectUrl();
-      goToExternalURL(url);
-    } catch (error) {
-      notify("Failed to fetch redirect URL", {type: "error"});
-    }
-  })();
-};
 
 export const CasdoorLoginButton = () => {
   const notify = useNotify();
+  const [isRedirecting, setIsRedirecting] = useState(false);
+
+  const loginWithCasdoor = async () => {
+    if (isRedirecting) return;
+    setIsRedirecting(true);
+    try {
+      goToExternalURL(await getRedirectUrl());
+    } catch (error) {
+      notify("Failed to fetch redirect URL", {type: "error"});
+      setIsRedirecting(false);
+    }
+  };
 
   return (
     <Button
@@ -24,7 +24,8 @@ export const CasdoorLoginButton = () => {
       variant="contained"
       data-testid="casdoor-login-btn"
       color="primary"
-      onClick={() => loginWithCasdoor(notify)}
+      disabled={isRedirecting}
+      onClick={loginWithCasdoor}
     >
       CONNEXION AVEC CASDOOR
     </Button>

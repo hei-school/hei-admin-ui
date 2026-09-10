@@ -33,6 +33,7 @@ const CreditPaymentList = () => {
           },
         }}
         listProps={{
+          title: "Paiements par crédit",
           filterDefaultValues: {status: PaymentStatus.CREATED},
         }}
       >

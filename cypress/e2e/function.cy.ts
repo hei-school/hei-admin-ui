@@ -231,10 +231,10 @@ describe("renderMoney utility function", () => {
     cy.window()
       .should("have.property", "renderMoney")
       .then((renderMoney: any) => {
-        expect(renderMoney(1000)).to.eq("1000 Ar");
+        expect(renderMoney(1000)).to.match(/^1.000 Ar$/);
         expect(renderMoney(0)).to.eq("0 Ar");
-        expect(renderMoney(undefined)).to.match(/Ar$/);
-        expect(renderMoney(null)).to.match(/Ar$/);
+        expect(renderMoney(undefined)).to.eq("Non défini.e");
+        expect(renderMoney(null)).to.eq("Non défini.e");
       });
   });
 });

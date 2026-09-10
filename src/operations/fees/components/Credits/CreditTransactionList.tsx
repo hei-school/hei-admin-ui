@@ -31,6 +31,7 @@ export const CreditTransactionList = ({
           },
         }}
         listProps={{
+          title: " ",
           filterDefaultValues: {
             studentId,
           },

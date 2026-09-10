@@ -23,3 +23,21 @@ const endOfMonth = (monthInput: string): Date => {
   lastDay.setUTCHours(23, 59, 59, 999);
   return lastDay;
 };
+
+export const toCurrentMonthInput = (): string => {
+  const now = new Date();
+  const month = String(now.getMonth() + 1).padStart(2, "0");
+  return `${now.getFullYear()}-${month}`;
+};
+
+export type MonthRangeError = "INCOMPLETE" | "REVERSED" | "IN_FUTURE";
+
+export const getMonthRangeError = (
+  monthInputFrom: string,
+  monthInputTo: string
+): MonthRangeError | undefined => {
+  if (!monthInputFrom || !monthInputTo) return "INCOMPLETE";
+  if (monthInputTo < monthInputFrom) return "REVERSED";
+  if (monthInputTo > toCurrentMonthInput()) return "IN_FUTURE";
+  return undefined;
+};

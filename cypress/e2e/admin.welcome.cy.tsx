@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 
+import {renderMoney} from "@/operations/common/utils/money";
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {advanceStatsMocks} from "../fixtures/api_mocks/advanceStats-mocks";
 import {announcementsMock} from "../fixtures/api_mocks/announcement-mocks";
@@ -120,7 +121,10 @@ describe("AdminWelcome Page", () => {
     cy.contains("Catégorie").should("exist");
     cy.contains(unpaidFeeMock.category!).should("exist");
     cy.contains("Reste à payer").should("exist");
-    cy.contains(unpaidFeeMock.remaining_amount!).should("exist");
+    cy.get("body").should(
+      "contain.text",
+      renderMoney(unpaidFeeMock.remaining_amount!)
+    );
   });
 
   it("should hide manager image on small screens and show on desktop with a non-empty src", () => {

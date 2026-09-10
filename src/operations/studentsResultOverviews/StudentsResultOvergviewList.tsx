@@ -22,6 +22,7 @@ const StudentsResultOverviews = () => {
         label: "Référence (STDXXXXX)",
       }}
       listProps={{
+        title: "Résultats des sortants",
         filter: {promotionId, status},
       }}
       actions={undefined}
