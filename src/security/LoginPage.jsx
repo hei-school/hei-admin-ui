@@ -1,13 +1,11 @@
-import {useNotify} from "@/hooks";
 import {
-  Button,
   Card,
   CardContent,
   Grid,
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {useEffect, useState} from "react";
+import {useEffect} from "react";
 import {useNavigate} from "react-router-dom";
 import {mainTheme} from "../haTheme";
 import authProvider from "../providers/authProvider";
@@ -45,28 +43,9 @@ const aCard = (title, subtitle, description1, description2, course) => {
 };
 
 const HaLoginPage = () => {
-  const [username, setUsername] = useState("");
-  const [openModal, setOpenModal] = useState(false);
-  const [confirm, setConfirm] = useState(true);
-
   const displayFull = useMediaQuery(
     "(min-width:1024px) and (min-height:768px)"
   );
-  const style = {
-    position: "absolute",
-    top: "50%",
-    left: "50%",
-    transform: "translate(-50%, -50%)",
-    width: 325,
-    bgcolor: "background.paper",
-    boxShadow: 24,
-    p: 4,
-    margin: "auto",
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    justifyItems: "center",
-  };
   const ResponsiveLogin = () => {
     return (
       <Grid container item xs={12}>
@@ -82,25 +61,6 @@ const HaLoginPage = () => {
         >
           <CasdoorLoginCard />
         </Grid>
-        <Grid
-          item
-          xs={displayFull ? 4 : 12}
-          sx={{
-            width: "inherit",
-            display: "flex",
-            justifyContent: "center",
-            bottom: 100,
-          }}
-          position={"absolute"}
-        >
-          <Button
-            onClick={() => setOpenModal(true)}
-            align="center"
-            sx={{
-              color: "white",
-            }}
-          ></Button>
-        </Grid>
       </Grid>
     );
   };
@@ -112,22 +72,13 @@ const HaLoginPage = () => {
       <ResponsiveLogin />
     );
 
-  const notify = useNotify();
   const navigate = useNavigate();
 
   useEffect(() => {
-    try {
-      authProvider.checkAuth().catch((e) => {
-        console.error("Authentication check failed : ", e);
-      });
-      const id = authProvider.getCachedWhoami().id;
-      if (id) {
-        navigate("/profile");
-      }
-    } catch (error) {
-      notify("Authentication check failed", {type: "error"});
+    if (authProvider.getCachedWhoami().id) {
+      navigate("/profile");
     }
-  }, [navigate, notify]);
+  }, [navigate]);
 
   return (
     <div

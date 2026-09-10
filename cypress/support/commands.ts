@@ -93,8 +93,8 @@ Cypress.Commands.add("login", (options: LoginConfig) => {
     cy.intercept("**/authentication/signin**", casdoorSignin).as(
       "getCasdoorToken"
     );
-    cy.wait("@getWhoami");
     cy.visit(`/auth/callback?code=${role}&state=HEI Admin`);
+    cy.wait("@getWhoami");
   }
 });
 
@@ -105,7 +105,9 @@ Cypress.Commands.add("mockLogin", (options: LoginConfig) => {
 
   setupLoginMocks(user, role);
 
-  cy.visit("/");
+  cy.visit("/", {
+    onBeforeLoad: (win) => win.sessionStorage.setItem("ha_bearer", "mock"),
+  });
   cy.intercept("GET", "/students/letters/stats", {
     pending: 0,
     received: 0,
