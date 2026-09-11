@@ -2,6 +2,7 @@ import authProvider from "@/providers/authProvider";
 import {SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
+  HistoryEdu as DocumensoIcon,
   Event,
   Logout as LogoutIcon,
   School as StudentIcon,
@@ -23,6 +24,12 @@ function MonitorMenu() {
         to={`/monitors/${monitorId}/students`}
         label="Étudiants"
         icon={<StudentIcon />}
+      />
+      <SingleMenu
+        data-testid="documenso-documents-menu"
+        to={`/monitors/${monitorId}/documenso-documents`}
+        label="Fiches à signer"
+        icon={<DocumensoIcon />}
       />
       <SingleMenu
         data-testid="event-menu"

@@ -5,6 +5,7 @@ import {
   SafetyDivider as CorIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
+  HistoryEdu as DocumensoIcon,
   EditCalendar,
   EventBusy,
   CalendarMonth as EventIcon,
@@ -66,6 +67,12 @@ function ManagerMenu() {
         label="Promotions"
         data-testid="promotions-menu"
         icon={<PromotionIcon />}
+      />
+      <SingleMenu
+        to="/documenso-documents"
+        label="Fiches à signer"
+        data-testid="documenso-documents-menu"
+        icon={<DocumensoIcon />}
       />
       <SingleMenu
         to="/course"

@@ -8,6 +8,9 @@ import CourseAssignmentsProvider from "@/providers/courseAssignmentsProvider";
 import courseProvider from "@/providers/courseProvider";
 import creditPaymentProvider from "@/providers/creditPaymentProvider";
 import docsProvider from "@/providers/docsProvider";
+import documensoFileUrlProvider from "@/providers/documensoFileUrlProvider";
+import documensoSigningTokenProvider from "@/providers/documensoSigningTokenProvider";
+import documensoTemplatesProvider from "@/providers/documensoTemplatesProvider";
 import eventParticipantProvider from "@/providers/eventParticipantProvider";
 import eventProvider from "@/providers/eventProvider";
 import examGradeProvider from "@/providers/examGradeProvider";
@@ -29,12 +32,14 @@ import heiDocsProvider from "@/providers/heiDocsProvider";
 import lettersStatsProvider from "@/providers/letterStatsProvider";
 import lettersProvider from "@/providers/lettersProvider";
 import missingListProvider from "@/providers/missingListProvider";
+import monitorDocumensoDocumentsProvider from "@/providers/monitorDocumensoDocumentsProvider";
 import monitorProvider from "@/providers/monitorProvider";
 import monitorStudentProvider from "@/providers/monitorStudentProvider";
 import mpbsVerifyProvider from "@/providers/mpbsVerifyProvider";
 import paymentProvider from "@/providers/paymentProvider";
 import profilePicProvider from "@/providers/profilePicProvider";
 import profileProvider from "@/providers/profileProvider";
+import promotionDocumensoDocumentsProvider from "@/providers/promotionDocumensoDocumentsProvider";
 import promotionGroupsProvider from "@/providers/promotionGroupsProvider";
 import promotionProvider from "@/providers/promotionProvider";
 import receiptProvider from "@/providers/receiptProvider";
@@ -47,6 +52,7 @@ import studentImportProvider from "@/providers/studentImportProvider";
 import StudentParticipationProvider from "@/providers/studentParticipationProvider";
 import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
+import templatePromotionsProvider from "@/providers/templatePromotionsProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
 import gradeImportProvider from "./gradeImportProvider";
 import retakeExamCoursesProvider from "./retakeExamCoursesProvider";
@@ -121,6 +127,12 @@ const providerMap = {
   "students-result-overviews": studentsResultOverviewProvider,
   "credits": studentCreditProvider,
   "student-group-flows": studentGroupFlowProvider,
+  "documenso-templates": documensoTemplatesProvider,
+  "template-promotions": templatePromotionsProvider,
+  "promotions-documenso-documents": promotionDocumensoDocumentsProvider,
+  "monitors-documenso-documents": monitorDocumensoDocumentsProvider,
+  "documenso-file-urls": documensoFileUrlProvider,
+  "documenso-signing-tokens": documensoSigningTokenProvider,
 } as const;
 
 const getProvider = (
@@ -177,13 +189,10 @@ const dataProvider = {
         `Provider for resourceType ${resourceType} did not return a valid data property.`
       );
     }
-    const hasNextPage = await getHasNextPageInfo(
-      resourceType,
-      page,
-      perPage,
-      filter,
-      meta
-    );
+    const isPageFull = data.length >= perPage;
+    const hasNextPage =
+      isPageFull &&
+      (await getHasNextPageInfo(resourceType, page, perPage, filter, meta));
     return {
       data,
       pageInfo: {
