@@ -126,6 +126,7 @@ const providerMap = {
   "student-retake-exams": studentRetakeExamsProvider,
   "students-result-overviews": studentsResultOverviewProvider,
   "credits": studentCreditProvider,
+  "student-group-flows": studentGroupFlowProvider,
   "documenso-templates": documensoTemplatesProvider,
   "template-promotions": templatePromotionsProvider,
   "promotions-documenso-documents": promotionDocumensoDocumentsProvider,

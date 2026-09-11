@@ -24,7 +24,11 @@ const paramIsTemporaryKey = "t";
 const paramUsername = "u";
 const paramTemporaryKey = "p";
 
-const whoami = async (): Promise<Whoami> => {
+const WHOAMI_TTL_MS = 5 * 60 * 1000;
+let pendingWhoami: Promise<Whoami> | null = null;
+let lastWhoamiAt = 0;
+
+const fetchWhoami = async (): Promise<Whoami> => {
   const conf = new Configuration();
   const token = sessionStorage.getItem(BEARER_ITEM) || "";
   conf.accessToken = token;
@@ -33,6 +37,21 @@ const whoami = async (): Promise<Whoami> => {
     .whoami()
     .then((response: AxiosResponse<Whoami>) => response.data);
 };
+
+const whoami = async (): Promise<Whoami> => {
+  if (pendingWhoami) return pendingWhoami;
+  pendingWhoami = fetchWhoami();
+  try {
+    const result = await pendingWhoami;
+    lastWhoamiAt = Date.now();
+    return result;
+  } finally {
+    pendingWhoami = null;
+  }
+};
+
+const isWhoamiFresh = (): boolean =>
+  lastWhoamiAt !== 0 && Date.now() - lastWhoamiAt < WHOAMI_TTL_MS;
 
 const cacheWhoami = (whoami: Whoami): void => {
   sessionStorage.setItem(ID_ITEM, whoami.id as string);
@@ -142,7 +161,11 @@ const authProvider = {
     }
   },
 
-  checkError: async () => Promise.resolve(),
+  checkError: async (error: unknown): Promise<void> => {
+    if (!isUnauthenticated(error)) return;
+    lastWhoamiAt = 0;
+    throw new Error("Unauthorized");
+  },
 
   getIdentity: async () => await whoami(),
 
