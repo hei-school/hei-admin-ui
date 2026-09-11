@@ -42,6 +42,7 @@ import {
   DocumensoDocumentsPage,
   MonitorDocumensoDocumentList,
 } from "./operations/documenso";
+import {StudentCreditTransactions} from "./operations/fees/components/Credits/StudentCreditTransactions.tsx";
 import {MonitorStudentList} from "./operations/monitors/component/MonitorStudentList.tsx";
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";

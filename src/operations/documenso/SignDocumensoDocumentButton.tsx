@@ -1,42 +1,22 @@
-import {useNotify, useToggle} from "@/hooks";
-import {Dialog} from "@/ui/components";
-import {EmbedSignDocument} from "@documenso/embed-react";
+import {useNotify} from "@/hooks";
 import {DocumensoDocumentStatus} from "@haapi-b0fc7615/typescript-client";
 import {Draw as SignIcon} from "@mui/icons-material";
-import {Alert, Box, Link} from "@mui/material";
-import {useEffect, useState} from "react";
-import {
-  Button,
-  useDataProvider,
-  useRecordContext,
-  useRefresh,
-} from "react-admin";
+import {useState} from "react";
+import {Button, useDataProvider, useRecordContext} from "react-admin";
 
 const BUTTON_SX = {textTransform: "none"};
-const EMBED_SX = {height: "80vh", width: "100%"};
-const ALERT_SX = {mb: 2};
 
 const DOCUMENSO_HOST = process.env.REACT_APP_DOCUMENSO_URL;
 
-const EMBED_READY_TIMEOUT_MS = 10_000;
-
+/**
+ * Signing happens on Documenso itself: embedding it here needs a Teams plan, which the account does
+ * not have. The token is minted on click and opens the very page Documenso mailed to the monitor.
+ */
 export const SignDocumensoDocumentButton = () => {
   const record = useRecordContext();
   const dataProvider = useDataProvider();
   const notify = useNotify();
-  const refresh = useRefresh();
-  const [isOpen, setOpen] = useToggle();
-  const [token, setToken] = useState<string | null>(null);
-  const [isEmbedReady, setEmbedReady] = useState(false);
-  const [hasTimedOut, setTimedOut] = useState(false);
-
-  useEffect(() => {
-    if (!isOpen || !token || isEmbedReady) {
-      return;
-    }
-    const timer = setTimeout(() => setTimedOut(true), EMBED_READY_TIMEOUT_MS);
-    return () => clearTimeout(timer);
-  }, [isOpen, token, isEmbedReady]);
+  const [isOpening, setIsOpening] = useState(false);
 
   if (record?.status !== DocumensoDocumentStatus.PENDING) {
     return null;
@@ -50,95 +30,41 @@ export const SignDocumensoDocumentButton = () => {
       );
       return;
     }
+    /*
+     * The tab is opened on the click itself: opening it after the await would be swallowed by
+     * pop-up blockers, the token being fetched asynchronously.
+     */
+    const tab = window.open("", "_blank", "noopener,noreferrer");
+    setIsOpening(true);
     try {
       const {
-        data: {token: signingToken},
+        data: {token},
       } = await dataProvider.getOne("documenso-signing-tokens", {
         id: record.id,
       });
-      setToken(signingToken);
-      setOpen(true);
+      const signingUrl = `${DOCUMENSO_HOST}/sign/${token}`;
+      if (tab) {
+        tab.location.href = signingUrl;
+      } else {
+        window.location.href = signingUrl;
+      }
     } catch {
+      tab?.close();
       notify("Impossible d'ouvrir la fiche à signer", {type: "error"});
+    } finally {
+      setIsOpening(false);
     }
   };
 
-  const closeSigning = () => {
-    setToken(null);
-    setEmbedReady(false);
-    setTimedOut(false);
-    setOpen(false);
-  };
-
-  const onCompleted = () => {
-    notify("Fiche signée. Sa mise à jour suit dans un instant.", {
-      type: "success",
-    });
-    closeSigning();
-    refresh();
-  };
-
-  const onRejected = () => {
-    notify("Fiche refusée. Une nouvelle fiche pourra être générée.", {
-      type: "warning",
-    });
-    closeSigning();
-    refresh();
-  };
-
   return (
-    <>
-      <Button
-        onClick={openSigning}
-        startIcon={<SignIcon />}
-        label="Signer"
-        data-testid="sign-documenso-document-button"
-        variant="contained"
-        sx={BUTTON_SX}
-      />
-      <Dialog
-        title="Signature de la fiche"
-        open={isOpen}
-        onClose={closeSigning}
-        maxWidth="lg"
-      >
-        {token && (
-          <>
-            {hasTimedOut && !isEmbedReady && (
-              <Alert
-                severity="warning"
-                sx={ALERT_SX}
-                data-testid="documenso-embed-unavailable"
-              >
-                La signature intégrée ne s&apos;est pas chargée. Elle peut être
-                indisponible sur le plan Documenso de l&apos;organisation
-                propriétaire de la fiche.{" "}
-                <Link
-                  href={`${DOCUMENSO_HOST}/sign/${token}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Ouvrir la fiche directement sur Documenso
-                </Link>
-                .
-              </Alert>
-            )}
-            <Box sx={EMBED_SX}>
-              <EmbedSignDocument
-                host={DOCUMENSO_HOST}
-                token={token}
-                allowDocumentRejection
-                onDocumentReady={() => setEmbedReady(true)}
-                onDocumentCompleted={onCompleted}
-                onDocumentRejected={onRejected}
-                onDocumentError={() =>
-                  notify("Erreur pendant la signature", {type: "error"})
-                }
-              />
-            </Box>
-          </>
-        )}
-      </Dialog>
-    </>
+    <Button
+      onClick={openSigning}
+      startIcon={<SignIcon />}
+      label="Signer"
+      data-testid="sign-documenso-document-button"
+      variant="contained"
+      disabled={isOpening}
+      sx={BUTTON_SX}
+    />
   );
 };
