@@ -30,8 +30,6 @@ export const useSyncDocumensoTemplates = () => {
           type: "error",
         });
       } finally {
-        // La liste n'est montée qu'une fois isSyncing repassé à false : elle
-        // charge donc le catalogue fraichement synchronisé d'elle-même.
         setIsSyncing(false);
       }
     };

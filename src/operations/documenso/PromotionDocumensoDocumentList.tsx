@@ -6,10 +6,6 @@ import {DocumensoDocumentStatusField} from "./DocumensoDocumentStatusField";
 import {DocumensoStatusFilterButtons} from "./DocumensoStatusFilterButtons";
 import {OpenSignedDocumentButton} from "./OpenSignedDocumentButton";
 
-/*
- * No level filter: the template reached to get this far already names one, so every fiche listed
- * sits at it.
- */
 export const PromotionDocumensoDocumentList = ({
   promotionId,
   templateTitle,
@@ -21,7 +17,7 @@ export const PromotionDocumensoDocumentList = ({
     resource="promotions-documenso-documents"
     title="Fiches à signer"
     icon={<DocumensoIcon />}
-    wrapperSx={{marginTop: 0}}
+    wrapperSx={{marginTop: 2}}
     emptyListMessage="Aucune fiche générée pour cette promotion"
     actions={undefined}
     filterButtons={<DocumensoStatusFilterButtons />}

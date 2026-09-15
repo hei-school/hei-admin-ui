@@ -16,7 +16,11 @@ const LOADER_SX = {
   gap: 2,
   py: 8,
 };
+/* the header band of the retake screens: the trail sits on its own, over a rule */
+const CONTAINER_SX = {minHeight: "100vh", pb: 4, bgcolor: "#f8fafc"};
+const HEADER_SX = {px: 2, pt: 2, pb: 1, borderBottom: "1px solid #e2e8f0"};
 const BREADCRUMBS_SX = {mb: 2};
+const CONTENT_SX = {px: 3, pt: 2};
 
 type SelectedPromotion = Promotion & {id: string};
 
@@ -41,59 +45,67 @@ export const DocumensoDocumentsPage = () => {
 
   if (template && promotion) {
     return (
-      <Box>
-        <CustomBreadcrumbs
-          items={[
-            {
-              label: "Modèles de fiches",
-              onClick: backToTemplates,
-              icon: <Home size={16} />,
-            },
-            {
-              label: template.title ?? "",
-              onClick: () => setPromotion(null),
-              icon: <FileSignature size={16} />,
-            },
-            {
-              label: promotionLabel(promotion),
-              isActive: true,
-              icon: <Users size={16} />,
-            },
-          ]}
-          sx={BREADCRUMBS_SX}
-          variant="default"
-        />
-        <PromotionDocumensoDocumentList
-          promotionId={promotion.id}
-          templateTitle={template.title ?? ""}
-        />
+      <Box sx={CONTAINER_SX}>
+        <Box sx={HEADER_SX}>
+          <CustomBreadcrumbs
+            items={[
+              {
+                label: "Modèles de fiches",
+                onClick: backToTemplates,
+                icon: <Home size={16} />,
+              },
+              {
+                label: template.title ?? "",
+                onClick: () => setPromotion(null),
+                icon: <FileSignature size={16} />,
+              },
+              {
+                label: promotionLabel(promotion),
+                isActive: true,
+                icon: <Users size={16} />,
+              },
+            ]}
+            sx={BREADCRUMBS_SX}
+            variant="default"
+          />
+        </Box>
+        <Box sx={CONTENT_SX}>
+          <PromotionDocumensoDocumentList
+            promotionId={promotion.id}
+            templateTitle={template.title ?? ""}
+          />
+        </Box>
       </Box>
     );
   }
 
   if (template) {
     return (
-      <Box>
-        <CustomBreadcrumbs
-          items={[
-            {
-              label: "Modèles de fiches",
-              onClick: backToTemplates,
-              icon: <Home size={16} />,
-            },
-            {
-              label: template.title ?? "",
-              isActive: true,
-              icon: <FileSignature size={16} />,
-            },
-          ]}
-          sx={BREADCRUMBS_SX}
-          variant="default"
-        />
-        <TemplatePromotionList
-          template={template}
-          onSelectPromotion={setPromotion}
-        />
+      <Box sx={CONTAINER_SX}>
+        <Box sx={HEADER_SX}>
+          <CustomBreadcrumbs
+            items={[
+              {
+                label: "Modèles de fiches",
+                onClick: backToTemplates,
+                icon: <Home size={16} />,
+              },
+              {
+                label: template.title ?? "",
+                isActive: true,
+                icon: <FileSignature size={16} />,
+              },
+            ]}
+            sx={BREADCRUMBS_SX}
+            variant="default"
+          />
+        </Box>
+        <Box sx={CONTENT_SX}>
+          <TemplatePromotionList
+            template={template}
+            onSelectPromotion={setPromotion}
+          />
+        </Box>
       </Box>
     );
   }
