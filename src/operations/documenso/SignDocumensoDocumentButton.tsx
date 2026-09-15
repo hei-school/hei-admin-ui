@@ -8,10 +8,6 @@ const BUTTON_SX = {textTransform: "none"};
 
 const DOCUMENSO_HOST = process.env.REACT_APP_DOCUMENSO_URL;
 
-/**
- * Signing happens on Documenso itself: embedding it here needs a Teams plan, which the account does
- * not have. The token is minted on click and opens the very page Documenso mailed to the monitor.
- */
 export const SignDocumensoDocumentButton = () => {
   const record = useRecordContext();
   const dataProvider = useDataProvider();
@@ -30,11 +26,7 @@ export const SignDocumensoDocumentButton = () => {
       );
       return;
     }
-    /*
-     * The tab is opened on the click itself: opening it after the await would be swallowed by
-     * pop-up blockers, the token being fetched asynchronously.
-     */
-    const tab = window.open("", "_blank", "noopener,noreferrer");
+    const tab = window.open("", "_blank");
     setIsOpening(true);
     try {
       const {
@@ -42,12 +34,15 @@ export const SignDocumensoDocumentButton = () => {
       } = await dataProvider.getOne("documenso-signing-tokens", {
         id: record.id,
       });
-      const signingUrl = `${DOCUMENSO_HOST}/sign/${token}`;
-      if (tab) {
-        tab.location.href = signingUrl;
-      } else {
-        window.location.href = signingUrl;
+      if (!tab) {
+        notify(
+          "Autorisez les fenêtres surgissantes pour signer la fiche sur Documenso",
+          {type: "warning"}
+        );
+        return;
       }
+      tab.opener = null;
+      tab.location.href = `${DOCUMENSO_HOST}/sign/${token}`;
     } catch {
       tab?.close();
       notify("Impossible d'ouvrir la fiche à signer", {type: "error"});
