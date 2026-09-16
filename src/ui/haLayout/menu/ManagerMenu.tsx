@@ -60,19 +60,20 @@ function ManagerMenu() {
         />
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-        <HeiListMenuItem />
+        <HeiListMenuItem onClick={() => trackNavClick("hei_docs", role)} />
+        <ListMenuItem
+          to="/documenso-documents"
+          label="Documenso"
+          data-testid="documenso-documents-menu"
+          icon={<DocumensoIcon />}
+          onClick={() => trackNavClick("documenso_documents", role)}
+        />
       </ListMenu>
       <SingleMenu
         to="/promotions"
         label="Promotions"
         data-testid="promotions-menu"
         icon={<PromotionIcon />}
-      />
-      <SingleMenu
-        to="/documenso-documents"
-        label="Fiches à signer"
-        data-testid="documenso-documents-menu"
-        icon={<DocumensoIcon />}
       />
       <SingleMenu
         to="/course"
