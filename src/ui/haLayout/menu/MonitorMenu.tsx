@@ -9,7 +9,7 @@ import {
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
 
-function MonitorMenu() {
+const MonitorMenu = () => {
   const monitorId = authProvider.getCachedWhoami().id;
 
   const logout = async () => {
@@ -49,6 +49,6 @@ function MonitorMenu() {
       />
     </Box>
   );
-}
+};
 
 export default MonitorMenu;

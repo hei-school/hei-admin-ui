@@ -27,7 +27,7 @@ import {
 import {Box} from "@mui/material";
 import {GraduationCap} from "lucide-react";
 
-function AdminMenu() {
+const AdminMenu = () => {
   const {role} = useRole();
   return (
     <Box>
@@ -164,6 +164,6 @@ function AdminMenu() {
       />
     </Box>
   );
-}
+};
 
 export default AdminMenu;

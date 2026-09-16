@@ -23,7 +23,7 @@ import {
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
 
-function ManagerMenu() {
+const ManagerMenu = () => {
   return (
     <Box>
       <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />
@@ -60,13 +60,12 @@ function ManagerMenu() {
         />
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
-        <HeiListMenuItem onClick={() => trackNavClick("hei_docs", role)} />
+        <HeiListMenuItem />
         <ListMenuItem
           to="/documenso-documents"
           label="Documenso"
           data-testid="documenso-documents-menu"
           icon={<DocumensoIcon />}
-          onClick={() => trackNavClick("documenso_documents", role)}
         />
       </ListMenu>
       <SingleMenu
@@ -125,6 +124,6 @@ function ManagerMenu() {
       </ListMenu>
     </Box>
   );
-}
+};
 
 export default ManagerMenu;

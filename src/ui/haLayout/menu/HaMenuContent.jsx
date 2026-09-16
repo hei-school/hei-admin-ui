@@ -8,7 +8,7 @@ import StaffMenu from "./StaffMenu";
 import StudentMenu from "./StudentMenu";
 import TeacherMenu from "./TeacherMenu";
 
-export function HaMenuContent() {
+export const HaMenuContent = () => {
   const role = authProvider.getCachedWhoami().role;
 
   switch (role) {
@@ -29,4 +29,4 @@ export function HaMenuContent() {
     default:
       return null;
   }
-}
+};
