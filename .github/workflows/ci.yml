@@ -19,6 +19,7 @@ env:
   REACT_APP_USERPOOL_ID: ${{ vars.PREPROD_USERPOOL_ID }}
   REACT_APP_WEBCLIENT_ID: ${{ vars.PREPROD_WEBCLIENT_ID }}
   REACT_APP_OAUTH_DOMAIN: ${{ vars.PREPROD_OAUTH_DOMAIN }}
+  REACT_APP_DOCUMENSO_URL: ${{ vars.REACT_APP_DOCUMENSO_URL || 'https://documenso.test' }}
   WAF_JS_API_URL: ${{secrets.WAF_JS_API_URL}}
   WAF_INTEGRATION_API_KEY: ${{secrets.WAF_INTEGRATION_API_KEY}}
   REACT_APP_CASDOOR_SDK_SERVER_URL: ${{ secrets.REACT_APP_CASDOOR_SDK_SERVER_URL }}
@@ -66,7 +67,87 @@ jobs:
         run: npm run format:check
 
   test-e2e:
-    timeout-minutes: 42
+    timeout-minutes: 25
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2, 3, 4]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18.19.0
+
+      ## Connect to Numer Private Codeartifact Repository ##
+      - name: Configure prod AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          aws-access-key-id: ${{ secrets.PROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
+      - run: sh ./initNpmrc.sh hei-store npm-hei-school 088312068315
+
+      ## Connect to Numer Private Codeartifact Repository ##
+      - name: Configure preprod AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4.0.1
+        with:
+          aws-access-key-id: ${{ secrets.PREPROD_AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.PREPROD_AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.REACT_APP_AWS_REGION }}
+          unset-current-credentials: true
+      - run: sh ./initNpmrc.sh hei-store npm-hei-lab 057045785189
+
+      ## Spread the specs over the shards by weight, see .github/shard-specs.sh ##
+      - name: Compute the specs of this shard
+        id: shard
+        env:
+          SHARD_INDEX: ${{ strategy.job-index }}
+          SHARD_TOTAL: ${{ strategy.job-total }}
+        run: |
+          specs=$(bash .github/shard-specs.sh "$SHARD_INDEX" "$SHARD_TOTAL")
+          if [ -z "$specs" ]; then
+            echo "No spec fell into this shard" >&2
+            exit 1
+          fi
+          echo "Specs of shard ${{ matrix.shard }}:"
+          echo "$specs" | tr ',' '\n'
+          echo "specs=$specs" >> "$GITHUB_OUTPUT"
+
+      ## Run Cypress e2e tests ##
+      - name: Run e2e tests
+        uses: cypress-io/github-action@v6
+        with:
+          start: npm run dev
+          command: npx cypress run --env coverage=true --spec "${{ steps.shard.outputs.specs }}"
+
+      ## Hand the partial coverage and reports over to the sonar job ##
+      - name: Upload coverage of this shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-shard-${{ matrix.shard }}
+          path: .nyc_output/
+          if-no-files-found: warn
+          retention-days: 1
+
+      - name: Upload test reports of this shard
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-reports-shard-${{ matrix.shard }}
+          path: dist/test-reports/
+          if-no-files-found: warn
+          retention-days: 1
+
+  sonar:
+    needs: test-e2e
+    if: always()
+    timeout-minutes: 20
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -103,6 +184,10 @@ jobs:
           unset-current-credentials: true
       - run: sh ./initNpmrc.sh hei-store npm-hei-lab 057045785189
 
+      ## nyc and the report merger come from the project's dependencies ##
+      - name: Install npm dependencies
+        run: npm ci
+
       - run: npm install --location=global sonar-scanner
 
       ## Read version file ##
@@ -114,18 +199,36 @@ jobs:
           file: version.yml
           version: version
 
-      ## Run Cypress e2e tests ##
-      - name: Run e2e tests
-        uses: cypress-io/github-action@v6
+      - name: Download the coverage of every shard
+        uses: actions/download-artifact@v4
         with:
-          start: npm run dev
-          command: npx cypress run --env coverage=true
+          pattern: coverage-shard-*
+          path: coverage-shards
+
+      ## Every shard writes out.json: rename them so nyc reads them all ##
+      - name: Gather the coverage
+        run: |
+          mkdir -p .nyc_output
+          i=0
+          find coverage-shards -name '*.json' | while read -r file; do
+            cp "$file" ".nyc_output/out-$i.json"
+            i=$((i + 1))
+          done
+          ls -l .nyc_output
 
       ## Generate Lcov report ##
       - name: Generate Lcov report
         if: always()
         run: |
           npx nyc report --reporter=lcov
+
+      - name: Download the test reports of every shard
+        if: always()
+        uses: actions/download-artifact@v4
+        with:
+          pattern: test-reports-shard-*
+          path: dist/test-reports
+          merge-multiple: true
 
       ## Merge test reports ##
       - name: Merge test reports
