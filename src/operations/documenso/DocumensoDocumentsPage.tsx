@@ -16,7 +16,6 @@ const LOADER_SX = {
   gap: 2,
   py: 8,
 };
-/* the header band of the retake screens: the trail sits on its own, over a rule */
 const CONTAINER_SX = {minHeight: "100vh", pb: 4, bgcolor: "#f8fafc"};
 const HEADER_SX = {px: 2, pt: 2, pb: 1, borderBottom: "1px solid #e2e8f0"};
 const BREADCRUMBS_SX = {mb: 2};

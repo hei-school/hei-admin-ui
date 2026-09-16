@@ -31,8 +31,8 @@ export const MonitorDocumensoDocumentList = () => {
         label="Statut"
         render={() => <DocumensoDocumentStatusField />}
       />
-      <DateField source="completedDatetime" label="Signée le" />
-      <DateField source="archivedDatetime" label="Archivée le" />
+      <DateField source="archivedDatetime" label="Signée le" />
+      <DateField source="completedDatetime" label="Vérifiée le" />
       <FunctionField
         label="Signature"
         render={() => <SignDocumensoDocumentButton />}

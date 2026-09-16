@@ -36,8 +36,8 @@ export const PromotionDocumensoDocumentList = ({
       label="Statut"
       render={() => <DocumensoDocumentStatusField />}
     />
-    <DateField source="completedDatetime" label="Signée le" showTime />
-    <DateField source="archivedDatetime" label="Archivée le" showTime />
+    <DateField source="archivedDatetime" label="Signée le" />
+    <DateField source="completedDatetime" label="Vérifiée le" />
     <FunctionField
       label="Fiche signée"
       render={() => <OpenSignedDocumentButton />}
