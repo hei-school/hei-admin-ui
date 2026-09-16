@@ -14,9 +14,10 @@ export const SignDocumensoDocumentButton = () => {
   const notify = useNotify();
   const [isOpening, setIsOpening] = useState(false);
 
-  if (record?.status !== DocumensoDocumentStatus.PENDING) {
+  if (!record) {
     return null;
   }
+  const isPending = record.status === DocumensoDocumentStatus.PENDING;
 
   const openSigning = async () => {
     if (!DOCUMENSO_HOST) {
@@ -58,7 +59,7 @@ export const SignDocumensoDocumentButton = () => {
       label="Signer"
       data-testid="sign-documenso-document-button"
       variant="contained"
-      disabled={isOpening}
+      disabled={isOpening || !isPending}
       sx={BUTTON_SX}
     />
   );

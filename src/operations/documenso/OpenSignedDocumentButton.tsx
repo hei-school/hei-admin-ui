@@ -12,22 +12,29 @@ export const OpenSignedDocumentButton = () => {
   const notify = useNotify();
   const [isOpening, setIsOpening] = useState(false);
 
-  if (record?.status !== DocumensoDocumentStatus.COMPLETED) {
+  if (!record) {
     return null;
   }
+  const isSigned = record.status === DocumensoDocumentStatus.COMPLETED;
 
   const openSignedFile = async () => {
-    const tab = window.open("", "_blank", "noopener,noreferrer");
+    const tab = window.open("", "_blank");
     setIsOpening(true);
     try {
       const {
         data: {fileUrl},
       } = await dataProvider.getOne("documenso-file-urls", {id: record.id});
-      if (tab) {
-        tab.location.href = fileUrl;
-      } else {
-        window.location.href = fileUrl;
+      if (!tab) {
+        notify(
+          "Autorisez les fenêtres surgissantes pour ouvrir la fiche signée",
+          {
+            type: "warning",
+          }
+        );
+        return;
       }
+      tab.opener = null;
+      tab.location.href = fileUrl;
     } catch {
       tab?.close();
       notify("Impossible d'ouvrir la fiche signée", {type: "error"});
@@ -42,7 +49,7 @@ export const OpenSignedDocumentButton = () => {
       startIcon={<PdfIcon />}
       label="Ouvrir"
       data-testid="open-signed-document-button"
-      disabled={isOpening}
+      disabled={isOpening || !isSigned}
       sx={BUTTON_SX}
     />
   );
