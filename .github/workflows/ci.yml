@@ -126,13 +126,26 @@ jobs:
           command: npx cypress run --env coverage=true --spec "${{ steps.shard.outputs.specs }}"
 
       ## Hand the partial coverage and reports over to the sonar job ##
+      ## .nyc_output is a dot folder, and upload-artifact leaves hidden files
+      ## behind: the coverage is copied under a plain name so that it travels. ##
+      - name: Stage the coverage of this shard
+        if: always()
+        run: |
+          mkdir -p coverage-shard
+          if [ -f .nyc_output/out.json ]; then
+            cp .nyc_output/out.json "coverage-shard/out-${{ matrix.shard }}.json"
+          else
+            echo "This shard produced no .nyc_output/out.json" >&2
+          fi
+          ls -l coverage-shard
+
       - name: Upload coverage of this shard
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: coverage-shard-${{ matrix.shard }}
-          path: .nyc_output/
-          if-no-files-found: warn
+          path: coverage-shard/
+          if-no-files-found: error
           retention-days: 1
 
       - name: Upload test reports of this shard
@@ -204,17 +217,22 @@ jobs:
         with:
           pattern: coverage-shard-*
           path: coverage-shards
+          merge-multiple: true
 
-      ## Every shard writes out.json: rename them so nyc reads them all ##
+      ## nyc reports on every file it finds in .nyc_output, one per shard.
+      ## An empty gathering stops the job: a sonar run that silently publishes
+      ## 0% on new code is worse than a red job that says why. ##
       - name: Gather the coverage
         run: |
           mkdir -p .nyc_output
-          i=0
-          find coverage-shards -name '*.json' | while read -r file; do
-            cp "$file" ".nyc_output/out-$i.json"
-            i=$((i + 1))
-          done
+          cp coverage-shards/*.json .nyc_output/ 2>/dev/null || true
+          count=$(find .nyc_output -name '*.json' | wc -l)
           ls -l .nyc_output
+          echo "$count coverage file(s) gathered"
+          if [ "$count" -eq 0 ]; then
+            echo "No coverage gathered: sonar would report 0% on new code" >&2
+            exit 1
+          fi
 
       ## Generate Lcov report ##
       - name: Generate Lcov report
