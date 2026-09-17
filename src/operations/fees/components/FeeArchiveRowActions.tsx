@@ -57,11 +57,12 @@ const RejectArchiveDialog = ({
     <Dialog
       open={open}
       onClose={handleClose}
+      onClick={(event) => event.stopPropagation()}
       fullWidth
       maxWidth="sm"
       sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
     >
-      <DialogTitle>Rejet de l'archivage</DialogTitle>
+      <DialogTitle id="alert-dialog-title">Rejet de l'archivage</DialogTitle>
       <DialogContent>
         <DialogContentText sx={{mb: 2}}>
           Confirmez-vous le rejet de cette demande d'archivage ? Une raison est
@@ -82,6 +83,7 @@ const RejectArchiveDialog = ({
               ? "Le motif ne peut pas être vide."
               : " "
           }
+          inputProps={{"data-testid": "reject-archive-reason"}}
         />
       </DialogContent>
       <DialogActions>
@@ -94,6 +96,7 @@ const RejectArchiveDialog = ({
             onConfirm(trimmedReason);
             setReason("");
           }}
+          data-testid="reject-archive-confirm"
         >
           Rejeter
         </Button>

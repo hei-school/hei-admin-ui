@@ -344,9 +344,9 @@ describe("Manager.CreditPayments", () => {
     cy.getByTestid(`reject-payment-${creditPaymentPendingMock.id}`).click();
     cy.contains("Rejeter le paiement").should("be.visible");
 
-    cy.getByTestid("confirm-reject-payment").should("be.disabled");
+    cy.getByTestid("reject-payment-confirm").should("be.disabled");
     cy.getByTestid("reject-payment-reason").type(reason);
-    cy.getByTestid("confirm-reject-payment").click();
+    cy.getByTestid("reject-payment-confirm").click();
 
     cy.wait("@rejectPayment")
       .its("request.body")
@@ -368,7 +368,7 @@ describe("Manager.CreditPayments", () => {
     cy.get("@rejectPayment.all").should("have.length", 0);
 
     cy.getByTestid(`reject-payment-${creditPaymentPendingMock.id}`).click();
-    cy.getByTestid("confirm-reject-payment").should("be.disabled");
+    cy.getByTestid("reject-payment-confirm").should("be.disabled");
   });
 
   it("disables validate and reject actions for already processed payments", () => {

@@ -48,10 +48,12 @@ describe("Manager.FeesToArchive", () => {
     ).as("updateArchiveStatus");
     cy.get("table tbody tr").eq(0).contains("button", "Rejeter").click();
     cy.get("#alert-dialog-title").should("contain", "Rejet de l'archivage");
-    cy.get(".ra-confirm").click();
-    cy.wait("@updateArchiveStatus")
-      .its("request.body")
-      .should("deep.equal", {status: ArchiveStatusEnum.REJECTED});
+    cy.getByTestid("reject-archive-reason").type("Justificatif manquant");
+    cy.getByTestid("reject-archive-confirm").click();
+    cy.wait("@updateArchiveStatus").its("request.body").should("deep.equal", {
+      status: ArchiveStatusEnum.REJECTED,
+      reason: "Justificatif manquant",
+    });
     cy.contains("Demande d'archivage rejetée.");
   });
 
@@ -70,10 +72,10 @@ describe("Manager.FeesToArchive", () => {
         `${feeArchiveRejectedMock.archived_by_first_name} ${feeArchiveRejectedMock.archived_by_last_name}`
       );
     cy.get("table tbody tr").eq(0).contains("button", "Réarchiver").click();
-    cy.get("#alert-dialog-title").should("contain", "Réarchivage de frais");
+    cy.get("#alert-dialog-title").should("contain", "Demande d'archivage");
     cy.get(".ra-confirm").click();
     cy.wait("@reArchiveFee");
-    cy.contains("Demande d'archivage renvoyée.");
+    cy.contains("Demande d'archivage envoyée avec succès.");
   });
 
   it("shows an error notification when archiving a fee fails", () => {
@@ -95,7 +97,8 @@ describe("Manager.FeesToArchive", () => {
       {statusCode: 500, body: {}}
     ).as("updateArchiveStatus");
     cy.get("table tbody tr").eq(0).contains("button", "Rejeter").click();
-    cy.get(".ra-confirm").click();
+    cy.getByTestid("reject-archive-reason").type("Justificatif manquant");
+    cy.getByTestid("reject-archive-confirm").click();
     cy.wait("@updateArchiveStatus");
     cy.contains("Une erreur s'est produite.");
   });

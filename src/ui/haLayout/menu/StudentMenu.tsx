@@ -37,7 +37,7 @@ const StudentMenu = () => {
             ? `/students/${authProvider.getCachedWhoami().id}/credit-transactions`
             : "/"
         }
-        label="Transactions de crédit"
+        label="Transactions de crédits"
         icon={<WalletIcon />}
       />
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>

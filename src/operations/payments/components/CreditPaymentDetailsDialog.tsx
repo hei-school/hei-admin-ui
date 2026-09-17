@@ -25,9 +25,16 @@ export const CreditPaymentDetailsDialog = ({
   onClose,
 }: CreditPaymentDetailsDialogProps) => {
   const status = payment.status as PaymentStatus | undefined;
+  const isRejected = status === PaymentStatus.INVALIDATE;
   const validatedByName = [
     payment.validated_by_first_name,
     payment.validated_by_last_name,
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const rejectedByName = [
+    payment.rejected_by_first_name,
+    payment.rejected_by_last_name,
   ]
     .filter(Boolean)
     .join(" ");
@@ -95,7 +102,26 @@ export const CreditPaymentDetailsDialog = ({
               }
             />
             <ReceiptRow label="Commentaire" value={payment.comment} />
-            <ReceiptRow label="Validé par" value={validatedByName} />
+            {isRejected ? (
+              <>
+                <ReceiptRow label="Rejeté par" value={rejectedByName} />
+                <ReceiptRow
+                  label="Rejeté le"
+                  value={
+                    payment.rejected_datetime
+                      ? formatDate(payment.rejected_datetime)
+                      : null
+                  }
+                />
+                <ReceiptRow
+                  label="Motif du rejet"
+                  value={payment.rejection_reason}
+                  fullWidth
+                />
+              </>
+            ) : (
+              <ReceiptRow label="Validé par" value={validatedByName} />
+            )}
           </ReceiptList>
         </Box>
 
