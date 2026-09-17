@@ -14,6 +14,7 @@ interface ArchiveWithConfirmProps {
   text?: string;
   confirmTitle: string;
   confirmContent: string;
+  successMessage?: string;
   redirect?: string;
   buttonProps?: ButtonProps;
   getDisabledReason?: (record: RaRecord) => string | undefined;
@@ -24,6 +25,7 @@ export const ArchiveWithConfirm = ({
   text,
   confirmTitle,
   confirmContent,
+  successMessage = "Demande d'archivage envoyée avec succès.",
   redirect,
   buttonProps = {},
   getDisabledReason,
@@ -56,7 +58,7 @@ export const ArchiveWithConfirm = ({
     }
     try {
       await onArchive(record);
-      notify("Frais archivé avec succès.");
+      notify(successMessage);
       if (redirect) {
         doRedirect(redirect);
       }

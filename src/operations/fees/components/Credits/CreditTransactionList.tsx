@@ -2,10 +2,14 @@ import {renderMoney} from "@/operations/common/utils/money";
 import {HaList} from "@/ui/haList/HaList";
 import {CreditTransaction} from "@haapi-b0fc7615/typescript-client";
 import AccountBalanceWalletOutlined from "@mui/icons-material/AccountBalanceWalletOutlined";
-import {Box} from "@mui/material";
+import {Box, Chip} from "@mui/material";
 import {useState} from "react";
 import {FunctionField, Identifier, RaRecord} from "react-admin";
 import {CreditTransactionDetailsDialog} from "./CreditTransactionDetailsDialog";
+import {
+  CREDIT_TRANSACTION_TYPE_COLOR,
+  CREDIT_TRANSACTION_TYPE_LABEL,
+} from "./constants";
 
 interface CreditTransactionListProps {
   studentId: string;
@@ -47,7 +51,25 @@ export const CreditTransactionList = ({
             if (record.movement === "DEBIT") {
               return "Débit";
             }
-            return "Non défini";
+            return "";
+          }}
+        />
+        <FunctionField
+          label="Origine"
+          render={(record: CreditTransaction) => {
+            if (!record.type) {
+              return "";
+            }
+            return (
+              <Chip
+                size="small"
+                variant="outlined"
+                color={CREDIT_TRANSACTION_TYPE_COLOR[record.type] ?? "default"}
+                label={
+                  CREDIT_TRANSACTION_TYPE_LABEL[record.type] ?? record.type
+                }
+              />
+            );
           }}
         />
         <FunctionField
@@ -59,7 +81,7 @@ export const CreditTransactionList = ({
           render={(record) => {
             const dateTime = record.date_time ?? record.creation_datetime;
             if (!dateTime) {
-              return "Non définie";
+              return "";
             }
             return new Date(dateTime).toLocaleString("fr-FR");
           }}

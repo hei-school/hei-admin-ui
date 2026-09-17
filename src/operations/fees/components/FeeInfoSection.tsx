@@ -47,13 +47,15 @@ export const ReceiptRow = ({
   label,
   value,
   fullWidth = false,
+  blankIfEmpty = false,
 }: {
   label: string;
   value: ReactNode;
   fullWidth?: boolean;
+  blankIfEmpty?: boolean;
 }) => {
-  const display =
-    value === undefined || value === null || value === "" ? EMPTY_TEXT : value;
+  const isEmpty = value === undefined || value === null || value === "";
+  const display = isEmpty ? (blankIfEmpty ? "" : EMPTY_TEXT) : value;
 
   if (fullWidth) {
     return (
@@ -95,57 +97,102 @@ export const ReceiptRow = ({
   );
 };
 
+const dateOrBlank = (date: Date | string | undefined) =>
+  date ? formatDate(date) : "";
+
 export const FeeSummarySection = ({
   fee,
   hideDivider = false,
 }: {
   fee: Fee;
   hideDivider?: boolean;
-}) => (
-  <>
-    {!hideDivider && <Divider sx={{my: 2}} />}
-    <SectionTitle>Frais concerné</SectionTitle>
-    <ReceiptList>
-      <ReceiptRow
-        label="Catégorie"
-        value={
-          CATEGORY.find((c) => c.value === fee.category)?.label ?? fee.category
-        }
-      />
-      <ReceiptRow
-        label="Statut du frais"
-        value={fee.status ? (FEE_STATUS_LABEL[fee.status] ?? fee.status) : null}
-      />
-      <ReceiptRow
-        label="Montant total"
-        value={fee.total_amount != null ? renderMoney(fee.total_amount) : null}
-      />
-      <ReceiptRow
-        label="Reste à payer"
-        value={
-          fee.remaining_amount != null
-            ? renderMoney(fee.remaining_amount)
-            : null
-        }
-      />
-      <ReceiptRow
-        label="Échéance"
-        value={fee.due_datetime ? formatDate(fee.due_datetime) : null}
-      />
-      <ReceiptRow
-        label="Statut d'archivage"
-        value={
-          fee.archive_status
-            ? (ARCHIVE_STATUS_LABEL[fee.archive_status] ?? fee.archive_status)
-            : null
-        }
-      />
-      <ReceiptRow
-        label="Archivage traité par"
-        value={[fee.archived_by_first_name, fee.archived_by_last_name]
-          .filter(Boolean)
-          .join(" ")}
-      />
-    </ReceiptList>
-  </>
-);
+}) => {
+  const isArchived = fee.archive_status === "ARCHIVED";
+  const isRejected = fee.archive_status === "REJECTED";
+  const archivedByName = [fee.archived_by_first_name, fee.archived_by_last_name]
+    .filter(Boolean)
+    .join(" ");
+  const rejectedByName = [fee.rejected_by_first_name, fee.rejected_by_last_name]
+    .filter(Boolean)
+    .join(" ");
+
+  return (
+    <>
+      {!hideDivider && <Divider sx={{my: 2}} />}
+      <SectionTitle>Frais concerné</SectionTitle>
+      <ReceiptList>
+        <ReceiptRow
+          label="Catégorie"
+          value={
+            CATEGORY.find((c) => c.value === fee.category)?.label ??
+            fee.category
+          }
+        />
+        <ReceiptRow
+          label="Statut du frais"
+          value={
+            fee.status ? (FEE_STATUS_LABEL[fee.status] ?? fee.status) : null
+          }
+        />
+        <ReceiptRow
+          label="Montant total"
+          value={
+            fee.total_amount != null ? renderMoney(fee.total_amount) : null
+          }
+        />
+        <ReceiptRow
+          label="Reste à payer"
+          value={
+            fee.remaining_amount != null
+              ? renderMoney(fee.remaining_amount)
+              : null
+          }
+        />
+        <ReceiptRow
+          label="Échéance"
+          value={fee.due_datetime ? formatDate(fee.due_datetime) : null}
+        />
+        <ReceiptRow
+          label="Statut d'archivage"
+          value={
+            fee.archive_status
+              ? (ARCHIVE_STATUS_LABEL[fee.archive_status] ?? fee.archive_status)
+              : null
+          }
+        />
+        {fee.archive_status && (
+          <ReceiptRow
+            label="Demande d'archivage le"
+            value={dateOrBlank(fee.archive_requested_datetime)}
+            blankIfEmpty
+          />
+        )}
+        {isArchived && (
+          <>
+            <ReceiptRow
+              label="Archivé le"
+              value={dateOrBlank(fee.archived_datetime)}
+              blankIfEmpty
+            />
+            <ReceiptRow label="Archivé par" value={archivedByName} />
+          </>
+        )}
+        {isRejected && (
+          <>
+            <ReceiptRow
+              label="Rejeté le"
+              value={dateOrBlank(fee.rejected_datetime)}
+              blankIfEmpty
+            />
+            <ReceiptRow label="Rejeté par" value={rejectedByName} />
+            <ReceiptRow
+              label="Motif du rejet"
+              value={fee.rejection_reason}
+              fullWidth
+            />
+          </>
+        )}
+      </ReceiptList>
+    </>
+  );
+};

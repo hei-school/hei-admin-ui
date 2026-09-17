@@ -1,7 +1,8 @@
 import {renderMoney} from "@/operations/common/utils/money";
 import {
   FeeSummarySection,
-  InfoRow,
+  ReceiptList,
+  ReceiptRow,
   SectionTitle,
 } from "@/operations/fees/components/FeeInfoSection";
 import {PAYMENT_TYPE} from "@/operations/fees/constants";
@@ -12,7 +13,7 @@ import {
 import {Dialog} from "@/ui/components";
 import {formatDate} from "@/utils/date";
 import {CreditPayment, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
-import {Box, Chip, Divider} from "@mui/material";
+import {Box, Chip} from "@mui/material";
 
 interface CreditPaymentDetailsDialogProps {
   payment: CreditPayment;
@@ -31,56 +32,78 @@ export const CreditPaymentDetailsDialog = ({
     .filter(Boolean)
     .join(" ");
   const fee = payment.fee;
+  const columnCount = fee ? 2 : 1;
+  const columnDivider = {
+    borderLeft: {xs: "none", md: "1px solid"},
+    borderColor: "divider",
+    pl: {xs: 0, md: 3},
+  };
 
   return (
     <Dialog
       title="Détails du paiement par crédit"
       open
       onClose={onClose}
-      maxWidth="sm"
+      maxWidth="lg"
     >
-      <Box p={3}>
-        <SectionTitle>Paiement</SectionTitle>
-        <InfoRow
-          label="Statut"
-          value={
-            status && (
-              <Chip
-                size="small"
-                icon={PAYMENT_STATUS_ICON[status]}
-                label={PAYMENT_STATUS_LABEL[status]}
-              />
-            )
-          }
-        />
-        <InfoRow
-          label="Montant"
-          value={payment.amount != null ? renderMoney(payment.amount) : null}
-        />
-        <InfoRow
-          label="Type"
-          value={
-            payment.type
-              ? ((PAYMENT_TYPE as Record<string, string>)[payment.type] ??
-                payment.type)
-              : null
-          }
-        />
-        <InfoRow
-          label="Date de paiement"
-          value={
-            payment.creation_datetime
-              ? formatDate(payment.creation_datetime)
-              : null
-          }
-        />
-        <InfoRow label="Commentaire" value={payment.comment} />
+      <Box
+        p={2.5}
+        sx={{
+          display: "grid",
+          gridTemplateColumns: {xs: "1fr", md: `repeat(${columnCount}, 1fr)`},
+          columnGap: 3,
+          rowGap: 2,
+          alignItems: "start",
+        }}
+      >
+        <Box>
+          <SectionTitle>Paiement</SectionTitle>
+          <ReceiptList>
+            <ReceiptRow
+              label="Statut"
+              value={
+                status ? (
+                  <Chip
+                    size="small"
+                    icon={PAYMENT_STATUS_ICON[status]}
+                    label={PAYMENT_STATUS_LABEL[status]}
+                  />
+                ) : null
+              }
+            />
+            <ReceiptRow
+              label="Montant"
+              value={
+                payment.amount != null ? renderMoney(payment.amount) : null
+              }
+            />
+            <ReceiptRow
+              label="Type"
+              value={
+                payment.type
+                  ? ((PAYMENT_TYPE as Record<string, string>)[payment.type] ??
+                    payment.type)
+                  : null
+              }
+            />
+            <ReceiptRow
+              label="Date de paiement"
+              value={
+                payment.creation_datetime
+                  ? formatDate(payment.creation_datetime)
+                  : null
+              }
+            />
+            <ReceiptRow label="Commentaire" value={payment.comment} />
+            <ReceiptRow label="Validé par" value={validatedByName} />
+          </ReceiptList>
+        </Box>
 
-        <Divider sx={{my: 2}} />
-        <SectionTitle>Validation</SectionTitle>
-        <InfoRow label="Validé / rejeté par" value={validatedByName} />
-
-        {fee && <FeeSummarySection fee={fee} />}
+        {fee && (
+          <Box sx={columnDivider}>
+            <FeeSummarySection fee={fee} hideDivider />
+          </Box>
+        )}
       </Box>
     </Dialog>
   );

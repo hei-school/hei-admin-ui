@@ -18,6 +18,10 @@ import {
   PaymentStatus,
 } from "@haapi-b0fc7615/typescript-client";
 import {Box, Chip} from "@mui/material";
+import {
+  CREDIT_TRANSACTION_TYPE_COLOR,
+  CREDIT_TRANSACTION_TYPE_LABEL,
+} from "./constants";
 
 const MOVEMENT_LABEL: Record<string, string> = {
   [CreditMovement.CREDIT]: "Crédit",
@@ -85,6 +89,19 @@ export const CreditTransactionDetailsDialog = ({
                       MOVEMENT_LABEL[transaction.movement] ??
                       transaction.movement
                     }
+                  />
+                ) : null
+              }
+            />
+            <ReceiptRow
+              label="Origine"
+              value={
+                transaction.type ? (
+                  <Chip
+                    size="small"
+                    variant="outlined"
+                    color={CREDIT_TRANSACTION_TYPE_COLOR[transaction.type]}
+                    label={CREDIT_TRANSACTION_TYPE_LABEL[transaction.type]}
                   />
                 ) : null
               }

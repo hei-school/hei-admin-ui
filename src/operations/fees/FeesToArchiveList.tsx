@@ -35,10 +35,10 @@ type TabKey = (typeof TABS)[number]["key"];
 const categoryLabel = (fee: FeeRecord) =>
   CATEGORY.find((c) => c.value === fee.category)?.label ?? fee.category ?? "—";
 
-const archivedByLabel = (fee: FeeRecord) =>
-  [fee.archived_by_first_name, fee.archived_by_last_name]
+const rejectedByLabel = (fee: FeeRecord) =>
+  [fee.rejected_by_first_name, fee.rejected_by_last_name]
     .filter(Boolean)
-    .join(" ") || "—";
+    .join(" ");
 
 const FeesToArchiveList = () => {
   const [tab, setTab] = useState<TabKey>(ArchiveStatusEnum.TO_ARCHIVE);
@@ -140,8 +140,28 @@ const FeesToArchiveList = () => {
             render={(fee: FeeRecord) => renderMoney(fee.remaining_amount ?? 0)}
           />
           <DateField source="due_datetime" label="Échéance" showTime={false} />
+          <DateField
+            source="archive_requested_datetime"
+            label="Demandé le"
+            showTime={false}
+            emptyText=""
+          />
           {tab === ArchiveStatusEnum.REJECTED && (
-            <FunctionField label="Rejeté par" render={archivedByLabel} />
+            <FunctionField label="Rejeté par" render={rejectedByLabel} />
+          )}
+          {tab === ArchiveStatusEnum.REJECTED && (
+            <DateField
+              source="rejected_datetime"
+              label="Rejeté le"
+              showTime={false}
+              emptyText=""
+            />
+          )}
+          {tab === ArchiveStatusEnum.REJECTED && (
+            <FunctionField
+              label="Motif"
+              render={(fee: FeeRecord) => fee.rejection_reason ?? ""}
+            />
           )}
           <WrapperField label="Action">
             <FeeArchiveRowActions tab={tab} onDone={refetch} />

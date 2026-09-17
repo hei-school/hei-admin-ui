@@ -7,7 +7,17 @@ import {ArchiveStatusEnum} from "@haapi-b0fc7615/typescript-client";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import CancelIcon from "@mui/icons-material/Cancel";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
-import {Box, Button} from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
+import {useState} from "react";
 import {Confirm, useNotify, useRecordContext, useRefresh} from "react-admin";
 
 const runArchiveAction = async (
@@ -24,6 +34,72 @@ const runArchiveAction = async (
     console.error(error);
     notify("Une erreur s'est produite.", {type: "error"});
   }
+};
+
+const RejectArchiveDialog = ({
+  open,
+  onClose,
+  onConfirm,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: (reason: string) => void;
+}) => {
+  const [reason, setReason] = useState("");
+  const trimmedReason = reason.trim();
+
+  const handleClose = () => {
+    setReason("");
+    onClose();
+  };
+
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      fullWidth
+      maxWidth="sm"
+      sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
+    >
+      <DialogTitle>Rejet de l'archivage</DialogTitle>
+      <DialogContent>
+        <DialogContentText sx={{mb: 2}}>
+          Confirmez-vous le rejet de cette demande d'archivage ? Une raison est
+          obligatoire.
+        </DialogContentText>
+        <TextField
+          autoFocus
+          fullWidth
+          multiline
+          minRows={2}
+          label="Motif du rejet"
+          value={reason}
+          onChange={(event) => setReason(event.target.value)}
+          required
+          error={reason.length > 0 && trimmedReason.length === 0}
+          helperText={
+            reason.length > 0 && trimmedReason.length === 0
+              ? "Le motif ne peut pas être vide."
+              : " "
+          }
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Annuler</Button>
+        <Button
+          variant="contained"
+          color="error"
+          disabled={trimmedReason.length === 0}
+          onClick={() => {
+            onConfirm(trimmedReason);
+            setReason("");
+          }}
+        >
+          Rejeter
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
 };
 
 export const FeeArchiveRowActions = ({
@@ -51,9 +127,14 @@ export const FeeArchiveRowActions = ({
     onDone?.();
   };
 
-  const doUpdate = (status: ArchiveStatusEnum, successMessage: string) =>
+  const doUpdate = (
+    status: ArchiveStatusEnum,
+    successMessage: string,
+    reason?: string
+  ) =>
     runArchiveAction(
-      () => payingApi().updateFeeArchiveStatus(studentId, feeId, {status}),
+      () =>
+        payingApi().updateFeeArchiveStatus(studentId, feeId, {status, reason}),
       successMessage,
       doDone,
       notify
@@ -63,7 +144,7 @@ export const FeeArchiveRowActions = ({
     toggleReArchive();
     runArchiveAction(
       () => payingApi().archiveStudentFee(studentId, feeId),
-      "Demande d'archivage renvoyée.",
+      "Demande d'archivage envoyée avec succès.",
       doDone,
       notify
     );
@@ -103,21 +184,17 @@ export const FeeArchiveRowActions = ({
           confirmColor="warning"
           confirm="Archiver"
         />
-        <Confirm
-          sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
-          isOpen={showReject}
-          title="Rejet de l'archivage"
-          content="Confirmez-vous le rejet de cette demande d'archivage ?"
-          onConfirm={() => {
+        <RejectArchiveDialog
+          open={showReject}
+          onClose={toggleReject}
+          onConfirm={(reason) => {
             toggleReject();
             doUpdate(
               ArchiveStatusEnum.REJECTED,
-              "Demande d'archivage rejetée."
+              "Demande d'archivage rejetée.",
+              reason
             );
           }}
-          onClose={toggleReject}
-          confirmColor="warning"
-          confirm="Rejeter"
         />
       </Box>
     );
@@ -137,8 +214,8 @@ export const FeeArchiveRowActions = ({
       <Confirm
         sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
         isOpen={showReArchive}
-        title="Réarchivage de frais"
-        content="Confirmez-vous l'envoi d'une nouvelle demande d'archivage pour ce frais ?"
+        title="Demande d'archivage"
+        content="Confirmez-vous la demande d'archivage de ce frais ?"
         onConfirm={doReArchive}
         onClose={toggleReArchive}
         confirmColor="warning"
