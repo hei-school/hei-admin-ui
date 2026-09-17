@@ -71,15 +71,15 @@ jobs:
     outputs:
       shards: ${{ steps.plan.outputs.shards }}
     env:
-      TESTS_PER_SHARD: 10
+      SPECS_PER_SHARD: 10
     steps:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Plan the e2e shards
         id: plan
         run: |
-          shards=$(bash .github/shard-specs.sh --plan "$TESTS_PER_SHARD")
-          echo "Tests per shard: $TESTS_PER_SHARD"
+          shards=$(bash .github/shard-specs.sh --plan "$SPECS_PER_SHARD")
+          echo "Specs per shard: $SPECS_PER_SHARD"
           echo "Shards: $shards"
           echo "shards=$shards" >> "$GITHUB_OUTPUT"
 

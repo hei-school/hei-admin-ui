@@ -9,14 +9,13 @@ weigh_specs() {
 if [ "$1" = "--plan" ]; then
   per_shard="$2"
   if [ "$per_shard" -lt 1 ]; then
-    echo "A shard holds at least one test, got $per_shard" >&2
+    echo "A shard holds at least one spec, got $per_shard" >&2
     exit 1
   fi
   weigh_specs | awk -v per="$per_shard" '
-    { tests += $1; specs++ }
+    { specs++ }
     END {
-      shards = int((tests + per - 1) / per)
-      if (shards > specs) shards = specs
+      shards = int((specs + per - 1) / per)
       if (shards < 1) shards = 1
       printf "["
       for (shard = 1; shard <= shards; shard++) {
