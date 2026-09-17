@@ -1,20 +1,36 @@
-#!/bin/bash
-# Prints the comma separated list of Cypress specs a shard has to run.
-#
-# Usage: shard-specs.sh <shard index, from 0> <shard count>
-#
-# Dealing the specs out alphabetically leaves one shard with all the slow ones,
-# so they go to the least loaded shard instead, heaviest first. The weight is
-# the number of tests in a spec, which stays right as specs come and go — no
-# recorded timings to keep up to date.
 set -eu
+
+weigh_specs() {
+  find cypress/e2e -maxdepth 1 -type f | sort | while read -r spec; do
+    printf '%s %s\n' "$(grep -c '^[[:space:]]*it(' "$spec" || true)" "$spec"
+  done
+}
+
+if [ "$1" = "--plan" ]; then
+  per_shard="$2"
+  if [ "$per_shard" -lt 1 ]; then
+    echo "A shard holds at least one test, got $per_shard" >&2
+    exit 1
+  fi
+  weigh_specs | awk -v per="$per_shard" '
+    { tests += $1; specs++ }
+    END {
+      shards = int((tests + per - 1) / per)
+      if (shards > specs) shards = specs
+      if (shards < 1) shards = 1
+      printf "["
+      for (shard = 1; shard <= shards; shard++) {
+        printf "%s%d", (shard > 1 ? "," : ""), shard
+      }
+      print "]"
+    }'
+  exit 0
+fi
 
 index="$1"
 total="$2"
 
-find cypress/e2e -maxdepth 1 -type f | sort | while read -r spec; do
-  printf '%s %s\n' "$(grep -c '^[[:space:]]*it(' "$spec" || true)" "$spec"
-done | sort -rn -k1,1 -k2,2 | awk -v idx="$index" -v n="$total" '
+weigh_specs | sort -rn -k1,1 -k2,2 | awk -v idx="$index" -v n="$total" '
 BEGIN { for (shard = 0; shard < n; shard++) load[shard] = 0 }
 {
   lightest = 0

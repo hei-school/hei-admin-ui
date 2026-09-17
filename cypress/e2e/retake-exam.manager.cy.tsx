@@ -270,6 +270,98 @@ describe("Retake exam sessions as MANAGER", () => {
     cy.wait("@updateRetakeExamStatus");
     cy.contains("Rattrapage invalidé.").should("be.visible");
   });
+
+  it("should display the details of the course being retaken", () => {
+    interceptCoursesAndParticipants();
+
+    goToParticipants();
+    cy.wait("@getCourse");
+
+    cy.contains("Matière").should("be.visible");
+    cy.contains("Niveau").should("be.visible");
+    cy.contains(courseMocks[0].code).should("be.visible");
+    cy.contains(courseMocks[0].name).should("be.visible");
+    cy.contains(courseMocks[0].level).should("be.visible");
+  });
+
+  it("should search a participant by student reference", () => {
+    interceptCoursesAndParticipants();
+    cy.intercept(
+      "GET",
+      `/retake_exam_sessions/${SESSION_ID}/retake_exam_courses/${COURSE_ID}/participants?student_ref=${validatedParticipantMock.student_identifier!.ref}*`,
+      [validatedParticipantMock]
+    ).as("getFilteredParticipants");
+
+    goToParticipants();
+
+    cy.getByTestid("main-search-filter").type(
+      validatedParticipantMock.student_identifier!.ref!
+    );
+    cy.wait("@getFilteredParticipants");
+
+    cy.get("table tbody tr").should("have.length", 1);
+    cy.contains(validatedParticipantMock.student_identifier!.ref!).should(
+      "be.visible"
+    );
+  });
+
+  it("should accept a cancellation request from the participant list", () => {
+    interceptCoursesAndParticipants();
+    cy.intercept("PATCH", "/retake_exams/cancel", (req) => {
+      expect(req.body).to.deep.eq([
+        {retake_exam_id: toCancelParticipantMock.id},
+      ]);
+      req.reply({
+        statusCode: 200,
+        body: [{...toCancelParticipantMock, status: RetakeExamStatus.CANCELED}],
+      });
+    }).as("cancelRetakeExam");
+
+    goToParticipants();
+
+    cy.contains("tr", toCancelParticipantMock.student_identifier!.ref!)
+      .contains("button", "Valider")
+      .click();
+    cy.contains("Validation d'une annulation").should("be.visible");
+    cy.get('[role="dialog"]').contains("button", "Valider").click();
+
+    cy.wait("@cancelRetakeExam");
+    cy.contains("Annulation validée.").should("be.visible");
+  });
+
+  it("should reject a cancellation request from the participant list", () => {
+    const rejectionReason = "La session est déjà complète";
+    interceptCoursesAndParticipants();
+    cy.intercept("PATCH", "/retake_exams/reject", (req) => {
+      expect(req.body).to.deep.eq([
+        {retake_exam_id: toCancelParticipantMock.id, reason: rejectionReason},
+      ]);
+      req.reply({
+        statusCode: 200,
+        body: [
+          {
+            ...toCancelParticipantMock,
+            status: RetakeExamStatus.REGISTERED,
+            rejection_reason: rejectionReason,
+          },
+        ],
+      });
+    }).as("rejectCancellation");
+
+    goToParticipants();
+
+    cy.contains("tr", toCancelParticipantMock.student_identifier!.ref!)
+      .contains("button", "Rejeter")
+      .click();
+    cy.contains("Rejet de la demande d'annulation").should("be.visible");
+    cy.contains("button", "Confirmer le rejet").should("be.disabled");
+
+    cy.get('[role="dialog"]').find("textarea").first().type(rejectionReason);
+    cy.contains("button", "Confirmer le rejet").click();
+
+    cy.wait("@rejectCancellation");
+    cy.contains("Demande d'annulation rejetée.").should("be.visible");
+  });
 });
 
 describe("Retake exam cancellation requests as ADMIN", () => {

@@ -66,13 +66,31 @@ jobs:
       - name: Check style
         run: npm run format:check
 
+  plan-e2e:
+    runs-on: ubuntu-latest
+    outputs:
+      shards: ${{ steps.plan.outputs.shards }}
+    env:
+      TESTS_PER_SHARD: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Plan the e2e shards
+        id: plan
+        run: |
+          shards=$(bash .github/shard-specs.sh --plan "$TESTS_PER_SHARD")
+          echo "Tests per shard: $TESTS_PER_SHARD"
+          echo "Shards: $shards"
+          echo "shards=$shards" >> "$GITHUB_OUTPUT"
+
   test-e2e:
+    needs: plan-e2e
     timeout-minutes: 25
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
-        shard: [1, 2, 3, 4]
+        shard: ${{ fromJSON(needs.plan-e2e.outputs.shards) }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -125,9 +143,6 @@ jobs:
           start: npm run dev
           command: npx cypress run --env coverage=true --spec "${{ steps.shard.outputs.specs }}"
 
-      ## Hand the partial coverage and reports over to the sonar job ##
-      ## .nyc_output is a dot folder, and upload-artifact leaves hidden files
-      ## behind: the coverage is copied under a plain name so that it travels. ##
       - name: Stage the coverage of this shard
         if: always()
         run: |
