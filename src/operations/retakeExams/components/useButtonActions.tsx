@@ -91,16 +91,9 @@ export const useButtonActions = (
             ...(reason && {reason}),
           };
 
-      const resourceId = isInitialRegistration
-        ? (retakeExam.session?.id ?? "")
-        : currentStatus;
-
       create(
         "retakeExams",
-        {
-          data: payload,
-          meta: {resourceId},
-        },
+        {data: payload},
         {
           onSuccess: () => {
             notify(successMsg, {type: "success"});
