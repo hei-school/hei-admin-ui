@@ -185,11 +185,7 @@ export const FeeSummarySection = ({
               blankIfEmpty
             />
             <ReceiptRow label="Rejeté par" value={rejectedByName} />
-            <ReceiptRow
-              label="Motif du rejet"
-              value={fee.rejection_reason}
-              fullWidth
-            />
+            <ReceiptRow label="Motif du rejet" value={fee.rejection_reason} />
           </>
         )}
       </ReceiptList>

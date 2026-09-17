@@ -116,7 +116,6 @@ export const CreditPaymentDetailsDialog = ({
                 <ReceiptRow
                   label="Motif du rejet"
                   value={payment.rejection_reason}
-                  fullWidth
                 />
               </>
             ) : (
