@@ -6,6 +6,7 @@ import {
   Newspaper as AnnouncementIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
+  HistoryEdu as DocumensoIcon,
   EditCalendar,
   EventBusy,
   CalendarMonth as EventIcon,
@@ -26,7 +27,7 @@ import {
 import {Box} from "@mui/material";
 import {GraduationCap} from "lucide-react";
 
-function AdminMenu() {
+const AdminMenu = () => {
   const {role} = useRole();
   return (
     <Box>
@@ -81,6 +82,13 @@ function AdminMenu() {
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem onClick={() => trackNavClick("hei_docs", role)} />
+        <ListMenuItem
+          to="/documenso-documents"
+          label="Documenso"
+          data-testid="documenso-documents-menu"
+          icon={<DocumensoIcon />}
+          onClick={() => trackNavClick("documenso_documents", role)}
+        />
       </ListMenu>
       <SingleMenu
         to="/promotions"
@@ -156,6 +164,6 @@ function AdminMenu() {
       />
     </Box>
   );
-}
+};
 
 export default AdminMenu;

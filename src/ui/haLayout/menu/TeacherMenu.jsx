@@ -12,7 +12,7 @@ import {Box} from "@mui/material";
 import {HeiListMenuItem} from "./common";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
-function TeacherMenu() {
+const TeacherMenu = () => {
   return (
     <Box>
       <SingleMenu to="/students" label="Étudiants" icon={<StudentIcon />} />
@@ -50,6 +50,6 @@ function TeacherMenu() {
       />
     </Box>
   );
-}
+};
 
 export default TeacherMenu;

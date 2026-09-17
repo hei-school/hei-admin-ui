@@ -15,7 +15,7 @@ import {Box} from "@mui/material";
 import {HeiListMenuItem} from "./common";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
-function StudentMenu() {
+const StudentMenu = () => {
   const whoamiId = authProvider.getCachedWhoami().id;
   const logout = async () => {
     await authProvider.logout();
@@ -88,6 +88,6 @@ function StudentMenu() {
       />
     </Box>
   );
-}
+};
 
 export default StudentMenu;

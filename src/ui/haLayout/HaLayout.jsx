@@ -2,7 +2,7 @@ import {Box, styled, ThemeProvider, useMediaQuery} from "@mui/material";
 import {AppLocationContext} from "@react-admin/ra-navigation";
 import {mainTheme, PALETTE_COLORS} from "../../haTheme";
 import {HaAppBar} from "./appBar";
-import {HaMenu} from "./menu/utils/";
+import {HaMenu} from "./menu/utils";
 
 const HaLayoutStyled = styled("div")({
   minHeight: "100vh",
@@ -11,7 +11,7 @@ const HaLayoutStyled = styled("div")({
   width: "100%",
 });
 
-export function HaLayout({children}) {
+export const HaLayout = ({children}) => {
   const isSmall = useMediaQuery("(max-width:900px)");
 
   return (
@@ -39,4 +39,4 @@ export function HaLayout({children}) {
       </ThemeProvider>
     </AppLocationContext>
   );
-}
+};

@@ -5,6 +5,7 @@ import {
   CommentsApi,
   CorApi,
   CoursesApi,
+  DocumensoApi,
   EventsApi,
   ExamsApi,
   FilesApi,
@@ -116,3 +117,10 @@ export const searchApi = () =>
 
 export const corApi = () =>
   new CorApi(authProvider.getCachedAuthConf(), undefined, getAxiosInstance());
+
+export const documensoApi = () =>
+  new DocumensoApi(
+    authProvider.getCachedAuthConf(),
+    undefined,
+    getAxiosInstance()
+  );
