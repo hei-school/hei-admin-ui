@@ -69,7 +69,7 @@ describe("Manager.FeesToArchive", () => {
       .should("contain", feeArchiveRejectedMock.student_ref)
       .and(
         "contain",
-        `${feeArchiveRejectedMock.archived_by_first_name} ${feeArchiveRejectedMock.archived_by_last_name}`
+        `${feeArchiveRejectedMock.rejected_by_first_name} ${feeArchiveRejectedMock.rejected_by_last_name}`
       );
     cy.get("table tbody tr").eq(0).contains("button", "Réarchiver").click();
     cy.get("#alert-dialog-title").should("contain", "Demande d'archivage");

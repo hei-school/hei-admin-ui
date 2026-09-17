@@ -161,7 +161,7 @@ describe("Manager.Payments.Flow", () => {
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.wait("@createPayment");
-    cy.contains("Élément créé");
+    cy.contains("Paiement créé avec succès.");
   });
 
   it("can create a credit payment for a fee within the student's credit", () => {
@@ -193,7 +193,7 @@ describe("Manager.Payments.Flow", () => {
     cy.get("#amount").click().type("100000");
     cy.contains("Enregistrer").click();
     cy.wait("@createCreditPayment");
-    cy.contains("Élément créé");
+    cy.contains("Paiement créé avec succès.");
   });
 
   it("cannot create a credit payment exceeding the student's credit", () => {

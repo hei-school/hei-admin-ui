@@ -131,7 +131,7 @@ describe("Manager.Fee.Archive", () => {
     ).click();
     cy.wait("@getArchivedFee");
     cy.contains(
-      `Rejeté par ${feeArchiveRejectedMock.archived_by_first_name} ${feeArchiveRejectedMock.archived_by_last_name} (${feeArchiveRejectedMock.archived_by_ref})`
+      `Rejeté par ${feeArchiveRejectedMock.rejected_by_first_name} ${feeArchiveRejectedMock.rejected_by_last_name}`
     );
   });
 });
