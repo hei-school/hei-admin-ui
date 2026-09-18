@@ -119,12 +119,21 @@ const ArchiveStatusField = () => {
   if (!record?.archive_status) {
     return null;
   }
+  const isRejected = record.archive_status === "REJECTED";
+  const isArchived = record.archive_status === "ARCHIVED";
   const treatedByName = [
-    record.archived_by_first_name,
-    record.archived_by_last_name,
+    isRejected ? record.rejected_by_first_name : record.archived_by_first_name,
+    isRejected ? record.rejected_by_last_name : record.archived_by_last_name,
   ]
     .filter(Boolean)
     .join(" ");
+  const treatedByRef = isRejected ? undefined : record.archived_by_ref;
+  const treatedDate = isRejected
+    ? record.rejected_datetime
+    : isArchived
+      ? record.archived_datetime
+      : record.archive_requested_datetime;
+
   return (
     <LabeledField label="Archivage">
       <Box
@@ -146,11 +155,25 @@ const ArchiveStatusField = () => {
           <Typography variant="caption" color="text.secondary">
             {record.archive_status === "TO_ARCHIVE"
               ? "Demandé"
-              : record.archive_status === "REJECTED"
+              : isRejected
                 ? "Rejeté"
                 : "Archivé"}{" "}
             par {treatedByName}
-            {record.archived_by_ref ? ` (${record.archived_by_ref})` : ""}
+            {treatedByRef ? ` (${treatedByRef})` : ""}
+          </Typography>
+        )}
+        {treatedDate && (
+          <Typography variant="caption" color="text.secondary">
+            le {formatDate(treatedDate)}
+          </Typography>
+        )}
+        {isRejected && record.rejection_reason && (
+          <Typography
+            variant="caption"
+            color="text.secondary"
+            sx={{textAlign: "right", maxWidth: 280}}
+          >
+            Motif : {record.rejection_reason}
           </Typography>
         )}
       </Box>

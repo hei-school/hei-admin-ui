@@ -117,7 +117,7 @@ describe("Manager.Payment", () => {
     cy.get("#amount").click().type(createPayment.amount!.toString());
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
-    cy.contains("Élément créé");
+    cy.contains("Paiement créé avec succès.");
     cy.get(`.MuiTableCell-alignRight:contains(${formattedAmount} Ar)`).should(
       "have.length",
       1
@@ -131,7 +131,7 @@ describe("Manager.Payment", () => {
     cy.get("#psp_id").click().type(feesMpbsMock[0]?.mpbs![0].psp_id!);
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
-    cy.contains("Élément créé");
+    cy.contains("Paiement créé avec succès.");
     cy.get(`.MuiTableCell-alignRight:contains(${formattedAmount} Ar)`).should(
       "have.length",
       1
@@ -153,7 +153,7 @@ describe("Manager.Payment", () => {
     cy.get("#specify-date").click();
     cy.get("#creation_datetime").click().type("2023-11-24");
     cy.contains("Enregistrer").click();
-    cy.contains("Élément créé");
+    cy.contains("Paiement créé avec succès.");
     cy.get(`.MuiTableCell-alignRight:contains(${formattedAmount} Ar)`).should(
       "have.length",
       1

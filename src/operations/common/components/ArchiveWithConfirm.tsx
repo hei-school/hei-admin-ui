@@ -7,6 +7,7 @@ import {
   useNotify,
   useRecordContext,
   useRedirect,
+  useRefresh,
 } from "react-admin";
 import {useToggle} from "../../../hooks";
 
@@ -14,6 +15,7 @@ interface ArchiveWithConfirmProps {
   text?: string;
   confirmTitle: string;
   confirmContent: string;
+  successMessage?: string;
   redirect?: string;
   buttonProps?: ButtonProps;
   getDisabledReason?: (record: RaRecord) => string | undefined;
@@ -24,6 +26,7 @@ export const ArchiveWithConfirm = ({
   text,
   confirmTitle,
   confirmContent,
+  successMessage = "Demande d'archivage envoyée avec succès.",
   redirect,
   buttonProps = {},
   getDisabledReason,
@@ -33,6 +36,7 @@ export const ArchiveWithConfirm = ({
   const [showConfirm, , toggleShowConfirm] = useToggle();
   const notify = useNotify();
   const doRedirect = useRedirect();
+  const refresh = useRefresh();
   const disabledReason = record?.is_archived
     ? "Ce frais est déjà archivé."
     : record && getDisabledReason
@@ -56,7 +60,8 @@ export const ArchiveWithConfirm = ({
     }
     try {
       await onArchive(record);
-      notify("Frais archivé avec succès.");
+      notify(successMessage);
+      refresh();
       if (redirect) {
         doRedirect(redirect);
       }

@@ -23,6 +23,7 @@ import {
   SimpleForm,
   TextInput,
   useNotify,
+  useRedirect,
 } from "react-admin";
 import {Link as RouterLink, useParams} from "react-router-dom";
 import {pspIdValidationContraints} from "../utils";
@@ -31,6 +32,7 @@ import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
 const PaymentCreate = (props) => {
   const params = useParams();
   const notify = useNotify();
+  const redirectTo = useRedirect();
   const role = useRole();
   const [studentRef, setStudentRef] = useState("...");
   const [paymentChoice, setPaymentChoice] = useState(
@@ -44,6 +46,8 @@ const PaymentCreate = (props) => {
   const isCommentNecessary =
     isMobileMoney || paymentChoice === PaymentTypeEnum.BANK_TRANSFER;
   const isCreditPayment = paymentChoice === PaymentTypeEnum.CREDIT;
+  const isCreditPaymentRequest =
+    isCreditPayment && !role.isManager() && !role.isAdmin();
   const breadcrumbItems = [
     {
       label: "Étudiant",
@@ -118,10 +122,20 @@ const PaymentCreate = (props) => {
     <Box m={2}>
       <CustomBreadcrumbs items={breadcrumbItems} />
       <Create
-        mutationOptions={{onError: notifyError}}
+        mutationOptions={{
+          onError: notifyError,
+          onSuccess: () => {
+            notify(
+              isCreditPaymentRequest
+                ? "Demande de paiement par crédit envoyée avec succès."
+                : "Paiement créé avec succès.",
+              {type: "success"}
+            );
+            redirectTo(`/fees/${feeId}/show`);
+          },
+        }}
         title={`Paiement de ${studentRef}`}
         resource="payments"
-        redirect={(_basePath, _id, _data) => `fees/${feeId}/show`}
         transform={paymentConfToPaymentApi}
         {...props}
       >

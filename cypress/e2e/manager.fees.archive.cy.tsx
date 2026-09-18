@@ -56,11 +56,11 @@ describe("Manager.Fee.Archive", () => {
     )
       .find('[data-testid="archive-button-confirm"]')
       .click();
-    cy.get("#alert-dialog-title").should("contain", "Archivage de frais");
-    cy.contains("Confirmez-vous l'archivage de ce frais ?");
+    cy.get("#alert-dialog-title").should("contain", "Demande d'archivage");
+    cy.contains("Confirmez-vous la demande d'archivage de ce frais ?");
     cy.get(".ra-confirm").click();
     cy.wait("@archiveFee");
-    cy.contains("Frais archivé avec succès.");
+    cy.contains("Demande d'archivage envoyée avec succès.");
   });
 
   it("disables the archive button for an unpaid fee", () => {
@@ -131,7 +131,7 @@ describe("Manager.Fee.Archive", () => {
     ).click();
     cy.wait("@getArchivedFee");
     cy.contains(
-      `Rejeté par ${feeArchiveRejectedMock.archived_by_first_name} ${feeArchiveRejectedMock.archived_by_last_name} (${feeArchiveRejectedMock.archived_by_ref})`
+      `Rejeté par ${feeArchiveRejectedMock.rejected_by_first_name} ${feeArchiveRejectedMock.rejected_by_last_name}`
     );
   });
 });

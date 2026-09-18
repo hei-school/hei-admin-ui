@@ -8,6 +8,7 @@ import {
   Dialog,
   DialogActions,
   DialogContent,
+  DialogContentText,
   DialogTitle,
   TextField,
 } from "@mui/material";
@@ -20,11 +21,79 @@ const rejectCreditPayment = (paymentId: string, reason: string) =>
 const validateCreditPayment = (paymentId: string) =>
   payingApi().validateCreditPayments([paymentId]);
 
+const RejectPaymentDialog = ({
+  open,
+  onClose,
+  onConfirm,
+}: {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: (reason: string) => void;
+}) => {
+  const [reason, setReason] = useState("");
+  const trimmedReason = reason.trim();
+
+  const handleClose = () => {
+    setReason("");
+    onClose();
+  };
+
+  return (
+    <Dialog
+      open={open}
+      onClose={handleClose}
+      onClick={(event) => event.stopPropagation()}
+      fullWidth
+      maxWidth="sm"
+      sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
+    >
+      <DialogTitle id="alert-dialog-title">Rejeter le paiement</DialogTitle>
+      <DialogContent>
+        <DialogContentText sx={{mb: 2}}>
+          Confirmez-vous le rejet de ce paiement par crédit ? Une raison est
+          obligatoire.
+        </DialogContentText>
+        <TextField
+          autoFocus
+          fullWidth
+          multiline
+          minRows={2}
+          label="Motif du rejet"
+          value={reason}
+          onChange={(event) => setReason(event.target.value)}
+          required
+          error={reason.length > 0 && trimmedReason.length === 0}
+          helperText={
+            reason.length > 0 && trimmedReason.length === 0
+              ? "Le motif ne peut pas être vide."
+              : " "
+          }
+          inputProps={{"data-testid": "reject-payment-reason"}}
+        />
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Annuler</Button>
+        <Button
+          variant="contained"
+          color="error"
+          disabled={trimmedReason.length === 0}
+          data-testid="reject-payment-confirm"
+          onClick={() => {
+            onConfirm(trimmedReason);
+            setReason("");
+          }}
+        >
+          Rejeter
+        </Button>
+      </DialogActions>
+    </Dialog>
+  );
+};
+
 export const CreditPaymentActions = () => {
   const record = useRecordContext();
   const [showValidateConfirm, , toggleValidateConfirm] = useToggle();
   const [showRejectConfirm, , toggleRejectConfirm] = useToggle();
-  const [rejectReason, setRejectReason] = useState("");
   const notify = useNotify();
   const refresh = useRefresh();
   if (!record) {
@@ -46,13 +115,8 @@ export const CreditPaymentActions = () => {
       });
     }
   };
-  const closeReject = () => {
+  const doReject = async (reason: string) => {
     toggleRejectConfirm();
-    setRejectReason("");
-  };
-  const doReject = async () => {
-    const reason = rejectReason.trim();
-    closeReject();
     try {
       await rejectCreditPayment(record.id as string, reason);
       notify("Paiement rejeté avec succès.", {type: "success"});
@@ -103,45 +167,11 @@ export const CreditPaymentActions = () => {
         confirmColor="primary"
         confirm="Valider"
       />
-      <Dialog
-        fullWidth
-        maxWidth="sm"
-        sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
+      <RejectPaymentDialog
         open={showRejectConfirm}
-        onClose={closeReject}
-        onClick={(event) => event.stopPropagation()}
-      >
-        <DialogTitle>Rejeter le paiement</DialogTitle>
-        <DialogContent>
-          <Box sx={{pt: 1}}>
-            <TextField
-              autoFocus
-              fullWidth
-              multiline
-              rows={4}
-              required
-              label="Raison du rejet"
-              placeholder="Veuillez indiquer la raison du rejet de ce paiement..."
-              helperText="Ce champ est obligatoire"
-              value={rejectReason}
-              onChange={(event) => setRejectReason(event.target.value)}
-              inputProps={{"data-testid": "reject-payment-reason"}}
-            />
-          </Box>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={closeReject}>Annuler</Button>
-          <Button
-            variant="contained"
-            color="warning"
-            disabled={!rejectReason.trim()}
-            data-testid="confirm-reject-payment"
-            onClick={doReject}
-          >
-            Rejeter
-          </Button>
-        </DialogActions>
-      </Dialog>
+        onClose={toggleRejectConfirm}
+        onConfirm={doReject}
+      />
     </Box>
   );
 };
