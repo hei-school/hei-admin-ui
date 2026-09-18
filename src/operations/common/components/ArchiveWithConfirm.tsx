@@ -7,6 +7,7 @@ import {
   useNotify,
   useRecordContext,
   useRedirect,
+  useRefresh,
 } from "react-admin";
 import {useToggle} from "../../../hooks";
 
@@ -35,6 +36,7 @@ export const ArchiveWithConfirm = ({
   const [showConfirm, , toggleShowConfirm] = useToggle();
   const notify = useNotify();
   const doRedirect = useRedirect();
+  const refresh = useRefresh();
   const disabledReason = record?.is_archived
     ? "Ce frais est déjà archivé."
     : record && getDisabledReason
@@ -59,6 +61,7 @@ export const ArchiveWithConfirm = ({
     try {
       await onArchive(record);
       notify(successMessage);
+      refresh();
       if (redirect) {
         doRedirect(redirect);
       }
