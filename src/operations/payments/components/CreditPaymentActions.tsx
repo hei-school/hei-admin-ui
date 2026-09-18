@@ -2,11 +2,20 @@ import {useToggle} from "@/hooks/useToggle";
 import {payingApi} from "@/providers/api";
 import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
 import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
-import {Box, Button} from "@mui/material";
+import {
+  Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  TextField,
+} from "@mui/material";
+import {useState} from "react";
 import {Confirm, useNotify, useRecordContext, useRefresh} from "react-admin";
 
-const rejectCreditPayment = (paymentId: string) =>
-  payingApi().rejectCreditPayments([paymentId]);
+const rejectCreditPayment = (paymentId: string, reason: string) =>
+  payingApi().rejectCreditPayments({payment_ids: [paymentId], reason});
 
 const validateCreditPayment = (paymentId: string) =>
   payingApi().validateCreditPayments([paymentId]);
@@ -15,6 +24,7 @@ export const CreditPaymentActions = () => {
   const record = useRecordContext();
   const [showValidateConfirm, , toggleValidateConfirm] = useToggle();
   const [showRejectConfirm, , toggleRejectConfirm] = useToggle();
+  const [rejectReason, setRejectReason] = useState("");
   const notify = useNotify();
   const refresh = useRefresh();
   if (!record) {
@@ -36,10 +46,15 @@ export const CreditPaymentActions = () => {
       });
     }
   };
-  const doReject = async () => {
+  const closeReject = () => {
     toggleRejectConfirm();
+    setRejectReason("");
+  };
+  const doReject = async () => {
+    const reason = rejectReason.trim();
+    closeReject();
     try {
-      await rejectCreditPayment(record.id as string);
+      await rejectCreditPayment(record.id as string, reason);
       notify("Paiement rejeté avec succès.", {type: "success"});
       refresh();
     } catch (error) {
@@ -88,17 +103,45 @@ export const CreditPaymentActions = () => {
         confirmColor="primary"
         confirm="Valider"
       />
-      <Confirm
+      <Dialog
         fullWidth
+        maxWidth="sm"
         sx={{zIndex: CONFIRM_DIALOG_Z_INDEX}}
-        isOpen={showRejectConfirm}
-        title="Rejeter le paiement"
-        content="Confirmez-vous le rejet de ce paiement par crédit ?"
-        onConfirm={doReject}
-        onClose={toggleRejectConfirm}
-        confirmColor="warning"
-        confirm="Rejeter"
-      />
+        open={showRejectConfirm}
+        onClose={closeReject}
+        onClick={(event) => event.stopPropagation()}
+      >
+        <DialogTitle>Rejeter le paiement</DialogTitle>
+        <DialogContent>
+          <Box sx={{pt: 1}}>
+            <TextField
+              autoFocus
+              fullWidth
+              multiline
+              rows={4}
+              required
+              label="Raison du rejet"
+              placeholder="Veuillez indiquer la raison du rejet de ce paiement..."
+              helperText="Ce champ est obligatoire"
+              value={rejectReason}
+              onChange={(event) => setRejectReason(event.target.value)}
+              inputProps={{"data-testid": "reject-payment-reason"}}
+            />
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={closeReject}>Annuler</Button>
+          <Button
+            variant="contained"
+            color="warning"
+            disabled={!rejectReason.trim()}
+            data-testid="confirm-reject-payment"
+            onClick={doReject}
+          >
+            Rejeter
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 };
