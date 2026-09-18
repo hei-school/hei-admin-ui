@@ -34,7 +34,7 @@ describe("Global search", () => {
     cy.intercept("GET", "/global_search/user?search=*", {
       statusCode: 200,
       body: globalSearchResultsMock,
-    }).as("getSearchResults");.
+    }).as("getSearchResults");
     cy.intercept("GET", "/students?*", []).as("getStudents");
     cy.intercept("GET", "/groups?*", []).as("getGroups");
     cy.visit("/students");
