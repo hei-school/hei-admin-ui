@@ -51,7 +51,7 @@ const FeesToArchiveList = () => {
         margin: "50px auto",
       }}
     >
-      <Box sx={{px: 2, pb: 2}}>
+      <Box sx={{px: 2, pb: 0}}>
         <CustomBreadcrumbs
           items={[
             {
@@ -88,6 +88,16 @@ const FeesToArchiveList = () => {
           resource="fees"
           filterIndicator={false}
           actions={null}
+          wrapperSx={{
+            "marginTop": 1,
+            "& th:last-child": {
+              textAlign: "center !important",
+              paddingRight: "1rem !important",
+            },
+            "& th:last-child span": {
+              justifyContent: "center !important",
+            },
+          }}
           emptyListMessage={
             tab === ArchiveStatusEnum.TO_ARCHIVE
               ? "Aucun frais en attente d'archivage."
@@ -163,7 +173,7 @@ const FeesToArchiveList = () => {
               render={(fee: FeeRecord) => fee.rejection_reason ?? ""}
             />
           )}
-          <WrapperField label="Action">
+          <WrapperField label="Action" textAlign="center">
             <FeeArchiveRowActions tab={tab} onDone={refetch} />
           </WrapperField>
         </HaList>
