@@ -131,7 +131,7 @@ const PaymentCreate = (props) => {
                 : "Paiement créé avec succès.",
               {type: "success"}
             );
-            redirectTo(`fees/${feeId}/show`);
+            redirectTo(`/fees/${feeId}/show`);
           },
         }}
         title={`Paiement de ${studentRef}`}
