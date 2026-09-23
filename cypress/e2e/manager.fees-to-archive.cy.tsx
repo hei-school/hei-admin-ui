@@ -78,6 +78,18 @@ describe("Manager.FeesToArchive", () => {
     cy.contains("Demande d'archivage envoyée avec succès.");
   });
 
+  it("shows the full rejection reason in a popup and can close it", () => {
+    cy.contains("button", "Rejetés (1)").click();
+    cy.getByTestid(`rejection-reason-${feeArchiveRejectedMock.id}`).click();
+    cy.get('[role="dialog"]')
+      .should("be.visible")
+      .and("contain", "Motif du rejet")
+      .and("contain", feeArchiveRejectedMock.student_ref)
+      .and("contain", feeArchiveRejectedMock.rejection_reason);
+    cy.get('[role="dialog"] .MuiDialogTitle-root button').click();
+    cy.get('[role="dialog"]').should("not.exist");
+  });
+
   it("shows an error notification when archiving a fee fails", () => {
     cy.intercept(
       "PATCH",
@@ -143,5 +155,17 @@ describe("Manager.FeesToArchive.AccessControl", () => {
     cy.contains(
       "Cette page est réservée aux gestionnaires et administrateurs."
     );
+  });
+});
+
+describe("Admin.FeesToArchive", () => {
+  it("navigates to the fees-to-archive page from the sidebar menu", () => {
+    cy.mockLogin({role: "ADMIN"});
+    cy.intercept("GET", `/fees?page=*&page_size=500`, {data: []}).as("getFees");
+    cy.getByTestid("students-menu").click();
+    cy.get('a[href="/fees-to-archive"]').click();
+    cy.wait("@getFees");
+    cy.url().should("include", "/fees-to-archive");
+    cy.contains("Archivage des frais");
   });
 });
