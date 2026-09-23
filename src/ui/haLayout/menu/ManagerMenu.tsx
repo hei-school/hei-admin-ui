@@ -2,6 +2,7 @@ import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
+  Archive as ArchiveIcon,
   SafetyDivider as CorIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
@@ -52,6 +53,11 @@ const ManagerMenu = () => {
           label="Liste des paiements par crédit"
           icon={<CreditPaymentsIcon />}
           to="/credit-payments"
+        />
+        <ListMenuItem
+          label="Frais à archiver"
+          icon={<ArchiveIcon />}
+          to="/fees-to-archive"
         />
         <ListMenuItem
           label="Frais (en retard par défaut)"

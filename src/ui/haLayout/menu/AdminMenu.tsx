@@ -4,6 +4,7 @@ import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {trackNavClick} from "@/utils/gtm";
 import {
   Newspaper as AnnouncementIcon,
+  Archive as ArchiveIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
   HistoryEdu as DocumensoIcon,
@@ -60,6 +61,12 @@ const AdminMenu = () => {
           icon={<CreditPaymentsIcon />}
           to="/credit-payments"
           onClick={() => trackNavClick("payments_list", role)}
+        />
+        <ListMenuItem
+          label="Frais à archiver"
+          icon={<ArchiveIcon />}
+          to="/fees-to-archive"
+          onClick={() => trackNavClick("fees_to_archive", role)}
         />
         <ListMenuItem
           label="Liste des sortants"
