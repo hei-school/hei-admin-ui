@@ -1,4 +1,4 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {useGetList} from "react-admin";
 import {
   adaptSearchResultsUser,
@@ -6,28 +6,50 @@ import {
   normalizeSearchResults,
 } from "../utils/searchUtils";
 
+const SEARCH_DEBOUNCE_MS = 300;
+
 export const useGlobalSearch = () => {
   const [searchValue, setSearchValue] = useState("");
+  const [debouncedValue, setDebouncedValue] = useState("");
+
+  useEffect(() => {
+    const t = setTimeout(
+      () => setDebouncedValue(searchValue),
+      SEARCH_DEBOUNCE_MS
+    );
+    return () => clearTimeout(t);
+  }, [searchValue]);
+
+  const hasQuery = debouncedValue.trim().length > 0;
 
   const {
     data = [],
     isLoading,
     isFetched,
-  } = useGetList("searchs", {
-    filter: {word: searchValue},
-  });
+  } = useGetList(
+    "searchs",
+    {filter: {word: debouncedValue}},
+    {enabled: hasQuery}
+  );
 
   const normalizedResults = normalizeSearchResults(
-    searchValue.trim() ? adaptSearchResultsUser(data[0]) : undefined
+    hasQuery ? adaptSearchResultsUser(data[0]) : undefined
   );
 
   const users = aggregateSearchResults(normalizedResults);
 
+  const resetSearch = () => {
+    setSearchValue("");
+    setDebouncedValue("");
+  };
+
   return {
     searchValue,
     setSearchValue,
+    debouncedValue,
+    resetSearch,
     users,
-    isLoading,
+    isLoading: hasQuery && isLoading,
     isFetched,
   };
 };
