@@ -61,6 +61,7 @@ const RejectionReasonCell = ({
     <Tooltip title="Voir le motif du rejet">
       <IconButton
         size="small"
+        data-testid={`rejection-reason-${fee.id}`}
         onClick={(event) => {
           event.stopPropagation();
           onSelect(fee);
