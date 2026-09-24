@@ -58,9 +58,8 @@ describe("Monitor.Documenso", () => {
       .and("contain", "En attente de signature");
   });
 
-  it("opens the signing page of a pending document in a new tab", () => {
+  it("signs a pending document without leaving HEI Admin", () => {
     openDocumensoDocuments();
-    const newTab = stubNewTab();
 
     cy.get("table tbody tr")
       .first()
@@ -68,10 +67,25 @@ describe("Monitor.Documenso", () => {
       .click();
 
     cy.wait("@getSigningToken");
-    cy.get("@windowOpen").should("have.been.calledWith", "", "_blank");
-    cy.wrap(newTab)
-      .its("location.href")
-      .should("contain", `/sign/${signingTokenMock.token}`);
+    cy.contains("Signature de la fiche");
+    cy.get(".documenso-embed-frame")
+      .should("have.attr", "src")
+      .and("contain", `/embed/sign/${signingTokenMock.token}`);
+  });
+
+  it("always offers to sign on Documenso, in case the embed never paints", () => {
+    openDocumensoDocuments();
+
+    cy.get("table tbody tr")
+      .first()
+      .find('[data-testid="sign-documenso-document-button"]')
+      .click();
+
+    cy.wait("@getSigningToken");
+    cy.getByTestid("open-on-documenso-link")
+      .should("have.attr", "target", "_blank")
+      .and("have.attr", "href")
+      .and("contain", `/sign/${signingTokenMock.token}`);
   });
 
   it("notifies the monitor when the signing page cannot be opened", () => {
@@ -82,7 +96,6 @@ describe("Monitor.Documenso", () => {
     ).as("failingSigningToken");
 
     openDocumensoDocuments();
-    stubNewTab();
 
     cy.get("table tbody tr")
       .first()
