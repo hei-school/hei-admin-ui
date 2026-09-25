@@ -18,6 +18,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {StudentComments} from "@/operations/comments";
 import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
+import {SmsBalanceIndicator} from "@/operations/sms/SmsBalanceIndicator";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import GlobalSearch from "@/ui/haLayout/appBar/GlobalSearch";
@@ -169,6 +170,7 @@ function UserInfo() {
       {!isSmall && (
         <>
           {(isAdmin() || isManager()) && <GlobalSearch />}
+          {(isAdmin() || isManager()) && <SmsBalanceIndicator />}
           <a href={HEI_CALENDAR_URL} rel="noreferrer" target="_blank">
             <CalendarMonth
               sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}

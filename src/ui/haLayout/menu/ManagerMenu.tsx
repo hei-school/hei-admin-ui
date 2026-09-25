@@ -17,6 +17,10 @@ import {
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
   PublishedWithChanges as RemedialIcon,
+  Campaign as SmsCampaignIcon,
+  GroupWork as SmsContactGroupIcon,
+  Contacts as SmsContactIcon,
+  Sms as SmsIcon,
   School as StudentIcon,
   People as StudentListIcon,
   Work as TeachersIcon,
@@ -126,6 +130,23 @@ const ManagerMenu = () => {
           to="/event_participants"
           label="Liste des absents"
           icon={<EventBusy />}
+        />
+      </ListMenu>
+      <ListMenu label="SMS" icon={<SmsIcon />} data-testid="sms-menu">
+        <ListMenuItem
+          label="Campagnes"
+          icon={<SmsCampaignIcon />}
+          to="/sms-campaigns"
+        />
+        <ListMenuItem
+          label="Groupes de contacts"
+          icon={<SmsContactGroupIcon />}
+          to="/sms-contact-groups"
+        />
+        <ListMenuItem
+          label="Contacts"
+          icon={<SmsContactIcon />}
+          to="/sms-contacts"
         />
       </ListMenu>
     </Box>
