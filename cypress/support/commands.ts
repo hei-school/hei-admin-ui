@@ -3,6 +3,7 @@
 import {Whoami, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import "cypress-file-upload";
 import {getUserConnected} from "../fixtures/api_mocks/authentification-mocks";
+import {smsBalanceMock} from "../fixtures/api_mocks/sms-mocks";
 import {LoginConfig} from "./global";
 
 Cypress.Commands.add("getByTestid", <Subject = any>(id: string) => {
@@ -59,6 +60,7 @@ function setupLoginMocks(user: any, role: WhoamiRoleEnum) {
   );
   cy.intercept("**/health/db", "OK").as("getHealthDb");
   cy.intercept("**/whoami", whoami).as("getWhoami");
+  cy.intercept("GET", "**/sms-balance", smsBalanceMock).as("getSmsBalance");
   cy.intercept("https://www.google-analytics.com/g/**", {statusCode: 200}).as(
     "analytics"
   );

@@ -50,6 +50,7 @@ import {
   SmsCampaignCreate,
   SmsCampaignList,
   SmsContactGroupList,
+  SmsContactGroupShow,
   SmsContactList,
 } from "./operations/sms";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
@@ -277,6 +278,11 @@ function AppBase() {
           exact
           path="/sms-contact-groups"
           element={<SmsContactGroupList />}
+        />
+        <Route
+          exact
+          path="/sms-contact-groups/:id"
+          element={<SmsContactGroupShow />}
         />
         <Route exact path="/sms-contacts" element={<SmsContactList />} />
         <Route

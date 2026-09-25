@@ -1,14 +1,18 @@
 import {DateField} from "@/operations/common/components/fields";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList/HaList";
-import {SmsCampaign} from "@haapi-b0fc7615/typescript-client";
+import {
+  SmsCampaign,
+  SmsLog,
+  SmsMessageStatus,
+} from "@haapi-b0fc7615/typescript-client";
 import {Box, Chip, Stack, Typography} from "@mui/material";
 import {FunctionField, TextField} from "react-admin";
 import {
   SMS_CAMPAIGN_STATUS_COLOR,
   SMS_CAMPAIGN_STATUS_LABEL,
 } from "./SmsCampaignStatusChip";
-import {SmsMessageStatusChip} from "./SmsMessageStatusChip";
+import {SMS_RECIPIENT_SOURCE_LABEL} from "./constants";
 
 interface SmsCampaignDetailsDialogProps {
   campaign: SmsCampaign;
@@ -47,18 +51,6 @@ export const SmsCampaignDetailsDialog = ({
               variant="outlined"
               label={`${campaign.recipientCount ?? 0} destinataire(s)`}
             />
-            <Chip
-              size="small"
-              variant="outlined"
-              color="success"
-              label={`${campaign.deliveredCount ?? 0} livrés`}
-            />
-            <Chip
-              size="small"
-              variant="outlined"
-              color="error"
-              label={`${campaign.failedCount ?? 0} échecs`}
-            />
             {!!campaign.recipientsRejectedForBalance && (
               <Chip
                 size="small"
@@ -89,13 +81,24 @@ export const SmsCampaignDetailsDialog = ({
         >
           <TextField source="phoneNumber" label="Numéro" />
           <FunctionField
-            label="Statut"
-            render={() => <SmsMessageStatusChip />}
-            textAlign="center"
+            label="Source"
+            render={(log: SmsLog) =>
+              log.recipientSource
+                ? SMS_RECIPIENT_SOURCE_LABEL[log.recipientSource]
+                : "—"
+            }
           />
-          <TextField source="recipientSource" label="Source" />
           <DateField source="sentDatetime" label="Envoyé le" showTime />
-          <DateField source="deliveredDatetime" label="Livré le" showTime />
+          {!!campaign.failedCount && (
+            <FunctionField
+              label="Motif d'échec"
+              render={(log: SmsLog) =>
+                log.status === SmsMessageStatus.FAILED
+                  ? (log.failureReason ?? "—")
+                  : ""
+              }
+            />
+          )}
         </HaList>
       </Box>
     </Dialog>

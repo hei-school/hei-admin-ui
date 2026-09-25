@@ -13,7 +13,6 @@ import {
 } from "@mui/material";
 import {useState} from "react";
 import {
-  DateTimeInput,
   FileField,
   FileInput,
   required,
@@ -60,17 +59,6 @@ const extractFile = (value: unknown): File | undefined => {
   if (value instanceof File) return value;
   const rawFile = (value as {rawFile?: unknown}).rawFile;
   return rawFile instanceof File ? rawFile : undefined;
-};
-
-// Le backend interprète sendAt comme s'il était en heure locale GMT+3
-// (Madagascar) au lieu de le convertir depuis l'UTC envoyé par le navigateur :
-// on retranche donc 3h à l'heure choisie par l'utilisateur avant l'envoi, pour
-// toutes les sources de campagne (groupes, contacts, numéros, fichier).
-const TIMEZONE_OFFSET_MS = 3 * 60 * 60 * 1000;
-
-const toSendAt = (value: unknown): Date | undefined => {
-  if (!value) return undefined;
-  return new Date(new Date(value as string).getTime() - TIMEZONE_OFFSET_MS);
 };
 
 const MessageInput = ({isRequired}: {isRequired: boolean}) => {
@@ -168,11 +156,6 @@ const SmsCampaignFormContent = ({source}: {source: SmsCampaignSource}) => (
     {source === "contacts" && <ContactsFields />}
     {source === "manual" && <ManualNumbersFields />}
     {source === "file" && <FileFields />}
-    <DateTimeInput
-      source="sendAt"
-      label="Programmer l'envoi (optionnel, immédiat sinon)"
-      fullWidth
-    />
   </>
 );
 
@@ -182,15 +165,12 @@ export const SmsCampaignCreate = () => {
   const [source, setSource] = useState<SmsCampaignSource>("groups");
 
   const handleSubmit = (values: FieldValues) => {
-    const sendAt = toSendAt(values.sendAt);
-
     switch (source) {
       case "groups":
         send({
           source,
           message: values.message,
           contactGroupIds: values.contactGroupIds ?? [],
-          sendAt,
         });
         return;
       case "contacts":
@@ -198,7 +178,6 @@ export const SmsCampaignCreate = () => {
           source,
           message: values.message,
           contactIds: values.contactIds ?? [],
-          sendAt,
         });
         return;
       case "manual":
@@ -208,13 +187,12 @@ export const SmsCampaignCreate = () => {
           manualPhoneNumbers: parseManualPhoneNumbers(
             values.manualPhoneNumbers
           ),
-          sendAt,
         });
         return;
       case "file": {
         const file = extractFile(values.file);
         if (!file) return;
-        send({source, message: values.message || undefined, file, sendAt});
+        send({source, message: values.message || undefined, file});
       }
     }
   };

@@ -5,9 +5,10 @@ import {SmsCampaign} from "@haapi-b0fc7615/typescript-client";
 import {Campaign as SmsCampaignIcon} from "@mui/icons-material";
 import {Box, Typography} from "@mui/material";
 import {useState} from "react";
-import {FunctionField, Identifier, RaRecord, TextField} from "react-admin";
+import {FunctionField, Identifier, RaRecord} from "react-admin";
 import {SmsCampaignDetailsDialog} from "./SmsCampaignDetailsDialog";
 import {SmsCampaignStatusChip} from "./SmsCampaignStatusChip";
+import {SmsCampaignStatusFilterButtons} from "./SmsCampaignStatusFilterButtons";
 
 const truncate = (text?: string, max = 80) =>
   text && text.length > max ? `${text.slice(0, max)}…` : (text ?? "—");
@@ -24,6 +25,7 @@ export const SmsCampaignList = () => {
         title="Campagnes SMS"
         resource="sms-campaigns"
         actions={<CreateButton resource="sms-campaigns" />}
+        filterButtons={<SmsCampaignStatusFilterButtons />}
         datagridProps={{
           rowClick: (_id: Identifier, _resource: string, record: RaRecord) => {
             setSelectedCampaign(record as SmsCampaign);
@@ -45,17 +47,15 @@ export const SmsCampaignList = () => {
           label="Destinataires"
           render={(campaign: SmsCampaign) => (
             <Typography variant="body2">
-              {campaign.recipientCount ?? 0} ({campaign.deliveredCount ?? 0}{" "}
-              livrés, {campaign.failedCount ?? 0} échecs)
+              {campaign.recipientCount ?? 0}
             </Typography>
           )}
         />
-        <TextField source="createdById" label="Créée par" />
-        <DateField
-          source="sendAt"
-          label="Envoi programmé"
-          showTime
-          emptyText="Immédiat"
+        <FunctionField
+          label="Créée par"
+          render={(campaign: SmsCampaign) =>
+            campaign.createdByFirstName ?? campaign.createdByRef ?? "—"
+          }
         />
         <DateField source="creationDatetime" label="Créée le" showTime />
       </HaList>
