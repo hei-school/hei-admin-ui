@@ -88,15 +88,20 @@ describe("Manager.SmsContactGroups", () => {
     cy.contains(smsContact1Mock.phoneNumber!);
   });
 
-  it("adds a contact to the group and removes one", () => {
+  it("adds a contact to the group", () => {
     cy.intercept(
       "GET",
       `/sms-contact-groups/${smsContactGroup1Mock.id}`,
       smsContactGroup1DetailMock
     ).as("getGroupDetail");
-    cy.intercept("GET", "/sms-contacts?page=1&page_size=500", smsContactsMock);
+    cy.intercept(
+      "GET",
+      "/sms-contacts?page=1&page_size=500",
+      smsContactsMock
+    ).as("getContactsForPicker");
     cy.visit(`/sms-contact-groups/${smsContactGroup1Mock.id}`);
     cy.wait("@getGroupDetail");
+    cy.wait("@getContactsForPicker");
 
     cy.intercept(
       "POST",
@@ -112,31 +117,50 @@ describe("Manager.SmsContactGroups", () => {
       members: [smsContact1Mock, smsContact2Mock],
     }).as("getGroupDetailAfterAdd");
 
-    cy.get(".MuiAutocomplete-root input").type(smsContact2Mock.name!);
+    cy.get(".MuiAutocomplete-root .MuiAutocomplete-popupIndicator").click();
+    cy.get(".MuiAutocomplete-popper").should("be.visible");
     cy.get(".MuiAutocomplete-popper li")
       .contains(smsContact2Mock.name!)
       .click();
-    cy.getByTestid("add-sms-contact-group-member").click();
+    cy.getByTestid("add-sms-contact-group-member").should("be.enabled").click();
     cy.wait("@addMember");
     cy.wait("@getGroupDetailAfterAdd");
     cy.contains("Contact ajouté au groupe");
     cy.contains(smsContact2Mock.name!);
+  });
+
+  it("removes a member from the group", () => {
+    cy.intercept(
+      "GET",
+      `/sms-contact-groups/${smsContactGroup1Mock.id}`,
+      smsContactGroup1DetailMock
+    ).as("getGroupDetail");
+    cy.intercept(
+      "GET",
+      "/sms-contacts?page=1&page_size=500",
+      smsContactsMock
+    ).as("getContactsForPicker");
+    cy.visit(`/sms-contact-groups/${smsContactGroup1Mock.id}`);
+    cy.wait("@getGroupDetail");
+    cy.wait("@getContactsForPicker");
 
     cy.intercept(
       "DELETE",
       `/sms-contact-groups/${smsContactGroup1Mock.id}/members/${smsContact1Mock.id}`,
-      {...smsContactGroup1DetailMock, members: [smsContact2Mock]}
+      {...smsContactGroup1DetailMock, members: []}
     ).as("removeMember");
     cy.intercept("GET", `/sms-contact-groups/${smsContactGroup1Mock.id}`, {
       ...smsContactGroup1DetailMock,
-      memberCount: 1,
-      members: [smsContact2Mock],
+      memberCount: 0,
+      members: [],
     }).as("getGroupDetailAfterRemove");
+
     cy.getByTestid(
       `remove-sms-contact-group-member-${smsContact1Mock.id}`
     ).click();
     cy.wait("@removeMember");
     cy.wait("@getGroupDetailAfterRemove");
     cy.contains("Contact retiré du groupe");
+    cy.contains("Ce groupe n'a aucun membre pour le moment.");
   });
 });
