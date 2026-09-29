@@ -79,19 +79,22 @@ const retakeExamProvider: HaDataProviderType = {
     throw new Error("Not implemented");
   },
 
-  saveOrUpdate: async (
-    sessionIdOrCurrentStatus: string,
-    payloads: {data: RetakeExamPayload}
-  ) => {
-    const {status: targetStatus, currentStatus, id, reason} = payloads.data;
+  saveOrUpdate: async (payloads: RetakeExamPayload[]) => {
+    const [payload] = payloads;
+    const {
+      status: targetStatus,
+      currentStatus,
+      id,
+      reason,
+      session_id,
+    } = payload;
     const transitionKey = getTransitionKey(currentStatus, targetStatus);
 
     const response = transitionKey
       ? await createTransitionHandler(id, reason)[transitionKey]()
-      : await retakeExamApi().createOrUpdateRetakeExam(
-          sessionIdOrCurrentStatus,
-          [payloads.data]
-        );
+      : await retakeExamApi().createOrUpdateRetakeExam(session_id ?? "", [
+          payload,
+        ]);
 
     return response.data;
   },

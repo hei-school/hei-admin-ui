@@ -9,7 +9,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {useEffect, useState} from "react";
+import {useEffect, useMemo, useState} from "react";
 import {
   ChipField,
   Datagrid,
@@ -37,14 +37,35 @@ import {
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import {BadgeDollarSign, BellDot, ExternalLink, UserRoundX} from "lucide-react";
 import {CommentContent} from "./common/CommentContent";
-import {PendingCreditPayments} from "./common/PendingCreditPayments";
-import {PendingFeeArchiving} from "./common/PendingFeeArchiving";
 import {RecentLetters} from "./common/RecentLetters";
 import {WelcomingCard} from "./common/WelcomingCard";
 
 export const AdminWelcome = () => {
   const [animate, setAnimate] = useState(false);
   const {filterValues} = useListContext();
+  // Le filtre doit avoir une valeur stable : react-admin le place dans la cle
+  // react-query, et le cache de preflight CORS du navigateur est indexe sur
+  // l'URL complete. Un `new Date()` recalcule a chaque render changeait la cle
+  // et l'URL a chaque render : refetch en boucle, plus un OPTIONS par requete.
+  const lateFeesFilter = useMemo(() => {
+    const now = new Date();
+    return {
+      status: "LATE",
+      monthFrom: new Date(
+        now.getFullYear(),
+        now.getMonth() - 1,
+        1
+      ).toISOString(),
+      monthTo: new Date(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate(),
+        23,
+        59,
+        59
+      ).toISOString(),
+    };
+  }, []);
   const {data: stats} = useGetOne<AdvancedFeesStatistics & {id: string}>(
     "stats",
     {
@@ -66,8 +87,6 @@ export const AdminWelcome = () => {
     <Box sx={{p: {xs: 1, md: 2}, overflow: "hidden", bgcolor: "#F9FAFB"}}>
       <WelcomingCard animate={animate} isLarge={isLarge} />
       <RecentLetters animate={animate} />
-      <PendingCreditPayments animate={animate} />
-      <PendingFeeArchiving animate={animate} />
       <Grid
         container
         spacing={3}
@@ -140,15 +159,7 @@ export const AdminWelcome = () => {
                 title=" "
                 resource="fees"
                 empty={<EmptyList3D />}
-                filter={{
-                  status: "LATE",
-                  monthFrom: new Date(
-                    new Date().getFullYear(),
-                    new Date().getMonth() - 1,
-                    1
-                  ).toISOString(),
-                  monthTo: new Date().toISOString(),
-                }}
+                filter={lateFeesFilter}
                 pagination={false}
                 sx={{
                   "padding": "0 !important",

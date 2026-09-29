@@ -2,9 +2,11 @@ import {HeiListMenuItem} from "@/ui/haLayout/menu/common";
 import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
+  Archive as ArchiveIcon,
   SafetyDivider as CorIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
+  HistoryEdu as DocumensoIcon,
   EditCalendar,
   EventBusy,
   CalendarMonth as EventIcon,
@@ -22,7 +24,7 @@ import {
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
 
-function ManagerMenu() {
+const ManagerMenu = () => {
   return (
     <Box>
       <SingleMenu to="/teachers" label="Enseignants" icon={<TeachersIcon />} />
@@ -53,6 +55,11 @@ function ManagerMenu() {
           to="/credit-payments"
         />
         <ListMenuItem
+          label="Frais à archiver"
+          icon={<ArchiveIcon />}
+          to="/fees-to-archive"
+        />
+        <ListMenuItem
           label="Frais (en retard par défaut)"
           icon={<FeesIcon />}
           to="/fees"
@@ -60,6 +67,12 @@ function ManagerMenu() {
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem />
+        <ListMenuItem
+          to="/documenso-documents"
+          label="Documenso"
+          data-testid="documenso-documents-menu"
+          icon={<DocumensoIcon />}
+        />
       </ListMenu>
       <SingleMenu
         to="/promotions"
@@ -117,6 +130,6 @@ function ManagerMenu() {
       </ListMenu>
     </Box>
   );
-}
+};
 
 export default ManagerMenu;

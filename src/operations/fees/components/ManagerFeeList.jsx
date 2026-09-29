@@ -119,8 +119,8 @@ export const ManagerFeeList = ({studentId, studentRef}) => {
               />
               <ArchiveWithConfirm
                 redirect={`/students/${studentId}/show/fees?tab=fees`}
-                confirmTitle="Archivage de frais"
-                confirmContent="Confirmez-vous l'archivage de ce frais ?"
+                confirmTitle="Demande d'archivage"
+                confirmContent="Confirmez-vous la demande d'archivage de ce frais ?"
                 getDisabledReason={(record) =>
                   record.status !== FeeStatusEnum.PAID
                     ? "Un frais non payé ne peut pas être archivé."

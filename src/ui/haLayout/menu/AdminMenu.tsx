@@ -4,8 +4,10 @@ import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {trackNavClick} from "@/utils/gtm";
 import {
   Newspaper as AnnouncementIcon,
+  Archive as ArchiveIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
+  HistoryEdu as DocumensoIcon,
   EditCalendar,
   EventBusy,
   CalendarMonth as EventIcon,
@@ -26,7 +28,7 @@ import {
 import {Box} from "@mui/material";
 import {GraduationCap} from "lucide-react";
 
-function AdminMenu() {
+const AdminMenu = () => {
   const {role} = useRole();
   return (
     <Box>
@@ -61,6 +63,12 @@ function AdminMenu() {
           onClick={() => trackNavClick("payments_list", role)}
         />
         <ListMenuItem
+          label="Frais à archiver"
+          icon={<ArchiveIcon />}
+          to="/fees-to-archive"
+          onClick={() => trackNavClick("fees_to_archive", role)}
+        />
+        <ListMenuItem
           label="Liste des sortants"
           icon={<GraduationCap />}
           to="promotions/result-overviews"
@@ -81,6 +89,13 @@ function AdminMenu() {
       </ListMenu>
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
         <HeiListMenuItem onClick={() => trackNavClick("hei_docs", role)} />
+        <ListMenuItem
+          to="/documenso-documents"
+          label="Documenso"
+          data-testid="documenso-documents-menu"
+          icon={<DocumensoIcon />}
+          onClick={() => trackNavClick("documenso_documents", role)}
+        />
       </ListMenu>
       <SingleMenu
         to="/promotions"
@@ -156,6 +171,6 @@ function AdminMenu() {
       />
     </Box>
   );
-}
+};
 
 export default AdminMenu;

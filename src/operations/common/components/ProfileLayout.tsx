@@ -1,5 +1,6 @@
 import defaultCoverPicture from "@/assets/banner.jpg";
 import {PALETTE_COLORS} from "@/haTheme";
+import {useRole} from "@/security/hooks";
 import {Group, RoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Box, Typography, useMediaQuery} from "@mui/material";
 import {useGetOne, useShowContext} from "react-admin";
@@ -25,11 +26,12 @@ export const ProfileLayout = ({
   const {record: profile = {}} = useShowContext();
   const isLarge = useMediaQuery("(min-width:1700px)");
   const {groups = []} = profile;
+  const viewerRole = useRole();
   const {data: credit} = useGetOne(
     "credits",
     {id: profile.id},
     {
-      enabled: isStudentProfile && !!profile.id,
+      enabled: isStudentProfile && !!profile.id && !viewerRole.isTeacher(),
     }
   );
   return (

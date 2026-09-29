@@ -179,7 +179,7 @@ export const Informations = ({
     },
     {
       id: "credit-transactions",
-      label: "Transactions",
+      label: "Transactions de crédit",
       show:
         isStudentProfile &&
         (role.isManager() ||

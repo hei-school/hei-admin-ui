@@ -6,7 +6,8 @@ import {nodePolyfills} from "vite-plugin-node-polyfills";
 // https://vitejs.dev/config/
 export default defineConfig(function (_a) {
   var mode = _a.mode;
-  var env = loadEnv(mode, process.cwd(), "");
+  var env = loadEnv(mode, process.cwd(), "REACT_APP_");
+  env.NODE_ENV = process.env.NODE_ENV || mode;
   return {
     plugins: [
       react(),

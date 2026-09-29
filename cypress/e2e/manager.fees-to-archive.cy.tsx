@@ -48,10 +48,12 @@ describe("Manager.FeesToArchive", () => {
     ).as("updateArchiveStatus");
     cy.get("table tbody tr").eq(0).contains("button", "Rejeter").click();
     cy.get("#alert-dialog-title").should("contain", "Rejet de l'archivage");
-    cy.get(".ra-confirm").click();
-    cy.wait("@updateArchiveStatus")
-      .its("request.body")
-      .should("deep.equal", {status: ArchiveStatusEnum.REJECTED});
+    cy.getByTestid("reject-archive-reason").type("Justificatif manquant");
+    cy.getByTestid("reject-archive-confirm").click();
+    cy.wait("@updateArchiveStatus").its("request.body").should("deep.equal", {
+      status: ArchiveStatusEnum.REJECTED,
+      reason: "Justificatif manquant",
+    });
     cy.contains("Demande d'archivage rejetée.");
   });
 
@@ -67,13 +69,25 @@ describe("Manager.FeesToArchive", () => {
       .should("contain", feeArchiveRejectedMock.student_ref)
       .and(
         "contain",
-        `${feeArchiveRejectedMock.archived_by_first_name} ${feeArchiveRejectedMock.archived_by_last_name}`
+        `${feeArchiveRejectedMock.rejected_by_first_name} ${feeArchiveRejectedMock.rejected_by_last_name}`
       );
     cy.get("table tbody tr").eq(0).contains("button", "Réarchiver").click();
-    cy.get("#alert-dialog-title").should("contain", "Réarchivage de frais");
+    cy.get("#alert-dialog-title").should("contain", "Demande d'archivage");
     cy.get(".ra-confirm").click();
     cy.wait("@reArchiveFee");
-    cy.contains("Demande d'archivage renvoyée.");
+    cy.contains("Demande d'archivage envoyée avec succès.");
+  });
+
+  it("shows the full rejection reason in a popup and can close it", () => {
+    cy.contains("button", "Rejetés (1)").click();
+    cy.getByTestid(`rejection-reason-${feeArchiveRejectedMock.id}`).click();
+    cy.get('[role="dialog"]')
+      .should("be.visible")
+      .and("contain", "Motif du rejet")
+      .and("contain", feeArchiveRejectedMock.student_ref)
+      .and("contain", feeArchiveRejectedMock.rejection_reason);
+    cy.get('[role="dialog"] .MuiDialogTitle-root button').click();
+    cy.get('[role="dialog"]').should("not.exist");
   });
 
   it("shows an error notification when archiving a fee fails", () => {
@@ -95,7 +109,8 @@ describe("Manager.FeesToArchive", () => {
       {statusCode: 500, body: {}}
     ).as("updateArchiveStatus");
     cy.get("table tbody tr").eq(0).contains("button", "Rejeter").click();
-    cy.get(".ra-confirm").click();
+    cy.getByTestid("reject-archive-reason").type("Justificatif manquant");
+    cy.getByTestid("reject-archive-confirm").click();
     cy.wait("@updateArchiveStatus");
     cy.contains("Une erreur s'est produite.");
   });
@@ -140,5 +155,17 @@ describe("Manager.FeesToArchive.AccessControl", () => {
     cy.contains(
       "Cette page est réservée aux gestionnaires et administrateurs."
     );
+  });
+});
+
+describe("Admin.FeesToArchive", () => {
+  it("navigates to the fees-to-archive page from the sidebar menu", () => {
+    cy.mockLogin({role: "ADMIN"});
+    cy.intercept("GET", `/fees?page=*&page_size=500`, {data: []}).as("getFees");
+    cy.getByTestid("students-menu").click();
+    cy.get('a[href="/fees-to-archive"]').click();
+    cy.wait("@getFees");
+    cy.url().should("include", "/fees-to-archive");
+    cy.contains("Archivage des frais");
   });
 });

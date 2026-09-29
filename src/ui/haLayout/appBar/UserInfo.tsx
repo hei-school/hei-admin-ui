@@ -21,6 +21,7 @@ import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import GlobalSearch from "@/ui/haLayout/appBar/GlobalSearch";
+import {PendingActionsNotifications} from "@/ui/haLayout/appBar/PendingActionsNotifications";
 import {
   Admin,
   Manager,
@@ -174,7 +175,11 @@ function UserInfo() {
             />
           </a>
           {(isManager() || isAdmin() || isTeacher()) && <LastComments />}
-          <FeedbackInfos />
+          {isAdmin() || isManager() ? (
+            <PendingActionsNotifications />
+          ) : (
+            <FeedbackInfos />
+          )}
           <Box
             sx={{
               display: "flex",

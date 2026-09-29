@@ -8,6 +8,8 @@ export interface BreadcrumbItem {
   href?: string;
   component?: React.ElementType;
   to?: string;
+  /** For trails that walk back through state rather than through URLs. */
+  onClick?: () => void;
   isActive?: boolean;
   icon?: React.ReactNode;
 }
@@ -160,7 +162,7 @@ const BreadcrumbItemComponent = memo<{
     () => (item.icon ? <Box sx={iconSx}>{item.icon}</Box> : null),
     [item.icon]
   );
-  const isClickable = Boolean(item.href || item.to);
+  const isClickable = Boolean(item.href || item.to || item.onClick);
 
   return isClickable ? (
     <Link
@@ -169,6 +171,7 @@ const BreadcrumbItemComponent = memo<{
       {...(item.component && {component: item.component})}
       {...(item.to && {to: item.to})}
       {...(item.href && {href: item.href})}
+      {...(item.onClick && {onClick: item.onClick})}
     >
       {icon}
       <span>{item.label}</span>

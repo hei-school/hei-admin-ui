@@ -6,15 +6,21 @@ import {
   FeeRecord,
   useFeesToArchive,
 } from "@/operations/fees/hooks/useFeesToArchive";
+import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList/HaList";
 import {ArchiveStatusEnum} from "@haapi-b0fc7615/typescript-client";
 import ArchiveIcon from "@mui/icons-material/Archive";
-import {alpha, Box, Button, Typography} from "@mui/material";
-import {Home} from "lucide-react";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import {
+  alpha,
+  Box,
+  Button,
+  IconButton,
+  Tooltip,
+  Typography,
+} from "@mui/material";
 import {useState} from "react";
 import {FunctionField, TextField, WrapperField} from "react-admin";
-import {Link as RouterLink} from "react-router-dom";
-import CustomBreadcrumbs from "../utils/CustomBreadcrumbs";
 import {CATEGORY} from "./constants";
 
 const TABS = [
@@ -35,13 +41,44 @@ type TabKey = (typeof TABS)[number]["key"];
 const categoryLabel = (fee: FeeRecord) =>
   CATEGORY.find((c) => c.value === fee.category)?.label ?? fee.category ?? "—";
 
-const archivedByLabel = (fee: FeeRecord) =>
-  [fee.archived_by_first_name, fee.archived_by_last_name]
+const rejectedByLabel = (fee: FeeRecord) =>
+  [fee.rejected_by_first_name, fee.rejected_by_last_name]
     .filter(Boolean)
-    .join(" ") || "—";
+    .join(" ");
+
+const RejectionReasonCell = ({
+  fee,
+  onSelect,
+}: {
+  fee: FeeRecord;
+  onSelect: (fee: FeeRecord) => void;
+}) => {
+  const reason = fee.rejection_reason ?? "";
+  if (!reason) {
+    return null;
+  }
+  return (
+    <Tooltip title="Voir le motif du rejet">
+      <IconButton
+        size="small"
+        data-testid={`rejection-reason-${fee.id}`}
+        onClick={(event) => {
+          event.stopPropagation();
+          onSelect(fee);
+        }}
+        sx={{color: PALETTE_COLORS.primary}}
+      >
+        <ChatBubbleOutlineIcon fontSize="small" />
+      </IconButton>
+    </Tooltip>
+  );
+};
 
 const FeesToArchiveList = () => {
   const [tab, setTab] = useState<TabKey>(ArchiveStatusEnum.TO_ARCHIVE);
+  const [selectedRejection, setSelectedRejection] = useState<FeeRecord | null>(
+    null
+  );
   const {isAllowed, toArchiveFees, rejectedFees, refetch} = useFeesToArchive();
 
   return (
@@ -51,20 +88,6 @@ const FeesToArchiveList = () => {
         margin: "50px auto",
       }}
     >
-      <Box sx={{px: 2, pb: 2}}>
-        <CustomBreadcrumbs
-          items={[
-            {
-              label: "Tableau de bord",
-              component: RouterLink,
-              to: "/",
-              icon: <Home size={16} />,
-            },
-            {label: "Archivage des frais"},
-          ]}
-        />
-      </Box>
-
       {!isAllowed ? (
         <Box
           sx={{
@@ -88,6 +111,16 @@ const FeesToArchiveList = () => {
           resource="fees"
           filterIndicator={false}
           actions={null}
+          wrapperSx={{
+            "marginTop": 0,
+            "& th:last-child": {
+              textAlign: "center !important",
+              paddingRight: "1rem !important",
+            },
+            "& th:last-child span": {
+              justifyContent: "center !important",
+            },
+          }}
           emptyListMessage={
             tab === ArchiveStatusEnum.TO_ARCHIVE
               ? "Aucun frais en attente d'archivage."
@@ -140,13 +173,56 @@ const FeesToArchiveList = () => {
             render={(fee: FeeRecord) => renderMoney(fee.remaining_amount ?? 0)}
           />
           <DateField source="due_datetime" label="Échéance" showTime={false} />
+          <DateField
+            source="archive_requested_datetime"
+            label="Demandé le"
+            showTime={false}
+            emptyText=""
+          />
           {tab === ArchiveStatusEnum.REJECTED && (
-            <FunctionField label="Rejeté par" render={archivedByLabel} />
+            <FunctionField label="Rejeté par" render={rejectedByLabel} />
           )}
-          <WrapperField label="Action">
+          {tab === ArchiveStatusEnum.REJECTED && (
+            <DateField
+              source="rejected_datetime"
+              label="Rejeté le"
+              showTime={false}
+              emptyText=""
+            />
+          )}
+          {tab === ArchiveStatusEnum.REJECTED && (
+            <FunctionField
+              label="Motif"
+              render={(fee: FeeRecord) => (
+                <RejectionReasonCell
+                  fee={fee}
+                  onSelect={setSelectedRejection}
+                />
+              )}
+            />
+          )}
+          <WrapperField label="Action" textAlign="center">
             <FeeArchiveRowActions tab={tab} onDone={refetch} />
           </WrapperField>
         </HaList>
+      )}
+      {selectedRejection && (
+        <Dialog
+          title="Motif du rejet"
+          open
+          onClose={() => setSelectedRejection(null)}
+          maxWidth="sm"
+        >
+          <Box sx={{p: 2.5}}>
+            <Typography variant="body2" color="text.secondary" sx={{mb: 1.5}}>
+              {selectedRejection.student_ref} —{" "}
+              {selectedRejection.student_first_name}
+            </Typography>
+            <Typography variant="body1" sx={{whiteSpace: "pre-wrap"}}>
+              {selectedRejection.rejection_reason}
+            </Typography>
+          </Box>
+        </Dialog>
       )}
     </Box>
   );

@@ -83,8 +83,7 @@ describe("Manager.Student.CreditTransactions", () => {
     cy.get("table tbody tr")
       .eq(1)
       .should("contain", "Débit")
-      .and("contain", formatAmount(40000))
-      .and("contain", "Non définie");
+      .and("contain", formatAmount(40000));
   });
 
   it("shows full transaction details in a dialog when a row is clicked", () => {

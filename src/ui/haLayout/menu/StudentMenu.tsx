@@ -15,7 +15,7 @@ import {Box} from "@mui/material";
 import {HeiListMenuItem} from "./common";
 import {ListMenu, ListMenuItem, SingleMenu} from "./utils";
 
-function StudentMenu() {
+const StudentMenu = () => {
   const whoamiId = authProvider.getCachedWhoami().id;
   const logout = async () => {
     await authProvider.logout();
@@ -37,7 +37,7 @@ function StudentMenu() {
             ? `/students/${authProvider.getCachedWhoami().id}/credit-transactions`
             : "/"
         }
-        label="Transactions de crédit"
+        label="Transactions de crédits"
         icon={<WalletIcon />}
       />
       <ListMenu data-testid="docs" label="Documents" icon={<DocsIcon />}>
@@ -88,6 +88,6 @@ function StudentMenu() {
       />
     </Box>
   );
-}
+};
 
 export default StudentMenu;

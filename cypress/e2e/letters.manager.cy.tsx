@@ -107,7 +107,6 @@ describe("Manager.Letters", () => {
     cy.get('[role="option"]').contains("En attente").click();
     cy.contains("Appliquer").click();
     cy.wait("@getLettersFilteredByStatus");
-    cy.wait("@getLettersFilteredByStatus2");
     cy.get("#letter-option").first().click();
     cy.get("#accept-letter-button").click();
     cy.get(".ra-confirm").click();
@@ -127,7 +126,6 @@ describe("Manager.Letters", () => {
     cy.get('[role="option"]').contains("En attente").click();
     cy.contains("Appliquer").click();
     cy.wait("@getLettersFilteredByStatus");
-    cy.wait("@getLettersFilteredByStatus2");
     cy.get("#letter-option").first().click();
     cy.get("#refuse-button").click();
     cy.getByTestid("refuse-reason-input").type(

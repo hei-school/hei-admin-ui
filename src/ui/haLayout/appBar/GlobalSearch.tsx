@@ -153,23 +153,24 @@ const USER_ROUTES: Record<string, (id?: string) => string> = {
 const GlobalSearch = () => {
   const [isFocused, setIsFocused] = useState(false);
   const [origin, setOrigin] = useState({x: 0, y: 0});
-  const [debouncedValue, setDebouncedValue] = useState("");
 
   const searchRef = useRef<HTMLDivElement>(null);
   const activeInputRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
 
   const navigate = useNavigate();
-  const {searchValue, setSearchValue, users, isLoading, isFetched} =
-    useGlobalSearch();
+  const {
+    searchValue,
+    setSearchValue,
+    debouncedValue,
+    resetSearch,
+    users,
+    isLoading,
+    isFetched,
+  } = useGlobalSearch();
 
   const isActive = isFocused;
   const isResultsOpen = isActive && debouncedValue.trim().length > 0;
-
-  useEffect(() => {
-    const t = setTimeout(() => setDebouncedValue(searchValue), 300);
-    return () => clearTimeout(t);
-  }, [searchValue]);
 
   const usersById = useMemo(
     () => new Map(users.map((u) => [u.id, u])),
@@ -189,8 +190,7 @@ const GlobalSearch = () => {
   };
 
   const handleClose = () => {
-    setSearchValue("");
-    setDebouncedValue("");
+    resetSearch();
     setIsFocused(false);
   };
 

@@ -43,12 +43,14 @@ export const adaptSearchResultsUser = (
     profile_picture: u.profilePicture ?? u.avatar,
     status: u.status,
   });
-  return {
+  const adapted: Record<keyof NormalizedSearchResults, unknown[]> = {
     students: (raw.students ?? []).map(normalizeUser),
     teachers: (raw.teachers ?? []).map(normalizeUser),
-    monitors: (raw.monitor ?? []).map(normalizeUser),
-    staffMembers: (raw.staff ?? []).map(normalizeUser),
-  } as SearchResultsUser;
+    organisers: (raw.organizer ?? raw.organisers ?? []).map(normalizeUser),
+    monitors: (raw.monitor ?? raw.monitors ?? []).map(normalizeUser),
+    staffMembers: (raw.staff ?? raw.staffMembers ?? []).map(normalizeUser),
+  };
+  return adapted as SearchResultsUser;
 };
 const EMPTY_RESULTS: NormalizedSearchResults = {
   students: [],
@@ -58,7 +60,7 @@ const EMPTY_RESULTS: NormalizedSearchResults = {
   staffMembers: [],
 };
 export const normalizeSearchResults = (
-  data?: SearchResultsUser
+  data?: Partial<SearchResultsUser>
 ): NormalizedSearchResults =>
   data
     ? {

@@ -20,9 +20,6 @@ const amount = 1 + Math.floor(Math.random() * 100_000);
 const createPayment = createPaymentWithAmountMock(amount);
 
 const formatAmount = (value: number) => `${value.toLocaleString("fr-FR")} Ar`;
-// cy.contains() normalizes whitespace (including the narrow no-break space
-// toLocaleString uses as a thousands separator) to a regular space before
-// matching, so searches made via cy.contains() must use a plain space too.
 const containsAmount = (value: number) =>
   formatAmount(value).replace(/[\u202f\u00a0]/g, " ");
 
@@ -164,7 +161,7 @@ describe("Manager.Payments.Flow", () => {
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.wait("@createPayment");
-    cy.contains("Élément créé");
+    cy.contains("Paiement créé avec succès.");
   });
 
   it("can create a credit payment for a fee within the student's credit", () => {
@@ -196,7 +193,7 @@ describe("Manager.Payments.Flow", () => {
     cy.get("#amount").click().type("100000");
     cy.contains("Enregistrer").click();
     cy.wait("@createCreditPayment");
-    cy.contains("Élément créé");
+    cy.contains("Paiement créé avec succès.");
   });
 
   it("cannot create a credit payment exceeding the student's credit", () => {
@@ -340,16 +337,38 @@ describe("Manager.CreditPayments", () => {
     cy.contains("Paiement validé avec succès.");
   });
 
-  it("can reject a pending credit payment", () => {
+  it("can reject a pending credit payment with a reason", () => {
+    const reason = "Justificatif de paiement illisible";
     cy.intercept("PATCH", `/students/payments/reject`, {}).as("rejectPayment");
     cy.wait("@getFilteredCreditPayments_CREATED");
     cy.getByTestid(`reject-payment-${creditPaymentPendingMock.id}`).click();
-    cy.get("#alert-dialog-title").should("contain", "Rejeter le paiement");
-    cy.get(".ra-confirm").click();
+    cy.contains("Rejeter le paiement").should("be.visible");
+
+    cy.getByTestid("reject-payment-confirm").should("be.disabled");
+    cy.getByTestid("reject-payment-reason").type(reason);
+    cy.getByTestid("reject-payment-confirm").click();
+
     cy.wait("@rejectPayment")
       .its("request.body")
-      .should("deep.equal", [creditPaymentPendingMock.id]);
+      .should("deep.equal", {
+        payment_ids: [creditPaymentPendingMock.id],
+        reason,
+      });
     cy.contains("Paiement rejeté avec succès.");
+  });
+
+  it("leaves the payment alone when the rejection is called off", () => {
+    cy.intercept("PATCH", `/students/payments/reject`, {}).as("rejectPayment");
+    cy.wait("@getFilteredCreditPayments_CREATED");
+    cy.getByTestid(`reject-payment-${creditPaymentPendingMock.id}`).click();
+    cy.getByTestid("reject-payment-reason").type("Saisi par erreur");
+    cy.contains("button", "Annuler").click();
+
+    cy.contains("Rejeter le paiement").should("not.exist");
+    cy.get("@rejectPayment.all").should("have.length", 0);
+
+    cy.getByTestid(`reject-payment-${creditPaymentPendingMock.id}`).click();
+    cy.getByTestid("reject-payment-confirm").should("be.disabled");
   });
 
   it("disables validate and reject actions for already processed payments", () => {
