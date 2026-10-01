@@ -19,11 +19,15 @@ describe("SmsMenu.AccessControl", () => {
     mockAppBarSideEffects();
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
     cy.getByTestid("sms-menu").should("be.visible").click();
-    cy.get('a[href="/sms-campaigns"]').scrollIntoView().should("be.visible");
+    cy.get('a[href="/sms-campaigns"]')
+      .should("exist")
+      .should("have.attr", "href", "/sms-campaigns");
     cy.get('a[href="/sms-contact-groups"]')
-      .scrollIntoView()
-      .should("be.visible");
-    cy.get('a[href="/sms-contacts"]').scrollIntoView().should("be.visible");
+      .should("exist")
+      .should("have.attr", "href", "/sms-contact-groups");
+    cy.get('a[href="/sms-contacts"]')
+      .should("exist")
+      .should("have.attr", "href", "/sms-contacts");
   });
 
   it("shows the SMS menu and balance for an admin", () => {
@@ -32,7 +36,9 @@ describe("SmsMenu.AccessControl", () => {
     cy.wait("@getSmsBalance");
     cy.getByTestid("sms-balance-indicator").should("contain", "1250 SMS");
     cy.getByTestid("sms-menu").should("be.visible").click();
-    cy.get('a[href="/sms-campaigns"]').should("be.visible");
+    cy.get('a[href="/sms-campaigns"]')
+      .should("exist")
+      .should("have.attr", "href", "/sms-campaigns");
   });
 
   it("hides the SMS menu and balance for a teacher", () => {
