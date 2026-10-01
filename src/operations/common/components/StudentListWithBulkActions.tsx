@@ -44,7 +44,7 @@ export const StudentListWithBulkActions: FC<bulkActionButtonsProps> = ({
       title: " ",
     }}
     title={
-      <Typography variant="body2" fontWeight="bolder">
+      <Typography variant="body2" fontWeight="bolder" component="span">
         {title}
       </Typography>
     }

@@ -19,6 +19,10 @@ import {
   MenuBook as PromotionIcon,
   PublishedWithChanges as RemedialIcon,
   SafetyDivider,
+  Campaign as SmsCampaignIcon,
+  GroupWork as SmsContactGroupIcon,
+  Contacts as SmsContactIcon,
+  Sms as SmsIcon,
   AssignmentInd as StaffIcon,
   School as StudentIcon,
   People as StudentListIcon,
@@ -169,6 +173,26 @@ const AdminMenu = () => {
         icon={<StaffIcon />}
         onClick={() => trackNavClick("staffmembers", role)}
       />
+      <ListMenu label="SMS" icon={<SmsIcon />} data-testid="sms-menu">
+        <ListMenuItem
+          label="Campagnes"
+          icon={<SmsCampaignIcon />}
+          to="/sms-campaigns"
+          onClick={() => trackNavClick("sms_campaigns", role)}
+        />
+        <ListMenuItem
+          label="Groupes de contacts"
+          icon={<SmsContactGroupIcon />}
+          to="/sms-contact-groups"
+          onClick={() => trackNavClick("sms_contact_groups", role)}
+        />
+        <ListMenuItem
+          label="Contacts"
+          icon={<SmsContactIcon />}
+          to="/sms-contacts"
+          onClick={() => trackNavClick("sms_contacts", role)}
+        />
+      </ListMenu>
     </Box>
   );
 };

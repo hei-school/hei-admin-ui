@@ -46,6 +46,13 @@ import {StudentCreditTransactions} from "./operations/fees/components/Credits/St
 import {MonitorStudentList} from "./operations/monitors/component/MonitorStudentList.tsx";
 import {UnlinkedStudentsList} from "./operations/monitors/UnlinkedStudentsList.tsx";
 import retakeExamCourses from "./operations/retakeExamCourses";
+import {
+  SmsCampaignCreate,
+  SmsCampaignList,
+  SmsContactGroupList,
+  SmsContactGroupShow,
+  SmsContactList,
+} from "./operations/sms";
 import CasdoorAuthCallback from "./security/CasdoorAuth.tsx";
 
 const queryClient = new QueryClient({
@@ -85,6 +92,10 @@ function AppBase() {
       <Resource name="monitors-documenso-documents" />
       <Resource name="documenso-file-urls" />
       <Resource name="documenso-signing-tokens" />
+      <Resource name="sms-campaigns" />
+      <Resource name="sms-campaign-logs" />
+      <Resource name="sms-contact-groups" />
+      <Resource name="sms-contacts" />
       <Resource name="promotions" {...promotions} />
       <Resource name="announcements" {...announcements} />
       <Resource name="course" {...course} />
@@ -257,6 +268,23 @@ function AppBase() {
           path="/documenso-documents"
           element={<DocumensoDocumentsPage />}
         />
+        <Route exact path="/sms-campaigns" element={<SmsCampaignList />} />
+        <Route
+          exact
+          path="/sms-campaigns/create"
+          element={<SmsCampaignCreate />}
+        />
+        <Route
+          exact
+          path="/sms-contact-groups"
+          element={<SmsContactGroupList />}
+        />
+        <Route
+          exact
+          path="/sms-contact-groups/:id"
+          element={<SmsContactGroupShow />}
+        />
+        <Route exact path="/sms-contacts" element={<SmsContactList />} />
         <Route
           exact
           path="/monitors/unlinked-students"

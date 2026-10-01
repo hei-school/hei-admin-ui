@@ -60,6 +60,10 @@ import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
 import searchProvider from "./searchProvider";
+import smsCampaignLogsProvider from "./smsCampaignLogsProvider";
+import smsCampaignsProvider from "./smsCampaignsProvider";
+import smsContactGroupsProvider from "./smsContactGroupsProvider";
+import smsContactsProvider from "./smsContactsProvider";
 import studentCreditProvider from "./studentCreditProvider";
 import studentRetakeExamsProvider from "./studentRetakeExamsProvider";
 import studentsResultOverviewProvider from "./studentsResultOverviewsProvider";
@@ -133,6 +137,10 @@ const providerMap = {
   "monitors-documenso-documents": monitorDocumensoDocumentsProvider,
   "documenso-file-urls": documensoFileUrlProvider,
   "documenso-signing-tokens": documensoSigningTokenProvider,
+  "sms-campaigns": smsCampaignsProvider,
+  "sms-campaign-logs": smsCampaignLogsProvider,
+  "sms-contact-groups": smsContactGroupsProvider,
+  "sms-contacts": smsContactsProvider,
 } as const;
 
 const getProvider = (

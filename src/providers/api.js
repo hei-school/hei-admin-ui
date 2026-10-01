@@ -18,6 +18,7 @@ import {
   PromotionsApi,
   RetakeExamApi,
   SearchApi,
+  SmsApi,
   UsersApi,
 } from "@haapi-b0fc7615/typescript-client";
 import authProvider from "./authProvider";
@@ -124,3 +125,6 @@ export const documensoApi = () =>
     undefined,
     getAxiosInstance()
   );
+
+export const smsApi = () =>
+  new SmsApi(authProvider.getCachedAuthConf(), undefined, getAxiosInstance());
