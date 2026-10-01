@@ -1,4 +1,5 @@
 import {useNotify, useToggle} from "@/hooks";
+import {EventBadgeScanDialog} from "@/operations/badges";
 import {FileDownloader, Loader} from "@/operations/common/components";
 import {FloatingActionButton} from "@/operations/common/components/FloatingActionButton";
 import dataProvider from "@/providers/dataProvider";
@@ -14,6 +15,7 @@ import {
   CheckCircleOutline,
   Download,
   Event as EventIcon,
+  QrCodeScanner,
   Upload,
   Warning,
 } from "@mui/icons-material";
@@ -51,6 +53,7 @@ export const ListContent = ({eventId}: {eventId: string}) => {
   const notify = useNotify();
   const [showAddGroup, _, toggleAddGroup] = useToggle();
   const [showImportDialog, setShowImportDialog] = useState(false);
+  const [showBadgeScan, setShowBadgeScan] = useState(false);
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
   const {isManager, isTeacher, isAdmin, isOrganizer, isStudent} = useRole();
   const refresh = useRefresh();
@@ -154,6 +157,14 @@ export const ListContent = ({eventId}: {eventId: string}) => {
         hasDatagrid={false}
         actions={
           <Box>
+            {isTeacher() && (
+              <ButtonBase
+                icon={<QrCodeScanner />}
+                label="Scanner les badges"
+                onClick={() => setShowBadgeScan(true)}
+                children={<></>}
+              />
+            )}
             {(isManager() || isAdmin() || isOrganizer()) && (
               <ButtonBase
                 icon={<Add />}
@@ -292,6 +303,12 @@ export const ListContent = ({eventId}: {eventId: string}) => {
         show={showAddGroup}
         toggle={toggleAddGroup}
         eventId={eventId}
+      />
+      <EventBadgeScanDialog
+        open={showBadgeScan}
+        onClose={() => setShowBadgeScan(false)}
+        eventId={eventId}
+        onChecked={refresh}
       />
       <ImportStatusDialog
         open={showImportDialog}

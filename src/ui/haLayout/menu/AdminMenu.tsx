@@ -17,6 +17,7 @@ import {
   LibraryBooksOutlined as LibraryIcon,
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
+  QrCodeScanner,
   PublishedWithChanges as RemedialIcon,
   SafetyDivider,
   Campaign as SmsCampaignIcon,
@@ -59,6 +60,13 @@ const AdminMenu = () => {
           icon={<StudentListIcon />}
           to="/students"
           onClick={() => trackNavClick("students_list", role)}
+        />
+        <ListMenuItem
+          data-testid="badge-scan"
+          label="Scanner un badge"
+          icon={<QrCodeScanner />}
+          to="/badges/scan"
+          onClick={() => trackNavClick("badges_scan", role)}
         />
         <ListMenuItem
           label="Liste des paiements par crédit"

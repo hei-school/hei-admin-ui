@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
+import badges from "@/operations/badges";
 import cor from "@/operations/cor/index.ts";
 import course from "@/operations/course";
 import CourseAssignments from "@/operations/CourseAssignments";
@@ -212,6 +213,7 @@ function AppBase() {
           element={<events.participants />}
         />
         <Route exact path="/event_participants" element={<events.missing />} />
+        <Route exact path="/badges/scan" element={<badges.scan />} />
         <Route exact path="/events/new" element={<events.new />} />
         <Route
           exact
@@ -358,6 +360,10 @@ function App() {
             element={<CasdoorAuthCallback />}
           />
           <Route path="/calendar" element={<publicContent.calendar />} />
+          <Route
+            path="/public/students/:publicId"
+            element={<publicContent.student />}
+          />
           <Route path="*" element={<AppBase />} />
         </Routes>
       </BrowserRouter>
