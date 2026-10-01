@@ -193,3 +193,8 @@ export const smsContactGroup1DetailMock: SmsContactGroupDetail = {
   ...smsContactGroup1Mock,
   members: [smsContact1Mock],
 };
+
+export const smsContactGroupUnknownOwnerDetailMock: SmsContactGroupDetail = {
+  ...smsContactGroupUnknownOwnerMock,
+  members: [],
+};
