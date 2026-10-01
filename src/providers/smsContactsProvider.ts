@@ -10,13 +10,18 @@ const smsContactsProvider: HaDataProviderType = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {contactGroupId?: string; ownerRole?: SmsContactOwnerRole} = {}
+    filter: {
+      contactGroupId?: string;
+      ownerRole?: SmsContactOwnerRole;
+      search?: string;
+    } = {}
   ) => {
     const {data} = await smsApi().getSmsContacts(
       page,
       perPage,
       filter.contactGroupId,
-      filter.ownerRole
+      filter.ownerRole,
+      filter.search
     );
     return {data};
   },

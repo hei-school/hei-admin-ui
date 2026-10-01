@@ -8,7 +8,6 @@ import {
   GroupWork as SmsContactGroupIcon,
 } from "@mui/icons-material";
 import {
-  Autocomplete,
   Box,
   Button,
   Chip,
@@ -22,27 +21,29 @@ import {
 } from "@mui/material";
 import {Home} from "lucide-react";
 import {useMemo, useState} from "react";
-import {useGetList, useGetOne} from "react-admin";
+import {Confirm, useGetOne} from "react-admin";
 import {useNavigate, useParams} from "react-router-dom";
 import {SMS_OWNER_ROLE_LABEL} from "./constants";
+import {SmsContactSearchResults} from "./SmsContactSearchResults";
 import {useOwnerAccount} from "./useOwnerAccount";
 import {useSmsContactGroupMembers} from "./useSmsContactGroupMembers";
+import {MIN_SEARCH_LENGTH, useSmsContactSearch} from "./useSmsContactSearch";
 
 const contactLabel = (contact: SmsContact) =>
-  [
-    contact.name,
-    contact.phoneNumber,
-    contact.ownerRole ? SMS_OWNER_ROLE_LABEL[contact.ownerRole] : undefined,
-  ]
-    .filter(Boolean)
-    .join(" — ");
+  [contact.name, contact.phoneNumber].filter(Boolean).join(" — ");
 
 export const SmsContactGroupShow = () => {
   const {id} = useParams<{id: string}>();
   const navigate = useNavigate();
-  const [selectedContact, setSelectedContact] = useState<SmsContact | null>(
-    null
-  );
+  const [selectedContacts, setSelectedContacts] = useState<SmsContact[]>([]);
+  const [memberToRemove, setMemberToRemove] = useState<SmsContact | null>(null);
+  const {
+    searchInput,
+    setSearchInput,
+    results: searchResults,
+    isSearching,
+    canSearch,
+  } = useSmsContactSearch();
 
   const {
     data: groupData,
@@ -52,11 +53,7 @@ export const SmsContactGroupShow = () => {
   const group = groupData as SmsContactGroupDetail | undefined;
   const {owner} = useOwnerAccount(group?.ownerId);
 
-  const {data: contacts = []} = useGetList("sms-contacts", {
-    pagination: {page: 1, perPage: 500},
-  });
-
-  const {addMember, removeMember, isMutating} = useSmsContactGroupMembers(
+  const {addMembers, removeMember, isMutating} = useSmsContactGroupMembers(
     id ?? "",
     refetch
   );
@@ -66,15 +63,38 @@ export const SmsContactGroupShow = () => {
     () => new Set(members.map((member) => member.id)),
     [members]
   );
+  const selectedIds = useMemo(
+    () => new Set(selectedContacts.map((contact) => contact.id)),
+    [selectedContacts]
+  );
   const availableContacts = useMemo(
-    () => (contacts as SmsContact[]).filter((c) => !memberIds.has(c.id)),
-    [contacts, memberIds]
+    () => searchResults.filter((c) => !memberIds.has(c.id)),
+    [searchResults, memberIds]
   );
 
-  const handleAdd = async () => {
-    if (!selectedContact?.id) return;
-    await addMember(selectedContact.id);
-    setSelectedContact(null);
+  const toggleContact = (contact: SmsContact) => {
+    setSelectedContacts((prev) =>
+      prev.some((selected) => selected.id === contact.id)
+        ? prev.filter((selected) => selected.id !== contact.id)
+        : [...prev, contact]
+    );
+  };
+
+  const handleAddSelected = async () => {
+    await addMembers(
+      selectedContacts
+        .map((contact) => contact.id)
+        .filter((contactId): contactId is string => !!contactId)
+    );
+    setSelectedContacts([]);
+    setSearchInput("");
+  };
+
+  const handleConfirmRemove = async () => {
+    if (memberToRemove?.id) {
+      await removeMember(memberToRemove.id);
+    }
+    setMemberToRemove(null);
   };
 
   if (!id) return null;
@@ -124,31 +144,86 @@ export const SmsContactGroupShow = () => {
 
       <Paper variant="outlined" sx={{p: 2, mb: 3}}>
         <Typography variant="subtitle2" sx={{mb: 1.5}}>
-          Ajouter un contact au groupe
+          Ajouter des contacts au groupe
         </Typography>
-        <Stack direction="row" spacing={1.5} alignItems="center">
-          <Autocomplete
-            fullWidth
-            size="small"
-            options={availableContacts}
-            value={selectedContact}
-            onChange={(_event, value) => setSelectedContact(value)}
-            getOptionLabel={contactLabel}
-            isOptionEqualToValue={(option, value) => option.id === value.id}
-            noOptionsText="Aucun contact disponible"
-            renderInput={(params) => (
-              <TextField {...params} label="Rechercher un contact" />
-            )}
-          />
-          <Button
-            variant="contained"
-            disabled={!selectedContact || isMutating}
-            onClick={handleAdd}
-            data-testid="add-sms-contact-group-member"
+        <TextField
+          fullWidth
+          size="small"
+          label="Rechercher un contact (nom ou numéro)"
+          value={searchInput}
+          onChange={(event) => setSearchInput(event.target.value)}
+          inputProps={{"data-testid": "sms-contact-search-input"}}
+          sx={{mb: 1.5}}
+        />
+
+        {selectedContacts.length > 0 && (
+          <Box sx={{mb: 1.5}}>
+            <Typography
+              variant="caption"
+              color="text.secondary"
+              sx={{display: "block", mb: 0.5}}
+            >
+              Contacts sélectionnés
+            </Typography>
+            <Stack
+              direction="row"
+              spacing={1}
+              flexWrap="wrap"
+              sx={{
+                p: 1,
+                border: "1px solid",
+                borderColor: "divider",
+                borderRadius: 1,
+              }}
+            >
+              {selectedContacts.map((contact) => (
+                <Chip
+                  key={contact.id}
+                  size="small"
+                  label={contactLabel(contact)}
+                  onDelete={() => toggleContact(contact)}
+                />
+              ))}
+            </Stack>
+          </Box>
+        )}
+
+        {searchInput.length > 0 && (
+          <Box
+            sx={{
+              mb: 1.5,
+              maxHeight: 320,
+              overflow: "auto",
+              border: "1px solid",
+              borderColor: "divider",
+              borderRadius: 1,
+            }}
           >
-            Ajouter
-          </Button>
-        </Stack>
+            <SmsContactSearchResults
+              contacts={availableContacts}
+              searchInput={searchInput}
+              isSelected={(id) => selectedIds.has(id)}
+              onToggle={toggleContact}
+              getLabel={contactLabel}
+              emptyMessage={
+                !canSearch
+                  ? `Tapez au moins ${MIN_SEARCH_LENGTH} caractères`
+                  : isSearching
+                    ? "Recherche…"
+                    : "Aucun contact trouvé"
+              }
+            />
+          </Box>
+        )}
+
+        <Button
+          variant="contained"
+          disabled={selectedContacts.length === 0 || isMutating}
+          onClick={handleAddSelected}
+          data-testid="add-sms-contact-group-members"
+        >
+          Ajouter ({selectedContacts.length})
+        </Button>
       </Paper>
 
       <Paper variant="outlined">
@@ -197,7 +272,7 @@ export const SmsContactGroupShow = () => {
                     color="error"
                     disabled={isMutating}
                     data-testid={`remove-sms-contact-group-member-${member.id}`}
-                    onClick={() => member.id && removeMember(member.id)}
+                    onClick={() => setMemberToRemove(member)}
                   >
                     <DeleteIcon fontSize="small" />
                   </IconButton>
@@ -207,6 +282,17 @@ export const SmsContactGroupShow = () => {
           ))
         )}
       </Paper>
+
+      <Confirm
+        isOpen={!!memberToRemove}
+        title="Retirer ce contact du groupe ?"
+        content={`Voulez-vous vraiment retirer ${memberToRemove?.name ?? "ce contact"} de ce groupe ?`}
+        confirm="Retirer"
+        confirmColor="warning"
+        ConfirmIcon={DeleteIcon}
+        onConfirm={handleConfirmRemove}
+        onClose={() => setMemberToRemove(null)}
+      />
     </Box>
   );
 };

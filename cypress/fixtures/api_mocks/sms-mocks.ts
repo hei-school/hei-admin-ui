@@ -100,6 +100,15 @@ export const smsContact2Mock: SmsContact = {
   ownerRole: SmsContactOwnerRole.TEACHER,
 };
 
+export const smsContactMonitorMock: SmsContact = {
+  id: "sms_contact_monitor_id",
+  name: "Test Monitor",
+  phoneNumber: "0341234569",
+  ownerId: "monitor1_id",
+  ownerRef: "MTR21001",
+  ownerRole: SmsContactOwnerRole.MONITOR,
+};
+
 export const smsContactsMock: SmsContact[] = [smsContact1Mock, smsContact2Mock];
 
 export const smsContactGroup1Mock: SmsContactGroup = {

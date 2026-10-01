@@ -1,5 +1,6 @@
 import {DeleteWithConfirm} from "@/operations/common/components";
 import {HaList} from "@/ui/haList/HaList";
+import {HaActionWrapper} from "@/ui/haToolbar";
 import {SmsContactGroup} from "@haapi-b0fc7615/typescript-client";
 import {
   Add,
@@ -58,13 +59,15 @@ export const SmsContactGroupList = () => {
         title="Groupes de contacts SMS"
         resource="sms-contact-groups"
         actions={
-          <Button
-            startIcon={<Add />}
-            onClick={() => setIsCreateOpen(true)}
-            data-testid="create-sms-contact-group"
-          >
-            Créer un groupe
-          </Button>
+          <HaActionWrapper>
+            <Button
+              startIcon={<Add />}
+              onClick={() => setIsCreateOpen(true)}
+              data-testid="create-sms-contact-group"
+            >
+              Créer
+            </Button>
+          </HaActionWrapper>
         }
         datagridProps={{
           rowClick: (_id: Identifier, _resource: string, record: RaRecord) => {

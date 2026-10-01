@@ -31,15 +31,18 @@ export const SmsContactList = () => {
         <FunctionField
           label="Action"
           render={(record: SmsContact) => (
-            <DeleteWithConfirm
-              resourceType="sms-contacts"
-              id={record.id}
-              redirect=""
-              confirmTitle="Retirer ce contact du carnet d'adresses SMS ?"
-              confirmContent="Le compte utilisateur associé n'est pas affecté, seul le contact SMS est retiré."
-            />
+            <Box
+              sx={{display: "flex", justifyContent: "center", width: "100%"}}
+            >
+              <DeleteWithConfirm
+                resourceType="sms-contacts"
+                id={record.id}
+                redirect=""
+                confirmTitle="Retirer ce contact du carnet d'adresses SMS ?"
+                confirmContent="Le compte utilisateur associé n'est pas affecté, seul le contact SMS est retiré."
+              />
+            </Box>
           )}
-          textAlign="center"
         />
       </HaList>
     </Box>

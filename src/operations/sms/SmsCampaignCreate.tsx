@@ -1,12 +1,14 @@
 import {FILE_FIELD_STYLE} from "@/operations/common/components/FileUploadDialog";
+import {exportData} from "@/operations/utils";
+import {SmsContact, SmsContactGroup} from "@haapi-b0fc7615/typescript-client";
 import {
-  SmsContact,
-  SmsContactOwnerRole,
-} from "@haapi-b0fc7615/typescript-client";
-import {Campaign as SmsCampaignIcon} from "@mui/icons-material";
+  Download as DownloadIcon,
+  Campaign as SmsCampaignIcon,
+} from "@mui/icons-material";
 import {
   Box,
   Button,
+  Paper,
   ToggleButton,
   ToggleButtonGroup,
   Typography,
@@ -17,15 +19,15 @@ import {
   FileInput,
   required,
   SaveButton,
-  SelectArrayInput,
   SimpleForm,
   TextInput,
   Toolbar,
-  useGetList,
 } from "react-admin";
 import {FieldValues, useWatch} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
-import {SMS_OWNER_ROLE_LABEL} from "./constants";
+import {SmsContactGroupMultiSelectInput} from "./SmsContactGroupMultiSelectInput";
+import {SmsContactMultiSearchInput} from "./SmsContactMultiSearchInput";
+import {SmsPhoneNumberChipsInput} from "./SmsPhoneNumberChipsInput";
 import {SendSmsCampaignInput, useSendSmsCampaign} from "./useSendSmsCampaign";
 
 type SmsCampaignSource = SendSmsCampaignInput["source"];
@@ -36,23 +38,6 @@ const SOURCE_LABEL: Record<SmsCampaignSource, string> = {
   manual: "Numéros manuels",
   file: "Fichier",
 };
-
-const contactLabel = (contact: SmsContact) =>
-  [
-    contact.name,
-    contact.phoneNumber,
-    contact.ownerRole
-      ? SMS_OWNER_ROLE_LABEL[contact.ownerRole as SmsContactOwnerRole]
-      : undefined,
-  ]
-    .filter(Boolean)
-    .join(" — ");
-
-const parseManualPhoneNumbers = (value?: string) =>
-  (value ?? "")
-    .split(/[\n,;]+/)
-    .map((phoneNumber) => phoneNumber.trim())
-    .filter(Boolean);
 
 const extractFile = (value: unknown): File | undefined => {
   if (!value) return undefined;
@@ -94,59 +79,65 @@ const SmsCampaignFormToolbar = ({isLoading}: {isLoading: boolean}) => (
   </Toolbar>
 );
 
-const GroupsFields = () => {
-  const {data: contactGroups = []} = useGetList("sms-contact-groups", {
-    pagination: {page: 1, perPage: 500},
-  });
-  return (
-    <SelectArrayInput
-      source="contactGroupIds"
-      label="Groupes de contacts"
-      choices={contactGroups}
-      optionText="name"
-      validate={required()}
-      fullWidth
-    />
-  );
-};
-
-const ContactsFields = () => {
-  const {data: contacts = []} = useGetList("sms-contacts", {
-    pagination: {page: 1, perPage: 500},
-  });
-  return (
-    <SelectArrayInput
-      source="contactIds"
-      label="Contacts"
-      choices={contacts}
-      optionText={contactLabel}
-      validate={required()}
-      fullWidth
-    />
-  );
-};
-
-const ManualNumbersFields = () => (
-  <TextInput
-    source="manualPhoneNumbers"
-    label="Numéros manuels (un par ligne ou séparés par une virgule)"
-    multiline
-    minRows={2}
-    fullWidth
+const GroupsFields = () => (
+  <SmsContactGroupMultiSelectInput
+    source="contactGroups"
+    label="Groupes de contacts"
     validate={required()}
   />
 );
 
-const FileFields = () => (
-  <FileInput
-    source="file"
-    label="Fichier de destinataires (.csv, .xlsx)"
-    accept=".csv,.xlsx"
-    sx={FILE_FIELD_STYLE}
+const ContactsFields = () => (
+  <SmsContactMultiSearchInput
+    source="contacts"
+    label="Contacts"
     validate={required()}
-  >
-    <FileField source="src" title="title" />
-  </FileInput>
+  />
+);
+
+const ManualNumbersFields = () => (
+  <SmsPhoneNumberChipsInput
+    source="manualPhoneNumbers"
+    label="Numéros manuels"
+    validate={required()}
+  />
+);
+
+const downloadSmsFileTemplate = () =>
+  exportData(
+    [],
+    ["Destinataire", "Message (optionnel)"],
+    "modele_sms_destinataires"
+  );
+
+const FileFields = () => (
+  <>
+    <Button
+      size="small"
+      startIcon={<DownloadIcon />}
+      onClick={downloadSmsFileTemplate}
+      data-testid="download-sms-file-template"
+      sx={{mb: 1.5, alignSelf: "flex-start"}}
+    >
+      Télécharger le modèle de fichier
+    </Button>
+    <FileInput
+      source="file"
+      label="Fichier de destinataires (.csv, .xlsx)"
+      accept=".csv,.xlsx"
+      sx={{
+        ...FILE_FIELD_STYLE,
+        "height": "40vh",
+        "& .RaFileInput-dropZone": {
+          ...FILE_FIELD_STYLE["& .RaFileInput-dropZone"],
+          height: "40vh",
+        },
+      }}
+      validate={required()}
+    >
+      <FileField source="src" title="title" />
+    </FileInput>
+  </>
 );
 
 const SmsCampaignFormContent = ({source}: {source: SmsCampaignSource}) => (
@@ -166,27 +157,29 @@ export const SmsCampaignCreate = () => {
 
   const handleSubmit = (values: FieldValues) => {
     switch (source) {
-      case "groups":
+      case "groups": {
+        const contactGroups: SmsContactGroup[] = values.contactGroups ?? [];
         send({
           source,
           message: values.message,
-          contactGroupIds: values.contactGroupIds ?? [],
+          contactGroupIds: contactGroups.map((group) => group.id!),
         });
         return;
-      case "contacts":
+      }
+      case "contacts": {
+        const contacts: SmsContact[] = values.contacts ?? [];
         send({
           source,
           message: values.message,
-          contactIds: values.contactIds ?? [],
+          contactIds: contacts.map((contact) => contact.id!),
         });
         return;
+      }
       case "manual":
         send({
           source,
           message: values.message,
-          manualPhoneNumbers: parseManualPhoneNumbers(
-            values.manualPhoneNumbers
-          ),
+          manualPhoneNumbers: values.manualPhoneNumbers ?? [],
         });
         return;
       case "file": {
@@ -198,8 +191,8 @@ export const SmsCampaignCreate = () => {
   };
 
   return (
-    <Box sx={{maxWidth: 800, mx: "auto", p: 3}}>
-      <Box sx={{display: "flex", alignItems: "center", gap: 1.5, mb: 2}}>
+    <Box sx={{maxWidth: 1400, mx: "auto", p: 3}}>
+      <Box sx={{display: "flex", alignItems: "center", gap: 1.5, mb: 3}}>
         <SmsCampaignIcon />
         <Typography variant="h5">Nouvelle campagne SMS</Typography>
         <Button
@@ -210,34 +203,53 @@ export const SmsCampaignCreate = () => {
           Retour aux campagnes
         </Button>
       </Box>
-      <ToggleButtonGroup
-        exclusive
-        color="primary"
-        value={source}
-        onChange={(_event, value: SmsCampaignSource | null) =>
-          value && setSource(value)
-        }
-        sx={{mb: 3}}
-      >
-        {(Object.keys(SOURCE_LABEL) as SmsCampaignSource[]).map((key) => (
-          <ToggleButton key={key} value={key} data-testid={`sms-source-${key}`}>
-            {SOURCE_LABEL[key]}
-          </ToggleButton>
-        ))}
-      </ToggleButtonGroup>
-      <SimpleForm
-        key={source}
-        onSubmit={handleSubmit}
-        defaultValues={{
-          message: "",
-          manualPhoneNumbers: "",
-          contactGroupIds: [],
-          contactIds: [],
-        }}
-        toolbar={<SmsCampaignFormToolbar isLoading={isLoading} />}
-      >
-        <SmsCampaignFormContent source={source} />
-      </SimpleForm>
+      <Paper variant="outlined" sx={{p: {xs: 2, md: 3}}}>
+        <ToggleButtonGroup
+          exclusive
+          color="primary"
+          value={source}
+          onChange={(_event, value: SmsCampaignSource | null) =>
+            value && setSource(value)
+          }
+          sx={{
+            "mb": 3,
+            "flexWrap": "wrap",
+            "& .MuiToggleButton-root.Mui-selected": {
+              backgroundColor: "rgba(40, 53, 147, 0.16)",
+              borderColor: "rgba(40, 53, 147, 0.6)",
+              color: "#1a2266",
+              fontWeight: 600,
+            },
+            "& .MuiToggleButton-root.Mui-selected:hover": {
+              backgroundColor: "rgba(40, 53, 147, 0.24)",
+            },
+          }}
+        >
+          {(Object.keys(SOURCE_LABEL) as SmsCampaignSource[]).map((key) => (
+            <ToggleButton
+              key={key}
+              value={key}
+              data-testid={`sms-source-${key}`}
+            >
+              {SOURCE_LABEL[key]}
+            </ToggleButton>
+          ))}
+        </ToggleButtonGroup>
+        <SimpleForm
+          key={source}
+          onSubmit={handleSubmit}
+          defaultValues={{
+            message: "",
+            manualPhoneNumbers: [],
+            contactGroups: [],
+            contacts: [],
+          }}
+          toolbar={<SmsCampaignFormToolbar isLoading={isLoading} />}
+          sx={{p: 0}}
+        >
+          <SmsCampaignFormContent source={source} />
+        </SimpleForm>
+      </Paper>
     </Box>
   );
 };

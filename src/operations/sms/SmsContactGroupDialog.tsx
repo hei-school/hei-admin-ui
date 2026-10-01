@@ -9,14 +9,13 @@ import {useState} from "react";
 import {
   required,
   SaveButton,
-  SelectArrayInput,
   SimpleForm,
   TextInput,
   Toolbar,
-  useGetList,
   useRefresh,
 } from "react-admin";
 import {FieldValues} from "react-hook-form";
+import {SmsContactMultiSearchInput} from "./SmsContactMultiSearchInput";
 
 interface SmsContactGroupDialogProps {
   onClose: () => void;
@@ -28,15 +27,13 @@ export const SmsContactGroupDialog = ({
   const notify = useNotify();
   const refresh = useRefresh();
   const [isLoading, setIsLoading] = useState(false);
-  const {data: contacts = []} = useGetList("sms-contacts", {
-    pagination: {page: 1, perPage: 500},
-  });
 
   const handleSubmit = async (values: FieldValues) => {
     setIsLoading(true);
+    const contacts: SmsContact[] = values.contacts ?? [];
     const payload: CrupdateSmsContactGroup = {
       name: values.name,
-      contactIds: values.contactIds ?? [],
+      contactIds: contacts.map((contact) => contact.id!),
     };
     try {
       await smsContactGroupsProvider.saveOrUpdate([payload], {
@@ -56,7 +53,7 @@ export const SmsContactGroupDialog = ({
     <Dialog title="Créer un groupe de contacts" open onClose={onClose}>
       <SimpleForm
         onSubmit={handleSubmit}
-        defaultValues={{name: "", contactIds: []}}
+        defaultValues={{name: "", contacts: []}}
         toolbar={
           <Toolbar>
             <SaveButton
@@ -73,14 +70,9 @@ export const SmsContactGroupDialog = ({
           fullWidth
           validate={required()}
         />
-        <SelectArrayInput
-          source="contactIds"
+        <SmsContactMultiSearchInput
+          source="contacts"
           label="Membres initiaux (optionnel)"
-          choices={contacts}
-          optionText={(contact: SmsContact) =>
-            [contact.name, contact.phoneNumber].filter(Boolean).join(" — ")
-          }
-          fullWidth
         />
       </SimpleForm>
     </Dialog>

@@ -19,19 +19,32 @@ export const useSmsContactGroupMembers = (
   const notify = useNotify();
   const [isMutating, setIsMutating] = useState(false);
 
-  const addMember = async (contactId: string) => {
+  const addMembers = async (contactIds: string[]) => {
+    if (contactIds.length === 0) return;
     setIsMutating(true);
     try {
-      await smsApi().addSmsContactGroupMember(groupId, contactId);
-      notify("Contact ajouté au groupe", {type: "success"});
-      onChange();
-    } catch (error) {
-      notify(
-        errorMessage(error, "Erreur lors de l'ajout du contact au groupe"),
-        {
-          type: "error",
-        }
+      const results = await Promise.allSettled(
+        contactIds.map((contactId) =>
+          smsApi().addSmsContactGroupMember(groupId, contactId)
+        )
       );
+      const succeeded = results.filter(
+        (result) => result.status === "fulfilled"
+      ).length;
+      const failed = results.length - succeeded;
+
+      if (succeeded > 0) {
+        notify(
+          `${succeeded} contact(s) ajouté(s) au groupe` +
+            (failed ? ` (${failed} échec(s))` : ""),
+          {type: failed ? "warning" : "success"}
+        );
+      } else {
+        notify("Erreur lors de l'ajout des contacts au groupe", {
+          type: "error",
+        });
+      }
+      onChange();
     } finally {
       setIsMutating(false);
     }
@@ -52,5 +65,5 @@ export const useSmsContactGroupMembers = (
     }
   };
 
-  return {addMember, removeMember, isMutating};
+  return {addMembers, removeMember, isMutating};
 };
