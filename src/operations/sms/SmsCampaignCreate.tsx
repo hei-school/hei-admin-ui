@@ -1,5 +1,4 @@
 import {FILE_FIELD_STYLE} from "@/operations/common/components/FileUploadDialog";
-import {exportData} from "@/operations/utils";
 import {SmsContact, SmsContactGroup} from "@haapi-b0fc7615/typescript-client";
 import {
   Download as DownloadIcon,
@@ -25,6 +24,7 @@ import {
 } from "react-admin";
 import {FieldValues, useWatch} from "react-hook-form";
 import {useNavigate} from "react-router-dom";
+import {utils, writeFile} from "xlsx";
 import {SmsContactGroupMultiSelectInput} from "./SmsContactGroupMultiSelectInput";
 import {SmsContactMultiSearchInput} from "./SmsContactMultiSearchInput";
 import {SmsPhoneNumberChipsInput} from "./SmsPhoneNumberChipsInput";
@@ -103,12 +103,16 @@ const ManualNumbersFields = () => (
   />
 );
 
-const downloadSmsFileTemplate = () =>
-  exportData(
-    [],
-    ["Destinataire", "Message (optionnel)"],
-    "modele_sms_destinataires"
-  );
+const downloadSmsFileTemplate = () => {
+  const note =
+    "Le message est optionnel si vous envoyez le même message à tous les destinataires : dans ce cas, laissez la colonne Message vide et utilisez le champ Message de l'interface web. Le message est obligatoire si vous voulez un message différent pour chaque destinataire.";
+  const worksheet = utils.aoa_to_sheet([[note], ["Destinataire", "Message"]]);
+  worksheet["!merges"] = [{s: {r: 0, c: 0}, e: {r: 0, c: 1}}];
+  worksheet["!cols"] = [{wch: 40}, {wch: 60}];
+  const workbook = utils.book_new();
+  utils.book_append_sheet(workbook, worksheet, "Sheet1");
+  writeFile(workbook, "modele_sms_destinataires.xlsx", {compression: true});
+};
 
 const FileFields = () => (
   <>
