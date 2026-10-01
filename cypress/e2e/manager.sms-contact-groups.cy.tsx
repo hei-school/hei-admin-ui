@@ -91,7 +91,7 @@ describe("Manager.SmsContactGroups", () => {
       .click();
     cy.get(".ra-confirm").click();
     cy.wait("@deleteGroup");
-    cy.contains("Élément supprimé avec succès.");
+    cy.contains("Élément supprimé avec succès.").should("be.visible");
   });
 
   it("navigates to the group detail page and shows its members", () => {

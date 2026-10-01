@@ -98,7 +98,7 @@ export const SmsPhoneNumberChipsInput = ({
             (number, index) =>
               index !== editingIndex && (
                 <Chip
-                  key={index}
+                  key={`${number}-${index}`}
                   size="small"
                   label={number}
                   onClick={() => startEditing(index)}

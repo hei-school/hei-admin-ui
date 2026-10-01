@@ -40,6 +40,12 @@ export const SmsContactMultiSearchInput = ({
     );
   };
 
+  const getEmptyMessage = () => {
+    if (!canSearch) return `Tapez au moins ${MIN_SEARCH_LENGTH} caractères`;
+    if (isSearching) return "Recherche…";
+    return "Aucun contact trouvé";
+  };
+
   return (
     <Box sx={{width: "100%"}}>
       {selectedContacts.length > 0 && (
@@ -97,13 +103,7 @@ export const SmsContactMultiSearchInput = ({
             isSelected={(id) => selectedIds.has(id)}
             onToggle={toggleContact}
             getLabel={contactIdentity}
-            emptyMessage={
-              !canSearch
-                ? `Tapez au moins ${MIN_SEARCH_LENGTH} caractères`
-                : isSearching
-                  ? "Recherche…"
-                  : "Aucun contact trouvé"
-            }
+            emptyMessage={getEmptyMessage()}
           />
         </Box>
       )}

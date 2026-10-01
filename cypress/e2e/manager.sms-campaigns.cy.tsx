@@ -1,7 +1,10 @@
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {manager1Mock} from "../fixtures/api_mocks/managers-mocks";
 import {
   smsCampaignDeliveredMock,
   smsCampaignFailedMock,
+  smsCampaignLongMessageMock,
+  smsCampaignMinimalMock,
   smsCampaignsMock,
   smsContact1Mock,
   smsContact2Mock,
@@ -9,8 +12,10 @@ import {
   smsContactGroup2Mock,
   smsContactGroupsMock,
   smsContactMonitorMock,
+  smsContactNoRoleMock,
   smsLogDeliveredMock,
   smsLogFailedMock,
+  smsLogPendingNoSourceMock,
 } from "../fixtures/api_mocks/sms-mocks";
 
 describe("Manager.SmsCampaigns", () => {
@@ -149,6 +154,7 @@ describe("Manager.SmsCampaigns", () => {
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-file").click();
     cy.getByTestid("download-sms-file-template").click();
+    cy.getByTestid("download-sms-file-template").should("be.visible");
   });
 
   it("groups contact search results by role and lists linked contacts when searching a student ref", () => {
@@ -279,7 +285,9 @@ describe("Manager.SmsCampaigns", () => {
     );
     cy.getByTestid("send-sms-campaign").click();
     cy.wait("@createCampaign");
-    cy.contains("Solde SMS insuffisant pour couvrir ces destinataires");
+    cy.contains("Solde SMS insuffisant pour couvrir ces destinataires").should(
+      "be.visible"
+    );
   });
 
   it("creates a campaign from an uploaded file, sending only the file in the multipart body", () => {
@@ -328,7 +336,7 @@ describe("Manager.SmsCampaigns", () => {
     );
     cy.getByTestid("send-sms-campaign").click();
     cy.wait("@createCampaignByFile");
-    cy.contains("Fichier rejeté");
-    cy.contains("ligne 2 (abc) : Numéro invalide");
+    cy.contains("Fichier rejeté").should("be.visible");
+    cy.contains("ligne 2 (abc) : Numéro invalide").should("be.visible");
   });
 });

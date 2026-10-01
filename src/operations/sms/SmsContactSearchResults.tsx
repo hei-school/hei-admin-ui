@@ -29,11 +29,15 @@ const getOrderedRoles = (
   search: string
 ): {roles: SmsContactOwnerRole[]; linkedRole?: SmsContactOwnerRole} => {
   const trimmed = search.trim().toUpperCase();
-  const [primaryRole, linkedRole] = trimmed.startsWith("STD")
-    ? [SmsContactOwnerRole.STUDENT, SmsContactOwnerRole.MONITOR]
-    : trimmed.startsWith("MTR")
-      ? [SmsContactOwnerRole.MONITOR, SmsContactOwnerRole.STUDENT]
-      : [undefined, undefined];
+  let primaryRole: SmsContactOwnerRole | undefined;
+  let linkedRole: SmsContactOwnerRole | undefined;
+  if (trimmed.startsWith("STD")) {
+    primaryRole = SmsContactOwnerRole.STUDENT;
+    linkedRole = SmsContactOwnerRole.MONITOR;
+  } else if (trimmed.startsWith("MTR")) {
+    primaryRole = SmsContactOwnerRole.MONITOR;
+    linkedRole = SmsContactOwnerRole.STUDENT;
+  }
   if (!primaryRole || !linkedRole) return {roles: DEFAULT_ROLE_ORDER};
   return {
     roles: [

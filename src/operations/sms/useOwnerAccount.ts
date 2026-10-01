@@ -17,26 +17,23 @@ export const useOwnerAccount = (ownerId?: string) => {
     let isMounted = true;
     setIsLoading(true);
 
-    usersApi()
-      .getAdminById(ownerId)
-      .then(({data}) => {
+    const fetchOwner = async () => {
+      try {
+        const {data} = await usersApi().getAdminById(ownerId);
         if (isMounted) setOwner({ref: data.ref, firstName: data.first_name});
-      })
-      .catch(() =>
-        usersApi()
-          .getManagerById(ownerId)
-          .then(({data}) => {
-            if (isMounted) {
-              setOwner({ref: data.ref, firstName: data.first_name});
-            }
-          })
-          .catch(() => {
-            if (isMounted) setOwner(null);
-          })
-      )
-      .finally(() => {
+      } catch {
+        try {
+          const {data} = await usersApi().getManagerById(ownerId);
+          if (isMounted) setOwner({ref: data.ref, firstName: data.first_name});
+        } catch {
+          if (isMounted) setOwner(null);
+        }
+      } finally {
         if (isMounted) setIsLoading(false);
-      });
+      }
+    };
+
+    void fetchOwner();
 
     return () => {
       isMounted = false;

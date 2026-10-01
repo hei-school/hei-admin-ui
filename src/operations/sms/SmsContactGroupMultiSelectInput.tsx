@@ -41,6 +41,13 @@ export const SmsContactGroupMultiSelectInput = ({
     );
   }, [contactGroups, filter, canSearch]);
 
+  const getEmptyMessage = () => {
+    if (!canSearch)
+      return `Tapez au moins ${MIN_GROUP_FILTER_LENGTH} caractères`;
+    if (isLoading) return "Chargement…";
+    return "Aucun groupe trouvé";
+  };
+
   const toggleGroup = (group: SmsContactGroup) => {
     field.onChange(
       selectedIds.has(group.id)
@@ -97,13 +104,7 @@ export const SmsContactGroupMultiSelectInput = ({
           isSelected={(id) => selectedIds.has(id)}
           onToggle={toggleGroup}
           testIdPrefix="toggle-sms-contact-group"
-          emptyMessage={
-            !canSearch
-              ? `Tapez au moins ${MIN_GROUP_FILTER_LENGTH} caractères`
-              : isLoading
-                ? "Chargement…"
-                : "Aucun groupe trouvé"
-          }
+          emptyMessage={getEmptyMessage()}
         />
       )}
     </Box>

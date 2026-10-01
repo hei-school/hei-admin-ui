@@ -80,6 +80,12 @@ export const SmsContactGroupShow = () => {
     );
   };
 
+  const getEmptyMessage = () => {
+    if (!canSearch) return `Tapez au moins ${MIN_SEARCH_LENGTH} caractères`;
+    if (isSearching) return "Recherche…";
+    return "Aucun contact trouvé";
+  };
+
   const handleAddSelected = async () => {
     await addMembers(
       selectedContacts
@@ -205,13 +211,7 @@ export const SmsContactGroupShow = () => {
               isSelected={(id) => selectedIds.has(id)}
               onToggle={toggleContact}
               getLabel={contactLabel}
-              emptyMessage={
-                !canSearch
-                  ? `Tapez au moins ${MIN_SEARCH_LENGTH} caractères`
-                  : isSearching
-                    ? "Recherche…"
-                    : "Aucun contact trouvé"
-              }
+              emptyMessage={getEmptyMessage()}
             />
           </Box>
         )}

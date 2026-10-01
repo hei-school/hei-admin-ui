@@ -8,13 +8,13 @@ import {
 } from "@mui/material";
 
 interface SmsCheckboxSearchListProps<T> {
-  items: T[];
-  getId: (item: T) => string | undefined;
-  getLabel: (item: T) => string;
-  isSelected: (id: string) => boolean;
-  onToggle: (item: T) => void;
-  emptyMessage: string;
-  testIdPrefix: string;
+  readonly items: T[];
+  readonly getId: (item: T) => string | undefined;
+  readonly getLabel: (item: T) => string;
+  readonly isSelected: (id: string) => boolean;
+  readonly onToggle: (item: T) => void;
+  readonly emptyMessage: string;
+  readonly testIdPrefix: string;
 }
 
 export function SmsCheckboxSearchList<T>({

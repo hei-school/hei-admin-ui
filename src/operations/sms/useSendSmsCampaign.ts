@@ -69,8 +69,9 @@ export const useSendSmsCampaign = () => {
             .slice(0, 3)
             .map((row) => `ligne ${row.row} (${row.value}) : ${row.reason}`)
             .join(" ; ");
+          const detailSuffix = detail ? ` : ${detail}` : "";
           notify(
-            `Fichier rejeté, aucune SMS envoyé — ${rows.length} ligne(s) invalide(s)${detail ? ` : ${detail}` : ""}`,
+            `Fichier rejeté, aucune SMS envoyé — ${rows.length} ligne(s) invalide(s)${detailSuffix}`,
             {type: "error", autoHideDuration: 10000}
           );
         } else {

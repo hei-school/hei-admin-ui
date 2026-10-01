@@ -145,7 +145,7 @@ function UserInfo() {
         })
         .catch(() => {});
     };
-    doEffect();
+    void doEffect();
   }, []);
 
   const {first_name, profile_picture = defaultProfilePicture} = user ?? {};

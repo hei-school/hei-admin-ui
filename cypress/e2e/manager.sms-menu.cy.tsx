@@ -55,4 +55,20 @@ describe("SmsMenu.AccessControl", () => {
     cy.url().should("include", "/sms-campaigns");
     cy.contains("Campagnes SMS");
   });
+
+  it("renders nothing when the SMS balance fails to load", () => {
+    mockAppBarSideEffects();
+    cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
+    cy.wait("@getSmsBalance");
+    cy.getByTestid("sms-balance-indicator").should("be.visible");
+    cy.intercept("GET", "**/sms-balance", {
+      statusCode: 500,
+      body: {},
+    }).as("getSmsBalanceError");
+    cy.visit("/", {
+      onBeforeLoad: (win) => win.sessionStorage.setItem("ha_bearer", "mock"),
+    });
+    cy.wait("@getSmsBalanceError");
+    cy.getByTestid("sms-balance-indicator").should("not.exist");
+  });
 });

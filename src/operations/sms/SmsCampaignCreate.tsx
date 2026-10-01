@@ -155,11 +155,11 @@ export const SmsCampaignCreate = () => {
   const {send, isLoading} = useSendSmsCampaign();
   const [source, setSource] = useState<SmsCampaignSource>("groups");
 
-  const handleSubmit = (values: FieldValues) => {
+  const handleSubmit = async (values: FieldValues) => {
     switch (source) {
       case "groups": {
         const contactGroups: SmsContactGroup[] = values.contactGroups ?? [];
-        send({
+        await send({
           source,
           message: values.message,
           contactGroupIds: contactGroups.map((group) => group.id!),
@@ -168,7 +168,7 @@ export const SmsCampaignCreate = () => {
       }
       case "contacts": {
         const contacts: SmsContact[] = values.contacts ?? [];
-        send({
+        await send({
           source,
           message: values.message,
           contactIds: contacts.map((contact) => contact.id!),
@@ -176,7 +176,7 @@ export const SmsCampaignCreate = () => {
         return;
       }
       case "manual":
-        send({
+        await send({
           source,
           message: values.message,
           manualPhoneNumbers: values.manualPhoneNumbers ?? [],
@@ -185,7 +185,7 @@ export const SmsCampaignCreate = () => {
       case "file": {
         const file = extractFile(values.file);
         if (!file) return;
-        send({source, message: values.message || undefined, file});
+        await send({source, message: values.message || undefined, file});
       }
     }
   };

@@ -11,6 +11,7 @@ import {
   SmsRecipientSource,
 } from "@haapi-b0fc7615/typescript-client";
 import {admin1Mock} from "./admins-mock";
+import {manager1Mock} from "./managers-mocks";
 
 export const smsBalanceMock: SmsBalance = {
   availableBalance: 1250,
@@ -57,6 +58,36 @@ export const smsCampaignFailedMock: SmsCampaign = {
   creationDatetime: new Date("2026-09-25T08:34:46Z"),
 };
 
+export const smsCampaignLongMessageMock: SmsCampaign = {
+  id: "sms_campaign_long_message_id",
+  message:
+    "Nouvelle campagne d'information generale destinee a tous les etudiants et au personnel administratif de l'ecole pour la rentree.",
+  status: SmsCampaignStatus.PENDING,
+  contactGroupIds: [],
+  contactIds: [],
+  manualPhoneNumberCount: 3,
+  fileImportCount: 0,
+  recipientCount: 3,
+  recipientsRejectedForBalance: 0,
+  deliveredCount: 0,
+  failedCount: 0,
+  smsSegmentsEach: 1,
+  creditsDebited: 3,
+  createdByRef: manager1Mock.ref,
+  creationDatetime: new Date("2026-09-26T09:00:00Z"),
+};
+
+export const smsCampaignMinimalMock: SmsCampaign = {
+  id: "sms_campaign_minimal_id",
+  contactGroupIds: [],
+  contactIds: [],
+  manualPhoneNumberCount: 0,
+  fileImportCount: 0,
+  smsSegmentsEach: 1,
+  creditsDebited: 0,
+  creationDatetime: new Date("2026-09-26T10:00:00Z"),
+};
+
 export const smsCampaignsMock: SmsCampaign[] = [
   smsCampaignDeliveredMock,
   smsCampaignFailedMock,
@@ -80,6 +111,14 @@ export const smsLogFailedMock: SmsLog = {
   recipientSource: SmsRecipientSource.IMPORTED_FILE,
   sentDatetime: new Date("2026-09-25T08:34:46Z"),
   failureReason: "Numéro invalide",
+};
+
+export const smsLogPendingNoSourceMock: SmsLog = {
+  id: "sms_log_pending_no_source_id",
+  campaignId: smsCampaignFailedMock.id,
+  phoneNumber: "0341234570",
+  status: SmsMessageStatus.PENDING,
+  sentDatetime: new Date("2026-09-25T08:34:50Z"),
 };
 
 export const smsContact1Mock: SmsContact = {
@@ -109,6 +148,12 @@ export const smsContactMonitorMock: SmsContact = {
   ownerRole: SmsContactOwnerRole.MONITOR,
 };
 
+export const smsContactNoRoleMock: SmsContact = {
+  id: "sms_contact_no_role_id",
+  name: "Test Independent",
+  phoneNumber: "0341234571",
+};
+
 export const smsContactsMock: SmsContact[] = [smsContact1Mock, smsContact2Mock];
 
 export const smsContactGroup1Mock: SmsContactGroup = {
@@ -122,6 +167,20 @@ export const smsContactGroup2Mock: SmsContactGroup = {
   id: "sms_contact_group2_id",
   name: "group-test",
   ownerId: admin1Mock.id,
+  memberCount: 0,
+};
+
+export const smsContactGroupManagerOwnedMock: SmsContactGroup = {
+  id: "sms_contact_group_manager_owned_id",
+  name: "manager-owned-group",
+  ownerId: manager1Mock.id,
+  memberCount: 0,
+};
+
+export const smsContactGroupUnknownOwnerMock: SmsContactGroup = {
+  id: "sms_contact_group_unknown_owner_id",
+  name: "unknown-owner-group",
+  ownerId: "unknown_owner_id",
   memberCount: 0,
 };
 
