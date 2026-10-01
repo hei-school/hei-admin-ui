@@ -65,8 +65,14 @@ export const GroupLayout = () => {
               data-testid="group-badges-download"
               size="large"
               sx={{
-                bgcolor: PALETTE_COLORS.primary,
-                color: PALETTE_COLORS.white,
+                "bgcolor": PALETTE_COLORS.primary,
+                "color": PALETTE_COLORS.white,
+                // keep the navy background: the default hover is almost white
+                "&:hover": {
+                  bgcolor: PALETTE_COLORS.primary,
+                  color: PALETTE_COLORS.white,
+                  opacity: 0.85,
+                },
               }}
             />
             <EditButton

@@ -3,6 +3,7 @@ import {
   getPublicStudent,
   getStudentByPublicId,
   httpStatusOf,
+  isBadgeExpired,
 } from "@/operations/badges/badgeApi";
 import authProvider from "@/providers/authProvider";
 import {getRedirectUrl, goToExternalURL} from "@/security/casdoorSetting";
@@ -34,8 +35,13 @@ const isLoggedIn = () => !!authProvider.getCachedWhoami().bearer;
  * Page opened by the badge QR code (public, like the calendar). Admins and managers
  * are redirected to the full student profile, others see the public information.
  */
-export const PublicStudentView = () => {
-  const {publicId = ""} = useParams();
+export const PublicStudentView = ({
+  publicId: publicIdProp,
+}: {
+  publicId?: string;
+}) => {
+  const params = useParams();
+  const publicId = publicIdProp ?? params.publicId ?? "";
   const navigate = useNavigate();
   const [student, setStudent] = useState<PublicStudent | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -112,7 +118,9 @@ export const PublicStudentView = () => {
               <>
                 {!student.is_valid && (
                   <div className="public-student__message public-student__message--warning">
-                    Ce badge a été annulé.
+                    {isBadgeExpired(student)
+                      ? `Ce badge a expiré : il était valable pour l'année ${student.academic_year ?? "précédente"}.`
+                      : "Ce badge a été annulé."}
                   </div>
                 )}
                 {student.profile_picture ? (

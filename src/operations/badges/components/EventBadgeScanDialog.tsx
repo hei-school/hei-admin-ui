@@ -54,7 +54,10 @@ export const EventBadgeScanDialog = ({
   const explainError = async (publicId: string, error: unknown) => {
     const status = httpStatusOf(error);
     if (status === 400) {
-      return {label: "Badge annulé", detail: "Ce badge a été déclaré perdu."};
+      return {
+        label: "Badge non valable",
+        detail: "Ce badge a été retiré ou son année universitaire est passée.",
+      };
     }
     if (status === 404) {
       try {
