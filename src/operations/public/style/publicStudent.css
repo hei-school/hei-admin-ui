@@ -1,0 +1,171 @@
+@import url("https://fonts.googleapis.com/css2?family=Quicksand:wght@300..700&display=swap");
+
+.public-student,
+.public-student * {
+  font-family: "Quicksand", sans-serif !important;
+}
+
+.public-student {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background-color: #f4f6fb;
+}
+
+.public-student__toolbar {
+  padding: 1.5rem 1rem;
+  background-color: #001948;
+  color: white;
+  text-align: center;
+}
+
+.public-student__toolbar-title {
+  font-size: 1.4rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.public-student__toolbar-subtitle {
+  margin-top: 0.25rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  color: #dfa408;
+}
+
+.public-student__content {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem 1rem;
+}
+
+.public-student__card {
+  width: 100%;
+  max-width: 380px;
+  background-color: white;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 10px 30px rgba(0, 25, 72, 0.12);
+}
+
+.public-student__card-header {
+  padding: 1rem;
+  background-color: #7495e0;
+  color: white;
+  text-align: center;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.public-student__card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.public-student__photo {
+  width: 130px;
+  height: 173px;
+  border-radius: 16px;
+  object-fit: cover;
+  background-color: #e0e0e0;
+}
+
+.public-student__last-name {
+  font-size: 1.3rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: #001948;
+}
+
+.public-student__ref {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: #dfa408;
+}
+
+.public-student__pills {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.public-student__pill {
+  border-radius: 20px;
+  padding: 0.3rem 0.9rem;
+  font-size: 0.8rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  color: white;
+  background-color: #001948;
+}
+
+.public-student__pill--success {
+  background-color: rgba(34, 197, 94, 0.9);
+}
+
+.public-student__pill--warning {
+  background-color: #dfa408;
+}
+
+.public-student__pill--error {
+  background-color: #ef4444;
+}
+
+.public-student__pill--default {
+  background-color: #9ca3af;
+}
+
+.public-student__button {
+  width: 100%;
+  margin-top: 0.5rem;
+  border: none;
+  outline: none;
+  border-radius: 20px;
+  padding: 0.7rem 1rem;
+  font-weight: bold;
+  text-transform: uppercase;
+  background-color: #7495e0;
+  color: white;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.public-student__button:hover {
+  background-color: #5b7fcf;
+}
+
+.public-student__button:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.public-student__message {
+  width: 100%;
+  border-radius: 12px;
+  padding: 0.75rem 1rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+.public-student__message--info {
+  background-color: rgba(116, 149, 224, 0.15);
+  color: #001948;
+}
+
+.public-student__message--warning {
+  background-color: rgba(223, 164, 8, 0.15);
+  color: #8a6500;
+}
+
+.public-student__message--error {
+  background-color: rgba(239, 68, 68, 0.12);
+  color: #b91c1c;
+}
