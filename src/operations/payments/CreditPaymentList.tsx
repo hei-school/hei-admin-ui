@@ -59,7 +59,13 @@ const CreditPaymentList = () => {
         <TextField source="comment" label="Commentaire" />
         <FunctionField
           label="Statut"
-          render={() => <PaymentStatusIcon />}
+          render={() => (
+            <Box
+              sx={{display: "flex", justifyContent: "center", width: "100%"}}
+            >
+              <PaymentStatusIcon />
+            </Box>
+          )}
           textAlign="center"
         />
         <FunctionField
