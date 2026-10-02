@@ -4,6 +4,7 @@ import {
   smsContact2Mock,
   smsContactGroup1Mock,
   smsContactGroupsMock,
+  smsContactMonitorMock,
   smsContactNoRoleMock,
   smsContactsMock,
 } from "../fixtures/api_mocks/sms-mocks";
@@ -34,6 +35,29 @@ describe("Manager.SmsContacts", () => {
       .and("contain", smsContact1Mock.ownerRef)
       .and("contain", "Étudiant");
     cy.get("table tbody tr").eq(1).should("contain", "Enseignant");
+  });
+
+  it("searches the contacts by name or reference", () => {
+    cy.intercept("GET", /^.*\/sms-contacts\?search=.*&page=1&page_size=10/, [
+      smsContact1Mock,
+    ]).as("searchContacts");
+    cy.getByTestid("main-search-filter").type(smsContact1Mock.ownerRef!);
+    cy.wait("@searchContacts");
+    cy.contains(smsContact1Mock.name!).should("be.visible");
+    cy.get("table").should("not.exist");
+  });
+
+  it("groups search results by role, distinguishing a linked contact, when searching a monitor ref", () => {
+    cy.intercept("GET", /^.*\/sms-contacts\?search=.*&page=1&page_size=10/, [
+      smsContactMonitorMock,
+      smsContact1Mock,
+    ]).as("searchContacts");
+    cy.getByTestid("main-search-filter").type(smsContactMonitorMock.ownerRef!);
+    cy.wait("@searchContacts");
+    cy.contains("Moniteur (1)").should("be.visible");
+    cy.contains("Étudiant lié (1)").should("be.visible");
+    cy.contains(smsContactMonitorMock.name!).should("be.visible");
+    cy.contains(smsContact1Mock.name!).should("be.visible");
   });
 
   it("filters the contacts by owner role", () => {

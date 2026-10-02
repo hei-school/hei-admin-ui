@@ -149,12 +149,90 @@ describe("Manager.SmsCampaigns", () => {
       });
   });
 
-  it("downloads an xlsx template for the file recipient source", () => {
+  it("rejects a manually typed number with an invalid prefix or length", () => {
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("create-button").click();
+    cy.getByTestid("sms-source-manual").click();
+    cy.getByTestid("sms-phone-number-input-manualPhoneNumbers").type(
+      "0211234567 "
+    );
+    cy.contains(
+      "10 chiffres commençant par 032, 033, 034, 035, 037 ou 038"
+    ).should("be.visible");
+    cy.get('[data-testid^="sms-phone-chip-"]').should("not.exist");
+    cy.getByTestid("sms-phone-number-input-manualPhoneNumbers").should(
+      "have.value",
+      "0211234567"
+    );
+
+    cy.getByTestid("sms-phone-number-input-manualPhoneNumbers")
+      .clear()
+      .type("03412345 ");
+    cy.contains(
+      "10 chiffres commençant par 032, 033, 034, 035, 037 ou 038"
+    ).should("be.visible");
+    cy.get('[data-testid^="sms-phone-chip-"]').should("not.exist");
+
+    cy.getByTestid("sms-phone-number-input-manualPhoneNumbers")
+      .clear()
+      .type("abc0341234567 ");
+    cy.getByTestid("sms-phone-chip-0").should("contain", "0341234567");
+    cy.getByTestid("sms-phone-number-input-manualPhoneNumbers").should(
+      "have.value",
+      ""
+    );
+  });
+
+  it("enters a manually typed number with the numeric keypad", () => {
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("create-button").click();
+    cy.getByTestid("sms-source-manual").click();
+    cy.getByTestid("sms-phone-keypad-toggle-manualPhoneNumbers").click();
+    cy.getByTestid("sms-phone-keypad-manualPhoneNumbers").should("be.visible");
+
+    "0341234567".split("").forEach((digit) => {
+      cy.getByTestid(
+        `sms-phone-keypad-digit-manualPhoneNumbers-${digit}`
+      ).click();
+    });
+    cy.getByTestid("sms-phone-keypad-validate-manualPhoneNumbers").click();
+    cy.getByTestid("sms-phone-chip-0").should("contain", "0341234567");
+  });
+
+  it("edits an existing manually typed number with the numeric keypad without prematurely confirming it", () => {
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("create-button").click();
+    cy.getByTestid("sms-source-manual").click();
+    cy.getByTestid("sms-phone-number-input-manualPhoneNumbers").type(
+      "0341234567 "
+    );
+    cy.getByTestid("sms-phone-keypad-toggle-manualPhoneNumbers").click();
+    cy.getByTestid("sms-phone-chip-0").should("contain", "0341234567").click();
+
+    cy.getByTestid("sms-phone-keypad-backspace-manualPhoneNumbers").click();
+    cy.getByTestid("sms-phone-number-input-manualPhoneNumbers").should(
+      "have.value",
+      "034123456"
+    );
+    cy.get('[data-testid^="sms-phone-chip-"]').should("not.exist");
+
+    cy.getByTestid("sms-phone-keypad-digit-manualPhoneNumbers-9").click();
+    cy.getByTestid("sms-phone-keypad-validate-manualPhoneNumbers").click();
+    cy.getByTestid("sms-phone-chip-0").should("contain", "0341234569");
+  });
+
+  it("downloads the two distinct xlsx templates for the file recipient source", () => {
     cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-file").click();
-    cy.getByTestid("download-sms-file-template").click();
-    cy.getByTestid("download-sms-file-template").should("be.visible");
+    cy.getByTestid("download-sms-file-template-same-message").click();
+    cy.getByTestid("download-sms-file-template-same-message").should(
+      "be.visible"
+    );
+    cy.getByTestid("download-sms-file-template-per-recipient").click();
+    cy.getByTestid("download-sms-file-template-per-recipient").should(
+      "be.visible"
+    );
   });
 
   it("groups contact search results by role and lists linked contacts when searching a student ref", () => {

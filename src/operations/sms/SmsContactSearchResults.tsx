@@ -13,6 +13,7 @@ import {
   ListSubheader,
   Stack,
 } from "@mui/material";
+import {ReactNode} from "react";
 import {SMS_OWNER_ROLE_LABEL} from "./constants";
 
 const DEFAULT_ROLE_ORDER: SmsContactOwnerRole[] = [
@@ -60,23 +61,35 @@ const ContactResultColumn = ({
   isSelected,
   onToggle,
   getLabel,
+  renderTrailing,
   testIdPrefix,
+  direction,
 }: {
   label: string;
   contacts: SmsContact[];
-  isSelected: (id: string) => boolean;
-  onToggle: (contact: SmsContact) => void;
+  isSelected?: (id: string) => boolean;
+  onToggle?: (contact: SmsContact) => void;
   getLabel: (contact: SmsContact) => string;
+  renderTrailing?: (contact: SmsContact) => ReactNode;
   testIdPrefix: string;
+  direction: "row" | "column";
 }) => (
   <Box
-    sx={{
-      "flex": "1 1 220px",
-      "minWidth": 220,
-      "borderRight": "1px solid",
-      "borderColor": "divider",
-      "&:last-of-type": {borderRight: "none"},
-    }}
+    sx={
+      direction === "row"
+        ? {
+            "flex": "1 1 220px",
+            "minWidth": 220,
+            "borderRight": "1px solid",
+            "borderColor": "divider",
+            "&:last-of-type": {borderRight: "none"},
+          }
+        : {
+            "borderBottom": "1px solid",
+            "borderColor": "divider",
+            "&:last-of-type": {borderBottom: "none"},
+          }
+    }
   >
     <List
       dense
@@ -87,28 +100,42 @@ const ContactResultColumn = ({
         </ListSubheader>
       }
     >
-      {contacts.map((contact) => (
-        <ListItemButton
-          key={contact.id}
-          dense
-          onClick={() => onToggle(contact)}
-          data-testid={`${testIdPrefix}-${contact.id}`}
-        >
-          <ListItemIcon sx={{minWidth: 36}}>
-            <Checkbox
-              edge="start"
-              size="small"
-              checked={!!contact.id && isSelected(contact.id)}
-              tabIndex={-1}
-              disableRipple
+      {contacts.map((contact) =>
+        onToggle ? (
+          <ListItemButton
+            key={contact.id}
+            dense
+            onClick={() => onToggle(contact)}
+            data-testid={`${testIdPrefix}-${contact.id}`}
+          >
+            <ListItemIcon sx={{minWidth: 36}}>
+              <Checkbox
+                edge="start"
+                size="small"
+                checked={!!contact.id && !!isSelected?.(contact.id)}
+                tabIndex={-1}
+                disableRipple
+              />
+            </ListItemIcon>
+            <ListItemText
+              primary={getLabel(contact)}
+              primaryTypographyProps={{sx: {wordBreak: "break-word"}}}
             />
-          </ListItemIcon>
-          <ListItemText
-            primary={getLabel(contact)}
-            primaryTypographyProps={{sx: {wordBreak: "break-word"}}}
-          />
-        </ListItemButton>
-      ))}
+          </ListItemButton>
+        ) : (
+          <ListItem
+            key={contact.id}
+            dense
+            data-testid={`${testIdPrefix}-${contact.id}`}
+            secondaryAction={renderTrailing?.(contact)}
+          >
+            <ListItemText
+              primary={getLabel(contact)}
+              primaryTypographyProps={{sx: {wordBreak: "break-word"}}}
+            />
+          </ListItem>
+        )
+      )}
     </List>
   </Box>
 );
@@ -116,11 +143,13 @@ const ContactResultColumn = ({
 interface SmsContactSearchResultsProps {
   contacts: SmsContact[];
   searchInput: string;
-  isSelected: (id: string) => boolean;
-  onToggle: (contact: SmsContact) => void;
   getLabel: (contact: SmsContact) => string;
   emptyMessage: string;
   testIdPrefix?: string;
+  isSelected?: (id: string) => boolean;
+  onToggle?: (contact: SmsContact) => void;
+  renderTrailing?: (contact: SmsContact) => ReactNode;
+  direction?: "row" | "column";
 }
 
 export const SmsContactSearchResults = ({
@@ -129,8 +158,10 @@ export const SmsContactSearchResults = ({
   isSelected,
   onToggle,
   getLabel,
+  renderTrailing,
   emptyMessage,
   testIdPrefix = "toggle-sms-contact",
+  direction = "row",
 }: SmsContactSearchResultsProps) => {
   const {roles: orderedRoles, linkedRole} = getOrderedRoles(searchInput);
   const contactsByRole = new Map<SmsContactOwnerRole, SmsContact[]>();
@@ -171,7 +202,10 @@ export const SmsContactSearchResults = ({
   }
 
   return (
-    <Stack direction="row" flexWrap="wrap">
+    <Stack
+      direction={direction}
+      flexWrap={direction === "row" ? "wrap" : undefined}
+    >
       {roleColumns.map(({key, label, contacts: columnContacts}) => (
         <ContactResultColumn
           key={key}
@@ -180,7 +214,9 @@ export const SmsContactSearchResults = ({
           isSelected={isSelected}
           onToggle={onToggle}
           getLabel={getLabel}
+          renderTrailing={renderTrailing}
           testIdPrefix={testIdPrefix}
+          direction={direction}
         />
       ))}
     </Stack>
