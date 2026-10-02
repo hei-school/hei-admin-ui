@@ -103,37 +103,70 @@ const ManualNumbersFields = () => (
   />
 );
 
-const downloadSmsFileTemplate = () => {
-  const note = [
-    "Le message est optionnel si vous envoyez le même message à tous les",
-    "destinataires : dans ce cas, laissez la colonne Message vide et utilisez le",
-    "champ Message de l'interface web. Le message est obligatoire si vous",
-    "voulez un message différent pour chaque destinataire.",
-  ].join("\n");
-  const worksheet = utils.aoa_to_sheet([
-    [note],
-    [],
-    ["Destinataire(s)", "Message(s) (Optionnel)"],
-  ]);
-  worksheet["!merges"] = [{s: {r: 0, c: 0}, e: {r: 0, c: 1}}];
-  worksheet["!cols"] = [{wch: 40}, {wch: 60}];
+const downloadSmsFileTemplateWorkbook = (
+  noteLines: string[],
+  headers: string[],
+  fileName: string
+) => {
+  const note = noteLines.join("\n");
+  const worksheet = utils.aoa_to_sheet([[note], [], headers]);
+  if (headers.length > 1) {
+    worksheet["!merges"] = [
+      {s: {r: 0, c: 0}, e: {r: 0, c: headers.length - 1}},
+    ];
+  }
+  worksheet["!cols"] =
+    headers.length > 1 ? [{wch: 40}, {wch: 60}] : [{wch: 70}];
   worksheet["!rows"] = [{hpt: 80}];
   const workbook = utils.book_new();
   utils.book_append_sheet(workbook, worksheet, "Sheet1");
-  writeFile(workbook, "modele_sms_destinataires.xlsx", {compression: true});
+  writeFile(workbook, fileName, {compression: true});
 };
+
+const downloadSameMessageTemplate = () =>
+  downloadSmsFileTemplateWorkbook(
+    [
+      "Ce modèle sert à envoyer le MÊME message à tous les destinataires.",
+      "Remplissez uniquement la colonne Destinataire(s) ci-dessous.",
+      "Saisissez le message à envoyer dans le champ Message de l'interface",
+      "web : il sera appliqué à tous les destinataires listés ici.",
+    ],
+    ["Destinataire(s)"],
+    "modele_sms_meme_message.xlsx"
+  );
+
+const downloadPerRecipientMessageTemplate = () =>
+  downloadSmsFileTemplateWorkbook(
+    [
+      "Ce modèle sert à envoyer un message DIFFÉRENT pour chaque destinataire.",
+      "Remplissez la colonne Message pour chaque ligne avec le texte à",
+      "envoyer à ce destinataire précis. Le champ Message de l'interface web",
+      "n'est pas utilisé dans ce cas.",
+    ],
+    ["Destinataire(s)", "Message(s)"],
+    "modele_sms_message_par_destinataire.xlsx"
+  );
 
 const FileFields = () => (
   <>
-    <Button
-      size="small"
-      startIcon={<DownloadIcon />}
-      onClick={downloadSmsFileTemplate}
-      data-testid="download-sms-file-template"
-      sx={{mb: 1.5, alignSelf: "flex-start"}}
-    >
-      Télécharger le modèle de fichier
-    </Button>
+    <Box sx={{display: "flex", flexWrap: "wrap", gap: 1.5, mb: 1.5}}>
+      <Button
+        size="small"
+        startIcon={<DownloadIcon />}
+        onClick={downloadSameMessageTemplate}
+        data-testid="download-sms-file-template-same-message"
+      >
+        Modèle : même message pour tous les destinataires
+      </Button>
+      <Button
+        size="small"
+        startIcon={<DownloadIcon />}
+        onClick={downloadPerRecipientMessageTemplate}
+        data-testid="download-sms-file-template-per-recipient"
+      >
+        Modèle : message différent pour chaque destinataire
+      </Button>
+    </Box>
     <FileInput
       source="file"
       label="Fichier de destinataires (.csv, .xlsx)"

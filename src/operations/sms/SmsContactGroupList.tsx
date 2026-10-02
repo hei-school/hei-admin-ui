@@ -69,6 +69,7 @@ export const SmsContactGroupList = () => {
             </Button>
           </HaActionWrapper>
         }
+        mainSearch={{label: "Rechercher un groupe", source: "search"}}
         datagridProps={{
           rowClick: (_id: Identifier, _resource: string, record: RaRecord) => {
             goToGroup((record as SmsContactGroup).id);

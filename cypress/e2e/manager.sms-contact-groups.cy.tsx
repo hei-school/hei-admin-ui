@@ -38,6 +38,19 @@ describe("Manager.SmsContactGroups", () => {
       .and("contain", admin1Mock.first_name);
   });
 
+  it("searches the contact groups by name", () => {
+    cy.intercept(
+      "GET",
+      /^.*\/sms-contact-groups\?search=.*&page=1&page_size=10/,
+      [smsContactGroup1Mock]
+    ).as("searchGroups");
+    cy.getByTestid("main-search-filter").type(smsContactGroup1Mock.name!);
+    cy.wait("@searchGroups");
+    cy.get("table tbody tr")
+      .should("have.length", 1)
+      .should("contain", smsContactGroup1Mock.name);
+  });
+
   it("creates a new contact group", () => {
     cy.intercept("POST", "/sms-contact-groups", {
       id: "new_group_id",

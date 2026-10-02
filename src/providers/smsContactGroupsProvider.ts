@@ -10,8 +10,16 @@ type Params = {
 };
 
 const smsContactGroupsProvider: HaDataProviderType = {
-  getList: async (page: number, perPage: number) => {
-    const {data} = await smsApi().getSmsContactGroups(page, perPage);
+  getList: async (
+    page: number,
+    perPage: number,
+    filter: {search?: string} = {}
+  ) => {
+    const {data} = await smsApi().getSmsContactGroups(
+      page,
+      perPage,
+      filter.search
+    );
     return {data};
   },
   getOne: async (id: string) => {

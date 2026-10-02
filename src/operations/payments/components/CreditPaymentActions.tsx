@@ -129,7 +129,9 @@ export const CreditPaymentActions = () => {
     }
   };
   return (
-    <Box display="flex" gap={1} justifyContent="center">
+    <Box
+      sx={{display: "flex", gap: 1, justifyContent: "center", width: "100%"}}
+    >
       <Button
         color="success"
         size="small"
