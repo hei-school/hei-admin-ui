@@ -40,7 +40,6 @@ export type BadgeMenuProps = {
   studentRef?: string;
 };
 
-/** Profile of a student (admins, managers): print its badge alone, or remove it. */
 export const BadgeMenu = ({studentId, studentRef}: BadgeMenuProps) => {
   const notify = useNotify();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
@@ -58,7 +57,8 @@ export const BadgeMenu = ({studentId, studentRef}: BadgeMenuProps) => {
   );
 
   useEffect(() => {
-    loadActiveBadge();
+    // errors are handled by loadActiveBadge itself
+    void loadActiveBadge();
   }, [loadActiveBadge]);
 
   const closeMenu = () => setAnchorEl(null);
@@ -70,7 +70,6 @@ export const BadgeMenu = ({studentId, studentRef}: BadgeMenuProps) => {
     try {
       const {data} = await downloadStudentBadge(studentId);
       saveFile(data, `badge-${studentRef ?? studentId}.pdf`);
-      // the first print creates the badge
       await loadActiveBadge();
     } catch {
       notify("Erreur lors de la génération du badge.", {type: "error"});
@@ -132,10 +131,22 @@ export const BadgeMenu = ({studentId, studentRef}: BadgeMenuProps) => {
             : "Aucun badge actif"}
         </Typography>
         <Divider sx={{my: 0.5}} />
-        <MenuItem onClick={print} data-testid="badge-print">
+        <MenuItem
+          onClick={print}
+          disabled={!!activeBadge}
+          data-testid="badge-print"
+        >
           <Print sx={{mr: 1.5}} />
           Imprimer le badge
         </MenuItem>
+        {activeBadge && (
+          <Typography
+            variant="caption"
+            sx={{px: 2, display: "block", color: PALETTE_COLORS.grey}}
+          >
+            Retirez le badge actuel pour en imprimer un nouveau.
+          </Typography>
+        )}
         <MenuItem
           onClick={() => {
             closeMenu();

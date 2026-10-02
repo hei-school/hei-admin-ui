@@ -61,13 +61,12 @@ export const GroupLayout = () => {
               buttonText="Imprimer les badges"
               startIcon={<Badge />}
               successMessage="Génération des badges en cours..."
-              errorMessage="Erreur lors de la génération des badges."
+              errorMessage="Aucun badge généré : tous les étudiants du groupe ont déjà un badge actif, ou une erreur est survenue."
               data-testid="group-badges-download"
               size="large"
               sx={{
                 "bgcolor": PALETTE_COLORS.primary,
                 "color": PALETTE_COLORS.white,
-                // keep the navy background: the default hover is almost white
                 "&:hover": {
                   bgcolor: PALETTE_COLORS.primary,
                   color: PALETTE_COLORS.white,

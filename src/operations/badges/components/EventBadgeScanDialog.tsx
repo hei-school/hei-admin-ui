@@ -1,40 +1,20 @@
-import {CheckCircle, Close, ErrorOutline} from "@mui/icons-material";
+import {Close} from "@mui/icons-material";
 import {
   Dialog,
   DialogContent,
   DialogTitle,
   IconButton,
-  List,
-  ListItem,
-  ListItemIcon,
-  ListItemText,
   Typography,
 } from "@mui/material";
-import {useState} from "react";
-import {
-  checkAttendanceByPublicId,
-  getPublicStudent,
-  httpStatusOf,
-} from "../badgeApi";
+import {checkAttendanceByPublicId} from "../badgeApi";
+import {explainAttendanceError, fullName, useScanResults} from "../scanResults";
 import {BadgeScanner} from "./BadgeScanner";
-
-type ScanResult = {
-  key: number;
-  success: boolean;
-  label: string;
-  detail: string;
-};
-
-let resultKey = 0;
-
-const fullName = (student: {first_name?: string; last_name?: string}) =>
-  `${student.last_name ?? ""} ${student.first_name ?? ""}`.trim();
+import {ScanResultList} from "./ScanResults";
 
 export type EventBadgeScanDialogProps = {
   open: boolean;
   onClose: () => void;
   eventId: string;
-  /** Called after each successful scan, e.g. to refresh the participants list. */
   onChecked: () => void;
 };
 
@@ -44,37 +24,7 @@ export const EventBadgeScanDialog = ({
   eventId,
   onChecked,
 }: EventBadgeScanDialogProps) => {
-  const [results, setResults] = useState<ScanResult[]>([]);
-
-  const pushResult = (result: Omit<ScanResult, "key">) =>
-    setResults((previous) =>
-      [{...result, key: ++resultKey}, ...previous].slice(0, 20)
-    );
-
-  const explainError = async (publicId: string, error: unknown) => {
-    const status = httpStatusOf(error);
-    if (status === 400) {
-      return {
-        label: "Badge non valable",
-        detail: "Ce badge a été retiré ou son année universitaire est passée.",
-      };
-    }
-    if (status === 404) {
-      try {
-        const student = await getPublicStudent(publicId);
-        return {
-          label: fullName(student),
-          detail: "Ne participe pas à cet événement.",
-        };
-      } catch {
-        return {label: "Badge inconnu", detail: "Ce badge n'existe pas."};
-      }
-    }
-    if (status === 403) {
-      return {label: "Accès refusé", detail: "Vous ne pouvez pas pointer."};
-    }
-    return {label: "Erreur", detail: "Réessayez de scanner le badge."};
-  };
+  const {results, pushResult} = useScanResults();
 
   const onScan = async (publicId: string) => {
     try {
@@ -86,7 +36,14 @@ export const EventBadgeScanDialog = ({
       });
       onChecked();
     } catch (error) {
-      pushResult({success: false, ...(await explainError(publicId, error))});
+      pushResult({
+        success: false,
+        ...(await explainAttendanceError(
+          publicId,
+          error,
+          "Ne participe pas à cet événement."
+        )),
+      });
     }
   };
 
@@ -110,23 +67,7 @@ export const EventBadgeScanDialog = ({
             scanné est marqué présent.
           </Typography>
         ) : (
-          <List dense>
-            {results.map((result) => (
-              <ListItem key={result.key} disableGutters>
-                <ListItemIcon sx={{minWidth: 36}}>
-                  {result.success ? (
-                    <CheckCircle color="success" />
-                  ) : (
-                    <ErrorOutline color="error" />
-                  )}
-                </ListItemIcon>
-                <ListItemText
-                  primary={result.label}
-                  secondary={result.detail}
-                />
-              </ListItem>
-            ))}
-          </List>
+          <ScanResultList results={results} />
         )}
       </DialogContent>
     </Dialog>

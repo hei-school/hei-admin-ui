@@ -215,6 +215,11 @@ function AppBase() {
         />
         <Route exact path="/event_participants" element={<events.missing />} />
         <Route exact path="/badges/scan" element={<badges.scan />} />
+        <Route
+          exact
+          path="/badges/attendance"
+          element={<badges.attendance />}
+        />
         <Route exact path="/events/new" element={<events.new />} />
         <Route
           exact

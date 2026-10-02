@@ -31,10 +31,6 @@ const SPECIALIZATION_LABELS: Record<string, string> = {
 
 const isLoggedIn = () => !!authProvider.getCachedWhoami().bearer;
 
-/**
- * Page opened by the badge QR code (public, like the calendar). Admins and managers
- * are redirected to the full student profile, others see the public information.
- */
 export const PublicStudentView = ({
   publicId: publicIdProp,
 }: {
@@ -44,6 +40,10 @@ export const PublicStudentView = ({
   const publicId = publicIdProp ?? params.publicId ?? "";
   const navigate = useNavigate();
   const [student, setStudent] = useState<PublicStudent | null>(null);
+  const [studentContact, setStudentContact] = useState<{
+    phone?: string;
+    email?: string;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const {role} = authProvider.getCachedWhoami();
@@ -52,7 +52,8 @@ export const PublicStudentView = ({
 
   useEffect(() => {
     let cancelled = false;
-    (async () => {
+    // errors are handled inside: they are shown on the page
+    void (async () => {
       try {
         if (isLoggedIn() && isStaff) {
           try {
@@ -61,13 +62,19 @@ export const PublicStudentView = ({
               navigate(`/students/${id}/show?tab=fees`, {replace: true});
             return;
           } catch (e) {
-            // expired session: fall back to the public information
             const status = httpStatusOf(e);
             if (status !== 401 && status !== 403) throw e;
           }
         }
         const publicStudent = await getPublicStudent(publicId);
         if (!cancelled) setStudent(publicStudent);
+        if (isLoggedIn() && role === WhoamiRoleEnum.TEACHER) {
+          getStudentByPublicId(publicId)
+            .then(({phone, email}) => {
+              if (!cancelled) setStudentContact({phone, email});
+            })
+            .catch(() => undefined);
+        }
       } catch (e) {
         if (cancelled) return;
         setError(
@@ -80,7 +87,7 @@ export const PublicStudentView = ({
     return () => {
       cancelled = true;
     };
-  }, [publicId, isStaff, navigate]);
+  }, [publicId, isStaff, role, navigate]);
 
   const login = async () => {
     setIsRedirecting(true);
@@ -181,11 +188,50 @@ export const PublicStudentView = ({
                     </button>
                   </>
                 ) : null}
+                {studentContact &&
+                  (studentContact.phone || studentContact.email) && (
+                    <div className="public-student__contact public-student__contact--student">
+                      <div className="public-student__contact-title">
+                        Contact de l'étudiant
+                      </div>
+                      {studentContact.phone && (
+                        <a
+                          href={`tel:${studentContact.phone.replace(/\s/g, "")}`}
+                        >
+                          📞 {studentContact.phone}
+                        </a>
+                      )}
+                      {studentContact.email && (
+                        <a href={`mailto:${studentContact.email}`}>
+                          ✉ {studentContact.email}
+                        </a>
+                      )}
+                    </div>
+                  )}
               </>
             )}
           </div>
+          <SchoolContact />
         </div>
       </main>
     </div>
   );
 };
+
+const SCHOOL_PHONE = "+261 34 94 041 16";
+const SCHOOL_EMAIL = "contact@mail.hei.school";
+const SCHOOL_ADDRESS = "Lot II 161R Ivandry, Antananarivo";
+
+const SchoolContact = () => (
+  <div className="public-student__contact">
+    <div className="public-student__contact-title">
+      Vous avez trouvé ce badge ?
+    </div>
+    <div>Merci de le rapporter chez HEI :</div>
+    {SCHOOL_PHONE && (
+      <a href={`tel:${SCHOOL_PHONE.replace(/\s/g, "")}`}>📞 {SCHOOL_PHONE}</a>
+    )}
+    <a href={`mailto:${SCHOOL_EMAIL}`}>✉ {SCHOOL_EMAIL}</a>
+    <div>📍 {SCHOOL_ADDRESS}</div>
+  </div>
+);

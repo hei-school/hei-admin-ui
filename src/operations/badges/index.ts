@@ -1,7 +1,9 @@
 import {ScanBadgePage} from "./ScanBadgePage";
+import {TeacherBadgeAttendancePage} from "./TeacherBadgeAttendancePage";
 
 const badges = {
   scan: ScanBadgePage,
+  attendance: TeacherBadgeAttendancePage,
 };
 
 export default badges;

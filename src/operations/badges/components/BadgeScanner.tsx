@@ -36,6 +36,18 @@ const scanRegionOf = (video: HTMLVideoElement): QrScanner.ScanRegion => {
   };
 };
 
+const createVideo = () => {
+  const video = document.createElement("video");
+  video.muted = true;
+  video.playsInline = true;
+  Object.assign(video.style, {
+    width: "100%",
+    height: "100%",
+    objectFit: "cover",
+  });
+  return video;
+};
+
 const truncate = (text: string, length = 60) =>
   text.length > length ? `${text.slice(0, length)}…` : text;
 
@@ -64,7 +76,8 @@ export type BadgeScannerProps = {
 };
 
 export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const videoContainerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
   const scannerRef = useRef<QrScanner | null>(null);
   const isHandlingRef = useRef(false);
   const lastScanRef = useRef<{publicId: string; at: number} | null>(null);
@@ -130,8 +143,13 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
   }, []);
 
   useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    const container = videoContainerRef.current;
+    if (!container) return;
+    // One video per scanner: a destroyed scanner clears the stream of its video 300 ms
+    // later, which would stop the camera of the next scanner (effects run twice in dev).
+    const video = createVideo();
+    container.appendChild(video);
+    videoRef.current = video;
 
     const scanner = new QrScanner(
       video,
@@ -139,7 +157,8 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
         const publicId = parsePublicId(result.data);
         if (publicId) {
           setStatus(null);
-          handle(publicId);
+          // errors and timeouts are handled by handle itself
+          void handle(publicId);
         } else {
           setStatus({
             severity: "warning",
@@ -155,7 +174,9 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
         highlightScanRegion: true,
         highlightCodeOutline: true,
         onDecodeError: (error) => {
-          if (error === QrScanner.NO_QR_CODE_FOUND) return;
+          // no image to decode while a camera starts or is changed
+          if (error === QrScanner.NO_QR_CODE_FOUND || video.videoWidth === 0)
+            return;
           setStatus({
             severity: "error",
             message: `Le décodeur de QR code ne fonctionne pas : ${String(error)}`,
@@ -169,14 +190,15 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
     scanner
       .start()
       .then(() => {
-        if (!destroyed) {
-          setStatus(ACTIVE_STATUS);
-          watchCameraTrack(video);
-        }
-        return QrScanner.listCameras(true);
-      })
-      .then((availableCameras) => {
-        if (!destroyed) setCameras(availableCameras);
+        if (destroyed) return;
+        setStatus(ACTIVE_STATUS);
+        watchCameraTrack(video);
+        // the camera works even when the other cameras cannot be listed
+        QrScanner.listCameras(true)
+          .then((availableCameras) => {
+            if (!destroyed) setCameras(availableCameras);
+          })
+          .catch(() => undefined);
       })
       .catch(() => {
         if (!destroyed)
@@ -188,7 +210,10 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
     return () => {
       destroyed = true;
       scanner.destroy();
+      scanner.$overlay?.remove();
+      video.remove();
       scannerRef.current = null;
+      videoRef.current = null;
     };
   }, [handle, watchCameraTrack]);
 
@@ -196,10 +221,12 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
     const scanner = scannerRef.current;
     const video = videoRef.current;
     if (!scanner || !video) return;
-    scanner.stop();
     isHandlingRef.current = false;
     lastScanRef.current = null;
     try {
+      // releases the stream right away, so that start opens the camera again
+      // (stop only releases it 300 ms later: start would replay the dead stream)
+      await scanner.pause(true);
       await scanner.start();
       setCameraStopped(false);
       setStatus(ACTIVE_STATUS);
@@ -241,6 +268,7 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
       ) : (
         <>
           <Box
+            ref={videoContainerRef}
             sx={{
               position: "relative",
               width: "100%",
@@ -251,14 +279,7 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
               overflow: "hidden",
               bgcolor: "black",
             }}
-          >
-            <video
-              ref={videoRef}
-              muted
-              playsInline
-              style={{width: "100%", height: "100%", objectFit: "cover"}}
-            />
-          </Box>
+          ></Box>
           {isChecking ? (
             <Alert severity="info" icon={<CircularProgress size={20} />}>
               Vérification du badge…
