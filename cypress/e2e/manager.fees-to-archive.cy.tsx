@@ -80,7 +80,9 @@ describe("Manager.FeesToArchive", () => {
 
   it("shows the full rejection reason in a popup and can close it", () => {
     cy.contains("button", "Rejetés (1)").click();
-    cy.getByTestid(`rejection-reason-${feeArchiveRejectedMock.id}`).click();
+    cy.getByTestid(
+      `rejection-reason-${student1Mock.id}--${feeArchiveRejectedMock.id}`
+    ).click();
     cy.get('[role="dialog"]')
       .should("be.visible")
       .and("contain", "Motif du rejet")
