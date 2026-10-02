@@ -3,6 +3,7 @@ import {LoadingPage} from "react-admin";
 import {useNavigate} from "react-router-dom";
 import authProvider from "../providers/authProvider";
 import {SERVER_URL} from "./casdoorSetting";
+import {consumeRedirectAfterLogin} from "./redirectAfterLogin";
 
 const EXCHANGED_CODE_ITEM = "ha_casdoor_exchanged_code";
 
@@ -45,7 +46,8 @@ const CasdoorAuthCallback = () => {
     exchangeCode(serverUrl, code, state)
       .catch((error) => console.error("Error during token fetching:", error))
       .finally(() => {
-        if (!cancelled) navigate("/", {replace: true});
+        if (!cancelled)
+          navigate(consumeRedirectAfterLogin() ?? "/", {replace: true});
       });
 
     return () => {

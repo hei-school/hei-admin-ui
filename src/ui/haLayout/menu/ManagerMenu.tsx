@@ -16,6 +16,7 @@ import {
   LibraryBooksOutlined as LibraryIcon,
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
+  QrCodeScanner,
   PublishedWithChanges as RemedialIcon,
   Campaign as SmsCampaignIcon,
   GroupWork as SmsContactGroupIcon,
@@ -47,6 +48,12 @@ const ManagerMenu = () => {
           label="Liste des étudiants"
           icon={<StudentListIcon />}
           to="/students"
+        />
+        <ListMenuItem
+          data-testid="badge-scan"
+          label="Scanner un badge"
+          icon={<QrCodeScanner />}
+          to="/badges/scan"
         />
         <ListMenuItem
           label="Transactions (Mobile Money)"

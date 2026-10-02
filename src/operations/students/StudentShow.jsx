@@ -1,3 +1,4 @@
+import {BadgeMenu} from "@/operations/badges";
 import {ProfileLayout} from "@/operations/common/components/ProfileLayout";
 import {Show} from "@/operations/common/components/Show";
 import {DocMenu} from "@/operations/students/components/DocMenu";
@@ -7,7 +8,7 @@ import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Edit as EditIcon} from "@mui/icons-material";
 import {EditButton, useRecordContext} from "react-admin";
 
-export const ActionsOnShow = ({basePath, data, resource}) => {
+export const ActionsOnShow = () => {
   const student = useRecordContext();
   const id = student?.id;
   const role = useRole();
@@ -43,6 +44,7 @@ export const ActionsOnShow = ({basePath, data, resource}) => {
             }}
           />
           <DocMenu studentId={student.id} />
+          <BadgeMenu studentId={student.id} studentRef={student.ref} />
         </div>
       )}
       {role.isMonitor() && (

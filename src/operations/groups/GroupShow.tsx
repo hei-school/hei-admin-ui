@@ -1,7 +1,10 @@
 import {PALETTE_COLORS} from "@/haTheme";
+import {downloadGroupBadges} from "@/operations/badges/badgeApi";
+import {FileDownloader} from "@/operations/common/components/FileDownloader";
 import {useRole} from "@/security/hooks";
 import {EMPTY_TEXT} from "@/ui/constants";
 import {formatDate} from "@/utils/date";
+import {Badge} from "@mui/icons-material";
 import {Avatar, Box, Typography} from "@mui/material";
 import {EditButton, SimpleShowLayout, useShowContext} from "react-admin";
 import {Show} from "../common/components";
@@ -51,7 +54,26 @@ export const GroupLayout = () => {
           </Typography>
         </Box>
         {(isManager() || isAdmin()) && (
-          <Box display="flex" justifyContent="flex-end">
+          <Box display="flex" justifyContent="flex-end" gap={1}>
+            <FileDownloader
+              downloadFunction={() => downloadGroupBadges(group?.id ?? "")}
+              fileName={`badges-${group?.ref ?? "groupe"}.pdf`}
+              buttonText="Imprimer les badges"
+              startIcon={<Badge />}
+              successMessage="Génération des badges en cours..."
+              errorMessage="Aucun badge généré : tous les étudiants du groupe ont déjà un badge actif, ou une erreur est survenue."
+              data-testid="group-badges-download"
+              size="large"
+              sx={{
+                "bgcolor": PALETTE_COLORS.primary,
+                "color": PALETTE_COLORS.white,
+                "&:hover": {
+                  bgcolor: PALETTE_COLORS.primary,
+                  color: PALETTE_COLORS.white,
+                  opacity: 0.85,
+                },
+              }}
+            />
             <EditButton
               size="large"
               sx={{

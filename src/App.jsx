@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
+import badges from "@/operations/badges";
 import cor from "@/operations/cor/index.ts";
 import course from "@/operations/course";
 import CourseAssignments from "@/operations/CourseAssignments";
@@ -35,7 +36,8 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {QueryClient} from "react-query";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
+import {publicIdFromRootPath} from "./operations/badges/badgeApi";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
 import {
@@ -212,6 +214,12 @@ function AppBase() {
           element={<events.participants />}
         />
         <Route exact path="/event_participants" element={<events.missing />} />
+        <Route exact path="/badges/scan" element={<badges.scan />} />
+        <Route
+          exact
+          path="/badges/attendance"
+          element={<badges.attendance />}
+        />
         <Route exact path="/events/new" element={<events.new />} />
         <Route
           exact
@@ -345,6 +353,13 @@ function AppBase() {
   );
 }
 
+// The badge QR code may hold the short link https://<site>/<public id>: public page, no login.
+function AppOrPublicStudent() {
+  const {pathname} = useLocation();
+  const publicId = publicIdFromRootPath(pathname);
+  return publicId ? <publicContent.student publicId={publicId} /> : <AppBase />;
+}
+
 function App() {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -358,7 +373,11 @@ function App() {
             element={<CasdoorAuthCallback />}
           />
           <Route path="/calendar" element={<publicContent.calendar />} />
-          <Route path="*" element={<AppBase />} />
+          <Route
+            path="/public/students/:publicId"
+            element={<publicContent.student />}
+          />
+          <Route path="*" element={<AppOrPublicStudent />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

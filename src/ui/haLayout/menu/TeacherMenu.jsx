@@ -6,6 +6,7 @@ import {
   GradeOutlined as GradeIcon,
   Group as GroupIcon,
   PictureAsPdf,
+  QrCodeScanner,
   School as StudentIcon,
 } from "@mui/icons-material";
 import {Box} from "@mui/material";
@@ -47,6 +48,12 @@ const TeacherMenu = () => {
         to="/events"
         label="Présences"
         icon={<EventIcon />}
+      />
+      <SingleMenu
+        data-testid="badge-attendance-menu"
+        to="/badges/attendance"
+        label="Scanner les badges"
+        icon={<QrCodeScanner />}
       />
     </Box>
   );
