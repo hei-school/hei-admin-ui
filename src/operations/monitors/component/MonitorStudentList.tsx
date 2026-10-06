@@ -91,14 +91,14 @@ export const MonitorStudentList = () => {
           />
         }
         datagridProps={{
-          rowClick: isMonitor(),
+          rowClick: false,
         }}
         listProps={{
+          className: "monitor-students-list",
           queryOptions: {
             meta: {
               monitorId,
             },
-            className: "monitor-students-list",
           },
         }}
       >

@@ -31,7 +31,7 @@ const TransactionFeeList = () => {
         }}
         actions={undefined}
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
-        datagridProps={rowStyle}
+        datagridProps={{rowStyle}}
         filterIndicator={true}
       >
         <TextField source="student_ref" label="Référence de l'étudiant" />

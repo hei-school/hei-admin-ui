@@ -72,10 +72,9 @@ const RetakeExamListShowContent = ({
       listProps={{
         title: "Liste de mes rattrapages",
         filter: {studentId, sessionId},
-        disableRowClick: true,
-        rowClick: false,
         sx: RETAKE_EXAM_LIST_SX,
       }}
+      datagridProps={{rowClick: false}}
       actions={false}
     >
       <TextField source="course.code" label="Code matière" />

@@ -1,10 +1,10 @@
 import {AttachMoney} from "@mui/icons-material";
 import CreditPaymentList from "./CreditPaymentList";
+import FeePaymentListPage from "./FeePaymentListPage";
 import PaymentCreate from "./PaymentCreate";
-import PaymentList from "./PaymentList";
 
 const payments = {
-  list: PaymentList,
+  list: FeePaymentListPage,
   listCreditPayments: CreditPaymentList,
   create: PaymentCreate,
   icon: AttachMoney,
