@@ -1,7 +1,7 @@
 set -eu
 
 weigh_specs() {
-  find cypress/e2e -maxdepth 1 -type f | sort | while read -r spec; do
+  find cypress/e2e -maxdepth 1 -type f -name '*.cy.*' | sort | while read -r spec; do
     printf '%s %s\n' "$(grep -c '^[[:space:]]*it(' "$spec" || true)" "$spec"
   done
 }
