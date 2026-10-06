@@ -1,4 +1,8 @@
-import {HaDataProviderType, HaMeta} from "@/providers/HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaMeta,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
 import {
   RetakeExam,
@@ -56,7 +60,6 @@ const getTransitionKey = (
 ): TransitionKey | null =>
   from && to ? (`${from}_TO_${to}` as TransitionKey) : null;
 
-// la liste renvoie les rattrapages d'un étudiant pour une session, ou tous sinon
 const retakeExamProvider: HaDataProviderType<
   RetakeExam | StudentRetakeExam,
   RetakeExamFilter,
@@ -87,9 +90,7 @@ const retakeExamProvider: HaDataProviderType<
 
     return {data: response.data};
   },
-  getOne: () => {
-    throw new Error("Not implemented");
-  },
+  getOne: notImplemented,
 
   saveOrUpdate: async (payloads: RetakeExamPayload[]) => {
     const [payload] = payloads;
@@ -110,9 +111,7 @@ const retakeExamProvider: HaDataProviderType<
 
     return response.data;
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default retakeExamProvider;

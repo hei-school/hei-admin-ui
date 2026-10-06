@@ -36,8 +36,6 @@ export type AutocompleteProps<TForm extends FieldValues = FieldValues> = {
 >;
 
 export const Autocomplete = <TForm extends FieldValues>({
-  getOptionKey,
-  getOptionLabel,
   name,
   control,
   options,

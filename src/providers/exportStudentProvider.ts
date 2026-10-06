@@ -4,7 +4,11 @@ import {
   WorkStudyStatus,
 } from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
-import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {ExportedFile} from "./types";
 
 interface StudentExportMeta {
@@ -18,9 +22,7 @@ const exportStudentProvider: HaDataProviderType<
   HaFilter,
   StudentExportMeta
 > = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+  getList: notImplemented,
 
   getOne: async (id: string, meta: StudentExportMeta) => {
     const {status, sex, workStudyStatus} = meta;
@@ -36,13 +38,9 @@ const exportStudentProvider: HaDataProviderType<
       .then((res) => ({id, file: res.data}));
   },
 
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
 
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default exportStudentProvider;

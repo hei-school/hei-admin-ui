@@ -1,4 +1,7 @@
-import {UntypedHaDataProvider} from "@/providers/HaDataProviderType";
+import {
+  UntypedHaDataProvider,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
 import commentProvider from "@/providers/commentProvider";
 import corProvider from "@/providers/corProvider";
@@ -292,15 +295,9 @@ const dataProvider = {
   deleteMany: () => {
     throw new Error("Not Implemented");
   },
-  getMany: () => {
-    throw new Error("Not implemented");
-  },
-  getManyReference: () => {
-    throw new Error("Not implemented");
-  },
-  updateMany: () => {
-    throw new Error("Not implemented");
-  },
+  getMany: notImplemented,
+  getManyReference: notImplemented,
+  updateMany: notImplemented,
 };
 
 const toEnabledUsers = <T extends object>(

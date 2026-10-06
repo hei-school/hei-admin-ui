@@ -1,6 +1,6 @@
 import {Course} from "@haapi-b0fc7615/typescript-client";
 import {retakeExamApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 interface RetakeExamCoursesFilter {
   sessionId: string;
@@ -23,15 +23,9 @@ const retakeExamCoursesProvider: HaDataProviderType<
         data: response.data,
       }));
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default retakeExamCoursesProvider;

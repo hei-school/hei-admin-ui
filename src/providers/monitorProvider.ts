@@ -1,5 +1,9 @@
 import {usersApi} from "@/providers/api";
-import {HaDataProviderType, HaMeta} from "@/providers/HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaMeta,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import {CrupdateMonitor, Monitor} from "@haapi-b0fc7615/typescript-client";
 
 interface MonitorFilter {
@@ -49,9 +53,7 @@ const monitorProvider: HaDataProviderType<
       .then((result) => result.data);
   },
 
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default monitorProvider;

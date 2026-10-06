@@ -1,6 +1,6 @@
 import {Comment} from "@haapi-b0fc7615/typescript-client";
 import {commentApi} from "./api";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
 interface CommentFilter {
   studentId?: string;
@@ -30,18 +30,14 @@ const commentProvider: HaDataProviderType<
         .then((response) => ({data: response.data}));
     }
   },
-  async getOne() {
-    throw new Error("Not implemented");
-  },
+  getOne: notImplemented,
   async saveOrUpdate(payload: CommentPayload[]) {
     const {student_id, observer_id} = payload[0];
     return commentApi()
       .postComment(student_id, observer_id, payload[0])
       .then((response) => [response.data]);
   },
-  async delete() {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default commentProvider;

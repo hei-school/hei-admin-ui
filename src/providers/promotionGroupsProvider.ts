@@ -1,5 +1,9 @@
 import {Group} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {groupsApi, promotionApi} from "./api";
 
 interface PromotionGroupsMeta {
@@ -26,12 +30,8 @@ const promotionGroupsProvider: HaDataProviderType<
       .getGroupById(groupId)
       .then((response) => response.data);
   },
-  saveOrUpdate: () => {
-    throw new Error("Not implemented");
-  },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default promotionGroupsProvider;

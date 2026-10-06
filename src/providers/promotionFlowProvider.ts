@@ -2,7 +2,12 @@ import {
   Promotion,
   UpdatePromotionSGroup,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+  notImplemented,
+} from "./HaDataProviderType";
 import {promotionApi} from "./api";
 
 type PromotionFlowParams = {
@@ -16,12 +21,8 @@ const promotionFlowsProvider: HaDataProviderType<
   UpdatePromotionSGroup[],
   PromotionFlowParams
 > = {
-  getList: () => {
-    throw new Error("Not implemented");
-  },
-  getOne: () => {
-    throw new Error("Not implemented");
-  },
+  getList: notImplemented,
+  getOne: notImplemented,
   saveOrUpdate: async (
     payload: UpdatePromotionSGroup[],
     meta: PromotionFlowParams
@@ -33,9 +34,7 @@ const promotionFlowsProvider: HaDataProviderType<
       .updatePromotionGroups(meta.promotionId, payload[0])
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default promotionFlowsProvider;

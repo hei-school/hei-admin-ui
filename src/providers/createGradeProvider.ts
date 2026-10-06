@@ -4,6 +4,7 @@ import {
   HaDataProviderType,
   HaFilter,
   HaMeta,
+  notImplemented,
 } from "@/providers/HaDataProviderType";
 import {CreateGrade, Grade} from "@haapi-b0fc7615/typescript-client";
 
@@ -15,12 +16,8 @@ const createGradeProvider: HaDataProviderType<
   ParticipantGradeParams,
   {data: Grade}
 > = {
-  getList() {
-    throw new Error("Not implemented");
-  },
-  getOne() {
-    throw new Error("Not implemented");
-  },
+  getList: notImplemented,
+  getOne: notImplemented,
   async saveOrUpdate(payload: CreateGrade, meta: ParticipantGradeParams = {}) {
     const {examId, studentId} = meta;
 
@@ -34,9 +31,7 @@ const createGradeProvider: HaDataProviderType<
       })
       .then(({data}) => ({data}));
   },
-  delete() {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default createGradeProvider;

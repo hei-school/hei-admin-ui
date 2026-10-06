@@ -1,5 +1,5 @@
 import {CrupdatePromotion, Promotion} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 import {promotionApi} from "./api";
 
 interface PromotionFilter {
@@ -32,9 +32,7 @@ const promotionProvider: HaDataProviderType<
       .crupdatePromotion(payload[0])
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default promotionProvider;

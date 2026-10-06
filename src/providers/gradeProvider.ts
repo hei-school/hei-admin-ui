@@ -1,4 +1,7 @@
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {
+  HaDataProviderType,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import {gradesApi} from "@/providers/api";
 import {
   CourseResult,
@@ -34,12 +37,8 @@ const gradeProvider: HaDataProviderType<GradeResource, GradeFilter, GradeMeta> =
         .getYearlyResult(id, studentLevel!)
         .then((response) => ({id: uuid(), ...response.data}));
     },
-    saveOrUpdate: () => {
-      throw new Error("Not implemented");
-    },
-    delete: () => {
-      throw new Error("Not implemented");
-    },
+    saveOrUpdate: notImplemented,
+    delete: notImplemented,
   };
 
 export default gradeProvider;

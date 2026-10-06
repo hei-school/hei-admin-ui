@@ -1,5 +1,8 @@
 import {lettersApi} from "@/providers/api";
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {
+  HaDataProviderType,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import {
   Letter,
   LetterStatus,
@@ -27,7 +30,6 @@ type Params = {
   };
 };
 
-// construit par CreateLetters : le fichier téléversé et son titre
 interface LetterCreation {
   description: string;
   filename: {title: string; rawFile?: File};
@@ -35,8 +37,6 @@ interface LetterCreation {
 
 type UsersLettersPayload = UpdateLettersStatus[] | [LetterCreation];
 
-// seule la méthode transmise dans meta indique le payload : les nouveaux statuts
-// de lettres existantes (UPDATE) ou une nouvelle lettre (CREATE)
 const isStatusUpdatePayload = (
   _payload: UsersLettersPayload,
   method: Params["meta"]["method"]
@@ -92,9 +92,7 @@ const usersLettersProvider: HaDataProviderType<
       )
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default usersLettersProvider;

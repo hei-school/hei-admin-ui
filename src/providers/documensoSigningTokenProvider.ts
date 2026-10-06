@@ -1,10 +1,6 @@
 import {DocumensoSigningToken} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {documensoApi} from "./api";
-
-const notImplemented = () => {
-  throw new Error("Not implemented");
-};
 
 const documensoSigningTokenProvider: HaDataProviderType<
   DocumensoSigningToken & {id: string}

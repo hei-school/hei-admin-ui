@@ -4,6 +4,7 @@ import {
   HaDataProviderType,
   HaFilter,
   HaMeta,
+  notImplemented,
 } from "@/providers/HaDataProviderType";
 import {User} from "@/providers/types";
 import {
@@ -58,9 +59,7 @@ const profileProvider: HaDataProviderType<
         throw new Error("Role non supporté");
     }
   },
-  getList: () => {
-    throw new Error("Function not implemented");
-  },
+  getList: notImplemented,
   saveOrUpdate: async (payload) => {
     const role = authProvider.getCachedRole();
     const id = payload[0].id;
@@ -95,9 +94,7 @@ const profileProvider: HaDataProviderType<
         throw new Error("Role non supporté");
     }
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default profileProvider;

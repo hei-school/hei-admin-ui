@@ -5,7 +5,7 @@ import {
 } from "@haapi-b0fc7615/typescript-client";
 import {lettersApi} from "./api";
 import authProvider from "./authProvider";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 export const LETTER_PER_PAGE = 12;
 
@@ -74,15 +74,9 @@ const lettersProvider: HaDataProviderType<Letter, LettersFilter> = {
     }
     return {data: []};
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default lettersProvider;

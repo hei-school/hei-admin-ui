@@ -2,7 +2,12 @@ import {
   LinkStudentsByMonitorIdRequest,
   Student,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaFilter, HaSaveParams} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaSaveParams,
+  notImplemented,
+} from "./HaDataProviderType";
 import {monitoringApi} from "./api";
 import authProvider from "./authProvider";
 
@@ -45,9 +50,7 @@ const monitorStudentProvider: HaDataProviderType<
       .then((result) => result.data);
   },
 
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default monitorStudentProvider;

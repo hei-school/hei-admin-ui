@@ -2,16 +2,12 @@ import {
   SmsCampaign,
   SmsCampaignStatus,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {smsApi} from "./api";
 
 interface SmsCampaignFilter {
   status?: SmsCampaignStatus;
 }
-
-const notImplemented = () => {
-  throw new Error("Not implemented");
-};
 
 const smsCampaignsProvider: HaDataProviderType<SmsCampaign, SmsCampaignFilter> =
   {

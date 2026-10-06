@@ -1,6 +1,6 @@
 import {Cor, CorStatus, CrupdateCor} from "@haapi-b0fc7615/typescript-client";
 import {corApi} from "./api";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
 interface CorFilter {
   page: number;
@@ -38,9 +38,7 @@ const corProvider: HaDataProviderType<Cor, CorFilter, HaMeta, CrupdateCor[]> = {
       .crupdateStudentCors(concerned_student_id!, payload[0])
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default corProvider;

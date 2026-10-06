@@ -1,13 +1,11 @@
 import {ResultSummary} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {gradesApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 const resultSummaryProvider: HaDataProviderType<ResultSummary & {id: string}> =
   {
-    getList: () => {
-      throw new Error("Function not implemented.");
-    },
+    getList: notImplemented,
     getOne: async (id: string) => {
       return gradesApi()
         .getResultsSummary(id)
@@ -18,12 +16,8 @@ const resultSummaryProvider: HaDataProviderType<ResultSummary & {id: string}> =
           };
         });
     },
-    saveOrUpdate: () => {
-      throw new Error("Function not implemented.");
-    },
-    delete: () => {
-      throw new Error("Function not implemented.");
-    },
+    saveOrUpdate: notImplemented,
+    delete: notImplemented,
   };
 
 export default resultSummaryProvider;

@@ -3,7 +3,7 @@ import {
   FeeTemplate,
 } from "@haapi-b0fc7615/typescript-client";
 import {payingApi} from "./api";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
 interface FeeTemplateFilter {
   name?: string;
@@ -41,9 +41,7 @@ const feesTemplatesProvider: HaDataProviderType<
       .crupdateFeeTemplate(payload.id, payload)
       .then((response) => [response.data]);
   },
-  async delete() {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default feesTemplatesProvider;

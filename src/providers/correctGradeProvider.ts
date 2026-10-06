@@ -1,5 +1,8 @@
 import {gradesApi} from "@/providers/api";
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {
+  HaDataProviderType,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import {
   Grade,
   GradeHistory,
@@ -48,9 +51,7 @@ const correctGradeProvider: HaDataProviderType<
       )
       .then(({data}) => ({data}));
   },
-  getOne() {
-    throw new Error("Not implemented");
-  },
+  getOne: notImplemented,
   async saveOrUpdate(payload: UpdateGrade, meta: ParticipantGradeParams = {}) {
     const {examId, studentId} = meta;
 
@@ -66,9 +67,7 @@ const correctGradeProvider: HaDataProviderType<
       .correctParticipantGrade(examId, studentId, payload)
       .then(({data}) => ({data}));
   },
-  delete() {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default correctGradeProvider;

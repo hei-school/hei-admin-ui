@@ -1,5 +1,9 @@
 import {coursesApi} from "@/providers/api";
-import {HaDataProviderType, HaMeta} from "@/providers/HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaMeta,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import {
   CourseAssignment,
   CrupdateCourseAssignment,
@@ -49,9 +53,7 @@ const CourseAssignmentsProvider: HaDataProviderType<
         return response.data;
       });
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default CourseAssignmentsProvider;

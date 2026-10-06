@@ -5,7 +5,12 @@ import {
 } from "@haapi-b0fc7615/typescript-client";
 import {corApi} from "./api";
 import authProvider from "./authProvider";
-import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+  notImplemented,
+} from "./HaDataProviderType";
 
 type CorCommentPayload = CorCommentInfo & {id: string};
 
@@ -39,9 +44,7 @@ const corStudentProvider: HaDataProviderType<
         return [{id: CorId, ...response.data}];
       });
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default corStudentProvider;

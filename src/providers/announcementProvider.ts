@@ -5,7 +5,7 @@ import {
   Scope,
   WhoamiRoleEnum,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 import {announcementsApi} from "./api";
 import authProvider from "./authProvider";
 
@@ -120,9 +120,7 @@ const announcementProvider: HaDataProviderType<
         .then((result) => [result.data]);
     }
   },
-  delete: async () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default announcementProvider;

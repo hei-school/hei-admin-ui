@@ -1,5 +1,5 @@
 import {Course, CourseDirection} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {coursesApi} from "./api";
 
 interface CourseFilter {
@@ -38,9 +38,7 @@ const courseProvider: HaDataProviderType<Course, CourseFilter> = {
       .createOrUpdateCourses(payload)
       .then((response) => response.data);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default courseProvider;

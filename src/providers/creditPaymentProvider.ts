@@ -1,6 +1,6 @@
 import {CreditPayment, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
 import {payingApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 const ALL_STATUSES = [
   PaymentStatus.CREATED,
@@ -49,15 +49,9 @@ const creditPaymentProvider: HaDataProviderType<
       .slice((page - 1) * perPage, page * perPage);
     return {data};
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default creditPaymentProvider;

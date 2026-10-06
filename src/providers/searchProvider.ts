@@ -1,6 +1,6 @@
 import {SearchResultsUser} from "@haapi-b0fc7615/typescript-client";
 import {searchApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 const EMPTY_BACKEND_RESPONSE: SearchResultsUser = {
   students: [],
@@ -31,15 +31,9 @@ const searchProvider: HaDataProviderType<
       ],
     };
   },
-  getOne: () => {
-    throw new Error("Not implemented");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Not implemented");
-  },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default searchProvider;

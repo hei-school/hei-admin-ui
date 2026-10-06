@@ -3,7 +3,12 @@ import {
   StaffMember,
   WhoamiRoleEnum,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+  notImplemented,
+} from "./HaDataProviderType";
 import {usersApi} from "./api";
 import {MULTIPART_HEADERS} from "./constants";
 import {User} from "./types";
@@ -20,7 +25,6 @@ interface ProfilePicturePayload {
 
 type UserWithPicture = User | StaffMember | Organizer;
 
-// saveOrUpdate ne renvoie rien pour un rôle sans photo de profil
 const profilePicProvider: HaDataProviderType<
   UserWithPicture,
   HaFilter,
@@ -29,12 +33,8 @@ const profilePicProvider: HaDataProviderType<
   unknown,
   UserWithPicture[] | undefined
 > = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
+  getList: notImplemented,
+  getOne: notImplemented,
   saveOrUpdate: async (payload) => {
     const user = payload[0];
     switch (user?.role) {
@@ -64,9 +64,7 @@ const profilePicProvider: HaDataProviderType<
           .then((result) => [result.data]);
     }
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default profilePicProvider;

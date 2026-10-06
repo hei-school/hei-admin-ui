@@ -10,7 +10,11 @@ import {
   MpbsStatus,
   Statistics,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {eventsApi, payingApi, usersApi} from "./api";
 import {MAX_ITEM_PER_PAGE} from "./dataProvider";
 import {getMonthFilters} from "./utils";
@@ -40,15 +44,12 @@ type Stats = (
   | EventStats
 ) & {id: string};
 
-// getOne ne renvoie rien pour une ressource inconnue
 const statsProvider: HaDataProviderType<
   Stats | undefined,
   HaFilter,
   StatsMeta
 > = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+  getList: notImplemented,
   getOne: async (id: string, meta = {}) => {
     const filter = meta.filters ?? {};
     const {monthFrom, monthTo} = getMonthFilters(filter);
@@ -90,12 +91,8 @@ const statsProvider: HaDataProviderType<
         return;
     }
   },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default statsProvider;

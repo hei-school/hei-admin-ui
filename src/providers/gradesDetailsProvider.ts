@@ -4,7 +4,7 @@ import {
   YearlyResultGenerationTranscript,
 } from "@haapi-b0fc7615/typescript-client";
 import {gradesApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 interface GradesDetailsFilter {
   studentId: string;
@@ -37,12 +37,8 @@ const gradesDetailsProvider: HaDataProviderType<
       .getYearlyResultTranscript(id, meta.studentLevel!)
       .then((result) => result.data);
   },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default gradesDetailsProvider;

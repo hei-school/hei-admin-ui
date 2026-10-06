@@ -3,7 +3,11 @@ import {
   StudentGrade,
   UpdateGrade,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaSaveParams} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaSaveParams,
+  notImplemented,
+} from "./HaDataProviderType";
 import {gradesApi} from "./api";
 
 interface ExamGradeFilter {
@@ -61,9 +65,7 @@ const examGradeProvider: HaDataProviderType<
       .getParticipantGrade(id, meta?.studentId)
       .then(({data}) => ({data}));
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default examGradeProvider;

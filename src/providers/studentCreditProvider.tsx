@@ -3,7 +3,7 @@ import {
   CreditMovement,
   CreditTransaction,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {payingApi} from "./api";
 
 interface StudentCreditFilter {
@@ -11,7 +11,6 @@ interface StudentCreditFilter {
   movement?: CreditMovement;
 }
 
-// la liste renvoie les mouvements du crédit, getOne le crédit de l'étudiant
 type StudentCreditResource = (CreditTransaction & {id?: string}) | Credit;
 
 const studentCreditProvider: HaDataProviderType<
@@ -39,12 +38,8 @@ const studentCreditProvider: HaDataProviderType<
       .getCreditByStudentId(studentId)
       .then((response) => response.data);
   },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default studentCreditProvider;

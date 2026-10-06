@@ -3,7 +3,11 @@ import {
   GenerationReceiptsRequest,
 } from "@haapi-b0fc7615/typescript-client";
 import {payingApi} from "./api";
-import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {ExportedFile} from "./types";
 
 interface ReceiptMeta {
@@ -20,9 +24,7 @@ const receiptProvider: HaDataProviderType<
   unknown,
   Array<GeneratedReceiptsStatistic & {id: string}>
 > = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+  getList: notImplemented,
 
   getOne: async (id: string, meta: ReceiptMeta) => {
     const {paymentId: raId} = meta;
@@ -46,9 +48,7 @@ const receiptProvider: HaDataProviderType<
       .then((res) => [{...res.data, id: receiptPayload.id}]);
   },
 
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default receiptProvider;

@@ -1,11 +1,9 @@
 import {eventsApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {ExportedFile} from "./types";
 
 const exportEventParticipantProvider: HaDataProviderType<ExportedFile> = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+  getList: notImplemented,
 
   getOne: async (id: string) => {
     return eventsApi()
@@ -13,13 +11,9 @@ const exportEventParticipantProvider: HaDataProviderType<ExportedFile> = {
       .then((res) => ({id, file: res.data}));
   },
 
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
 
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default exportEventParticipantProvider;

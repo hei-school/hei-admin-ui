@@ -6,7 +6,11 @@ import {
   WorkDocumentInfo,
 } from "@haapi-b0fc7615/typescript-client";
 import {OwnerType} from "../operations/docs/types";
-import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {filesApi} from "./api";
 import {MULTIPART_HEADERS} from "./constants";
 
@@ -143,9 +147,7 @@ const docsProvider: HaDataProviderType<
         return [];
     }
   },
-  async delete() {
-    throw new Error("Not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default docsProvider;

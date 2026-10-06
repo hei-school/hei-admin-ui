@@ -2,7 +2,7 @@ import {useRole} from "@/security/hooks";
 import {CrupdateExam, Exam} from "@haapi-b0fc7615/typescript-client";
 import {examApi} from "./api";
 import authProvider from "./authProvider";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
 interface ExamFilter {
   teacher_id?: string;
@@ -52,9 +52,7 @@ const examsProvider: HaDataProviderType<
       .createOrUpdateExamsInfos(payload)
       .then((response) => [response.data]);
   },
-  delete: async () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default examsProvider;

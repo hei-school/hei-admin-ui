@@ -6,7 +6,7 @@ import {
 } from "@haapi-b0fc7615/typescript-client";
 
 import {attendanceApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 interface StudentParticipationFilter {
   from: Date;
@@ -59,15 +59,9 @@ const StudentParticipationProvider: HaDataProviderType<
         })),
       }));
   },
-  getOne: () => {
-    throw new Error("Not implemented");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Not implemented");
-  },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default StudentParticipationProvider;

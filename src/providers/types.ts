@@ -23,7 +23,6 @@ export type User = Student | Teacher | Manager | Monitor | Admin;
 
 export type ToRaRecord<T> = T & {id: Identifier};
 
-// fichier renvoyé par le getOne des providers d'export
 export type ExportedFile<Content = string> = {
   id: string;
   file: Content;

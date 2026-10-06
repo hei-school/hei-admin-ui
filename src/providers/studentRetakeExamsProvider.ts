@@ -2,7 +2,7 @@ import {
   CourseResult,
   CourseResultStatus,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {retakeExamApi} from "./api";
 
 interface StudentRetakeExamsFilter {
@@ -26,15 +26,9 @@ const studentRetakeExamsProvider: HaDataProviderType<
         data: response.data,
       }));
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default studentRetakeExamsProvider;

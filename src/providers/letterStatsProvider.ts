@@ -2,7 +2,7 @@ import {LetterStats} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {lettersApi} from "./api";
 import authProvider from "./authProvider";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 export type CountResponseType = "count" | "pending" | "rejected" | "received";
 export type LetterGetListReponseType = {
@@ -13,12 +13,9 @@ export type LetterGetListReponseType = {
 
 type LetterStatsRecord = LetterStats & {id: string; total: number};
 
-// getOne ne renvoie rien pour un rôle autre que MANAGER ou ADMIN
 const lettersStatsProvider: HaDataProviderType<LetterStatsRecord | undefined> =
   {
-    getList: () => {
-      throw new Error("Function not implemented.");
-    },
+    getList: notImplemented,
     getOne: async () => {
       const {role} = authProvider.getCachedWhoami();
       if (role === "MANAGER") {
@@ -39,12 +36,8 @@ const lettersStatsProvider: HaDataProviderType<LetterStatsRecord | undefined> =
           });
       }
     },
-    saveOrUpdate: () => {
-      throw new Error("Function not implemented.");
-    },
-    delete: () => {
-      throw new Error("Function not implemented.");
-    },
+    saveOrUpdate: notImplemented,
+    delete: notImplemented,
   };
 
 export default lettersStatsProvider;

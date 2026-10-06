@@ -2,14 +2,18 @@ import {NOOP_ID} from "@/utils/constants";
 import {StudentImportValidationResult} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuidv4} from "uuid";
 import {usersApi} from "./api";
-import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+  notImplemented,
+} from "./HaDataProviderType";
 
 interface StudentImportPayload {
   due_datetime: string | Date;
   file: {rawFile?: File};
 }
 
-// getOne renvoie l'URL du modèle d'import
 type StudentImportTemplate = {id: string; data: string};
 
 type ImportedStudents = StudentImportValidationResult & {id: string};
@@ -22,9 +26,7 @@ const studentImportProvider: HaDataProviderType<
   unknown,
   ImportedStudents[]
 > = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+  getList: notImplemented,
   getOne: async () => {
     return usersApi()
       .getStudentImportTemplateURL()
@@ -36,9 +38,7 @@ const studentImportProvider: HaDataProviderType<
       .importStudents(new Date(due_datetime), file.rawFile)
       .then((response) => [{id: uuidv4(), ...response.data}]);
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default studentImportProvider;

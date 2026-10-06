@@ -1,6 +1,6 @@
 import {toUTC} from "@/utils/date";
 import {CreateGroup, Group} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 
 interface GroupFilter {
@@ -8,7 +8,6 @@ interface GroupFilter {
   student_ref?: string;
 }
 
-// la date de création arrive du formulaire, elle est convertie en UTC
 type GroupPayload = Omit<CreateGroup, "creation_datetime"> & {
   creation_datetime: string | Date;
 };
@@ -41,9 +40,7 @@ const groupProvider: HaDataProviderType<
       .createOrUpdateGroups([createGroup])
       .then((result) => result.data);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default groupProvider;

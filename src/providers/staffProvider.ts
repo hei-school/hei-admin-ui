@@ -4,7 +4,7 @@ import {
   StaffMember,
 } from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
 interface StaffFilter {
   status?: EnableStatus;
@@ -47,9 +47,7 @@ const staffProvider: HaDataProviderType<
       .crupdateStaffMembers(staffs)
       .then((result) => result.data);
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default staffProvider;

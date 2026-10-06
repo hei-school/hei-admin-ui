@@ -16,8 +16,6 @@ type Params = {
   };
 };
 
-// la liste et les mutations renvoient des SmsContactGroup, getOne le détail
-// avec les membres
 const smsContactGroupsProvider: HaDataProviderType<
   SmsContactGroupDetail,
   SmsContactGroupFilter,

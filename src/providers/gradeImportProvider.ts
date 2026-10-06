@@ -1,14 +1,17 @@
 import {NOOP_ID} from "@/utils/constants";
 import {ImportGradeResult} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuidv4} from "uuid";
-import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {gradesApi} from "./api";
 
 interface GradeImportMeta {
   examId: string;
 }
 
-// CreateParams transmis par dataProvider.create
 interface GradeImportParams {
   data: {
     file: {rawFile?: File};
@@ -56,9 +59,7 @@ const gradeImportProvider: HaDataProviderType<
     ];
   },
 
-  getList: () => {
-    throw new Error("Not implemented");
-  },
+  getList: notImplemented,
 
   getOne: async (_resources, meta: GradeImportMeta) => {
     const examId = meta?.examId;
@@ -68,9 +69,7 @@ const gradeImportProvider: HaDataProviderType<
     );
     return {id: NOOP_ID, data: response.data};
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default gradeImportProvider;

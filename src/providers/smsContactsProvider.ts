@@ -2,7 +2,7 @@ import {
   SmsContact,
   SmsContactOwnerRole,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {smsApi} from "./api";
 
 interface SmsContactFilter {
@@ -10,10 +10,6 @@ interface SmsContactFilter {
   ownerRole?: SmsContactOwnerRole;
   search?: string;
 }
-
-const notImplemented = () => {
-  throw new Error("Not implemented");
-};
 
 const smsContactsProvider: HaDataProviderType<SmsContact, SmsContactFilter> = {
   getList: async (

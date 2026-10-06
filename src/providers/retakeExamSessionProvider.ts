@@ -1,4 +1,8 @@
-import {HaDataProviderType, HaMeta} from "@/providers/HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaMeta,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
 import {
   RetakeExamSession,
@@ -49,8 +53,6 @@ const retakeExamSessionProvider: HaDataProviderType<
       .createOrUpdateRetakeExamSessions(firstRetakeExam)
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 export default retakeExamSessionProvider;

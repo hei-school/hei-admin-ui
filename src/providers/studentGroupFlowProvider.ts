@@ -1,5 +1,5 @@
 import {GroupFlow, UpdateGroupFlow} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 
 interface StudentGroupFlowFilter {
@@ -21,9 +21,7 @@ const studentGroupFlowProvider: HaDataProviderType<
         return {data: response.data.slice(start, start + perPage)};
       });
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
   saveOrUpdate: async (payload) => {
     const groupFlow = payload[0];
     const toUpdate: UpdateGroupFlow = {
@@ -34,9 +32,7 @@ const studentGroupFlowProvider: HaDataProviderType<
       .updateGroupFlow(groupFlow.id!, toUpdate)
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default studentGroupFlowProvider;

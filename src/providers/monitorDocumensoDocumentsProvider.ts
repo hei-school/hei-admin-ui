@@ -1,14 +1,14 @@
 import {DocumensoDocument} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {documensoApi} from "./api";
 
 interface MonitorDocumensoMeta {
   monitorId: string;
 }
-
-const notImplemented = () => {
-  throw new Error("Not implemented");
-};
 
 const monitorDocumensoDocumentsProvider: HaDataProviderType<
   DocumensoDocument,

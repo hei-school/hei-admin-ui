@@ -9,7 +9,11 @@ import {
   WorkStudyStatus,
 } from "@haapi-b0fc7615/typescript-client";
 import {payingApi, usersApi} from "./api";
-import {HaDataProviderType, HaSaveParams} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaSaveParams,
+  notImplemented,
+} from "./HaDataProviderType";
 
 interface StudentFilter {
   ref: string;
@@ -27,14 +31,12 @@ type StudentRecord = Student & {level?: StudentLevel};
 
 type StudentUpdate = CrupdateStudent & {id: string};
 
-// à la création, les frais à créer et les étudiants
 type StudentCreation = [CreateFee[], Student[]];
 
 type StudentPayload = StudentUpdate[] | [StudentCreation];
 
 type StudentSaveParams = HaSaveParams<{dueDatetime?: Date}>;
 
-// seul isUpdate indique la forme du payload : une mise à jour ou une création
 const isStudentUpdate = (
   _payload: StudentPayload,
   isUpdate?: boolean
@@ -102,9 +104,7 @@ const studentProvider: HaDataProviderType<
     }
     return studentResponse;
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default studentProvider;

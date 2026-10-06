@@ -1,14 +1,14 @@
 import {Promotion, StudentLevel} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {promotionApi} from "./api";
 
 interface TemplatePromotionsMeta {
   level?: StudentLevel;
 }
-
-const notImplemented = () => {
-  throw new Error("Not implemented");
-};
 
 const templatePromotionsProvider: HaDataProviderType<
   Promotion,

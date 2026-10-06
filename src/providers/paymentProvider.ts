@@ -2,7 +2,7 @@ import {MobileMoneyType, Payment} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import {toApiIds as toApiFeeIds} from "./feeProvider";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
 const RA_SEPARATOR = "--";
 
@@ -16,7 +16,6 @@ type PaymentResource = Payment & {
   psp_type?: MobileMoneyType;
 };
 
-// les paiements créés (un tableau) sont étalés dans un objet indexé
 type CreatedPayments = {[index: number]: Payment};
 
 const toRaId = (studentId: string, feeId: string, paymentId: string): string =>
@@ -46,9 +45,7 @@ const paymentProvider: HaDataProviderType<
         })),
       }));
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
   saveOrUpdate: async (resources: PaymentResource[][]) => {
     const payments: PaymentResource[] = resources[0];
     if (!payments?.length) {

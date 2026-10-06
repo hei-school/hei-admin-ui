@@ -5,7 +5,7 @@ import {
   Teacher,
 } from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
-import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
 interface TeacherFilter {
   ref?: string;
@@ -52,9 +52,7 @@ const teacherProvider: HaDataProviderType<
       .createOrUpdateTeachers(teachers)
       .then((result) => result.data);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default teacherProvider;
