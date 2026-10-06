@@ -1,7 +1,8 @@
 import {eventsApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
+import {ExportedFile} from "./types";
 
-const exportEventParticipantProvider: HaDataProviderType = {
+const exportEventParticipantProvider: HaDataProviderType<ExportedFile> = {
   getList: () => {
     throw new Error("Function not implemented.");
   },

@@ -4,7 +4,7 @@ import {useToggle} from "@/hooks";
 import {Create} from "@/operations/common/components/Create";
 import {useRole} from "@/security/hooks";
 import {NOOP_FN} from "@/utils/noop";
-import {RoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {
   Badge,
   Dialog,
@@ -12,7 +12,7 @@ import {
   IconButton,
   useMediaQuery,
 } from "@mui/material";
-import {FC, useRef} from "react";
+import {useRef} from "react";
 
 import {PhotoCamera} from "@mui/icons-material";
 import {
@@ -24,11 +24,20 @@ import {
   useRecordContext,
 } from "react-admin";
 
+// the ImageInput wraps the chosen picture: the file itself is in rawFile
+interface ProfilePictureFormValues {
+  profile_picture?: {rawFile?: File};
+}
+
+interface ProfileCardAvatarProps {
+  role: WhoamiRoleEnum;
+}
+
 const UploadPictureButton = ({
   role,
   onUpload = NOOP_FN,
 }: {
-  role: RoleEnum;
+  role: WhoamiRoleEnum;
   onUpload?: () => void;
 }) => {
   const [isOpen, , toggle] = useToggle();
@@ -63,7 +72,7 @@ const UploadPictureButton = ({
           title=" "
           redirect={false}
           resource="profile-picture"
-          transform={(user: any) => ({
+          transform={(user: ProfilePictureFormValues) => ({
             rawFile: user?.profile_picture?.rawFile,
             id,
             role,
@@ -93,7 +102,7 @@ const UploadPictureButton = ({
   );
 };
 
-export const ProfileCardAvatar: FC<{role: RoleEnum}> = ({role}) => {
+export const ProfileCardAvatar = ({role}: Readonly<ProfileCardAvatarProps>) => {
   const {isStudent, isMonitor} = useRole();
 
   const user = useRecordContext();

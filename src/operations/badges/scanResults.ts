@@ -1,3 +1,7 @@
+import {
+  EnableStatus,
+  EventParticipant,
+} from "@haapi-b0fc7615/typescript-client";
 import {useState} from "react";
 import {getPublicStudent, httpStatusOf} from "./badgeApi";
 
@@ -6,12 +10,30 @@ export type ScanResult = {
   success: boolean;
   label: string;
   detail: string;
+  warning?: string;
 };
+
+export const SUSPENDED_WARNING =
+  "Suspendu : frais en retard, passage au bureau requis.";
 
 let resultKey = 0;
 
 export const fullName = (student: {first_name?: string; last_name?: string}) =>
   `${student.last_name ?? ""} ${student.first_name ?? ""}`.trim();
+
+// The student is marked present anyway: the warning only tells the teacher
+// that he has overdue fees, so that he can send him to the office.
+export const presentResult = (
+  participant: EventParticipant
+): Omit<ScanResult, "key"> => ({
+  success: true,
+  label: fullName(participant),
+  detail: `${participant.ref ?? ""} · présent(e)`,
+  warning:
+    participant.student_status === EnableStatus.SUSPENDED
+      ? SUSPENDED_WARNING
+      : undefined,
+});
 
 export const useScanResults = () => {
   const [results, setResults] = useState<ScanResult[]>([]);

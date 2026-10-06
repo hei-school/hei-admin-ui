@@ -1,12 +1,20 @@
 import {usersApi} from "@/providers/api";
-import {Monitor} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaMeta} from "@/providers/HaDataProviderType";
+import {CrupdateMonitor, Monitor} from "@haapi-b0fc7615/typescript-client";
 
-const monitorProvider = {
-  getList: async (
-    page: number,
-    perPage: number,
-    filter: {ref?: string; first_name?: string; last_name?: string}
-  ) => {
+interface MonitorFilter {
+  ref?: string;
+  first_name?: string;
+  last_name?: string;
+}
+
+const monitorProvider: HaDataProviderType<
+  Monitor,
+  MonitorFilter,
+  HaMeta,
+  CrupdateMonitor[]
+> = {
+  getList: async (page: number, perPage: number, filter: MonitorFilter) => {
     return usersApi()
       .getMonitors(
         page,
@@ -27,13 +35,13 @@ const monitorProvider = {
   },
 
   saveOrUpdate: async (
-    monitors: Required<Monitor>[],
+    monitors: CrupdateMonitor[],
     meta?: {isUpdate?: boolean}
   ) => {
     if (meta?.isUpdate) {
       const [monitor] = monitors;
       return usersApi()
-        .updateMonitorById(monitor.id, monitor)
+        .updateMonitorById(monitor.id!, monitor)
         .then((result) => [result.data]);
     }
     return usersApi()

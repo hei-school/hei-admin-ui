@@ -131,6 +131,6 @@ describe("Admin Staff", () => {
 
   it("can export staff list", () => {
     cy.getByTestid("menu-list-action").click();
-    cy.getByTestid("download-button").click();
+    cy.getByTestid("download-button").should("be.visible").click();
   });
 });

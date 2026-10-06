@@ -1,6 +1,6 @@
-export const toMonthInput = (iso: unknown): string => {
+export const toMonthInput = (iso: string | Date | null | undefined): string => {
   if (!iso) return "";
-  const isoString = iso instanceof Date ? iso.toISOString() : String(iso);
+  const isoString = iso instanceof Date ? iso.toISOString() : iso;
   return isoString.slice(0, MONTH_INPUT_LENGTH);
 };
 

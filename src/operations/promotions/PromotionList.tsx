@@ -8,7 +8,7 @@ import {DateField} from "../common/components/fields";
 import {PromotionListFilter} from "./components";
 import {PromotionCreate} from "./PromotionCreate";
 
-export default function PromotionList() {
+const PromotionList = () => {
   const [showCreate, _set, toggleShowCreate] = useToggle();
 
   return (
@@ -49,4 +49,6 @@ export default function PromotionList() {
       </Dialog>
     </>
   );
-}
+};
+
+export default PromotionList;

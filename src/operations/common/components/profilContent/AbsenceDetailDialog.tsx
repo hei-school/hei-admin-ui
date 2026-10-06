@@ -30,7 +30,7 @@ import {
   Typography,
   alpha,
 } from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {Confirm, useGetList, useRefresh, useUpdate} from "react-admin";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
@@ -116,12 +116,12 @@ const LETTER_STATUS_CONFIG = {
   },
 };
 
-export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
+export const AbsenceDetailDialog = ({
   open,
   onClose,
   absence,
   studentId,
-}) => {
+}: Readonly<AbsenceDetailDialogProps>) => {
   const statusConfig = STATUS_CONFIG[absence.attendanceStatus];
   const {isManager, isAdmin} = useRole();
   const eventId = absence.id;
@@ -357,36 +357,63 @@ export const AbsenceDetailDialog: FC<AbsenceDetailDialogProps> = ({
                 </Box>
               </Stack>
               <Divider sx={{mb: 2}} />
-              {lettersLoading ? (
-                <Box display="flex" justifyContent="center" py={4}>
-                  <CircularProgress size={40} />
-                </Box>
-              ) : letters.length === 0 ? (
-                <Alert severity="info" sx={{borderRadius: 2}}>
-                  <Typography variant="body2">
-                    Aucun justificatif trouvé pour cette absence.
-                  </Typography>
-                  <Typography variant="caption" sx={{color: "text.secondary"}}>
-                    L'étudiant n'a soumis aucun justificatif.
-                  </Typography>
-                </Alert>
-              ) : (
-                <Stack spacing={2}>
-                  {letters.map((letter) => (
-                    <LetterCard
-                      key={letter.id}
-                      letter={letter}
-                      canManage={isManager() || isAdmin()}
-                      onUpdate={handleRefresh}
-                    />
-                  ))}
-                </Stack>
-              )}
+              <LetterList
+                letters={letters}
+                isLoading={lettersLoading}
+                canManage={isManager() || isAdmin()}
+                onUpdate={handleRefresh}
+              />
             </Paper>
           </Grid>
         </Grid>
       </DialogContent>
     </Dialog>
+  );
+};
+
+interface LetterListProps {
+  letters: Letter[];
+  isLoading: boolean;
+  canManage: boolean;
+  onUpdate: () => void;
+}
+
+const LetterList = ({
+  letters,
+  isLoading,
+  canManage,
+  onUpdate,
+}: Readonly<LetterListProps>) => {
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center" py={4}>
+        <CircularProgress size={40} />
+      </Box>
+    );
+  }
+  if (letters.length === 0) {
+    return (
+      <Alert severity="info" sx={{borderRadius: 2}}>
+        <Typography variant="body2">
+          Aucun justificatif trouvé pour cette absence.
+        </Typography>
+        <Typography variant="caption" sx={{color: "text.secondary"}}>
+          L'étudiant n'a soumis aucun justificatif.
+        </Typography>
+      </Alert>
+    );
+  }
+  return (
+    <Stack spacing={2}>
+      {letters.map((letter) => (
+        <LetterCard
+          key={letter.id}
+          letter={letter}
+          canManage={canManage}
+          onUpdate={onUpdate}
+        />
+      ))}
+    </Stack>
   );
 };
 
@@ -396,7 +423,11 @@ interface LetterCardProps {
   onUpdate: () => void;
 }
 
-const LetterCard: FC<LetterCardProps> = ({letter, canManage, onUpdate}) => {
+const LetterCard = ({
+  letter,
+  canManage,
+  onUpdate,
+}: Readonly<LetterCardProps>) => {
   const [showPdf, setShowPdf] = useState(false);
   const [showAcceptConfirm, setShowAcceptConfirm] = useState(false);
   const [showRefuseDialog, setShowRefuseDialog] = useState(false);
@@ -411,7 +442,7 @@ const LetterCard: FC<LetterCardProps> = ({letter, canManage, onUpdate}) => {
     : null;
 
   const handleAccept = () => {
-    update(
+    void update(
       "users-letters",
       {
         id: letter.id,
@@ -444,7 +475,7 @@ const LetterCard: FC<LetterCardProps> = ({letter, canManage, onUpdate}) => {
       return;
     }
 
-    update(
+    void update(
       "users-letters",
       {
         id: letter.id,

@@ -2,15 +2,22 @@ import {MobileMoneyType, Payment} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import {toApiIds as toApiFeeIds} from "./feeProvider";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 
 const RA_SEPARATOR = "--";
+
+interface PaymentFilter {
+  feeId: string;
+}
 
 type PaymentResource = Payment & {
   feeId: string;
   psp_id?: string;
   psp_type?: MobileMoneyType;
 };
+
+// les paiements créés (un tableau) sont étalés dans un objet indexé
+type CreatedPayments = {[index: number]: Payment};
 
 const toRaId = (studentId: string, feeId: string, paymentId: string): string =>
   `${studentId}${RA_SEPARATOR}${feeId}${RA_SEPARATOR}${paymentId}`;
@@ -20,8 +27,15 @@ const toApiPaymentId = (raId: string) => {
   return {studentId, feeId, paymentId};
 };
 
-const paymentProvider: HaDataProviderType = {
-  getList: async (page: number, perPage: number, filter: {feeId: string}) => {
+const paymentProvider: HaDataProviderType<
+  Payment,
+  PaymentFilter,
+  HaMeta,
+  PaymentResource[][],
+  unknown,
+  CreatedPayments
+> = {
+  getList: async (page: number, perPage: number, filter: PaymentFilter) => {
     const {studentId, feeId} = toApiFeeIds(filter.feeId);
     return payingApi()
       .getStudentPayments(studentId, feeId, page, perPage)

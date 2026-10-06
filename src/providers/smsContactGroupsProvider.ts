@@ -1,6 +1,13 @@
-import {CrupdateSmsContactGroup} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  CrupdateSmsContactGroup,
+  SmsContactGroupDetail,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 import {smsApi} from "./api";
+
+interface SmsContactGroupFilter {
+  search?: string;
+}
 
 type Params = {
   meta: {
@@ -9,11 +16,19 @@ type Params = {
   };
 };
 
-const smsContactGroupsProvider: HaDataProviderType = {
+// la liste et les mutations renvoient des SmsContactGroup, getOne le détail
+// avec les membres
+const smsContactGroupsProvider: HaDataProviderType<
+  SmsContactGroupDetail,
+  SmsContactGroupFilter,
+  HaMeta,
+  CrupdateSmsContactGroup[],
+  Params
+> = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {search?: string} = {}
+    filter: SmsContactGroupFilter = {}
   ) => {
     const {data} = await smsApi().getSmsContactGroups(
       page,

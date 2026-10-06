@@ -1,29 +1,54 @@
 /* eslint-disable @typescript-eslint/no-non-null-asserted-optional-chain */
 import {
+  CreateFee,
+  CrupdateStudent,
   EnableStatus,
   Sex,
   Student,
+  StudentLevel,
   WorkStudyStatus,
 } from "@haapi-b0fc7615/typescript-client";
 import {payingApi, usersApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaSaveParams} from "./HaDataProviderType";
 
-const studentProvider: HaDataProviderType = {
-  getList: async (
-    page: number,
-    perPage: number,
-    filter: {
-      ref: string;
-      first_name: string;
-      last_name: string;
-      course_id: string;
-      status: EnableStatus;
-      sex: Sex;
-      work_study_status: WorkStudyStatus;
-      commitment_begin_date: Date;
-      exclude_groups: string[];
-    }
-  ) => {
+interface StudentFilter {
+  ref: string;
+  first_name: string;
+  last_name: string;
+  course_id: string;
+  status: EnableStatus;
+  sex: Sex;
+  work_study_status: WorkStudyStatus;
+  commitment_begin_date: Date;
+  exclude_groups: string[];
+}
+
+type StudentRecord = Student & {level?: StudentLevel};
+
+type StudentUpdate = CrupdateStudent & {id: string};
+
+// à la création, les frais à créer et les étudiants
+type StudentCreation = [CreateFee[], Student[]];
+
+type StudentPayload = StudentUpdate[] | [StudentCreation];
+
+type StudentSaveParams = HaSaveParams<{dueDatetime?: Date}>;
+
+// seul isUpdate indique la forme du payload : une mise à jour ou une création
+const isStudentUpdate = (
+  _payload: StudentPayload,
+  isUpdate?: boolean
+): _payload is StudentUpdate[] => Boolean(isUpdate);
+
+const studentProvider: HaDataProviderType<
+  StudentRecord,
+  StudentFilter,
+  {dueDatetime?: Date},
+  StudentPayload,
+  StudentSaveParams,
+  Student[]
+> = {
+  getList: async (page: number, perPage: number, filter: StudentFilter) => {
     return usersApi()
       .getStudents(
         page,
@@ -52,9 +77,9 @@ const studentProvider: HaDataProviderType = {
   },
   saveOrUpdate: async (
     payload,
-    Params = {isUpdate: true, dueDatetime: Date}
+    Params: StudentSaveParams = {isUpdate: true}
   ) => {
-    if (Params.isUpdate) {
+    if (isStudentUpdate(payload, Params.isUpdate)) {
       const [student] = payload;
       const result = await usersApi().updateStudent(student.id, student);
       return [result.data];

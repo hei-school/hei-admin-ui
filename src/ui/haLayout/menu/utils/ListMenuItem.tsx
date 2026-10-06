@@ -1,12 +1,20 @@
-import {FC, ReactNode} from "react";
+import {HTMLAttributeAnchorTarget, ReactNode} from "react";
 import {SingleMenu} from "./SingleMenu";
 
-export const ListMenuItem: FC<{
+type ListMenuItemProps = {
   label: string;
   icon: ReactNode;
   to: string;
-  target?: React.HTMLAttributeAnchorTarget;
+  target?: HTMLAttributeAnchorTarget;
   onClick?: () => void;
-}> = ({label, icon, to, target, ...rest}) => (
-  <SingleMenu {...{label, to, icon, menu: false, target, ...rest}} />
+};
+
+export const ListMenuItem = ({
+  label,
+  icon,
+  to,
+  target,
+  onClick,
+}: Readonly<ListMenuItemProps>) => (
+  <SingleMenu {...{label, to, icon, menu: false, target, onClick}} />
 );

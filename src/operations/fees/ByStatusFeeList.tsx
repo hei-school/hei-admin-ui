@@ -3,7 +3,7 @@ import {HaList} from "@/ui/haList/HaList";
 import {Fee, FeeStatusEnum} from "@haapi-b0fc7615/typescript-client";
 import {ReceiptLong} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {FunctionField, ShowButton, TextField} from "react-admin";
+import {FunctionField, Identifier, ShowButton, TextField} from "react-admin";
 import {DateField} from "../common/components/fields";
 import {renderMoney} from "../common/utils/money";
 import {commentFunctionRenderer} from "../utils";
@@ -48,7 +48,7 @@ const ByStatusFeeList = () => {
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
         filterIndicator={true}
         datagridProps={{
-          rowClick: (id: string) => `/fees/${id}/show`,
+          rowClick: (id: Identifier) => `/fees/${id}/show`,
           rowStyle,
         }}
         actions={undefined}

@@ -20,36 +20,29 @@ import {
   ToggleButton,
   ToggleButtonGroup,
 } from "@mui/material";
-import {FC, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useGetOne} from "react-admin";
 import {GradientButton} from "../utils/utils";
 
-export const YearlyView: FC<{studentId: string}> = ({studentId}) => {
+const toTranscriptLevel = (level?: StudentLevel): StudentLevel =>
+  level === "M1" || level === "M2" || level === "L3" ? "L3" : level || "L1";
+
+export const YearlyView = ({studentId}: Readonly<{studentId: string}>) => {
   const {data: Student, isLoading: studentsLoading} = useGetOne<
     ToRaRecord<Student & {level: StudentLevel}>
   >("students", {id: studentId || ""}, {enabled: !!studentId});
 
-  const rawLevel = Student?.level;
-  const studentLevel: StudentLevel =
-    rawLevel === "M1" || rawLevel === "M2" || rawLevel === "L3"
-      ? "L3"
-      : rawLevel || "L1";
+  const studentLevel = toTranscriptLevel(Student?.level);
 
-  const [selectedLevel, setSelectedLevel] = useState<StudentLevel & string>(
-    studentLevel
-  );
+  const [selectedLevel, setSelectedLevel] =
+    useState<StudentLevel>(studentLevel);
   const [loading, setLoading] = useState(false);
   const [viewType, setViewType] = useState<ViewType>("LIST");
   const notify = useNotify();
 
   useEffect(() => {
-    if (Student && Student.level) {
-      const newRawLevel = Student.level;
-      const realLevel =
-        newRawLevel === "M1" || newRawLevel === "M2" || newRawLevel === "L3"
-          ? "L3"
-          : newRawLevel || "L1";
-      setSelectedLevel(realLevel);
+    if (Student?.level) {
+      setSelectedLevel(toTranscriptLevel(Student.level));
     }
   }, [Student]);
 

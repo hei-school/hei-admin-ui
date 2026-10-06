@@ -1,6 +1,5 @@
 import {mapToChoices} from "@/utils";
 import {Event, PlaceEnum, RoomEnum} from "@haapi-b0fc7615/typescript-client";
-import {FC} from "react";
 
 export const EVENT_TYPE_VALUE = {
   COURSE: "Cours",
@@ -52,7 +51,7 @@ export const RECURRENCE_TYPE_CHOICES = [
   {value: "SATURDAY", label: "Samedis"},
 ];
 
-export const EventTitle: FC<{event: Event}> = ({event}) => {
+export const EventTitle = ({event}: Readonly<{event: Event}>) => {
   return `
   [${
     event.groups?.length

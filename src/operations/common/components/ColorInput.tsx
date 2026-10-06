@@ -1,5 +1,4 @@
 import {Box, BoxProps, TextField, TextFieldProps} from "@mui/material";
-import {FC} from "react";
 import {useInput} from "react-admin";
 
 export type ColorInputProps = {
@@ -11,14 +10,14 @@ export type ColorInputProps = {
   hexInputProps?: TextFieldProps;
 };
 
-export const ColorInput: FC<ColorInputProps> = ({
+export const ColorInput = ({
   source,
   label,
   hexInputProps = {},
   inputProps = {},
   wrapperProps = {},
   defaultValue = "",
-}) => {
+}: Readonly<ColorInputProps>) => {
   const {field} = useInput({
     source,
     defaultValue,

@@ -1,19 +1,27 @@
-import {EnableStatus, Sex, Teacher} from "@haapi-b0fc7615/typescript-client";
+import {
+  CrupdateTeacher,
+  EnableStatus,
+  Sex,
+  Teacher,
+} from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 
-const teacherProvider: HaDataProviderType = {
-  getList: async (
-    page: number,
-    perPage: number,
-    filter: {
-      ref?: string;
-      first_name?: string;
-      last_name?: string;
-      status?: EnableStatus;
-      sex?: Sex;
-    }
-  ) => {
+interface TeacherFilter {
+  ref?: string;
+  first_name?: string;
+  last_name?: string;
+  status?: EnableStatus;
+  sex?: Sex;
+}
+
+const teacherProvider: HaDataProviderType<
+  Teacher,
+  TeacherFilter,
+  HaMeta,
+  CrupdateTeacher[]
+> = {
+  getList: async (page: number, perPage: number, filter: TeacherFilter) => {
     return usersApi()
       .getTeachers(
         page,
@@ -32,12 +40,12 @@ const teacherProvider: HaDataProviderType = {
       .then((result) => result.data);
   },
   saveOrUpdate: async (
-    teachers: Required<Teacher>[],
+    teachers: CrupdateTeacher[],
     meta?: {isUpdate?: boolean}
   ) => {
     if (meta?.isUpdate) {
       const [teacher] = teachers;
-      const result = await usersApi().updateTeacher(teacher.id, teacher);
+      const result = await usersApi().updateTeacher(teacher.id!, teacher);
       return [result.data];
     }
     return usersApi()

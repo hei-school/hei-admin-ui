@@ -34,7 +34,7 @@ export const useSyncDocumensoTemplates = () => {
       }
     };
 
-    synchronise();
+    void synchronise();
   }, [canSync, notify]);
 
   return {isSyncing};

@@ -19,7 +19,7 @@ import {
   FEESTEMPLATES_CHOICES,
 } from "../fees/constants";
 
-function FeesTemplatesCreate() {
+const FeesTemplatesCreate = () => {
   return (
     <Create
       title={"Créer un frais prédéfini"}
@@ -89,6 +89,6 @@ function FeesTemplatesCreate() {
       </SimpleForm>
     </Create>
   );
-}
+};
 
 export default FeesTemplatesCreate;

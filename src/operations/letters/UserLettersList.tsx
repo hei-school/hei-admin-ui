@@ -9,7 +9,7 @@ import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {Student, Teacher} from "@haapi-b0fc7615/typescript-client";
 import {CloudUpload, Tune} from "@mui/icons-material";
 import {Box, Button} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {ListBase, TopToolbar, useRecordContext} from "react-admin";
 
 export const getListViewStyle = ({
@@ -19,16 +19,17 @@ export const getListViewStyle = ({
   isLarge: boolean;
   isSmall: boolean;
 }): React.CSSProperties => {
+  const regularGap = isLarge ? "1.4rem" : "1.6rem";
   return {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: isSmall ? "center" : "flex-start",
-    gap: isSmall ? "1rem" : isLarge ? "1.4rem" : "1.6rem",
+    gap: isSmall ? "1rem" : regularGap,
     padding: isLarge ? "1rem" : "0.5rem 2.5rem",
   };
 };
 
-export const UserLettersList: FC = () => {
+export const UserLettersList = () => {
   const [isOpen, , onToggle] = useToggle();
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 

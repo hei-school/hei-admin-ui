@@ -80,7 +80,7 @@ describe("Manager.event", () => {
     cy.getByTestid("event-groups").type("g");
     cy.contains("group_ref1").click();
     cy.contains("Enregistrer").click();
-    cy.contains("Élément créé");
+    cy.contains("Élément créé").should("be.visible");
   });
 
   it("manager can list event", () => {
@@ -105,7 +105,7 @@ describe("Manager.event", () => {
     cy.get('[data-value="SIGMA"]').click();
     cy.get("#event-location").click();
     cy.get('[data-value="ANDRAHARO"]').click();
-    cy.contains("Enregistrer").click();
+    cy.contains("Enregistrer").should("be.visible").click();
   });
 
   it("manager can list & change status event participant", () => {
@@ -140,7 +140,7 @@ describe("Manager.event", () => {
     cy.getByTestid("add-group-form").within(() => {
       cy.contains("Enregistrer").click();
     });
-    cy.contains("Groupe ajouté avec succès");
+    cy.contains("Groupe ajouté avec succès").should("be.visible");
   });
   it("manager can list missing participants with all details", () => {
     cy.visit("/event_participants");

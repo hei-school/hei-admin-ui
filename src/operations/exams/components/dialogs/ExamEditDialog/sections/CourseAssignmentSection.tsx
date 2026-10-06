@@ -1,6 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {Alert, AlertTitle, Box, Typography} from "@mui/material";
-import {FC} from "react";
 import {EXAM_ALERTS, EXAM_FORM_LABELS} from "../../../../utils/constants";
 import {SelectCourseAssignment, SelectTeacher} from "../../../selectors";
 
@@ -9,10 +8,10 @@ interface CourseAssignmentSectionProps {
   userId: string;
 }
 
-export const CourseAssignmentSection: FC<CourseAssignmentSectionProps> = ({
+export const CourseAssignmentSection = ({
   isPrivileged,
   userId,
-}) => {
+}: Readonly<CourseAssignmentSectionProps>) => {
   return (
     <Box sx={{mb: 3}}>
       <Typography

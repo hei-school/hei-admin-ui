@@ -16,13 +16,13 @@ type DialogProps = Partial<MuiDialogProps> & {
   onClose: () => void;
 };
 
-export function Dialog({
+export const Dialog = ({
   children,
   open,
   title,
   onClose,
   ...dialogProps
-}: DialogProps) {
+}: DialogProps) => {
   const isLarge = useMediaQuery("(min-width:1700px)");
   return (
     <MuiDialog
@@ -61,4 +61,4 @@ export function Dialog({
       <DialogContent sx={{p: 0}}>{open && children}</DialogContent>
     </MuiDialog>
   );
-}
+};

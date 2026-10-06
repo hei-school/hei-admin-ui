@@ -7,7 +7,7 @@ import {Box} from "@mui/material";
 import {EyeIcon} from "lucide-react";
 import {useState} from "react";
 import {Button, useNotify, useRecordContext, useRefresh} from "react-admin";
-import {GradeEditForm} from "./GradeEditForm";
+import {GradeEditForm, GradeFormValues} from "./GradeEditForm";
 import {GradeHistoryDialog} from "./GradeHistoryDialog";
 import {ExamGradeRecord} from "./ParticipantsDataGrid";
 
@@ -26,7 +26,7 @@ export const GradeEditButton = ({examId, record}: GradeEditButtonProps) => {
 
   const isEditing = record?.grade?.score != null;
 
-  const handleGradeSubmit = async (formValues: any) => {
+  const handleGradeSubmit = async (formValues: GradeFormValues) => {
     setIsLoading(true);
     try {
       if (!studentId) throw new Error("Identifiant de l'étudiant manquant");

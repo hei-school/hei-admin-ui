@@ -6,7 +6,7 @@ import {
 } from "@mui/material";
 import {useResourceFlowsContext} from "../useResourceFlowsContext";
 
-export function DialogActions() {
+export const DialogActions = () => {
   const {isLoading} = useResourceFlowsContext();
   return (
     <MuiDialogActions>
@@ -31,4 +31,4 @@ export function DialogActions() {
       </MuiButton>
     </MuiDialogActions>
   );
-}
+};

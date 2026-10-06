@@ -95,6 +95,6 @@ describe("Student", () => {
     cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`).click({
       force: true,
     });
-    cy.contains("En retard");
+    cy.contains("En retard").should("exist");
   });
 });

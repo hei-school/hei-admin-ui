@@ -1,10 +1,10 @@
 import {useNotify} from "@/hooks";
 import {CheckCircle} from "@mui/icons-material";
 import {Box, Button} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {Confirm, useRefresh, useUpdate} from "react-admin";
 
-export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
+export const AcceptWithConfirm = ({letterId}: Readonly<{letterId: string}>) => {
   const [open, setOpen] = useState(false);
   const [update, {isLoading}] = useUpdate();
   const notify = useNotify();
@@ -14,7 +14,7 @@ export const AcceptWithConfirm: FC<{letterId: string}> = ({letterId}) => {
   const handleDialogClose = () => setOpen(false);
 
   const onConfirm = () => {
-    update(
+    void update(
       "users-letters",
       {
         id: letterId,

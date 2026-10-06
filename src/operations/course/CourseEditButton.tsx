@@ -17,9 +17,9 @@ import {
 } from "react-admin";
 import {LEVELS_CHOICES} from "./utils/constants";
 
-export function CourseEditButton() {
+export const CourseEditButton = () => {
   const {id} = useRecordContext();
-  const [showEdit, _set, toggleEdit] = useToggle();
+  const [showEdit, , toggleEdit] = useToggle();
   const notify = useNotify();
 
   return (
@@ -99,4 +99,4 @@ export function CourseEditButton() {
       </Dialog>
     </>
   );
-}
+};

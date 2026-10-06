@@ -42,11 +42,11 @@ const CARD_SX: SxProps = {
   flexDirection: "column",
 };
 
-export function EventCard({event}: EventCardPropsType) {
+export const EventCard = ({event}: Readonly<EventCardPropsType>) => {
   const {planner, course} = event;
   const PLANNER_PICTURE = planner.pic || defaultPicture;
   const {isManager, isAdmin} = useRole();
-  const [editShow, _, toggleEdit] = useToggle();
+  const [editShow, , toggleEdit] = useToggle();
 
   return (
     <Card sx={CARD_SX} className="event-card">
@@ -80,6 +80,7 @@ export function EventCard({event}: EventCardPropsType) {
           <Box sx={CARD_HEADER_SX}>
             <img
               src={PLANNER_PICTURE}
+              alt=""
               style={{borderRadius: "50%", width: "20px", display: "block"}}
             />
             <Typography
@@ -179,4 +180,4 @@ export function EventCard({event}: EventCardPropsType) {
       />
     </Card>
   );
-}
+};

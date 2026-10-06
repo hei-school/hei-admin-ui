@@ -3,21 +3,21 @@ import {useRole} from "@/security/hooks";
 import {EmptyList, ResponsiveGrid} from "@/ui/components";
 import {Letter} from "@haapi-b0fc7615/typescript-client";
 import {Box, CircularProgress} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {useListContext} from "react-admin";
 
-export const LetterListView: FC = () => {
+export const LetterListView = () => {
   const {data: letters = [], isLoading} = useListContext<Required<Letter>>();
   const [selectedIds, setSelectedIds] = useState<string[]>([]);
   const isEmpty = !letters.length;
   const {isManager, isAdmin} = useRole();
 
-  const handleSelect = (id: string, selected: boolean) => {
-    if (selected) {
-      setSelectedIds((prev) => [...prev, id]);
-    } else {
-      setSelectedIds((prev) => prev.filter((letterId) => letterId !== id));
-    }
+  const toggleSelection = (id: string) => {
+    setSelectedIds((prev) =>
+      prev.includes(id)
+        ? prev.filter((letterId) => letterId !== id)
+        : [...prev, id]
+    );
   };
 
   const handleClearSelection = () => {
@@ -92,7 +92,7 @@ export const LetterListView: FC = () => {
             letter={letter}
             showCheckbox={showCheckboxes && letter.status === "PENDING"}
             selected={selectedIds.includes(letter.id!)}
-            onSelect={handleSelect}
+            onSelect={toggleSelection}
           />
         ))}
       </ResponsiveGrid>

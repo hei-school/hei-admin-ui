@@ -12,8 +12,8 @@ import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
 
-export function CourseList() {
-  const [showCreate, _set, toggleShowCreate] = useToggle();
+export const CourseList = () => {
+  const [showCreate, , toggleShowCreate] = useToggle();
   const {isTeacher} = useRole();
   const notify = useNotify();
 
@@ -71,4 +71,4 @@ export function CourseList() {
       </Dialog>
     </Box>
   );
-}
+};

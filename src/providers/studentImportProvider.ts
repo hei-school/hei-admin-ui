@@ -1,9 +1,27 @@
 import {NOOP_ID} from "@/utils/constants";
+import {StudentImportValidationResult} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuidv4} from "uuid";
 import {usersApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
 
-const studentImportProvider: HaDataProviderType = {
+interface StudentImportPayload {
+  due_datetime: string | Date;
+  file: {rawFile?: File};
+}
+
+// getOne renvoie l'URL du modèle d'import
+type StudentImportTemplate = {id: string; data: string};
+
+type ImportedStudents = StudentImportValidationResult & {id: string};
+
+const studentImportProvider: HaDataProviderType<
+  StudentImportTemplate,
+  HaFilter,
+  HaMeta,
+  StudentImportPayload[],
+  unknown,
+  ImportedStudents[]
+> = {
   getList: () => {
     throw new Error("Function not implemented.");
   },

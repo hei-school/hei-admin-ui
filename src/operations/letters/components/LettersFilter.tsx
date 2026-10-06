@@ -1,9 +1,8 @@
 import {useRole} from "@/security/hooks";
 import {FilterForm, SelectInputFilter, TextFilter} from "@/ui/haToolbar";
 import {LetterStatus, RoleEnum} from "@haapi-b0fc7615/typescript-client";
-import {FC} from "react";
 
-export const LettersFilter: FC = () => {
+export const LettersFilter = () => {
   const {isAdmin} = useRole();
   return (
     <FilterForm>

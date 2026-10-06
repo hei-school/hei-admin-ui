@@ -26,10 +26,13 @@ export type LeaveButtonProps<T> = {
   icon?: React.ReactElement;
 };
 
-function LeaveDialog<
+const LeaveDialog = <
   Child extends ResourceIdentifier,
   Parent extends ResourceIdentifier,
->({title, ...confirmProps}: LeaveDialogProps<Child>) {
+>({
+  title,
+  ...confirmProps
+}: LeaveDialogProps<Child>) => {
   const {
     submit,
     isLoading,
@@ -72,13 +75,17 @@ function LeaveDialog<
       onConfirm={deleteResource}
     />
   );
-}
+};
 
-export function LeaveButton<
+export const LeaveButton = <
   Child extends ResourceIdentifier,
-  Parent extends ResourceIdentifier = any,
->({label, icon, dialogProps}: LeaveButtonProps<Child>) {
-  const [isOpen, _set, toggle] = useToggle();
+  Parent extends ResourceIdentifier = ResourceIdentifier,
+>({
+  label,
+  icon,
+  dialogProps,
+}: Readonly<LeaveButtonProps<Child>>) => {
+  const [isOpen, , toggle] = useToggle();
 
   return (
     <div>
@@ -101,4 +108,4 @@ export function LeaveButton<
       />
     </div>
   );
-}
+};

@@ -1,16 +1,15 @@
 import {Container} from "@mui/material";
-import {FC} from "react";
 
 import PdfViewer from "@/operations/common/components/PdfViewer";
 import {LetterShowProps} from "@/operations/letters/types";
 import {Dialog} from "@/ui/components";
 
-const LetterShow: FC<LetterShowProps> = ({
+const LetterShow = ({
   isOpen,
   onClose,
   fileUrl,
   filename,
-}) => (
+}: Readonly<LetterShowProps>) => (
   <Dialog open={isOpen} onClose={onClose} title="Détails de la lettre">
     <Container fixed>
       <PdfViewer

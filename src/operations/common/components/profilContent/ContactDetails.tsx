@@ -63,7 +63,7 @@ export const Contact = () => {
           label="Géolocalisation"
           icon={<GeoIcon />}
           render={(user: User) => (
-            <GeoPositionName coordinates={user.coordinates as any} />
+            <GeoPositionName coordinates={user.coordinates} />
           )}
         />
       </Box>

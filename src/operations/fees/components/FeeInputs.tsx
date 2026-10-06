@@ -20,7 +20,7 @@ import {
 import {SelectDueDatetime} from "./SelectDueDatetime";
 import {SelectPredefinedType} from "./SelectPredefinedType";
 
-export function FeeInputs() {
+export const FeeInputs = () => {
   const {reset, getValues} = useFormContext();
   const [feeConfig, setFeeConfig] = useState({
     isPredefinedFee: true,
@@ -154,4 +154,4 @@ export function FeeInputs() {
       </Box>
     </>
   );
-}
+};

@@ -3,10 +3,9 @@ import {LetterItem} from "@/operations/letters/components";
 import {useRole} from "@/security/hooks";
 import {alpha, Box, Chip, Typography} from "@mui/material";
 import {FileBox, MoveRight} from "lucide-react";
-import {FC} from "react";
 import {Button, Link, useGetList, useGetOne} from "react-admin";
 
-export const RecentLetters: FC<{animate: boolean}> = ({animate}) => {
+export const RecentLetters = ({animate}: Readonly<{animate: boolean}>) => {
   const letters = useGetList("letters", {
     pagination: {page: 1, perPage: 4},
   });

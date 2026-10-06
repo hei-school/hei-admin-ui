@@ -14,6 +14,12 @@ export const commentRenderer = (
   }
 };
 
+declare global {
+  interface Window {
+    commentRenderer?: typeof commentRenderer;
+  }
+}
+
 if (typeof window !== "undefined") {
-  (window as any).commentRenderer = commentRenderer;
+  window.commentRenderer = commentRenderer;
 }

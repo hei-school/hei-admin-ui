@@ -265,6 +265,21 @@ const SearchResultItem = ({
   );
 };
 
+const SearchLoadingState = () => (
+  <Stack alignItems="center" py={4}>
+    <CircularProgress size={24} />
+  </Stack>
+);
+
+const SearchEmptyState = () => (
+  <Stack alignItems="center" py={4}>
+    <SearchIcon sx={EMPTY_STATE_ICON_SX} />
+    <Typography fontSize={14} color="text.secondary">
+      Aucun résultat
+    </Typography>
+  </Stack>
+);
+
 export const SearchResults = ({
   anchorEl,
   open,
@@ -338,6 +353,31 @@ export const SearchResults = ({
   const isEmpty = !isLoading && isFetched && filteredUsers.length === 0;
   const popperSx = {...POPPER_BASE_SX, width: anchorWidth};
 
+  const renderResultsBody = () => {
+    if (isLoading) return <SearchLoadingState />;
+    if (isEmpty) return <SearchEmptyState />;
+    return (
+      <Stack spacing={0.75}>
+        {filteredUsers.map((user, index) => (
+          <SearchResultItem
+            key={user.id}
+            user={user}
+            isActive={index === activeIndex}
+            onClick={() => onUserClick(user.id)}
+            onMouseEnter={() => {
+              if (!isKeyboardNav.current) {
+                setActiveIndex(index);
+              }
+            }}
+            itemRef={(el) => {
+              itemRefs.current[index] = el;
+            }}
+          />
+        ))}
+      </Stack>
+    );
+  };
+
   return (
     <Popper open anchorEl={anchorEl} placement="bottom-start" sx={popperSx}>
       <AnimatePresence>
@@ -385,43 +425,9 @@ export const SearchResults = ({
               </Box>
             )}
 
-            {isLoading ? (
-              <Box p={1.5} sx={SCROLL_CONTAINER_SX}>
-                <Stack alignItems="center" py={4}>
-                  <CircularProgress size={24} />
-                </Stack>
-              </Box>
-            ) : isEmpty ? (
-              <Box p={1.5} sx={SCROLL_CONTAINER_SX}>
-                <Stack alignItems="center" py={4}>
-                  <SearchIcon sx={EMPTY_STATE_ICON_SX} />
-                  <Typography fontSize={14} color="text.secondary">
-                    Aucun résultat
-                  </Typography>
-                </Stack>
-              </Box>
-            ) : (
-              <Box p={1.5} sx={SCROLL_CONTAINER_SX}>
-                <Stack spacing={0.75}>
-                  {filteredUsers.map((user, index) => (
-                    <SearchResultItem
-                      key={user.id}
-                      user={user}
-                      isActive={index === activeIndex}
-                      onClick={() => onUserClick(user.id)}
-                      onMouseEnter={() => {
-                        if (!isKeyboardNav.current) {
-                          setActiveIndex(index);
-                        }
-                      }}
-                      itemRef={(el) => {
-                        itemRefs.current[index] = el;
-                      }}
-                    />
-                  ))}
-                </Stack>
-              </Box>
-            )}
+            <Box p={1.5} sx={SCROLL_CONTAINER_SX}>
+              {renderResultsBody()}
+            </Box>
           </Paper>
         </motion.div>
       </AnimatePresence>

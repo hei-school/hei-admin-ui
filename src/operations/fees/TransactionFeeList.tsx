@@ -48,7 +48,7 @@ const TransactionFeeList = () => {
         <FunctionField
           render={(fee: Fee) => {
             const last = fee.mpbs?.at(-1);
-            if (!last || last.psp_type == null) return EMPTY_TEXT;
+            if (last?.psp_type == null) return EMPTY_TEXT;
             const pspType = last.psp_type;
             return (
               <Chip color={PSP_COLORS[pspType]} label={PSP_VALUES[pspType]} />

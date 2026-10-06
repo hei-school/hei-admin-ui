@@ -38,13 +38,13 @@ describe("Student announcements", () => {
     cy.contains("Annonces");
     cy.contains(
       "Cliquez sur la carte pour accéder à l'annonce complète et découvrir tous les détails pertinents."
-    );
+    ).should("be.visible");
   });
 
   it("can show an announcement", () => {
     cy.contains(announcement1?.title!).click();
     cy.contains(announcement1?.title!);
-    cy.contains(announcement1?.author?.email!);
+    cy.contains(announcement1?.author?.email!).should("exist");
   });
 
   it("Can react to an annoucement", () => {

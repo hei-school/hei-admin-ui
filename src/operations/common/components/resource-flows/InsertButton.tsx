@@ -32,7 +32,7 @@ type FormType = {
   resources: [{id: string; label: string}];
 };
 
-export function InsertDialog<
+export const InsertDialog = <
   Child extends ResourceIdentifier,
   Parent extends ResourceIdentifier,
 >({
@@ -40,7 +40,7 @@ export function InsertDialog<
   showField,
   excludes = [],
   ...dialogProps
-}: InsertDialogProps<Child>) {
+}: InsertDialogProps<Child>) => {
   const {
     submit,
     childResource,
@@ -100,13 +100,18 @@ export function InsertDialog<
       </form>
     </FlowsDialog>
   );
-}
+};
 
-export function InsertButton<
+export const InsertButton = <
   Child extends ResourceIdentifier,
-  Parent extends ResourceIdentifier = any,
->({label, icon, excludes = [], dialogProps}: InsertButtonProps<Child>) {
-  const [isOpen, _set, toggle] = useToggle();
+  Parent extends ResourceIdentifier = ResourceIdentifier,
+>({
+  label,
+  icon,
+  excludes = [],
+  dialogProps,
+}: Readonly<InsertButtonProps<Child>>) => {
+  const [isOpen, , toggle] = useToggle();
   const {closeAction: closeListPopover} = useHaListContext();
 
   return (
@@ -131,4 +136,4 @@ export function InsertButton<
       />
     </div>
   );
-}
+};

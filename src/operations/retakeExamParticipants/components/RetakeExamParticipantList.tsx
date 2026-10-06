@@ -1,8 +1,8 @@
 import {RetakeExamButtons} from "@/operations/retakeExams/components/RetakeExamButtons";
 import {HaList} from "@/ui/haList";
-import {RetakeExam, Student} from "@haapi-b0fc7615/typescript-client";
+import {RetakeExam, StudentRetakeExam} from "@haapi-b0fc7615/typescript-client";
 import {BookOpenCheckIcon} from "lucide-react";
-import {FC} from "react";
+import {ReactElement} from "react";
 import {
   FieldProps,
   RecordContextProvider,
@@ -12,15 +12,17 @@ import {
 } from "react-admin";
 import {useLocation, useParams} from "react-router-dom";
 
-type ParticipantWithRetakeExam = Student & {retake_exam?: RetakeExam};
+type ParticipantWithRetakeExam = StudentRetakeExam & {retake_exam?: RetakeExam};
 
-const RetakeExamButtonsCell: FC<FieldProps> = () => {
+// `label` is read by the Datagrid header, not by the cell itself.
+const RetakeExamButtonsCell: (
+  props: Readonly<FieldProps>
+) => ReactElement | null = () => {
   const participant = useRecordContext<ParticipantWithRetakeExam>();
   const refresh = useRefresh();
   if (!participant) return null;
 
-  const retakeExam =
-    participant.retake_exam ?? (participant as unknown as RetakeExam);
+  const retakeExam: RetakeExam = participant.retake_exam ?? participant;
 
   return (
     <RecordContextProvider value={retakeExam}>

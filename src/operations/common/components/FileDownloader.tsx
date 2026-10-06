@@ -8,10 +8,15 @@ import {
   IconButton,
   useMediaQuery,
 } from "@mui/material";
-import {useRef, useState} from "react";
+import {useState} from "react";
+
+// the file content comes in "data"; no response means there is nothing to download
+interface DownloadedFile {
+  data?: ArrayBuffer | null;
+}
 
 export type FileDownloaderProps = {
-  downloadFunction: () => Promise<any>;
+  downloadFunction: () => Promise<DownloadedFile | undefined>;
   fileName: string;
   successMessage: string;
   errorMessage: string;
@@ -19,6 +24,15 @@ export type FileDownloaderProps = {
   buttonProps?: ButtonProps;
   buttonText: string;
 } & {"data-testid"?: string} & Omit<ButtonProps, "children">;
+
+const downloadBlob = (blob: Blob, fileName: string) => {
+  const link = document.createElement("a");
+  link.href = window.URL.createObjectURL(blob);
+  link.download = fileName;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+};
 
 export const FileDownloader = ({
   downloadFunction,
@@ -32,26 +46,18 @@ export const FileDownloader = ({
   ...raButtonProps
 }: FileDownloaderProps) => {
   const [isLoading, setIsLoading] = useState(false);
-  const fileLinkRef = useRef<HTMLAnchorElement>(null);
   const notify = useNotify();
   const handleDownload = async () => {
     setIsLoading(true);
-    const linkRef = fileLinkRef.current;
     notify(successMessage);
     try {
-      const {data} = await downloadFunction();
+      const response = await downloadFunction();
+      const data = response?.data;
       if (!data || data.byteLength <= 0) {
         notify(errorMessage, {type: "error"});
         return;
       }
-      if (linkRef === null) {
-        return;
-      }
-      linkRef.href = window.URL.createObjectURL(
-        new Blob([data], {type: fileType})
-      );
-      linkRef.download = fileName;
-      linkRef.click();
+      downloadBlob(new Blob([data], {type: fileType}), fileName);
     } catch {
       notify(errorMessage, {type: "error"});
     } finally {
@@ -61,7 +67,6 @@ export const FileDownloader = ({
   const isSmall = useMediaQuery("(max-width:900px)");
   return (
     <div style={{padding: 0, margin: 0}}>
-      <a data-testid="file-link" ref={fileLinkRef} style={{display: "none"}} />
       {isSmall ? (
         <IconButton
           onClick={handleDownload}

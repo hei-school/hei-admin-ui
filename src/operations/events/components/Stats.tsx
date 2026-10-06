@@ -1,5 +1,4 @@
 import {Box, Stack, Typography} from "@mui/material";
-import {FC} from "react";
 
 import {EventStats} from "@haapi-b0fc7615/typescript-client";
 import {AccessTime, People, PersonOff} from "@mui/icons-material";
@@ -43,7 +42,7 @@ interface StatProps {
   color: string;
 }
 
-export const StatBox: FC<StatProps> = ({Icon, value, label, color}) => (
+export const StatBox = ({Icon, value, label, color}: Readonly<StatProps>) => (
   <Box
     sx={{
       display: "flex",

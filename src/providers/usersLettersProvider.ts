@@ -1,7 +1,21 @@
 import {lettersApi} from "@/providers/api";
 import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {
+  Letter,
+  LetterStatus,
+  UpdateLettersStatus,
+} from "@haapi-b0fc7615/typescript-client";
 import {toApiIds} from "./feeProvider";
 import {LETTER_PER_PAGE} from "./lettersProvider";
+
+interface UsersLettersFilter {
+  status?: LetterStatus;
+  eventId?: string;
+}
+
+interface UsersLettersMeta {
+  userId: string;
+}
 
 type Params = {
   meta: {
@@ -12,8 +26,30 @@ type Params = {
     eventParticipantId: string;
   };
 };
-const usersLettersProvider: HaDataProviderType = {
-  getList: async (page, perPage, filter, meta) => {
+
+// construit par CreateLetters : le fichier téléversé et son titre
+interface LetterCreation {
+  description: string;
+  filename: {title: string; rawFile?: File};
+}
+
+type UsersLettersPayload = UpdateLettersStatus[] | [LetterCreation];
+
+// seule la méthode transmise dans meta indique le payload : les nouveaux statuts
+// de lettres existantes (UPDATE) ou une nouvelle lettre (CREATE)
+const isStatusUpdatePayload = (
+  _payload: UsersLettersPayload,
+  method: Params["meta"]["method"]
+): _payload is UpdateLettersStatus[] => method === "UPDATE";
+
+const usersLettersProvider: HaDataProviderType<
+  Letter,
+  UsersLettersFilter,
+  UsersLettersMeta,
+  UsersLettersPayload,
+  Params
+> = {
+  getList: async (page, perPage, filter, meta: UsersLettersMeta) => {
     const {userId} = meta;
     const {status, eventId} = filter;
     const pageSize = perPage || LETTER_PER_PAGE;
@@ -37,7 +73,7 @@ const usersLettersProvider: HaDataProviderType = {
 
     const {feeId} = toApiIds(raId);
 
-    if (method === "UPDATE") {
+    if (isStatusUpdatePayload(payload, method)) {
       return lettersApi()
         .updateLettersStatus(payload)
         .then((response) => response.data);

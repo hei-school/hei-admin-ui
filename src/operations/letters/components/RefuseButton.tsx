@@ -1,10 +1,10 @@
 import {useNotify} from "@/hooks";
 import {Unpublished} from "@mui/icons-material";
 import {Box, Button, TextField} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {Confirm, useRefresh, useUpdate} from "react-admin";
 
-export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
+export const RefuseButton = ({letterId}: Readonly<{letterId: string}>) => {
   const [open, setOpen] = useState(false);
   const [reason, setReason] = useState("");
   const [update, {isLoading}] = useUpdate();
@@ -19,7 +19,7 @@ export const RefuseButton: FC<{letterId: string}> = ({letterId}) => {
       notify("Veuillez fournir une raison pour le refus.", {type: "warning"});
       return;
     }
-    update(
+    void update(
       "users-letters",
       {
         id: letterId,

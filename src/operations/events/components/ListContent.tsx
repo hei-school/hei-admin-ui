@@ -51,7 +51,7 @@ export const ListContent = ({eventId}: {eventId: string}) => {
     new Map()
   );
   const notify = useNotify();
-  const [showAddGroup, _, toggleAddGroup] = useToggle();
+  const [showAddGroup, , toggleAddGroup] = useToggle();
   const [showImportDialog, setShowImportDialog] = useState(false);
   const [showBadgeScan, setShowBadgeScan] = useState(false);
   const [updateStatus, {isLoading: editStatus}] = useUpdate();
@@ -141,7 +141,7 @@ export const ListContent = ({eventId}: {eventId: string}) => {
           title: "Présence",
           queryOptions: {
             meta: {eventId},
-            onSuccess: (data: {data: EventParticipant[]; total: number}) => {
+            onSuccess: (data: {data: EventParticipant[]}) => {
               updateParticipants(data.data);
             },
             onError: () => {
@@ -162,16 +162,18 @@ export const ListContent = ({eventId}: {eventId: string}) => {
                 icon={<QrCodeScanner />}
                 label="Scanner les badges"
                 onClick={() => setShowBadgeScan(true)}
-                children={<></>}
-              />
+              >
+                <></>
+              </ButtonBase>
             )}
             {(isManager() || isAdmin() || isOrganizer()) && (
               <ButtonBase
                 icon={<Add />}
                 label="Ajout groupe"
                 onClick={() => toggleAddGroup()}
-                children={<></>}
-              />
+              >
+                <></>
+              </ButtonBase>
             )}
             {!isStudent() && (
               <Box>
@@ -197,8 +199,9 @@ export const ListContent = ({eventId}: {eventId: string}) => {
                   icon={<Upload />}
                   onClick={handleOpenImportDialog}
                   label="Importer"
-                  children={<></>}
-                />
+                >
+                  <></>
+                </ButtonBase>
               </Box>
             )}
             <EventParticipantsFilter />

@@ -1,6 +1,6 @@
 import {FilterForm, TextFilter} from "@/ui/haToolbar";
 
-export function PromotionListFilter() {
+export const PromotionListFilter = () => {
   return (
     <FilterForm>
       <TextFilter
@@ -20,4 +20,4 @@ export function PromotionListFilter() {
       />
     </FilterForm>
   );
-}
+};

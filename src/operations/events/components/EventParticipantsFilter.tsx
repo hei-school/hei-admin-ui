@@ -1,9 +1,8 @@
 import {FilterForm, SelectInputFilter, TextFilter} from "@/ui/haToolbar";
 import {Box} from "@mui/material";
-import {FC} from "react";
 import {ATTENDANCE_STATUS} from "../utils";
 
-export const EventParticipantsFilter: FC = () => {
+export const EventParticipantsFilter = () => {
   return (
     <Box>
       <FilterForm>

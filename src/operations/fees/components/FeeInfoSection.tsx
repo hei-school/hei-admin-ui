@@ -55,7 +55,8 @@ export const ReceiptRow = ({
   blankIfEmpty?: boolean;
 }) => {
   const isEmpty = value === undefined || value === null || value === "";
-  const display = isEmpty ? (blankIfEmpty ? "" : EMPTY_TEXT) : value;
+  const emptyDisplay = blankIfEmpty ? "" : EMPTY_TEXT;
+  const display = isEmpty ? emptyDisplay : value;
 
   if (fullWidth) {
     return (

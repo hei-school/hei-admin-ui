@@ -1,4 +1,3 @@
-import {FC} from "react";
 import {required, SelectInput, SimpleForm} from "react-admin";
 import {useFormContext} from "react-hook-form";
 
@@ -60,10 +59,10 @@ const FileDownloaderWrapper = () => {
   );
 };
 
-export const StudentFilterExport: FC<{onClose: () => void; open: boolean}> = ({
+export const StudentFilterExport = ({
   onClose,
   open,
-}) => {
+}: Readonly<{onClose: () => void; open: boolean}>) => {
   return (
     <Dialog
       title="Exporter les étudiants au format XLSX"

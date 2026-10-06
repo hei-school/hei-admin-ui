@@ -11,11 +11,11 @@ import {useRole} from "@/security/hooks";
 import {Student} from "@haapi-b0fc7615/typescript-client";
 import {AutoGraph, School} from "@mui/icons-material";
 import {Box, Fade, Typography} from "@mui/material";
-import {FC, useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 import {useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
 
-export const GradesOverview: FC = () => {
+export const GradesOverview = () => {
   const [view, setView] = useState<NewViewType>("YEARLY");
   const [mounted, setMounted] = useState(false);
   const {isMonitor, isAdmin, isManager} = useRole();

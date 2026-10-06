@@ -8,7 +8,7 @@ import {
   EventParticipant,
 } from "@haapi-b0fc7615/typescript-client";
 import {Box, Button, Typography} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {FileInput, SimpleForm, Toolbar, useUpdate} from "react-admin";
 import * as XLSX from "xlsx";
 
@@ -45,6 +45,69 @@ const FILE_FIELD_STYLE = {
   },
 };
 
+type ImportedRow = Record<string, unknown>;
+
+type StatusRow = {
+  status?: string;
+  email?: string;
+  firstname?: string;
+  lastname?: string;
+};
+
+type StatusUpdate = Pick<EventParticipant, "id" | "event_status">;
+
+const asText = (value: unknown): string | undefined =>
+  typeof value === "string" ? value : undefined;
+
+const toStatusRow = (row: ImportedRow): StatusRow => ({
+  status: asText(row.status),
+  email: asText(row.email),
+  firstname: asText(row.firstname),
+  lastname: asText(row.lastname),
+});
+
+const normalizeHeader = (header: string): string => {
+  return header.replace(/^participant\./, "").toLowerCase();
+};
+
+const toRow = (headers: string[], values: unknown[]): ImportedRow => {
+  const row: ImportedRow = {};
+  headers.forEach((header, index) => {
+    row[header] = values[index];
+  });
+  return row;
+};
+
+const parseCsv = (text: string): ImportedRow[] => {
+  const lines = text.split("\n").filter((line) => line.trim() !== "");
+  const headers = lines[0]
+    .split(",")
+    .map((header) => normalizeHeader(header.trim()));
+  return lines.slice(1).map((line) =>
+    toRow(
+      headers,
+      line.split(",").map((value) => value.trim())
+    )
+  );
+};
+
+const parseWorkbook = (data: ArrayBuffer): ImportedRow[] => {
+  const workbook = XLSX.read(data, {type: "array"});
+  const sheet = workbook.Sheets[workbook.SheetNames[0]];
+  const jsonData = XLSX.utils.sheet_to_json(sheet, {header: 1}) as unknown[][];
+  const headers = jsonData[0].map((header) =>
+    normalizeHeader(header as string)
+  );
+  return jsonData.slice(1).map((row) => toRow(headers, row));
+};
+
+const parseFile = async (file: File): Promise<ImportedRow[]> => {
+  if (file.type.includes("csv")) {
+    return parseCsv(await file.text());
+  }
+  return parseWorkbook(await file.arrayBuffer());
+};
+
 export const ImportStatusDialog = ({
   open,
   onClose,
@@ -61,57 +124,9 @@ export const ImportStatusDialog = ({
 
   const minimalHeaders = ["status"];
 
-  const normalizeHeader = (header: string): string => {
-    return header.replace(/^participant\./, "").toLowerCase();
-  };
-
-  const parseFile = (file: File): Promise<any[]> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const data = event.target?.result;
-        if (file.type.includes("csv")) {
-          const text = data as string;
-          const lines = text.split("\n").filter((line) => line.trim() !== "");
-          const headers = lines[0]
-            .split(",")
-            .map((header) => normalizeHeader(header.trim()));
-          const parsedData = lines.slice(1).map((line) => {
-            const values = line.split(",").map((value) => value.trim());
-            const row: any = {};
-            headers.forEach((header, index) => {
-              row[header] = values[index];
-            });
-            return row;
-          });
-          resolve(parsedData);
-        } else {
-          const workbook = XLSX.read(data, {type: "binary"});
-          const sheetName = workbook.SheetNames[0];
-          const sheet = workbook.Sheets[sheetName];
-          const jsonData = XLSX.utils.sheet_to_json(sheet, {
-            header: 1,
-          }) as any[][];
-          const headers = jsonData[0].map((header) =>
-            normalizeHeader(header as string)
-          );
-          const parsedData = jsonData.slice(1).map((row) => {
-            const rowData: any = {};
-            headers.forEach((header, index) => {
-              rowData[header] = row[index];
-            });
-            return rowData;
-          });
-          resolve(parsedData);
-        }
-      };
-      reader.onerror = () =>
-        reject(new Error("Erreur lors de la lecture du fichier"));
-      reader.readAsBinaryString(file);
-    });
-  };
-
-  const validateData = (data: any[]): {isValid: boolean; message: string} => {
+  const validateData = (
+    data: ImportedRow[]
+  ): {isValid: boolean; message: string} => {
     if (!data || data.length === 0) {
       return {isValid: false, message: "Le fichier est vide."};
     }
@@ -129,7 +144,7 @@ export const ImportStatusDialog = ({
 
     const validStatuses = ["PRESENT", "MISSING", "LATE", "EXCUSED"];
     for (let i = 0; i < data.length; i++) {
-      const row = data[i];
+      const row = toStatusRow(data[i]);
       const rowNumber = i + 1;
 
       if (!row.status || !validStatuses.includes(row.status.toUpperCase())) {
@@ -150,19 +165,20 @@ export const ImportStatusDialog = ({
     return {isValid: true, message: "Données valides"};
   };
 
-  const transformData = (data: any[]): any[] => {
-    return data.map((row) => {
+  const transformData = (data: ImportedRow[]): StatusUpdate[] => {
+    return data.map(toStatusRow).map((row) => {
       let participant: EventParticipant | undefined;
-      if (row.email) {
+      const {email, firstname, lastname} = row;
+      if (email) {
         participant = participants.find(
-          (p) => p.email?.toLowerCase() === row.email.toLowerCase()
+          (p) => p.email?.toLowerCase() === email.toLowerCase()
         );
       }
-      if (!participant && row.firstname && row.lastname) {
+      if (!participant && firstname && lastname) {
         participant = participants.find(
           (p) =>
-            p.first_name?.toLowerCase() === row.firstname.toLowerCase() &&
-            p.last_name?.toLowerCase() === row.lastname.toLowerCase()
+            p.first_name?.toLowerCase() === firstname.toLowerCase() &&
+            p.last_name?.toLowerCase() === lastname.toLowerCase()
         );
       }
 
@@ -174,7 +190,7 @@ export const ImportStatusDialog = ({
 
       return {
         id: participant.id,
-        event_status: row.status.toUpperCase() as AttendanceStatus,
+        event_status: (row.status ?? "").toUpperCase() as AttendanceStatus,
       };
     });
   };
@@ -224,7 +240,7 @@ export const ImportStatusDialog = ({
             }),
         }
       );
-    } catch (error) {
+    } catch {
       notify("Erreur lors de l'importation du fichier.", {type: "error"});
     }
   };
@@ -304,12 +320,19 @@ export const ImportStatusDialog = ({
   );
 };
 
-const CustomToolbar: FC<{
+type CustomToolbarProps = {
   onClose: () => void;
   isLoading: boolean;
   handleImport: () => Promise<void>;
   file: File;
-}> = ({file, handleImport, isLoading, onClose}) => {
+};
+
+const CustomToolbar = ({
+  file,
+  handleImport,
+  isLoading,
+  onClose,
+}: Readonly<CustomToolbarProps>) => {
   return (
     <Toolbar
       sx={{

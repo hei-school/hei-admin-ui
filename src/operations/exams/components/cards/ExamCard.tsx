@@ -18,7 +18,7 @@ import {
   Typography,
 } from "@mui/material";
 import {Clock} from "lucide-react";
-import {CSSProperties, FC, ReactNode, useState} from "react";
+import {CSSProperties, ReactNode, useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {ExamEditDialog} from "../../ExamEdit";
 
@@ -55,7 +55,7 @@ const cardStyle: CSSProperties = {
   boxShadow: "0 0 10px rgb(182, 182, 182)",
 };
 
-const ExamDetails: FC<ExamDetailsProps> = ({exam}) => (
+const ExamDetails = ({exam}: Readonly<ExamDetailsProps>) => (
   <Stack direction="column" spacing={1} mt={2}>
     <InfoRow
       label="Cours:"
@@ -82,13 +82,13 @@ const ExamDetails: FC<ExamDetailsProps> = ({exam}) => (
   </Stack>
 );
 
-const InfoRow: FC<InfoRowProps> = ({
+const InfoRow = ({
   icon,
   label,
   value,
   color = "primary.light",
   textColor = "white",
-}) => (
+}: Readonly<InfoRowProps>) => (
   <Box display="flex" justifyContent="space-between">
     <Typography display="flex" alignItems="center">
       {icon} {label}
@@ -113,7 +113,7 @@ const InfoRow: FC<InfoRowProps> = ({
   </Box>
 );
 
-const ExamTag: FC<ExamTagProps> = ({label, color}) => (
+const ExamTag = ({label, color}: Readonly<ExamTagProps>) => (
   <Box
     py="3px"
     color="white"
@@ -132,7 +132,7 @@ const ExamTag: FC<ExamTagProps> = ({label, color}) => (
   </Box>
 );
 
-export const ExamCard: FC<ExamCardProps> = ({exam, isLoading}) => {
+export const ExamCard = ({exam, isLoading}: Readonly<ExamCardProps>) => {
   const [isHovered, setIsHovered] = useState(false);
   const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
   const navigate = useNavigate();

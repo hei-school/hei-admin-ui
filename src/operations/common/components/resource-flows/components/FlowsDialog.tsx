@@ -5,11 +5,11 @@ export type FlowsDialogProps = DialogProps & {
   title: string;
 };
 
-export function FlowsDialog({
+export const FlowsDialog = ({
   children,
   title,
   ...dialogProps
-}: FlowsDialogProps) {
+}: FlowsDialogProps) => {
   return (
     <Dialog maxWidth="sm" fullWidth {...dialogProps}>
       <DialogTitle
@@ -27,4 +27,4 @@ export function FlowsDialog({
       <DialogContent>{children}</DialogContent>
     </Dialog>
   );
-}
+};

@@ -7,7 +7,11 @@ import {
   Typography,
 } from "@mui/material";
 import {checkAttendanceByPublicId} from "../badgeApi";
-import {explainAttendanceError, fullName, useScanResults} from "../scanResults";
+import {
+  explainAttendanceError,
+  presentResult,
+  useScanResults,
+} from "../scanResults";
 import {BadgeScanner} from "./BadgeScanner";
 import {ScanResultList} from "./ScanResults";
 
@@ -29,11 +33,7 @@ export const EventBadgeScanDialog = ({
   const onScan = async (publicId: string) => {
     try {
       const participant = await checkAttendanceByPublicId(eventId, publicId);
-      pushResult({
-        success: true,
-        label: fullName(participant),
-        detail: `${participant.ref ?? ""} · présent(e)`,
-      });
+      pushResult(presentResult(participant));
       onChecked();
     } catch (error) {
       pushResult({

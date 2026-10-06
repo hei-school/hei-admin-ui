@@ -1,6 +1,6 @@
 import {Student} from "@haapi-b0fc7615/typescript-client";
 import {Autocomplete, TextField} from "@mui/material";
-import {useEffect, useState} from "react";
+import {SyntheticEvent, useEffect, useState} from "react";
 import {useDataProvider, useInput} from "react-admin";
 
 interface StudentAutocompleteInputProps {
@@ -67,17 +67,17 @@ export const StudentAutocompleteInput = (
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      fetchStudents(inputValue);
+      void fetchStudents(inputValue);
     }, 500);
 
     return () => clearTimeout(timeoutId);
   }, [inputValue]);
 
-  const handleInputChange = (_event: any, newInputValue: string) => {
+  const handleInputChange = (_event: SyntheticEvent, newInputValue: string) => {
     setInputValue(newInputValue);
   };
 
-  const handleChange = (_event: any, newValue: any) => {
+  const handleChange = (_event: SyntheticEvent, newValue: Student | null) => {
     setSelectedStudent(newValue);
     field.onChange(newValue ? newValue.id : null);
   };

@@ -32,7 +32,7 @@ import {
   Typography,
   alpha,
 } from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {Confirm, useGetList, useRefresh, useUpdate} from "react-admin";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
@@ -40,13 +40,19 @@ import {useNotify} from "@/hooks";
 import PdfViewer from "@/operations/common/components/PdfViewer";
 import {useRole} from "@/security/hooks";
 import {formatDate} from "@/utils/date";
-import {EventAttendance, Letter} from "@haapi-b0fc7615/typescript-client";
+import {
+  EventAttendance,
+  EventParticipant,
+  Letter,
+} from "@haapi-b0fc7615/typescript-client";
 
 interface AbsenceDetailDialogForStaffProps {
   open: boolean;
   onClose: () => void;
   absence: EventAttendance;
 }
+
+type ParticipantWithPicture = EventParticipant & {profile_picture?: string};
 
 const STATUS_CONFIG = {
   MISSING: {
@@ -93,14 +99,15 @@ const LETTER_STATUS_CONFIG = {
   },
 };
 
-export const AbsenceDetailDialogForStaff: FC<
-  AbsenceDetailDialogForStaffProps
-> = ({open, onClose, absence}) => {
+export const AbsenceDetailDialogForStaff = ({
+  open,
+  onClose,
+  absence,
+}: Readonly<AbsenceDetailDialogForStaffProps>) => {
   const {isManager, isAdmin, isTeacher} = useRole();
   const canManage = isManager() || isAdmin() || isTeacher();
 
-  const attendanceStatus =
-    (absence.event_participant as any)?.event_status || "MISSING";
+  const attendanceStatus = absence.event_participant?.event_status || "MISSING";
   const statusConfig =
     STATUS_CONFIG[attendanceStatus as keyof typeof STATUS_CONFIG] ||
     STATUS_CONFIG.MISSING;
@@ -134,7 +141,7 @@ export const AbsenceDetailDialogForStaff: FC<
   }
 
   const event = absence.event;
-  const participant = absence.event_participant;
+  const participant: ParticipantWithPicture = absence.event_participant;
 
   return (
     <Dialog
@@ -209,10 +216,7 @@ export const AbsenceDetailDialogForStaff: FC<
               >
                 <Box
                   component="img"
-                  src={
-                    (participant as any).profile_picture ||
-                    defaultProfilePicture
-                  }
+                  src={participant.profile_picture || defaultProfilePicture}
                   alt="profile"
                   sx={{
                     width: 64,
@@ -417,33 +421,62 @@ export const AbsenceDetailDialogForStaff: FC<
                 Pièces justificatives
               </Typography>
               <Divider sx={{mb: 2}} />
-              {lettersLoading ? (
-                <Box display="flex" justifyContent="center" py={4}>
-                  <CircularProgress size={40} />
-                </Box>
-              ) : letters.length === 0 ? (
-                <Alert severity="info" sx={{borderRadius: 2}}>
-                  <Typography variant="body2">
-                    Aucun justificatif n'a été soumis pour cette absence.
-                  </Typography>
-                </Alert>
-              ) : (
-                <Stack spacing={2}>
-                  {letters.map((letter) => (
-                    <LetterCard
-                      key={letter.id}
-                      letter={letter}
-                      canManage={canManage}
-                      onUpdate={handleRefresh}
-                    />
-                  ))}
-                </Stack>
-              )}
+              <LettersContent
+                isLoading={lettersLoading}
+                letters={letters}
+                canManage={canManage}
+                onUpdate={handleRefresh}
+              />
             </Paper>
           </Grid>
         </Grid>
       </DialogContent>
     </Dialog>
+  );
+};
+
+interface LettersContentProps {
+  isLoading: boolean;
+  letters: Letter[];
+  canManage: boolean;
+  onUpdate: () => void;
+}
+
+const LettersContent = ({
+  isLoading,
+  letters,
+  canManage,
+  onUpdate,
+}: Readonly<LettersContentProps>) => {
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center" py={4}>
+        <CircularProgress size={40} />
+      </Box>
+    );
+  }
+
+  if (letters.length === 0) {
+    return (
+      <Alert severity="info" sx={{borderRadius: 2}}>
+        <Typography variant="body2">
+          Aucun justificatif n'a été soumis pour cette absence.
+        </Typography>
+      </Alert>
+    );
+  }
+
+  return (
+    <Stack spacing={2}>
+      {letters.map((letter) => (
+        <LetterCard
+          key={letter.id}
+          letter={letter}
+          canManage={canManage}
+          onUpdate={onUpdate}
+        />
+      ))}
+    </Stack>
   );
 };
 
@@ -453,7 +486,11 @@ interface LetterCardProps {
   onUpdate: () => void;
 }
 
-const LetterCard: FC<LetterCardProps> = ({letter, canManage, onUpdate}) => {
+const LetterCard = ({
+  letter,
+  canManage,
+  onUpdate,
+}: Readonly<LetterCardProps>) => {
   const [showPdf, setShowPdf] = useState(false);
   const [showAcceptConfirm, setShowAcceptConfirm] = useState(false);
   const [showRefuseDialog, setShowRefuseDialog] = useState(false);
@@ -468,7 +505,7 @@ const LetterCard: FC<LetterCardProps> = ({letter, canManage, onUpdate}) => {
     : null;
 
   const handleAccept = () => {
-    update(
+    void update(
       "users-letters",
       {
         id: letter.id,
@@ -501,7 +538,7 @@ const LetterCard: FC<LetterCardProps> = ({letter, canManage, onUpdate}) => {
       return;
     }
 
-    update(
+    void update(
       "users-letters",
       {
         id: letter.id,

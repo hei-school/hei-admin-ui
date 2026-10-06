@@ -7,6 +7,12 @@ export const dayPropGetter = (date: Date) => {
   };
 };
 
+declare global {
+  interface Window {
+    dayPropGetter?: typeof dayPropGetter;
+  }
+}
+
 if (typeof window !== "undefined") {
-  (window as any).dayPropGetter = dayPropGetter;
+  window.dayPropGetter = dayPropGetter;
 }

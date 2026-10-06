@@ -2,20 +2,18 @@ import {Course, CourseDirection} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {coursesApi} from "./api";
 
-const courseProvider: HaDataProviderType = {
-  getList: async (
-    page: number,
-    perPage: number,
-    filter: {
-      code?: string;
-      name?: string;
-      credits?: number;
-      teacherFirstName?: string;
-      teacherLastName?: string;
-      creditsOrder?: CourseDirection;
-      codeOrder?: CourseDirection;
-    }
-  ) => {
+interface CourseFilter {
+  code?: string;
+  name?: string;
+  credits?: number;
+  teacherFirstName?: string;
+  teacherLastName?: string;
+  creditsOrder?: CourseDirection;
+  codeOrder?: CourseDirection;
+}
+
+const courseProvider: HaDataProviderType<Course, CourseFilter> = {
+  getList: async (page: number, perPage: number, filter: CourseFilter) => {
     return coursesApi()
       .getCourses(
         filter.code,

@@ -3,7 +3,6 @@ import {Show} from "@/operations/common/components/Show";
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Edit as EditIcon, Inventory} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {FC} from "react";
 import {Button, EditButton, useRecordContext, useRedirect} from "react-admin";
 import {useParams} from "react-router-dom";
 import {ProfileLayout} from "../common/components/ProfileLayout";
@@ -12,7 +11,7 @@ interface ActionsOnShowProps {
   staffId?: string;
 }
 
-const ActionsOnShow: FC<ActionsOnShowProps> = ({staffId}) => {
+const ActionsOnShow = ({staffId}: Readonly<ActionsOnShowProps>) => {
   const record = useRecordContext();
   const redirect = useRedirect();
 
@@ -77,7 +76,7 @@ interface StaffShowContentProps {
   staffId: string;
 }
 
-const StaffShowContent: FC<StaffShowContentProps> = ({staffId}) => {
+const StaffShowContent = ({staffId}: Readonly<StaffShowContentProps>) => {
   return (
     <Show
       resource="staffmembers"

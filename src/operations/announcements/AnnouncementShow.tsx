@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import {MarkdownField} from "@react-admin/ra-markdown";
-import {FC} from "react";
 import {
   Show,
   SimpleShowLayout,
@@ -31,7 +30,7 @@ interface AuthorProps {
   author: AnnouncementAuthor;
 }
 
-const AnnouncementAuthorShow: FC<AuthorProps> = ({author}) => {
+const AnnouncementAuthorShow = ({author}: Readonly<AuthorProps>) => {
   if (!author) return;
 
   return (
@@ -76,12 +75,10 @@ export const AnnouncementShow = () => {
   if (!announcement && !isFetching) redirect("/announcements");
 
   const notify = useNotify();
-  const handleCheckboxChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
     const payload = {reaction: checked ? "CHECK" : "UNCHECK"};
-    update(
+    void update(
       "announcements",
       {
         id,

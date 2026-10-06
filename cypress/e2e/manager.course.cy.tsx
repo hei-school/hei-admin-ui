@@ -102,7 +102,7 @@ describe("Manager.Courses", () => {
 
     cy.wait("@editCourses").then((intereception) => {
       const body = intereception.request.body as Course[];
-      expect(body.length).to.be.equal(1);
+      expect(body).to.have.lengthOf(1);
       expect(body[0]).to.deep.equal(NEW_COURSE);
     });
 

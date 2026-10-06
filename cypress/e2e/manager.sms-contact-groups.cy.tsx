@@ -108,7 +108,7 @@ describe("Manager.SmsContactGroups", () => {
     cy.get("#name").type("Parents 2027");
     cy.getByTestid("save-sms-contact-group").click();
     cy.wait("@createGroupError");
-    cy.contains("Erreur lors de la création du groupe");
+    cy.contains("Erreur lors de la création du groupe").should("be.visible");
   });
 
   it("deletes a contact group", () => {
@@ -304,7 +304,7 @@ describe("Manager.SmsContactGroups", () => {
     cy.get(".ra-confirm").click();
     cy.wait("@removeMemberError");
     cy.contains("Erreur lors du retrait du contact : Compte introuvable");
-    cy.contains(smsContact1Mock.name!);
+    cy.contains(smsContact1Mock.name!).should("exist");
   });
 
   it("shows a partial-failure warning when adding several contacts and one fails", () => {
@@ -382,7 +382,9 @@ describe("Manager.SmsContactGroups", () => {
     cy.getByTestid(`toggle-sms-contact-${smsContact2Mock.id}`).click();
     cy.getByTestid("add-sms-contact-group-members").click();
     cy.wait("@addMemberFail");
-    cy.contains("Erreur lors de l'ajout des contacts au groupe");
+    cy.contains("Erreur lors de l'ajout des contacts au groupe").should(
+      "be.visible"
+    );
   });
 
   it("falls back to the manager account when the group owner is not an admin", () => {

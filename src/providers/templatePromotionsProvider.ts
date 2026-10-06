@@ -1,17 +1,25 @@
 import {Promotion, StudentLevel} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
 import {promotionApi} from "./api";
+
+interface TemplatePromotionsMeta {
+  level?: StudentLevel;
+}
 
 const notImplemented = () => {
   throw new Error("Not implemented");
 };
 
-const templatePromotionsProvider: HaDataProviderType = {
+const templatePromotionsProvider: HaDataProviderType<
+  Promotion,
+  HaFilter,
+  TemplatePromotionsMeta
+> = {
   getList: async (
     page: number,
     perPage: number,
     _filter: unknown,
-    meta: {level?: StudentLevel}
+    meta: TemplatePromotionsMeta
   ) => {
     const {data} = await promotionApi().getPromotions(page, perPage);
     const level = meta?.level;

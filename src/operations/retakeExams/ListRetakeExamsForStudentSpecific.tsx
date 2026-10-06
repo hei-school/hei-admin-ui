@@ -390,6 +390,36 @@ const EmptyState = () => (
   </Box>
 );
 
+interface RetakeCourseListProps {
+  isLoading: boolean;
+  courseList: RetakeExamRecord[];
+}
+
+const RetakeCourseList = ({
+  isLoading,
+  courseList,
+}: Readonly<RetakeCourseListProps>) => {
+  if (isLoading) {
+    return (
+      <Box sx={{display: "flex", justifyContent: "center", py: 10}}>
+        <CircularProgress size={40} thickness={4} />
+      </Box>
+    );
+  }
+
+  if (courseList.length === 0) return <EmptyState />;
+
+  return (
+    <Grid container spacing={2}>
+      {courseList.map((record) => (
+        <Grid item xs={12} sm={6} xl={4} key={record.id}>
+          <RetakeCard record={record} />
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
+
 export const ListRetakeExamsForStudentSpecific = () => {
   const studentId = authProvider.getCachedWhoami().id;
   const navigate = useNavigate();
@@ -454,21 +484,7 @@ export const ListRetakeExamsForStudentSpecific = () => {
           pb: 6,
         }}
       >
-        {isLoading ? (
-          <Box sx={{display: "flex", justifyContent: "center", py: 10}}>
-            <CircularProgress size={40} thickness={4} />
-          </Box>
-        ) : courseList.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <Grid container spacing={2}>
-            {courseList.map((record) => (
-              <Grid item xs={12} sm={6} xl={4} key={record.id}>
-                <RetakeCard record={record} />
-              </Grid>
-            ))}
-          </Grid>
-        )}
+        <RetakeCourseList isLoading={isLoading} courseList={courseList} />
       </Box>
     </Box>
   );

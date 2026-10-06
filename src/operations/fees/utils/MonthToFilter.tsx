@@ -9,7 +9,7 @@ export const MonthToFilter = () => {
   useEffect(() => {
     if (monthFrom) {
       const date = new Date(monthFrom);
-      if (!isNaN(date.getTime())) {
+      if (!Number.isNaN(date.getTime())) {
         setOneFilter(
           "monthTo",
           new Date(date.getFullYear(), date.getMonth() + 1, 0)?.toISOString()

@@ -3,11 +3,12 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify} from "@/hooks";
 import {Dialog} from "@/ui/components";
 import {Backdrop, Box, CircularProgress, Typography} from "@mui/material";
-import {FC, ReactNode, useMemo, useRef, useState} from "react";
+import {ReactNode, useMemo, useRef, useState} from "react";
 import {
   Confirm,
   FileField,
   FileInput,
+  RaRecord,
   SaveButton,
   SimpleForm,
   Toolbar,
@@ -15,16 +16,22 @@ import {
 } from "react-admin";
 import {v4 as uuid} from "uuid";
 
-export interface FileUploadDialogProps {
+// what the file validation learnt about the file, shown under its name
+interface FileAdditionalInfo {
+  rowsCount?: number;
+}
+
+// Result: the record the resource provider returns once the file is uploaded
+export interface FileUploadDialogProps<Result extends RaRecord = RaRecord> {
   isOpen: boolean;
   onClose: () => void;
   title: string;
   resource: string;
   accept?: string;
   maxSize?: number;
-  onSubmitSuccess?: (data?: any) => void;
+  onSubmitSuccess?: (data: Result) => void;
   onSubmitError?: () => void;
-  meta?: Record<string, any>;
+  meta?: Record<string, unknown>;
   children?: ReactNode;
   fileIcon?: string;
   fileIconAlt?: string;
@@ -33,7 +40,7 @@ export interface FileUploadDialogProps {
   validateFile?: (file: File) => Promise<{
     isValid: boolean;
     errorMessage?: string;
-    additionalInfo?: any;
+    additionalInfo?: FileAdditionalInfo;
   }>;
 }
 
@@ -62,17 +69,19 @@ export const FILE_FIELD_STYLE = {
   },
 };
 
-const CustomToolbar: FC<{
+interface CustomToolbarProps {
   handleSave: () => void;
   isLoading: boolean;
   saveButtonLabel?: string;
   isFileValid: boolean;
-}> = ({
+}
+
+const CustomToolbar = ({
   handleSave,
   isLoading,
   saveButtonLabel = "Enregistrer",
   isFileValid,
-}) => (
+}: Readonly<CustomToolbarProps>) => (
   <Toolbar>
     <SaveButton
       label={saveButtonLabel}
@@ -89,7 +98,13 @@ const formatFileSize = (bytes: number): string => {
   return `${(kb / 1024).toFixed(2)} Mo`;
 };
 
-export const FileUploadDialog: FC<FileUploadDialogProps> = ({
+const getSelectedFile = (data: unknown): File | null => {
+  if (data instanceof File) return data;
+  if (Array.isArray(data) && data.length) return data[0];
+  return null;
+};
+
+export const FileUploadDialog = <Result extends RaRecord = RaRecord>({
   isOpen,
   onClose,
   title,
@@ -105,15 +120,15 @@ export const FileUploadDialog: FC<FileUploadDialogProps> = ({
   confirmContent = "Êtes-vous certain de vouloir procéder ?",
   saveButtonLabel = "Enregistrer",
   validateFile,
-}) => {
+}: Readonly<FileUploadDialogProps<Result>>) => {
   const notify = useNotify();
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const formRef = useRef<any>(null);
-  const [create, {isLoading}] = useCreate();
+  const formRef = useRef<Partial<RaRecord> | null>(null);
+  const [create, {isLoading}] = useCreate<RaRecord, unknown, Result>();
   const [fileInfo, setFileInfo] = useState<{
     name: string;
     size: number;
-    additionalInfo?: any;
+    additionalInfo?: FileAdditionalInfo;
   } | null>(null);
   const [fileError, setFileError] = useState<string | null>(null);
   const [isFileValid, setIsFileValid] = useState(false);
@@ -150,7 +165,8 @@ export const FileUploadDialog: FC<FileUploadDialogProps> = ({
           additionalInfo: validation.additionalInfo,
         });
         setIsFileValid(true);
-      } catch (error) {
+      } catch {
+        // Le détail de l'erreur n'est pas utile à l'utilisateur : on affiche un message générique.
         setFileError("Erreur lors de la validation du fichier");
         setFileInfo(null);
         setIsFileValid(false);
@@ -179,10 +195,10 @@ export const FileUploadDialog: FC<FileUploadDialogProps> = ({
       return;
     }
 
-    create(
+    void create(
       resource,
       {
-        data: formRef?.current!,
+        data: formRef.current,
         meta,
       },
       {
@@ -245,14 +261,8 @@ export const FileUploadDialog: FC<FileUploadDialogProps> = ({
               setIsFileValid(false);
             },
           }}
-          onChange={(data: any) => {
-            const fileObj: File | null =
-              data && data instanceof File
-                ? data
-                : Array.isArray(data) && data.length
-                  ? data[0]
-                  : null;
-            handleFileChange(fileObj);
+          onChange={(data: unknown) => {
+            void handleFileChange(getSelectedFile(data));
           }}
         >
           <FileField source="src" title="title" data-testid="file-field" />

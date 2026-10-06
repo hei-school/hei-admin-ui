@@ -48,10 +48,10 @@ const SyleSx = (isSmall: boolean) => ({
   },
 });
 
-function getSuccessMessage({
+const getSuccessMessage = ({
   type,
   resources: groups,
-}: ResourceFlowsArgsType<Required<Group>, Required<Promotion>>) {
+}: ResourceFlowsArgsType<Required<Group>, Required<Promotion>>) => {
   switch (type) {
     case "MIGRATE":
       return `Le groupe ${groups[0].ref} a été migré avec succès`;
@@ -60,9 +60,9 @@ function getSuccessMessage({
     default:
       return "Tous les groupes ont été insérés avec succès!";
   }
-}
+};
 
-function getErrorMessage(type: ResourceMigrateType, groups: Group[]) {
+const getErrorMessage = (type: ResourceMigrateType, groups: Group[]) => {
   switch (type) {
     case "MIGRATE":
       return `Erreur lors de la migration du groupe ${groups[0].ref}`;
@@ -71,14 +71,17 @@ function getErrorMessage(type: ResourceMigrateType, groups: Group[]) {
     default:
       return `Erreur lors de l'opération sur les groupes.`;
   }
-}
+};
 
-function migratePromotionGroup({
+const migratePromotionGroup = ({
   id,
   type,
   resources,
   parent,
-}: {id: string} & ResourceFlowsArgsType<Required<Group>, Required<Promotion>>) {
+}: {id: string} & ResourceFlowsArgsType<
+  Required<Group>,
+  Required<Promotion>
+>) => {
   const promotionFlowType: UpdatePromotionSGroupTypeEnum =
     type !== "LEAVE"
       ? UpdatePromotionSGroupTypeEnum.ADD
@@ -92,9 +95,9 @@ function migratePromotionGroup({
     ],
     {promotionId: type == "MIGRATE" ? parent.id : id}
   );
-}
+};
 
-export default function PromotionShow() {
+const PromotionShow = () => {
   const role = useRole();
   const {id} = useParams();
   const notify = useNotify();
@@ -163,4 +166,6 @@ export default function PromotionShow() {
       </ResourceFlowsContext>
     </Box>
   );
-}
+};
+
+export default PromotionShow;

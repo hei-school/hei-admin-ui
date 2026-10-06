@@ -132,6 +132,6 @@ describe("Manager.Fee.Archive", () => {
     cy.wait("@getArchivedFee");
     cy.contains(
       `Rejeté par ${feeArchiveRejectedMock.rejected_by_first_name} ${feeArchiveRejectedMock.rejected_by_last_name}`
-    );
+    ).should("exist");
   });
 });

@@ -9,7 +9,6 @@ import {
   Skeleton,
   Typography,
 } from "@mui/material";
-import {FC} from "react";
 import {EmailField, Link} from "react-admin";
 import {getBgImg} from "../utils/getBgImg";
 
@@ -45,14 +44,14 @@ const cardStyle: React.CSSProperties = {
   marginTop: "50px",
 };
 
-export const AnnouncementCard: FC<Announcement> = ({
+export const AnnouncementCard = ({
   id,
   scope,
   author,
   creation_datetime,
   isLoading,
   title,
-}) => {
+}: Readonly<Announcement>) => {
   return (
     <Link
       key={id}

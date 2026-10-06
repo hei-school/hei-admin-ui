@@ -14,6 +14,70 @@ interface GradeHistoryDialogProps {
   gradeId?: string;
 }
 
+const getCreationTime = (item: GradeHistory) =>
+  item.created_at ? new Date(item.created_at) : new Date(0);
+
+const byMostRecentFirst = (a: GradeHistory, b: GradeHistory) =>
+  +getCreationTime(b) - +getCreationTime(a);
+
+interface GradeHistoryContentProps {
+  isLoading: boolean;
+  error: string | null;
+  historyData: GradeHistory[];
+}
+
+const GradeHistoryContent = ({
+  isLoading,
+  error,
+  historyData,
+}: Readonly<GradeHistoryContentProps>) => {
+  if (isLoading) {
+    return (
+      <Box display="flex" justifyContent="center" py={8}>
+        <CircularProgress
+          size={40}
+          sx={{color: PALETTE_COLORS.primary, mb: 2}}
+        />
+      </Box>
+    );
+  }
+
+  if (error) {
+    return (
+      <Alert severity="error" sx={{borderRadius: 2}}>
+        {error}
+      </Alert>
+    );
+  }
+
+  if (historyData.length === 0) {
+    return (
+      <Box textAlign="center" py={8}>
+        <HistoryIcon sx={{fontSize: 48, color: PALETTE_COLORS.grey, mb: 2}} />
+        <Typography variant="h6" color="text.secondary">
+          Aucun historique disponible
+        </Typography>
+        <Typography variant="body2" color="text.secondary">
+          Cette note n'a pas encore été modifiée.
+        </Typography>
+      </Box>
+    );
+  }
+
+  return (
+    <Box p={2}>
+      {historyData.map((item, index) => (
+        <GradeHistoryItem
+          key={`history-${index}`}
+          historyItem={item}
+          isLatest={index === 0}
+          isLast={index === historyData.length - 1}
+        />
+      ))}
+    </Box>
+  );
+};
+
 export const GradeHistoryDialog = ({
   onClose,
   studentId,
@@ -42,13 +106,10 @@ export const GradeHistoryDialog = ({
         );
         console.log("Grade history response:", response);
 
-        const sortedData = response.data.sort((a, b) => {
-          const dateA = a.created_at ? new Date(a.created_at) : new Date(0);
-          const dateB = b.created_at ? new Date(b.created_at) : new Date(0);
-          return +dateB - +dateA;
-        });
+        const history = response.data;
+        history.sort(byMostRecentFirst);
 
-        setHistoryData(sortedData);
+        setHistoryData(history);
       } catch (error) {
         console.error("Error fetching grade history:", error);
         const errorMessage =
@@ -59,7 +120,7 @@ export const GradeHistoryDialog = ({
       }
     };
 
-    fetchHistory();
+    void fetchHistory();
   }, [studentId, examId, gradeId]);
 
   return (
@@ -69,39 +130,11 @@ export const GradeHistoryDialog = ({
       onClose={onClose}
       maxWidth="md"
     >
-      {isLoading ? (
-        <Box display="flex" justifyContent="center" py={8}>
-          <CircularProgress
-            size={40}
-            sx={{color: PALETTE_COLORS.primary, mb: 2}}
-          />
-        </Box>
-      ) : error ? (
-        <Alert severity="error" sx={{borderRadius: 2}}>
-          {error}
-        </Alert>
-      ) : historyData.length === 0 ? (
-        <Box textAlign="center" py={8}>
-          <HistoryIcon sx={{fontSize: 48, color: PALETTE_COLORS.grey, mb: 2}} />
-          <Typography variant="h6" color="text.secondary">
-            Aucun historique disponible
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            Cette note n'a pas encore été modifiée.
-          </Typography>
-        </Box>
-      ) : (
-        <Box p={2}>
-          {historyData.map((item, index) => (
-            <GradeHistoryItem
-              key={`history-${index}`}
-              historyItem={item}
-              isLatest={index === 0}
-              isLast={index === historyData.length - 1}
-            />
-          ))}
-        </Box>
-      )}
+      <GradeHistoryContent
+        isLoading={isLoading}
+        error={error}
+        historyData={historyData}
+      />
     </Dialog>
   );
 };

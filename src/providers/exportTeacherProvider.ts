@@ -1,7 +1,8 @@
 import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
+import {ExportedFile} from "./types";
 
-const exportTeacherProvider: HaDataProviderType = {
+const exportTeacherProvider: HaDataProviderType<ExportedFile> = {
   getList: () => {
     throw new Error("Function not implemented.");
   },

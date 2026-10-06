@@ -1,4 +1,5 @@
 import {
+  CalendarEvent,
   dateFormats,
   dayPropGetter,
   eventStyleGetter,
@@ -34,7 +35,7 @@ moment.locale("fr");
 const localizer = momentLocalizer(moment);
 const API_URL = process.env.REACT_APP_API_URL;
 
-const CustomEvent = ({event}: {event: any}) => {
+const CustomEvent = ({event}: Readonly<{event: CalendarEvent}>) => {
   const timeFormat = `${moment(event.start).format("HH:mm")} - ${moment(event.end).format("HH:mm")}`;
 
   const onlineIcon = event.isOnline ? (
@@ -260,7 +261,7 @@ export const CalendarView = () => {
   };
 
   useEffect(() => {
-    fetchEvents(
+    void fetchEvents(
       moment().startOf("week").toDate(),
       moment().endOf("week").toDate()
     );
@@ -268,9 +269,9 @@ export const CalendarView = () => {
 
   const handleRangeChange = (range: Date[] | DateRange) => {
     if (Array.isArray(range)) {
-      fetchEvents(range[0], range[range.length - 1]);
+      void fetchEvents(range[0], range[range.length - 1]);
     } else if (range.start && range.end) {
-      fetchEvents(range.start, range.end);
+      void fetchEvents(range.start, range.end);
     }
   };
 

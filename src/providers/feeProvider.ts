@@ -1,16 +1,19 @@
 import {
   ArchiveStatusEnum,
+  CrupdateStudentFee,
   Fee,
   FeeCategory,
   FeeStatusEnum,
   FeeTypeEnum,
+  MobileMoneyType,
+  Mpbs,
   MpbsStatus,
   WhoamiRoleEnum,
 } from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuid} from "uuid";
 import {payingApi} from "./api";
 import authProvider from "./authProvider";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 
 const raSeparator = "--";
 const toRaId = (studentId: string, feeId: string): string =>
@@ -26,23 +29,45 @@ export const studentIdFromRaId = (raId: string): string =>
 
 export const feeIdFromRaId = (raId: string): string => toApiIds(raId).feeId;
 
-const feeProvider: HaDataProviderType = {
-  getList: async (
-    page: number,
-    perPage: number,
-    filter: {
-      transaction_status?: MpbsStatus;
-      type?: FeeTypeEnum;
-      status?: FeeStatusEnum;
-      category?: FeeCategory;
-      monthFrom?: Date;
-      monthTo?: Date;
-      isMpbs?: boolean;
-      student_ref?: string;
-      studentId?: string;
-      archive_status?: ArchiveStatusEnum;
-    }
-  ) => {
+interface FeeFilter {
+  transaction_status?: MpbsStatus;
+  type?: FeeTypeEnum;
+  status?: FeeStatusEnum;
+  category?: FeeCategory;
+  monthFrom?: Date;
+  monthTo?: Date;
+  isMpbs?: boolean;
+  student_ref?: string;
+  studentId?: string;
+  archive_status?: ArchiveStatusEnum;
+}
+
+// paiement par mobile money d'un frais, fee_id est l'id react-admin du frais
+interface MpbsPayload {
+  fee_id?: string;
+  mpbs_id?: string;
+  student_id: string;
+  psp_id?: string;
+  psp_type?: MobileMoneyType;
+}
+
+// saveOrUpdate reçoit soit un paiement mobile money, soit les frais à créer
+type FeePayload = MpbsPayload | CrupdateStudentFee[];
+
+type SavedFee = Fee | (Mpbs & MpbsPayload);
+
+const isMpbsPayload = (payload: FeePayload): payload is MpbsPayload =>
+  !Array.isArray(payload) && Boolean(payload?.psp_id);
+
+const feeProvider: HaDataProviderType<
+  Fee,
+  FeeFilter,
+  HaMeta,
+  FeePayload[],
+  unknown,
+  SavedFee[] | undefined
+> = {
+  getList: async (page: number, perPage: number, filter: FeeFilter) => {
     const doGetFees = async () => {
       if (filter.studentId) {
         return payingApi()
@@ -92,7 +117,7 @@ const feeProvider: HaDataProviderType = {
     const payload = resources[0];
     const role = authProvider.getCachedRole();
 
-    if (payload?.psp_id) {
+    if (isMpbsPayload(payload)) {
       const feeId = toApiIds(payload?.fee_id).feeId;
 
       const mpbs = {
@@ -109,7 +134,7 @@ const feeProvider: HaDataProviderType = {
     }
     if (role === WhoamiRoleEnum.STUDENT) {
       return payingApi()
-        .createStudentFees(payload[0].student_id, payload)
+        .createStudentFees(payload[0].student_id!, payload)
         .then((result) => result.data);
     }
     if (role === WhoamiRoleEnum.MANAGER || role === WhoamiRoleEnum.ADMIN) {

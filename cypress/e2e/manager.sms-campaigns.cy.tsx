@@ -517,7 +517,7 @@ describe("Manager.SmsCampaigns", () => {
     cy.get("#message").type("Rappel de réunion");
     cy.getByTestid("sms-contact-search-contacts").type("Inconnu");
     cy.wait("@searchContacts");
-    cy.contains("Aucun contact trouvé");
+    cy.contains("Aucun contact trouvé").should("exist");
   });
 
   it("resets the status filter when clicking back on 'Toutes'", () => {
@@ -564,7 +564,7 @@ describe("Manager.SmsCampaigns", () => {
     cy.contains("Tapez au moins 2 caractères");
 
     cy.getByTestid("sms-contact-group-filter-input").clear().type("zzzzz");
-    cy.contains("Aucun groupe trouvé");
+    cy.contains("Aucun groupe trouvé").should("exist");
   });
 
   it("deselects a chosen contact group by removing its chip", () => {

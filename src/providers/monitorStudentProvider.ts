@@ -1,13 +1,31 @@
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  LinkStudentsByMonitorIdRequest,
+  Student,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaFilter, HaSaveParams} from "./HaDataProviderType";
 import {monitoringApi} from "./api";
 import authProvider from "./authProvider";
 
-const monitorStudentProvider: HaDataProviderType = {
+interface MonitorStudentMeta {
+  monitorId: string;
+}
+
+type MonitorStudentSaveParams = HaSaveParams<MonitorStudentMeta> & {
+  meta: MonitorStudentMeta;
+};
+
+const monitorStudentProvider: HaDataProviderType<
+  Student,
+  HaFilter,
+  MonitorStudentMeta,
+  LinkStudentsByMonitorIdRequest[],
+  MonitorStudentSaveParams
+> = {
   getList: async (
     page: number,
     perPage: number,
     _filter,
-    {monitorId}: {monitorId: string}
+    {monitorId}: MonitorStudentMeta
   ) => {
     return monitoringApi()
       .getLinkedStudentsByMonitorId(monitorId, page, perPage)
@@ -21,7 +39,7 @@ const monitorStudentProvider: HaDataProviderType = {
       .then((result) => result.data);
   },
 
-  saveOrUpdate: async (students, {meta}) => {
+  saveOrUpdate: async (students, {meta}: MonitorStudentSaveParams) => {
     return monitoringApi()
       .linkStudentsByMonitorId(meta.monitorId, students[0])
       .then((result) => result.data);

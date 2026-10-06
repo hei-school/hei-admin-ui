@@ -11,8 +11,15 @@ const EMPTY_BACKEND_RESPONSE: SearchResultsUser = {
   staffMembers: [],
 };
 
-const searchProvider: HaDataProviderType = {
-  getList: async (_page, _perPage, filter: {word: string}) => {
+interface SearchFilter {
+  word: string;
+}
+
+const searchProvider: HaDataProviderType<
+  SearchResultsUser & {id: string},
+  SearchFilter
+> = {
+  getList: async (_page, _perPage, filter: SearchFilter) => {
     const {word} = filter;
     const response = await searchApi().globalSearchUserGet(word);
     return {

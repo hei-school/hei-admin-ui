@@ -49,6 +49,6 @@ describe("Profile picture test", () => {
     ).as("getManager");
 
     cy.contains("Enregistrer").click();
-    cy.contains("Photo mise à jour avec succès!");
+    cy.contains("Photo mise à jour avec succès!").should("exist");
   });
 });

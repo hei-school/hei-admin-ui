@@ -59,7 +59,7 @@ describe("Admin Teacher Doc", () => {
       `docs_import/doc.pdf`
     );
     cy.contains("Enregistrer").click();
-    cy.contains("Document créé");
+    cy.contains("Document créé").should("exist");
   });
 });
 
@@ -96,7 +96,7 @@ describe("Monitor Student", () => {
         cy.getByTestid("docs-button").click();
         cy.contains("Bulletins").click();
         cy.contains(transcriptsMock[0]?.name!);
-        cy.contains(transcriptsMock[1]?.name!);
+        cy.contains(transcriptsMock[1]?.name!).should("exist");
       });
     });
 
@@ -132,7 +132,9 @@ describe("Monitor Student", () => {
         cy.getByTestid("toggle-details-button").click();
         cy.contains("Raison de la suspension");
         cy.contains("Frais de scolarité impayés");
-        cy.contains("Contactez l'administration pour plus d'informations");
+        cy.contains(
+          "Contactez l'administration pour plus d'informations"
+        ).should("exist");
       });
 
       it(`can't view student grades and sees suspended alert`, () => {
@@ -152,7 +154,7 @@ describe("Monitor Student", () => {
         cy.contains("Frais de scolarité impayés");
         cy.contains(
           "Veuillez contacter l'administration pour plus d'informations sur cette suspension"
-        );
+        ).should("exist");
       });
     });
   });

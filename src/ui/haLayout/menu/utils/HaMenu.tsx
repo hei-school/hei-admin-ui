@@ -7,7 +7,7 @@ import {SingleMenu} from "@/ui/haLayout/menu/utils/SingleMenu";
 import {trackNavClick} from "@/utils/gtm";
 import {AccountCircle, Dashboard, Logout} from "@mui/icons-material";
 import {Box, Drawer, Typography, styled, useMediaQuery} from "@mui/material";
-import {MailQuestion, PhoneCall, Settings} from "lucide-react";
+import {LucideIcon, MailQuestion, PhoneCall, Settings} from "lucide-react";
 import {useMemo} from "react";
 import {useSidebarState} from "react-admin";
 
@@ -122,7 +122,7 @@ const MenuHeader = () => {
 };
 
 interface ContactInfoBoxProps {
-  icon: React.ComponentType<any>;
+  icon: LucideIcon;
   content: string;
   href?: string;
   isLarge: boolean;
@@ -409,7 +409,7 @@ interface HaMenuBaseProps {
   sx?: object;
 }
 
-export function HaMenuBase({sx = {}}: HaMenuBaseProps) {
+export const HaMenuBase = ({sx = {}}: Readonly<HaMenuBaseProps>) => {
   const {isSmall, isIOS} = useDeviceInfo();
   const {isMenuVisible, isMonitor, isStudent} = useMenuState();
 
@@ -443,9 +443,9 @@ export function HaMenuBase({sx = {}}: HaMenuBaseProps) {
       )}
     </Box>
   );
-}
+};
 
-export function HaMenu() {
+export const HaMenu = () => {
   const {isSmall, isIOS} = useDeviceInfo();
   const {open, setOpen} = useMenuState();
 
@@ -480,4 +480,4 @@ export function HaMenu() {
   }
 
   return <HaMenuBase />;
-}
+};

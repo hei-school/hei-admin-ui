@@ -14,12 +14,18 @@ import {
   useRefresh,
 } from "react-admin";
 
+// the values filled in the form: the score is on 20
+export interface GradeFormValues {
+  grade?: {score?: number};
+  comment?: string;
+}
+
 interface GradeEditFormProps {
-  onSubmit: (values: any) => Promise<void>;
+  onSubmit: (values: GradeFormValues) => Promise<void>;
   isLoading: boolean;
   onClose: () => void;
   isEditing: boolean;
-  initialComment?: string | undefined;
+  initialComment?: string;
 }
 
 const GradeForm = () => {
@@ -58,7 +64,7 @@ export const GradeEditForm = ({
   const notify = useNotify();
   const refresh = useRefresh();
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: GradeFormValues) => {
     try {
       if (values.grade?.score !== undefined && !values.comment) {
         notify(

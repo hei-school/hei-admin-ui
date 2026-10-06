@@ -1,9 +1,36 @@
 import {NOOP_ID} from "@/utils/constants";
+import {ImportGradeResult} from "@haapi-b0fc7615/typescript-client";
 import {v4 as uuidv4} from "uuid";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
 import {gradesApi} from "./api";
-const gradeImportProvider: HaDataProviderType = {
-  saveOrUpdate: async (_resources, meta) => {
+
+interface GradeImportMeta {
+  examId: string;
+}
+
+// CreateParams transmis par dataProvider.create
+interface GradeImportParams {
+  data: {
+    file: {rawFile?: File};
+    comment: string;
+    mode: string;
+  };
+  meta: GradeImportMeta;
+}
+
+type GradeImportTemplate = {id: string; data: File};
+
+type ImportedGrades = ImportGradeResult & {id: string};
+
+const gradeImportProvider: HaDataProviderType<
+  GradeImportTemplate,
+  HaFilter,
+  GradeImportMeta,
+  unknown,
+  GradeImportParams,
+  ImportedGrades[]
+> = {
+  saveOrUpdate: async (_resources, meta: GradeImportParams) => {
     const {file, comment, mode} = meta.data;
     const examId = meta.meta.examId;
 
@@ -33,7 +60,7 @@ const gradeImportProvider: HaDataProviderType = {
     throw new Error("Not implemented");
   },
 
-  getOne: async (_resources, meta) => {
+  getOne: async (_resources, meta: GradeImportMeta) => {
     const examId = meta?.examId;
     const response = await gradesApi().getStudentsGradesTemplateForExam(
       examId,

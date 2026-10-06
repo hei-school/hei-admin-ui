@@ -140,7 +140,7 @@ const readCount = (
   statKey: string
 ): number => {
   const counts = countsByStatKey as Record<string, number | null> | null;
-  return Number(counts?.[statKey] ?? NaN);
+  return Number(counts?.[statKey] ?? Number.NaN);
 };
 
 export const computeTotals = (rows: readonly FeeRow[]): FeeCounts =>
@@ -152,9 +152,9 @@ export const computeTotals = (rows: readonly FeeRow[]): FeeCounts =>
     return summedTotals;
   }, NO_COUNTS);
 
-const orZero = (count: number): number => (isNaN(count) ? 0 : count);
+const orZero = (count: number): number => (Number.isNaN(count) ? 0 : count);
 
-export const hasCount = (count: number): boolean => !isNaN(count);
+export const hasCount = (count: number): boolean => !Number.isNaN(count);
 
 export const toPaidRatio = (paid: number, total: number): number =>
   total > 0 ? (paid / total) * 100 : 0;

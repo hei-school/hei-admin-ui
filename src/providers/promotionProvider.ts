@@ -1,13 +1,20 @@
-import {CrupdatePromotion} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {CrupdatePromotion, Promotion} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 import {promotionApi} from "./api";
 
-const promotionProvider: HaDataProviderType = {
-  getList: async (
-    page: number,
-    perPage: number,
-    filter: {ref?: string; name?: string; groupRef?: string}
-  ) => {
+interface PromotionFilter {
+  ref?: string;
+  name?: string;
+  groupRef?: string;
+}
+
+const promotionProvider: HaDataProviderType<
+  Promotion,
+  PromotionFilter,
+  HaMeta,
+  CrupdatePromotion[]
+> = {
+  getList: async (page: number, perPage: number, filter: PromotionFilter) => {
     return promotionApi()
       .getPromotions(page, perPage, filter.name, filter.ref, filter.groupRef)
       .then((result) => ({data: result.data}));

@@ -143,7 +143,7 @@ export const FeeArchiveRowActions = ({
 
   const doReArchive = () => {
     toggleReArchive();
-    runArchiveAction(
+    void runArchiveAction(
       () => payingApi().archiveStudentFee(studentId, feeId),
       "Demande d'archivage envoyée avec succès.",
       doDone,
@@ -179,7 +179,10 @@ export const FeeArchiveRowActions = ({
           content="Confirmez-vous l'archivage de ce frais ? Il ne pourra plus être payé ni modifié."
           onConfirm={() => {
             toggleValidate();
-            doUpdate(ArchiveStatusEnum.ARCHIVED, "Frais archivé avec succès.");
+            void doUpdate(
+              ArchiveStatusEnum.ARCHIVED,
+              "Frais archivé avec succès."
+            );
           }}
           onClose={toggleValidate}
           confirmColor="warning"
@@ -190,7 +193,7 @@ export const FeeArchiveRowActions = ({
           onClose={toggleReject}
           onConfirm={(reason) => {
             toggleReject();
-            doUpdate(
+            void doUpdate(
               ArchiveStatusEnum.REJECTED,
               "Demande d'archivage rejetée.",
               reason

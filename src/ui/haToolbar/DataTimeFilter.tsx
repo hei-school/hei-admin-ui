@@ -8,19 +8,19 @@ type DateTimeFilterProps = {
   source: string;
   format?: string;
   label: string;
-  value?: any;
-  [key: string]: any;
+  value?: string;
+  [key: string]: unknown;
   view?: Array<DateOrTimeView>;
 };
 
-export function DateTimeFilter({
+export const DateTimeFilter = ({
   source,
   label,
   value: overrideValue,
   format,
   view,
   ...rest
-}: DateTimeFilterProps) {
+}: Readonly<DateTimeFilterProps>) => {
   const {currentFilter, setOneFilter} = useHaToolbarContext();
   const value = overrideValue ?? currentFilter[source];
 
@@ -41,4 +41,4 @@ export function DateTimeFilter({
       onChange={(value) => setOneFilter(source, value?.toISOString())}
     />
   );
-}
+};

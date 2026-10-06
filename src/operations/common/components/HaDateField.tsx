@@ -1,13 +1,16 @@
 import {DATE_OPTIONS} from "@/utils/date";
 import {Typography, useMediaQuery} from "@mui/material";
-import {FC} from "react";
 
-export const HaDateField: FC<{value?: Date | string}> = ({value, ...props}) => {
+interface HaDateFieldProps {
+  value?: Date | string;
+}
+
+export const HaDateField = ({value, ...props}: Readonly<HaDateFieldProps>) => {
   const isLarge = useMediaQuery("(min-width:1700px)");
   return (
     <Typography {...props} variant={isLarge ? "body2" : "caption"}>
       {value
-        ? new Date(value).toLocaleString("fr-FR", DATE_OPTIONS as any)
+        ? new Date(value).toLocaleString("fr-FR", DATE_OPTIONS)
         : "Non-défini.e"}
     </Typography>
   );

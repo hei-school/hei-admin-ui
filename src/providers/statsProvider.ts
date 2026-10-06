@@ -1,10 +1,51 @@
 import {formatDateToLocalTimeZone} from "@/utils";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  AdvancedFeesStatistics,
+  AdvancedFeeStatisticsType,
+  EventStats,
+  FeeCategory,
+  FeesStatistics,
+  FeeStatusEnum,
+  FeeTypeEnum,
+  MpbsStatus,
+  Statistics,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
 import {eventsApi, payingApi, usersApi} from "./api";
 import {MAX_ITEM_PER_PAGE} from "./dataProvider";
 import {getMonthFilters} from "./utils";
 
-const statsProvider: HaDataProviderType = {
+interface StatsFilter {
+  monthFrom?: Date;
+  monthTo?: Date;
+  viewMode?: AdvancedFeeStatisticsType;
+  transaction_status?: MpbsStatus;
+  type?: FeeTypeEnum;
+  status?: FeeStatusEnum;
+  category?: FeeCategory;
+  page?: number;
+  isMpbs?: boolean;
+  student_ref?: string;
+}
+
+interface StatsMeta {
+  resource?: string;
+  filters?: StatsFilter;
+}
+
+type Stats = (
+  | Statistics
+  | AdvancedFeesStatistics
+  | FeesStatistics
+  | EventStats
+) & {id: string};
+
+// getOne ne renvoie rien pour une ressource inconnue
+const statsProvider: HaDataProviderType<
+  Stats | undefined,
+  HaFilter,
+  StatsMeta
+> = {
   getList: () => {
     throw new Error("Function not implemented.");
   },

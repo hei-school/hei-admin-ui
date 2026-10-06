@@ -45,7 +45,7 @@ export const MonitorStudentList = () => {
   const notify = useNotify();
 
   const onConfirm = (students_ids: string[]) => {
-    create(
+    void create(
       "monitor-students",
       {
         data: {
@@ -91,7 +91,7 @@ export const MonitorStudentList = () => {
           />
         }
         datagridProps={{
-          rowClick: isMonitor() ? true : false,
+          rowClick: isMonitor(),
         }}
         listProps={{
           queryOptions: {

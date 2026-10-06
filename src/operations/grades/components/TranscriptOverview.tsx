@@ -9,17 +9,20 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
-import {FC} from "react";
 
 import {YearlyResult} from "@haapi-b0fc7615/typescript-client";
 import {School} from "@mui/icons-material";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
 
-export const TranscriptOverview: FC<{
+export const TranscriptOverview = ({
+  result,
+  error,
+  isLoading,
+}: Readonly<{
   result: YearlyResult | undefined;
   isLoading: boolean;
   error: unknown;
-}> = ({result, error, isLoading}) => {
+}>) => {
   if (isLoading) {
     return (
       <Card elevation={0} sx={{mb: 3, borderRadius: 4, p: 3}}>

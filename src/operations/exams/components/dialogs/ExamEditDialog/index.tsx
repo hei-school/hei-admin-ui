@@ -18,7 +18,6 @@ import {
   IconButton,
   Typography,
 } from "@mui/material";
-import {FC} from "react";
 import {Form} from "react-admin";
 import {useExamEdit} from "../../../hooks/useExamEdit";
 import {CoefficientSection} from "./sections/CoefficientSection";
@@ -31,11 +30,11 @@ interface ExamEditDialogProps {
   exam: Exam;
 }
 
-export const ExamEditDialog: FC<ExamEditDialogProps> = ({
+export const ExamEditDialog = ({
   open,
   onClose,
   exam,
-}) => {
+}: Readonly<ExamEditDialogProps>) => {
   const {id: userId} = authProvider.getCachedWhoami();
   const {isManager, isAdmin} = useRole();
   const isPrivileged = isManager() || isAdmin();

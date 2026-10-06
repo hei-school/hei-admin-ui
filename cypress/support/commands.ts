@@ -2,13 +2,19 @@
 
 import {Whoami, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import "cypress-file-upload";
-import {getUserConnected} from "../fixtures/api_mocks/authentification-mocks";
+import {
+  getUserConnected,
+  UserConnected,
+} from "../fixtures/api_mocks/authentification-mocks";
 import {smsBalanceMock} from "../fixtures/api_mocks/sms-mocks";
 import {LoginConfig} from "./global";
 
-Cypress.Commands.add("getByTestid", <Subject = any>(id: string) => {
-  return cy.get<Subject>(`[data-testid='${id}']`);
-});
+Cypress.Commands.add(
+  "getByTestid",
+  <Subject = JQuery<HTMLElement>>(id: string) => {
+    return cy.get<Subject>(`[data-testid='${id}']`);
+  }
+);
 
 Cypress.Commands.add(
   "attachFileToDropZone",
@@ -40,7 +46,7 @@ Cypress.Commands.add(
 
 Cypress.Commands.add(
   "assertRequestBody",
-  <T>(requestAlias: string, expectedBody: (body: any) => T) => {
+  <T>(requestAlias: string, expectedBody: (body: unknown) => T) => {
     cy.wait(requestAlias).then((interception) => {
       const body = interception.request.body;
       expect(body).to.deep.equal(expectedBody(body));
@@ -48,7 +54,7 @@ Cypress.Commands.add(
   }
 );
 
-function setupLoginMocks(user: any, role: WhoamiRoleEnum) {
+const setupLoginMocks = (user: UserConnected["user"], role: WhoamiRoleEnum) => {
   const whoami: Whoami = {
     id: user.id,
     bearer: "dummy",
@@ -64,7 +70,7 @@ function setupLoginMocks(user: any, role: WhoamiRoleEnum) {
   cy.intercept("https://www.google-analytics.com/g/**", {statusCode: 200}).as(
     "analytics"
   );
-}
+};
 
 Cypress.Commands.add("login", (options: LoginConfig) => {
   const {role, success: isSuccess = true} = options;

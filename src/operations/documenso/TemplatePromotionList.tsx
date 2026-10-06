@@ -31,7 +31,6 @@ const SeeDocumentsButton = ({
   onSelectPromotion,
 }: {
   onSelectPromotion: SelectPromotion;
-  label?: string;
 }) => {
   const promotion = useRecordContext<Promotion & {id: string}>();
   if (!promotion) {
