@@ -1,14 +1,29 @@
-import {CreditMovement} from "@haapi-b0fc7615/typescript-client";
+import {
+  Credit,
+  CreditMovement,
+  CreditTransaction,
+} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {payingApi} from "./api";
 
-const studentCreditProvider: HaDataProviderType = {
+interface StudentCreditFilter {
+  studentId: string;
+  movement?: CreditMovement;
+}
+
+// la liste renvoie les mouvements du crédit, getOne le crédit de l'étudiant
+type StudentCreditResource = (CreditTransaction & {id?: string}) | Credit;
+
+const studentCreditProvider: HaDataProviderType<
+  StudentCreditResource,
+  StudentCreditFilter
+> = {
   getList: async (page, perPage, filter) => {
-    const studentId = filter.studentId as string;
+    const studentId = filter.studentId;
     return payingApi()
       .getCreditTransactionsByStudentId(
         studentId,
-        filter.movement as CreditMovement,
+        filter.movement,
         page,
         perPage
       )

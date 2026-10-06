@@ -18,7 +18,6 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import {FC} from "react";
 import {ListBase, useListContext} from "react-admin";
 import {v4} from "uuid";
 import {StudentLevel, ViewType} from "../types/types";
@@ -27,11 +26,15 @@ import {StatusChip} from "../utils/StatusChip";
 import {GradesDetails} from "./GradesDetails";
 import {renderWeightedAverage} from "./utils";
 
-export const CoursesListView: FC<{
+export const CoursesListView = ({
+  studentLevel,
+  studentId,
+  viewType,
+}: Readonly<{
   studentId: string;
   studentLevel: StudentLevel;
   viewType: ViewType;
-}> = ({studentLevel, studentId, viewType}) => {
+}>) => {
   return (
     <ListBase
       queryOptions={{refetchOnWindowFocus: false}}
@@ -43,10 +46,13 @@ export const CoursesListView: FC<{
   );
 };
 
-const CoursesListViewContent: FC<{
+const CoursesListViewContent = ({
+  viewType,
+  studentId,
+}: Readonly<{
   viewType: ViewType;
   studentId: string;
-}> = ({viewType, studentId}) => {
+}>) => {
   const {data = [], isLoading} = useListContext();
 
   if (isLoading) {

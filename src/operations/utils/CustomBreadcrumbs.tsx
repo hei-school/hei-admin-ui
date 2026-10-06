@@ -1,4 +1,5 @@
-import {Box, Breadcrumbs, Link, Typography} from "@mui/material";
+import {Box, Breadcrumbs, Link, Theme, Typography} from "@mui/material";
+import {SystemStyleObject} from "@mui/system";
 import {ChevronRight, Home} from "lucide-react";
 import type React from "react";
 import {memo, useMemo} from "react";
@@ -18,7 +19,7 @@ export type BreadcrumbVariant = "default" | "contrast" | "subtle";
 
 export interface CustomBreadcrumbsProps {
   items: BreadcrumbItem[];
-  sx?: any;
+  sx?: SystemStyleObject<Theme>;
   showHomeIcon?: boolean;
   separator?: React.ReactNode;
   maxItems?: number;

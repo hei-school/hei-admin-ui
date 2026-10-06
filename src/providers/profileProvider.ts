@@ -1,9 +1,27 @@
 import {usersApi} from "@/providers/api";
 import authProvider from "@/providers/authProvider";
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+} from "@/providers/HaDataProviderType";
+import {User} from "@/providers/types";
+import {
+  Organizer,
+  StaffMember,
+  WhoamiRoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
 
-const profileProvider: HaDataProviderType = {
+type Profile = User | StaffMember | Organizer;
+
+type ProfilePayload = Profile & {id: string};
+
+const profileProvider: HaDataProviderType<
+  Profile,
+  HaFilter,
+  HaMeta,
+  ProfilePayload[]
+> = {
   getOne: async (id: string) => {
     const role = authProvider.getCachedRole();
 

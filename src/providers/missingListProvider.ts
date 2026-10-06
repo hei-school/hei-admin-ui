@@ -2,7 +2,21 @@ import {EventAttendance} from "@haapi-b0fc7615/typescript-client";
 import {eventsApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
-const missingListProvider: HaDataProviderType = {
+interface MissingListFilter {
+  courseId?: string;
+  from?: Date;
+  to?: Date;
+  groupRef?: string[];
+  studentRef?: string;
+  studentName?: string;
+}
+
+type MissingRecord = EventAttendance & {id?: string};
+
+const missingListProvider: HaDataProviderType<
+  MissingRecord,
+  MissingListFilter
+> = {
   getList: async (page, perPage, filter = {}) => {
     return eventsApi()
       .getAllEventParticipants(

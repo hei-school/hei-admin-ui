@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {useEffect, useState} from "react";
+import {MouseEvent, useEffect, useState} from "react";
 import {useDataProvider} from "react-admin";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
@@ -70,9 +70,9 @@ const LastComments = () => {
 };
 
 const FeedbackInfos = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: any) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -123,7 +123,7 @@ const FeedbackInfos = () => {
   );
 };
 
-function UserInfo() {
+const UserInfo = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [user, setUser] = useState<
     Teacher | Student | Manager | Organizer | StaffMember | Admin | Monitor
@@ -221,6 +221,6 @@ function UserInfo() {
       />
     </StyledUserInfo>
   );
-}
+};
 
 export default UserInfo;

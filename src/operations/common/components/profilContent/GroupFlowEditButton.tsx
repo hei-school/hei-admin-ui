@@ -16,6 +16,8 @@ import {
   useRefresh,
 } from "react-admin";
 
+type GroupFlowFormValues = Pick<GroupFlow, "group_id" | "flow_datetime">;
+
 interface GroupFlowEditButtonProps {
   record: GroupFlow;
 }
@@ -29,7 +31,7 @@ export const GroupFlowEditButton = ({record}: GroupFlowEditButtonProps) => {
 
   const groupChoices = groups.map(({id, ref = ""}) => ({id, ref}));
 
-  const handleSubmit = async (values: any) => {
+  const handleSubmit = async (values: GroupFlowFormValues) => {
     setIsLoading(true);
     try {
       await studentGroupFlowProvider.saveOrUpdate([

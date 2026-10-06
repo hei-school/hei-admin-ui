@@ -37,7 +37,7 @@ describe("Letter.event", () => {
     });
     cy.contains("Confirmer").click();
     cy.wait("@createLetter");
-    cy.contains("La lettre a été créée avec succès");
+    cy.contains("La lettre a été créée avec succès").should("be.visible");
   });
 
   it("student can view uploaded letter", () => {
@@ -45,6 +45,8 @@ describe("Letter.event", () => {
     cy.visit(`/events/${event1mock.id}/participants`);
 
     cy.getByTestid("view-file").first().click();
-    cy.contains(`Document : Justificatif de ${student1Mock.first_name}`);
+    cy.contains(`Document : Justificatif de ${student1Mock.first_name}`).should(
+      "be.visible"
+    );
   });
 });

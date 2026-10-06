@@ -10,19 +10,17 @@ import {FloatingActionButton} from "../common/components/FloatingActionButton";
 
 interface MultipleStudentFeesCreateProps {}
 
-export default function MultipleStudentFeesCreate(
-  props: MultipleStudentFeesCreateProps
-) {
+const MultipleStudentFeesCreate = (props: MultipleStudentFeesCreateProps) => {
   const notify = useNotify();
   const [studentsIds, setStudentsIds] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (fees: Fee) => {
+  const handleSubmit = (fees: Fee) => {
     setIsSubmitting(true);
     try {
-      const transformedFees = studentsIds
-        .map((studentId) => createFeesApi(fees, studentId))
-        .flat();
+      const transformedFees = studentsIds.flatMap((studentId) =>
+        createFeesApi(fees, studentId)
+      );
 
       return transformedFees;
     } catch (error) {
@@ -76,4 +74,6 @@ export default function MultipleStudentFeesCreate(
       </SimpleForm>
     </Create>
   );
-}
+};
+
+export default MultipleStudentFeesCreate;

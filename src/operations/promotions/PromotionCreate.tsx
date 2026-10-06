@@ -3,7 +3,7 @@ import {SelectInput, SimpleForm, TextInput, required} from "react-admin";
 import {v4 as uuid} from "uuid";
 import {Create} from "../common/components";
 import {CYCLE_LEVEL, CYCLE_LEVEL_CHOICES} from "./utils/constant";
-export function PromotionCreate() {
+export const PromotionCreate = () => {
   return (
     <Create
       title=" "
@@ -34,4 +34,4 @@ export function PromotionCreate() {
       </SimpleForm>
     </Create>
   );
-}
+};

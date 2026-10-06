@@ -1,10 +1,13 @@
 import {DATE_OPTIONS, TIME_OPTIONS} from "@/utils/date";
 import {alpha, Avatar, Box, Button, Chip, Typography} from "@mui/material";
 import {BellDot, ExternalLink} from "lucide-react";
-import {FC} from "react";
 import {Link, useGetList} from "react-admin";
 
-export const CommentContent: FC<{animate: boolean}> = ({animate}) => {
+interface CommentContentProps {
+  animate: boolean;
+}
+
+export const CommentContent = ({animate}: Readonly<CommentContentProps>) => {
   const {data: comments = []} = useGetList("comments", {
     pagination: {page: 1, perPage: 10},
   });
@@ -147,7 +150,7 @@ export const CommentContent: FC<{animate: boolean}> = ({animate}) => {
                   {new Date(comment.creation_datetime).toLocaleString("fr-FR", {
                     ...DATE_OPTIONS,
                     ...TIME_OPTIONS,
-                  } as any)}
+                  })}
                 </Typography>
               </Box>
             </Box>

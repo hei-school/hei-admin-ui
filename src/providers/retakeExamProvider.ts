@@ -1,6 +1,10 @@
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {HaDataProviderType, HaMeta} from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
-import {RetakeExamStatus} from "@haapi-b0fc7615/typescript-client";
+import {
+  RetakeExam,
+  RetakeExamStatus,
+  StudentRetakeExam,
+} from "@haapi-b0fc7615/typescript-client";
 
 interface RetakeExamFilter {
   studentId?: string;
@@ -52,7 +56,15 @@ const getTransitionKey = (
 ): TransitionKey | null =>
   from && to ? (`${from}_TO_${to}` as TransitionKey) : null;
 
-const retakeExamProvider: HaDataProviderType = {
+// la liste renvoie les rattrapages d'un étudiant pour une session, ou tous sinon
+const retakeExamProvider: HaDataProviderType<
+  RetakeExam | StudentRetakeExam,
+  RetakeExamFilter,
+  HaMeta,
+  RetakeExamPayload[],
+  unknown,
+  StudentRetakeExam[]
+> = {
   getList: async (page, perPage, filter: RetakeExamFilter) => {
     const {studentId, sessionId, student_ref, status} = filter;
     const hasStudentAndSession = Boolean(studentId && sessionId);

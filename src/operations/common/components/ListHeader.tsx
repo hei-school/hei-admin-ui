@@ -39,8 +39,8 @@ interface CardInfosProps {
 }
 
 const CardInfos = ({cardDetails = []}: CardInfosProps) => {
-  const [anchorEl, setAnchorEl] = useState(null);
-  const handleClick = (event: any) => {
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -193,7 +193,7 @@ export const ListHeader = ({title, action, cardContents}: ListHeaderProps) => {
                 position="relative"
               >
                 {card.statDetails && (
-                  <CardInfos cardDetails={card?.statDetails!} />
+                  <CardInfos cardDetails={card.statDetails} />
                 )}
                 <Typography variant="h6" right="0" flex={1}>
                   Au total

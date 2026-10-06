@@ -1,3 +1,4 @@
+import {DocumensoFileUrl} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {documensoApi} from "./api";
 
@@ -5,7 +6,9 @@ const notImplemented = () => {
   throw new Error("Not implemented");
 };
 
-const documensoFileUrlProvider: HaDataProviderType = {
+const documensoFileUrlProvider: HaDataProviderType<
+  DocumensoFileUrl & {id: string}
+> = {
   getList: notImplemented,
   getOne: async (id: string) => {
     const {data} = await documensoApi().getDocumensoDocumentFileUrl(id);

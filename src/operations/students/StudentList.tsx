@@ -46,10 +46,11 @@ const ListActions = () => {
         if (data?.data) {
           const link = document.createElement("a");
           link.href = data.data;
-          link.download = true as any;
+          // the download attribute holds a string: true was converted to "true"
+          link.download = "true";
           document.body.appendChild(link);
           link.click();
-          document.body.removeChild(link);
+          link.remove();
         } else {
           notify("URL du template non trouvée", {type: "warning"});
         }
@@ -64,7 +65,7 @@ const ListActions = () => {
     setOpenDialog(false);
   };
   const handleDownloadTemplate = () => {
-    refetch();
+    void refetch();
   };
 
   return (

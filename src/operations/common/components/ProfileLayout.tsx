@@ -1,7 +1,7 @@
 import defaultCoverPicture from "@/assets/banner.jpg";
 import {PALETTE_COLORS} from "@/haTheme";
 import {useRole} from "@/security/hooks";
-import {Group, RoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {Group, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Box, Typography, useMediaQuery} from "@mui/material";
 import {useGetOne, useShowContext} from "react-admin";
 import {Informations} from "./profilContent/InformationContent";
@@ -15,7 +15,7 @@ export const ProfileLayout = ({
   isMonitorProfile = false,
   isStaffProfil = false,
 }: {
-  role: RoleEnum;
+  role: WhoamiRoleEnum;
   actions: React.ReactNode;
   isTeacherProfile?: boolean;
   isStudentProfile?: boolean;

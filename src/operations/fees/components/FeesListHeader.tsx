@@ -85,7 +85,7 @@ const useFeeStats = (
 ): FeeStats | undefined => {
   const {filterValues} = useListContext();
   const filters = useMemo(
-    () => ({...(filterValues ?? {}), viewMode}),
+    () => ({...filterValues, viewMode}),
     [filterValues, viewMode]
   );
 

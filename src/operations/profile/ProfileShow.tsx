@@ -7,6 +7,7 @@ import {GetCertificate} from "@/operations/students/components";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {CloudDownload} from "@mui/icons-material";
 import {Box, Button} from "@mui/material";
 import {useState} from "react";
@@ -39,13 +40,13 @@ const ProfileShow = () => {
           <EditButton
             to={`/profile/${id}/edit`}
             data-testid="profile-edit-button"
-            {...(COMMON_OUTLINED_BUTTON_PROPS as any)}
+            {...COMMON_OUTLINED_BUTTON_PROPS}
           />
           {isAdmin() && (
             <Button
               startIcon={<CloudDownload />}
               onClick={() => setOpenDialog(true)}
-              {...(COMMON_OUTLINED_BUTTON_PROPS as any)}
+              {...COMMON_OUTLINED_BUTTON_PROPS}
             >
               Générer reçu
             </Button>
@@ -63,7 +64,7 @@ const ProfileShow = () => {
 
   return (
     <Show
-      id={id}
+      id={id ?? undefined}
       resource="profile"
       basePath="/profile"
       title="Mon profil"
@@ -77,7 +78,7 @@ const ProfileShow = () => {
       }}
     >
       <ProfileLayout
-        role={role as any}
+        role={role as WhoamiRoleEnum}
         isStudentProfile={isStudent()}
         isTeacherProfile={isTeacher()}
         isAdminProfile={isAdmin()}

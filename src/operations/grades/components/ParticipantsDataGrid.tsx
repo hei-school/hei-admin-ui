@@ -40,7 +40,7 @@ export const ParticipantsDataGrid = ({
       <FunctionField
         label="Note"
         render={(record: ExamGradeRecord) =>
-          record?.grade?.score != null ? record.grade.score : "Non définie"
+          record?.grade?.score ?? "Non définie"
         }
       />
       <DateField source="grade.update_date" label="Mis à jour le" />

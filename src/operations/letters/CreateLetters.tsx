@@ -5,11 +5,12 @@ import {useNotify} from "@/hooks";
 import {CreateLettersDialogProps} from "@/operations/letters/types";
 import {Dialog} from "@/ui/components";
 import {Backdrop, Box, CircularProgress, Typography} from "@mui/material";
-import {FC, useMemo, useRef, useState} from "react";
+import {useMemo, useRef, useState} from "react";
 import {
   Confirm,
   FileField,
   FileInput,
+  RaRecord,
   SaveButton,
   SimpleForm,
   TextInput,
@@ -43,16 +44,21 @@ export const FILE_FIELD_STYLE = {
   },
 };
 
-const CustomToolbar: React.FC<{handleSave: () => void; isloading: boolean}> = ({
+interface CustomToolbarProps {
+  handleSave: () => void;
+  isloading: boolean;
+}
+
+const CustomToolbar = ({
   handleSave,
   isloading,
-}) => (
+}: Readonly<CustomToolbarProps>) => (
   <Toolbar>
     <SaveButton label="Enregistrer" disabled={isloading} onClick={handleSave} />
   </Toolbar>
 );
 
-export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
+export const CreateLettersDialog = ({
   isOpen,
   onClose,
   userId,
@@ -60,11 +66,11 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   feeAmount,
   title,
   eventParticipantId,
-}) => {
+}: Readonly<CreateLettersDialogProps>) => {
   const notify = useNotify();
   const [confirmOpen, setConfirmOpen] = useState(false);
-  const letterRef = useRef<any>(null);
-  const [create, {isLoading}] = useCreate();
+  const letterRef = useRef<Partial<RaRecord> | null>(null);
+  const [create, {isLoading}] = useCreate<RaRecord>();
   const [fileInfo, setFileInfo] = useState<{name: string; size: number} | null>(
     null
   );
@@ -73,7 +79,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
   const handleConfirm = () => {
     setConfirmOpen(false);
     if (letterRef.current) {
-      create(
+      void create(
         "users-letters",
         {
           data: letterRef.current,
@@ -160,7 +166,7 @@ export const CreateLettersDialog: FC<CreateLettersDialogProps> = ({
           sx={FILE_FIELD_STYLE}
           maxSize={5_000_000}
           options={{
-            onDropRejected() {
+            onDropRejected: () => {
               setIsFileTooLarge(true);
             },
           }}

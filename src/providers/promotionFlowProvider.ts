@@ -1,8 +1,21 @@
-import {UpdatePromotionSGroup} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  Promotion,
+  UpdatePromotionSGroup,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
 import {promotionApi} from "./api";
 
-const promotionFlowsProvider: HaDataProviderType = {
+type PromotionFlowParams = {
+  promotionId: string;
+};
+
+const promotionFlowsProvider: HaDataProviderType<
+  Promotion,
+  HaFilter,
+  HaMeta,
+  UpdatePromotionSGroup[],
+  PromotionFlowParams
+> = {
   getList: () => {
     throw new Error("Not implemented");
   },
@@ -11,7 +24,7 @@ const promotionFlowsProvider: HaDataProviderType = {
   },
   saveOrUpdate: async (
     payload: UpdatePromotionSGroup[],
-    meta: {promotionId: string}
+    meta: PromotionFlowParams
   ) => {
     if (payload.length <= 0) {
       throw new Error("Cannot update empty list of promotions");

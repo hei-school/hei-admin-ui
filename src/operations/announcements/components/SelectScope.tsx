@@ -1,4 +1,4 @@
-import {Dispatch, FC, SetStateAction} from "react";
+import {Dispatch, SetStateAction} from "react";
 
 import {useRole} from "@/security/hooks";
 import {mapToChoices} from "@/utils";
@@ -11,7 +11,7 @@ interface SelectScopeProps {
   setScope: Dispatch<SetStateAction<string>>;
 }
 
-export const SelectScope: FC<SelectScopeProps> = ({setScope}) => {
+export const SelectScope = ({setScope}: Readonly<SelectScopeProps>) => {
   const {isTeacher} = useRole();
   return (
     <SelectInput

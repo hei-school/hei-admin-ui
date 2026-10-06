@@ -1,7 +1,21 @@
-import {HaDataProviderType} from "./HaDataProviderType";
+import {Mpbs} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
 import {payingApi} from "./api";
 
-const mpbsVerifyProvider: HaDataProviderType = {
+interface MpbsVerifyPayload {
+  id: string;
+  mpbsFile: {rawFile?: File};
+}
+
+// la réponse (un tableau de Mpbs) est étalée dans un objet avec l'id du payload
+type VerifiedMpbs = {[index: number]: Mpbs; id: string};
+
+const mpbsVerifyProvider: HaDataProviderType<
+  VerifiedMpbs,
+  HaFilter,
+  HaMeta,
+  MpbsVerifyPayload[]
+> = {
   getList: () => {
     throw new Error("Not implemented");
   },

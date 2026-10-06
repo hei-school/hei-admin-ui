@@ -10,10 +10,17 @@ import {
 import {ChangeEvent, KeyboardEvent, useRef, useState} from "react";
 import {FieldTitle, useInput, Validator} from "react-admin";
 
-const VALID_PHONE_PREFIXES = ["032", "033", "034", "035", "037", "038"];
+const VALID_PHONE_PREFIXES = new Set([
+  "032",
+  "033",
+  "034",
+  "035",
+  "037",
+  "038",
+]);
 
 const isValidPhoneNumber = (value: string) =>
-  /^\d{10}$/.test(value) && VALID_PHONE_PREFIXES.includes(value.slice(0, 3));
+  /^\d{10}$/.test(value) && VALID_PHONE_PREFIXES.has(value.slice(0, 3));
 
 const PHONE_NUMBER_HINT =
   "10 chiffres commençant par 032, 033, 034, 035, 037 ou 038";

@@ -18,7 +18,7 @@ import {
   alpha,
   useMediaQuery,
 } from "@mui/material";
-import React, {FC, useState} from "react";
+import React, {useState} from "react";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
 import {PALETTE_COLORS} from "@/haTheme";
@@ -54,12 +54,12 @@ const STATUS_COLORS = {
   },
 } as const;
 
-export const LetterItem: FC<LetterItemProps> = ({
+export const LetterItem = ({
   letter,
   onSelect,
   selected = false,
   showCheckbox = false,
-}) => {
+}: Readonly<LetterItemProps>) => {
   const [isOpen, , onClose] = useToggle();
   const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(
     null
@@ -201,9 +201,7 @@ export const LetterItem: FC<LetterItemProps> = ({
                     icon={<RadioButtonUnchecked />}
                     checkedIcon={<CheckCircle sx={{color: "#4caf50"}} />}
                     checked={selected}
-                    onChange={(e) =>
-                      onSelect && onSelect(letter.id!, e.target.checked)
-                    }
+                    onChange={(e) => onSelect?.(letter.id!, e.target.checked)}
                     sx={{
                       "position": "absolute",
                       "top": "-8px",
@@ -458,11 +456,11 @@ export const LetterItem: FC<LetterItemProps> = ({
   );
 };
 
-const TimelineItem: FC<BottomFieldProps & {color: string}> = ({
+const TimelineItem = ({
   text,
   icon,
   color,
-}) => {
+}: Readonly<BottomFieldProps & {color: string}>) => {
   return (
     <Box
       sx={{
@@ -509,12 +507,12 @@ const TimelineItem: FC<BottomFieldProps & {color: string}> = ({
   );
 };
 
-const LetterItemActions: FC<PopoverProps> = ({
+const LetterItemActions = ({
   anchorEl,
   open,
   onClose,
   letterId,
-}) => {
+}: Readonly<PopoverProps>) => {
   const id = open ? `letter-actions-${letterId}` : undefined;
 
   return (
@@ -532,16 +530,18 @@ const LetterItemActions: FC<PopoverProps> = ({
           vertical: "top",
           horizontal: "right",
         }}
-        PaperProps={{
-          sx: {
-            "borderRadius": "16px",
-            "boxShadow":
-              "0 15px 40px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.08)",
-            "overflow": "hidden",
-            "animation": "popoverFadeIn 0.3s ease",
-            "@keyframes popoverFadeIn": {
-              from: {opacity: 0, transform: "translateY(-10px)"},
-              to: {opacity: 1, transform: "translateY(0)"},
+        slotProps={{
+          paper: {
+            sx: {
+              "borderRadius": "16px",
+              "boxShadow":
+                "0 15px 40px rgba(0, 0, 0, 0.15), 0 5px 15px rgba(0, 0, 0, 0.08)",
+              "overflow": "hidden",
+              "animation": "popoverFadeIn 0.3s ease",
+              "@keyframes popoverFadeIn": {
+                from: {opacity: 0, transform: "translateY(-10px)"},
+                to: {opacity: 1, transform: "translateY(0)"},
+              },
             },
           },
         }}

@@ -8,15 +8,15 @@ import {List, useListContext} from "react-admin";
 import {EventCard, EventListAction} from "./components";
 import {EventCalendar} from "./EventCalendar";
 
-export function EventList() {
-  const [tabValue, setTab] = useState<string>("calendar");
+export const EventList = () => {
+  const [tabValue, setTabValue] = useState<string>("calendar");
   const {isMonitor} = useRole();
 
   return (
     <>
       <Tabs
         value={tabValue}
-        onChange={(_, value) => setTab(value)}
+        onChange={(_, value) => setTabValue(value)}
         sx={{bgcolor: "white"}}
       >
         <Tab value="calendar" label="Calendrier" />
@@ -45,9 +45,9 @@ export function EventList() {
       {tabValue === "calendar" && <EventCalendar />}
     </>
   );
-}
+};
 
-function EventListContent() {
+const EventListContent = () => {
   const {data: events = [], isLoading} = useListContext<Required<Event>>();
   return isLoading ? (
     <CircularProgress size={30} sx={{m: 5}} />
@@ -69,4 +69,4 @@ function EventListContent() {
       ))}
     </Box>
   );
-}
+};

@@ -2,9 +2,16 @@ import {useNotify} from "@/hooks";
 import {filesApi} from "@/providers/api";
 import {Download} from "@mui/icons-material";
 import {Button} from "@mui/material";
-import {FC, useRef} from "react";
+import {useRef} from "react";
 import {useRecordContext} from "react-admin";
 import {isOver18} from "../utils/isOver18";
+
+declare module "@mui/material/Button" {
+  interface ButtonPropsVariantOverrides {
+    // Unstyled variant used by DocMenu: no MUI variant style is applied.
+    " ": true;
+  }
+}
 
 const FILE_NAME = "Certificat_Scolarité.pdf";
 const requiredFields = {
@@ -15,10 +22,13 @@ const requiredFields = {
   groups: "groupe",
 };
 
-export const GetCertificate: FC<{
+export const GetCertificate = ({
+  studentId,
+  variant = "outlined",
+}: Readonly<{
   studentId: string;
-  variant?: "text" | "outlined" | "contained";
-}> = ({studentId, variant = "outlined"}) => {
+  variant?: "text" | "outlined" | "contained" | " ";
+}>) => {
   const notify = useNotify();
   const record = useRecordContext();
   const linkRef = useRef<HTMLAnchorElement | null>(null);
@@ -80,7 +90,7 @@ export const GetCertificate: FC<{
       linkRef.current.click();
 
       notify("Certificat téléchargé avec succès !", {type: "success"});
-    } catch (error) {
+    } catch {
       notify("Échec du téléchargement du certificat de scolarité", {
         type: "error",
       });
@@ -88,24 +98,20 @@ export const GetCertificate: FC<{
   };
 
   return (
-    <>
-      <Button
-        variant={variant}
-        startIcon={<Download sx={{fontSize: "1.5rem !important"}} />}
-        onClick={handleClick}
-        sx={{
-          width: "100%",
-          justifyContent: "flex-start",
-          textTransform: "none",
-          fontWeight: 500,
-        }}
-        color="inherit"
-        data-testid="get-certificate-btn"
-      >
-        Certificat
-      </Button>
-
-      <a ref={linkRef} data-testid="file-link" style={{display: "none"}} />
-    </>
+    <Button
+      variant={variant}
+      startIcon={<Download sx={{fontSize: "1.5rem !important"}} />}
+      onClick={handleClick}
+      sx={{
+        width: "100%",
+        justifyContent: "flex-start",
+        textTransform: "none",
+        fontWeight: 500,
+      }}
+      color="inherit"
+      data-testid="get-certificate-btn"
+    >
+      Certificat
+    </Button>
   );
 };

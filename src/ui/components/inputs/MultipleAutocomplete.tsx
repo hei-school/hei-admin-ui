@@ -1,6 +1,9 @@
+import {FieldValues} from "react-hook-form";
 import {Autocomplete, AutocompleteProps} from "./Autocomplete";
 
-export function MultipleAutocomplete(props: AutocompleteProps) {
+export const MultipleAutocomplete = <TForm extends FieldValues>(
+  props: AutocompleteProps<TForm>
+) => {
   return (
     <Autocomplete
       multiple
@@ -12,4 +15,4 @@ export function MultipleAutocomplete(props: AutocompleteProps) {
       {...props}
     />
   );
-}
+};

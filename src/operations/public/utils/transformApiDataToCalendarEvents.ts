@@ -33,8 +33,17 @@ export const transformApiDataToCalendarEvents = (data: Event[]) => {
     });
 };
 
+export type CalendarEvent = ReturnType<
+  typeof transformApiDataToCalendarEvents
+>[number];
+
+declare global {
+  interface Window {
+    transformApiDataToCalendarEvents?: typeof transformApiDataToCalendarEvents;
+  }
+}
+
 // Optional: Export to window if needed (e.g., for debugging)
 if (typeof window !== "undefined") {
-  (window as any).transformApiDataToCalendarEvents =
-    transformApiDataToCalendarEvents;
+  window.transformApiDataToCalendarEvents = transformApiDataToCalendarEvents;
 }

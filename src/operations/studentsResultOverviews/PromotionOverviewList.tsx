@@ -1,6 +1,6 @@
 import {HaList} from "@/ui/haList";
 import {GraduationCap} from "lucide-react";
-import {TextField} from "react-admin";
+import {Identifier, TextField} from "react-admin";
 import {useNavigate} from "react-router-dom";
 import {DateField} from "../common/components/fields";
 
@@ -14,7 +14,7 @@ export const PromotionOverviewList = () => {
       resource="promotions"
       icon={<GraduationCap />}
       datagridProps={{
-        rowClick: (promotionId: string) => {
+        rowClick: (promotionId: Identifier) => {
           navigate(`/promotions/${promotionId}/show/students-result-overviews`);
           return false;
         },

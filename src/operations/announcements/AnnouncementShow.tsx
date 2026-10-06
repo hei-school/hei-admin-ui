@@ -13,7 +13,6 @@ import {
   Typography,
 } from "@mui/material";
 import {MarkdownField} from "@react-admin/ra-markdown";
-import {FC} from "react";
 import {
   Show,
   SimpleShowLayout,
@@ -31,7 +30,7 @@ interface AuthorProps {
   author: AnnouncementAuthor;
 }
 
-const AnnouncementAuthorShow: FC<AuthorProps> = ({author}) => {
+const AnnouncementAuthorShow = ({author}: Readonly<AuthorProps>) => {
   if (!author) return;
 
   return (
@@ -53,13 +52,11 @@ const AnnouncementAuthorShow: FC<AuthorProps> = ({author}) => {
         >
           {author.first_name} {author.last_name}
         </Typography>
-        <EmailField
-          value={
-            <Typography variant="caption" marginLeft={1}>
-              {author.email}
-            </Typography>
-          }
-        />
+        <EmailField email={author.email ?? ""}>
+          <Typography variant="caption" marginLeft={1}>
+            {author.email}
+          </Typography>
+        </EmailField>
       </Box>
     </Box>
   );
@@ -76,12 +73,10 @@ export const AnnouncementShow = () => {
   if (!announcement && !isFetching) redirect("/announcements");
 
   const notify = useNotify();
-  const handleCheckboxChange = async (
-    event: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const checked = event.target.checked;
     const payload = {reaction: checked ? "CHECK" : "UNCHECK"};
-    update(
+    void update(
       "announcements",
       {
         id,

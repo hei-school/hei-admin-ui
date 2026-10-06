@@ -1,8 +1,24 @@
+import {Comment} from "@haapi-b0fc7615/typescript-client";
 import {commentApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 
-const commentProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: {studentId?: string}) {
+interface CommentFilter {
+  studentId?: string;
+}
+
+interface CommentPayload {
+  student_id: string;
+  observer_id: string;
+  content: string;
+}
+
+const commentProvider: HaDataProviderType<
+  Comment,
+  CommentFilter,
+  HaMeta,
+  CommentPayload[]
+> = {
+  async getList(page: number, perPage: number, filter: CommentFilter) {
     const {studentId} = filter;
     if (studentId) {
       return commentApi()
@@ -17,9 +33,7 @@ const commentProvider: HaDataProviderType = {
   async getOne() {
     throw new Error("Not implemented");
   },
-  async saveOrUpdate(
-    payload: {student_id: string; observer_id: string; content: string}[]
-  ) {
+  async saveOrUpdate(payload: CommentPayload[]) {
     const {student_id, observer_id} = payload[0];
     return commentApi()
       .postComment(student_id, observer_id, payload[0])

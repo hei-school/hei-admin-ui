@@ -1,8 +1,7 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {Typography, useMediaQuery} from "@mui/material";
-import {FC} from "react";
 
-export const Title: FC<{label: string}> = ({label}) => {
+export const Title = ({label}: Readonly<{label: string}>) => {
   const isLarge = useMediaQuery("(min-width:1700px)");
   return (
     <Typography

@@ -24,29 +24,22 @@ export const FileDownloaderWrapper = ({
   const {monthFrom, monthTo, status, type} = watch();
 
   const downloadFile = async () => {
-    try {
-      const {
-        data: {file},
-      } = await dataProvider.getOne("fees-export", {
-        id: NOOP_ID,
-        meta: {
-          status,
-          type,
-          fromDueDatetime: monthFrom
-            ? toUTC(new Date(monthFrom)).toISOString()
-            : null,
-          toDueDatetime: monthTo
-            ? toUTC(new Date(monthTo)).toISOString()
-            : null,
-        },
-      });
-      onClose();
-      return {data: file};
-    } catch (error) {
-      throw new Error(
-        "Une erreur est survenue lors de l'exportation du fichier."
-      );
-    }
+    // Errors are not caught here: FileDownloader notifies the user on failure.
+    const {
+      data: {file},
+    } = await dataProvider.getOne("fees-export", {
+      id: NOOP_ID,
+      meta: {
+        status,
+        type,
+        fromDueDatetime: monthFrom
+          ? toUTC(new Date(monthFrom)).toISOString()
+          : null,
+        toDueDatetime: monthTo ? toUTC(new Date(monthTo)).toISOString() : null,
+      },
+    });
+    onClose();
+    return {data: file};
   };
 
   return (

@@ -10,7 +10,7 @@ import {DateField} from "../common/components/fields";
 import {renderMoney} from "../common/utils/money";
 import {commentFunctionRenderer} from "../utils";
 import {FeesListHeader} from "./components";
-import {MpbsStatusIcon, PSP_COLORS, PSP_VALUES, rowStyle} from "./utils";
+import {MpbsStatusIcon, PSP_COLORS, PSP_VALUES, getFeeRowStyle} from "./utils";
 
 const FEES_LIST_DEFAULT_FILTER = {
   isMpbs: true,
@@ -31,7 +31,7 @@ const TransactionFeeList = () => {
         }}
         actions={undefined}
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
-        datagridProps={rowStyle}
+        datagridProps={{rowStyle: getFeeRowStyle}}
         filterIndicator={true}
       >
         <TextField source="student_ref" label="Référence de l'étudiant" />
@@ -48,7 +48,7 @@ const TransactionFeeList = () => {
         <FunctionField
           render={(fee: Fee) => {
             const last = fee.mpbs?.at(-1);
-            if (!last || last.psp_type == null) return EMPTY_TEXT;
+            if (last?.psp_type == null) return EMPTY_TEXT;
             const pspType = last.psp_type;
             return (
               <Chip color={PSP_COLORS[pspType]} label={PSP_VALUES[pspType]} />

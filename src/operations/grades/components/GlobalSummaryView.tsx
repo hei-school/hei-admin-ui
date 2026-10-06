@@ -20,14 +20,15 @@ import {
   Paper,
   Typography,
 } from "@mui/material";
-import {FC} from "react";
 import {useGetOne} from "react-admin";
 import {getCourseStatusLabel} from "../utils";
 import {getGradeColor} from "../utils/getGradeColor";
 import {StatusChips} from "../utils/StatusChip";
 import {ResultSummaryTimeline} from "./ResultTimeline";
 
-export const GlobalSummaryView: FC<{studentId: string}> = ({studentId}) => {
+export const GlobalSummaryView = ({
+  studentId,
+}: Readonly<{studentId: string}>) => {
   const {data: summary_result, isLoading} = useGetOne<
     ToRaRecord<ResultSummary>
   >("summary", {

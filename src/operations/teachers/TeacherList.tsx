@@ -1,4 +1,5 @@
 import dataProvider from "@/providers/dataProvider";
+import {NOOP_ID} from "@/utils/constants";
 import {Download, WorkOutlined} from "@mui/icons-material";
 import {Avatar} from "@mui/material";
 import {EditButton, FunctionField, TextField} from "react-admin";
@@ -18,13 +19,13 @@ const downloadFile = async () => {
   const {
     data: {file},
   } = await dataProvider.getOne("export-teachers", {
-    id: null,
+    id: NOOP_ID,
   });
 
   return {data: file};
 };
 
-function TeacherList() {
+const TeacherList = () => {
   return (
     <HaList
       icon={<WorkOutlined />}
@@ -74,6 +75,6 @@ function TeacherList() {
       <EditButton />
     </HaList>
   );
-}
+};
 
 export default TeacherList;

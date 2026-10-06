@@ -1,6 +1,7 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {Box, Typography, useMediaQuery} from "@mui/material";
-import {FC, ReactNode} from "react";
+import {Box, Theme, Typography, useMediaQuery} from "@mui/material";
+import {SystemStyleObject} from "@mui/system";
+import {HTMLAttributeAnchorTarget, ReactNode} from "react";
 import {Link, useSidebarState} from "react-admin";
 import {useLocation} from "react-router-dom";
 
@@ -11,24 +12,37 @@ const style = {
   "gap": 2,
   ":hover": {color: PALETTE_COLORS.yellow},
 };
-export const SingleMenuBase: FC<{
+
+const isActivePath = (pathname: string, to: string, exact?: boolean) =>
+  exact ? pathname === to : pathname.startsWith(to);
+
+interface SingleMenuBaseProps {
   label: string;
   icon: ReactNode;
   to?: string;
   menu?: boolean;
   exact?: boolean;
-  sx?: any;
+  sx?: SystemStyleObject<Theme>;
   onClick?: () => void;
-}> = ({label, icon, to, exact, menu = true, sx = {}, onClick, ...rest}) => {
+}
+
+export const SingleMenuBase = ({
+  label,
+  icon,
+  to,
+  exact,
+  menu = true,
+  sx = {},
+  onClick,
+  ...rest
+}: Readonly<SingleMenuBaseProps>) => {
   const location = useLocation();
   const isSmall = useMediaQuery("(max-width:900px)");
   const isLarge = useMediaQuery("(min-width:1700px)");
   const [open, setOpen] = useSidebarState();
 
-  const color =
-    to && (exact ? location.pathname === to : location.pathname.startsWith(to))
-      ? PALETTE_COLORS.yellow
-      : "inherit";
+  const isActive = !!to && isActivePath(location.pathname, to, exact);
+  const color = isActive ? PALETTE_COLORS.yellow : "inherit";
 
   const handlerClick = () => {
     onClick?.();
@@ -65,15 +79,26 @@ export const SingleMenuBase: FC<{
   );
 };
 
-export const SingleMenu: FC<{
+interface SingleMenuProps {
   label: string;
   icon: ReactNode;
   to?: string;
   menu?: boolean;
   exact?: boolean;
-  target?: React.HTMLAttributeAnchorTarget;
+  target?: HTMLAttributeAnchorTarget;
   onClick?: () => void;
-}> = ({label, icon, to, menu, exact, target, onClick, ...rest}) =>
+}
+
+export const SingleMenu = ({
+  label,
+  icon,
+  to,
+  menu,
+  exact,
+  target,
+  onClick,
+  ...rest
+}: Readonly<SingleMenuProps>) =>
   to ? (
     <Link to={to} target={target} sx={{color: "inherit"}}>
       <SingleMenuBase {...{label, icon, to, exact, menu, onClick, ...rest}} />

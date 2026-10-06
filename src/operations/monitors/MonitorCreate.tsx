@@ -2,6 +2,7 @@ import {Create, CreateGeoLocalisation} from "@/operations/common/components";
 import {SexRadioButton} from "@/operations/utils";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {toISO} from "@/utils/date";
+import {CrupdateMonitor} from "@haapi-b0fc7615/typescript-client";
 import {
   AutocompleteArrayInput,
   DateInput,
@@ -11,7 +12,17 @@ import {
   useGetList,
 } from "react-admin";
 
-const transformMonitor = (record: any) => {
+// the date input gives a string, the geolocalisation inputs give text
+interface MonitorFormValues
+  extends Omit<CrupdateMonitor, "entrance_datetime" | "coordinates"> {
+  entrance_datetime?: string;
+  coordinates?: {
+    longitude?: string | number | null;
+    latitude?: string | number | null;
+  };
+}
+
+const transformMonitor = (record: MonitorFormValues) => {
   const {
     entrance_datetime,
     coordinates,

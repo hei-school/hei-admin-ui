@@ -142,7 +142,7 @@ describe("Manager.Payment", () => {
     cy.get("#type_MOBILE_MONEY").click();
     cy.get("#amount").click().type(createPayment.amount!.toString());
     cy.contains("Enregistrer").click();
-    cy.contains("Le formulaire n'est pas valide.");
+    cy.contains("Le formulaire n'est pas valide.").should("be.visible");
   });
 
   it("can add bank payment to a fee", () => {

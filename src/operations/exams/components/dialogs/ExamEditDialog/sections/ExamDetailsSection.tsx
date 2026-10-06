@@ -1,7 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {DateTimeField} from "@/operations/common/components/fields";
 import {Box, Typography} from "@mui/material";
-import {FC} from "react";
 import {required, TextInput} from "react-admin";
 import {EXAM_FORM_LABELS} from "../../../../utils/constants";
 import {
@@ -9,7 +8,7 @@ import {
   validateExamTitle,
 } from "../../../../utils/validation";
 
-export const ExamDetailsSection: FC = () => {
+export const ExamDetailsSection = () => {
   return (
     <Box sx={{mb: 3}}>
       <Typography

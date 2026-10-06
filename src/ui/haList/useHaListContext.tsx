@@ -1,8 +1,6 @@
 import {useContext} from "react";
 import {HaListContext} from "./HaListTitle";
 
-function useHaListContext() {
-  return useContext(HaListContext);
-}
+const useHaListContext = () => useContext(HaListContext);
 
 export default useHaListContext;

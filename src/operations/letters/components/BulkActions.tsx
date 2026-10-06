@@ -1,7 +1,7 @@
 import {useNotify} from "@/hooks";
 import {CheckCircle, Unpublished} from "@mui/icons-material";
 import {Box, Button, TextField} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {Confirm, useRefresh, useUpdate} from "react-admin";
 
 interface BulkActionsProps {
@@ -9,10 +9,10 @@ interface BulkActionsProps {
   onClearSelection: () => void;
 }
 
-export const BulkActions: FC<BulkActionsProps> = ({
+export const BulkActions = ({
   selectedIds,
   onClearSelection,
-}) => {
+}: Readonly<BulkActionsProps>) => {
   const [acceptOpen, setAcceptOpen] = useState(false);
   const [refuseOpen, setRefuseOpen] = useState(false);
   const [reason, setReason] = useState("");
@@ -32,7 +32,7 @@ export const BulkActions: FC<BulkActionsProps> = ({
       reason_for_refusal: null,
     }));
 
-    update(
+    void update(
       "users-letters",
       {
         id: selectedIds[0],
@@ -71,7 +71,7 @@ export const BulkActions: FC<BulkActionsProps> = ({
       reason_for_refusal: reason,
     }));
 
-    update(
+    void update(
       "users-letters",
       {
         id: selectedIds[0],

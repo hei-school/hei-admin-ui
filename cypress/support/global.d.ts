@@ -1,21 +1,21 @@
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
-import {UserConnected} from "../fixtures/authentification-mocks";
+import {UserConnected} from "../fixtures/api_mocks/authentification-mocks";
 
 export type LoginConfig = Partial<UserConnected> & {
   role: WhoamiRoleEnum;
   success?: boolean;
 };
 
-export declare global {
+declare global {
   namespace Cypress {
-    interface Chainable {
+    interface Chainable<Subject> {
       login(options: LoginConfig): Chainable;
       mockLogin(options: LoginConfig): Chainable;
-      getByTestid<Subject>(testid: string): Chainable<Subject>;
+      getByTestid<E = JQuery<HTMLElement>>(testid: string): Chainable<E>;
       routePathnameEq(to: string): Chainable;
       attachFileToDropZone(
         filePath: string,
-        options?: Partial<AttachFileOptions>
+        options?: Partial<FileProcessingOptions>
       ): Chainable<Subject>;
       inteceptMockByOne<T extends {id: string}>(
         resource: string,
@@ -23,7 +23,7 @@ export declare global {
       ): void;
       assertRequestBody<T>(
         requestAlias: string,
-        expectedBody: (body: any) => T
+        expectedBody: (body: unknown) => T
       ): void;
     }
   }

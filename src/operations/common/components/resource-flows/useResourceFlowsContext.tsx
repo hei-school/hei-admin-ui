@@ -5,10 +5,10 @@ import {
   ResourceIdentifier,
 } from "./ResourceFlowsContext";
 
-export function useResourceFlowsContext<
+export const useResourceFlowsContext = <
   Child extends ResourceIdentifier,
   Parent extends ResourceIdentifier,
->() {
+>() => {
   const value = useContext(RESOURCE_FLOWS_CONTEXT);
   return value as ResourceFlowsContextType<Child, Parent>;
-}
+};

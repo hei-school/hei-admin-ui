@@ -2,7 +2,6 @@ import EmptyImg from "@/assets/Empty_img_3D.png";
 import {PALETTE_COLORS} from "@/haTheme";
 import {Box, Typography, useTheme} from "@mui/material";
 import {keyframes} from "@mui/system";
-import {FC} from "react";
 
 const float = keyframes`
   0% { transform: translateY(0px); }
@@ -10,9 +9,9 @@ const float = keyframes`
   100% { transform: translateY(0px); }
 `;
 
-export const EmptyList3D: FC<{message?: string}> = ({
+export const EmptyList3D = ({
   message = "Il n'y a pas de données à afficher",
-}) => {
+}: Readonly<{message?: string}>) => {
   const theme = useTheme();
 
   return (

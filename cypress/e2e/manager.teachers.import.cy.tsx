@@ -8,6 +8,11 @@ import {
 import {importFile} from "./utils";
 const _path = "cypress/fixtures/teachers_import";
 
+const importTeachersFile = (file: string, message: string) => {
+  importFile(file, message, _path);
+  cy.contains(message).should("be.visible");
+};
+
 describe("Manager create multiple teachers", () => {
   beforeEach(() => {
     cy.mockLogin({role: "MANAGER"});
@@ -34,35 +39,31 @@ describe("Manager create multiple teachers", () => {
   });
 
   it("cannot create teachers if the file is empty", () => {
-    importFile(
+    importTeachersFile(
       "0_teacher_template.xlsx",
-      "Il n'y a pas d'élément à insérer",
-      _path
+      "Il n'y a pas d'élément à insérer"
     );
   });
   // TODO fix this test
   it.skip("cannot create teachers if there is too much teachers to create", () => {
-    importFile(
+    importTeachersFile(
       "too_much_teachers_template.xlsx",
-      "Vous ne pouvez importer que 20 éléments à la fois.",
-      _path
+      "Vous ne pouvez importer que 20 éléments à la fois."
     );
   });
 
   it("cannot create teachers if the headers are not corrects", () => {
-    importFile(
+    importTeachersFile(
       "wrong_headers_teachers_template.xlsx",
-      "Veuillez re-vérifier les en-têtes de votre fichier",
-      _path
+      "Veuillez re-vérifier les en-têtes de votre fichier"
     );
   });
 
   it("can create multiple teachers with the correct file", () => {
     cy.intercept("PUT", "/teachers", [createdTeachers]).as("createteachers");
-    importFile(
+    importTeachersFile(
       "correct_teachers_template.xlsx",
-      "Importation effectuée avec succès",
-      _path
+      "Importation effectuée avec succès"
     );
   });
 
@@ -70,10 +71,9 @@ describe("Manager create multiple teachers", () => {
     cy.intercept("PUT", "/teachers", [liteCreatedTeachers]).as(
       "createteachers"
     );
-    importFile(
+    importTeachersFile(
       "correct_minimal_teachers_template.xlsx",
-      "Importation effectuée avec succès",
-      _path
+      "Importation effectuée avec succès"
     );
   });
 
@@ -84,10 +84,9 @@ describe("Manager create multiple teachers", () => {
         message: "error",
       },
     }).as("createTeacher");
-    importFile(
+    importTeachersFile(
       "correct_minimal_teachers_template.xlsx",
-      "L'importation n'a pas pu être effectuée",
-      _path
+      "L'importation n'a pas pu être effectuée"
     );
   });
 });

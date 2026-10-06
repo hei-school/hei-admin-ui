@@ -29,7 +29,9 @@ const LEVEL_OPTIONS: {value: LevelType; label: string}[] = [
   {value: "L3", label: "L3"},
 ];
 
-const FEE_TYPES_WITHOUT_LEVEL: readonly FeeType[] = ["ALTERNANT"];
+const FEE_TYPES_WITHOUT_LEVEL: ReadonlySet<FeeType> = new Set<FeeType>([
+  "ALTERNANT",
+]);
 
 type FilterChipsProps = {
   feeType: FeeType;
@@ -44,7 +46,7 @@ export const FilterChips = ({
   onFeeTypeChange,
   onLevelChange,
 }: FilterChipsProps) => {
-  const isLevelDisabled = FEE_TYPES_WITHOUT_LEVEL.includes(feeType);
+  const isLevelDisabled = FEE_TYPES_WITHOUT_LEVEL.has(feeType);
 
   return (
     <Box

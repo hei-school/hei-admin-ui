@@ -1,12 +1,28 @@
+import {
+  EnableStatus,
+  Sex,
+  WorkStudyStatus,
+} from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaFilter} from "./HaDataProviderType";
+import {ExportedFile} from "./types";
 
-const exportStudentProvider: HaDataProviderType = {
+interface StudentExportMeta {
+  status?: EnableStatus;
+  sex?: Sex;
+  workStudyStatus?: WorkStudyStatus;
+}
+
+const exportStudentProvider: HaDataProviderType<
+  ExportedFile,
+  HaFilter,
+  StudentExportMeta
+> = {
   getList: () => {
     throw new Error("Function not implemented.");
   },
 
-  getOne: async (id: string, meta) => {
+  getOne: async (id: string, meta: StudentExportMeta) => {
     const {status, sex, workStudyStatus} = meta;
     return usersApi()
       .generateStudentsInXlsx(

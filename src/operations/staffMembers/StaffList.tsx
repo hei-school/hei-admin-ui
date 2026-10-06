@@ -6,7 +6,6 @@ import {HaList} from "@/ui/haList";
 import {CreateButton, ImportButton} from "@/ui/haToolbar";
 import {NOOP_ID} from "@/utils/constants";
 import {AssignmentInd, Download} from "@mui/icons-material";
-import {FC} from "react";
 import {EditButton, TextField} from "react-admin";
 import {FileDownloader} from "../common/components";
 import {ProfileFilters} from "../profile/components/ProfileFilters";
@@ -17,7 +16,7 @@ import {
   validateUserData,
 } from "../utils/userImportConf";
 
-const StaffList: FC = () => {
+const StaffList = () => {
   const {isAdmin} = useRole();
   const downloadFile = async () => {
     const {

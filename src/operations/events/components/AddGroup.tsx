@@ -3,7 +3,6 @@ import {Edit} from "@/operations/common/components";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {Dialog} from "@/ui/components";
 import {AutocompleteArrayInput} from "@/ui/components/inputs";
-import {FC} from "react";
 import {
   required,
   SimpleForm,
@@ -30,14 +29,14 @@ const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
       id={eventId}
       redirect={false}
       data-testid="add-group-form"
-      transform={(data: any) => {
+      transform={(data: {groups?: string[]}) => {
         // FIXME: backend not handle null id (course_id)
         return {
           ...event,
           course_id: event.course?.id,
           planner_id: event.planner?.id,
           event_type: event.type,
-          groups: data.groups?.map((group: string) => ({id: group})),
+          groups: data.groups?.map((group) => ({id: group})),
         };
       }}
       mutationOptions={{
@@ -65,11 +64,17 @@ const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
   );
 };
 
-export const AddGroupDialog: FC<{
+type AddGroupDialogProps = {
   show: boolean;
   toggle: () => void;
   eventId: string;
-}> = ({show, toggle, eventId}) => {
+};
+
+export const AddGroupDialog = ({
+  show,
+  toggle,
+  eventId,
+}: Readonly<AddGroupDialogProps>) => {
   return (
     <Dialog title="Ajout de nouveau groupe" open={show} onClose={toggle}>
       <AddGroup toggle={toggle} eventId={eventId!} />

@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {useListFilterContext} from "react-admin";
 
 const STATUS_COLORS = {
@@ -36,9 +36,9 @@ const STATUS_COLORS = {
   },
 };
 
-export const HeaderLetterList: FC<{stats: LetterStats & {total?: number}}> = ({
+export const HeaderLetterList = ({
   stats,
-}) => {
+}: Readonly<{stats: LetterStats & {total?: number}}>) => {
   const isSmall = useMediaQuery("(max-width:600px)");
 
   return (
@@ -83,46 +83,19 @@ export const HeaderLetterList: FC<{stats: LetterStats & {total?: number}}> = ({
         }}
       >
         <LetterStatusField count={stats?.total!} value="Total" status="TOTAL" />
-        <Divider
-          orientation={isSmall ? "horizontal" : "vertical"}
-          flexItem
-          sx={{
-            display: isSmall ? "none" : "block",
-            height: isSmall ? "1px" : "24px",
-            margin: isSmall ? "0.3rem 0" : "0",
-            opacity: 0.3,
-          }}
-        />
+        <StatusDivider isSmall={isSmall} />
         <LetterStatusField
           count={stats?.received!}
           value="Accepté"
           status="RECEIVED"
         />
-        <Divider
-          orientation={isSmall ? "horizontal" : "vertical"}
-          flexItem
-          sx={{
-            display: isSmall ? "none" : "block",
-            height: isSmall ? "1px" : "24px",
-            margin: isSmall ? "0.3rem 0" : "0",
-            opacity: 0.3,
-          }}
-        />
+        <StatusDivider isSmall={isSmall} />
         <LetterStatusField
           count={stats?.pending!}
           value="En attente"
           status="PENDING"
         />
-        <Divider
-          orientation={isSmall ? "horizontal" : "vertical"}
-          flexItem
-          sx={{
-            display: isSmall ? "none" : "block",
-            height: isSmall ? "1px" : "24px",
-            margin: isSmall ? "0.3rem 0" : "0",
-            opacity: 0.3,
-          }}
-        />
+        <StatusDivider isSmall={isSmall} />
         <LetterStatusField
           count={stats?.rejected!}
           value="Invalide"
@@ -133,11 +106,24 @@ export const HeaderLetterList: FC<{stats: LetterStats & {total?: number}}> = ({
   );
 };
 
-const LetterStatusField: FC<{value: string; count: number; status: string}> = ({
+const StatusDivider = ({isSmall}: Readonly<{isSmall: boolean}>) => (
+  <Divider
+    orientation={isSmall ? "horizontal" : "vertical"}
+    flexItem
+    sx={{
+      display: isSmall ? "none" : "block",
+      height: isSmall ? "1px" : "24px",
+      margin: isSmall ? "0.3rem 0" : "0",
+      opacity: 0.3,
+    }}
+  />
+);
+
+const LetterStatusField = ({
   value,
   count,
   status,
-}) => {
+}: Readonly<{value: string; count: number; status: string}>) => {
   const [isHovered, setIsHovered] = useState(false);
   const statusColor = STATUS_COLORS[status as keyof typeof STATUS_COLORS];
   const isSmall = useMediaQuery("(max-width:600px)");
@@ -217,10 +203,13 @@ const LetterStatusField: FC<{value: string; count: number; status: string}> = ({
   );
 };
 
-export const LetterStatusFilter: FC<{
+export const LetterStatusFilter = ({
+  anchorEl,
+  handleClose,
+}: Readonly<{
   anchorEl: HTMLElement | null;
   handleClose: () => void;
-}> = ({anchorEl, handleClose}) => {
+}>) => {
   const {setFilters, filterValues, displayedFilters} = useListFilterContext();
   const handleStatusSelect = (status: LetterStatus) => {
     setFilters({...filterValues, status}, displayedFilters);
@@ -261,14 +250,16 @@ export const LetterStatusFilter: FC<{
   return (
     <Menu
       anchorEl={anchorEl}
-      open={Boolean(!!anchorEl)}
+      open={Boolean(anchorEl)}
       onClose={handleClose}
-      PaperProps={{
-        elevation: 3,
-        sx: {
-          borderRadius: "8px",
-          padding: "4px",
-          minWidth: "150px",
+      slotProps={{
+        paper: {
+          elevation: 3,
+          sx: {
+            borderRadius: "8px",
+            padding: "4px",
+            minWidth: "150px",
+          },
         },
       }}
     >

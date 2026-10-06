@@ -8,8 +8,8 @@ export const hexToRgba = (hex: string, alpha = 1) => {
           .map((ch) => ch + ch)
           .join("")
       : sanitized;
-  const r = parseInt(digits.slice(0, 2), 16);
-  const g = parseInt(digits.slice(2, 4), 16);
-  const b = parseInt(digits.slice(4, 6), 16);
+  const r = Number.parseInt(digits.slice(0, 2), 16);
+  const g = Number.parseInt(digits.slice(2, 4), 16);
+  const b = Number.parseInt(digits.slice(4, 6), 16);
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };

@@ -1,4 +1,4 @@
-import {useStudentRef} from "@/hooks/useStudentRef";
+import {useStudentRef} from "@/operations/fees/hooks/useStudentRef";
 import {CreditTransactionList} from "./CreditTransactionList";
 
 export const StudentCreditTransactions = () => {

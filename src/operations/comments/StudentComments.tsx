@@ -5,7 +5,6 @@ import {
 import {Box, Dialog, IconButton, styled, Typography} from "@mui/material";
 
 import {PALETTE_COLORS} from "@/haTheme";
-import {FC} from "react";
 import {CommentList} from "./CommentList";
 import {Separator} from "./utils";
 
@@ -27,12 +26,17 @@ const DIALOG_STYLES = {
   },
 };
 
-export const StudentComments: FC<{
+export const StudentComments = ({
+  title,
+  studentId,
+  open,
+  onClose,
+}: Readonly<{
   title?: string;
   studentId?: string;
   open: boolean;
   onClose: () => void;
-}> = ({title, studentId, open, onClose}) => {
+}>) => {
   return (
     <Dialog open={open} onClose={onClose} sx={DIALOG_STYLES}>
       <CommentWrapper>
@@ -61,7 +65,7 @@ export const StudentComments: FC<{
             <CloseIcon sx={{color: PALETTE_COLORS.primary}} />
           </IconButton>
         </Box>
-        <Separator style={""} />
+        <Separator />
         <CommentList studentId={studentId} close={onClose} />
       </CommentWrapper>
     </Dialog>

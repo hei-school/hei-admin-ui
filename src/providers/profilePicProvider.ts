@@ -1,13 +1,34 @@
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  Organizer,
+  StaffMember,
+  WhoamiRoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
 import {usersApi} from "./api";
 import {MULTIPART_HEADERS} from "./constants";
+import {User} from "./types";
 
 const PIC_OPTIONS = {
   headers: MULTIPART_HEADERS,
 };
 
-const profilePicProvider: HaDataProviderType = {
+interface ProfilePicturePayload {
+  id: string;
+  role?: WhoamiRoleEnum;
+  rawFile?: File;
+}
+
+type UserWithPicture = User | StaffMember | Organizer;
+
+// saveOrUpdate ne renvoie rien pour un rôle sans photo de profil
+const profilePicProvider: HaDataProviderType<
+  UserWithPicture,
+  HaFilter,
+  HaMeta,
+  ProfilePicturePayload[],
+  unknown,
+  UserWithPicture[] | undefined
+> = {
   getList: () => {
     throw new Error("Function not implemented.");
   },

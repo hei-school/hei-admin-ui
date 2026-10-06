@@ -26,6 +26,6 @@ describe("Teacher course", () => {
 
   it("can get courses assigned to teacher", () => {
     cy.wait("@getTeacherCourseAssignment");
-    cy.contains(courseMock1.name);
+    cy.contains(courseMock1.name).should("exist");
   });
 });

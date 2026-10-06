@@ -1,16 +1,24 @@
-import {SmsMessageStatus} from "@haapi-b0fc7615/typescript-client";
+import {SmsLog, SmsMessageStatus} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {smsApi} from "./api";
+
+interface SmsCampaignLogFilter {
+  campaignId: string;
+  status?: SmsMessageStatus;
+}
 
 const notImplemented = () => {
   throw new Error("Not implemented");
 };
 
-const smsCampaignLogsProvider: HaDataProviderType = {
+const smsCampaignLogsProvider: HaDataProviderType<
+  SmsLog,
+  SmsCampaignLogFilter
+> = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {campaignId: string; status?: SmsMessageStatus}
+    filter: SmsCampaignLogFilter
   ) => {
     const {data} = await smsApi().getSmsCampaignLogs(
       filter.campaignId,

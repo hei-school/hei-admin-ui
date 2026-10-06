@@ -33,13 +33,16 @@ export const SignDocumensoDocumentButton = () => {
   const [isOpening, setIsOpening] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [isEmbedReady, setEmbedReady] = useState(false);
-  const [hasTimedOut, setTimedOut] = useState(false);
+  const [hasTimedOut, setHasTimedOut] = useState(false);
 
   useEffect(() => {
     if (!isOpen || !token || isEmbedReady) {
       return;
     }
-    const timer = setTimeout(() => setTimedOut(true), EMBED_READY_TIMEOUT_MS);
+    const timer = setTimeout(
+      () => setHasTimedOut(true),
+      EMBED_READY_TIMEOUT_MS
+    );
     return () => clearTimeout(timer);
   }, [isOpen, token, isEmbedReady]);
 
@@ -75,7 +78,7 @@ export const SignDocumensoDocumentButton = () => {
   const closeSigning = () => {
     setToken(null);
     setEmbedReady(false);
-    setTimedOut(false);
+    setHasTimedOut(false);
     setOpen(false);
   };
 

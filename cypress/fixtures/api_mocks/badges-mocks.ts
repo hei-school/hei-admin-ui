@@ -48,7 +48,13 @@ export const scannedParticipantMock: EventParticipant = {
   ref: student1Mock.ref,
   student_id: student1Mock.id,
   event_status: "PRESENT",
+  student_status: "ENABLED",
   group_name: "G1",
+};
+
+export const suspendedScannedParticipantMock: EventParticipant = {
+  ...scannedParticipantMock,
+  student_status: "SUSPENDED",
 };
 
 const courseInProgress = (

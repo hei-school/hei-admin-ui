@@ -20,7 +20,11 @@ import {
 } from "./badgeApi";
 import {BadgeScanner} from "./components/BadgeScanner";
 import {ScanResultList} from "./components/ScanResults";
-import {explainAttendanceError, fullName, useScanResults} from "./scanResults";
+import {
+  explainAttendanceError,
+  presentResult,
+  useScanResults,
+} from "./scanResults";
 
 const formatTime = (datetime?: string | Date) =>
   datetime
@@ -78,11 +82,7 @@ export const TeacherBadgeAttendancePage = () => {
     if (!event?.id) return;
     try {
       const participant = await checkAttendanceByPublicId(event.id, publicId);
-      pushResult({
-        success: true,
-        label: fullName(participant),
-        detail: `${participant.ref ?? ""} · présent(e)`,
-      });
+      pushResult(presentResult(participant));
     } catch (error) {
       pushResult({
         success: false,

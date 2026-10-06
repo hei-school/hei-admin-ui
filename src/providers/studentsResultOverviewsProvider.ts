@@ -5,11 +5,23 @@ import {
 import {usersApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
-const studentsResultOverviewProvider: HaDataProviderType = {
+interface StudentsResultOverviewFilter {
+  status: ResultOverviewStatus;
+  promotionId: string;
+}
+
+type StudentResultOverviewRecord = StudentResultOverview & {
+  id: string | number;
+};
+
+const studentsResultOverviewProvider: HaDataProviderType<
+  StudentResultOverviewRecord,
+  StudentsResultOverviewFilter
+> = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {status: ResultOverviewStatus; promotionId: string}
+    filter: StudentsResultOverviewFilter
   ) => {
     const {promotionId, status} = filter;
     return usersApi()

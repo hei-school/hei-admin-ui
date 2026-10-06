@@ -1,8 +1,16 @@
-import {UpdateMonitorStudentLinkStatusRequest} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  MonitorStudentLink,
+  UpdateMonitorStudentLinkStatusRequest,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaFilter, HaMeta} from "./HaDataProviderType";
 import {monitoringApi} from "./api";
 
-const unlikedStudentProvider: HaDataProviderType = {
+const unlikedStudentProvider: HaDataProviderType<
+  MonitorStudentLink,
+  HaFilter,
+  HaMeta,
+  UpdateMonitorStudentLinkStatusRequest[]
+> = {
   getList: async (page: number, perPage: number) => {
     return monitoringApi()
       .getLinkStudentRequests(page, perPage)

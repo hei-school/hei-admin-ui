@@ -8,16 +8,15 @@ type StatusChipProps = {
   size?: "small" | "medium";
 };
 
-const STATUS_MAP: Record<
-  string,
-  {
-    label: string;
-    from: string;
-    to: string;
-    shadow: string;
-    accent: string;
-  }
-> = {
+interface StatusConfig {
+  label: string;
+  from: string;
+  to: string;
+  shadow: string;
+  accent: string;
+}
+
+const STATUS_MAP: Record<string, StatusConfig> = {
   [CorStatus.IN_PROGRESS]: {
     label: "En cours",
     from: "#667eea",
@@ -55,7 +54,7 @@ const STATUS_MAP: Record<
   },
 };
 
-const Chips = styled(Chip)<{statusconfig: any; chipsize: string}>(
+const Chips = styled(Chip)<{statusconfig: StatusConfig; chipsize: string}>(
   ({statusconfig, chipsize}) => ({
     "height": chipsize === "small" ? 32 : 36,
     "borderRadius": 20,
@@ -176,11 +175,11 @@ const Chips = styled(Chip)<{statusconfig: any; chipsize: string}>(
   })
 );
 
-export default function StatusChip({
+const StatusChip = ({
   status,
   labelOverride,
   size = "small",
-}: StatusChipProps) {
+}: Readonly<StatusChipProps>) => {
   const statusconfig = (status && STATUS_MAP[status]) || {
     label: labelOverride ?? status ?? "—",
     from: "#e5e7eb",
@@ -199,4 +198,6 @@ export default function StatusChip({
       chipsize={size}
     />
   );
-}
+};
+
+export default StatusChip;

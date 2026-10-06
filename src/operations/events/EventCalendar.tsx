@@ -2,7 +2,7 @@ import {useToggle} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {HaListTitle} from "@/ui/haList";
 import frLocale from "@fullcalendar/core/locales/fr";
-import {EventClickArg, EventInput} from "@fullcalendar/react";
+import {EventClickArg, EventContentArg, EventInput} from "@fullcalendar/react";
 import {Event} from "@haapi-b0fc7615/typescript-client";
 import {Box, Popover} from "@mui/material";
 import {CompleteCalendar} from "@react-admin/ra-calendar";
@@ -18,10 +18,67 @@ import {EventCreate} from "./EventCreate";
 import {EventEditDialog} from "./EventEditDialog";
 import {EventTitle} from "./utils";
 
+const OnlineEventBadge = () => (
+  <Box
+    title="Événement en ligne"
+    sx={{
+      backgroundColor: "white",
+      padding: "4px",
+      margin: "5px",
+      color: "black",
+      width: "fit-content",
+      borderRadius: "4px",
+    }}
+  >
+    <img
+      src="/icons8-google-meet-48.png"
+      alt=""
+      style={{
+        width: 20,
+        height: 20,
+        marginRight: 4,
+        marginBottom: -4,
+      }}
+    />
+    <span>Meet</span>
+  </Box>
+);
+
+const getOnlineEventStyle = (baseColor: string) => ({
+  background: `repeating-linear-gradient(
+                  45deg,
+                  ${baseColor},
+                  ${baseColor} 10px,
+                  ${hexToRgba(baseColor, 0.7)} 8px,
+                  ${hexToRgba(baseColor, 0.7)} 15px
+                )`,
+  height: "100%",
+  width: "100%",
+  borderRadius: "4px",
+});
+
+const EventContent = ({arg}: Readonly<{arg: EventContentArg}>) => {
+  const event = arg.event.extendedProps as Event;
+  const baseColor = event?.color ?? "#54544f";
+  const onlineStyle = event.is_online ? getOnlineEventStyle(baseColor) : {};
+
+  return (
+    <div className="fc-event-main-frame" style={onlineStyle}>
+      <div className="fc-event-time">
+        {event.is_online ? <OnlineEventBadge /> : null}
+        {arg.timeText}
+      </div>
+      <div className="fc-event-title">{arg.event.title}</div>
+    </div>
+  );
+};
+
+const renderEventContent = (arg: EventContentArg) => <EventContent arg={arg} />;
+
 export const EventCalendar = () => {
   const calendarRef = useRef(null);
   const [currentEvent, setCurrentEvent] = useState<Event>();
-  const [editShow, _, toggleEdit] = useToggle();
+  const [editShow, , toggleEdit] = useToggle();
   const {isManager, isAdmin, isOrganizer} = useRole();
   const [anchor, setAnchor] = useState<{
     top: number;
@@ -32,7 +89,7 @@ export const EventCalendar = () => {
     left: 0,
     open: false,
   });
-  const [filter, setFilter] = useState<{[key: string]: any}>();
+  const [filter, setFilter] = useState<{from?: string; to?: string}>();
   // const [exportOpen, setExportOpen] = useState(false);
 
   return (
@@ -97,58 +154,7 @@ export const EventCalendar = () => {
             initialView: "timeGridWeek",
             hiddenDays: [0],
             height: "auto",
-            eventContent: (arg) => {
-              const event = arg.event.extendedProps as Event;
-              const baseColor = event?.color ?? "#54544f";
-              const onlineIcon = event.is_online ? (
-                <Box
-                  title="Événement en ligne"
-                  sx={{
-                    backgroundColor: "white",
-                    padding: "4px",
-                    margin: "5px",
-                    color: "black",
-                    width: "fit-content",
-                    borderRadius: "4px",
-                  }}
-                >
-                  <img
-                    src="/icons8-google-meet-48.png"
-                    style={{
-                      width: 20,
-                      height: 20,
-                      marginRight: 4,
-                      marginBottom: -4,
-                    }}
-                  />
-                  <span>Meet</span>
-                </Box>
-              ) : null;
-
-              const onlineStyle = event.is_online
-                ? {
-                    background: `repeating-linear-gradient(
-                  45deg,
-                  ${baseColor},
-                  ${baseColor} 10px,
-                  ${hexToRgba(baseColor, 0.7)} 8px,
-                  ${hexToRgba(baseColor, 0.7)} 15px
-                )`,
-                    height: "100%",
-                    width: "100%",
-                    borderRadius: "4px",
-                  }
-                : {};
-              return (
-                <div className="fc-event-main-frame" style={onlineStyle}>
-                  <div className="fc-event-time">
-                    {onlineIcon}
-                    {arg.timeText}
-                  </div>
-                  <div className="fc-event-title">{arg.event.title}</div>
-                </div>
-              );
-            },
+            eventContent: renderEventContent,
             getFilterValueFromInterval: (dateInfo) => {
               setFilter((prevFilter) => {
                 const newFilter = {

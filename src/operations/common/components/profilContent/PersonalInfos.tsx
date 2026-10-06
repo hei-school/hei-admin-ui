@@ -16,7 +16,6 @@ import {
   CardTravel as WorkStatusIcon,
 } from "@mui/icons-material";
 import {Box, useMediaQuery} from "@mui/material";
-import {FC} from "react";
 import HaField from "../fields/HaField";
 import {HaDateField} from "../HaDateField";
 import {Title} from "../Title";
@@ -26,10 +25,15 @@ import {
   renderWorkStatus,
 } from "./utils";
 
-export const PersonalInfos: FC<{
+interface PersonalInfosProps {
   isStudentProfile: boolean;
   isStaffMember: boolean;
-}> = ({isStudentProfile, isStaffMember}) => {
+}
+
+export const PersonalInfos = ({
+  isStudentProfile,
+  isStaffMember,
+}: Readonly<PersonalInfosProps>) => {
   const isSmall = useMediaQuery("(max-width:900px)");
   const role = useRole();
   const isStaffMemberProfile = isStaffMember || role.isStaffMember();

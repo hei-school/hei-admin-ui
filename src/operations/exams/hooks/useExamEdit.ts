@@ -7,15 +7,23 @@ interface UseExamEditProps {
   onClose: () => void;
 }
 
+// the form may leave a field empty, the payload keeps what it received
 interface ExamUpdateData {
   id: string;
-  title: string;
-  examination_date: string;
+  title?: string;
+  examination_date?: string;
   coefficient: {
-    numerator: number;
-    denominator: number;
+    numerator?: number;
+    denominator?: number;
   };
-  course_assignment_id: string;
+  course_assignment_id?: string;
+}
+
+interface ExamFormValues {
+  title?: string;
+  examination_date?: string;
+  coefficient?: ExamUpdateData["coefficient"];
+  course_assignment_id?: string;
 }
 
 export const useExamEdit = ({exam, onClose}: UseExamEditProps) => {
@@ -24,7 +32,7 @@ export const useExamEdit = ({exam, onClose}: UseExamEditProps) => {
   const refresh = useRefresh();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (data: any) => {
+  const handleSubmit = async (data: ExamFormValues) => {
     setIsSubmitting(true);
     try {
       const updateData: ExamUpdateData = {

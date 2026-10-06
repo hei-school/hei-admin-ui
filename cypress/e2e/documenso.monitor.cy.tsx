@@ -103,7 +103,7 @@ describe("Monitor.Documenso", () => {
       .click();
 
     cy.wait("@failingSigningToken");
-    cy.contains("Impossible d'ouvrir la fiche à signer");
+    cy.contains("Impossible d'ouvrir la fiche à signer").should("be.visible");
   });
 
   it("only offers the sign button while the document is pending", () => {

@@ -1,5 +1,5 @@
 import {AxiosError} from "axios";
-import {createContext, useState} from "react";
+import {createContext, useCallback, useMemo, useState} from "react";
 import {
   GetListParams,
   GetOneParams,
@@ -50,12 +50,16 @@ export type ResourceFlowsContextType<
   ) => void;
 };
 
+// Child and Parent only type the arguments the context receives: a context
+// typed for whatever resources fits in ResourceFlowsContextType<never, never>
 export const RESOURCE_FLOWS_CONTEXT = createContext<ResourceFlowsContextType<
-  any,
-  any
+  never,
+  never
 > | null>(null);
 
-export function ResourceFlowsContext<
+const ResourceFlowsProvider = RESOURCE_FLOWS_CONTEXT.Provider;
+
+export const ResourceFlowsContext = <
   Child extends ResourceIdentifier,
   Parent extends ResourceIdentifier,
 >({
@@ -64,43 +68,47 @@ export function ResourceFlowsContext<
 }: Omit<
   ResourceFlowsContextType<Child, Parent>,
   "submit" | "setIsLoading" | "isLoading"
-> & {children: React.ReactNode}) {
+> & {children: React.ReactNode}) => {
   const [isLoading, setIsLoading] = useState(false);
   const {resource} = useListContext();
   const queryClient = useQueryClient();
 
-  const submit = async ({
-    onSuccess,
-    args,
-  }: {
-    onSuccess?: () => void;
-    args: ResourceFlowsArgsType<Child, Parent>;
-  }) => {
-    try {
-      setIsLoading(true);
-      await contextProps.provider(args);
-      contextProps.onSuccess(args);
-      queryClient.invalidateQueries(resource);
-      onSuccess && onSuccess();
-    } catch (error) {
-      contextProps.onError({...args, error: error as AxiosError<unknown>});
-    } finally {
-      setIsLoading(false);
-    }
-  };
+  const submit = useCallback(
+    async ({
+      onSuccess,
+      args,
+    }: {
+      onSuccess?: () => void;
+      args: ResourceFlowsArgsType<Child, Parent>;
+    }) => {
+      try {
+        setIsLoading(true);
+        await contextProps.provider(args);
+        contextProps.onSuccess(args);
+        void queryClient.invalidateQueries(resource);
+        onSuccess?.();
+      } catch (error) {
+        contextProps.onError({...args, error: error as AxiosError<unknown>});
+      } finally {
+        setIsLoading(false);
+      }
+    },
+    [contextProps, queryClient, resource]
+  );
+
+  const contextValue = useMemo(
+    (): ResourceFlowsContextType<Child, Parent> => ({
+      ...contextProps,
+      isLoading,
+      setIsLoading,
+      submit,
+    }),
+    [contextProps, isLoading, submit]
+  );
 
   return (
-    <RESOURCE_FLOWS_CONTEXT.Provider
-      value={
-        {
-          ...contextProps,
-          isLoading,
-          setIsLoading,
-          submit,
-        } as ResourceFlowsContextType<any, any>
-      }
-    >
+    <ResourceFlowsProvider value={contextValue}>
       {children}
-    </RESOURCE_FLOWS_CONTEXT.Provider>
+    </ResourceFlowsProvider>
   );
-}
+};

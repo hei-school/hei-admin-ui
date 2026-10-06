@@ -1,7 +1,6 @@
 import {Box, FormHelperText} from "@mui/material";
 import {DateTimePicker} from "@mui/x-date-pickers";
 import dayjs from "dayjs";
-import {FC} from "react";
 import {FieldTitle, useInput, ValidationError, Validator} from "react-admin";
 
 interface DatetimeFieldProps {
@@ -10,11 +9,11 @@ interface DatetimeFieldProps {
   validate?: Validator | Validator[];
 }
 
-export const DateTimeField: FC<DatetimeFieldProps> = ({
+export const DateTimeField = ({
   source,
   label,
   validate,
-}) => {
+}: Readonly<DatetimeFieldProps>) => {
   const {field, fieldState, isRequired} = useInput({
     source,
     validate,

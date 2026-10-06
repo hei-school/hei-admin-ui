@@ -132,7 +132,7 @@ export const useStudentCredit = (studentId: string | number) => {
     }
   }, [studentId, dataProvider]);
   useEffect(() => {
-    getStudentCredit();
+    void getStudentCredit();
   }, [getStudentCredit]);
   const credit: Credit | null = rawCredit && {
     ...rawCredit,

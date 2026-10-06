@@ -1,10 +1,10 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify, useToggle} from "@/hooks";
-import {useStudentRef} from "@/hooks/useStudentRef";
 import {Create} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
 import {PENDING_CREDIT_PAYMENT_TOOLTIP} from "@/operations/fees/constants";
+import {useStudentRef} from "@/operations/fees/hooks/useStudentRef";
 import {
   DEFAULT_REMEDIAL_COSTS_AMOUNT,
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,
@@ -50,7 +50,7 @@ import {
   RadioGroup,
   Typography,
 } from "@mui/material";
-import {AxiosError} from "axios";
+import {AxiosResponse} from "axios";
 import {useMemo, useState} from "react";
 import {
   FormDataConsumer,
@@ -79,6 +79,13 @@ interface MpbsCreateProps {
   canPayByCredit: boolean;
   validateCreditPayment: (amount: number | string) => string | undefined;
 }
+
+// the payment mutations reject with the axios error of the failed request
+const hasResponse = (error: unknown): error is {response: AxiosResponse} =>
+  typeof error === "object" &&
+  error !== null &&
+  "response" in error &&
+  Boolean(error.response);
 
 const isCatchUp = (fee: Fee): boolean => {
   return fee.type === FeeTypeEnum.RETAKE_EXAM_COSTS;
@@ -131,7 +138,7 @@ const CatchupFeesCreate = ({onSuccess}: CreateProps) => {
           onSuccess();
         },
       }}
-      transform={(data: {course_list: Course[]} = {course_list: []}) => {
+      transform={(data: {course_list: Course[]}) => {
         return data.course_list.map((course: Course) => ({
           type: FeeTypeEnum.RETAKE_EXAM_COSTS,
           comment: `Rattrapage ${course.code}`,
@@ -175,8 +182,8 @@ const MpbsCreate = ({
     PaymentTypeEnum.MOBILE_MONEY
   );
   const isCreditPayment = paymentType === PaymentTypeEnum.CREDIT;
-  const handleError = (error: AxiosError) => {
-    if (!error.response) return;
+  const handleError = (error: unknown) => {
+    if (!hasResponse(error)) return;
     const messages: Record<number, string> = {
       500: "Cette référence de transaction existe déjà",
       404: "Transaction non trouvée chez Orange",
@@ -280,6 +287,60 @@ const MpbsCreate = ({
         />
       </SimpleForm>
     </Create>
+  );
+};
+
+type FeePaymentActionProps = {
+  fee: Fee;
+  isPayable: boolean;
+  isCreditPending: boolean;
+  onPay: (fee: Fee) => void;
+};
+
+const FeePaymentAction = ({
+  fee,
+  isPayable,
+  isCreditPending,
+  onPay,
+}: Readonly<FeePaymentActionProps>) => {
+  const lastMpbs = fee.mpbs?.at(-1);
+  const isMpbsPendingOrSuccess =
+    lastMpbs &&
+    (lastMpbs.status === MpbsStatus.PENDING ||
+      lastMpbs.status === MpbsStatus.SUCCESS);
+  const isRejectedLetter = fee.letter?.status === LetterStatus.REJECTED;
+  const hasLetter = fee.letter && !isRejectedLetter;
+
+  if (isMpbsPendingOrSuccess) {
+    return <MpbsStatusIcon />;
+  }
+
+  if (isCreditPending) {
+    return (
+      <IconButtonWithTooltip title={PENDING_CREDIT_PAYMENT_TOOLTIP}>
+        <CreditPendingIcon
+          color="warning"
+          data-testid={`creditPendingIcon-${fee.id}`}
+        />
+      </IconButtonWithTooltip>
+    );
+  }
+
+  return (
+    <IconButtonWithTooltip
+      title={
+        isPayable
+          ? "Mobile Money"
+          : "Veuillez payer les frais précédents d'abord"
+      }
+      disabled={!isPayable || hasLetter}
+    >
+      <AddMbpsIcon
+        onClick={() => onPay(fee)}
+        color={!isPayable || hasLetter ? "disabled" : undefined}
+        data-testid={`addMobileMoney-${fee.id}`}
+      />
+    </IconButtonWithTooltip>
   );
 };
 
@@ -414,55 +475,24 @@ export const StudentFeeList = () => {
         />
         <FunctionField
           label="Actions"
-          render={(fee: Fee) => {
-            const isPayable = canPayFee(fee);
-            const lastMpbs = fee.mpbs?.at(-1);
-            const isMpbsPendingOrSuccess =
-              lastMpbs &&
-              (lastMpbs.status === MpbsStatus.PENDING ||
-                lastMpbs.status === MpbsStatus.SUCCESS);
-            const isCreditPending = pendingCreditFeeIds.has(fee.id!);
-            const isRejectedLetter =
-              fee.letter && fee.letter.status === LetterStatus.REJECTED;
-            const hasLetter = fee.letter && !isRejectedLetter;
-            return (
-              <Box display="flex" alignItems="center">
-                {isMpbsPendingOrSuccess ? (
-                  <MpbsStatusIcon />
-                ) : isCreditPending ? (
-                  <IconButtonWithTooltip title={PENDING_CREDIT_PAYMENT_TOOLTIP}>
-                    <CreditPendingIcon
-                      color="warning"
-                      data-testid={`creditPendingIcon-${fee.id}`}
-                    />
-                  </IconButtonWithTooltip>
-                ) : (
-                  <IconButtonWithTooltip
-                    title={
-                      isPayable
-                        ? "Mobile Money"
-                        : "Veuillez payer les frais précédents d'abord"
-                    }
-                    disabled={!isPayable || hasLetter}
-                  >
-                    <AddMbpsIcon
-                      onClick={() => setFeeToPay(fee)}
-                      color={!isPayable || hasLetter ? "disabled" : undefined}
-                      data-testid={`addMobileMoney-${fee.id}`}
-                    />
-                  </IconButtonWithTooltip>
-                )}
-                <Link
-                  to={`/fees/${fee.id}/show`}
-                  data-testid={`showButton-${fee.id}`}
-                >
-                  <IconButtonWithTooltip title="Afficher">
-                    <ShowIcon />
-                  </IconButtonWithTooltip>
-                </Link>
-              </Box>
-            );
-          }}
+          render={(fee: Fee) => (
+            <Box display="flex" alignItems="center">
+              <FeePaymentAction
+                fee={fee}
+                isPayable={canPayFee(fee)}
+                isCreditPending={pendingCreditFeeIds.has(fee.id!)}
+                onPay={setFeeToPay}
+              />
+              <Link
+                to={`/fees/${fee.id}/show`}
+                data-testid={`showButton-${fee.id}`}
+              >
+                <IconButtonWithTooltip title="Afficher">
+                  <ShowIcon />
+                </IconButtonWithTooltip>
+              </Link>
+            </Box>
+          )}
         />
       </HaList>
       <FeesDialog

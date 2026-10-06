@@ -1,8 +1,10 @@
 import {Box} from "@mui/material";
-import {FC, useMemo} from "react";
+import {useMemo} from "react";
 import {SelectInput, required, useGetList} from "react-admin";
 
-export const SelectTeacher: FC<{isPrivileged: boolean}> = ({isPrivileged}) => {
+export const SelectTeacher = ({
+  isPrivileged,
+}: Readonly<{isPrivileged: boolean}>) => {
   const {data: teachers = []} = useGetList(
     "teachers",
     {},

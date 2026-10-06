@@ -29,7 +29,7 @@ const updatePageSize = (newSize: number) => {
 if (typeof window !== "undefined") {
   const savedSize = localStorage.getItem("pageSize");
   if (savedSize) {
-    pageSize = parseInt(savedSize, 10);
+    pageSize = Number.parseInt(savedSize, 10);
   }
 }
 
@@ -105,11 +105,13 @@ const PageSizeSelector = ({
           vertical: "bottom",
           horizontal: "center",
         }}
-        PaperProps={{
-          style: {
-            marginTop: "8px",
-            borderRadius: "8px",
-            boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+        slotProps={{
+          paper: {
+            style: {
+              marginTop: "8px",
+              borderRadius: "8px",
+              boxShadow: "0 4px 20px rgba(0, 0, 0, 0.15)",
+            },
           },
         }}
       >

@@ -1,7 +1,8 @@
+import {ShareInfo} from "@haapi-b0fc7615/typescript-client";
 import {HaDataProviderType} from "./HaDataProviderType";
 import {filesApi} from "./api";
 
-const heiDocsProvider: HaDataProviderType = {
+const heiDocsProvider: HaDataProviderType<ShareInfo> = {
   getList: () => {
     throw new Error("Not implemented");
   },

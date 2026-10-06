@@ -11,6 +11,10 @@ import {monitor1Mock} from "../fixtures/api_mocks/monitors-mock";
 import {studentLinkedToMonitorMock} from "../fixtures/api_mocks/students-mocks";
 import {summaryResultMocks} from "../fixtures/api_mocks/summary-result-mocks";
 
+// a known status gives its label, an unknown one is displayed as is
+const courseStatusLabel = (status: string): string =>
+  getCourseStatusLabel(status) ?? status;
+
 describe("All View", () => {
   beforeEach(() => {
     cy.mockLogin({role: WhoamiRoleEnum.MONITOR});
@@ -84,12 +88,15 @@ describe("All View", () => {
 
     it("should create an anchor and download when transcript is AVAILABLE immediately", () => {
       cy.window().then((win) => {
-        const fetchStub = cy.stub(win, "fetch").callsFake(() =>
-          Promise.resolve({
-            blob: () =>
-              Promise.resolve(new Blob(["dummy"], {type: "application/pdf"})),
-          } as unknown as Response)
-        );
+        const fetchStub = cy
+          .stub(win, "fetch")
+          .callsFake(() =>
+            Promise.resolve(
+              new win.Response(
+                new win.Blob(["dummy"], {type: "application/pdf"})
+              )
+            )
+          );
         const createObjectURLStub = cy
           .stub(win.URL, "createObjectURL")
           .returns("blob:fake-url");
@@ -155,7 +162,7 @@ describe("All View", () => {
         .within(() => {
           cy.contains(`Année: ${summaryResultMocks?.yearly_results![0].level}`);
           cy.contains(
-            getCourseStatusLabel(summaryResultMocks?.yearly_results![0].status!)
+            courseStatusLabel(summaryResultMocks?.yearly_results![0].status!)
           );
           cy.getByTestid("accordion-summary-button").should("be.visible");
         });
@@ -212,7 +219,7 @@ describe("All View", () => {
 
     it("should switch between yearly and global views", () => {
       cy.getByTestid("yearly-view-toggle").click();
-      cy.getByTestid("global-view-toggle").click();
+      cy.getByTestid("global-view-toggle").should("be.visible").click();
     });
 
     it("should show loading spinner before rendering summary", () => {
@@ -280,7 +287,7 @@ describe("All View", () => {
         .first()
         .within(() => {
           cy.contains("Non commencé");
-          cy.contains(lockedSummary.yearly_results[0].level);
+          cy.contains(lockedSummary.yearly_results[0].level).should("exist");
         });
     });
 
@@ -322,7 +329,7 @@ describe("All View", () => {
       cy.getByTestid("yearly-result-accordion")
         .first()
         .within(() => {
-          cy.contains(getCourseStatusLabel("VALIDATED"));
+          cy.contains(courseStatusLabel("VALIDATED"));
           cy.getByTestid("accordion-summary-button").click();
           cy.getByTestid("yearly-result-average").should(
             "contain",
@@ -373,7 +380,7 @@ describe("All View", () => {
       cy.getByTestid("yearly-result-accordion")
         .first()
         .within(() => {
-          cy.contains(getCourseStatusLabel("IN_PROGRESS"));
+          cy.contains(courseStatusLabel("IN_PROGRESS"));
           cy.getByTestid("accordion-summary-button").click();
           cy.getByTestid("courses-lists-row")
             .first()
@@ -386,7 +393,7 @@ describe("All View", () => {
                   2
                 )
               );
-              cy.contains(getCourseStatusLabel("IN_PROGRESS"));
+              cy.contains(courseStatusLabel("IN_PROGRESS")).should("exist");
             });
         });
     });

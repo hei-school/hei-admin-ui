@@ -4,7 +4,7 @@ import {EventType} from "@haapi-b0fc7615/typescript-client";
 import {required, useGetList} from "react-admin";
 import {useWatch} from "react-hook-form";
 
-export function SelectCourse() {
+export const SelectCourse = () => {
   const {data: courses = [], isLoading} = useGetList("course", {
     pagination: {
       page: 1,
@@ -32,4 +32,4 @@ export function SelectCourse() {
       fullWidth
     />
   ) : null;
-}
+};

@@ -82,7 +82,7 @@ describe("Mobile payment by student", () => {
     ).click({force: true});
     cy.get("#psp_id").click().type("MP240726.1541.D88429");
     cy.contains("Enregistrer").click();
-    cy.contains("Paiement enregistré avec succès");
+    cy.contains("Paiement enregistré avec succès").should("exist");
     cy.wait("@getMpbsFees");
   });
 
@@ -99,7 +99,7 @@ describe("Mobile payment by student", () => {
     cy.contains("Crédit").click();
     cy.get("#amount").click().type("100000");
     cy.contains("Enregistrer").click();
-    cy.contains("Paiement enregistré avec succès");
+    cy.contains("Paiement enregistré avec succès").should("exist");
     cy.wait("@createCreditPayment");
   });
 
@@ -113,7 +113,9 @@ describe("Mobile payment by student", () => {
       .click()
       .type((studentCreditMock.amount + 1).toString());
     cy.contains("Enregistrer").click();
-    cy.contains("Le montant saisi est supérieur à votre crédit actuel.");
+    cy.contains("Le montant saisi est supérieur à votre crédit actuel.").should(
+      "exist"
+    );
   });
 
   it("shows the fee as in progress and blocks paying it again while its credit payment is awaiting validation", () => {

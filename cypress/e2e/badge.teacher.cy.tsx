@@ -3,6 +3,7 @@ import {
   badgePublicId,
   finishedCourseMock,
   scannedParticipantMock,
+  suspendedScannedParticipantMock,
   teacherCourseInProgressMock,
   teacherOtherCourseInProgressMock,
   unknownBadgePublicId,
@@ -66,6 +67,24 @@ describe("Teacher checks the attendance of his course by badge", () => {
         `${scannedParticipantMock.last_name} ${scannedParticipantMock.first_name}`
       );
       cy.contains(`${scannedParticipantMock.ref} · présent(e)`);
+      cy.getByTestid("scan-result-warning").should("not.exist");
+    });
+
+    it("warns that the scanned student is suspended for overdue fees", () => {
+      cy.intercept(
+        "PUT",
+        attendanceUrl(badgePublicId, teacherCourseInProgressMock.id!),
+        suspendedScannedParticipantMock
+      ).as("checkAttendance");
+
+      scanLink(badgeLinkOf(badgePublicId));
+
+      cy.wait("@checkAttendance");
+      cy.contains(`${scannedParticipantMock.ref} · présent(e)`);
+      cy.getByTestid("scan-result-warning").should(
+        "contain",
+        "Suspendu : frais en retard, passage au bureau requis."
+      );
     });
 
     it("refuses a badge that is no longer valid", () => {
@@ -216,6 +235,23 @@ describe("Teacher scans the badges of an event", () => {
     cy.contains(`${scannedParticipantMock.ref} · présent(e)`);
     cy.get("[aria-label='Fermer']").click();
     cy.contains("Présentez les badges un par un").should("not.exist");
+  });
+
+  it("warns that the scanned student is suspended for overdue fees", () => {
+    cy.intercept(
+      "PUT",
+      attendanceUrl(badgePublicId, event1mock.id!),
+      suspendedScannedParticipantMock
+    ).as("checkAttendance");
+
+    scanLink(badgeLinkOf(badgePublicId));
+
+    cy.wait("@checkAttendance");
+    cy.contains(`${scannedParticipantMock.ref} · présent(e)`);
+    cy.getByTestid("scan-result-warning").should(
+      "contain",
+      "Suspendu : frais en retard, passage au bureau requis."
+    );
   });
 
   it("tells that the student does not take part in the event", () => {

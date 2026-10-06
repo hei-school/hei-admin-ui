@@ -11,7 +11,11 @@ import {
   useEditController,
 } from "react-admin";
 
-import {FeeCategory, FeeFrequency} from "@haapi-b0fc7615/typescript-client";
+import {
+  FeeCategory,
+  FeeFrequency,
+  FeeTemplate,
+} from "@haapi-b0fc7615/typescript-client";
 import {Edit} from "../common/components";
 import {
   CATEGORY_CHOICES,
@@ -20,14 +24,23 @@ import {
 } from "../fees/constants";
 import {EditToolBar} from "../utils";
 
-function FeesTemplatesEdit() {
+// the text inputs give the amounts as strings
+type FeeTemplateFormValues = Omit<
+  FeeTemplate,
+  "amount" | "number_of_payments"
+> & {
+  amount: string | number;
+  number_of_payments: string | number;
+};
+
+const FeesTemplatesEdit = () => {
   const {record} = useEditController();
 
   return (
     <Edit
       title={"Modifier un frais prédéfini"}
       redirect={() => "fees-templates"}
-      transform={(template: any) => {
+      transform={(template: FeeTemplateFormValues) => {
         return {
           ...template,
           amount: +template.amount,
@@ -81,6 +94,6 @@ function FeesTemplatesEdit() {
       </SimpleForm>
     </Edit>
   );
-}
+};
 
 export default FeesTemplatesEdit;

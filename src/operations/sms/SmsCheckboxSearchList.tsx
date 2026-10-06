@@ -17,7 +17,7 @@ interface SmsCheckboxSearchListProps<T> {
   readonly testIdPrefix: string;
 }
 
-export function SmsCheckboxSearchList<T>({
+export const SmsCheckboxSearchList = <T,>({
   items,
   getId,
   getLabel,
@@ -25,7 +25,7 @@ export function SmsCheckboxSearchList<T>({
   onToggle,
   emptyMessage,
   testIdPrefix,
-}: SmsCheckboxSearchListProps<T>) {
+}: SmsCheckboxSearchListProps<T>) => {
   return (
     <List
       dense
@@ -67,4 +67,4 @@ export function SmsCheckboxSearchList<T>({
       })}
     </List>
   );
-}
+};

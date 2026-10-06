@@ -3,13 +3,14 @@ import {useToggle} from "@/hooks";
 import {FileUploadDialog} from "@/operations/common/components/FileUploadDialog";
 import {Upload} from "@mui/icons-material";
 import {Button} from "@mui/material";
-import {FC, useMemo, useState} from "react";
+import {useMemo, useState} from "react";
 import {DateInput} from "react-admin";
 import * as XLSX from "xlsx";
+import {ImportRow} from "./utils";
 
-export const NewImportButton: FC = () => {
+export const NewImportButton = () => {
   const [isOpen, , toggle] = useToggle();
-  const [parsedRows, setParsedRows] = useState<any[] | null>(null);
+  const [parsedRows, setParsedRows] = useState<ImportRow[] | null>(null);
 
   const EXPECTED_HEADERS = useMemo(
     () => [
@@ -33,15 +34,15 @@ export const NewImportButton: FC = () => {
       const workbook = XLSX.read(arrayBuffer, {type: "array"});
       const firstSheetName = workbook.SheetNames[0];
       const sheet = workbook.Sheets[firstSheetName];
-      const rows: any[][] = XLSX.utils.sheet_to_json(sheet, {
+      const rows = XLSX.utils.sheet_to_json<unknown[]>(sheet, {
         header: 1,
         defval: "",
       });
 
       const headerRow: string[] = (rows[0] || []).map((h) => String(h).trim());
-      const lowerFound = headerRow.map((h) => h.toLowerCase());
+      const lowerFound = new Set(headerRow.map((h) => h.toLowerCase()));
       const lowerExpected = EXPECTED_HEADERS.map((h) => h.toLowerCase());
-      const missing = lowerExpected.filter((exp) => !lowerFound.includes(exp));
+      const missing = lowerExpected.filter((exp) => !lowerFound.has(exp));
 
       if (missing.length > 0) {
         return {
@@ -61,14 +62,15 @@ export const NewImportButton: FC = () => {
         };
       }
 
-      const json = XLSX.utils.sheet_to_json(sheet, {defval: ""});
+      const json = XLSX.utils.sheet_to_json<ImportRow>(sheet, {defval: ""});
       setParsedRows(json);
 
       return {
         isValid: true,
         additionalInfo: {rowsCount: json.length},
       };
-    } catch (err) {
+    } catch {
+      // Any read failure means the file is unusable: report it as invalid.
       return {
         isValid: false,
         errorMessage: "Erreur lors de la lecture du fichier",

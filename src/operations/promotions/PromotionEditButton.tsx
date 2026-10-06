@@ -12,7 +12,7 @@ import {
 } from "react-admin";
 import {Edit} from "../common/components";
 
-export function PromotionEditButton({id}: {id: string}) {
+export const PromotionEditButton = ({id}: Readonly<{id: string}>) => {
   const [showEdit, _set, toggleEdit] = useToggle();
   const notify = useNotify();
 
@@ -70,4 +70,4 @@ export function PromotionEditButton({id}: {id: string}) {
       </Dialog>
     </>
   );
-}
+};

@@ -1,15 +1,15 @@
 import {Box, useMediaQuery} from "@mui/material";
-import {FC, ReactNode} from "react";
+import {ReactNode} from "react";
 
 export interface ResponsiveGridProps {
   children: ReactNode;
   gap?: string | number;
 }
 
-export const ResponsiveGrid: FC<ResponsiveGridProps> = ({
+export const ResponsiveGrid = ({
   children,
   gap = "1rem",
-}) => {
+}: Readonly<ResponsiveGridProps>) => {
   const isSmall = useMediaQuery("(max-width:600px)");
   const isTablet = useMediaQuery("(min-width:601px) and (max-width:900px)");
   const isMedium = useMediaQuery("(min-width:901px) and (max-width:1400px)");
@@ -31,7 +31,7 @@ export const ResponsiveGrid: FC<ResponsiveGridProps> = ({
         display: "grid",
         width: "100%",
         gridTemplateColumns: getGridTemplateColumns(),
-        gap: isLarge ? (gap === "1rem" ? "1.1rem" : gap) : gap,
+        gap: isLarge && gap === "1rem" ? "1.1rem" : gap,
         justifyContent: "flex-start",
         marginTop: "2rem",
         paddingY: "1rem",

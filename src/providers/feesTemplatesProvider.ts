@@ -1,12 +1,25 @@
+import {
+  CrupdateFeeTemplate,
+  FeeTemplate,
+} from "@haapi-b0fc7615/typescript-client";
 import {payingApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 
-const feesTemplatesProvider: HaDataProviderType = {
-  async getList(
-    page: number,
-    perPage: number,
-    filter: {name?: string; amount?: number; numberOfPayments?: number}
-  ) {
+interface FeeTemplateFilter {
+  name?: string;
+  amount?: number;
+  numberOfPayments?: number;
+}
+
+type FeeTemplatePayload = CrupdateFeeTemplate & {id: string};
+
+const feesTemplatesProvider: HaDataProviderType<
+  FeeTemplate,
+  FeeTemplateFilter,
+  HaMeta,
+  FeeTemplatePayload[]
+> = {
+  async getList(page: number, perPage: number, filter: FeeTemplateFilter) {
     return payingApi()
       .getFeeTemplates(
         filter.name,

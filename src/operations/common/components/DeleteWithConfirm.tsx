@@ -20,7 +20,7 @@ export const DeleteWithConfirm = ({
   text?: string;
   confirmTitle: string;
   confirmContent: string;
-  redirect: string;
+  redirect?: string;
   id?: string;
   buttonProps?: ButtonProps;
   onDelete?: () => void;
@@ -34,13 +34,13 @@ export const DeleteWithConfirm = ({
     previousData: record,
   });
 
-  const toggleView = (event: any) => {
+  const toggleView = (event: React.MouseEvent<HTMLButtonElement>) => {
     toggleShowConfig();
     event.stopPropagation();
   };
   const doDelete = () => {
     toggleShowConfig();
-    deleteOne();
+    void deleteOne();
     notify("Élément supprimé avec succès.");
     onDelete();
     if (redirect) {

@@ -5,6 +5,8 @@ import {
 } from "../fixtures/api_mocks/fees-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
+// Désactivé dans 6239eab, en même temps que l'élargissement du specPattern à
+// cypress/e2e/**/* : ce fichier sans suffixe .cy n'était pas exécuté avant.
 describe.skip("Mobile payment by student", () => {
   beforeEach(() => {
     cy.intercept(

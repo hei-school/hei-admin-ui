@@ -1,7 +1,20 @@
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  Announcement,
+  CreateAnnouncement,
+  ReactToAnnouncementRequest,
+  Scope,
+  WhoamiRoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 import {announcementsApi} from "./api";
 import authProvider from "./authProvider";
+
+interface AnnouncementFilter {
+  from?: Date;
+  to?: Date;
+  authorRef?: string;
+  scope?: Scope;
+}
 
 type Params = {
   meta: {
@@ -9,8 +22,29 @@ type Params = {
     id: string;
   };
 };
-const announcementProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, filter: any) {
+
+type AnnouncementPayload = [ReactToAnnouncementRequest] | [CreateAnnouncement];
+
+// only the method sent in meta tells which payload is saved: a reaction to
+// the announcement (UPDATE) or a new announcement (CREATE)
+const isReactionPayload = (
+  _payload: AnnouncementPayload,
+  method: Params["meta"]["method"]
+): _payload is [ReactToAnnouncementRequest] => method === "UPDATE";
+
+const announcementProvider: HaDataProviderType<
+  Announcement,
+  AnnouncementFilter,
+  HaMeta,
+  AnnouncementPayload,
+  Params,
+  Announcement[] | undefined
+> = {
+  getList: async (
+    page: number,
+    perPage: number,
+    filter: AnnouncementFilter
+  ) => {
     const role = authProvider.getCachedRole();
 
     switch (role) {
@@ -45,15 +79,14 @@ const announcementProvider: HaDataProviderType = {
             perPage,
             filter.from,
             filter.to,
-            filter.authorRef,
-            filter.scope
+            filter.authorRef
           )
           .then((result) => ({data: result.data}));
       default:
         throw new Error("Unexpected role");
     }
   },
-  async getOne(id: string) {
+  getOne: async (id: string) => {
     const role = authProvider.getCachedRole();
 
     switch (role) {
@@ -75,9 +108,9 @@ const announcementProvider: HaDataProviderType = {
         throw new Error("Unexpected role");
     }
   },
-  async saveOrUpdate(payload: any, {meta}: Params) {
+  saveOrUpdate: async (payload: AnnouncementPayload, {meta}: Params) => {
     const {id, method} = meta;
-    if (method === "UPDATE") {
+    if (isReactionPayload(payload, method)) {
       return announcementsApi()
         .reactToAnnouncement(id, payload[0])
         .then((result) => [result.data]);
@@ -87,7 +120,7 @@ const announcementProvider: HaDataProviderType = {
         .then((result) => [result.data]);
     }
   },
-  async delete() {
+  delete: async () => {
     throw new Error("Not implemented");
   },
 };

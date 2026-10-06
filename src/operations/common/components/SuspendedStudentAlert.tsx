@@ -16,7 +16,7 @@ import {
   useTheme,
 } from "@mui/material";
 import {keyframes} from "@mui/system";
-import React, {useEffect, useState} from "react";
+import {useEffect, useState} from "react";
 
 const slideInFromLeft = keyframes`
   0% {
@@ -36,12 +36,12 @@ interface SuspendedStudentAlertProps {
   restrictionMessage?: string;
 }
 
-export const SuspendedStudentAlert: React.FC<SuspendedStudentAlertProps> = ({
+export const SuspendedStudentAlert = ({
   studentName = "Cet élève",
   suspensionReason = "Frais de scolarité impayés",
   contactInfo = "Contactez l'administration pour plus d'informations",
   restrictionMessage = "Les notes ne sont pas disponibles dans le tableau de bord",
-}) => {
+}: Readonly<SuspendedStudentAlertProps>) => {
   const theme = useTheme();
   const [mounted, setMounted] = useState(false);
   const [showDetails, setShowDetails] = useState(false);

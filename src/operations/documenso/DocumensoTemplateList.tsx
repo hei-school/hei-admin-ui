@@ -1,7 +1,7 @@
 import {HaList} from "@/ui/haList";
 import {TemplateDocumenso} from "@haapi-b0fc7615/typescript-client";
 import {HistoryEdu as DocumensoIcon} from "@mui/icons-material";
-import {TextField} from "react-admin";
+import {Identifier, RaRecord, TextField} from "react-admin";
 
 const ROW_SX = {"& tbody .MuiTableRow-root": {cursor: "pointer"}};
 
@@ -18,12 +18,8 @@ export const DocumensoTemplateList = ({
     actions={undefined}
     listProps={{title: " "}}
     datagridProps={{
-      "rowClick": (
-        _id: string,
-        _resource: string,
-        record: TemplateDocumenso
-      ) => {
-        onSelect(record);
+      "rowClick": (_id: Identifier, _resource: string, record: RaRecord) => {
+        onSelect(record as TemplateDocumenso);
         return false;
       },
       "sx": ROW_SX,

@@ -1,8 +1,25 @@
 import {coursesApi} from "@/providers/api";
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
-import {CrupdateCourseAssignment} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaMeta} from "@/providers/HaDataProviderType";
+import {
+  CourseAssignment,
+  CrupdateCourseAssignment,
+} from "@haapi-b0fc7615/typescript-client";
 
-const CourseAssignmentsProvider: HaDataProviderType = {
+interface CourseAssignmentFilter {
+  teacherId?: string;
+  courseId?: string;
+  groupId?: string;
+}
+
+// getOne renvoie toutes les affectations du professeur dont l'id est donné
+const CourseAssignmentsProvider: HaDataProviderType<
+  CourseAssignment | CourseAssignment[],
+  CourseAssignmentFilter,
+  HaMeta,
+  CrupdateCourseAssignment[],
+  unknown,
+  CourseAssignment[]
+> = {
   getList: async (page, perPage, filter = {}) => {
     const {teacherId, courseId, groupId} = filter;
 

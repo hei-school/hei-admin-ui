@@ -1,14 +1,20 @@
 import {PALETTE_COLORS} from "@/haTheme";
+import {ReactNode} from "react";
 import {Link} from "react-router-dom";
 
-export const EmailField = ({value}: any) => (
+interface EmailFieldProps {
+  email: string;
+  children?: ReactNode;
+}
+
+export const EmailField = ({email, children}: Readonly<EmailFieldProps>) => (
   <Link
-    to={`mailto:${value}`}
+    to={`mailto:${email}`}
     target="_blank"
     style={{
       color: PALETTE_COLORS.primary,
     }}
   >
-    {value}
+    {children ?? email}
   </Link>
 );

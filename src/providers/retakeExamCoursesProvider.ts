@@ -1,11 +1,20 @@
+import {Course} from "@haapi-b0fc7615/typescript-client";
 import {retakeExamApi} from "./api";
 import {HaDataProviderType} from "./HaDataProviderType";
 
-const retakeExamCoursesProvider: HaDataProviderType = {
+interface RetakeExamCoursesFilter {
+  sessionId: string;
+  code: string;
+}
+
+const retakeExamCoursesProvider: HaDataProviderType<
+  Course,
+  RetakeExamCoursesFilter
+> = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {sessionId: string; code: string}
+    filter: RetakeExamCoursesFilter
   ) => {
     const {sessionId, code} = filter;
     return retakeExamApi()

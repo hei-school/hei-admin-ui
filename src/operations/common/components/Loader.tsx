@@ -1,9 +1,8 @@
 import {Box, CircularProgress, CircularProgressProps} from "@mui/material";
-import {FC} from "react";
 
 export type LoaderProps = CircularProgressProps;
 
-export const Loader: FC<LoaderProps> = ({sx, size, ...props}) => {
+export const Loader = ({sx, size, ...props}: Readonly<LoaderProps>) => {
   return (
     <Box sx={{position: "relative", p: 2}}>
       <CircularProgress

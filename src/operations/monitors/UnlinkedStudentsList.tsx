@@ -1,6 +1,10 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {ToRaRecord} from "@/providers/types";
-import {MonitorStudentLink} from "@haapi-b0fc7615/typescript-client";
+import {
+  Monitor,
+  MonitorStudentLink,
+  Student,
+} from "@haapi-b0fc7615/typescript-client";
 import {
   Avatar,
   Box,
@@ -15,16 +19,33 @@ import {useMemo} from "react";
 import {Loading, useGetList} from "react-admin";
 import {LinkActions} from "./component/LinkActions";
 
+// the API always sends the monitor and the student of a link
+type MonitorLink = ToRaRecord<
+  Omit<MonitorStudentLink, "monitor" | "student"> & {
+    monitor: Required<Monitor>;
+    student: Required<Student>;
+  }
+>;
+
+interface MonitorLinkRequest {
+  id: MonitorLink["id"];
+  student: MonitorLink["student"];
+}
+
+interface MonitorLinkGroup {
+  monitor: MonitorLink["monitor"];
+  requests: MonitorLinkRequest[];
+}
+
 export const UnlinkedStudentsList = () => {
-  const {data: links, isLoading} =
-    useGetList<ToRaRecord<MonitorStudentLink>>("unlinked-students");
+  const {data: links, isLoading} = useGetList<MonitorLink>("unlinked-students");
 
   const groupedData = useMemo(() => {
     if (!links) return [];
-    const groups: Record<string, any> = {};
+    const groups: Record<string, MonitorLinkGroup> = {};
 
     links.forEach((item) => {
-      const mId = item?.monitor?.id!;
+      const mId = item.monitor.id;
       if (!groups[mId]) {
         groups[mId] = {
           monitor: item.monitor,
@@ -45,7 +66,7 @@ export const UnlinkedStudentsList = () => {
     <Box sx={{bgcolor: "#f8fafc", minHeight: "100vh", py: 5}}>
       <Container maxWidth="xl">
         <Grid container spacing={3}>
-          {groupedData.map((group: any) => (
+          {groupedData.map((group) => (
             <Grid item xs={12} sm={6} md={4} lg={3} key={group.monitor.id}>
               <Paper
                 elevation={0}
@@ -131,7 +152,7 @@ export const UnlinkedStudentsList = () => {
                   />
                 </Box>
                 <Stack spacing={0} sx={{bgcolor: "white"}}>
-                  {group.requests.map((req: any, index: number) => (
+                  {group.requests.map((req, index) => (
                     <Box
                       key={req.id || index}
                       sx={{

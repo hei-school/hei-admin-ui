@@ -6,6 +6,9 @@ import {SERVER_URL} from "./casdoorSetting";
 import {consumeRedirectAfterLogin} from "./redirectAfterLogin";
 
 const EXCHANGED_CODE_ITEM = "ha_casdoor_exchanged_code";
+// Le code vient de l'URL : on ne le garde en sessionStorage que s'il a la forme
+// d'un code d'autorisation Casdoor, pour ne pas y ecrire une valeur arbitraire.
+const AUTHORIZATION_CODE_FORMAT = /^[\w-]{1,256}$/;
 
 let inFlightExchange: {code: string; promise: Promise<void>} | null = null;
 
@@ -31,6 +34,10 @@ const CasdoorAuthCallback = () => {
   useEffect(() => {
     const serverUrl = SERVER_URL;
     if (!code || !state || !serverUrl) return;
+    if (!AUTHORIZATION_CODE_FORMAT.test(code)) {
+      navigate("/", {replace: true});
+      return;
+    }
 
     if (
       sessionStorage.getItem(EXCHANGED_CODE_ITEM) === code &&
