@@ -2,11 +2,12 @@ import {HTMLAttributeAnchorTarget, ReactNode} from "react";
 import {SingleMenu} from "./SingleMenu";
 
 type ListMenuItemProps = {
-  label: string;
-  icon: ReactNode;
-  to: string;
-  target?: HTMLAttributeAnchorTarget;
-  onClick?: () => void;
+  "label": string;
+  "icon": ReactNode;
+  "to": string;
+  "target"?: HTMLAttributeAnchorTarget;
+  "onClick"?: () => void;
+  "data-testid"?: string;
 };
 
 export const ListMenuItem = ({
@@ -14,7 +15,7 @@ export const ListMenuItem = ({
   icon,
   to,
   target,
-  onClick,
+  ...rest
 }: Readonly<ListMenuItemProps>) => (
-  <SingleMenu {...{label, to, icon, menu: false, target, onClick}} />
+  <SingleMenu {...{label, to, icon, menu: false, target, ...rest}} />
 );
