@@ -93,7 +93,9 @@ describe("Coverage - import des étudiants", () => {
 
   it("désactive l'import tant qu'aucun fichier n'est choisi", () => {
     importDialog().should("contain.text", SUBMIT_HINT);
-    saveButton().should("be.disabled");
+    cy.contains('[role="dialog"]', "Importer les étudiants")
+      .contains("button", "Lancer l'import")
+      .should("be.disabled");
   });
 
   it("refuse un fichier dont les en-têtes sont incomplets", () => {
@@ -108,7 +110,9 @@ describe("Coverage - import des étudiants", () => {
       .should("contain.text", "En-têtes manquants : last_name, email")
       .and("contain.text", "Veuillez utiliser le modèle dans template")
       .and("contain.text", SUBMIT_HINT);
-    saveButton().should("be.disabled");
+    cy.contains('[role="dialog"]', "Importer les étudiants")
+      .contains("button", "Lancer l'import")
+      .should("be.disabled");
   });
 
   it("refuse un fichier vide", () => {
@@ -122,7 +126,9 @@ describe("Coverage - import des étudiants", () => {
       "contain.text",
       `En-têtes manquants : ${EXPECTED_HEADERS.join(", ")}.`
     );
-    saveButton().should("be.disabled");
+    cy.contains('[role="dialog"]', "Importer les étudiants")
+      .contains("button", "Lancer l'import")
+      .should("be.disabled");
   });
 
   it("refuse un fichier de plus de 50 étudiants", () => {
@@ -133,7 +139,9 @@ describe("Coverage - import des étudiants", () => {
       "contain.text",
       "Le fichier contient plus de 50 entrées. Réduisez à 50 maximum."
     );
-    saveButton().should("be.disabled");
+    cy.contains('[role="dialog"]', "Importer les étudiants")
+      .contains("button", "Lancer l'import")
+      .should("be.disabled");
   });
 
   it("signale un fichier illisible", () => {
@@ -150,7 +158,9 @@ describe("Coverage - import des étudiants", () => {
       "contain.text",
       "Erreur lors de la lecture du fichier"
     );
-    saveButton().should("be.disabled");
+    cy.contains('[role="dialog"]', "Importer les étudiants")
+      .contains("button", "Lancer l'import")
+      .should("be.disabled");
   });
 
   it("refuse un fichier d'un format non accepté", () => {
@@ -164,7 +174,9 @@ describe("Coverage - import des étudiants", () => {
       "contain.text",
       "La taille maximale autorisée pour le fichier est de 4.77 Mo."
     );
-    saveButton().should("be.disabled");
+    cy.contains('[role="dialog"]', "Importer les étudiants")
+      .contains("button", "Lancer l'import")
+      .should("be.disabled");
   });
 
   it("décrit un fichier valide puis le retire", () => {
@@ -182,7 +194,9 @@ describe("Coverage - import des étudiants", () => {
     importDialog()
       .should("contain.text", SUBMIT_HINT)
       .and("not.contain.text", "etudiants.xlsx");
-    saveButton().should("be.disabled");
+    cy.contains('[role="dialog"]', "Importer les étudiants")
+      .contains("button", "Lancer l'import")
+      .should("be.disabled");
   });
 
   it("accepte un modèle sans étudiant", () => {
@@ -191,7 +205,9 @@ describe("Coverage - import des étudiants", () => {
     importDialog()
       .should("contain.text", "modele.xlsx")
       .and("not.contain.text", "lignes");
-    saveButton().should("be.enabled");
+    cy.contains('[role="dialog"]', "Importer les étudiants")
+      .contains("button", "Lancer l'import")
+      .should("be.enabled");
   });
 
   it("demande de remplir le formulaire quand la date limite manque", () => {

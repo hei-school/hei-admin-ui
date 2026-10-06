@@ -15,7 +15,7 @@ export const Create = ({
       mutationOptions={{
         onError: (error, variables, context) => {
           if (mutationOptions.onError) {
-            mutationOptions.onError(error, variables, context);
+            void mutationOptions.onError(error, variables, context);
           } else {
             notify("Une erreur s'est produite", {
               type: "error",

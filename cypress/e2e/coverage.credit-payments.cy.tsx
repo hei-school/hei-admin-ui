@@ -141,7 +141,10 @@ describe("Coverage - actions sur un paiement par crédit", () => {
 
     receiptRow("Type").should("contain.text", "MOBILE MONEY");
     receiptRow("Validé par").should("contain.text", EMPTY_TEXT);
-    detailsDialog().should("not.contain.text", "Rejeté par");
+    cy.contains('[role="dialog"]', "Détails du paiement par crédit").should(
+      "not.contain.text",
+      "Rejeté par"
+    );
   });
 });
 

@@ -140,7 +140,6 @@ interface PdfPages {
   last: number | null;
 }
 
-// TODO: migrate to ts
 const PdfViewer = (props: Readonly<PdfViewerProps>) => {
   const {url, filename, isPending, noData, onLoadError, children, ...others} =
     props;

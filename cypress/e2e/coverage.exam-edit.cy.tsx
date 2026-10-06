@@ -58,7 +58,7 @@ describe("Validation du formulaire de modification d'un examen (enseignant)", ()
 
     titleInput().clear().type("Titre valide");
     submit();
-    fieldErrors()
+    cy.get('[role="dialog"] .MuiFormHelperText-root')
       .should("not.contain.text", "Le titre ne peut pas dépasser")
       .and("not.contain.text", "Le titre doit contenir");
   });
@@ -94,7 +94,7 @@ describe("Validation du formulaire de modification d'un examen (enseignant)", ()
     numeratorInput().clear().type("1");
     denominatorInput().clear().type("2");
     submit();
-    fieldErrors()
+    cy.get('[role="dialog"] .MuiFormHelperText-root')
       .should("not.contain.text", "Le numérateur")
       .and("not.contain.text", "Le dénominateur");
   });
@@ -105,7 +105,10 @@ describe("Validation du formulaire de modification d'un examen (enseignant)", ()
       .should("not.have.value", "")
       .type("{backspace}");
     submit();
-    fieldErrors().should("contain.text", "Date invalide");
+    cy.get('[role="dialog"] .MuiFormHelperText-root').should(
+      "contain.text",
+      "Date invalide"
+    );
   });
 
   it("enregistre les modifications quand le formulaire est valide", () => {

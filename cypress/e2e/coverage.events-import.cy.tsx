@@ -246,7 +246,9 @@ describe("Import des présences d'un événement", () => {
 
     importDialog().should("not.contain", "gros.csv");
     importDialog().should("not.contain", "notes.txt");
-    importButton().should("be.disabled");
+    cy.contains('[role="dialog"]', "Importer des présences")
+      .contains("button", "Importer")
+      .should("be.disabled");
   });
 });
 

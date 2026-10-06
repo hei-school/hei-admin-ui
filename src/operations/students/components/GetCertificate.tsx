@@ -98,26 +98,20 @@ export const GetCertificate = ({
   };
 
   return (
-    <>
-      <Button
-        variant={variant}
-        startIcon={<Download sx={{fontSize: "1.5rem !important"}} />}
-        onClick={handleClick}
-        sx={{
-          width: "100%",
-          justifyContent: "flex-start",
-          textTransform: "none",
-          fontWeight: 500,
-        }}
-        color="inherit"
-        data-testid="get-certificate-btn"
-      >
-        Certificat
-      </Button>
-
-      <a ref={linkRef} data-testid="file-link" style={{display: "none"}}>
-        {FILE_NAME}
-      </a>
-    </>
+    <Button
+      variant={variant}
+      startIcon={<Download sx={{fontSize: "1.5rem !important"}} />}
+      onClick={handleClick}
+      sx={{
+        width: "100%",
+        justifyContent: "flex-start",
+        textTransform: "none",
+        fontWeight: 500,
+      }}
+      color="inherit"
+      data-testid="get-certificate-btn"
+    >
+      Certificat
+    </Button>
   );
 };

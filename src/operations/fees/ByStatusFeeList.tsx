@@ -10,7 +10,7 @@ import {commentFunctionRenderer} from "../utils";
 import {FeesListHeader} from "./components";
 import {StatusFilterButtons} from "./components/StatusFilterButtons";
 import {CATEGORY} from "./constants";
-import {rowStyle} from "./utils";
+import {getFeeRowStyle} from "./utils";
 
 const FEES_LIST_DEFAULT_FILTER = {
   status: FeeStatusEnum.LATE,
@@ -49,7 +49,7 @@ const ByStatusFeeList = () => {
         filterIndicator={true}
         datagridProps={{
           rowClick: (id: Identifier) => `/fees/${id}/show`,
-          rowStyle,
+          rowStyle: getFeeRowStyle,
         }}
         actions={undefined}
       >

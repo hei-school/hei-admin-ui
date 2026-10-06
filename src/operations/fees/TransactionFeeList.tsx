@@ -10,7 +10,7 @@ import {DateField} from "../common/components/fields";
 import {renderMoney} from "../common/utils/money";
 import {commentFunctionRenderer} from "../utils";
 import {FeesListHeader} from "./components";
-import {MpbsStatusIcon, PSP_COLORS, PSP_VALUES, rowStyle} from "./utils";
+import {MpbsStatusIcon, PSP_COLORS, PSP_VALUES, getFeeRowStyle} from "./utils";
 
 const FEES_LIST_DEFAULT_FILTER = {
   isMpbs: true,
@@ -31,7 +31,7 @@ const TransactionFeeList = () => {
         }}
         actions={undefined}
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
-        datagridProps={{rowStyle}}
+        datagridProps={{rowStyle: getFeeRowStyle}}
         filterIndicator={true}
       >
         <TextField source="student_ref" label="Référence de l'étudiant" />

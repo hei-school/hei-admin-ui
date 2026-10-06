@@ -55,7 +55,7 @@ const AddStudentToMonitor = ({
       color="primary"
     >
       {/* the react-admin Button renders its child as the icon */}
-      <>Ajouter</>
+      <span>Ajouter</span>
     </MUIButton>
   );
 };

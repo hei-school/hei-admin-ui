@@ -17,12 +17,12 @@ import {
 import {useFormContext} from "react-hook-form";
 
 import {FeeCategory, FeeFrequency} from "@haapi-b0fc7615/typescript-client";
-import {useStudentRef} from "../../hooks/useStudentRef";
 import {payingApi} from "../../providers/api";
 import {toApiIds} from "../../providers/feeProvider";
 import {Edit} from "../common/components";
 import {statusRenderer} from "../utils";
 import {CATEGORY_CHOICES, FEES_FREQUENCY_CHOICES} from "./constants";
+import {useStudentRef} from "./hooks/useStudentRef";
 
 const EditToolbar = () => {
   const notify = useNotify();

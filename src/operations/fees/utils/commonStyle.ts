@@ -1,8 +1,7 @@
 import {Fee} from "@haapi-b0fc7615/typescript-client";
 import {mainTheme} from "../../../haTheme";
 
-// /!\ TODO: TO function name
-export const rowStyle = (record: Pick<Fee, "status">) => {
+export const getFeeRowStyle = (record: Pick<Fee, "status">) => {
   const lateColor = record.status === "LATE" ? "#f57c73" : "inherit";
   return {
     backgroundColor:
@@ -10,8 +9,7 @@ export const rowStyle = (record: Pick<Fee, "status">) => {
   };
 };
 
-// /!\ TODO: FEE_SIZES
-export const FEE_SELECT_STYLE = {
+export const FEE_SIZES = {
   width: {
     xs: 75,
     sm: 175,

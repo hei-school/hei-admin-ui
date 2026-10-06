@@ -4,9 +4,10 @@ import {
   SpecializationField,
 } from "@haapi-b0fc7615/typescript-client";
 import {
+  cellToText,
+  excelDateToJsDate,
   ImportHeader,
   ImportRow,
-  excelDateToJsDate,
   validateData,
 } from "../../ui/haToolbar";
 
@@ -106,7 +107,7 @@ export const transformUserData = (data: ImportRow[]): ImportedUser[] => {
     const paymentFreq =
       user.payment_frequency == null
         ? undefined
-        : String(user.payment_frequency).trim().toLowerCase();
+        : cellToText(user.payment_frequency).trim().toLowerCase();
 
     if (
       paymentFreq !== undefined &&

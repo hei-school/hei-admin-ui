@@ -9,11 +9,11 @@ import {
   useGetList,
 } from "react-admin";
 import {useFormContext} from "react-hook-form";
-import {FEE_SELECT_STYLE} from "../utils";
+import {FEE_SIZES} from "../utils";
 
 type SelectPredefinedTypeProps = Partial<SelectInputProps>;
 
-// /!\ TODO: all previously declared props could be overwritten by redeclaring them through props
+// the props come first so that they cannot override the fields that drive the fee template
 export const SelectPredefinedType = (
   props: Readonly<SelectPredefinedTypeProps>
 ) => {
@@ -27,7 +27,6 @@ export const SelectPredefinedType = (
     const configId: string = event.target.value;
     // the selected id always comes from the feeTemplates choices
     const feeConfig = feeTemplates.find((el) => el.id === configId)!;
-    console.log("ito", feeConfig);
 
     reset({
       ...getValues(),
@@ -43,6 +42,7 @@ export const SelectPredefinedType = (
 
   return (
     <SelectInput
+      {...props}
       name="predefinedType"
       data-testid="predefinedType"
       source="predefinedType"
@@ -53,8 +53,7 @@ export const SelectPredefinedType = (
       isLoading={isLoading}
       onChange={updateFeesFields}
       validate={required()}
-      sx={FEE_SELECT_STYLE}
-      {...props}
+      sx={FEE_SIZES}
     />
   );
 };

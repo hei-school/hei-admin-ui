@@ -1,10 +1,10 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify, useToggle} from "@/hooks";
-import {useStudentRef} from "@/hooks/useStudentRef";
 import {Create} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
 import {PENDING_CREDIT_PAYMENT_TOOLTIP} from "@/operations/fees/constants";
+import {useStudentRef} from "@/operations/fees/hooks/useStudentRef";
 import {
   DEFAULT_REMEDIAL_COSTS_AMOUNT,
   DEFAULT_REMEDIAL_COSTS_DUE_DATETIME,

@@ -18,7 +18,9 @@ const readKey = (source: unknown, key: string): unknown => {
  * @returns {*} The value of the specified property or undefined if it doesn't exist.
  */
 export const getObjValue = (obj: object, path: string): unknown => {
-  return path.split(".").reduce<unknown>(readKey, {...obj});
+  return path
+    .split(".")
+    .reduce<unknown>((value, key) => readKey(value, key), {...obj});
 };
 
 if (typeof window !== "undefined") {

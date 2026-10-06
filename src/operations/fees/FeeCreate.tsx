@@ -1,4 +1,4 @@
-import {useNotify, useStudentRef} from "@/hooks";
+import {useNotify} from "@/hooks";
 import {FeeInputs} from "@/operations/fees/components";
 import {createFeesApi, FeeFormValues} from "@/operations/fees/utils/feeFactory";
 import {
@@ -8,6 +8,7 @@ import {
   SimpleForm,
   Toolbar,
 } from "react-admin";
+import {useStudentRef} from "./hooks/useStudentRef";
 
 const FeeCreate = (props: Readonly<CreateProps>) => {
   const notify = useNotify();

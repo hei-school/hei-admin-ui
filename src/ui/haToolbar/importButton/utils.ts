@@ -13,12 +13,19 @@ export interface ImportValidationResult {
   message: string;
 }
 
-// a row of the imported excel file, keyed by its headers
 export type ImportRow = Record<string, unknown>;
+
+export const cellToText = (cell: unknown): string => {
+  if (cell instanceof Date) return cell.toString();
+  const isPrintable =
+    typeof cell === "string" ||
+    typeof cell === "number" ||
+    typeof cell === "boolean";
+  return isPrintable ? String(cell) : "";
+};
 
 export type ImportProvider<TPayload> = (data: TPayload) => Promise<unknown>;
 
-// without transformData, the provider receives the rows as they are
 export type ImportRequest<TPayload> =
   | {
       provider: ImportProvider<TPayload>;
@@ -66,8 +73,6 @@ export const validateData = (
   return result;
 };
 
-// excel date is like a number
-// https://docs.telerik.com/aspnet-core/knowledge-base/spreadsheet-dates-to-javascript
 export const excelDateToJsDate = (excelDate: number) => {
   const SECONDS_IN_DAY = 24 * 60 * 60;
   const MISSING_LEAP_YEAR_DAY = SECONDS_IN_DAY * 1000;

@@ -20,7 +20,7 @@ interface FilterContentResponsiveProps extends FilterContentProps {
   anchorEl: HTMLElement | null;
 }
 
-//TODO: maybe can use popover instead of Dialog for small screen
+// a Dialog on every screen size; a Popover could fit small screens better
 export const FilterContentResponsive = ({
   anchorEl,
   onClose,

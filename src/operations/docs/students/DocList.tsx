@@ -1,4 +1,3 @@
-import {useStudentRef} from "@/hooks";
 import {SuspendedStudentAlert} from "@/operations/common/components/SuspendedStudentAlert";
 import {ToRaRecord} from "@/operations/common/utils/types";
 import {
@@ -6,6 +5,7 @@ import {
   DocListAction,
 } from "@/operations/docs/components/DocList";
 import {useViewType} from "@/operations/docs/hooks/useViewType";
+import {useStudentRef} from "@/operations/fees/hooks/useStudentRef";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {FileType, Student} from "@haapi-b0fc7615/typescript-client";

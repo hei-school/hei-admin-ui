@@ -1,5 +1,5 @@
 import {GRADE_HEADERS} from "@/operations/grades/utils/constants";
-import {ImportRow, validateData} from "@/ui/haToolbar";
+import {cellToText, ImportRow, validateData} from "@/ui/haToolbar";
 
 type GradeRowErrors = Partial<Record<"score" | "comment", string>>;
 
@@ -18,9 +18,9 @@ export const validateGradeRow = (row: ImportRow): GradeRowErrors | null => {
   const errors: GradeRowErrors = {};
 
   if (row.score !== undefined && row.score !== "" && row.score !== null) {
-    const score = Number.parseFloat(String(row.score));
+    const score = Number.parseFloat(cellToText(row.score));
     if (Number.isNaN(score)) {
-      errors.score = `La note "${row.score}" n'est pas un nombre valide`;
+      errors.score = `La note "${cellToText(row.score)}" n'est pas un nombre valide`;
     } else if (score < 0 || score > 20) {
       errors.score = `La note doit être comprise entre 0 et 20 (reçu: ${score})`;
     }
@@ -49,7 +49,7 @@ const transformGradeData = (data: ReadonlyArray<ImportRow>): GradeImport[] =>
         row.score !== "" &&
         row.score !== null && {
           grade: {
-            score: Number.parseFloat(String(row.score)),
+            score: Number.parseFloat(cellToText(row.score)),
             student_id: null,
           },
         }),

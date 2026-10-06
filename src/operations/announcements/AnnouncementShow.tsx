@@ -52,13 +52,11 @@ const AnnouncementAuthorShow = ({author}: Readonly<AuthorProps>) => {
         >
           {author.first_name} {author.last_name}
         </Typography>
-        <EmailField
-          value={
-            <Typography variant="caption" marginLeft={1}>
-              {author.email}
-            </Typography>
-          }
-        />
+        <EmailField email={author.email ?? ""}>
+          <Typography variant="caption" marginLeft={1}>
+            {author.email}
+          </Typography>
+        </EmailField>
       </Box>
     </Box>
   );

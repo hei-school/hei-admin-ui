@@ -5,7 +5,7 @@ import {
 import {DateField} from "@/operations/common/components/fields";
 import {renderMoney} from "@/operations/common/utils/money";
 import FeesActions from "@/operations/fees/components/FeesActions";
-import {PSP_COLORS, PSP_VALUES, rowStyle} from "@/operations/fees/utils";
+import {PSP_COLORS, PSP_VALUES, getFeeRowStyle} from "@/operations/fees/utils";
 import {commentFunctionRenderer} from "@/operations/utils";
 import {payingApi} from "@/providers/api";
 import {toApiIds} from "@/providers/feeProvider";
@@ -47,7 +47,7 @@ export const ManagerFeeList = ({
         }}
         datagridProps={{
           rowClick: (id: Identifier) => `/fees/${id}/show`,
-          rowStyle,
+          rowStyle: getFeeRowStyle,
         }}
       >
         <DateField

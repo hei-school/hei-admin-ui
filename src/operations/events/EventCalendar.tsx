@@ -73,6 +73,8 @@ const EventContent = ({arg}: Readonly<{arg: EventContentArg}>) => {
   );
 };
 
+const renderEventContent = (arg: EventContentArg) => <EventContent arg={arg} />;
+
 export const EventCalendar = () => {
   const calendarRef = useRef(null);
   const [currentEvent, setCurrentEvent] = useState<Event>();
@@ -152,7 +154,7 @@ export const EventCalendar = () => {
             initialView: "timeGridWeek",
             hiddenDays: [0],
             height: "auto",
-            eventContent: (arg) => <EventContent arg={arg} />,
+            eventContent: renderEventContent,
             getFilterValueFromInterval: (dateInfo) => {
               setFilter((prevFilter) => {
                 const newFilter = {

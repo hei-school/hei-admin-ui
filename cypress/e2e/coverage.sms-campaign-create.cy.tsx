@@ -40,7 +40,7 @@ const pasteInto = (testId: string, text: string) =>
   cy.get<HTMLInputElement>(`[data-testid='${testId}']`).then(($input) => {
     const input = $input[0];
     const view = input.ownerDocument.defaultView;
-    expect(view, "fenêtre de l'application").to.not.equal(null);
+    expect(view, "fenêtre de l'application").to.not.be.null;
     if (!view) return;
     const valueSetter = Object.getOwnPropertyDescriptor(
       view.HTMLInputElement.prototype,

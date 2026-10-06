@@ -126,7 +126,7 @@ export const JoinGroupDialog = ({
     },
   });
 
-  const onSubmit = async (data: JoinGroupFormValues) => {
+  const onSubmit = (data: JoinGroupFormValues) => {
     if (!data) return;
 
     const payload = [
@@ -191,7 +191,7 @@ export const MoveStudentDialog = ({
     },
   });
 
-  const onSubmit = async (data: MoveStudentFormValues) => {
+  const onSubmit = (data: MoveStudentFormValues) => {
     if (!data || !record) return;
 
     const payload = [
@@ -254,7 +254,7 @@ export const LeaveGroupDialog = ({
       ? students.find((student) => student.id === record.id)?.ref
       : "";
 
-  const onSubmit = async () => {
+  const onSubmit = () => {
     if (!record) return;
 
     const payload = [

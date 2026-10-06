@@ -63,7 +63,7 @@ export const createFeesApi = (
     comment,
     type,
   } = fees;
-  const firstDueDatetime = new Date(due_datetime ?? NaN);
+  const firstDueDatetime = new Date(due_datetime ?? Number.NaN);
   const currentDate = new Date().toISOString();
 
   for (let i = 0; i < Number(number_of_payments); i++) {

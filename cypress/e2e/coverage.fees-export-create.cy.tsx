@@ -161,7 +161,9 @@ describe("Coverage - export des frais", () => {
   it("ferme la fenêtre d'export", () => {
     exportDialog().find(".MuiDialogTitle-root button").click();
 
-    exportDialog().should("not.exist");
+    cy.contains('[role="dialog"]', "Exporter les frais au format XLSX").should(
+      "not.exist"
+    );
   });
 });
 

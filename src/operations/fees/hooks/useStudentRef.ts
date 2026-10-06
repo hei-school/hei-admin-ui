@@ -1,10 +1,10 @@
+import {useNotify} from "@/hooks/useNotify";
 import {ToRaRecord} from "@/operations/common/utils/types";
+import {studentIdFromRaId} from "@/providers/feeProvider";
 import {Student} from "@haapi-b0fc7615/typescript-client";
 import {useEffect, useState} from "react";
 import {useDataProvider} from "react-admin";
 import {useParams} from "react-router-dom";
-import {studentIdFromRaId} from "../providers/feeProvider";
-import {useNotify} from "./useNotify";
 
 export const useStudentRef = (source: string) => {
   const notify = useNotify();
