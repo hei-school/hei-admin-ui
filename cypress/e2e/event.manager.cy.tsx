@@ -111,7 +111,7 @@ describe("Manager.event", () => {
   it("manager can list & change status event participant", () => {
     cy.getByTestid("event-menu").click();
     cy.contains("Listes").click();
-    cy.get("#event-show").click({force: true});
+    cy.get("#event-show").scrollIntoView().should("be.visible").click();
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid(`eventparticipant-${eventparticipant1mock.id}-status`)
       .as("participantStatus")
@@ -130,7 +130,7 @@ describe("Manager.event", () => {
   it("manager can add group", () => {
     cy.getByTestid("event-menu").click();
     cy.contains("Listes").click();
-    cy.get("#event-show").click({force: true});
+    cy.get("#event-show").scrollIntoView().should("be.visible").click();
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid("menu-list-action").click();
     cy.contains("Ajout groupe").click();

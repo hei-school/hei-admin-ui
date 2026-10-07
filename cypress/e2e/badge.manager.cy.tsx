@@ -47,7 +47,7 @@ describe("Manager scans a badge with the camera", () => {
     camera.show("badge-qr.png");
 
     cy.wait("@getStudentByPublicId");
-    cy.routePathnameEq(`/students/${student1Mock.id}/show`);
+    cy.location("pathname").should("eq", `/students/${student1Mock.id}/show`);
   });
 
   it("tells that a filmed QR code is not a badge", () => {
@@ -55,7 +55,7 @@ describe("Manager scans a badge with the camera", () => {
 
     cy.contains(
       "QR code lu, mais ce n'est pas un badge HEI : « https://www.hei.school »"
-    );
+    ).should("exist");
   });
 
   it("switches to another camera", () => {
@@ -72,7 +72,7 @@ describe("Manager scans a badge with the camera", () => {
 
     cy.contains("button", "Relancer la caméra").click();
 
-    cy.contains("Caméra active");
+    cy.contains("Caméra active").should("exist");
   });
 
   it("tells when the camera cannot be restarted", () => {
@@ -80,7 +80,7 @@ describe("Manager scans a badge with the camera", () => {
 
     cy.contains("button", "Relancer la caméra").click();
 
-    cy.contains("Impossible de relancer la caméra");
+    cy.contains("Impossible de relancer la caméra").should("exist");
   });
 });
 
@@ -91,7 +91,7 @@ describe("Admin scans a badge", () => {
     cy.getByTestid("badge-scan").click();
 
     cy.routePathnameEq("/badges/scan");
-    cy.contains("Scanner un badge");
+    cy.contains("Scanner un badge").should("exist");
   });
 });
 
@@ -122,7 +122,7 @@ describe("Manager scans a badge", () => {
   it("refuses a link that is not a badge", () => {
     scanLink("https://www.hei.school");
 
-    cy.contains("Lien de badge invalide.");
+    cy.contains("Lien de badge invalide.").should("exist");
   });
 
   it("tells that an unknown badge does not exist", () => {
@@ -132,7 +132,7 @@ describe("Manager scans a badge", () => {
 
     scanLink(badgeLinkOf(unknownBadgePublicId));
 
-    cy.contains("Ce badge n'existe pas.");
+    cy.contains("Ce badge n'existe pas.").should("exist");
     cy.routePathnameEq("/badges/scan");
   });
 
@@ -143,7 +143,7 @@ describe("Manager scans a badge", () => {
 
     scanLink(badgePublicId);
 
-    cy.contains("Impossible de lire le badge, réessayez.");
+    cy.contains("Impossible de lire le badge, réessayez.").should("exist");
   });
 });
 
@@ -209,7 +209,7 @@ describe("Manager handles the badge of a student", () => {
     openBadgeMenu();
     cy.getByTestid("badge-print").click();
 
-    cy.contains("Erreur lors de la génération du badge.");
+    cy.contains("Erreur lors de la génération du badge.").should("exist");
   });
 
   it("removes the active badge of a student", () => {
@@ -231,7 +231,7 @@ describe("Manager handles the badge of a student", () => {
     cy.wait("@removeBadge");
     cy.contains("Badge retiré : son QR code ne fonctionne plus.");
     cy.getByTestid("badge-button").click();
-    cy.contains("Aucun badge actif");
+    cy.contains("Aucun badge actif").should("exist");
   });
 
   it("tells when the badge cannot be removed", () => {
@@ -248,7 +248,7 @@ describe("Manager handles the badge of a student", () => {
     cy.getByTestid("badge-remove").click();
     cy.contains("button", "Retirer").click();
 
-    cy.contains("Erreur lors du retrait du badge.");
+    cy.contains("Erreur lors du retrait du badge.").should("exist");
   });
 });
 
@@ -271,7 +271,7 @@ describe("Manager prints the badges of a group", () => {
     cy.getByTestid("group-badges-download").click();
 
     cy.wait("@printGroupBadges");
-    cy.contains("Génération des badges en cours...");
+    cy.contains("Génération des badges en cours...").should("exist");
   });
 
   it("tells when no badge is printed", () => {
@@ -281,6 +281,6 @@ describe("Manager prints the badges of a group", () => {
 
     cy.getByTestid("group-badges-download").click();
 
-    cy.contains("Aucun badge généré");
+    cy.contains("Aucun badge généré").should("exist");
   });
 });

@@ -30,7 +30,7 @@ const AddGroup = ({toggle, eventId}: {toggle: () => void; eventId: string}) => {
       redirect={false}
       data-testid="add-group-form"
       transform={(data: {groups?: string[]}) => {
-        // FIXME: backend not handle null id (course_id)
+        // the backend rejects a null course_id: the event keeps its current course
         return {
           ...event,
           course_id: event.course?.id,

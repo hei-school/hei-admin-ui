@@ -36,6 +36,7 @@ describe("Manager profile test", () => {
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
   });
 
+  // Skipped by 61c7542 (2026-05-09): it failed on the manager profile and was not fixed since.
   it.skip("can view his own profile as manager", () => {
     cy.contains("Profil").click();
     cy.contains("Détails du Profil");

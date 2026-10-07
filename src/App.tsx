@@ -307,8 +307,9 @@ const App = () => {
             element={<CasdoorAuthCallback />}
           />
           <Route path="/calendar" element={<publicContent.calendar />} />
+          {/* page of the badge QR code: no login, same path as in the API */}
           <Route
-            path="/public/students/:publicId"
+            path="/students/badges/:publicId"
             element={<publicContent.student />}
           />
           <Route path="*" element={<AppOrPublicStudent />} />

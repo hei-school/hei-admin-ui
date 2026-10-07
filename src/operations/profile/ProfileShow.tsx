@@ -81,7 +81,6 @@ const ProfileShow = () => {
         role={role as WhoamiRoleEnum}
         isStudentProfile={isStudent()}
         isTeacherProfile={isTeacher()}
-        isAdminProfile={isAdmin()}
         actions={
           <div
             style={{

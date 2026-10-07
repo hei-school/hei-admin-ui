@@ -133,7 +133,7 @@ const ROOT_PUBLIC_ID_PATH =
   /^\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\/?$/i;
 
 export const publicIdFromRootPath = (pathname: string): string | null => {
-  const match = pathname.match(ROOT_PUBLIC_ID_PATH);
+  const match = ROOT_PUBLIC_ID_PATH.exec(pathname);
   return match ? match[1].toLowerCase() : null;
 };
 

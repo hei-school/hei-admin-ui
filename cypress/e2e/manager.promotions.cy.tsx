@@ -52,7 +52,6 @@ describe("Manager.Promotions", () => {
       "getPromotion1"
     );
     cy.getByTestid("promotions-menu").click();
-    cy.wait(1000);
     cy.wait("@getPromotionsPage1");
     cy.intercept(
       "GET",

@@ -1,7 +1,3 @@
-import {Add as AddIcon, Book} from "@mui/icons-material";
-import {Box} from "@mui/material";
-import {ShowButton, TextField, useNotify} from "react-admin";
-//TODO: refactor, this CourseLIst facade
 import {useToggle} from "@/hooks";
 import {CourseListFilter} from "@/operations/course/components";
 import {CourseCreate} from "@/operations/course/CourseCreate";
@@ -11,15 +7,18 @@ import {useRole} from "@/security/hooks";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
 import {ButtonBase, HaActionWrapper} from "@/ui/haToolbar";
+import {Add as AddIcon, Book} from "@mui/icons-material";
+import {Box} from "@mui/material";
+import {ShowButton, TextField, useNotify} from "react-admin";
 
 export const CourseList = () => {
-  const [showCreate, , toggleShowCreate] = useToggle();
   const {isTeacher} = useRole();
-  const notify = useNotify();
+  return isTeacher() ? <TeacherCourseList /> : <ManagerCourseList />;
+};
 
-  if (isTeacher()) {
-    return <TeacherCourseList />;
-  }
+const ManagerCourseList = () => {
+  const [showCreate, , toggleShowCreate] = useToggle();
+  const notify = useNotify();
 
   return (
     <Box>

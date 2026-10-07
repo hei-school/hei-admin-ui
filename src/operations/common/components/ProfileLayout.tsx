@@ -21,7 +21,6 @@ export const ProfileLayout = ({
   isStudentProfile?: boolean;
   isMonitorProfile?: boolean;
   isStaffProfil?: boolean;
-  isAdminProfile?: boolean;
 }) => {
   const {record: profile = {}} = useShowContext();
   const isLarge = useMediaQuery("(min-width:1700px)");

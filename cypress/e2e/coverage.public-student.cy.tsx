@@ -16,7 +16,7 @@ const publicBadgeUrl = `**/students/badges/${PUBLIC_ID}`;
 const badgeStudentUrl = `**/students/badges/${PUBLIC_ID}/student`;
 // lien court du QR code : servi par la route "*" de l'application
 const shortLinkPage = `/${PUBLIC_ID}`;
-const publicPage = `/public/students/${PUBLIC_ID}`;
+const publicPage = `/students/badges/${PUBLIC_ID}`;
 
 const minimalBadge: PublicStudent = {
   id: PUBLIC_ID,

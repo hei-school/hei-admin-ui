@@ -49,9 +49,10 @@ describe("Student receipt", () => {
   it("Student can get receipt", () => {
     cy.get('a[href="/students/student1_id/fees"]').click();
     cy.wait("@getfees");
-    cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`).click({
-      force: true,
-    });
+    cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`)
+      .scrollIntoView()
+      .should("be.visible")
+      .click();
     cy.getByTestid("get-receipt-btn").click();
     cy.wait("@downloadReceipt").its("response.statusCode").should("eq", 200);
   });

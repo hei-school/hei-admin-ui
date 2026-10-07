@@ -50,7 +50,7 @@ describe("Teacher checks the attendance of his course by badge", () => {
     it("captures the course in progress", () => {
       cy.contains(teacherCourseInProgressMock.title!);
       cy.contains(teacherCourseInProgressMock.course!.code!);
-      cy.contains("G1");
+      cy.contains("G1").should("exist");
     });
 
     it("marks the scanned student present", () => {
@@ -96,7 +96,7 @@ describe("Teacher checks the attendance of his course by badge", () => {
 
       scanLink(badgePublicId);
 
-      cy.contains("Badge non valable");
+      cy.contains("Badge non valable").should("exist");
     });
 
     it("tells that the student does not follow the course", () => {
@@ -114,7 +114,7 @@ describe("Teacher checks the attendance of his course by badge", () => {
       scanLink(badgePublicId);
 
       cy.contains(`${validBadgeMock.last_name} ${validBadgeMock.first_name}`);
-      cy.contains("N'est pas inscrit(e) à ce cours.");
+      cy.contains("N'est pas inscrit(e) à ce cours.").should("exist");
     });
 
     it("tells that an unknown badge does not exist", () => {
@@ -129,7 +129,7 @@ describe("Teacher checks the attendance of his course by badge", () => {
 
       scanLink(unknownBadgePublicId);
 
-      cy.contains("Badge inconnu");
+      cy.contains("Badge inconnu").should("exist");
     });
 
     it("tells when the attendance cannot be checked", () => {
@@ -147,13 +147,13 @@ describe("Teacher checks the attendance of his course by badge", () => {
       scanLink(badgePublicId);
       cy.contains("Accès refusé");
       scanLink(unknownBadgePublicId);
-      cy.contains("Réessayez de scanner le badge.");
+      cy.contains("Réessayez de scanner le badge.").should("exist");
     });
 
     it("refuses a link that is not a badge", () => {
       scanLink("not a badge");
 
-      cy.contains("Lien de badge invalide.");
+      cy.contains("Lien de badge invalide.").should("exist");
     });
   });
 
@@ -201,7 +201,9 @@ describe("Teacher checks the attendance of his course by badge", () => {
     );
     openAttendancePage();
 
-    cy.contains("Impossible de charger votre calendrier, réessayez.");
+    cy.contains("Impossible de charger votre calendrier, réessayez.").should(
+      "exist"
+    );
   });
 });
 
@@ -262,6 +264,6 @@ describe("Teacher scans the badges of an event", () => {
 
     scanLink(badgePublicId);
 
-    cy.contains("Ne participe pas à cet événement.");
+    cy.contains("Ne participe pas à cet événement.").should("exist");
   });
 });

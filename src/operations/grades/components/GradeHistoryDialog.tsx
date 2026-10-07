@@ -68,7 +68,7 @@ const GradeHistoryContent = ({
     <Box p={2}>
       {historyData.map((item, index) => (
         <GradeHistoryItem
-          key={`history-${index}`}
+          key={`${item.created_at}-${item.score}-${item.comment}`}
           historyItem={item}
           isLatest={index === 0}
           isLast={index === historyData.length - 1}

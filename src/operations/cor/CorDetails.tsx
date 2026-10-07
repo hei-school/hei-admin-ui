@@ -227,9 +227,9 @@ export const CorDetails = () => {
           }}
         >
           {cor?.comments && cor.comments.length > 0 ? (
-            cor.comments.map((el, index) => (
+            cor.comments.map((el) => (
               <Box
-                key={index}
+                key={`${el.creation_date}-${el.comment}`}
                 sx={{
                   padding: "15px",
                   borderRadius: "10px",

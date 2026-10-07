@@ -1,4 +1,4 @@
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import {List} from "react-admin";
 
 import {PALETTE_COLORS} from "@/haTheme";
@@ -7,11 +7,11 @@ import {
   LetterListView,
   LettersFilter,
 } from "@/operations/letters/components";
-import {HaListContext} from "@/ui/haList";
+import {ListActionsPopover} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {LetterStats} from "@haapi-b0fc7615/typescript-client";
 import {MoreVert} from "@mui/icons-material";
-import {Box, IconButton, Popover, Stack} from "@mui/material";
+import {Box, IconButton, Stack} from "@mui/material";
 
 export const LettersList = ({
   stats,
@@ -26,10 +26,12 @@ export const LettersList = ({
         empty={false}
         pagination={<PrevNextPagination />}
         actions={
-          <LetterListActions
+          <ListActionsPopover
             onClose={() => setAnchorEl(null)}
             anchorEl={anchorEl}
-          />
+          >
+            <LettersFilter />
+          </ListActionsPopover>
         }
         disableSyncWithLocation={true}
       >
@@ -58,30 +60,5 @@ export const LettersList = ({
         <LetterListView />
       </List>
     </Box>
-  );
-};
-
-// TODO: extract into reusable component
-const LetterListActions = ({
-  anchorEl,
-  onClose,
-}: Readonly<{
-  anchorEl: HTMLElement | null;
-  onClose: () => void;
-}>) => {
-  return (
-    <HaListContext.Provider value={useMemo(() => ({closeAction: onClose}), [])}>
-      <Popover
-        open={anchorEl !== null}
-        anchorEl={anchorEl}
-        onClose={onClose}
-        anchorOrigin={{vertical: "top", horizontal: "right"}}
-        transformOrigin={{vertical: "top", horizontal: "right"}}
-      >
-        <Box sx={{width: "150px"}}>
-          <LettersFilter />
-        </Box>
-      </Popover>
-    </HaListContext.Provider>
   );
 };

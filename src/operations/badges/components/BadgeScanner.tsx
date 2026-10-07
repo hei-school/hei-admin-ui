@@ -187,18 +187,22 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
     scannerRef.current = scanner;
     let destroyed = false;
 
+    const listCameras = async () => {
+      try {
+        const availableCameras = await QrScanner.listCameras(true);
+        if (!destroyed) setCameras(availableCameras);
+      } catch {
+        // the camera works even when the other cameras cannot be listed
+      }
+    };
+
     scanner
       .start()
       .then(() => {
         if (destroyed) return;
         setStatus(ACTIVE_STATUS);
         watchCameraTrack(video);
-        // the camera works even when the other cameras cannot be listed
-        QrScanner.listCameras(true)
-          .then((availableCameras) => {
-            if (!destroyed) setCameras(availableCameras);
-          })
-          .catch(() => undefined);
+        void listCameras();
       })
       .catch(() => {
         if (!destroyed)

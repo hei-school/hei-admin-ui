@@ -10,7 +10,7 @@ export const badgePublicId = "0b9d3f9e-3c55-4a8e-9a43-1f2b3c4d5e6f";
 export const unknownBadgePublicId = "11111111-2222-4333-8444-555555555555";
 
 export const badgeLinkOf = (publicId: string) =>
-  `https://preprod.admin.hei.school/public/students/${publicId}`;
+  `https://preprod.admin.hei.school/students/badges/${publicId}`;
 
 export const validBadgeMock: PublicStudent = {
   id: badgePublicId,

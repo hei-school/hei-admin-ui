@@ -77,9 +77,10 @@ describe("Mobile payment by student", () => {
       `/students/${student1Mock.id}/fees?page=2&page_size=*`,
       [{mpbs: fee1MockMpbs, ...fee1Mock}, ...fees]
     ).as("getMpbsFees2");
-    cy.getByTestid(
-      `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
-    ).click({force: true});
+    cy.getByTestid(`addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`)
+      .scrollIntoView()
+      .should("be.visible")
+      .click();
     cy.get("#psp_id").click().type("MP240726.1541.D88429");
     cy.contains("Enregistrer").click();
     cy.contains("Paiement enregistré avec succès").should("exist");
@@ -93,9 +94,10 @@ describe("Mobile payment by student", () => {
       [{id: "credit_payment_new_id"}]
     ).as("createCreditPayment");
     cy.wait("@getStudentCredit");
-    cy.getByTestid(
-      `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
-    ).click({force: true});
+    cy.getByTestid(`addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`)
+      .scrollIntoView()
+      .should("be.visible")
+      .click();
     cy.contains("Crédit").click();
     cy.get("#amount").click().type("100000");
     cy.contains("Enregistrer").click();
@@ -105,9 +107,10 @@ describe("Mobile payment by student", () => {
 
   it("cannot pay a fee by credit for more than the available credit", () => {
     cy.wait("@getStudentCredit");
-    cy.getByTestid(
-      `addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`
-    ).click({force: true});
+    cy.getByTestid(`addMobileMoney-${fee1Mock.student_id}--${fee1Mock.id}`)
+      .scrollIntoView()
+      .should("be.visible")
+      .click();
     cy.contains("Crédit").click();
     cy.get("#amount")
       .click()

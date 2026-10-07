@@ -124,7 +124,7 @@ const FeedbackInfos = () => {
 };
 
 const UserInfo = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<
     Teacher | Student | Manager | Organizer | StaffMember | Admin | Monitor
   >();
@@ -136,14 +136,14 @@ const UserInfo = () => {
 
   useEffect(() => {
     const doEffect = async () => {
-      setIsLoading(true);
-      await dataProvider
-        .getOne("profile", {id})
-        .then((result) => {
-          setUser(result.data);
-          setIsLoading(false);
-        })
-        .catch(() => {});
+      try {
+        const result = await dataProvider.getOne("profile", {id});
+        setUser(result.data);
+      } catch {
+        // without its profile the app bar stays usable, only the name is missing
+      } finally {
+        setIsLoading(false);
+      }
     };
     void doEffect();
   }, []);

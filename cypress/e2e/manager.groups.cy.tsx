@@ -49,7 +49,7 @@ describe("Manager.Group", () => {
         .click()
     );
 
-    cy.contains("Enregistrer").click({force: true});
+    cy.contains("button", "Enregistrer").should("be.enabled").click();
 
     cy.contains("Élément créé").should("exist");
   });

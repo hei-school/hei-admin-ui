@@ -20,7 +20,7 @@ describe("Public badge page", () => {
       "getPublicStudent"
     );
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
     cy.wait("@getPublicStudent");
 
     cy.contains(validBadgeMock.last_name!);
@@ -45,13 +45,13 @@ describe("Public badge page", () => {
     cy.wait("@getPublicStudent");
 
     cy.contains(validBadgeMock.ref!);
-    cy.contains("Se connecter");
+    cy.contains("Se connecter").should("exist");
   });
 
   it("tells that a badge has expired", () => {
     cy.intercept("GET", publicBadgeUrl(badgePublicId), expiredBadgeMock);
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
 
     cy.contains(
       `Ce badge a expiré : il était valable pour l'année ${expiredBadgeMock.academic_year}.`
@@ -62,10 +62,10 @@ describe("Public badge page", () => {
   it("tells that a badge has been removed", () => {
     cy.intercept("GET", publicBadgeUrl(badgePublicId), revokedBadgeMock);
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
 
     cy.contains("Ce badge a été annulé.");
-    cy.contains("Suspendu");
+    cy.contains("Suspendu").should("exist");
   });
 
   it("tells that an unknown badge does not exist", () => {
@@ -73,27 +73,27 @@ describe("Public badge page", () => {
       statusCode: 404,
     });
 
-    cy.visit(`/public/students/${unknownBadgePublicId}`);
+    cy.visit(`/students/badges/${unknownBadgePublicId}`);
 
-    cy.contains("Ce badge n'existe pas.");
+    cy.contains("Ce badge n'existe pas.").should("exist");
   });
 
   it("asks to retry when the badge cannot be loaded", () => {
     cy.intercept("GET", publicBadgeUrl(badgePublicId), {statusCode: 500});
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
 
-    cy.contains("Impossible de charger le badge, réessayez.");
+    cy.contains("Impossible de charger le badge, réessayez.").should("exist");
   });
 
   it("tells when the login page cannot be opened", () => {
     cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock);
     cy.intercept(loginUrlRoute, {statusCode: 500});
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
     cy.contains("Se connecter").click();
 
-    cy.contains("Impossible d'ouvrir la page de connexion.");
+    cy.contains("Impossible d'ouvrir la page de connexion.").should("exist");
   });
 
   it("comes back to the badge after the login of a teacher", () => {
@@ -112,15 +112,15 @@ describe("Public badge page", () => {
     cy.intercept("GET", `**/teachers/${user.id}`, user);
     cy.intercept("**/health/db", "OK");
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
     cy.contains("Se connecter").click();
 
-    cy.routePathnameEq(`/public/students/${badgePublicId}`);
+    cy.routePathnameEq(`/students/badges/${badgePublicId}`);
     cy.wait("@getStudentByPublicId");
     cy.contains("Mes événements");
     cy.contains("Contact de l'étudiant");
     cy.contains(student1Mock.phone);
-    cy.contains(student1Mock.email);
+    cy.contains(student1Mock.email).should("exist");
   });
 });
 
@@ -134,7 +134,7 @@ describe("Badge page of a logged in teacher", () => {
     cy.intercept("GET", badgeStudentUrl(badgePublicId), student1Mock);
     cy.intercept("GET", "/events?*", []);
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
 
     cy.contains("Pour pointer la présence");
     cy.contains("Contact de l'étudiant");
@@ -150,7 +150,7 @@ describe("Badge page of a logged in teacher", () => {
     cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock);
     cy.intercept("GET", badgeStudentUrl(badgePublicId), {statusCode: 403});
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
 
     cy.contains(validBadgeMock.ref!);
     cy.contains("Mes événements");
@@ -169,7 +169,7 @@ describe("Badge page of a logged in manager", () => {
     );
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
     cy.wait("@getStudentByPublicId");
 
     cy.routePathnameEq(`/students/${student1Mock.id}/show`);
@@ -180,7 +180,7 @@ describe("Badge page of a logged in manager", () => {
     cy.intercept("GET", badgeStudentUrl(badgePublicId), {statusCode: 403});
     cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock);
 
-    cy.visit(`/public/students/${badgePublicId}`);
+    cy.visit(`/students/badges/${badgePublicId}`);
 
     cy.contains(validBadgeMock.ref!);
     cy.contains("Se connecter").should("not.exist");
@@ -191,8 +191,8 @@ describe("Badge page of a logged in manager", () => {
       statusCode: 404,
     });
 
-    cy.visit(`/public/students/${unknownBadgePublicId}`);
+    cy.visit(`/students/badges/${unknownBadgePublicId}`);
 
-    cy.contains("Ce badge n'existe pas.");
+    cy.contains("Ce badge n'existe pas.").should("exist");
   });
 });

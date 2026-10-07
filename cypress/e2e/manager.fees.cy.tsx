@@ -246,7 +246,6 @@ describe("Manager.Fee", () => {
         first_duedatetime.setMonth(first_duedatetime.getMonth() + index);
 
         assertFeeMatchesTemplate(fees, feesToCreate);
-        expect(feesToCreate.due_datetime, first_duedatetime.toISOString());
         expect(fees.comment).to.be.equal(feesToCreate.comment);
       });
     });

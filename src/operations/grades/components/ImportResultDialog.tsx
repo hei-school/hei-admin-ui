@@ -69,8 +69,8 @@ export const ImportResultDialog = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {invalidGrades?.map((grade, idx) => (
-                <TableRow key={idx}>
+              {invalidGrades?.map((grade) => (
+                <TableRow key={`${grade.ref}-${grade.score}-${grade.reason}`}>
                   <TableCell>{grade.ref}</TableCell>
                   <TableCell>{grade.score ?? "-"}</TableCell>
                   <TableCell sx={{color: "error.main"}}>

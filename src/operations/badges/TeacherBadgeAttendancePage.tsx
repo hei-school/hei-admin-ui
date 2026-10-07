@@ -95,6 +95,55 @@ export const TeacherBadgeAttendancePage = () => {
     }
   };
 
+  const renderCurrentCourse = () => {
+    if (isLoading) {
+      return (
+        <Box display="flex" justifyContent="center" py={3}>
+          <CircularProgress />
+        </Box>
+      );
+    }
+    if (loadError) {
+      return (
+        <Alert severity="error">
+          Impossible de charger votre calendrier, réessayez.
+        </Alert>
+      );
+    }
+    if (events.length === 0) {
+      return (
+        <Alert severity="info">
+          Vous n'avez pas de cours en ce moment dans le calendrier. Le scanner
+          s'ouvre 15 minutes avant le début du cours.
+        </Alert>
+      );
+    }
+    if (events.length === 1) {
+      return (
+        <Alert severity="success" icon={<EventAvailable />}>
+          <Typography fontWeight="bold">{event?.title}</Typography>
+          {event && eventLabel(event)}
+        </Alert>
+      );
+    }
+    return (
+      <TextField
+        select
+        fullWidth
+        size="small"
+        label="Cours en cours"
+        value={eventId}
+        onChange={(change) => setEventId(change.target.value)}
+      >
+        {events.map((candidate) => (
+          <MenuItem key={candidate.id} value={candidate.id}>
+            {eventLabel(candidate)}
+          </MenuItem>
+        ))}
+      </TextField>
+    );
+  };
+
   return (
     <Box p={2} display="flex" justifyContent="center">
       <Title title="Scanner les badges" />
@@ -106,40 +155,7 @@ export const TeacherBadgeAttendancePage = () => {
           </Typography>
         </Stack>
 
-        {isLoading ? (
-          <Box display="flex" justifyContent="center" py={3}>
-            <CircularProgress />
-          </Box>
-        ) : loadError ? (
-          <Alert severity="error">
-            Impossible de charger votre calendrier, réessayez.
-          </Alert>
-        ) : events.length === 0 ? (
-          <Alert severity="info">
-            Vous n'avez pas de cours en ce moment dans le calendrier. Le scanner
-            s'ouvre 15 minutes avant le début du cours.
-          </Alert>
-        ) : events.length === 1 ? (
-          <Alert severity="success" icon={<EventAvailable />}>
-            <Typography fontWeight="bold">{event?.title}</Typography>
-            {event && eventLabel(event)}
-          </Alert>
-        ) : (
-          <TextField
-            select
-            fullWidth
-            size="small"
-            label="Cours en cours"
-            value={eventId}
-            onChange={(change) => setEventId(change.target.value)}
-          >
-            {events.map((candidate) => (
-              <MenuItem key={candidate.id} value={candidate.id}>
-                {eventLabel(candidate)}
-              </MenuItem>
-            ))}
-          </TextField>
-        )}
+        {renderCurrentCourse()}
         <Button
           size="small"
           startIcon={<Refresh />}
