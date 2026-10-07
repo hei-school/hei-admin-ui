@@ -1,5 +1,6 @@
 import {Student, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import type {PublicStudent} from "../../src/operations/badges/badgeApi";
+import {badgeApiRoute} from "../fixtures/api_mocks/badges-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 import {
   mockUnhandledRequests,
@@ -12,7 +13,7 @@ const DAY_MS = 24 * 60 * 60 * 1000;
 const PIXEL =
   "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 
-const publicBadgeUrl = `**/students/badges/${PUBLIC_ID}`;
+const publicBadgeUrl = badgeApiRoute(PUBLIC_ID);
 const badgeStudentUrl = `**/students/badges/${PUBLIC_ID}/student`;
 // lien court du QR code : servi par la route "*" de l'application
 const shortLinkPage = `/${PUBLIC_ID}`;
@@ -27,13 +28,13 @@ const minimalBadge: PublicStudent = {
 const mockOtherRequests = mockUnhandledRequests;
 
 const visitPublicPage = (badge: PublicStudent) => {
-  cy.intercept("GET", publicBadgeUrl, badge).as("getPublicStudent");
+  cy.intercept(publicBadgeUrl, badge).as("getPublicStudent");
   cy.visit(shortLinkPage);
   cy.wait("@getPublicStudent");
 };
 
 const openPublicPageInApp = (badge: PublicStudent) => {
-  cy.intercept("GET", publicBadgeUrl, badge).as("getPublicStudent");
+  cy.intercept(publicBadgeUrl, badge).as("getPublicStudent");
   navigateInApp(publicPage);
   cy.wait("@getPublicStudent");
 };
@@ -253,7 +254,7 @@ describe("Coverage - page publique du badge (personnel connecté)", () => {
     cy.intercept("GET", badgeStudentUrl, {statusCode: 401}).as(
       "getStudentByPublicId"
     );
-    cy.intercept("GET", publicBadgeUrl, minimalBadge).as("getPublicStudent");
+    cy.intercept(publicBadgeUrl, minimalBadge).as("getPublicStudent");
 
     navigateInApp(publicPage);
     cy.wait("@getStudentByPublicId");
@@ -269,7 +270,7 @@ describe("Coverage - page publique du badge (personnel connecté)", () => {
     cy.intercept("GET", badgeStudentUrl, {statusCode: 500}).as(
       "getStudentByPublicId"
     );
-    cy.intercept("GET", publicBadgeUrl, cy.spy().as("getPublicStudent"));
+    cy.intercept(publicBadgeUrl, cy.spy().as("getPublicStudent"));
 
     navigateInApp(publicPage);
     cy.wait("@getStudentByPublicId");

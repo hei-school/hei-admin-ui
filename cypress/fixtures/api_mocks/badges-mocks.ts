@@ -90,3 +90,9 @@ export const finishedCourseMock: Event = {
   id: "event_finished_id",
   end_datetime: new Date(Date.now() - HOUR_MS),
 };
+
+export const badgeApiRoute = (publicId: string) => ({
+  method: "GET",
+  url: `**/students/badges/${publicId}`,
+  headers: {accept: /json/},
+});

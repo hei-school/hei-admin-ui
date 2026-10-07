@@ -1,5 +1,6 @@
 import {getUserConnected} from "../fixtures/api_mocks/authentification-mocks";
 import {
+  badgeApiRoute,
   badgePublicId,
   expiredBadgeMock,
   revokedBadgeMock,
@@ -8,15 +9,14 @@ import {
 } from "../fixtures/api_mocks/badges-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 
-const publicBadgeUrl = (publicId: string) => `**/students/badges/${publicId}`;
+const publicBadgeUrl = badgeApiRoute;
 const badgeStudentUrl = (publicId: string) =>
   `**/students/badges/${publicId}/student`;
-// its query holds the redirect uri, whose slashes a glob does not match
 const loginUrlRoute = {method: "GET", pathname: "/authentication/login-url"};
 
 describe("Public badge page", () => {
   it("shows the public information of a valid badge to a visitor", () => {
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock).as(
+    cy.intercept(publicBadgeUrl(badgePublicId), validBadgeMock).as(
       "getPublicStudent"
     );
 
@@ -37,7 +37,7 @@ describe("Public badge page", () => {
   });
 
   it("opens the badge from the short link of the QR code", () => {
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock).as(
+    cy.intercept(publicBadgeUrl(badgePublicId), validBadgeMock).as(
       "getPublicStudent"
     );
 
@@ -49,7 +49,7 @@ describe("Public badge page", () => {
   });
 
   it("tells that a badge has expired", () => {
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), expiredBadgeMock);
+    cy.intercept(publicBadgeUrl(badgePublicId), expiredBadgeMock);
 
     cy.visit(`/students/badges/${badgePublicId}`);
 
@@ -60,7 +60,7 @@ describe("Public badge page", () => {
   });
 
   it("tells that a badge has been removed", () => {
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), revokedBadgeMock);
+    cy.intercept(publicBadgeUrl(badgePublicId), revokedBadgeMock);
 
     cy.visit(`/students/badges/${badgePublicId}`);
 
@@ -69,7 +69,7 @@ describe("Public badge page", () => {
   });
 
   it("tells that an unknown badge does not exist", () => {
-    cy.intercept("GET", publicBadgeUrl(unknownBadgePublicId), {
+    cy.intercept(publicBadgeUrl(unknownBadgePublicId), {
       statusCode: 404,
     });
 
@@ -79,7 +79,7 @@ describe("Public badge page", () => {
   });
 
   it("asks to retry when the badge cannot be loaded", () => {
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), {statusCode: 500});
+    cy.intercept(publicBadgeUrl(badgePublicId), {statusCode: 500});
 
     cy.visit(`/students/badges/${badgePublicId}`);
 
@@ -87,7 +87,7 @@ describe("Public badge page", () => {
   });
 
   it("tells when the login page cannot be opened", () => {
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock);
+    cy.intercept(publicBadgeUrl(badgePublicId), validBadgeMock);
     cy.intercept(loginUrlRoute, {statusCode: 500});
 
     cy.visit(`/students/badges/${badgePublicId}`);
@@ -98,7 +98,7 @@ describe("Public badge page", () => {
 
   it("comes back to the badge after the login of a teacher", () => {
     const {user, whoami} = getUserConnected("TEACHER");
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock);
+    cy.intercept(publicBadgeUrl(badgePublicId), validBadgeMock);
     cy.intercept("GET", badgeStudentUrl(badgePublicId), student1Mock).as(
       "getStudentByPublicId"
     );
@@ -127,10 +127,12 @@ describe("Public badge page", () => {
 describe("Badge page of a logged in teacher", () => {
   beforeEach(() => {
     cy.mockLogin({role: "TEACHER"});
+    // the role is cached once the app is loaded
+    cy.getByTestid("main-content").should("exist");
   });
 
   it("shows the contact of the student and goes to the events", () => {
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock);
+    cy.intercept(publicBadgeUrl(badgePublicId), validBadgeMock);
     cy.intercept("GET", badgeStudentUrl(badgePublicId), student1Mock);
     cy.intercept("GET", "/events?*", []);
 
@@ -147,7 +149,7 @@ describe("Badge page of a logged in teacher", () => {
   });
 
   it("still shows the badge without the contact of the student", () => {
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock);
+    cy.intercept(publicBadgeUrl(badgePublicId), validBadgeMock);
     cy.intercept("GET", badgeStudentUrl(badgePublicId), {statusCode: 403});
 
     cy.visit(`/students/badges/${badgePublicId}`);
@@ -161,6 +163,8 @@ describe("Badge page of a logged in teacher", () => {
 describe("Badge page of a logged in manager", () => {
   beforeEach(() => {
     cy.mockLogin({role: "MANAGER"});
+    // the role is cached once the app is loaded
+    cy.getByTestid("main-content").should("exist");
   });
 
   it("opens the fees of the student", () => {
@@ -178,7 +182,7 @@ describe("Badge page of a logged in manager", () => {
 
   it("shows the public page when the student cannot be read", () => {
     cy.intercept("GET", badgeStudentUrl(badgePublicId), {statusCode: 403});
-    cy.intercept("GET", publicBadgeUrl(badgePublicId), validBadgeMock);
+    cy.intercept(publicBadgeUrl(badgePublicId), validBadgeMock);
 
     cy.visit(`/students/badges/${badgePublicId}`);
 
