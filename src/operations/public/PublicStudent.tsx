@@ -1,12 +1,14 @@
 import {
+  BADGE_PAGE_PATH,
   PublicStudent,
   StudentSituation,
   badgePublicIdOfPage,
   getBadgeOwner,
   getBadgeSituation,
   getPublicStudent,
-  hideBadgePublicId,
   httpStatusOf,
+  publicIdOfBadgePath,
+  rememberBadgePublicId,
 } from "@/operations/badges/badgeApi";
 import authProvider from "@/providers/authProvider";
 import {getRedirectUrl, goToExternalURL} from "@/security/casdoorSetting";
@@ -14,7 +16,7 @@ import {rememberRedirectAfterLogin} from "@/security/redirectAfterLogin";
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {CircularProgress} from "@mui/material";
 import {ReactNode, useEffect, useState} from "react";
-import {useNavigate} from "react-router-dom";
+import {useLocation, useNavigate} from "react-router-dom";
 import {PublicNotFound} from "./PublicNotFound";
 import "./style/publicStudent.css";
 
@@ -69,22 +71,19 @@ const getBadge = async (publicId: string) => {
   }
 };
 
+/** /badges/<public id>: the address bar then only shows /badges, the tab keeps the id. */
 const usePagePublicId = () => {
-  const [publicId, setPublicId] = useState(() => {
-    hideBadgePublicId();
-    return badgePublicIdOfPage();
-  });
+  const {pathname} = useLocation();
+  const navigate = useNavigate();
+  const publicIdOfPath = publicIdOfBadgePath(pathname);
 
   useEffect(() => {
-    const onHashChange = () => {
-      hideBadgePublicId();
-      setPublicId(badgePublicIdOfPage());
-    };
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
-  }, []);
+    if (publicIdOfPath === null) return;
+    rememberBadgePublicId(publicIdOfPath);
+    navigate(BADGE_PAGE_PATH, {replace: true});
+  }, [publicIdOfPath, navigate]);
 
-  return publicId;
+  return publicIdOfPath ?? badgePublicIdOfPage();
 };
 
 export const PublicStudentView = () => {

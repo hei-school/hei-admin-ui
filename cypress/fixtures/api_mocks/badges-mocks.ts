@@ -13,9 +13,9 @@ export const badgePublicId = "0b9d3f9e-3c55-4a8e-9a43-1f2b3c4d5e6f";
 export const unknownBadgePublicId = "11111111-2222-4333-8444-555555555555";
 
 export const badgeLinkOf = (publicId: string) =>
-  `https://preprod.admin.hei.school/badges#${publicId}`;
+  `https://preprod.admin.hei.school/badges/${publicId}`;
 
-export const badgePageOf = (publicId: string) => `/badges#${publicId}`;
+export const badgePageOf = (publicId: string) => `/badges/${publicId}`;
 
 export const validBadgeMock: PublicStudent = {
   id: badgePublicId,
@@ -116,9 +116,11 @@ export const finishedCourseMock: Event = {
   end_datetime: new Date(Date.now() - HOUR_MS),
 };
 
+// The badge page of the front has the same path as the api: only the api calls are mocked.
 export const badgeApiRoute = (publicId: string) => ({
   method: "GET",
   url: `**/badges/${publicId}`,
+  resourceType: /xhr|fetch/,
 });
 
 export const badgeOwnerRoute = (publicId: string) => ({

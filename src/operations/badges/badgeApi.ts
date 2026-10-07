@@ -145,21 +145,38 @@ export const removeStudentBadge = (studentId: string) =>
     })
     .then((response) => response.data);
 
+// The QR code of a badge links to https://<site>/badges/<public id>. The address bar then only
+// shows /badges: the public id is kept in the sessionStorage of the tab (refresh, login).
+// index.html does it before Google Tag Manager reads the url.
 export const BADGE_PAGE_PATH = "/badges";
+// pages of the app, not badges
+const APP_PAGES_UNDER_BADGES = ["scan", "attendance"];
 const BADGE_PUBLIC_ID_ITEM = "ha_badge_public_id";
-const HASH_PUBLIC_ID =
-  /^#([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i;
+const PUBLIC_ID =
+  /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 
-export const hideBadgePublicId = () => {
-  const {hash} = window.location;
-  if (!hash) return;
-  const match = HASH_PUBLIC_ID.exec(hash);
-  sessionStorage.setItem(
-    BADGE_PUBLIC_ID_ITEM,
-    match ? match[1].toLowerCase() : ""
+const segmentsOf = (pathname: string) =>
+  pathname.replace(/\/+$/, "").split("/").slice(1);
+
+/** /badges and /badges/<public id>, unlike /badges/scan and /badges/attendance. */
+export const isBadgePagePath = (pathname: string) => {
+  const [first, second, ...others] = segmentsOf(pathname);
+  return (
+    first === "badges" &&
+    others.length === 0 &&
+    (second === undefined || !APP_PAGES_UNDER_BADGES.includes(second))
   );
-  window.history.replaceState(window.history.state, "", BADGE_PAGE_PATH);
 };
+
+/** null for /badges, "" for a guessed value: the page then answers 404. */
+export const publicIdOfBadgePath = (pathname: string): string | null => {
+  const [, second] = segmentsOf(pathname);
+  if (second === undefined) return null;
+  return PUBLIC_ID.test(second) ? second.toLowerCase() : "";
+};
+
+export const rememberBadgePublicId = (publicId: string) =>
+  sessionStorage.setItem(BADGE_PUBLIC_ID_ITEM, publicId);
 
 export const badgePublicIdOfPage = (): string | null =>
   sessionStorage.getItem(BADGE_PUBLIC_ID_ITEM) || null;

@@ -34,7 +34,6 @@ describe("Public badge page", () => {
     cy.wait("@getPublicStudent");
 
     cy.location("pathname").should("eq", "/badges");
-    cy.location("hash").should("eq", "");
     cy.contains(validBadgeMock.last_name!);
     cy.contains(validBadgeMock.first_name!);
     cy.contains(validBadgeMock.ref!);
@@ -107,10 +106,10 @@ describe("Public badge page", () => {
       cy.spy().as("anyBadgeCall")
     );
 
-    cy.visit("/badges#student1_id");
+    cy.visit("/badges/student1_id");
 
     expectNotFoundPage();
-    cy.location("hash").should("eq", "");
+    cy.location("pathname").should("eq", "/badges");
     cy.get("@anyBadgeCall").should("not.have.been.called");
     cy.contains("Retour à l'accueil").should("have.attr", "href", "/");
   });
@@ -130,12 +129,13 @@ describe("Public badge page", () => {
     cy.visit(badgePageOf(badgePublicId));
     cy.contains("Valable jusqu'au");
     cy.window().then((win) => {
-      win.location.hash = unknownBadgePublicId;
+      win.history.pushState({}, "", badgePageOf(unknownBadgePublicId));
+      win.dispatchEvent(new win.PopStateEvent("popstate", {state: {}}));
     });
 
     cy.wait("@getOtherBadge");
     cy.contains("Sans expiration");
-    cy.location("hash").should("eq", "");
+    cy.location("pathname").should("eq", "/badges");
   });
 
   it("asks to retry when the badge cannot be loaded", () => {

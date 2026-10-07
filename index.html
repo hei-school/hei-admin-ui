@@ -9,20 +9,20 @@
       name="description"
       content="Scolarité de la Haute École d'Informatique de Madagascar"
     />
-    <!-- Badge QR code (/badges#<public id>): hide the public id before Google Tag Manager
-         reads the url, see hideBadgePublicId in src/operations/badges/badgeApi.ts -->
+    <!-- Badge QR code (/badges/<public id>): hide the public id before Google Tag Manager
+         reads the url, see publicIdOfBadgePath in src/operations/badges/badgeApi.ts -->
     <script>
       (function () {
-        var hash = window.location.hash;
-        if (window.location.pathname !== "/badges" || !hash) return;
-        var match =
-          /^#([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.exec(
-            hash
+        var path = /^\/badges\/([^/]+)\/?$/.exec(window.location.pathname);
+        if (!path || path[1] === "scan" || path[1] === "attendance") return;
+        var isPublicId =
+          /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
+            path[1]
           );
         try {
           sessionStorage.setItem(
             "ha_badge_public_id",
-            match ? match[1].toLowerCase() : ""
+            isPublicId ? path[1].toLowerCase() : ""
           );
         } catch (e) {}
         window.history.replaceState(window.history.state, "", "/badges");

@@ -8,7 +8,6 @@ import {
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 import {
   mockUnhandledRequests,
-  navigateInApp,
   pushPathInApp,
 } from "../support/coverage-navigation";
 
@@ -18,7 +17,7 @@ const PIXEL =
 
 const publicBadgeUrl = badgeApiRoute(PUBLIC_ID);
 const badgeOwnerUrl = badgeOwnerRoute(PUBLIC_ID);
-const publicPage = `/badges#${PUBLIC_ID}`;
+const publicPage = `/badges/${PUBLIC_ID}`;
 
 const minimalBadge: PublicStudent = {
   id: PUBLIC_ID,
@@ -192,10 +191,8 @@ describe("Coverage - page publique du badge (personnel connecté)", () => {
     cy.intercept(badgeOwnerUrl, {statusCode: 401}).as("getBadgeOwner");
     cy.intercept(publicBadgeUrl, minimalBadge).as("getPublicStudent");
 
-    navigateInApp(publicPage.replace(`#${PUBLIC_ID}`, ""));
-    cy.window().then((win) => {
-      win.location.hash = PUBLIC_ID;
-    });
+    pushPathInApp(publicPage);
+    cy.routePathnameEq("/badges");
     cy.wait("@getBadgeOwner");
     cy.wait("@getPublicStudent");
 
