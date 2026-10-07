@@ -21,8 +21,6 @@ let resultKey = 0;
 export const fullName = (student: {first_name?: string; last_name?: string}) =>
   `${student.last_name ?? ""} ${student.first_name ?? ""}`.trim();
 
-// The student is marked present anyway: the warning only tells the teacher
-// that he has overdue fees, so that he can send him to the office.
 export const presentResult = (
   participant: EventParticipant
 ): Omit<ScanResult, "key"> => ({

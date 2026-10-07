@@ -3,9 +3,10 @@ import type {PublicStudent} from "../../src/operations/badges/badgeApi";
 import {
   badgeApiRoute,
   badgeOwnerRoute,
-  badgeSituationRoute,
+  badgeSelfAttendanceRoute,
 } from "../fixtures/api_mocks/badges-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
+import {encryptedBadge} from "../support/badgeCipher";
 import {
   mockUnhandledRequests,
   pushPathInApp,
@@ -23,18 +24,23 @@ const minimalBadge: PublicStudent = {
   id: PUBLIC_ID,
   is_valid: true,
   ref: "STD26001",
+  expiration_datetime: "2027-10-31T21:00:00Z",
 };
 
 const mockOtherRequests = mockUnhandledRequests;
 
 const visitPublicPage = (badge: PublicStudent) => {
-  cy.intercept(publicBadgeUrl, badge).as("getPublicStudent");
+  cy.intercept(publicBadgeUrl, encryptedBadge(PUBLIC_ID, badge)).as(
+    "getPublicStudent"
+  );
   cy.visit(publicPage);
   cy.wait("@getPublicStudent");
 };
 
 const openPublicPageInApp = (badge: PublicStudent) => {
-  cy.intercept(publicBadgeUrl, badge).as("getPublicStudent");
+  cy.intercept(publicBadgeUrl, encryptedBadge(PUBLIC_ID, badge)).as(
+    "getPublicStudent"
+  );
   pushPathInApp(publicPage);
   cy.routePathnameEq("/badges");
   cy.wait("@getPublicStudent");
@@ -45,7 +51,7 @@ describe("Coverage - page publique du badge (visiteur)", () => {
     mockOtherRequests();
   });
 
-  it("affiche un badge sans statut, niveau, spécialité, année ni photo", () => {
+  it("affiche un badge sans statut, niveau, spécialité, année, photo ni frais", () => {
     visitPublicPage(minimalBadge);
 
     cy.get(".public-student__ref").should("have.text", minimalBadge.ref);
@@ -53,9 +59,28 @@ describe("Coverage - page publique du badge (visiteur)", () => {
     cy.get("img.public-student__photo").should("not.exist");
     cy.get("div.public-student__photo").should("exist");
     cy.get(".public-student__academic-year").should("not.exist");
-    cy.get(".public-student__validity").should("have.text", "Sans expiration");
+    cy.get(".public-student__validity").should(
+      "contain.text",
+      "Valable jusqu'au"
+    );
+    cy.get(".public-student__fees-ok").should(
+      "have.text",
+      "Aucun frais en retard"
+    );
+    cy.get(".public-student__fees-suspension").should("not.exist");
     cy.get(".public-student__message--warning").should("not.exist");
     cy.get(".public-student__button").should("have.text", "Se connecter");
+  });
+
+  it("affiche un frais en retard sans libellé ni échéance", () => {
+    visitPublicPage({...minimalBadge, late_fees: [{}]});
+
+    cy.get(".public-student__fees-title").should(
+      "have.text",
+      "Frais en retard (1)"
+    );
+    cy.get(".public-student__fees-list li").should("contain.text", "Frais");
+    cy.get(".public-student__fees-due").should("not.exist");
   });
 
   it("ignore un statut inconnu et garde une spécialité inconnue telle quelle", () => {
@@ -139,18 +164,18 @@ describe("Coverage - page publique du badge (enseignant connecté)", () => {
     cy.mockLogin({role: WhoamiRoleEnum.TEACHER});
   });
 
-  it("ne demande que la situation de l'étudiant, jamais ses contacts", () => {
+  it("pointe la présence sans demander l'étudiant réel", () => {
     cy.intercept(badgeOwnerUrl, cy.spy().as("getOwner"));
-    cy.intercept(badgeSituationRoute(PUBLIC_ID), {
-      status: "SUSPENDED",
-      suspension_reason: "LATE_FEES",
-      late_fees: [{}],
-    }).as("getSituation");
+    cy.intercept(badgeSelfAttendanceRoute(PUBLIC_ID), {
+      result: "CHECKED",
+    }).as("checkAttendance");
     openPublicPageInApp(minimalBadge);
-    cy.wait("@getSituation");
+    cy.wait("@checkAttendance");
 
-    cy.get(".public-student__situation li").should("have.text", "Frais");
-    cy.get(".public-student__contact--student").should("not.exist");
+    cy.get(".public-student__attendance").should(
+      "have.text",
+      "Présent(e) enregistré(e) · "
+    );
     cy.get("@getOwner").should("not.have.been.called");
   });
 });
@@ -161,13 +186,17 @@ describe("Coverage - page publique du badge (étudiant connecté)", () => {
     cy.mockLogin({role: WhoamiRoleEnum.STUDENT});
   });
 
-  it("n'affiche ni connexion ni actions d'enseignant", () => {
-    cy.intercept(badgeSituationRoute(PUBLIC_ID), cy.spy().as("getSituation"));
+  it("n'affiche ni connexion ni présence", () => {
+    cy.intercept(
+      badgeSelfAttendanceRoute(PUBLIC_ID),
+      cy.spy().as("checkAttendance")
+    );
     openPublicPageInApp(minimalBadge);
 
     cy.get(".public-student__ref").should("have.text", minimalBadge.ref);
     cy.get(".public-student__button").should("not.exist");
-    cy.get("@getSituation").should("not.have.been.called");
+    cy.get(".public-student__attendance").should("not.exist");
+    cy.get("@checkAttendance").should("not.have.been.called");
   });
 });
 
@@ -189,12 +218,9 @@ describe("Coverage - page publique du badge (personnel connecté)", () => {
     mockOtherRequests();
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
     cy.intercept(badgeOwnerUrl, {statusCode: 401}).as("getBadgeOwner");
-    cy.intercept(publicBadgeUrl, minimalBadge).as("getPublicStudent");
 
-    pushPathInApp(publicPage);
-    cy.routePathnameEq("/badges");
+    openPublicPageInApp(minimalBadge);
     cy.wait("@getBadgeOwner");
-    cy.wait("@getPublicStudent");
 
     cy.get(".public-student__ref").should("have.text", minimalBadge.ref);
     cy.get(".public-student__button").should("not.exist");

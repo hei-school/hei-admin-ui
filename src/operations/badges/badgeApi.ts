@@ -5,6 +5,7 @@ import {
   AttendanceStatus,
   EventParticipant,
 } from "@haapi-b0fc7615/typescript-client";
+import {decryptBadge} from "./badgeCipher";
 
 export type BadgeInvalidity = "REVOKED" | "EXPIRED";
 
@@ -21,12 +22,14 @@ export type PublicStudent = {
   level?: string;
   specialization_field?: string;
   profile_picture?: string;
-};
-
-export type StudentSituation = {
-  status?: string;
   suspension_reason?: "LATE_FEES" | "OTHER";
   late_fees?: {label?: string; due_datetime?: string}[];
+};
+
+export type BadgeAttendance = {
+  result?: "CHECKED" | "NO_COURSE_IN_PROGRESS" | "NOT_PARTICIPANT";
+  event_title?: string;
+  course_code?: string;
 };
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -43,10 +46,10 @@ const badgeUrl = (publicId: string) =>
 
 export const getPublicStudent = (publicId: string) =>
   getAxiosInstance()
-    .get<PublicStudent>(badgeUrl(publicId), {
+    .get<{payload: string}>(badgeUrl(publicId), {
       timeout: SCAN_REQUEST_TIMEOUT_MS,
     })
-    .then((response) => response.data);
+    .then(({data}) => decryptBadge<PublicStudent>(data.payload, publicId));
 
 export const getBadgeOwner = (publicId: string) =>
   getAxiosInstance()
@@ -56,9 +59,9 @@ export const getBadgeOwner = (publicId: string) =>
     })
     .then((response) => response.data);
 
-export const getBadgeSituation = (publicId: string) =>
+export const checkBadgeAttendance = (publicId: string) =>
   getAxiosInstance()
-    .get<StudentSituation>(`${badgeUrl(publicId)}/situation`, {
+    .put<BadgeAttendance>(`${badgeUrl(publicId)}/attendance`, null, {
       headers: authHeaders(),
       timeout: SCAN_REQUEST_TIMEOUT_MS,
     })
@@ -145,11 +148,7 @@ export const removeStudentBadge = (studentId: string) =>
     })
     .then((response) => response.data);
 
-// The QR code of a badge links to https://<site>/badges/<public id>. The address bar then only
-// shows /badges: the public id is kept in the sessionStorage of the tab (refresh, login).
-// index.html does it before Google Tag Manager reads the url.
 export const BADGE_PAGE_PATH = "/badges";
-// pages of the app, not badges
 const APP_PAGES_UNDER_BADGES = ["scan", "attendance"];
 const BADGE_PUBLIC_ID_ITEM = "ha_badge_public_id";
 const PUBLIC_ID =
@@ -158,7 +157,6 @@ const PUBLIC_ID =
 const segmentsOf = (pathname: string) =>
   pathname.replace(/\/+$/, "").split("/").slice(1);
 
-/** /badges and /badges/<public id>, unlike /badges/scan and /badges/attendance. */
 export const isBadgePagePath = (pathname: string) => {
   const [first, second, ...others] = segmentsOf(pathname);
   return (
@@ -168,7 +166,6 @@ export const isBadgePagePath = (pathname: string) => {
   );
 };
 
-/** null for /badges, "" for a guessed value: the page then answers 404. */
 export const publicIdOfBadgePath = (pathname: string): string | null => {
   const [, second] = segmentsOf(pathname);
   if (second === undefined) return null;

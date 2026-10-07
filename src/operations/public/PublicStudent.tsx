@@ -1,10 +1,10 @@
 import {
   BADGE_PAGE_PATH,
+  BadgeAttendance,
   PublicStudent,
-  StudentSituation,
   badgePublicIdOfPage,
+  checkBadgeAttendance,
   getBadgeOwner,
-  getBadgeSituation,
   getPublicStudent,
   httpStatusOf,
   publicIdOfBadgePath,
@@ -86,11 +86,14 @@ const usePagePublicId = () => {
   return publicIdOfPath ?? badgePublicIdOfPage();
 };
 
+/** loading, then the result: a teacher opening a badge marks its student present. */
+type AttendanceState = BadgeAttendance | "loading" | "error" | null;
+
 export const PublicStudentView = () => {
   const publicId = usePagePublicId();
   const navigate = useNavigate();
   const [student, setStudent] = useState<PublicStudent | null>(null);
-  const [situation, setSituation] = useState<StudentSituation | null>(null);
+  const [attendance, setAttendance] = useState<AttendanceState>(null);
   const [isNotFound, setIsNotFound] = useState(!publicId);
   const [error, setError] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
@@ -107,15 +110,18 @@ export const PublicStudentView = () => {
     let cancelled = false;
     setIsNotFound(false);
     setStudent(null);
-    setSituation(null);
+    setAttendance(null);
     setError(null);
 
-    const loadSituation = () => {
-      getBadgeSituation(publicId)
-        .then((loaded) => {
-          if (!cancelled) setSituation(loaded);
+    const checkAttendance = () => {
+      setAttendance("loading");
+      checkBadgeAttendance(publicId)
+        .then((checked) => {
+          if (!cancelled) setAttendance(checked);
         })
-        .catch(() => undefined);
+        .catch(() => {
+          if (!cancelled) setAttendance("error");
+        });
     };
 
     const loadStudent = async () => {
@@ -130,7 +136,7 @@ export const PublicStudentView = () => {
       const badge = await getBadge(publicId);
       if (cancelled) return;
       setStudent(badge);
-      if (badge.is_valid && isLoggedIn() && isTeacher) loadSituation();
+      if (badge.is_valid && isLoggedIn() && isTeacher) checkAttendance();
     };
 
     void loadStudent().catch((e) => {
@@ -159,6 +165,8 @@ export const PublicStudentView = () => {
 
   if (isNotFound) return <PublicNotFound />;
 
+  const validStudent = !error && student?.is_valid ? student : null;
+
   return (
     <div className="public-student">
       <header className="public-student__toolbar">
@@ -169,23 +177,32 @@ export const PublicStudentView = () => {
       </header>
 
       <main className="public-student__content">
-        <div className="public-student__card">
+        <div
+          className={`public-student__card${validStudent ? " public-student__card--wide" : ""}`}
+        >
           <div className="public-student__card-header">Étudiant</div>
-          <div className="public-student__card-body">
-            <StudentCardBody
-              error={error}
-              student={student}
-              situation={situation}
-              actions={
-                <StudentActions
-                  isTeacher={isTeacher}
-                  isRedirecting={isRedirecting}
-                  onLogin={login}
-                  onCheckAttendance={() => navigate("/badges/attendance")}
-                />
-              }
-            />
-          </div>
+          <AttendanceBanner attendance={attendance} />
+          {validStudent ? (
+            <div className="public-student__columns">
+              <div className="public-student__card-body">
+                <StudentIdentity student={validStudent} />
+                {!isLoggedIn() && (
+                  <button
+                    className="public-student__button"
+                    disabled={isRedirecting}
+                    onClick={login}
+                  >
+                    Se connecter
+                  </button>
+                )}
+              </div>
+              <LateFees student={validStudent} />
+            </div>
+          ) : (
+            <div className="public-student__card-body">
+              <CardMessage error={error} student={student} />
+            </div>
+          )}
           <SchoolContact />
         </div>
       </main>
@@ -193,19 +210,10 @@ export const PublicStudentView = () => {
   );
 };
 
-type StudentCardBodyProps = {
-  error: string | null;
-  student: PublicStudent | null;
-  situation: StudentSituation | null;
-  actions: ReactNode;
-};
-
-const StudentCardBody = ({
+const CardMessage = ({
   error,
   student,
-  situation,
-  actions,
-}: Readonly<StudentCardBodyProps>) => {
+}: Readonly<{error: string | null; student: PublicStudent | null}>) => {
   if (error) {
     return (
       <div className="public-student__message public-student__message--error">
@@ -213,21 +221,19 @@ const StudentCardBody = ({
       </div>
     );
   }
-
   if (!student) {
     return <CircularProgress sx={{color: "#001948", my: 6}} />;
   }
+  // nothing on the student once its badge is revoked or expired
+  return (
+    <div className="public-student__message public-student__message--warning">
+      {INVALIDITY_MESSAGES[student.invalidity ?? "REVOKED"]}
+    </div>
+  );
+};
 
-  if (!student.is_valid) {
-    return (
-      <div className="public-student__message public-student__message--warning">
-        {INVALIDITY_MESSAGES[student.invalidity ?? "REVOKED"]}
-      </div>
-    );
-  }
-
+const StudentIdentity = ({student}: Readonly<{student: PublicStudent}>) => {
   const status = student.status ? STATUS_LABELS[student.status] : undefined;
-
   return (
     <>
       {student.profile_picture ? (
@@ -263,87 +269,99 @@ const StudentCardBody = ({
         </div>
       )}
       <BadgeValidity student={student} />
-      <Situation situation={situation} />
-      {actions}
     </>
   );
 };
 
-const BadgeValidity = ({student}: Readonly<{student: PublicStudent}>) => (
-  <div className="public-student__validity">
-    {student.academic_year && (
-      <div className="public-student__academic-year">
-        Année universitaire {student.academic_year}
-      </div>
-    )}
-    <div>
-      {student.expiration_datetime
-        ? `Valable jusqu'au ${formatDate(student.expiration_datetime)}`
-        : "Sans expiration"}
-    </div>
-  </div>
-);
-
-const Situation = ({
-  situation,
-}: Readonly<{situation: StudentSituation | null}>) => {
-  if (situation?.status !== "SUSPENDED") return null;
-
-  const lateFees = situation.late_fees ?? [];
+// A badge without expiration is the one of a student who went out after its Licence.
+const BadgeValidity = ({student}: Readonly<{student: PublicStudent}>) => {
+  if (!student.expiration_datetime) {
+    return (
+      <span className="public-student__pill public-student__pill--graduate">
+        🎓 Licencié(e)
+      </span>
+    );
+  }
   return (
-    <div className="public-student__message public-student__message--error public-student__situation">
-      <div>
-        {situation.suspension_reason === "LATE_FEES"
-          ? "Suspendu : frais en retard"
-          : "Suspendu par l'administration"}
+    <div className="public-student__validity">
+      {student.academic_year && (
+        <div className="public-student__academic-year">
+          Année universitaire {student.academic_year}
+        </div>
+      )}
+      <div>Valable jusqu'au {formatDate(student.expiration_datetime)}</div>
+    </div>
+  );
+};
+
+const LateFees = ({student}: Readonly<{student: PublicStudent}>) => {
+  const lateFees = student.late_fees ?? [];
+  return (
+    <section className="public-student__fees">
+      <div className="public-student__fees-title">
+        {lateFees.length > 0 ? `Frais en retard (${lateFees.length})` : "Frais"}
       </div>
-      {lateFees.length > 0 && (
-        <ul>
+      {lateFees.length === 0 ? (
+        <div className="public-student__fees-ok">Aucun frais en retard</div>
+      ) : (
+        <ul className="public-student__fees-list">
           {lateFees.map((lateFee, index) => (
             <li key={`${lateFee.label}-${lateFee.due_datetime}-${index}`}>
-              {lateFee.label ?? "Frais"}
-              {lateFee.due_datetime &&
-                ` · échu le ${formatDate(lateFee.due_datetime)}`}
+              <div>
+                <div>{lateFee.label ?? "Frais"}</div>
+                {lateFee.due_datetime && (
+                  <div className="public-student__fees-due">
+                    Échu le {formatDate(lateFee.due_datetime)}
+                  </div>
+                )}
+              </div>
+              <span className="public-student__fees-late">En retard</span>
             </li>
           ))}
         </ul>
       )}
+      {student.suspension_reason && (
+        <div className="public-student__fees-suspension">
+          {student.suspension_reason === "LATE_FEES"
+            ? "Suspendu pour frais en retard : passage au bureau requis."
+            : "Suspendu par l'administration."}
+        </div>
+      )}
+    </section>
+  );
+};
+
+const AttendanceBanner = ({
+  attendance,
+}: Readonly<{attendance: AttendanceState}>) => {
+  if (attendance === null) return null;
+  const banner = (tone: string, content: ReactNode) => (
+    <div
+      className={`public-student__message public-student__message--${tone} public-student__attendance`}
+    >
+      {content}
     </div>
   );
-};
-
-type StudentActionsProps = {
-  isTeacher: boolean;
-  isRedirecting: boolean;
-  onLogin: () => void;
-  onCheckAttendance: () => void;
-};
-
-const StudentActions = ({
-  isTeacher,
-  isRedirecting,
-  onLogin,
-  onCheckAttendance,
-}: Readonly<StudentActionsProps>) => {
-  if (!isLoggedIn()) {
-    return (
-      <button
-        className="public-student__button"
-        disabled={isRedirecting}
-        onClick={onLogin}
-      >
-        Se connecter
-      </button>
+  if (attendance === "loading") {
+    return banner("info", "Enregistrement de la présence…");
+  }
+  if (attendance === "error") {
+    return banner(
+      "error",
+      "La présence n'a pas pu être enregistrée, rouvrez le badge."
     );
   }
-
-  if (!isTeacher) return null;
-
-  return (
-    <button className="public-student__button" onClick={onCheckAttendance}>
-      Pointer la présence
-    </button>
-  );
+  const course = [attendance.course_code, attendance.event_title]
+    .filter(Boolean)
+    .join(" - ");
+  switch (attendance.result) {
+    case "CHECKED":
+      return banner("success", `Présent(e) enregistré(e) · ${course}`);
+    case "NOT_PARTICIPANT":
+      return banner("warning", `N'est pas inscrit(e) à votre cours ${course}`);
+    default:
+      return banner("info", "Vous n'avez pas de cours en ce moment.");
+  }
 };
 
 const SCHOOL_PHONE = "+261 34 94 041 16";

@@ -72,7 +72,6 @@ export const TeacherBadgeAttendancePage = () => {
   }, [teacherId]);
 
   useEffect(() => {
-    // errors are handled by loadEvents itself
     void loadEvents();
   }, [loadEvents]);
 

@@ -13,6 +13,7 @@ import {
   event1mock,
   eventParticipantsMock,
 } from "../fixtures/api_mocks/event-mocks";
+import {encryptedBadge} from "../support/badgeCipher";
 
 const attendanceUrl = (publicId: string, eventId: string) =>
   `**/badges/${publicId}/events/${eventId}/attendance`;
@@ -105,7 +106,11 @@ describe("Teacher checks the attendance of his course by badge", () => {
         attendanceUrl(badgePublicId, teacherCourseInProgressMock.id!),
         {statusCode: 404}
       );
-      cy.intercept("GET", `**/badges/${badgePublicId}`, validBadgeMock);
+      cy.intercept(
+        "GET",
+        `**/badges/${badgePublicId}`,
+        encryptedBadge(badgePublicId, validBadgeMock)
+      );
 
       scanLink(badgePublicId);
 
@@ -256,7 +261,11 @@ describe("Teacher scans the badges of an event", () => {
     cy.intercept("PUT", attendanceUrl(badgePublicId, event1mock.id!), {
       statusCode: 404,
     });
-    cy.intercept("GET", `**/badges/${badgePublicId}`, validBadgeMock);
+    cy.intercept(
+      "GET",
+      `**/badges/${badgePublicId}`,
+      encryptedBadge(badgePublicId, validBadgeMock)
+    );
 
     scanLink(badgePublicId);
 

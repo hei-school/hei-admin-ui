@@ -57,7 +57,6 @@ export const BadgeMenu = ({studentId, studentRef}: BadgeMenuProps) => {
   );
 
   useEffect(() => {
-    // errors are handled by loadActiveBadge itself
     void loadActiveBadge();
   }, [loadActiveBadge]);
 

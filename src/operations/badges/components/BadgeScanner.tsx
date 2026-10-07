@@ -14,7 +14,6 @@ import {parsePublicId} from "../badgeApi";
 
 const MAX_SCANS_PER_SECOND = 5;
 const SAME_BADGE_COOLDOWN_MS = 4_000;
-// A scan waiting for the server blocks the next ones: never wait forever.
 const SCAN_TIMEOUT_MS = 15_000;
 const SCAN_REGION_RATIO = 0.85;
 const MAX_SCAN_REGION_PX = 800;
@@ -119,7 +118,6 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
         message:
           "Le serveur ne répond pas : vérifiez la connexion puis rescannez le badge.",
       });
-      // the same badge can be rescanned right away
       lastScanRef.current = null;
     } finally {
       isHandlingRef.current = false;
@@ -127,7 +125,6 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
     }
   }, []);
 
-  // Detects a webcam that stops (used by another app, unplugged, put to sleep...).
   const watchCameraTrack = useCallback((video: HTMLVideoElement) => {
     const stream = video.srcObject as MediaStream | null;
     stream?.getVideoTracks().forEach((track) =>
@@ -145,8 +142,6 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
   useEffect(() => {
     const container = videoContainerRef.current;
     if (!container) return;
-    // One video per scanner: a destroyed scanner clears the stream of its video 300 ms
-    // later, which would stop the camera of the next scanner (effects run twice in dev).
     const video = createVideo();
     container.appendChild(video);
     videoRef.current = video;
@@ -157,7 +152,6 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
         const publicId = parsePublicId(result.data);
         if (publicId) {
           setStatus(null);
-          // errors and timeouts are handled by handle itself
           void handle(publicId);
         } else {
           setStatus({
@@ -174,7 +168,6 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
         highlightScanRegion: true,
         highlightCodeOutline: true,
         onDecodeError: (error) => {
-          // no image to decode while a camera starts or is changed
           if (error === QrScanner.NO_QR_CODE_FOUND || video.videoWidth === 0)
             return;
           setStatus({
@@ -228,8 +221,6 @@ export const BadgeScanner = ({onScan}: BadgeScannerProps) => {
     isHandlingRef.current = false;
     lastScanRef.current = null;
     try {
-      // releases the stream right away, so that start opens the camera again
-      // (stop only releases it 300 ms later: start would replay the dead stream)
       await scanner.pause(true);
       await scanner.start();
       setCameraStopped(false);

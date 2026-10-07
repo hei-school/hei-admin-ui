@@ -1,7 +1,7 @@
 import {Event, EventParticipant} from "@haapi-b0fc7615/typescript-client";
 import type {
+  BadgeAttendance,
   PublicStudent,
-  StudentSituation,
 } from "../../../src/operations/badges/badgeApi";
 import {courseMock1} from "./course-mocks";
 import {manager1Mock} from "./managers-mocks";
@@ -30,13 +30,38 @@ export const validBadgeMock: PublicStudent = {
   specialization_field: "EL",
   profile_picture:
     "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
+  late_fees: [],
 };
 
-export const permanentBadgeMock: PublicStudent = {
+// a student who went out after its Licence: no level, no expiration
+export const graduateBadgeMock: PublicStudent = {
   ...validBadgeMock,
-  level: "L3",
+  level: undefined,
+  status: "ALUMNI",
   expiration_datetime: undefined,
   profile_picture: undefined,
+};
+
+export const lateFeesBadgeMock: PublicStudent = {
+  ...validBadgeMock,
+  status: "SUSPENDED",
+  suspension_reason: "LATE_FEES",
+  late_fees: [
+    {label: "Frais de scolarité octobre", due_datetime: "2026-10-15T00:00:00Z"},
+    {label: "Assurance", due_datetime: "2026-09-30T00:00:00Z"},
+  ],
+};
+
+export const otherSuspensionBadgeMock: PublicStudent = {
+  ...validBadgeMock,
+  status: "SUSPENDED",
+  suspension_reason: "OTHER",
+};
+
+export const checkedAttendanceMock: BadgeAttendance = {
+  result: "CHECKED",
+  event_title: "Prog 3",
+  course_code: "PROG1",
 };
 
 export const expiredBadgeMock: PublicStudent = {
@@ -47,23 +72,6 @@ export const expiredBadgeMock: PublicStudent = {
 export const revokedBadgeMock: PublicStudent = {
   is_valid: false,
   invalidity: "REVOKED",
-};
-
-export const enabledSituationMock: StudentSituation = {status: "ENABLED"};
-
-export const lateFeesSituationMock: StudentSituation = {
-  status: "SUSPENDED",
-  suspension_reason: "LATE_FEES",
-  late_fees: [
-    {label: "Frais de scolarité octobre", due_datetime: "2026-10-15T00:00:00Z"},
-    {label: "Assurance", due_datetime: "2026-09-30T00:00:00Z"},
-  ],
-};
-
-export const otherSuspensionSituationMock: StudentSituation = {
-  status: "SUSPENDED",
-  suspension_reason: "OTHER",
-  late_fees: [],
 };
 
 export const scannedParticipantMock: EventParticipant = {
@@ -128,9 +136,10 @@ export const badgeOwnerRoute = (publicId: string) => ({
   url: `**/badges/${publicId}/student`,
 });
 
-export const badgeSituationRoute = (publicId: string) => ({
-  method: "GET",
-  url: `**/badges/${publicId}/situation`,
+// a teacher opening a badge marks its student present to his course in progress
+export const badgeSelfAttendanceRoute = (publicId: string) => ({
+  method: "PUT",
+  url: `**/badges/${publicId}/attendance`,
 });
 
 export const badgeAttendanceRoute = (publicId: string, eventId: string) => ({
