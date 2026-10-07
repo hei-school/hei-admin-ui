@@ -8,6 +8,7 @@ const creditTransactionsMock = [
     transaction_id: "transaction1_id",
     movement: "CREDIT",
     amount: 100000,
+    balance: 500000,
     date_time: new Date("2024-02-01T10:00:00Z"),
     fee: fee1Mock,
     credit: {
@@ -36,6 +37,7 @@ const creditTransactionsMock = [
     transaction_id: "transaction2_id",
     movement: "DEBIT",
     amount: 40000,
+    balance: 460000,
     date_time: null,
     fee: null,
   },
@@ -79,11 +81,13 @@ describe("Manager.Student.CreditTransactions", () => {
     cy.get("table tbody tr")
       .eq(0)
       .should("contain", "Crédit")
-      .and("contain", formatAmount(100000));
+      .and("contain", formatAmount(100000))
+      .and("contain", formatAmount(500000));
     cy.get("table tbody tr")
       .eq(1)
       .should("contain", "Débit")
-      .and("contain", formatAmount(40000));
+      .and("contain", formatAmount(40000))
+      .and("contain", formatAmount(460000));
   });
 
   it("shows full transaction details in a dialog when a row is clicked", () => {
@@ -103,6 +107,7 @@ describe("Manager.Student.CreditTransactions", () => {
     // narrow no-break space toLocaleString uses as a thousands separator, so
     // amounts are asserted with a raw "contain" check instead.
     cy.get("@dialog").should("contain", formatAmount(100000));
+    cy.get("@dialog").should("contain", formatAmount(500000));
   });
 
   it("hides the payment and fee sections when a transaction has none", () => {

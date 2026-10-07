@@ -77,6 +77,10 @@ export const CreditTransactionList = ({
           render={(record) => renderMoney(record.amount)}
         />
         <FunctionField
+          label="Solde"
+          render={(record) => renderMoney(record.balance)}
+        />
+        <FunctionField
           label="Date"
           render={(record) => {
             const dateTime = record.date_time ?? record.creation_datetime;
