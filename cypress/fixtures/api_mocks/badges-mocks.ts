@@ -1,5 +1,8 @@
 import {Event, EventParticipant} from "@haapi-b0fc7615/typescript-client";
-import type {PublicStudent} from "../../../src/operations/badges/badgeApi";
+import type {
+  PublicStudent,
+  StudentSituation,
+} from "../../../src/operations/badges/badgeApi";
 import {courseMock1} from "./course-mocks";
 import {manager1Mock} from "./managers-mocks";
 import {student1Mock} from "./students-mocks";
@@ -10,7 +13,9 @@ export const badgePublicId = "0b9d3f9e-3c55-4a8e-9a43-1f2b3c4d5e6f";
 export const unknownBadgePublicId = "11111111-2222-4333-8444-555555555555";
 
 export const badgeLinkOf = (publicId: string) =>
-  `https://preprod.admin.hei.school/students/badges/${publicId}`;
+  `https://preprod.admin.hei.school/badges#${publicId}`;
+
+export const badgePageOf = (publicId: string) => `/badges#${publicId}`;
 
 export const validBadgeMock: PublicStudent = {
   id: badgePublicId,
@@ -27,18 +32,38 @@ export const validBadgeMock: PublicStudent = {
     "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==",
 };
 
-export const expiredBadgeMock: PublicStudent = {
+export const permanentBadgeMock: PublicStudent = {
   ...validBadgeMock,
-  is_valid: false,
-  academic_year: "2025 - 2026",
-  expiration_datetime: new Date(Date.now() - 24 * HOUR_MS).toISOString(),
+  level: "L3",
+  expiration_datetime: undefined,
   profile_picture: undefined,
 };
 
-export const revokedBadgeMock: PublicStudent = {
-  ...validBadgeMock,
+export const expiredBadgeMock: PublicStudent = {
   is_valid: false,
+  invalidity: "EXPIRED",
+};
+
+export const revokedBadgeMock: PublicStudent = {
+  is_valid: false,
+  invalidity: "REVOKED",
+};
+
+export const enabledSituationMock: StudentSituation = {status: "ENABLED"};
+
+export const lateFeesSituationMock: StudentSituation = {
   status: "SUSPENDED",
+  suspension_reason: "LATE_FEES",
+  late_fees: [
+    {label: "Frais de scolarité octobre", due_datetime: "2026-10-15T00:00:00Z"},
+    {label: "Assurance", due_datetime: "2026-09-30T00:00:00Z"},
+  ],
+};
+
+export const otherSuspensionSituationMock: StudentSituation = {
+  status: "SUSPENDED",
+  suspension_reason: "OTHER",
+  late_fees: [],
 };
 
 export const scannedParticipantMock: EventParticipant = {
@@ -93,6 +118,20 @@ export const finishedCourseMock: Event = {
 
 export const badgeApiRoute = (publicId: string) => ({
   method: "GET",
-  url: `**/students/badges/${publicId}`,
-  headers: {accept: /json/},
+  url: `**/badges/${publicId}`,
+});
+
+export const badgeOwnerRoute = (publicId: string) => ({
+  method: "GET",
+  url: `**/badges/${publicId}/student`,
+});
+
+export const badgeSituationRoute = (publicId: string) => ({
+  method: "GET",
+  url: `**/badges/${publicId}/situation`,
+});
+
+export const badgeAttendanceRoute = (publicId: string, eventId: string) => ({
+  method: "PUT",
+  url: `**/badges/${publicId}/events/${eventId}/attendance`,
 });

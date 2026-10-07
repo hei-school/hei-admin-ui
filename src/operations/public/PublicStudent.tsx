@@ -1,9 +1,12 @@
 import {
   PublicStudent,
+  StudentSituation,
+  badgePublicIdOfPage,
+  getBadgeOwner,
+  getBadgeSituation,
   getPublicStudent,
-  getStudentByPublicId,
+  hideBadgePublicId,
   httpStatusOf,
-  isBadgeExpired,
 } from "@/operations/badges/badgeApi";
 import authProvider from "@/providers/authProvider";
 import {getRedirectUrl, goToExternalURL} from "@/security/casdoorSetting";
@@ -11,7 +14,8 @@ import {rememberRedirectAfterLogin} from "@/security/redirectAfterLogin";
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {CircularProgress} from "@mui/material";
 import {ReactNode, useEffect, useState} from "react";
-import {useNavigate, useParams} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
+import {PublicNotFound} from "./PublicNotFound";
 import "./style/publicStudent.css";
 
 type Tone = "success" | "warning" | "error" | "default";
@@ -29,41 +33,66 @@ const SPECIALIZATION_LABELS: Record<string, string> = {
   TN: "Transformation Numérique",
 };
 
-const isLoggedIn = () => !!authProvider.getCachedWhoami().bearer;
-
-type StudentContactInfo = {
-  phone?: string;
-  email?: string;
+const INVALIDITY_MESSAGES = {
+  REVOKED: "Ce badge a été révoqué.",
+  EXPIRED: "Ce badge a expiré.",
 };
 
-/** Returns null when the staff member is not allowed to see the full student. */
-const fetchStudentIdForStaff = async (publicId: string) => {
+const formatDate = (datetime: string) =>
+  new Date(datetime).toLocaleDateString("fr-FR", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+
+const isLoggedIn = () => !!authProvider.getCachedWhoami().bearer;
+
+class BadgeNotFound extends Error {}
+
+const findOwnerIdForStaff = async (publicId: string) => {
   try {
-    const {id} = await getStudentByPublicId(publicId);
-    return {id};
+    return (await getBadgeOwner(publicId)).id;
   } catch (e) {
     const status = httpStatusOf(e);
+    if (status === 404) throw new BadgeNotFound();
     if (status !== 401 && status !== 403) throw e;
     return null;
   }
 };
 
-const getLoadErrorMessage = (e: unknown) =>
-  httpStatusOf(e) === 404
-    ? "Ce badge n'existe pas."
-    : "Impossible de charger le badge, réessayez.";
+const getBadge = async (publicId: string) => {
+  try {
+    return await getPublicStudent(publicId);
+  } catch (e) {
+    if (httpStatusOf(e) === 404) throw new BadgeNotFound();
+    throw e;
+  }
+};
 
-export const PublicStudentView = ({
-  publicId: publicIdProp,
-}: {
-  publicId?: string;
-}) => {
-  const params = useParams();
-  const publicId = publicIdProp ?? params.publicId ?? "";
+const usePagePublicId = () => {
+  const [publicId, setPublicId] = useState(() => {
+    hideBadgePublicId();
+    return badgePublicIdOfPage();
+  });
+
+  useEffect(() => {
+    const onHashChange = () => {
+      hideBadgePublicId();
+      setPublicId(badgePublicIdOfPage());
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  }, []);
+
+  return publicId;
+};
+
+export const PublicStudentView = () => {
+  const publicId = usePagePublicId();
   const navigate = useNavigate();
   const [student, setStudent] = useState<PublicStudent | null>(null);
-  const [studentContact, setStudentContact] =
-    useState<StudentContactInfo | null>(null);
+  const [situation, setSituation] = useState<StudentSituation | null>(null);
+  const [isNotFound, setIsNotFound] = useState(!publicId);
   const [error, setError] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
   const {role} = authProvider.getCachedWhoami();
@@ -72,40 +101,51 @@ export const PublicStudentView = ({
   const isTeacher = role === WhoamiRoleEnum.TEACHER;
 
   useEffect(() => {
+    if (!publicId) {
+      setIsNotFound(true);
+      return;
+    }
     let cancelled = false;
+    setIsNotFound(false);
+    setStudent(null);
+    setSituation(null);
+    setError(null);
 
-    const loadStudentContact = () => {
-      getStudentByPublicId(publicId)
-        .then(({phone, email}) => {
-          if (!cancelled) setStudentContact({phone, email});
+    const loadSituation = () => {
+      getBadgeSituation(publicId)
+        .then((loaded) => {
+          if (!cancelled) setSituation(loaded);
         })
         .catch(() => undefined);
     };
 
     const loadStudent = async () => {
       if (isLoggedIn() && isStaff) {
-        const staffStudent = await fetchStudentIdForStaff(publicId);
-        if (staffStudent) {
+        const ownerId = await findOwnerIdForStaff(publicId);
+        if (ownerId) {
           if (!cancelled)
-            navigate(`/students/${staffStudent.id}/show?tab=fees`, {
-              replace: true,
-            });
+            navigate(`/students/${ownerId}/show?tab=fees`, {replace: true});
           return;
         }
       }
-      const publicStudent = await getPublicStudent(publicId);
-      if (!cancelled) setStudent(publicStudent);
-      if (isLoggedIn() && role === WhoamiRoleEnum.TEACHER) loadStudentContact();
+      const badge = await getBadge(publicId);
+      if (cancelled) return;
+      setStudent(badge);
+      if (badge.is_valid && isLoggedIn() && isTeacher) loadSituation();
     };
 
-    // errors are shown on the page
     void loadStudent().catch((e) => {
-      if (!cancelled) setError(getLoadErrorMessage(e));
+      if (cancelled) return;
+      if (e instanceof BadgeNotFound) {
+        setIsNotFound(true);
+      } else {
+        setError("Impossible de charger le badge, réessayez.");
+      }
     });
     return () => {
       cancelled = true;
     };
-  }, [publicId, isStaff, role, navigate]);
+  }, [publicId, isStaff, isTeacher, navigate]);
 
   const login = async () => {
     setIsRedirecting(true);
@@ -117,6 +157,8 @@ export const PublicStudentView = ({
       setError("Impossible d'ouvrir la page de connexion.");
     }
   };
+
+  if (isNotFound) return <PublicNotFound />;
 
   return (
     <div className="public-student">
@@ -134,13 +176,13 @@ export const PublicStudentView = ({
             <StudentCardBody
               error={error}
               student={student}
-              studentContact={studentContact}
+              situation={situation}
               actions={
                 <StudentActions
                   isTeacher={isTeacher}
                   isRedirecting={isRedirecting}
                   onLogin={login}
-                  onOpenEvents={() => navigate("/events")}
+                  onCheckAttendance={() => navigate("/badges/attendance")}
                 />
               }
             />
@@ -155,14 +197,14 @@ export const PublicStudentView = ({
 type StudentCardBodyProps = {
   error: string | null;
   student: PublicStudent | null;
-  studentContact: StudentContactInfo | null;
+  situation: StudentSituation | null;
   actions: ReactNode;
 };
 
 const StudentCardBody = ({
   error,
   student,
-  studentContact,
+  situation,
   actions,
 }: Readonly<StudentCardBodyProps>) => {
   if (error) {
@@ -177,17 +219,18 @@ const StudentCardBody = ({
     return <CircularProgress sx={{color: "#001948", my: 6}} />;
   }
 
+  if (!student.is_valid) {
+    return (
+      <div className="public-student__message public-student__message--warning">
+        {INVALIDITY_MESSAGES[student.invalidity ?? "REVOKED"]}
+      </div>
+    );
+  }
+
   const status = student.status ? STATUS_LABELS[student.status] : undefined;
 
   return (
     <>
-      {!student.is_valid && (
-        <div className="public-student__message public-student__message--warning">
-          {isBadgeExpired(student)
-            ? `Ce badge a expiré : il était valable pour l'année ${student.academic_year ?? "précédente"}.`
-            : "Ce badge a été annulé."}
-        </div>
-      )}
       {student.profile_picture ? (
         <img
           className="public-student__photo"
@@ -220,9 +263,53 @@ const StudentCardBody = ({
             student.specialization_field}
         </div>
       )}
+      <BadgeValidity student={student} />
+      <Situation situation={situation} />
       {actions}
-      <StudentContact contact={studentContact} />
     </>
+  );
+};
+
+const BadgeValidity = ({student}: Readonly<{student: PublicStudent}>) => (
+  <div className="public-student__validity">
+    {student.academic_year && (
+      <div className="public-student__academic-year">
+        Année universitaire {student.academic_year}
+      </div>
+    )}
+    <div>
+      {student.expiration_datetime
+        ? `Valable jusqu'au ${formatDate(student.expiration_datetime)}`
+        : "Sans expiration"}
+    </div>
+  </div>
+);
+
+const Situation = ({
+  situation,
+}: Readonly<{situation: StudentSituation | null}>) => {
+  if (situation?.status !== "SUSPENDED") return null;
+
+  const lateFees = situation.late_fees ?? [];
+  return (
+    <div className="public-student__message public-student__message--error public-student__situation">
+      <div>
+        {situation.suspension_reason === "LATE_FEES"
+          ? "Suspendu : frais en retard"
+          : "Suspendu par l'administration"}
+      </div>
+      {lateFees.length > 0 && (
+        <ul>
+          {lateFees.map((lateFee, index) => (
+            <li key={`${lateFee.label}-${lateFee.due_datetime}-${index}`}>
+              {lateFee.label ?? "Frais"}
+              {lateFee.due_datetime &&
+                ` · échu le ${formatDate(lateFee.due_datetime)}`}
+            </li>
+          ))}
+        </ul>
+      )}
+    </div>
   );
 };
 
@@ -230,14 +317,14 @@ type StudentActionsProps = {
   isTeacher: boolean;
   isRedirecting: boolean;
   onLogin: () => void;
-  onOpenEvents: () => void;
+  onCheckAttendance: () => void;
 };
 
 const StudentActions = ({
   isTeacher,
   isRedirecting,
   onLogin,
-  onOpenEvents,
+  onCheckAttendance,
 }: Readonly<StudentActionsProps>) => {
   if (!isLoggedIn()) {
     return (
@@ -254,35 +341,9 @@ const StudentActions = ({
   if (!isTeacher) return null;
 
   return (
-    <>
-      <div className="public-student__message public-student__message--info">
-        Pour pointer la présence, ouvrez l'événement puis utilisez « Scanner les
-        badges ».
-      </div>
-      <button className="public-student__button" onClick={onOpenEvents}>
-        Mes événements
-      </button>
-    </>
-  );
-};
-
-const StudentContact = ({
-  contact,
-}: Readonly<{contact: StudentContactInfo | null}>) => {
-  if (!contact || !(contact.phone || contact.email)) return null;
-
-  return (
-    <div className="public-student__contact public-student__contact--student">
-      <div className="public-student__contact-title">Contact de l'étudiant</div>
-      {contact.phone && (
-        <a href={`tel:${contact.phone.replace(/\s/g, "")}`}>
-          📞 {contact.phone}
-        </a>
-      )}
-      {contact.email && (
-        <a href={`mailto:${contact.email}`}>✉ {contact.email}</a>
-      )}
-    </div>
+    <button className="public-student__button" onClick={onCheckAttendance}>
+      Pointer la présence
+    </button>
   );
 };
 
@@ -296,9 +357,7 @@ const SchoolContact = () => (
       Vous avez trouvé ce badge ?
     </div>
     <div>Merci de le rapporter chez HEI :</div>
-    {SCHOOL_PHONE && (
-      <a href={`tel:${SCHOOL_PHONE.replace(/\s/g, "")}`}>📞 {SCHOOL_PHONE}</a>
-    )}
+    <a href={`tel:${SCHOOL_PHONE.replace(/\s/g, "")}`}>📞 {SCHOOL_PHONE}</a>
     <a href={`mailto:${SCHOOL_EMAIL}`}>✉ {SCHOOL_EMAIL}</a>
     <div>📍 {SCHOOL_ADDRESS}</div>
   </div>

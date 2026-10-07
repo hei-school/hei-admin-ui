@@ -4,12 +4,14 @@ import authProvider from "@/providers/authProvider";
 import {
   AttendanceStatus,
   EventParticipant,
-  Student,
 } from "@haapi-b0fc7615/typescript-client";
+
+export type BadgeInvalidity = "REVOKED" | "EXPIRED";
 
 export type PublicStudent = {
   id?: string;
   is_valid?: boolean;
+  invalidity?: BadgeInvalidity;
   academic_year?: string;
   expiration_datetime?: string;
   ref?: string;
@@ -19,6 +21,12 @@ export type PublicStudent = {
   level?: string;
   specialization_field?: string;
   profile_picture?: string;
+};
+
+export type StudentSituation = {
+  status?: string;
+  suspension_reason?: "LATE_FEES" | "OTHER";
+  late_fees?: {label?: string; due_datetime?: string}[];
 };
 
 const API_URL = process.env.REACT_APP_API_URL;
@@ -31,7 +39,7 @@ const authHeaders = () => {
 const SCAN_REQUEST_TIMEOUT_MS = 10_000;
 
 const badgeUrl = (publicId: string) =>
-  `${API_URL}students/badges/${encodeURIComponent(publicId)}`;
+  `${API_URL}badges/${encodeURIComponent(publicId)}`;
 
 export const getPublicStudent = (publicId: string) =>
   getAxiosInstance()
@@ -40,9 +48,17 @@ export const getPublicStudent = (publicId: string) =>
     })
     .then((response) => response.data);
 
-export const getStudentByPublicId = (publicId: string) =>
+export const getBadgeOwner = (publicId: string) =>
   getAxiosInstance()
-    .get<Student>(`${badgeUrl(publicId)}/student`, {
+    .get<{id: string}>(`${badgeUrl(publicId)}/student`, {
+      headers: authHeaders(),
+      timeout: SCAN_REQUEST_TIMEOUT_MS,
+    })
+    .then((response) => response.data);
+
+export const getBadgeSituation = (publicId: string) =>
+  getAxiosInstance()
+    .get<StudentSituation>(`${badgeUrl(publicId)}/situation`, {
       headers: authHeaders(),
       timeout: SCAN_REQUEST_TIMEOUT_MS,
     })
@@ -129,22 +145,29 @@ export const removeStudentBadge = (studentId: string) =>
     })
     .then((response) => response.data);
 
-const ROOT_PUBLIC_ID_PATH =
-  /^\/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})\/?$/i;
+export const BADGE_PAGE_PATH = "/badges";
+const BADGE_PUBLIC_ID_ITEM = "ha_badge_public_id";
+const HASH_PUBLIC_ID =
+  /^#([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i;
 
-export const publicIdFromRootPath = (pathname: string): string | null => {
-  const match = ROOT_PUBLIC_ID_PATH.exec(pathname);
-  return match ? match[1].toLowerCase() : null;
+export const hideBadgePublicId = () => {
+  const {hash} = window.location;
+  if (!hash) return;
+  const match = HASH_PUBLIC_ID.exec(hash);
+  sessionStorage.setItem(
+    BADGE_PUBLIC_ID_ITEM,
+    match ? match[1].toLowerCase() : ""
+  );
+  window.history.replaceState(window.history.state, "", BADGE_PAGE_PATH);
 };
+
+export const badgePublicIdOfPage = (): string | null =>
+  sessionStorage.getItem(BADGE_PUBLIC_ID_ITEM) || null;
 
 export const parsePublicId = (scannedText: string): string | null => {
   const uuids = scannedText.trim().match(UUID_PATTERN);
   return uuids ? uuids[uuids.length - 1].toLowerCase() : null;
 };
-
-export const isBadgeExpired = (badge: PublicStudent) =>
-  !!badge.expiration_datetime &&
-  new Date(badge.expiration_datetime).getTime() <= Date.now();
 
 export const httpStatusOf = (error: unknown): number | undefined =>
   (error as {response?: {status?: number}})?.response?.status;

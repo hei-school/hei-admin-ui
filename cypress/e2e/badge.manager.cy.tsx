@@ -37,11 +37,9 @@ describe("Manager scans a badge with the camera", () => {
   });
 
   it("opens the fees of the student of the filmed badge", () => {
-    cy.intercept(
-      "GET",
-      `**/students/badges/${badgePublicId}/student`,
-      student1Mock
-    ).as("getStudentByPublicId");
+    cy.intercept("GET", `**/badges/${badgePublicId}/student`, student1Mock).as(
+      "getStudentByPublicId"
+    );
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
     camera.show("badge-qr.png");
@@ -105,11 +103,9 @@ describe("Manager scans a badge", () => {
   });
 
   it("opens the fees of the scanned student", () => {
-    cy.intercept(
-      "GET",
-      `**/students/badges/${badgePublicId}/student`,
-      student1Mock
-    ).as("getStudentByPublicId");
+    cy.intercept("GET", `**/badges/${badgePublicId}/student`, student1Mock).as(
+      "getStudentByPublicId"
+    );
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
     scanLink(badgeLinkOf(badgePublicId));
@@ -126,7 +122,7 @@ describe("Manager scans a badge", () => {
   });
 
   it("tells that an unknown badge does not exist", () => {
-    cy.intercept("GET", `**/students/badges/${unknownBadgePublicId}/student`, {
+    cy.intercept("GET", `**/badges/${unknownBadgePublicId}/student`, {
       statusCode: 404,
     });
 
@@ -137,7 +133,7 @@ describe("Manager scans a badge", () => {
   });
 
   it("asks to rescan when the badge cannot be read", () => {
-    cy.intercept("GET", `**/students/badges/${badgePublicId}/student`, {
+    cy.intercept("GET", `**/badges/${badgePublicId}/student`, {
       statusCode: 500,
     });
 

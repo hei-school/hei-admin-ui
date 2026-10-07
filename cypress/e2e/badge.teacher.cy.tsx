@@ -15,7 +15,7 @@ import {
 } from "../fixtures/api_mocks/event-mocks";
 
 const attendanceUrl = (publicId: string, eventId: string) =>
-  `**/students/badges/${publicId}/events/${eventId}/attendance`;
+  `**/badges/${publicId}/events/${eventId}/attendance`;
 const teacherEventsUrl = "/events?page=1&page_size=100*";
 
 const scanLink = (link: string) => {
@@ -105,11 +105,7 @@ describe("Teacher checks the attendance of his course by badge", () => {
         attendanceUrl(badgePublicId, teacherCourseInProgressMock.id!),
         {statusCode: 404}
       );
-      cy.intercept(
-        "GET",
-        `**/students/badges/${badgePublicId}`,
-        validBadgeMock
-      );
+      cy.intercept("GET", `**/badges/${badgePublicId}`, validBadgeMock);
 
       scanLink(badgePublicId);
 
@@ -123,7 +119,7 @@ describe("Teacher checks the attendance of his course by badge", () => {
         attendanceUrl(unknownBadgePublicId, teacherCourseInProgressMock.id!),
         {statusCode: 404}
       );
-      cy.intercept("GET", `**/students/badges/${unknownBadgePublicId}`, {
+      cy.intercept("GET", `**/badges/${unknownBadgePublicId}`, {
         statusCode: 404,
       });
 
@@ -260,7 +256,7 @@ describe("Teacher scans the badges of an event", () => {
     cy.intercept("PUT", attendanceUrl(badgePublicId, event1mock.id!), {
       statusCode: 404,
     });
-    cy.intercept("GET", `**/students/badges/${badgePublicId}`, validBadgeMock);
+    cy.intercept("GET", `**/badges/${badgePublicId}`, validBadgeMock);
 
     scanLink(badgePublicId);
 

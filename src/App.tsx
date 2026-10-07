@@ -36,8 +36,8 @@ import polyglotI18nProvider from "ra-i18n-polyglot";
 import frenchMessages from "ra-language-french";
 import {Admin, CustomRoutes, Resource} from "react-admin";
 import {QueryClient} from "react-query";
-import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
-import {publicIdFromRootPath} from "./operations/badges/badgeApi";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
+import {BADGE_PAGE_PATH} from "./operations/badges/badgeApi";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
 import {
@@ -287,13 +287,6 @@ const AppBase = () => {
   );
 };
 
-// The badge QR code may hold the short link https://<site>/<public id>: public page, no login.
-const AppOrPublicStudent = () => {
-  const {pathname} = useLocation();
-  const publicId = publicIdFromRootPath(pathname);
-  return publicId ? <publicContent.student publicId={publicId} /> : <AppBase />;
-};
-
 const App = () => {
   return (
     <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -307,12 +300,8 @@ const App = () => {
             element={<CasdoorAuthCallback />}
           />
           <Route path="/calendar" element={<publicContent.calendar />} />
-          {/* page of the badge QR code: no login, same path as in the API */}
-          <Route
-            path="/students/badges/:publicId"
-            element={<publicContent.student />}
-          />
-          <Route path="*" element={<AppOrPublicStudent />} />
+          <Route path={BADGE_PAGE_PATH} element={<publicContent.student />} />
+          <Route path="*" element={<AppBase />} />
         </Routes>
       </BrowserRouter>
     </LocalizationProvider>

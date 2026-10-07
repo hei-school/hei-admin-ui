@@ -199,3 +199,47 @@
   background-color: #fde9e9;
   color: #b91c1c;
 }
+
+.public-student__validity {
+  font-size: 0.85rem;
+  color: #5a74af;
+}
+
+.public-student__academic-year {
+  font-weight: bold;
+  color: #001948;
+}
+
+.public-student__situation {
+  text-align: left;
+}
+
+.public-student__situation ul {
+  margin: 0.4rem 0 0;
+  padding-left: 1.1rem;
+  font-weight: 500;
+}
+
+.public-student__not-found {
+  padding: 2rem 1.5rem;
+  text-align: center;
+  color: #001948;
+}
+
+.public-student__not-found-code {
+  font-size: 3.5rem;
+  font-weight: bold;
+  color: #dfa408;
+}
+
+.public-student__not-found-title {
+  font-size: 1.2rem;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.public-student__not-found .public-student__button {
+  display: block;
+  box-sizing: border-box;
+  text-decoration: none;
+}

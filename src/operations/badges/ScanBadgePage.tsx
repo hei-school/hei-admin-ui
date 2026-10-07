@@ -3,7 +3,7 @@ import {QrCodeScanner} from "@mui/icons-material";
 import {Box, Paper, Stack, Typography} from "@mui/material";
 import {Title} from "react-admin";
 import {useNavigate} from "react-router-dom";
-import {getStudentByPublicId, httpStatusOf} from "./badgeApi";
+import {getBadgeOwner, httpStatusOf} from "./badgeApi";
 import {BadgeScanner} from "./components/BadgeScanner";
 
 export const ScanBadgePage = () => {
@@ -12,7 +12,7 @@ export const ScanBadgePage = () => {
 
   const onScan = async (publicId: string) => {
     try {
-      const {id} = await getStudentByPublicId(publicId);
+      const {id} = await getBadgeOwner(publicId);
       navigate(`/students/${id}/show?tab=fees`);
     } catch (error) {
       notify(

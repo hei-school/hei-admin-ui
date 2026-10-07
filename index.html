@@ -9,6 +9,25 @@
       name="description"
       content="Scolarité de la Haute École d'Informatique de Madagascar"
     />
+    <!-- Badge QR code (/badges#<public id>): hide the public id before Google Tag Manager
+         reads the url, see hideBadgePublicId in src/operations/badges/badgeApi.ts -->
+    <script>
+      (function () {
+        var hash = window.location.hash;
+        if (window.location.pathname !== "/badges" || !hash) return;
+        var match =
+          /^#([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})$/i.exec(
+            hash
+          );
+        try {
+          sessionStorage.setItem(
+            "ha_badge_public_id",
+            match ? match[1].toLowerCase() : ""
+          );
+        } catch (e) {}
+        window.history.replaceState(window.history.state, "", "/badges");
+      })();
+    </script>
     <!-- Google Tag Manager -->
     <script>
       (function (w, d, s, l, i) {

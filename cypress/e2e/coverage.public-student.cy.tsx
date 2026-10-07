@@ -1,6 +1,10 @@
-import {Student, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import type {PublicStudent} from "../../src/operations/badges/badgeApi";
-import {badgeApiRoute} from "../fixtures/api_mocks/badges-mocks";
+import {
+  badgeApiRoute,
+  badgeOwnerRoute,
+  badgeSituationRoute,
+} from "../fixtures/api_mocks/badges-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 import {
   mockUnhandledRequests,
@@ -9,15 +13,12 @@ import {
 } from "../support/coverage-navigation";
 
 const PUBLIC_ID = "7c1e4a2b-9d3f-4e5a-8b6c-0d1e2f3a4b5c";
-const DAY_MS = 24 * 60 * 60 * 1000;
 const PIXEL =
   "data:image/gif;base64,R0lGODlhAQABAIAAAP///wAAACH5BAEAAAAALAAAAAABAAEAAAICRAEAOw==";
 
 const publicBadgeUrl = badgeApiRoute(PUBLIC_ID);
-const badgeStudentUrl = `**/students/badges/${PUBLIC_ID}/student`;
-// lien court du QR code : servi par la route "*" de l'application
-const shortLinkPage = `/${PUBLIC_ID}`;
-const publicPage = `/students/badges/${PUBLIC_ID}`;
+const badgeOwnerUrl = badgeOwnerRoute(PUBLIC_ID);
+const publicPage = `/badges#${PUBLIC_ID}`;
 
 const minimalBadge: PublicStudent = {
   id: PUBLIC_ID,
@@ -29,39 +30,33 @@ const mockOtherRequests = mockUnhandledRequests;
 
 const visitPublicPage = (badge: PublicStudent) => {
   cy.intercept(publicBadgeUrl, badge).as("getPublicStudent");
-  cy.visit(shortLinkPage);
+  cy.visit(publicPage);
   cy.wait("@getPublicStudent");
 };
 
 const openPublicPageInApp = (badge: PublicStudent) => {
   cy.intercept(publicBadgeUrl, badge).as("getPublicStudent");
-  navigateInApp(publicPage);
+  pushPathInApp(publicPage);
+  cy.routePathnameEq("/badges");
   cy.wait("@getPublicStudent");
 };
-
-const studentContact = (
-  contact: Pick<Student, "phone" | "email">
-): Student => ({
-  ...student1Mock,
-  phone: contact.phone,
-  email: contact.email,
-});
 
 describe("Coverage - page publique du badge (visiteur)", () => {
   beforeEach(() => {
     mockOtherRequests();
   });
 
-  it("affiche un badge sans statut, niveau, spécialité ni photo", () => {
+  it("affiche un badge sans statut, niveau, spécialité, année ni photo", () => {
     visitPublicPage(minimalBadge);
 
     cy.get(".public-student__ref").should("have.text", minimalBadge.ref);
     cy.get(".public-student__pill").should("not.exist");
     cy.get("img.public-student__photo").should("not.exist");
     cy.get("div.public-student__photo").should("exist");
+    cy.get(".public-student__academic-year").should("not.exist");
+    cy.get(".public-student__validity").should("have.text", "Sans expiration");
     cy.get(".public-student__message--warning").should("not.exist");
     cy.get(".public-student__button").should("have.text", "Se connecter");
-    cy.get(".public-student__contact--student").should("not.exist");
   });
 
   it("ignore un statut inconnu et garde une spécialité inconnue telle quelle", () => {
@@ -118,30 +113,14 @@ describe("Coverage - page publique du badge (visiteur)", () => {
     );
   });
 
-  it("parle de l'année précédente quand un badge expiré n'a pas d'année", () => {
-    visitPublicPage({
-      ...minimalBadge,
-      is_valid: false,
-      expiration_datetime: new Date(Date.now() - DAY_MS).toISOString(),
-    });
+  it("dit qu'un badge invalide sans raison connue a été révoqué", () => {
+    visitPublicPage({is_valid: false});
 
     cy.get(".public-student__message--warning").should(
       "have.text",
-      "Ce badge a expiré : il était valable pour l'année précédente."
+      "Ce badge a été révoqué."
     );
-  });
-
-  it("indique qu'un badge invalide qui n'a pas encore expiré a été annulé", () => {
-    visitPublicPage({
-      ...minimalBadge,
-      is_valid: false,
-      expiration_datetime: new Date(Date.now() + DAY_MS).toISOString(),
-    });
-
-    cy.get(".public-student__message--warning").should(
-      "have.text",
-      "Ce badge a été annulé."
-    );
+    cy.get(".public-student__ref").should("not.exist");
   });
 
   it("affiche les coordonnées de l'école", () => {
@@ -161,57 +140,19 @@ describe("Coverage - page publique du badge (enseignant connecté)", () => {
     cy.mockLogin({role: WhoamiRoleEnum.TEACHER});
   });
 
-  it("affiche seulement le téléphone de l'étudiant quand il n'a pas d'email", () => {
-    const phone = "034 11 222 33";
-    cy.intercept(
-      "GET",
-      badgeStudentUrl,
-      studentContact({phone, email: undefined})
-    ).as("getContact");
+  it("ne demande que la situation de l'étudiant, jamais ses contacts", () => {
+    cy.intercept(badgeOwnerUrl, cy.spy().as("getOwner"));
+    cy.intercept(badgeSituationRoute(PUBLIC_ID), {
+      status: "SUSPENDED",
+      suspension_reason: "LATE_FEES",
+      late_fees: [{}],
+    }).as("getSituation");
     openPublicPageInApp(minimalBadge);
-    cy.wait("@getContact");
+    cy.wait("@getSituation");
 
-    cy.get(".public-student__contact--student")
-      .should("contain.text", "Contact de l'étudiant")
-      .and("contain.text", phone);
-    cy.get('a[href="tel:0341122233"]').should("exist");
-    cy.get('.public-student__contact--student a[href^="mailto:"]').should(
-      "not.exist"
-    );
-  });
-
-  it("affiche seulement l'email de l'étudiant quand il n'a pas de téléphone", () => {
-    const email = "etudiant@hei.school";
-    cy.intercept(
-      "GET",
-      badgeStudentUrl,
-      studentContact({phone: undefined, email})
-    ).as("getContact");
-    openPublicPageInApp(minimalBadge);
-    cy.wait("@getContact");
-
-    cy.get(`.public-student__contact--student a[href="mailto:${email}"]`)
-      .should("exist")
-      .and("contain.text", email);
-    cy.get('.public-student__contact--student a[href^="tel:"]').should(
-      "not.exist"
-    );
-  });
-
-  it("n'affiche pas de bloc contact quand l'étudiant n'a ni téléphone ni email", () => {
-    cy.intercept(
-      "GET",
-      badgeStudentUrl,
-      studentContact({phone: undefined, email: undefined})
-    ).as("getContact");
-    openPublicPageInApp(minimalBadge);
-    cy.wait("@getContact");
-
-    cy.get(".public-student__message--info").should(
-      "contain.text",
-      "Pour pointer la présence"
-    );
+    cy.get(".public-student__situation li").should("have.text", "Frais");
     cy.get(".public-student__contact--student").should("not.exist");
+    cy.get("@getOwner").should("not.have.been.called");
   });
 });
 
@@ -222,13 +163,12 @@ describe("Coverage - page publique du badge (étudiant connecté)", () => {
   });
 
   it("n'affiche ni connexion ni actions d'enseignant", () => {
-    cy.intercept("GET", badgeStudentUrl, cy.spy().as("getContact"));
+    cy.intercept(badgeSituationRoute(PUBLIC_ID), cy.spy().as("getSituation"));
     openPublicPageInApp(minimalBadge);
 
     cy.get(".public-student__ref").should("have.text", minimalBadge.ref);
     cy.get(".public-student__button").should("not.exist");
-    cy.get(".public-student__message--info").should("not.exist");
-    cy.get("@getContact").should("not.have.been.called");
+    cy.get("@getSituation").should("not.have.been.called");
   });
 });
 
@@ -236,13 +176,11 @@ describe("Coverage - page publique du badge (personnel connecté)", () => {
   it("redirige un administrateur vers les frais de l'étudiant", () => {
     mockOtherRequests();
     cy.mockLogin({role: WhoamiRoleEnum.ADMIN});
-    cy.intercept("GET", badgeStudentUrl, student1Mock).as(
-      "getStudentByPublicId"
-    );
+    cy.intercept(badgeOwnerUrl, {id: student1Mock.id}).as("getBadgeOwner");
     cy.intercept("GET", `/students/${student1Mock.id}`, student1Mock);
 
     pushPathInApp(publicPage);
-    cy.wait("@getStudentByPublicId");
+    cy.wait("@getBadgeOwner");
 
     cy.routePathnameEq(`/students/${student1Mock.id}/show`);
     cy.location("search").should("eq", "?tab=fees");
@@ -251,13 +189,14 @@ describe("Coverage - page publique du badge (personnel connecté)", () => {
   it("affiche la page publique quand le gestionnaire n'est pas autorisé", () => {
     mockOtherRequests();
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
-    cy.intercept("GET", badgeStudentUrl, {statusCode: 401}).as(
-      "getStudentByPublicId"
-    );
+    cy.intercept(badgeOwnerUrl, {statusCode: 401}).as("getBadgeOwner");
     cy.intercept(publicBadgeUrl, minimalBadge).as("getPublicStudent");
 
-    navigateInApp(publicPage);
-    cy.wait("@getStudentByPublicId");
+    navigateInApp(publicPage.replace(`#${PUBLIC_ID}`, ""));
+    cy.window().then((win) => {
+      win.location.hash = PUBLIC_ID;
+    });
+    cy.wait("@getBadgeOwner");
     cy.wait("@getPublicStudent");
 
     cy.get(".public-student__ref").should("have.text", minimalBadge.ref);
@@ -267,13 +206,11 @@ describe("Coverage - page publique du badge (personnel connecté)", () => {
   it("affiche une erreur quand la recherche de l'étudiant échoue", () => {
     mockOtherRequests();
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
-    cy.intercept("GET", badgeStudentUrl, {statusCode: 500}).as(
-      "getStudentByPublicId"
-    );
+    cy.intercept(badgeOwnerUrl, {statusCode: 500}).as("getBadgeOwner");
     cy.intercept(publicBadgeUrl, cy.spy().as("getPublicStudent"));
 
-    navigateInApp(publicPage);
-    cy.wait("@getStudentByPublicId");
+    pushPathInApp(publicPage);
+    cy.wait("@getBadgeOwner");
 
     cy.get(".public-student__message--error").should(
       "have.text",
