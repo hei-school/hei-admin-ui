@@ -115,6 +115,14 @@ export const CreditTransactionDetailsDialog = ({
               }
             />
             <ReceiptRow
+              label="Solde"
+              value={
+                transaction.balance != null
+                  ? renderMoney(transaction.balance)
+                  : null
+              }
+            />
+            <ReceiptRow
               label="Date et heure"
               value={
                 transaction.date_time ? formatDate(transaction.date_time) : null
