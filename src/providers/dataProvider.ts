@@ -73,9 +73,11 @@ import {
   UpdateResult,
 } from "react-admin";
 import gradeImportProvider from "./gradeImportProvider";
+import retakeExamCourseParticipantsExportProvider from "./retakeExamCourseParticipantsExportProvider";
 import retakeExamCoursesProvider from "./retakeExamCoursesProvider";
 import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
+import retakeExamSessionParticipantsExportProvider from "./retakeExamSessionParticipantsExportProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
 import searchProvider from "./searchProvider";
 import smsCampaignLogsProvider from "./smsCampaignLogsProvider";
@@ -135,6 +137,10 @@ const providerMap = {
   "retakeExams-sessions": retakeExamSessionProvider,
   "retakeExams-participants": retakeExamParticipantProvider,
   "retakeExams-courses": retakeExamCoursesProvider,
+  "retakeExams-session-participants-export":
+    retakeExamSessionParticipantsExportProvider,
+  "retakeExams-course-participants-export":
+    retakeExamCourseParticipantsExportProvider,
   "grades": gradeProvider,
   "grades-details": gradesDetailsProvider,
   "summary": resultSummaryProvider,
