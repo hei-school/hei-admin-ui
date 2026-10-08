@@ -1,6 +1,9 @@
+import {FileDownloader} from "@/operations/common/components";
 import {RetakeExamButtons} from "@/operations/retakeExams/components/RetakeExamButtons";
+import dataProvider from "@/providers/dataProvider";
 import {HaList} from "@/ui/haList";
 import {RetakeExam, StudentRetakeExam} from "@haapi-b0fc7615/typescript-client";
+import {Download} from "@mui/icons-material";
 import {BookOpenCheckIcon} from "lucide-react";
 import {ReactElement} from "react";
 import {
@@ -34,6 +37,17 @@ const RetakeExamButtonsCell: (
 export const RetakeExamParticipantList = () => {
   const courseId = useParams()?.id;
   const sessionId = useLocation().state?.sessionId;
+
+  const downloadFile = async () => {
+    const {
+      data: {file},
+    } = await dataProvider.getOne("retakeExams-course-participants-export", {
+      id: courseId ?? "",
+      meta: {sessionId},
+    });
+    return {data: file};
+  };
+
   return (
     <HaList
       title="Liste des étudiants"
@@ -45,7 +59,17 @@ export const RetakeExamParticipantList = () => {
         title: "Détails de la matière",
         filter: {courseId, sessionId},
       }}
-      actions={undefined}
+      actions={
+        <FileDownloader
+          downloadFunction={downloadFile}
+          fileName="Liste des rattrapages de la matière.xlsx"
+          startIcon={<Download />}
+          buttonText="Exporter"
+          successMessage="Exportation en cours..."
+          errorMessage="Une erreur est survenue lors de l'exportation du fichier."
+          fileType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
+        />
+      }
     >
       <TextField source="student_identifier.first_name" label="Nom" />
       <TextField source="student_identifier.last_name" label="Prénom" />

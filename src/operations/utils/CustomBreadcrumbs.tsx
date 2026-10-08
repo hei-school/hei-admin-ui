@@ -178,7 +178,7 @@ const BreadcrumbItemComponent = memo<{
       <span>{item.label}</span>
     </Link>
   ) : (
-    <Typography sx={typographySx(isLast, colors)}>
+    <Typography component="span" sx={typographySx(isLast, colors)}>
       {icon}
       <span>{item.label}</span>
     </Typography>
