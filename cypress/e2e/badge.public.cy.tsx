@@ -170,6 +170,36 @@ describe("Public badge page", () => {
     expectNotFoundPage();
   });
 
+  it("tries once more when the API is waking up, without refreshing", () => {
+    const answerBadge = encryptedBadge(badgePublicId, validBadgeMock);
+    let calls = 0;
+    cy.intercept(badgeApiRoute(badgePublicId), (request) => {
+      calls++;
+      return calls === 1
+        ? request.reply({statusCode: 503, body: {}})
+        : answerBadge(request);
+    }).as("getPublicStudent");
+
+    cy.visit(badgePageOf(badgePublicId));
+
+    cy.contains(validBadgeMock.ref!);
+    cy.contains("Impossible de charger le badge").should("not.exist");
+    cy.wrap(null).should(() => expect(calls).to.eq(2));
+  });
+
+  it("does not try again an answer of the API", () => {
+    let calls = 0;
+    cy.intercept(badgeApiRoute(unknownBadgePublicId), (request) => {
+      calls++;
+      request.reply({statusCode: 404, body: {}});
+    });
+
+    cy.visit(badgePageOf(unknownBadgePublicId));
+
+    expectNotFoundPage();
+    cy.wrap(null).should(() => expect(calls).to.eq(1));
+  });
+
   it("opens another badge in the same tab", () => {
     cy.intercept(
       badgeApiRoute(badgePublicId),

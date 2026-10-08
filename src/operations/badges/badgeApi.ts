@@ -46,28 +46,41 @@ const SCAN_REQUEST_TIMEOUT_MS = 10_000;
 const badgeUrl = (publicId: string) =>
   `${API_URL}badges/${encodeURIComponent(publicId)}`;
 
+const BADGE_PAGE_TIMEOUT_MS = 30_000;
+
+const onceMoreWithoutAnswer = async <T>(call: () => Promise<T>) => {
+  try {
+    return await call();
+  } catch (error) {
+    const status = httpStatusOf(error);
+    if (status !== undefined && status < 500) throw error;
+    return call();
+  }
+};
+
 export const getPublicStudent = (publicId: string) =>
-  getAxiosInstance()
-    .get<{payload: string}>(badgeUrl(publicId), {
-      timeout: SCAN_REQUEST_TIMEOUT_MS,
+  onceMoreWithoutAnswer(() =>
+    getAxiosInstance().get<{payload: string}>(badgeUrl(publicId), {
+      timeout: BADGE_PAGE_TIMEOUT_MS,
     })
-    .then(({data}) => decryptBadge<PublicStudent>(data.payload, publicId));
+  ).then(({data}) => decryptBadge<PublicStudent>(data.payload, publicId));
 
 export const getBadgeOwner = (publicId: string) =>
-  getAxiosInstance()
-    .get<{id: string}>(`${badgeUrl(publicId)}/student`, {
+  onceMoreWithoutAnswer(() =>
+    getAxiosInstance().get<{id: string}>(`${badgeUrl(publicId)}/student`, {
       headers: authHeaders(),
-      timeout: SCAN_REQUEST_TIMEOUT_MS,
+      timeout: BADGE_PAGE_TIMEOUT_MS,
     })
-    .then((response) => response.data);
+  ).then((response) => response.data);
 
 export const checkBadgeAttendance = (publicId: string) =>
-  getAxiosInstance()
-    .put<BadgeAttendance>(`${badgeUrl(publicId)}/attendance`, null, {
-      headers: authHeaders(),
-      timeout: SCAN_REQUEST_TIMEOUT_MS,
-    })
-    .then((response) => response.data);
+  onceMoreWithoutAnswer(() =>
+    getAxiosInstance().put<BadgeAttendance>(
+      `${badgeUrl(publicId)}/attendance`,
+      null,
+      {headers: authHeaders(), timeout: BADGE_PAGE_TIMEOUT_MS}
+    )
+  ).then((response) => response.data);
 
 export const checkAttendanceByPublicId = (
   eventId: string,
@@ -138,8 +151,6 @@ export const saveBadgesPdf = (data: ArrayBuffer, fileName: string) => {
   window.URL.revokeObjectURL(url);
 };
 
-// A whole big group in one request would take longer than a request may last, and its PDF
-// could be too big for the API (the request stops after 30 s): one PDF per 30 students.
 export const BADGES_PER_FILE = 30;
 const GROUP_STUDENTS_PAGE_SIZE = 100;
 
@@ -164,7 +175,6 @@ const groupStudentsOf = async (groupId: string) => {
 };
 
 export type GroupBadgesResult = {
-  /** students still at school, the API prints only those without active badge */
   students: number;
   files: number;
 };
@@ -190,7 +200,6 @@ export const downloadGroupBadges = async (
       const part = chunks.length === 1 ? "" : `-${index + 1}`;
       saveBadgesPdf(data, `badges-${groupRef}${part}.pdf`);
     } catch (error) {
-      // 400: all the students of this part already have an active badge
       if (httpStatusOf(error) !== 400) throw error;
     }
   }
