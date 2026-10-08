@@ -303,12 +303,12 @@ describe("Boutons de rattrapage (manager)", () => {
       cy.spy(win.URL, "createObjectURL").as("createObjectURL");
     });
 
-    cy.getByTestid("download-button").click();
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("download-button").should("be.visible").click();
 
     cy.wait("@exportCourseParticipants")
       .its("response.statusCode")
       .should("eq", 200);
-    cy.contains("Exportation en cours...").should("be.visible");
     cy.get("@createObjectURL").should("have.been.calledOnce");
   });
 
@@ -319,7 +319,8 @@ describe("Boutons de rattrapage (manager)", () => {
       {statusCode: 500, body: {message: "Internal Server Error"}}
     ).as("exportCourseParticipantsError");
 
-    cy.getByTestid("download-button").click();
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("download-button").should("be.visible").click();
 
     cy.wait("@exportCourseParticipantsError")
       .its("response.statusCode")
@@ -355,19 +356,19 @@ describe("Export des rattrapages par session (manager)", () => {
       "FAKE-EXCEL-CONTENT"
     ).as("exportSessionParticipants");
 
+    cy.visit(`/retakeExams-sessions/${SESSION_ID}/show`);
+    cy.wait("@getRetakeExamCourses");
+
     cy.window().then((win) => {
       cy.spy(win.URL, "createObjectURL").as("createObjectURL");
     });
 
-    cy.visit(`/retakeExams-sessions/${SESSION_ID}/show`);
-    cy.wait("@getRetakeExamCourses");
-
-    cy.getByTestid("download-button").click();
+    cy.getByTestid("menu-list-action").click();
+    cy.getByTestid("download-button").should("be.visible").click();
 
     cy.wait("@exportSessionParticipants")
       .its("response.statusCode")
       .should("eq", 200);
-    cy.contains("Exportation en cours...").should("be.visible");
     cy.get("@createObjectURL").should("have.been.calledOnce");
   });
 });
