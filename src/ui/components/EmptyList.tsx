@@ -1,9 +1,8 @@
 import emptyImg from "@/assets/Empty_img.png";
 import {PALETTE_COLORS} from "@/haTheme";
 import {Box, Typography} from "@mui/material";
-import {FC} from "react";
 
-export const EmptyList: FC = () => (
+export const EmptyList = () => (
   <Box
     display="flex"
     flexDirection="column"
@@ -11,7 +10,7 @@ export const EmptyList: FC = () => (
     alignItems="center"
     width="70vw"
   >
-    <img src={emptyImg} alt="empty image" />
+    <img src={emptyImg} alt="" />
     <Typography
       variant="h5"
       sx={{

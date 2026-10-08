@@ -1,10 +1,9 @@
 import {groupsApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
+import {ExportedFile} from "./types";
 
-const exportGroupProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+const exportGroupProvider: HaDataProviderType<ExportedFile> = {
+  getList: notImplemented,
 
   getOne: async (id: string) => {
     return groupsApi()
@@ -12,13 +11,9 @@ const exportGroupProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
 
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default exportGroupProvider;

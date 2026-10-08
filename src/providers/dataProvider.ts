@@ -1,4 +1,7 @@
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {
+  UntypedHaDataProvider,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
 import commentProvider from "@/providers/commentProvider";
 import corProvider from "@/providers/corProvider";
@@ -54,12 +57,33 @@ import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import templatePromotionsProvider from "@/providers/templatePromotionsProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
+import {EnableStatus} from "@haapi-b0fc7615/typescript-client";
+import {
+  CreateParams,
+  CreateResult,
+  DeleteParams,
+  DeleteResult,
+  GetListParams,
+  GetListResult,
+  GetOneParams,
+  GetOneResult,
+  Identifier,
+  RaRecord,
+  UpdateParams,
+  UpdateResult,
+} from "react-admin";
 import gradeImportProvider from "./gradeImportProvider";
+import retakeExamCourseParticipantsExportProvider from "./retakeExamCourseParticipantsExportProvider";
 import retakeExamCoursesProvider from "./retakeExamCoursesProvider";
 import retakeExamParticipantProvider from "./retakeExamParticipantProvider";
 import retakeExamProvider from "./retakeExamProvider";
+import retakeExamSessionParticipantsExportProvider from "./retakeExamSessionParticipantsExportProvider";
 import retakeExamSessionProvider from "./retakeExamSessionProvider";
 import searchProvider from "./searchProvider";
+import smsCampaignLogsProvider from "./smsCampaignLogsProvider";
+import smsCampaignsProvider from "./smsCampaignsProvider";
+import smsContactGroupsProvider from "./smsContactGroupsProvider";
+import smsContactsProvider from "./smsContactsProvider";
 import studentCreditProvider from "./studentCreditProvider";
 import studentRetakeExamsProvider from "./studentRetakeExamsProvider";
 import studentsResultOverviewProvider from "./studentsResultOverviewsProvider";
@@ -113,6 +137,10 @@ const providerMap = {
   "retakeExams-sessions": retakeExamSessionProvider,
   "retakeExams-participants": retakeExamParticipantProvider,
   "retakeExams-courses": retakeExamCoursesProvider,
+  "retakeExams-session-participants-export":
+    retakeExamSessionParticipantsExportProvider,
+  "retakeExams-course-participants-export":
+    retakeExamCourseParticipantsExportProvider,
   "grades": gradeProvider,
   "grades-details": gradesDetailsProvider,
   "summary": resultSummaryProvider,
@@ -133,12 +161,32 @@ const providerMap = {
   "monitors-documenso-documents": monitorDocumensoDocumentsProvider,
   "documenso-file-urls": documensoFileUrlProvider,
   "documenso-signing-tokens": documensoSigningTokenProvider,
+  "sms-campaigns": smsCampaignsProvider,
+  "sms-campaign-logs": smsCampaignLogsProvider,
+  "sms-contact-groups": smsContactGroupsProvider,
+  "sms-contacts": smsContactsProvider,
 } as const;
 
-const getProvider = (
-  resourceType: keyof typeof providerMap
-): HaDataProviderType => {
-  const provider = providerMap[resourceType];
+type ResourceType = keyof typeof providerMap;
+
+type ProviderListArgs = Parameters<UntypedHaDataProvider["getList"]>;
+
+// `sort` n'est pas transmis aux providers : les appelants peuvent l'omettre
+type ListParams = Omit<GetListParams, "sort"> &
+  Partial<Pick<GetListParams, "sort">>;
+
+// Les ids de l'API sont des chaînes, react-admin les type en Identifier.
+type ApiRecord = RaRecord<string>;
+
+const toProviderId = (id: Identifier) => id as string;
+
+const isResourceType = (resource: string): resource is ResourceType =>
+  Object.prototype.hasOwnProperty.call(providerMap, resource);
+
+const getProvider = (resourceType: string): UntypedHaDataProvider => {
+  const provider = isResourceType(resourceType)
+    ? providerMap[resourceType]
+    : undefined;
   if (!provider) {
     throw new Error("Unexpected resourceType: " + resourceType);
   }
@@ -146,11 +194,11 @@ const getProvider = (
 };
 
 const getHasNextPageInfo = async (
-  resource: keyof typeof providerMap,
+  resource: string,
   page: number,
   perPage: number,
-  filter: any,
-  meta: any
+  filter: ProviderListArgs[2],
+  meta: ProviderListArgs[3]
 ) => {
   const response = await getProvider(resource).getList(
     page + 1,
@@ -166,7 +214,10 @@ const getHasNextPageInfo = async (
   return response.data.length > 0;
 };
 const dataProvider = {
-  async getList(resourceType: keyof typeof providerMap, params: any) {
+  async getList<RecordType extends RaRecord = ApiRecord>(
+    resourceType: string,
+    params: ListParams
+  ): Promise<GetListResult<RecordType>> {
     const {pagination, meta, filter} = params;
     const page = pagination.page === 0 ? 1 : pagination.page;
     let perPage = pagination.perPage;
@@ -194,21 +245,27 @@ const dataProvider = {
       isPageFull &&
       (await getHasNextPageInfo(resourceType, page, perPage, filter, meta));
     return {
-      data,
+      data: data as RecordType[],
       pageInfo: {
         hasNextPage,
         hasPreviousPage: page > 1,
       },
     };
   },
-  async getOne(resourceType: keyof typeof providerMap, params: any) {
+  async getOne<RecordType extends RaRecord = ApiRecord>(
+    resourceType: string,
+    params: GetOneParams<RecordType>
+  ): Promise<GetOneResult<RecordType>> {
     const result = await getProvider(resourceType).getOne(
-      params.id,
+      toProviderId(params.id),
       params.meta
     );
-    return {data: result};
+    return {data: result as RecordType};
   },
-  async update(resourceType: keyof typeof providerMap, params: any) {
+  async update<RecordType extends RaRecord = ApiRecord>(
+    resourceType: string,
+    params: Pick<UpdateParams<RecordType>, "data" | "meta">
+  ): Promise<UpdateResult<RecordType>> {
     const result = await getProvider(resourceType).saveOrUpdate(
       [params.data].flat(),
       {
@@ -216,9 +273,12 @@ const dataProvider = {
         meta: params.meta ?? {},
       }
     );
-    return {data: result[0]};
+    return {data: (result as RecordType[])[0]};
   },
-  async create(resourceType: keyof typeof providerMap, params: any) {
+  async create<RecordType extends RaRecord = ApiRecord>(
+    resourceType: string,
+    params: CreateParams
+  ): Promise<CreateResult<RecordType>> {
     const result = await getProvider(resourceType).saveOrUpdate(
       resourceType === "students" ||
         resourceType === "teachers" ||
@@ -227,31 +287,31 @@ const dataProvider = {
         : [params.data],
       params
     );
-    return {data: result[0]};
+    return {data: (result as RecordType[])[0]};
   },
-  async delete(resourceType: keyof typeof providerMap, params: any) {
-    const result = await getProvider(resourceType).delete(params.id);
-    return {data: result};
+  async delete<RecordType extends RaRecord = ApiRecord>(
+    resourceType: string,
+    params: DeleteParams<RecordType>
+  ): Promise<DeleteResult<RecordType>> {
+    const result = await getProvider(resourceType).delete(
+      toProviderId(params.id)
+    );
+    return {data: result as RecordType};
   },
   deleteMany: () => {
     throw new Error("Not Implemented");
   },
-  getMany: () => {
-    throw new Error("Not implemented");
-  },
-  getManyReference: () => {
-    throw new Error("Not implemented");
-  },
-  updateMany: () => {
-    throw new Error("Not implemented");
-  },
+  getMany: notImplemented,
+  getManyReference: notImplemented,
+  updateMany: notImplemented,
 };
 
-const toEnabledUsers = (users: Array<any>): Array<any> => {
+const toEnabledUsers = <T extends object>(
+  users: T[]
+): Array<T & {status: EnableStatus}> => {
   const enabledUsers = [];
   for (const user of users) {
-    const enabledUser = Object.assign(user);
-    enabledUser.status = "ENABLED";
+    const enabledUser = Object.assign(user, {status: EnableStatus.ENABLED});
     enabledUsers.push(enabledUser);
   }
   return enabledUsers;

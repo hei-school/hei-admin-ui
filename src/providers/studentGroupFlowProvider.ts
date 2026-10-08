@@ -1,10 +1,19 @@
-import {UpdateGroupFlow} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {GroupFlow, UpdateGroupFlow} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 
-const studentGroupFlowProvider: HaDataProviderType = {
+interface StudentGroupFlowFilter {
+  studentId: string;
+}
+
+const studentGroupFlowProvider: HaDataProviderType<
+  GroupFlow,
+  StudentGroupFlowFilter,
+  HaMeta,
+  UpdateGroupFlow[]
+> = {
   getList: async (page, perPage, filter) => {
-    const studentId = filter.studentId as string;
+    const studentId = filter.studentId;
     return groupsApi()
       .getGroupFlowsByStudentId(studentId)
       .then((response) => {
@@ -12,9 +21,7 @@ const studentGroupFlowProvider: HaDataProviderType = {
         return {data: response.data.slice(start, start + perPage)};
       });
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
   saveOrUpdate: async (payload) => {
     const groupFlow = payload[0];
     const toUpdate: UpdateGroupFlow = {
@@ -22,12 +29,10 @@ const studentGroupFlowProvider: HaDataProviderType = {
       flow_datetime: groupFlow.flow_datetime,
     };
     return groupsApi()
-      .updateGroupFlow(groupFlow.id, toUpdate)
+      .updateGroupFlow(groupFlow.id!, toUpdate)
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default studentGroupFlowProvider;

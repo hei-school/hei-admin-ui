@@ -12,6 +12,7 @@ import {
 } from "@haapi-b0fc7615/typescript-client";
 import {Amplify} from "aws-amplify";
 import axios, {AxiosResponse} from "axios";
+import {UserIdentity} from "react-admin";
 import {getPermissions} from "../security/permissions";
 import {awsConfig} from "./aws-config";
 
@@ -167,7 +168,11 @@ const authProvider = {
     throw new Error("Unauthorized");
   },
 
-  getIdentity: async () => await whoami(),
+  getIdentity: async (): Promise<UserIdentity> => {
+    const identity = await whoami();
+    // react-admin requires an id; whoami always returns one for a signed-in user
+    return {...identity, id: identity.id ?? ""};
+  },
 
   getPermissions: async () =>
     Promise.resolve(getPermissions(getCachedRole() as string)),

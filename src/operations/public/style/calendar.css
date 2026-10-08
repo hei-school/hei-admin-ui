@@ -27,7 +27,7 @@
   font-weight: bold;
   text-transform: uppercase;
   font-family: inherit;
-  background-color: #7495e0;
+  background-color: #5a74af;
   color: white;
   gap: 1rem;
   cursor: pointer;
@@ -35,7 +35,7 @@
 }
 
 .rbc-toolbar .rbc-btn-group button:hover {
-  background-color: #5b7fcf;
+  background-color: #4d6395;
 }
 
 /* ---- TOOLBAR LABEL ---- */
@@ -53,7 +53,7 @@
 .rbc-time-view .rbc-time-header {
   padding: 1rem 0;
   color: white;
-  background-color: #7495e0;
+  background-color: #5a74af;
 }
 
 /* ---- HEADER ---- */

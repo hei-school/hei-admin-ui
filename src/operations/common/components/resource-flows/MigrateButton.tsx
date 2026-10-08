@@ -39,7 +39,7 @@ export type FormType = {
   resource: {id: string; label: string};
 };
 
-export function MigrateDialog<
+export const MigrateDialog = <
   Child extends ResourceIdentifier,
   Parent extends ResourceIdentifier,
 >({
@@ -47,7 +47,7 @@ export function MigrateDialog<
   title,
   showField,
   ...dialogProps
-}: MigrateDialogProps<Child, Parent>) {
+}: MigrateDialogProps<Child, Parent>) => {
   const {
     submit,
     parentResource,
@@ -55,7 +55,7 @@ export function MigrateDialog<
     childGetOneOptions,
     parentGetListsOptions = {},
     parentId,
-  } = useResourceFlowsContext();
+  } = useResourceFlowsContext<Child, Parent>();
   const {id: childId} = useRecordContext();
   const {data: child} = useGetOne<Child>(childResource, {
     id: childId,
@@ -111,13 +111,17 @@ export function MigrateDialog<
       </form>
     </FlowsDialog>
   );
-}
+};
 
-export function MigrateButton<
+export const MigrateButton = <
   Child extends ResourceIdentifier,
   Parent extends ResourceIdentifier,
->({label, icon, dialogProps}: MigrateButtonProps<Child, Parent>) {
-  const [isOpen, _set, toggle] = useToggle();
+>({
+  label,
+  icon,
+  dialogProps,
+}: Readonly<MigrateButtonProps<Child, Parent>>) => {
+  const [isOpen, , toggle] = useToggle();
   return (
     <div>
       <Button
@@ -136,4 +140,4 @@ export function MigrateButton<
       />
     </div>
   );
-}
+};

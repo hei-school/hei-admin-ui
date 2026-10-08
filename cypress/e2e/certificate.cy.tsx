@@ -25,7 +25,7 @@ describe("Student Ceritificate", () => {
     cy.wait("@downloadCertificate");
 
     cy.contains(MESSAGE_ERROR);
-    cy.getByTestid("file-link").should("not.have.attr", "href");
+    cy.getByTestid("file-link").should("not.exist");
   });
 
   it("student can get his certificate", () => {

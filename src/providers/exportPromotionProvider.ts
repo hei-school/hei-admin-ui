@@ -1,10 +1,9 @@
 import {promotionApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
+import {ExportedFile} from "./types";
 
-const exportPromotionProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+const exportPromotionProvider: HaDataProviderType<ExportedFile> = {
+  getList: notImplemented,
 
   getOne: async (id: string) => {
     return promotionApi()
@@ -12,13 +11,9 @@ const exportPromotionProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
 
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default exportPromotionProvider;

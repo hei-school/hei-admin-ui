@@ -1,4 +1,4 @@
-import {FC, useMemo, useState} from "react";
+import {useState} from "react";
 import {List} from "react-admin";
 
 import {PALETTE_COLORS} from "@/haTheme";
@@ -7,15 +7,15 @@ import {
   LetterListView,
   LettersFilter,
 } from "@/operations/letters/components";
-import {HaListContext} from "@/ui/haList";
+import {ListActionsPopover} from "@/ui/haList";
 import {PrevNextPagination} from "@/ui/haList/PrevNextPagination";
 import {LetterStats} from "@haapi-b0fc7615/typescript-client";
 import {MoreVert} from "@mui/icons-material";
-import {Box, IconButton, Popover, Stack} from "@mui/material";
+import {Box, IconButton, Stack} from "@mui/material";
 
-export const LettersList: FC<{stats: LetterStats & {total?: number}}> = ({
+export const LettersList = ({
   stats,
-}) => {
+}: Readonly<{stats: LetterStats & {total?: number}}>) => {
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
   return (
@@ -26,10 +26,12 @@ export const LettersList: FC<{stats: LetterStats & {total?: number}}> = ({
         empty={false}
         pagination={<PrevNextPagination />}
         actions={
-          <LetterListActions
+          <ListActionsPopover
             onClose={() => setAnchorEl(null)}
             anchorEl={anchorEl}
-          />
+          >
+            <LettersFilter />
+          </ListActionsPopover>
         }
         disableSyncWithLocation={true}
       >
@@ -58,27 +60,5 @@ export const LettersList: FC<{stats: LetterStats & {total?: number}}> = ({
         <LetterListView />
       </List>
     </Box>
-  );
-};
-
-// TODO: extract into reusable component
-const LetterListActions: FC<{
-  anchorEl: HTMLElement | null;
-  onClose: () => void;
-}> = ({anchorEl, onClose}) => {
-  return (
-    <HaListContext.Provider value={useMemo(() => ({closeAction: onClose}), [])}>
-      <Popover
-        open={anchorEl !== null}
-        anchorEl={anchorEl}
-        onClose={onClose}
-        anchorOrigin={{vertical: "top", horizontal: "right"}}
-        transformOrigin={{vertical: "top", horizontal: "right"}}
-      >
-        <Box sx={{width: "150px"}}>
-          <LettersFilter />
-        </Box>
-      </Popover>
-    </HaListContext.Provider>
   );
 };

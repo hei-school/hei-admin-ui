@@ -80,9 +80,10 @@ describe("Student", () => {
     cy.get('td input[type="checkbox"]').should("not.exist");
     cy.get("td a").should("not.contain", "ÉDITER");
     cy.get("body").click(200, 0); //note(uncover-menu)
-    cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`).click({
-      force: true,
-    });
+    cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`)
+      .scrollIntoView()
+      .should("be.visible")
+      .click();
     cy.get("#main-content").should("contain", "Paiements");
     cy.get('td input[type="checkbox"]').should("not.exist");
     cy.get("td").should("not.contain", "ÉDITER");
@@ -92,9 +93,10 @@ describe("Student", () => {
 
   it("can detail fee (click on fee button)", () => {
     cy.get(`[href="/students/${student1Mock.id}/fees"]`).click();
-    cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`).click({
-      force: true,
-    });
-    cy.contains("En retard");
+    cy.getByTestid(`showButton-student1_id--${feesMock[0].id}`)
+      .scrollIntoView()
+      .should("be.visible")
+      .click();
+    cy.contains("En retard").should("exist");
   });
 });

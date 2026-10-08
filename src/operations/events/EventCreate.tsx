@@ -10,7 +10,7 @@ import {
   GroupIdentifier,
 } from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
-import {FC, useEffect} from "react";
+import {useEffect} from "react";
 import {
   BooleanInput,
   NumberInput,
@@ -35,7 +35,28 @@ import {
   RECURRENCE_TYPE_CHOICES,
 } from "./utils";
 
-const validateGroups = (value: any, allValues: any) => {
+type RecurrenceFormValues = {
+  recurrenceType?: string;
+  frequency?: number;
+  startTime?: string;
+  endTime?: string;
+};
+
+type EventCreateFormValues = EventInput & {
+  isPlannedByMe?: boolean;
+  customTitle?: string;
+  meta: {isRecurrent?: boolean};
+  recurrent?: RecurrenceFormValues;
+  event_type?: EventType;
+  course_id?: string;
+  planner_id?: string;
+  groups?: string[];
+};
+
+const validateGroups = (
+  value: string[] | undefined,
+  allValues: Pick<EventCreateFormValues, "event_type">
+) => {
   const eventType = allValues.event_type;
   if (
     (eventType === "COURSE" || eventType === "EXAM") &&
@@ -46,7 +67,7 @@ const validateGroups = (value: any, allValues: any) => {
   return undefined;
 };
 
-export function EventCreate() {
+export const EventCreate = () => {
   const userId = authProvider.getCachedWhoami().id;
   const {data: groups = [], isLoading: isGroupsLoading} = useGetList<
     ToRaRecord<Group>
@@ -61,7 +82,7 @@ export function EventCreate() {
     <Create
       resource="events"
       title="Créer un événement"
-      transform={(event: EventInput & {[key: string]: any}) => {
+      transform={(event: EventCreateFormValues) => {
         const {isPlannedByMe, customTitle, meta, recurrent, ...createEvent} =
           event;
         const {isRecurrent} = meta;
@@ -78,7 +99,7 @@ export function EventCreate() {
           ...createEvent,
           recurrent: isRecurrent ? recurrent : undefined,
           id: uuid(),
-          groups: event.groups?.map((group: GroupIdentifier) => ({id: group})),
+          groups: event.groups?.map((group): GroupIdentifier => ({id: group})),
           planner_id: isPlannedByMe ? userId : event.planner_id!,
           begin_datetime: parseDate(event.start as AcceptDate),
           end_datetime: parseDate(event.end as AcceptDate),
@@ -148,9 +169,11 @@ export function EventCreate() {
       </SimpleForm>
     </Create>
   );
-}
+};
 
-export const SelectEventColor: FC<{groupList: Group[]}> = ({groupList}) => {
+export const SelectEventColor = ({
+  groupList,
+}: Readonly<{groupList: Group[]}>) => {
   const {setValue} = useFormContext();
   const eventType = useWatch({
     name: "event_type",

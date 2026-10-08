@@ -57,7 +57,7 @@ describe("Manager.Transcript.Docs", () => {
       `docs_import/doc.pdf`
     );
     cy.contains("Enregistrer").click();
-    cy.contains("Document créé");
+    cy.contains("Document créé").should("exist");
   });
 
   it("can list a student transcripts", () => {
@@ -66,7 +66,7 @@ describe("Manager.Transcript.Docs", () => {
     cy.contains(`Liste des bulletins de ${student1Mock.ref}`);
     cy.contains("Nom du fichier");
     cy.contains("Date de création");
-    cy.contains("Afficher");
+    cy.contains("Afficher").should("exist");
   });
 });
 
@@ -116,7 +116,7 @@ describe("Manager.Work.Docs", () => {
     );
     cy.contains("Nom du fichier");
     cy.contains("Date de création");
-    cy.contains("Afficher");
+    cy.contains("Afficher").should("exist");
   });
 
   it("can create a student worker doc", () => {
@@ -132,7 +132,7 @@ describe("Manager.Work.Docs", () => {
       `docs_import/doc.pdf`
     );
     cy.contains("Enregistrer").click();
-    cy.contains("Document créé");
+    cy.contains("Document créé").should("exist");
   });
 });
 
@@ -178,6 +178,6 @@ describe("Manager.Other.Docs", () => {
     cy.contains(`Liste des autres documents étudiant de ${student1Mock.ref}`);
     cy.contains("Nom du fichier");
     cy.contains("Date de création");
-    cy.contains("Afficher");
+    cy.contains("Afficher").should("exist");
   });
 });

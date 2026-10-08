@@ -1,9 +1,28 @@
 import {usersApi} from "@/providers/api";
 import authProvider from "@/providers/authProvider";
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
+import {User} from "@/providers/types";
+import {
+  Organizer,
+  StaffMember,
+  WhoamiRoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
 
-const profileProvider: HaDataProviderType = {
+type Profile = User | StaffMember | Organizer;
+
+type ProfilePayload = Profile & {id: string};
+
+const profileProvider: HaDataProviderType<
+  Profile,
+  HaFilter,
+  HaMeta,
+  ProfilePayload[]
+> = {
   getOne: async (id: string) => {
     const role = authProvider.getCachedRole();
 
@@ -40,9 +59,7 @@ const profileProvider: HaDataProviderType = {
         throw new Error("Role non supporté");
     }
   },
-  getList: () => {
-    throw new Error("Function not implemented");
-  },
+  getList: notImplemented,
   saveOrUpdate: async (payload) => {
     const role = authProvider.getCachedRole();
     const id = payload[0].id;
@@ -77,9 +94,7 @@ const profileProvider: HaDataProviderType = {
         throw new Error("Role non supporté");
     }
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default profileProvider;

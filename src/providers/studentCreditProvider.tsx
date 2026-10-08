@@ -1,14 +1,28 @@
-import {CreditMovement} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  Credit,
+  CreditMovement,
+  CreditTransaction,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {payingApi} from "./api";
 
-const studentCreditProvider: HaDataProviderType = {
+interface StudentCreditFilter {
+  studentId: string;
+  movement?: CreditMovement;
+}
+
+type StudentCreditResource = (CreditTransaction & {id?: string}) | Credit;
+
+const studentCreditProvider: HaDataProviderType<
+  StudentCreditResource,
+  StudentCreditFilter
+> = {
   getList: async (page, perPage, filter) => {
-    const studentId = filter.studentId as string;
+    const studentId = filter.studentId;
     return payingApi()
       .getCreditTransactionsByStudentId(
         studentId,
-        filter.movement as CreditMovement,
+        filter.movement,
         page,
         perPage
       )
@@ -24,12 +38,8 @@ const studentCreditProvider: HaDataProviderType = {
       .getCreditByStudentId(studentId)
       .then((response) => response.data);
   },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default studentCreditProvider;

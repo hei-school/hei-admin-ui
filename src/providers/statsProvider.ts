@@ -1,13 +1,55 @@
 import {formatDateToLocalTimeZone} from "@/utils";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  AdvancedFeesStatistics,
+  AdvancedFeeStatisticsType,
+  EventStats,
+  FeeCategory,
+  FeesStatistics,
+  FeeStatusEnum,
+  FeeTypeEnum,
+  MpbsStatus,
+  Statistics,
+} from "@haapi-b0fc7615/typescript-client";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {eventsApi, payingApi, usersApi} from "./api";
 import {MAX_ITEM_PER_PAGE} from "./dataProvider";
 import {getMonthFilters} from "./utils";
 
-const statsProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+interface StatsFilter {
+  monthFrom?: Date;
+  monthTo?: Date;
+  viewMode?: AdvancedFeeStatisticsType;
+  transaction_status?: MpbsStatus;
+  type?: FeeTypeEnum;
+  status?: FeeStatusEnum;
+  category?: FeeCategory;
+  page?: number;
+  isMpbs?: boolean;
+  student_ref?: string;
+}
+
+interface StatsMeta {
+  resource?: string;
+  filters?: StatsFilter;
+}
+
+type Stats = (
+  | Statistics
+  | AdvancedFeesStatistics
+  | FeesStatistics
+  | EventStats
+) & {id: string};
+
+const statsProvider: HaDataProviderType<
+  Stats | undefined,
+  HaFilter,
+  StatsMeta
+> = {
+  getList: notImplemented,
   getOne: async (id: string, meta = {}) => {
     const filter = meta.filters ?? {};
     const {monthFrom, monthTo} = getMonthFilters(filter);
@@ -31,9 +73,9 @@ const statsProvider: HaDataProviderType = {
             filter.transaction_status,
             filter.type,
             filter.status,
+            filter.category,
             filter.monthFrom,
             filter.monthTo,
-            filter.category,
             filter.page ?? 1,
             MAX_ITEM_PER_PAGE,
             filter.isMpbs,
@@ -49,12 +91,8 @@ const statsProvider: HaDataProviderType = {
         return;
     }
   },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default statsProvider;

@@ -27,7 +27,7 @@ describe("Manager.Group", () => {
     cy.contains("Hommes");
     cy.get(".column-creation_datetime").contains("Date de création");
     cy.get(".column-ref").contains("Référence");
-    cy.get(".column-name").contains("Nom");
+    cy.get(".column-name").contains("Nom").should("exist");
   });
 
   it("can create a group", () => {
@@ -49,9 +49,9 @@ describe("Manager.Group", () => {
         .click()
     );
 
-    cy.contains("Enregistrer").click({force: true});
+    cy.contains("button", "Enregistrer").should("be.enabled").click();
 
-    cy.contains("Élément créé");
+    cy.contains("Élément créé").should("exist");
   });
 
   it("can detail a group with its students", () => {
@@ -62,7 +62,7 @@ describe("Manager.Group", () => {
     cy.contains(group1Mock.name).click();
 
     cy.contains("Les étudiants dans ce groupe");
-    cy.get(".column-ref").contains("Référence");
+    cy.get(".column-ref").contains("Référence").should("exist");
   });
 
   it("can remove a student from a group", () => {
@@ -80,7 +80,7 @@ describe("Manager.Group", () => {
     cy.contains("Retirer").click();
     cy.get("#alert-dialog-title").contains("Supprimer un étudiant");
     cy.contains("Confirmer").click();
-    cy.contains(`a été supprimé avec succès`);
+    cy.contains(`a été supprimé avec succès`).should("exist");
   });
 
   it("can move a student to another group", () => {
@@ -101,6 +101,6 @@ describe("Manager.Group", () => {
     cy.contains(group2Mock.ref).click();
 
     cy.contains("Envoyer").click();
-    cy.contains(`a été migré avec succès`);
+    cy.contains(`a été migré avec succès`).should("exist");
   });
 });

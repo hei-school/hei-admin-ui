@@ -81,7 +81,7 @@ describe("Notifications on error when create, e.g: StudentCreate", () => {
       },
     }).as("createStudent");
     cy.contains("Enregistrer").click();
-    cy.contains("Une erreur s'est produite");
+    cy.contains("Une erreur s'est produite").should("exist");
   });
 });
 describe("Notifications on error when edit, e.g: TeacherEdit", () => {
@@ -122,6 +122,6 @@ describe("Notifications on error when edit, e.g: TeacherEdit", () => {
     }).as("createTeacher");
     cy.get("#last_name").clear().type(updatedInfo.last_name);
     cy.getByTestid("SaveIcon").click();
-    cy.contains("Une erreur s'est produite");
+    cy.contains("Une erreur s'est produite").should("exist");
   });
 });

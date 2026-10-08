@@ -1,3 +1,4 @@
+import {ImportGradeResult} from "@haapi-b0fc7615/typescript-client";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Alert,
@@ -19,7 +20,7 @@ import {
 type ImportResultDialogProps = {
   open: boolean;
   onClose: () => void;
-  importResult: any;
+  importResult: ImportGradeResult | null;
 };
 
 export const ImportResultDialog = ({
@@ -68,8 +69,8 @@ export const ImportResultDialog = ({
               </TableRow>
             </TableHead>
             <TableBody>
-              {invalidGrades.map((grade: any, idx: number) => (
-                <TableRow key={idx}>
+              {invalidGrades?.map((grade) => (
+                <TableRow key={`${grade.ref}-${grade.score}-${grade.reason}`}>
                   <TableCell>{grade.ref}</TableCell>
                   <TableCell>{grade.score ?? "-"}</TableCell>
                   <TableCell sx={{color: "error.main"}}>

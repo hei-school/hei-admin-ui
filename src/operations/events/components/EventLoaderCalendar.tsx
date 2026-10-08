@@ -1,7 +1,6 @@
-import {FC} from "react";
 import {LinearProgress, useListContext} from "react-admin";
 
-export const EventLoaderCalendar: FC = () => {
+export const EventLoaderCalendar = () => {
   const {isLoading} = useListContext();
   return (
     isLoading && (

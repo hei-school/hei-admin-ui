@@ -1,0 +1,281 @@
+import {getAxiosInstance} from "@/config/axios";
+import {PALETTE_COLORS} from "@/haTheme";
+import {
+  DownloadForOffline,
+  Error,
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+} from "@mui/icons-material";
+import {
+  Box,
+  BoxProps,
+  Card,
+  CardContent,
+  CardHeader,
+  IconButton,
+  LinearProgress,
+  Stack,
+  Theme,
+  Tooltip,
+  TooltipProps,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import {SystemStyleObject} from "@mui/system";
+import "pdfjs-dist/build/pdf.min.mjs";
+import "pdfjs-dist/build/pdf.worker.min.mjs";
+import {MouseEventHandler, ReactNode, useEffect, useRef, useState} from "react";
+import {useNotify} from "react-admin";
+import {Document as Pdf, Page as PdfPage} from "react-pdf";
+
+type TooltipButtonProps = Omit<TooltipProps, "children" | "onClick"> & {
+  icon: ReactNode;
+  disabled?: boolean;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
+};
+
+const TooltipButton = ({
+  icon,
+  disabled,
+  onClick,
+  ...others
+}: Readonly<TooltipButtonProps>) => (
+  <Tooltip {...others} sx={{margin: "0 6px"}}>
+    <IconButton onClick={onClick} disabled={disabled}>
+      {icon}
+    </IconButton>
+  </Tooltip>
+);
+
+const STYLE = {
+  width: "max-content",
+  minHeight: "max-content",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
+  borderRadius: "13px",
+  backgroundColor: "#fff",
+  padding: "0.1rem",
+};
+
+const PDF_LOADING_ERROR_MESSAGE = "Échec de chargement du document";
+
+type StepUpdater = (prevActiveStep: number) => number;
+
+export interface HorizontalPaginationProps {
+  maxSteps: number;
+  activeStep: number;
+  setActiveStep: (update: StepUpdater) => void;
+  boxSx?: SystemStyleObject<Theme>;
+}
+
+export const HorizontalPagination = ({
+  maxSteps,
+  activeStep,
+  setActiveStep,
+  boxSx,
+}: Readonly<HorizontalPaginationProps>) => {
+  const theme = useTheme();
+
+  const handleNext = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  return (
+    <Box sx={{...STYLE, ...boxSx}}>
+      <IconButton
+        size="small"
+        onClick={handleBack}
+        data-test-item="pdf-prev"
+        disabled={activeStep === 1 || maxSteps === 0}
+      >
+        {theme?.direction === "rtl" ? (
+          <KeyboardArrowRight />
+        ) : (
+          <KeyboardArrowLeft />
+        )}
+      </IconButton>
+
+      <Typography>
+        {activeStep} / {maxSteps}
+      </Typography>
+
+      <IconButton
+        size="small"
+        onClick={handleNext}
+        data-test-item="pdf-next"
+        disabled={activeStep === maxSteps || maxSteps === 0}
+      >
+        {theme?.direction === "rtl" ? (
+          <KeyboardArrowLeft />
+        ) : (
+          <KeyboardArrowRight />
+        )}
+      </IconButton>
+    </Box>
+  );
+};
+
+export const PdfLoadingError = () => (
+  <Box sx={{display: "flex", alignItems: "center"}}>
+    <Error style={{fontSize: 40}} />
+    <Typography variant="body2">{PDF_LOADING_ERROR_MESSAGE}</Typography>
+  </Box>
+);
+
+export type PdfViewerProps = BoxProps & {
+  url?: string;
+  filename: string;
+  isPending?: boolean;
+  noData?: ReactNode;
+  onLoadError?: ReactNode;
+};
+
+interface PdfPages {
+  current: number;
+  last: number | null;
+}
+
+const PdfViewer = (props: Readonly<PdfViewerProps>) => {
+  const {url, filename, isPending, noData, onLoadError, children, ...others} =
+    props;
+  const [pages, setPages] = useState<PdfPages>({current: 1, last: null});
+  const pdfRef = useRef<HTMLDivElement>(null);
+
+  const notify = useNotify();
+
+  const setLastPage = ({numPages}: {numPages: number}) => {
+    setPages((e) => ({...e, last: numPages}));
+  };
+
+  const setPage = (callback: StepUpdater) => {
+    setPages((e) => ({...e, current: callback(e.current)}));
+  };
+
+  const [binary, setBinary] = useState<Blob>();
+  const [loadingBinary, setLoadingBinary] = useState(true);
+
+  useEffect(() => {
+    const retrievePdf = async (pdfUrl: string) => {
+      setLoadingBinary(true);
+      try {
+        const axiosInstance = getAxiosInstance();
+        const res = await axiosInstance.get<Blob>(pdfUrl, {
+          headers: {"Content-Type": "application/pdf"},
+          responseType: "blob",
+        });
+
+        if (res.data) {
+          setBinary(res.data);
+        }
+      } catch (e) {
+        console.error("Error loading PDF:", e);
+        notify("Une erreur est survenue lors du chargement du PDF.", {
+          type: "error",
+        });
+      } finally {
+        setLoadingBinary(false);
+      }
+    };
+    if (url) void retrievePdf(url);
+  }, [notify, url]);
+
+  const isLoadingPdf = isPending || loadingBinary;
+
+  return (
+    <Box {...others}>
+      <Card ref={pdfRef}>
+        {isLoadingPdf && <LinearProgress />}
+        <Box
+          display="flex"
+          justifyContent="space-between"
+          style={{backgroundColor: PALETTE_COLORS.yellow}}
+        >
+          <CardHeader title={`Document : ${filename}`} />
+          <Stack
+            flexDirection="row"
+            sx={{alignItems: "center", padding: "0.2rem 0.2rem 0 0"}}
+          >
+            {url && !isLoadingPdf && pages.last && (
+              <HorizontalPagination
+                activeStep={pages.current}
+                maxSteps={pages.last}
+                setActiveStep={setPage}
+              />
+            )}
+            {children}
+            <a
+              href={url}
+              data-testid="download-link"
+              target="_blank"
+              rel="noreferrer"
+              download={filename + ".pdf"}
+            >
+              <TooltipButton
+                title="Télécharger"
+                icon={
+                  <DownloadForOffline
+                    style={{
+                      color: PALETTE_COLORS.white,
+                      width: 30,
+                      height: 30,
+                    }}
+                  />
+                }
+              />
+            </a>
+          </Stack>
+        </Box>
+        <CardContent
+          sx={{
+            ...(url && !isLoadingPdf ? {paddingInline: 0} : {}),
+            justifyContent: "center",
+            display: "flex",
+            alignItems: "center",
+          }}
+        >
+          {url ? (
+            <Pdf
+              noData={
+                noData || (
+                  <Typography variant="body2">
+                    En attente du document ...
+                  </Typography>
+                )
+              }
+              error={onLoadError || <PdfLoadingError />}
+              file={!isLoadingPdf && binary ? binary : null}
+              loading={<LoadingMessage />}
+              onLoadSuccess={(cb) => {
+                setLastPage({numPages: cb.numPages});
+                setLoadingBinary(false);
+              }}
+            >
+              <PdfPage
+                loading={<LoadingMessage />}
+                width={
+                  pdfRef.current ? pdfRef.current.clientWidth - 50 : undefined
+                }
+                pageNumber={pages.current}
+                renderTextLayer={false}
+                renderAnnotationLayer={false}
+              />
+            </Pdf>
+          ) : (
+            <Typography variant="body2">En attente du document ...</Typography>
+          )}
+        </CardContent>
+      </Card>
+    </Box>
+  );
+};
+
+const LoadingMessage = () => (
+  <Typography variant="body2">Chargement du document ...</Typography>
+);
+
+export default PdfViewer;

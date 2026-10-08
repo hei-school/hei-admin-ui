@@ -70,7 +70,7 @@ describe("Student.event", () => {
 
   it("student cannot change status event participant", () => {
     cy.contains("Listes").click();
-    cy.get("#event-show").click({force: true});
+    cy.get("#event-show").scrollIntoView().should("be.visible").click();
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid(`eventparticipant-${eventparticipant1mock.id}-status`)
       .as("participantStatus")
@@ -120,7 +120,10 @@ describe("Student.event participant", () => {
 
       if (eventElements.length > 0) {
         cy.log("Events found - testing click and popover");
-        cy.wrap(eventElements.first()).click({force: true});
+        cy.wrap(eventElements.first())
+          .scrollIntoView()
+          .should("be.visible")
+          .click();
         cy.get("[role='presentation']").then(($presentation) => {
           if ($presentation.length > 0 && $presentation.is(":visible")) {
             cy.wrap($presentation).should("contain.text", "Présence");

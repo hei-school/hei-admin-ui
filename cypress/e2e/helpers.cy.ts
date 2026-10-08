@@ -1,18 +1,35 @@
+import {asWindowFunction} from "./utils";
+
+// Signatures as seen by these tests.
+type GradeRow = {grade: {score: number | null}; id: string; name: string};
+type ValidateGradeData = (data: object[]) => unknown;
+type TransformGradesData = (data: object[]) => [unknown, GradeRow[]][];
+type GetCurrentWeekRange = (currentDate?: Date) => {
+  monday: string | Date;
+  saturday: string | Date;
+};
+
 describe("Grades Data Utils coverage", () => {
   // TODO: fix this test
   it.skip("should cover validateGradeData and transformGradesData", () => {
     cy.visit("/");
 
-    cy.window().then((win: any) => {
+    cy.window().then((win) => {
       expect(win).to.have.property("validateGradeData");
       expect(win).to.have.property("transformGradesData");
+      const validateGradeData = asWindowFunction<ValidateGradeData>(
+        win.validateGradeData
+      );
+      const transformGradesData = asWindowFunction<TransformGradesData>(
+        win.transformGradesData
+      );
 
       const data = [
         {"grade.score": 15, "id": "student1", "name": "Alice"},
         {"grade.score": null, "id": "student2", "name": "Bob"},
       ];
 
-      const transformed = win.transformGradesData(data);
+      const transformed = transformGradesData(data);
       expect(transformed).to.have.length(1);
       expect(transformed[0][1]).to.have.length(2);
 
@@ -23,7 +40,7 @@ describe("Grades Data Utils coverage", () => {
       expect(transformed[0][1][1].grade.score).to.eq(0);
       expect(transformed[0][1][1].id).to.eq("student2");
 
-      const valid = win.validateGradeData(data);
+      const valid = validateGradeData(data);
       expect(valid).to.exist;
     });
   });
@@ -35,7 +52,9 @@ describe("getCurrentWeekRange coverage", () => {
 
     cy.window()
       .should("have.property", "getCurrentWeekRange")
-      .then((getCurrentWeekRange: any) => {
+      .then((value: unknown) => {
+        const getCurrentWeekRange =
+          asWindowFunction<GetCurrentWeekRange>(value);
         const {monday, saturday} = getCurrentWeekRange(new Date("2024-07-01"));
 
         const mondayDate = new Date(monday);

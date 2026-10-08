@@ -1,8 +1,24 @@
-import {StaffMember} from "@haapi-b0fc7615/typescript-client";
+import {
+  EnableStatus,
+  Sex,
+  StaffMember,
+} from "@haapi-b0fc7615/typescript-client";
 import {usersApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
-const staffProvider: HaDataProviderType = {
+interface StaffFilter {
+  status?: EnableStatus;
+  sex?: Sex;
+  first_name?: string;
+  last_name?: string;
+}
+
+const staffProvider: HaDataProviderType<
+  StaffMember,
+  StaffFilter,
+  HaMeta,
+  StaffMember[]
+> = {
   getList: async (page, perPage, filter = {}) => {
     return usersApi()
       .getStaffMembers(
@@ -20,10 +36,7 @@ const staffProvider: HaDataProviderType = {
       .getStaffMemberById(id)
       .then((result) => result.data);
   },
-  saveOrUpdate: async (
-    staffs: Required<StaffMember>[],
-    meta: {isUpdate: boolean}
-  ) => {
+  saveOrUpdate: async (staffs: StaffMember[], meta?: {isUpdate: boolean}) => {
     if (meta?.isUpdate) {
       const [staff] = staffs;
       return usersApi()
@@ -34,9 +47,7 @@ const staffProvider: HaDataProviderType = {
       .crupdateStaffMembers(staffs)
       .then((result) => result.data);
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default staffProvider;

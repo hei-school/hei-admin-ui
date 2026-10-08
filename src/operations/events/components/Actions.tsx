@@ -10,7 +10,7 @@ import {
 } from "@haapi-b0fc7615/typescript-client";
 import {AttachFile, Visibility} from "@mui/icons-material";
 import {IconButton, Stack, Tooltip} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {useGetIdentity, useRefresh} from "react-admin";
 import {EventJustificateModal} from "./EventJustificateModal";
 
@@ -68,11 +68,11 @@ const Icon = ({letter}: {letter: EventParticipantLetter}) => {
   );
 };
 
-export const StatusActionStatus: FC<StatusActionProps> = ({
+export const StatusActionStatus = ({
   participant,
   changeStatus,
   localStatus,
-}) => {
+}: Readonly<StatusActionProps>) => {
   const {isManager, isTeacher, isAdmin} = useRole();
 
   return (

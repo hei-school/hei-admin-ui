@@ -4,7 +4,7 @@ import {formatDate} from "@/utils/date";
 import {Cor} from "@haapi-b0fc7615/typescript-client";
 import {Box, Typography, keyframes} from "@mui/material";
 import {IdCard, Mail, MessageSquare, User, Users} from "lucide-react";
-import {FC, ReactNode} from "react";
+import {ReactNode} from "react";
 import {useRecordContext} from "react-admin";
 import {AddCorComment} from "./components/AddCorComment";
 import StatusChip from "./components/StatusChip";
@@ -20,7 +20,10 @@ const fadeIn = keyframes`
   }
 `;
 
-const DetailCard: FC<{children: ReactNode; sx?: object}> = ({children, sx}) => (
+const DetailCard = ({
+  children,
+  sx,
+}: Readonly<{children: ReactNode; sx?: object}>) => (
   <Box
     sx={{
       "borderRadius": "20px",
@@ -224,9 +227,9 @@ export const CorDetails = () => {
           }}
         >
           {cor?.comments && cor.comments.length > 0 ? (
-            cor.comments.map((el, index) => (
+            cor.comments.map((el) => (
               <Box
-                key={index}
+                key={`${el.creation_date}-${el.comment}`}
                 sx={{
                   padding: "15px",
                   borderRadius: "10px",
@@ -272,7 +275,10 @@ export const CorDetails = () => {
     </Box>
   );
 };
-const DetailTitle: FC<{title: string; icon?: ReactNode}> = ({icon, title}) => {
+const DetailTitle = ({
+  icon,
+  title,
+}: Readonly<{title: string; icon?: ReactNode}>) => {
   return (
     <Box
       sx={{
@@ -298,11 +304,15 @@ const DetailTitle: FC<{title: string; icon?: ReactNode}> = ({icon, title}) => {
   );
 };
 
-const SectionITem: FC<{
+const SectionITem = ({
+  content,
+  icon,
+  title,
+}: Readonly<{
   icon?: ReactNode;
   content: string | ReactNode;
   title: string;
-}> = ({content, icon, title}) => {
+}>) => {
   return (
     <Box>
       <Typography variant="body2" sx={{color: "#6c757d", marginBottom: "4px"}}>

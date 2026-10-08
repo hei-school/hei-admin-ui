@@ -61,7 +61,7 @@ describe("Teacher.event", () => {
 
   it("teacher can list & change status event participant", () => {
     cy.contains("Listes").click();
-    cy.get("#event-show").click({force: true});
+    cy.get("#event-show").scrollIntoView().should("be.visible").click();
     cy.wait("@getEventParticipantPage1");
     cy.getByTestid(`eventparticipant-${eventparticipant1mock.id}-status`)
       .as("participantStatus")

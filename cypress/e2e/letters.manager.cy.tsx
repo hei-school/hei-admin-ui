@@ -86,7 +86,8 @@ describe("Manager.Letters", () => {
     cy.getByTestid("letter-list-wrapper")
       .children()
       .first()
-      .contains(student1Mock.first_name);
+      .contains(student1Mock.first_name)
+      .should("exist");
   });
 
   it("manager can filter by letter ref", () => {
@@ -97,7 +98,8 @@ describe("Manager.Letters", () => {
     cy.wait("@getLettersFilteredByRef");
     cy.getByTestid("letter-list-wrapper")
       .children()
-      .contains(newLetter2[0].ref!);
+      .contains(newLetter2[0].ref!)
+      .should("exist");
   });
 
   it("manager can accept letter", () => {

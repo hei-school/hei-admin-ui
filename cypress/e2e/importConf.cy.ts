@@ -1,11 +1,23 @@
+import type {commentRenderer} from "../../src/operations/utils/commentRenderer";
+
+// the application exposes commentRenderer on window for these tests
+const hasCommentRenderer = (
+  win: Window
+): win is Window & {commentRenderer: typeof commentRenderer} =>
+  "commentRenderer" in win;
+
 describe("validateData and transformUserData utility functions", () => {
   //TODO: fix this test
   it.skip("should validate and transform user data", () => {
     cy.visit("/");
 
-    cy.window().then((win: any) => {
+    cy.window().then((win) => {
       expect(win).to.have.property("validateData");
       expect(win).to.have.property("transformUserData");
+      const {validateData, transformUserData, minimalImportHeaders} = win;
+      if (!validateData || !transformUserData || !minimalImportHeaders) {
+        throw new Error("Les utilitaires d'import ne sont pas exposés");
+      }
 
       const minimalUser = {
         ref: "r1",
@@ -16,25 +28,25 @@ describe("validateData and transformUserData utility functions", () => {
       };
 
       // Cas valide
-      let result = win.validateData([minimalUser], win.minimalImportHeaders);
+      let result = validateData([minimalUser], minimalImportHeaders);
       expect(result).to.have.property("isValid", true);
 
       // Cas vide
-      result = win.validateData([], win.minimalImportHeaders);
+      result = validateData([], minimalImportHeaders);
       expect(result.isValid).to.eq(false);
       expect(result.message).to.eq("Il n'y a pas d'élément à insérer");
 
       // Cas en-têtes incorrects
       const invalidUser = {foo: "bar"};
-      result = win.validateData([invalidUser], win.minimalImportHeaders);
+      result = validateData([invalidUser], minimalImportHeaders);
       expect(result.isValid).to.eq(false);
       expect(result.message).to.eq(
         "Veuillez re-vérifier les en-têtes de votre fichier"
       );
 
       // Cas trop d'éléments
-      const users = Array(21).fill(minimalUser);
-      result = win.validateData(users, win.minimalImportHeaders);
+      const users = Array<typeof minimalUser>(21).fill(minimalUser);
+      result = validateData(users, minimalImportHeaders);
       expect(result.isValid).to.eq(false);
       expect(result.message).to.eq(
         "Vous ne pouvez importer que 20 éléments à la fois."
@@ -49,7 +61,7 @@ describe("validateData and transformUserData utility functions", () => {
           student_refs: "A,B",
         },
       ];
-      const transformed = win.transformUserData(data);
+      const transformed = transformUserData(data);
       expect(transformed[0]).to.have.property("status");
       expect(transformed[0]).to.have.property("specialization_field");
       expect(transformed[0]).to.have.property("coordinates");
@@ -63,16 +75,19 @@ describe("commentRenderer utility function", () => {
   it("should render comments correctly", () => {
     cy.visit("/");
 
-    cy.window().then((win: any) => {
+    cy.window().then((win) => {
       expect(win).to.have.property("commentRenderer");
+      if (!hasCommentRenderer(win)) {
+        throw new Error("commentRenderer n'est pas exposé");
+      }
 
       const fn = win.commentRenderer;
 
       expect(fn("Note", 9, 0)).to.eq("Note M1");
       expect(fn("Note", 9, 2)).to.eq("Note M3");
       expect(fn("Note", 12, 0)).to.eq("Note");
-      expect(fn("", 9, 0)).to.eq(null);
-      expect(fn("", 12, 0)).to.eq(null);
+      expect(fn("", 9, 0)).to.be.null;
+      expect(fn("", 12, 0)).to.be.null;
     });
   });
 });
@@ -81,7 +96,7 @@ describe("StatusRadioButton component", () => {
   it("should expose StatusRadioButton on window", () => {
     cy.visit("/");
 
-    cy.window().then((win: any) => {
+    cy.window().then((win) => {
       expect(win).to.have.property("StatusRadioButton");
     });
   });

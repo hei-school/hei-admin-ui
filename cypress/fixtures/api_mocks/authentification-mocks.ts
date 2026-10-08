@@ -119,7 +119,7 @@ export const getOrganizer1Connected: () => UserConnected = () => {
   };
 };
 
-export function getUserConnected(role: WhoamiRoleEnum) {
+export const getUserConnected = (role: WhoamiRoleEnum) => {
   switch (role) {
     case "STUDENT":
       return getStudent1Connected();
@@ -138,4 +138,4 @@ export function getUserConnected(role: WhoamiRoleEnum) {
     default:
       throw new Error("Unknown role");
   }
-}
+};

@@ -1,4 +1,4 @@
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {Letter, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {
   newLetter,
   student1LettersMocks,
@@ -12,7 +12,7 @@ const ITEM_PER_LIST = 12;
 const testLettersFunctionality = (
   role: WhoamiRoleEnum,
   id: string,
-  letterMocks: any
+  letterMocks: Required<Letter>[]
 ) => {
   beforeEach(() => {
     cy.mockLogin({role});

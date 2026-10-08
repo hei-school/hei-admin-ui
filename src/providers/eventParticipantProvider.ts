@@ -1,21 +1,42 @@
 import {
   AttendanceStatus,
+  EventParticipant,
   UpdateEventParticipant,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaSaveParams,
+  notImplemented,
+} from "./HaDataProviderType";
 import {eventsApi} from "./api";
 
-const eventParticipantProvider: HaDataProviderType = {
+interface EventParticipantFilter {
+  groupRef: string;
+  studentRef: string;
+  name: string;
+  status: AttendanceStatus;
+}
+
+interface EventParticipantMeta {
+  eventId: string;
+}
+
+type EventParticipantSaveParams = HaSaveParams<EventParticipantMeta> & {
+  meta: EventParticipantMeta;
+};
+
+const eventParticipantProvider: HaDataProviderType<
+  EventParticipant,
+  EventParticipantFilter,
+  EventParticipantMeta,
+  UpdateEventParticipant[],
+  EventParticipantSaveParams
+> = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {
-      groupRef: string;
-      studentRef: string;
-      name: string;
-      status: AttendanceStatus;
-    },
-    meta: {eventId: string}
+    filter: EventParticipantFilter,
+    meta: EventParticipantMeta
   ) => {
     return eventsApi()
       .getEventParticipants(
@@ -29,17 +50,16 @@ const eventParticipantProvider: HaDataProviderType = {
       )
       .then((response) => ({data: response.data}));
   },
-  getOne: async () => {
-    throw new Error("Not implemented");
-  },
-  saveOrUpdate: async (payload: UpdateEventParticipant[], params) => {
+  getOne: notImplemented,
+  saveOrUpdate: async (
+    payload: UpdateEventParticipant[],
+    params: EventParticipantSaveParams
+  ) => {
     return eventsApi()
       .updateEventParticipantsStatus(params.meta.eventId, payload)
       .then((response) => response.data);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default eventParticipantProvider;

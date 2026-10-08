@@ -1,6 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
-import {HaList} from "@/ui/haList";
+import {HaList, HaListProps} from "@/ui/haList";
 import {ButtonBase} from "@/ui/haToolbar";
 import {
   FileType,
@@ -9,7 +9,6 @@ import {
 } from "@haapi-b0fc7615/typescript-client";
 import {AddOutlined, RemoveRedEye} from "@mui/icons-material";
 import {Button, Chip} from "@mui/material";
-import {FC} from "react";
 import {
   DatagridProps,
   FunctionField,
@@ -22,11 +21,17 @@ import {DateField} from "../../common/components/fields";
 import {DocCreateDialog} from "./DocCreateDialog";
 import {WORK_TYPE_VALUE} from "./SelectWorkType";
 
-export const DocListAction: FC<{
+type DocListActionProps = {
   type: FileType;
   owner: WhoamiRoleEnum;
   userId: string;
-}> = ({type, owner, userId}) => {
+};
+
+export const DocListAction = ({
+  type,
+  owner,
+  userId,
+}: Readonly<DocListActionProps>) => {
   const [isOpen, , toggle] = useToggle();
   const refresh = useRefresh();
 
@@ -37,8 +42,9 @@ export const DocListAction: FC<{
         closeAction={false}
         onClick={toggle}
         label="Créer"
-        children={null}
-      />
+      >
+        {null}
+      </ButtonBase>
       <DocCreateDialog
         userId={userId}
         type={type}
@@ -73,18 +79,18 @@ export type DocListProps = {
   type: string;
   userId: string;
   datagridProps?: DatagridProps;
-  haListProps: any;
+  haListProps: HaListProps;
   title: string;
 };
 
-export const DocList: FC<DocListProps> = ({
+export const DocList = ({
   owner,
   type,
   userId,
   datagridProps,
   haListProps,
   title,
-}) => {
+}: Readonly<DocListProps>) => {
   return (
     <HaList
       title={title}

@@ -20,7 +20,7 @@ const importFile = ({file, message, middleware}: ImportArgs) => {
 
   cy.contains("Confirmer").click();
   middleware && middleware();
-  cy.contains(message);
+  cy.contains(message).should("be.visible");
 };
 
 describe("Manager import fees for one students", () => {
@@ -129,7 +129,9 @@ describe("Manager import fees for one students", () => {
           const feesRequest = requestIntersection.request.body[0];
           delete feesRequest.creation_datetime;
           expect(feesRequest).to.deep.equal(feesExpected);
-          expect(requestIntersection.request.body.length).to.equal(DATA_LENGTH);
+          expect(requestIntersection.request.body).to.have.lengthOf(
+            DATA_LENGTH
+          );
         });
       },
     });

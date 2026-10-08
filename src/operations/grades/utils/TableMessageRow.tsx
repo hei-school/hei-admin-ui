@@ -1,16 +1,15 @@
 import {HourglassEmpty} from "@mui/icons-material";
 import {Box, CircularProgress, Typography} from "@mui/material";
-import {FC} from "react";
 
 type TableMessageRowProps = {
   message: string;
   type?: "loading" | "empty";
 };
 
-export const TableMessageRow: FC<TableMessageRowProps> = ({
+export const TableMessageRow = ({
   message,
   type = "empty",
-}) => {
+}: Readonly<TableMessageRowProps>) => {
   return (
     <Box
       display="flex"

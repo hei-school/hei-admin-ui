@@ -30,6 +30,11 @@ const isRetriableRead = (error: AxiosError): boolean => {
   return !error.response && error.code === AxiosError.ERR_NETWORK;
 };
 
+const MAX_JITTER_MS = 250;
+
+const jitterMs = (): number =>
+  crypto.getRandomValues(new Uint32Array(1))[0] % MAX_JITTER_MS;
+
 const retryDelayMs = (error: AxiosError, attempt: number): number => {
   const retryAfter = error.response?.headers?.["retry-after"];
   if (retryAfter !== undefined && retryAfter !== null) {
@@ -43,7 +48,7 @@ const retryDelayMs = (error: AxiosError, attempt: number): number => {
     }
   }
   const backoff = BASE_DELAY_MS * 2 ** (attempt - 1);
-  return Math.min(backoff, MAX_DELAY_MS) + Math.random() * 250;
+  return Math.min(backoff, MAX_DELAY_MS) + jitterMs();
 };
 
 const wait = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
@@ -66,8 +71,15 @@ const withRetryOn429 = (instance: AxiosInstance): AxiosInstance => {
   return instance;
 };
 
+declare global {
+  interface Window {
+    axios?: AxiosInstance;
+  }
+}
+
 export const getAxiosInstance = (): AxiosInstance => {
-  if ("axios" in window) return window.axios as AxiosInstance;
-  (window as any).axios = withRetryOn429(Axios.create());
-  return (window as any).axios;
+  if (window.axios) return window.axios;
+  const instance = withRetryOn429(Axios.create());
+  window.axios = instance;
+  return instance;
 };

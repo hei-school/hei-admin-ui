@@ -58,7 +58,7 @@ export const useButtonActions = (
   }, [retakeExam, isLoading, optimisticStatus]);
 
   const updateStatus = useCallback(
-    async (
+    (
       targetStatus: RetakeExamStatus,
       successMsg: string,
       onClose: () => void,
@@ -91,14 +91,14 @@ export const useButtonActions = (
             ...(reason && {reason}),
           };
 
-      create(
+      void create(
         "retakeExams",
         {data: payload},
         {
           onSuccess: () => {
             notify(successMsg, {type: "success"});
             onSuccess?.({...retakeExam, status: targetStatus});
-            refetch();
+            void refetch();
             onClose();
           },
           onError: (error) => {

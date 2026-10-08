@@ -1,11 +1,32 @@
+import {
+  Grade,
+  StudentLevel,
+  YearlyResultGenerationTranscript,
+} from "@haapi-b0fc7615/typescript-client";
 import {gradesApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
-const gradesDetailsProvider: HaDataProviderType = {
+interface GradesDetailsFilter {
+  studentId: string;
+  courseId: string;
+}
+
+interface GradesDetailsMeta {
+  studentLevel?: StudentLevel;
+}
+
+// la liste renvoie les notes d'un cours, getOne le relevé de l'année
+type GradesDetailsResource = Grade | YearlyResultGenerationTranscript;
+
+const gradesDetailsProvider: HaDataProviderType<
+  GradesDetailsResource,
+  GradesDetailsFilter,
+  GradesDetailsMeta
+> = {
   getList: async (
     _page: number,
     _perPage: number,
-    filter: {studentId: string; courseId: string}
+    filter: GradesDetailsFilter
   ) => {
     return gradesApi()
       .getCourseGrades(filter.studentId, filter.courseId)
@@ -13,15 +34,11 @@ const gradesDetailsProvider: HaDataProviderType = {
   },
   getOne: async (id: string, meta = {}) => {
     return gradesApi()
-      .getYearlyResultTranscript(id, meta.studentLevel)
+      .getYearlyResultTranscript(id, meta.studentLevel!)
       .then((result) => result.data);
   },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default gradesDetailsProvider;

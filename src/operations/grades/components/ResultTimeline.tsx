@@ -15,17 +15,22 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Theme,
   Typography,
   useTheme,
 } from "@mui/material";
-import {FC} from "react";
 import {getCourseStatusLabel} from "../utils";
 import {StatusChips} from "../utils/StatusChip";
 import {renderWeightedAverage} from "./utils";
 
-export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
+const getStepColor = (theme: Theme, isLocked: boolean, isValid: boolean) => {
+  if (isLocked) return theme.palette.grey[700];
+  return isValid ? theme.palette.success.main : theme.palette.warning.main;
+};
+
+export const ResultSummaryTimeline = ({
   yearlyResult,
-}) => {
+}: Readonly<{yearlyResult: YearlyResult[]}>) => {
   const theme = useTheme();
   const pulse = keyframes`
   0% { box-shadow: 0 0 0 0 rgba(255, 142, 83, 0.7); }
@@ -55,6 +60,16 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
     <Box>
       {yearlyResult.map((details, index) => {
         const isLocked = details?.status === "NOT_STARTED";
+        const stepColor = getStepColor(
+          theme,
+          isLocked,
+          details?.status!.includes("VALID")
+        );
+        const connectorColor = getStepColor(
+          theme,
+          isLocked,
+          !!details?.status?.includes("VALIDATED")
+        );
         return (
           <Grid
             container
@@ -76,11 +91,7 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
                   width: "40px",
                   height: "40px",
                   borderRadius: "50%",
-                  backgroundColor: isLocked
-                    ? theme.palette.grey[700]
-                    : details?.status!.includes("VALID")
-                      ? theme.palette.success.main
-                      : theme.palette.warning.main,
+                  backgroundColor: stepColor,
                   color: "white",
                   display: "flex",
                   alignItems: "center",
@@ -99,7 +110,7 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
                   sx={{
                     width: "4px",
                     height: "100%",
-                    background: `linear-gradient(to bottom, ${isLocked ? theme.palette.grey[700] : details?.status?.includes("VALIDATED") ? theme.palette.success.main : theme.palette.warning.main}, ${isLocked ? theme.palette.grey[700] : theme.palette.divider})`,
+                    background: `linear-gradient(to bottom, ${connectorColor},${isLocked ? theme.palette.grey[700] : theme.palette.divider})`,
                     position: "absolute",
                     top: "40px",
                     zIndex: 0,
@@ -190,7 +201,7 @@ export const ResultSummaryTimeline: FC<{yearlyResult: YearlyResult[]}> = ({
   );
 };
 
-const CourseList: FC<{courses: CourseResult[]}> = ({courses}) => {
+const CourseList = ({courses}: Readonly<{courses: CourseResult[]}>) => {
   return (
     <TableContainer component={Paper}>
       <Table size="small">

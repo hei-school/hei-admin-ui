@@ -1,12 +1,8 @@
-import {
-  CourseResultStatus,
-  ResultOverviewStatus,
-} from "@haapi-b0fc7615/typescript-client";
 import {Chip, keyframes} from "@mui/material";
-import {styled} from "@mui/material/styles";
+import {styled, Theme} from "@mui/material/styles";
 
 interface StatusChipProps {
-  status: CourseResultStatus | ResultOverviewStatus | string;
+  status: string;
   label?: string;
 }
 
@@ -63,49 +59,27 @@ const pulse = keyframes`
   100% { box-shadow: 0 0 0 0 rgba(255, 142, 83, 0); }
 `;
 
-export const StatusChips = styled(Chip, {
-  shouldForwardProp: (prop) => prop !== "status",
-})<StatusChipProps>(({theme, status}) => {
-  let styles = {
-    backgroundColor: theme.palette.grey[300],
-    color: theme.palette.grey[800],
-    animation: `${pulse} 2s infinite`,
-  };
-
+const getStatusChipColors = (theme: Theme, status: string) => {
   switch (status) {
     case "VALIDATED":
-      styles = {
-        backgroundColor: theme.palette.success.light,
-        color: "white",
-        animation: `${pulse} 2s infinite`,
-      };
-      break;
+      return {backgroundColor: theme.palette.success.light, color: "white"};
     case "IN_PROGRESS":
-      styles = {
-        backgroundColor: theme.palette.warning.light,
-        color: "white",
-        animation: `${pulse} 2s infinite`,
-      };
-      break;
+      return {backgroundColor: theme.palette.warning.light, color: "white"};
     case "INVALIDATED":
     case "INCOMPLETE":
-      styles = {
-        backgroundColor: theme.palette.error.light,
-        color: "white",
-        animation: `${pulse} 2s infinite`,
-      };
-      break;
+      return {backgroundColor: theme.palette.error.light, color: "white"};
     default:
-      styles = {
+      return {
         backgroundColor: theme.palette.grey[300],
         color: theme.palette.grey[800],
-        animation: `${pulse} 2s infinite`,
       };
-      break;
   }
+};
 
-  return {
-    ...styles,
-    fontWeight: "bold",
-  };
-});
+export const StatusChips = styled(Chip, {
+  shouldForwardProp: (prop) => prop !== "status",
+})<StatusChipProps>(({theme, status}) => ({
+  ...getStatusChipColors(theme, status),
+  animation: `${pulse} 2s infinite`,
+  fontWeight: "bold",
+}));

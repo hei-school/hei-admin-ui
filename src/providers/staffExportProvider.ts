@@ -1,21 +1,16 @@
 import {usersApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
+import {ExportedFile} from "./types";
 
-const staffExportProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+const staffExportProvider: HaDataProviderType<ExportedFile> = {
+  getList: notImplemented,
   getOne: async (id: string) => {
     return usersApi()
       .getStaffMembersIntoXlsx({responseType: "arraybuffer"})
       .then((res) => ({id, file: res.data}));
   },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default staffExportProvider;

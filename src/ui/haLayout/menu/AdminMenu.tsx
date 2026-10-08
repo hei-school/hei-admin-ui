@@ -17,8 +17,13 @@ import {
   LibraryBooksOutlined as LibraryIcon,
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
+  QrCodeScanner,
   PublishedWithChanges as RemedialIcon,
   SafetyDivider,
+  Campaign as SmsCampaignIcon,
+  GroupWork as SmsContactGroupIcon,
+  Contacts as SmsContactIcon,
+  Sms as SmsIcon,
   AssignmentInd as StaffIcon,
   School as StudentIcon,
   People as StudentListIcon,
@@ -55,6 +60,13 @@ const AdminMenu = () => {
           icon={<StudentListIcon />}
           to="/students"
           onClick={() => trackNavClick("students_list", role)}
+        />
+        <ListMenuItem
+          data-testid="badge-scan"
+          label="Scanner un badge"
+          icon={<QrCodeScanner />}
+          to="/badges/scan"
+          onClick={() => trackNavClick("badges_scan", role)}
         />
         <ListMenuItem
           label="Liste des paiements par crédit"
@@ -169,6 +181,26 @@ const AdminMenu = () => {
         icon={<StaffIcon />}
         onClick={() => trackNavClick("staffmembers", role)}
       />
+      <ListMenu label="SMS" icon={<SmsIcon />} data-testid="sms-menu">
+        <ListMenuItem
+          label="Campagnes"
+          icon={<SmsCampaignIcon />}
+          to="/sms-campaigns"
+          onClick={() => trackNavClick("sms_campaigns", role)}
+        />
+        <ListMenuItem
+          label="Groupes de contacts"
+          icon={<SmsContactGroupIcon />}
+          to="/sms-contact-groups"
+          onClick={() => trackNavClick("sms_contact_groups", role)}
+        />
+        <ListMenuItem
+          label="Contacts"
+          icon={<SmsContactIcon />}
+          to="/sms-contacts"
+          onClick={() => trackNavClick("sms_contacts", role)}
+        />
+      </ListMenu>
     </Box>
   );
 };

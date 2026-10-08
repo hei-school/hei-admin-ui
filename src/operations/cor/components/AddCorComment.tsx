@@ -4,7 +4,6 @@ import {Dialog} from "@/ui/components";
 import {CorCommentInfo} from "@haapi-b0fc7615/typescript-client";
 import {Add, AddComment} from "@mui/icons-material";
 import {Box, IconButton, Tooltip} from "@mui/material";
-import {FC} from "react";
 import {
   Button,
   required,
@@ -13,7 +12,7 @@ import {
   useRecordContext,
 } from "react-admin";
 
-export const AddCorComment: FC<{islist?: boolean}> = ({islist}) => {
+export const AddCorComment = ({islist}: Readonly<{islist?: boolean}>) => {
   const [showAddComment, _set, toggleAddComment] = useToggle();
   const {id: corId} = useRecordContext();
   const notify = useNotify();

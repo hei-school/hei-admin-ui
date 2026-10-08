@@ -4,13 +4,19 @@ import {useNotify} from "react-admin";
 
 import Image from "@/assets/qr-code.png";
 
+const MERCHANT_CODE = "317610";
+// the digits of a fixed code: their position identifies them
+const MERCHANT_CODE_DIGITS = MERCHANT_CODE.split("").map((digit, position) => ({
+  digit,
+  key: `digit-${position}`,
+}));
+
 export const OrangeMoneyHeader = () => {
   const notify = useNotify();
-  const merchantCode = "317610";
 
   const handleCopyMerchantCode = () => {
     navigator.clipboard
-      .writeText(merchantCode)
+      .writeText(MERCHANT_CODE)
       .then(() => {
         notify("Code marchand copié!", {type: "success"});
       })
@@ -355,9 +361,9 @@ export const OrangeMoneyHeader = () => {
               },
             }}
           >
-            {merchantCode.split("").map((digit, index) => (
+            {MERCHANT_CODE_DIGITS.map(({digit, key}) => (
               <Box
-                key={index}
+                key={key}
                 sx={{
                   "width": "38px",
                   "height": "40px",

@@ -1,8 +1,22 @@
 import {EventAttendance} from "@haapi-b0fc7615/typescript-client";
 import {eventsApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
-const missingListProvider: HaDataProviderType = {
+interface MissingListFilter {
+  courseId?: string;
+  from?: Date;
+  to?: Date;
+  groupRef?: string[];
+  studentRef?: string;
+  studentName?: string;
+}
+
+type MissingRecord = EventAttendance & {id?: string};
+
+const missingListProvider: HaDataProviderType<
+  MissingRecord,
+  MissingListFilter
+> = {
   getList: async (page, perPage, filter = {}) => {
     return eventsApi()
       .getAllEventParticipants(
@@ -23,15 +37,9 @@ const missingListProvider: HaDataProviderType = {
         })),
       }));
   },
-  getOne: () => {
-    throw new Error("Not implemented");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Not implemented");
-  },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default missingListProvider;

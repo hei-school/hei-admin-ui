@@ -16,7 +16,12 @@ import {
   LibraryBooksOutlined as LibraryIcon,
   SupervisedUserCircle as MonitorIcon,
   MenuBook as PromotionIcon,
+  QrCodeScanner,
   PublishedWithChanges as RemedialIcon,
+  Campaign as SmsCampaignIcon,
+  GroupWork as SmsContactGroupIcon,
+  Contacts as SmsContactIcon,
+  Sms as SmsIcon,
   School as StudentIcon,
   People as StudentListIcon,
   Work as TeachersIcon,
@@ -43,6 +48,12 @@ const ManagerMenu = () => {
           label="Liste des étudiants"
           icon={<StudentListIcon />}
           to="/students"
+        />
+        <ListMenuItem
+          data-testid="badge-scan"
+          label="Scanner un badge"
+          icon={<QrCodeScanner />}
+          to="/badges/scan"
         />
         <ListMenuItem
           label="Transactions (Mobile Money)"
@@ -126,6 +137,23 @@ const ManagerMenu = () => {
           to="/event_participants"
           label="Liste des absents"
           icon={<EventBusy />}
+        />
+      </ListMenu>
+      <ListMenu label="SMS" icon={<SmsIcon />} data-testid="sms-menu">
+        <ListMenuItem
+          label="Campagnes"
+          icon={<SmsCampaignIcon />}
+          to="/sms-campaigns"
+        />
+        <ListMenuItem
+          label="Groupes de contacts"
+          icon={<SmsContactGroupIcon />}
+          to="/sms-contact-groups"
+        />
+        <ListMenuItem
+          label="Contacts"
+          icon={<SmsContactIcon />}
+          to="/sms-contacts"
         />
       </ListMenu>
     </Box>

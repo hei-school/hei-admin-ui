@@ -30,7 +30,7 @@ describe("Mobile payment by student", () => {
     cy.contains("Transactions (Mobile Money)");
     cy.contains("Référence de la transaction");
     cy.contains("Type de PSP");
-    cy.contains("Statut");
+    cy.contains("Statut").should("exist");
   });
 
   it("shows success status icon when the status is SUCCESS", () => {
@@ -50,7 +50,7 @@ describe("Mobile payment by student", () => {
       "mouseover"
     );
 
-    cy.contains("Paiement avec succès");
+    cy.contains("Paiement avec succès").should("exist");
   });
 
   it("shows pending status icon when the status is PENDING", () => {
@@ -70,7 +70,7 @@ describe("Mobile payment by student", () => {
       "mouseover"
     );
 
-    cy.contains("Vérification en cours");
+    cy.contains("Vérification en cours").should("exist");
   });
 
   it("shows failed status icon when the status is FAILED", () => {
@@ -90,7 +90,7 @@ describe("Mobile payment by student", () => {
       "mouseover"
     );
 
-    cy.contains("Paiement échoué");
+    cy.contains("Paiement échoué").should("exist");
   });
   it("should toggle Acconting view mode and receipt view mode in FeesListHeader", () => {
     cy.viewport(1280, 800);

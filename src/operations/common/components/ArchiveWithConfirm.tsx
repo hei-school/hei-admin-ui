@@ -19,8 +19,17 @@ interface ArchiveWithConfirmProps {
   redirect?: string;
   buttonProps?: ButtonProps;
   getDisabledReason?: (record: RaRecord) => string | undefined;
-  onArchive: (record: RaRecord) => Promise<any>;
+  onArchive: (record: RaRecord) => Promise<unknown>;
 }
+
+const getArchiveDisabledReason = (
+  record: RaRecord | undefined,
+  getDisabledReason: ArchiveWithConfirmProps["getDisabledReason"]
+) => {
+  if (record?.is_archived) return "Ce frais est déjà archivé.";
+  if (record && getDisabledReason) return getDisabledReason(record);
+  return undefined;
+};
 
 export const ArchiveWithConfirm = ({
   text,
@@ -37,11 +46,7 @@ export const ArchiveWithConfirm = ({
   const notify = useNotify();
   const doRedirect = useRedirect();
   const refresh = useRefresh();
-  const disabledReason = record?.is_archived
-    ? "Ce frais est déjà archivé."
-    : record && getDisabledReason
-      ? getDisabledReason(record)
-      : undefined;
+  const disabledReason = getArchiveDisabledReason(record, getDisabledReason);
   const toggleView = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
     toggleShowConfirm();

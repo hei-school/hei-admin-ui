@@ -1,13 +1,32 @@
-import {GenerationReceiptsRequest} from "@haapi-b0fc7615/typescript-client";
+import {
+  GeneratedReceiptsStatistic,
+  GenerationReceiptsRequest,
+} from "@haapi-b0fc7615/typescript-client";
 import {payingApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
+import {ExportedFile} from "./types";
 
-const receiptProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
+interface ReceiptMeta {
+  paymentId: string;
+}
 
-  getOne: async (id: string, meta: {paymentId: string}) => {
+type ReceiptsGeneration = GenerationReceiptsRequest & {id: string};
+
+const receiptProvider: HaDataProviderType<
+  ExportedFile,
+  HaFilter,
+  ReceiptMeta,
+  ReceiptsGeneration[],
+  unknown,
+  Array<GeneratedReceiptsStatistic & {id: string}>
+> = {
+  getList: notImplemented,
+
+  getOne: async (id: string, meta: ReceiptMeta) => {
     const {paymentId: raId} = meta;
     const [, feeId, paymentId] = raId.split("--");
 
@@ -16,9 +35,7 @@ const receiptProvider: HaDataProviderType = {
       .then((res) => ({id, file: res.data}));
   },
 
-  saveOrUpdate: async (
-    payload: (GenerationReceiptsRequest & {id: string})[]
-  ) => {
+  saveOrUpdate: async (payload: ReceiptsGeneration[]) => {
     if (Array.isArray(payload) && payload.length != 1) {
       throw new Error(
         "Unexpected payload was received, must be an array of one payload"
@@ -31,9 +48,7 @@ const receiptProvider: HaDataProviderType = {
       .then((res) => [{...res.data, id: receiptPayload.id}]);
   },
 
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default receiptProvider;

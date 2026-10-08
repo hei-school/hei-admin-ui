@@ -1,4 +1,4 @@
-import {FeeTypeEnum} from "@haapi-b0fc7615/typescript-client";
+import {CreateFee, FeeTypeEnum} from "@haapi-b0fc7615/typescript-client";
 import {createdFeesForNewStudent} from "../fixtures/api_mocks/fees-mocks";
 import {
   annual1xTemplate,
@@ -20,6 +20,10 @@ import {
   assertFeeMatchesTemplate,
   studentRequestBodyVerification,
 } from "./utils";
+
+// a JSON request body: the dates are strings
+type CreatedFeeBody = Parameters<typeof assertFeeMatchesTemplate>[0] &
+  Pick<CreateFee, "comment">;
 
 const newFirstName = "Aina herilala";
 let createdStudent = {
@@ -290,7 +294,7 @@ describe("Manager creates students", () => {
     cy.wait("@createFees").then((intersection) => {
       const requestBody = intersection.request.body;
 
-      expect(requestBody.length).to.equal(1);
+      expect(requestBody).to.have.lengthOf(1);
       assertFeeMatchesTemplate(requestBody[0], annual1xTemplate);
     });
 
@@ -330,9 +334,9 @@ describe("Manager creates students", () => {
     cy.wait("@createFees").then((intersection) => {
       const requestBody = intersection.request.body;
 
-      expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
+      expect(requestBody).to.have.lengthOf(annual9xTemplate.number_of_payments);
 
-      requestBody.forEach((feesToCreate: any, index: any) => {
+      requestBody.forEach((feesToCreate: CreatedFeeBody, index: number) => {
         assertFeeMatchesTemplate(feesToCreate, annual9xTemplate);
         expect(feesToCreate.comment).to.equal(
           `${annual9xTemplate.name} (M${index + 1})`
@@ -378,7 +382,7 @@ describe("Manager creates students", () => {
     );
 
     cy.wait("@createFees").then((requestIntersection) => {
-      expect(requestIntersection.request.body.length).to.equal(
+      expect(requestIntersection.request.body).to.have.lengthOf(
         NUMBER_OF_PAYEMENTS
       );
     });

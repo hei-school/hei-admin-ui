@@ -1,11 +1,62 @@
-import {FileType} from "@haapi-b0fc7615/typescript-client";
+import {
+  FileInfo,
+  FileType,
+  ProfessionalExperienceFileTypeEnum,
+  WhoamiRoleEnum,
+  WorkDocumentInfo,
+} from "@haapi-b0fc7615/typescript-client";
 import {OwnerType} from "../operations/docs/types";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {filesApi} from "./api";
 import {MULTIPART_HEADERS} from "./constants";
 
-const docsProvider: HaDataProviderType = {
-  async getList(page: number, perPage: number, _filter: any, meta: any) {
+type DocOwner = OwnerType | WhoamiRoleEnum;
+
+// sent by the docs list and show pages through the query meta
+interface DocsMeta {
+  owner?: DocOwner;
+  type?: string;
+  userId: string;
+}
+
+// built by DocCreateDialog: the dates are ISO strings, raw holds the uploaded file
+interface DocPayload {
+  raw?: {rawFile?: File};
+  owner?: DocOwner;
+  type?: string;
+  userId: string;
+  title: string;
+  experience_type: ProfessionalExperienceFileTypeEnum;
+  commitment_begin_date: string;
+  commitment_end_date?: string;
+}
+
+const isFileType = (type?: string): type is FileType =>
+  type !== undefined && type in FileType;
+
+const toDate = (isoDate?: string) => (isoDate ? new Date(isoDate) : undefined);
+
+// getOne renvoie un tableau vide quand le propriétaire ou les meta ne sont pas reconnus
+type DocResource = FileInfo | WorkDocumentInfo | never[];
+
+const docsProvider: HaDataProviderType<
+  DocResource,
+  HaFilter,
+  DocsMeta,
+  DocPayload[],
+  unknown,
+  Array<FileInfo | WorkDocumentInfo>
+> = {
+  async getList(
+    page: number,
+    perPage: number,
+    _filter: unknown,
+    meta?: DocsMeta
+  ) {
     if (!meta) return {data: []};
     switch (meta.owner) {
       case OwnerType.STUDENT:
@@ -14,7 +65,7 @@ const docsProvider: HaDataProviderType = {
             .getStudentWorkDocuments(meta.userId, page, perPage)
             .then((result) => ({data: result.data}));
         }
-        if (meta.type in FileType) {
+        if (isFileType(meta.type)) {
           return filesApi()
             .getUserFiles(meta?.userId, page, perPage, meta.type)
             .then((result) => ({data: result.data}));
@@ -31,7 +82,7 @@ const docsProvider: HaDataProviderType = {
         return {data: []};
     }
   },
-  async getOne(id: string, meta: any) {
+  async getOne(id: string, meta?: DocsMeta) {
     if (!meta) return [];
     switch (meta.owner) {
       case OwnerType.STUDENT:
@@ -53,7 +104,7 @@ const docsProvider: HaDataProviderType = {
         return [];
     }
   },
-  async saveOrUpdate(payload: any) {
+  async saveOrUpdate(payload: DocPayload[]) {
     const {raw, ...doc} = payload[0];
 
     if (!doc || !raw) return [];
@@ -66,16 +117,16 @@ const docsProvider: HaDataProviderType = {
             .uploadStudentWorkFile(
               doc.userId,
               doc.title,
-              doc.commitment_begin_date,
+              new Date(doc.commitment_begin_date),
               doc.experience_type,
-              doc.commitment_end_date,
+              toDate(doc.commitment_end_date),
               new Date(),
               raw.rawFile,
               {headers: MULTIPART_HEADERS}
             )
             .then((result) => [result.data]);
         }
-        if (doc.type in FileType) {
+        if (isFileType(doc.type)) {
           return filesApi()
             .uploadUserFile(doc.userId, doc.type, doc.title, raw.rawFile, {
               headers: MULTIPART_HEADERS,
@@ -84,7 +135,7 @@ const docsProvider: HaDataProviderType = {
         }
         return [];
       case OwnerType.TEACHER:
-        if (doc.type in FileType) {
+        if (isFileType(doc.type)) {
           return filesApi()
             .uploadUserFile(doc.userId, doc.type, doc.title, raw.rawFile, {
               headers: MULTIPART_HEADERS,
@@ -96,9 +147,7 @@ const docsProvider: HaDataProviderType = {
         return [];
     }
   },
-  async delete(_id: string) {
-    throw new Error("Not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default docsProvider;

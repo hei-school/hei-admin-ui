@@ -6,13 +6,12 @@ import {
   HowToRegOutlined as StatusIcon,
 } from "@mui/icons-material";
 import {Box, useMediaQuery} from "@mui/material";
-import {FC} from "react";
 import {getGenderInFr, getUserStatusInFr} from "../../utils/typo_util";
 import {Title} from "../Title";
 import {BirthDateField} from "../fields";
 import HaField from "../fields/HaField";
 
-export const PersonalDetails: FC<{}> = () => {
+export const PersonalDetails = () => {
   const isSmall = useMediaQuery("(max-width:900px)");
 
   return (

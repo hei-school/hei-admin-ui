@@ -17,7 +17,7 @@ export const LinkActions = ({
   const [create, {isLoading}] = useCreate();
 
   const handleAction = (status: MonitorStudentLinkStatus) => {
-    create(
+    void create(
       "unlinked-students",
       {
         data: {

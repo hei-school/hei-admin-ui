@@ -12,7 +12,7 @@ import {
 import {v4 as uuid} from "uuid";
 import {LEVELS_CHOICES} from "./utils/constants";
 
-export function CourseCreate(props: Partial<CreateProps>) {
+export const CourseCreate = (props: Readonly<Partial<CreateProps>>) => {
   return (
     <Create
       title=" "
@@ -51,4 +51,4 @@ export function CourseCreate(props: Partial<CreateProps>) {
       </SimpleForm>
     </Create>
   );
-}
+};

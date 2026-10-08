@@ -10,7 +10,7 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import {useEffect, useState} from "react";
+import {MouseEvent, useEffect, useState} from "react";
 import {useDataProvider} from "react-admin";
 
 import defaultProfilePicture from "@/assets/blank-profile-photo.png";
@@ -18,6 +18,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {useToggle} from "@/hooks";
 import {StudentComments} from "@/operations/comments";
 import {getUserRoleInFr} from "@/operations/common/utils/typo_util";
+import {SmsBalanceIndicator} from "@/operations/sms/SmsBalanceIndicator";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import GlobalSearch from "@/ui/haLayout/appBar/GlobalSearch";
@@ -69,9 +70,9 @@ const LastComments = () => {
 };
 
 const FeedbackInfos = () => {
-  const [anchorEl, setAnchorEl] = useState(null);
+  const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null);
 
-  const handleClick = (event: any) => {
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
 
@@ -122,8 +123,8 @@ const FeedbackInfos = () => {
   );
 };
 
-function UserInfo() {
-  const [isLoading, setIsLoading] = useState(false);
+const UserInfo = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [user, setUser] = useState<
     Teacher | Student | Manager | Organizer | StaffMember | Admin | Monitor
   >();
@@ -135,16 +136,16 @@ function UserInfo() {
 
   useEffect(() => {
     const doEffect = async () => {
-      setIsLoading(true);
-      await dataProvider
-        .getOne("profile", {id})
-        .then((result) => {
-          setUser(result.data);
-          setIsLoading(false);
-        })
-        .catch(() => {});
+      try {
+        const result = await dataProvider.getOne("profile", {id});
+        setUser(result.data);
+      } catch {
+        // without its profile the app bar stays usable, only the name is missing
+      } finally {
+        setIsLoading(false);
+      }
     };
-    doEffect();
+    void doEffect();
   }, []);
 
   const {first_name, profile_picture = defaultProfilePicture} = user ?? {};
@@ -169,6 +170,7 @@ function UserInfo() {
       {!isSmall && (
         <>
           {(isAdmin() || isManager()) && <GlobalSearch />}
+          {(isAdmin() || isManager()) && <SmsBalanceIndicator />}
           <a href={HEI_CALENDAR_URL} rel="noreferrer" target="_blank">
             <CalendarMonth
               sx={{color: PALETTE_COLORS.primary, fontSize: "35px", mt: 0.5}}
@@ -219,6 +221,6 @@ function UserInfo() {
       />
     </StyledUserInfo>
   );
-}
+};
 
 export default UserInfo;

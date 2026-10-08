@@ -19,14 +19,10 @@ type MultiCheckboxFilterProps = {
   choices: Choice[];
 };
 
-import {useContext, useState} from "react";
-import {HaToolbarContext} from "./../../../ui/haToolbar/FilterForm";
+import useHaToolbarContext from "@/ui/haToolbar/useHaToolbarContext";
+import {useState} from "react";
 
-type HaToolbarContextType = {
-  setCurrentFilter: React.Dispatch<React.SetStateAction<any>>;
-  currentFilter: any;
-  setOneFilter: (source: string, values: any) => void;
-};
+type MultiCheckboxFilterValues = Record<string, string[] | undefined>;
 
 export const MultiCheckboxFilter = ({
   source,
@@ -34,16 +30,14 @@ export const MultiCheckboxFilter = ({
   choices,
   ...props
 }: MultiCheckboxFilterProps) => {
-  const {currentFilter, setOneFilter} = useContext(
-    HaToolbarContext
-  ) as HaToolbarContextType;
+  const {currentFilter, setOneFilter} =
+    useHaToolbarContext<MultiCheckboxFilterValues>();
 
   const isSmall = useMediaQuery("(max-width:900px)");
   const [open, setOpen] = useState(false);
 
-  const value: string[] = Array.isArray(currentFilter?.[source])
-    ? currentFilter[source]
-    : [];
+  const selectedValues = currentFilter?.[source];
+  const value: string[] = Array.isArray(selectedValues) ? selectedValues : [];
 
   const toggleValue = (id: string) => {
     const newValue = value.includes(id)

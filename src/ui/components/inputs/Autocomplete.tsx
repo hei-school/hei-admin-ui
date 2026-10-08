@@ -5,19 +5,25 @@ import {
   TextField,
   TextFieldProps,
 } from "@mui/material";
-import {Control, Controller, ControllerProps} from "react-hook-form";
+import {
+  Control,
+  Controller,
+  ControllerProps,
+  FieldValues,
+  Path,
+} from "react-hook-form";
 
 export type AutocompleteOption = {
   id: string;
   label: string;
 };
 
-export type AutocompleteProps = {
-  name: string;
-  control: Control<any>;
+export type AutocompleteProps<TForm extends FieldValues = FieldValues> = {
+  name: Path<TForm>;
+  control: Control<TForm>;
   options: AutocompleteOption[];
   inputLabel: string;
-  controllerProps?: Partial<ControllerProps>;
+  controllerProps?: Partial<ControllerProps<TForm>>;
   inputProps?: Partial<TextFieldProps>;
 } & Partial<
   MuiAutocompleteProps<
@@ -29,9 +35,7 @@ export type AutocompleteProps = {
   >
 >;
 
-export function Autocomplete({
-  getOptionKey,
-  getOptionLabel,
+export const Autocomplete = <TForm extends FieldValues>({
   name,
   control,
   options,
@@ -39,7 +43,7 @@ export function Autocomplete({
   controllerProps,
   inputProps,
   ...autcompleteProps
-}: AutocompleteProps) {
+}: AutocompleteProps<TForm>) => {
   return (
     <Controller
       name={name}
@@ -73,4 +77,4 @@ export function Autocomplete({
       {...controllerProps}
     />
   );
-}
+};

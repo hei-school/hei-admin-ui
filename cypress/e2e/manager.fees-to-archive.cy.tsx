@@ -80,7 +80,9 @@ describe("Manager.FeesToArchive", () => {
 
   it("shows the full rejection reason in a popup and can close it", () => {
     cy.contains("button", "Rejetés (1)").click();
-    cy.getByTestid(`rejection-reason-${feeArchiveRejectedMock.id}`).click();
+    cy.getByTestid(
+      `rejection-reason-${student1Mock.id}--${feeArchiveRejectedMock.id}`
+    ).click();
     cy.get('[role="dialog"]')
       .should("be.visible")
       .and("contain", "Motif du rejet")
@@ -99,7 +101,7 @@ describe("Manager.FeesToArchive", () => {
     cy.get("table tbody tr").eq(0).contains("button", "Archiver").click();
     cy.get(".ra-confirm").click();
     cy.wait("@updateArchiveStatus");
-    cy.contains("Une erreur s'est produite.");
+    cy.contains("Une erreur s'est produite.").should("exist");
   });
 
   it("shows an error notification when rejecting a fee fails", () => {
@@ -112,7 +114,7 @@ describe("Manager.FeesToArchive", () => {
     cy.getByTestid("reject-archive-reason").type("Justificatif manquant");
     cy.getByTestid("reject-archive-confirm").click();
     cy.wait("@updateArchiveStatus");
-    cy.contains("Une erreur s'est produite.");
+    cy.contains("Une erreur s'est produite.").should("exist");
   });
 
   it("shows an error notification when re-archiving a fee fails", () => {
@@ -125,7 +127,7 @@ describe("Manager.FeesToArchive", () => {
     cy.get("table tbody tr").eq(0).contains("button", "Réarchiver").click();
     cy.get(".ra-confirm").click();
     cy.wait("@reArchiveFee");
-    cy.contains("Une erreur s'est produite.");
+    cy.contains("Une erreur s'est produite.").should("exist");
   });
 
   it("shows an empty state when there is no fee pending archiving", () => {
@@ -134,7 +136,7 @@ describe("Manager.FeesToArchive", () => {
     }).as("getFeesToArchiveOnly");
     cy.visit("/fees-to-archive");
     cy.wait("@getFeesToArchiveOnly");
-    cy.contains("Aucun frais en attente d'archivage.");
+    cy.contains("Aucun frais en attente d'archivage.").should("exist");
   });
 
   it("shows an empty state when there is no rejected fee", () => {
@@ -144,7 +146,7 @@ describe("Manager.FeesToArchive", () => {
     cy.visit("/fees-to-archive");
     cy.wait("@getRejectedFeesOnly");
     cy.contains("button", "Rejetés (0)").click();
-    cy.contains("Aucun frais rejeté.");
+    cy.contains("Aucun frais rejeté.").should("exist");
   });
 });
 
@@ -154,7 +156,7 @@ describe("Manager.FeesToArchive.AccessControl", () => {
     cy.visit("/fees-to-archive");
     cy.contains(
       "Cette page est réservée aux gestionnaires et administrateurs."
-    );
+    ).should("exist");
   });
 });
 

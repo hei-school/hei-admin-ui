@@ -1,7 +1,6 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import {Exam} from "@haapi-b0fc7615/typescript-client";
 import {Alert, AlertTitle, Box, Typography} from "@mui/material";
-import {FC} from "react";
 import {NumberInput, required} from "react-admin";
 import {EXAM_ALERTS, EXAM_FORM_LABELS} from "../../../../utils/constants";
 import {
@@ -13,7 +12,9 @@ interface CoefficientSectionProps {
   exam: Exam;
 }
 
-export const CoefficientSection: FC<CoefficientSectionProps> = ({exam}) => {
+export const CoefficientSection = ({
+  exam,
+}: Readonly<CoefficientSectionProps>) => {
   return (
     <Box sx={{mb: 3}}>
       <Typography

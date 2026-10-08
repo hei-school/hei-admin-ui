@@ -5,7 +5,6 @@ import {
   Student,
   WhoamiRoleEnum,
 } from "@haapi-b0fc7615/typescript-client";
-import {FC} from "react";
 import {DateInput, SimpleForm, TextInput, maxLength} from "react-admin";
 import {useRole} from "../../security/hooks";
 import {toUTC} from "../../utils/date";
@@ -35,11 +34,17 @@ const userToUserApi = ({
   };
 };
 
-const ProfileEdit: FC<{
+interface ProfileEditProps {
   isOwnProfile: boolean;
-  isStudent: boolean;
-  isStaff: boolean;
-}> = ({isOwnProfile, isStudent, isStaff = false}) => {
+  isStudent?: boolean;
+  isStaff?: boolean;
+}
+
+const ProfileEdit = ({
+  isOwnProfile,
+  isStudent,
+  isStaff = false,
+}: Readonly<ProfileEditProps>) => {
   const role = useRole();
   const isStudentProfile = isStudent || role.isStudent();
   const isStaffProfil = isStaff || role.isStaffMember();

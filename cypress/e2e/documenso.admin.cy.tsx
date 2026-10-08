@@ -149,7 +149,9 @@ describe("Admin.Documenso", () => {
     cy.getByTestid("launch-generation-button").click();
 
     cy.wait("@failingGeneration");
-    cy.contains("Erreur lors du lancement de la génération");
+    cy.contains("Erreur lors du lancement de la génération").should(
+      "be.visible"
+    );
   });
 
   it("lists the documents of the promotion for the selected template only", () => {

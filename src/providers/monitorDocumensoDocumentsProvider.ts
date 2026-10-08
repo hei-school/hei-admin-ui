@@ -1,16 +1,25 @@
-import {HaDataProviderType} from "./HaDataProviderType";
+import {DocumensoDocument} from "@haapi-b0fc7615/typescript-client";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
 import {documensoApi} from "./api";
 
-const notImplemented = () => {
-  throw new Error("Not implemented");
-};
+interface MonitorDocumensoMeta {
+  monitorId: string;
+}
 
-const monitorDocumensoDocumentsProvider: HaDataProviderType = {
+const monitorDocumensoDocumentsProvider: HaDataProviderType<
+  DocumensoDocument,
+  HaFilter,
+  MonitorDocumensoMeta
+> = {
   getList: async (
     page: number,
     perPage: number,
     _filter: unknown,
-    meta: {monitorId: string}
+    meta: MonitorDocumensoMeta
   ) => {
     const {data} = await documensoApi().getMonitorDocumensoDocuments(
       meta.monitorId,

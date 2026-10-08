@@ -114,13 +114,29 @@ const ARCHIVE_STATUS_COLOR: Record<
   REJECTED: "error",
 };
 
+const ARCHIVE_TREATMENT_LABEL: Record<ArchiveStatusEnum, string> = {
+  TO_ARCHIVE: "Demandé",
+  ARCHIVED: "Archivé",
+  REJECTED: "Rejeté",
+};
+
+const getArchiveTreatedDate = (record: Fee) => {
+  switch (record.archive_status) {
+    case "REJECTED":
+      return record.rejected_datetime;
+    case "ARCHIVED":
+      return record.archived_datetime;
+    default:
+      return record.archive_requested_datetime;
+  }
+};
+
 const ArchiveStatusField = () => {
   const record = useRecordContext<Fee>();
   if (!record?.archive_status) {
     return null;
   }
   const isRejected = record.archive_status === "REJECTED";
-  const isArchived = record.archive_status === "ARCHIVED";
   const treatedByName = [
     isRejected ? record.rejected_by_first_name : record.archived_by_first_name,
     isRejected ? record.rejected_by_last_name : record.archived_by_last_name,
@@ -128,11 +144,10 @@ const ArchiveStatusField = () => {
     .filter(Boolean)
     .join(" ");
   const treatedByRef = isRejected ? undefined : record.archived_by_ref;
-  const treatedDate = isRejected
-    ? record.rejected_datetime
-    : isArchived
-      ? record.archived_datetime
-      : record.archive_requested_datetime;
+  const treatedDate = getArchiveTreatedDate(record);
+  const treatmentLabel =
+    ARCHIVE_TREATMENT_LABEL[record.archive_status] ??
+    ARCHIVE_TREATMENT_LABEL.ARCHIVED;
 
   return (
     <LabeledField label="Archivage">
@@ -153,12 +168,7 @@ const ArchiveStatusField = () => {
         />
         {treatedByName && (
           <Typography variant="caption" color="text.secondary">
-            {record.archive_status === "TO_ARCHIVE"
-              ? "Demandé"
-              : isRejected
-                ? "Rejeté"
-                : "Archivé"}{" "}
-            par {treatedByName}
+            {treatmentLabel} par {treatedByName}
             {treatedByRef ? ` (${treatedByRef})` : ""}
           </Typography>
         )}
@@ -441,7 +451,7 @@ const FeeShow = () => {
       const student = await dataProvider.getOne("students", {id: studentId});
       setStudentRef(student.data.ref);
     };
-    doEffect();
+    void doEffect();
   }, [studentId, dataProvider]);
 
   const breadcrumbItems = [
@@ -457,32 +467,30 @@ const FeeShow = () => {
   ];
 
   return (
-    <>
-      <Show
-        id={feeId}
-        resource="fees"
-        actions={
-          (role.isManager() || role.isAdmin()) && (
-            <TopToolbar>
-              <Box sx={{flexGrow: 1, ml: isSmall ? 0 : 2}}>
-                <CustomBreadcrumbs items={breadcrumbItems} />
-              </Box>
-              <EditButton />
-              <DeleteWithConfirm
-                resourceType="fees"
-                redirect={`/students/${studentId}/fees`}
-                confirmTitle="Suppression de frais"
-                confirmContent="Confirmez-vous la suppression de la ressource ?"
-              />
-            </TopToolbar>
-          )
-        }
-        basePath={`/fees/${feeId}/show`}
-        title={`Frais de ${studentRef}`}
-      >
-        <FeeLayout feeId={feeId} studentId={studentId} />
-      </Show>
-    </>
+    <Show
+      id={feeId}
+      resource="fees"
+      actions={
+        (role.isManager() || role.isAdmin()) && (
+          <TopToolbar>
+            <Box sx={{flexGrow: 1, ml: isSmall ? 0 : 2}}>
+              <CustomBreadcrumbs items={breadcrumbItems} />
+            </Box>
+            <EditButton />
+            <DeleteWithConfirm
+              resourceType="fees"
+              redirect={`/students/${studentId}/fees`}
+              confirmTitle="Suppression de frais"
+              confirmContent="Confirmez-vous la suppression de la ressource ?"
+            />
+          </TopToolbar>
+        )
+      }
+      basePath={`/fees/${feeId}/show`}
+      title={`Frais de ${studentRef}`}
+    >
+      <FeeLayout feeId={feeId} studentId={studentId} />
+    </Show>
   );
 };
 

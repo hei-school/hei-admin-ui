@@ -1,7 +1,7 @@
 import {useState} from "react";
 
 import authProvider from "@/providers/authProvider";
-import {Scope} from "@haapi-b0fc7615/typescript-client";
+import {CreateAnnouncement, Scope} from "@haapi-b0fc7615/typescript-client";
 import {Box, Typography} from "@mui/material";
 import {MarkdownInput} from "@react-admin/ra-markdown";
 import {SimpleForm, TextInput} from "react-admin";
@@ -9,7 +9,14 @@ import {Create} from "../common/components";
 import {SelectGroup} from "./components/SelectGroup";
 import {SelectScope} from "./components/SelectScope";
 
-const transformAnnouncement = ({target_group_list, ...announcement}: any) => {
+type AnnouncementFormValues = Omit<CreateAnnouncement, "target_group_list"> & {
+  target_group_list?: string[];
+};
+
+const transformAnnouncement = ({
+  target_group_list,
+  ...announcement
+}: AnnouncementFormValues) => {
   const {id} = authProvider.getCachedWhoami();
 
   const targetGroups = target_group_list

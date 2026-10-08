@@ -3,7 +3,7 @@ import {
   AutocompleteInput as RaAutocompleteInput,
 } from "react-admin";
 
-export function AutocompleteInput(props: AutocompleteInputProps) {
+export const AutocompleteInput = (props: Readonly<AutocompleteInputProps>) => {
   return (
     <RaAutocompleteInput
       loadingText="Chargement..."
@@ -14,4 +14,4 @@ export function AutocompleteInput(props: AutocompleteInputProps) {
       {...props}
     />
   );
-}
+};

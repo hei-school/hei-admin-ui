@@ -1,19 +1,40 @@
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  Organizer,
+  StaffMember,
+  WhoamiRoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+  notImplemented,
+} from "./HaDataProviderType";
 import {usersApi} from "./api";
 import {MULTIPART_HEADERS} from "./constants";
+import {User} from "./types";
 
 const PIC_OPTIONS = {
   headers: MULTIPART_HEADERS,
 };
 
-const profilePicProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
+interface ProfilePicturePayload {
+  id: string;
+  role?: WhoamiRoleEnum;
+  rawFile?: File;
+}
+
+type UserWithPicture = User | StaffMember | Organizer;
+
+const profilePicProvider: HaDataProviderType<
+  UserWithPicture,
+  HaFilter,
+  HaMeta,
+  ProfilePicturePayload[],
+  unknown,
+  UserWithPicture[] | undefined
+> = {
+  getList: notImplemented,
+  getOne: notImplemented,
   saveOrUpdate: async (payload) => {
     const user = payload[0];
     switch (user?.role) {
@@ -43,9 +64,7 @@ const profilePicProvider: HaDataProviderType = {
           .then((result) => [result.data]);
     }
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default profilePicProvider;

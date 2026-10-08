@@ -23,7 +23,7 @@ const FeesActions = ({studentId}: FeesActionsProps) => {
         validateData={valideFeesData}
         optionalHeaders={optionalFeesHeaders}
         minimalHeaders={minimalFeesHeaders}
-        transformData={(data: any) => transformFeesData(data, studentId)}
+        transformData={(data) => transformFeesData(data, studentId)}
       />
       <FeesFilters />
     </Box>

@@ -1,3 +1,4 @@
+import {ToRaRecord} from "@/operations/common/utils/types";
 import dataProvider from "@/providers/dataProvider";
 import {ShareInfo} from "@haapi-b0fc7615/typescript-client";
 import {Home as HeiDocsIcon} from "@mui/icons-material";
@@ -12,7 +13,12 @@ export const HeiListMenuItem = ({onClick}: {onClick?: () => void}) => {
   useEffect(() => {
     const fetchFile = async () => {
       try {
-        const {data} = await dataProvider.getOne("hei-docs", {id: "id"});
+        const {data} = await dataProvider.getOne<ToRaRecord<ShareInfo>>(
+          "hei-docs",
+          {
+            id: "id",
+          }
+        );
         setFile(data);
       } catch (error) {
         console.error("Error fetching file:", error);
@@ -20,7 +26,7 @@ export const HeiListMenuItem = ({onClick}: {onClick?: () => void}) => {
         setLoading(false);
       }
     };
-    fetchFile();
+    void fetchFile();
   }, []);
 
   if (loading) return <CircularProgress />;

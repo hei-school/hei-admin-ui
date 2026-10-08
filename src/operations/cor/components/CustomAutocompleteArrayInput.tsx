@@ -1,7 +1,17 @@
 import {Teacher} from "@haapi-b0fc7615/typescript-client";
 import {Autocomplete, TextField} from "@mui/material";
-import {useEffect, useState} from "react";
-import {useDataProvider, useInput} from "react-admin";
+import {SyntheticEvent, useEffect, useState} from "react";
+import {GetOneResult, RaRecord, useDataProvider, useInput} from "react-admin";
+
+type TeacherRecord = Teacher & RaRecord;
+
+// name fields read from the fetched records, whatever their naming convention
+type NamedOption = Teacher & {
+  firstname?: string;
+  firstName?: string;
+  lastname?: string;
+  lastName?: string;
+};
 
 interface Props {
   resource: string;
@@ -12,7 +22,7 @@ interface Props {
   disabled?: boolean;
   helperText?: string;
   searchFields?: string[]; // fields to search on backend (default: ['first_name'] => recherche par prénom seulement)
-  optionLabel?: (record: any) => string;
+  optionLabel?: (record: Teacher) => string;
   minChars?: number;
   perPage?: number;
   sort?: {field: string; order: "ASC" | "DESC"};
@@ -42,10 +52,8 @@ export const CustomAutocompleteArrayInput = (props: Props) => {
   const [inputValue, setInputValue] = useState("");
   const [selected, setSelected] = useState<Teacher[]>([]);
 
-  const normalizeGetOneResult = (res: any) => {
-    if (!res) return null;
-    return res.data ?? res;
-  };
+  const normalizeGetOneResult = (res?: GetOneResult<TeacherRecord>) =>
+    res?.data ?? null;
 
   useEffect(() => {
     const ids = Array.isArray(field.value) ? field.value.filter(Boolean) : [];
@@ -54,14 +62,18 @@ export const CustomAutocompleteArrayInput = (props: Props) => {
       return;
     }
     let mounted = true;
-    (async () => {
+    void (async () => {
       try {
         const promises = ids.map((id) =>
-          dataProvider.getOne(resource, {id}).then(normalizeGetOneResult)
+          dataProvider
+            .getOne<TeacherRecord>(resource, {id})
+            .then(normalizeGetOneResult)
         );
         const results = await Promise.all(promises);
         if (!mounted) return;
-        setSelected(results.filter(Boolean));
+        setSelected(
+          results.filter((result): result is TeacherRecord => Boolean(result))
+        );
       } catch (err) {
         console.error("Error loading selected options:", err);
       }
@@ -78,17 +90,16 @@ export const CustomAutocompleteArrayInput = (props: Props) => {
     }
     setLoading(true);
     try {
-      const filter = searchFields.reduce((acc: any, f) => {
+      const filter = searchFields.reduce<Record<string, string>>((acc, f) => {
         acc[f] = searchText;
         return acc;
       }, {});
-      const result = await dataProvider.getList(resource, {
+      const result = await dataProvider.getList<TeacherRecord>(resource, {
         pagination: {page: 1, perPage},
         sort,
         filter,
       });
-      const data = result?.data ?? result;
-      setOptions(data || []);
+      setOptions(result?.data ?? []);
     } catch (err) {
       console.error("Error fetching resources:", err);
       setOptions([]);
@@ -99,12 +110,12 @@ export const CustomAutocompleteArrayInput = (props: Props) => {
 
   useEffect(() => {
     const t = setTimeout(() => {
-      fetchResources(inputValue);
+      void fetchResources(inputValue);
     }, 400);
     return () => clearTimeout(t);
   }, [inputValue]);
 
-  const getOptionLabel = (opt: any) => {
+  const getOptionLabel = (opt: NamedOption | null) => {
     if (!opt) return "";
     if (optionLabel) return optionLabel(opt);
     const fn = opt.first_name || opt.firstname || opt.firstName || "";
@@ -112,11 +123,11 @@ export const CustomAutocompleteArrayInput = (props: Props) => {
     return `${fn} ${ln}`.trim() || opt.id || "";
   };
 
-  const handleInputChange = (_: any, newInputValue: string) => {
+  const handleInputChange = (_: SyntheticEvent, newInputValue: string) => {
     setInputValue(newInputValue);
   };
 
-  const handleChange = (_: any, newValue: any[]) => {
+  const handleChange = (_: SyntheticEvent, newValue: Teacher[]) => {
     const vals = newValue || [];
     setSelected(vals);
     const ids = vals.map((v) => v.id);

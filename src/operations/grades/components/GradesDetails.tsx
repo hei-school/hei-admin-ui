@@ -21,24 +21,27 @@ import {
   TableRow,
   Typography,
 } from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {useGetList, useGetOne, useUpdate} from "react-admin";
-import {GradeEditForm} from ".";
 import {getCourseStatusLabel} from "../utils";
 import {getGradeColor} from "../utils/getGradeColor";
 import {getStatusChipProps} from "../utils/getStatusChipProps";
 import {StatusChip} from "../utils/StatusChip";
 import {TableMessageRow} from "../utils/TableMessageRow";
+import {GradeEditForm, GradeFormValues} from "./GradeEditForm";
 
 interface GradesListProps {
   studentId: string;
   courseId: string;
 }
 
-export const GradesDetails: FC<{
+export const GradesDetails = ({
+  studentId,
+  courseResult,
+}: Readonly<{
   studentId: string;
   courseResult: CourseResult;
-}> = ({studentId, courseResult}) => {
+}>) => {
   const [showDetails, setShowDetails] = useState(false);
 
   const toggleShowDetails = () => setShowDetails((prev) => !prev);
@@ -165,7 +168,7 @@ export const GradesDetails: FC<{
   );
 };
 
-const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
+const GradesList = ({courseId, studentId}: Readonly<GradesListProps>) => {
   const {data: grades = [], isLoading} = useGetList<ToRaRecord<Grade>>(
     "grades-details",
     {filter: {studentId, courseId}},
@@ -193,16 +196,13 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
   const handleCloseDialog = () => {
     setSelectedGrade(null);
   };
-  const handleSubmit = async (payload: {
-    grade: {score: number};
-    comment: string;
-  }) => {
+  const handleSubmit = async (payload: GradeFormValues) => {
     await update("exam-grades", {
       id: selectedGrade!.id,
       data: [
         {
           grade: {
-            score: payload.grade.score,
+            score: payload.grade?.score,
             student_id: studentId,
           },
           student_ref: student.ref,
@@ -241,8 +241,7 @@ const GradesList: FC<GradesListProps> = ({courseId, studentId}) => {
 
   const renderCoefficient = (coefficient: Fraction | undefined): string => {
     if (
-      coefficient &&
-      coefficient.numerator !== undefined &&
+      coefficient?.numerator !== undefined &&
       coefficient.denominator !== undefined
     ) {
       return `${coefficient.numerator}/${coefficient.denominator}`;

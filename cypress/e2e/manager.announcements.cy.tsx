@@ -28,13 +28,13 @@ describe("Manager announcements", () => {
     cy.contains("Annonces");
     cy.contains(
       "Cliquez sur la carte pour accéder à l'annonce complète et découvrir tous les détails pertinents."
-    );
+    ).should("exist");
   });
 
   it("can show an announcement", () => {
     cy.contains(announcement1?.title!).click();
     cy.contains(announcement1?.title!);
-    cy.contains(announcement1?.author?.email!);
+    cy.contains(announcement1?.author?.email!).should("exist");
   });
 
   it("can create an announcement", () => {
@@ -52,6 +52,6 @@ describe("Manager announcements", () => {
     );
 
     cy.contains("Enregistrer").click();
-    cy.contains("Élément créé");
+    cy.contains("Élément créé").should("exist");
   });
 });

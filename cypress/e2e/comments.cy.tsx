@@ -45,7 +45,6 @@ describe("Student.Comments", () => {
       "Pas encore de commentaires"
     );
     cy.getByTestid("comment-item").should("not.exist");
-    cy.wait(500);
   });
 });
 describe("Global.Comments", () => {
@@ -63,20 +62,20 @@ describe("Global.Comments", () => {
     ).as("getCommentsPage2");
   });
 
+  const checkGlobalCommentsList = () => {
+    cy.getByTestid("appbar-comments").click();
+    cy.getByTestid("comment-item").should("have.length", ITEM_PER_LIST2);
+    cy.getByTestid("comment-list-wrapper").scrollTo("bottom", {duration: 500});
+    cy.getByTestid("comment-item").should("have.length", commentMocks.length);
+  };
+
   it("manager can list global comments", () => {
     cy.mockLogin({role: "MANAGER"});
+    checkGlobalCommentsList();
   });
 
   it("teacher can list global comments", () => {
     cy.mockLogin({role: "TEACHER"});
-  });
-
-  afterEach(() => {
-    cy.getByTestid("appbar-comments").click();
-    cy.getByTestid("comment-item").should("have.length", ITEM_PER_LIST2);
-    cy.getByTestid("comment-list-wrapper")
-      .scrollTo("bottom", {duration: 500})
-      .wait(1000);
-    cy.getByTestid("comment-item").should("have.length", commentMocks.length);
+    checkGlobalCommentsList();
   });
 });

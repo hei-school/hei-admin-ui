@@ -1,15 +1,16 @@
+import {ToRaRecord} from "@/operations/common/utils/types";
 import authProvider from "@/providers/authProvider";
 import dataProvider, {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {AutocompleteInput} from "@/ui/components/inputs";
 import {Teacher} from "@haapi-b0fc7615/typescript-client";
 import {Box} from "@mui/material";
 import {useEffect, useState} from "react";
-import {BooleanInput, required} from "react-admin";
+import {BooleanInput, RaRecord, required} from "react-admin";
 import {useWatch} from "react-hook-form";
 
-function SelectUserPlanner() {
+const SelectUserPlanner = () => {
   const userId = authProvider.getCachedWhoami().id;
-  const [ref, setRef] = useState("");
+  const [ref, setRef] = useState<string | undefined>("");
   const [teachers, setTeachers] = useState<Teacher[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -17,7 +18,7 @@ function SelectUserPlanner() {
     const doEffect = async () => {
       setIsLoading(true);
       await dataProvider
-        .getList("teachers", {
+        .getList<ToRaRecord<Teacher>>("teachers", {
           filter: {ref},
           pagination: {perPage: MAX_ITEM_PER_PAGE, page: 1},
           sort: {field: "id", order: "DESC"},
@@ -28,11 +29,11 @@ function SelectUserPlanner() {
         })
         .catch((error) => console.log(error));
     };
-    doEffect();
+    void doEffect();
   }, [ref]);
 
-  const getRef = (_value: string, record: any) => {
-    setRef(record.ref);
+  const getRef = (_value: string, record: RaRecord | "") => {
+    setRef(record === "" ? undefined : record.ref);
   };
 
   const PLANNER_CHOICES = [...teachers]
@@ -56,9 +57,9 @@ function SelectUserPlanner() {
       fullWidth
     />
   );
-}
+};
 
-export function SelectPlanner() {
+export const SelectPlanner = () => {
   const isPlannedByMe = useWatch({name: "isPlannedByMe"}) ?? true;
 
   return (
@@ -71,4 +72,4 @@ export function SelectPlanner() {
       {isPlannedByMe ? null : <SelectUserPlanner />}
     </Box>
   );
-}
+};

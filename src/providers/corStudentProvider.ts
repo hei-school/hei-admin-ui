@@ -1,9 +1,29 @@
-import {CorCommentInfo} from "@haapi-b0fc7615/typescript-client";
+import {
+  Cor,
+  CorComment,
+  CorCommentInfo,
+} from "@haapi-b0fc7615/typescript-client";
 import {corApi} from "./api";
 import authProvider from "./authProvider";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+  notImplemented,
+} from "./HaDataProviderType";
 
-const corStudentProvider: HaDataProviderType = {
+type CorCommentPayload = CorCommentInfo & {id: string};
+
+type CommentedCor = CorComment & {id: string};
+
+const corStudentProvider: HaDataProviderType<
+  Cor,
+  HaFilter,
+  HaMeta,
+  CorCommentPayload[],
+  unknown,
+  CommentedCor[]
+> = {
   getList: async (page: number, perPage: number) => {
     const {id: studentId} = authProvider.getCachedWhoami();
     return corApi()
@@ -16,7 +36,7 @@ const corStudentProvider: HaDataProviderType = {
       .then((response) => response.data);
   },
 
-  saveOrUpdate: async (payload: (CorCommentInfo & {id: string})[]) => {
+  saveOrUpdate: async (payload: CorCommentPayload[]) => {
     const {id: CorId, ...commentInfo} = payload[0];
     return corApi()
       .commentCorById(CorId, commentInfo)
@@ -24,9 +44,7 @@ const corStudentProvider: HaDataProviderType = {
         return [{id: CorId, ...response.data}];
       });
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default corStudentProvider;

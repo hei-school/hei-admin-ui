@@ -116,7 +116,9 @@ export const Informations = ({
       id: "comments",
       label: "Commentaires",
       show: isStudentProfile,
-      content: <CommentList studentId={profile?.id ?? ""} close={false} />,
+      content: (
+        <CommentList studentId={String(profile?.id ?? "")} close={false} />
+      ),
     },
     {
       id: "fees",
@@ -126,7 +128,7 @@ export const Informations = ({
         (role.isManager() || role.isAdmin() || role.isMonitor()),
       content: (
         <FeeList
-          studentId={profile?.id ?? ""}
+          studentId={String(profile?.id ?? "")}
           studentRef={profile?.ref ?? ""}
         />
       ),

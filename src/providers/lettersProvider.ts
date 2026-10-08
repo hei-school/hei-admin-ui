@@ -1,7 +1,11 @@
-import {RoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {
+  Letter,
+  LetterStatus,
+  RoleEnum,
+} from "@haapi-b0fc7615/typescript-client";
 import {lettersApi} from "./api";
 import authProvider from "./authProvider";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
 export const LETTER_PER_PAGE = 12;
 
@@ -19,12 +23,21 @@ const LETTER_TYPE: Record<LetterFilterKey, boolean | undefined> = {
   ALL: undefined,
 };
 
-const lettersProvider: HaDataProviderType = {
+interface LettersFilter {
+  is_linked_with_fee?: LetterFilterKey;
+  student_ref?: string;
+  letter_ref?: string;
+  status?: LetterStatus;
+  student_name?: string;
+  fee_id?: string;
+  role?: RoleEnum[];
+}
+
+const lettersProvider: HaDataProviderType<Letter, LettersFilter> = {
   getList: async (page, _perPage, filter = {}) => {
     const {role} = authProvider.getCachedWhoami();
 
-    const linkedWithFee =
-      LETTER_TYPE[(filter?.is_linked_with_fee as LetterFilterKey) ?? "ALL"];
+    const linkedWithFee = LETTER_TYPE[filter?.is_linked_with_fee ?? "ALL"];
 
     if (role === "MANAGER") {
       return lettersApi()
@@ -61,15 +74,9 @@ const lettersProvider: HaDataProviderType = {
     }
     return {data: []};
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default lettersProvider;

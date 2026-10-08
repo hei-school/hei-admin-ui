@@ -24,7 +24,7 @@ export const examMocks: Exam[] = [
     coefficient: {
       numerator: 2,
       denominator: 1,
-    } as any,
+    },
     title: "Database Fundamentals",
     examination_date: new Date("2025-05-15"),
     course_assignment: {
@@ -74,7 +74,7 @@ export const examMocks: Exam[] = [
     coefficient: {
       numerator: 1,
       denominator: 1,
-    } as any,
+    },
     title: "Web Development Basics",
     examination_date: new Date("2025-05-20"),
     course_assignment: {

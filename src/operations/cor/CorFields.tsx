@@ -6,14 +6,18 @@ import {HaList} from "@/ui/haList";
 import {Cor} from "@haapi-b0fc7615/typescript-client";
 import {SafetyDivider} from "@mui/icons-material";
 import {alpha, Chip} from "@mui/material";
-import {FC, ReactNode} from "react";
+import {ReactNode} from "react";
 import {FunctionField, TextField} from "react-admin";
 
-export const CorFields: FC<{
+export const CorFields = ({
+  resource,
+  title,
+  actions = false,
+}: Readonly<{
   resource: string;
   title: string;
-  actions?: ReactNode | boolean;
-}> = ({resource, title, actions = false}) => (
+  actions?: ReactNode;
+}>) => (
   <HaList
     resource={resource}
     title={title}

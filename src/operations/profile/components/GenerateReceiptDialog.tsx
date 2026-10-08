@@ -1,14 +1,25 @@
 import {useNotify} from "@/hooks";
 import {DateTimeField} from "@/operations/common/components/fields";
 import {Dialog} from "@/ui/components";
-import {FC, useEffect} from "react";
+import {useEffect} from "react";
 import {SaveButton, SimpleForm, Toolbar, useCreate} from "react-admin";
 import {v4 as uuid} from "uuid";
 
-export const GenerateReceiptDialog: FC<{
+interface GenerateReceiptDialogProps {
   onClose: () => void;
   open: boolean;
-}> = ({onClose, open}) => {
+}
+
+interface ReceiptFormValues {
+  from?: string;
+  to?: string;
+  destinationEmail?: string;
+}
+
+export const GenerateReceiptDialog = ({
+  onClose,
+  open,
+}: Readonly<GenerateReceiptDialogProps>) => {
   const [create, {isLoading, isSuccess, data}] = useCreate();
   const notify = useNotify();
   useEffect(() => {
@@ -19,8 +30,8 @@ export const GenerateReceiptDialog: FC<{
     onClose();
   }, [isSuccess]);
 
-  const handleSubmit = ({from, to, destinationEmail}: any) => {
-    create("receipts", {data: {id: uuid(), from, to, destinationEmail}});
+  const handleSubmit = ({from, to, destinationEmail}: ReceiptFormValues) => {
+    void create("receipts", {data: {id: uuid(), from, to, destinationEmail}});
   };
 
   return (

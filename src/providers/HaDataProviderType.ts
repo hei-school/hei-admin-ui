@@ -1,15 +1,45 @@
-export type HaListResponseType = {
-  data: Array<any>;
-  metadata?: Record<string, any>;
+export type HaFilter = Record<string, unknown>;
+export type HaMeta = Record<string, unknown>;
+
+export type HaSaveParams<Meta = HaMeta> = {
+  isUpdate?: boolean;
+  data?: unknown;
+  meta?: Meta;
 };
-export type HaDataProviderType = {
-  getList: (
+
+export type HaListResponseType<Resource> = {
+  data: Resource[];
+  metadata?: Record<string, unknown>;
+};
+
+export interface HaDataProviderType<
+  Resource,
+  Filter = HaFilter,
+  Meta = HaMeta,
+  Payload = Resource[],
+  SaveParams = HaSaveParams<Meta>,
+  Saved = Resource[],
+> {
+  getList(
     page: number,
     perPage: number,
-    filter: any,
-    meta?: any
-  ) => Promise<HaListResponseType>;
-  getOne: (id: string, meta?: any) => Promise<any>;
-  saveOrUpdate: (resources: any, meta?: any) => Promise<any>;
-  delete: (id: string) => Promise<any>;
+    filter: Filter,
+    meta?: Meta
+  ): Promise<HaListResponseType<Resource>>;
+  getOne(id: string, meta?: Meta): Promise<Resource>;
+  saveOrUpdate(resources: Payload, params?: SaveParams): Promise<Saved>;
+  delete(id: string): Promise<Resource>;
+}
+
+export const notImplemented = (): never => {
+  throw new Error("Not implemented");
 };
+
+export type UntypedHaDataProvider = HaDataProviderType<
+  unknown,
+  unknown,
+  unknown,
+  unknown,
+  unknown,
+  unknown
+>;

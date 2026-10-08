@@ -1,4 +1,6 @@
-export const eventStyleGetter = (event: any) => {
+import {Event} from "@haapi-b0fc7615/typescript-client";
+
+export const eventStyleGetter = (event: Pick<Event, "is_online" | "color">) => {
   const style = {
     background: event.is_online ? "#000000" : event.color || "defaultColor",
     borderRadius: "10px",
@@ -12,6 +14,12 @@ export const eventStyleGetter = (event: any) => {
   };
 };
 
+declare global {
+  interface Window {
+    eventStyleGetter?: typeof eventStyleGetter;
+  }
+}
+
 if (typeof window !== "undefined") {
-  (window as any).eventStyleGetter = eventStyleGetter;
+  window.eventStyleGetter = eventStyleGetter;
 }

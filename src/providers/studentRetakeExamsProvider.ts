@@ -1,12 +1,23 @@
-import {CourseResultStatus} from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  CourseResult,
+  CourseResultStatus,
+} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {retakeExamApi} from "./api";
 
-const studentRetakeExamsProvider: HaDataProviderType = {
+interface StudentRetakeExamsFilter {
+  studentId: string;
+  status: CourseResultStatus;
+}
+
+const studentRetakeExamsProvider: HaDataProviderType<
+  CourseResult,
+  StudentRetakeExamsFilter
+> = {
   getList: async (
     _page: number,
     _perPage: number,
-    filter: {studentId: string; status: CourseResultStatus}
+    filter: StudentRetakeExamsFilter
   ) => {
     const {studentId, status} = filter;
     return retakeExamApi()
@@ -15,15 +26,9 @@ const studentRetakeExamsProvider: HaDataProviderType = {
         data: response.data,
       }));
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default studentRetakeExamsProvider;

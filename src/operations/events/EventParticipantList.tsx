@@ -9,7 +9,7 @@ import {useParams} from "react-router-dom";
 import {StatCard} from "./components";
 import {ListContent} from "./components/ListContent";
 
-export function EventParticipantList() {
+export const EventParticipantList = () => {
   const {eventId} = useParams();
   const {isAdmin, isManager, isOrganizer} = useRole();
 
@@ -90,4 +90,4 @@ export function EventParticipantList() {
       <ListContent eventId={eventId!} />
     </Box>
   );
-}
+};

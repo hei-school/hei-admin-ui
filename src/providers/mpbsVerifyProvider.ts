@@ -1,13 +1,27 @@
-import {HaDataProviderType} from "./HaDataProviderType";
+import {Mpbs} from "@haapi-b0fc7615/typescript-client";
+import {
+  HaDataProviderType,
+  HaFilter,
+  HaMeta,
+  notImplemented,
+} from "./HaDataProviderType";
 import {payingApi} from "./api";
 
-const mpbsVerifyProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Not implemented");
-  },
-  getOne: () => {
-    throw new Error("Not implemented");
-  },
+interface MpbsVerifyPayload {
+  id: string;
+  mpbsFile: {rawFile?: File};
+}
+
+type VerifiedMpbs = {[index: number]: Mpbs; id: string};
+
+const mpbsVerifyProvider: HaDataProviderType<
+  VerifiedMpbs,
+  HaFilter,
+  HaMeta,
+  MpbsVerifyPayload[]
+> = {
+  getList: notImplemented,
+  getOne: notImplemented,
   saveOrUpdate: async (payload) => {
     const {
       id,
@@ -20,9 +34,7 @@ const mpbsVerifyProvider: HaDataProviderType = {
         return [{...result.data, id}];
       });
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default mpbsVerifyProvider;

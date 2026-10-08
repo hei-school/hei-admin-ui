@@ -27,7 +27,7 @@ describe("Admin profile test", () => {
     cy.contains("Numéro CIN");
     cy.contains("Date et lieu de naissance");
     cy.contains("Statut");
-    cy.contains("Date d'entrée chez HEI");
+    cy.contains("Date d'entrée chez HEI").should("exist");
   });
 });
 
@@ -36,6 +36,7 @@ describe("Manager profile test", () => {
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
   });
 
+  // Skipped by 61c7542 (2026-05-09): it failed on the manager profile and was not fixed since.
   it.skip("can view his own profile as manager", () => {
     cy.contains("Profil").click();
     cy.contains("Détails du Profil");
@@ -52,7 +53,7 @@ describe("Manager profile test", () => {
     cy.contains("Numéro CIN");
     cy.contains("Date et lieu de naissance");
     cy.contains("Statut");
-    cy.contains("Date d'entrée chez HEI");
+    cy.contains("Date d'entrée chez HEI").should("exist");
     cy.contains("Se déconnecter").click();
   });
 });
@@ -77,7 +78,7 @@ describe("Teacher profile test", () => {
     cy.contains("Numéro CIN");
     cy.contains("Date et lieu de naissance");
     cy.contains("Statut");
-    cy.contains("Date d'entrée chez HEI");
+    cy.contains("Date d'entrée chez HEI").should("exist");
   });
 });
 
@@ -100,7 +101,7 @@ describe("Monitor profile test", () => {
     cy.contains("Numéro CIN");
     cy.contains("Date et lieu de naissance");
     cy.contains("Statut");
-    cy.contains("Date d'entrée chez HEI");
+    cy.contains("Date d'entrée chez HEI").should("exist");
   });
 });
 
@@ -123,7 +124,7 @@ describe("Student profile test", () => {
     cy.contains("Numéro CIN");
     cy.contains("Date et lieu de naissance");
     cy.contains("Statut");
-    cy.contains("Date d'entrée chez HEI");
+    cy.contains("Date d'entrée chez HEI").should("exist");
   });
 });
 
@@ -146,7 +147,7 @@ describe("Staff profile test", () => {
     cy.contains("Numéro CIN");
     cy.contains("Date et lieu de naissance");
     cy.contains("Statut");
-    cy.contains("Date d'entrée chez HEI");
+    cy.contains("Date d'entrée chez HEI").should("exist");
   });
 });
 
@@ -169,6 +170,6 @@ describe("Organizer profile test", () => {
     cy.contains("Numéro CIN");
     cy.contains("Date et lieu de naissance");
     cy.contains("Statut");
-    cy.contains("Date d'entrée chez HEI");
+    cy.contains("Date d'entrée chez HEI").should("exist");
   });
 });

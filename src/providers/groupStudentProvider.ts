@@ -1,26 +1,33 @@
-import {HaDataProviderType} from "./HaDataProviderType";
+import {Student} from "@haapi-b0fc7615/typescript-client";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 
-const groupStudentProvider: HaDataProviderType = {
+interface GroupStudentFilter {
+  first_name: string;
+}
+
+interface GroupStudentMeta {
+  groupId: string;
+}
+
+const groupStudentProvider: HaDataProviderType<
+  Student,
+  GroupStudentFilter,
+  GroupStudentMeta
+> = {
   getList: (
     page: number,
     perPage: number,
-    filter: {first_name: string},
-    meta: {groupId: string}
+    filter: GroupStudentFilter,
+    meta: GroupStudentMeta
   ) => {
     return groupsApi()
       .getStudentsByGroupId(meta.groupId, page, perPage, filter.first_name)
       .then((result) => ({data: result.data}));
   },
-  getOne: () => {
-    throw new Error("Function not implemented.");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default groupStudentProvider;

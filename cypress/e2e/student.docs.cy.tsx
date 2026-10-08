@@ -99,7 +99,7 @@ describe("Work.Docs", () => {
     cy.contains(`Liste des validations d'expériences professionnelles`);
     cy.contains("Nom du fichier");
     cy.contains("Date de création");
-    cy.contains("Afficher");
+    cy.contains("Afficher").should("exist");
   });
 });
 
@@ -151,6 +151,6 @@ describe("Other.Docs", () => {
     cy.contains(`Liste des autres documents étudiant`);
     cy.contains("Nom du fichier");
     cy.contains("Date de création");
-    cy.contains("Afficher");
+    cy.contains("Afficher").should("exist");
   });
 });

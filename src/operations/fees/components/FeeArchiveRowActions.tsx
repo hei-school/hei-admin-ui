@@ -4,8 +4,6 @@ import {payingApi} from "@/providers/api";
 import {toApiIds} from "@/providers/feeProvider";
 import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
 import {ArchiveStatusEnum} from "@haapi-b0fc7615/typescript-client";
-import ArchiveIcon from "@mui/icons-material/Archive";
-import CancelIcon from "@mui/icons-material/Cancel";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import {
   Box,
@@ -145,7 +143,7 @@ export const FeeArchiveRowActions = ({
 
   const doReArchive = () => {
     toggleReArchive();
-    runArchiveAction(
+    void runArchiveAction(
       () => payingApi().archiveStudentFee(studentId, feeId),
       "Demande d'archivage envoyée avec succès.",
       doDone,
@@ -155,12 +153,13 @@ export const FeeArchiveRowActions = ({
 
   if (tab === ArchiveStatusEnum.TO_ARCHIVE) {
     return (
-      <Box display="flex" gap={1} justifyContent="flex-end">
+      <Box
+        sx={{display: "flex", gap: 1, justifyContent: "center", width: "100%"}}
+      >
         <Button
           size="small"
           variant="outlined"
           color="warning"
-          startIcon={<ArchiveIcon />}
           onClick={toggleValidate}
         >
           Archiver
@@ -169,7 +168,6 @@ export const FeeArchiveRowActions = ({
           size="small"
           variant="outlined"
           color="error"
-          startIcon={<CancelIcon />}
           onClick={toggleReject}
         >
           Rejeter
@@ -181,7 +179,10 @@ export const FeeArchiveRowActions = ({
           content="Confirmez-vous l'archivage de ce frais ? Il ne pourra plus être payé ni modifié."
           onConfirm={() => {
             toggleValidate();
-            doUpdate(ArchiveStatusEnum.ARCHIVED, "Frais archivé avec succès.");
+            void doUpdate(
+              ArchiveStatusEnum.ARCHIVED,
+              "Frais archivé avec succès."
+            );
           }}
           onClose={toggleValidate}
           confirmColor="warning"
@@ -192,7 +193,7 @@ export const FeeArchiveRowActions = ({
           onClose={toggleReject}
           onConfirm={(reason) => {
             toggleReject();
-            doUpdate(
+            void doUpdate(
               ArchiveStatusEnum.REJECTED,
               "Demande d'archivage rejetée.",
               reason
@@ -204,7 +205,7 @@ export const FeeArchiveRowActions = ({
   }
 
   return (
-    <Box display="flex" justifyContent="flex-end">
+    <Box sx={{display: "flex", justifyContent: "center", width: "100%"}}>
       <Button
         size="small"
         variant="outlined"

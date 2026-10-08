@@ -1,6 +1,13 @@
+interface ExamCoefficientValues {
+  coefficient?: {
+    numerator?: number;
+    denominator?: number;
+  };
+}
+
 export const validateCoefficientNumerator = (
   value: number,
-  allValues: any
+  allValues: ExamCoefficientValues
 ): string | undefined => {
   if (!value) return "Le numérateur est requis";
   if (value <= 0) return "Le numérateur doit être positif";
@@ -15,7 +22,7 @@ export const validateCoefficientNumerator = (
 
 export const validateCoefficientDenominator = (
   value: number,
-  allValues: any
+  allValues: ExamCoefficientValues
 ): string | undefined => {
   if (!value) return "Le dénominateur est requis";
   if (value <= 0) return "Le dénominateur doit être positif";
@@ -45,7 +52,7 @@ export const validateExaminationDate = (
 
   const examDate = new Date(value);
 
-  if (isNaN(examDate.getTime())) return "Date invalide";
+  if (Number.isNaN(examDate.getTime())) return "Date invalide";
 
   return undefined;
 };

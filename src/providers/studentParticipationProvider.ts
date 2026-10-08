@@ -1,22 +1,45 @@
 import {
   AttendanceStatus,
+  EventLocation,
+  EventType,
   StudentGlobalAttendance,
 } from "@haapi-b0fc7615/typescript-client";
 
 import {attendanceApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 
-const StudentParticipationProvider: HaDataProviderType = {
+interface StudentParticipationFilter {
+  from: Date;
+  to: Date;
+  attendanceStatus?: AttendanceStatus;
+  title?: string[];
+}
+
+interface StudentParticipationMeta {
+  id: string;
+}
+
+type StudentParticipation = {
+  id: string;
+  attendanceStatus?: AttendanceStatus;
+  beginDatetime?: Date;
+  endDatetime?: Date;
+  eventType?: EventType;
+  eventTitle?: string;
+  eventDescription?: string;
+  location?: EventLocation;
+};
+
+const StudentParticipationProvider: HaDataProviderType<
+  StudentParticipation,
+  StudentParticipationFilter,
+  StudentParticipationMeta
+> = {
   getList: async (
     _page: number,
     _perPage: number,
-    filter: {
-      from: Date;
-      to: Date;
-      attendanceStatus?: AttendanceStatus;
-      title?: string[];
-    },
-    meta: {id: string}
+    filter: StudentParticipationFilter,
+    meta: StudentParticipationMeta
   ) => {
     const {id} = meta;
     const {from, to, attendanceStatus, title} = filter;
@@ -36,15 +59,9 @@ const StudentParticipationProvider: HaDataProviderType = {
         })),
       }));
   },
-  getOne: () => {
-    throw new Error("Not implemented");
-  },
-  saveOrUpdate: () => {
-    throw new Error("Not implemented");
-  },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  getOne: notImplemented,
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default StudentParticipationProvider;

@@ -1,4 +1,4 @@
-import {FeeTypeEnum} from "@haapi-b0fc7615/typescript-client";
+import {CreateFee, FeeTypeEnum} from "@haapi-b0fc7615/typescript-client";
 import {fee1Mock, feesMock} from "../fixtures/api_mocks/fees-mocks";
 import {
   annual1xTemplate,
@@ -7,10 +7,15 @@ import {
 } from "../fixtures/api_mocks/fees-templates-mocks";
 import {createPaymentMock} from "../fixtures/api_mocks/payments-mocks";
 import {student1Mock, studentsMock} from "../fixtures/api_mocks/students-mocks";
-import {assertFeeMatchesTemplate} from "./utils";
+import {assertFeeMatchesTemplate, FeeRequestBody} from "./utils";
+
+type CreatedFeeBody = FeeRequestBody &
+  Pick<CreateFee, "comment"> & {
+    due_datetime: string;
+  };
 
 const get27thOfMonth = (year: number, month: number) => {
-  return new Date(year, month, 27);
+  return new Date(Date.UTC(year, month, 27));
 };
 
 const formatAmount = (amount: number) => `${amount.toLocaleString("fr-FR")} Ar`;
@@ -119,7 +124,7 @@ describe("Manager.Fee", () => {
     cy.get("#isPredefinedDate").click();
 
     cy.contains("Enregistrer").click();
-    cy.contains("Le formulaire n'est pas valide");
+    cy.contains("Le formulaire n'est pas valide").should("be.visible");
   });
 
   it("can create fees with predefined fields equals to 1 month", () => {
@@ -136,7 +141,7 @@ describe("Manager.Fee", () => {
     cy.wait("@createFees").then((intersection) => {
       const requestBody = intersection.request.body;
 
-      expect(requestBody.length).to.equal(1);
+      expect(requestBody).to.have.lengthOf(1);
 
       const feeToCreate = requestBody[0];
       const currentDate = new Date();
@@ -146,7 +151,9 @@ describe("Manager.Fee", () => {
       );
 
       assertFeeMatchesTemplate(feeToCreate, annual1xTemplate);
-      expect(feeToCreate.due_datetime, currentEndOfMonth.toISOString());
+      expect(feeToCreate.due_datetime).to.equal(
+        currentEndOfMonth.toISOString()
+      );
       expect(feeToCreate.comment).to.equal(annual1xTemplate.name);
     });
 
@@ -172,9 +179,9 @@ describe("Manager.Fee", () => {
     cy.wait("@createFees").then((intersection) => {
       const requestBody = intersection.request.body;
 
-      expect(requestBody.length).to.equal(annual9xTemplate.number_of_payments);
+      expect(requestBody).to.have.lengthOf(annual9xTemplate.number_of_payments);
 
-      requestBody.forEach((feeToCreate: any, index: number) => {
+      requestBody.forEach((feeToCreate: CreatedFeeBody, index: number) => {
         const is_valid_month = FIRST_MONTH + index <= 11;
         const year_value = is_valid_month ? FIRST_YEAR : FIRST_YEAR + 1;
         const month_value = is_valid_month
@@ -184,7 +191,9 @@ describe("Manager.Fee", () => {
         const currentEndOfMonth = get27thOfMonth(year_value, month_value);
 
         assertFeeMatchesTemplate(feeToCreate, annual9xTemplate);
-        expect(feeToCreate.due_datetime, currentEndOfMonth.toISOString());
+        expect(feeToCreate.due_datetime).to.equal(
+          currentEndOfMonth.toISOString()
+        );
         expect(feeToCreate.comment).to.equal(
           `${annual9xTemplate.name} (M${index + 1})`
         );
@@ -230,14 +239,13 @@ describe("Manager.Fee", () => {
     cy.wait("@createFees").then((intersection) => {
       const requestBody = intersection.request.body;
 
-      expect(requestBody.length).to.equal(feesToCreate.number_of_payments);
+      expect(requestBody).to.have.lengthOf(feesToCreate.number_of_payments);
 
-      requestBody.forEach((fees: any, index: any) => {
+      requestBody.forEach((fees: CreatedFeeBody, index: number) => {
         const first_duedatetime = feesToCreate.due_datetime;
         first_duedatetime.setMonth(first_duedatetime.getMonth() + index);
 
         assertFeeMatchesTemplate(fees, feesToCreate);
-        expect(feesToCreate.due_datetime, first_duedatetime.toISOString());
         expect(fees.comment).to.be.equal(feesToCreate.comment);
       });
     });
@@ -272,8 +280,8 @@ describe("Manager.Fee", () => {
     cy.wait("@createFees").then((intersection) => {
       const requestBody = intersection.request.body;
 
-      expect(requestBody.length).to.equal(feesToCreate.number_of_payments);
-      requestBody.forEach((fees: any) => {
+      expect(requestBody).to.have.lengthOf(feesToCreate.number_of_payments);
+      requestBody.forEach((fees: CreatedFeeBody) => {
         assertFeeMatchesTemplate(fees, feesToCreate);
       });
     });

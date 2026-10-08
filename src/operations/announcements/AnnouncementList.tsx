@@ -13,7 +13,7 @@ import {
   Work,
 } from "@mui/icons-material";
 import {Box, Chip, LinearProgress, Paper, Tooltip} from "@mui/material";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {List, useListContext, useListFilterContext} from "react-admin";
 import {AnnouncementFilter} from "./components";
 import {AnnouncementCard} from "./components/AnnoucementCard";
@@ -195,7 +195,7 @@ export const AnnouncementList = () => {
   );
 };
 
-const AnnouncementLoader: FC = () => {
+const AnnouncementLoader = () => {
   const {isLoading} = useListContext();
   return isLoading && <LinearProgress />;
 };

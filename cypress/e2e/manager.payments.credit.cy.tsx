@@ -161,7 +161,7 @@ describe("Manager.Payments.Flow", () => {
     cy.get("#comment").click().type(createPayment.comment!);
     cy.contains("Enregistrer").click();
     cy.wait("@createPayment");
-    cy.contains("Paiement créé avec succès.");
+    cy.contains("Paiement créé avec succès.").should("be.visible");
   });
 
   it("can create a credit payment for a fee within the student's credit", () => {
@@ -193,7 +193,7 @@ describe("Manager.Payments.Flow", () => {
     cy.get("#amount").click().type("100000");
     cy.contains("Enregistrer").click();
     cy.wait("@createCreditPayment");
-    cy.contains("Paiement créé avec succès.");
+    cy.contains("Paiement créé avec succès.").should("be.visible");
   });
 
   it("cannot create a credit payment exceeding the student's credit", () => {
@@ -221,7 +221,9 @@ describe("Manager.Payments.Flow", () => {
       .click()
       .type((studentCreditMock.amount + 1).toString());
     cy.contains("Enregistrer").click();
-    cy.contains("Le montant saisi est supérieur à votre crédit actuel.");
+    cy.contains("Le montant saisi est supérieur à votre crédit actuel.").should(
+      "exist"
+    );
   });
 
   it("cannot create a credit payment when the student's credit is below the minimum", () => {
@@ -251,7 +253,7 @@ describe("Manager.Payments.Flow", () => {
     cy.get("#type_CREDIT").click();
     cy.get("#amount").click().type("10000");
     cy.contains("Enregistrer").click();
-    cy.contains("Votre crédit est inférieur à 60000Ar.");
+    cy.contains("Votre crédit est inférieur à 60000Ar.").should("exist");
   });
 });
 
@@ -408,7 +410,7 @@ describe("Manager.CreditPayments", () => {
       cy.contains(creditPaymentValidatedMock.comment!);
       cy.contains("Jane Admin");
       cy.contains("Frais concerné");
-      cy.contains(fee1Mock.comment!);
+      cy.contains(fee1Mock.comment!).should("exist");
     });
   });
 

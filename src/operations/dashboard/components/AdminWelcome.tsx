@@ -204,7 +204,7 @@ export const AdminWelcome = () => {
                   <FunctionField
                     source="category"
                     label="Catégorie"
-                    render={(record: any) => {
+                    render={(record: Fee) => {
                       const cat = CATEGORY.find(
                         (c) => c.value === record.category
                       );

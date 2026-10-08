@@ -1,10 +1,11 @@
 import {
   DocumensoDocument,
   DocumensoDocumentStatus,
+  DocumensoGenerationLaunched,
   GenerateDocumensoDocuments,
   StudentLevel,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {documensoApi} from "./api";
 
 type PromotionFilter = {
@@ -17,11 +18,18 @@ type PromotionMeta = {
   templateTitle?: string;
 };
 
-const notImplemented = () => {
-  throw new Error("Not implemented");
+type GenerationParams = {
+  promotionId: string;
 };
 
-const promotionDocumensoDocumentsProvider: HaDataProviderType = {
+const promotionDocumensoDocumentsProvider: HaDataProviderType<
+  DocumensoDocument,
+  PromotionFilter,
+  PromotionMeta,
+  GenerateDocumensoDocuments[],
+  GenerationParams,
+  DocumensoGenerationLaunched[]
+> = {
   getList: async (
     page: number,
     perPage: number,
@@ -49,7 +57,7 @@ const promotionDocumensoDocumentsProvider: HaDataProviderType = {
   getOne: notImplemented,
   saveOrUpdate: async (
     payload: GenerateDocumensoDocuments[],
-    meta: {promotionId: string}
+    meta: GenerationParams
   ) => {
     if (payload.length <= 0) {
       throw new Error("Cannot launch a generation without a template");

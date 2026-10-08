@@ -22,3 +22,8 @@ export interface Doc {
 export type User = Student | Teacher | Manager | Monitor | Admin;
 
 export type ToRaRecord<T> = T & {id: Identifier};
+
+export type ExportedFile<Content = string> = {
+  id: string;
+  file: Content;
+};

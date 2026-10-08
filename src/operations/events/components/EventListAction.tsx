@@ -13,16 +13,18 @@ import {Add, Download} from "@mui/icons-material";
 import {Box, MenuItem, Select, Typography} from "@mui/material";
 import domtoimage from "dom-to-image-more";
 import jsPDF from "jspdf";
-import {FC, useCallback, useMemo, useState} from "react";
+import {useCallback, useMemo, useState} from "react";
 import {Button, useGetList, useGetOne, useRedirect} from "react-admin";
 import {EVENT_TYPE_VALUE} from "../utils";
 import {MultiCheckboxFilter} from "./MultiCheckBoxFilter";
 
-export const EventListAction: FC<{
+export const EventListAction = ({
+  withDate = true,
+}: Readonly<{
   withDate?: boolean;
   onclose?: () => void;
   open?: boolean;
-}> = ({withDate = true}) => {
+}>) => {
   const {isManager, isAdmin, isOrganizer, isTeacher, isStudent, isMonitor} =
     useRole();
   const redirect = useRedirect();
@@ -72,8 +74,9 @@ export const EventListAction: FC<{
           data-testid="add-filter"
           closeAction={false}
           onClick={() => redirect("/events/new")}
-          children={<></>}
-        />
+        >
+          <></>
+        </ButtonBase>
       )}
       <FilterForm>
         <TextFilter label="Titre" source="title" />
@@ -131,17 +134,18 @@ export const EventListAction: FC<{
         icon={<Download />}
         closeAction={false}
         onClick={() => setExportOpen(true)}
-        children={<></>}
-      />
+      >
+        <></>
+      </ButtonBase>
       <ExportEventFile open={exportOpen} onclose={() => setExportOpen(false)} />
     </Box>
   );
 };
 
-export const ExportEventFile: FC<{open: boolean; onclose: () => void}> = ({
+export const ExportEventFile = ({
   open,
   onclose,
-}) => {
+}: Readonly<{open: boolean; onclose: () => void}>) => {
   const [exportFormat, setExportFormat] = useState<"jpg" | "pdf">("jpg");
   const exportOptions = {
     scale: 3,

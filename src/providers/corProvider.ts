@@ -1,21 +1,19 @@
-import {CorStatus, CrupdateCor} from "@haapi-b0fc7615/typescript-client";
+import {Cor, CorStatus, CrupdateCor} from "@haapi-b0fc7615/typescript-client";
 import {corApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
-const corProvider: HaDataProviderType = {
-  getList: async (
-    page: number,
-    perPage: number,
-    filter: {
-      page: number;
-      perPage: number;
-      from: Date;
-      to: Date;
-      student_ref?: string;
-      group_ref?: string[];
-      cor_status?: CorStatus[];
-    }
-  ) => {
+interface CorFilter {
+  page: number;
+  perPage: number;
+  from: Date;
+  to: Date;
+  student_ref?: string;
+  group_ref?: string[];
+  cor_status?: CorStatus[];
+}
+
+const corProvider: HaDataProviderType<Cor, CorFilter, HaMeta, CrupdateCor[]> = {
+  getList: async (page: number, perPage: number, filter: CorFilter) => {
     return corApi()
       .getCors(
         page,
@@ -40,9 +38,7 @@ const corProvider: HaDataProviderType = {
       .crupdateStudentCors(concerned_student_id!, payload[0])
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  delete: notImplemented,
 };
 
 export default corProvider;

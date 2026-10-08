@@ -5,7 +5,7 @@ import {
 } from "react-admin";
 
 export type UseNotifyOptions = NotificationOptions & {
-  type?: NotificationType | undefined;
+  type?: NotificationType;
 };
 
 export const useNotify = () => {

@@ -17,14 +17,14 @@ import {
 import {useFormContext} from "react-hook-form";
 
 import {FeeCategory, FeeFrequency} from "@haapi-b0fc7615/typescript-client";
-import {useStudentRef} from "../../hooks/useStudentRef";
 import {payingApi} from "../../providers/api";
 import {toApiIds} from "../../providers/feeProvider";
 import {Edit} from "../common/components";
 import {statusRenderer} from "../utils";
 import {CATEGORY_CHOICES, FEES_FREQUENCY_CHOICES} from "./constants";
+import {useStudentRef} from "./hooks/useStudentRef";
 
-function EditToolbar() {
+const EditToolbar = () => {
   const notify = useNotify();
   const redirect = useRedirect();
   const [pending, setPending] = useState(false);
@@ -68,9 +68,9 @@ function EditToolbar() {
       </Button>
     </Toolbar>
   );
-}
+};
 
-function DisabledInfo() {
+const DisabledInfo = () => {
   const {record} = useEditController();
   let dateInfo = {label: "Date de création", source: "creation_datetime"};
   const props = {readOnly: true, fullWidth: true};
@@ -102,9 +102,9 @@ function DisabledInfo() {
       </Box>
     </>
   );
-}
+};
 
-function FeeEdit() {
+const FeeEdit = () => {
   const {studentRef} = useStudentRef("id");
   const {record} = useEditController();
 
@@ -148,6 +148,6 @@ function FeeEdit() {
       </SimpleForm>
     </Edit>
   );
-}
+};
 
 export default FeeEdit;

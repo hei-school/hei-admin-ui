@@ -15,7 +15,7 @@ import {
 } from "react-admin";
 import {useParams} from "react-router-dom";
 
-function ActionsPromotionsGroups() {
+const ActionsPromotionsGroups = () => {
   const {data: groupsList = []} = useListContext<Required<Group>>();
   const {id} = useParams();
   const dataProvider = useDataProvider();
@@ -57,9 +57,9 @@ function ActionsPromotionsGroups() {
       />
     </>
   );
-}
+};
 
-export function PromotionGroupList() {
+export const PromotionGroupList = () => {
   const {id} = useParams();
   return (
     <HaList
@@ -90,4 +90,4 @@ export function PromotionGroupList() {
       />
     </HaList>
   );
-}
+};

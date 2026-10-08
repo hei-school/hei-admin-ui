@@ -3,13 +3,12 @@ import managerImg from "@/assets/Jeune_panneau.png";
 import {PALETTE_COLORS} from "@/haTheme";
 import authProvider from "@/providers/authProvider";
 import {alpha, Box, Typography} from "@mui/material";
-import {FC} from "react";
 import {useGetOne} from "react-admin";
 
-export const WelcomingCard: FC<{animate: boolean; isLarge: boolean}> = ({
+export const WelcomingCard = ({
   animate,
   isLarge,
-}) => {
+}: Readonly<{animate: boolean; isLarge: boolean}>) => {
   const {data: user} = useGetOne("profile", {
     id: authProvider.getCachedWhoami().id,
   });

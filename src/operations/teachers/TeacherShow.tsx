@@ -5,7 +5,6 @@ import {useRole} from "@/security/hooks";
 import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
 import {Inventory} from "@mui/icons-material";
 import {Box} from "@mui/material";
-import {FC} from "react";
 import {Button, EditButton, useRecordContext, useRedirect} from "react-admin";
 import {useParams} from "react-router-dom";
 
@@ -13,7 +12,7 @@ interface ActionsOnShowProps {
   teacherId?: string;
 }
 
-const ActionsOnShow: FC<ActionsOnShowProps> = ({teacherId}) => {
+const ActionsOnShow = ({teacherId}: Readonly<ActionsOnShowProps>) => {
   const record = useRecordContext();
   const redirect = useRedirect();
   const {isAdmin} = useRole();

@@ -1,11 +1,29 @@
-import {HaDataProviderType} from "@/providers/HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaMeta,
+  notImplemented,
+} from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
+import {
+  RetakeExamSession,
+  StudentLevel,
+} from "@haapi-b0fc7615/typescript-client";
 
-const retakeExamSessionProvider: HaDataProviderType = {
+interface RetakeExamSessionFilter {
+  title: string;
+  student_level: StudentLevel[];
+}
+
+const retakeExamSessionProvider: HaDataProviderType<
+  RetakeExamSession,
+  RetakeExamSessionFilter,
+  HaMeta,
+  RetakeExamSession[]
+> = {
   getList: async (
     page: number,
     perPage: number,
-    filter: {title: string; student_level: []}
+    filter: RetakeExamSessionFilter
   ) => {
     const {title, student_level} = filter;
     return retakeExamApi()
@@ -35,8 +53,6 @@ const retakeExamSessionProvider: HaDataProviderType = {
       .createOrUpdateRetakeExamSessions(firstRetakeExam)
       .then((response) => [response.data]);
   },
-  delete: () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 export default retakeExamSessionProvider;

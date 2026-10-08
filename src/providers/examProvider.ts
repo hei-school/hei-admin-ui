@@ -1,9 +1,24 @@
 import {useRole} from "@/security/hooks";
+import {CrupdateExam, Exam} from "@haapi-b0fc7615/typescript-client";
 import {examApi} from "./api";
 import authProvider from "./authProvider";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 
-const examsProvider: HaDataProviderType = {
+interface ExamFilter {
+  teacher_id?: string;
+  title?: string;
+  course_code?: string;
+  group_ref?: string[];
+  examination_date_from?: Date;
+  examination_date_to?: Date;
+}
+
+const examsProvider: HaDataProviderType<
+  Exam,
+  ExamFilter,
+  HaMeta,
+  CrupdateExam[]
+> = {
   getList: async (page, perPage, filter = {}) => {
     const {isAdmin, isManager, isTeacher} = useRole();
 
@@ -11,7 +26,7 @@ const examsProvider: HaDataProviderType = {
       isAdmin() || isManager()
         ? filter.teacher_id
         : isTeacher()
-          ? authProvider.getCachedWhoami().id
+          ? authProvider.getCachedWhoami().id!
           : undefined;
     return examApi()
       .getAllExams(
@@ -37,9 +52,7 @@ const examsProvider: HaDataProviderType = {
       .createOrUpdateExamsInfos(payload)
       .then((response) => [response.data]);
   },
-  delete: async () => {
-    throw new Error("Not implemented");
-  },
+  delete: notImplemented,
 };
 
 export default examsProvider;

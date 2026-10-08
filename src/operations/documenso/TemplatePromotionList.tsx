@@ -2,7 +2,12 @@ import {HaList} from "@/ui/haList";
 import {Promotion, TemplateDocumenso} from "@haapi-b0fc7615/typescript-client";
 import {Groups as PromotionIcon} from "@mui/icons-material";
 import type {MouseEvent} from "react";
-import {ShowButton, TextField, useRecordContext} from "react-admin";
+import {
+  ShowButton,
+  TextField,
+  useRecordContext,
+  WrapperField,
+} from "react-admin";
 import {GenerateDocumensoDocumentsButton} from "./GenerateDocumensoDocumentsButton";
 import {levelOfTemplate, promotionLabel} from "./utils";
 
@@ -12,7 +17,6 @@ const GeneratePromotionDocumentsButton = ({
   templateName,
 }: {
   templateName: string;
-  label?: string;
 }) => {
   const promotion = useRecordContext<Promotion & {id: string}>();
   if (!promotion) {
@@ -31,7 +35,6 @@ const SeeDocumentsButton = ({
   onSelectPromotion,
 }: {
   onSelectPromotion: SelectPromotion;
-  label?: string;
 }) => {
   const promotion = useRecordContext<Promotion & {id: string}>();
   if (!promotion) {
@@ -84,10 +87,9 @@ export const TemplatePromotionList = ({
     >
       <TextField source="ref" label="Référence" sortable={false} />
       <TextField source="name" label="Promotion" sortable={false} />
-      <GeneratePromotionDocumentsButton
-        templateName={templateTitle}
-        label="Générer"
-      />
+      <WrapperField label="Générer">
+        <GeneratePromotionDocumentsButton templateName={templateTitle} />
+      </WrapperField>
       <SeeDocumentsButton onSelectPromotion={onSelectPromotion} />
     </HaList>
   );

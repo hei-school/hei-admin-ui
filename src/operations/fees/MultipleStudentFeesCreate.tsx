@@ -4,25 +4,24 @@ import {createFeesApi} from "@/operations/fees/utils/feeFactory";
 import {Fee} from "@haapi-b0fc7615/typescript-client";
 import SaveIcon from "@mui/icons-material/Save";
 import {useState} from "react";
-import {Create, SimpleForm} from "react-admin";
+import {Create, SimpleForm, useUnselectAll} from "react-admin";
 import {StudentListWithBulkActions} from "../common/components";
 import {FloatingActionButton} from "../common/components/FloatingActionButton";
 
 interface MultipleStudentFeesCreateProps {}
 
-export default function MultipleStudentFeesCreate(
-  props: MultipleStudentFeesCreateProps
-) {
+const MultipleStudentFeesCreate = (props: MultipleStudentFeesCreateProps) => {
   const notify = useNotify();
+  const unselectAllStudents = useUnselectAll("students");
   const [studentsIds, setStudentsIds] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = async (fees: Fee) => {
+  const handleSubmit = (fees: Fee) => {
     setIsSubmitting(true);
     try {
-      const transformedFees = studentsIds
-        .map((studentId) => createFeesApi(fees, studentId))
-        .flat();
+      const transformedFees = studentsIds.flatMap((studentId) =>
+        createFeesApi(fees, studentId)
+      );
 
       return transformedFees;
     } catch (error) {
@@ -30,9 +29,8 @@ export default function MultipleStudentFeesCreate(
       throw error;
     } finally {
       setIsSubmitting(false);
-      /*TODO : search for another solution because this looks shitty */
       setStudentsIds([]);
-      localStorage.removeItem("RaStore.students.selectedIds");
+      unselectAllStudents();
     }
   };
 
@@ -76,4 +74,6 @@ export default function MultipleStudentFeesCreate(
       </SimpleForm>
     </Create>
   );
-}
+};
+
+export default MultipleStudentFeesCreate;

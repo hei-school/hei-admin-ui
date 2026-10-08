@@ -11,10 +11,12 @@ import {
   ClipboardList,
   ClipboardX,
 } from "lucide-react";
-import {FC, useState} from "react";
+import {useState} from "react";
 import {
   DateField,
   FunctionField,
+  Identifier,
+  RaRecord,
   TextField,
   useGetOne,
   useRecordContext,
@@ -33,7 +35,7 @@ const TOOLTIP_STYLE = {
   borderTop: "5px solid",
 };
 
-export const EventMissingList: FC = () => {
+export const EventMissingList = () => {
   const [selectedAbsence, setSelectedAbsence] =
     useState<EventAttendance | null>(null);
 
@@ -104,15 +106,15 @@ export const EventMissingList: FC = () => {
         }}
         mainSearch={{label: "Références", source: "studentRef"}}
         datagridProps={{
-          rowClick: (_id: any, _resource: string, record: EventAttendance) => {
-            setSelectedAbsence(record);
+          rowClick: (_id: Identifier, _resource: string, record: RaRecord) => {
+            setSelectedAbsence(record as EventAttendance);
             return false;
           },
-          rowStyle: (record: any) => ({
+          rowStyle: (record: EventAttendance) => ({
             borderLeft: "5px solid",
             padding: "0 !important",
             borderLeftColor:
-              record?.event?.groups[0]?.attributed_color ?? "#0000FF",
+              record?.event?.groups?.[0]?.attributed_color ?? "#0000FF",
             cursor: "pointer",
           }),
         }}
@@ -140,7 +142,7 @@ export const EventMissingList: FC = () => {
   );
 };
 
-const EventTypeItem: FC = () => {
+const EventTypeItem = () => {
   const record = useRecordContext<EventAttendance>();
   if (!record) return null;
   const typeColor =
@@ -162,21 +164,22 @@ const EventTypeItem: FC = () => {
   );
 };
 
-const AvatarGroup: FC = () => {
+const AvatarGroup = () => {
   const record = useRecordContext<EventAttendance>();
   const groupe = record?.event?.groups?.[0];
   if (!record) return null;
   return (
     <Avatar
-      children={groupe?.ref}
       sx={{
         backgroundColor: groupe?.attributed_color,
       }}
-    />
+    >
+      {groupe?.ref}
+    </Avatar>
   );
 };
 
-const CourseTooltip: FC = () => {
+const CourseTooltip = () => {
   const record = useRecordContext<EventAttendance>();
   if (!record) return null;
 
@@ -213,7 +216,7 @@ const CourseTooltip: FC = () => {
   );
 };
 
-const DateTooltip: FC = () => {
+const DateTooltip = () => {
   const record = useRecordContext<EventAttendance>();
   if (!record) return null;
 

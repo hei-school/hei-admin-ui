@@ -1,25 +1,38 @@
 import {
   CreateEvent,
+  Event,
   EventType,
   FrequencyScopeDay,
 } from "@haapi-b0fc7615/typescript-client";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {HaDataProviderType, HaMeta} from "./HaDataProviderType";
 import {eventsApi} from "./api";
 
-const eventProvider: HaDataProviderType = {
-  getList: async (
-    page: number,
-    perPage: number,
-    filter: {
-      from?: Date;
-      to?: Date;
-      event_type?: EventType;
-      title?: string;
-      group?: string;
-      teacher_id?: string;
-      group_ref?: [];
-    }
-  ) => {
+interface EventFilter {
+  from?: Date;
+  to?: Date;
+  event_type?: EventType;
+  title?: string;
+  group?: string;
+  teacher_id?: string;
+  group_ref?: string[];
+}
+
+type EventPayload = CreateEvent & {
+  recurrent?: {
+    recurrenceType: FrequencyScopeDay;
+    frequency: number;
+    startTime: string;
+    endTime: string;
+  };
+};
+
+const eventProvider: HaDataProviderType<
+  Event,
+  EventFilter,
+  HaMeta,
+  EventPayload[]
+> = {
+  getList: async (page: number, perPage: number, filter: EventFilter) => {
     return eventsApi()
       .getEvents(
         page,
@@ -39,18 +52,7 @@ const eventProvider: HaDataProviderType = {
       .getEventById(id)
       .then((response) => response.data);
   },
-  saveOrUpdate: async (
-    events: Array<
-      CreateEvent & {
-        recurrent?: {
-          recurrenceType: FrequencyScopeDay;
-          frequency: number;
-          startTime: string;
-          endTime: string;
-        };
-      }
-    >
-  ) => {
+  saveOrUpdate: async (events: EventPayload[]) => {
     const {recurrent, ...event} = events[0];
     return eventsApi()
       .crupdateEvents(

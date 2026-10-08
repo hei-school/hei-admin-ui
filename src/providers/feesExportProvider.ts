@@ -3,21 +3,27 @@ import {
   FeeStatusEnum,
 } from "@haapi-b0fc7615/typescript-client";
 import {payingApi} from "./api";
-import {HaDataProviderType} from "./HaDataProviderType";
+import {
+  HaDataProviderType,
+  HaFilter,
+  notImplemented,
+} from "./HaDataProviderType";
+import {ExportedFile} from "./types";
 
-const feesExportProvider: HaDataProviderType = {
-  getList: () => {
-    throw new Error("Function not implemented.");
-  },
-  getOne: async (
-    id: string,
-    filter: {
-      status: FeeStatusEnum;
-      fromDueDatetime: Date;
-      toDueDatetime: Date;
-      type?: AdvancedFeeStatisticsType;
-    }
-  ) => {
+interface FeesExportMeta {
+  status: FeeStatusEnum;
+  fromDueDatetime: Date;
+  toDueDatetime: Date;
+  type?: AdvancedFeeStatisticsType;
+}
+
+const feesExportProvider: HaDataProviderType<
+  ExportedFile<Blob | string>,
+  HaFilter,
+  FeesExportMeta
+> = {
+  getList: notImplemented,
+  getOne: async (id: string, filter: FeesExportMeta) => {
     const {status, fromDueDatetime, toDueDatetime, type} = filter;
     if (type) {
       return payingApi()
@@ -48,12 +54,8 @@ const feesExportProvider: HaDataProviderType = {
         file: res.data,
       }));
   },
-  saveOrUpdate: () => {
-    throw new Error("Function not implemented.");
-  },
-  delete: () => {
-    throw new Error("Function not implemented.");
-  },
+  saveOrUpdate: notImplemented,
+  delete: notImplemented,
 };
 
 export default feesExportProvider;

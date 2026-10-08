@@ -1,18 +1,55 @@
+import {asWindowFunction} from "./utils";
+
+// Signatures as seen by these tests: some cases deliberately pass invalid values.
+type GetObjValue = (obj: object, path: string) => unknown;
+type ExportData = (data: object[], headers: string[], fileName: string) => void;
+type CommentRenderer = (
+  comment: string,
+  totalMonthsNumber: number,
+  index: number
+) => string | null;
+type ImportValidation = {isValid: boolean; message: string};
+type ValidateData = (data: object[], headers: string[]) => ImportValidation;
+type PaymentTypeRenderer = (type: string) => {id: number | string} | undefined;
+type ValidateUserData = (data: object[]) => ImportValidation;
+type TransformUserData = (data: object[]) => Array<{
+  payment_frequency?: string;
+  student_refs?: string[];
+}>;
+type GetGenderInFr = (sex: string | null) => string;
+type TranslateWithSex = (value: string, sex: string) => string;
+type GetFeesStatusInFr = (status: string) => string;
+type StringifyObj = (value: unknown) => string;
+type RenderMoney = (amount: number | null | undefined) => string;
+type StyleGetterResult = {style: Partial<CSSStyleDeclaration>};
+type DayPropGetter = (date: Date) => StyleGetterResult;
+type EventStyleGetter = (event: {color?: string}) => StyleGetterResult;
+type CalendarEventLike = {
+  title: string;
+  start: Date | null;
+  end: Date | null;
+  description: string;
+  groupName: string;
+  color: string;
+};
+type TransformApiDataToCalendarEvents = (data: unknown) => CalendarEventLike[];
+
 describe("getObjValue utility function", () => {
   it("should return correct values for various paths", () => {
     cy.visit("/");
 
     cy.window()
       .should("have.property", "getObjValue")
-      .then((getObjValue: any) => {
+      .then((value: unknown) => {
+        const getObjValue = asWindowFunction<GetObjValue>(value);
         const obj = {a: {b: {c: 42}}, x: 0};
 
         expect(getObjValue(obj, "a.b.c")).to.eq(42);
         expect(getObjValue(obj, "a.b")).to.deep.eq({c: 42});
         expect(getObjValue(obj, "x")).to.eq(0);
-        expect(getObjValue(obj, "not.exist")).to.eq(undefined);
-        expect(getObjValue({}, "a.b")).to.eq(undefined);
-        expect(getObjValue({a: null}, "a.b")).to.eq(undefined);
+        expect(getObjValue(obj, "not.exist")).to.be.undefined;
+        expect(getObjValue({}, "a.b")).to.be.undefined;
+        expect(getObjValue({a: null}, "a.b")).to.be.undefined;
       });
   });
 });
@@ -23,7 +60,8 @@ describe("exportData utility function", () => {
 
     cy.window()
       .should("have.property", "exportData")
-      .then((exportData: any) => {
+      .then((value: unknown) => {
+        const exportData = asWindowFunction<ExportData>(value);
         const headers = ["id", "name", "status"];
         const data = [
           {id: 1, name: "Alice", status: "active"},
@@ -40,23 +78,26 @@ describe("commentRenderer utility function", () => {
 
     cy.window()
       .should("have.property", "commentRenderer")
-      .then((commentRenderer: any) => {
+      .then((value: unknown) => {
+        const commentRenderer = asWindowFunction<CommentRenderer>(value);
         expect(commentRenderer("Note", 9, 0)).to.eq("Note M1");
         expect(commentRenderer("Note", 9, 2)).to.eq("Note M3");
         expect(commentRenderer("Note", 12, 0)).to.eq("Note");
-        expect(commentRenderer("", 9, 0)).to.eq(null);
-        expect(commentRenderer("", 12, 0)).to.eq(null);
+        expect(commentRenderer("", 9, 0)).to.be.null;
+        expect(commentRenderer("", 12, 0)).to.be.null;
       });
   });
 });
 
 describe("validateData utility function", () => {
+  // Ignored since c59e024 ("test: failling test"): it fails and has not been fixed yet.
   it.skip("should validate data and cover all branches", () => {
     cy.visit("/");
 
     cy.window()
       .should("have.property", "validateData")
-      .then((validateData: any) => {
+      .then((value: unknown) => {
+        const validateData = asWindowFunction<ValidateData>(value);
         let result = validateData([], []);
         expect(result.isValid).to.eq(false);
         expect(result.message).to.contain("Il n'y a pas d'élément à insérer");
@@ -111,16 +152,18 @@ describe("paymentTypeRenderer utility function", () => {
 
     cy.window()
       .should("have.property", "paymentTypeRenderer")
-      .then((paymentTypeRenderer: any) => {
+      .then((value: unknown) => {
+        const paymentTypeRenderer =
+          asWindowFunction<PaymentTypeRenderer>(value);
         const result = paymentTypeRenderer("1");
         if (result) {
           expect(result).to.have.property("id");
           expect(result.id.toString()).to.eq("1");
         } else {
-          expect(result).to.eq(undefined);
+          expect(result).to.be.undefined;
         }
         const notFound = paymentTypeRenderer("999999");
-        expect(notFound).to.eq(undefined);
+        expect(notFound).to.be.undefined;
       });
   });
 });
@@ -130,9 +173,15 @@ describe("validateUserData and transformUserData utility functions", () => {
   it.skip("should validate and transform user data", () => {
     cy.visit("/");
 
-    cy.window().then((win: any) => {
+    cy.window().then((win) => {
       expect(win).to.have.property("validateUserData");
       expect(win).to.have.property("transformUserData");
+      const validateUserData = asWindowFunction<ValidateUserData>(
+        win.validateUserData
+      );
+      const transformUserData = asWindowFunction<TransformUserData>(
+        win.transformUserData
+      );
 
       const minimalUser = {
         ref: "r1",
@@ -142,10 +191,10 @@ describe("validateUserData and transformUserData utility functions", () => {
         entrance_datetime: 43831,
       };
 
-      let result = win.validateUserData([minimalUser]);
+      let result = validateUserData([minimalUser]);
       expect(result).to.have.property("isValid", true);
 
-      result = win.validateUserData([]);
+      result = validateUserData([]);
       expect(result).to.have.property("isValid", false);
 
       const data = [
@@ -156,7 +205,7 @@ describe("validateUserData and transformUserData utility functions", () => {
           student_refs: "A,B",
         },
       ];
-      const transformed = win.transformUserData(data);
+      const transformed = transformUserData(data);
       expect(transformed[0]).to.have.property("status");
       expect(transformed[0]).to.have.property("specialization_field");
       expect(transformed[0]).to.have.property("coordinates");
@@ -170,40 +219,55 @@ describe("typo_util functions", () => {
   it("should translate gender, status, fees status, and user role correctly", () => {
     cy.visit("/");
 
-    cy.window().then((win: any) => {
-      expect(win.getGenderInFr("M")).to.eq("Homme");
-      expect(win.getGenderInFr("F")).to.eq("Femme");
-      expect(win.getGenderInFr(null)).to.eq("Non défini.e");
-      expect(() => win.getGenderInFr("X")).to.throw();
-
-      expect(win.getUserStatusInFr("ENABLED", "F")).to.eq("Active");
-      expect(win.getUserStatusInFr("ENABLED", "M")).to.eq("Actif");
-      expect(win.getUserStatusInFr("SUSPENDED", "F")).to.eq("Suspendue");
-      expect(win.getUserStatusInFr("SUSPENDED", "M")).to.eq("Suspendu");
-      expect(win.getUserStatusInFr("DISABLED", "F")).to.eq("Quittée");
-      expect(win.getUserStatusInFr("DISABLED", "M")).to.eq("Quitté");
-      expect(() => win.getUserStatusInFr("UNKNOWN", "M")).to.throw();
-
-      expect(win.getFeesStatusInFr("LATE")).to.eq("En retard");
-      expect(win.getFeesStatusInFr("PAID")).to.eq("Payé");
-      expect(win.getFeesStatusInFr("UNPAID")).to.eq("En cours");
-      expect(win.getFeesStatusInFr("PENDING")).to.eq(
-        "En cours de vérification"
+    cy.window().then((win) => {
+      const getGenderInFr = asWindowFunction<GetGenderInFr>(win.getGenderInFr);
+      const getUserStatusInFr = asWindowFunction<TranslateWithSex>(
+        win.getUserStatusInFr
       );
-      expect(() => win.getFeesStatusInFr("UNKNOWN")).to.throw();
+      const getFeesStatusInFr = asWindowFunction<GetFeesStatusInFr>(
+        win.getFeesStatusInFr
+      );
+      const getUserRoleInFr = asWindowFunction<TranslateWithSex>(
+        win.getUserRoleInFr
+      );
 
-      expect(win.getUserRoleInFr("ADMIN", "M")).to.eq("Admin");
-      expect(win.getUserRoleInFr("MANAGER", "M")).to.eq("Manager");
-      expect(win.getUserRoleInFr("TEACHER", "F")).to.eq("Enseignante");
-      expect(win.getUserRoleInFr("TEACHER", "M")).to.eq("Enseignant");
-      expect(win.getUserRoleInFr("STUDENT", "F")).to.eq("Étudiante");
-      expect(win.getUserRoleInFr("STUDENT", "M")).to.eq("Étudiant");
-      expect(win.getUserRoleInFr("MONITOR", "F")).to.eq("Monitrice");
-      expect(win.getUserRoleInFr("MONITOR", "M")).to.eq("Moniteur");
-      expect(win.getUserRoleInFr("STAFF_MEMBER", "M")).to.eq("Staff");
-      expect(win.getUserRoleInFr("ORGANIZER", "F")).to.eq("Organisatrice");
-      expect(win.getUserRoleInFr("ORGANIZER", "M")).to.eq("Organisateur");
-      expect(() => win.getUserRoleInFr("UNKNOWN", "M")).to.throw();
+      expect(getGenderInFr("M")).to.eq("Homme");
+      expect(getGenderInFr("F")).to.eq("Femme");
+      expect(getGenderInFr(null)).to.eq("Non défini.e");
+      expect(() => getGenderInFr("X")).to.throw("Unknown gender");
+
+      expect(getUserStatusInFr("ENABLED", "F")).to.eq("Active");
+      expect(getUserStatusInFr("ENABLED", "M")).to.eq("Actif");
+      expect(getUserStatusInFr("SUSPENDED", "F")).to.eq("Suspendue");
+      expect(getUserStatusInFr("SUSPENDED", "M")).to.eq("Suspendu");
+      expect(getUserStatusInFr("DISABLED", "F")).to.eq("Quittée");
+      expect(getUserStatusInFr("DISABLED", "M")).to.eq("Quitté");
+      expect(() => getUserStatusInFr("UNKNOWN", "M")).to.throw(
+        "Unknown user status"
+      );
+
+      expect(getFeesStatusInFr("LATE")).to.eq("En retard");
+      expect(getFeesStatusInFr("PAID")).to.eq("Payé");
+      expect(getFeesStatusInFr("UNPAID")).to.eq("En cours");
+      expect(getFeesStatusInFr("PENDING")).to.eq("En cours de vérification");
+      expect(() => getFeesStatusInFr("UNKNOWN")).to.throw(
+        "Unknown fees status"
+      );
+
+      expect(getUserRoleInFr("ADMIN", "M")).to.eq("Admin");
+      expect(getUserRoleInFr("MANAGER", "M")).to.eq("Manager");
+      expect(getUserRoleInFr("TEACHER", "F")).to.eq("Enseignante");
+      expect(getUserRoleInFr("TEACHER", "M")).to.eq("Enseignant");
+      expect(getUserRoleInFr("STUDENT", "F")).to.eq("Étudiante");
+      expect(getUserRoleInFr("STUDENT", "M")).to.eq("Étudiant");
+      expect(getUserRoleInFr("MONITOR", "F")).to.eq("Monitrice");
+      expect(getUserRoleInFr("MONITOR", "M")).to.eq("Moniteur");
+      expect(getUserRoleInFr("STAFF_MEMBER", "M")).to.eq("Staff");
+      expect(getUserRoleInFr("ORGANIZER", "F")).to.eq("Organisatrice");
+      expect(getUserRoleInFr("ORGANIZER", "M")).to.eq("Organisateur");
+      expect(() => getUserRoleInFr("UNKNOWN", "M")).to.throw(
+        "Unknown user role"
+      );
     });
   });
 });
@@ -214,7 +278,8 @@ describe("stringifyObj utility function", () => {
 
     cy.window()
       .should("have.property", "stringifyObj")
-      .then((stringifyObj: any) => {
+      .then((value: unknown) => {
+        const stringifyObj = asWindowFunction<StringifyObj>(value);
         const obj = {a: 1, b: "test", c: [1, 2, 3]};
         expect(stringifyObj(obj)).to.eq(JSON.stringify(obj));
         expect(stringifyObj(null)).to.eq("null");
@@ -230,7 +295,8 @@ describe("renderMoney utility function", () => {
 
     cy.window()
       .should("have.property", "renderMoney")
-      .then((renderMoney: any) => {
+      .then((value: unknown) => {
+        const renderMoney = asWindowFunction<RenderMoney>(value);
         expect(renderMoney(1000)).to.match(/^1.000 Ar$/);
         expect(renderMoney(0)).to.eq("0 Ar");
         expect(renderMoney(undefined)).to.eq("Non défini.e");
@@ -245,7 +311,8 @@ describe("dayPropGetter basic coverage", () => {
 
     cy.window()
       .should("have.property", "dayPropGetter")
-      .then((dayPropGetter: any) => {
+      .then((value: unknown) => {
+        const dayPropGetter = asWindowFunction<DayPropGetter>(value);
         const sunday = new Date("2024-06-30");
         const res1 = dayPropGetter(sunday);
         expect(res1.style.display).to.eq("none");
@@ -263,7 +330,8 @@ describe("eventStyleGetter basic coverage", () => {
 
     cy.window()
       .should("have.property", "eventStyleGetter")
-      .then((eventStyleGetter: any) => {
+      .then((value: unknown) => {
+        const eventStyleGetter = asWindowFunction<EventStyleGetter>(value);
         const eventWithColor = {color: "#FF0000"};
         const res1 = eventStyleGetter(eventWithColor);
         expect(res1).to.have.property("style");
@@ -293,7 +361,9 @@ describe("transformApiDataToCalendarEvents basic coverage", () => {
 
     cy.window()
       .should("have.property", "transformApiDataToCalendarEvents")
-      .then((transformApiDataToCalendarEvents: any) => {
+      .then((value: unknown) => {
+        const transformApiDataToCalendarEvents =
+          asWindowFunction<TransformApiDataToCalendarEvents>(value);
         const res1 = transformApiDataToCalendarEvents("not-an-array");
         expect(res1).to.deep.eq([]);
 
@@ -327,12 +397,8 @@ describe("transformApiDataToCalendarEvents basic coverage", () => {
         expect(res4[0].title).to.contain("Introduction");
         expect(res4[0].title).to.contain("CS101");
 
-        expect(new Date(res4[0].start).toISOString()).to.eq(
-          "2024-07-01T08:00:00.000Z"
-        );
-        expect(new Date(res4[0].end).toISOString()).to.eq(
-          "2024-07-01T10:00:00.000Z"
-        );
+        expect(res4[0].start?.toISOString()).to.eq("2024-07-01T08:00:00.000Z");
+        expect(res4[0].end?.toISOString()).to.eq("2024-07-01T10:00:00.000Z");
 
         const eventOther = {
           id: "evt2",

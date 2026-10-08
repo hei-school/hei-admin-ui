@@ -2,7 +2,7 @@ import {Typography} from "@mui/material";
 
 export const renderWeightedAverage = (value: number | null | undefined) => {
   const numericValue = Number(value);
-  if (value == null || isNaN(numericValue)) {
+  if (value == null || Number.isNaN(numericValue)) {
     return (
       <Typography color="text.secondary" fontWeight="bold" fontSize="0.875rem">
         N/A
