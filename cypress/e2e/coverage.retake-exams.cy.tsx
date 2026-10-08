@@ -291,6 +291,85 @@ describe("Boutons de rattrapage (manager)", () => {
       .contains("button", "Invalider")
       .should("be.visible");
   });
+
+  it("exporte la liste des rattrapages de la matière (par cours)", () => {
+    cy.intercept(
+      "GET",
+      `/retake_exam_sessions/${SESSION_ID}/retake_exam_courses/${COURSE_ID}/retake_exam_participants/export`,
+      "FAKE-EXCEL-CONTENT"
+    ).as("exportCourseParticipants");
+
+    cy.window().then((win) => {
+      cy.spy(win.URL, "createObjectURL").as("createObjectURL");
+    });
+
+    cy.getByTestid("download-button").click();
+
+    cy.wait("@exportCourseParticipants")
+      .its("response.statusCode")
+      .should("eq", 200);
+    cy.contains("Exportation en cours...").should("be.visible");
+    cy.get("@createObjectURL").should("have.been.calledOnce");
+  });
+
+  it("notifie une erreur quand l'export de la matière échoue", () => {
+    cy.intercept(
+      "GET",
+      `/retake_exam_sessions/${SESSION_ID}/retake_exam_courses/${COURSE_ID}/retake_exam_participants/export`,
+      {statusCode: 500, body: {message: "Internal Server Error"}}
+    ).as("exportCourseParticipantsError");
+
+    cy.getByTestid("download-button").click();
+
+    cy.wait("@exportCourseParticipantsError")
+      .its("response.statusCode")
+      .should("eq", 500);
+    cy.contains(
+      "Une erreur est survenue lors de l'exportation du fichier."
+    ).should("be.visible");
+  });
+});
+
+describe("Export des rattrapages par session (manager)", () => {
+  it("exporte la liste des rattrapages de la session", () => {
+    cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
+    cy.intercept("GET", "/retake_exam_sessions?*", retakeExamSessionsMock).as(
+      "getRetakeExamSessions"
+    );
+    cy.intercept(
+      "GET",
+      `/retake_exam_sessions/${SESSION_ID}`,
+      retakeExamSession1Mock
+    ).as("getRetakeExamSession");
+    cy.intercept("GET", "/retake_exams?*", retakeExamParticipantsMock).as(
+      "getRetakeExams"
+    );
+    cy.intercept(
+      "GET",
+      `/retake_exam_sessions/${SESSION_ID}/retake_exam_courses?*`,
+      retakeExamCoursesMock
+    ).as("getRetakeExamCourses");
+    cy.intercept(
+      "GET",
+      `/retake_exam_sessions/${SESSION_ID}/retake_exam_participants/export`,
+      "FAKE-EXCEL-CONTENT"
+    ).as("exportSessionParticipants");
+
+    cy.window().then((win) => {
+      cy.spy(win.URL, "createObjectURL").as("createObjectURL");
+    });
+
+    cy.visit(`/retakeExams-sessions/${SESSION_ID}/show`);
+    cy.wait("@getRetakeExamCourses");
+
+    cy.getByTestid("download-button").click();
+
+    cy.wait("@exportSessionParticipants")
+      .its("response.statusCode")
+      .should("eq", 200);
+    cy.contains("Exportation en cours...").should("be.visible");
+    cy.get("@createObjectURL").should("have.been.calledOnce");
+  });
 });
 
 describe("Formulaire de session de rattrapage (manager)", () => {
