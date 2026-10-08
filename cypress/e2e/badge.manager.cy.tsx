@@ -249,6 +249,28 @@ describe("Manager handles the badge of a student", () => {
 });
 
 describe("Manager prints the badges of a group", () => {
+  const groupStudent = (index: number, status = "ENABLED") => ({
+    ...student1Mock,
+    id: `group_student${index}_id`,
+    ref: `STD26${String(index).padStart(3, "0")}`,
+    last_name: `Nom${String(index).padStart(3, "0")}`,
+    status,
+  });
+  const badgesPdfRoute = {method: "GET", pathname: "/students/badges/raw"};
+
+  const givenGroupStudents = (students: ReturnType<typeof groupStudent>[]) => {
+    cy.intercept(
+      "GET",
+      `**/groups/${group1Mock.id}/students?page=1&page_size=100*`,
+      students.slice(0, 100)
+    );
+    cy.intercept(
+      "GET",
+      `**/groups/${group1Mock.id}/students?page=2&page_size=100*`,
+      students.slice(100)
+    );
+  };
+
   beforeEach(() => {
     cy.intercept("GET", "/groups?*", groupsMock);
     cy.intercept("GET", `/groups/${group1Mock.id}`, group1Mock);
@@ -258,25 +280,89 @@ describe("Manager prints the badges of a group", () => {
     cy.visit(`/groups/${group1Mock.id}/show`);
   });
 
-  it("downloads the badges of the group", () => {
-    cy.intercept("GET", `**/students/badges/raw?group_id=${group1Mock.id}`, {
+  it("prints a group in one PDF, without the students who left the school", () => {
+    givenGroupStudents([
+      groupStudent(2),
+      groupStudent(1),
+      groupStudent(3, "DISABLED"),
+    ]);
+    cy.intercept(badgesPdfRoute, {
       body: PDF,
       headers: {"content-type": "application/pdf"},
     }).as("printGroupBadges");
 
     cy.getByTestid("group-badges-download").click();
 
-    cy.wait("@printGroupBadges");
-    cy.contains("Génération des badges en cours...").should("exist");
+    cy.wait("@printGroupBadges")
+      .its("request.query.student_ids")
+      .should("eq", "group_student1_id,group_student2_id");
+    cy.contains("Badges générés.").should("exist");
   });
 
-  it("tells when no badge is printed", () => {
-    cy.intercept("GET", `**/students/badges/raw?group_id=${group1Mock.id}`, {
-      statusCode: 400,
+  it("prints a big group in several PDFs of 30 badges", () => {
+    givenGroupStudents(
+      Array.from({length: 105}, (_, index) =>
+        groupStudent(index + 1, index === 0 ? "DISABLED" : "ENABLED")
+      )
+    );
+    const printedParts: number[] = [];
+    cy.intercept(badgesPdfRoute, (request) => {
+      printedParts.push(String(request.query.student_ids).split(",").length);
+      request.reply({body: PDF, headers: {"content-type": "application/pdf"}});
+    }).as("printGroupBadges");
+
+    cy.getByTestid("group-badges-download").click();
+
+    cy.contains("4 fichiers de badges générés.");
+    cy.wrap(printedParts).should("deep.equal", [30, 30, 30, 14]);
+  });
+
+  it("goes on when a part already has its badges", () => {
+    givenGroupStudents(
+      Array.from({length: 35}, (_, index) => groupStudent(index + 1))
+    );
+    let parts = 0;
+    cy.intercept(badgesPdfRoute, (request) => {
+      parts++;
+      request.reply(
+        parts === 1
+          ? {statusCode: 400, body: {}}
+          : {body: PDF, headers: {"content-type": "application/pdf"}}
+      );
     });
 
     cy.getByTestid("group-badges-download").click();
 
-    cy.contains("Aucun badge généré").should("exist");
+    cy.contains("Badges générés.").should("exist");
+  });
+
+  it("tells when every student already has a badge", () => {
+    givenGroupStudents([groupStudent(1)]);
+    cy.intercept(badgesPdfRoute, {statusCode: 400, body: {}});
+
+    cy.getByTestid("group-badges-download").click();
+
+    cy.contains(
+      "Aucun badge généré : tous les étudiants du groupe ont déjà un badge actif."
+    ).should("exist");
+  });
+
+  it("tells when no student of the group is still at the school", () => {
+    givenGroupStudents([groupStudent(1, "DISABLED")]);
+    cy.intercept(badgesPdfRoute, cy.spy().as("printGroupBadges"));
+
+    cy.getByTestid("group-badges-download").click();
+
+    cy.contains("Aucun étudiant du groupe n'est encore à l'école.");
+    cy.get("@printGroupBadges").should("not.have.been.called");
+  });
+
+  it("tells when the badges cannot be generated", () => {
+    givenGroupStudents([groupStudent(1)]);
+    cy.intercept(badgesPdfRoute, {statusCode: 500, body: {}});
+
+    cy.getByTestid("group-badges-download").click();
+
+    cy.contains("Erreur lors de la génération des badges.").should("exist");
   });
 });

@@ -22,18 +22,8 @@ import {
   downloadStudentBadge,
   getStudentActiveBadge,
   removeStudentBadge,
+  saveBadgesPdf,
 } from "../badgeApi";
-
-const saveFile = (data: ArrayBuffer, fileName: string) => {
-  const url = window.URL.createObjectURL(
-    new Blob([data], {type: "application/pdf"})
-  );
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = fileName;
-  link.click();
-  window.URL.revokeObjectURL(url);
-};
 
 export type BadgeMenuProps = {
   studentId: string;
@@ -68,7 +58,7 @@ export const BadgeMenu = ({studentId, studentRef}: BadgeMenuProps) => {
     notify("Génération du badge en cours...");
     try {
       const {data} = await downloadStudentBadge(studentId);
-      saveFile(data, `badge-${studentRef ?? studentId}.pdf`);
+      saveBadgesPdf(data, `badge-${studentRef ?? studentId}.pdf`);
       await loadActiveBadge();
     } catch {
       notify("Erreur lors de la génération du badge.", {type: "error"});
