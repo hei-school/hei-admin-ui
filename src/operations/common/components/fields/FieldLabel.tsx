@@ -12,6 +12,7 @@ export const FieldLabel = ({
   icon,
 }: Readonly<FieldLabelProps>) => (
   <Typography
+    component="span"
     color={PALETTE_COLORS.white}
     fontWeight="bold"
     variant="body2"
