@@ -1,9 +1,11 @@
 import {getAxiosInstance} from "@/config/axios";
-import {eventsApi} from "@/providers/api";
+import {eventsApi, groupsApi} from "@/providers/api";
 import authProvider from "@/providers/authProvider";
 import {
   AttendanceStatus,
+  EnableStatus,
   EventParticipant,
+  Student,
 } from "@haapi-b0fc7615/typescript-client";
 import {decryptBadge} from "./badgeCipher";
 
@@ -112,22 +114,88 @@ export const getTeacherEventsInProgress = async (teacherId: string) => {
     );
 };
 
-export const downloadGroupBadges = (groupId: string) =>
-  getAxiosInstance().get<ArrayBuffer>(`${API_URL}students/badges/raw`, {
-    headers: {...authHeaders(), Accept: "application/pdf"},
-    params: {group_id: groupId},
-    responseType: "arraybuffer",
-  });
-
 const UUID_PATTERN =
   /[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}/gi;
 
-export const downloadStudentBadge = (studentId: string) =>
+const downloadBadgesOf = (studentIds: string[]) =>
   getAxiosInstance().get<ArrayBuffer>(`${API_URL}students/badges/raw`, {
     headers: {...authHeaders(), Accept: "application/pdf"},
-    params: {student_ids: studentId},
+    params: {student_ids: studentIds.join(",")},
     responseType: "arraybuffer",
   });
+
+export const downloadStudentBadge = (studentId: string) =>
+  downloadBadgesOf([studentId]);
+
+export const saveBadgesPdf = (data: ArrayBuffer, fileName: string) => {
+  const url = window.URL.createObjectURL(
+    new Blob([data], {type: "application/pdf"})
+  );
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = fileName;
+  link.click();
+  window.URL.revokeObjectURL(url);
+};
+
+// A whole big group in one request would take longer than a request may last, and its PDF
+// could be too big for the API (the request stops after 30 s): one PDF per 30 students.
+export const BADGES_PER_FILE = 30;
+const GROUP_STUDENTS_PAGE_SIZE = 100;
+
+const byName = (a: Student, b: Student) =>
+  `${a.last_name ?? ""} ${a.first_name ?? ""} ${a.ref ?? ""}`.localeCompare(
+    `${b.last_name ?? ""} ${b.first_name ?? ""} ${b.ref ?? ""}`,
+    "fr",
+    {sensitivity: "base"}
+  );
+
+const groupStudentsOf = async (groupId: string) => {
+  const students: Student[] = [];
+  for (let page = 1; ; page++) {
+    const {data} = await groupsApi().getStudentsByGroupId(
+      groupId,
+      page,
+      GROUP_STUDENTS_PAGE_SIZE
+    );
+    students.push(...data);
+    if (data.length < GROUP_STUDENTS_PAGE_SIZE) return students;
+  }
+};
+
+export type GroupBadgesResult = {
+  /** students still at school, the API prints only those without active badge */
+  students: number;
+  files: number;
+};
+
+export const downloadGroupBadges = async (
+  groupId: string,
+  groupRef: string
+): Promise<GroupBadgesResult> => {
+  // a student who left the school gets no badge any more
+  const studentIds = (await groupStudentsOf(groupId))
+    .filter((student) => student.status !== EnableStatus.DISABLED)
+    .sort(byName)
+    .map((student) => student.id!);
+  const chunks: string[][] = [];
+  for (let start = 0; start < studentIds.length; start += BADGES_PER_FILE) {
+    chunks.push(studentIds.slice(start, start + BADGES_PER_FILE));
+  }
+  let files = 0;
+  for (const [index, ids] of chunks.entries()) {
+    try {
+      const {data} = await downloadBadgesOf(ids);
+      files++;
+      const part = chunks.length === 1 ? "" : `-${index + 1}`;
+      saveBadgesPdf(data, `badges-${groupRef}${part}.pdf`);
+    } catch (error) {
+      // 400: all the students of this part already have an active badge
+      if (httpStatusOf(error) !== 400) throw error;
+    }
+  }
+  return {students: studentIds.length, files};
+};
 
 const studentBadgeUrl = (studentId: string) =>
   `${API_URL}students/${encodeURIComponent(studentId)}/badge`;
