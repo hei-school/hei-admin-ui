@@ -13,6 +13,7 @@ import {
   useMediaQuery,
 } from "@mui/material";
 import {useRef} from "react";
+import {portraitPhoto} from "./portraitPhoto";
 
 import {PhotoCamera} from "@mui/icons-material";
 import {
@@ -24,7 +25,6 @@ import {
   useRecordContext,
 } from "react-admin";
 
-// the ImageInput wraps the chosen picture: the file itself is in rawFile
 interface ProfilePictureFormValues {
   profile_picture?: {rawFile?: File};
 }
@@ -92,6 +92,8 @@ const UploadPictureButton = ({
               source="profile_picture"
               label=" "
               accept="image/jpeg,image/png,image/webp"
+              helperText="Photo en portrait (plus haute que large)"
+              validate={portraitPhoto}
             >
               <ImageField source="src" title="title" />
             </ImageInput>

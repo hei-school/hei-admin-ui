@@ -23,7 +23,7 @@ const encrypt = async (payload: unknown, publicId: string) => {
 
 export const encryptedBadge =
   (publicId: string, payload: unknown) =>
-  (request: {reply: (body: unknown) => void}) =>
+  (request: {reply: (body: {payload: string}) => void}) =>
     encrypt(payload, publicId).then((encrypted) =>
       request.reply({payload: encrypted})
     );
