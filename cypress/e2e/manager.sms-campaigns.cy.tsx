@@ -18,6 +18,17 @@ import {
   smsLogPendingNoSourceMock,
 } from "../fixtures/api_mocks/sms-mocks";
 
+const expectCampaignRequestBody = (
+  body: Record<string, unknown>,
+  expectedFixedFields: Record<string, unknown>
+) => {
+  expect(body).to.deep.include(expectedFixedFields);
+  expect(body.sendAt, "sendAt").to.be.a("string");
+  expect(new Date(body.sendAt as string).getTime()).to.be.greaterThan(
+    Date.now() - 1000
+  );
+};
+
 describe("Manager.SmsCampaigns", () => {
   beforeEach(() => {
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
@@ -88,7 +99,6 @@ describe("Manager.SmsCampaigns", () => {
       creditsDebited: 2,
       status: "CREATED",
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.url().should("include", "/sms-campaigns/create");
 
@@ -101,12 +111,12 @@ describe("Manager.SmsCampaigns", () => {
     cy.getByTestid("sms-phone-chip-1").should("contain", "0341234568");
     cy.getByTestid("send-sms-campaign").click();
 
-    cy.wait("@createCampaign")
-      .its("request.body")
-      .should("deep.equal", {
+    cy.wait("@createCampaign").then((interception) =>
+      expectCampaignRequestBody(interception.request.body, {
         message: "Rappel de réunion",
         manualPhoneNumbers: ["0341234567", "0341234568"],
-      });
+      })
+    );
     cy.contains("Campagne envoyée à 2 destinataire(s)");
     cy.wait("@getCampaigns");
     cy.url().should("include", "/sms-campaigns");
@@ -123,7 +133,6 @@ describe("Manager.SmsCampaigns", () => {
       creditsDebited: 1,
       status: "CREATED",
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.get("#message").type("Rappel de réunion");
@@ -141,16 +150,15 @@ describe("Manager.SmsCampaigns", () => {
     cy.getByTestid("sms-phone-chip-0").should("contain", "0341234999");
     cy.getByTestid("send-sms-campaign").click();
 
-    cy.wait("@createCampaign")
-      .its("request.body")
-      .should("deep.equal", {
+    cy.wait("@createCampaign").then((interception) =>
+      expectCampaignRequestBody(interception.request.body, {
         message: "Rappel de réunion",
         manualPhoneNumbers: ["0341234999"],
-      });
+      })
+    );
   });
 
   it("rejects a manually typed number with an invalid prefix or length", () => {
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.getByTestid("sms-phone-number-input-manualPhoneNumbers").type(
@@ -184,7 +192,6 @@ describe("Manager.SmsCampaigns", () => {
   });
 
   it("enters a manually typed number with the numeric keypad", () => {
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.getByTestid("sms-phone-keypad-toggle-manualPhoneNumbers").click();
@@ -200,7 +207,6 @@ describe("Manager.SmsCampaigns", () => {
   });
 
   it("edits an existing manually typed number with the numeric keypad without prematurely confirming it", () => {
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.getByTestid("sms-phone-number-input-manualPhoneNumbers").type(
@@ -222,7 +228,6 @@ describe("Manager.SmsCampaigns", () => {
   });
 
   it("downloads the two distinct xlsx templates for the file recipient source", () => {
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-file").click();
     cy.getByTestid("download-sms-file-template-same-message").click();
@@ -241,7 +246,6 @@ describe("Manager.SmsCampaigns", () => {
       smsContact1Mock,
       smsContactMonitorMock,
     ]).as("searchContacts");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-contacts").click();
     cy.get("#message").type("Rappel de réunion");
@@ -284,7 +288,6 @@ describe("Manager.SmsCampaigns", () => {
       creditsDebited: 1,
       status: "CREATED",
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
 
     cy.getByTestid("sms-source-contacts").click();
@@ -296,12 +299,12 @@ describe("Manager.SmsCampaigns", () => {
       .click();
     cy.getByTestid("send-sms-campaign").click();
 
-    cy.wait("@createCampaign")
-      .its("request.body")
-      .should("deep.equal", {
+    cy.wait("@createCampaign").then((interception) =>
+      expectCampaignRequestBody(interception.request.body, {
         message: "Rappel de réunion",
         contactIds: [smsContact2Mock.id],
-      });
+      })
+    );
     cy.contains("Campagne envoyée à 1 destinataire(s)");
   });
 
@@ -319,7 +322,6 @@ describe("Manager.SmsCampaigns", () => {
       creditsDebited: 1,
       status: "CREATED",
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.wait("@getGroupsForPicker");
 
@@ -334,12 +336,12 @@ describe("Manager.SmsCampaigns", () => {
     cy.contains(smsContactGroup2Mock.name!).should("not.exist");
     cy.getByTestid("send-sms-campaign").click();
 
-    cy.wait("@createCampaign")
-      .its("request.body")
-      .should("deep.equal", {
+    cy.wait("@createCampaign").then((interception) =>
+      expectCampaignRequestBody(interception.request.body, {
         message: "Rappel de réunion",
         contactGroupIds: [smsContactGroup1Mock.id],
-      });
+      })
+    );
     cy.contains("Campagne envoyée à 1 destinataire(s)");
   });
 
@@ -354,7 +356,6 @@ describe("Manager.SmsCampaigns", () => {
         maxSendableRecipients: 0,
       },
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.get("#message").type("Rappel de réunion");
@@ -378,7 +379,6 @@ describe("Manager.SmsCampaigns", () => {
         maxSendableRecipients: 1,
       },
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.get("#message").type("Rappel de réunion");
@@ -400,7 +400,6 @@ describe("Manager.SmsCampaigns", () => {
         rejectedRows: [],
       },
     }).as("createCampaignByFile");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-file").click();
     cy.get(".RaFileInput-dropZone").attachFileToDropZone(
@@ -422,7 +421,6 @@ describe("Manager.SmsCampaigns", () => {
       creditsDebited: 0,
       status: "CREATED",
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.get("#message").type("Rappel de réunion");
@@ -441,7 +439,6 @@ describe("Manager.SmsCampaigns", () => {
     cy.intercept("POST", "/sms-campaigns/by-manual-numbers", {
       forceNetworkError: true,
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.get("#message").type("Rappel de réunion");
@@ -464,7 +461,6 @@ describe("Manager.SmsCampaigns", () => {
       creditsDebited: 1,
       status: "CREATED",
     }).as("createCampaign");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-manual").click();
     cy.get("#message").type("Rappel de réunion");
@@ -477,12 +473,12 @@ describe("Manager.SmsCampaigns", () => {
     cy.getByTestid("sms-phone-chip-0").should("contain", "0341234568");
     cy.getByTestid("send-sms-campaign").click();
 
-    cy.wait("@createCampaign")
-      .its("request.body")
-      .should("deep.equal", {
+    cy.wait("@createCampaign").then((interception) =>
+      expectCampaignRequestBody(interception.request.body, {
         message: "Rappel de réunion",
         manualPhoneNumbers: ["0341234568"],
-      });
+      })
+    );
   });
 
   it("groups contact search results by role without a linked suffix and shows an 'Autre' bucket", () => {
@@ -493,7 +489,6 @@ describe("Manager.SmsCampaigns", () => {
       smsContactMonitorMock,
       smsContactNoRoleMock,
     ]).as("searchContacts");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-contacts").click();
     cy.get("#message").type("Rappel de réunion");
@@ -511,7 +506,6 @@ describe("Manager.SmsCampaigns", () => {
   it("shows an empty state when a contact search returns no results", () => {
     cy.intercept("GET", "/sms-contact-groups?page=1&page_size=500", []);
     cy.intercept("GET", "/sms-contacts?search=*", []).as("searchContacts");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-contacts").click();
     cy.get("#message").type("Rappel de réunion");
@@ -557,7 +551,6 @@ describe("Manager.SmsCampaigns", () => {
       "/sms-contact-groups?page=1&page_size=500",
       smsContactGroupsMock
     ).as("getGroupsForPicker");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.wait("@getGroupsForPicker");
     cy.getByTestid("sms-contact-group-filter-input").type("x");
@@ -573,7 +566,6 @@ describe("Manager.SmsCampaigns", () => {
       "/sms-contact-groups?page=1&page_size=500",
       smsContactGroupsMock
     ).as("getGroupsForPicker");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.wait("@getGroupsForPicker");
     cy.getByTestid("sms-contact-group-filter-input").type(
@@ -617,7 +609,6 @@ describe("Manager.SmsCampaigns", () => {
       creditsDebited: null,
       status: "CREATED",
     }).as("createCampaignByFile");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-file").click();
     cy.get(".RaFileInput-dropZone").attachFileToDropZone(
@@ -643,7 +634,6 @@ describe("Manager.SmsCampaigns", () => {
         rejectedRows: [{row: 2, value: "abc", reason: "Numéro invalide"}],
       },
     }).as("createCampaignByFile");
-    cy.getByTestid("menu-list-action").click();
     cy.getByTestid("create-button").click();
     cy.getByTestid("sms-source-file").click();
     cy.get(".RaFileInput-dropZone").attachFileToDropZone(

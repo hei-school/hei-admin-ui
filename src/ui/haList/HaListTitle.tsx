@@ -30,6 +30,7 @@ interface HaListTitleProps {
   title?: ReactNode;
   icon?: ReactNode;
   actions?: ReactNode;
+  directActions?: ReactNode;
   mainSearch: HaMainSearchProps;
   filterIndicator?: boolean;
   filterButtons?: ReactNode;
@@ -39,6 +40,7 @@ export const HaListTitle = ({
   title,
   icon,
   actions,
+  directActions,
   mainSearch,
   filterIndicator,
   filterButtons = null,
@@ -88,6 +90,7 @@ export const HaListTitle = ({
             <HaMainSearch source={mainSearch.source} label={mainSearch.label} />
           </MainSearchContainer>
         )}
+        {directActions}
         {actions && (
           <Box
             data-testid="menu-list-action"

@@ -14,6 +14,7 @@ import {
 } from "@mui/material";
 import {useState} from "react";
 import {
+  DateTimeInput,
   FileField,
   FileInput,
   required,
@@ -68,6 +69,26 @@ const MessageInput = ({isRequired}: {isRequired: boolean}) => {
     </Box>
   );
 };
+
+const defaultSendAt = () => new Date(Date.now() + 5 * 60 * 1000);
+
+const mustBeAFutureDate = (value: unknown) => {
+  if (!value) return undefined;
+  const date = new Date(value as string);
+  if (Number.isNaN(date.getTime())) return "Date invalide";
+  return date.getTime() > Date.now()
+    ? undefined
+    : "La date d'envoi doit être dans le futur";
+};
+
+const SendAtInput = () => (
+  <DateTimeInput
+    source="sendAt"
+    label="Date et heure d'envoi"
+    validate={[required(), mustBeAFutureDate]}
+    fullWidth
+  />
+);
 
 const SmsCampaignFormToolbar = ({isLoading}: {isLoading: boolean}) => (
   <Toolbar>
@@ -189,6 +210,7 @@ const FileFields = () => (
 const SmsCampaignFormContent = ({source}: {source: SmsCampaignSource}) => (
   <>
     <MessageInput isRequired={source !== "file"} />
+    <SendAtInput />
     {source === "groups" && <GroupsFields />}
     {source === "contacts" && <ContactsFields />}
     {source === "manual" && <ManualNumbersFields />}
@@ -202,6 +224,7 @@ export const SmsCampaignCreate = () => {
   const [source, setSource] = useState<SmsCampaignSource>("groups");
 
   const handleSubmit = async (values: FieldValues) => {
+    const sendAt = new Date(values.sendAt);
     switch (source) {
       case "groups": {
         const contactGroups: SmsContactGroup[] = values.contactGroups ?? [];
@@ -209,6 +232,7 @@ export const SmsCampaignCreate = () => {
           source,
           message: values.message,
           contactGroupIds: contactGroups.map((group) => group.id!),
+          sendAt,
         });
         return;
       }
@@ -218,6 +242,7 @@ export const SmsCampaignCreate = () => {
           source,
           message: values.message,
           contactIds: contacts.map((contact) => contact.id!),
+          sendAt,
         });
         return;
       }
@@ -226,12 +251,18 @@ export const SmsCampaignCreate = () => {
           source,
           message: values.message,
           manualPhoneNumbers: values.manualPhoneNumbers ?? [],
+          sendAt,
         });
         return;
       case "file": {
         const file = extractFile(values.file);
         if (!file) return;
-        await send({source, message: values.message || undefined, file});
+        await send({
+          source,
+          message: values.message || undefined,
+          file,
+          sendAt,
+        });
       }
     }
   };
@@ -289,6 +320,7 @@ export const SmsCampaignCreate = () => {
             manualPhoneNumbers: [],
             contactGroups: [],
             contacts: [],
+            sendAt: defaultSendAt(),
           }}
           toolbar={<SmsCampaignFormToolbar isLoading={isLoading} />}
           sx={{p: 0}}

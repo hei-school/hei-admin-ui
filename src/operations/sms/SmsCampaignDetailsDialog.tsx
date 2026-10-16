@@ -12,6 +12,7 @@ import {
   SMS_CAMPAIGN_STATUS_COLOR,
   SMS_CAMPAIGN_STATUS_LABEL,
 } from "./SmsCampaignStatusChip";
+import {SmsMessageStatusChip} from "./SmsMessageStatusChip";
 import {SMS_RECIPIENT_SOURCE_LABEL} from "./constants";
 
 interface SmsCampaignDetailsDialogProps {
@@ -88,12 +89,26 @@ export const SmsCampaignDetailsDialog = ({
                 : "—"
             }
           />
+          <FunctionField
+            label="Statut"
+            render={() => (
+              <Box
+                sx={{display: "flex", justifyContent: "center", width: "100%"}}
+              >
+                <SmsMessageStatusChip />
+              </Box>
+            )}
+            textAlign="center"
+          />
           <DateField source="sentDatetime" label="Envoyé le" showTime />
+          <DateField source="deliveredDatetime" label="Livré le" showTime />
           {!!campaign.failedCount && (
             <FunctionField
               label="Motif d'échec"
               render={(log: SmsLog) =>
-                log.status === SmsMessageStatus.FAILED
+                log.status === SmsMessageStatus.FAILED ||
+                log.status === SmsMessageStatus.UNDELIVERABLE ||
+                log.status === SmsMessageStatus.BLOCKED
                   ? (log.failureReason ?? "—")
                   : ""
               }

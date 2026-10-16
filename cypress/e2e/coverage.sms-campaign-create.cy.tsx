@@ -20,6 +20,17 @@ import {
   navigateInApp,
 } from "../support/sms-coverage-helpers";
 
+const expectCampaignRequestBody = (
+  body: Record<string, unknown>,
+  expectedFixedFields: Record<string, unknown>
+) => {
+  expect(body).to.deep.include(expectedFixedFields);
+  expect(body.sendAt, "sendAt").to.be.a("string");
+  expect(new Date(body.sendAt as string).getTime()).to.be.greaterThan(
+    Date.now() - 1000
+  );
+};
+
 const PHONE_INPUT = "sms-phone-number-input-manualPhoneNumbers";
 const PHONE_HINT = "10 chiffres commençant par 032, 033, 034, 035, 037 ou 038";
 const PHONE_CHIPS = '[data-testid^="sms-phone-chip-"]';
@@ -366,12 +377,12 @@ describe("Coverage.SmsCampaignCreate", () => {
       fillManualCampaign();
       cy.getByTestid("send-sms-campaign").click();
       cy.getByTestid("send-sms-campaign").should("be.disabled");
-      cy.wait("@createCampaign")
-        .its("request.body")
-        .should("deep.equal", {
+      cy.wait("@createCampaign").then((interception) =>
+        expectCampaignRequestBody(interception.request.body, {
           message: "Campagne de test",
           manualPhoneNumbers: ["0341234567", "0321234567"],
-        });
+        })
+      );
       cy.contains(
         "Campagne envoyée à 1 destinataire(s) (1 non envoyés, solde insuffisant)"
       ).should("be.visible");
@@ -435,12 +446,12 @@ describe("Coverage.SmsCampaignCreate", () => {
       cy.contains(".MuiChip-root", pickerGroup2.name!).should("be.visible");
 
       cy.getByTestid("send-sms-campaign").click();
-      cy.wait("@createCampaign")
-        .its("request.body")
-        .should("deep.equal", {
+      cy.wait("@createCampaign").then((interception) =>
+        expectCampaignRequestBody(interception.request.body, {
           message: "Rappel promo",
           contactGroupIds: [pickerGroup1.id, pickerGroup2.id],
-        });
+        })
+      );
       cy.contains("Campagne envoyée à 6 destinataire(s)").should("be.visible");
     });
 
@@ -508,12 +519,12 @@ describe("Coverage.SmsCampaignCreate", () => {
       ).should("be.visible");
 
       cy.getByTestid("send-sms-campaign").click();
-      cy.wait("@createCampaign")
-        .its("request.body")
-        .should("deep.equal", {
+      cy.wait("@createCampaign").then((interception) =>
+        expectCampaignRequestBody(interception.request.body, {
           message: "Message contacts",
           contactIds: [smsCoverageSearchContactMock.id],
-        });
+        })
+      );
       cy.contains("Solde insuffisant pour ces contacts").should("be.visible");
     });
 
