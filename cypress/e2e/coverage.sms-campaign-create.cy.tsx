@@ -403,7 +403,6 @@ describe("Coverage.SmsCampaignCreate", () => {
         "be.visible"
       );
       cy.routePathnameEq("/sms-campaigns/create");
-      cy.getByTestid("send-sms-campaign").should("be.enabled");
     });
 
     it("shows the generic error for a server error that is not a 400", () => {

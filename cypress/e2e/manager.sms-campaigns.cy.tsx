@@ -392,7 +392,7 @@ describe("Manager.SmsCampaigns", () => {
 
   it("shows a generic rejection message when the file alert has no rejected rows", () => {
     cy.intercept("GET", "/sms-contact-groups?page=1&page_size=500", []);
-    cy.intercept("POST", "/sms-campaigns/by-file", {
+    cy.intercept("POST", "/sms-campaigns/by-file*", {
       statusCode: 400,
       body: {
         type: "SmsFileRowsRejectedAlert",
@@ -599,7 +599,7 @@ describe("Manager.SmsCampaigns", () => {
 
   it("creates a campaign from an uploaded file, sending only the file in the multipart body", () => {
     cy.intercept("GET", "/sms-contact-groups?page=1&page_size=500", []);
-    cy.intercept("POST", "/sms-campaigns/by-file", {
+    cy.intercept("POST", "/sms-campaigns/by-file*", {
       campaignId: "new_campaign_id",
       recipientCount: 2,
       recipientsRejected: 0,
@@ -626,7 +626,7 @@ describe("Manager.SmsCampaigns", () => {
 
   it("shows the rejected rows when the file is refused", () => {
     cy.intercept("GET", "/sms-contact-groups?page=1&page_size=500", []);
-    cy.intercept("POST", "/sms-campaigns/by-file", {
+    cy.intercept("POST", "/sms-campaigns/by-file*", {
       statusCode: 400,
       body: {
         type: "SmsFileRowsRejectedAlert",
