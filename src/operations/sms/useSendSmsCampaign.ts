@@ -9,10 +9,15 @@ import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 
 export type SendSmsCampaignInput =
-  | {source: "groups"; message: string; contactGroupIds: string[]}
-  | {source: "contacts"; message: string; contactIds: string[]}
-  | {source: "manual"; message: string; manualPhoneNumbers: string[]}
-  | {source: "file"; message?: string; file: File};
+  | {source: "groups"; message: string; contactGroupIds: string[]; sendAt: Date}
+  | {source: "contacts"; message: string; contactIds: string[]; sendAt: Date}
+  | {
+      source: "manual";
+      message: string;
+      manualPhoneNumbers: string[];
+      sendAt: Date;
+    }
+  | {source: "file"; message?: string; file: File; sendAt: Date};
 
 const launchCampaign = (input: SendSmsCampaignInput) => {
   switch (input.source) {
@@ -20,19 +25,26 @@ const launchCampaign = (input: SendSmsCampaignInput) => {
       return smsApi().createSmsCampaignByGroups({
         message: input.message,
         contactGroupIds: input.contactGroupIds,
+        sendAt: input.sendAt,
       });
     case "contacts":
       return smsApi().createSmsCampaignByContacts({
         message: input.message,
         contactIds: input.contactIds,
+        sendAt: input.sendAt,
       });
     case "manual":
       return smsApi().createSmsCampaignByManualNumbers({
         message: input.message,
         manualPhoneNumbers: input.manualPhoneNumbers,
+        sendAt: input.sendAt,
       });
     case "file":
-      return smsApi().createSmsCampaignByFile(input.file, input.message);
+      return smsApi().createSmsCampaignByFile(
+        input.sendAt,
+        input.file,
+        input.message
+      );
   }
 };
 
