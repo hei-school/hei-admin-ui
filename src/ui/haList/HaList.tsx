@@ -45,6 +45,7 @@ const DatagridWrapper = styled("div")({
 export interface HaListProps {
   title?: ReactNode;
   actions?: ReactNode;
+  directActions?: ReactNode;
   resource?: string;
   wrapperSx?: SxProps<Theme>;
   children?: ReactNode;
@@ -62,6 +63,7 @@ export interface HaListProps {
 export const HaList = ({
   title,
   actions,
+  directActions,
   resource,
   wrapperSx = {},
   children,
@@ -93,6 +95,7 @@ export const HaList = ({
         <Box>
           <HaListTitle
             actions={actions}
+            directActions={directActions}
             filterIndicator={filterIndicator}
             title={title}
             icon={icon}

@@ -3,15 +3,25 @@ import {Chip, ChipProps} from "@mui/material";
 import {useRecordContext} from "react-admin";
 
 const SMS_MESSAGE_STATUS_LABEL: Record<SmsMessageStatus, string> = {
-  [SmsMessageStatus.PENDING]: "En attente",
+  [SmsMessageStatus.SCHEDULED]: "Programmé",
+  [SmsMessageStatus.PROCESSING]: "Envoi en cours",
+  [SmsMessageStatus.ACCEPTED]: "Accepté par l'opérateur",
   [SmsMessageStatus.DELIVERED]: "Livré",
+  [SmsMessageStatus.UNDELIVERABLE]: "Non livré",
+  [SmsMessageStatus.BLOCKED]: "Bloqué",
   [SmsMessageStatus.FAILED]: "Échec",
+  [SmsMessageStatus.UNKNOWN]: "Inconnu",
 };
 
 const SMS_MESSAGE_STATUS_COLOR: Record<SmsMessageStatus, ChipProps["color"]> = {
-  [SmsMessageStatus.PENDING]: "warning",
+  [SmsMessageStatus.SCHEDULED]: "default",
+  [SmsMessageStatus.PROCESSING]: "warning",
+  [SmsMessageStatus.ACCEPTED]: "info",
   [SmsMessageStatus.DELIVERED]: "success",
+  [SmsMessageStatus.UNDELIVERABLE]: "error",
+  [SmsMessageStatus.BLOCKED]: "error",
   [SmsMessageStatus.FAILED]: "error",
+  [SmsMessageStatus.UNKNOWN]: "default",
 };
 
 export const SmsMessageStatusChip = () => {
@@ -19,9 +29,7 @@ export const SmsMessageStatusChip = () => {
   const status = record?.status as SmsMessageStatus | undefined;
 
   if (!status) {
-    return (
-      <Chip size="small" variant="outlined" label="Inconnu (envoi groupé)" />
-    );
+    return <Chip size="small" variant="outlined" label="Inconnu" />;
   }
 
   return (

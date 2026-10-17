@@ -117,7 +117,7 @@ export const smsLogPendingNoSourceMock: SmsLog = {
   id: "sms_log_pending_no_source_id",
   campaignId: smsCampaignFailedMock.id,
   phoneNumber: "0341234570",
-  status: SmsMessageStatus.PENDING,
+  status: SmsMessageStatus.PROCESSING,
   sentDatetime: new Date("2026-09-25T08:34:50Z"),
 };
 
