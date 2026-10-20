@@ -3,7 +3,7 @@ import {FeeRecord} from "@/operations/fees/hooks/useFeesToArchive";
 import {payingApi} from "@/providers/api";
 import {toApiIds} from "@/providers/feeProvider";
 import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
-import {ArchiveStatusEnum} from "@haapi-b0fc7615/typescript-client";
+import {ArchiveStatusEnum} from "@haapi-3d601c85/typescript-client";
 import UnarchiveIcon from "@mui/icons-material/Unarchive";
 import {
   Box,

@@ -1,7 +1,7 @@
 import {useToggle} from "@/hooks/useToggle";
 import {payingApi} from "@/providers/api";
 import {CONFIRM_DIALOG_Z_INDEX} from "@/ui/constants/common_styles";
-import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {PaymentStatus} from "@haapi-3d601c85/typescript-client";
 import {
   Box,
   Button,

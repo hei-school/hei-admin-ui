@@ -1,7 +1,7 @@
 import {useNotify, useToggle} from "@/hooks";
 import studentGroupFlowProvider from "@/providers/studentGroupFlowProvider";
 import {Dialog} from "@/ui/components";
-import {GroupFlow} from "@haapi-b0fc7615/typescript-client";
+import {GroupFlow} from "@haapi-3d601c85/typescript-client";
 import {Edit as EditIcon} from "@mui/icons-material";
 import {IconButton, Tooltip} from "@mui/material";
 import {useState} from "react";

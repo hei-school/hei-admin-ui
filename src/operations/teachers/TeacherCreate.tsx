@@ -1,4 +1,4 @@
-import {Teacher} from "@haapi-b0fc7615/typescript-client";
+import {Teacher} from "@haapi-3d601c85/typescript-client";
 import {DateInput, maxLength, SimpleForm, TextInput} from "react-admin";
 import {toISO} from "../../utils/date";
 import {Create, CreateGeoLocalisation} from "../common/components";

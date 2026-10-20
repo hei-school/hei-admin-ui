@@ -4,7 +4,7 @@ import {
   HaMeta,
   notImplemented,
 } from "@/providers/HaDataProviderType";
-import {CrupdateMonitor, Monitor} from "@haapi-b0fc7615/typescript-client";
+import {CrupdateMonitor, Monitor} from "@haapi-3d601c85/typescript-client";
 
 interface MonitorFilter {
   ref?: string;

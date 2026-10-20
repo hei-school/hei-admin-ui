@@ -8,7 +8,7 @@ import {useViewType} from "@/operations/docs/hooks/useViewType";
 import {useStudentRef} from "@/operations/fees/hooks/useStudentRef";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
-import {FileType, Student} from "@haapi-b0fc7615/typescript-client";
+import {FileType, Student} from "@haapi-3d601c85/typescript-client";
 import {Identifier, useGetOne} from "react-admin";
 import {useLocation, useParams} from "react-router-dom";
 import {getDocListTitle} from "../utils/doc-list-title";

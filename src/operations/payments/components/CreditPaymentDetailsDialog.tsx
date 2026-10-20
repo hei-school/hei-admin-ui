@@ -12,7 +12,7 @@ import {
 } from "@/operations/payments/components/PaymentStatusIcon";
 import {Dialog} from "@/ui/components";
 import {formatDate} from "@/utils/date";
-import {CreditPayment, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {CreditPayment, PaymentStatus} from "@haapi-3d601c85/typescript-client";
 import {Box, Chip} from "@mui/material";
 
 interface CreditPaymentDetailsDialogProps {

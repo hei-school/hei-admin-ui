@@ -1,4 +1,4 @@
-import {CreditPayment, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {CreditPayment, PaymentStatus} from "@haapi-3d601c85/typescript-client";
 import {payingApi} from "./api";
 import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 

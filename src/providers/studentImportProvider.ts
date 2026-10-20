@@ -1,5 +1,5 @@
 import {NOOP_ID} from "@/utils/constants";
-import {StudentImportValidationResult} from "@haapi-b0fc7615/typescript-client";
+import {StudentImportValidationResult} from "@haapi-3d601c85/typescript-client";
 import {v4 as uuidv4} from "uuid";
 import {usersApi} from "./api";
 import {

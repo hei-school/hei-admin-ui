@@ -1,7 +1,7 @@
 import {useNotify} from "@/hooks";
 import {DateTimeField} from "@/operations/common/components/fields";
 import {Dialog} from "@/ui/components";
-import {Event, UserIdentifier} from "@haapi-b0fc7615/typescript-client";
+import {Event, UserIdentifier} from "@haapi-3d601c85/typescript-client";
 import {Box} from "@mui/material";
 import {
   Edit,

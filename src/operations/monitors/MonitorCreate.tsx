@@ -2,7 +2,7 @@ import {Create, CreateGeoLocalisation} from "@/operations/common/components";
 import {SexRadioButton} from "@/operations/utils";
 import {MAX_ITEM_PER_PAGE} from "@/providers/dataProvider";
 import {toISO} from "@/utils/date";
-import {CrupdateMonitor} from "@haapi-b0fc7615/typescript-client";
+import {CrupdateMonitor} from "@haapi-3d601c85/typescript-client";
 import {
   AutocompleteArrayInput,
   DateInput,

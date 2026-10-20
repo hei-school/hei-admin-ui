@@ -1,7 +1,7 @@
 import {
   SmsContactOwnerRole,
   SmsRecipientSource,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 
 export const SMS_OWNER_ROLE_LABEL: Record<SmsContactOwnerRole, string> = {
   [SmsContactOwnerRole.ADMIN]: "Admin",

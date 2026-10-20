@@ -1,4 +1,4 @@
-import {GroupFlow, UpdateGroupFlow} from "@haapi-b0fc7615/typescript-client";
+import {GroupFlow, UpdateGroupFlow} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 

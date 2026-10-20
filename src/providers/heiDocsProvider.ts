@@ -1,4 +1,4 @@
-import {ShareInfo} from "@haapi-b0fc7615/typescript-client";
+import {ShareInfo} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {filesApi} from "./api";
 

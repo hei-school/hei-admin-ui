@@ -4,7 +4,7 @@ import {useToggle} from "@/hooks";
 import {Create} from "@/operations/common/components/Create";
 import {useRole} from "@/security/hooks";
 import {NOOP_FN} from "@/utils/noop";
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {
   Badge,
   Dialog,

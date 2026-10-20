@@ -1,4 +1,4 @@
-import {ResultSummary} from "@haapi-b0fc7615/typescript-client";
+import {ResultSummary} from "@haapi-3d601c85/typescript-client";
 import {v4 as uuid} from "uuid";
 import {gradesApi} from "./api";
 import {HaDataProviderType, notImplemented} from "./HaDataProviderType";

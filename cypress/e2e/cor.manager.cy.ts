@@ -1,5 +1,5 @@
 import {formatDate} from "@/utils/date";
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {corMock, corMock1} from "../fixtures/api_mocks/cor-mock";
 import {studentsMock} from "../fixtures/api_mocks/students-mocks";
 import {teachersMock} from "../fixtures/api_mocks/teachers-mocks";

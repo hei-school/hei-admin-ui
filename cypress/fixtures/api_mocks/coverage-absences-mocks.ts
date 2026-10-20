@@ -9,7 +9,7 @@ import {
   PlaceEnum,
   RoomEnum,
   StudentGlobalAttendance,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {student1Mock} from "./students-mocks";
 
 export const ABSENCE_PDF_URL = "https://files.hei.test/letters/absence.pdf";

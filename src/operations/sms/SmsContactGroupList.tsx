@@ -1,7 +1,7 @@
 import {DeleteWithConfirm} from "@/operations/common/components";
 import {HaList} from "@/ui/haList/HaList";
 import {HaActionWrapper} from "@/ui/haToolbar";
-import {SmsContactGroup} from "@haapi-b0fc7615/typescript-client";
+import {SmsContactGroup} from "@haapi-3d601c85/typescript-client";
 import {
   Add,
   Group as MembersIcon,

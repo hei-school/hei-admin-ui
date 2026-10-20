@@ -1,6 +1,6 @@
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList/HaList";
-import {GroupFlow} from "@haapi-b0fc7615/typescript-client";
+import {GroupFlow} from "@haapi-3d601c85/typescript-client";
 import {SwapHoriz} from "@mui/icons-material";
 import {Box, Chip} from "@mui/material";
 import {DateField, FunctionField, useGetOne} from "react-admin";

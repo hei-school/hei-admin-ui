@@ -57,7 +57,7 @@ import studentProvider from "@/providers/studentProvider";
 import teacherProvider from "@/providers/teacherProvider";
 import templatePromotionsProvider from "@/providers/templatePromotionsProvider";
 import usersLettersProvider from "@/providers/usersLettersProvider";
-import {EnableStatus} from "@haapi-b0fc7615/typescript-client";
+import {EnableStatus} from "@haapi-3d601c85/typescript-client";
 import {
   CreateParams,
   CreateResult,

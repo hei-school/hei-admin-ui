@@ -1,4 +1,4 @@
-import {TemplateDocumenso} from "@haapi-b0fc7615/typescript-client";
+import {TemplateDocumenso} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {documensoApi} from "./api";
 

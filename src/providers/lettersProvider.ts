@@ -2,7 +2,7 @@ import {
   Letter,
   LetterStatus,
   RoleEnum,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {lettersApi} from "./api";
 import authProvider from "./authProvider";
 import {HaDataProviderType, notImplemented} from "./HaDataProviderType";

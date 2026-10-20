@@ -3,7 +3,7 @@ import {
   notImplemented,
 } from "@/providers/HaDataProviderType";
 import {retakeExamApi} from "@/providers/api";
-import {StudentRetakeExam} from "@haapi-b0fc7615/typescript-client";
+import {StudentRetakeExam} from "@haapi-3d601c85/typescript-client";
 
 interface RetakeExamParticipantFilter {
   sessionId: string;

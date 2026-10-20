@@ -1,4 +1,4 @@
-import {CreateComment} from "@haapi-b0fc7615/typescript-client";
+import {CreateComment} from "@haapi-3d601c85/typescript-client";
 import {Add as AddIcon} from "@mui/icons-material";
 import {Box, Button, Dialog} from "@mui/material";
 import {Create, SimpleForm, TextInput} from "react-admin";

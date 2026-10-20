@@ -1,7 +1,7 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import correctGradeProvider from "@/providers/correctGradeProvider";
 import {Dialog} from "@/ui/components";
-import {GradeHistory} from "@haapi-b0fc7615/typescript-client";
+import {GradeHistory} from "@haapi-3d601c85/typescript-client";
 import {History as HistoryIcon} from "@mui/icons-material";
 import {Alert, Box, CircularProgress, Typography} from "@mui/material";
 import {useEffect, useState} from "react";

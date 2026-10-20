@@ -1,4 +1,4 @@
-import {Promotion, TemplateDocumenso} from "@haapi-b0fc7615/typescript-client";
+import {Promotion, TemplateDocumenso} from "@haapi-3d601c85/typescript-client";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import {FileSignature, Home, Users} from "lucide-react";
 import {useState} from "react";

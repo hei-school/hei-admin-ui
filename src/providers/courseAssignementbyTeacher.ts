@@ -1,4 +1,4 @@
-import {CourseAssignment} from "@haapi-b0fc7615/typescript-client";
+import {CourseAssignment} from "@haapi-3d601c85/typescript-client";
 import {coursesApi} from "./api";
 import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 

@@ -1,7 +1,7 @@
 import {PALETTE_COLORS} from "@/haTheme";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
-import {Exam} from "@haapi-b0fc7615/typescript-client";
+import {Exam} from "@haapi-3d601c85/typescript-client";
 import {
   Close as CloseIcon,
   EditOutlined as EditIcon,

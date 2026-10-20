@@ -1,4 +1,4 @@
-import {LetterStatus, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {LetterStatus, WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {pendingLettersMock} from "../fixtures/api_mocks/coverage-grades-mocks";
 import {statsMocks} from "../fixtures/api_mocks/letters-mocks";
 

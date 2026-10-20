@@ -2,7 +2,7 @@ import ExcelIcon from "@/assets/xls.png";
 import {useNotify, useToggle} from "@/hooks";
 import {FileDownloader} from "@/operations/common/components";
 import {FileUploadDialog} from "@/operations/common/components/FileUploadDialog";
-import {ImportGradeResult} from "@haapi-b0fc7615/typescript-client";
+import {ImportGradeResult} from "@haapi-3d601c85/typescript-client";
 import {Download, Upload} from "@mui/icons-material";
 import {IMPORT_CHOICES} from "../utils";
 import {ImportResultDialog} from "./ImportResultDialog";

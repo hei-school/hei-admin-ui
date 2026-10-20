@@ -1,4 +1,4 @@
-import {ImportGradeResult} from "@haapi-b0fc7615/typescript-client";
+import {ImportGradeResult} from "@haapi-3d601c85/typescript-client";
 import CloseIcon from "@mui/icons-material/Close";
 import {
   Alert,

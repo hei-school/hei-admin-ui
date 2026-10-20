@@ -1,6 +1,6 @@
 import {ToRaRecord} from "@/operations/common/utils/types";
 import {useRole} from "@/security/hooks/useRole";
-import {Student} from "@haapi-b0fc7615/typescript-client";
+import {Student} from "@haapi-3d601c85/typescript-client";
 import {useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";
 import FeeList from "./FeeList";

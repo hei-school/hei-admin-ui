@@ -4,7 +4,7 @@ import {
   Letter,
   LetterStatus,
   StudentGrade,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {studentsMock} from "./students-mocks";
 
 export const COVERAGE_EXAM_ID = "exam1_id";

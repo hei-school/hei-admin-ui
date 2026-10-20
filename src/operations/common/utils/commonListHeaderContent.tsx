@@ -1,4 +1,4 @@
-import {StatisticsDetails} from "@haapi-b0fc7615/typescript-client";
+import {StatisticsDetails} from "@haapi-3d601c85/typescript-client";
 import {
   School as AlumniIcon,
   PersonOff as DisabledIcon,

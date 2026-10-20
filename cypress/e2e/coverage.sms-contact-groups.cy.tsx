@@ -2,7 +2,7 @@ import {
   SmsContactGroup,
   SmsContactGroupDetail,
   WhoamiRoleEnum,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {admin1Mock} from "../fixtures/api_mocks/admins-mock";
 import {
   smsCoverageBareMemberMock,

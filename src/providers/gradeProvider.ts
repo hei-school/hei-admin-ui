@@ -7,7 +7,7 @@ import {
   CourseResult,
   StudentLevel,
   YearlyResult,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {v4 as uuid} from "uuid";
 
 interface GradeFilter {

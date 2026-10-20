@@ -1,4 +1,4 @@
-import {SmsCampaignStatus} from "@haapi-b0fc7615/typescript-client";
+import {SmsCampaignStatus} from "@haapi-3d601c85/typescript-client";
 import {Button, ButtonProps, Stack} from "@mui/material";
 import {useListContext} from "react-admin";
 import {SMS_CAMPAIGN_STATUS_LABEL} from "./SmsCampaignStatusChip";

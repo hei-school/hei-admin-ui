@@ -1,7 +1,7 @@
 import {DateField} from "@/operations/common/components/fields";
 import {ExamGradeListActions} from "@/operations/grades/components";
 import {HaList} from "@/ui/haList";
-import {Grade, Student} from "@haapi-b0fc7615/typescript-client";
+import {Grade, Student} from "@haapi-3d601c85/typescript-client";
 import {Book} from "@mui/icons-material";
 import {FunctionField, TextField} from "react-admin";
 import {GradeEditButton} from "./GradeEditButton";

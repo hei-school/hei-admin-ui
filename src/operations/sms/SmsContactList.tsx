@@ -1,6 +1,6 @@
 import {DeleteWithConfirm} from "@/operations/common/components";
 import {HaList} from "@/ui/haList/HaList";
-import {SmsContact} from "@haapi-b0fc7615/typescript-client";
+import {SmsContact} from "@haapi-3d601c85/typescript-client";
 import {Contacts as SmsContactIcon} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {Datagrid, FunctionField, TextField, useListContext} from "react-admin";

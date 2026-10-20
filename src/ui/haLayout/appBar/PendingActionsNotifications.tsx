@@ -18,7 +18,7 @@ import {useFeesToArchive} from "@/operations/fees/hooks/useFeesToArchive";
 import {
   PaymentStatus,
   RetakeExamStatus,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 
 const CREDIT_COLOR = "#10B981";
 const ARCHIVE_COLOR = "#3B82F6";
