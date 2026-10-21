@@ -1,6 +1,6 @@
 import {HaList} from "@/ui/haList";
 import {NOOP_ID} from "@/utils/constants";
-import {EventAttendance} from "@haapi-b0fc7615/typescript-client";
+import {EventAttendance} from "@haapi-3d601c85/typescript-client";
 import {alpha, Avatar, Box, Chip, Tooltip, Typography} from "@mui/material";
 import {
   CalendarCheck2,

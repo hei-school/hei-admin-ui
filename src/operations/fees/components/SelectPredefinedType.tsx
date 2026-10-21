@@ -1,5 +1,5 @@
 import {ToRaRecord} from "@/operations/common/utils/types";
-import {FeeTemplate} from "@haapi-b0fc7615/typescript-client";
+import {FeeTemplate} from "@haapi-3d601c85/typescript-client";
 import {ChangeEvent} from "react";
 import {
   RaRecord,

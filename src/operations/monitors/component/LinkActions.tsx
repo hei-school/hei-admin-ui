@@ -1,4 +1,4 @@
-import {MonitorStudentLinkStatus} from "@haapi-b0fc7615/typescript-client";
+import {MonitorStudentLinkStatus} from "@haapi-3d601c85/typescript-client";
 import CancelIcon from "@mui/icons-material/Cancel";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
 import {IconButton, Stack, Tooltip} from "@mui/material";

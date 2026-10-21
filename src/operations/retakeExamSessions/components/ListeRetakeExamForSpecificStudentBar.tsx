@@ -1,6 +1,6 @@
 import authProvider from "@/providers/authProvider";
 import {AlertBar} from "@/ui/components";
-import {CourseResultStatus} from "@haapi-b0fc7615/typescript-client";
+import {CourseResultStatus} from "@haapi-3d601c85/typescript-client";
 import {AlertCircle} from "lucide-react";
 
 export const ListRetakeExamsForStudentSpecificBar = ({

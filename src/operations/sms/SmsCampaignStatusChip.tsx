@@ -1,4 +1,4 @@
-import {SmsCampaignStatus} from "@haapi-b0fc7615/typescript-client";
+import {SmsCampaignStatus} from "@haapi-3d601c85/typescript-client";
 import {Chip, ChipProps} from "@mui/material";
 import {useRecordContext} from "react-admin";
 

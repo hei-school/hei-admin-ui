@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import {Whoami, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {Whoami, WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import "cypress-file-upload";
 import {
   getUserConnected,

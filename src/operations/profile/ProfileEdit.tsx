@@ -4,7 +4,7 @@ import {
   StaffMember,
   Student,
   WhoamiRoleEnum,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {DateInput, SimpleForm, TextInput, maxLength} from "react-admin";
 import {useRole} from "../../security/hooks";
 import {toUTC} from "../../utils/date";

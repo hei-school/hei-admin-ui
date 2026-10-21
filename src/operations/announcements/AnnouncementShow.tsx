@@ -1,5 +1,5 @@
 import {useNotify} from "@/hooks";
-import {AnnouncementAuthor} from "@haapi-b0fc7615/typescript-client";
+import {AnnouncementAuthor} from "@haapi-3d601c85/typescript-client";
 import {ThumbUpAlt, ThumbUpOffAlt} from "@mui/icons-material";
 import {
   Avatar,

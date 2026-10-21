@@ -1,4 +1,4 @@
-import {UpdateEventParticipant} from "@haapi-b0fc7615/typescript-client";
+import {UpdateEventParticipant} from "@haapi-3d601c85/typescript-client";
 import * as XLSX from "xlsx";
 import {
   blockUnmockedApi,

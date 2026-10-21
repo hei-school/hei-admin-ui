@@ -1,4 +1,4 @@
-import {Fee} from "@haapi-b0fc7615/typescript-client";
+import {Fee} from "@haapi-3d601c85/typescript-client";
 import {Help as Question} from "@mui/icons-material";
 import {IconButton, Tooltip} from "@mui/material";
 import {useRecordContext} from "react-admin";

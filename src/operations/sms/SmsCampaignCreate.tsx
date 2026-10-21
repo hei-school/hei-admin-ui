@@ -1,5 +1,5 @@
 import {FILE_FIELD_STYLE} from "@/operations/common/components/FileUploadDialog";
-import {SmsContact, SmsContactGroup} from "@haapi-b0fc7615/typescript-client";
+import {SmsContact, SmsContactGroup} from "@haapi-3d601c85/typescript-client";
 import {
   Download as DownloadIcon,
   Campaign as SmsCampaignIcon,

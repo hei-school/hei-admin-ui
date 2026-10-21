@@ -1,5 +1,5 @@
 import {mapToChoices} from "@/utils";
-import {SpecializationField} from "@haapi-b0fc7615/typescript-client";
+import {SpecializationField} from "@haapi-3d601c85/typescript-client";
 import {SelectInput, SelectInputProps, required} from "react-admin";
 
 export const SPECIALIZATION_VALUE: Record<SpecializationField, string> = {

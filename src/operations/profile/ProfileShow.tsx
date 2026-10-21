@@ -7,7 +7,7 @@ import {GetCertificate} from "@/operations/students/components";
 import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {COMMON_OUTLINED_BUTTON_PROPS} from "@/ui/constants/common_styles";
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {CloudDownload} from "@mui/icons-material";
 import {Box, Button} from "@mui/material";
 import {useState} from "react";

@@ -5,7 +5,7 @@ import {
   MigrateButton,
 } from "@/operations/common/components/resource-flows";
 import {HaList} from "@/ui/haList";
-import {Group, Promotion} from "@haapi-b0fc7615/typescript-client";
+import {Group, Promotion} from "@haapi-3d601c85/typescript-client";
 import {Download, GroupsOutlined} from "@mui/icons-material";
 import {
   ShowButton,

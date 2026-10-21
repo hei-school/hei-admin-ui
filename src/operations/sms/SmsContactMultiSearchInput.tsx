@@ -1,4 +1,4 @@
-import {SmsContact} from "@haapi-b0fc7615/typescript-client";
+import {SmsContact} from "@haapi-3d601c85/typescript-client";
 import {Box, Chip, TextField} from "@mui/material";
 import {FieldTitle, useInput, Validator} from "react-admin";
 import {SmsContactSearchResults} from "./SmsContactSearchResults";

@@ -8,7 +8,7 @@ import {
   StudentLevel,
   StudentRetakeExam,
   UserIdentifier,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {courseMocks} from "./course-mocks";
 import {studentsMock} from "./students-mocks";
 

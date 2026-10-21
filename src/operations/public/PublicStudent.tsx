@@ -13,7 +13,7 @@ import {
 import authProvider from "@/providers/authProvider";
 import {getRedirectUrl, goToExternalURL} from "@/security/casdoorSetting";
 import {rememberRedirectAfterLogin} from "@/security/redirectAfterLogin";
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {CircularProgress} from "@mui/material";
 import {ReactNode, useEffect, useState} from "react";
 import {useLocation, useNavigate} from "react-router-dom";

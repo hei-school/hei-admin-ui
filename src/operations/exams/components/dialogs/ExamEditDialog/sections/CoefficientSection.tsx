@@ -1,5 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {Exam} from "@haapi-b0fc7615/typescript-client";
+import {Exam} from "@haapi-3d601c85/typescript-client";
 import {Alert, AlertTitle, Box, Typography} from "@mui/material";
 import {NumberInput, required} from "react-admin";
 import {EXAM_ALERTS, EXAM_FORM_LABELS} from "../../../../utils/constants";

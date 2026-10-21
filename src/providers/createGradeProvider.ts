@@ -6,7 +6,7 @@ import {
   HaMeta,
   notImplemented,
 } from "@/providers/HaDataProviderType";
-import {CreateGrade, Grade} from "@haapi-b0fc7615/typescript-client";
+import {CreateGrade, Grade} from "@haapi-3d601c85/typescript-client";
 
 const createGradeProvider: HaDataProviderType<
   Grade,

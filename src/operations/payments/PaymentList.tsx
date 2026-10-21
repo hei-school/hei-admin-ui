@@ -5,7 +5,7 @@ import {PaymentStatusIcon} from "@/operations/payments/components/PaymentStatusI
 import {GetReceipt} from "@/operations/students/components";
 import {paymentTypeRenderer} from "@/operations/utils/index";
 import {useRole} from "@/security/hooks/index";
-import {Payment} from "@haapi-b0fc7615/typescript-client";
+import {Payment} from "@haapi-3d601c85/typescript-client";
 import {List} from "@react-admin/ra-rbac";
 import {
   CreateButton,

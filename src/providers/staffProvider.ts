@@ -2,7 +2,7 @@ import {
   EnableStatus,
   Sex,
   StaffMember,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {usersApi} from "./api";
 import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 

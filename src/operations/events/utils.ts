@@ -1,5 +1,5 @@
 import {mapToChoices} from "@/utils";
-import {Event, PlaceEnum, RoomEnum} from "@haapi-b0fc7615/typescript-client";
+import {Event, PlaceEnum, RoomEnum} from "@haapi-3d601c85/typescript-client";
 
 export const EVENT_TYPE_VALUE = {
   COURSE: "Cours",

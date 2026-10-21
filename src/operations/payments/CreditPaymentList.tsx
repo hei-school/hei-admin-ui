@@ -4,7 +4,7 @@ import {CreditPaymentDetailsDialog} from "@/operations/payments/components/Credi
 import {CreditPaymentStatusFilterButtons} from "@/operations/payments/components/CreditPaymentStatusFilterButtons";
 import {PaymentStatusIcon} from "@/operations/payments/components/PaymentStatusIcon";
 import {HaList} from "@/ui/haList/HaList";
-import {Fee, Payment, PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {Fee, Payment, PaymentStatus} from "@haapi-3d601c85/typescript-client";
 import {AccountBalanceWallet as CreditIcon} from "@mui/icons-material";
 import {Box, Typography} from "@mui/material";
 import {useState} from "react";

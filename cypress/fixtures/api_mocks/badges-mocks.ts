@@ -1,4 +1,4 @@
-import {Event, EventParticipant} from "@haapi-b0fc7615/typescript-client";
+import {Event, EventParticipant} from "@haapi-3d601c85/typescript-client";
 import type {
   BadgeAttendance,
   PublicStudent,

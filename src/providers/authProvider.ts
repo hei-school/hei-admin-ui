@@ -9,7 +9,7 @@ import {
   Configuration,
   SecurityApi,
   Whoami,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {Amplify} from "aws-amplify";
 import axios, {AxiosResponse} from "axios";
 import {UserIdentity} from "react-admin";

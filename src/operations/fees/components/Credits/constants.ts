@@ -1,4 +1,4 @@
-import {CreditTransactionType} from "@haapi-b0fc7615/typescript-client";
+import {CreditTransactionType} from "@haapi-3d601c85/typescript-client";
 
 export const CREDIT_TRANSACTION_TYPE_LABEL: Record<
   CreditTransactionType,

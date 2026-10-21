@@ -1,6 +1,6 @@
 import authProvider from "@/providers/authProvider";
 import {HaList} from "@/ui/haList";
-import {RetakeExam} from "@haapi-b0fc7615/typescript-client";
+import {RetakeExam} from "@haapi-3d601c85/typescript-client";
 import {BookOpenIcon} from "lucide-react";
 import {DateField, TextField, useGetList, useGetOne} from "react-admin";
 import {useParams} from "react-router-dom";

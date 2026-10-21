@@ -1,4 +1,4 @@
-import {DocumensoDocumentStatus} from "@haapi-b0fc7615/typescript-client";
+import {DocumensoDocumentStatus} from "@haapi-3d601c85/typescript-client";
 import {Button, ButtonProps, Stack} from "@mui/material";
 import {useListContext} from "react-admin";
 

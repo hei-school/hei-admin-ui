@@ -1,4 +1,4 @@
-import {Comment} from "@haapi-b0fc7615/typescript-client";
+import {Comment} from "@haapi-3d601c85/typescript-client";
 import {Box, CircularProgress, Typography} from "@mui/material";
 import {useEffect, useRef, useState} from "react";
 import {Link, useGetList} from "react-admin";

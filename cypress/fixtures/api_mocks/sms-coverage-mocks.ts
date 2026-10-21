@@ -8,7 +8,7 @@ import {
   SmsContactOwnerRole,
   SmsFileRowsRejectedAlert,
   SmsInsufficientBalanceAlert,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {admin1Mock} from "./admins-mock";
 
 export const smsCoverageLaunchedMock = (

@@ -1,5 +1,5 @@
 import {mapToChoices} from "@/utils";
-import {WorkStudyStatus} from "@haapi-b0fc7615/typescript-client";
+import {WorkStudyStatus} from "@haapi-3d601c85/typescript-client";
 import {SelectInput, SelectInputProps, required} from "react-admin";
 
 export const WORK_STATUS_VALUE: Record<WorkStudyStatus, string> = {

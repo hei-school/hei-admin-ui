@@ -1,5 +1,5 @@
 import authProvider from "@/providers/authProvider";
-import {Event} from "@haapi-b0fc7615/typescript-client";
+import {Event} from "@haapi-3d601c85/typescript-client";
 import {EventAvailable, QrCodeScanner, Refresh} from "@mui/icons-material";
 import {
   Alert,

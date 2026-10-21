@@ -1,4 +1,4 @@
-import {Fee} from "@haapi-b0fc7615/typescript-client";
+import {Fee} from "@haapi-3d601c85/typescript-client";
 import {mainTheme} from "../../../haTheme";
 
 export const getFeeRowStyle = (record: Pick<Fee, "status">) => {

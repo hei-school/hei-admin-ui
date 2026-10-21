@@ -2,7 +2,7 @@ import {FileDownloader} from "@/operations/common/components";
 import {RetakeExamButtons} from "@/operations/retakeExams/components/RetakeExamButtons";
 import dataProvider from "@/providers/dataProvider";
 import {HaList} from "@/ui/haList";
-import {RetakeExam, StudentRetakeExam} from "@haapi-b0fc7615/typescript-client";
+import {RetakeExam, StudentRetakeExam} from "@haapi-3d601c85/typescript-client";
 import {Download} from "@mui/icons-material";
 import {BookOpenCheckIcon} from "lucide-react";
 import {ReactElement} from "react";

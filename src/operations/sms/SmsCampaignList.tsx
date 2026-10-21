@@ -1,6 +1,6 @@
 import {DateField} from "@/operations/common/components/fields";
 import {HaList} from "@/ui/haList/HaList";
-import {SmsCampaign} from "@haapi-b0fc7615/typescript-client";
+import {SmsCampaign} from "@haapi-3d601c85/typescript-client";
 import {Campaign as SmsCampaignIcon} from "@mui/icons-material";
 import {Box, Typography} from "@mui/material";
 import {ReactNode, useState} from "react";

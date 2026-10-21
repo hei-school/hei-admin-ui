@@ -1,4 +1,4 @@
-import {SmsContactGroup} from "@haapi-b0fc7615/typescript-client";
+import {SmsContactGroup} from "@haapi-3d601c85/typescript-client";
 import {Box, Chip, TextField} from "@mui/material";
 import {useMemo, useState} from "react";
 import {FieldTitle, useGetList, useInput, Validator} from "react-admin";

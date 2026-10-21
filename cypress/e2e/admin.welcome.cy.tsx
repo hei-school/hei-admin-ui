@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 
 import {renderMoney} from "@/operations/common/utils/money";
-import {WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {advanceStatsMocks} from "../fixtures/api_mocks/advanceStats-mocks";
 import {announcementsMock} from "../fixtures/api_mocks/announcement-mocks";
 import {commentMocks} from "../fixtures/api_mocks/comment-mocks";

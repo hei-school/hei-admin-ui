@@ -1,4 +1,4 @@
-import {Promotion, StudentLevel} from "@haapi-b0fc7615/typescript-client";
+import {Promotion, StudentLevel} from "@haapi-3d601c85/typescript-client";
 import {
   HaDataProviderType,
   HaFilter,

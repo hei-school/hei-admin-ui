@@ -4,7 +4,7 @@ import {
   DocumensoGenerationLaunched,
   GenerateDocumensoDocuments,
   StudentLevel,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType, notImplemented} from "./HaDataProviderType";
 import {documensoApi} from "./api";
 

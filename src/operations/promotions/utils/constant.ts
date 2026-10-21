@@ -1,4 +1,4 @@
-import {CycleEnum} from "@haapi-b0fc7615/typescript-client";
+import {CycleEnum} from "@haapi-3d601c85/typescript-client";
 
 export const CYCLE_LEVEL = [
   {id: CycleEnum.BACHELOR, name: "BACHELOR"},

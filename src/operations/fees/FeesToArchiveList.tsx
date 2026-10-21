@@ -8,7 +8,7 @@ import {
 } from "@/operations/fees/hooks/useFeesToArchive";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList/HaList";
-import {ArchiveStatusEnum} from "@haapi-b0fc7615/typescript-client";
+import {ArchiveStatusEnum} from "@haapi-3d601c85/typescript-client";
 import ArchiveIcon from "@mui/icons-material/Archive";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
 import {

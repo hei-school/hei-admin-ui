@@ -1,7 +1,7 @@
 import {useNotify, useToggle} from "@/hooks";
 import {Dialog} from "@/ui/components";
 import {EmbedSignDocument} from "@documenso/embed-react";
-import {DocumensoDocumentStatus} from "@haapi-b0fc7615/typescript-client";
+import {DocumensoDocumentStatus} from "@haapi-3d601c85/typescript-client";
 import {Draw as SignIcon} from "@mui/icons-material";
 import {Alert, Box, Link} from "@mui/material";
 import {useEffect, useState} from "react";

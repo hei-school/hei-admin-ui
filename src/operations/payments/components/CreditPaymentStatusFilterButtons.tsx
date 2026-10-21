@@ -1,4 +1,4 @@
-import {PaymentStatus} from "@haapi-b0fc7615/typescript-client";
+import {PaymentStatus} from "@haapi-3d601c85/typescript-client";
 import {Button, ButtonProps, Stack} from "@mui/material";
 import {useListContext} from "react-admin";
 

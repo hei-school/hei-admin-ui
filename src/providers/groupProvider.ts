@@ -1,5 +1,5 @@
 import {toUTC} from "@/utils/date";
-import {CreateGroup, Group} from "@haapi-b0fc7615/typescript-client";
+import {CreateGroup, Group} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 import {groupsApi} from "./api";
 

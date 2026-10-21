@@ -2,7 +2,7 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {DeleteWithConfirm, Show} from "@/operations/common/components";
 import {DateField} from "@/operations/common/components/fields";
 import {useRole} from "@/security/hooks";
-import {Event} from "@haapi-b0fc7615/typescript-client";
+import {Event} from "@haapi-3d601c85/typescript-client";
 import {Box, Typography} from "@mui/material";
 import {FunctionField, SimpleShowLayout} from "react-admin";
 import {useParams} from "react-router-dom";

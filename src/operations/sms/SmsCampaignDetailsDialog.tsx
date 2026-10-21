@@ -5,7 +5,7 @@ import {
   SmsCampaign,
   SmsLog,
   SmsMessageStatus,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {Box, Chip, Stack, Typography} from "@mui/material";
 import {FunctionField, TextField} from "react-admin";
 import {

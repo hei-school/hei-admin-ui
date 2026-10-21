@@ -1,5 +1,5 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {Coordinates} from "@haapi-b0fc7615/typescript-client";
+import {Coordinates} from "@haapi-3d601c85/typescript-client";
 import {Box, Typography, TypographyProps} from "@mui/material";
 import {
   number,

@@ -4,7 +4,7 @@ import {
   ReactToAnnouncementRequest,
   Scope,
   WhoamiRoleEnum,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {HaDataProviderType, HaMeta, notImplemented} from "./HaDataProviderType";
 import {announcementsApi} from "./api";
 import authProvider from "./authProvider";

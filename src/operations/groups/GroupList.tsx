@@ -5,7 +5,7 @@ import {COMMON_BUTTON_PROPS} from "@/ui/constants/common_styles";
 import {HaList} from "@/ui/haList";
 import {CreateButton, ExportButton} from "@/ui/haToolbar";
 import {NOOP_ID} from "@/utils/constants";
-import {Group, Statistics, Student} from "@haapi-b0fc7615/typescript-client";
+import {Group, Statistics, Student} from "@haapi-3d601c85/typescript-client";
 import {Group as GroupIcon} from "@mui/icons-material";
 import {
   Box,

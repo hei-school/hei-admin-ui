@@ -7,7 +7,7 @@ import authProvider from "@/providers/authProvider";
 import {useRole} from "@/security/hooks";
 import {Dialog} from "@/ui/components";
 import {HaList} from "@/ui/haList";
-import {Group} from "@haapi-b0fc7615/typescript-client";
+import {Group} from "@haapi-3d601c85/typescript-client";
 import {
   Add,
   GroupOutlined,

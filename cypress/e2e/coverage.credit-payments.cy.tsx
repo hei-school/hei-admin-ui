@@ -3,7 +3,7 @@ import {
   CreditPaymentTypeEnum,
   PaymentStatus,
   WhoamiRoleEnum,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import {fee1Mock} from "../fixtures/api_mocks/fees-mocks";
 import {student1Mock} from "../fixtures/api_mocks/students-mocks";
 import {

@@ -1,4 +1,4 @@
-import {StudentGrade, WhoamiRoleEnum} from "@haapi-b0fc7615/typescript-client";
+import {StudentGrade, WhoamiRoleEnum} from "@haapi-3d601c85/typescript-client";
 import {
   COVERAGE_EXAM_ID,
   GRADED_GRADE_ID,

@@ -3,7 +3,7 @@ import {smsApi} from "@/providers/api";
 import {
   SmsFileRowsRejectedAlert,
   SmsInsufficientBalanceAlert,
-} from "@haapi-b0fc7615/typescript-client";
+} from "@haapi-3d601c85/typescript-client";
 import axios from "axios";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
