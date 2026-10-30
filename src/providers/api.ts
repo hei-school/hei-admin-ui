@@ -3,6 +3,7 @@ import {
   AnnouncementsApi,
   AttendanceApi,
   CommentsApi,
+  ComplaintApi,
   CorApi,
   CoursesApi,
   DocumensoApi,
@@ -128,3 +129,10 @@ export const documensoApi = () =>
 
 export const smsApi = () =>
   new SmsApi(authProvider.getCachedAuthConf(), undefined, getAxiosInstance());
+
+export const complaintApi = () =>
+  new ComplaintApi(
+    authProvider.getCachedAuthConf(),
+    undefined,
+    getAxiosInstance()
+  );

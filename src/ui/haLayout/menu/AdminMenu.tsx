@@ -5,6 +5,8 @@ import {trackNavClick} from "@/utils/gtm";
 import {
   Newspaper as AnnouncementIcon,
   Archive as ArchiveIcon,
+  ReportProblem as ComplaintIcon,
+  SupervisorAccount as ComplaintRoutingIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
   HistoryEdu as DocumensoIcon,
@@ -143,6 +145,24 @@ const AdminMenu = () => {
         icon={<SafetyDivider />}
         onClick={() => trackNavClick("cor", role)}
       />
+      <ListMenu
+        label="Réclamations"
+        icon={<ComplaintIcon />}
+        data-testid="complaints-menu"
+      >
+        <ListMenuItem
+          label="Liste des réclamations"
+          icon={<ComplaintIcon />}
+          to="/complaints"
+          onClick={() => trackNavClick("complaints", role)}
+        />
+        <ListMenuItem
+          label="Assignements des managers"
+          icon={<ComplaintRoutingIcon />}
+          to="/complaint-routings"
+          onClick={() => trackNavClick("complaint_routings", role)}
+        />
+      </ListMenu>
       <SingleMenu
         to="/groups"
         label="Groupes"

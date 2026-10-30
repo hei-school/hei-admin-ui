@@ -2,6 +2,8 @@
 import {mainTheme} from "@/haTheme";
 import announcements from "@/operations/announcements";
 import badges from "@/operations/badges";
+import complaints from "@/operations/complaints/index.ts";
+import complaintRoutings from "@/operations/complaints/index3.ts";
 import cor from "@/operations/cor/index.ts";
 import course from "@/operations/course";
 import CourseAssignments from "@/operations/CourseAssignments";
@@ -38,6 +40,7 @@ import {Admin, CustomRoutes, Resource} from "react-admin";
 import {QueryClient} from "react-query";
 import {BrowserRouter, Route, Routes, useLocation} from "react-router-dom";
 import {isBadgePagePath} from "./operations/badges/badgeApi";
+import studentComplaints from "./operations/complaints/index2.ts";
 import studentCor from "./operations/cor/index2.ts";
 import {DashboardContent} from "./operations/dashboard/Dashboard.tsx";
 import {
@@ -103,6 +106,10 @@ const AppBase = () => {
       <Resource name="course" {...course} />
       <Resource name="cor" {...cor} />
       <Resource name="student-cor" {...studentCor} />
+      <Resource name="complaints" {...complaints} />
+      <Resource name="student-complaints" {...studentComplaints} />
+      <Resource name="complaint-status-history" />
+      <Resource name="complaint-routings" {...complaintRoutings} />
       <Resource name="events" {...events} />
       <Resource name="users-letters" />
       <Resource name="letters" />

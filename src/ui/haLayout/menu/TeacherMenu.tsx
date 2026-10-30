@@ -1,5 +1,6 @@
 import {
   Newspaper as AnnouncementIcon,
+  ReportProblem as ComplaintIcon,
   Book as CourseIcon,
   Inventory as DocsIcon,
   CalendarMonth as EventIcon,
@@ -54,6 +55,12 @@ const TeacherMenu = () => {
         to="/badges/attendance"
         label="Scanner les badges"
         icon={<QrCodeScanner />}
+      />
+      <SingleMenu
+        data-testid="complaints-menu"
+        to="/complaints"
+        label="Réclamations"
+        icon={<ComplaintIcon />}
       />
     </Box>
   );
