@@ -1,6 +1,7 @@
 import authProvider from "@/providers/authProvider";
 import {
   Newspaper as AnnouncementIcon,
+  ReportProblem as ComplaintIcon,
   SafetyDivider as CorIcon,
   Inventory as DocsIcon,
   CalendarMonth as EventIcon,
@@ -79,6 +80,13 @@ const StudentMenu = () => {
         to="/student-cor"
         label="Mes Cor"
         icon={<CorIcon />}
+      />
+
+      <SingleMenu
+        data-testid="complaints-menu"
+        to="/student-complaints"
+        label="Mes réclamations"
+        icon={<ComplaintIcon />}
       />
 
       <SingleMenu

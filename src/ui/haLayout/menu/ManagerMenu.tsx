@@ -3,6 +3,8 @@ import {ListMenu, ListMenuItem, SingleMenu} from "@/ui/haLayout/menu/utils";
 import {
   Newspaper as AnnouncementIcon,
   Archive as ArchiveIcon,
+  ReportProblem as ComplaintIcon,
+  SupervisorAccount as ComplaintRoutingIcon,
   SafetyDivider as CorIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
@@ -115,6 +117,22 @@ const ManagerMenu = () => {
         label="Liste des COR"
         icon={<CorIcon />}
       />
+      <ListMenu
+        label="Réclamations"
+        icon={<ComplaintIcon />}
+        data-testid="complaints-menu"
+      >
+        <ListMenuItem
+          label="Liste des réclamations"
+          icon={<ComplaintIcon />}
+          to="/complaints"
+        />
+        <ListMenuItem
+          label="Assignements des managers"
+          icon={<ComplaintRoutingIcon />}
+          to="/complaint-routings"
+        />
+      </ListMenu>
       <SingleMenu to="/groups" label="Groupes" icon={<GroupIcon />} />
       <SingleMenu
         to="/announcements"

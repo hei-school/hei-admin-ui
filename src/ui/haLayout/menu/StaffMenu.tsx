@@ -1,4 +1,7 @@
-import {Inventory as OtherDocsIcon} from "@mui/icons-material";
+import {
+  ReportProblem as ComplaintIcon,
+  Inventory as OtherDocsIcon,
+} from "@mui/icons-material";
 import {Box} from "@mui/material";
 import {SingleMenu} from "./utils";
 
@@ -10,6 +13,11 @@ const StaffMenu = () => {
         data-testid="other-docs"
         label="Documents"
         icon={<OtherDocsIcon />}
+      />
+      <SingleMenu
+        to="/complaints"
+        label="Réclamations"
+        icon={<ComplaintIcon />}
       />
     </Box>
   );

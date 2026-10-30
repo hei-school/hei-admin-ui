@@ -4,6 +4,9 @@ import {
 } from "@/providers/HaDataProviderType";
 import announcementProvider from "@/providers/announcementProvider";
 import commentProvider from "@/providers/commentProvider";
+import complaintProvider from "@/providers/complaintProvider";
+import complaintRoutingProvider from "@/providers/complaintRoutingProvider";
+import complaintStatusHistoryProvider from "@/providers/complaintStatusHistoryProvider";
 import corProvider from "@/providers/corProvider";
 import corStudentProvider from "@/providers/corStudentProvider";
 import {courseAssignmentsByTeacherProvider} from "@/providers/courseAssignementbyTeacher";
@@ -34,6 +37,7 @@ import groupStudentProvider from "@/providers/groupStudentProvider";
 import heiDocsProvider from "@/providers/heiDocsProvider";
 import lettersStatsProvider from "@/providers/letterStatsProvider";
 import lettersProvider from "@/providers/lettersProvider";
+import managerProvider from "@/providers/managerProvider";
 import missingListProvider from "@/providers/missingListProvider";
 import monitorDocumensoDocumentsProvider from "@/providers/monitorDocumensoDocumentsProvider";
 import monitorProvider from "@/providers/monitorProvider";
@@ -50,6 +54,7 @@ import resultSummaryProvider from "@/providers/resultSummaryProvider";
 import staffExportProvider from "@/providers/staffExportProvider";
 import staffProvider from "@/providers/staffProvider";
 import statsProvider from "@/providers/statsProvider";
+import studentComplaintProvider from "@/providers/studentComplaintProvider";
 import studentGroupFlowProvider from "@/providers/studentGroupFlowProvider";
 import studentImportProvider from "@/providers/studentImportProvider";
 import StudentParticipationProvider from "@/providers/studentParticipationProvider";
@@ -130,6 +135,7 @@ const providerMap = {
   "fees-export": feesExportProvider,
   "exams": examsProvider,
   "staffmembers": staffProvider,
+  "managers": managerProvider,
   "staffs-export": staffExportProvider,
   "mpbs-verify": mpbsVerifyProvider,
   "exam-grades": examGradeProvider,
@@ -147,6 +153,10 @@ const providerMap = {
   "student-participation": StudentParticipationProvider,
   "cor": corProvider,
   "student-cor": corStudentProvider,
+  "complaints": complaintProvider,
+  "student-complaints": studentComplaintProvider,
+  "complaint-status-history": complaintStatusHistoryProvider,
+  "complaint-routings": complaintRoutingProvider,
   "unlinked-students": unlikedStudentProvider,
   "import-students": studentImportProvider,
   "import-grades": gradeImportProvider,
