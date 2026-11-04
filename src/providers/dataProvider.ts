@@ -22,7 +22,9 @@ import exportEventParticipantProvider from "@/providers/exportEventParticipantPr
 import exportGroupProvider from "@/providers/exportGroupProvider";
 import exportPromotionProvider from "@/providers/exportPromotionProvider";
 import exportStudentProvider from "@/providers/exportStudentProvider";
+import exportStudentsResultOverviewsProvider from "@/providers/exportStudentsResultOverviewsProvider";
 import exportTeacherProvider from "@/providers/exportTeacherProvider";
+import exportYearlyResultsRankingProvider from "@/providers/exportYearlyResultsRankingProvider";
 import feeProvider from "@/providers/feeProvider";
 import feesExportProvider from "@/providers/feesExportProvider";
 import feesTemplatesProvider from "@/providers/feesTemplatesProvider";
@@ -126,6 +128,7 @@ const providerMap = {
   "monitors": monitorProvider,
   "monitor-students": monitorStudentProvider,
   "promotions-export": exportPromotionProvider,
+  "promotions-yearly-results-export": exportYearlyResultsRankingProvider,
   "group-export": exportGroupProvider,
   "fees-export": feesExportProvider,
   "exams": examsProvider,
@@ -153,6 +156,7 @@ const providerMap = {
   "searchs": searchProvider,
   "student-retake-exams": studentRetakeExamsProvider,
   "students-result-overviews": studentsResultOverviewProvider,
+  "students-result-overviews-export": exportStudentsResultOverviewsProvider,
   "credits": studentCreditProvider,
   "student-group-flows": studentGroupFlowProvider,
   "documenso-templates": documensoTemplatesProvider,
