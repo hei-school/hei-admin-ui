@@ -23,7 +23,7 @@ import {
   ResourceFlowsContext,
   ResourceMigrateType,
 } from "../common/components/resource-flows/ResourceFlowsContext";
-import {PromotionGroupList} from "./components";
+import {PromotionGroupList, YearlyResultsRankingDownload} from "./components";
 import {PromotionEditButton} from "./PromotionEditButton";
 
 const SyleSx = (isSmall: boolean) => ({
@@ -110,11 +110,12 @@ const PromotionShow = () => {
         title={"Promotion"}
         resource="promotions"
         actions={
-          (role.isManager() || role.isAdmin()) && (
-            <TopToolbar>
+          <TopToolbar sx={{alignItems: "center", gap: 1.5}}>
+            <YearlyResultsRankingDownload promotionId={id!} />
+            {(role.isManager() || role.isAdmin()) && (
               <PromotionEditButton id={id!} />
-            </TopToolbar>
-          )
+            )}
+          </TopToolbar>
         }
       >
         <SimpleShowLayout sx={{...SyleSx(isSmall)}}>

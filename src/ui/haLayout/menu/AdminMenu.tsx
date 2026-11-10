@@ -81,12 +81,6 @@ const AdminMenu = () => {
           onClick={() => trackNavClick("fees_to_archive", role)}
         />
         <ListMenuItem
-          label="Liste des sortants"
-          icon={<GraduationCap />}
-          to="promotions/result-overviews"
-          onClick={() => trackNavClick("students_result_overviews", role)}
-        />
-        <ListMenuItem
           label="Transactions (Mobile Money)"
           icon={<TransactionsIcon />}
           to="/transactions"
@@ -109,13 +103,26 @@ const AdminMenu = () => {
           onClick={() => trackNavClick("documenso_documents", role)}
         />
       </ListMenu>
-      <SingleMenu
-        to="/promotions"
+      <ListMenu
         label="Promotions"
-        data-testid="promotions-menu"
         icon={<PromotionIcon />}
-        onClick={() => trackNavClick("promotions", role)}
-      />
+        data-testid="promotions-menu"
+      >
+        <ListMenuItem
+          label="Liste des promotions"
+          icon={<PromotionIcon />}
+          to="/promotions"
+          data-testid="promotions-list-menu"
+          onClick={() => trackNavClick("promotions", role)}
+        />
+        <ListMenuItem
+          label="Liste des sortants"
+          icon={<GraduationCap />}
+          to="promotions/result-overviews"
+          data-testid="students-result-overviews-menu"
+          onClick={() => trackNavClick("students_result_overviews", role)}
+        />
+      </ListMenu>
       <SingleMenu
         to="/course"
         label="Cours"
