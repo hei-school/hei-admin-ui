@@ -155,7 +155,7 @@ export const EventCalendar = () => {
             hiddenDays: [0],
             height: "auto",
             eventContent: renderEventContent,
-            getFilterValueFromInterval: (dateInfo) => {
+            getFilterValueFromInterval: (dateInfo, filterValues) => {
               setFilter((prevFilter) => {
                 const newFilter = {
                   from: dateInfo?.startStr,
@@ -165,7 +165,7 @@ export const EventCalendar = () => {
                   ? prevFilter
                   : newFilter;
               });
-              return {};
+              return filterValues ?? {};
             },
             eventClick: (clickInfo: EventClickArg) => {
               setCurrentEvent({
