@@ -55,11 +55,8 @@ const ManagerMenu = () => {
           icon={<QrCodeScanner />}
           to="/badges/scan"
         />
-        <ListMenuItem
-          label="Transactions (Mobile Money)"
-          icon={<TransactionsIcon />}
-          to="/transactions"
-        />
+      </ListMenu>
+      <ListMenu label="Frais" icon={<FeesIcon />} data-testid="fees-menu">
         <ListMenuItem
           label="Liste des paiements par crédit"
           icon={<CreditPaymentsIcon />}
@@ -69,6 +66,11 @@ const ManagerMenu = () => {
           label="Frais à archiver"
           icon={<ArchiveIcon />}
           to="/fees-to-archive"
+        />
+        <ListMenuItem
+          label="Transactions (Mobile Money)"
+          icon={<TransactionsIcon />}
+          to="/transactions"
         />
         <ListMenuItem
           label="Frais (en retard par défaut)"

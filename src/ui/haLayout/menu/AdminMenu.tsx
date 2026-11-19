@@ -68,6 +68,8 @@ const AdminMenu = () => {
           to="/badges/scan"
           onClick={() => trackNavClick("badges_scan", role)}
         />
+      </ListMenu>
+      <ListMenu label="Frais" icon={<FeesIcon />} data-testid="fees-menu">
         <ListMenuItem
           label="Liste des paiements par crédit"
           icon={<CreditPaymentsIcon />}
@@ -118,7 +120,7 @@ const AdminMenu = () => {
         <ListMenuItem
           label="Liste des sortants"
           icon={<GraduationCap />}
-          to="promotions/result-overviews"
+          to="/students-result-overviews"
           data-testid="students-result-overviews-menu"
           onClick={() => trackNavClick("students_result_overviews", role)}
         />
