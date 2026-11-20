@@ -4,6 +4,7 @@ import {
   Newspaper as AnnouncementIcon,
   Archive as ArchiveIcon,
   SafetyDivider as CorIcon,
+  PostAdd as CreateFeesIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
   HistoryEdu as DocumensoIcon,
@@ -57,6 +58,12 @@ const ManagerMenu = () => {
         />
       </ListMenu>
       <ListMenu label="Frais" icon={<FeesIcon />} data-testid="fees-menu">
+        <ListMenuItem
+          label="Création des frais"
+          icon={<CreateFeesIcon />}
+          to="/fees/create"
+          data-testid="create-fees-menu"
+        />
         <ListMenuItem
           label="Liste des paiements par crédit"
           icon={<CreditPaymentsIcon />}

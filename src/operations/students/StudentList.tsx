@@ -2,11 +2,10 @@ import {PALETTE_COLORS} from "@/haTheme";
 import {useNotify} from "@/hooks";
 import {useRole} from "@/security/hooks";
 import {HaList} from "@/ui/haList";
-import {ButtonBase, CreateButton, HaActionWrapper} from "@/ui/haToolbar";
+import {CreateButton} from "@/ui/haToolbar";
 import {NewImportButton} from "@/ui/haToolbar/importButton/NewImportButton";
 import {NOOP_ID} from "@/utils/constants";
 import {
-  Add as AddIcon,
   Download,
   WorkOff as HaveBeenWorking,
   School as SchoolIcon,
@@ -24,7 +23,6 @@ import {
   ShowButton,
   TextField,
   useGetOne,
-  useRedirect,
 } from "react-admin";
 import {ListHeader} from "../common/components";
 import {getCommonListHeaderContent} from "../common/utils/commonListHeaderContent";
@@ -34,7 +32,6 @@ import {StudentFilterExport} from "./utils/StudentFilterExport";
 const ListActions = () => {
   const {isManager, isAdmin} = useRole();
   const [openDialog, setOpenDialog] = useState(false);
-  const redirect = useRedirect();
   const notify = useNotify();
 
   const {refetch, isLoading, isFetching} = useGetOne(
@@ -73,15 +70,6 @@ const ListActions = () => {
       {(isManager() || isAdmin()) && (
         <Box>
           <CreateButton resource="students" />
-          <HaActionWrapper>
-            <ButtonBase
-              data-testid="create-fees-button"
-              icon={<AddIcon />}
-              onClick={() => redirect("/fees/create")}
-            >
-              Ajouter des frais
-            </ButtonBase>
-          </HaActionWrapper>
           <Button
             startIcon={
               <UploadFileIcon

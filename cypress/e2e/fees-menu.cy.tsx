@@ -8,6 +8,7 @@ const mockAppBarSideEffects = () => {
 
 const STUDENT_LINKS = ["/students", "/badges/scan"];
 const FEE_LINKS = [
+  "/fees/create",
   "/credit-payments",
   "/fees-to-archive",
   "/transactions",
