@@ -90,6 +90,27 @@ describe("Manager.Promotions", () => {
     cy.get("tbody tr").should("have.length", promotion1Mock.groups.length);
   });
 
+  it("downloads the yearly results ranking xlsx for a selected level", () => {
+    cy.get("tbody tr")
+      .should("have.length", promotionsMock.length)
+      .first()
+      .click();
+    cy.wait("@getPromotion1");
+
+    cy.getByTestid("yearly-results-level-select").click();
+    cy.contains("L2").click();
+
+    cy.intercept(
+      "GET",
+      `/promotions/${promotion1Mock.id}/yearly_results/raw/xlsx?level=L2`,
+      "dummy-xlsx-content"
+    ).as("getYearlyResults");
+    cy.getByTestid("download-button").click();
+
+    cy.wait("@getYearlyResults");
+    cy.contains("Téléchargement en cours...");
+  });
+
   it("can create new promotion", () => {
     cy.intercept("PUT", "/promotions", NEW_PROMOTION).as("createPromotion");
     cy.getByTestid("menu-list-action").click();

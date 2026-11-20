@@ -42,4 +42,31 @@ describe("Admin.StudentsResultOverviews", () => {
     );
     cy.contains("Liste des sortants");
   });
+
+  it("downloads the xlsx export of a promotion's result overviews", () => {
+    cy.intercept("GET", "/students/result_overviews?*", {data: []}).as(
+      "getResultOverviews"
+    );
+    cy.get(
+      `a[href="/promotions/${promotionsMock[0].id}/show/students-result-overviews"]`
+    ).click();
+    cy.wait("@getResultOverviews");
+
+    cy.intercept(
+      "GET",
+      `/students/result_overviews/raw/xlsx?promotion_id=${promotionsMock[0].id}*`,
+      "dummy-xlsx-content"
+    ).as("getExport");
+    cy.getByTestid("download-button").click();
+
+    cy.wait("@getExport");
+    cy.contains("Téléchargement en cours...");
+  });
+
+  it("renders nothing when reached without a promotion id in the URL", () => {
+    cy.visit("/students-result-overviews/unknown/show", {
+      onBeforeLoad: (win) => win.sessionStorage.setItem("ha_bearer", "mock"),
+    });
+    cy.contains("Liste des sortants").should("not.exist");
+  });
 });
