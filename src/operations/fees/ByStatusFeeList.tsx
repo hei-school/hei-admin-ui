@@ -8,13 +8,18 @@ import {DateField} from "../common/components/fields";
 import {renderMoney} from "../common/utils/money";
 import {commentFunctionRenderer} from "../utils";
 import {FeesListHeader} from "./components";
+import {FeeListDateRangeFilter} from "./components/FeeListDateRangeFilter";
 import {StatusFilterButtons} from "./components/StatusFilterButtons";
 import {CATEGORY} from "./constants";
 import {getFeeRowStyle} from "./utils";
 
+const MONTH_FILTERS = getMonthFilters();
+
 const FEES_LIST_DEFAULT_FILTER = {
   status: FeeStatusEnum.LATE,
-  ...getMonthFilters(),
+  ...MONTH_FILTERS,
+  listDateFrom: MONTH_FILTERS.monthFrom,
+  listDateTo: MONTH_FILTERS.monthTo,
 };
 
 const FILTER_SX = {
@@ -36,6 +41,7 @@ const ByStatusFeeList = () => {
               isMpbs={false}
               title="Statistiques des frais filtrés par statut (en retard par défaut)"
             />
+            <FeeListDateRangeFilter />
             <Box sx={FILTER_SX}>
               <StatusFilterButtons />
             </Box>

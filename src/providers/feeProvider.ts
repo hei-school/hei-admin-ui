@@ -36,6 +36,8 @@ interface FeeFilter {
   category?: FeeCategory;
   monthFrom?: Date;
   monthTo?: Date;
+  listDateFrom?: Date;
+  listDateTo?: Date;
   isMpbs?: boolean;
   student_ref?: string;
   studentId?: string;
@@ -80,8 +82,8 @@ const feeProvider: HaDataProviderType<
           filter.type,
           filter.status,
           filter.category,
-          filter.monthFrom,
-          filter.monthTo,
+          filter.listDateFrom ?? filter.monthFrom,
+          filter.listDateTo ?? filter.monthTo,
           page,
           perPage,
           filter.isMpbs,
