@@ -24,7 +24,7 @@ export const PromotionEditButton = ({id}: Readonly<{id: string}>) => {
         label="EDITER"
         data-testid="edit-button"
         variant="contained"
-        sx={{py: "5px", mt: 2}}
+        sx={{height: "40px"}}
       />
       <Dialog
         title="Modification d'une promotion"

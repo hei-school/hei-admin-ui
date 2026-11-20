@@ -18,7 +18,7 @@ describe("SmsMenu.AccessControl", () => {
   it("shows the SMS menu with its three sub-items for a manager", () => {
     mockAppBarSideEffects();
     cy.mockLogin({role: WhoamiRoleEnum.MANAGER});
-    cy.getByTestid("sms-menu").should("be.visible").click();
+    cy.getByTestid("sms-menu").scrollIntoView().should("be.visible").click();
     cy.get('a[href="/sms-campaigns"]')
       .should("exist")
       .should("have.attr", "href", "/sms-campaigns");
@@ -35,7 +35,7 @@ describe("SmsMenu.AccessControl", () => {
     cy.mockLogin({role: WhoamiRoleEnum.ADMIN});
     cy.wait("@getSmsBalance");
     cy.getByTestid("sms-balance-indicator").should("contain", "1250 SMS");
-    cy.getByTestid("sms-menu").should("be.visible").click();
+    cy.getByTestid("sms-menu").scrollIntoView().should("be.visible").click();
     cy.get('a[href="/sms-campaigns"]')
       .should("exist")
       .should("have.attr", "href", "/sms-campaigns");

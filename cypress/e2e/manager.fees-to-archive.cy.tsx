@@ -164,7 +164,7 @@ describe("Admin.FeesToArchive", () => {
   it("navigates to the fees-to-archive page from the sidebar menu", () => {
     cy.mockLogin({role: "ADMIN"});
     cy.intercept("GET", `/fees?page=*&page_size=500`, {data: []}).as("getFees");
-    cy.getByTestid("students-menu").click();
+    cy.getByTestid("fees-menu").click();
     cy.get('a[href="/fees-to-archive"]').click();
     cy.wait("@getFees");
     cy.url().should("include", "/fees-to-archive");
