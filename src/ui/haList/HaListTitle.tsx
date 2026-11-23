@@ -31,6 +31,7 @@ interface HaListTitleProps {
   icon?: ReactNode;
   actions?: ReactNode;
   directActions?: ReactNode;
+  beforeSearch?: ReactNode;
   mainSearch: HaMainSearchProps;
   filterIndicator?: boolean;
   filterButtons?: ReactNode;
@@ -41,6 +42,7 @@ export const HaListTitle = ({
   icon,
   actions,
   directActions,
+  beforeSearch = null,
   mainSearch,
   filterIndicator,
   filterButtons = null,
@@ -75,6 +77,7 @@ export const HaListTitle = ({
         {filterButtons && <Box sx={{ml: 2}}>{filterButtons}</Box>}
       </Box>
       <Box sx={{display: "flex", alignItems: "center", gap: 1.5}}>
+        {beforeSearch}
         {mainSearch.source !== "" && (
           <MainSearchContainer>
             <label htmlFor="main-search">

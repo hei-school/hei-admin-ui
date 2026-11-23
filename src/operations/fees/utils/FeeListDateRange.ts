@@ -23,6 +23,17 @@ const endOfDay = (dateInput: string): Date => {
   return date;
 };
 
+export const getDefaultListDateRange = (): {
+  listDateFrom: Date;
+  listDateTo: Date;
+} => {
+  const now = new Date();
+  return {
+    listDateFrom: new Date(now.getFullYear(), now.getMonth() - 1, 1),
+    listDateTo: new Date(now.getFullYear(), now.getMonth() + 1, 0),
+  };
+};
+
 export type DateRangeError = "INCOMPLETE" | "REVERSED";
 
 export const getDateRangeError = (

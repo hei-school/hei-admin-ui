@@ -46,6 +46,7 @@ export interface HaListProps {
   title?: ReactNode;
   actions?: ReactNode;
   directActions?: ReactNode;
+  beforeSearch?: ReactNode;
   resource?: string;
   wrapperSx?: SxProps<Theme>;
   children?: ReactNode;
@@ -64,6 +65,7 @@ export const HaList = ({
   title,
   actions,
   directActions,
+  beforeSearch,
   resource,
   wrapperSx = {},
   children,
@@ -96,6 +98,7 @@ export const HaList = ({
           <HaListTitle
             actions={actions}
             directActions={directActions}
+            beforeSearch={beforeSearch}
             filterIndicator={filterIndicator}
             title={title}
             icon={icon}
