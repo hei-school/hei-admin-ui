@@ -8,19 +8,19 @@ import {DateField} from "../common/components/fields";
 import {renderMoney} from "../common/utils/money";
 import {commentFunctionRenderer} from "../utils";
 import {FeesListHeader} from "./components";
-import {StatusFilterButtons} from "./components/StatusFilterButtons";
+import {FeeListFilterButton} from "./components/FeeListFilterButton";
+import {FeeListTotal} from "./components/FeeListTotal";
 import {CATEGORY} from "./constants";
 import {getFeeRowStyle} from "./utils";
+import {getDefaultListDateRange} from "./utils/FeeListDateRange";
+
+const LIST_DATE_RANGE = getDefaultListDateRange();
 
 const FEES_LIST_DEFAULT_FILTER = {
   status: FeeStatusEnum.LATE,
   ...getMonthFilters(),
-};
-
-const FILTER_SX = {
-  display: "flex",
-  justifyContent: "center",
-  mb: -7,
+  listDateFrom: LIST_DATE_RANGE.listDateFrom,
+  listDateTo: LIST_DATE_RANGE.listDateTo,
 };
 
 const ByStatusFeeList = () => {
@@ -31,21 +31,18 @@ const ByStatusFeeList = () => {
         icon={<ReceiptLong />}
         resource="fees"
         header={
-          <>
-            <FeesListHeader
-              isMpbs={false}
-              title="Statistiques des frais filtrés par statut (en retard par défaut)"
-            />
-            <Box sx={FILTER_SX}>
-              <StatusFilterButtons />
-            </Box>
-          </>
+          <FeesListHeader
+            isMpbs={false}
+            title="Statistiques des frais filtrés par statut (en retard par défaut)"
+          />
         }
         listProps={{
           filterDefaultValues: FEES_LIST_DEFAULT_FILTER,
           storeKey: "latefees",
         }}
         mainSearch={{label: "Référence étudiant", source: "student_ref"}}
+        beforeSearch={<FeeListTotal />}
+        directActions={<FeeListFilterButton />}
         filterIndicator={true}
         datagridProps={{
           rowClick: (id: Identifier) => `/fees/${id}/show`,
