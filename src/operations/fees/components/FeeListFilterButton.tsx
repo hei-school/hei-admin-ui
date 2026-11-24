@@ -25,6 +25,9 @@ const STATUS_OPTIONS = [
   {label: "Non payés", value: FeeStatusEnum.UNPAID},
 ];
 
+const STATUS_SELECT_ID = "fee-list-filter-status";
+const TYPE_SELECT_ID = "fee-list-filter-type";
+
 const ALL_TYPES_VALUE = "";
 
 const TYPE_OPTIONS = FEESTEMPLATES_CHOICES.filter((choice) =>
@@ -131,6 +134,8 @@ export const FeeListFilterButton = () => {
           onChange={(event) =>
             setStatusInput(event.target.value as FeeStatusEnum)
           }
+          InputLabelProps={{htmlFor: STATUS_SELECT_ID}}
+          SelectProps={{SelectDisplayProps: {id: STATUS_SELECT_ID}}}
           fullWidth
           sx={{mb: 1.5}}
         >
@@ -146,7 +151,11 @@ export const FeeListFilterButton = () => {
           size="small"
           value={typeInput}
           onChange={(event) => setTypeInput(event.target.value as FeeTypeEnum)}
-          SelectProps={{displayEmpty: true}}
+          InputLabelProps={{htmlFor: TYPE_SELECT_ID}}
+          SelectProps={{
+            displayEmpty: true,
+            SelectDisplayProps: {id: TYPE_SELECT_ID},
+          }}
           fullWidth
           sx={{mb: 1.5}}
         >
