@@ -1,9 +1,10 @@
 import {PALETTE_COLORS} from "@/haTheme";
-import {FeeStatusEnum} from "@haapi-3d601c85/typescript-client";
+import {FeeStatusEnum, FeeTypeEnum} from "@haapi-3d601c85/typescript-client";
 import {FilterList} from "@mui/icons-material";
 import {Button, MenuItem, Popover, TextField, Typography} from "@mui/material";
 import {MouseEvent, useState} from "react";
 import {useListContext} from "react-admin";
+import {FEESTEMPLATES_CHOICES} from "../constants";
 import {
   buildDayDateRange,
   DateRangeError,
@@ -24,6 +25,18 @@ const STATUS_OPTIONS = [
   {label: "Non payés", value: FeeStatusEnum.UNPAID},
 ];
 
+const ALL_TYPES_VALUE = "";
+
+const TYPE_OPTIONS = FEESTEMPLATES_CHOICES.filter((choice) =>
+  (
+    [
+      FeeTypeEnum.TUITION,
+      FeeTypeEnum.STUDENT_INSURANCE,
+      FeeTypeEnum.RETAKE_EXAM_COSTS,
+    ] as FeeTypeEnum[]
+  ).includes(choice.value)
+);
+
 export const FeeListFilterButton = () => {
   const {filterValues, setFilters} = useListContext();
   const [anchor, setAnchor] = useState<HTMLElement | null>(null);
@@ -32,6 +45,9 @@ export const FeeListFilterButton = () => {
   const [statusInput, setStatusInput] = useState<FeeStatusEnum>(
     FeeStatusEnum.LATE
   );
+  const [typeInput, setTypeInput] = useState<
+    FeeTypeEnum | typeof ALL_TYPES_VALUE
+  >(ALL_TYPES_VALUE);
 
   const rangeError = getDateRangeError(dateFromInput, dateToInput);
 
@@ -39,6 +55,7 @@ export const FeeListFilterButton = () => {
     setDateFromInput(toDateInput(filterValues?.listDateFrom));
     setDateToInput(toDateInput(filterValues?.listDateTo));
     setStatusInput(filterValues?.status ?? FeeStatusEnum.LATE);
+    setTypeInput(filterValues?.type ?? ALL_TYPES_VALUE);
     setAnchor(event.currentTarget);
   };
 
@@ -47,7 +64,16 @@ export const FeeListFilterButton = () => {
   const applyFilters = () => {
     if (rangeError) return;
     const dateRange = buildDayDateRange(dateFromInput, dateToInput);
-    setFilters({...filterValues, ...dateRange, status: statusInput}, {});
+    setFilters(
+      {
+        ...filterValues,
+        ...dateRange,
+        status: statusInput,
+        type: typeInput || undefined,
+      },
+      {},
+      false
+    );
     closePopover();
   };
 
@@ -109,6 +135,23 @@ export const FeeListFilterButton = () => {
           sx={{mb: 1.5}}
         >
           {STATUS_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          select
+          label="Type"
+          size="small"
+          value={typeInput}
+          onChange={(event) => setTypeInput(event.target.value as FeeTypeEnum)}
+          SelectProps={{displayEmpty: true}}
+          fullWidth
+          sx={{mb: 1.5}}
+        >
+          <MenuItem value={ALL_TYPES_VALUE}>Tous les types</MenuItem>
+          {TYPE_OPTIONS.map((option) => (
             <MenuItem key={option.value} value={option.value}>
               {option.label}
             </MenuItem>
