@@ -29,6 +29,7 @@ export const HaMainSearch = ({source, label}: Readonly<HaMainSearchProps>) => {
 
   return (
     <HaMainSearchInput
+      id="main-search"
       data-testid="main-search-filter"
       placeholder={label}
       defaultValue={filterValues[source] || ""}

@@ -4,9 +4,10 @@ import {
   CheckCircleOutline,
   CreditCardOffOutlined,
   ErrorOutlineOutlined,
-  HourglassEmpty,
+  Pending,
 } from "@mui/icons-material";
 import {CSSProperties, ReactNode} from "react";
+import {FEE_STATUS_COLORS} from "../fees/components/StyleFeeStat";
 
 const ICON_SX = {color: PALETTE_COLORS.white, mr: 1};
 
@@ -44,8 +45,8 @@ const statusMap: Record<FeeStatusEnum, StatusDisplay> = {
   },
   PENDING: {
     text: "En cours de vérification",
-    icon: <HourglassEmpty sx={ICON_SX} />,
-    backgroundColor: PALETTE_COLORS.primary,
+    icon: <Pending sx={ICON_SX} />,
+    backgroundColor: FEE_STATUS_COLORS.pending.value,
   },
 };
 
