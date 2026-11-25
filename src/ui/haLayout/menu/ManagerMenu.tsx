@@ -4,6 +4,7 @@ import {
   Newspaper as AnnouncementIcon,
   Archive as ArchiveIcon,
   SafetyDivider as CorIcon,
+  PostAdd as CreateFeesIcon,
   AccountBalanceWallet as CreditPaymentsIcon,
   Inventory as DocsIcon,
   HistoryEdu as DocumensoIcon,
@@ -55,10 +56,13 @@ const ManagerMenu = () => {
           icon={<QrCodeScanner />}
           to="/badges/scan"
         />
+      </ListMenu>
+      <ListMenu label="Frais" icon={<FeesIcon />} data-testid="fees-menu">
         <ListMenuItem
-          label="Transactions (Mobile Money)"
-          icon={<TransactionsIcon />}
-          to="/transactions"
+          label="Création des frais"
+          icon={<CreateFeesIcon />}
+          to="/fees/create"
+          data-testid="create-fees-menu"
         />
         <ListMenuItem
           label="Liste des paiements par crédit"
@@ -69,6 +73,11 @@ const ManagerMenu = () => {
           label="Frais à archiver"
           icon={<ArchiveIcon />}
           to="/fees-to-archive"
+        />
+        <ListMenuItem
+          label="Transactions (Mobile Money)"
+          icon={<TransactionsIcon />}
+          to="/transactions"
         />
         <ListMenuItem
           label="Frais (en retard par défaut)"

@@ -281,7 +281,7 @@ describe("Manager.CreditPayments", () => {
         creditPaymentsByStatusMock[status]
       ).as(`getFilteredCreditPayments_${status}`);
     });
-    cy.getByTestid("students-menu").click();
+    cy.getByTestid("fees-menu").click();
     cy.get('a[href="/credit-payments"]').click();
   });
 

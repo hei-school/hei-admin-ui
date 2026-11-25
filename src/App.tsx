@@ -119,10 +119,6 @@ const AppBase = () => {
       <CustomRoutes>
         <Route path="/profile" element={<profile.show />} />
         <Route
-          path="promotions/result-overviews"
-          element={<studentsResultOverviews.list />}
-        />
-        <Route
           path="/promotions/:promotionId/show/students-result-overviews"
           element={<studentsResultOverviews.show />}
         />

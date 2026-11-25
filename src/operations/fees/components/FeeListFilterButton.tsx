@@ -1,0 +1,182 @@
+import {PALETTE_COLORS} from "@/haTheme";
+import {FeeStatusEnum, FeeTypeEnum} from "@haapi-3d601c85/typescript-client";
+import {FilterList} from "@mui/icons-material";
+import {Button, MenuItem, Popover, TextField, Typography} from "@mui/material";
+import {MouseEvent, useState} from "react";
+import {useListContext} from "react-admin";
+import {FEESTEMPLATES_CHOICES} from "../constants";
+import {
+  buildDayDateRange,
+  DateRangeError,
+  getDateRangeError,
+  toDateInput,
+} from "../utils/FeeListDateRange";
+import {APPLY_BUTTON_SX, DATE_POPOVER_PAPER_SX} from "./StyleFeeStat";
+
+const RANGE_ERROR_MESSAGE: Record<DateRangeError, string> = {
+  INCOMPLETE: "",
+  REVERSED: "La date de fin doit suivre la date de début.",
+};
+
+const STATUS_OPTIONS = [
+  {label: "En retard", value: FeeStatusEnum.LATE},
+  {label: "En cours", value: FeeStatusEnum.PENDING},
+  {label: "Payés", value: FeeStatusEnum.PAID},
+  {label: "Non payés", value: FeeStatusEnum.UNPAID},
+];
+
+const STATUS_SELECT_ID = "fee-list-filter-status";
+const TYPE_SELECT_ID = "fee-list-filter-type";
+
+const ALL_TYPES_VALUE = "";
+
+const TYPE_OPTIONS = FEESTEMPLATES_CHOICES.filter((choice) =>
+  (
+    [
+      FeeTypeEnum.TUITION,
+      FeeTypeEnum.STUDENT_INSURANCE,
+      FeeTypeEnum.RETAKE_EXAM_COSTS,
+    ] as FeeTypeEnum[]
+  ).includes(choice.value)
+);
+
+export const FeeListFilterButton = () => {
+  const {filterValues, setFilters} = useListContext();
+  const [anchor, setAnchor] = useState<HTMLElement | null>(null);
+  const [dateFromInput, setDateFromInput] = useState("");
+  const [dateToInput, setDateToInput] = useState("");
+  const [statusInput, setStatusInput] = useState<FeeStatusEnum>(
+    FeeStatusEnum.LATE
+  );
+  const [typeInput, setTypeInput] = useState<
+    FeeTypeEnum | typeof ALL_TYPES_VALUE
+  >(ALL_TYPES_VALUE);
+
+  const rangeError = getDateRangeError(dateFromInput, dateToInput);
+
+  const openPopover = (event: MouseEvent<HTMLElement>) => {
+    setDateFromInput(toDateInput(filterValues?.listDateFrom));
+    setDateToInput(toDateInput(filterValues?.listDateTo));
+    setStatusInput(filterValues?.status ?? FeeStatusEnum.LATE);
+    setTypeInput(filterValues?.type ?? ALL_TYPES_VALUE);
+    setAnchor(event.currentTarget);
+  };
+
+  const closePopover = () => setAnchor(null);
+
+  const applyFilters = () => {
+    if (rangeError) return;
+    const dateRange = buildDayDateRange(dateFromInput, dateToInput);
+    setFilters(
+      {
+        ...filterValues,
+        ...dateRange,
+        status: statusInput,
+        type: typeInput || undefined,
+      },
+      {},
+      false
+    );
+    closePopover();
+  };
+
+  return (
+    <>
+      <Button
+        variant="outlined"
+        size="small"
+        startIcon={<FilterList fontSize="small" />}
+        onClick={openPopover}
+        sx={{textTransform: "none"}}
+      >
+        Filtre
+      </Button>
+
+      <Popover
+        open={Boolean(anchor)}
+        anchorEl={anchor}
+        onClose={closePopover}
+        anchorOrigin={{vertical: "bottom", horizontal: "left"}}
+        transformOrigin={{vertical: "top", horizontal: "left"}}
+        slotProps={{paper: {sx: DATE_POPOVER_PAPER_SX}}}
+      >
+        <Typography fontWeight={700} fontSize="0.85rem" color="text.secondary">
+          Filtrer la liste
+        </Typography>
+
+        <TextField
+          label="Du"
+          type="date"
+          size="small"
+          value={dateFromInput}
+          onChange={(event) => setDateFromInput(event.target.value)}
+          InputLabelProps={{shrink: true}}
+          fullWidth
+          sx={{mt: 1.5, mb: 1.5}}
+        />
+        <TextField
+          label="Au"
+          type="date"
+          size="small"
+          value={dateToInput}
+          onChange={(event) => setDateToInput(event.target.value)}
+          InputLabelProps={{shrink: true}}
+          error={Boolean(rangeError && RANGE_ERROR_MESSAGE[rangeError])}
+          helperText={rangeError && RANGE_ERROR_MESSAGE[rangeError]}
+          fullWidth
+          sx={{mb: 1.5}}
+        />
+        <TextField
+          select
+          label="Statut"
+          size="small"
+          value={statusInput}
+          onChange={(event) =>
+            setStatusInput(event.target.value as FeeStatusEnum)
+          }
+          InputLabelProps={{htmlFor: STATUS_SELECT_ID}}
+          SelectProps={{SelectDisplayProps: {id: STATUS_SELECT_ID}}}
+          fullWidth
+          sx={{mb: 1.5}}
+        >
+          {STATUS_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+        <TextField
+          select
+          label="Type"
+          size="small"
+          value={typeInput}
+          onChange={(event) => setTypeInput(event.target.value as FeeTypeEnum)}
+          InputLabelProps={{htmlFor: TYPE_SELECT_ID}}
+          SelectProps={{
+            displayEmpty: true,
+            SelectDisplayProps: {id: TYPE_SELECT_ID},
+          }}
+          fullWidth
+          sx={{mb: 1.5}}
+        >
+          <MenuItem value={ALL_TYPES_VALUE}>Tous les types</MenuItem>
+          {TYPE_OPTIONS.map((option) => (
+            <MenuItem key={option.value} value={option.value}>
+              {option.label}
+            </MenuItem>
+          ))}
+        </TextField>
+
+        <Button
+          variant="contained"
+          size="small"
+          disabled={Boolean(rangeError)}
+          onClick={applyFilters}
+          sx={APPLY_BUTTON_SX(PALETTE_COLORS.primary)}
+        >
+          Appliquer
+        </Button>
+      </Popover>
+    </>
+  );
+};
